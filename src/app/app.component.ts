@@ -8,16 +8,15 @@ import { GqlService } from './services/gql.service';
   // styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app works!';
-  apiUrl = '';
-  query = '{menu(platform:"kongax"){menuItems{label,position,icon{type,source},color,link{type,to},children{label,position,icon{type,source},color,link{type,to},children{label,position,icon{type,source},color,link{type,to},children{label,position,icon{type,source},color,link{type,to},children{label,position,icon{type,source},color,link{type,to}}}}}}}}';
+  apiUrl = this.gql.getUrl();
+  query = localStorage.getItem('altair:query');
   queryResult = '';
 
   constructor(private gql: GqlService){}
 
   setApiUrl($event) {
-    this.apiUrl = $event.target.value;
-    // this.gql.setUrl($event.target.value);
+    this.gql.setUrl(this.apiUrl);
+    localStorage.setItem('altair:url', this.apiUrl);
   }
   sendRequest(){
     console.log('Sending request');
@@ -30,5 +29,6 @@ export class AppComponent {
   updateQuery(query){
     console.log('Ok');
     this.query = query;
+    localStorage.setItem('altair:query', this.query);
   }
 }

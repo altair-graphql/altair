@@ -6,6 +6,8 @@ import 'rxjs/Rx';
 // TODO - Check if this is necessary
 import 'rxjs/add/observable/throw';
 
+import { introspectionQuery } from './instrospectionQuery';
+
 @Injectable()
 export class GqlService {
   headers: Headers = new Headers({
@@ -13,7 +15,7 @@ export class GqlService {
     Accept: 'application/json'
   });
 
-  private api_url = '';
+  private api_url = localStorage.getItem('altair:url');
 
   constructor(private http: Http) { }
 
@@ -72,7 +74,18 @@ export class GqlService {
       .forEach(header => this.headers.set(header, headers[header]));
   }
 
+  getUrl(){
+    return this.api_url;
+  }
+  
   setUrl(url){
     this.api_url = url;
+    this.getIntrospection();
+  }
+
+  getIntrospection(){
+    this.send(introspectionQuery).subscribe(data => {
+      console.log('introspection', data);
+    });
   }
 }

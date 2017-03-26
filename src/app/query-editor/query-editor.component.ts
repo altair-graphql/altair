@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 
 // Import the codemirror packages
 import Codemirror from 'codemirror';
@@ -17,15 +17,23 @@ import 'codemirror-graphql/mode';
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements OnInit {
+export class QueryEditorComponent implements AfterViewInit {
 
-  @Output() updateQuery = new EventEmitter<string>();
+  _query = localStorage.getItem('altair:query');
+  @Output() queryChange = new EventEmitter<string>();
+  @Input()
+  public set query(val: string){
+    this._query = val;
+    if(this.codeEditor){
+      this.codeEditor.setValue(val);
+    }
+  }
 
   codeEditor = null;
 
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     const editorTextArea = document.querySelector('.app-query-editor-input');
     this.codeEditor = Codemirror.fromTextArea(editorTextArea, {
       mode: 'graphql',
@@ -38,8 +46,7 @@ export class QueryEditorComponent implements OnInit {
   }
 
   update($event){
-    console.log('Update.');
-    this.updateQuery.next(this.codeEditor.getValue());
+    this.queryChange.next(this.codeEditor.getValue());
   }
 
 }

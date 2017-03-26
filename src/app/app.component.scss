@@ -39,6 +39,12 @@
     background: $white;
     border: 0;
     padding: 0 20px;
+    cursor: pointer;
+    transition: all .3s ease;
+    &:hover{
+        background: $green;
+        color: $white;
+    }
 }
 
 .app-actions-container{
@@ -107,13 +113,13 @@ app-query-result{
 }
 .cm-s-query-result{
     .cm-attribute{
-        color: $blue;
+        color: $black;
     }
     .cm-string{
-        color: $green;
+        color: $black;
     }
     .cm-property{
-        color: $blue;
+        color: $black;
     }
     .cm-punctuation{
         color: $black;
