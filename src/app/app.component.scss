@@ -1,0 +1,129 @@
+.app-header{
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 7px rgba($black, .1);
+    height: 50px;
+}
+.app-logo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+    width: 50px;
+    img{
+        vertical-align: middle;
+    }
+}
+.app-url-container{
+    margin-left: 50px;
+    margin-right: 150px;
+}
+.app-url-input{
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    border: 0;
+}
+.app-url-actions{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.app-url-button{
+    color: $green;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    background: $white;
+    border: 0;
+    padding: 0 20px;
+}
+
+.app-actions-container{
+    height: 40px;
+    background: $black;
+}
+.app-button{
+    font-size: 14px;
+    border: 0;
+    padding: 0 20px;
+    line-height: 40px;
+    height: 40px;
+    background: transparent;
+    color: $white;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all .3s ease;
+    img{
+        vertical-align: middle;
+    }
+    span{
+        // vertical-align: middle;
+    }
+    &:hover{
+        background: $green;
+    }
+    &:focus{
+        outline: 0;
+    }
+}
+
+.app-main-section{
+    display: flex;
+    background: $white;
+    flex: 1;
+}
+app-query-editor{
+    flex: 1;
+    max-width: 50%;
+}
+.app-query-editor-input{
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    border: 0;
+    padding: 0;
+    resize: none;
+}
+app-query-result{
+    flex: 1;
+    max-width: 50%;
+    background: $grey;
+    overflow: scroll;
+}
+.app-result{
+    height: 100%;
+}
+.app-query-result-textarea{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    resize: none;
+    background: transparent;
+    font-size: 14px;
+}
+.cm-s-query-result{
+    .cm-attribute{
+        color: $blue;
+    }
+    .cm-string{
+        color: $green;
+    }
+    .cm-property{
+        color: $blue;
+    }
+    .cm-punctuation{
+        color: $black;
+    }
+}
+.app-no-result{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 24px;
+    font-weight: bold;
+}

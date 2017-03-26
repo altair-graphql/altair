@@ -1,3 +1,26 @@
-<h1>
-  {{title}}
-</h1>
+<div class="wrapper">
+  <header class="app-header">
+    <div class="app-logo">
+      <img src="/assets/img/logo.svg" alt="">
+    </div>
+    <div class="app-url-container">
+      <input type="text" class="app-url-input" placeholder="Enter URL"
+        [value]="apiUrl"
+        (input)="setApiUrl($event)"
+      >
+    </div>
+    <div class="app-url-actions">
+      <button class="app-url-button">Set URL</button>
+    </div>
+  </header>
+  <div class="app-actions-container">
+    <button class="app-button" (click)="sendRequest()">
+      <img src="/assets/img/play.svg" alt="send request">
+      <span>Send Request</span>
+    </button>
+  </div>
+  <main class="app-main-section">
+    <app-query-editor (updateQuery)="updateQuery($event)"></app-query-editor>
+    <app-query-result [queryResult]="queryResult"></app-query-result>
+  </main>
+</div>

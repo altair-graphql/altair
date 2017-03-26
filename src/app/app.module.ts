@@ -5,16 +5,38 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
+import * as services from './services';
+import { Store } from './store';
+import { QueryEditorComponent } from './query-editor/query-editor.component';
+import { QueryResultComponent } from './query-result/query-result.component';
+
+export function mapValuesToArray(obj: any): Array<any> {
+    return Object.keys(obj).map(function(key){
+        return obj[key];
+    });
+};
+
+const servicesArray: Array<any> = mapValuesToArray(services);
+
+const providers = [
+    Store,
+    services.ApiService,
+    services.GqlService,
+    services.StoreHelper
+];
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QueryEditorComponent,
+    QueryResultComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: providers,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

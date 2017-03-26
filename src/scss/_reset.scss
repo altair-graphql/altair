@@ -1,0 +1,26 @@
+
+* {
+    box-sizing: border-box;
+}
+html, body{
+    font-size: 14px;
+    font-family: 'Helvetica Neue';
+    margin: 0;
+    height: 100%;
+}
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+input[type="text"], input[type="search"]{
+    display: block;
+    width: 100%;
+    &:focus{
+        outline: 0;
+    }
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}

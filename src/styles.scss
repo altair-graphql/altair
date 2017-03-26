@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+$black: #33363B;
+$grey: #EAEAEA;
+$white: #FFF;
+$green: #7EBC59;
+$blue: #368CBF;
+
+@import "scss/reset";
+@import "scss/helpers";
+
+@import "./../node_modules/codemirror/lib/codemirror.css";
+@import "./../node_modules/codemirror/addon/fold/foldgutter.css";
+@import "scss/editor";
+
+@import "app/app.component";
