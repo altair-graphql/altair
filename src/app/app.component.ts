@@ -9,16 +9,21 @@ import { GqlService } from './services/gql.service';
 })
 export class AppComponent {
   apiUrl = this.gql.getUrl();
-  query = localStorage.getItem('altair:query');
+  initialQuery = '';
+  query = '';
   queryResult = '';
 
-  constructor(private gql: GqlService){}
+  constructor(private gql: GqlService){
+    this.initialQuery = localStorage.getItem('altair:query');
+    this.query = this.initialQuery;
+  }
 
   setApiUrl($event) {
     this.gql.setUrl(this.apiUrl);
     localStorage.setItem('altair:url', this.apiUrl);
   }
-  sendRequest(){
+
+  sendRequest() {
     console.log('Sending request');
     this.gql.send(this.query)
       .subscribe(data => {
@@ -26,8 +31,7 @@ export class AppComponent {
         this.queryResult = data;
       });
   }
-  updateQuery(query){
-    console.log('Ok');
+  updateQuery(query) {
     this.query = query;
     localStorage.setItem('altair:query', this.query);
   }

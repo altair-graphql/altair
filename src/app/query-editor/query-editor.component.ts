@@ -19,12 +19,13 @@ import 'codemirror-graphql/mode';
 })
 export class QueryEditorComponent implements AfterViewInit {
 
+  @Output() sendRequest = new EventEmitter();
   _query = localStorage.getItem('altair:query');
   @Output() queryChange = new EventEmitter<string>();
   @Input()
-  public set query(val: string){
+  public set initialQuery(val: string){
     this._query = val;
-    if(this.codeEditor){
+    if (this.codeEditor) {
       this.codeEditor.setValue(val);
     }
   }
@@ -40,12 +41,13 @@ export class QueryEditorComponent implements AfterViewInit {
       lineWrapping: true,
       lineNumbers: true,
       foldGutter: true,
+      extraKeys: {'Cmd-Enter': (cm) => this.sendRequest.next(cm) },
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
     this.codeEditor.on('change', e => this.update(e));
   }
 
-  update($event){
+  update($event) {
     this.queryChange.next(this.codeEditor.getValue());
   }
 

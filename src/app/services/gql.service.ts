@@ -34,21 +34,21 @@ export class GqlService {
       throw err;
     }
   }
-  get(path: string): Observable<any>{
+  get(path: string): Observable<any> {
     return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
       .map(this.checkForError)
       .catch(err => Observable.throw(err))
       .map(this.getJson);
   }
 
-  post(path: string, body): Observable<any>{
+  post(path: string, body): Observable<any> {
     return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
       .map(this.checkForError)
       .catch(err => Observable.throw(err))
       .map(this.getJson);
   }
 
-  delete(path: string): Observable<any>{
+  delete(path: string): Observable<any> {
     return this.http.delete(`${this.api_url}${path}`, { headers: this.headers })
       .map(this.checkForError)
       .catch(err => Observable.throw(err))
@@ -69,21 +69,21 @@ export class GqlService {
       .map(this.getJson);
   }
 
-  setHeaders(headers){
+  setHeaders(headers) {
     Object.keys(headers)
       .forEach(header => this.headers.set(header, headers[header]));
   }
 
-  getUrl(){
+  getUrl() {
     return this.api_url;
   }
-  
-  setUrl(url){
+
+  setUrl(url) {
     this.api_url = url;
     this.getIntrospection();
   }
 
-  getIntrospection(){
+  getIntrospection() {
     this.send(introspectionQuery).subscribe(data => {
       console.log('introspection', data);
     });

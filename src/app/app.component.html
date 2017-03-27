@@ -22,7 +22,9 @@
   </div>
   <main class="app-main-section">
     <app-query-editor 
-      [(query)]="query"
+      (queryChange)="updateQuery($event)"
+      (sendRequest)="sendRequest()"
+      [initialQuery]="initialQuery"
     ></app-query-editor>
     <app-query-result [queryResult]="queryResult"></app-query-result>
   </main>
