@@ -1,9 +1,9 @@
 <div class="app-no-result" *ngIf="!_queryResult">
   <div>No response</div>
 </div>
-<!--We want it to be hidden in the DOM, not removed so we use style.hidden-->
-<div class="app-result" [style.hidden]="!_queryResult">
+<!--We want it to be hidden in the DOM, not removed so we use hidden-->
+<div class="app-result" [ngClass]="{ 'hide': !_queryResult }">
   <textarea class="app-query-result-textarea">
-    {{queryResult | json}}
+    {{_queryResult | json}}
   </textarea>
 </div>

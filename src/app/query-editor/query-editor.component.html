@@ -1,1 +1,16 @@
+<div class="app-actions-container">
+    <button class="app-button" (click)="this.sendRequest.next()">
+        <span>Send Request</span>
+    </button>
+    <button class="app-button">
+        Prettify
+    </button>
+    <button class="app-button">Set headers</button>
+    <div class="actions-right right">
+        <button class="app-button">Show docs</button>
+        <button class="app-button">Show result</button>
+    </div>
+</div>
+<div class="app-query-editor-input-container">
 <textarea class="app-query-editor-input" >{{_query}}</textarea>
+</div>

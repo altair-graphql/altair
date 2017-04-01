@@ -1,25 +1,27 @@
 <div class="wrapper">
+  <div class="app-loader" *ngIf="isLoading">
+    <div class="app-loader-content">
+      <img src="/assets/img/logo.svg" alt="" class="anim anim-rotate">
+      Loading...
+    </div>
+  </div>
   <header class="app-header">
-    <div class="app-logo">
-      <img src="/assets/img/logo.svg" alt="">
-    </div>
-    <div class="app-url-container">
-      <input type="text" class="app-url-input" placeholder="Enter URL"
-        [value]="apiUrl" (input)="apiUrl=$event.target.value"
-      >
-    </div>
-    <div class="app-url-actions">
-      <button class="app-url-button"
-        (click)="setApiUrl($event)"
-      >Set URL</button>
+    <div class="app-header-inner">
+      <div class="app-logo">
+        <img src="/assets/img/logo.svg" alt="">
+      </div>
+      <div class="app-url-container">
+        <input type="text" class="app-url-input" placeholder="Enter URL"
+          [value]="apiUrl" (input)="apiUrl=$event.target.value"
+        >
+      </div>
+      <div class="app-url-actions">
+        <button class="app-url-button"
+          (click)="setApiUrl($event)"
+        >Set URL</button>
+      </div>
     </div>
   </header>
-  <div class="app-actions-container">
-    <button class="app-button" (click)="sendRequest()">
-      <img src="/assets/img/play.svg" alt="send request">
-      <span>Send Request</span>
-    </button>
-  </div>
   <main class="app-main-section">
     <app-query-editor 
       (queryChange)="updateQuery($event)"

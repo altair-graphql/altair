@@ -12,8 +12,9 @@ export class AppComponent {
   initialQuery = '';
   query = '';
   queryResult = '';
+  isLoading = false;
 
-  constructor(private gql: GqlService){
+  constructor(private gql: GqlService) {
     this.initialQuery = localStorage.getItem('altair:query');
     this.query = this.initialQuery;
   }
@@ -24,10 +25,10 @@ export class AppComponent {
   }
 
   sendRequest() {
-    console.log('Sending request');
+    this.isLoading = true;
     this.gql.send(this.query)
       .subscribe(data => {
-        console.log(data);
+        this.isLoading = false;
         this.queryResult = data;
       });
   }
