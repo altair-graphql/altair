@@ -20,6 +20,8 @@ import 'codemirror-graphql/mode';
 export class QueryEditorComponent implements AfterViewInit {
 
   @Output() sendRequest = new EventEmitter();
+  @Output() toggleHeaderDialog = new EventEmitter();
+
   _query = localStorage.getItem('altair:query');
   @Output() queryChange = new EventEmitter<string>();
   @Input()

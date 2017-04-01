@@ -1,0 +1,32 @@
+ .app-button{
+    font-size: 14px;
+    border: 0;
+    padding: 0 20px;
+    line-height: 40px;
+    height: 40px;
+    background: transparent;
+    color: $green;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all .3s ease;
+    img{
+        vertical-align: middle;
+    }
+    span{
+        // vertical-align: middle;
+    }
+    &:hover{
+        background: $light-grey;
+    }
+    &:focus{
+        outline: 0;
+    }
+    &.active-grey{
+        background: $light-grey;
+    }
+    &.active-primary{
+        background: $green;
+        color: $white;
+    }
+}

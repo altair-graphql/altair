@@ -77,31 +77,6 @@
     height: 50px;
     margin: 0 10px;
 }
-.app-button{
-    font-size: 14px;
-    border: 0;
-    padding: 0 20px;
-    line-height: 40px;
-    height: 40px;
-    background: transparent;
-    color: $green;
-    vertical-align: middle;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all .3s ease;
-    img{
-        vertical-align: middle;
-    }
-    span{
-        // vertical-align: middle;
-    }
-    &:hover{
-        background: $light-grey;
-    }
-    &:focus{
-        outline: 0;
-    }
-}
 
 .app-main-section{
     display: flex;
@@ -161,4 +136,58 @@ app-query-result{
     font-size: 24px;
     font-weight: bold;
     color: $dark-grey;
+}
+.app-dialog-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($white, .7);
+    z-index: $dialog-z-index - 1;
+}
+.app-dialog{
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    width: 600px;
+    z-index: $dialog-z-index;
+    background: $white;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 5px 12px 2px rgba($black, .1);
+}
+.app-dialog-header{
+    margin-bottom: 30px;
+    color: $dark-grey;
+}
+.app-dialog-title{
+    color: $green;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.set-header-input-container{
+    display: flex;
+    flex: 1;
+    margin: 0 -10px;
+    margin-bottom: 30px;
+}
+.set-header-input-column{
+    max-width: 50%;
+    flex: 1;
+    padding: 0 10px;
+}
+.set-header-input{
+    font-size: 14px;
+    padding: 5px 0;
+    border: none;
+    border-bottom: 2px solid $grey;
+    transition: all .3s ease;
+    &:focus{
+        border-color: $green;
+    }
 }

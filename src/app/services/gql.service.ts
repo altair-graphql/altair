@@ -1,6 +1,9 @@
 import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
+import { StoreHelper } from './store-helper';
+
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';
 // TODO - Check if this is necessary
@@ -17,7 +20,10 @@ export class GqlService {
 
   private api_url = localStorage.getItem('altair:url');
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private storeHelper: StoreHelper
+  ) { }
 
 
   private getJson(res: Response) {
@@ -80,12 +86,15 @@ export class GqlService {
 
   setUrl(url) {
     this.api_url = url;
+    localStorage.setItem('altair:url', this.api_url);
     this.getIntrospection();
   }
 
   getIntrospection() {
     this.send(introspectionQuery).subscribe(data => {
       console.log('introspection', data);
+      this.storeHelper.update('introspectionResult', data);
+      localStorage.setItem('altair:introspection', data);
     });
   }
 }

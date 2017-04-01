@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from './store';
+import { StoreHelper } from './services/store-helper';
 
 import { GqlService } from './services/gql.service';
 
@@ -8,20 +10,36 @@ import { GqlService } from './services/gql.service';
   // styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  apiUrl = this.gql.getUrl();
+  apiUrl = '';
   initialQuery = '';
   query = '';
   queryResult = '';
   isLoading = false;
+  showHeaderDialog = false;
+  headers = [];
 
-  constructor(private gql: GqlService) {
+  constructor(
+    private gql: GqlService,
+    private store: Store,
+    private storeHelper: StoreHelper
+  ) {
     this.initialQuery = localStorage.getItem('altair:query');
-    this.query = this.initialQuery;
+
+    this.store.changes
+      .subscribe(data => {
+        this.apiUrl = data.apiUrl;
+        this.query = data.query;
+        this.queryResult = data.queryResult;
+        this.headers = data.headers;
+        this.showHeaderDialog = data.showHeaderDialog;
+      });
+
+    this.storeHelper.update('apiUrl', this.gql.getUrl());
+    this.storeHelper.update('query', this.initialQuery);
   }
 
   setApiUrl($event) {
     this.gql.setUrl(this.apiUrl);
-    localStorage.setItem('altair:url', this.apiUrl);
   }
 
   sendRequest() {
@@ -32,8 +50,20 @@ export class AppComponent {
         this.queryResult = data;
       });
   }
+
   updateQuery(query) {
-    this.query = query;
-    localStorage.setItem('altair:query', this.query);
+    this.storeHelper.update('query', query);
+    localStorage.setItem('altair:query', query);
+  }
+
+  toggleHeader() {
+    this.showHeaderDialog = !this.showHeaderDialog;
+  }
+
+  addHeader() {
+    this.headers.push({
+      key: '',
+      value: ''
+    });
   }
 }

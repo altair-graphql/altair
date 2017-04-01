@@ -7,8 +7,11 @@ $white: #FFF;
 $green: #7EBC59;
 $blue: #368CBF;
 
+$dialog-z-index: 10;
+
 @import "scss/reset";
 @import "scss/helpers";
+@import "scss/buttons";
 
 @import "./../node_modules/codemirror/lib/codemirror.css";
 @import "./../node_modules/codemirror/addon/fold/foldgutter.css";

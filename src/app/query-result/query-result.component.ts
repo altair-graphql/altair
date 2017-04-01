@@ -21,7 +21,6 @@ export class QueryResultComponent implements OnInit, AfterViewChecked {
   @Input()
   public set queryResult(val: string){
     this._queryResult = val;
-    console.log(val);
     if (this.codeEditor) {
       console.log(this.codeEditor);
       this.codeEditor.setValue(JSON.stringify(val, null, 2));

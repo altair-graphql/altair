@@ -11,10 +11,31 @@ export interface User {
     id?: string;
 }
 
+export interface Header {
+    key: string;
+    value: string;
+}
+
 export interface State {
+    apiUrl: string;
+    query: string;
+    queryResult: string;
+    showHeaderDialog: boolean;
+    headers: Array<Header>;
+    introspectionResult: object;
 }
 
 const defaultState: State = {
+    apiUrl: '',
+    query: '',
+    queryResult: '',
+    showHeaderDialog: false,
+    headers: [
+        {key: 'x-store', value: '23'},
+        {key: 'x-store', value: '23'},
+        {key: 'x-store', value: '23'},
+    ],
+    introspectionResult: {}
 }
 
 const _store = new BehaviorSubject<State>(defaultState);

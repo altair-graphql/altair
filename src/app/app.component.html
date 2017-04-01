@@ -26,8 +26,32 @@
     <app-query-editor 
       (queryChange)="updateQuery($event)"
       (sendRequest)="sendRequest()"
+      (toggleHeaderDialog)="toggleHeader()"
       [initialQuery]="initialQuery"
     ></app-query-editor>
     <app-query-result [queryResult]="queryResult"></app-query-result>
   </main>
+  <div class="dialogs" [ngClass]="{ 'hide': !showHeaderDialog }" >
+    <div class="app-dialog set-header-dialog">
+      <div class="app-dialog-header">
+        <div class="app-dialog-title">Headers</div>
+        Add, edit and remove headers in your request
+      </div>
+      <div class="app-dialog-body">
+        <div class="set-header-input-container" *ngFor="let header of headers">
+          <div class="set-header-input-column">
+            <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}">
+          </div>
+          <div class="set-header-input-column">
+            <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}">
+          </div>
+        </div>
+      </div>
+      <div class="app-dialog-footer">
+        <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
+        <button class="app-button active-primary right">Save</button>
+      </div>
+    </div>
+    <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
+  </div>
 </div>
