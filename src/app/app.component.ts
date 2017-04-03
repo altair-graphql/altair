@@ -14,9 +14,11 @@ export class AppComponent {
   initialQuery = '';
   query = '';
   queryResult = '';
-  isLoading = false;
   showHeaderDialog = false;
+  showResult = false;
   headers = [];
+
+  isLoading = false;
 
   constructor(
     private gql: GqlService,
@@ -31,7 +33,9 @@ export class AppComponent {
         this.query = data.query;
         this.queryResult = data.queryResult;
         this.headers = data.headers;
+        this.gql.setHeaders(data.headers);
         this.showHeaderDialog = data.showHeaderDialog;
+        this.showResult = data.showResult;
       });
 
     this.storeHelper.update('apiUrl', this.gql.getUrl());
@@ -48,7 +52,12 @@ export class AppComponent {
       .subscribe(data => {
         this.isLoading = false;
         this.queryResult = data;
-      });
+      },
+        error => {
+          this.isLoading = false;
+          this.queryResult = error._body && <any>JSON.parse(error._body);
+        }
+      );
   }
 
   updateQuery(query) {
@@ -57,7 +66,7 @@ export class AppComponent {
   }
 
   toggleHeader() {
-    this.showHeaderDialog = !this.showHeaderDialog;
+    this.storeHelper.update('showHeaderDialog', !this.showHeaderDialog);
   }
 
   addHeader() {
@@ -65,5 +74,15 @@ export class AppComponent {
       key: '',
       value: ''
     });
+  }
+
+  headerKeyChange($event, i){
+    const val = $event.target.value;
+    this.headers[i].key = val;
+  }
+  headerValueChange($event, i){
+    const val = $event.target.value;
+    this.headers[i].value = val;
+    this.storeHelper.update('headers', this.headers);
   }
 }

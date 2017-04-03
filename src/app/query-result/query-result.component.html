@@ -1,9 +1,17 @@
-<div class="app-no-result" *ngIf="!_queryResult">
-  <div>No response</div>
+<div class="app-actions-container">
+    <div class="actions-right right">
+        <button class="app-button">Show docs</button>
+        <button class="app-button" [ngClass]="{'active-grey': showResult}">Show result</button>
+    </div>
 </div>
-<!--We want it to be hidden in the DOM, not removed so we use hidden-->
-<div class="app-result" [ngClass]="{ 'hide': !_queryResult }">
-  <textarea class="app-query-result-textarea">
-    {{_queryResult | json}}
-  </textarea>
+<div class="app-result-container">
+  <div class="app-no-result" *ngIf="!_queryResult">
+    <div>No response</div>
+  </div>
+  <!--We want it to be hidden in the DOM, not removed so we use hidden-->
+  <div class="app-result" [ngClass]="{ 'hide': !_queryResult }">
+    <textarea class="app-query-result-textarea">
+      {{_queryResult | json}}
+    </textarea>
+  </div>
 </div>

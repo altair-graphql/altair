@@ -96,8 +96,14 @@ app-query-editor{
     resize: none;
 }
 app-query-result{
+    display: flex;
     flex: 1;
+    flex-direction: column;
     max-width: 50%;
+}
+.app-result-container{
+    display: flex;
+    flex: 1;
     background: $light-grey;
     border-radius: 5px;
     overflow: scroll;
@@ -133,6 +139,7 @@ app-query-result{
     align-items: center;
     justify-content: center;
     height: 100%;
+    width: 100%;
     font-size: 24px;
     font-weight: bold;
     color: $dark-grey;

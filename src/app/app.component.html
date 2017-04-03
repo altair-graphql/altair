@@ -28,6 +28,7 @@
       (sendRequest)="sendRequest()"
       (toggleHeaderDialog)="toggleHeader()"
       [initialQuery]="initialQuery"
+      [showResult]="showResult"
     ></app-query-editor>
     <app-query-result [queryResult]="queryResult"></app-query-result>
   </main>
@@ -38,12 +39,12 @@
         Add, edit and remove headers in your request
       </div>
       <div class="app-dialog-body">
-        <div class="set-header-input-container" *ngFor="let header of headers">
+        <div class="set-header-input-container" *ngFor="let header of headers; let i = index">
           <div class="set-header-input-column">
-            <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}">
+            <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
           </div>
           <div class="set-header-input-column">
-            <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}">
+            <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
           </div>
         </div>
       </div>

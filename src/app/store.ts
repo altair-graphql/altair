@@ -21,6 +21,7 @@ export interface State {
     query: string;
     queryResult: string;
     showHeaderDialog: boolean;
+    showResult: boolean;
     headers: Array<Header>;
     introspectionResult: object;
 }
@@ -30,10 +31,11 @@ const defaultState: State = {
     query: '',
     queryResult: '',
     showHeaderDialog: false,
+    showResult: true,
     headers: [
-        {key: 'x-store', value: '23'},
-        {key: 'x-store', value: '23'},
-        {key: 'x-store', value: '23'},
+        {key: '', value: ''},
+        {key: '', value: ''},
+        {key: '', value: ''},
     ],
     introspectionResult: {}
 }

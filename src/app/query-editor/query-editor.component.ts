@@ -33,6 +33,7 @@ export class QueryEditorComponent implements AfterViewInit {
   }
 
   codeEditor = null;
+  @Input() showResult = false;
 
   constructor() { }
 

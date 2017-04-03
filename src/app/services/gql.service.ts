@@ -13,17 +13,19 @@ import { introspectionQuery } from './instrospectionQuery';
 
 @Injectable()
 export class GqlService {
-  headers: Headers = new Headers({
+  defaultHeaders = {
     'Content-Type': 'application/json',
-    Accept: 'application/json'
-  });
+    'Accept': 'application/json'
+  };
+
+  headers: Headers = this.setHeaders();
 
   private api_url = localStorage.getItem('altair:url');
 
   constructor(
     private http: Http,
     private storeHelper: StoreHelper
-  ) { }
+  ) {}
 
 
   private getJson(res: Response) {
@@ -71,13 +73,26 @@ export class GqlService {
 
     return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers })
       .map(this.checkForError)
-      .catch(err => Observable.throw(err))
+      .catch(err => {
+        console.error(err);
+        return Observable.throw(err);
+      })
       .map(this.getJson);
   }
 
-  setHeaders(headers) {
-    Object.keys(headers)
-      .forEach(header => this.headers.set(header, headers[header]));
+  setHeaders(headers?) {
+    const newHeaders = new Headers(this.defaultHeaders);
+
+    if(headers){
+      headers.forEach(header => {
+        if (header.key && header.value) {
+          newHeaders.set(header.key, header.value);
+        }
+      });
+    }
+
+    this.headers = newHeaders;
+    return newHeaders;
   }
 
   getUrl() {
