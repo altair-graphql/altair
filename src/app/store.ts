@@ -24,6 +24,7 @@ export interface State {
     showResult: boolean;
     headers: Array<Header>;
     introspectionResult: object;
+    gqlSchema: object;
 }
 
 const defaultState: State = {
@@ -37,7 +38,8 @@ const defaultState: State = {
         {key: '', value: ''},
         {key: '', value: ''},
     ],
-    introspectionResult: {}
+    introspectionResult: {},
+    gqlSchema: null
 }
 
 const _store = new BehaviorSubject<State>(defaultState);

@@ -8,6 +8,7 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
+import 'codemirror/addon/edit/closebrackets';
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
@@ -34,19 +35,35 @@ export class QueryEditorComponent implements AfterViewInit {
 
   codeEditor = null;
   @Input() showResult = false;
+  @Input() gqlSchema = null;
 
   constructor() { }
 
   ngAfterViewInit() {
     const editorTextArea = document.querySelector('.app-query-editor-input');
-    this.codeEditor = Codemirror.fromTextArea(editorTextArea, {
+    const editorOptions = <any>{
       mode: 'graphql',
       lineWrapping: true,
       lineNumbers: true,
       foldGutter: true,
-      extraKeys: {'Cmd-Enter': (cm) => this.sendRequest.next(cm) },
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
-    });
+      extraKeys: {
+        'Cmd-Enter': (cm) => this.sendRequest.next(cm),
+        'Ctrl-Space': 'autocomplete'
+      },
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+      autoCloseBrackets: true
+    };
+
+    if (this.gqlSchema) {
+      console.log('Schema: ', this.gqlSchema);
+      editorOptions.lint = {
+        schema: this.gqlSchema
+      };
+      editorOptions.hintOptions = {
+        schema: this.gqlSchema
+      };
+    }
+    this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
     this.codeEditor.on('change', e => this.update(e));
   }
 

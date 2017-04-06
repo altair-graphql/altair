@@ -2,14 +2,16 @@ import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { Store } from '../store';
 import { StoreHelper } from './store-helper';
+
+import { buildClientSchema } from 'graphql';
+import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';
 // TODO - Check if this is necessary
 import 'rxjs/add/observable/throw';
-
-import { introspectionQuery } from './instrospectionQuery';
 
 @Injectable()
 export class GqlService {
@@ -21,12 +23,15 @@ export class GqlService {
   headers: Headers = this.setHeaders();
 
   private api_url = localStorage.getItem('altair:url');
+  introspectionData = JSON.parse(localStorage.getItem('altair:introspection'));
 
   constructor(
     private http: Http,
     private storeHelper: StoreHelper
-  ) {}
-
+  ) {
+    this.storeHelper.update('introspectionResult', this.introspectionData);
+    this.getIntrospectionSchema(this.introspectionData);
+  }
 
   private getJson(res: Response) {
       return res.json();
@@ -102,14 +107,30 @@ export class GqlService {
   setUrl(url) {
     this.api_url = url;
     localStorage.setItem('altair:url', this.api_url);
-    this.getIntrospection();
+    if(this.api_url){
+      this.getIntrospectionRequest();
+    }
   }
 
-  getIntrospection() {
+  getIntrospectionRequest() {
     this.send(introspectionQuery).subscribe(data => {
-      console.log('introspection', data);
-      this.storeHelper.update('introspectionResult', data);
-      localStorage.setItem('altair:introspection', data);
+      console.log('introspection', data.data);
+      this.storeHelper.update('introspectionResult', data.data);
+      localStorage.setItem('altair:introspection', JSON.stringify(data.data));
+      this.getIntrospectionSchema(data.data);
     });
+  }
+
+  getIntrospectionData() {
+    return this.introspectionData;
+  }
+
+  getIntrospectionSchema(data) {
+    if (data) {
+      const schema = buildClientSchema(data);
+      this.storeHelper.update('gqlSchema', schema);
+      return schema;
+    }
+    return null;
   }
 }

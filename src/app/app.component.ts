@@ -3,6 +3,7 @@ import { Store } from './store';
 import { StoreHelper } from './services/store-helper';
 
 import { GqlService } from './services/gql.service';
+import { graphql } from 'graphql';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,8 @@ export class AppComponent {
   showHeaderDialog = false;
   showResult = false;
   headers = [];
+  introspectionResult = {};
+  gqlSchema = null;
 
   isLoading = false;
 
@@ -36,6 +39,8 @@ export class AppComponent {
         this.gql.setHeaders(data.headers);
         this.showHeaderDialog = data.showHeaderDialog;
         this.showResult = data.showResult;
+        this.introspectionResult = data.introspectionResult;
+        this.gqlSchema = data.gqlSchema;
       });
 
     this.storeHelper.update('apiUrl', this.gql.getUrl());

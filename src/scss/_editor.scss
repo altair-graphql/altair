@@ -15,6 +15,27 @@
     color: $black;
     text-shadow: none;
 }
+.CodeMirror-lint-mark-error{
+    // border-bottom: 1px dotted #f00;
+}
+.CodeMirror-lint-tooltip{
+    background: $white;
+    border: 1px solid $light-grey;
+    box-shadow: 0 2px 12px -2px rgba($black, .05);
+    border-radius: 5px;
+    color: $black;
+    padding: 10px;
+    font-family: sans-serif;
+}
+.CodeMirror-hints{
+    font-family: inherit;
+    box-shadow: 0 0 5px rgba($black, .1);
+}
+.CodeMirror-hint {
+    line-height: 1.4;
+    padding: 5px 10px;
+    min-width: 100px;
+}
 .cm-s-default{
     .cm-attribute{
         color: $green;
@@ -27,5 +48,9 @@
     }
     .cm-punctuation{
         color: $blue;
+    }
+    .cm-keyword{
+        color: $blue;
+        font-weight: bold;
     }
 }

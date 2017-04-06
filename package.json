@@ -27,7 +27,7 @@
     "codemirror": "^5.25.0",
     "codemirror-graphql": "^0.6.3",
     "core-js": "^2.4.1",
-    "graphql": "^0.9.1",
+    "graphql": "^0.9.2",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
