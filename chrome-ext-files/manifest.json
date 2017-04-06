@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Altair",
+  "description": "The only graphQL client you'll ever need.",
+  "version": "1.0",
+  "icons": {
+    "16": "assets/img/altair_logo.png",
+    "48": "assets/img/altair_logo.png",
+    "128": "assets/img/altair_logo.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/img/altair_logo.png"
+  },
+  "permissions": [
+      "tabs"
+  ],
+  "background": {
+      "scripts": ["js/background.js"]
+  }
+}

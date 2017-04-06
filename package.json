@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "build-ext": "./bin/chrome_ext.sh"
   },
   "engines": {
     "node": "6.10.0"
