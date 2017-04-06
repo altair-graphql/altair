@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 // Import the codemirror packages
 import Codemirror from 'codemirror';
@@ -8,6 +8,7 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
+import 'codemirror/addon/display/autorefresh';
 import 'codemirror/mode/javascript/javascript';
 
 @Component({
@@ -15,7 +16,7 @@ import 'codemirror/mode/javascript/javascript';
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss']
 })
-export class QueryResultComponent implements OnInit, AfterViewChecked {
+export class QueryResultComponent implements OnInit {
 
   _queryResult = '';
   @Input()
@@ -24,7 +25,7 @@ export class QueryResultComponent implements OnInit, AfterViewChecked {
     if (this.codeEditor) {
       console.log(this.codeEditor);
       this.codeEditor.setValue(JSON.stringify(val, null, 2));
-      // setTimeout(() => this.codeEditor.refresh(), 1);
+      setTimeout(() => this.codeEditor.refresh(), 1);
     }
   }
   codeEditor = null;
@@ -39,15 +40,10 @@ export class QueryResultComponent implements OnInit, AfterViewChecked {
       lineWrapping: true,
       lineNumbers: true,
       foldGutter: true,
-      readOnly: 'nocursor',
+      readOnly: true,
+      autoRefresh: true,
       theme: 'default query-result',
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
-  }
-
-  ngAfterViewChecked(){
-    // Call refresh to show the editor after it is made visible
-    // Fixes the hidden editor issue
-    this.codeEditor.refresh();
   }
 }

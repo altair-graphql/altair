@@ -109,7 +109,12 @@ app-query-result{
     overflow: scroll;
 }
 .app-result{
+    width: 100%;
     height: 100%;
+    &.hide-result{
+        height: 0;
+        // display: none;
+    }
 }
 .app-query-result-textarea{
     width: 100%;

@@ -56,11 +56,12 @@ export class AppComponent {
     this.gql.send(this.query)
       .subscribe(data => {
         this.isLoading = false;
-        this.queryResult = data;
+        this.storeHelper.update('queryResult', data);
       },
         error => {
           this.isLoading = false;
-          this.queryResult = error._body && <any>JSON.parse(error._body);
+          const _output = error._body && <any>JSON.parse(error._body);
+          this.storeHelper.update('queryResult', _output);
         }
       );
   }
