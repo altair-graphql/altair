@@ -107,7 +107,8 @@ export class GqlService {
   setUrl(url) {
     this.api_url = url;
     localStorage.setItem('altair:url', this.api_url);
-    if(this.api_url){
+    this.storeHelper.update('apiUrl', url);
+    if (this.api_url) {
       this.getIntrospectionRequest();
     }
   }
