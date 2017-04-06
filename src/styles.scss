@@ -13,6 +13,7 @@ $dialog-z-index: 10;
 @import "scss/reset";
 @import "scss/helpers";
 @import "scss/buttons";
+@import "scss/loading-screen";
 
 @import "./../node_modules/codemirror/lib/codemirror.css";
 @import "./../node_modules/codemirror/addon/fold/foldgutter.css";

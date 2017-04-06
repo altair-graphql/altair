@@ -19,6 +19,8 @@ import 'codemirror-graphql/jump';
 
 import { marked } from 'marked';
 
+import { initialQuery } from './initialQuery';
+
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@({]$/;
 
 @Component({
@@ -35,6 +37,9 @@ export class QueryEditorComponent implements AfterViewInit {
   @Output() queryChange = new EventEmitter<string>();
   @Input()
   public set initialQuery(val: string){
+    if(!val){
+      val = initialQuery;
+    }
     this._query = val;
     if (this.codeEditor) {
       this.codeEditor.setValue(val);
