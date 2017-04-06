@@ -18,6 +18,7 @@ import 'codemirror/mode/javascript/javascript';
 })
 export class QueryResultComponent implements OnInit {
 
+  @Input() showResult = false;
   _queryResult = '';
   @Input()
   public set queryResult(val: string){

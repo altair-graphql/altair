@@ -28,10 +28,12 @@
       (sendRequest)="sendRequest()"
       (toggleHeaderDialog)="toggleHeader()"
       [initialQuery]="initialQuery"
-      [showResult]="showResult"
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
-    <app-query-result [queryResult]="queryResult"></app-query-result>
+    <app-query-result
+      [queryResult]="queryResult"
+      [showResult]="showResult"
+    ></app-query-result>
   </main>
   <div class="dialogs" [ngClass]="{ 'hide': !showHeaderDialog }" >
     <div class="app-dialog set-header-dialog">
