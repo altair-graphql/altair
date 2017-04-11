@@ -12,7 +12,7 @@
       </div>
       <div class="app-url-container">
         <input type="text" class="app-url-input" placeholder="Enter URL"
-          [value]="apiUrl" (input)="apiUrl=$event.target.value"
+          [value]="apiUrl" (input)="apiUrl=$event.target.value" (blur)="setApiUrl($event)"
         >
       </div>
       <div class="app-url-actions">

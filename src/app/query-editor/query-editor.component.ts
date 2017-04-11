@@ -1,4 +1,13 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges
+} from '@angular/core';
 
 // Import the codemirror packages
 import Codemirror from 'codemirror';
@@ -21,14 +30,14 @@ import { marked } from 'marked';
 
 import { initialQuery } from './initialQuery';
 
-const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@({]$/;
+const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
 @Component({
   selector: 'app-query-editor',
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements AfterViewInit {
+export class QueryEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
   @Output() toggleHeaderDialog = new EventEmitter();
@@ -70,40 +79,53 @@ export class QueryEditorComponent implements AfterViewInit {
     };
 
     if (this.gqlSchema) {
-      console.log('Schema: ', this.gqlSchema);
-      editorOptions.lint = {
-        schema: this.gqlSchema
-      };
+      editorOptions.lint = {};
       editorOptions.hintOptions = {
-        schema: this.gqlSchema,
         completeSingle: false
       };
       editorOptions.info = {
-        schema: this.gqlSchema,
         renderDescription: text => {
-          console.log(text);
           return marked(text, { sanitize: true });
         }
       };
-      editorOptions.jump = {
-        schema: this.gqlSchema,
-      };
+      editorOptions.jump = {};
+      this.updateEditorSchema(this.gqlSchema);
     }
     this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
     this.codeEditor.on('change', e => this.update(e));
     this.codeEditor.on('keyup', (cm, event) => this.onKeyUp(cm, event));
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    // If there is a new schema, update the editor schema
+    if (changes.gqlSchema.currentValue) {
+      // const schema = changes.gqlSchema.currentValue;
+      this.updateEditorSchema(this.gqlSchema);
+    }
+  }
+
+  /**
+   * Called when the query in the editor changes
+   * @param event
+   */
   update($event) {
     this.queryChange.next(this.codeEditor.getValue());
   }
 
+  /**
+   * Handles the keyup event on the query editor
+   * @param cm
+   * @param event
+   */
   onKeyUp(cm, event) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
       this.codeEditor.execCommand('autocomplete');
     }
   }
 
+  /**
+   * Formats the query in the editor
+   */
   prettifyCode() {
     this.codeEditor.operation(() => {
       const len = this.codeEditor.lineCount();
@@ -111,6 +133,20 @@ export class QueryEditorComponent implements AfterViewInit {
         this.codeEditor.indentLine(i);
       }
     });
+  }
+
+  /**
+   * Update the editor schema
+   * @param schema
+   */
+  updateEditorSchema(schema) {
+    if (schema && this.codeEditor) {
+      console.log('Updating schema...', schema);
+      this.codeEditor.options.lint.schema = schema;
+      this.codeEditor.options.hintOptions.schema = schema;
+      this.codeEditor.options.info.schema = schema;
+      this.codeEditor.options.jump.schema = schema;
+    }
   }
 
 }

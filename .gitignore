@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /chrome-extension
+altair.zip
 
 # dependencies
 /node_modules
