@@ -82,13 +82,19 @@ export class AppComponent {
     });
   }
 
-  headerKeyChange($event, i){
+  headerKeyChange($event, i) {
     const val = $event.target.value;
     this.headers[i].key = val;
+    this.storeHelper.update('headers', this.headers);
   }
-  headerValueChange($event, i){
+  headerValueChange($event, i) {
     const val = $event.target.value;
     this.headers[i].value = val;
+    this.storeHelper.update('headers', this.headers);
+  }
+
+  removeHeader(i) {
+    this.headers.splice(i , 1);
     this.storeHelper.update('headers', this.headers);
   }
 }

@@ -127,16 +127,16 @@ app-query-result{
 }
 .cm-s-query-result{
     .cm-attribute{
-        color: $black;
+        color: $result-default;
     }
     .cm-string{
-        color: $black;
+        color: $result-string;
     }
     .cm-property{
-        color: $black;
+        color: $result-default;
     }
     .cm-punctuation{
-        color: $black;
+        color: $result-default;
     }
 }
 .app-no-result{
@@ -201,5 +201,15 @@ app-query-result{
     transition: all .3s ease;
     &:focus{
         border-color: $green;
+    }
+}
+.header-input-remove-button{
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+    &:hover{
+        color: $red;
     }
 }

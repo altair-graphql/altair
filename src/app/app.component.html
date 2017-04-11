@@ -49,6 +49,7 @@
           <div class="set-header-input-column">
             <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
           </div>
+          <button class="header-input-remove-button" (click)="removeHeader(i)" >&times;</button>
         </div>
       </div>
       <div class="app-dialog-footer">
