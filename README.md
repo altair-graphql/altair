@@ -1,4 +1,8 @@
-# Altair
+# Altair GraphQL Client
+
+A graphQL client for making graphQL queries to a graphQL server. http://altair-gql.herokuapp.com/
+
+Also there's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
