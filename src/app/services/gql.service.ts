@@ -23,12 +23,13 @@ export class GqlService {
   headers: Headers = this.setHeaders();
 
   private api_url = localStorage.getItem('altair:url');
-  introspectionData = JSON.parse(localStorage.getItem('altair:introspection'));
+  introspectionData = {};
 
   constructor(
     private http: Http,
     private storeHelper: StoreHelper
   ) {
+    this.introspectionData = JSON.parse(localStorage.getItem('altair:introspection'));
     this.storeHelper.update('introspectionResult', this.introspectionData);
     this.getIntrospectionSchema(this.introspectionData);
   }

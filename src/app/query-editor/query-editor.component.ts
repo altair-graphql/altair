@@ -46,7 +46,7 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
   @Output() queryChange = new EventEmitter<string>();
   @Input()
   public set initialQuery(val: string){
-    if(!val){
+    if (!val) {
       val = initialQuery;
     }
     this._query = val;
@@ -89,18 +89,21 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
         }
       };
       editorOptions.jump = {};
-      this.updateEditorSchema(this.gqlSchema);
     }
     this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
     this.codeEditor.on('change', e => this.update(e));
     this.codeEditor.on('keyup', (cm, event) => this.onKeyUp(cm, event));
+    if (this.gqlSchema) {
+      this.updateEditorSchema(this.gqlSchema);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
     if (changes.gqlSchema.currentValue) {
       // const schema = changes.gqlSchema.currentValue;
-      this.updateEditorSchema(this.gqlSchema);
+      this.gqlSchema = changes.gqlSchema.currentValue;
+      this.updateEditorSchema(changes.gqlSchema.currentValue);
     }
   }
 
