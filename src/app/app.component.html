@@ -23,7 +23,7 @@
     </div>
   </header>
   <main class="app-main-section">
-    <app-query-editor 
+    <app-query-editor
       (queryChange)="updateQuery($event)"
       (sendRequest)="sendRequest()"
       (toggleHeaderDialog)="toggleHeader()"
@@ -54,7 +54,7 @@
       </div>
       <div class="app-dialog-footer">
         <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
-        <button class="app-button active-primary right">Save</button>
+        <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
       </div>
     </div>
     <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
