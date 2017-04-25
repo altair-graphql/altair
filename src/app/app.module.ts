@@ -9,6 +9,8 @@ import * as services from './services';
 import { Store } from './store';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
+import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
+import { KeysPipe } from './keys.pipe';
 
 export function mapValuesToArray(obj: any): Array<any> {
     return Object.keys(obj).map(function(key){
@@ -29,7 +31,9 @@ const providers = [
   declarations: [
     AppComponent,
     QueryEditorComponent,
-    QueryResultComponent
+    QueryResultComponent,
+    DocViewerComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,41 @@
+<div class="app-doc-viewer">
+  <div class="doc-viewer-header">
+    <div class="doc-viewer-breadcrumbs-container">
+      <ul class="doc-viewer-breadcrumbs">
+        <li><a href="#">Schema</a></li>
+        <li><a href="#">Queries</a></li>
+        <li><a href="#">search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="doc-viewer-items">
+    <div class="doc-viewer-item doc-viewer-item-query">
+      <a href="#">search</a>(<a href="#" class="doc-viewer-item-field">search_term</a>: <a href="#" class="doc-viewer-item-type">String!</a>, <a href="#" class="doc-viewer-item-field">paginate</a>: <a href="#" class="doc-viewer-item-type">Paginate</a>): <a href="#" class="doc-viewer-item-type">SearchResult</a>
+    </div>
+    <div class="doc-viewer-item doc-viewer-item-query">
+      <a href="#">listing</a>(<a href="#" class="doc-viewer-item-field">category_id</a>: <a href="#" class="doc-viewer-item-type">Int!</a>, <a href="#" class="doc-viewer-item-field">paginate</a>: <a href="#" class="doc-viewer-item-type">Paginate</a>): <a href="#" class="doc-viewer-item-type">SearchResult</a>
+    </div>
+
+    <div [ngSwitch]="currentDocView.section">
+      <ng-container *ngSwitchCase="'rootTypes'">
+        <div class="doc-viewer-item" *ngFor="let item of docsData.rootTypes">
+          <a href="#">{{ item.name }}</a>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'queries'">
+        <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(docsData.queries)">
+          <a href="#">{{ item.name }}</a>
+          <ng-container *ngIf=" item.args.length ">
+            (
+            <span *ngFor="let arg of item.args; let last = last">
+              <a href="#" class="doc-viewer-item-field">{{ arg.name }}</a>:
+              <a href="#" class="doc-viewer-item-type">Int!</a><span *ngIf="!last">,</span>
+            </span>
+            )
+          </ng-container>
+          : <a href="#" class="doc-viewer-item-type">SearchResult</a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

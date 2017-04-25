@@ -30,10 +30,13 @@
       [initialQuery]="initialQuery"
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
-    <app-query-result
+    <app-query-result class="hide"
       [queryResult]="queryResult"
       [showResult]="showResult"
     ></app-query-result>
+    <app-doc-viewer
+      [gqlSchema]="gqlSchema"
+    ></app-doc-viewer>
   </main>
   <div class="dialogs" [ngClass]="{ 'hide': !showHeaderDialog }" >
     <div class="app-dialog set-header-dialog">
