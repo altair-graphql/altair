@@ -75,7 +75,11 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
       },
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
       autoCloseBrackets: true,
-      matchBrackets: true
+      matchBrackets: true,
+      lint: {},
+      hintOptions: {},
+      info: {},
+      jump: {}
     };
 
     if (this.gqlSchema) {
