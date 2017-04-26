@@ -11,6 +11,8 @@ import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
 import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import { KeysPipe } from './keys.pipe';
+import { DocViewerItemQueriesComponent } from './doc-viewer-item-queries/doc-viewer-item-queries.component';
+import { DocViewerItemQueryDetailsComponent } from './doc-viewer-item-query-details/doc-viewer-item-query-details.component';
 
 export function mapValuesToArray(obj: any): Array<any> {
     return Object.keys(obj).map(function(key){
@@ -33,7 +35,9 @@ const providers = [
     QueryEditorComponent,
     QueryResultComponent,
     DocViewerComponent,
-    KeysPipe
+    KeysPipe,
+    DocViewerItemQueriesComponent,
+    DocViewerItemQueryDetailsComponent
   ],
   imports: [
     BrowserModule,

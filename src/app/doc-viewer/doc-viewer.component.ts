@@ -16,9 +16,13 @@ export class DocViewerComponent implements OnChanges {
     types: []
   };
 
+  // currentDocView = {
+  //   section: 'queryDetail',
+  //   parentName: 'mutations',
+  //   itemName: 'registerCustomer'
+  // };
   currentDocView = {
-    section: 'queries',
-    parentName: ''
+    section: 'rootTypes',
   };
 
   constructor() { }
@@ -50,6 +54,8 @@ export class DocViewerComponent implements OnChanges {
       });
 
       this.docsData.queries = schema._queryType._fields;
+
+      this.docsData.queries = this._updateTypes(this.docsData.queries);
     }
 
     if (schema._mutationType) {
@@ -63,16 +69,33 @@ export class DocViewerComponent implements OnChanges {
       });
 
       this.docsData.mutations = schema._mutationType._fields;
+
+      this.docsData.mutations = this._updateTypes(this.docsData.mutations);
     }
   }
 
-  objToArr(obj: any) {
-    const arr = [];
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        arr.push(obj[key]);
+  /**
+   * Get the formatted value of the types in a queries object
+   * @param queries
+   */
+  _updateTypes(queries) {
+    for (const key in queries) {
+      if (queries.hasOwnProperty(key)) {
+        const curQuery = queries[key];
+        curQuery.typeValue = curQuery.type.inspect();
+
+        curQuery.args.map(v => {
+          const _v = v;
+          _v.typeValue = v.type.inspect();
+          return _v;
+        });
       }
     }
-    return arr;
+
+    return queries;
+  }
+
+  goToDocItem(routeObj) {
+    this.currentDocView = routeObj;
   }
 }
