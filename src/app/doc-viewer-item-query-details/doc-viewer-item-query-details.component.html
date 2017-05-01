@@ -12,8 +12,8 @@
   <div class="doc-viewer-section-title">Arguments</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of queryData.args">
     <div class="doc-viewer-item-query-inner">
-      <a href="#">{{ arg.name }}</a>
-      <a href="#" class="doc-viewer-item-type doc-viewer-item-query-type">{{ arg.typeValue }}</a>
+      <span class="no-link-link">{{ arg.name }}</span>
+      <span class="doc-viewer-item-type doc-viewer-item-query-type">{{ arg.typeValue }}</span>
     </div>
     <div class="doc-viewer-item-query-description">
       {{ arg.description }}
@@ -24,8 +24,8 @@
   <div class="doc-viewer-section-title">Fields</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(queryData.type._fields)">
     <div class="doc-viewer-item-query-inner">
-      <a href="#">{{ item.name }}</a>
-      <a href="#" class="doc-viewer-item-type doc-viewer-item-query-type">{{ item.type.inspect() }}</a>
+      <span class="no-link-link">{{ item.name }}</span>
+      <span class="doc-viewer-item-type doc-viewer-item-query-type">{{ item.type.inspect() }}</span>
     </div>
     <div class="doc-viewer-item-query-description">
       {{ item.description }}

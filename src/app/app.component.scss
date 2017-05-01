@@ -79,9 +79,11 @@
 }
 
 .app-main-section{
+    position: relative;
     display: flex;
     background: $white;
     flex: 1;
+    overflow: hidden;
 }
 app-query-editor{
     flex: 1;

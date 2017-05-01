@@ -75,6 +75,10 @@ export class AppComponent {
     this.storeHelper.update('showHeaderDialog', !this.showHeaderDialog);
   }
 
+  toggleResult() {
+    this.storeHelper.update('showResult', !this.showResult);
+  }
+
   addHeader() {
     this.headers.push({
       key: '',

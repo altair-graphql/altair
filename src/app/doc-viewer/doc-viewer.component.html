@@ -1,10 +1,12 @@
 <div class="app-doc-viewer">
   <div class="doc-viewer-header">
+    <span class="doc-viewer-close" (click)="toggleResult.next()">&times;</span>
     <div class="doc-viewer-breadcrumbs-container">
-      <ul class="doc-viewer-breadcrumbs">
-        <li><span class="no-link-link">Home</span></li>
-        <li><span class="no-link-link">Queries</span></li>
-        <li><span class="no-link-link">search</span></li>
+      <ul class="doc-viewer-breadcrumbs" [ngSwitch]="currentDocView.section">
+        <li><span class="no-link-link" (click)="goToDocItem({ section: 'rootTypes' })">Home</span></li>
+        <li *ngSwitchCase="'queries' || 'queryDetail'"><span class="no-link-link" (click)="goToDocItem({ section: 'queries' })">Queries</span></li>
+        <li *ngSwitchCase="'mutations' || 'queryDetail'"><span class="no-link-link" (click)="goToDocItem({ section: 'mutations' })">Mutations</span></li>
+        <li *ngSwitchCase="'queryDetail'"><span class="no-link-link">{{ currentDocView.itemName }}</span></li>
       </ul>
     </div>
   </div>
@@ -18,11 +20,13 @@
       <ng-container *ngSwitchCase="'queries'">
         <app-doc-viewer-item-queries
           [queries]="docsData.queries"
+          (goToDocItemChange)="goToDocItem($event)"
         ></app-doc-viewer-item-queries>
       </ng-container>
       <ng-container *ngSwitchCase="'mutations'">
         <app-doc-viewer-item-queries
           [queries]="docsData.mutations"
+          (goToDocItemChange)="goToDocItem($event)"
         ></app-doc-viewer-item-queries>
       </ng-container>
       <ng-container *ngSwitchCase="'queryDetail'">

@@ -40,7 +40,6 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 export class QueryEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
-  @Output() toggleHeaderDialog = new EventEmitter();
 
   _query = localStorage.getItem('altair:query');
   @Output() queryChange = new EventEmitter<string>();

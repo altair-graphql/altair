@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 
 @Component({
   selector: 'app-doc-viewer',
@@ -8,6 +15,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema = null;
+  @Output() toggleResult = new EventEmitter();
 
   docsData = {
     rootTypes: [],
@@ -55,7 +63,7 @@ export class DocViewerComponent implements OnChanges {
 
       this.docsData.queries = schema._queryType._fields;
 
-      this.docsData.queries = this._updateTypes(this.docsData.queries);
+      this.docsData.queries = this._updateTypes('queries', this.docsData.queries);
     }
 
     if (schema._mutationType) {
@@ -70,7 +78,7 @@ export class DocViewerComponent implements OnChanges {
 
       this.docsData.mutations = schema._mutationType._fields;
 
-      this.docsData.mutations = this._updateTypes(this.docsData.mutations);
+      this.docsData.mutations = this._updateTypes('mutations', this.docsData.mutations);
     }
   }
 
@@ -78,11 +86,12 @@ export class DocViewerComponent implements OnChanges {
    * Get the formatted value of the types in a queries object
    * @param queries
    */
-  _updateTypes(queries) {
+  _updateTypes(queryKey, queries) {
     for (const key in queries) {
       if (queries.hasOwnProperty(key)) {
         const curQuery = queries[key];
         curQuery.typeValue = curQuery.type.inspect();
+        curQuery.key = queryKey;
 
         curQuery.args.map(v => {
           const _v = v;
@@ -96,6 +105,7 @@ export class DocViewerComponent implements OnChanges {
   }
 
   goToDocItem(routeObj) {
+    console.log(routeObj);
     this.currentDocView = routeObj;
   }
 }

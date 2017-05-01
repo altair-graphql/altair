@@ -1,15 +1,15 @@
 <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(queries)">
   <div class="doc-viewer-item-query-inner">
-    <a href="#">{{ item.name }}</a>
+    <span class="no-link-link" (click)="goToDocItem({section: 'queryDetail', parentName: item.key, itemName: item.name })">{{ item.name }}</span>
     <ng-container *ngIf=" item.args.length ">
       (
       <span *ngFor="let arg of item.args; let last = last">
-        <a href="#" class="doc-viewer-item-field">{{ arg.name }}</a>:
-        <a href="#" class="doc-viewer-item-type">{{ arg.typeValue }}</a><span *ngIf="!last">,</span>
+        <span class="no-link-link" class="doc-viewer-item-field">{{ arg.name }}</span>:
+        <span class="no-link-link" class="doc-viewer-item-type">{{ arg.typeValue }}</span><span *ngIf="!last">,</span>
       </span>
       )
     </ng-container>
-    <a href="#" class="doc-viewer-item-type doc-viewer-item-query-type">{{ item.typeValue }}</a>
+    <span class="no-link-link" class="doc-viewer-item-type doc-viewer-item-query-type">{{ item.typeValue }}</span>
   </div>
   <div class="doc-viewer-item-query-description">
     {{ item.description }}
