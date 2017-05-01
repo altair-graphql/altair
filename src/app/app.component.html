@@ -22,11 +22,18 @@
       </div>
     </div>
   </header>
+  <app-action-bar
+      (toggleHeaderDialog)="toggleHeader()"
+      (prettifyCodeChange)="queryEditor.prettifyCode()"
+      (sendRequest)="sendRequest()"
+      (toggleResult)="toggleResult()"
+      [showResult]="showResult"
+  ></app-action-bar>
   <main class="app-main-section">
     <app-query-editor
+      #queryEditor
       (queryChange)="updateQuery($event)"
       (sendRequest)="sendRequest()"
-      (toggleHeaderDialog)="toggleHeader()"
       [initialQuery]="initialQuery"
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
@@ -34,6 +41,11 @@
       [queryResult]="queryResult"
       [showResult]="showResult"
     ></app-query-result>
+    <app-doc-viewer
+      [gqlSchema]="gqlSchema"
+      [ngClass]="{'show-doc': !showResult}"
+      (toggleResult)="toggleResult()"
+    ></app-doc-viewer>
   </main>
   <div class="dialogs" [ngClass]="{ 'hide': !showHeaderDialog }" >
     <div class="app-dialog set-header-dialog">

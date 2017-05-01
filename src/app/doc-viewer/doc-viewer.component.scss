@@ -1,0 +1,101 @@
+app-doc-viewer{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    background: $white;
+    z-index: 2;
+    transform: translateX(100%);
+    transition: all .5s ease;
+    overflow: auto;
+    &.show-doc{
+        transform: translateX(0);
+        box-shadow: -2px 0 3px -2px rgba($black, .5);
+    }
+}
+.app-doc-viewer{
+    padding: 20px;
+}
+.doc-viewer-header{
+    margin-bottom: 20px;
+}
+.doc-viewer-close{
+    float: right;
+    font-size: 25px;
+    color: $black;
+    cursor: pointer;
+}
+.doc-viewer-breadcrumbs-container{
+    padding: 10px 0;
+}
+.doc-viewer-breadcrumbs{
+    margin: 0;
+    padding: 0;
+    li{
+        display: inline-block;
+        &:after{
+            content: ' /';
+            margin: 0 5px;
+        }
+        &:last-child{
+            &:after{
+                content: none;
+            }
+        }
+    }
+    a{
+        color: $blue;
+        text-decoration: none;
+    }
+}
+.doc-viewer-section{
+    margin: 0px 0 40px;
+    // border-bottom: 1px solid $light-grey;
+}
+.doc-viewer-section-title{
+    font-size: 10px;
+    color: $dark-grey;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.doc-viewer-item{
+    margin-bottom: 20px;
+}
+.doc-viewer-item-query{
+    position: relative;
+    padding-left: 10px;
+    &:before{
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 0;
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 2px;
+        background-color: $green;
+        vertical-align: middle;
+    }
+}
+.doc-viewer-item-field{
+    color: $blue;
+}
+.doc-viewer-item-type{
+    color: $green;
+    font-size: 13px;
+}
+.doc-viewer-item-query-type{
+    background: rgba($green, .05);
+    padding: 3px;
+    border-radius: 3px;
+}
+.doc-viewer-item-query-inner{
+    margin-bottom: 1px;
+}
+.doc-viewer-item-query-description{
+    font-size: 13px;
+    // font-style: italic;
+    color: $dark-grey;
+}

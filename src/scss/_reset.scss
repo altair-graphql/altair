@@ -19,6 +19,10 @@ input[type="text"], input[type="search"]{
         outline: 0;
     }
 }
+a{
+    color: $blue;
+    text-decoration: none;
+}
 .wrapper{
     display: flex;
     flex-direction: column;

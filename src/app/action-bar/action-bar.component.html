@@ -1,0 +1,12 @@
+<div class="app-actions-container">
+    <button class="app-button" (click)="this.sendRequest.next()">
+        <span>Send Request</span>
+    </button>
+    <button class="app-button" (click)="this.prettifyCode()">
+        Prettify
+    </button>
+    <button class="app-button" (click)="this.toggleHeaderDialog.next()">Set headers</button>
+    <div class="actions-right right">
+        <button class="app-button" (click)="toggleResult.next()" [ngClass]="{'active-grey': !showResult}">Show docs</button>
+    </div>
+</div>

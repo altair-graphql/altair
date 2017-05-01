@@ -15,6 +15,7 @@ $dialog-z-index: 10;
 
 @import "scss/reset";
 @import "scss/helpers";
+@import "scss/globals";
 @import "scss/buttons";
 @import "scss/loading-screen";
 
@@ -25,3 +26,4 @@ $dialog-z-index: 10;
 @import "scss/editor";
 
 @import "app/app.component";
+@import "app/doc-viewer/doc-viewer.component";
