@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DocViewerItemQueryDetailsComponent implements OnInit {
 
-  @Input() queryData = {};
+  @Input() queryData = <any>{};
 
   constructor() { }
 
