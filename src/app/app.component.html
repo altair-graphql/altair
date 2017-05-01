@@ -12,13 +12,16 @@
       </div>
       <div class="app-url-container">
         <input type="text" class="app-url-input" placeholder="Enter URL"
-          [value]="apiUrl" (input)="apiUrl=$event.target.value" (blur)="setApiUrl($event)"
+          [(ngModel)]="apiUrl" (blur)="setApiUrl($event)"
         >
       </div>
       <div class="app-url-actions">
         <button class="app-url-button"
           (click)="setApiUrl($event)"
         >Set URL</button>
+      </div>
+      <div class="app-url-alert" *ngIf="showUrlAlert">
+        &#10003; URL has been set!
       </div>
     </div>
   </header>

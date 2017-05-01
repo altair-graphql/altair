@@ -71,6 +71,15 @@
         color: $white;
     }
 }
+.app-url-alert{
+    position: absolute;
+    color: $green;
+    background: $white;
+    padding: 10px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 .app-actions-container{
     @include clearfix;

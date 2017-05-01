@@ -21,6 +21,8 @@ export class AppComponent {
   introspectionResult = {};
   gqlSchema = null;
 
+  showUrlAlert = false;
+
   isLoading = false;
 
   constructor(
@@ -49,6 +51,10 @@ export class AppComponent {
 
   setApiUrl($event) {
     this.gql.setUrl(this.apiUrl);
+    this.showUrlAlert = true;
+    setTimeout(() => {
+      this.showUrlAlert = false;
+    }, 3000);
   }
 
   sendRequest() {
