@@ -7,7 +7,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 })
 export class DocViewerItemQueriesComponent implements OnInit {
 
-  @Input() queries = {};
+  @Input() queries = <any>{};
   @Output() goToDocItemChange = new EventEmitter();
 
 
