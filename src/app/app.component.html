@@ -27,6 +27,7 @@
   </header>
   <app-action-bar
       (toggleHeaderDialog)="toggleHeader()"
+      (toggleVariableDialog)="toggleVariableDialog()"
       (prettifyCodeChange)="queryEditor.prettifyCode()"
       (sendRequest)="sendRequest()"
       (toggleResult)="toggleResult()"
@@ -50,29 +51,35 @@
       (toggleResult)="toggleResult()"
     ></app-doc-viewer>
   </main>
-  <div class="dialogs" [ngClass]="{ 'hide': !showHeaderDialog }" >
-    <div class="app-dialog set-header-dialog">
-      <div class="app-dialog-header">
-        <div class="app-dialog-title">Headers</div>
-        Add, edit and remove headers in your request
-      </div>
-      <div class="app-dialog-body">
-        <div class="set-header-input-container" *ngFor="let header of headers; let i = index">
-          <div class="set-header-input-column">
-            <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+  <div class="dialogs">
+    <div class="set-header-dialog-wrapper" [ngClass]="{ 'hide': !showHeaderDialog }">
+      <div class="app-dialog set-header-dialog">
+        <div class="app-dialog-header">
+          <div class="app-dialog-title">Headers</div>
+          Add, edit and remove headers in your request
+        </div>
+        <div class="app-dialog-body">
+          <div class="set-header-input-container" *ngFor="let header of headers; let i = index">
+            <div class="set-header-input-column">
+              <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+            </div>
+            <div class="set-header-input-column">
+              <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
+            </div>
+            <button class="header-input-remove-button" (click)="removeHeader(i)" >&times;</button>
           </div>
-          <div class="set-header-input-column">
-            <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
-          </div>
-          <button class="header-input-remove-button" (click)="removeHeader(i)" >&times;</button>
+        </div>
+        <div class="app-dialog-footer">
+          <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
+          <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
         </div>
       </div>
-      <div class="app-dialog-footer">
-        <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
-        <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
-      </div>
+      <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
     </div>
-    <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
+    <app-set-variable-dialog
+      [showVariableDialog]="showVariableDialog"
+      (toggleVariableDialog)="toggleVariableDialog()"
+    ></app-set-variable-dialog>
   </div>
 </div>
 

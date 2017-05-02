@@ -15,6 +15,7 @@ export class ActionBarComponent implements OnInit {
 
   @Input() showResult;
   @Output() toggleHeaderDialog = new EventEmitter();
+  @Output() toggleVariableDialog = new EventEmitter();
   @Output() toggleResult = new EventEmitter();
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();

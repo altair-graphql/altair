@@ -14,6 +14,7 @@ import { KeysPipe } from './keys.pipe';
 import { DocViewerItemQueriesComponent } from './doc-viewer-item-queries/doc-viewer-item-queries.component';
 import { DocViewerItemQueryDetailsComponent } from './doc-viewer-item-query-details/doc-viewer-item-query-details.component';
 import { ActionBarComponent } from './action-bar/action-bar.component';
+import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
 
 export function mapValuesToArray(obj: any): Array<any> {
     return Object.keys(obj).map(function(key){
@@ -39,7 +40,8 @@ const providers = [
     KeysPipe,
     DocViewerItemQueriesComponent,
     DocViewerItemQueryDetailsComponent,
-    ActionBarComponent
+    ActionBarComponent,
+    SetVariableDialogComponent
   ],
   imports: [
     BrowserModule,

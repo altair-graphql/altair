@@ -23,6 +23,7 @@ export interface State {
     showHeaderDialog: boolean;
     showResult: boolean;
     headers: Array<Header>;
+    variables: Array<any>;
     introspectionResult: object;
     gqlSchema: object;
 }
@@ -38,18 +39,21 @@ const defaultState: State = {
         {key: '', value: ''},
         {key: '', value: ''},
     ],
+    variables: [
+        {key: '', value: ''},
+    ],
     introspectionResult: {},
     gqlSchema: null
-}
+};
 
 const _store = new BehaviorSubject<State>(defaultState);
 
 @Injectable()
 export class Store {
     private store = _store;
-    changes = this.store.asObservable().distinctUntilChanged()
+    changes = this.store.asObservable().distinctUntilChanged();
 
-    setState(state: State){
+    setState(state: State) {
         this.store.next(state);
     }
 
@@ -57,7 +61,7 @@ export class Store {
         return this.store.value;
     }
 
-    purge(){
+    purge() {
         this.store.next(defaultState);
     }
 }

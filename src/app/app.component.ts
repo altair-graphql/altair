@@ -16,8 +16,10 @@ export class AppComponent {
   query = '';
   queryResult = '';
   showHeaderDialog = false;
+  showVariableDialog = false;
   showResult = false;
   headers = [];
+  variables = [];
   introspectionResult = {};
   gqlSchema = null;
 
@@ -43,6 +45,7 @@ export class AppComponent {
         this.showResult = data.showResult;
         this.introspectionResult = data.introspectionResult;
         this.gqlSchema = data.gqlSchema;
+        this.variables = data.variables;
       });
 
     this.storeHelper.update('apiUrl', this.gql.getUrl());
@@ -59,7 +62,7 @@ export class AppComponent {
 
   sendRequest() {
     this.isLoading = true;
-    this.gql.send(this.query)
+    this.gql.send(this.query, this.getVariablesObj())
       .subscribe(data => {
         this.isLoading = false;
         this.storeHelper.update('queryResult', data);
@@ -72,6 +75,18 @@ export class AppComponent {
       );
   }
 
+  getVariablesObj() {
+    const vars = {};
+
+    this.variables.forEach(v => {
+      if (v.key && v.value) {
+        vars[v.key] = JSON.parse(v.value);
+      }
+    });
+
+    return vars;
+  }
+
   updateQuery(query) {
     this.storeHelper.update('query', query);
     localStorage.setItem('altair:query', query);
@@ -79,6 +94,10 @@ export class AppComponent {
 
   toggleHeader() {
     this.storeHelper.update('showHeaderDialog', !this.showHeaderDialog);
+  }
+
+  toggleVariableDialog() {
+    this.showVariableDialog = !this.showVariableDialog;
   }
 
   toggleResult() {
@@ -90,6 +109,7 @@ export class AppComponent {
       key: '',
       value: ''
     });
+    this.storeHelper.update('headers', this.headers);
   }
 
   headerKeyChange($event, i) {

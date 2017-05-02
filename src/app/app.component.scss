@@ -193,18 +193,21 @@ app-query-result{
     text-transform: uppercase;
 }
 
-.set-header-input-container{
+.set-header-input-container,
+.set-variable-input-container{
     display: flex;
     flex: 1;
     margin: 0 -10px;
     margin-bottom: 30px;
 }
-.set-header-input-column{
+.set-header-input-column,
+.set-variable-input-column{
     max-width: 50%;
     flex: 1;
     padding: 0 10px;
 }
-.set-header-input{
+.set-header-input,
+.set-variable-input{
     font-size: 14px;
     padding: 5px 0;
     border: none;
@@ -214,7 +217,8 @@ app-query-result{
         border-color: $green;
     }
 }
-.header-input-remove-button{
+.header-input-remove-button,
+.variable-input-remove-button{
     font-size: 16px;
     background: transparent;
     border: none;
