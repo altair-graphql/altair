@@ -13,9 +13,6 @@
     img{
         vertical-align: middle;
     }
-    span{
-        // vertical-align: middle;
-    }
     &:hover{
         background: $light-grey;
     }
@@ -28,5 +25,8 @@
     &.active-primary{
         background: $green;
         color: $white;
+        &:hover{
+            background: lighten($green, 5%);
+        }
     }
 }
