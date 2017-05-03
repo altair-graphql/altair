@@ -12,7 +12,7 @@
       </div>
       <div class="app-url-container">
         <input type="text" class="app-url-input" placeholder="Enter URL"
-          [(ngModel)]="apiUrl" (blur)="setApiUrl($event)"
+          [(ngModel)]="apiUrl" (blur)="setApiUrl($event)" (keyup.enter)="setApiUrl($event)"
         >
       </div>
       <div class="app-url-actions">
