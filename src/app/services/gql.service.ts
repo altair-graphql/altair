@@ -89,7 +89,7 @@ export class GqlService {
   setHeaders(headers?) {
     const newHeaders = new Headers(this.defaultHeaders);
 
-    if(headers){
+    if (headers) {
       headers.forEach(header => {
         if (header.key && header.value) {
           newHeaders.set(header.key, header.value);
