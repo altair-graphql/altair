@@ -21,8 +21,10 @@ export class DocViewerComponent implements OnChanges {
     rootTypes: [],
     queries: {},
     mutations: {},
-    types: []
+    types: {}
   };
+
+  docHistory = [];
 
   // currentDocView = {
   //   section: 'queryDetail',
@@ -49,7 +51,8 @@ export class DocViewerComponent implements OnChanges {
     this.docsData.rootTypes = [];
     this.docsData.queries = {};
     this.docsData.mutations = {};
-    this.docsData.types = [];
+    this.docsData.types = schema._typeMap;
+    // this.docsData.types.__proto__ = Object.create({});
 
     if (schema._queryType) {
       this.docsData.rootTypes.push({
@@ -104,8 +107,31 @@ export class DocViewerComponent implements OnChanges {
     return queries;
   }
 
-  goToDocItem(routeObj) {
-    console.log(routeObj);
+  /**
+   * Transform an object into an array
+   * @param obj
+   */
+  objToArr(obj: any) {
+    const arr = [];
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        arr.push(obj[key]);
+      }
+    }
+    return arr;
+  }
+
+  goToDocItem(routeObj, historyIndex) {
+    if (historyIndex !== undefined) {
+      this.docHistory.splice(historyIndex);
+    }
+
+    if (routeObj.itemName) {
+    routeObj.itemName = routeObj.itemName.replace(/[\[\]!]/g, '');
+    }
     this.currentDocView = routeObj;
+
+    this.docHistory.push(routeObj);
+    console.log(this.docHistory);
   }
 }

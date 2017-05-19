@@ -3,10 +3,12 @@
     <span class="doc-viewer-close" (click)="toggleResult.next()">&times;</span>
     <div class="doc-viewer-breadcrumbs-container">
       <ul class="doc-viewer-breadcrumbs" [ngSwitch]="currentDocView.section">
-        <li><span class="no-link-link" (click)="goToDocItem({ section: 'rootTypes' })">Home</span></li>
-        <li *ngSwitchCase="'queries' || 'queryDetail'"><span class="no-link-link" (click)="goToDocItem({ section: 'queries' })">Queries</span></li>
-        <li *ngSwitchCase="'mutations' || 'queryDetail'"><span class="no-link-link" (click)="goToDocItem({ section: 'mutations' })">Mutations</span></li>
-        <li *ngSwitchCase="'queryDetail'"><span class="no-link-link">{{ currentDocView.itemName }}</span></li>
+        <li><span class="no-link-link" (click)="goToDocItem({ section: 'rootTypes' }, 0)">Home</span></li>
+        <li *ngSwitchCase="'queries'"><span class="no-link-link" (click)="goToDocItem({ section: 'queries' }, 1)">Queries</span></li>
+        <li *ngSwitchCase="'mutations'"><span class="no-link-link" (click)="goToDocItem({ section: 'mutations' }, 1)">Mutations</span></li>
+        <li *ngFor="let history of docHistory; let i = index;">
+          <span class="no-link-link" (click)="goToDocItem(history, i)">{{ history.itemName }}</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -32,6 +34,13 @@
       <ng-container *ngSwitchCase="'queryDetail'">
         <app-doc-viewer-item-query-details
           [queryData]="docsData[currentDocView.parentName][currentDocView.itemName]"
+          (goToDocItemChange)="goToDocItem($event)"
+        ></app-doc-viewer-item-query-details>
+      </ng-container>
+      <ng-container *ngSwitchCase="'queryType'">
+        <app-doc-viewer-item-query-details
+          [queryData]="docsData.types[currentDocView.itemName]"
+          (goToDocItemChange)="goToDocItem($event)"
         ></app-doc-viewer-item-query-details>
       </ng-container>
     </div>
