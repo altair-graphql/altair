@@ -14,7 +14,7 @@ export class ApiService {
         Accept: 'application/json'
     });
 
-    api_url = 'https://api.konga.com/v1/graphql';
+    api_url = '';
 
     constructor(private http: Http){
 
