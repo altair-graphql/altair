@@ -69,7 +69,7 @@ export class AppComponent {
       },
         error => {
           this.isLoading = false;
-          const _output = error._body || error.json().error || 'Server Error';
+          const _output = error.json().error || error.toString() || 'Server Error';
           this.storeHelper.update('queryResult', _output);
         }
       );
