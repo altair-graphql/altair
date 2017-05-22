@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-doc-viewer-item-query-details',
@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DocViewerItemQueryDetailsComponent implements OnInit {
 
   @Input() queryData = <any>{};
+  @Output() goToDocItemChange = new EventEmitter();
 
   constructor() { }
 
@@ -26,5 +27,9 @@ export class DocViewerItemQueryDetailsComponent implements OnInit {
       }
     }
     return arr;
+  }
+
+  goToDocItem(routeObj) {
+    this.goToDocItemChange.next(routeObj);
   }
 }
