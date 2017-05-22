@@ -1,7 +1,10 @@
 <div class="app-doc-viewer">
   <div class="doc-viewer-header">
     <span class="doc-viewer-close" (click)="toggleResult.next()">&times;</span>
-    <div class="doc-viewer-breadcrumbs-container">
+    <div class="doc-viewer-back-link" (click)="goBack()" *ngIf="currentDocView.section !== 'rootTypes'">
+      &#8592; Back
+    </div>
+    <div class="doc-viewer-breadcrumbs-container hide">
       <ul class="doc-viewer-breadcrumbs" [ngSwitch]="currentDocView.section">
         <li><span class="no-link-link" (click)="goToDocItem({ section: 'rootTypes' }, 0)">Home</span></li>
         <li *ngSwitchCase="'queries'"><span class="no-link-link" (click)="goToDocItem({ section: 'queries' }, 1)">Queries</span></li>

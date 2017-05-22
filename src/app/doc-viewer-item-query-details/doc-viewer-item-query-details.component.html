@@ -12,8 +12,12 @@
   <div class="doc-viewer-section-title">Arguments</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of queryData.args">
     <div class="doc-viewer-item-query-inner">
-      <span class="no-link-link">{{ arg.name }}</span>
-      <span class="doc-viewer-item-type doc-viewer-item-query-type">{{ arg.type.inspect() }}</span>
+      <span class="no-link-link"
+       (click)="goToDocItem({section: 'queryType', itemName: arg.type.inspect() })"
+      >{{ arg.name }}</span>
+      <span class="doc-viewer-item-type doc-viewer-item-query-type"
+       (click)="goToDocItem({section: 'queryType', itemName: arg.type.inspect() })"
+      >{{ arg.type.inspect() }}</span>
     </div>
     <div class="doc-viewer-item-query-description">
       {{ arg.description }}
@@ -24,7 +28,9 @@
   <div class="doc-viewer-section-title">Fields</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(queryData._fields || queryData.type && queryData.type._fields)">
     <div class="doc-viewer-item-query-inner">
-      <span class="no-link-link">{{ item.name }}</span>
+      <span class="no-link-link"
+       (click)="goToDocItem({section: 'queryType', itemName: item.type.inspect() })"
+      >{{ item.name }}</span>
       <span
         class="doc-viewer-item-type doc-viewer-item-query-type"
         (click)="goToDocItem({section: 'queryType', itemName: item.type.inspect() })"

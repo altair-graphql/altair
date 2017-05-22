@@ -129,9 +129,17 @@ export class DocViewerComponent implements OnChanges {
     if (routeObj.itemName) {
     routeObj.itemName = routeObj.itemName.replace(/[\[\]!]/g, '');
     }
+    this.docHistory.push(this.currentDocView);
     this.currentDocView = routeObj;
+  }
 
-    this.docHistory.push(routeObj);
+  /**
+   * Go back through the doc history
+   */
+  goBack() {
     console.log(this.docHistory);
+    if (this.docHistory.length) {
+      this.currentDocView = this.docHistory.pop();
+    }
   }
 }
