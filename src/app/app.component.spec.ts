@@ -6,9 +6,18 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import * as services from './services';
 import { Store } from './store';
-import { AppComponent } from './app.component';
+
+
+import { CodemirrorModule } from 'ng2-codemirror';
+
+import { DocViewerModule } from './doc-viewer/doc-viewer.module';
+
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
+import { KeysPipe } from './keys.pipe';
+import { ActionBarComponent } from './action-bar/action-bar.component';
+import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -23,12 +32,17 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         QueryEditorComponent,
-        QueryResultComponent
+        QueryResultComponent,
+        KeysPipe,
+        ActionBarComponent,
+        SetVariableDialogComponent
       ],
       imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        CodemirrorModule,
+        DocViewerModule
       ],
       providers: providers
     }).compileComponents();

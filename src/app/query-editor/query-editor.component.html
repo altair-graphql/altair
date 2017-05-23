@@ -1,3 +1,8 @@
 <div class="app-query-editor-input-container">
-<textarea class="app-query-editor-input" >{{_query}}</textarea>
+    <codemirror
+     class="app-query-editor-input"
+     [(ngModel)]="query"
+     (ngModelChange)="queryChange.emit($event)"
+     [config]="editorConfig"
+    ></codemirror>
 </div>
