@@ -6,7 +6,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -28,8 +29,6 @@ import 'codemirror-graphql/jump';
 
 import { marked } from 'marked';
 
-import { initialQuery } from './initialQuery';
-
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
 @Component({
@@ -41,63 +40,72 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
 
-  _query = localStorage.getItem('altair:query');
   @Output() queryChange = new EventEmitter<string>();
-  @Input()
-  public set initialQuery(val: string){
-    if (!val) {
-      val = initialQuery;
-    }
-    this._query = val;
-    if (this.codeEditor) {
-      this.codeEditor.setValue(val);
-    }
-  }
+  @Input() query;
 
-  codeEditor = null;
   @Input() gqlSchema = null;
 
-  constructor() { }
+  @ViewChild('editor') editor;
 
-  ngAfterViewInit() {
-    const editorTextArea = document.querySelector('.app-query-editor-input');
-    const editorOptions = <any>{
-      mode: 'graphql',
-      lineWrapping: true,
-      lineNumbers: true,
-      foldGutter: true,
-      tabSize: 2,
-      extraKeys: {
-        'Cmd-Enter': (cm) => this.sendRequest.next(cm),
-        'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
-        'Ctrl-Space': () => this.codeEditor.showHint({ completeSingle: true })
-      },
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-      autoCloseBrackets: true,
-      matchBrackets: true,
-      lint: {},
-      hintOptions: {},
-      info: {},
-      jump: {}
-    };
+  editorConfig = <any>{
+    mode: 'graphql',
+    lineWrapping: true,
+    lineNumbers: true,
+    foldGutter: true,
+    tabSize: 2,
+    extraKeys: {
+      'Cmd-Enter': (cm) => this.sendRequest.next(cm),
+      'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
+      'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true })
+    },
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: {},
+    hintOptions: {},
+    info: {},
+    jump: {}
+  };
 
+  constructor() {
     if (this.gqlSchema) {
-      editorOptions.lint = {};
-      editorOptions.hintOptions = {
+      this.editorConfig.lint = {};
+      this.editorConfig.hintOptions = {
         completeSingle: false
       };
-      editorOptions.info = {
+      this.editorConfig.info = {
         renderDescription: text => {
           return marked(text, { sanitize: true });
         }
       };
-      editorOptions.jump = {};
-    }
-    this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
-    this.codeEditor.on('change', e => this.update(e));
-    this.codeEditor.on('keyup', (cm, event) => this.onKeyUp(cm, event));
-    if (this.gqlSchema) {
+      this.editorConfig.jump = {};
+
       this.updateEditorSchema(this.gqlSchema);
+    }
+  }
+
+  ngAfterViewInit() {
+
+    // if (this.gqlSchema) {
+    //   editorOptions.lint = {};
+    //   editorOptions.hintOptions = {
+    //     completeSingle: false
+    //   };
+    //   editorOptions.info = {
+    //     renderDescription: text => {
+    //       return marked(text, { sanitize: true });
+    //     }
+    //   };
+    //   editorOptions.jump = {};
+    // }
+    // this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
+    // this.codeEditor.on('change', e => this.update(e));
+    // this.codeEditor.on('keyup', (cm, event) => this.onKeyUp(cm, event));
+    // if (this.gqlSchema) {
+    //   this.updateEditorSchema(this.gqlSchema);
+    // }
+    if (this.editor) {
+      this.editor.instance.on('keyup', (cm, event) => this.onKeyUp(cm, event));
     }
   }
 
@@ -115,7 +123,7 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
    * @param event
    */
   update($event) {
-    this.queryChange.next(this.codeEditor.getValue());
+    // this.queryChange.next(this.codeEditor.getValue());
   }
 
   /**
@@ -125,7 +133,7 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
    */
   onKeyUp(cm, event) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
-      this.codeEditor.execCommand('autocomplete');
+      this.editor.instance.execCommand('autocomplete');
     }
   }
 
@@ -133,12 +141,14 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
    * Formats the query in the editor
    */
   prettifyCode() {
-    this.codeEditor.operation(() => {
-      const len = this.codeEditor.lineCount();
-      for (let i = 0; i < len; i++) {
-        this.codeEditor.indentLine(i);
-      }
-    });
+    if (this.editor) {
+      this.editor.instance.operation(() => {
+        const len = this.editor.instance.lineCount();
+        for (let i = 0; i < len; i++) {
+          this.editor.instance.indentLine(i);
+        }
+      });
+    }
   }
 
   /**
@@ -146,12 +156,12 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
    * @param schema
    */
   updateEditorSchema(schema) {
-    if (schema && this.codeEditor) {
+    if (schema) {
       console.log('Updating schema...', schema);
-      this.codeEditor.options.lint.schema = schema;
-      this.codeEditor.options.hintOptions.schema = schema;
-      this.codeEditor.options.info.schema = schema;
-      this.codeEditor.options.jump.schema = schema;
+      this.editorConfig.lint.schema = schema;
+      this.editorConfig.hintOptions.schema = schema;
+      this.editorConfig.info.schema = schema;
+      this.editorConfig.jump.schema = schema;
     }
   }
 

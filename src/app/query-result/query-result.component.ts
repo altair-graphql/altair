@@ -19,32 +19,21 @@ import 'codemirror/mode/javascript/javascript';
 export class QueryResultComponent implements OnInit {
 
   @Input() showResult = false;
-  _queryResult = '';
-  @Input()
-  public set queryResult(val: string){
-    this._queryResult = val;
-    if (this.codeEditor) {
-      console.log(this.codeEditor);
-      this.codeEditor.setValue(JSON.stringify(val, null, 2));
-      setTimeout(() => this.codeEditor.refresh(), 1);
-    }
-  }
-  codeEditor = null;
+  @Input() queryResult = '';
+
+  resultEditorConfig = {
+    mode: 'javascript',
+    json: true,
+    lineWrapping: true,
+    lineNumbers: true,
+    foldGutter: true,
+    readOnly: true,
+    autoRefresh: true,
+    theme: 'default query-result',
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+  };
 
   constructor() { }
 
-  ngOnInit() {
-    const editorTextArea = document.querySelector('.app-query-result-textarea');
-    this.codeEditor = Codemirror.fromTextArea(editorTextArea, {
-      mode: 'javascript',
-      json: true,
-      lineWrapping: true,
-      lineNumbers: true,
-      foldGutter: true,
-      readOnly: true,
-      autoRefresh: true,
-      theme: 'default query-result',
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
-    });
-  }
+  ngOnInit() {}
 }
