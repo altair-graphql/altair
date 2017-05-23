@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import * as services from '../services';
+import { Store } from '../store';
 import { SetVariableDialogComponent } from './set-variable-dialog.component';
 
 describe('SetVariableDialogComponent', () => {
@@ -8,7 +10,8 @@ describe('SetVariableDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetVariableDialogComponent ]
+      declarations: [ SetVariableDialogComponent ],
+      providers: [ Store, services.StoreHelper]
     })
     .compileComponents();
   }));

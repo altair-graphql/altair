@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule } from '@angular/forms';
+import { CodemirrorModule } from 'ng2-codemirror';
+
 import { QueryEditorComponent } from './query-editor.component';
 
 describe('QueryEditorComponent', () => {
@@ -8,7 +11,11 @@ describe('QueryEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryEditorComponent ]
+      declarations: [ QueryEditorComponent ],
+      imports: [
+        FormsModule,
+        CodemirrorModule
+      ]
     })
     .compileComponents();
   }));
