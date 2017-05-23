@@ -1,3 +1,5 @@
+![Build](https://travis-ci.org/imolorhe/altair.svg?branch=master "Travis CI")
+
 # Altair GraphQL Client
 
 A graphQL client for making graphQL queries to a graphQL server. http://altair-gql.herokuapp.com/
