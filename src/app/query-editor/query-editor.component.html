@@ -1,5 +1,6 @@
 <div class="app-query-editor-input-container">
     <codemirror
+     #editor
      class="app-query-editor-input"
      [(ngModel)]="query"
      (ngModelChange)="queryChange.emit($event)"

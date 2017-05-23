@@ -5,6 +5,8 @@ import { StoreHelper } from './services/store-helper';
 import { GqlService } from './services/gql.service';
 import { graphql } from 'graphql';
 
+import { initialQuery } from './initialQuery';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -32,7 +34,7 @@ export class AppComponent {
     private store: Store,
     private storeHelper: StoreHelper
   ) {
-    this.initialQuery = localStorage.getItem('altair:query');
+    this.initialQuery = localStorage.getItem('altair:query') || initialQuery;
 
     this.store.changes
       .subscribe(data => {
