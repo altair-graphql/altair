@@ -2,12 +2,12 @@
     <button class="app-button active-primary" (click)="this.sendRequest.next()">
         <span>Send Request</span>
     </button>
-    <button class="app-button" (click)="this.prettifyCode()">
+    <button class="app-button" (click)="this.prettifyCodeChange.next()">
         Prettify
     </button>
-    <button class="app-button" (click)="this.toggleHeaderDialog.next()">Set headers</button>
+    <button class="app-button" (click)="this.toggleHeaderDialog.next()">Set Headers</button>
     <button class="app-button" (click)="this.toggleVariableDialog.next()">Set Variables</button>
     <div class="actions-right right">
-        <button class="app-button" (click)="toggleResult.next()" [ngClass]="{'active-grey': !showResult}">Show docs</button>
+        <button class="app-button" (click)="toggleDocs.next()" [ngClass]="{'active-grey': showDocs}">Show Docs</button>
     </div>
 </div>

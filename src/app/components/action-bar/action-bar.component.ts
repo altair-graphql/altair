@@ -2,8 +2,7 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter,
-  OnInit
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -11,22 +10,15 @@ import {
   templateUrl: './action-bar.component.html',
   styleUrls: ['./action-bar.component.scss']
 })
-export class ActionBarComponent implements OnInit {
+export class ActionBarComponent {
 
-  @Input() showResult;
+  @Input() showDocs;
   @Output() toggleHeaderDialog = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
-  @Output() toggleResult = new EventEmitter();
+  @Output() toggleDocs = new EventEmitter();
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
-  prettifyCode() {
-    this.prettifyCodeChange.next();
-  }
 
 }

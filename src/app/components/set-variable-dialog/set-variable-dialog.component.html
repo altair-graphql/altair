@@ -5,18 +5,18 @@
       Add, edit and remove variables in your request
     </div>
     <div class="app-dialog-body">
-      <div class="set-variable-input-container" *ngFor="let variable of variables; let i = index">
+      <div class="set-variable-input-container" *ngFor="let variable of variables; trackBy: trackByFn; let i = index">
         <div class="set-variable-input-column">
-          <input type="text" class="set-variable-input" placeholder="Variable key" value="{{variable.key}}" (input)="variableKeyChange($event, i)">
+          <input type="text" class="set-variable-input" placeholder="Variable key" value="{{variable.key}}" (input)="variableKeyChange.next({ val: $event.target.value, i: i })">
         </div>
         <div class="set-variable-input-column">
-          <input type="text" class="set-variable-input" placeholder="Variable value" value="{{variable.value}}" (input)="variableValueChange($event, i)">
+          <input type="text" class="set-variable-input" placeholder="Variable value" value="{{variable.value}}" (input)="variableValueChange.next({ val: $event.target.value, i: i })">
         </div>
-        <button class="variable-input-remove-button" (click)="removeVariable(i)" >&times;</button>
+        <button class="variable-input-remove-button" (click)="removeVariableChange.next(i)" >&times;</button>
       </div>
     </div>
     <div class="app-dialog-footer">
-      <button class="app-button active-grey left" (click)="addVariable()">Add variable</button>
+      <button class="app-button active-grey left" (click)="addVariableChange.next()">Add variable</button>
       <button class="app-button active-primary right" (click)="toggleVariableDialog.next()">Save</button>
     </div>
   </div>

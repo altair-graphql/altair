@@ -15,7 +15,7 @@ import {
 export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema = null;
-  @Output() toggleResult = new EventEmitter();
+  @Output() toggleDocs = new EventEmitter();
 
   docsData = {
     rootTypes: [],

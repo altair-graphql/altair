@@ -11,8 +11,9 @@
         <img src="/assets/img/logo.svg" alt="">
       </div>
       <div class="app-url-container">
-        <input type="text" class="app-url-input" placeholder="Enter URL"
-          [(ngModel)]="apiUrl" (blur)="setApiUrl($event)" (keyup.enter)="setApiUrl($event)"
+        <input #urlInput type="text" class="app-url-input" placeholder="Enter URL"
+         (blur)="setApiUrl($event)" (keyup.enter)="setApiUrl($event)"
+         [value]="apiUrl"
         >
       </div>
       <div class="app-url-actions">
@@ -28,17 +29,17 @@
   <app-action-bar
       (toggleHeaderDialog)="toggleHeader()"
       (toggleVariableDialog)="toggleVariableDialog()"
-      (prettifyCodeChange)="queryEditor.prettifyCode()"
+      (prettifyCodeChange)="prettifyCode()"
       (sendRequest)="sendRequest()"
-      (toggleResult)="toggleResult()"
-      [showResult]="showResult"
+      (toggleDocs)="toggleDocs()"
+      [showDocs]="showDocs"
   ></app-action-bar>
   <main class="app-main-section">
     <app-query-editor
       #queryEditor
       (queryChange)="updateQuery($event)"
       (sendRequest)="sendRequest()"
-      [query]="initialQuery"
+      [query]="query"
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
     <app-query-result
@@ -47,8 +48,8 @@
     ></app-query-result>
     <app-doc-viewer
       [gqlSchema]="gqlSchema"
-      [ngClass]="{'show-doc': !showResult}"
-      (toggleResult)="toggleResult()"
+      [ngClass]="{'show-doc': showDocs}"
+      (toggleDocs)="toggleDocs()"
     ></app-doc-viewer>
   </main>
   <div class="dialogs">
@@ -59,7 +60,7 @@
           Add, edit and remove headers in your request
         </div>
         <div class="app-dialog-body">
-          <div class="set-header-input-container" *ngFor="let header of headers; let i = index">
+          <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
             <div class="set-header-input-column">
               <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
             </div>
@@ -77,8 +78,13 @@
       <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
     </div>
     <app-set-variable-dialog
+      [variables]="variables"
       [showVariableDialog]="showVariableDialog"
       (toggleVariableDialog)="toggleVariableDialog()"
+      (addVariableChange)="addVariable()"
+      (variableKeyChange)="updateVariableKey($event)"
+      (variableValueChange)="updateVariableValue($event)"
+      (removeVariableChange)="removeVariable($event)"
     ></app-set-variable-dialog>
   </div>
 </div>
