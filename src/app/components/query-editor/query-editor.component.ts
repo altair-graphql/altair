@@ -73,6 +73,7 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
       };
       this.editorConfig.info = {
         renderDescription: text => {
+          console.log('rendering..', text);
           return marked(text, { sanitize: true });
         }
       };

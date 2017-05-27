@@ -12,13 +12,13 @@
       </div>
       <div class="app-url-container">
         <input #urlInput type="text" class="app-url-input" placeholder="Enter URL"
-         (blur)="setApiUrl($event)" (keyup.enter)="setApiUrl($event)"
+         (blur)="setApiUrl()" (keyup.enter)="setApiUrl($event)"
          [value]="apiUrl"
         >
       </div>
       <div class="app-url-actions">
         <button class="app-url-button"
-          (click)="setApiUrl($event)"
+          (click)="setApiUrl()"
         >Set URL</button>
       </div>
       <div class="app-url-alert" *ngIf="showUrlAlert">
@@ -43,7 +43,6 @@
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
     <app-query-result
-      [queryResult]="queryResult"
       [showResult]="showResult"
     ></app-query-result>
     <app-doc-viewer
