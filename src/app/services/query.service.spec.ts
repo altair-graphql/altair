@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
+import { Store } from '@ngrx/store';
+import * as services from './index';
 import { QueryService } from './query.service';
 
 describe('QueryService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QueryService]
+      providers: [
+        QueryService,
+        services.DbService,
+        { provide: Store, useValue: {
+          subscribe: () => {}
+        } }
+      ]
     });
   });
 

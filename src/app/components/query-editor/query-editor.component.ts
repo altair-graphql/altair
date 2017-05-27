@@ -39,10 +39,8 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 export class QueryEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
-
   @Output() queryChange = new EventEmitter<string>();
   @Input() query;
-
   @Input() gqlSchema = null;
 
   @ViewChild('editor') editor;
@@ -85,25 +83,6 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit() {
-
-    // if (this.gqlSchema) {
-    //   editorOptions.lint = {};
-    //   editorOptions.hintOptions = {
-    //     completeSingle: false
-    //   };
-    //   editorOptions.info = {
-    //     renderDescription: text => {
-    //       return marked(text, { sanitize: true });
-    //     }
-    //   };
-    //   editorOptions.jump = {};
-    // }
-    // this.codeEditor = Codemirror.fromTextArea(editorTextArea, editorOptions);
-    // this.codeEditor.on('change', e => this.update(e));
-    // this.codeEditor.on('keyup', (cm, event) => this.onKeyUp(cm, event));
-    // if (this.gqlSchema) {
-    //   this.updateEditorSchema(this.gqlSchema);
-    // }
     if (this.editor) {
       this.editor.instance.on('keyup', (cm, event) => this.onKeyUp(cm, event));
     }
@@ -111,19 +90,9 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
-    if (changes.gqlSchema.currentValue) {
-      // const schema = changes.gqlSchema.currentValue;
-      this.gqlSchema = changes.gqlSchema.currentValue;
+    if (changes && changes.gqlSchema && changes.gqlSchema.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
     }
-  }
-
-  /**
-   * Called when the query in the editor changes
-   * @param event
-   */
-  update($event) {
-    // this.queryChange.next(this.codeEditor.getValue());
   }
 
   /**
@@ -141,14 +110,14 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
    * Formats the query in the editor
    */
   prettifyCode() {
-    if (this.editor) {
-      this.editor.instance.operation(() => {
-        const len = this.editor.instance.lineCount();
-        for (let i = 0; i < len; i++) {
-          this.editor.instance.indentLine(i);
-        }
-      });
-    }
+    // if (this.editor) {
+    //   this.editor.instance.operation(() => {
+    //     const len = this.editor.instance.lineCount();
+    //     for (let i = 0; i < len; i++) {
+    //       this.editor.instance.indentLine(i);
+    //     }
+    //   });
+    // }
   }
 
   /**

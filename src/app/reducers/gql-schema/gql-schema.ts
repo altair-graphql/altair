@@ -20,9 +20,10 @@ const initialState: State = {
 export function gqlSchemaReducer(state = initialState, action: Action): State {
     switch (action.type) {
         case gqlSchema.SET_INTROSPECTION:
-            return state;
+        case gqlSchema.SET_INTROSPECTION_FROM_DB:
+            return Object.assign({}, state, { introspection: action.payload });
         case gqlSchema.SET_SCHEMA:
-            return state;
+            return Object.assign({}, state, { schema: action.payload });
         default:
             return state;
     }

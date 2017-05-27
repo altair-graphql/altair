@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnChanges
+} from '@angular/core';
 
 // Import the codemirror packages
 import Codemirror from 'codemirror';
@@ -16,10 +22,12 @@ import 'codemirror/mode/javascript/javascript';
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss']
 })
-export class QueryResultComponent implements OnInit {
+export class QueryResultComponent implements OnChanges {
 
   @Input() showResult = false;
   @Input() queryResult = '';
+
+  @ViewChild('editor') editor;
 
   resultEditorConfig = {
     mode: 'javascript',
@@ -33,7 +41,13 @@ export class QueryResultComponent implements OnInit {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {}
+  ngOnChanges() {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    if (this.editor.instance) {
+      this.editor.instance.refresh();
+    }
+  }
 }

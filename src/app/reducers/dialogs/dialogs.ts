@@ -2,11 +2,6 @@ import { Action } from '@ngrx/store';
 
 import * as dialogs from '../../actions/dialogs/dialogs';
 
-export interface Variable {
-    key: string;
-    value: string;
-}
-
 export interface State {
     showHeaderDialog: boolean;
     showVariableDialog: boolean;

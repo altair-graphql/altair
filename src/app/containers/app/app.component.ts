@@ -11,9 +11,6 @@ import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
 
-// import { Store } from '../../store';
-import { StoreHelper } from '../../services/store-helper';
-
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
 import { graphql } from 'graphql';
@@ -47,10 +44,8 @@ export class AppComponent {
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
-    private store: Store<fromRoot.State>,
-    private storeHelper: StoreHelper
+    private store: Store<fromRoot.State>
   ) {
-    // this.initialQuery = localStorage.getItem('altair:query');
 
     // this.apiUrl$ = this.store.select(fromRoot.getUrl);
     this.store
@@ -59,57 +54,29 @@ export class AppComponent {
         this.query = data.query.query;
         this.queryResult = data.query.response;
         this.headers = data.headers;
-        // this.gql.setHeaders(data.headers);
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
-        // this.showResult = data.showResult;
         this.introspectionResult = data.schema.introspection;
         this.gqlSchema = data.schema.schema;
         this.variables = data.variables;
         this.showDocs = data.docs.showDocs;
+        this.isLoading = data.layout.isLoading;
+        this.showUrlAlert = data.query.showUrlAlert;
         // console.log(data.query);
       });
 
     this.queryService.loadQuery();
     this.queryService.loadUrl();
+    this.queryService.loadIntrospection();
   }
 
   setApiUrl() {
     const newUrl = this.urlInput.nativeElement.value;
     this.store.dispatch(new queryActions.SetUrlAction(newUrl));
-    // this.gql.setUrl(this.apiUrl);
-    // this.showUrlAlert = true;
-    // setTimeout(() => {
-    //   this.showUrlAlert = false;
-    // }, 3000);
   }
 
   sendRequest() {
     this.store.dispatch(new queryActions.SendQueryRequestAction());
-    // this.isLoading = true;
-    // this.gql.send(this.query, this.getVariablesObj())
-    //   .subscribe(data => {
-    //     this.isLoading = false;
-    //     this.storeHelper.update('queryResult', data);
-    //   },
-    //     error => {
-    //       this.isLoading = false;
-    //       const _output = error.json().error || error.toString() || 'Server Error';
-    //       this.storeHelper.update('queryResult', _output);
-    //     }
-    //   );
-  }
-
-  getVariablesObj() {
-    const vars = {};
-
-    this.variables.forEach(v => {
-      if (v.key && v.value) {
-        vars[v.key] = JSON.parse(v.value);
-      }
-    });
-
-    return vars;
   }
 
   updateQuery(query) {
