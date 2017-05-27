@@ -12,7 +12,7 @@
       </div>
       <div class="app-url-container">
         <input #urlInput type="text" class="app-url-input" placeholder="Enter URL"
-         (blur)="setApiUrl()" (keyup.enter)="setApiUrl($event)"
+         (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
          [value]="apiUrl"
         >
       </div>
@@ -43,7 +43,7 @@
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
     <app-query-result
-      [showResult]="showResult"
+      [queryResult]="queryResult"
     ></app-query-result>
     <app-doc-viewer
       [gqlSchema]="gqlSchema"
