@@ -3,20 +3,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { CodemirrorModule } from 'ng2-codemirror';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { DocViewerModule } from './doc-viewer/doc-viewer.module';
+import { reducer } from './reducers';
 
-import { AppComponent } from './app.component';
+import { QueryEffects } from './effects/query';
+
+import { ComponentModule } from './components';
+import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
+
+import { AppComponent } from './containers/app/app.component';
 
 import * as services from './services';
-import { Store } from './store';
-
-import { QueryEditorComponent } from './query-editor/query-editor.component';
-import { QueryResultComponent } from './query-result/query-result.component';
-import { KeysPipe } from './keys.pipe';
-import { ActionBarComponent } from './action-bar/action-bar.component';
-import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
 
 export function mapValuesToArray(obj: any): Array<any> {
     return Object.keys(obj).map(function(key){
@@ -27,27 +27,25 @@ export function mapValuesToArray(obj: any): Array<any> {
 const servicesArray: Array<any> = mapValuesToArray(services);
 
 const providers = [
-    Store,
     services.ApiService,
     services.GqlService,
-    services.StoreHelper
+    services.DbService,
+    services.QueryService
 ];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    QueryEditorComponent,
-    QueryResultComponent,
-    KeysPipe,
-    ActionBarComponent,
-    SetVariableDialogComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    CodemirrorModule,
-    DocViewerModule
+    ComponentModule,
+    DocViewerModule,
+    StoreModule.provideStore(reducer),
+    EffectsModule.run(QueryEffects),
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: providers,
   bootstrap: [AppComponent]

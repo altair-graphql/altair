@@ -2,9 +2,6 @@ import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { Store } from '../store';
-import { StoreHelper } from './store-helper';
-
 import { buildClientSchema } from 'graphql';
 import { introspectionQuery } from './instrospectionQuery';
 
@@ -20,18 +17,17 @@ export class GqlService {
     'Accept': 'application/json'
   };
 
-  headers: Headers = this.setHeaders();
+  headers: Headers;
 
   private api_url = localStorage.getItem('altair:url');
   introspectionData = {};
 
   constructor(
-    private http: Http,
-    private storeHelper: StoreHelper
+    private http: Http
   ) {
-    this.introspectionData = JSON.parse(localStorage.getItem('altair:introspection'));
-    this.storeHelper.update('introspectionResult', this.introspectionData);
-    this.getIntrospectionSchema(this.introspectionData);
+
+    // Set the default headers on initialization
+    this.setHeaders();
   }
 
   private getJson(res: Response) {
@@ -47,26 +43,6 @@ export class GqlService {
       console.error(err);
       throw err;
     }
-  }
-  get(path: string): Observable<any> {
-    return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
-      .map(this.checkForError)
-      .catch(err => Observable.throw(err))
-      .map(this.getJson);
-  }
-
-  post(path: string, body): Observable<any> {
-    return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
-      .map(this.checkForError)
-      .catch(err => Observable.throw(err))
-      .map(this.getJson);
-  }
-
-  delete(path: string): Observable<any> {
-    return this.http.delete(`${this.api_url}${path}`, { headers: this.headers })
-      .map(this.checkForError)
-      .catch(err => Observable.throw(err))
-      .map(this.getJson);
   }
 
   send(query, vars?) {
@@ -98,7 +74,7 @@ export class GqlService {
     }
 
     this.headers = newHeaders;
-    return newHeaders;
+    return this;
   }
 
   getUrl() {
@@ -107,20 +83,17 @@ export class GqlService {
 
   setUrl(url) {
     this.api_url = url;
-    localStorage.setItem('altair:url', this.api_url);
-    this.storeHelper.update('apiUrl', url);
-    if (this.api_url) {
-      this.getIntrospectionRequest();
-    }
+    return this;
   }
 
-  getIntrospectionRequest() {
-    this.send(introspectionQuery).subscribe(data => {
+  getIntrospectionRequest(url): Observable<any> {
+    const currentApiUrl = this.api_url;
+
+    this.api_url = url;
+    return this.send(introspectionQuery).map(data => {
       console.log('introspection', data.data);
-      this.storeHelper.update('introspectionResult', data.data);
-      localStorage.setItem('altair:introspection', JSON.stringify(data.data));
-      this.getIntrospectionSchema(data.data);
-    });
+      return data.data;
+    }).do(() => this.api_url = currentApiUrl);
   }
 
   getIntrospectionData() {
@@ -130,7 +103,6 @@ export class GqlService {
   getIntrospectionSchema(data) {
     if (data) {
       const schema = buildClientSchema(data);
-      this.storeHelper.update('gqlSchema', schema);
       return schema;
     }
     return null;
