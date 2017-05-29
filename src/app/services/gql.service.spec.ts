@@ -4,13 +4,12 @@ import { HttpModule } from '@angular/http';
 
 import { GqlService } from './gql.service';
 import * as services from '../services';
-import { Store } from '../store';
 
 describe('GqlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
-      providers: [GqlService, Store, services.StoreHelper]
+      providers: [GqlService]
     });
   });
 

@@ -16,7 +16,7 @@ export class ApiService {
 
     api_url = '';
 
-    constructor(private http: Http){
+    constructor(private http: Http) {
 
     }
 
@@ -34,33 +34,33 @@ export class ApiService {
             throw err;
         }
     }
-    get(path: string): Observable<any>{
+    get(path: string): Observable<any> {
         return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
             .map(this.checkForError)
             .catch(err => Observable.throw(err))
             .map(this.getJson);
     }
 
-    post(path: string, body): Observable<any>{
+    post(path: string, body): Observable<any> {
         return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
             .map(this.checkForError)
             .catch(err => Observable.throw(err))
             .map(this.getJson);
     }
 
-    delete(path: string): Observable<any>{
+    delete(path: string): Observable<any> {
         return this.http.delete(`${this.api_url}${path}`, { headers: this.headers })
             .map(this.checkForError)
             .catch(err => Observable.throw(err))
             .map(this.getJson);
     }
 
-    setHeaders(headers){
+    setHeaders(headers) {
         Object.keys(headers)
             .forEach(header => this.headers.set(header, headers[header]));
     }
 
-    setUrl(url){
+    setUrl(url) {
         this.api_url = url;
     }
 }
