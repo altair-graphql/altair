@@ -12,7 +12,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "npm run build",
-    "build-electron": "npm run build && ./electron/fix-base-path.sh && ./node_modules/.bin/electron .",
+    "electron": "npm run build && ./electron/fix-base-path.sh && ./node_modules/.bin/electron .",
+    "build-electron": "./bin/package_electron_app.sh",
     "build-ext": "npm run build && ./bin/chrome_ext.sh"
   },
   "engines": {
