@@ -8,8 +8,8 @@ if (environment.production) {
   enableProdMode();
 }
 
-const electron = window['require']('electron');
-if (window['process'].versions['electron']) {
+if (window['process'] && window['process'].versions['electron']) {
+  const electron = window['require']('electron');
   console.log('In electron app.');
   // Register the altair URL scheme in the electron app
   electron.webFrame.registerURLSchemeAsPrivileged('altair');
