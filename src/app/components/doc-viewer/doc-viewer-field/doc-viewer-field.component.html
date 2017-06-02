@@ -11,7 +11,7 @@
 </div>
 
 <!--Field arguments-->
-<div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args.length">
+<div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
   <div class="doc-viewer-section-title">Arguments</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args">
     <div class="doc-viewer-item-query-inner">
@@ -33,8 +33,9 @@
   </div>
 </div>
 <!--Field type-->
-<app-doc-viewer-type
-  *ngIf="gqlSchema.getType(cleanName(data.type.inspect()))"
-  [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
-  (goToFieldChange)="goToField($event.name, $event.parentType)"
-></app-doc-viewer-type>
+<ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
+  <app-doc-viewer-type
+    [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
+    (goToFieldChange)="goToField($event.name, $event.parentType)"
+  ></app-doc-viewer-type>
+</ng-container>
