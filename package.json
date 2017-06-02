@@ -9,6 +9,7 @@
     "start:prod": "node server",
     "build": "ng build -prod --aot",
     "test": "ng test",
+    "test-build": "ng lint && npm run build && karma start karma.conf.js --single-run",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "npm run build",
@@ -45,6 +46,7 @@
     "marked": "^0.3.6",
     "ng2-codemirror": "^1.1.2",
     "rxjs": "^5.1.0",
+    "valid-url": "^1.0.9",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

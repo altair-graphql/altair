@@ -3,6 +3,8 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
+import * as validUrl from 'valid-url';
+
 import { GqlService } from '../services/gql.service';
 import { QueryService } from '../services/query.service';
 import * as fromRoot from '../reducers';
@@ -27,6 +29,10 @@ export class QueryEffects {
             this.store.dispatch(new layoutActions.StartLoadingAction());
         })
         .switchMap(data => {
+            // If the URL is not set or is invalid, just return
+            if (!data.query.url || !validUrl.isUri(data.query.url)) {
+                return Observable.empty();
+            }
 
             return this.gqlService
                 .setUrl(data.query.url)
@@ -49,8 +55,18 @@ export class QueryEffects {
     // Shows the URL set alert after the URL is set
     showUrlSetAlert$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .do(() => {
-            this.store.dispatch(new queryActions.ShowUrlAlertAction());
+        .map(toPayload)
+        .do((url) => {
+            const opts = {
+                message: 'URL has been set',
+                success: true
+            };
+            // If the URL is not valid
+            if (!validUrl.isUri(url)) {
+                opts.message = 'The URL is invalid!';
+                opts.success = false;
+            }
+            this.store.dispatch(new queryActions.ShowUrlAlertAction(opts));
         })
         .switchMap(() => {
             return Observable.timer(3000)

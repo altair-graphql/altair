@@ -9,13 +9,17 @@ export interface State {
     query: string;
     response: any;
     showUrlAlert: boolean;
+    urlAlertMessage: string;
+    urlAlertSuccess: boolean;
 }
 
 const initialState: State = {
     url: '',
     query: initialQuery,
     response: null,
-    showUrlAlert: false
+    showUrlAlert: false,
+    urlAlertMessage: 'URL has been set',
+    urlAlertSuccess: true
 };
 
 export function queryReducer(state = initialState, action: Action): State {
@@ -29,7 +33,11 @@ export function queryReducer(state = initialState, action: Action): State {
         case query.SET_QUERY_RESULT:
             return Object.assign({}, state, { response: action.payload });
         case query.SHOW_URL_ALERT:
-            return Object.assign({}, state, { showUrlAlert: true });
+            return Object.assign({}, state, {
+                showUrlAlert: true,
+                urlAlertMessage: action.payload.message,
+                urlAlertSuccess: action.payload.success
+            });
         case query.HIDE_URL_ALERT:
             return Object.assign({}, state, { showUrlAlert: false });
         default:
