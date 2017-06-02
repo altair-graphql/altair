@@ -91,6 +91,9 @@ app-doc-viewer{
     color: $green;
     font-size: 13px;
 }
+.doc-viewer-item-value{
+    font-size: 12px;
+}
 .doc-viewer-item-query-type{
     background: rgba($green, .05);
     padding: 3px;
