@@ -36,7 +36,7 @@
       >
         {{ item.name }}
       </span>
-      <ng-container *ngIf="item.args.length">
+      <ng-container *ngIf="item.args && item.args.length">
         (
         <span *ngFor="let arg of item.args; let last = last">
           <span
@@ -44,7 +44,7 @@
            (click)="goToType(arg.type.inspect())"
           >
             {{ arg.name }}
-            <span class="doc-viewer-item-value" *ngIf="arg.defaultValue">= {{ arg.defaultValue }}</span>
+            <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
           </span>
           <span
            class="doc-viewer-item-type no-link-link"
@@ -54,7 +54,7 @@
         )
       </ng-container>
       <span
-        class="doc-viewer-item-type doc-viewer-item-query-type"
+        class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
         (click)="goToType(item.type.inspect())"
       >
         {{ item.type.inspect() }}

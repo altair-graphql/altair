@@ -104,7 +104,6 @@ export class GqlService {
     if (data) {
       const schema = buildClientSchema(data);
 
-      console.log(schema.getType('Edition').getValues());
       // One type => many fields
       // One field => One type
       return schema;
