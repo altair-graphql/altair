@@ -110,6 +110,21 @@ export class QueryEffects {
 
             return this.gqlService.getIntrospectionRequest(url)
                 .catch(err => {
+                    const errorObj = err.json();
+                    let allowsIntrospection = true;
+
+                    if (errorObj.errors) {
+                        errorObj.errors.forEach(error => {
+                            if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
+                                allowsIntrospection = false;
+                            }
+                        });
+                    }
+
+                    // If the server does not support introspection
+                    if (!allowsIntrospection) {
+                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false));
+                    }
                     return Observable.empty();
                 })
                 .map(introspectionData => {
@@ -117,6 +132,7 @@ export class QueryEffects {
                         return {};
                     }
 
+                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true));
                     return new gqlSchemaActions.SetIntrospectionAction(introspectionData);
                 });
         });

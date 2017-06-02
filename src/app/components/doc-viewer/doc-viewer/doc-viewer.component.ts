@@ -15,6 +15,7 @@ import {
 export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema = null;
+  @Input() allowIntrospection = true;
   @Output() toggleDocs = new EventEmitter();
 
   rootTypes = [];
@@ -31,7 +32,7 @@ export class DocViewerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
-    if (changes.gqlSchema.currentValue) {
+    if (changes.gqlSchema && changes.gqlSchema.currentValue) {
       // const schema = changes.gqlSchema.currentValue;
       this.gqlSchema = changes.gqlSchema.currentValue;
       this.updateDocs(changes.gqlSchema.currentValue);

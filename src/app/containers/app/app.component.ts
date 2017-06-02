@@ -41,6 +41,8 @@ export class AppComponent {
 
   isLoading = false;
 
+  allowIntrospection = true;
+
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
@@ -62,6 +64,7 @@ export class AppComponent {
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
+        this.allowIntrospection = data.schema.allowIntrospection;
         // console.log(data.query);
       });
 
