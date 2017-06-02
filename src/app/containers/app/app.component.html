@@ -21,8 +21,8 @@
           (click)="setApiUrl()"
         >Set URL</button>
       </div>
-      <div class="app-url-alert" *ngIf="showUrlAlert">
-        &#10003; URL has been set!
+      <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !urlAlertSuccess }" *ngIf="showUrlAlert">
+        &#10003; {{ urlAlertMessage }}
       </div>
     </div>
   </header>
