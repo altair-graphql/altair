@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocViewerComponent } from './doc-viewer.component';
 import { DocViewerModule } from '../doc-viewer.module';
-import { DocViewerItemQueryDetailsComponent } from '../doc-viewer-item-query-details/doc-viewer-item-query-details.component';
 
 describe('DocViewerComponent', () => {
   let component: DocViewerComponent;

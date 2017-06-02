@@ -60,4 +60,6 @@ export class HideUrlAlertAction implements Action {
 
 export class ShowUrlAlertAction implements Action {
     readonly type = SHOW_URL_ALERT;
+
+    constructor(public payload: any) {}
 }

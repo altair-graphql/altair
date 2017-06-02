@@ -10,11 +10,13 @@ export interface Variable {
 export interface State {
     introspection: object;
     schema: object;
+    allowIntrospection: boolean;
 }
 
 const initialState: State = {
     introspection: {},
-    schema: null
+    schema: null,
+    allowIntrospection: true
 };
 
 export function gqlSchemaReducer(state = initialState, action: Action): State {
@@ -24,6 +26,8 @@ export function gqlSchemaReducer(state = initialState, action: Action): State {
             return Object.assign({}, state, { introspection: action.payload });
         case gqlSchema.SET_SCHEMA:
             return Object.assign({}, state, { schema: action.payload });
+        case gqlSchema.SET_ALLOW_INTROSPECTION:
+            return Object.assign({}, state, { allowIntrospection: action.payload });
         default:
             return state;
     }

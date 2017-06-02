@@ -1,0 +1,41 @@
+<div class="doc-viewer-section">
+  <!--Field name and description-->
+  <div class="doc-viewer-item doc-viewer-item-field">
+    <div class="doc-viewer-item-query-inner">
+      {{ data.name }}
+    </div>
+    <div class="doc-viewer-item-query-description">
+      {{ data.description }}
+    </div>
+  </div>
+</div>
+
+<!--Field arguments-->
+<div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
+  <div class="doc-viewer-section-title">Arguments</div>
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args">
+    <div class="doc-viewer-item-query-inner">
+      <span class="no-link-link"
+       (click)="goToType(arg.type.inspect())"
+      >
+        {{ arg.name }}
+        <span class="doc-viewer-item-value" *ngIf="arg.defaultValue">= {{ arg.defaultValue }}</span>
+      </span>
+      <span class="doc-viewer-item-type doc-viewer-item-query-type"
+       (click)="goToType(arg.type.inspect())"
+      >
+        {{ arg.type.inspect() }}
+      </span>
+    </div>
+    <div class="doc-viewer-item-query-description">
+      {{ arg.description }}
+    </div>
+  </div>
+</div>
+<!--Field type-->
+<ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
+  <app-doc-viewer-type
+    [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
+    (goToFieldChange)="goToField($event.name, $event.parentType)"
+  ></app-doc-viewer-type>
+</ng-container>

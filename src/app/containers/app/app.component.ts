@@ -38,8 +38,12 @@ export class AppComponent {
   gqlSchema = null;
 
   showUrlAlert = false;
+  urlAlertMessage = '';
+  urlAlertSuccess = false;
 
   isLoading = false;
+
+  allowIntrospection = true;
 
   constructor(
     private queryService: QueryService,
@@ -62,6 +66,9 @@ export class AppComponent {
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
+        this.urlAlertMessage = data.query.urlAlertMessage;
+        this.urlAlertSuccess = data.query.urlAlertSuccess;
+        this.allowIntrospection = data.schema.allowIntrospection;
         // console.log(data.query);
       });
 

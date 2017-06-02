@@ -14,6 +14,13 @@ app-doc-viewer{
         box-shadow: -2px 0 3px -2px rgba($black, .5);
     }
 }
+.app-doc-notice{
+    text-align: center;
+    font-weight: bold;
+    color: $red;
+    font-size: 16px;
+    padding: 70px 30px;
+}
 .app-doc-viewer{
     padding: 20px;
 }
@@ -90,6 +97,9 @@ app-doc-viewer{
 .doc-viewer-item-type{
     color: $green;
     font-size: 13px;
+}
+.doc-viewer-item-value{
+    font-size: 12px;
 }
 .doc-viewer-item-query-type{
     background: rgba($green, .05);
