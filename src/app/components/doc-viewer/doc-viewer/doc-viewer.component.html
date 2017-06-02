@@ -1,4 +1,4 @@
-<div class="app-doc-viewer">
+<div class="app-doc-viewer" *ngIf="allowIntrospection">
   <div class="doc-viewer-header">
     <span class="doc-viewer-close" (click)="toggleDocs.next()">&times;</span>
     <div class="doc-viewer-back-link" (click)="goBack()" *ngIf="docView.view !== 'root'">
@@ -40,4 +40,7 @@
       </ng-container>
     </div>
   </div>
+</div>
+<div class="app-doc-notice" *ngIf="!allowIntrospection">
+  Sorry. The provided server doesn't support introspection.
 </div>
