@@ -13,7 +13,7 @@ import {
 })
 export class DocViewerTypeComponent implements OnInit {
 
-  @Input() data;
+  @Input() data: any = {};
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
 

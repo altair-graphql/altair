@@ -12,7 +12,7 @@ import {
   styleUrls: ['./doc-viewer-field.component.scss']
 })
 export class DocViewerFieldComponent implements OnInit {
-  @Input() data: null;
+  @Input() data: any = {};
   @Input() gqlSchema;
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
