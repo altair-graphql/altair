@@ -17,22 +17,14 @@ export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema = null;
   @Output() toggleDocs = new EventEmitter();
 
-  docsData = {
-    rootTypes: [],
-    queries: {},
-    mutations: {},
-    types: {}
-  };
+  rootTypes = [];
 
   docHistory = [];
 
-  // currentDocView = {
-  //   section: 'queryDetail',
-  //   parentName: 'mutations',
-  //   itemName: 'registerCustomer'
-  // };
-  currentDocView = {
-    section: 'rootTypes',
+  docView = {
+    view: 'root', // type, field, root
+    parentType: 'Query', // used by field views
+    name: 'Conference' // identifies type/field
   };
 
   constructor() { }
@@ -48,63 +40,11 @@ export class DocViewerComponent implements OnChanges {
 
   updateDocs(schema) {
     console.log(schema);
-    this.docsData.rootTypes = [];
-    this.docsData.queries = {};
-    this.docsData.mutations = {};
-    this.docsData.types = schema._typeMap;
-    // this.docsData.types.__proto__ = Object.create({});
-
-    if (schema._queryType) {
-      this.docsData.rootTypes.push({
-        name: 'Queries',
-        key: 'queries',
-        description: schema._queryType.description,
-        type: '',
-        arguments: '',
-        fields: schema._queryType._fields
-      });
-
-      this.docsData.queries = schema._queryType._fields;
-
-      this.docsData.queries = this._updateTypes('queries', this.docsData.queries);
-    }
-
-    if (schema._mutationType) {
-      this.docsData.rootTypes.push({
-        name: 'Mutations',
-        key: 'mutations',
-        description: schema._mutationType.description,
-        type: '',
-        arguments: '',
-        fields: schema._mutationType._fields
-      });
-
-      this.docsData.mutations = schema._mutationType._fields;
-
-      this.docsData.mutations = this._updateTypes('mutations', this.docsData.mutations);
-    }
-  }
-
-  /**
-   * Get the formatted value of the types in a queries object
-   * @param queries
-   */
-  _updateTypes(queryKey, queries) {
-    for (const key in queries) {
-      if (queries.hasOwnProperty(key)) {
-        const curQuery = queries[key];
-        curQuery.typeValue = curQuery.type.inspect();
-        curQuery.key = queryKey;
-
-        curQuery.args.map(v => {
-          const _v = v;
-          _v.typeValue = v.type.inspect();
-          return _v;
-        });
-      }
-    }
-
-    return queries;
+    this.rootTypes = [
+      schema.getQueryType(),
+      schema.getMutationType(),
+      schema.getSubscriptionType()
+    ];
   }
 
   /**
@@ -121,25 +61,37 @@ export class DocViewerComponent implements OnChanges {
     return arr;
   }
 
-  goToDocItem(routeObj, historyIndex) {
-    if (historyIndex !== undefined) {
-      this.docHistory.splice(historyIndex);
-    }
-
-    if (routeObj.itemName) {
-    routeObj.itemName = routeObj.itemName.replace(/[\[\]!]/g, '');
-    }
-    this.docHistory.push(this.currentDocView);
-    this.currentDocView = routeObj;
-  }
-
   /**
    * Go back through the doc history
    */
   goBack() {
-    console.log(this.docHistory);
+    // console.log(this.docHistory);
     if (this.docHistory.length) {
-      this.currentDocView = this.docHistory.pop();
+      this.docView = this.docHistory.pop();
     }
+  }
+
+  /**
+   * Updates the doc view for a particular type
+   * @param name name of type
+   */
+  goToType(name) {
+    this.docHistory.push(Object.assign({}, this.docView));
+    // console.log('Going to type..', name);
+    this.docView.view = 'type';
+    this.docView.name = name.replace(/[\[\]!]/g, '');
+  }
+
+  /**
+   * Updates the doc view for a particular field
+   * @param name name of field
+   * @param parentType name of parent type of field
+   */
+  goToField(name, parentType) {
+    this.docHistory.push(Object.assign({}, this.docView));
+    // console.log('Going to field..', name, parentType);
+    this.docView.view = 'field';
+    this.docView.name = name.replace(/[\[\]!]/g, '');
+    this.docView.parentType = parentType.replace(/[\[\]!]/g, '');
   }
 }
