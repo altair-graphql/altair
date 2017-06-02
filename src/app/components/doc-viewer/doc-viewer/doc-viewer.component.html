@@ -18,7 +18,7 @@
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">
       <ng-container *ngSwitchCase="'root'">
-        <div *ngFor="let item of rootTypes">
+        <div class="doc-viewer-item" *ngFor="let item of rootTypes">
               <span class="no-link-link" *ngIf="item" (click)="goToType(item.name)">{{ item.name }}</span>
         </div>
       </ng-container>
