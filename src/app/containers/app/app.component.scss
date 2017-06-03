@@ -3,16 +3,16 @@
     flex-direction: column;
     height: 100vh;
 }
-.app-tab-switcher-container{
+.app-window-switcher-container{
     padding: 0px 20px 10px;
     background: linear-gradient(to bottom, rgba($black, .05), rgba($black, 0) 15%);
     &:hover{
-        .create-new-tab{
+        .create-new-window{
             opacity: 1;
         }
     }
 }
-.app-tab-switcher{
+.app-window-switcher{
     display: inline-block;
     padding: 10px 20px;
     font-size: 13px;
@@ -28,12 +28,12 @@
         background: $white;
         box-shadow: 0 0 5px rgba($black, .1);
     }
-    &.create-new-tab{
+    &.create-new-window{
         opacity: 0;
         box-shadow: 0 0 5px rgba($black, .1);
     }
 }
-.app-tab-container{
+.app-window-container{
     display: flex;
     flex: 1;
     flex-direction: column;
