@@ -21,6 +21,7 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/display/autorefresh';
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
@@ -59,6 +60,7 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
     matchBrackets: true,
+    autoRefresh: true,
     lint: {},
     hintOptions: {},
     info: {},
@@ -93,6 +95,12 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
     // If there is a new schema, update the editor schema
     if (changes && changes.gqlSchema && changes.gqlSchema.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
+    }
+
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    if (this.editor.instance) {
+      this.editor.instance.refresh();
     }
   }
 

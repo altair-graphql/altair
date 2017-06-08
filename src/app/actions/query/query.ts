@@ -15,51 +15,53 @@ export const SHOW_URL_ALERT = 'SHOW_URL_ALERT';
 export class SetUrlAction implements Action {
     readonly type = SET_URL;
 
-    constructor(public payload: string) {}
+    constructor(public payload: string, public windowId: string) {}
 }
 
 export class SetUrlFromDbAction implements Action {
     readonly type = SET_URL_FROM_DB;
 
-    constructor(public payload: string) {}
+    constructor(public payload: string, public windowId: string) {}
 }
 
 export class SetQueryAction implements Action {
     readonly type = SET_QUERY;
 
-    constructor(public payload: string) {}
+    constructor(public payload: string, public windowId: string) {}
 }
 
 export class SetQueryFromDbAction implements Action {
     readonly type = SET_QUERY_FROM_DB;
 
-    constructor(public payload: string) {}
+    constructor(public payload: string, public windowId: string) {}
 }
 
 export class SetQueryResultAction implements Action {
     readonly type = SET_QUERY_RESULT;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }
 
 export class PrettifyQueryAction implements Action {
     readonly type = PRETTIFY_QUERY;
 
-    constructor() {}
+    constructor(public windowId: string) {}
 }
 
 export class SendQueryRequestAction implements Action {
     readonly type = SEND_QUERY_REQUEST;
 
-    constructor() {}
+    constructor(public windowId: string) {}
 }
 
 export class HideUrlAlertAction implements Action {
     readonly type = HIDE_URL_ALERT;
+
+    constructor(public windowId: string) {}
 }
 
 export class ShowUrlAlertAction implements Action {
     readonly type = SHOW_URL_ALERT;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }

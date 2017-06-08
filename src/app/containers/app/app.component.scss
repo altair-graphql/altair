@@ -13,8 +13,9 @@
     }
 }
 .app-window-switcher{
+    position: relative;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 25px 10px 20px;
     font-size: 13px;
     color: $dark-grey;
     border-radius: 0 0 10px 10px;
@@ -22,16 +23,34 @@
     cursor: pointer;
     &:hover{
         color: $green;
+        .app-window-switcher-close{
+            opacity: 1;
+        }
     }
     &.active{
         color: $green;
         background: $white;
         box-shadow: 0 0 5px rgba($black, .1);
+        .app-window-switcher-close{
+            opacity: 1;
+        }
     }
     &.create-new-window{
         opacity: 0;
         box-shadow: 0 0 5px rgba($black, .1);
     }
+}
+.app-window-switcher-close{
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    text-align: center;
+    opacity: 0;
+    transition: all .3s ease;
 }
 .app-window-container{
     display: flex;

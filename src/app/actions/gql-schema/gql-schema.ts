@@ -9,23 +9,23 @@ export const SET_ALLOW_INTROSPECTION = 'SET_ALLOW_INTROSPECTION';
 export class SetIntrospectionAction implements Action {
     readonly type = SET_INTROSPECTION;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }
 
 export class SetIntrospectionFromDbAction implements Action {
     readonly type = SET_INTROSPECTION_FROM_DB;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }
 
 export class SetSchemaAction implements Action {
     readonly type = SET_SCHEMA;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }
 
 export class SetAllowIntrospectionAction implements Action {
     readonly type = SET_ALLOW_INTROSPECTION;
 
-    constructor(public payload: any) {}
+    constructor(public payload: any, public windowId: string) {}
 }

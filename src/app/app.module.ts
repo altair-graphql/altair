@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducer } from './reducers';
 
+
 import { QueryEffects } from './effects/query';
 
 import { ComponentModule } from './components';
@@ -31,7 +32,8 @@ const providers = [
     services.ApiService,
     services.GqlService,
     services.DbService,
-    services.QueryService
+    services.QueryService,
+    services.WindowService
 ];
 
 @NgModule({

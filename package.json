@@ -46,6 +46,7 @@
     "marked": "^0.3.6",
     "ng2-codemirror": "^1.1.2",
     "rxjs": "^5.1.0",
+    "uuid": "^3.0.1",
     "valid-url": "^1.0.9",
     "zone.js": "^0.8.4"
   },

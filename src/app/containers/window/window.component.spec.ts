@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Observable } from 'rxjs/Observable';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +31,10 @@ describe('WindowComponent', () => {
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => {}
+        subscribe: () => {},
+        select: () => [],
+        map: () => Observable.empty(),
+        dispatch: () => {}
       } }
     ];
     TestBed.configureTestingModule({

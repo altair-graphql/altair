@@ -13,6 +13,7 @@ import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module
 import { ComponentModule } from './../../components';
 
 import { AppComponent } from './app.component';
+import { WindowComponent } from '../window/window.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -20,19 +21,24 @@ describe('AppComponent', () => {
       services.ApiService,
       services.GqlService,
       services.DbService,
+      services.WindowService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => {}
+        subscribe: () => {},
+        select: () => [],
+        map: () => [],
+        dispatch: () => {}
       } }
   ];
 
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        WindowComponent
       ],
       imports: [
         BrowserModule,

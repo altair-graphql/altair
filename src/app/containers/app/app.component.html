@@ -1,5 +1,13 @@
 <div class="wrapper">
-  <app-window-switcher></app-window-switcher>
-  <app-window></app-window>
+  <app-window-switcher
+   [windows]="windowsArr"
+   [activeWindowId]="activeWindowId"
+   (newWindowChange)="newWindow()"
+   (activeWindowChange)="setActiveWindow($event)"
+   (removeWindowChange)="removeWindow($event)"
+  ></app-window-switcher>
+  <ng-container *ngFor="let windowId of windowIds">
+    <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+  </ng-container>
 </div>
 <app-fork-repo></app-fork-repo>

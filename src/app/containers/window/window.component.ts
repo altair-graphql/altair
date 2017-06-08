@@ -1,4 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  Input,
+  OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
@@ -20,8 +25,10 @@ import { graphql } from 'graphql';
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.scss']
 })
-export class WindowComponent {
+export class WindowComponent implements OnInit {
   apiUrl$;
+
+  @Input() windowId: string;
 
   @ViewChild('urlInput') urlInput;
 
@@ -48,12 +55,21 @@ export class WindowComponent {
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
-    private store: Store<fromRoot.State>
+    private store: Store<any>
   ) {
 
+  }
+
+  ngOnInit() {
     // this.apiUrl$ = this.store.select(fromRoot.getUrl);
     this.store
+      .map(data => data.windows[this.windowId])
+      .distinctUntilChanged()
       .subscribe(data => {
+        if (!data) {
+          return false;
+        }
+
         this.apiUrl = data.query.url;
         this.query = data.query.query;
         this.queryResult = data.query.response;
@@ -72,71 +88,70 @@ export class WindowComponent {
         // console.log(data.query);
       });
 
-    this.queryService.loadQuery();
-    this.queryService.loadUrl();
-    this.queryService.loadIntrospection();
+    this.queryService.loadQuery(this.windowId);
+    this.queryService.loadUrl(this.windowId);
+    this.queryService.loadIntrospection(this.windowId);
   }
 
-
   setApiUrl() {
-    const newUrl = this.urlInput.nativeElement.value;
-    this.store.dispatch(new queryActions.SetUrlAction(newUrl));
+    const url = this.urlInput.nativeElement.value;
+    this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
   }
 
   sendRequest() {
-    this.store.dispatch(new queryActions.SendQueryRequestAction());
+    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
   updateQuery(query) {
-    this.store.dispatch(new queryActions.SetQueryAction(query));
+    this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
   toggleHeader() {
-    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction());
+    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
   }
 
   toggleVariableDialog() {
-    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction());
+    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
   }
 
   toggleDocs() {
-    this.store.dispatch(new docsActions.ToggleDocsViewAction());
+    this.store.dispatch(new docsActions.ToggleDocsViewAction(this.windowId));
   }
 
   addHeader() {
-    this.store.dispatch(new headerActions.AddHeaderAction());
+    this.store.dispatch(new headerActions.AddHeaderAction(this.windowId));
   }
 
   headerKeyChange($event, i) {
     const val = $event.target.value;
-    this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }));
+    this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }, this.windowId));
   }
   headerValueChange($event, i) {
     const val = $event.target.value;
-    this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }));
+    this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }, this.windowId));
   }
 
   removeHeader(i) {
-    this.store.dispatch(new headerActions.RemoveHeaderAction(i));
+    this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
   }
 
   addVariable() {
-    this.store.dispatch(new variableActions.AddVariableAction());
+    this.store.dispatch(new variableActions.AddVariableAction(this.windowId));
   }
   updateVariableKey(event) {
     const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableKeyAction({ val, i }));
+    this.store.dispatch(new variableActions.EditVariableKeyAction({ val, i }, this.windowId));
   }
   updateVariableValue(event) {
     const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableValueAction({ val, i }));
+    this.store.dispatch(new variableActions.EditVariableValueAction({ val, i }, this.windowId));
   }
   removeVariable(i) {
-    this.store.dispatch(new variableActions.RemoveVariableAction(i));
+    this.store.dispatch(new variableActions.RemoveVariableAction(i, this.windowId));
   }
 
   prettifyCode() {
-    this.store.dispatch(new queryActions.PrettifyQueryAction());
+    this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
   }
 
   trackByFn(index, item) {

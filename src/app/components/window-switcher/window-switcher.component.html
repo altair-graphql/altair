@@ -1,14 +1,12 @@
 <div class="app-window-switcher-container">
-  <div class="app-window-switcher active">
+  <!--<div class="app-window-switcher active">
     window 1
+  </div>-->
+  <div class="app-window-switcher" *ngFor="let window of windows" [class.active]="window.windowId === activeWindowId" (click)="activeWindowChange.next(window.windowId)">
+    {{ window.layout.title }}
+    <div class="app-window-switcher-close" *ngIf="windows.length > 1" (click)="removeWindowChange.next(window.windowId)">&#x00D7;</div>
   </div>
-  <div class="app-window-switcher">
-    window 2
-  </div>
-  <div class="app-window-switcher">
-    window 3
-  </div>
-  <div class="app-window-switcher create-new-window">
+  <div class="app-window-switcher create-new-window" (click)="newWindowChange.next($event)">
     +
   </div>
 </div>
