@@ -11,13 +11,15 @@ import { QueryResultComponent } from './query-result/query-result.component';
 import { ActionBarComponent } from './action-bar/action-bar.component';
 import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
 import { ForkRepoComponent } from './fork-repo/fork-repo.component';
+import { WindowSwitcherComponent } from './window-switcher/window-switcher.component';
 
 const COMPONENTS = [
     QueryEditorComponent,
     QueryResultComponent,
     ActionBarComponent,
     SetVariableDialogComponent,
-    ForkRepoComponent
+    ForkRepoComponent,
+    WindowSwitcherComponent
 ];
 
 @NgModule({

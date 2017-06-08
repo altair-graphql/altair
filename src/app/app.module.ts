@@ -9,12 +9,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducer } from './reducers';
 
+
 import { QueryEffects } from './effects/query';
 
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 
 import { AppComponent } from './containers/app/app.component';
+import { WindowComponent } from './containers/window/window.component';
 
 import * as services from './services';
 
@@ -30,12 +32,14 @@ const providers = [
     services.ApiService,
     services.GqlService,
     services.DbService,
-    services.QueryService
+    services.QueryService,
+    services.WindowService
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WindowComponent
   ],
   imports: [
     BrowserModule,

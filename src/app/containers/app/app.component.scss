@@ -1,5 +1,62 @@
 .wrapper{
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.app-window-switcher-container{
+    padding: 0px 20px 10px;
+    background: linear-gradient(to bottom, rgba($black, .05), rgba($black, 0) 15%);
+    &:hover{
+        .create-new-window{
+            opacity: 1;
+        }
+    }
+}
+.app-window-switcher{
+    position: relative;
+    display: inline-block;
+    padding: 10px 25px 10px 20px;
+    font-size: 13px;
+    color: $dark-grey;
+    border-radius: 0 0 10px 10px;
+    transition: all .3s ease;
+    cursor: pointer;
+    &:hover{
+        color: $green;
+        .app-window-switcher-close{
+            opacity: 1;
+        }
+    }
+    &.active{
+        color: $green;
+        background: $white;
+        box-shadow: 0 0 5px rgba($black, .1);
+        .app-window-switcher-close{
+            opacity: 1;
+        }
+    }
+    &.create-new-window{
+        opacity: 0;
+        box-shadow: 0 0 5px rgba($black, .1);
+    }
+}
+.app-window-switcher-close{
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    text-align: center;
+    opacity: 0;
+    transition: all .3s ease;
+}
+.app-window-container{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0 20px 20px;
 }
 .app-loader{
     display: flex;

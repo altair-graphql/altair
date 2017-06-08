@@ -18,39 +18,39 @@ export class QueryService {
     private store: Store<fromRoot.State>
   ) { }
 
-  loadUrl(): Observable<any> {
-    return this.db.getItem('url').subscribe(url => {
+  loadUrl(windowId): Observable<any> {
+    return this.db.getItem(`${windowId}:url`).subscribe(url => {
       if (url) {
-        this.store.dispatch(new queryActions.SetUrlFromDbAction(url));
+        this.store.dispatch(new queryActions.SetUrlFromDbAction(url, windowId));
       }
     });
   }
 
-  loadQuery(): Observable<any> {
-    return this.db.getItem('query').subscribe(query => {
+  loadQuery(windowId): Observable<any> {
+    return this.db.getItem(`${windowId}:query`).subscribe(query => {
       if (query) {
-        this.store.dispatch(new queryActions.SetQueryFromDbAction(query));
+        this.store.dispatch(new queryActions.SetQueryFromDbAction(query, windowId));
       }
     });
   }
 
-  loadIntrospection(): Observable<any> {
-    return this.db.getItem('introspection').subscribe(introspectionData => {
+  loadIntrospection(windowId): Observable<any> {
+    return this.db.getItem(`${windowId}:introspection`).subscribe(introspectionData => {
       if (introspectionData) {
-        this.store.dispatch(new gqlSchemaActions.SetIntrospectionFromDbAction(introspectionData));
+        this.store.dispatch(new gqlSchemaActions.SetIntrospectionFromDbAction(introspectionData, windowId));
       }
     });
   }
 
-  storeUrl(url): Observable<any> {
-    return this.db.setItem('url', url);
+  storeUrl(url, windowId): Observable<any> {
+    return this.db.setItem(`${windowId}:url`, url);
   }
 
-  storeQuery(query): Observable<any> {
-    return this.db.setItem('query', query);
+  storeQuery(query, windowId): Observable<any> {
+    return this.db.setItem(`${windowId}:query`, query);
   }
 
-  storeIntrospection(introspection): Observable<any> {
-    return this.db.setItem('introspection', introspection);
+  storeIntrospection(introspection, windowId): Observable<any> {
+    return this.db.setItem(`${windowId}:introspection`, introspection);
   }
 }
