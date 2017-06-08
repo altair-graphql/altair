@@ -31,6 +31,13 @@ export class QueryEffects {
         .switchMap(response => {
             // If the URL is not set or is invalid, just return
             if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+
+                const opts = {
+                    message: 'The URL is invalid!',
+                    success: false
+                };
+
+                this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, response.windowId));
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return Observable.empty();
             }
