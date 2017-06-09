@@ -24,7 +24,8 @@ export function windows(reducer: ActionReducer<any>) {
             case windowsActions.ADD_WINDOW:
                 const { windowId, title } = action.payload;
 
-                _state[windowId] = Object.assign({}, initWindowState);
+                // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
+                _state[windowId] = JSON.parse(JSON.stringify(initWindowState));
 
                 _state[windowId].layout.title = title;
                 _state[windowId].windowId = windowId;
