@@ -1,5 +1,5 @@
 <div class="app-window-container">
-  <div class="app-loader" *ngIf="isLoading">
+  <div class="app-loader" [ngClass]="{ 'show-loader': isLoading }">
     <div class="app-loader-content">
       <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
       Loading...
@@ -53,7 +53,7 @@
     ></app-doc-viewer>
   </main>
   <div class="dialogs">
-    <div class="set-header-dialog-wrapper" [ngClass]="{ 'hide': !showHeaderDialog }">
+    <div class="set-header-dialog-wrapper app-dialog-wrapper" [ngClass]="{ 'show-dialog': showHeaderDialog, 'hide-dialog': !showHeaderDialog }">
       <div class="app-dialog set-header-dialog">
         <div class="app-dialog-header">
           <div class="app-dialog-title">Headers</div>

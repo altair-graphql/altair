@@ -22,10 +22,11 @@ export function windows(reducer: ActionReducer<any>) {
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
-                const { windowId } = action;
+                const { windowId, title } = action.payload;
 
                 _state[windowId] = Object.assign({}, initWindowState);
 
+                _state[windowId].layout.title = title;
                 _state[windowId].windowId = windowId;
 
                 return _state;
@@ -33,11 +34,16 @@ export function windows(reducer: ActionReducer<any>) {
                 const windows = action.payload;
 
                 const newWindowsState = {};
-                windows.forEach(windowKey => {
-                    const _windowState = Object.assign({}, initWindowState);
-                    _windowState.windowId = windowKey;
+                windows.forEach(window => {
+                    const windowKey = window.windowId;
+                    const windowTitle = window.title;
 
-                    newWindowsState[windowKey] = _windowState;
+                    // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
+                    const _windowState = JSON.parse(JSON.stringify(initWindowState));
+                    _windowState.windowId = windowKey;
+                    _windowState.layout.title = windowTitle;
+
+                    newWindowsState[windowKey] = Object.assign({}, _windowState);
                 });
 
                 return newWindowsState;

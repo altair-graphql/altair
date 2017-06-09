@@ -34,3 +34,15 @@
         transform: rotate(359deg);
     }
 }
+
+@mixin show-transition{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+@mixin hide-transition{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}

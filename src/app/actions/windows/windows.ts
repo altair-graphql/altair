@@ -9,12 +9,12 @@ export const REMOVE_WINDOW = 'REMOVE_WINDOW';
 export class AddWindowAction implements Action {
     readonly type = ADD_WINDOW;
 
-    constructor(public windowId: string = '', public title: string = '') {}
+    constructor(public payload: any) {}
 }
 export class SetWindowsAction implements Action {
     readonly type = SET_WINDOWS;
 
-    constructor(public payload: Array<string>) {}
+    constructor(public payload: Array<any>) {}
 }
 
 export class RemoveWindowAction implements Action {
