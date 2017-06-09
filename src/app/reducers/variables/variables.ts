@@ -18,10 +18,9 @@ const initialState: State = [
 export function variableReducer(state = initialState, action: variables.Action): State {
     switch (action.type) {
         case variables.ADD_VARIABLE:
-            const { key, value } = action;
             return [
                 ...state,
-                { key, value }
+                { key: '', value: '' }
             ];
         case variables.EDIT_VARIABLE_KEY:
             return state.map((val, i) => {

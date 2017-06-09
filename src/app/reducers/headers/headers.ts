@@ -20,10 +20,9 @@ const initialState: State = [
 export function headerReducer(state = initialState, action: headers.Action): State {
     switch (action.type) {
         case headers.ADD_HEADER:
-            const { key, value } = action;
             return [
                 ...state,
-                { key, value }
+                { key: '', value: '' }
             ];
         case headers.EDIT_HEADER_KEY:
             return state.map((val, i) => {

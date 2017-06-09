@@ -23,31 +23,39 @@ export class QueryEffects {
     sendQueryRequest$: Observable<Action> = this.actions$
         .ofType(queryActions.SEND_QUERY_REQUEST)
         .withLatestFrom(this.store, (action, state) => {
-            return state;
+            return { data: state.windows[action.windowId], windowId: action.windowId };
         })
-        .do(() => {
-            this.store.dispatch(new layoutActions.StartLoadingAction());
+        .do((response) => {
+            this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
         })
-        .switchMap(data => {
+        .switchMap(response => {
             // If the URL is not set or is invalid, just return
-            if (!data.query.url || !validUrl.isUri(data.query.url)) {
+            if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+
+                const opts = {
+                    message: 'The URL is invalid!',
+                    success: false
+                };
+
+                this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, response.windowId));
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return Observable.empty();
             }
 
             return this.gqlService
-                .setUrl(data.query.url)
-                .setHeaders(data.headers)
-                .send(data.query.query, this.getVariablesObj(data.variables))
+                .setUrl(response.data.query.url)
+                .setHeaders(response.data.headers)
+                .send(response.data.query.query, this.getVariablesObj(response.data.variables))
                 .map(result => {
-                    return new queryActions.SetQueryResultAction(result);
+                    return new queryActions.SetQueryResultAction(result, response.windowId);
                 }).catch((error) => {
                     let output = 'Server Error';
                     if (error.status) {
                         output = error.json() || error.toString();
                     }
-                    return Observable.of(new queryActions.SetQueryResultAction(output));
+                    return Observable.of(new queryActions.SetQueryResultAction(output, response.windowId));
                 }).do(() => {
-                    this.store.dispatch(new layoutActions.StopLoadingAction());
+                    this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 });
         });
 
@@ -55,34 +63,34 @@ export class QueryEffects {
     // Shows the URL set alert after the URL is set
     showUrlSetAlert$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .map(toPayload)
-        .do((url) => {
+        .do((data) => {
             const opts = {
                 message: 'URL has been set',
                 success: true
             };
             // If the URL is not valid
-            if (!validUrl.isUri(url)) {
+            if (!validUrl.isUri(data.payload)) {
                 opts.message = 'The URL is invalid!';
                 opts.success = false;
             }
-            this.store.dispatch(new queryActions.ShowUrlAlertAction(opts));
+            this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, data.windowId));
+
+            return data;
         })
-        .switchMap(() => {
+        .switchMap((data) => {
             return Observable.timer(3000)
-                .switchMap(() => Observable.of(new queryActions.HideUrlAlertAction()));
+                .switchMap(() => Observable.of(new queryActions.HideUrlAlertAction(data.windowId)));
         });
 
     @Effect()
     // Gets the gql schema after the introspection is set
     getGqlSchema$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION, gqlSchemaActions.SET_INTROSPECTION_FROM_DB)
-        .map(toPayload)
         .switchMap((data) => {
-            const schema = this.gqlService.getIntrospectionSchema(data);
+            const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
             if (schema) {
-                return Observable.of(new gqlSchemaActions.SetSchemaAction(schema));
+                return Observable.of(new gqlSchemaActions.SetSchemaAction(schema, data.windowId));
             }
 
             return Observable.empty();
@@ -91,40 +99,38 @@ export class QueryEffects {
     @Effect()
     saveUrlToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .map(toPayload)
         .map((data) => {
-            this.queryService.storeUrl(data);
+            this.queryService.storeUrl(data.payload, data.windowId);
             return new dbActions.SaveUrlSuccessAction();
         });
 
     @Effect()
     saveQueryToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_QUERY)
-        .map(toPayload)
+        // Save query after user has stopped typing for 500ms
+        .debounce(() => Observable.timer(500))
         .map(data => {
-            this.queryService.storeQuery(data);
+            this.queryService.storeQuery(data.payload, data.windowId);
             return new dbActions.SaveQuerySuccessAction();
         });
 
     @Effect()
     saveIntrospectionToDb$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION)
-        .map(toPayload)
         .map(data => {
-            this.queryService.storeIntrospection(data);
+            this.queryService.storeIntrospection(data.payload, data.windowId);
             return new dbActions.SaveIntrospectionSuccessAction();
         });
 
     @Effect()
     getIntrospectionForUrl$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .map(toPayload)
-        .switchMap(url => {
-            if (!url) {
+        .switchMap(data => {
+            if (!data.payload) {
                 return Observable.empty();
             }
 
-            return this.gqlService.getIntrospectionRequest(url)
+            return this.gqlService.getIntrospectionRequest(data.payload)
                 .catch(err => {
                     const errorObj = err.json();
                     let allowsIntrospection = true;
@@ -139,7 +145,7 @@ export class QueryEffects {
 
                     // If the server does not support introspection
                     if (!allowsIntrospection) {
-                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false));
+                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, data.windowId));
                     }
                     return Observable.empty();
                 })
@@ -148,8 +154,8 @@ export class QueryEffects {
                         return {};
                     }
 
-                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true));
-                    return new gqlSchemaActions.SetIntrospectionAction(introspectionData);
+                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, data.windowId));
+                    return new gqlSchemaActions.SetIntrospectionAction(introspectionData, data.windowId);
                 });
         });
 
@@ -158,7 +164,7 @@ export class QueryEffects {
         private actions$: Actions,
         private gqlService: GqlService,
         private queryService: QueryService,
-        private store: Store<fromRoot.State>
+        private store: Store<any>
     ) {}
 
   getVariablesObj(variables) {

@@ -1,4 +1,6 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Observable } from 'rxjs/Observable';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,16 +14,17 @@ import { CodemirrorModule } from 'ng2-codemirror';
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
 
-import { AppComponent } from './app.component';
-import { WindowComponent } from '../window/window.component';
+import { WindowComponent } from './window.component';
 
-describe('AppComponent', () => {
+describe('WindowComponent', () => {
+  let component: WindowComponent;
+  let fixture: ComponentFixture<WindowComponent>;
+
   beforeEach(async(() => {
     const providers = [
       services.ApiService,
       services.GqlService,
       services.DbService,
-      services.WindowService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
@@ -30,16 +33,12 @@ describe('AppComponent', () => {
       { provide: Store, useValue: {
         subscribe: () => {},
         select: () => [],
-        map: () => [],
+        map: () => Observable.empty(),
         dispatch: () => {}
       } }
-  ];
-
+    ];
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        WindowComponent
-      ],
+      declarations: [ WindowComponent ],
       imports: [
         BrowserModule,
         FormsModule,
@@ -50,12 +49,17 @@ describe('AppComponent', () => {
         DocViewerModule
       ],
       providers: providers
-    }).compileComponents();
+    })
+    .compileComponents();
   }));
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(WindowComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

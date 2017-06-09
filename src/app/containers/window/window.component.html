@@ -1,0 +1,90 @@
+<div class="app-window-container">
+  <div class="app-loader" [ngClass]="{ 'show-loader': isLoading }">
+    <div class="app-loader-content">
+      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
+      Loading...
+    </div>
+  </div>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="app-logo">
+        <img src="assets/img/logo.svg" alt="">
+      </div>
+      <div class="app-url-container">
+        <input #urlInput type="text" class="app-url-input" placeholder="Enter URL"
+        (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
+        [value]="apiUrl"
+        >
+      </div>
+      <div class="app-url-actions">
+        <button class="app-url-button"
+          (click)="setApiUrl()"
+        >Set URL</button>
+      </div>
+      <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !urlAlertSuccess }" *ngIf="showUrlAlert">
+        &#10003; {{ urlAlertMessage }}
+      </div>
+    </div>
+  </header>
+  <app-action-bar
+      (toggleHeaderDialog)="toggleHeader()"
+      (toggleVariableDialog)="toggleVariableDialog()"
+      (prettifyCodeChange)="prettifyCode()"
+      (sendRequest)="sendRequest()"
+      (toggleDocs)="toggleDocs()"
+      [showDocs]="showDocs"
+  ></app-action-bar>
+  <main class="app-main-section">
+    <app-query-editor
+      #queryEditor
+      (queryChange)="updateQuery($event)"
+      (sendRequest)="sendRequest()"
+      [query]="query"
+      [gqlSchema]="gqlSchema"
+    ></app-query-editor>
+    <app-query-result
+      [queryResult]="queryResult"
+    ></app-query-result>
+    <app-doc-viewer
+      [gqlSchema]="gqlSchema"
+      [allowIntrospection]="allowIntrospection"
+      [ngClass]="{'show-doc': showDocs}"
+      (toggleDocs)="toggleDocs()"
+    ></app-doc-viewer>
+  </main>
+  <div class="dialogs">
+    <div class="set-header-dialog-wrapper app-dialog-wrapper" [ngClass]="{ 'show-dialog': showHeaderDialog, 'hide-dialog': !showHeaderDialog }">
+      <div class="app-dialog set-header-dialog">
+        <div class="app-dialog-header">
+          <div class="app-dialog-title">Headers</div>
+          Add, edit and remove headers in your request
+        </div>
+        <div class="app-dialog-body">
+          <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
+            <div class="set-header-input-column">
+              <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+            </div>
+            <div class="set-header-input-column">
+              <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
+            </div>
+            <button class="header-input-remove-button" (click)="removeHeader(i)" >&times;</button>
+          </div>
+        </div>
+        <div class="app-dialog-footer">
+          <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
+          <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
+        </div>
+      </div>
+      <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
+    </div>
+    <app-set-variable-dialog
+      [variables]="variables"
+      [showVariableDialog]="showVariableDialog"
+      (toggleVariableDialog)="toggleVariableDialog()"
+      (addVariableChange)="addVariable()"
+      (variableKeyChange)="updateVariableKey($event)"
+      (variableValueChange)="updateVariableValue($event)"
+      (removeVariableChange)="removeVariable($event)"
+    ></app-set-variable-dialog>
+  </div>
+</div>

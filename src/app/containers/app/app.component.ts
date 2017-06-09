@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
@@ -10,135 +11,67 @@ import * as headerActions from '../../actions/headers/headers';
 import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
+import * as windowsActions from '../../actions/windows/windows';
 
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
-import { graphql } from 'graphql';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  // styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  apiUrl$;
-
-  @ViewChild('urlInput') urlInput;
-
-  apiUrl = '';
-  initialQuery = '';
-  query = '';
-  queryResult = '';
-  showHeaderDialog = false;
-  showVariableDialog = false;
-  showDocs = true;
-  headers: fromHeader.State = [];
-  variables: fromVariable.State = [];
-  introspectionResult = {};
-  gqlSchema = null;
-
-  showUrlAlert = false;
-  urlAlertMessage = '';
-  urlAlertSuccess = false;
-
-  isLoading = false;
-
-  allowIntrospection = true;
+  windowIds$: Observable<any>;
+  windowIds = [];
+  windowsArr = [];
+  activeWindowId = '';
 
   constructor(
-    private queryService: QueryService,
-    private gql: GqlService,
-    private store: Store<fromRoot.State>
+    private windowService: WindowService,
+    private store: Store<any>
   ) {
-
-    // this.apiUrl$ = this.store.select(fromRoot.getUrl);
+    this.windowIds$ = this.store.select('windows').map(windows => {
+      return Object.keys(windows);
+    });
     this.store
       .subscribe(data => {
-        this.apiUrl = data.query.url;
-        this.query = data.query.query;
-        this.queryResult = data.query.response;
-        this.headers = data.headers;
-        this.showHeaderDialog = data.dialogs.showHeaderDialog;
-        this.showVariableDialog = data.dialogs.showVariableDialog;
-        this.introspectionResult = data.schema.introspection;
-        this.gqlSchema = data.schema.schema;
-        this.variables = data.variables;
-        this.showDocs = data.docs.showDocs;
-        this.isLoading = data.layout.isLoading;
-        this.showUrlAlert = data.query.showUrlAlert;
-        this.urlAlertMessage = data.query.urlAlertMessage;
-        this.urlAlertSuccess = data.query.urlAlertSuccess;
-        this.allowIntrospection = data.schema.allowIntrospection;
-        // console.log(data.query);
+        console.log(data.windows);
+        this.windowIds = Object.keys(data.windows);
+        this.windowsArr = this.windowIds.map(id => data.windows[id]);
+
+        // If the active window has not been set, default it
+        if (!this.activeWindowId || !data.windows[this.activeWindowId]) {
+          this.activeWindowId = this.windowIds[0];
+        }
       });
 
-    this.queryService.loadQuery();
-    this.queryService.loadUrl();
-    this.queryService.loadIntrospection();
+    this.windowService.loadWindows();
   }
 
-  setApiUrl() {
-    const newUrl = this.urlInput.nativeElement.value;
-    this.store.dispatch(new queryActions.SetUrlAction(newUrl));
+  newWindow() {
+    this.windowService.newWindow();
   }
 
-  sendRequest() {
-    this.store.dispatch(new queryActions.SendQueryRequestAction());
+  setActiveWindow(windowId) {
+    this.activeWindowId = windowId;
   }
 
-  updateQuery(query) {
-    this.store.dispatch(new queryActions.SetQueryAction(query));
+  removeWindow(windowId) {
+    this.windowService.removeWindow(windowId);
   }
 
-  toggleHeader() {
-    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction());
-  }
-
-  toggleVariableDialog() {
-    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction());
-  }
-
-  toggleDocs() {
-    this.store.dispatch(new docsActions.ToggleDocsViewAction());
-  }
-
-  addHeader() {
-    this.store.dispatch(new headerActions.AddHeaderAction());
-  }
-
-  headerKeyChange($event, i) {
-    const val = $event.target.value;
-    this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }));
-  }
-  headerValueChange($event, i) {
-    const val = $event.target.value;
-    this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }));
-  }
-
-  removeHeader(i) {
-    this.store.dispatch(new headerActions.RemoveHeaderAction(i));
-  }
-
-  addVariable() {
-    this.store.dispatch(new variableActions.AddVariableAction());
-  }
-  updateVariableKey(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableKeyAction({ val, i }));
-  }
-  updateVariableValue(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableValueAction({ val, i }));
-  }
-  removeVariable(i) {
-    this.store.dispatch(new variableActions.RemoveVariableAction(i));
-  }
-
-  prettifyCode() {
-    this.store.dispatch(new queryActions.PrettifyQueryAction());
-  }
-
-  trackByFn(index, item) {
-    return index;
+  /**
+   * Transform an object into an array
+   * @param obj
+   */
+  objToArr(obj: any) {
+    const arr = [];
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        arr.push(obj[key]);
+      }
+    }
+    return arr;
   }
 }

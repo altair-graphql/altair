@@ -1,7 +1,65 @@
 .wrapper{
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.app-window-switcher-container{
+    padding: 0px 20px 10px;
+    background: linear-gradient(to bottom, rgba($black, .05), rgba($black, 0) 15%);
+    &:hover{
+        .create-new-window{
+            opacity: 1;
+        }
+    }
+}
+.app-window-switcher{
+    position: relative;
+    display: inline-block;
+    padding: 10px 25px 10px 20px;
+    font-size: 13px;
+    color: $dark-grey;
+    border-radius: 0 0 10px 10px;
+    transition: all .3s ease;
+    cursor: pointer;
+    &:hover{
+        color: $green;
+        .app-window-switcher-close{
+            opacity: 1;
+        }
+    }
+    &.active{
+        color: $green;
+        background: $white;
+        box-shadow: 0 0 5px rgba($black, .2);
+        .app-window-switcher-close{
+            opacity: 1;
+        }
+    }
+    &.create-new-window{
+        opacity: 0;
+        box-shadow: 0 0 5px rgba($black, .2);
+    }
+}
+.app-window-switcher-close{
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    text-align: center;
+    opacity: 0;
+    transition: all .3s ease;
+}
+.app-window-container{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0 20px 20px;
 }
 .app-loader{
+    @include hide-transition;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,6 +74,9 @@
     img{
         vertical-align: middle;
     }
+}
+.show-loader{
+    @include show-transition;
 }
 .app-header{
     position: relative;
@@ -166,6 +227,35 @@ app-query-result{
     font-weight: bold;
     color: $dark-grey;
 }
+.app-dialog-wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    visibility: hidden;
+    opacity: 0;
+    transition-delay: 0s;
+    animation-duration: .3s;
+}
+.show-dialog{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+    .app-dialog{
+        transform: translateX(-50%) translateY(0%) scale(1);
+        transition: all .3s ease;
+    }
+}
+.hide-dialog{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+    .app-dialog{
+        transition: all .3s ease;
+    }
+}
 .app-dialog-overlay{
     position: fixed;
     top: 0;
@@ -177,9 +267,10 @@ app-query-result{
 }
 .app-dialog{
     position: absolute;
+    z-index: 1;
     top: 50px;
     left: 50%;
-    transform: translateX(-50%);
+    // transform: translateX(-50%);
     max-width: 90%;
     width: 600px;
     z-index: $dialog-z-index;
@@ -187,6 +278,8 @@ app-query-result{
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 5px 12px 2px rgba($black, .1);
+    // Changed translateY to 0% and scale to 1 when the dialog is shown
+    transform: translateX(-50%) translateY(-10%) scale(0.8);
 }
 .app-dialog-header{
     margin-bottom: 30px;

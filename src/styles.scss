@@ -6,7 +6,10 @@ $light-grey: #F0F0F0;
 $white: #FFF;
 $green: #7EBC59;
 $blue: #368CBF;
-$red: #F00FAA;
+$cerise: #F00FAA;
+$red: #ED6A5A;
+$orange: #EDAE49;
+$light-red: #CC998D;
 
 $result-default: $black;
 $result-string: $red;
@@ -26,4 +29,5 @@ $dialog-z-index: 10;
 @import "scss/editor";
 
 @import "app/containers/app/app.component";
+@import "app/containers/window/window.component";
 @import "app/components/doc-viewer/doc-viewer/doc-viewer.component";
