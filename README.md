@@ -8,7 +8,7 @@ A graphQL client for making graphQL queries to a graphQL server. https://altair-
 
 Also there's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja).
 
-If you are a Mac user, you could also get the [mac app](https://github.com/imolorhe/altair/releases/download/v1.2.1/altair.app.zip) too.
+If you are a Mac user, you could also get the [mac app](https://github.com/imolorhe/altair/releases/latest) too.
 
 ## Development server
 
