@@ -33,11 +33,15 @@ export class WindowService {
     return this.db.getItem('windows').subscribe(data => {
       data = data || [];
 
-      const newWindowId = uuid();
-      const newWindows = [...data, newWindowId];
+      const newWindow = {
+        windowId: uuid(),
+        title: `Window ${data.length + 1}`
+      };
+
+      const newWindows = [...data, newWindow];
 
       return this.db.setItem('windows', newWindows).subscribe(() => {
-        return Observable.of(this.store.dispatch(new windowActions.AddWindowAction(newWindowId, 'New window')));
+        return Observable.of(this.store.dispatch(new windowActions.AddWindowAction(newWindow)));
       });
     });
   }
@@ -46,14 +50,17 @@ export class WindowService {
     return this.db.getItem('windows').subscribe(data => {
       data = data || [];
 
-      const newWindows = data.filter(id => id !== windowId);
+      const newWindows = data.filter(window => window.windowId !== windowId);
 
       return this.db.setItem('windows', newWindows).subscribe(() => {
         this.db.getAllKeys()
+          // Filter out items that are for the current window via the windowId
           .map(keys => keys.filter(key => key.includes(windowId)))
           .subscribe(windowKeys => {
+            // Remove all the items related to the current window
             windowKeys.map(key => this.db.removeItemByExactKey(key));
 
+            // Dispatch the remove window action
             return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction(windowId)));
           });
       });

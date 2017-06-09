@@ -6,7 +6,7 @@
     {{ window.layout.title }}
     <div class="app-window-switcher-close" *ngIf="windows.length > 1" (click)="removeWindowChange.next(window.windowId)">&#x00D7;</div>
   </div>
-  <div class="app-window-switcher create-new-window" (click)="newWindowChange.next($event)">
+  <div class="app-window-switcher create-new-window" (click)="newWindowChange.next($event)" *ngIf="windows.length < 15">
     +
   </div>
 </div>
