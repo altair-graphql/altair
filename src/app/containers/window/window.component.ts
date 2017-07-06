@@ -102,6 +102,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
+  cancelRequest() {
+    this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
+  }
+
   updateQuery(query) {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
