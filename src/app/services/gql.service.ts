@@ -45,7 +45,12 @@ export class GqlService {
     }
   }
 
-  send(query, vars?) {
+  /**
+   * Send request and return the response object
+   * @param query
+   * @param vars
+   */
+  _send(query, vars?) {
     const data = { query: query, variables: {} };
 
     // If there is a variables option, add it to the data
@@ -58,8 +63,16 @@ export class GqlService {
       .catch(err => {
         console.error(err);
         return Observable.throw(err);
-      })
-      .map(this.getJson);
+      });
+  }
+
+  /**
+   * Send graphQL request and return the response
+   * @param query
+   * @param vars
+   */
+  send(query, vars?) {
+    return this._send(query, vars).map(this.getJson);
   }
 
   setHeaders(headers?) {
