@@ -25,6 +25,8 @@ import 'codemirror/mode/javascript/javascript';
 export class QueryResultComponent implements OnChanges {
 
   @Input() queryResult = '';
+  @Input() responseTime = 0;
+  @Input() responseStatus = 0;
 
   @ViewChild('editor') editor;
 

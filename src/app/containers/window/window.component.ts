@@ -52,6 +52,9 @@ export class WindowComponent implements OnInit {
 
   allowIntrospection = true;
 
+  responseTime = 0;
+  responseStatus = 0;
+
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
@@ -85,6 +88,8 @@ export class WindowComponent implements OnInit {
         this.urlAlertMessage = data.query.urlAlertMessage;
         this.urlAlertSuccess = data.query.urlAlertSuccess;
         this.allowIntrospection = data.schema.allowIntrospection;
+        this.responseStatus = data.query.responseStatus;
+        this.responseTime = data.query.responseTime;
         // console.log(data.query);
       });
 
