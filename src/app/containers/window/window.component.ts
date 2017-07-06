@@ -95,6 +95,8 @@ export class WindowComponent implements OnInit {
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
+
+    // Introspection needs to be pulled from the db for the schema (which is dynamic) to be updated
     this.queryService.loadIntrospection(this.windowId);
   }
 
