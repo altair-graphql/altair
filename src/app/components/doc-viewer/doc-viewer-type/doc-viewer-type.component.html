@@ -60,6 +60,9 @@
         {{ item.type.inspect() }}
       </span>
     </div>
+    <div class="doc-viewer-item-query-deprecated" *ngIf="item.isDeprecated">
+      DEPRECATED: {{ item.deprecationReason }}
+    </div>
     <div class="doc-viewer-item-query-description">
       {{ item.description }}
     </div>

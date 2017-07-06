@@ -109,6 +109,13 @@ app-doc-viewer{
 .doc-viewer-item-query-inner{
     margin-bottom: 1px;
 }
+.doc-viewer-item-query-deprecated{
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px;
+    background: rgba($red, .05);
+    color: $red;
+}
 .doc-viewer-item-query-description{
     font-size: 13px;
     // font-style: italic;
