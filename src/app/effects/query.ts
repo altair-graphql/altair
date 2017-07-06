@@ -21,9 +21,9 @@ export class QueryEffects {
     // Sends the query request to the specified URL
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
-        .ofType(queryActions.SEND_QUERY_REQUEST)
+        .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
         .withLatestFrom(this.store, (action, state) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId };
+            return { data: state.windows[action.windowId], windowId: action.windowId, action };
         })
         .do((response) => {
             this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
@@ -38,6 +38,11 @@ export class QueryEffects {
                 };
 
                 this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, response.windowId));
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                return Observable.empty();
+            }
+
+            if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return Observable.empty();
             }
