@@ -10,6 +10,7 @@ import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
 import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
+import * as layoutActions from '../../actions/layout/layout';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
 
@@ -46,7 +47,7 @@ export class AppComponent {
         }
       });
 
-    this.windowService.loadWindows();
+    // this.windowService.loadWindows();
   }
 
   newWindow() {
@@ -59,6 +60,11 @@ export class AppComponent {
 
   removeWindow(windowId) {
     this.windowService.removeWindow(windowId);
+  }
+
+  setWindowName(data) {
+    const { windowId, windowName } = data;
+    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
   }
 
   /**

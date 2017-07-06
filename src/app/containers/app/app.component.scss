@@ -21,6 +21,8 @@
     border-radius: 0 0 10px 10px;
     transition: all .3s ease;
     cursor: pointer;
+    max-width: 150px;
+    white-space: nowrap;
     &:hover{
         color: $green;
         .app-window-switcher-close{
@@ -38,6 +40,11 @@
     &.create-new-window{
         opacity: 0;
         box-shadow: 0 0 5px rgba($black, .2);
+    }
+}
+.app-window-switcher-input{
+    &:focus{
+        outline: 1px solid $orange;
     }
 }
 .app-window-switcher-close{
