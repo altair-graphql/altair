@@ -47,19 +47,36 @@ export class QueryEffects {
                 return Observable.empty();
             }
 
+            const requestStartTime = new Date().getTime();
+            let requestStatusCode = 0;
+
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
-                .send(response.data.query.query, this.getVariablesObj(response.data.variables))
+                ._send(response.data.query.query, this.getVariablesObj(response.data.variables))
+                .map(res => {
+                    requestStatusCode = res.status;
+                    return res.json();
+                })
                 .map(result => {
                     return new queryActions.SetQueryResultAction(result, response.windowId);
                 }).catch((error) => {
                     let output = 'Server Error';
+
+                    requestStatusCode = error.status;
+
                     if (error.status) {
                         output = error.json() || error.toString();
                     }
                     return Observable.of(new queryActions.SetQueryResultAction(output, response.windowId));
                 }).do(() => {
+                    const requestEndTime = new Date().getTime();
+                    const requestElapsedTime = requestEndTime - requestStartTime;
+
+                    this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
+                        responseStatus: requestStatusCode,
+                        responseTime: requestElapsedTime
+                    }));
                     this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 });
         });
