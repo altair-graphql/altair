@@ -36,15 +36,26 @@ const reducers = {
 };
 
 // Meta reducer to log actions
-const log = (reducer) => (state: State, action: Action) => {
+export const log = (reducer) => (state: State, action: Action) => {
     if (!environment.production) {
         console.log(action.type, action);
     }
     return reducer(state, action);
 };
 
-export const reducer: ActionReducer<State> = compose(
-    localStorageSync({ keys: ['windows'], rehydrate: true, storageKeySerializer: (key) => 'altair_' + key }),
-    log,
-    combineReducers
-)({ windows: fromWindows.windows(combineReducers(reducers)) });
+export const keySerializer = (key) => 'altair_' + key;
+
+// Needed to fix the error encountered resolving symbol values statically error for the compose() method
+export function createReducer() {
+    const reducer = compose(
+        localStorageSync({ keys: ['windows'], rehydrate: true, storageKeySerializer: keySerializer}),
+        log,
+        combineReducers
+    )({ windows: fromWindows.windows(combineReducers(reducers)) });
+
+    return reducer;
+}
+
+export function appReducer(state: State, action: Action) {
+    return createReducer()(state, action);
+}
