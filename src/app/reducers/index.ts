@@ -1,4 +1,6 @@
 import { combineReducers, Action, ActionReducer } from '@ngrx/store';
+import { compose } from '@ngrx/core/compose';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { environment } from '../../environments/environment';
 
@@ -33,13 +35,16 @@ const reducers = {
     // windows: fromWindows.windowReducer
 };
 
-const _reducer: ActionReducer<State> = combineReducers({ windows: fromWindows.windows(combineReducers(reducers)) });
-
-// add a wrapper around the reducers to log the actions
-export function reducer(state: State, action: Action) {
+// Meta reducer to log actions
+const log = (reducer) => (state: State, action: Action) => {
     if (!environment.production) {
         console.log(action.type, action);
     }
-
-    return _reducer(state, action);
+    return reducer(state, action);
 };
+
+export const reducer: ActionReducer<State> = compose(
+    localStorageSync({ keys: ['windows'], rehydrate: true, storageKeySerializer: (key) => 'altair_' + key }),
+    log,
+    combineReducers
+)({ windows: fromWindows.windows(combineReducers(reducers)) });
