@@ -15,6 +15,7 @@ body {
 input[type="text"], input[type="search"]{
     display: block;
     width: 100%;
+    font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
     &:focus{
         outline: 0;
     }

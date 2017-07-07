@@ -21,6 +21,8 @@
     border-radius: 0 0 10px 10px;
     transition: all .3s ease;
     cursor: pointer;
+    max-width: 150px;
+    white-space: nowrap;
     &:hover{
         color: $green;
         .app-window-switcher-close{
@@ -38,6 +40,11 @@
     &.create-new-window{
         opacity: 0;
         box-shadow: 0 0 5px rgba($black, .2);
+    }
+}
+.app-window-switcher-input{
+    &:focus{
+        outline: 1px solid $orange;
     }
 }
 .app-window-switcher-close{
@@ -228,11 +235,31 @@ app-query-result{
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 100%;
     width: 100%;
     font-size: 24px;
     font-weight: bold;
     color: $dark-grey;
+}
+.app-no-result-subtext{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.app-no-result-inner{
+    width: 400px;
+    max-width: 90%;
+}
+.app-no-result-art-button{
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    background: darken($light-grey, 5%);
+    opacity: .8;
+    border-radius: 5px;
+    &.send{
+        background: $green;
+    }
 }
 .app-dialog-wrapper{
     position: absolute;
