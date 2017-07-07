@@ -86,10 +86,7 @@
       [variables]="variables"
       [showVariableDialog]="showVariableDialog"
       (toggleVariableDialog)="toggleVariableDialog()"
-      (addVariableChange)="addVariable()"
-      (variableKeyChange)="updateVariableKey($event)"
-      (variableValueChange)="updateVariableValue($event)"
-      (removeVariableChange)="removeVariable($event)"
+      (variablesChange)="updateVariables($event)"
     ></app-set-variable-dialog>
   </div>
 </div>

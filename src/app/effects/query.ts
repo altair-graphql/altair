@@ -53,7 +53,7 @@ export class QueryEffects {
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
-                ._send(response.data.query.query, this.getVariablesObj(response.data.variables))
+                ._send(response.data.query.query, response.data.variables.variables)
                 .map(res => {
                     requestStatusCode = res.status;
                     return res.json();
