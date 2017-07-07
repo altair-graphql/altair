@@ -40,7 +40,7 @@ export class WindowComponent implements OnInit {
   showVariableDialog = false;
   showDocs = true;
   headers: fromHeader.State = [];
-  variables: fromVariable.State = [];
+  variables = '';
   introspectionResult = {};
   gqlSchema = null;
 
@@ -81,7 +81,7 @@ export class WindowComponent implements OnInit {
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.introspectionResult = data.schema.introspection;
         this.gqlSchema = data.schema.schema;
-        this.variables = data.variables;
+        this.variables = data.variables.variables;
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
@@ -146,19 +146,8 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
   }
 
-  addVariable() {
-    this.store.dispatch(new variableActions.AddVariableAction(this.windowId));
-  }
-  updateVariableKey(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableKeyAction({ val, i }, this.windowId));
-  }
-  updateVariableValue(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableValueAction({ val, i }, this.windowId));
-  }
-  removeVariable(i) {
-    this.store.dispatch(new variableActions.RemoveVariableAction(i, this.windowId));
+  updateVariables(variables) {
+    this.store.dispatch(new variableActions.UpdateVariablesAction(variables, this.windowId));
   }
 
   prettifyCode() {

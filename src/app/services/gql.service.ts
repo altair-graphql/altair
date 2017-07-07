@@ -55,7 +55,7 @@ export class GqlService {
 
     // If there is a variables option, add it to the data
     if (vars) {
-      data.variables = vars;
+      data.variables = JSON.parse(vars);
     }
 
     return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers })

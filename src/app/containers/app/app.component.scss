@@ -231,20 +231,6 @@ app-query-result{
     background: transparent;
     font-size: 14px;
 }
-.cm-s-query-result{
-    .cm-attribute{
-        color: $result-default;
-    }
-    .cm-string{
-        color: $result-string;
-    }
-    .cm-property{
-        color: $result-default;
-    }
-    .cm-punctuation{
-        color: $result-default;
-    }
-}
 .app-no-result{
     display: flex;
     align-items: center;
@@ -338,6 +324,11 @@ app-query-result{
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
+}
+.app-dialog-body{
+    margin-bottom: 10px;
+    max-height: 500px;
+    overflow: auto;
 }
 
 .set-header-input-container,

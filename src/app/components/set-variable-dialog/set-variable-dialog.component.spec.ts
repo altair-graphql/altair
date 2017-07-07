@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule } from '@angular/forms';
+import { CodemirrorModule } from 'ng2-codemirror';
+
 import * as services from '../../services';
 import { SetVariableDialogComponent } from './set-variable-dialog.component';
 
@@ -10,6 +13,10 @@ describe('SetVariableDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SetVariableDialogComponent ],
+      imports: [
+        FormsModule,
+        CodemirrorModule
+      ],
       providers: []
     })
     .compileComponents();
