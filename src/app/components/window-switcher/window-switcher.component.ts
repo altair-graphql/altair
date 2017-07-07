@@ -18,10 +18,24 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() activeWindowChange = new EventEmitter();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter();
+  @Output() windowNameChange = new EventEmitter();
+
+  windowNameEditing = null;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  editWindowNameInput(windowId, wTitle) {
+    this.windowNameEditing = windowId;
+    wTitle.setAttribute('contenteditable', true);
+    wTitle.focus();
+  }
+
+  saveWindowName(windowId, windowName) {
+    this.windowNameChange.next({ windowId, windowName });
+    this.windowNameEditing = null;
   }
 
 }

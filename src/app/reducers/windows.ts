@@ -42,7 +42,7 @@ export function windows(reducer: ActionReducer<any>) {
                     // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
                     const _windowState = JSON.parse(JSON.stringify(initWindowState));
                     _windowState.windowId = windowKey;
-                    _windowState.layout.title = windowTitle;
+                    _windowState.layout.title = _windowState.layout.title || windowTitle;
 
                     newWindowsState[windowKey] = Object.assign({}, _windowState);
                 });
