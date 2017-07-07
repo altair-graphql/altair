@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import * as variables from '../../actions/variables/variables';
 
-export interface State{
+export interface State {
     variables: string;
 }
 
