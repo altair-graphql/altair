@@ -47,7 +47,7 @@ export class AppComponent {
         }
       });
 
-    // this.windowService.loadWindows();
+    this.windowService.loadWindows();
   }
 
   newWindow() {
