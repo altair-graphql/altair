@@ -38,11 +38,11 @@
 @mixin show-transition{
     visibility: visible;
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 300ms;
+    transition: visibility 0s var(app-easing) 0s, opacity 300ms;
 }
 
 @mixin hide-transition{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 300ms, opacity 300ms;
+    transition: visibility 0s var(app-easing) 300ms, opacity 300ms;
 }

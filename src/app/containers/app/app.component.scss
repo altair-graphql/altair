@@ -64,6 +64,7 @@
     flex: 1;
     flex-direction: column;
     padding: 0 20px 20px;
+    max-width: 100%;
 }
 .app-loader{
     @include hide-transition;
@@ -276,18 +277,18 @@ app-query-result{
 .show-dialog{
     visibility: visible;
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 300ms;
+    transition: visibility 0s var(--app-easing) 0s, opacity 300ms;
     .app-dialog{
         transform: translateX(-50%) translateY(0%) scale(1);
-        transition: all .3s ease;
+        transition: all .3s var(--app-easing);
     }
 }
 .hide-dialog{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 300ms, opacity 300ms;
+    transition: visibility 0s var(--app-easing) 300ms, opacity 300ms;
     .app-dialog{
-        transition: all .3s ease;
+        transition: all .3s var(--app-easing);
     }
 }
 .app-dialog-overlay{
