@@ -7,7 +7,7 @@ app-doc-viewer{
     background: $white;
     z-index: 2;
     transform: translateX(100%);
-    transition: all .5s ease;
+    transition: all .5s var(--app-easing);
     overflow: auto;
     &.show-doc{
         transform: translateX(0);
