@@ -47,13 +47,13 @@ export class SetQueryResultAction implements Action {
 export class PrettifyQueryAction implements Action {
     readonly type = PRETTIFY_QUERY;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class SendQueryRequestAction implements Action {
     readonly type = SEND_QUERY_REQUEST;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class SetResponseStatsAction implements Action {
@@ -65,13 +65,13 @@ export class SetResponseStatsAction implements Action {
 export class CancelQueryRequestAction implements Action {
     readonly type = CANCEL_QUERY_REQUEST;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class HideUrlAlertAction implements Action {
     readonly type = HIDE_URL_ALERT;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class ShowUrlAlertAction implements Action {
@@ -79,3 +79,16 @@ export class ShowUrlAlertAction implements Action {
 
     constructor(public payload: any, public windowId: string) {}
 }
+
+export type Action =
+    SetUrlAction |
+    SetUrlFromDbAction |
+    SetQueryAction |
+    SetQueryFromDbAction |
+    SetQueryResultAction |
+    PrettifyQueryAction |
+    SendQueryRequestAction |
+    SetResponseStatsAction |
+    CancelQueryRequestAction |
+    HideUrlAlertAction |
+    ShowUrlAlertAction;

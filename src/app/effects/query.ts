@@ -22,7 +22,7 @@ export class QueryEffects {
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
         .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
-        .withLatestFrom(this.store, (action, state) => {
+        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
             return { data: state.windows[action.windowId], windowId: action.windowId, action };
         })
         .do((response) => {
@@ -83,9 +83,9 @@ export class QueryEffects {
 
     @Effect()
     // Shows the URL set alert after the URL is set
-    showUrlSetAlert$: Observable<Action> = this.actions$
+    showUrlSetAlert$: Observable<queryActions.Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .do((data) => {
+        .do((data: queryActions.Action) => {
             const opts = {
                 message: 'URL has been set',
                 success: true
@@ -99,7 +99,7 @@ export class QueryEffects {
 
             return data;
         })
-        .switchMap((data) => {
+        .switchMap((data: queryActions.Action) => {
             return Observable.timer(3000)
                 .switchMap(() => Observable.of(new queryActions.HideUrlAlertAction(data.windowId)));
         });
@@ -108,7 +108,7 @@ export class QueryEffects {
     // Gets the gql schema after the introspection is set
     getGqlSchema$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION, gqlSchemaActions.SET_INTROSPECTION_FROM_DB)
-        .switchMap((data) => {
+        .switchMap((data: queryActions.Action) => {
             const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
             if (schema) {
@@ -121,7 +121,7 @@ export class QueryEffects {
     @Effect()
     saveUrlToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .map((data) => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeUrl(data.payload, data.windowId);
             return new dbActions.SaveUrlSuccessAction();
         });
@@ -131,7 +131,7 @@ export class QueryEffects {
         .ofType(queryActions.SET_QUERY)
         // Save query after user has stopped typing for 500ms
         .debounce(() => Observable.timer(500))
-        .map(data => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeQuery(data.payload, data.windowId);
             return new dbActions.SaveQuerySuccessAction();
         });
@@ -139,15 +139,15 @@ export class QueryEffects {
     @Effect()
     saveIntrospectionToDb$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION)
-        .map(data => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeIntrospection(data.payload, data.windowId);
             return new dbActions.SaveIntrospectionSuccessAction();
         });
 
     @Effect()
-    getIntrospectionForUrl$: Observable<Action> = this.actions$
+    getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .switchMap(data => {
+        .switchMap((data: queryActions.Action) => {
             if (!data.payload) {
                 return Observable.empty();
             }
@@ -173,7 +173,7 @@ export class QueryEffects {
                 })
                 .map(introspectionData => {
                     if (!introspectionData) {
-                        return {};
+                        return Observable.empty();
                     }
 
                     this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, data.windowId));
