@@ -9,6 +9,8 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const SEND_QUERY_REQUEST = 'SEND_QUERY_REQUEST';
+export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
+export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
 export const HIDE_URL_ALERT = 'HIDE_URL_ALERT';
 export const SHOW_URL_ALERT = 'SHOW_URL_ALERT';
 
@@ -45,19 +47,31 @@ export class SetQueryResultAction implements Action {
 export class PrettifyQueryAction implements Action {
     readonly type = PRETTIFY_QUERY;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class SendQueryRequestAction implements Action {
     readonly type = SEND_QUERY_REQUEST;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
+}
+
+export class SetResponseStatsAction implements Action {
+    readonly type = SET_RESPONSE_STATS;
+
+    constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number }) {}
+}
+
+export class CancelQueryRequestAction implements Action {
+    readonly type = CANCEL_QUERY_REQUEST;
+
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class HideUrlAlertAction implements Action {
     readonly type = HIDE_URL_ALERT;
 
-    constructor(public windowId: string) {}
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class ShowUrlAlertAction implements Action {
@@ -65,3 +79,16 @@ export class ShowUrlAlertAction implements Action {
 
     constructor(public payload: any, public windowId: string) {}
 }
+
+export type Action =
+    SetUrlAction |
+    SetUrlFromDbAction |
+    SetQueryAction |
+    SetQueryFromDbAction |
+    SetQueryResultAction |
+    PrettifyQueryAction |
+    SendQueryRequestAction |
+    SetResponseStatsAction |
+    CancelQueryRequestAction |
+    HideUrlAlertAction |
+    ShowUrlAlertAction;

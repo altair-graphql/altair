@@ -7,7 +7,7 @@ app-doc-viewer{
     background: $white;
     z-index: 2;
     transform: translateX(100%);
-    transition: all .5s ease;
+    transition: all .5s var(--app-easing);
     overflow: auto;
     &.show-doc{
         transform: translateX(0);
@@ -108,6 +108,13 @@ app-doc-viewer{
 }
 .doc-viewer-item-query-inner{
     margin-bottom: 1px;
+}
+.doc-viewer-item-query-deprecated{
+    display: inline-block;
+    font-size: 12px;
+    padding: 3px;
+    background: rgba($red, .05);
+    color: $red;
 }
 .doc-viewer-item-query-description{
     font-size: 13px;

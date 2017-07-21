@@ -1,9 +1,30 @@
 <div class="app-result-container">
   <div class="app-no-result" *ngIf="!queryResult">
-    <div>No response</div>
+    <div class="app-no-result-inner">
+      <div class="app-no-result-subtext">
+        Ezio my friend, how may I be of service?
+      </div>
+      <div class="app-no-result-art">
+        <div class="left">
+          <div class="app-no-result-art-button send"></div>
+          <div class="app-no-result-art-button"></div>
+          <div class="app-no-result-art-button"></div>
+          <div class="app-no-result-art-button"></div>
+        </div>
+        <div class="right">
+        <div class="app-no-result-art-button"></div>
+        </div>
+      </div>
+    </div>
   </div>
   <!--We want it to be hidden in the DOM, not removed so we use hidden-->
   <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
+    <div class="response-stats">
+        STATUS CODE: 
+        <span class="response-status-code">{{responseStatus}}</span>
+        TIME SPENT: 
+        <span class="response-time">{{responseTime}}ms</span>
+    </div>
     <codemirror
      #editor
      class="app-query-result-textarea"

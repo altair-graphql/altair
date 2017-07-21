@@ -58,3 +58,35 @@
         color: $dark-grey;
     }
 }
+.cm-s-query-result{
+    .cm-attribute{
+        color: $result-default;
+    }
+    .cm-string{
+        color: $result-string;
+    }
+    .cm-property{
+        color: $result-default;
+    }
+    .cm-punctuation{
+        color: $result-default;
+    }
+}
+.cm-s-variable-editor{
+    background: $light-grey;
+    .CodeMirror-scroll{
+        min-height: 200px;
+    }
+    .cm-attribute{
+        color: $result-default;
+    }
+    .cm-string{
+        color: $result-string;
+    }
+    .cm-property{
+        color: $result-default;
+    }
+    .cm-punctuation{
+        color: $result-default;
+    }
+}

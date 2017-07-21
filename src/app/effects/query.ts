@@ -21,9 +21,9 @@ export class QueryEffects {
     // Sends the query request to the specified URL
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
-        .ofType(queryActions.SEND_QUERY_REQUEST)
-        .withLatestFrom(this.store, (action, state) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId };
+        .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
+        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+            return { data: state.windows[action.windowId], windowId: action.windowId, action };
         })
         .do((response) => {
             this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
@@ -42,28 +42,50 @@ export class QueryEffects {
                 return Observable.empty();
             }
 
+            if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                return Observable.empty();
+            }
+
+            const requestStartTime = new Date().getTime();
+            let requestStatusCode = 0;
+
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
-                .send(response.data.query.query, this.getVariablesObj(response.data.variables))
+                ._send(response.data.query.query, response.data.variables.variables)
+                .map(res => {
+                    requestStatusCode = res.status;
+                    return res.json();
+                })
                 .map(result => {
                     return new queryActions.SetQueryResultAction(result, response.windowId);
                 }).catch((error) => {
                     let output = 'Server Error';
+
+                    requestStatusCode = error.status;
+
                     if (error.status) {
                         output = error.json() || error.toString();
                     }
                     return Observable.of(new queryActions.SetQueryResultAction(output, response.windowId));
                 }).do(() => {
+                    const requestEndTime = new Date().getTime();
+                    const requestElapsedTime = requestEndTime - requestStartTime;
+
+                    this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
+                        responseStatus: requestStatusCode,
+                        responseTime: requestElapsedTime
+                    }));
                     this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 });
         });
 
     @Effect()
     // Shows the URL set alert after the URL is set
-    showUrlSetAlert$: Observable<Action> = this.actions$
+    showUrlSetAlert$: Observable<queryActions.Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .do((data) => {
+        .do((data: queryActions.Action) => {
             const opts = {
                 message: 'URL has been set',
                 success: true
@@ -77,7 +99,7 @@ export class QueryEffects {
 
             return data;
         })
-        .switchMap((data) => {
+        .switchMap((data: queryActions.Action) => {
             return Observable.timer(3000)
                 .switchMap(() => Observable.of(new queryActions.HideUrlAlertAction(data.windowId)));
         });
@@ -86,7 +108,7 @@ export class QueryEffects {
     // Gets the gql schema after the introspection is set
     getGqlSchema$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION, gqlSchemaActions.SET_INTROSPECTION_FROM_DB)
-        .switchMap((data) => {
+        .switchMap((data: queryActions.Action) => {
             const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
             if (schema) {
@@ -99,7 +121,7 @@ export class QueryEffects {
     @Effect()
     saveUrlToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .map((data) => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeUrl(data.payload, data.windowId);
             return new dbActions.SaveUrlSuccessAction();
         });
@@ -109,7 +131,7 @@ export class QueryEffects {
         .ofType(queryActions.SET_QUERY)
         // Save query after user has stopped typing for 500ms
         .debounce(() => Observable.timer(500))
-        .map(data => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeQuery(data.payload, data.windowId);
             return new dbActions.SaveQuerySuccessAction();
         });
@@ -117,15 +139,15 @@ export class QueryEffects {
     @Effect()
     saveIntrospectionToDb$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.SET_INTROSPECTION)
-        .map(data => {
+        .map((data: queryActions.Action) => {
             this.queryService.storeIntrospection(data.payload, data.windowId);
             return new dbActions.SaveIntrospectionSuccessAction();
         });
 
     @Effect()
-    getIntrospectionForUrl$: Observable<Action> = this.actions$
+    getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
         .ofType(queryActions.SET_URL)
-        .switchMap(data => {
+        .switchMap((data: queryActions.Action) => {
             if (!data.payload) {
                 return Observable.empty();
             }
@@ -151,7 +173,7 @@ export class QueryEffects {
                 })
                 .map(introspectionData => {
                     if (!introspectionData) {
-                        return {};
+                        return Observable.empty();
                     }
 
                     this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, data.windowId));

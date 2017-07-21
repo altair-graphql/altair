@@ -5,6 +5,7 @@
    (newWindowChange)="newWindow()"
    (activeWindowChange)="setActiveWindow($event)"
    (removeWindowChange)="removeWindow($event)"
+   (windowNameChange)="setWindowName($event)"
   ></app-window-switcher>
   <ng-container *ngFor="let windowId of windowIds">
     <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>

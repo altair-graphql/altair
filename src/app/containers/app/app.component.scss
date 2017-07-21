@@ -21,6 +21,8 @@
     border-radius: 0 0 10px 10px;
     transition: all .3s ease;
     cursor: pointer;
+    max-width: 150px;
+    white-space: nowrap;
     &:hover{
         color: $green;
         .app-window-switcher-close{
@@ -40,6 +42,11 @@
         box-shadow: 0 0 5px rgba($black, .2);
     }
 }
+.app-window-switcher-input{
+    &:focus{
+        outline: 1px solid $orange;
+    }
+}
 .app-window-switcher-close{
     position: absolute;
     top: 50%;
@@ -57,6 +64,7 @@
     flex: 1;
     flex-direction: column;
     padding: 0 20px 20px;
+    max-width: 100%;
 }
 .app-loader{
     @include hide-transition;
@@ -187,11 +195,32 @@ app-query-result{
     overflow: scroll;
 }
 .app-result{
+    position: relative;
     width: 100%;
     height: 100%;
+    padding-top: 50px;
     &.hide-result{
         height: 0;
         // display: none;
+    }
+
+    .response-stats{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        font-size: 12px;
+    }
+    .response-time{
+        display: inline-block;
+    }
+    .response-status-code{
+        display: inline-block;
+        background: rgba($blue, .1);
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin-right: 10px;
     }
 }
 .app-query-result-textarea{
@@ -203,29 +232,35 @@ app-query-result{
     background: transparent;
     font-size: 14px;
 }
-.cm-s-query-result{
-    .cm-attribute{
-        color: $result-default;
-    }
-    .cm-string{
-        color: $result-string;
-    }
-    .cm-property{
-        color: $result-default;
-    }
-    .cm-punctuation{
-        color: $result-default;
-    }
-}
 .app-no-result{
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 100%;
     width: 100%;
     font-size: 24px;
     font-weight: bold;
     color: $dark-grey;
+}
+.app-no-result-subtext{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.app-no-result-inner{
+    width: 400px;
+    max-width: 90%;
+}
+.app-no-result-art-button{
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    background: darken($light-grey, 5%);
+    opacity: .8;
+    border-radius: 5px;
+    &.send{
+        background: $green;
+    }
 }
 .app-dialog-wrapper{
     position: absolute;
@@ -242,18 +277,18 @@ app-query-result{
 .show-dialog{
     visibility: visible;
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 300ms;
+    transition: visibility 0s var(--app-easing) 0s, opacity 300ms;
     .app-dialog{
         transform: translateX(-50%) translateY(0%) scale(1);
-        transition: all .3s ease;
+        transition: all .3s var(--app-easing);
     }
 }
 .hide-dialog{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 300ms, opacity 300ms;
+    transition: visibility 0s var(--app-easing) 300ms, opacity 300ms;
     .app-dialog{
-        transition: all .3s ease;
+        transition: all .3s var(--app-easing);
     }
 }
 .app-dialog-overlay{
@@ -290,6 +325,11 @@ app-query-result{
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
+}
+.app-dialog-body{
+    margin-bottom: 10px;
+    max-height: 500px;
+    overflow: auto;
 }
 
 .set-header-input-container,

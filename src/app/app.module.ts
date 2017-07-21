@@ -7,7 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { reducer } from './reducers';
+import { appReducer } from './reducers';
 
 
 import { QueryEffects } from './effects/query';
@@ -47,7 +47,7 @@ const providers = [
     HttpModule,
     ComponentModule,
     DocViewerModule,
-    StoreModule.provideStore(reducer),
+    StoreModule.provideStore(appReducer),
     EffectsModule.run(QueryEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],

@@ -40,7 +40,7 @@ export class WindowComponent implements OnInit {
   showVariableDialog = false;
   showDocs = true;
   headers: fromHeader.State = [];
-  variables: fromVariable.State = [];
+  variables = '';
   introspectionResult = {};
   gqlSchema = null;
 
@@ -51,6 +51,9 @@ export class WindowComponent implements OnInit {
   isLoading = false;
 
   allowIntrospection = true;
+
+  responseTime = 0;
+  responseStatus = 0;
 
   constructor(
     private queryService: QueryService,
@@ -78,18 +81,22 @@ export class WindowComponent implements OnInit {
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.introspectionResult = data.schema.introspection;
         this.gqlSchema = data.schema.schema;
-        this.variables = data.variables;
+        this.variables = data.variables.variables;
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
         this.urlAlertMessage = data.query.urlAlertMessage;
         this.urlAlertSuccess = data.query.urlAlertSuccess;
         this.allowIntrospection = data.schema.allowIntrospection;
+        this.responseStatus = data.query.responseStatus;
+        this.responseTime = data.query.responseTime;
         // console.log(data.query);
       });
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
+
+    // Introspection needs to be pulled from the db for the schema (which is dynamic) to be updated
     this.queryService.loadIntrospection(this.windowId);
   }
 
@@ -100,6 +107,10 @@ export class WindowComponent implements OnInit {
 
   sendRequest() {
     this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
+  }
+
+  cancelRequest() {
+    this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
   }
 
   updateQuery(query) {
@@ -135,19 +146,8 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
   }
 
-  addVariable() {
-    this.store.dispatch(new variableActions.AddVariableAction(this.windowId));
-  }
-  updateVariableKey(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableKeyAction({ val, i }, this.windowId));
-  }
-  updateVariableValue(event) {
-    const {val, i} = event;
-    this.store.dispatch(new variableActions.EditVariableValueAction({ val, i }, this.windowId));
-  }
-  removeVariable(i) {
-    this.store.dispatch(new variableActions.RemoveVariableAction(i, this.windowId));
+  updateVariables(variables) {
+    this.store.dispatch(new variableActions.UpdateVariablesAction(variables, this.windowId));
   }
 
   prettifyCode() {

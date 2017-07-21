@@ -19,6 +19,8 @@ export function layoutReducer(state = initialState, action: Action): State {
             return Object.assign({}, state, { isLoading: true });
         case layout.STOP_LOADING:
             return Object.assign({}, state, { isLoading: false });
+        case layout.SET_WINDOW_NAME:
+            return Object.assign({}, state, { title: action.payload });
         default:
             return state;
     }
