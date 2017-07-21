@@ -19,6 +19,7 @@ export class DocViewerComponent implements OnChanges {
   @Output() toggleDocs = new EventEmitter();
 
   rootTypes = [];
+  index = [];
 
   docHistory = [];
 
@@ -41,11 +42,63 @@ export class DocViewerComponent implements OnChanges {
 
   updateDocs(schema) {
     console.log(schema);
+    let getFieldsIndices = null;
+    let getTypeIndices = null;
+
     this.rootTypes = [
       schema.getQueryType(),
       schema.getMutationType(),
       schema.getSubscriptionType()
-    ];
+    ].filter(val => !!val);
+
+    getFieldsIndices = (fields, type) => {
+      let index = [];
+
+      Object.keys(fields).forEach(fieldKey => {
+        const field = fields[fieldKey];
+        index = [...index, {
+          name: field.name,
+          description: field.description,
+          cat: 'field',
+          type: type.name
+        }];
+
+        if (field.type) {
+          index = [...index, ...getTypeIndices(field.type).filter(val => !!val)];
+        }
+
+      });
+
+      return index;
+    };
+
+    getTypeIndices = type => {
+      let fields = null;
+
+      if (!type.name) {
+        return [];
+      }
+      if (type.getFields) {
+        fields = type.getFields();
+      }
+
+      const index = [
+        { name: type.name, cat: 'type', description: type.description }
+      ];
+
+      if (fields) {
+        return [...index, ...getFieldsIndices(fields, type).filter(val => !!val)];
+      }
+
+      return index;
+    };
+
+    this.index = [];
+    this.rootTypes.forEach(type => {
+      this.index = [...this.index, ...getTypeIndices(type)];
+    });
+
+    console.log('Index: ', this.index);
   }
 
   /**
