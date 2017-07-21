@@ -24,10 +24,12 @@ export class DocViewerComponent implements OnChanges {
   docHistory = [];
 
   docView = {
-    view: 'root', // type, field, root
+    view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
     name: 'Conference' // identifies type/field
   };
+
+  searchResult = [];
 
   constructor() { }
 
@@ -51,7 +53,10 @@ export class DocViewerComponent implements OnChanges {
       schema.getSubscriptionType()
     ].filter(val => !!val);
 
-    getFieldsIndices = (fields, type) => {
+    /**
+     * Gets the indices for fields
+     */
+    getFieldsIndices = (fields, type, isQuery) => {
       let index = [];
 
       Object.keys(fields).forEach(fieldKey => {
@@ -59,8 +64,10 @@ export class DocViewerComponent implements OnChanges {
         index = [...index, {
           name: field.name,
           description: field.description,
+          args: field.args,
           cat: 'field',
-          type: type.name
+          type: type.name,
+          isQuery
         }];
 
         if (field.type) {
@@ -72,7 +79,10 @@ export class DocViewerComponent implements OnChanges {
       return index;
     };
 
-    getTypeIndices = type => {
+    /**
+     * Gets the indices for types
+     */
+    getTypeIndices = (type, isRoot) => {
       let fields = null;
 
       if (!type.name) {
@@ -83,22 +93,34 @@ export class DocViewerComponent implements OnChanges {
       }
 
       const index = [
-        { name: type.name, cat: 'type', description: type.description }
+        { name: type.name, cat: 'type', description: type.description, isRoot }
       ];
 
       if (fields) {
-        return [...index, ...getFieldsIndices(fields, type).filter(val => !!val)];
+        return [...index, ...getFieldsIndices(fields, type, isRoot).filter(val => !!val)];
       }
 
       return index;
     };
 
     this.index = [];
+
+    // Store the indices of all the types and fields
     this.rootTypes.forEach(type => {
-      this.index = [...this.index, ...getTypeIndices(type)];
+      this.index = [...this.index, ...getTypeIndices(type, true)];
     });
 
     console.log('Index: ', this.index);
+  }
+
+  /**
+   * search through the docs for the provided term
+   */
+  searchDocs(term) {
+    this.docHistory.push(Object.assign({}, this.docView));
+    this.docView.view = 'search';
+    this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.name));
+    console.log(this.searchResult);
   }
 
   /**
