@@ -61,15 +61,31 @@ export class DocViewerComponent implements OnChanges {
 
       Object.keys(fields).forEach(fieldKey => {
         const field = fields[fieldKey];
-        index = [...index, {
+
+        // For each field, create an entry in the index
+        const fieldIndex = {
+          search: field.name,
           name: field.name,
           description: field.description,
           args: field.args,
           cat: 'field',
           type: type.name,
           isQuery
-        }];
+        };
+        index = [...index, fieldIndex];
 
+        // For each argument of the field, create an entry in the index for the field,
+        // searchable by the argument name
+        if (field.args.length) {
+          field.args.forEach(arg => {
+            index = [...index, {
+              ...fieldIndex,
+              search: arg.name,
+            }];
+          });
+        }
+
+        // If the field has a type, get indices for the type as well
         if (field.type) {
           index = [...index, ...getTypeIndices(field.type).filter(val => !!val)];
         }
@@ -93,7 +109,13 @@ export class DocViewerComponent implements OnChanges {
       }
 
       const index = [
-        { name: type.name, cat: 'type', description: type.description, isRoot }
+        {
+          search: type.name,
+          name: type.name,
+          cat: 'type',
+          description: type.description,
+          isRoot
+        }
       ];
 
       if (fields) {
@@ -119,7 +141,7 @@ export class DocViewerComponent implements OnChanges {
   searchDocs(term) {
     this.docHistory.push(Object.assign({}, this.docView));
     this.docView.view = 'search';
-    this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.name));
+    this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
     console.log(this.searchResult);
   }
 
