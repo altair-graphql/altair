@@ -139,7 +139,6 @@ export class DocViewerComponent implements OnChanges {
    * search through the docs for the provided term
    */
   searchDocs(term) {
-    this.docHistory.push(Object.assign({}, this.docView));
     this.docView.view = 'search';
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
     console.log(this.searchResult);
