@@ -22,7 +22,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animation": "^4.0.0-beta.8",
+    "@angular/animations": "^4.3.1",
     "@angular/cli": "1.0.0",
     "@angular/common": "^4.3.1",
     "@angular/compiler": "^4.3.1",
