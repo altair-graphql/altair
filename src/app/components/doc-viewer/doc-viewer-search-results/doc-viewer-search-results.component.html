@@ -1,0 +1,37 @@
+<div class="doc-viewer-search-results">
+  <div class="doc-viewer-search-results-title">
+    Search Results
+  </div>
+  
+  <div
+   class="doc-viewer-search-result-item"
+   *ngFor="let result of results"
+   (click)="goToItem(result.name, result.type, result.cat)"
+   [@showResultItem]
+  >
+    <ng-container [ngSwitch]="result.cat">
+      <ng-container *ngSwitchCase="'type'">
+        <span class="doc-viewer-search-result-cat cat-type">Type</span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'field'">
+        <span class="doc-viewer-search-result-cat cat-query" *ngIf="result.isQuery">{{getProperName(result.type)}}</span>
+        <span class="doc-viewer-search-result-cat cat-field" *ngIf="!result.isQuery">Field</span>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <span class="doc-viewer-search-result-cat cat-type">{{getProperName(result.cat)}}</span>
+      </ng-container>
+    </ng-container>
+    <div class="doc-viewer-search-result-item-inner">
+      <span *ngIf="!result.isQuery && result.type" class="doc-viewer-search-result-parent-type">{{result.type}}.</span><span>{{ result.name }}</span>
+      <ng-container *ngIf="result.args && result.args.length">
+        (
+        <span *ngFor="let arg of result.args; let last = last">
+          <span>{{ arg.name }}</span><span *ngIf="!last">,</span>
+        </span>
+        )
+      </ng-container>
+    </div>
+    <div class="doc-viewer-search-result-description">{{result.description}}</div>
+  </div>
+
+</div>

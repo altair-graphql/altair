@@ -19,14 +19,17 @@ export class DocViewerComponent implements OnChanges {
   @Output() toggleDocs = new EventEmitter();
 
   rootTypes = [];
+  index = [];
 
   docHistory = [];
 
   docView = {
-    view: 'root', // type, field, root
+    view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
     name: 'Conference' // identifies type/field
   };
+
+  searchResult = [];
 
   constructor() { }
 
@@ -41,11 +44,105 @@ export class DocViewerComponent implements OnChanges {
 
   updateDocs(schema) {
     console.log(schema);
+    let getFieldsIndices = null;
+    let getTypeIndices = null;
+
     this.rootTypes = [
       schema.getQueryType(),
       schema.getMutationType(),
       schema.getSubscriptionType()
-    ];
+    ].filter(val => !!val);
+
+    /**
+     * Gets the indices for fields
+     */
+    getFieldsIndices = (fields, type, isQuery) => {
+      let index = [];
+
+      Object.keys(fields).forEach(fieldKey => {
+        const field = fields[fieldKey];
+
+        // For each field, create an entry in the index
+        const fieldIndex = {
+          search: field.name,
+          name: field.name,
+          description: field.description,
+          args: field.args,
+          cat: 'field',
+          type: type.name,
+          isQuery
+        };
+        index = [...index, fieldIndex];
+
+        // For each argument of the field, create an entry in the index for the field,
+        // searchable by the argument name
+        if (field.args.length) {
+          field.args.forEach(arg => {
+            index = [...index, {
+              ...fieldIndex,
+              search: arg.name,
+            }];
+          });
+        }
+
+        // If the field has a type, get indices for the type as well
+        if (field.type) {
+          index = [...index, ...getTypeIndices(field.type).filter(val => !!val)];
+        }
+
+      });
+
+      return index;
+    };
+
+    /**
+     * Gets the indices for types
+     */
+    getTypeIndices = (type, isRoot) => {
+      let fields = null;
+
+      if (!type.name) {
+        return [];
+      }
+      if (type.getFields) {
+        fields = type.getFields();
+      }
+
+      const index = [
+        {
+          search: type.name,
+          name: type.name,
+          cat: 'type',
+          description: type.description,
+          isRoot
+        }
+      ];
+
+      if (fields) {
+        return [...index, ...getFieldsIndices(fields, type, isRoot).filter(val => !!val)];
+      }
+
+      return index;
+    };
+
+    this.index = [];
+
+    // Store the indices of all the types and fields
+    this.rootTypes.forEach(type => {
+      this.index = [...this.index, ...getTypeIndices(type, true)];
+    });
+
+    console.log('Index: ', this.index);
+  }
+
+  /**
+   * search through the docs for the provided term
+   */
+  searchDocs(term) {
+    this.docHistory.push(Object.assign({}, this.docView));
+    this.docView.view = 'search';
+    this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
+    console.log(this.searchResult);
   }
 
   /**
