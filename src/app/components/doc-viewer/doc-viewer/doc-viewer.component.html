@@ -15,6 +15,12 @@
       </ul>-->
     </div>
   </div>
+  <div class="doc-viewer-search-wrapper">
+    <input
+     #searchDocsInput type="search" class="doc-viewer-search-input" placeholder="Search docs..."
+     (keyup.enter)="searchDocs(searchDocsInput.value)"
+    >
+  </div>
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">
       <ng-container *ngSwitchCase="'root'">
@@ -37,6 +43,13 @@
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
         ></app-doc-viewer-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'search'">
+        <app-doc-viewer-search-results
+         [results]="searchResult"
+         (goToFieldChange)="goToField($event.name, $event.parentType)"
+         (goToTypeChange)="goToType($event.name)"
+        ></app-doc-viewer-search-results>
       </ng-container>
     </div>
   </div>

@@ -61,6 +61,76 @@ app-doc-viewer{
         text-decoration: none;
     }
 }
+.doc-viewer-search-wrapper{
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+.doc-viewer-search-input{
+    font-size: 14px;
+    padding: 5px 0;
+    border: none;
+    border-bottom: 1px solid $grey;
+    transition: all .3s ease;
+    &:focus{
+        border-bottom-color: $green;
+    }
+}
+.doc-viewer-search-results-title{
+    text-transform: uppercase;
+    font-size: 10px;
+    margin-bottom: 10px;
+    color: $red;
+}
+.doc-viewer-search-result-item{
+    position: relative;
+    padding: 10px 60px 10px 5px;
+    border-radius: 3px;
+    color: $black;
+    font-size: 13px;
+    transition: all .3s ease;
+    cursor: pointer;
+    &:hover{
+        background: rgba($grey, .5);
+    }
+}
+.doc-viewer-search-result-item-inner{
+    font-weight: bold;
+}
+.doc-viewer-search-result-parent-type{
+    color: $dark-grey;
+}
+.doc-viewer-search-result-cat{
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 3px;
+    &.cat-type{
+        background: rgba($green, .05);
+        color: $green;
+    }
+    &.cat-field{
+        background: rgba($blue, .05);
+        color: $blue;
+    }
+    &.cat-query{
+        background: rgba($cerise, .05);
+        color: $cerise;
+    }
+    &.cat-argument{
+        background: rgba($orange, .05);
+        color: $orange;
+    }
+}
+.doc-viewer-search-result-description{
+    color: $dark-grey;
+    font-size: 12px;
+    font-weight: normal;
+}
 .doc-viewer-section{
     margin: 0px 0 40px;
     // border-bottom: 1px solid $light-grey;
