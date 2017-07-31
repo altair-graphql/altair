@@ -1,24 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-$black: #33363B;
-$dark-grey: #A6A6A6;
-$grey: #EAEAEA;
-$light-grey: #F0F0F0;
-$white: #FFF;
-$green: #7EBC59;
-$blue: #368CBF;
-$cerise: #F00FAA;
-$red: #ED6A5A;
-$orange: #EDAE49;
-$light-red: #CC998D;
 
-$result-default: $black;
-$result-string: $red;
-
-$dialog-z-index: 10;
-
-@import "scss/reset";
-@import "scss/helpers";
 @import "scss/globals";
+@import "scss/helpers";
 @import "scss/buttons";
 @import "scss/loading-screen";
 

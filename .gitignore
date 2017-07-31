@@ -6,6 +6,9 @@
 /out-tsc
 /chrome-extension
 /electron-builds
+/docs/_site
+/docs/.sass-cache
+/docs/.jekyll-metadata
 altair.zip
 
 # dependencies

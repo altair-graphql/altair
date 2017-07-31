@@ -18,6 +18,7 @@ export class ActionBarComponent {
   @Output() toggleDocs = new EventEmitter();
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
+  @Output() clearEditorChange = new EventEmitter();
 
   constructor() { }
 

@@ -16,6 +16,8 @@ export class DocViewerFieldComponent implements OnInit {
   @Input() gqlSchema;
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
+  @Output() addToEditorChange = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -33,6 +35,10 @@ export class DocViewerFieldComponent implements OnInit {
   goToType(name) {
     // console.log('field type', name);
     this.goToTypeChange.next({ name });
+  }
+
+  addToEditor(data) {
+    this.addToEditorChange.next(data);
   }
 
 }

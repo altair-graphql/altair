@@ -27,6 +27,9 @@
       <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !urlAlertSuccess }" *ngIf="showUrlAlert">
         &#10003; {{ urlAlertMessage }}
       </div>
+      <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !editorAlertSuccess }" *ngIf="showEditorAlert">
+        &#10003; {{ editorAlertMessage }}
+      </div>
     </div>
   </header>
   <app-action-bar
@@ -35,6 +38,7 @@
       (prettifyCodeChange)="prettifyCode()"
       (sendRequest)="sendRequest()"
       (toggleDocs)="toggleDocs()"
+      (clearEditorChange)="clearEditor()"
       [showDocs]="showDocs"
   ></app-action-bar>
   <main class="app-main-section">
@@ -55,6 +59,7 @@
       [allowIntrospection]="allowIntrospection"
       [ngClass]="{'show-doc': showDocs}"
       (toggleDocs)="toggleDocs()"
+      (addQueryToEditorChange)="addQueryToEditor($event)"
     ></app-doc-viewer>
   </main>
   <div class="dialogs">

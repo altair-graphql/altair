@@ -66,4 +66,9 @@
     <div class="doc-viewer-item-query-description">
       {{ item.description }}
     </div>
+    <button class="doc-viewer-item-query-add-btn"
+     (click)="addToEditor(item.name, data.name)">
+      <ng-container *ngIf="isRootType(data.name)">Add Query</ng-container>
+      <ng-container *ngIf="!isRootType(data.name)">Add Fragment</ng-container>
+    </button>
   </div>
