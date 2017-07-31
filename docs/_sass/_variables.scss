@@ -1,0 +1,16 @@
+$primary-color: #7EBC59;
+$light: #E7EDF4;
+$dark: #33363B;
+$font-style: 'Open Sans', 'Helvetica Neue', sans-serif;
+$font-color: $dark;
+$link-color: #425469;
+$link-hover-color: $primary-color;
+
+// grid variables
+$grid-columns: 12;
+$grid-max-width: 65em;
+
+
+// breakpoints
+$breakpoint-small: "only screen and (min-width: 20em)";
+$breakpoint-medium: "only screen and (min-width: 30em)";
