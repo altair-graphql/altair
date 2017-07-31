@@ -1,0 +1,104 @@
+@import 'variables';
+@import 'mixins';
+@import 'typography';
+
+//Basic styling
+* {
+  outline: none;
+}
+
+//styles for the landing page
+.ns-landing {
+
+  .hero{
+    height: 500px;
+    width: 100%;
+    background-image: url('../assets/img/hero_bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: $primary-color;
+    .wrapper, .row{
+      height: 100%;
+    }
+  }
+
+  .hero-cta{
+    position: relative;
+    height: inherit;
+
+    &--title {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    &--description{
+      margin-top: 10px;
+    }
+
+    &--content{
+      color: $light;
+      position: absolute;
+      @include center(y);
+    }
+
+    &--product {
+      background: $light;
+    }
+
+    .btn {
+       @extend %button;
+       margin-top: 20px;
+       font-size: 14px;
+    }
+  }
+
+  .features{
+    .features-list {
+      padding: 50px 0;
+      &--item{
+        list-style: none;
+        position: relative;
+        padding-left: 20px;
+        margin: 20px;
+        &:before{
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0px;
+          top: 5px;
+          height: 15px;
+          width: 15px;
+          background: $primary-color;
+        }
+      }
+
+      &--item-title{
+        font-weight: 500;
+      }
+    }
+  }
+
+  .releases {
+    background: $dark;
+    padding: 50px 0px;
+    color: $light;
+    text-align: center;
+    .heading{
+      text-transform: capitalize;
+      padding: 20px 0px;
+      font-size: 36px;
+    }
+
+    .platform {
+      &--unavailable{
+        opacity: .4;
+      }
+
+      &--name{
+        text-transform: capitalize;
+      }
+    }
+  }
+}
