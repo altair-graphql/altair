@@ -8,15 +8,14 @@
     }
 
 img {
-    width: auto;
     max-width: 100%;
-    height: auto !important;
-    }
+    height: auto;
+}
 
 .wrapper {
     width: 100%;
     margin: 0 auto;
-    }
+}
 
 .wrapper, .row {
     position: relative;
@@ -28,16 +27,16 @@ img {
     padding: 1em;
     width: 100%;
     min-height: 1px;
-    }
+}
 
 @media #{$breakpoint-medium} {
     .wrapper {
         width: 95%;
         max-width: $grid-max-width;
-        }
+    }
     @for $i from 1 through $grid-columns {
         .column-#{$i} {
             width: 100% / $grid-columns * $i;
-            }
         }
     }
+}

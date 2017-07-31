@@ -7,17 +7,20 @@
   outline: none;
 }
 
+$hero-height: 500px;
+
 //styles for the landing page
 .ns-landing {
 
   .hero{
-    height: 500px;
+    height: auto;
     width: 100%;
     background-image: url('../assets/img/hero_bg.png');
     background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     background-color: $primary-color;
+    @media #{$breakpoint-medium} {
+      height: $hero-height;
+    }
     .wrapper, .row{
       height: 100%;
     }
@@ -29,7 +32,7 @@
 
     &--title {
       font-size: 48px;
-      font-weight: 500;
+      font-weight: 700;
       line-height: 1.1;
     }
 
@@ -39,12 +42,16 @@
 
     &--content{
       color: $light;
-      position: absolute;
-      @include center(y);
+      padding: 100px 0;
     }
 
     &--product {
-      background: $light;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 5px;
+      @media #{$breakpoint-medium} {
+        margin: 70px 0;
+      }
     }
 
     .btn {
@@ -60,7 +67,7 @@
       &--item{
         list-style: none;
         position: relative;
-        padding-left: 20px;
+        padding-left: 30px;
         margin: 20px;
         &:before{
           content: '';
@@ -75,7 +82,8 @@
       }
 
       &--item-title{
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 20px;
       }
     }
   }
@@ -87,8 +95,9 @@
     text-align: center;
     .heading{
       text-transform: capitalize;
-      padding: 20px 0px;
-      font-size: 36px;
+      padding: 10px 0px;
+      margin-bottom: 20px;
+      font-size: 30px;
     }
 
     .platform {
