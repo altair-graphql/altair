@@ -37,7 +37,9 @@
 <ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
+    [gqlSchema]="gqlSchema"
     (goToFieldChange)="goToField($event.name, $event.parentType)"
     (goToTypeChange)="goToType($event.name)"
+    (addToEditorChange)="addToEditor($event)"
   ></app-doc-viewer-type>
 </ng-container>

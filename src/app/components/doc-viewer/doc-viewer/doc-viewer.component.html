@@ -32,8 +32,10 @@
         <app-doc-viewer-type
          *ngIf="gqlSchema.getType(docView.name)"
          [data]="gqlSchema.getType(docView.name)"
+         [gqlSchema]="gqlSchema"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
+         (addToEditorChange)="addToEditor($event.name, $event.parentType)"
         ></app-doc-viewer-type>
       </ng-container>
       <ng-container *ngSwitchCase="'field'">
@@ -42,6 +44,7 @@
          [gqlSchema]="gqlSchema"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
+         (addToEditorChange)="addToEditor($event.name, $event.parentType)"
         ></app-doc-viewer-field>
       </ng-container>
       <ng-container *ngSwitchCase="'search'">

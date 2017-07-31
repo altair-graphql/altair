@@ -17,6 +17,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema = null;
   @Input() allowIntrospection = true;
   @Output() toggleDocs = new EventEmitter();
+  @Output() addQueryToEditorChange = new EventEmitter();
 
   rootTypes = [];
   index = [];
@@ -44,14 +45,22 @@ export class DocViewerComponent implements OnChanges {
 
   updateDocs(schema) {
     console.log(schema);
-    let getFieldsIndices = null;
-    let getTypeIndices = null;
-
     this.rootTypes = [
       schema.getQueryType(),
       schema.getMutationType(),
       schema.getSubscriptionType()
     ].filter(val => !!val);
+
+    this.generateIndex(schema);
+  }
+
+  /**
+   * Generate the search index from the schema
+   * @param schema
+   */
+  generateIndex(schema) {
+    let getFieldsIndices = null;
+    let getTypeIndices = null;
 
     /**
      * Gets the indices for fields
@@ -139,6 +148,7 @@ export class DocViewerComponent implements OnChanges {
    * search through the docs for the provided term
    */
   searchDocs(term) {
+    this.updateDocHistory();
     this.docView.view = 'search';
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
     console.log(this.searchResult);
@@ -159,6 +169,14 @@ export class DocViewerComponent implements OnChanges {
   }
 
   /**
+   * Cleans out getType() names to contain only the type name itself
+   * @param name
+   */
+  cleanName(name) {
+    return name.replace(/[\[\]!]/g, '');
+  }
+
+  /**
    * Go back through the doc history
    */
   goBack() {
@@ -169,11 +187,20 @@ export class DocViewerComponent implements OnChanges {
   }
 
   /**
+   * Update the doc history with the current view
+   */
+  updateDocHistory() {
+    if (this.docView && this.docView.view !== 'search') {
+      this.docHistory.push(Object.assign({}, this.docView));
+    }
+  }
+
+  /**
    * Updates the doc view for a particular type
    * @param name name of type
    */
   goToType(name) {
-    this.docHistory.push(Object.assign({}, this.docView));
+    this.updateDocHistory();
     // console.log('Going to type..', name);
     this.docView.view = 'type';
     this.docView.name = name.replace(/[\[\]!]/g, '');
@@ -185,10 +212,124 @@ export class DocViewerComponent implements OnChanges {
    * @param parentType name of parent type of field
    */
   goToField(name, parentType) {
-    this.docHistory.push(Object.assign({}, this.docView));
-    // console.log('Going to field..', name, parentType);
+    this.updateDocHistory();
+    // console.log('Going to field..', name, parentType, this.gqlSchema);
+
     this.docView.view = 'field';
     this.docView.name = name.replace(/[\[\]!]/g, '');
     this.docView.parentType = parentType.replace(/[\[\]!]/g, '');
+  }
+
+  /**
+   * Generate the query for the specified field
+   * @param name name of the current field
+   * @param parentType parent type of the current field
+   * @param parentFields preceding parent field and type combinations
+   */
+  generateQuery(name, parentType, parentFields): { query: String, meta: any } {
+    let query = '';
+
+    // Add the root type of the query
+    switch (parentType) {
+      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType().name:
+        query += 'query';
+        break;
+      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType().name:
+        query += 'mutation';
+        break;
+      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType().name:
+        query += 'subscription';
+        break;
+      default:
+        query += `fragment _____ on ${parentType}`;
+    }
+
+    const fieldData = this.generateFieldData(name, parentType, parentFields, 1);
+
+    // Add the query fields
+    query += `{\n${fieldData.query}\n}`;
+
+    return { query, meta: fieldData.meta };
+  }
+
+  /**
+   * Generate the query for the specified field
+   * @param name name of the current field
+   * @param parentType parent type of the current field
+   * @param parentFields preceding parent field and type combinations
+   * @param level current depth level of the current field
+   */
+  private generateFieldData(name, parentType, parentFields, level): { query: String, meta: any } {
+
+    // console.log('Generating query for ', name, parentType);
+
+    const tabSize = 2;
+    const field = this.gqlSchema.getType(parentType).getFields()[name];
+
+    let hasArgs = false;
+
+    // Start the query with the field name
+    let fieldStr: String = ' '.repeat(level * tabSize) + field.name;
+
+    // If the field has arguments, add them
+    if (field.args && field.args.length) {
+      hasArgs = true;
+
+      const argsList = field.args.reduce((acc, cur) => {
+        return acc + ', ' + cur.name + ': ______';
+      }, '').substring(2);
+
+      fieldStr += `(${argsList})`;
+    }
+
+    // Retrieve the current field type
+    const curTypeName = this.cleanName(field.type.inspect());
+    const curType = this.gqlSchema.getType(curTypeName);
+
+    // Don't add a field if it has been added in the query already.
+    // This happens when there is a recursive field
+    if (parentFields.filter(x => x.name === name && x.type === curTypeName).length) {
+      return { query: '', meta: {} };
+    }
+
+    // Get all the fields of the field type, if available
+    const innerFields = curType.getFields && curType.getFields();
+    let innerFieldsData: String = null;
+    if (innerFields) {
+      innerFieldsData = Object.keys(innerFields).reduce((acc, cur) => {
+        // Don't add a field if it has been added in the query already.
+        // This happens when there is a recursive field
+        if (parentFields.filter(x => x.name === cur && x.type === curTypeName).length) {
+          return '';
+        }
+
+        const curInnerFieldData = this.generateFieldData(cur, curTypeName, [...parentFields, { name, type: curTypeName }], level + 1);
+        const curInnerFieldStr: String = curInnerFieldData.query;
+
+        // Set the hasArgs meta if the inner field has args
+        hasArgs = hasArgs || curInnerFieldData.meta.hasArgs;
+
+        // Don't bother adding the field if there was nothing generated.
+        // This should fix the empty line issue in the inserted queries
+        if (!curInnerFieldStr) {
+          return acc;
+        }
+
+        // Join all the fields together
+        return acc + '\n' + curInnerFieldStr;
+      }, '').substring(1);
+    }
+
+    // Add the inner fields with braces if available
+    if (innerFieldsData) {
+      fieldStr += `{\n${innerFieldsData}\n`;
+      fieldStr += ' '.repeat(level * tabSize) + `}`;
+    }
+
+    return { query: fieldStr, meta: { hasArgs } };
+  }
+
+  addToEditor(name, parentType) {
+    this.addQueryToEditorChange.next(this.generateQuery(name, parentType, []));
   }
 }

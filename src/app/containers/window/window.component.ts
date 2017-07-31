@@ -48,6 +48,10 @@ export class WindowComponent implements OnInit {
   urlAlertMessage = '';
   urlAlertSuccess = false;
 
+  showEditorAlert = false;
+  editorAlertMessage = '';
+  editorAlertSuccess = false;
+
   isLoading = false;
 
   allowIntrospection = true;
@@ -90,6 +94,10 @@ export class WindowComponent implements OnInit {
         this.allowIntrospection = data.schema.allowIntrospection;
         this.responseStatus = data.query.responseStatus;
         this.responseTime = data.query.responseTime;
+
+        this.showEditorAlert = data.query.showEditorAlert;
+        this.editorAlertMessage = data.query.editorAlertMessage;
+        this.editorAlertSuccess = data.query.editorAlertSuccess;
         // console.log(data.query);
       });
 
@@ -152,6 +160,24 @@ export class WindowComponent implements OnInit {
 
   prettifyCode() {
     this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
+  }
+
+  addQueryToEditor(queryData: { query: String, meta: any }) {
+    // Add the query to what is already in the editor
+    this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
+
+    // If the query has args
+    if (queryData.meta.hasArgs) {
+      const opts = {
+          message: 'Fill in the arguments for the query!',
+          success: false
+      };
+      this.store.dispatch(new queryActions.ShowEditorAlertAction(opts, this.windowId));
+    }
+  }
+
+  clearEditor() {
+    this.store.dispatch(new queryActions.SetQueryAction(``, this.windowId));
   }
 
   trackByFn(index, item) {

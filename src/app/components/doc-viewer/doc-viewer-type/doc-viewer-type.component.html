@@ -66,4 +66,7 @@
     <div class="doc-viewer-item-query-description">
       {{ item.description }}
     </div>
+    <button class="doc-viewer-item-query-add-btn"
+     *ngIf="true || isRootType(data.name)"
+     (click)="addToEditor(item.name, data.name)">Add to editor</button>
   </div>
