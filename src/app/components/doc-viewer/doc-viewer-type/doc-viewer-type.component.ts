@@ -66,6 +66,6 @@ export class DocViewerTypeComponent implements OnInit {
   }
 
   addToEditor(name, parentType) {
-    this.addToEditorChange.next({ name, parentType })
+    this.addToEditorChange.next({ name, parentType });
   }
 }
