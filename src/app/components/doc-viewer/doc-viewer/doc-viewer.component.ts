@@ -228,6 +228,7 @@ export class DocViewerComponent implements OnChanges {
    */
   generateQuery(name, parentType, parentFields): { query: String, meta: any } {
     let query = '';
+    let hasArgs = false;
 
     // Add the root type of the query
     switch (parentType) {
@@ -242,6 +243,7 @@ export class DocViewerComponent implements OnChanges {
         break;
       default:
         query += `fragment _____ on ${parentType}`;
+        hasArgs = true;
     }
 
     const fieldData = this.generateFieldData(name, parentType, parentFields, 1);
@@ -249,7 +251,12 @@ export class DocViewerComponent implements OnChanges {
     // Add the query fields
     query += `{\n${fieldData.query}\n}`;
 
-    return { query, meta: fieldData.meta };
+    const meta = {...fieldData.meta};
+
+    // Update hasArgs option
+    meta.hasArgs = hasArgs || meta.hasArgs;
+
+    return { query, meta };
   }
 
   /**
@@ -266,14 +273,16 @@ export class DocViewerComponent implements OnChanges {
     const tabSize = 2;
     const field = this.gqlSchema.getType(parentType).getFields()[name];
 
-    let hasArgs = false;
+    const meta = {
+      hasArgs: false
+    };
 
     // Start the query with the field name
     let fieldStr: String = ' '.repeat(level * tabSize) + field.name;
 
     // If the field has arguments, add them
     if (field.args && field.args.length) {
-      hasArgs = true;
+      meta.hasArgs = true;
 
       const argsList = field.args.reduce((acc, cur) => {
         return acc + ', ' + cur.name + ': ______';
@@ -307,7 +316,7 @@ export class DocViewerComponent implements OnChanges {
         const curInnerFieldStr: String = curInnerFieldData.query;
 
         // Set the hasArgs meta if the inner field has args
-        hasArgs = hasArgs || curInnerFieldData.meta.hasArgs;
+        meta.hasArgs = meta.hasArgs || curInnerFieldData.meta.hasArgs;
 
         // Don't bother adding the field if there was nothing generated.
         // This should fix the empty line issue in the inserted queries
@@ -326,7 +335,7 @@ export class DocViewerComponent implements OnChanges {
       fieldStr += ' '.repeat(level * tabSize) + `}`;
     }
 
-    return { query: fieldStr, meta: { hasArgs } };
+    return { query: fieldStr, meta };
   }
 
   addToEditor(name, parentType) {

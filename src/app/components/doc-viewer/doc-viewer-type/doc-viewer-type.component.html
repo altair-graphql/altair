@@ -67,6 +67,8 @@
       {{ item.description }}
     </div>
     <button class="doc-viewer-item-query-add-btn"
-     *ngIf="true || isRootType(data.name)"
-     (click)="addToEditor(item.name, data.name)">Add to editor</button>
+     (click)="addToEditor(item.name, data.name)">
+      <ng-container *ngIf="isRootType(data.name)">Add Query</ng-container>
+      <ng-container *ngIf="!isRootType(data.name)">Add Fragment</ng-container>
+    </button>
   </div>
