@@ -1,4 +1,4 @@
-const {app, BrowserWindow, protocol, remote } = require('electron');
+const {app, BrowserWindow, protocol, remote, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -31,6 +31,9 @@ function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({ width: 1280, height: 800 })
 
+    // Populate the application menu
+    createMenu();
+
     // and load the index.html of the app.
     win.loadURL(url.format({
         pathname: path.join(__dirname, '../dist/index.html'),
@@ -52,6 +55,76 @@ function createWindow () {
         // when you should delete the corresponding element.
         win = null;
     })
+}
+
+function createMenu () {
+  const template = [
+    {
+      label: "Edit",
+      submenu: [
+        { role: "undo" },
+        { role: "redo" },
+        { type: "separator" },
+        { role: "cut" },
+        { role: "copy" },
+        { role: "paste" },
+        { role: "pasteandmatchstyle" },
+        { role: "delete" },
+        { role: "selectall" }
+      ]
+    },
+    {
+      label: "View",
+      submenu: [
+        { role: "reload" },
+        { role: "forcereload" },
+        { role: "toggledevtools" },
+        { type: "separator" },
+        { role: "togglefullscreen" }
+      ]
+    },
+    {
+      role: "window",
+      submenu: [{ role: "minimize" }, { role: "close" }]
+    }
+  ];
+
+  if (process.platform === "darwin") {
+    template.unshift({
+      label: app.getName(),
+      submenu: [
+        { role: "about" },
+        { type: "separator" },
+        { role: "services", submenu: [] },
+        { type: "separator" },
+        { role: "hide" },
+        { role: "hideothers" },
+        { role: "unhide" },
+        { type: "separator" },
+        { role: "quit" }
+      ]
+    });
+
+    // Edit menu
+    template[1].submenu.push(
+      { type: "separator" },
+      {
+        label: "Speech",
+        submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }]
+      }
+    );
+
+    // Window menu
+    template[3].submenu = [
+      { role: "close" },
+      { role: "minimize" },
+      { type: "separator" },
+      { role: "front" }
+    ];
+  }
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 protocol.registerStandardSchemes(['altair']);
