@@ -80,10 +80,6 @@ function createMenu () {
         { role: "forcereload" },
         { role: "toggledevtools" },
         { type: "separator" },
-        { role: "resetzoom" },
-        { role: "zoomin" },
-        { role: "zoomout" },
-        { type: "separator" },
         { role: "togglefullscreen" }
       ]
     },
@@ -122,7 +118,6 @@ function createMenu () {
     template[3].submenu = [
       { role: "close" },
       { role: "minimize" },
-      { role: "zoom" },
       { type: "separator" },
       { role: "front" }
     ];
