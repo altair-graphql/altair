@@ -181,6 +181,15 @@ export class QueryEffects {
                 });
         });
 
+    @Effect()
+    // Hides the editor set alert after it has been shown
+    showEditorSetAlert$: Observable<queryActions.Action> = this.actions$
+        .ofType(queryActions.SHOW_EDITOR_ALERT)
+        .switchMap((data: queryActions.Action) => {
+            return Observable.timer(3000)
+                .switchMap(() => Observable.of(new queryActions.HideEditorAlertAction(data.windowId)));
+        });
+
     // Get the introspection after setting the URL
     constructor(
         private actions$: Actions,

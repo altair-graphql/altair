@@ -38,6 +38,9 @@
     min-width: 100px;
 }
 .cm-s-default{
+    .cm-atom{
+        color: $black;
+    }
     .cm-attribute{
         color: $green;
     }
@@ -56,6 +59,9 @@
     }
     .cm-comment{
         color: $dark-grey;
+    }
+    .cm-def{
+        color: $orange;
     }
 }
 .cm-s-query-result{

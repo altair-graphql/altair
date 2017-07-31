@@ -13,6 +13,9 @@ export interface State {
     showUrlAlert: boolean;
     urlAlertMessage: string;
     urlAlertSuccess: boolean;
+    showEditorAlert: boolean;
+    editorAlertMessage: string;
+    editorAlertSuccess: boolean;
 }
 
 const initialState: State = {
@@ -23,7 +26,10 @@ const initialState: State = {
     responseStatus: 0,
     showUrlAlert: false,
     urlAlertMessage: 'URL has been set',
-    urlAlertSuccess: true
+    urlAlertSuccess: true,
+    showEditorAlert: false,
+    editorAlertMessage: 'Query is set',
+    editorAlertSuccess: true
 };
 
 export function queryReducer(state = initialState, action: Action): State {
@@ -46,6 +52,14 @@ export function queryReducer(state = initialState, action: Action): State {
             });
         case query.HIDE_URL_ALERT:
             return Object.assign({}, state, { showUrlAlert: false });
+        case query.SHOW_EDITOR_ALERT:
+            return Object.assign({}, state, {
+                showEditorAlert: true,
+                editorAlertMessage: action.payload.message,
+                editorAlertSuccess: action.payload.success
+            });
+        case query.HIDE_EDITOR_ALERT:
+            return Object.assign({}, state, { showEditorAlert: false });
         default:
             return state;
     }

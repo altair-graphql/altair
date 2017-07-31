@@ -148,6 +148,7 @@ app-doc-viewer{
 .doc-viewer-item-query{
     position: relative;
     padding-left: 10px;
+    padding-right: 75px;
     &:before{
         content: '';
         position: absolute;
@@ -159,6 +160,11 @@ app-doc-viewer{
         border-radius: 2px;
         background-color: $green;
         vertical-align: middle;
+    }
+    &:hover{
+        .doc-viewer-item-query-add-btn{
+            opacity: 1;
+        }
     }
 }
 .doc-viewer-item-field{
@@ -190,4 +196,18 @@ app-doc-viewer{
     font-size: 13px;
     // font-style: italic;
     color: $dark-grey;
+}
+.doc-viewer-item-query-add-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: $orange;
+    background: rgba($orange, .2);
+    border: none;
+    border-radius: 3px;
+    padding: 3px 5px;
+    transition: all .3s ease;
+    opacity: 0;
 }
