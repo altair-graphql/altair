@@ -29,7 +29,7 @@ function createWindow () {
     });
 
     // Create the browser window.
-    win = new BrowserWindow({width: 1024, height: 768})
+    win = new BrowserWindow({ width: 1280, height: 800 })
 
     // and load the index.html of the app.
     win.loadURL(url.format({
@@ -42,6 +42,9 @@ function createWindow () {
     // Open the DevTools.
     // win.webContents.openDevTools()
 
+    // Prevent the app from navigating away from the app
+    win.webContents.on('will-navigate', (e, url) => e.preventDefault());
+
     // Emitted when the window is closed.
     win.on('closed', () => {
         // Dereference the window object, usually you would store windows
@@ -52,6 +55,7 @@ function createWindow () {
 }
 
 protocol.registerStandardSchemes(['altair']);
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
