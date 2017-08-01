@@ -10,6 +10,7 @@
 /docs/.sass-cache
 /docs/.jekyll-metadata
 altair.zip
+/out
 
 # dependencies
 /node_modules
