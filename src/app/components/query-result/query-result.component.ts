@@ -27,6 +27,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() queryResult = '';
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
+  @Input() responseStatusText = '';
 
   @ViewChild('editor') editor;
 

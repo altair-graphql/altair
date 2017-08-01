@@ -1,4 +1,5 @@
 import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,14 +10,14 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ApiService {
-    headers: Headers = new Headers({
+    headers: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
         Accept: 'application/json'
     });
 
     api_url = '';
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
 
     }
 
@@ -37,22 +38,19 @@ export class ApiService {
     get(path: string): Observable<any> {
         return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
             .map(this.checkForError)
-            .catch(err => Observable.throw(err))
-            .map(this.getJson);
+            .catch(err => Observable.throw(err));
     }
 
     post(path: string, body): Observable<any> {
         return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
             .map(this.checkForError)
-            .catch(err => Observable.throw(err))
-            .map(this.getJson);
+            .catch(err => Observable.throw(err));
     }
 
     delete(path: string): Observable<any> {
         return this.http.delete(`${this.api_url}${path}`, { headers: this.headers })
             .map(this.checkForError)
-            .catch(err => Observable.throw(err))
-            .map(this.getJson);
+            .catch(err => Observable.throw(err));
     }
 
     setHeaders(headers) {
