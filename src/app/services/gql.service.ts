@@ -31,7 +31,7 @@ export class GqlService {
   }
 
   private checkForError(res: HttpResponse<any>): HttpResponse<any> {
-    console.log(res);
+    // console.log(res);
     if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
@@ -54,7 +54,6 @@ export class GqlService {
       data.variables = JSON.parse(vars);
     }
 
-    console.log('headers', this.headers);
     return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers, observe: 'response' })
       .map(this.checkForError)
       .catch(err => {
