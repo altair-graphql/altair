@@ -58,6 +58,7 @@ export class WindowComponent implements OnInit {
 
   responseTime = 0;
   responseStatus = 0;
+  responseStatusText = '';
 
   constructor(
     private queryService: QueryService,
@@ -94,6 +95,7 @@ export class WindowComponent implements OnInit {
         this.allowIntrospection = data.schema.allowIntrospection;
         this.responseStatus = data.query.responseStatus;
         this.responseTime = data.query.responseTime;
+        this.responseStatusText = data.query.responseStatusText;
 
         this.showEditorAlert = data.query.showEditorAlert;
         this.editorAlertMessage = data.query.editorAlertMessage;

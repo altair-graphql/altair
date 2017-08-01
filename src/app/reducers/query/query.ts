@@ -10,6 +10,7 @@ export interface State {
     response: any;
     responseTime: number;
     responseStatus: number;
+    responseStatusText: string;
     showUrlAlert: boolean;
     urlAlertMessage: string;
     urlAlertSuccess: boolean;
@@ -24,6 +25,7 @@ const initialState: State = {
     response: null,
     responseTime: 0,
     responseStatus: 0,
+    responseStatusText: '',
     showUrlAlert: false,
     urlAlertMessage: 'URL has been set',
     urlAlertSuccess: true,
@@ -43,7 +45,11 @@ export function queryReducer(state = initialState, action: Action): State {
         case query.SET_QUERY_RESULT:
             return Object.assign({}, state, { response: action.payload });
         case query.SET_RESPONSE_STATS:
-            return Object.assign({}, state, { responseTime: action.payload.responseTime, responseStatus: action.payload.responseStatus });
+            return Object.assign({}, state, {
+                responseTime: action.payload.responseTime,
+                responseStatus: action.payload.responseStatus,
+                responseStatusText: action.payload.responseStatusText
+            });
         case query.SHOW_URL_ALERT:
             return Object.assign({}, state, {
                 showUrlAlert: true,

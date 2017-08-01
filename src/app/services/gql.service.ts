@@ -1,4 +1,4 @@
-import { Headers, Http, Response } from '@angular/http';
+import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -17,30 +17,26 @@ export class GqlService {
     'Accept': 'application/json'
   };
 
-  headers: Headers;
+  headers: HttpHeaders;
 
   private api_url = localStorage.getItem('altair:url');
   introspectionData = {};
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
 
     // Set the default headers on initialization
     this.setHeaders();
   }
 
-  private getJson(res: Response) {
-      return res.json();
-  }
-
-  private checkForError(res: Response): Response {
+  private checkForError(res: HttpResponse<any>): HttpResponse<any> {
+    console.log(res);
     if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
       const err = new Error(res.statusText);
       err['response'] = res;
-      console.error(err);
       throw err;
     }
   }
@@ -58,7 +54,8 @@ export class GqlService {
       data.variables = JSON.parse(vars);
     }
 
-    return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers })
+    console.log('headers', this.headers);
+    return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers, observe: 'response' })
       .map(this.checkForError)
       .catch(err => {
         console.error(err);
@@ -72,16 +69,16 @@ export class GqlService {
    * @param vars
    */
   send(query, vars?) {
-    return this._send(query, vars).map(this.getJson);
+    return this._send(query, vars).map(res => res.body);
   }
 
   setHeaders(headers?) {
-    const newHeaders = new Headers(this.defaultHeaders);
+    let newHeaders = new HttpHeaders(this.defaultHeaders);
 
     if (headers) {
       headers.forEach(header => {
         if (header.key && header.value) {
-          newHeaders.set(header.key, header.value);
+          newHeaders = newHeaders.set(header.key, header.value);
         }
       });
     }

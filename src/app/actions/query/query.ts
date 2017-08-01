@@ -62,7 +62,7 @@ export class SendQueryRequestAction implements Action {
 export class SetResponseStatsAction implements Action {
     readonly type = SET_RESPONSE_STATS;
 
-    constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number }) {}
+    constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number, responseStatusText: string }) {}
 }
 
 export class CancelQueryRequestAction implements Action {
