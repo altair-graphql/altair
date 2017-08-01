@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { GqlService } from './gql.service';
 import * as services from '../services';
@@ -8,7 +8,7 @@ import * as services from '../services';
 describe('GqlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [HttpClientModule],
       providers: [GqlService]
     });
   });
