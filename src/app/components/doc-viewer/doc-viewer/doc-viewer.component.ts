@@ -53,7 +53,7 @@ export class DocViewerComponent implements OnChanges {
 
     try {
       this.generateIndex(schema);
-    } catch(err) {
+    } catch (err) {
       console.log('Error while generating index.', err);
     }
   }
