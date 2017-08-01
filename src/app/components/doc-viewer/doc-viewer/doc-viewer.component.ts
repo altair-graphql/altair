@@ -51,7 +51,11 @@ export class DocViewerComponent implements OnChanges {
       schema.getSubscriptionType()
     ].filter(val => !!val);
 
-    this.generateIndex(schema);
+    try {
+      this.generateIndex(schema);
+    } catch (err) {
+      console.log('Error while generating index.', err);
+    }
   }
 
   /**
@@ -113,6 +117,12 @@ export class DocViewerComponent implements OnChanges {
       if (!type.name) {
         return [];
       }
+
+      // If any type is already in the index, then don't process the type again
+      if (this.index.some(x => x.name === type.name && x.cat === 'type')) {
+        return [];
+      }
+
       if (type.getFields) {
         fields = type.getFields();
       }
@@ -226,7 +236,7 @@ export class DocViewerComponent implements OnChanges {
    * @param parentType parent type of the current field
    * @param parentFields preceding parent field and type combinations
    */
-  generateQuery(name, parentType, parentFields): { query: String, meta: any } {
+  generateQuery(name, parentType): { query: String, meta: any } {
     let query = '';
     let hasArgs = false;
 
@@ -246,7 +256,7 @@ export class DocViewerComponent implements OnChanges {
         hasArgs = true;
     }
 
-    const fieldData = this.generateFieldData(name, parentType, parentFields, 1);
+    const fieldData = this.generateFieldData(name, parentType, [], 1);
 
     // Add the query fields
     query += `{\n${fieldData.query}\n}`;
@@ -339,6 +349,6 @@ export class DocViewerComponent implements OnChanges {
   }
 
   addToEditor(name, parentType) {
-    this.addQueryToEditorChange.next(this.generateQuery(name, parentType, []));
+    this.addQueryToEditorChange.next(this.generateQuery(name, parentType));
   }
 }
