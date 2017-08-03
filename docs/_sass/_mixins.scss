@@ -42,4 +42,9 @@
   border-radius: 3px;
   background: $light;
   padding: 15px 25px;
+  cursor: pointer;
+  transition: all .3s ease;
+  &:hover{
+      box-shadow: 0 0 15px rgba(255, 255, 255, .5);
+  }
 }

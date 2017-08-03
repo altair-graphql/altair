@@ -5,11 +5,17 @@
       <div class="row">
         {% for platform in site.releases %}
           <div class="column-3 platform">
+            {% if platform.link %}
+              <a href="{{ platform.link }}">
+            {% endif %}
             <img class="{% unless platform.status %}platform--unavailable{% endunless %}" src="{{ site.baseurl }}/assets/img/{{ platform.image }}">
             <p class="platform--name">{{ platform.name }}</p>
             {% unless platform.status %}
               <p>coming soon</p>
             {% endunless %}
+            {% if platform.link %}
+              </a>
+            {% endif %}
           </div>
         {% endfor %}
       </div>
