@@ -4,6 +4,7 @@
     height: 100vh;
 }
 .app-window-switcher-container{
+    -webkit-app-region: drag;
     padding: 0px 20px 10px;
     background: linear-gradient(to bottom, rgba($black, .05), rgba($black, 0) 15%);
     &:hover{
@@ -12,7 +13,14 @@
         }
     }
 }
+.app-window-switcher-electron-stub{
+    display: inline-block;
+    width: 55px;
+    font-size: 13px;
+    padding: 10px 25px 10px 20px;
+}
 .app-window-switcher{
+    -webkit-app-region: no-drag;
     position: relative;
     display: inline-block;
     padding: 10px 25px 10px 20px;
