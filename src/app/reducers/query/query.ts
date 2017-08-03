@@ -10,9 +10,13 @@ export interface State {
     response: any;
     responseTime: number;
     responseStatus: number;
+    responseStatusText: string;
     showUrlAlert: boolean;
     urlAlertMessage: string;
     urlAlertSuccess: boolean;
+    showEditorAlert: boolean;
+    editorAlertMessage: string;
+    editorAlertSuccess: boolean;
 }
 
 const initialState: State = {
@@ -21,9 +25,13 @@ const initialState: State = {
     response: null,
     responseTime: 0,
     responseStatus: 0,
+    responseStatusText: '',
     showUrlAlert: false,
     urlAlertMessage: 'URL has been set',
-    urlAlertSuccess: true
+    urlAlertSuccess: true,
+    showEditorAlert: false,
+    editorAlertMessage: 'Query is set',
+    editorAlertSuccess: true
 };
 
 export function queryReducer(state = initialState, action: Action): State {
@@ -37,7 +45,11 @@ export function queryReducer(state = initialState, action: Action): State {
         case query.SET_QUERY_RESULT:
             return Object.assign({}, state, { response: action.payload });
         case query.SET_RESPONSE_STATS:
-            return Object.assign({}, state, { responseTime: action.payload.responseTime, responseStatus: action.payload.responseStatus });
+            return Object.assign({}, state, {
+                responseTime: action.payload.responseTime,
+                responseStatus: action.payload.responseStatus,
+                responseStatusText: action.payload.responseStatusText
+            });
         case query.SHOW_URL_ALERT:
             return Object.assign({}, state, {
                 showUrlAlert: true,
@@ -46,6 +58,14 @@ export function queryReducer(state = initialState, action: Action): State {
             });
         case query.HIDE_URL_ALERT:
             return Object.assign({}, state, { showUrlAlert: false });
+        case query.SHOW_EDITOR_ALERT:
+            return Object.assign({}, state, {
+                showEditorAlert: true,
+                editorAlertMessage: action.payload.message,
+                editorAlertSuccess: action.payload.success
+            });
+        case query.HIDE_EDITOR_ALERT:
+            return Object.assign({}, state, { showEditorAlert: false });
         default:
             return state;
     }

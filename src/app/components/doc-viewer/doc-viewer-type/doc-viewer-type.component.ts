@@ -14,8 +14,10 @@ import {
 export class DocViewerTypeComponent implements OnInit {
 
   @Input() data: any = {};
+  @Input() gqlSchema = null;
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
+  @Output() addToEditorChange = new EventEmitter();
 
   constructor() { }
 
@@ -28,12 +30,36 @@ export class DocViewerTypeComponent implements OnInit {
    */
   objToArr(obj: any) {
     const arr = [];
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        arr.push(obj[key]);
+
+    // Convert any object created with the dict pattern (Object.create(null)) to a regular object
+    const _obj = Object.assign({}, obj);
+
+    for (const key in _obj) {
+      if (_obj.hasOwnProperty(key)) {
+        arr.push(_obj[key]);
       }
     }
+
     return arr;
+  }
+
+  /**
+   * Check if the current type is a root type
+   * @param type
+   */
+  isRootType(type) {
+    if (!type || !this.gqlSchema) {
+      return false;
+    }
+
+    switch (type) {
+      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType().name:
+      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType().name:
+      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType().name:
+        return true;
+    }
+
+    return false;
   }
 
   goToField(name, parentType) {
@@ -44,4 +70,7 @@ export class DocViewerTypeComponent implements OnInit {
     this.goToTypeChange.next({ name });
   }
 
+  addToEditor(name, parentType) {
+    this.addToEditorChange.next({ name, parentType });
+  }
 }

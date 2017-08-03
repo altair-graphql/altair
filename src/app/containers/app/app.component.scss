@@ -212,8 +212,14 @@ app-query-result{
         padding: 10px;
         font-size: 12px;
     }
-    .response-time{
+    .response-status-text{
         display: inline-block;
+        text-transform: uppercase;
+        margin-right: 10px;
+        border-radius: 5px;
+        padding: 3px 8px;
+        background: rgba($black, .5);
+        color: $white;
     }
     .response-status-code{
         display: inline-block;
@@ -221,6 +227,9 @@ app-query-result{
         border-radius: 5px;
         padding: 5px 10px;
         margin-right: 10px;
+    }
+    .response-time{
+        display: inline-block;
     }
 }
 .app-query-result-textarea{

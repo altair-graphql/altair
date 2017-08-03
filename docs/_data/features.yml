@@ -1,0 +1,34 @@
+-
+  title: Multiple Windows
+  content: >
+    Altair provides the option to open multiple windows each with a distinct state
+    that is preserved across browser sessions. In addition, you can give each window
+    a custom name.
+-
+  title: Syntax Highlighting
+  content: >
+    With syntax highlighting, you have immediate feedback on what you input in the
+    query editor and can easily detect errors. The editor also affords folding of
+    query objects.
+-
+  title: Autocompletion
+  content: >
+    You need not dive back and forth between the API docs and Altair, as
+    intelligent query auto-suggestion is provided by Altair.
+-
+  title: Documentation Search
+  content: >
+    Altair fetches the docs of all endpoints and fields offered by your GraphQL server
+    and provides a rich interface to conveniently search through these and gain instant
+    insight into the structure of the API.
+-
+  title: Headers and Response Stats
+  content: >
+    Altair provides flexibility by allowing you to set custom request headers. Also, the
+    response status code and time taken are available upon completion of the request.
+-
+  title: Variables and Fragments
+  content: >
+    Altair provides convenient support for setting GraphQL variables. You can also add
+    fragments in the code editor and reference them within the parent query. Fragments can
+    also be added from the docs bar.

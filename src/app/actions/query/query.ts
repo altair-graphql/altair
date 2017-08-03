@@ -11,8 +11,11 @@ export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const SEND_QUERY_REQUEST = 'SEND_QUERY_REQUEST';
 export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
+
 export const HIDE_URL_ALERT = 'HIDE_URL_ALERT';
 export const SHOW_URL_ALERT = 'SHOW_URL_ALERT';
+export const HIDE_EDITOR_ALERT = 'HIDE_EDITOR_ALERT';
+export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export class SetUrlAction implements Action {
     readonly type = SET_URL;
@@ -59,7 +62,7 @@ export class SendQueryRequestAction implements Action {
 export class SetResponseStatsAction implements Action {
     readonly type = SET_RESPONSE_STATS;
 
-    constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number }) {}
+    constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number, responseStatusText: string }) {}
 }
 
 export class CancelQueryRequestAction implements Action {
@@ -80,6 +83,18 @@ export class ShowUrlAlertAction implements Action {
     constructor(public payload: any, public windowId: string) {}
 }
 
+export class HideEditorAlertAction implements Action {
+    readonly type = HIDE_EDITOR_ALERT;
+
+    constructor(public windowId: string, public payload?) {}
+}
+
+export class ShowEditorAlertAction implements Action {
+    readonly type = SHOW_EDITOR_ALERT;
+
+    constructor(public payload: any, public windowId: string) {}
+}
+
 export type Action =
     SetUrlAction |
     SetUrlFromDbAction |
@@ -91,4 +106,6 @@ export type Action =
     SetResponseStatsAction |
     CancelQueryRequestAction |
     HideUrlAlertAction |
-    ShowUrlAlertAction;
+    ShowUrlAlertAction |
+    HideEditorAlertAction |
+    ShowEditorAlertAction;

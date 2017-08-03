@@ -20,6 +20,8 @@
   <!--We want it to be hidden in the DOM, not removed so we use hidden-->
   <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
     <div class="response-stats">
+        STATUS: 
+        <span class="response-status-text">{{responseStatusText}}</span>
         STATUS CODE: 
         <span class="response-status-code">{{responseStatus}}</span>
         TIME SPENT: 

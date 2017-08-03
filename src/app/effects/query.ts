@@ -49,6 +49,7 @@ export class QueryEffects {
 
             const requestStartTime = new Date().getTime();
             let requestStatusCode = 0;
+            let requestStatusText = '';
 
             return this.gqlService
                 .setUrl(response.data.query.url)
@@ -56,17 +57,20 @@ export class QueryEffects {
                 ._send(response.data.query.query, response.data.variables.variables)
                 .map(res => {
                     requestStatusCode = res.status;
-                    return res.json();
+                    requestStatusText = res.statusText;
+                    return res.body;
                 })
                 .map(result => {
                     return new queryActions.SetQueryResultAction(result, response.windowId);
                 }).catch((error) => {
                     let output = 'Server Error';
 
+                    console.log(error);
                     requestStatusCode = error.status;
+                    requestStatusText = error.statusText;
 
                     if (error.status) {
-                        output = error.json() || error.toString();
+                        output = error.error;
                     }
                     return Observable.of(new queryActions.SetQueryResultAction(output, response.windowId));
                 }).do(() => {
@@ -75,7 +79,8 @@ export class QueryEffects {
 
                     this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
                         responseStatus: requestStatusCode,
-                        responseTime: requestElapsedTime
+                        responseTime: requestElapsedTime,
+                        responseStatusText: requestStatusText
                     }));
                     this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 });
@@ -154,7 +159,7 @@ export class QueryEffects {
 
             return this.gqlService.getIntrospectionRequest(data.payload)
                 .catch(err => {
-                    const errorObj = err.json();
+                    const errorObj = err;
                     let allowsIntrospection = true;
 
                     if (errorObj.errors) {
@@ -179,6 +184,15 @@ export class QueryEffects {
                     this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, data.windowId));
                     return new gqlSchemaActions.SetIntrospectionAction(introspectionData, data.windowId);
                 });
+        });
+
+    @Effect()
+    // Hides the editor set alert after it has been shown
+    showEditorSetAlert$: Observable<queryActions.Action> = this.actions$
+        .ofType(queryActions.SHOW_EDITOR_ALERT)
+        .switchMap((data: queryActions.Action) => {
+            return Observable.timer(3000)
+                .switchMap(() => Observable.of(new queryActions.HideEditorAlertAction(data.windowId)));
         });
 
     // Get the introspection after setting the URL

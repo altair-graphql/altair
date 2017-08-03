@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<div class="ns-landing">
+  <div class="hero">
+    <div class="wrapper">
+      <div class="row">
+        <div class="column-12">
+          <div class="hero-cta--content">
+            <p class="hero-cta--title">{{ site.title | newline_to_br }}</p>
+            <p class="hero-cta--description">{{ site.description }}</p>
+            <a href="{{ site.download_link }}" class="btn" target="_blank">Download Altair</a>
+          </div>
+          <div class="hero-cta--product">
+            <img src="/assets/img/app-shot.jpg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="wrapper">
+      <div class="row">
+        <div class="column-12">
+          <ul class="features-list">
+            {% for feature in site.data.features %}
+            <li class="features-list--item">
+              <p class="features-list--item-title">{{ feature.title }}</p>
+              <p>{{ feature.content }}</p>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include landingfooter.html %}
+</div>
