@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import isElectron from '../../utils/is_electron';
+
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
@@ -27,11 +29,13 @@ export class AppComponent {
   windowIds = [];
   windowsArr = [];
   activeWindowId = '';
+  isElectron = isElectron;
 
   constructor(
     private windowService: WindowService,
     private store: Store<any>
   ) {
+
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);
     });
