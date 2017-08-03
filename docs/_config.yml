@@ -13,8 +13,9 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: "Altair\n GraphQL Client"
+title: "Altair GraphQL Client"
 email: your-email@example.com
+download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
   The best GraphQL Client you will ever need
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -24,7 +25,7 @@ releases:
     name: macOS
     status: true
     image: osx_logo.svg
-    link:
+    link: https://github.com/imolorhe/altair/releases/latest
   -
     name: linux
     status: false
@@ -39,7 +40,7 @@ releases:
     name: chrome
     status: true
     image: chrome_icon.svg
-    link:
+    link: https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja
 
 # Build settings
 markdown: kramdown

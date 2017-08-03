@@ -6,14 +6,12 @@ layout: default
   <div class="hero">
     <div class="wrapper">
       <div class="row">
-        <div class="column-6 hero-cta">
+        <div class="column-12">
           <div class="hero-cta--content">
             <p class="hero-cta--title">{{ site.title | newline_to_br }}</p>
             <p class="hero-cta--description">{{ site.description }}</p>
-            <button class="btn">Download Altair</button>
+            <a href="{{ site.download_link }}" class="btn" target="_blank">Download Altair</a>
           </div>
-        </div>
-        <div class="column-6">
           <div class="hero-cta--product">
             <img src="/assets/img/app-shot.jpg" alt="">
           </div>
@@ -25,8 +23,7 @@ layout: default
   <div class="features">
     <div class="wrapper">
       <div class="row">
-        <div class="column-6"></div>
-        <div class="column-6">
+        <div class="column-12">
           <ul class="features-list">
             {% for feature in site.data.features %}
             <li class="features-list--item">

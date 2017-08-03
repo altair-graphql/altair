@@ -11,11 +11,10 @@
     query editor and can easily detect errors. The editor also affords folding of
     query objects.
 -
-  title: Auto-suggestion and Auto-completion
+  title: Autocompletion
   content: >
     You need not dive back and forth between the API docs and Altair, as
-    intelligent query auto-suggestion is provided by Altair. Auto-completion is also
-    provided when a single word matches your text.
+    intelligent query auto-suggestion is provided by Altair.
 -
   title: Documentation Search
   content: >
@@ -23,7 +22,7 @@
     and provides a rich interface to conveniently search through these and gain instant
     insight into the structure of the API.
 -
-  title: Request Headers and Response Status
+  title: Headers and Response Stats
   content: >
     Altair provides flexibility by allowing you to set custom request headers. Also, the
     response status code and time taken are available upon completion of the request.
