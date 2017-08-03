@@ -32,8 +32,7 @@ function createWindow () {
     win = new BrowserWindow({
       width: 1280,
       height: 800,
-      titleBarStyle: 'hidden-inset',
-      fullscreen: true
+      titleBarStyle: 'hidden-inset'
     });
 
     // Populate the application menu
