@@ -100,7 +100,7 @@
         "icon": "./electron/logo"
       },
       "electronWinstallerConfig": {
-        "name": ""
+        "name": "Altair"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
