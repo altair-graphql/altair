@@ -6,6 +6,8 @@ os:
 - osx
 node_js:
 - 6
+env:
+- DEBUG=electron-forge:*
 addons:
 apt:
   sources:

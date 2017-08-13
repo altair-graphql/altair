@@ -104,6 +104,7 @@
         "icon": "./electron/logo",
         "prune": true,
         "ignore": [
+          "idea",
           "bin",
           "chrome-ext-files",
           "docs",
