@@ -108,7 +108,9 @@
         ]
       },
       "electronWinstallerConfig": {
-        "name": "Altair"
+        "name": "Altair",
+        "author": "Samuel Imolorhe",
+        "description": "The best graphQL client you will ever need."
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -117,7 +119,9 @@
         "name": "altair"
       },
       "windowsStoreConfig": {
-        "packageName": "Altair GraphQL Client"
+        "packageName": "Altair GraphQL Client",
+        "author": "Samuel Imolorhe",
+        "description": "The best graphQL client you will ever need."
       }
     }
   }
