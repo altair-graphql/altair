@@ -16,8 +16,8 @@
     "electron": "npm run build && ./electron/fix-base-path.sh && ./node_modules/.bin/electron .",
     "build-electron": "./bin/package_electron_app.sh",
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "package": "electron-forge package --platform=all --arch=all",
+    "make": "electron-forge make --platform=all --arch=all"
   },
   "engines": {
     "node": "6.10.0"

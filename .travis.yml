@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 node_js:
 - 6.9.5
-addons: 
+addons:
 apt:
   sources:
   - google-chrome
@@ -22,7 +22,7 @@ before_script:
 - ng build
 script: ng lint && karma start karma.conf.js --single-run
 before_deploy:
-- npm run build-electron
+- npm run make
 deploy:
   provider: releases
   api_key:
