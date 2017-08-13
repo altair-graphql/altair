@@ -2,6 +2,10 @@
   "name": "altair",
   "version": "1.4.0",
   "license": "MIT",
+  "author": "samuelimolo4real@gmail.com",
+  "description": "The best graphQL client you will ever need",
+  "homepage": "https://imolorhe.github.io/altair/",
+  "keywords": ["graphql", "altair", "wysiwyg", "editor", "client"],
   "main": "electron/main.js",
   "scripts": {
     "ng": "ng",
@@ -108,9 +112,7 @@
         ]
       },
       "electronWinstallerConfig": {
-        "name": "Altair",
-        "author": "Samuel Imolorhe",
-        "description": "The best graphQL client you will ever need."
+        "name": "Altair"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -119,9 +121,7 @@
         "name": "altair"
       },
       "windowsStoreConfig": {
-        "packageName": "Altair GraphQL Client",
-        "author": "Samuel Imolorhe",
-        "description": "The best graphQL client you will ever need."
+        "packageName": "Altair GraphQL Client"
       }
     }
   }
