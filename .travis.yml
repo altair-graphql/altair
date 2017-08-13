@@ -22,7 +22,7 @@ before_script:
 - ng build
 script: ng lint && karma start karma.conf.js --single-run
 before_deploy:
-- npm run make
+- travis_wait 30 npm run make
 deploy:
   provider: releases
   api_key:

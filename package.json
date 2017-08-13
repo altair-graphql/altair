@@ -97,7 +97,15 @@
         "quiet": true,
         "protocol": "altair://",
         "protocolName": "Altair GraphQL Client File",
-        "icon": "./electron/logo"
+        "icon": "./electron/logo",
+        "prune": true,
+        "ignore": [
+          "bin",
+          "chrome-ext-files",
+          "docs",
+          "e2e",
+          "src"
+        ]
       },
       "electronWinstallerConfig": {
         "name": "Altair"
