@@ -39,7 +39,7 @@ build: off # We do not intend to build using MS Build
 
 # Run build in after_test to generate artifacts
 after_test:
-- npm run make
+- npm run build-electron
 
 deploy:
   description: ''
