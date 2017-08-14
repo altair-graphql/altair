@@ -9,7 +9,7 @@ cache:
 - '%USERPROFILE%\.electron'
 
 artifacts:
-- path: 'out\make\*'
+- path: 'out\make\**\*'
   name: altairAll
 
 - path: 'out\make\**/*.exe'
@@ -46,7 +46,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
-  artifact: altairAll
+  artifact: altairExe, altairNuget
   draft: false
   prerelease: false
   on:
