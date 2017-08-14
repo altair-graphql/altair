@@ -23,7 +23,7 @@ before_test:
 test_script:
 - node --version
 - npm --version
-- npm test
+- npm run test-build
 
 build: off # We do not intend to build using MS Build
 
