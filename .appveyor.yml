@@ -8,6 +8,16 @@ cache:
 - '%APPDATA%\npm-cache'
 - '%USERPROFILE%\.electron'
 
+artifacts:
+- path: 'out\make\*'
+  name: altairAll
+
+- path: 'out\make\**/*.exe'
+  name: altairExe
+
+- path: 'out\make\**/*.nupkg'
+  name: altairNuget
+
 install:
 - ps: Install-Product node $env:nodejs_version $env:platform
 - set PATH=%APPDATA%\npm;%PATH%
@@ -34,7 +44,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
-  artifact: /out/make/.*/
+  artifact: altairAll
   draft: false
   prerelease: false
   on:
