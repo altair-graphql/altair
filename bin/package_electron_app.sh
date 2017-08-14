@@ -17,3 +17,7 @@ npm run make
 
 # Package the electron app
 # ./node_modules/electron-packager/cli.js . Altair --out=electron-builds --overwrite --icon=electron/logo.icns
+
+# Snippet:
+# Remove git tags
+# git push --delete origin add-compilerc.11 add-compilerc.12 && git tag -d add-compilerc.11 add-compilerc.12

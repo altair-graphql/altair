@@ -108,7 +108,8 @@
           "bin",
           "chrome-ext-files",
           "docs",
-          "e2e"
+          "e2e",
+          "src"
         ]
       },
       "electronWinstallerConfig": {
