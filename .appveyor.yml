@@ -39,7 +39,7 @@ build: off # We do not intend to build using MS Build
 
 # Run build in after_test to generate artifacts
 after_test:
-- ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace "<base href="/">", "<base href="./">" } | Set-Content .\dist\index.html
+- ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace '<base href="/">', '<base href="./">' } | Set-Content .\dist\index.html
 - npm run make
 
 deploy:
