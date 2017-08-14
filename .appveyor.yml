@@ -39,7 +39,8 @@ build: off # We do not intend to build using MS Build
 
 # Run build in after_test to generate artifacts
 after_test:
-- npm run build-electron
+- sed -i '' "s|<base href="/">|<base href="./">|g" .\dist\index.html
+- npm run make
 
 deploy:
   description: ''

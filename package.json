@@ -5,7 +5,13 @@
   "author": "samuelimolo4real@gmail.com",
   "description": "The best graphQL client you will ever need",
   "homepage": "https://imolorhe.github.io/altair/",
-  "keywords": ["graphql", "altair", "wysiwyg", "editor", "client"],
+  "keywords": [
+    "graphql",
+    "altair",
+    "wysiwyg",
+    "editor",
+    "client"
+  ],
   "main": "electron/main.js",
   "scripts": {
     "ng": "ng",
@@ -84,5 +90,15 @@
   },
   "config": {
     "forge": "./forge.config.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imolorhe/altair.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imolorhe/altair/issues"
   }
 }
