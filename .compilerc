@@ -1,0 +1,11 @@
+{
+  "application/javascript": {
+    "passthrough": true
+  },
+  "text/scss": {
+    "passthrough": true
+  },
+  "text/sass": {
+    "passthrough": true
+  }
+}
