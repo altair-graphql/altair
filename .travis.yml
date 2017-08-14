@@ -31,7 +31,7 @@ script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
 before_deploy:
-- npm run make
+- npm run build-electron
 deploy:
   provider: releases
   api_key:
