@@ -25,6 +25,8 @@ test_script:
 - npm --version
 - npm test
 
+build: off # We do not intend to build using MS Build
+
 before_deploy:
 - npm run make
 deploy:
