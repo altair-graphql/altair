@@ -37,8 +37,10 @@ test_script:
 
 build: off # We do not intend to build using MS Build
 
-before_deploy:
+# Run build in after_test to generate artifacts
+after_test:
 - npm run make
+
 deploy:
   description: ''
   provider: GitHub
