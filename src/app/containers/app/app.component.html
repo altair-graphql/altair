@@ -2,6 +2,7 @@
   <app-window-switcher
    [windows]="windowsArr"
    [activeWindowId]="activeWindowId"
+   [isElectron]="isElectron"
    (newWindowChange)="newWindow()"
    (activeWindowChange)="setActiveWindow($event)"
    (removeWindowChange)="removeWindow($event)"
@@ -11,4 +12,4 @@
     <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
   </ng-container>
 </div>
-<app-fork-repo></app-fork-repo>
+<app-fork-repo *ngIf="!isElectron"></app-fork-repo>

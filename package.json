@@ -2,6 +2,10 @@
   "name": "altair",
   "version": "1.4.0",
   "license": "MIT",
+  "author": "samuelimolo4real@gmail.com",
+  "description": "The best graphQL client you will ever need",
+  "homepage": "https://imolorhe.github.io/altair/",
+  "keywords": ["graphql", "altair", "wysiwyg", "editor", "client"],
   "main": "electron/main.js",
   "scripts": {
     "ng": "ng",
@@ -12,7 +16,7 @@
     "test-build": "ng lint && npm run build && karma start karma.conf.js --single-run",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "npm run build",
+    "heroku-postbuild": "npm run build",
     "electron": "npm run build && ./electron/fix-base-path.sh && ./node_modules/.bin/electron .",
     "build-electron": "./bin/package_electron_app.sh",
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
@@ -97,10 +101,20 @@
         "quiet": true,
         "protocol": "altair://",
         "protocolName": "Altair GraphQL Client File",
-        "icon": "./electron/logo"
+        "icon": "./electron/logo",
+        "prune": true,
+        "ignore": [
+          "idea",
+          "bin",
+          "chrome-ext-files",
+          "docs",
+          "e2e",
+          "src"
+        ]
       },
       "electronWinstallerConfig": {
-        "name": ""
+        "name": "Altair",
+        "setupIcon": "./electron/logo.ico"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
