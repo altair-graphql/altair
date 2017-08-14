@@ -9,12 +9,14 @@ node_js:
 env:
 - DEBUG=electron-forge:*
 addons:
-apt:
-  sources:
-  - google-chrome
-  packages:
-  - google-chrome-stable
-  - google-chrome-beta
+  apt:
+    sources:
+    - google-chrome
+    packages:
+    - google-chrome-stable
+    - google-chrome-beta
+    - fakeroot
+    - rpm
 before_install:
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
@@ -29,9 +31,6 @@ script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
 before_deploy:
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo apt-get update; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo apt-get install rpm; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo apt-get install fakeroot; fi
 - npm run make
 deploy:
   provider: releases
