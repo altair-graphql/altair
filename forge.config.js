@@ -33,7 +33,7 @@ module.exports = {
         // Ignore idea directory
         () => /^\/\.idea\/.*/g,
         // Ignore root dev FileDescription
-        () => /^\/(bin|dist|chrome-ext-files|docs|e2e|src|test|.cert.pfx|.editorconfig|.eslintignore|.eslintrc|.gitignore|.travis.yml|appveyor.yml|circle.yml|CONTRIBUTING.md|Gruntfile.js|gulpfile.js|ISSUE_TEMPLATE.md|LICENSE|README.md)(\/|$)/g, // eslint-disable-line
+        () => /^\/(bin|chrome-ext-files|docs|e2e|src|test|.cert.pfx|.editorconfig|.eslintignore|.eslintrc|.gitignore|.travis.yml|appveyor.yml|circle.yml|CONTRIBUTING.md|Gruntfile.js|gulpfile.js|ISSUE_TEMPLATE.md|LICENSE|README.md)(\/|$)/g, // eslint-disable-line
       ];
       for (let i = 0; i < tests.length; i++) {
         if (tests[i]().test(path)) {
