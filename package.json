@@ -83,48 +83,6 @@
     "typescript": "~2.2.0"
   },
   "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "asar": true,
-        "quiet": true,
-        "protocol": "altair://",
-        "protocolName": "Altair GraphQL Client File",
-        "icon": "./electron/logo",
-        "prune": true,
-        "ignore": [
-          "idea",
-          "bin",
-          "chrome-ext-files",
-          "docs",
-          "e2e",
-          "src"
-        ]
-      },
-      "electronWinstallerConfig": {
-        "name": "Altair",
-        "setupIcon": "./electron/logo.ico"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "imolorhe",
-        "name": "altair"
-      },
-      "windowsStoreConfig": {
-        "packageName": "Altair GraphQL Client"
-      }
-    }
+    "forge": "./forge.config.js"
   }
 }
