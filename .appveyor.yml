@@ -1,0 +1,39 @@
+platform:
+- x64
+environment:
+  nodejs_version: "6"
+  GITHUB_TOKEN:
+    secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
+cache:
+- '%APPDATA%\npm-cache'
+- '%USERPROFILE%\.electron'
+
+install:
+- ps: Install-Product node $env:nodejs_version $env:platform
+- set PATH=%APPDATA%\npm;%PATH%
+- npm install
+
+before_test:
+- npm install -g @angular/cli
+- npm install -g karma
+- npm install -g electron-forge
+- npm install
+- ng build
+
+test_script:
+- node --version
+- npm --version
+- npm test
+
+before_deploy:
+- npm run make
+deploy:
+  description: ''
+  provider: GitHub
+  auth_token:
+    secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
+  artifact: /out/make/.*/
+  draft: false
+  prerelease: false
+  on:
+    appveyor_repo_tag: true

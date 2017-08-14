@@ -108,12 +108,12 @@
           "bin",
           "chrome-ext-files",
           "docs",
-          "e2e",
-          "src"
+          "e2e"
         ]
       },
       "electronWinstallerConfig": {
-        "name": "Altair"
+        "name": "Altair",
+        "setupIcon": "./electron/logo.ico"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
