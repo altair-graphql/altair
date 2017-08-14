@@ -10,7 +10,9 @@ let win
 
 function createWindow () {
 
-  // TODO - Use the altair protocol to replace the file protocol
+  /**
+   * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
+   */
   protocol.registerBufferProtocol('altair', (request, callback) => {
     let url = request.url.substr(7);
 
@@ -43,7 +45,7 @@ function createWindow () {
   win = new BrowserWindow({
     width: 1280,
     height: 800,
-    titleBarStyle: 'hidden-inset'
+    // titleBarStyle: 'hidden-inset'
   });
 
   // Populate the application menu
