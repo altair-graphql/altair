@@ -43,6 +43,7 @@ import {
 export class DocViewerSearchResultsComponent implements OnInit {
 
   @Input() results = null;
+  @Input() searchTerm = '';
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
@@ -76,6 +77,15 @@ export class DocViewerSearchResultsComponent implements OnInit {
   goToType(name) {
     // console.log('field type', name);
     this.goToTypeChange.next({ name });
+  }
+
+  getSearchFormattedString(name, term) {
+    const index = term ? name.indexOf(term) : -1;
+    if (index !== -1) {
+      return `${name.slice(0, index)}<span class="search-result--formatted">${name.slice(index, index + term.length)}</span>${name.slice(index + term.length)}`; // tslint:disable-line
+    }
+
+    return name;
   }
 
   /**

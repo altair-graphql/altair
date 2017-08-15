@@ -24,6 +24,8 @@ export class DocViewerComponent implements OnChanges {
 
   docHistory = [];
 
+  lastSearchTerm = '';
+
   docView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
@@ -158,6 +160,7 @@ export class DocViewerComponent implements OnChanges {
    * search through the docs for the provided term
    */
   searchDocs(term) {
+    this.lastSearchTerm = term;
     this.updateDocHistory();
     this.docView.view = 'search';
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
