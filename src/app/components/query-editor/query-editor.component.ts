@@ -62,7 +62,9 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
     matchBrackets: true,
     autoRefresh: true,
     lint: {},
-    hintOptions: {},
+    hintOptions: {
+      completeSingle: false
+    },
     info: {},
     jump: {}
   };
