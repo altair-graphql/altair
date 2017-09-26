@@ -29,7 +29,7 @@ const COMPONENTS = [
         CodemirrorModule,
         PipesModule
     ],
-    declarations: COMPONENTS,
+    declarations: [ ...COMPONENTS ],
     exports: COMPONENTS
 })
 export class ComponentModule {}

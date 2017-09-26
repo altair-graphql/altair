@@ -22,11 +22,12 @@
       </ng-container>
     </ng-container>
     <div class="doc-viewer-search-result-item-inner">
-      <span *ngIf="!result.isQuery && result.type" class="doc-viewer-search-result-parent-type">{{result.type}}.</span><span>{{ result.name }}</span>
+      <span *ngIf="!result.isQuery && result.type" class="doc-viewer-search-result-parent-type">{{result.type}}.</span><span
+            [innerHTML]="getSearchFormattedString(result.name, searchTerm) | safeHtml"></span>
       <ng-container *ngIf="result.args && result.args.length">
         (
         <span *ngFor="let arg of result.args; let last = last">
-          <span>{{ arg.name }}</span><span *ngIf="!last">,</span>
+          <span [innerHTML]="getSearchFormattedString(arg.name, searchTerm) | safeHtml"></span><span *ngIf="!last">,</span>
         </span>
         )
       </ng-container>

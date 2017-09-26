@@ -50,6 +50,7 @@
       <ng-container *ngSwitchCase="'search'">
         <app-doc-viewer-search-results
          [results]="searchResult"
+         [searchTerm]="lastSearchTerm"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
         ></app-doc-viewer-search-results>
