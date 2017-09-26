@@ -22,6 +22,10 @@ export class DocViewerComponent implements OnChanges {
   rootTypes = [];
   index = [];
 
+  // Used to determine if index related actions (like search, add query, etc.)
+  // should be available
+  hasSearchIndex = false;
+
   docHistory = [];
 
   docView = {
@@ -53,8 +57,10 @@ export class DocViewerComponent implements OnChanges {
 
     try {
       this.generateIndex(schema);
+      this.hasSearchIndex = true;
     } catch (err) {
       console.log('Error while generating index.', err);
+      this.hasSearchIndex = false;
     }
   }
 
@@ -68,8 +74,13 @@ export class DocViewerComponent implements OnChanges {
 
     /**
      * Gets the indices for fields
+     * @param  {array} fields contains a list of field objects
+     * @param  {object} type the parent type of the fields
+     * @param  {boolean} isQuery specifies if the fields are part of a root level type
+     * @param  {array} curIndexStack contains all the currently mapped indices in the stack
+     * @return {array}        the indices for the given fields
      */
-    getFieldsIndices = (fields, type, isQuery) => {
+    getFieldsIndices = (fields, type, isQuery, curIndexStack) => {
       let index = [];
 
       Object.keys(fields).forEach(fieldKey => {
@@ -83,7 +94,8 @@ export class DocViewerComponent implements OnChanges {
           args: field.args,
           cat: 'field',
           type: type.name,
-          isQuery
+          isQuery,
+          highlight: 'field'
         };
         index = [...index, fieldIndex];
 
@@ -94,13 +106,14 @@ export class DocViewerComponent implements OnChanges {
             index = [...index, {
               ...fieldIndex,
               search: arg.name,
+              highlight: 'argument'
             }];
           });
         }
 
         // If the field has a type, get indices for the type as well
         if (field.type) {
-          index = [...index, ...getTypeIndices(field.type).filter(val => !!val)];
+          index = [...index, ...getTypeIndices(field.type, false, [...curIndexStack, ...index]).filter(val => !!val)];
         }
 
       });
@@ -110,16 +123,21 @@ export class DocViewerComponent implements OnChanges {
 
     /**
      * Gets the indices for types
+     * @param  {object} type the type object
+     * @param  {boolean} isRoot specifies if the type is a root level type
+     * @param  {array} curIndexStack contains all the currently mapped indices in the stack
+     * @return {array}            the indices for the given type
      */
-    getTypeIndices = (type, isRoot) => {
+    getTypeIndices = (type, isRoot, curIndexStack) => {
       let fields = null;
 
+      // If a type does not have a name, don't process it
       if (!type.name) {
         return [];
       }
 
       // If any type is already in the index, then don't process the type again
-      if (this.index.some(x => x.name === type.name && x.cat === 'type')) {
+      if (curIndexStack.some(x => x.name === type.name && x.cat === 'type')) {
         return [];
       }
 
@@ -133,12 +151,13 @@ export class DocViewerComponent implements OnChanges {
           name: type.name,
           cat: 'type',
           description: type.description,
-          isRoot
+          isRoot,
+          highlight: 'type'
         }
       ];
 
       if (fields) {
-        return [...index, ...getFieldsIndices(fields, type, isRoot).filter(val => !!val)];
+        return [...index, ...getFieldsIndices(fields, type, isRoot, [...curIndexStack, ...index]).filter(val => !!val)];
       }
 
       return index;
@@ -148,7 +167,7 @@ export class DocViewerComponent implements OnChanges {
 
     // Store the indices of all the types and fields
     this.rootTypes.forEach(type => {
-      this.index = [...this.index, ...getTypeIndices(type, true)];
+      this.index = [...this.index, ...getTypeIndices(type, true, this.index)];
     });
 
     console.log('Index: ', this.index);
@@ -158,6 +177,9 @@ export class DocViewerComponent implements OnChanges {
    * search through the docs for the provided term
    */
   searchDocs(term) {
+    if (!this.hasSearchIndex) {
+      return false;
+    }
     this.updateDocHistory();
     this.docView.view = 'search';
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
@@ -354,6 +376,9 @@ export class DocViewerComponent implements OnChanges {
   }
 
   addToEditor(name, parentType) {
+    if (!this.hasSearchIndex) {
+      return false;
+    }
     this.addQueryToEditorChange.next(this.generateQuery(name, parentType));
   }
 }

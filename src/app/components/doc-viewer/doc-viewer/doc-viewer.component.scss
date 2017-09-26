@@ -126,6 +126,9 @@ app-doc-viewer{
         color: $orange;
     }
 }
+.doc-viewer-search-result-highlight{
+  background: rgba($orange, .1);
+}
 .doc-viewer-search-result-description{
     color: $dark-grey;
     font-size: 12px;
