@@ -1,11 +1,17 @@
 {
   "name": "altair",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "license": "MIT",
   "author": "samuelimolo4real@gmail.com",
   "description": "The best graphQL client you will ever need",
   "homepage": "https://imolorhe.github.io/altair/",
-  "keywords": ["graphql", "altair", "wysiwyg", "editor", "client"],
+  "keywords": [
+    "graphql",
+    "altair",
+    "wysiwyg",
+    "editor",
+    "client"
+  ],
   "main": "electron/main.js",
   "scripts": {
     "ng": "ng",
@@ -83,48 +89,16 @@
     "typescript": "~2.2.0"
   },
   "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "asar": true,
-        "quiet": true,
-        "protocol": "altair://",
-        "protocolName": "Altair GraphQL Client File",
-        "icon": "./electron/logo",
-        "prune": true,
-        "ignore": [
-          "idea",
-          "bin",
-          "chrome-ext-files",
-          "docs",
-          "e2e",
-          "src"
-        ]
-      },
-      "electronWinstallerConfig": {
-        "name": "Altair",
-        "setupIcon": "./electron/logo.ico"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "imolorhe",
-        "name": "altair"
-      },
-      "windowsStoreConfig": {
-        "packageName": "Altair GraphQL Client"
-      }
-    }
+    "forge": "./forge.config.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imolorhe/altair.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imolorhe/altair/issues"
   }
 }
