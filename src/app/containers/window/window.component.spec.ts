@@ -7,6 +7,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+
 import * as services from './../../services';
 
 import { CodemirrorModule } from 'ng2-codemirror';
@@ -35,7 +37,8 @@ describe('WindowComponent', () => {
         select: () => [],
         map: () => Observable.empty(),
         dispatch: () => {}
-      } }
+      } },
+      services.NotifyService
     ];
     TestBed.configureTestingModule({
       declarations: [ WindowComponent ],
@@ -46,7 +49,8 @@ describe('WindowComponent', () => {
         StoreModule,
         CodemirrorModule,
         ComponentModule,
-        DocViewerModule
+        DocViewerModule,
+        ToastModule.forRoot()
       ],
       providers: providers
     })
