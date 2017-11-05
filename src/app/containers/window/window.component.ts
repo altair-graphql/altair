@@ -2,9 +2,11 @@ import {
   Component,
   ViewChild,
   Input,
-  OnInit
+  OnInit,
+  ViewContainerRef
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
@@ -63,9 +65,13 @@ export class WindowComponent implements OnInit {
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
-    private store: Store<any>
+    private store: Store<any>,
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef
   ) {
 
+    // Required by the notify service
+    this.toastr.setRootViewContainerRef(this.vRef);
   }
 
   ngOnInit() {

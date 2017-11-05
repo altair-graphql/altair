@@ -59,6 +59,7 @@
     "graphql": "^0.10.5",
     "marked": "^0.3.6",
     "ng2-codemirror": "^1.1.2",
+    "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^0.1.8",
     "rxjs": "^5.4.2",
     "uuid": "^3.0.1",

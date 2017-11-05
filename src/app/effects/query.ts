@@ -5,8 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService } from '../services/gql.service';
-import { QueryService } from '../services/query.service';
+import { GqlService, QueryService, NotifyService } from '../services';
 import * as fromRoot from '../reducers';
 
 import * as queryActions from '../actions/query/query';
@@ -32,12 +31,7 @@ export class QueryEffects {
             // If the URL is not set or is invalid, just return
             if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
 
-                const opts = {
-                    message: 'The URL is invalid!',
-                    success: false
-                };
-
-                this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, response.windowId));
+                this.notifyService.error('The URL is invalid!');
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return Observable.empty();
             }
@@ -86,21 +80,18 @@ export class QueryEffects {
                 });
         });
 
+    // TODO: Clean this effect up!
     @Effect()
     // Shows the URL set alert after the URL is set
     showUrlSetAlert$: Observable<queryActions.Action> = this.actions$
         .ofType(queryActions.SET_URL)
         .do((data: queryActions.Action) => {
-            const opts = {
-                message: 'URL has been set',
-                success: true
-            };
             // If the URL is not valid
             if (!validUrl.isUri(data.payload)) {
-                opts.message = 'The URL is invalid!';
-                opts.success = false;
+                this.notifyService.error('The URL is invalid!');
+            } else {
+              this.notifyService.success('URL has been set.');
             }
-            this.store.dispatch(new queryActions.ShowUrlAlertAction(opts, data.windowId));
 
             return data;
         })
@@ -203,6 +194,7 @@ export class QueryEffects {
         private actions$: Actions,
         private gqlService: GqlService,
         private queryService: QueryService,
+        private notifyService: NotifyService,
         private store: Store<any>
     ) {}
 
