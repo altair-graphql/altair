@@ -10,6 +10,8 @@
 @import "./../node_modules/codemirror/addon/lint/lint.css";
 @import "scss/editor";
 
+@import "./../node_modules/ng2-toastr/bundles/ng2-toastr.min.css";
+
 @import "app/containers/app/app.component";
 @import "app/containers/window/window.component";
 @import "app/components/doc-viewer/doc-viewer/doc-viewer.component";
