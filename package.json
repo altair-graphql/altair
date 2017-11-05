@@ -30,7 +30,7 @@
     "make": "electron-forge make"
   },
   "engines": {
-    "node": ">= 6.9.1"
+    "node": "^6.9.1"
   },
   "private": true,
   "dependencies": {
