@@ -16,7 +16,7 @@ export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema = null;
   @Input() allowIntrospection = true;
-  @Output() toggleDocs = new EventEmitter();
+  @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
 
   rootTypes = [];

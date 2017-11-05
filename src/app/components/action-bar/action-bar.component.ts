@@ -15,7 +15,8 @@ export class ActionBarComponent {
   @Input() showDocs;
   @Output() toggleHeaderDialog = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
-  @Output() toggleDocs = new EventEmitter();
+  @Output() toggleDocsChange = new EventEmitter();
+  @Output() reloadDocsChange = new EventEmitter();
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
   @Output() clearEditorChange = new EventEmitter();

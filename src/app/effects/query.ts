@@ -151,13 +151,16 @@ export class QueryEffects {
 
     @Effect()
     getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
-        .ofType(queryActions.SET_URL)
-        .switchMap((data: queryActions.Action) => {
-            if (!data.payload) {
+        .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
+        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+            return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        })
+        .switchMap((res) => {
+            if (!res.data.query.url) {
                 return Observable.empty();
             }
 
-            return this.gqlService.getIntrospectionRequest(data.payload)
+            return this.gqlService.getIntrospectionRequest(res.data.query.url)
                 .catch(err => {
                     const errorObj = err;
                     let allowsIntrospection = true;
@@ -172,7 +175,7 @@ export class QueryEffects {
 
                     // If the server does not support introspection
                     if (!allowsIntrospection) {
-                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, data.windowId));
+                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
                     }
                     return Observable.empty();
                 })
@@ -181,8 +184,8 @@ export class QueryEffects {
                         return Observable.empty();
                     }
 
-                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, data.windowId));
-                    return new gqlSchemaActions.SetIntrospectionAction(introspectionData, data.windowId);
+                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
+                    return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
                 });
         });
 

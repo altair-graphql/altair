@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
+export const SEND_INTROSPECTION_QUERY_REQUEST = 'SEND_INTROSPECTION_QUERY_REQUEST';
 
 export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
@@ -27,6 +28,12 @@ export class SetUrlFromDbAction implements Action {
     readonly type = SET_URL_FROM_DB;
 
     constructor(public payload: string, public windowId: string) {}
+}
+
+export class SendIntrospectionQueryRequestAction implements Action {
+    readonly type = SEND_INTROSPECTION_QUERY_REQUEST;
+
+    constructor(public windowId: string, public payload?) {}
 }
 
 export class SetQueryAction implements Action {
@@ -98,6 +105,7 @@ export class ShowEditorAlertAction implements Action {
 export type Action =
     SetUrlAction |
     SetUrlFromDbAction |
+    SendIntrospectionQueryRequestAction |
     SetQueryAction |
     SetQueryFromDbAction |
     SetQueryResultAction |

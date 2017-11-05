@@ -113,6 +113,7 @@ export class WindowComponent implements OnInit {
   setApiUrl() {
     const url = this.urlInput.nativeElement.value;
     this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
+    this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
   }
 
   sendRequest() {
@@ -137,6 +138,10 @@ export class WindowComponent implements OnInit {
 
   toggleDocs() {
     this.store.dispatch(new docsActions.ToggleDocsViewAction(this.windowId));
+  }
+
+  reloadDocs() {
+    this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
   }
 
   addHeader() {

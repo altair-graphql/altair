@@ -11,6 +11,7 @@
     <button class="app-button" (click)="this.toggleHeaderDialog.next()">Set Headers</button>
     <button class="app-button" (click)="this.toggleVariableDialog.next()">Set Variables</button>
     <div class="actions-right right">
-        <button class="app-button" (click)="toggleDocs.next()" [ngClass]="{'active-grey': showDocs}">Show Docs</button>
+        <button class="app-button" (click)="reloadDocsChange.next()">Reload Docs</button>
+        <button class="app-button" (click)="toggleDocsChange.next()" [ngClass]="{'active-grey': showDocs}">Show Docs</button>
     </div>
 </div>
