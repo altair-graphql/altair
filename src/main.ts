@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 import isElectron from './app/utils/is_electron';
+import { initTracking } from './app/utils/ga';
 
 if (environment.production) {
   enableProdMode();
@@ -18,3 +19,5 @@ if (isElectron) {
 };
 
 platformBrowserDynamic().bootstrapModule(AppModule);
+
+initTracking();
