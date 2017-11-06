@@ -8,7 +8,7 @@
             {% if platform.link %}
               <a href="{{ platform.link }}">
             {% endif %}
-            <img class="{% unless platform.status %}platform--unavailable{% endunless %}" src="{{ site.github.url }}/assets/img/{{ platform.image }}">
+            <img class="{% unless platform.status %}platform--unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
             <p class="platform--name">{{ platform.name }}</p>
             {% unless platform.status %}
               <p>coming soon</p>

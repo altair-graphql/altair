@@ -41,6 +41,7 @@ export class WindowComponent implements OnInit {
   showHeaderDialog = false;
   showVariableDialog = false;
   showDocs = true;
+  docsIsLoading = false;
   headers: fromHeader.State = [];
   variables = '';
   introspectionResult = {};
@@ -95,6 +96,7 @@ export class WindowComponent implements OnInit {
         this.variables = data.variables.variables;
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
+        this.docsIsLoading = data.docs.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
         this.urlAlertMessage = data.query.urlAlertMessage;
         this.urlAlertSuccess = data.query.urlAlertSuccess;
