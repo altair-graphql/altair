@@ -60,6 +60,7 @@
       [gqlSchema]="gqlSchema"
       [allowIntrospection]="allowIntrospection"
       [ngClass]="{'show-doc': showDocs}"
+      [isLoading]="docsIsLoading"
       (toggleDocsChange)="toggleDocs()"
       (addQueryToEditorChange)="addQueryToEditor($event)"
     ></app-doc-viewer>

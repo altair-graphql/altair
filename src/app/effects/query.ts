@@ -12,6 +12,7 @@ import * as queryActions from '../actions/query/query';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
+import * as docsAction from '../actions/docs/docs';
 
 @Injectable()
 export class QueryEffects {
@@ -151,6 +152,7 @@ export class QueryEffects {
                 return Observable.empty();
             }
 
+            this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
             return this.gqlService.getIntrospectionRequest(res.data.query.url)
                 .catch(err => {
                     const errorObj = err;
@@ -168,6 +170,7 @@ export class QueryEffects {
                     if (!allowsIntrospection) {
                         this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
                     }
+                    this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                     return Observable.empty();
                 })
                 .map(introspectionData => {
@@ -176,6 +179,8 @@ export class QueryEffects {
                     }
 
                     this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
+                    this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+
                     return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
                 });
         });

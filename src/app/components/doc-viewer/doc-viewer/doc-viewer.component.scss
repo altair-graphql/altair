@@ -24,6 +24,26 @@ app-doc-viewer{
 .app-doc-viewer{
     padding: 20px;
 }
+.app-doc-loader{
+  @include hide-transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($white, .8);
+  z-index: 5;
+  img{
+      vertical-align: middle;
+  }
+}
+.show-loader{
+  @include show-transition;
+}
 .doc-viewer-header{
     margin-bottom: 20px;
 }

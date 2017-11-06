@@ -1,4 +1,10 @@
 <div class="app-doc-viewer" *ngIf="allowIntrospection">
+  <div class="app-doc-loader" [ngClass]="{ 'show-loader': isLoading }">
+      <div class="app-doc-loader-content">
+        <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
+        Loading...
+      </div>
+    </div>
   <div class="doc-viewer-header">
     <span class="doc-viewer-close" (click)="toggleDocsChange.next()">&times;</span>
     <div class="doc-viewer-back-link" (click)="goBack()" *ngIf="docView.view !== 'root'">
