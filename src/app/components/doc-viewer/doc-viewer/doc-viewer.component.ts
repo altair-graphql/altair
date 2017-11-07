@@ -7,6 +7,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 
+import config from '../../../config';
+
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
@@ -335,7 +337,12 @@ export class DocViewerComponent implements OnChanges {
 
     // Don't add a field if it has been added in the query already.
     // This happens when there is a recursive field
-    if (parentFields.filter(x => x.name === name && x.type === curTypeName).length) {
+    if (parentFields.filter(x => x.type === curTypeName).length) {
+      return { query: '', meta: {} };
+    }
+
+    // Stop adding new fields once the specified level depth limit is reached
+    if (level >= config.add_query_depth_limit) {
       return { query: '', meta: {} };
     }
 

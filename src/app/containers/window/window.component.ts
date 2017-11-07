@@ -18,8 +18,7 @@ import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
 
-import { QueryService } from '../../services/query.service';
-import { GqlService } from '../../services/gql.service';
+import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
 
 @Component({
@@ -66,6 +65,7 @@ export class WindowComponent implements OnInit {
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
+    private notifyService: NotifyService,
     private store: Store<any>,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef
@@ -183,11 +183,7 @@ export class WindowComponent implements OnInit {
 
     // If the query has args
     if (queryData.meta.hasArgs) {
-      const opts = {
-          message: 'Fill in the arguments for the query!',
-          success: false
-      };
-      this.store.dispatch(new queryActions.ShowEditorAlertAction(opts, this.windowId));
+      this.notifyService.warning('Fill in the arguments for the query!');
     }
   }
 
