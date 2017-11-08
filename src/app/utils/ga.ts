@@ -1,16 +1,22 @@
 import config from '../config';
+import { on } from './events';
 
 // Track button click event
 export const trackButton = e => {
-  window['_gaq'].push(['_trackEvent', e.target.id, 'clicked']);
+  window['_gaq'].push(['_trackEvent', `${e.target.innerText} (${e.target.className})`, 'clicked']);
 };
 
-// Add event listener to all buttons
-export const initTrackButtons = () => {
-  const buttons = document.querySelectorAll('button');
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', trackButton);
-  }
+// Track JavaScript errors
+export const trackJSErrors = () => {
+  window.addEventListener('error', (e: any) => {
+    window['_gaq'].push([
+      '_trackEvent',
+      'JS Error',
+      e.message,
+      e.filename + ': ' + e.lineno,
+      true
+  ]);
+  });
 };
 
 // Initialise tracking
@@ -27,5 +33,9 @@ export const initTracking = () => {
   const s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(ga, s);
 
-  initTrackButtons();
+  // Listen for click events on buttons and links
+  on('click', 'button', trackButton);
+  on('click', 'a', trackButton);
+
+  trackJSErrors();
 };
