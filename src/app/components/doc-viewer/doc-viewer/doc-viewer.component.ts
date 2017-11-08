@@ -6,6 +6,8 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
+import { CompleterService, CompleterData } from 'ng2-completer';
+import { Subject } from 'rxjs/Subject';
 
 import config from '../../../config';
 
@@ -24,6 +26,7 @@ export class DocViewerComponent implements OnChanges {
 
   rootTypes = [];
   index = [];
+  index$ = new Subject();
 
   // Used to determine if index related actions (like search, add query, etc.)
   // should be available
@@ -38,8 +41,14 @@ export class DocViewerComponent implements OnChanges {
   };
 
   searchResult = [];
+  searchTerm = '';
 
-  constructor() { }
+  protected dataService: CompleterData;
+
+  constructor(private completerService: CompleterService) {
+    this.dataService = completerService.local(this.index$, 'search', 'search');
+    // .descriptionField('description');
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
@@ -173,13 +182,18 @@ export class DocViewerComponent implements OnChanges {
       this.index = [...this.index, ...getTypeIndices(type, true, this.index)];
     });
 
+    this.index$.next(this.index);
+
     console.log('Index: ', this.index);
   }
 
   /**
    * search through the docs for the provided term
    */
-  searchDocs(term) {
+  searchDocs(term, e) {
+    if (e && e.keyCode !== 13) {
+      return;
+    }
     if (!this.hasSearchIndex) {
       return false;
     }

@@ -1,18 +1,18 @@
 app-doc-viewer{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 40%;
-    background: $white;
-    z-index: 2;
-    transform: translateX(100%);
-    transition: all .5s var(--app-easing);
-    overflow: auto;
-    &.show-doc{
-        transform: translateX(0);
-        box-shadow: -2px 0 3px -2px rgba($black, .5);
-    }
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 40%;
+  background: $white;
+  z-index: 2;
+  transform: translateX(100%);
+  transition: all .5s var(--app-easing);
+  overflow: auto;
+  &.show-doc{
+    transform: translateX(0);
+    box-shadow: -2px 0 3px -2px rgba($black, .5);
+  }
 }
 .app-doc-notice{
     text-align: center;

@@ -22,10 +22,14 @@
     </div>
   </div>
   <div class="doc-viewer-search-wrapper">
-    <input
-     #searchDocsInput type="search" class="doc-viewer-search-input" placeholder="Search docs..."
-     (keyup.enter)="searchDocs(searchDocsInput.value)"
-    >
+    <ng2-completer
+      [(ngModel)]="searchTerm"
+      [datasource]="dataService"
+      [minSearchLength]="0"
+      [inputClass]="'doc-viewer-search-input'"
+      [placeholder]="'Search docs...'"
+      [pause]="500"
+      (keyup)="searchDocs(searchTerm, $event)"></ng2-completer>
   </div>
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">
