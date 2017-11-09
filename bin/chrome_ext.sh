@@ -3,6 +3,9 @@
 # Remove any chrome-extension directory
 rm -rf chrome-extension
 
+# Remove any web ext artifacts directory
+rm -rf web-ext-artifacts
+
 # Remove any altair.zip files
 rm altair.zip
 
@@ -23,3 +26,9 @@ find chrome-extension -name '.DS_Store' -type f -delete
 
 # Compress the chrome-extension directory into a zip file
 zip -r altair.zip chrome-extension
+
+# Build the extension for firefox
+./node_modules/web-ext/bin/web-ext build --source-dir chrome-extension --overwrite-dest
+
+# Running the extension in firefox
+# ./node_modules/web-ext/bin/web-ext run --source-dir chrome-extension

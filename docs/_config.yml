@@ -40,6 +40,14 @@ releases:
     name: chrome
     image: chrome_icon.svg
     link: https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja
+  -
+    name: firefox
+    image: firefox_logo.svg
+    link: https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/
+  -
+    name: web
+    image: webapp_icon.svg
+    link: https://altair-gql.herokuapp.com/
 
 # Build settings
 markdown: kramdown

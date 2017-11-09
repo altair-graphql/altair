@@ -88,7 +88,8 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.2.0",
+    "web-ext": "^2.2.2"
   },
   "config": {
     "forge": "./forge.config.js"
