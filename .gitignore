@@ -11,6 +11,7 @@
 /docs/.jekyll-metadata
 altair.zip
 /out
+/web-ext-artifacts
 
 # dependencies
 /node_modules
