@@ -109,10 +109,14 @@ $hero-height: 700px;
     color: $light;
     text-align: center;
     .heading{
-      text-transform: capitalize;
       padding: 10px 0px;
       margin-bottom: 20px;
       font-size: 30px;
+    }
+    .releases--latest-version {
+      display: block;
+      font-size: 16px;
+      font-weight: normal;
     }
 
     .platform {

@@ -23,22 +23,21 @@ description: > # this means to ignore newlines until "baseurl:"
 releases:
   -
     name: macOS
-    status: true
     image: osx_logo.svg
+    unique_term: darwin
     link: https://github.com/imolorhe/altair/releases/latest
   -
     name: linux
-    status: false
     image: linux_logo.svg
+    unique_term: deb
     link:
   -
     name: windows
-    status: false
     image: windows_logo.svg
+    unique_term: exe
     link:
   -
     name: chrome
-    status: true
     image: chrome_icon.svg
     link: https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja
 
