@@ -4798,6 +4798,10 @@ ng2-codemirror@^1.1.2:
   dependencies:
     codemirror "^5.22.2"
 
+ng2-completer@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/ng2-completer/-/ng2-completer-1.6.3.tgz#b12c902b786f685c6b1256dd87d746e2abf2e505"
+
 ng2-toastr@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.1.2.tgz#1b452f07139961c38f866c6e24a06247efa21b11"

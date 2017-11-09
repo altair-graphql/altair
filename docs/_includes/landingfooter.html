@@ -1,24 +1,27 @@
 <footer>
   <div class="releases">
-    <h3 class="heading">get altair</h3>
+    <h3 class="heading">Get Altair <span class="releases--latest-version">{{ site.github.latest_release.tag_name }}</span></h3>
     <div class="wrapper">
       <div class="row">
         {% for platform in site.releases %}
           <div class="column-3 platform">
-            {% if platform.link %}
-              <a href="{{ platform.link }}">
+            {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | map: 'browser_download_url' | default: platform.link %}
+            {% if link %}
+              <a href="{{ link }}">
             {% endif %}
-            <img class="{% unless platform.status %}platform--unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
+            <img class="{% unless link %}platform--unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
             <p class="platform--name">{{ platform.name }}</p>
-            {% unless platform.status %}
+            {% unless link %}
               <p>coming soon</p>
             {% endunless %}
-            {% if platform.link %}
+            {% if link %}
               </a>
             {% endif %}
           </div>
         {% endfor %}
       </div>
+
+      <a href="{{ site.github.releases_url }}" class="btn" target="_blank">See older versions</a>
     </div>
   </div>
 </footer>
