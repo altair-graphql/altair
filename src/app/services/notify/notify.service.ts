@@ -9,17 +9,16 @@ export class NotifyService {
   ) {
   }
 
-  success(message, title = 'Altair') {
-    this.toastr.success(message, title);
+  success(message, title = 'Altair', opts = {}) {
+    this.toastr.success(message, title, opts);
   }
-  error(message, title = 'Altair') {
-    this.toastr.error(message, title);
+  error(message, title = 'Altair', opts = {}) {
+    this.toastr.error(message, title, opts);
   }
-  warning(message, title = 'Altair') {
-    this.toastr.warning(message, title);
+  warning(message, title = 'Altair', opts = {}) {
+    this.toastr.warning(message, title, opts);
   }
-  info(message, title = 'Altair') {
-    this.toastr.info(message, title);
+  info(message, title = 'Altair', opts = {}) {
+    this.toastr.info(message, title, opts);
   }
-
 }

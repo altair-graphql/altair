@@ -60,7 +60,7 @@ export function windows(reducer: ActionReducer<any>) {
                 const _windowState = _state[action.windowId];
                 if (!_windowState) {
                     // If the provided windowId is invalid, log the error and just return the state
-                    console.error('Invalid window ID provided.');
+                    console.warn('Invalid window ID provided.');
                     return _state;
                 }
 

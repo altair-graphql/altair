@@ -12,6 +12,7 @@
 altair.zip
 /out
 /web-ext-artifacts
+*.nex
 
 # dependencies
 /node_modules

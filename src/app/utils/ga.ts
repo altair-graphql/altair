@@ -24,6 +24,7 @@ export const initTracking = () => {
   window['_gaq'] = window['_gaq'] || [];
 
   window['_gaq'].push(['_setAccount', config.ga]);
+  window['_gaq'].push(['_setCustomVar', 4, 'User Device Protocol', window.location.protocol, 1]);
   window['_gaq'].push(['_trackPageview']);
 
   const ga = document.createElement('script');

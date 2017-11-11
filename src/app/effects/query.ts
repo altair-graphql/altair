@@ -135,72 +135,85 @@ export class QueryEffects {
 
     @Effect()
     saveIntrospectionToDb$: Observable<Action> = this.actions$
-        .ofType(gqlSchemaActions.SET_INTROSPECTION)
-        .map((data: queryActions.Action) => {
-            this.queryService.storeIntrospection(data.payload, data.windowId);
-            return new dbActions.SaveIntrospectionSuccessAction();
-        });
+      .ofType(gqlSchemaActions.SET_INTROSPECTION)
+      .map((data: queryActions.Action) => {
+        this.queryService.storeIntrospection(data.payload, data.windowId);
+        return new dbActions.SaveIntrospectionSuccessAction();
+      });
 
     @Effect()
     getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
-        .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
-        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId, action };
-        })
-        .switchMap((res) => {
-            if (!res.data.query.url) {
+      .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap((res) => {
+        if (!res.data.query.url) {
+          return Observable.empty();
+        }
+
+        this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
+        return this.gqlService.getIntrospectionRequest(res.data.query.url)
+          .catch(err => {
+            const errorObj = err;
+            let allowsIntrospection = true;
+
+            if (errorObj.errors) {
+              errorObj.errors.forEach(error => {
+                if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
+                  allowsIntrospection = false;
+                }
+              });
+            }
+
+            // If the server does not support introspection
+            if (!allowsIntrospection) {
+              this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
+            }
+            this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+            return Observable.empty();
+          })
+          .map(introspectionData => {
+            if (!introspectionData) {
                 return Observable.empty();
             }
 
-            this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
-            return this.gqlService.getIntrospectionRequest(res.data.query.url)
-                .catch(err => {
-                    const errorObj = err;
-                    let allowsIntrospection = true;
+            this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
+            this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
 
-                    if (errorObj.errors) {
-                        errorObj.errors.forEach(error => {
-                            if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
-                                allowsIntrospection = false;
-                            }
-                        });
-                    }
-
-                    // If the server does not support introspection
-                    if (!allowsIntrospection) {
-                        this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
-                    }
-                    this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
-                    return Observable.empty();
-                })
-                .map(introspectionData => {
-                    if (!introspectionData) {
-                        return Observable.empty();
-                    }
-
-                    this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
-                    this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
-
-                    return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
-                });
-        });
+            return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
+          });
+      });
 
     @Effect()
     // Hides the editor set alert after it has been shown
     showEditorSetAlert$: Observable<queryActions.Action> = this.actions$
-        .ofType(queryActions.SHOW_EDITOR_ALERT)
-        .switchMap((data: queryActions.Action) => {
-            return Observable.timer(3000)
-                .switchMap(() => Observable.of(new queryActions.HideEditorAlertAction(data.windowId)));
+      .ofType(queryActions.SHOW_EDITOR_ALERT)
+      .switchMap((data: queryActions.Action) => {
+        return Observable.timer(3000)
+          .switchMap(() => Observable.of(new queryActions.HideEditorAlertAction(data.windowId)));
+      });
+
+    @Effect()
+    notifyExperimental$: Observable<Action> = this.actions$
+      .ofType(layoutActions.NOTIFY_EXPERIMENTAL)
+      .switchMap(() => {
+        this.notifyService.info(`
+          This feature is experimental, and still in beta.
+          Click <a href="https://github.com/imolorhe/altair/issues/new">here</a> to submit bugs, improvements, etc.
+        `, null, {
+          toastLife: 10000
         });
+        return Observable.empty();
+      });
 
     // Get the introspection after setting the URL
     constructor(
-        private actions$: Actions,
-        private gqlService: GqlService,
-        private queryService: QueryService,
-        private notifyService: NotifyService,
-        private store: Store<any>
+      private actions$: Actions,
+      private gqlService: GqlService,
+      private queryService: QueryService,
+      private notifyService: NotifyService,
+      private store: Store<any>
     ) {}
 
   getVariablesObj(variables) {

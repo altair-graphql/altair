@@ -17,6 +17,7 @@ import * as headerActions from '../../actions/headers/headers';
 import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
+import * as layoutActions from '../../actions/layout/layout';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
@@ -180,6 +181,7 @@ export class WindowComponent implements OnInit {
   addQueryToEditor(queryData: { query: String, meta: any }) {
     // Add the query to what is already in the editor
     this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
+    this.store.dispatch(new layoutActions.NotifyExperimentalAction(this.windowId));
 
     // If the query has args
     if (queryData.meta.hasArgs) {
