@@ -11,10 +11,10 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
-<div>
-  ![set url](src/assets/img/set-url.gif "Altair GraphQL Client")
-  ![add fragment](src/assets/img/add-fragment.gif "Altair GraphQL Client")
-</div>
+
+
+![set url](src/assets/img/set-url.gif "Altair GraphQL Client")
+![add fragment](src/assets/img/add-fragment.gif "Altair GraphQL Client")
 
 # Altair GraphQL Client
 
