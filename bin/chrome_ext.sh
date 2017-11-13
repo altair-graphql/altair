@@ -24,11 +24,13 @@ find chrome-extension -name '*.map' -type f -delete
 # Remove all .DS_Store files from the chrome-extension directory
 find chrome-extension -name '.DS_Store' -type f -delete
 
+# Remove all readme image assets
+echo 'Removing readme image assets...'
+rm -rf chrome-extension/assets/img/readme/
+
 # Compress the chrome-extension directory into a zip file
 zip -r altair.zip chrome-extension
 
 # Build the extension for firefox
 ./node_modules/web-ext/bin/web-ext build --source-dir chrome-extension --overwrite-dest
 
-# Running the extension in firefox
-# ./node_modules/web-ext/bin/web-ext run --source-dir chrome-extension

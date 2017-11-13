@@ -13,8 +13,8 @@
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
 
-![set url](src/assets/img/set-url.gif "Altair GraphQL Client")
-![add fragment](src/assets/img/add-fragment.gif "Altair GraphQL Client")
+![set url](src/assets/img/readme/set-url.gif "Altair GraphQL Client")
+![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 
 # Altair GraphQL Client
 
