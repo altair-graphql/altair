@@ -22,7 +22,7 @@ export class DbService {
    * Gets the item with the exact name specified
    * @param key
    */
-  getItemByExactKey(key) {
+  getItemByExactKey(key): Observable<any> {
     const dbValue = localStorage.getItem(key);
 
     return Observable.create((observer) => {
@@ -44,7 +44,7 @@ export class DbService {
    * The key is retrieved with the application-specific key
    * @param key
    */
-  getItem(key) {
+  getItem(key): Observable<any> {
     return this.getItemByExactKey(this.getItemName(key));
   }
 
@@ -53,7 +53,7 @@ export class DbService {
    * @param key
    * @param value
    */
-  setItem(key, value) {
+  setItem(key, value): Observable<any> {
     const dbValue = {
       value: null
     };
@@ -71,7 +71,7 @@ export class DbService {
    * Removes an item with the specified exact key
    * @param key
    */
-  removeItemByExactKey(key) {
+  removeItemByExactKey(key): Observable<any> {
     localStorage.removeItem(key);
 
     return Observable.create(obs => obs.next(null));

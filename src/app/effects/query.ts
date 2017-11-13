@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService, QueryService, NotifyService } from '../services';
+import { GqlService, QueryService, NotifyService, DbService } from '../services';
 import * as fromRoot from '../reducers';
 
 import * as queryActions from '../actions/query/query';
@@ -198,11 +198,19 @@ export class QueryEffects {
     notifyExperimental$: Observable<Action> = this.actions$
       .ofType(layoutActions.NOTIFY_EXPERIMENTAL)
       .switchMap(() => {
-        this.notifyService.info(`
-          This feature is experimental, and still in beta.
-          Click <a href="https://github.com/imolorhe/altair/issues/new">here</a> to submit bugs, improvements, etc.
-        `, null, {
-          toastLife: 10000
+        this.dbService.getItem('exp_add_query_seen').subscribe(val => {
+          if (!val) {
+            this.notifyService.info(`
+              This feature is experimental, and still in beta.
+              Click here to submit bugs, improvements, etc.
+            `, null, {
+              dismiss: 'click',
+              data: {
+                url: 'https://github.com/imolorhe/altair/issues/new'
+              }
+            });
+            this.dbService.setItem('exp_add_query_seen', true);
+          }
         });
         return Observable.empty();
       });
@@ -213,6 +221,7 @@ export class QueryEffects {
       private gqlService: GqlService,
       private queryService: QueryService,
       private notifyService: NotifyService,
+      private dbService: DbService,
       private store: Store<any>
     ) {}
 
