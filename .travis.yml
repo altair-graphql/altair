@@ -30,6 +30,10 @@ before_script:
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
+install:
+- npm install -g firebase-tools
+after_success:
+- firebase deploy --token $FIREBASE_TOKEN
 before_deploy:
 - npm run build-electron
 deploy:
