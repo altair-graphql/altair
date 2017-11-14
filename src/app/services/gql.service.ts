@@ -102,9 +102,7 @@ export class GqlService {
     return this.send(introspectionQuery).map(data => {
       console.log('introspection', data.data);
       return data.data;
-    }).do(() => this.api_url = currentApiUrl).catch(err => {
-      return Observable.empty();
-    });
+    }).do(() => this.api_url = currentApiUrl);
   }
 
   getIntrospectionData() {

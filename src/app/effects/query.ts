@@ -159,7 +159,7 @@ export class QueryEffects {
           .setHeaders(res.data.headers)
           .getIntrospectionRequest(res.data.query.url)
           .catch(err => {
-            const errorObj = err;
+            const errorObj = err.error || err;
             let allowsIntrospection = true;
 
             if (errorObj.errors) {
@@ -173,6 +173,8 @@ export class QueryEffects {
             // If the server does not support introspection
             if (!allowsIntrospection) {
               this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
+            } else {
+              this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
             }
             this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
             return Observable.empty();
