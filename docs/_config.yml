@@ -44,6 +44,8 @@ releases:
     name: firefox
     image: firefox_logo.svg
     link: https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/
+
+ex:
   -
     name: web
     image: webapp_icon.svg

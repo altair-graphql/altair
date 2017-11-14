@@ -20,7 +20,7 @@
 
 A graphQL client for making graphQL queries to a graphQL server - Postman for GraphQL.
 
-Web app: https://altair-gql.herokuapp.com/
+<!-- Web app: https://altair-gql.herokuapp.com/ -->
 
 There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and a [firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 
