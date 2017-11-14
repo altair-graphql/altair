@@ -12,6 +12,7 @@
 altair.zip
 /out
 /web-ext-artifacts
+/firebase-sample-dist
 *.nex
 
 # dependencies
