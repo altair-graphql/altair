@@ -4,4 +4,5 @@ export class CustomOption extends ToastOptions {
   newestOnTop = false;
   showCloseButton = true;
   positionClass = 'toast-top-center';
+  enableHTML = true;
 }

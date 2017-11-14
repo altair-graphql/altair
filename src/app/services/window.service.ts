@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 import * as uuid from 'uuid/v4';
 
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../reducers';
@@ -19,7 +20,7 @@ export class WindowService {
     private store: Store<fromRoot.State>
   ) { }
 
-  loadWindows(): Observable<any> {
+  loadWindows(): Subscription {
     return this.db.getItem('windows').subscribe(data => {
       if (data && Object.keys(data).length) {
         this.store.dispatch(new windowActions.SetWindowsAction(data));
@@ -29,7 +30,7 @@ export class WindowService {
     });
   }
 
-  newWindow(): Observable<any> {
+  newWindow(): Subscription {
     return this.db.getItem('windows').subscribe(data => {
       data = data || [];
 
@@ -46,7 +47,7 @@ export class WindowService {
     });
   }
 
-  removeWindow(windowId): Observable<any> {
+  removeWindow(windowId): Subscription {
     return this.db.getItem('windows').subscribe(data => {
       data = data || [];
 

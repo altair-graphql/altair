@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import * as fromRoot from '../reducers';
 
@@ -18,7 +19,7 @@ export class QueryService {
     private store: Store<fromRoot.State>
   ) { }
 
-  loadUrl(windowId): Observable<any> {
+  loadUrl(windowId): Subscription {
     return this.db.getItem(`${windowId}:url`).subscribe(url => {
       if (url) {
         this.store.dispatch(new queryActions.SetUrlFromDbAction(url, windowId));
@@ -26,7 +27,7 @@ export class QueryService {
     });
   }
 
-  loadQuery(windowId): Observable<any> {
+  loadQuery(windowId): Subscription {
     return this.db.getItem(`${windowId}:query`).subscribe(query => {
       if (query) {
         this.store.dispatch(new queryActions.SetQueryFromDbAction(query, windowId));
@@ -34,7 +35,7 @@ export class QueryService {
     });
   }
 
-  loadIntrospection(windowId): Observable<any> {
+  loadIntrospection(windowId): Subscription {
     return this.db.getItem(`${windowId}:introspection`).subscribe(introspectionData => {
       if (introspectionData) {
         this.store.dispatch(new gqlSchemaActions.SetIntrospectionFromDbAction(introspectionData, windowId));
