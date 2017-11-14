@@ -193,6 +193,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetQueryAction(``, this.windowId));
   }
 
+  downloadResult() {
+    this.store.dispatch(new queryActions.DownloadResultAction(this.windowId));
+  }
+
   trackByFn(index, item) {
     return index;
   }

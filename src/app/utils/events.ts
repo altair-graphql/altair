@@ -9,7 +9,6 @@
 export const on = (eventName, elSelector, fn) => {
   document.body.addEventListener(eventName, function(e) {
     if (e.target && e.target.matches(elSelector)) {
-      console.log('Fired.', e);
       fn(e);
     }
   });

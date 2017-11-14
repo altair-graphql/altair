@@ -51,6 +51,7 @@
       [gqlSchema]="gqlSchema"
     ></app-query-editor>
     <app-query-result
+      (downloadResultChange)="downloadResult()"
       [queryResult]="queryResult"
       [responseTime]="responseTime"
       [responseStatus]="responseStatus"

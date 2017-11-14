@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
   ViewChild,
+  EventEmitter,
   OnChanges
 } from '@angular/core';
 
@@ -28,6 +30,8 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
+
+  @Output() downloadResultChange = new EventEmitter();
 
   @ViewChild('editor') editor;
 
