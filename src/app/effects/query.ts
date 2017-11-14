@@ -153,7 +153,9 @@ export class QueryEffects {
         }
 
         this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
-        return this.gqlService.getIntrospectionRequest(res.data.query.url)
+        return this.gqlService
+          .setHeaders(res.data.headers)
+          .getIntrospectionRequest(res.data.query.url)
           .catch(err => {
             const errorObj = err;
             let allowsIntrospection = true;
