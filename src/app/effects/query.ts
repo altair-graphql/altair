@@ -14,6 +14,8 @@ import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 
+import { downloadJson } from '../utils';
+
 @Injectable()
 export class QueryEffects {
 
@@ -216,6 +218,18 @@ export class QueryEffects {
         });
         return Observable.empty();
       });
+
+      @Effect()
+      downloadResult$: Observable<queryActions.Action> = this.actions$
+        .ofType(queryActions.DOWNLOAD_RESULT)
+        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        })
+        .switchMap(res => {
+          downloadJson(res.data.query.response, res.data.layout.title);
+
+          return Observable.empty();
+        });
 
     // Get the introspection after setting the URL
     constructor(
