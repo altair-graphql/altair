@@ -30,14 +30,10 @@ before_script:
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
-install:
-- npm install -g firebase-tools
-after_success:
-- firebase deploy --token $FIREBASE_TOKEN
 before_deploy:
 - npm run build-electron
 deploy:
-  provider: releases
+- provider: releases
   api_key:
     secure: Raef82s/PIkWThnr5vxHsxZX7FI6LKB3dbUkHzEs/S88hhibQCLuUIrvtbPwEJ/nxj0tpnD93elRQWpYsFRa38omv11g0o5eSUy7WwEHEum6g6se1fH3DqhBJsnIJFtfNXwdysMuvzWeJQ4P4j37jSg3wuCs9oJn0I+GrtS/wrE8EyxGKjtd68lVZo5rNCllUiHeizl8oIcRTUREKexxpsLEapBqgxmkFDn7lbgLDgt4/VwtaCZVN6bAnjknJS9DMynOJS0S1uyl6Gqd1paHVvEPrJv/UpeGKsp+OyoU7qbt/0ZXqXd1Yyym5jp0NAdb2IVNUAiyAAMUjy0qYDIZJMLAOhoO/GlJjvr+Sun81Fgv3fTDPzdUkHLUOVAFqsAmqhkupdZ3PnbiPExk3M3vTIEYI6v2CdxEglZyuZ1GNZ1551CT2hddHuoGue3JGaeq/V8n7QGZUGdplw9NHr7YOkuGpbbxGDjJM/RQXXEdAj1YXTSe225NNEOjoY5AuaVnIW76pfzhjEZtAHCpiYDfqECjtQ9dNuV5K58qElfPmDlBjYv1/G46OiEb/wpFiXtNZel+pvYaV7EK0RNA5IYSUn/S5v2MHEd8XVS90KV2L+CFv++9M46le3Nx6Qr4Lbu7VeY3va7JA/FCN+6HWpoupCg4N98rNOgfjay6FO/d56c=
   file_glob: true
@@ -45,3 +41,9 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+- provider: firebase
+  token:
+    secure: tgWQ77WjL/iWxY4mFmRsWG/w/Sk+szRVu99ynuT5Vjz7rSHkHsKhTrowTMAS7DV3Iq4yvSuVt2bPbiCYhANAiVixddA20BvoF5ZjGsafi5MXh0LPCrCXxbmsFmhp7MuQ5n94E800slGghtmRVPAwh1dlP/kpInwfqUY7RMcEQF+KFU/LVcec5hriCaDm1G4RQmaD6ZvkqUSTR0rqAh8fhPa/XXASrOdGOvU4O8oxOGP41ozF5n61KqYgWxst9Dwb/G0y7fZ1pomi30lAGWg5LodwHWOnkiOmN+bD0xDM9/D8OFAx9i/Afp1PnuGCA9EE0eI+oelnyZ4MSKPmgl20k6jrHpPgSziw2oKS8ceVYMa9dGHovVSmUmmBie93zBXF3mCf9zsv4WM7ekC9vv6C/P4K4MGeFSDIDscxbb7RYVaYto9UJMYDBz27dEsejSU4183fhKUS9KxnhVR0kZ/G45lPkORkDzdMPVMrRz6S1aL/fwMiNNjCsMWvVc5JDfozsIopiiAAtKbRp3apgxySktWkojfndX0BASyLyeSCG3p7enP/40OG7ikyDxMwxcVHZp9HMCnPxTkhdPAH2Dje1dweoWh6/sw8/7kjw2+X1WxuV1N5Wu9nB+vI7T6EMgxJZjTfN1fXSOGiKb/CVIDLb3jCpRJ/PIInXwsI43I+umY=
+  message: Deploying to firebase.
+  on:
+    branch: master
