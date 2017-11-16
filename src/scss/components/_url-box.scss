@@ -1,0 +1,21 @@
+.url-box {
+  // max-width: 900px;
+  margin: 0 auto 20px;
+  width: 100%;
+}
+.url-box__input {
+  height: 50px;
+  line-height: 50px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 20px rgba($black, .1);
+  padding: 0 15px;
+  transition: all .3s ease;
+  border-radius: 4px;
+  &:hover {
+    border-color: $light-grey;
+  }
+  &:focus, &:active {
+    border-color: $primary-color;
+  }
+}

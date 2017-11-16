@@ -1,0 +1,34 @@
+.response-stats{
+  // position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 12px;
+}
+.response-stats__item {
+  display: inline-block;
+  padding: 0 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.response-status-text{
+  text-transform: uppercase;
+  background: rgba($black, .5);
+  color: $white;
+}
+.response-status-code{
+  background: rgba($blue, .1);
+}
+.response-time{
+  display: inline-block;
+}
+.response-stats__download-result-link {
+  font-size: 12px;
+  border: none;
+  background: transparent;
+  color: $blue;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,9 +1,11 @@
-<div class="set-variable-dialog-wrapper app-dialog-wrapper" [ngClass]="{ 'show-dialog': showVariableDialog, 'hide-dialog': !showVariableDialog }">
-  <div class="app-dialog set-variable-dialog">
+<clr-modal [clrModalOpen]="showVariableDialog" (clrModalOpenChange)="toggleVariableDialog.next()">
+  <h3 class="modal-title">
     <div class="app-dialog-header">
       <div class="app-dialog-title">Variables</div>
       Add, edit and remove variables in your request
     </div>
+  </h3>
+  <div class="modal-body">
     <div class="app-dialog-body">
       <codemirror
         #editor
@@ -13,9 +15,10 @@
         (ngModelChange)="variablesChange.emit($event)"
       ></codemirror>
     </div>
+  </div>
+  <div class="modal-footer">
     <div class="app-dialog-footer">
       <button class="app-button active-primary right" (click)="toggleVariableDialog.next()">Save</button>
     </div>
   </div>
-  <div class="app-dialog-overlay" (click)="toggleVariableDialog.next()"></div>
-</div>
+</clr-modal>

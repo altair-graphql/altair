@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { ClarityModule } from 'clarity-angular';
 import { CodemirrorModule } from 'ng2-codemirror';
 
 import { PipesModule } from '../pipes';
@@ -27,9 +28,10 @@ const COMPONENTS = [
         CommonModule,
         FormsModule,
         CodemirrorModule,
-        PipesModule
+        PipesModule,
+        ClarityModule.forRoot()
     ],
     declarations: COMPONENTS,
-    exports: COMPONENTS
+    exports: [...COMPONENTS, ClarityModule ]
 })
 export class ComponentModule {}

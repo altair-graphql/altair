@@ -251,6 +251,10 @@
   version "2.53.43"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-2.53.43.tgz#2de3d718819bc20165754c4a59afb7e9833f6707"
 
+"@webcomponents/custom-elements@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.0.4.tgz#f7de0103026f27863ecfabaf1d450b9c21714910"
+
 JSONSelect@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/JSONSelect/-/JSONSelect-0.2.1.tgz#415418a526d33fe31d74b4defa3c836d485ec203"
@@ -1387,6 +1391,13 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
+bootstrap@4.0.0-alpha.5:
+  version "4.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-alpha.5.tgz#a126b648c3bd2f52b8fad4bbc5e2d0ad2abf7064"
+  dependencies:
+    jquery "1.9.1 - 3"
+    tether "^1.3.7"
+
 boundary@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/boundary/-/boundary-1.0.1.tgz#4d67dc2602c0cc16dd9bce7ebf87e948290f5812"
@@ -1765,6 +1776,18 @@ clap@^1.0.9:
   resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
   dependencies:
     chalk "^1.1.3"
+
+clarity-angular@^0.10.13:
+  version "0.10.13"
+  resolved "https://registry.yarnpkg.com/clarity-angular/-/clarity-angular-0.10.13.tgz#a3eccdebbe099b257ab0ba33fe4cf4f51b00e867"
+
+clarity-icons@^0.10.13:
+  version "0.10.13"
+  resolved "https://registry.yarnpkg.com/clarity-icons/-/clarity-icons-0.10.13.tgz#8164d66c310e80c715d89ed7a586e8c9261f77e7"
+
+clarity-ui@^0.10.13:
+  version "0.10.13"
+  resolved "https://registry.yarnpkg.com/clarity-ui/-/clarity-ui-0.10.13.tgz#10c062528c289eb79b2dad9b3dec41319f75673c"
 
 clean-css@4.1.x:
   version "4.1.9"
@@ -4919,6 +4942,10 @@ joi@^6.10.1:
     isemail "1.x.x"
     moment "2.x.x"
     topo "1.x.x"
+
+"jquery@1.9.1 - 3":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
 js-base64@^2.1.5, js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.3.2"
@@ -8188,6 +8215,10 @@ term-size@^1.2.0:
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-1.2.0.tgz#458b83887f288fc56d6fffbfad262e26638efa69"
   dependencies:
     execa "^0.7.0"
+
+tether@^1.3.7:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.1.tgz#78112ef21adf2aea68cd90e72185f43d9ffc44e8"
 
 text-table@~0.2.0:
   version "0.2.0"
