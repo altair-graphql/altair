@@ -24,8 +24,7 @@ import { graphql } from 'graphql';
 
 @Component({
   selector: 'app-window',
-  templateUrl: './window.component.html',
-  styleUrls: ['./window.component.scss']
+  templateUrl: './window.component.html'
 })
 export class WindowComponent implements OnInit {
   apiUrl$;

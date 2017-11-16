@@ -1,78 +1,65 @@
-<div class="app-window-container">
-  <div class="app-loader" [ngClass]="{ 'show-loader': isLoading }">
-    <div class="app-loader-content">
-      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
-      Loading...
-      <div class="app-loader-actions">
+<div class="content-area app-content-area">
+  <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
+    <div class="window-loader__content">
+      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> Loading...
+      <div class="window-loader__actions">
         <button class="app-button cancel-request-button" (click)="cancelRequest()">Cancel</button>
       </div>
     </div>
   </div>
-  <header class="app-header">
-    <div class="app-header-inner">
-      <div class="app-logo">
-        <img src="assets/img/logo.svg" alt="">
-      </div>
-      <div class="app-url-container">
-        <input #urlInput type="text" class="app-url-input" placeholder="Enter URL"
-        (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
-        [value]="apiUrl"
-        >
-      </div>
-      <div class="app-url-actions">
-        <button class="app-url-button"
-          (click)="setApiUrl()"
-        >Set URL</button>
-      </div>
-      <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !urlAlertSuccess }" *ngIf="showUrlAlert">
-        &#10003; {{ urlAlertMessage }}
-      </div>
-      <div class="app-url-alert" [ngClass]="{ 'url-alert-error': !editorAlertSuccess }" *ngIf="showEditorAlert">
-        &#10003; {{ editorAlertMessage }}
-      </div>
-    </div>
-  </header>
+  <div class="url-box">
+    <input #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
+      [value]="apiUrl">
+  </div>
   <app-action-bar
-      (toggleHeaderDialog)="toggleHeader()"
-      (toggleVariableDialog)="toggleVariableDialog()"
-      (prettifyCodeChange)="prettifyCode()"
-      (sendRequest)="sendRequest()"
-      (toggleDocsChange)="toggleDocs()"
-      (reloadDocsChange)="reloadDocs()"
-      (clearEditorChange)="clearEditor()"
-      [showDocs]="showDocs"
+    (toggleHeaderDialog)="toggleHeader()"
+    (toggleVariableDialog)="toggleVariableDialog()"
+    (prettifyCodeChange)="prettifyCode()"
+    (sendRequest)="sendRequest()"
+    (toggleDocsChange)="toggleDocs()"
+    (reloadDocsChange)="reloadDocs()"
+    (clearEditorChange)="clearEditor()"
+    [showDocs]="showDocs"
   ></app-action-bar>
-  <main class="app-main-section">
-    <app-query-editor
-      #queryEditor
-      (queryChange)="updateQuery($event)"
-      (sendRequest)="sendRequest()"
-      [query]="query"
-      [gqlSchema]="gqlSchema"
-    ></app-query-editor>
-    <app-query-result
-      (downloadResultChange)="downloadResult()"
-      [queryResult]="queryResult"
-      [responseTime]="responseTime"
-      [responseStatus]="responseStatus"
-      [responseStatusText]="responseStatusText"
-    ></app-query-result>
-    <app-doc-viewer
-      [gqlSchema]="gqlSchema"
-      [allowIntrospection]="allowIntrospection"
-      [ngClass]="{'show-doc': showDocs}"
-      [isLoading]="docsIsLoading"
-      (toggleDocsChange)="toggleDocs()"
-      (addQueryToEditorChange)="addQueryToEditor($event)"
-    ></app-doc-viewer>
-  </main>
+  <div class="main-content-area">
+    <div class="row main-content-row">
+      <div class="col-xs-6">
+        <app-query-editor
+          #queryEditor
+          (queryChange)="updateQuery($event)"
+          (sendRequest)="sendRequest()"
+          [query]="query"
+          [gqlSchema]="gqlSchema"
+        ></app-query-editor>
+      </div>
+      <div class="col-xs-6">
+        <app-query-result
+          (downloadResultChange)="downloadResult()"
+          [queryResult]="queryResult"
+          [responseTime]="responseTime"
+          [responseStatus]="responseStatus"
+          [responseStatusText]="responseStatusText"
+        ></app-query-result>
+      </div>
+      <app-doc-viewer
+        [gqlSchema]="gqlSchema"
+        [allowIntrospection]="allowIntrospection"
+        [ngClass]="{'show-doc': showDocs}"
+        [isLoading]="docsIsLoading"
+        (toggleDocsChange)="toggleDocs()"
+        (addQueryToEditorChange)="addQueryToEditor($event)"
+      ></app-doc-viewer>
+    </div>
+  </div>
   <div class="dialogs">
-    <div class="set-header-dialog-wrapper app-dialog-wrapper" [ngClass]="{ 'show-dialog': showHeaderDialog, 'hide-dialog': !showHeaderDialog }">
-      <div class="app-dialog set-header-dialog">
+    <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
+      <h3 class="modal-title">
         <div class="app-dialog-header">
           <div class="app-dialog-title">Headers</div>
           Add, edit and remove headers in your request
         </div>
+      </h3>
+      <div class="modal-body">
         <div class="app-dialog-body">
           <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
             <div class="set-header-input-column">
@@ -81,16 +68,17 @@
             <div class="set-header-input-column">
               <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
             </div>
-            <button class="header-input-remove-button" (click)="removeHeader(i)" >&times;</button>
+            <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
           </div>
         </div>
+      </div>
+      <div class="modal-footer">
         <div class="app-dialog-footer">
           <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
           <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
         </div>
       </div>
-      <div class="app-dialog-overlay" (click)="toggleHeader()"></div>
-    </div>
+    </clr-modal>
     <app-set-variable-dialog
       [variables]="variables"
       [showVariableDialog]="showVariableDialog"

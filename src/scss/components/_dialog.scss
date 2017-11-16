@@ -1,0 +1,58 @@
+.app-dialog{
+  background: $white;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 5px 12px 2px rgba($black, .1);
+}
+.app-dialog-header{
+  margin-bottom: 30px;
+  color: $dark-grey;
+  font-size: 14px;
+}
+.app-dialog-title{
+  color: $green;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.app-dialog-body{
+  margin-bottom: 10px;
+  max-height: 500px;
+  overflow: auto;
+}
+.app-dialog-footer {
+  width: 100%;
+}
+
+.set-header-input-container {
+  display: flex;
+  flex: 1;
+  margin-bottom: 30px;
+}
+.set-header-input-column {
+  max-width: 50%;
+  flex: 1;
+  padding: 0 10px;
+}
+.set-header-input {
+  font-size: 14px;
+  padding: 5px 0;
+  line-height: 1;
+  border: none;
+  border-bottom: 2px solid $grey;
+  transition: all .3s ease;
+  &:focus{
+    border-color: $green;
+  }
+}
+.header-input-remove-button {
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all .3s ease;
+  &:hover{
+    color: $red;
+  }
+}
