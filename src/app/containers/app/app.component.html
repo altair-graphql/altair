@@ -1,15 +1,26 @@
-<div class="wrapper">
-  <app-window-switcher
-   [windows]="windowsArr"
-   [activeWindowId]="activeWindowId"
-   [isElectron]="isElectron"
-   (newWindowChange)="newWindow()"
-   (activeWindowChange)="setActiveWindow($event)"
-   (removeWindowChange)="removeWindow($event)"
-   (windowNameChange)="setWindowName($event)"
-  ></app-window-switcher>
-  <ng-container *ngFor="let windowId of windowIds">
-    <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
-  </ng-container>
+<div class="main-container">
+  <header class="header">
+    <div class="branding">
+      <a href="#">
+        <img src="assets/img/logo.svg" alt="logo" class="header-logo">
+      </a>
+    </div>
+    <app-window-switcher
+      [windows]="windowsArr"
+      [activeWindowId]="activeWindowId"
+      [isElectron]="isElectron"
+      (newWindowChange)="newWindow()"
+      (activeWindowChange)="setActiveWindow($event)"
+      (removeWindowChange)="removeWindow($event)"
+      (windowNameChange)="setWindowName($event)"></app-window-switcher>
+  </header>
+  <div class="content-container">
+    <ng-container *ngFor="let windowId of windowIds">
+      <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+    </ng-container>
+    <!-- <nav class="sidenav">
+      ...
+    </nav> -->
+  </div>
 </div>
 <app-fork-repo *ngIf="!isElectron"></app-fork-repo>

@@ -1,9 +1,9 @@
-<div class="app-query-editor-input-container">
-    <codemirror
-     #editor
-     class="app-query-editor-input"
-     [(ngModel)]="query"
-     (ngModelChange)="queryChange.emit($event)"
-     [config]="editorConfig"
-    ></codemirror>
+<div class="query-editor-container">
+  <codemirror
+    #editor
+    class="query-editor__input"
+    [(ngModel)]="query"
+    (ngModelChange)="queryChange.emit($event)"
+    [config]="editorConfig"
+  ></codemirror>
 </div>

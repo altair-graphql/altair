@@ -1,22 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-$black: #33363B;
-$dark-grey: #A6A6A6;
-$grey: #EAEAEA;
-$light-grey: #F0F0F0;
-$white: #FFF;
-$green: #7EBC59;
-$blue: #368CBF;
-$cerise: #F00FAA;
-$red: #ED6A5A;
-$orange: #EDAE49;
-$yellow: #E4CE44;
-$light-red: #CC998D;
-$dark-purple: #303965;
-
-$result-default: $black;
-$result-string: $red;
-
-$dialog-z-index: 10;
 
 :root {
   --simple-ease: ease;
@@ -47,13 +29,16 @@ $dialog-z-index: 10;
 * {
   box-sizing: border-box;
 }
+html {
+  font-size: $baseline-size;
+}
 html, body{
-  font-size: 14px;
-  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
   margin: 0;
   height: 100%;
 }
 body {
+  font-size: $base-font-size;
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

@@ -1,20 +1,23 @@
-<div class="app-window-switcher-container">
-  <!--<div class="app-window-switcher-electron-stub" *ngIf="isElectron">-->
-    <!--<div class="app-window-switcher-input">&nbsp;</div>-->
-  <!--</div>-->
-  <!--<div class="app-window-switcher active">
-    window 1
-  </div>-->
-  <div class="app-window-switcher" *ngFor="let window of windows" [class.active]="window.windowId === activeWindowId" (click)="activeWindowChange.next(window.windowId)" (dblclick)="editWindowNameInput(window.windowId, wTitle)">
-    <div #wTitle class="app-window-switcher-input"
+<div class="header-nav window-switcher__container">
+  <div
+    class="nav-link nav-text window-switcher"
+    *ngFor="let window of windows"
+    [class.active]="window.windowId === activeWindowId"
+    (click)="activeWindowChange.next(window.windowId)"
+    (dblclick)="editWindowNameInput(window.windowId, wTitle)"
+  >
+    <div
+      #wTitle class="window-switcher__input"
       [attr.contenteditable]="window.windowId === windowNameEditing"
       (blur)="saveWindowName(window.windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(window.windowId, wTitle.innerText)"
     >{{ window.layout.title }}</div>
-    <!--<input type="text" [value]="window.layout.title" class="app-window-switcher-input" *ngIf="window.windowId === windowNameEditing">-->
-    <div class="app-window-switcher-close" *ngIf="windows.length > 1" (click)="removeWindowChange.next(window.windowId)">&#x00D7;</div>
+    <div class="window-switcher__close" *ngIf="windows.length > 1" (click)="removeWindowChange.next(window.windowId)">&#x00D7;</div>
   </div>
-  <div class="app-window-switcher create-new-window" (click)="newWindowChange.next($event)" *ngIf="windows.length < 15">
-    +
+  <div
+    class="nav-link nav-text window-switcher window-switcher--new-window"
+    (click)="newWindowChange.next($event)"
+    *ngIf="windows.length < 15">
+    + Add new
   </div>
 </div>

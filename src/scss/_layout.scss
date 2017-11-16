@@ -1,0 +1,19 @@
+.main-container {
+  background: $white;
+}
+.app-content-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.main-content-area {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+.main-content-row {
+  height: 100%;
+}
+app-window {
+  width: 100%;
+}

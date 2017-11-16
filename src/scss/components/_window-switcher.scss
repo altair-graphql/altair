@@ -1,0 +1,49 @@
+.window-switcher__container {
+  -webkit-app-region: drag;
+}
+.window-switcher {
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  &:hover{
+    // color: $green;
+    border-bottom-color: $grey;
+    .window-switcher__close{
+      opacity: 1;
+    }
+  }
+  &.active{
+    // color: $green;
+    border-bottom-color: $green;
+    // background: $white;
+    // box-shadow: 0 0 5px rgba($black, .2);
+    // .window-switcher__close{
+    //   opacity: 1;
+    // }
+  }
+}
+.window-switcher__input{
+  &:focus{
+    outline: 1px solid $orange;
+  }
+}
+.window-switcher__close{
+  position: absolute;
+  top: 50%;
+  margin-top: -7px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  text-align: center;
+  opacity: 0;
+  transition: all .3s ease;
+  line-height: 1;
+  &:hover {
+    color: $red;
+  }
+}
+.header-nav .nav-link.window-switcher--new-window {
+  &:hover {
+    color: $green;
+  }
+}

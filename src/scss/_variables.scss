@@ -1,0 +1,11 @@
+$clr-header-bgColor: #fff;
+$clr_baseline: 24;
+$clr-baseline-px: $clr_baseline * 1px;
+
+$result-default: $black;
+$result-string: $red;
+
+$dialog-z-index: 10;
+
+$baseline-size: $clr-baseline-px;
+$base-font-size: (14/$clr_baseline) * 1rem;
