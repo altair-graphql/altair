@@ -37,6 +37,7 @@ export const initTracking = () => {
   // Listen for click events on buttons and links
   on('click', 'button', trackButton);
   on('click', 'a', trackButton);
+  on('click', '._track_me', trackButton);
 
   trackJSErrors();
 };
