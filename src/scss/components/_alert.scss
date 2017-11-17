@@ -1,0 +1,17 @@
+.toast-top-center {
+  top: 10px;
+}
+#toast-container {
+  & > .toast {
+    line-height: 1.4;
+    border-radius: 5px;
+  }
+  .toast-title {
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+  .toast-message {
+    font-size: 13px;
+  }
+}
