@@ -45,6 +45,9 @@ function createWindow () {
   win = new BrowserWindow({
     width: 1280,
     height: 800,
+    webPreferences: {
+      webSecurity: false
+    },
     // titleBarStyle: 'hidden-inset'
   });
 
