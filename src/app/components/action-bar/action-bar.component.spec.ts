@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { ActionBarComponent } from './action-bar.component';
 
 describe('ActionBarComponent', () => {
@@ -8,6 +9,7 @@ describe('ActionBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [ ActionBarComponent ]
     })
     .compileComponents();

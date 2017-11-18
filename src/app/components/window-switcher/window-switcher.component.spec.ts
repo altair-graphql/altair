@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { WindowSwitcherComponent } from './window-switcher.component';
 
 describe('WindowSwitcherComponent', () => {
@@ -8,7 +9,10 @@ describe('WindowSwitcherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WindowSwitcherComponent ]
+      declarations: [ WindowSwitcherComponent ],
+      imports: [
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));

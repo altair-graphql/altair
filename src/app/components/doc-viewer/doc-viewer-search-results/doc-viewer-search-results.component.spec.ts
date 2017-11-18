@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results.component';
 
 describe('DocViewerSearchResultsComponent', () => {
@@ -8,7 +9,10 @@ describe('DocViewerSearchResultsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DocViewerSearchResultsComponent ]
+      declarations: [ DocViewerSearchResultsComponent ],
+      imports: [
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));

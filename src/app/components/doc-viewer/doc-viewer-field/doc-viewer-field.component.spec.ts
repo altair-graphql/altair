@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerFieldComponent } from './doc-viewer-field.component';
 import { DocViewerTypeComponent } from '../doc-viewer-type/doc-viewer-type.component';
 
@@ -12,6 +13,9 @@ describe('DocViewerFieldComponent', () => {
       declarations: [
         DocViewerFieldComponent,
         DocViewerTypeComponent
+      ],
+      imports: [
+        TranslateModule.forRoot()
       ]
     })
     .compileComponents();
