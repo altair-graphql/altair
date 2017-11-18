@@ -6,6 +6,8 @@ import {
   EventEmitter
 } from '@angular/core';
 
+import config from '../../config';
+
 @Component({
   selector: 'app-window-switcher',
   templateUrl: './window-switcher.component.html',
@@ -22,6 +24,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() windowNameChange = new EventEmitter();
 
   windowNameEditing = null;
+  maxWindowCount = config.max_windows;
 
   constructor() { }
 

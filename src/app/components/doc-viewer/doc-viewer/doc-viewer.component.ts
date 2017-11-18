@@ -7,6 +7,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
 import config from '../../../config';
@@ -28,6 +29,8 @@ export class DocViewerComponent implements OnChanges {
   index = [];
   index$ = new Subject();
 
+  searchInputPlaceholder = 'Search docs...';
+
   // Used to determine if index related actions (like search, add query, etc.)
   // should be available
   hasSearchIndex = false;
@@ -45,9 +48,15 @@ export class DocViewerComponent implements OnChanges {
 
   protected dataService: CompleterData;
 
-  constructor(private completerService: CompleterService) {
-    this.dataService = completerService.local(this.index$, 'search', 'search');
+  constructor(
+    private completerService: CompleterService,
+    private translate: TranslateService
+  ) {
+    this.dataService = this.completerService.local(this.index$, 'search', 'search');
     // .descriptionField('description');
+
+    // Set translations
+    this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT').subscribe(text => this.searchInputPlaceholder = text);
   }
 
   ngOnChanges(changes: SimpleChanges) {

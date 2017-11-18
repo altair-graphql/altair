@@ -49,6 +49,8 @@
     "@ngrx/effects": "^2.0.4",
     "@ngrx/store": "^2.2.3",
     "@ngrx/store-devtools": "^3.2.4",
+    "@ngx-translate/core": "^8.0.0",
+    "@ngx-translate/http-loader": "^2.0.0",
     "@webcomponents/custom-elements": "^1.0.4",
     "body-parser": "^1.17.1",
     "bootstrap": "4.0.0-alpha.5",

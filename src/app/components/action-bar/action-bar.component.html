@@ -1,17 +1,17 @@
 <div class="action-bar">
   <button class="app-button active-primary" (click)="this.sendRequest.next()">
-    <span>Send Request</span>
+    <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
   </button>
   <button class="app-button" (click)="this.prettifyCodeChange.next()">
-    Prettify
+    {{ 'PRETTIFY_BUTTON' | translate }}
   </button>
   <button class="app-button" (click)="this.clearEditorChange.next()">
-    Clear
+    {{ 'CLEAR_BUTTON' | translate }}
   </button>
-  <button class="app-button" (click)="this.toggleHeaderDialog.next()">Set Headers</button>
-  <button class="app-button" (click)="this.toggleVariableDialog.next()">Set Variables</button>
+  <button class="app-button" (click)="this.toggleHeaderDialog.next()">{{ 'SET_HEADERS_BUTTON' | translate }}</button>
+  <button class="app-button" (click)="this.toggleVariableDialog.next()">{{ 'SET_VARIABLES_BUTTON' | translate }}</button>
   <div class="actions-right right">
-    <button class="app-button" (click)="reloadDocsChange.next()">Reload Docs</button>
-    <button class="app-button" (click)="toggleDocsChange.next()" [ngClass]="{'active-grey': showDocs}">Show Docs</button>
+    <button class="app-button" (click)="reloadDocsChange.next()">{{ 'RELOAD_DOCS_BUTTON' | translate }}</button>
+    <button class="app-button" (click)="toggleDocsChange.next()" [ngClass]="{'active-grey': showDocs}">{{ 'SHOW_DOCS_BUTTON' | translate }}</button>
   </div>
 </div>

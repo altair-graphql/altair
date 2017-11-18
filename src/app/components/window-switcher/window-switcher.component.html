@@ -17,7 +17,7 @@
   <div
     class="nav-link nav-text window-switcher window-switcher--new-window _track_me"
     (click)="newWindowChange.next($event)"
-    *ngIf="windows.length < 15">
-    + Add new
+    *ngIf="windows.length < maxWindowCount">
+    {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
   </div>
 </div>

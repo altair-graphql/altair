@@ -12,7 +12,7 @@
 
 <!--Field arguments-->
 <div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
-  <div class="doc-viewer-section-title">Arguments</div>
+  <div class="doc-viewer-section-title">{{ 'DOCS_ARGUMENTS_TEXT' | translate }}</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args">
     <div class="doc-viewer-item-query-inner">
       <span class="no-link-link"
@@ -33,7 +33,7 @@
   </div>
 </div>
 <!--Field type-->
-<div class="doc-viewer-section-title">Type</div>
+<div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
 <ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"

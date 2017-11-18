@@ -2,7 +2,7 @@
   <div class="query-result__none" *ngIf="!queryResult">
     <div class="query-result__none-inner">
       <div class="query-result__none-subtext">
-        Ezio my friend, how may I be of service?
+        {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
       </div>
       <div class="query-result__none-art">
         <div class="left">
@@ -21,15 +21,15 @@
   <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
     <div class="response-stats">
       <div class="left">
-        STATUS:
+        {{ 'QUERY_RESULT_STATUS_TEXT' | translate }}:
         <span class="response-status-text response-stats__item">{{responseStatusText}}</span>
-        STATUS CODE:
+        {{ 'QUERY_RESULT_STATUS_CODE_TEXT' | translate }}:
         <span class="response-status-code response-stats__item">{{responseStatus}}</span>
-        TIME SPENT:
+        {{ 'QUERY_RESULT_TIME_SPENT_TEXT' | translate }}:
         <span class="response-time response-stats__item">{{responseTime}}ms</span>
       </div>
       <div class="right">
-        <button class="response-stats__download-result-link" (click)="downloadResultChange.next()">Download Result</button>
+        <button class="response-stats__download-result-link" (click)="downloadResultChange.next()">{{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}</button>
       </div>
     </div>
     <codemirror

@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ng2CompleterModule } from 'ng2-completer';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { SharedModule } from '../../shared/shared.module';
 
 import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import { DocViewerFieldComponent } from './doc-viewer-field/doc-viewer-field.component';
@@ -12,7 +15,8 @@ import { DocViewerSearchResultsComponent } from './doc-viewer-search-results/doc
   imports: [
     CommonModule,
     FormsModule,
-    Ng2CompleterModule
+    Ng2CompleterModule,
+    SharedModule
   ],
   declarations: [
     DocViewerComponent,

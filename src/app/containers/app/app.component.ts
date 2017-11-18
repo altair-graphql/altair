@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 import isElectron from '../../utils/is_electron';
 
@@ -30,11 +31,20 @@ export class AppComponent {
   windowsArr = [];
   activeWindowId = '';
   isElectron = isElectron;
+  isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
 
   constructor(
     private windowService: WindowService,
-    private store: Store<any>
+    private store: Store<any>,
+    private translate: TranslateService
   ) {
+    // this language will be used as a fallback when a translation isn't found in the current language
+    this.translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    this.translate.use('en').subscribe(() => {
+      this.isReady = true;
+    });
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);

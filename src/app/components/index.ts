@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ClarityModule } from 'clarity-angular';
 import { CodemirrorModule } from 'ng2-codemirror';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { PipesModule } from '../pipes';
 
 import { QueryEditorComponent } from './query-editor/query-editor.component';
@@ -25,11 +27,12 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        CodemirrorModule,
-        PipesModule,
-        ClarityModule.forRoot()
+      CommonModule,
+      FormsModule,
+      CodemirrorModule,
+      PipesModule,
+      SharedModule,
+      ClarityModule.forRoot()
     ],
     declarations: COMPONENTS,
     exports: [...COMPONENTS, ClarityModule ]
