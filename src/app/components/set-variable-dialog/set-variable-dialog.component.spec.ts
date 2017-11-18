@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
+import { ClarityModule } from 'clarity-angular';
 import { CodemirrorModule } from 'ng2-codemirror';
 
 import * as services from '../../services';
@@ -15,7 +16,8 @@ describe('SetVariableDialogComponent', () => {
       declarations: [ SetVariableDialogComponent ],
       imports: [
         FormsModule,
-        CodemirrorModule
+        CodemirrorModule,
+        ClarityModule.forRoot()
       ],
       providers: []
     })
