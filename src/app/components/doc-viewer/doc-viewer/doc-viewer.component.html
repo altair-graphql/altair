@@ -15,11 +15,13 @@
     <ng2-completer
       [(ngModel)]="searchTerm"
       [datasource]="dataService"
-      [minSearchLength]="0"
+      [minSearchLength]="2"
       [inputClass]="'doc-viewer-search-input'"
       [placeholder]="searchInputPlaceholder"
       [pause]="500"
-      (keyup)="searchDocs(searchTerm, $event)"></ng2-completer>
+      (keyup)="searchInputKeyUp(searchTerm, $event)"
+      (selected)="searchDocs($event.title)"
+    ></ng2-completer>
   </div>
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">

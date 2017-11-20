@@ -196,13 +196,18 @@ export class DocViewerComponent implements OnChanges {
     console.log('Index: ', this.index);
   }
 
-  /**
-   * search through the docs for the provided term
-   */
-  searchDocs(term, e) {
+  searchInputKeyUp(term, e) {
     if (e && e.keyCode !== 13) {
       return;
     }
+
+    this.searchDocs(term);
+  }
+
+  /**
+   * search through the docs for the provided term
+   */
+  searchDocs(term) {
     if (!this.hasSearchIndex) {
       return false;
     }
