@@ -9,6 +9,7 @@ app-doc-viewer{
   transform: translateX(100%);
   transition: all .5s var(--app-easing);
   overflow: auto;
+  line-height: 1.2;
   &.show-doc{
     transform: translateX(0);
     box-shadow: -2px 0 3px -2px rgba($black, .5);
@@ -85,6 +86,7 @@ app-doc-viewer{
 .doc-viewer-search-wrapper{
     padding: 15px 0;
     margin-bottom: 15px;
+    line-height: 1;
 }
 .doc-viewer-search-input{
     font-size: 14px;

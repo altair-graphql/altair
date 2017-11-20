@@ -20,7 +20,7 @@
       [placeholder]="searchInputPlaceholder"
       [pause]="500"
       (keyup)="searchInputKeyUp(searchTerm, $event)"
-      (selected)="searchDocs($event.title)"
+      (selected)="$event && searchDocs($event.title)"
     ></ng2-completer>
   </div>
   <div class="doc-viewer-items">
