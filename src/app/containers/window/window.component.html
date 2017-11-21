@@ -19,6 +19,7 @@
     (toggleDocsChange)="toggleDocs()"
     (reloadDocsChange)="reloadDocs()"
     (clearEditorChange)="clearEditor()"
+    (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
     [showDocs]="showDocs"
   ></app-action-bar>
   <div class="main-content-area">
@@ -34,11 +35,16 @@
       </div>
       <div class="col-xs-6">
         <app-query-result
-          (downloadResultChange)="downloadResult()"
           [queryResult]="queryResult"
           [responseTime]="responseTime"
           [responseStatus]="responseStatus"
           [responseStatusText]="responseStatusText"
+          [isSubscribed]="isSubscribed"
+          [subscriptionResponses]="subscriptionResponses"
+          [subscriptionUrl]="subscriptionUrl"
+
+          (downloadResultChange)="downloadResult()"
+          (stopSubscriptionChange)="stopSubscription()"
         ></app-query-result>
       </div>
       <app-doc-viewer
@@ -85,5 +91,11 @@
       (toggleVariableDialog)="toggleVariableDialog()"
       (variablesChange)="updateVariables($event)"
     ></app-set-variable-dialog>
+    <app-subscription-url-dialog
+      [subscriptionUrl]="subscriptionUrl"
+      [showDialog]="showSubscriptionUrlDialog"
+      (toggleDialogChange)="toggleSubscriptionUrlDialog()"
+      (subscriptionUrlChange)="updateSubscriptionUrl($event)"
+    ></app-subscription-url-dialog>
   </div>
 </div>

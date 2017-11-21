@@ -10,6 +10,9 @@
   </button>
   <button class="app-button" (click)="this.toggleHeaderDialog.next()">{{ 'SET_HEADERS_BUTTON' | translate }}</button>
   <button class="app-button" (click)="this.toggleVariableDialog.next()">{{ 'SET_VARIABLES_BUTTON' | translate }}</button>
+  <button class="app-button" (click)="this.toggleSubscriptionUrlDialog.next()">
+    {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+  </button>
   <div class="actions-right right">
     <button class="app-button" (click)="reloadDocsChange.next()">{{ 'RELOAD_DOCS_BUTTON' | translate }}</button>
     <button class="app-button" (click)="toggleDocsChange.next()" [ngClass]="{'active-grey': showDocs}">{{ 'SHOW_DOCS_BUTTON' | translate }}</button>

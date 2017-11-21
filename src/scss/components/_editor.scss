@@ -19,6 +19,9 @@
   background: $light-grey;
   border-radius: 4px;
 }
+.query-result__normal-container, .query-result__subscription-container {
+  height: 100%;
+}
 .query-result__none{
   display: flex;
   align-items: center;
@@ -48,4 +51,46 @@
   &.send{
     background: $green;
   }
+}
+.subscription-result__actions {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  line-height: 1;
+}
+.subscription-result__actions-left {
+  flex: 1 1 50%;
+}
+.subscription-result__actions-right {
+  flex: 1 1 50%;
+  text-align: right;
+}
+.subscription-result__actions-url {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+}
+.subscription-result__list-wrapper {
+  padding: 0 10px;
+}
+.subscription-result__list-item {
+  position: relative;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.subscription-result__list-item-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: $white;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+.subscription-result__list-item-time {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  background: $white;
+  color: $dark-grey;
 }

@@ -30,8 +30,12 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
+  @Input() isSubscribed = false;
+  @Input() subscriptionResponses = [];
+  @Input() subscriptionUrl = '';
 
   @Output() downloadResultChange = new EventEmitter();
+  @Output() stopSubscriptionChange = new EventEmitter();
 
   @ViewChild('editor') editor;
 

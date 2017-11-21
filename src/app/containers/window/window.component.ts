@@ -18,6 +18,7 @@ import * as variableActions from '../../actions/variables/variables';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
 import * as layoutActions from '../../actions/layout/layout';
+import * as schemaActions from '../../actions/gql-schema/gql-schema';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
@@ -39,6 +40,7 @@ export class WindowComponent implements OnInit {
   queryResult = '';
   showHeaderDialog = false;
   showVariableDialog = false;
+  showSubscriptionUrlDialog = false;
   showDocs = true;
   docsIsLoading = false;
   headers: fromHeader.State = [];
@@ -61,6 +63,10 @@ export class WindowComponent implements OnInit {
   responseTime = 0;
   responseStatus = 0;
   responseStatusText = '';
+
+  subscriptionUrl = '';
+  isSubscribed = false;
+  subscriptionResponses = [];
 
   constructor(
     private queryService: QueryService,
@@ -91,8 +97,9 @@ export class WindowComponent implements OnInit {
         this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
+        this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
         this.introspectionResult = data.schema.introspection;
-        this.gqlSchema = data.schema.schema;
+
         this.variables = data.variables.variables;
         this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
@@ -104,18 +111,31 @@ export class WindowComponent implements OnInit {
         this.responseStatus = data.query.responseStatus;
         this.responseTime = data.query.responseTime;
         this.responseStatusText = data.query.responseStatusText;
+        this.subscriptionUrl = data.query.subscriptionUrl;
+        this.isSubscribed = data.query.isSubscribed;
+        this.subscriptionResponses = data.query.subscriptionResponseList;
 
         this.showEditorAlert = data.query.showEditorAlert;
         this.editorAlertMessage = data.query.editorAlertMessage;
         this.editorAlertSuccess = data.query.editorAlertSuccess;
+
+        // Schema needs to be valid instances of GQLSchema.
+        // Rehydrated schema objects are not valid, so we get the schema again.
+        if (this.gql.isSchema(data.schema.schema)) {
+          this.gqlSchema = data.schema.schema;
+        } else {
+          const schema = this.gql.getIntrospectionSchema(data.schema.introspection);
+          if (schema) {
+            this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
+          }
+        }
         // console.log(data.query);
       });
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
 
-    // Introspection needs to be pulled from the db for the schema (which is dynamic) to be updated
-    this.queryService.loadIntrospection(this.windowId);
+    this.initSetup();
   }
 
   setApiUrl() {
@@ -125,11 +145,30 @@ export class WindowComponent implements OnInit {
   }
 
   sendRequest() {
-    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
+    // If the query is a subscription, subscribe to the subscription URL and send the query
+    if (this.gql.isSubscriptionQuery(this.query)) {
+      console.log('Your query is a SUBSCRIPTION!!!');
+      // If the subscription URL is not set, show the dialog for the user to set it
+      if (!this.subscriptionUrl) {
+        this.toggleSubscriptionUrlDialog();
+      } else {
+        this.startSubscription();
+      }
+    } else {
+      this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
+    }
   }
 
   cancelRequest() {
     this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
+  }
+
+  startSubscription() {
+    this.store.dispatch(new queryActions.StartSubscriptionAction(this.windowId));
+  }
+
+  stopSubscription() {
+    this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
   }
 
   updateQuery(query) {
@@ -142,6 +181,10 @@ export class WindowComponent implements OnInit {
 
   toggleVariableDialog() {
     this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
+  }
+
+  toggleSubscriptionUrlDialog() {
+    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
   }
 
   toggleDocs() {
@@ -173,6 +216,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new variableActions.UpdateVariablesAction(variables, this.windowId));
   }
 
+  updateSubscriptionUrl(url) {
+    this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: url }, this.windowId));
+  }
+
   prettifyCode() {
     this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
   }
@@ -198,5 +245,13 @@ export class WindowComponent implements OnInit {
 
   trackByFn(index, item) {
     return index;
+  }
+
+  /**
+   * Carry out any necessary house cleaning tasks.
+   */
+  initSetup() {
+    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
+    this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
   }
 }

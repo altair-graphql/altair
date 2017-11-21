@@ -20,6 +20,7 @@ export class ActionBarComponent {
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
   @Output() clearEditorChange = new EventEmitter();
+  @Output() toggleSubscriptionUrlDialog = new EventEmitter();
 
   constructor() { }
 

@@ -35,5 +35,8 @@
 
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
-  "ADD_HEADER_TEXT": "Add header"
+  "ADD_HEADER_TEXT": "Add header",
+
+  "SUBSCRIPTION_URL_TEXT": "Subscription URL",
+  "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below"
 }

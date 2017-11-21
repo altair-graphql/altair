@@ -14,7 +14,7 @@ export interface State {
 }
 
 const initialState: State = {
-    introspection: {},
+    introspection: null,
     schema: null,
     allowIntrospection: true
 };
