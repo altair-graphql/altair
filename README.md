@@ -62,6 +62,7 @@ To get more help on working with the project, check out the [Angular CLI README]
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
+6. See anything that needs improving, create an issue.
 
 ## Credits
 
