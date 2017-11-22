@@ -1,0 +1,42 @@
+{
+  "SEND_REQUEST_BUTTON": "Send Request",
+  "PRETTIFY_BUTTON": "Prettify",
+  "CLEAR_BUTTON": "Clear",
+  "SET_HEADERS_BUTTON": "Set Headers",
+  "SET_VARIABLES_BUTTON": "Set Variables",
+  "RELOAD_DOCS_BUTTON": "Reload Docs",
+  "SHOW_DOCS_BUTTON": "Show Docs",
+  "LOADING_INDICATOR_TEXT": "Loading...",
+  "CANCEL_TEXT": "Cancel",
+  "SERVER_NO_INTROSPECTION_SUPPORT": "Sorry. The provided server doesn't support introspection.",
+  "SAVE_BUTTON": "Save",
+  "ADD_NEW_WINDOW_TEXT": "+ Add new",
+
+  "DOCS_GO_BACK_TEXT": "Back",
+  "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Search docs...",
+  "DOCS_ARGUMENTS_TEXT": "Arguments",
+  "DOCS_TYPE_TEXT": "Type",
+  "DOCS_FIELD_TEXT": "Field",
+  "DOCS_FIELDS_TEXT": "Fields",
+  "DOCS_SEARCH_RESULTS_TEXT": "Search Results",
+  "DOCS_VALUES_TEXT": "Values",
+  "DOCS_DEPRECATED_TEXT": "DEPRECATED",
+  "DOCS_ADD_QUERY_TEXT": "Add Query",
+  "DOCS_ADD_FRAGMENT_TEXT": "Add Fragment",
+
+  "QUERY_RESULT_NO_RESULT_TEXT": "Ezio my friend, how may I be of service?",
+  "QUERY_RESULT_STATUS_TEXT": "STATUS",
+  "QUERY_RESULT_STATUS_CODE_TEXT": "STATUS CODE",
+  "QUERY_RESULT_TIME_SPENT_TEXT": "TIME SPENT",
+  "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Download Result",
+
+  "VARIABLES_TEXT": "Variables",
+  "SET_VARIABLES_DIALOG_SUBTEXT": "Add, edit and remove variables in your request",
+
+  "HEADERS_TEXT": "Headers",
+  "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
+  "ADD_HEADER_TEXT": "Add header",
+
+  "SUBSCRIPTION_URL_TEXT": "Subscription URL",
+  "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below"
+}

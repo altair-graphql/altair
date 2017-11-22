@@ -2,34 +2,26 @@
   <div class="app-doc-loader" [ngClass]="{ 'show-loader': isLoading }">
       <div class="app-doc-loader-content">
         <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
-        Loading...
+        {{ 'LOADING_INDICATOR_TEXT' | translate }}
       </div>
     </div>
   <div class="doc-viewer-header">
     <span class="doc-viewer-close" (click)="toggleDocsChange.next()">&times;</span>
     <div class="doc-viewer-back-link" (click)="goBack()" *ngIf="docView.view !== 'root'">
-      &#8592; Back
-    </div>
-    <div class="doc-viewer-breadcrumbs-container hide">
-      <!--<ul class="doc-viewer-breadcrumbs" [ngSwitch]="currentDocView.section">
-        <li><span class="no-link-link" (click)="goToDocItem({ section: 'rootTypes' }, 0)">Home</span></li>
-        <li *ngSwitchCase="'queries'"><span class="no-link-link" (click)="goToDocItem({ section: 'queries' }, 1)">Queries</span></li>
-        <li *ngSwitchCase="'mutations'"><span class="no-link-link" (click)="goToDocItem({ section: 'mutations' }, 1)">Mutations</span></li>
-        <li *ngFor="let history of docHistory; let i = index;">
-          <span class="no-link-link" (click)="goToDocItem(history, i)">{{ history.itemName }}</span>
-        </li>
-      </ul>-->
+      &#8592; {{ 'DOCS_GO_BACK_TEXT' | translate }}
     </div>
   </div>
   <div class="doc-viewer-search-wrapper">
     <ng2-completer
       [(ngModel)]="searchTerm"
       [datasource]="dataService"
-      [minSearchLength]="0"
+      [minSearchLength]="2"
       [inputClass]="'doc-viewer-search-input'"
-      [placeholder]="'Search docs...'"
+      [placeholder]="searchInputPlaceholder"
       [pause]="500"
-      (keyup)="searchDocs(searchTerm, $event)"></ng2-completer>
+      (keyup)="searchInputKeyUp(searchTerm, $event)"
+      (selected)="$event && searchDocs($event.title)"
+    ></ng2-completer>
   </div>
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">
@@ -68,5 +60,5 @@
   </div>
 </div>
 <div class="app-doc-notice" *ngIf="!allowIntrospection">
-  Sorry. The provided server doesn't support introspection.
+  {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
 </div>

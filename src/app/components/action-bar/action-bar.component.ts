@@ -13,6 +13,7 @@ import {
 export class ActionBarComponent {
 
   @Input() showDocs;
+  @Input() isSubscribed = false;
   @Output() toggleHeaderDialog = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() toggleDocsChange = new EventEmitter();
@@ -20,6 +21,7 @@ export class ActionBarComponent {
   @Output() prettifyCodeChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
   @Output() clearEditorChange = new EventEmitter();
+  @Output() toggleSubscriptionUrlDialog = new EventEmitter();
 
   constructor() { }
 

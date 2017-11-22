@@ -16,6 +16,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { WindowComponent } from './window.component';
 
 describe('WindowComponent', () => {
@@ -50,7 +51,8 @@ describe('WindowComponent', () => {
         CodemirrorModule,
         ComponentModule,
         DocViewerModule,
-        ToastModule.forRoot()
+        ToastModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       providers: providers
     })

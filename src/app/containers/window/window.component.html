@@ -1,9 +1,9 @@
 <div class="content-area app-content-area">
   <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
     <div class="window-loader__content">
-      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> Loading...
+      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
       <div class="window-loader__actions">
-        <button class="app-button cancel-request-button" (click)="cancelRequest()">Cancel</button>
+        <button class="app-button cancel-request-button" (click)="cancelRequest()">{{ 'CANCEL_TEXT' | translate }}</button>
       </div>
     </div>
   </div>
@@ -19,7 +19,9 @@
     (toggleDocsChange)="toggleDocs()"
     (reloadDocsChange)="reloadDocs()"
     (clearEditorChange)="clearEditor()"
+    (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
     [showDocs]="showDocs"
+    [isSubscribed]="isSubscribed"
   ></app-action-bar>
   <div class="main-content-area">
     <div class="row main-content-row">
@@ -34,11 +36,16 @@
       </div>
       <div class="col-xs-6">
         <app-query-result
-          (downloadResultChange)="downloadResult()"
           [queryResult]="queryResult"
           [responseTime]="responseTime"
           [responseStatus]="responseStatus"
           [responseStatusText]="responseStatusText"
+          [isSubscribed]="isSubscribed"
+          [subscriptionResponses]="subscriptionResponses"
+          [subscriptionUrl]="subscriptionUrl"
+
+          (downloadResultChange)="downloadResult()"
+          (stopSubscriptionChange)="stopSubscription()"
         ></app-query-result>
       </div>
       <app-doc-viewer
@@ -55,8 +62,8 @@
     <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
       <h3 class="modal-title">
         <div class="app-dialog-header">
-          <div class="app-dialog-title">Headers</div>
-          Add, edit and remove headers in your request
+          <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
+          {{ 'SET_HEADERS_DIALOG_SUBTEXT' | translate }}
         </div>
       </h3>
       <div class="modal-body">
@@ -74,8 +81,8 @@
       </div>
       <div class="modal-footer">
         <div class="app-dialog-footer">
-          <button class="app-button active-grey left" (click)="addHeader()">Add header</button>
-          <button class="app-button active-primary right" (click)="toggleHeader()">Save</button>
+          <button class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
+          <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
         </div>
       </div>
     </clr-modal>
@@ -85,5 +92,11 @@
       (toggleVariableDialog)="toggleVariableDialog()"
       (variablesChange)="updateVariables($event)"
     ></app-set-variable-dialog>
+    <app-subscription-url-dialog
+      [subscriptionUrl]="subscriptionUrl"
+      [showDialog]="showSubscriptionUrlDialog"
+      (toggleDialogChange)="toggleSubscriptionUrlDialog()"
+      (subscriptionUrlChange)="updateSubscriptionUrl($event)"
+    ></app-subscription-url-dialog>
   </div>
 </div>

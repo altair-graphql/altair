@@ -11,7 +11,7 @@
 </div>
 
 <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getValues">
-  <div class="doc-viewer-section-title">Values</div>
+  <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues();">
     <div class="doc-viewer-item-query-inner">
       <span class="doc-viewer-item-field doc-viewer-item-value">
@@ -28,7 +28,7 @@
 </div>
 
 <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
-  <div class="doc-viewer-section-title">Fields</div>
+  <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
   <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(data.getFields());">
     <div class="doc-viewer-item-query-inner">
       <span class="no-link-link"
@@ -61,14 +61,14 @@
       </span>
     </div>
     <div class="doc-viewer-item-query-deprecated" *ngIf="item.isDeprecated">
-      DEPRECATED: {{ item.deprecationReason }}
+      {{ 'DOCS_DEPRECATED_TEXT' | translate }}: {{ item.deprecationReason }}
     </div>
     <div class="doc-viewer-item-query-description">
       {{ item.description }}
     </div>
     <button class="doc-viewer-item-query-add-btn"
      (click)="addToEditor(item.name, data.name)">
-      <ng-container *ngIf="isRootType(data.name)">Add Query</ng-container>
-      <ng-container *ngIf="!isRootType(data.name)">Add Fragment</ng-container>
+      <ng-container *ngIf="isRootType(data.name)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
+      <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
     </button>
   </div>

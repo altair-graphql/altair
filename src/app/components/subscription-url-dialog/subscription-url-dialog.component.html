@@ -1,0 +1,18 @@
+<clr-modal [clrModalOpen]="showDialog" (clrModalOpenChange)="toggleDialogChange.next()">
+  <h3 class="modal-title">
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'SUBSCRIPTION_URL_TEXT' | translate }}</div>
+      {{ 'SET_SUBSCRIPTION_URL_TEXT' | translate }}
+    </div>
+  </h3>
+  <div class="modal-body">
+    <div class="app-dialog-body">
+      <input type="url" class="dialog-input" [value]="subscriptionUrl" (input)="subscriptionUrlInput($event)" placeholder="ws://example.com/subscriptions" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="app-dialog-footer">
+      <button class="app-button active-primary right" (click)="toggleDialogChange.next()">{{ 'SAVE_BUTTON' | translate }}</button>
+    </div>
+  </div>
+</clr-modal>

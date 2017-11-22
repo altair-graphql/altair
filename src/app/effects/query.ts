@@ -48,6 +48,14 @@ export class QueryEffects {
             let requestStatusCode = 0;
             let requestStatusText = '';
 
+            try {
+              JSON.parse(response.data.variables.variables);
+            } catch (err) {
+              this.notifyService.error('Looks like your variables is not a valid JSON string.');
+              this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+              return Observable.empty();
+            }
+
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
@@ -111,7 +119,7 @@ export class QueryEffects {
             const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
             if (schema) {
-                return Observable.of(new gqlSchemaActions.SetSchemaAction(schema, data.windowId));
+              return Observable.of(new gqlSchemaActions.SetSchemaAction(data.windowId, schema));
             }
 
             return Observable.empty();
@@ -221,17 +229,68 @@ export class QueryEffects {
         return Observable.empty();
       });
 
-      @Effect()
-      downloadResult$: Observable<queryActions.Action> = this.actions$
-        .ofType(queryActions.DOWNLOAD_RESULT)
-        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
-        })
-        .switchMap(res => {
-          downloadJson(res.data.query.response, res.data.layout.title);
+    @Effect()
+    downloadResult$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.DOWNLOAD_RESULT)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        downloadJson(res.data.query.response, res.data.layout.title);
 
-          return Observable.empty();
-        });
+        return Observable.empty();
+      });
+
+    @Effect()
+    startSubscription$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.START_SUBSCRIPTION)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        try {
+          // Stop any currently active subscription
+          this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+
+          const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl);
+          const subClientRequest = subscriptionClient.request({
+            query: res.data.query.query,
+            variables: JSON.parse(res.data.variables.variables)
+          }).subscribe({
+            next: data => {
+              this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
+                response: JSON.stringify(data),
+                responseTime: (new Date()).getTime() // store responseTime in ms
+              }));
+              console.log(data);
+            },
+            error: err => {
+              // Stop the subscription if this happens.
+              console.log('Err', err);
+            },
+            complete: () => {
+              // Not yet sure what needs to be done here.
+              console.log('Subscription complete.');
+            }
+          });
+          this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
+        } catch (err) {
+          console.error('An error occurred starting the subscription.', err);
+        }
+        return Observable.empty();
+      });
+
+    @Effect()
+    stopSubscription$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.STOP_SUBSCRIPTION)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+        this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+        return Observable.empty();
+      });
 
     // Get the introspection after setting the URL
     constructor(

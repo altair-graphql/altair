@@ -1,42 +1,66 @@
 <div class="query-result-container">
-  <div class="query-result__none" *ngIf="!queryResult">
-    <div class="query-result__none-inner">
-      <div class="query-result__none-subtext">
-        Ezio my friend, how may I be of service?
+  <div class="query-result__normal-container" [ngClass]="{ 'hide': isSubscribed }">
+    <div class="query-result__none" *ngIf="!queryResult">
+      <div class="query-result__none-inner">
+        <div class="query-result__none-subtext">
+          {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
+        </div>
+        <div class="query-result__none-art">
+          <div class="left">
+            <div class="query-result__none-art-button send"></div>
+            <div class="query-result__none-art-button"></div>
+            <div class="query-result__none-art-button"></div>
+            <div class="query-result__none-art-button"></div>
+          </div>
+          <div class="right">
+            <div class="query-result__none-art-button"></div>
+          </div>
+        </div>
       </div>
-      <div class="query-result__none-art">
+    </div>
+    <!--We want it to be hidden in the DOM, not removed so we use hidden-->
+    <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
+      <div class="response-stats">
         <div class="left">
-          <div class="query-result__none-art-button send"></div>
-          <div class="query-result__none-art-button"></div>
-          <div class="query-result__none-art-button"></div>
-          <div class="query-result__none-art-button"></div>
+          {{ 'QUERY_RESULT_STATUS_TEXT' | translate }}:
+          <span class="response-status-text response-stats__item">{{responseStatusText}}</span>
+          {{ 'QUERY_RESULT_STATUS_CODE_TEXT' | translate }}:
+          <span class="response-status-code response-stats__item">{{responseStatus}}</span>
+          {{ 'QUERY_RESULT_TIME_SPENT_TEXT' | translate }}:
+          <span class="response-time response-stats__item">{{responseTime}}ms</span>
         </div>
         <div class="right">
-          <div class="query-result__none-art-button"></div>
+          <button class="response-stats__download-result-link" (click)="downloadResultChange.next()">{{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}</button>
+        </div>
+      </div>
+      <codemirror
+        #editor
+        class="app-query-result-textarea"
+        [config]="resultEditorConfig"
+        [ngModel]="queryResult | json"
+      ></codemirror>
+    </div>
+  </div>
+  <div class="query-result__subscription-container" [ngClass]="{ 'hide': !isSubscribed }">
+    <div class="subscription-result">
+      <div class="subscription-result__actions">
+          <div class="subscription-result__actions-left">
+            <div class="subscription-result__actions-url">
+              {{ subscriptionUrl }}
+            </div>
+          </div>
+          <div class="subscription-result__actions-right">
+            <button class="subscription-stop-button" (click)="stopSubscriptionChange.next()">Stop</button>
+          </div>
+      </div>
+      <div class="subscription-result__list-wrapper">
+        <div class="subscription-result__list-item" *ngFor="let item of subscriptionResponses">
+          <div class="subscription-result__list-item-content">
+            {{ item.response }}
+          </div>
+          <div class="subscription-result__list-item-time">{{ item.responseTime | date:'mediumTime' }}</div>
         </div>
       </div>
     </div>
-  </div>
-  <!--We want it to be hidden in the DOM, not removed so we use hidden-->
-  <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
-    <div class="response-stats">
-      <div class="left">
-        STATUS:
-        <span class="response-status-text response-stats__item">{{responseStatusText}}</span>
-        STATUS CODE:
-        <span class="response-status-code response-stats__item">{{responseStatus}}</span>
-        TIME SPENT:
-        <span class="response-time response-stats__item">{{responseTime}}ms</span>
-      </div>
-      <div class="right">
-        <button class="response-stats__download-result-link" (click)="downloadResultChange.next()">Download Result</button>
-      </div>
-    </div>
-    <codemirror
-      #editor
-      class="app-query-result-textarea"
-      [config]="resultEditorConfig"
-      [ngModel]="queryResult | json"
-    ></codemirror>
   </div>
 </div>

@@ -6,28 +6,28 @@ import { CodemirrorModule } from 'ng2-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import * as services from '../../services';
-import { SetVariableDialogComponent } from './set-variable-dialog.component';
 
-describe('SetVariableDialogComponent', () => {
-  let component: SetVariableDialogComponent;
-  let fixture: ComponentFixture<SetVariableDialogComponent>;
+import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.component';
+
+describe('SubscriptionUrlDialogComponent', () => {
+  let component: SubscriptionUrlDialogComponent;
+  let fixture: ComponentFixture<SubscriptionUrlDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetVariableDialogComponent ],
+      declarations: [ SubscriptionUrlDialogComponent ],
       imports: [
         FormsModule,
         CodemirrorModule,
         ClarityModule.forRoot(),
         TranslateModule.forRoot()
-      ],
-      providers: []
+      ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SetVariableDialogComponent);
+    fixture = TestBed.createComponent(SubscriptionUrlDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

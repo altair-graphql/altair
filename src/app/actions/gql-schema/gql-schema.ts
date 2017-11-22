@@ -21,7 +21,7 @@ export class SetIntrospectionFromDbAction implements Action {
 export class SetSchemaAction implements Action {
     readonly type = SET_SCHEMA;
 
-    constructor(public payload: any, public windowId: string) {}
+    constructor(public windowId: string, public payload: any) {}
 }
 
 export class SetAllowIntrospectionAction implements Action {

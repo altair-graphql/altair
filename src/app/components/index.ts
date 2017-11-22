@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ClarityModule } from 'clarity-angular';
 import { CodemirrorModule } from 'ng2-codemirror';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { PipesModule } from '../pipes';
 
 import { QueryEditorComponent } from './query-editor/query-editor.component';
@@ -13,6 +15,7 @@ import { ActionBarComponent } from './action-bar/action-bar.component';
 import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
 import { ForkRepoComponent } from './fork-repo/fork-repo.component';
 import { WindowSwitcherComponent } from './window-switcher/window-switcher.component';
+import { SubscriptionUrlDialogComponent } from './subscription-url-dialog/subscription-url-dialog.component';
 
 const COMPONENTS = [
     QueryEditorComponent,
@@ -20,16 +23,18 @@ const COMPONENTS = [
     ActionBarComponent,
     SetVariableDialogComponent,
     ForkRepoComponent,
-    WindowSwitcherComponent
+    WindowSwitcherComponent,
+    SubscriptionUrlDialogComponent
 ];
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        CodemirrorModule,
-        PipesModule,
-        ClarityModule.forRoot()
+      CommonModule,
+      FormsModule,
+      CodemirrorModule,
+      PipesModule,
+      SharedModule,
+      ClarityModule.forRoot()
     ],
     declarations: COMPONENTS,
     exports: [...COMPONENTS, ClarityModule ]

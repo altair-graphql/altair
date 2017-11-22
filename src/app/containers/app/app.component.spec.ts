@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { CodemirrorModule } from 'ng2-codemirror';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
@@ -47,7 +48,8 @@ describe('AppComponent', () => {
         StoreModule,
         CodemirrorModule,
         ComponentModule,
-        DocViewerModule
+        DocViewerModule,
+        TranslateModule.forRoot()
       ],
       providers: providers
     }).compileComponents();

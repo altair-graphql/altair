@@ -2,7 +2,9 @@ import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { buildClientSchema } from 'graphql';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+import { buildClientSchema, parse } from 'graphql';
+import { GraphQLSchema } from 'graphql/type';
 import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
@@ -51,7 +53,13 @@ export class GqlService {
 
     // If there is a variables option, add it to the data
     if (vars) {
-      data.variables = JSON.parse(vars);
+      try {
+        data.variables = JSON.parse(vars);
+      } catch (err) {
+        // Notify the user about badly written variables.
+        console.error(err);
+        return Observable.throw(err);
+      }
     }
 
     return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers, observe: 'response' })
@@ -110,7 +118,7 @@ export class GqlService {
   }
 
   getIntrospectionSchema(data) {
-    if (data) {
+    if (data && data.__schema) {
       const schema = buildClientSchema(data);
 
       // One type => many fields
@@ -118,5 +126,44 @@ export class GqlService {
       return schema;
     }
     return null;
+  }
+
+  /**
+   * Check if the schema is a valid GraphQL schema
+   * @param schema The schema object instance
+   */
+  isSchema(schema) {
+    return schema instanceof GraphQLSchema;
+  }
+
+  /**
+   * Checks if a query contains a subscription operation
+   * @param query
+   */
+  isSubscriptionQuery(query) {
+    const parsedQuery = parse(query);
+
+    if (!parsedQuery.definitions) {
+      return false;
+    }
+
+    return parsedQuery.definitions.reduce((acc, cur) => {
+      return acc || (cur.kind === 'OperationDefinition' && cur.operation === 'subscription');
+    }, false);
+  }
+
+  createSubscriptionClient(subscriptionUrl): SubscriptionClient {
+    return new SubscriptionClient(subscriptionUrl, {
+      reconnect: true
+    });
+  }
+
+  closeSubscriptionClient(subscriptionClient) {
+    if (subscriptionClient) {
+
+      if (subscriptionClient.close) {
+        subscriptionClient.close();
+      }
+    }
   }
 }

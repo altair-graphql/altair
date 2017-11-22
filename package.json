@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "license": "MIT",
   "author": "samuelimolo4real@gmail.com",
   "description": "The best graphQL client you will ever need",
@@ -49,6 +49,8 @@
     "@ngrx/effects": "^2.0.4",
     "@ngrx/store": "^2.2.3",
     "@ngrx/store-devtools": "^3.2.4",
+    "@ngx-translate/core": "^8.0.0",
+    "@ngx-translate/http-loader": "^2.0.0",
     "@webcomponents/custom-elements": "^1.0.4",
     "body-parser": "^1.17.1",
     "bootstrap": "4.0.0-alpha.5",
@@ -68,6 +70,7 @@
     "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^0.1.8",
     "rxjs": "^5.4.2",
+    "subscriptions-transport-ws": "^0.9.1",
     "to-snake-case": "^1.0.0",
     "uuid": "^3.0.1",
     "valid-url": "^1.0.9",
@@ -94,7 +97,7 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0",
+    "typescript": ">=2.1.0 <2.4.0",
     "web-ext": "^2.2.2"
   },
   "config": {
