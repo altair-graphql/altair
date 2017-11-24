@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const SET_URL = 'SET_URL';
+export const SET_METHOD = 'SET_METHOD';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
 
 export const SET_SUBSCRIPTION_URL = 'SET_SUBSCRIPTION_URL';
@@ -32,6 +33,12 @@ export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export class SetUrlAction implements Action {
   readonly type = SET_URL;
+
+  constructor(public payload: string, public windowId: string) {}
+}
+
+export class SetMethodAction implements Action {
+  readonly type = SET_METHOD;
 
   constructor(public payload: string, public windowId: string) {}
 }
@@ -177,4 +184,5 @@ CancelQueryRequestAction |
 HideUrlAlertAction |
 ShowUrlAlertAction |
 HideEditorAlertAction |
-ShowEditorAlertAction;
+ShowEditorAlertAction |
+SetMethodAction;

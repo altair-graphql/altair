@@ -92,7 +92,7 @@ export class WindowComponent implements OnInit {
 
         this.apiUrl = data.query.url;
         this.query = data.query.query;
-        this.verb = 'GET';
+        this.verb = data.query.verb;
         this.queryResult = data.query.response;
         this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
@@ -143,6 +143,10 @@ export class WindowComponent implements OnInit {
       this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
       this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
     }
+  }
+
+  setApiMethod(verb) {
+    this.store.dispatch(new queryActions.SetMethodAction(verb, this.windowId));
   }
 
   sendRequest() {
