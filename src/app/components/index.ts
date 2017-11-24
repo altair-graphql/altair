@@ -12,6 +12,7 @@ import { PipesModule } from '../pipes';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
 import { ActionBarComponent } from './action-bar/action-bar.component';
+import { UrlBoxComponent } from './url-box/url-box.component';
 import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-dialog.component';
 import { ForkRepoComponent } from './fork-repo/fork-repo.component';
 import { WindowSwitcherComponent } from './window-switcher/window-switcher.component';
@@ -26,7 +27,8 @@ const COMPONENTS = [
     ForkRepoComponent,
     WindowSwitcherComponent,
     SubscriptionUrlDialogComponent,
-    SubscriptionResultItemComponent
+    SubscriptionResultItemComponent,
+    UrlBoxComponent
 ];
 
 @NgModule({
