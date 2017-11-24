@@ -8,7 +8,10 @@ import { Component, ViewEncapsulation, Input } from '@angular/core';
 })
 export class SubscriptionResultItemComponent {
 
-  @Input() data = {};
+  @Input() data = {
+    response: '',
+    responseTime: 0
+  };
 
   isExpanded = false;
 
