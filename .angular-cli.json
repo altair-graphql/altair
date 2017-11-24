@@ -21,7 +21,10 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+        "../node_modules/clarity-icons/clarity-icons.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
