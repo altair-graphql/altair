@@ -8,9 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
-import * as fromVariable from '../../reducers/variables/variables';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -35,6 +33,7 @@ export class WindowComponent implements OnInit {
   @ViewChild('urlInput') urlInput;
 
   apiUrl = '';
+  verb = '';
   initialQuery = '';
   query = '';
   queryResult = '';
@@ -93,6 +92,7 @@ export class WindowComponent implements OnInit {
 
         this.apiUrl = data.query.url;
         this.query = data.query.query;
+        this.verb = 'GET';
         this.queryResult = data.query.response;
         this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;

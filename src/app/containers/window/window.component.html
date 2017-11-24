@@ -7,7 +7,7 @@
       </div>
     </div>
   </div>
-  <app-url-box [apiUrl]="apiUrl" (updatedUrl)="setApiUrl($event)"></app-url-box>
+  <app-url-box [apiUrl]="apiUrl" [verb]="verb" (updatedUrl)="setApiUrl($event)"></app-url-box>
   <app-action-bar
     (toggleHeaderDialog)="toggleHeader()"
     (toggleVariableDialog)="toggleVariableDialog()"
