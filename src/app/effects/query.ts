@@ -49,7 +49,9 @@ export class QueryEffects {
             let requestStatusText = '';
 
             try {
-              JSON.parse(response.data.variables.variables);
+              if (response.data.variables.variables) {
+                JSON.parse(response.data.variables.variables);
+              }
             } catch (err) {
               this.notifyService.error('Looks like your variables is not a valid JSON string.');
               this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
