@@ -3,6 +3,7 @@
   <div class="doc-viewer-item doc-viewer-item-field">
     <div class="doc-viewer-item-query-inner">
       {{ data.name }}
+      <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
     </div>
     <div class="doc-viewer-item-query-description">
       {{ data.description }}
@@ -19,6 +20,20 @@
       </span>
       <span class="doc-viewer-item-type">
         {{ item.value }}
+      </span>
+    </div>
+    <div class="doc-viewer-item-query-description">
+      {{ item.description }}
+    </div>
+  </div>
+</div>
+
+<div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data && data.getTypes">
+  <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes();">
+    <div class="doc-viewer-item-query-inner">
+      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        {{ item.name }}
       </span>
     </div>
     <div class="doc-viewer-item-query-description">
