@@ -6,8 +6,12 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 })
 export class UrlBoxComponent {
   @Input() apiUrl: string;
-  @Output() updatedUrl = new EventEmitter();
+  @Input() verb: string;
 
+  @Output() updatedUrl = new EventEmitter();
+  @Output() updateRequestVerb = new EventEmitter();
+
+  methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
   @ViewChild('urlInput') urlInput;
   constructor() { }
@@ -15,5 +19,9 @@ export class UrlBoxComponent {
   setApiUrl() {
     const url = this.urlInput.nativeElement.value;
     this.updatedUrl.emit(url);
+  }
+
+  setVerb(event: any) {
+    this.verb = event.target.value;
   }
 }
