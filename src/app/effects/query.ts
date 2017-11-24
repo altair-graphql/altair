@@ -294,6 +294,26 @@ export class QueryEffects {
         return Observable.empty();
       });
 
+    @Effect()
+    prettifyQuery$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.PRETTIFY_QUERY)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        let prettified = '';
+        try {
+          prettified = this.gqlService.prettify(res.data.query.query);
+        } catch(err) {
+          this.notifyService.error('Your query does not appear to be valid. Please check it.');
+        }
+
+        if (prettified) {
+          this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
+        }
+        return Observable.empty();
+      });
+
     // Get the introspection after setting the URL
     constructor(
       private actions$: Actions,

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse } from 'graphql';
+import { buildClientSchema, parse, print } from 'graphql';
 import { GraphQLSchema } from 'graphql/type';
 import { introspectionQuery } from './instrospectionQuery';
 
@@ -165,5 +165,13 @@ export class GqlService {
         subscriptionClient.close();
       }
     }
+  }
+
+  /**
+   * Prettifies (formats) a given query
+   * @param query
+   */
+  prettify(query) {
+    return print(parse(query));
   }
 }
