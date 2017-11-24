@@ -8,6 +8,7 @@ export interface State {
   url: string;
   subscriptionUrl: string;
   query: string;
+  verb: string
   response: any;
   responseTime: number;
   responseStatus: number;
@@ -27,6 +28,7 @@ const initialState: State = {
   url: '',
   subscriptionUrl: '',
   query: initialQuery,
+  verb : 'POST',
   response: null,
   responseTime: 0,
   responseStatus: 0,
@@ -91,6 +93,8 @@ export function queryReducer(state = initialState, action: query.Action): State 
       });
     case query.SET_SUBSCRIPTION_RESPONSE_LIST:
       return Object.assign({}, state, { subscriptionResponseList: action.payload.list });
+    case query.SET_METHOD:
+      return Object.assign({}, state, { verb: action.payload });
     default:
       return state;
   }

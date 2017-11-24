@@ -22,6 +22,6 @@ export class UrlBoxComponent {
   }
 
   setVerb(event: any) {
-    this.verb = event.target.value;
+    this.updateRequestVerb.emit(event.target.value);
   }
 }
