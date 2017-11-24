@@ -1,0 +1,6 @@
+<div class="subscription-result__list-item" [ngClass]="{ 'subscription-result__list-item--expanded': isExpanded }" (click)="toggleExpanded()">
+  <div class="subscription-result__list-item-content">
+    {{ data.response }}
+  </div>
+  <div class="subscription-result__list-item-time">{{ data.responseTime | date:'mediumTime' }}</div>
+</div>

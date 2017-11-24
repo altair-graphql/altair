@@ -78,6 +78,14 @@
   font-size: 12px;
   margin-bottom: 10px;
 }
+.subscription-result__list-item--expanded {
+  .subscription-result__list-item-content {
+    white-space: normal;
+  }
+  .subscription-result__list-item-time {
+    position: static;
+  }
+}
 .subscription-result__list-item-content {
   white-space: nowrap;
   overflow: hidden;
