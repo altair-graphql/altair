@@ -3,12 +3,17 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const mime = require('mime-types');
+const isDev = require('electron-is-dev');
+const { setupAutoUpdates } = require('./updates');
+
+// Default Squirrel.Windows event handler for your Electron apps.
+if (require('electron-squirrel-startup')) return;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
 
-function createWindow () {
+function createWindow() {
 
   /**
    * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
@@ -77,7 +82,7 @@ function createWindow () {
   })
 }
 
-function createMenu () {
+function createMenu() {
   const template = [
     {
       label: "Edit",
@@ -152,7 +157,12 @@ protocol.registerStandardSchemes(['altair']);
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  if (!isDev) {
+    setupAutoUpdates();
+  }
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
