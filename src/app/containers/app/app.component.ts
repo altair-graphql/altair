@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { ElectronService } from 'ngx-electron';
 
 import isElectron from '../../utils/is_electron';
 
@@ -38,7 +39,8 @@ export class AppComponent {
   constructor(
     private windowService: WindowService,
     private store: Store<any>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private electron: ElectronService
   ) {
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -47,6 +49,17 @@ export class AppComponent {
     this.translate.use(applicationLanguage).subscribe(() => {
       this.isReady = true;
     });
+
+    if (this.electron.isElectronApp) {
+      this.electron.ipcRenderer.on('create-tab', () => {
+        this.newWindow();
+      });
+      this.electron.ipcRenderer.on('close-tab', () => {
+        if (this.windowIds.length > 1) {
+          this.removeWindow(this.activeWindowId);
+        }
+      });
+    }
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);
