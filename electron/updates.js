@@ -1,3 +1,5 @@
+const { app, dialog } = require('electron');
+
 const { autoUpdater } = require('electron-updater');
 const log = require("electron-log");
 
@@ -6,7 +8,7 @@ const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
 
 const CHECK_UPDATE_INTERVAL = 1000 * 60 * 15; // every 15 mins
 
-export const setupAutoUpdates = () => {
+const setupAutoUpdates = () => {
   // autoUpdater.setFeedURL(feed);
 
   // setInterval(() => {
@@ -38,4 +40,8 @@ export const setupAutoUpdates = () => {
   log.transports.file.level = 'info';
   autoUpdater.logger = log;
   autoUpdater.checkForUpdatesAndNotify();
+};
+
+module.exports = {
+  setupAutoUpdates
 };

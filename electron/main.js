@@ -7,7 +7,7 @@ const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
 
 // Default Squirrel.Windows event handler for your Electron apps.
-if (require('electron-squirrel-startup')) return;
+// if (require('electron-squirrel-startup')) return; // Not required when using NSIS target
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

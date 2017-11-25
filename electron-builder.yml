@@ -7,9 +7,9 @@ files:
   - 'electron/**/*'
 mac:
   category: public.app-category.developer-tools
-  icon: electron/logo.icns
+  icon: electron/icon.icns
 dmg:
-  icon: electron/logo.icns
+  icon: electron/icon.icns
 electronCompile: false
 protocols:
   name: Altair GraphQL Client
