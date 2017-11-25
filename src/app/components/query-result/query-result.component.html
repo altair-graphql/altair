@@ -54,12 +54,10 @@
           </div>
       </div>
       <div class="subscription-result__list-wrapper">
-        <div class="subscription-result__list-item" *ngFor="let item of subscriptionResponses">
-          <div class="subscription-result__list-item-content">
-            {{ item.response }}
-          </div>
-          <div class="subscription-result__list-item-time">{{ item.responseTime | date:'mediumTime' }}</div>
-        </div>
+        <app-subscription-result-item
+          *ngFor="let item of subscriptionResponses"
+          [data]="item"
+        ></app-subscription-result-item>
       </div>
     </div>
   </div>

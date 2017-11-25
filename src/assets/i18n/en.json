@@ -23,6 +23,8 @@
   "DOCS_DEPRECATED_TEXT": "DEPRECATED",
   "DOCS_ADD_QUERY_TEXT": "Add Query",
   "DOCS_ADD_FRAGMENT_TEXT": "Add Fragment",
+  "DOCS_UNION_TEXT": "Union",
+  "DOCS_SUBTYPES_TEXT": "Subtypes",
 
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio my friend, how may I be of service?",
   "QUERY_RESULT_STATUS_TEXT": "STATUS",

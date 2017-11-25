@@ -16,6 +16,7 @@ import { SetVariableDialogComponent } from './set-variable-dialog/set-variable-d
 import { ForkRepoComponent } from './fork-repo/fork-repo.component';
 import { WindowSwitcherComponent } from './window-switcher/window-switcher.component';
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog/subscription-url-dialog.component';
+import { SubscriptionResultItemComponent } from './subscription-result-item/subscription-result-item.component';
 
 const COMPONENTS = [
     QueryEditorComponent,
@@ -24,7 +25,8 @@ const COMPONENTS = [
     SetVariableDialogComponent,
     ForkRepoComponent,
     WindowSwitcherComponent,
-    SubscriptionUrlDialogComponent
+    SubscriptionUrlDialogComponent,
+    SubscriptionResultItemComponent
 ];
 
 @NgModule({

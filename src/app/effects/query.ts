@@ -49,7 +49,9 @@ export class QueryEffects {
             let requestStatusText = '';
 
             try {
-              JSON.parse(response.data.variables.variables);
+              if (response.data.variables.variables) {
+                JSON.parse(response.data.variables.variables);
+              }
             } catch (err) {
               this.notifyService.error('Looks like your variables is not a valid JSON string.');
               this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
@@ -289,6 +291,26 @@ export class QueryEffects {
       .switchMap(res => {
         this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
         this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+        return Observable.empty();
+      });
+
+    @Effect()
+    prettifyQuery$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.PRETTIFY_QUERY)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        let prettified = '';
+        try {
+          prettified = this.gqlService.prettify(res.data.query.query);
+        } catch (err) {
+          this.notifyService.error('Your query does not appear to be valid. Please check it.');
+        }
+
+        if (prettified) {
+          this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
+        }
         return Observable.empty();
       });
 
