@@ -9,7 +9,7 @@ cache:
 - '%USERPROFILE%\.electron'
 
 artifacts:
-- path: 'out\make\**\*'
+- path: 'out\**\*'
   name: altairAll
 
 - path: 'out\make\**/*.exe'
