@@ -21,7 +21,7 @@ import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
 import { WindowService } from '../../services/window.service';
 
-import config from "../../config";
+import config from '../../config';
 
 @Component({
   selector: 'app-root',
@@ -68,22 +68,22 @@ export class AppComponent {
     }
   }
 
-  setDefaultLanguage() : void {
+  setDefaultLanguage(): void {
     const defaultLanguage = config.default_language;
     this.translate.setDefaultLang(defaultLanguage);
   }
 
-  setAvailableLanguages() : void {
+  setAvailableLanguages(): void {
     const availableLanguages = config.languages;
     this.translate.addLangs(availableLanguages);
   }
 
-  checkLanguageAvailability(language: string) : boolean {
+  checkLanguageAvailability(language: string): boolean {
     const availableLanguages = this.translate.getLangs();
     return availableLanguages.includes(language);
   }
 
-  detectLanguage() : string {
+  detectLanguage(): string {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
