@@ -10,6 +10,8 @@ mac:
   icon: electron/icon.icns
 dmg:
   icon: electron/icon.icns
+linux:
+  icon: electron/48x48.png
 electronCompile: false
 protocols:
   name: Altair GraphQL Client
