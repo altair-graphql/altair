@@ -87,6 +87,16 @@ function createMenu() {
     {
       label: "Edit",
       submenu: [
+        {
+          label: 'New Tab',
+          accelerator: 'CmdOrCtrl+T',
+          click: () => console.log('Create tab.')
+        },
+        {
+          label: 'Close Tab',
+          accelerator: 'CmdOrCtrl+W',
+          click: () => console.log('Close tab.')
+        },
         { role: "undo" },
         { role: "redo" },
         { type: "separator" },
@@ -110,7 +120,10 @@ function createMenu() {
     },
     {
       role: "window",
-      submenu: [{ role: "minimize" }, { role: "close" }]
+      submenu: [
+        { role: "minimize" },
+        { role: "close" }
+      ]
     }
   ];
 
@@ -169,7 +182,7 @@ app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
 });
 
@@ -177,7 +190,7 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
-    createWindow()
+    createWindow();
   }
 });
 
