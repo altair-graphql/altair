@@ -21,6 +21,8 @@ import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
 import { WindowService } from '../../services/window.service';
 
+import config from "../../config";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -38,11 +40,11 @@ export class AppComponent {
     private store: Store<any>,
     private translate: TranslateService
   ) {
-    // this language will be used as a fallback when a translation isn't found in the current language
-    this.translate.setDefaultLang('en');
+    this.setDefaultLanguage();
+    this.setAvailableLanguages();
 
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use('en').subscribe(() => {
+    const applicationLanguage = this.detectLanguage();
+    this.translate.use(applicationLanguage).subscribe(() => {
       this.isReady = true;
     });
 
@@ -64,6 +66,29 @@ export class AppComponent {
     if (!this.windowsArr.length) {
       this.windowService.newWindow();
     }
+  }
+
+  setDefaultLanguage() : void {
+    const defaultLanguage = config.default_language;
+    this.translate.setDefaultLang(defaultLanguage);
+  }
+
+  setAvailableLanguages() : void {
+    const availableLanguages = config.languages;
+    this.translate.addLangs(availableLanguages);
+  }
+
+  checkLanguageAvailability(language: string) : boolean {
+    const availableLanguages = this.translate.getLangs();
+    return availableLanguages.includes(language);
+  }
+
+  detectLanguage() : string {
+    const defaultLanguage = this.translate.getDefaultLang();
+    const clientLanguage = this.translate.getBrowserLang();
+    const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
+
+    return isClientLanguageAvailable ? clientLanguage : defaultLanguage;
   }
 
   newWindow() {
