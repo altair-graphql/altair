@@ -20,3 +20,4 @@ protocols:
   role: Viewer
 publish:
   provider: github
+  releaseType: release
