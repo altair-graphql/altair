@@ -118,14 +118,19 @@ export class GqlService {
   }
 
   getIntrospectionSchema(data) {
-    if (data && data.__schema) {
-      const schema = buildClientSchema(data);
+    try {
+      if (data && data.__schema) {
+        const schema = buildClientSchema(data);
 
-      // One type => many fields
-      // One field => One type
-      return schema;
+        // One type => many fields
+        // One field => One type
+        return schema;
+      }
+      return null;
+    } catch(err) {
+      console.error('Bad introspection data.');
+      return null;
     }
-    return null;
   }
 
   /**

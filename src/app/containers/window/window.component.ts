@@ -140,8 +140,10 @@ export class WindowComponent implements OnInit {
 
   setApiUrl() {
     const url = this.urlInput.nativeElement.value;
-    this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
-    this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
+    if (url !== this.apiUrl) {
+      this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
+      this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
+    }
   }
 
   sendRequest() {
