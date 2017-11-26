@@ -7,10 +7,13 @@ environment:
 cache:
 - '%APPDATA%\npm-cache'
 - '%USERPROFILE%\.electron'
-
+skip_non_tags: true
 artifacts:
 - path: 'out\make\**\*'
   name: altairAll
+
+- path: 'out\altair-win32-x64\altair.exe'
+  name: altairWin
 
 - path: 'out\make\**/*.exe'
   name: altairExe
@@ -41,13 +44,14 @@ build: off # We do not intend to build using MS Build
 after_test:
 - ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace '<base href="/">', '<base href="./">' } | Set-Content .\dist\index.html
 - npm run make
+- npm run dist-electron
 
 deploy:
   description: ''
   provider: GitHub
   auth_token:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
-  artifact: altairAll
+  artifact: altairAll, altairWin
   draft: false
   prerelease: false
   on:

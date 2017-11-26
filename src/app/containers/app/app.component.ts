@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { ElectronService } from 'ngx-electron';
 
 import isElectron from '../../utils/is_electron';
 
@@ -16,10 +17,13 @@ import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as layoutActions from '../../actions/layout/layout';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
+import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
 import { WindowService } from '../../services/window.service';
+
+import config from '../../config';
 
 @Component({
   selector: 'app-root',
@@ -36,15 +40,27 @@ export class AppComponent {
   constructor(
     private windowService: WindowService,
     private store: Store<any>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private electron: ElectronService
   ) {
-    // this language will be used as a fallback when a translation isn't found in the current language
-    this.translate.setDefaultLang('en');
+    this.setDefaultLanguage();
+    this.setAvailableLanguages();
 
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use('en').subscribe(() => {
+    const applicationLanguage = this.detectLanguage();
+    this.translate.use(applicationLanguage).subscribe(() => {
       this.isReady = true;
     });
+
+    if (this.electron.isElectronApp) {
+      this.electron.ipcRenderer.on('create-tab', () => {
+        this.newWindow();
+      });
+      this.electron.ipcRenderer.on('close-tab', () => {
+        if (this.windowIds.length > 1) {
+          this.removeWindow(this.activeWindowId);
+        }
+      });
+    }
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);
@@ -54,10 +70,11 @@ export class AppComponent {
         console.log(data.windows);
         this.windowIds = Object.keys(data.windows);
         this.windowsArr = this.windowIds.map(id => data.windows[id]);
+        this.activeWindowId = data.windowsMeta.activeWindowId;
 
         // If the active window has not been set, default it
         if (!this.activeWindowId || !data.windows[this.activeWindowId]) {
-          this.activeWindowId = this.windowIds[0];
+          this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
       });
 
@@ -66,12 +83,35 @@ export class AppComponent {
     }
   }
 
+  setDefaultLanguage(): void {
+    const defaultLanguage = config.default_language;
+    this.translate.setDefaultLang(defaultLanguage);
+  }
+
+  setAvailableLanguages(): void {
+    const availableLanguages = config.languages;
+    this.translate.addLangs(availableLanguages);
+  }
+
+  checkLanguageAvailability(language: string): boolean {
+    const availableLanguages = this.translate.getLangs();
+    return availableLanguages.includes(language);
+  }
+
+  detectLanguage(): string {
+    const defaultLanguage = this.translate.getDefaultLang();
+    const clientLanguage = this.translate.getBrowserLang();
+    const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
+
+    return isClientLanguageAvailable ? clientLanguage : defaultLanguage;
+  }
+
   newWindow() {
     this.windowService.newWindow();
   }
 
   setActiveWindow(windowId) {
-    this.activeWindowId = windowId;
+    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
   }
 
   removeWindow(windowId) {

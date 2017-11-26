@@ -1,8 +1,8 @@
 {
   "name": "altair",
-  "version": "1.5.2",
+  "version": "1.5.4",
   "license": "MIT",
-  "author": "samuelimolo4real@gmail.com",
+  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
   "homepage": "https://imolorhe.github.io/altair/",
   "keywords": [
@@ -27,7 +27,8 @@
     "build-electron": "./bin/package_electron_app.sh",
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "dist-electron": "build"
   },
   "engines": {
     "node": ">= 6.9.1 < 9.0.0"
@@ -62,6 +63,10 @@
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "electron-compile": "^6.4.1",
+    "electron-is-dev": "^0.3.0",
+    "electron-log": "^2.2.11",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^2.16.1",
     "express": "^4.15.2",
     "graphql": "^0.10.5",
     "marked": "^0.3.6",
@@ -69,6 +74,7 @@
     "ng2-completer": "^1.6.3",
     "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^0.1.8",
+    "ngx-electron": "1.0.3",
     "rxjs": "^5.4.2",
     "subscriptions-transport-ws": "^0.9.1",
     "to-snake-case": "^1.0.0",
@@ -84,6 +90,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "codelyzer": "~2.0.0",
+    "electron-builder": "^19.46.4",
     "electron-prebuilt-compile": "1.6.11",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
@@ -102,9 +109,6 @@
   },
   "config": {
     "forge": "./forge.config.js"
-  },
-  "directories": {
-    "doc": "docs"
   },
   "repository": {
     "type": "git",
