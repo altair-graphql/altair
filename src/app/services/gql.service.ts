@@ -127,7 +127,7 @@ export class GqlService {
         return schema;
       }
       return null;
-    } catch(err) {
+    } catch (err) {
       console.error('Bad introspection data.');
       return null;
     }
