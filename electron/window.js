@@ -5,6 +5,7 @@ const fs = require('fs');
 const mime = require('mime-types');
 
 const { createMenu } = require('./menu');
+const { touchBar } = require('./touchbar');
 
 let instance = null;
 
@@ -75,6 +76,9 @@ const createWindow = () => {
 
   // Open the DevTools.
   // instance.webContents.openDevTools();
+
+  // Set the touchbar
+  instance.setTouchBar(touchBar);
 
   // Prevent the app from navigating away from the app
   instance.webContents.on('will-navigate', (e, url) => e.preventDefault());
