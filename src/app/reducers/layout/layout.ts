@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import * as query from '../../actions/query/query';
 import * as layout from '../../actions/layout/layout';
 
 export interface State {

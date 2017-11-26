@@ -17,6 +17,7 @@ import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as layoutActions from '../../actions/layout/layout';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
+import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
@@ -69,10 +70,11 @@ export class AppComponent {
         console.log(data.windows);
         this.windowIds = Object.keys(data.windows);
         this.windowsArr = this.windowIds.map(id => data.windows[id]);
+        this.activeWindowId = data.windowsMeta.activeWindowId;
 
         // If the active window has not been set, default it
         if (!this.activeWindowId || !data.windows[this.activeWindowId]) {
-          this.activeWindowId = this.windowIds[0];
+          this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
       });
 
@@ -109,7 +111,7 @@ export class AppComponent {
   }
 
   setActiveWindow(windowId) {
-    this.activeWindowId = windowId;
+    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
   }
 
   removeWindow(windowId) {
