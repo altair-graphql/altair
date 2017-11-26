@@ -7,10 +7,13 @@ environment:
 cache:
 - '%APPDATA%\npm-cache'
 - '%USERPROFILE%\.electron'
-
+skip_non_tags: true
 artifacts:
 - path: 'out\make\**\*'
   name: altairAll
+
+- path: 'out\altair-win32-x64\altair.exe'
+  name: altairWin
 
 - path: 'out\make\**/*.exe'
   name: altairExe
@@ -48,7 +51,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
-  artifact: altairAll
+  artifact: altairAll, altairWin
   draft: false
   prerelease: false
   on:

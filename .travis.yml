@@ -37,7 +37,8 @@ deploy:
   api_key:
     secure: Raef82s/PIkWThnr5vxHsxZX7FI6LKB3dbUkHzEs/S88hhibQCLuUIrvtbPwEJ/nxj0tpnD93elRQWpYsFRa38omv11g0o5eSUy7WwEHEum6g6se1fH3DqhBJsnIJFtfNXwdysMuvzWeJQ4P4j37jSg3wuCs9oJn0I+GrtS/wrE8EyxGKjtd68lVZo5rNCllUiHeizl8oIcRTUREKexxpsLEapBqgxmkFDn7lbgLDgt4/VwtaCZVN6bAnjknJS9DMynOJS0S1uyl6Gqd1paHVvEPrJv/UpeGKsp+OyoU7qbt/0ZXqXd1Yyym5jp0NAdb2IVNUAiyAAMUjy0qYDIZJMLAOhoO/GlJjvr+Sun81Fgv3fTDPzdUkHLUOVAFqsAmqhkupdZ3PnbiPExk3M3vTIEYI6v2CdxEglZyuZ1GNZ1551CT2hddHuoGue3JGaeq/V8n7QGZUGdplw9NHr7YOkuGpbbxGDjJM/RQXXEdAj1YXTSe225NNEOjoY5AuaVnIW76pfzhjEZtAHCpiYDfqECjtQ9dNuV5K58qElfPmDlBjYv1/G46OiEb/wpFiXtNZel+pvYaV7EK0RNA5IYSUn/S5v2MHEd8XVS90KV2L+CFv++9M46le3Nx6Qr4Lbu7VeY3va7JA/FCN+6HWpoupCg4N98rNOgfjay6FO/d56c=
   file_glob: true
-  file: out/make/*
+  file:
+    - out/make/*
   skip_cleanup: true
   on:
     tags: true
