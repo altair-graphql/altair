@@ -13,6 +13,7 @@ import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
+import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
 import { downloadJson } from '../utils';
 
@@ -260,10 +261,27 @@ export class QueryEffects {
             variables: JSON.parse(res.data.variables.variables)
           }).subscribe({
             next: data => {
+              let strData = '';
+              try {
+                strData = JSON.stringify(data);
+              } catch (err) {
+                console.error('Invalid subscription response format.');
+                return false;
+              }
+
               this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
-                response: JSON.stringify(data),
+                response: strData,
                 responseTime: (new Date()).getTime() // store responseTime in ms
               }));
+
+              // Send notification in electron app
+              const myNotification = new Notification(res.data.layout.title, {
+                body: strData
+              });
+              myNotification.onclick = () => {
+                this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+              };
+
               console.log(data);
             },
             error: err => {
