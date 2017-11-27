@@ -5,7 +5,7 @@
       <div class="row">
         {% for platform in site.releases %}
           <div class="column-4 platform">
-            {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | map: 'browser_download_url' | default: platform.link %}
+            {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
             {% if link %}
               <a href="{{ link }}">
             {% endif %}
