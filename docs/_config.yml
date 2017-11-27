@@ -24,12 +24,12 @@ releases:
   -
     name: macOS
     image: osx_logo.svg
-    unique_term: darwin
+    unique_term: mac
     link: https://github.com/imolorhe/altair/releases/latest
   -
     name: linux
     image: linux_logo.svg
-    unique_term: deb
+    unique_term: AppImage
     link:
   -
     name: windows
