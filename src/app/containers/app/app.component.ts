@@ -67,13 +67,13 @@ export class AppComponent {
     });
     this.store
       .subscribe(data => {
-        console.log(data.windows);
         this.windowIds = Object.keys(data.windows);
+        console.log(data.windows, this.windowIds);
         this.windowsArr = this.windowIds.map(id => data.windows[id]);
         this.activeWindowId = data.windowsMeta.activeWindowId;
 
         // If the active window has not been set, default it
-        if (!this.activeWindowId || !data.windows[this.activeWindowId]) {
+        if (this.windowsArr.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
       });
