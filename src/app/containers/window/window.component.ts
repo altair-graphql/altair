@@ -30,10 +30,8 @@ export class WindowComponent implements OnInit {
 
   @Input() windowId: string;
 
-  @ViewChild('urlInput') urlInput;
-
   apiUrl = '';
-  verb = '';
+  httpVerb = '';
   initialQuery = '';
   query = '';
   queryResult = '';
@@ -92,7 +90,7 @@ export class WindowComponent implements OnInit {
 
         this.apiUrl = data.query.url;
         this.query = data.query.query;
-        this.verb = data.query.verb;
+        this.httpVerb = data.query.httpVerb;
         this.queryResult = data.query.response;
         this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
@@ -140,13 +138,13 @@ export class WindowComponent implements OnInit {
 
   setApiUrl(url) {
     if (url !== this.apiUrl) {
-      this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
+      this.store.dispatch(new queryActions.SetUrlAction({url}, this.windowId));
       this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
     }
   }
 
-  setApiMethod(verb) {
-    this.store.dispatch(new queryActions.SetMethodAction(verb, this.windowId));
+  setApiMethod(httpVerb) {
+    this.store.dispatch(new queryActions.SetHTTPMethodAction({httpVerb}, this.windowId));
   }
 
   sendRequest() {

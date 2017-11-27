@@ -108,8 +108,8 @@ export class GqlService {
     return this;
   }
 
-  setMethod(verb) {
-    this.method = verb;
+  setHTTPMethod(httpVerb) {
+    this.method = httpVerb;
     return this;
   }
 
