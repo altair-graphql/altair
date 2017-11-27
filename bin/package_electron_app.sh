@@ -13,7 +13,7 @@ npm run build
 ./electron/fix-base-path.sh
 
 # Make the electron apps
-npm run make
+# npm run make
 npm run dist-electron
 
 # Package the electron app
