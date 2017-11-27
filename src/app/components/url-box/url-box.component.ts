@@ -6,10 +6,10 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 })
 export class UrlBoxComponent {
   @Input() apiUrl: string;
-  @Input() verb: string;
+  @Input() httpVerb: string;
 
-  @Output() updatedUrl = new EventEmitter();
-  @Output() updateRequestVerb = new EventEmitter();
+  @Output() urlChange = new EventEmitter();
+  @Output() httpVerbChange = new EventEmitter();
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
@@ -18,10 +18,10 @@ export class UrlBoxComponent {
 
   setApiUrl() {
     const url = this.urlInput.nativeElement.value;
-    this.updatedUrl.emit(url);
+    this.urlChange.emit(url);
   }
 
   setVerb(event: any) {
-    this.updateRequestVerb.emit(event.target.value);
+    this.httpVerbChange.emit(event.target.value);
   }
 }

@@ -8,7 +8,7 @@ export interface State {
   url: string;
   subscriptionUrl: string;
   query: string;
-  verb: string
+  httpVerb: string
   response: any;
   responseTime: number;
   responseStatus: number;
@@ -28,7 +28,7 @@ const initialState: State = {
   url: '',
   subscriptionUrl: '',
   query: initialQuery,
-  verb : 'POST',
+  httpVerb : 'POST',
   response: null,
   responseTime: 0,
   responseStatus: 0,
@@ -51,7 +51,8 @@ export function queryReducer(state = initialState, action: query.Action): State 
       return Object.assign({}, state, { query: action.payload });
     case query.SET_URL:
     case query.SET_URL_FROM_DB:
-      return Object.assign({}, state, { url: action.payload });
+      console.log(JSON.stringify(action.payload.url));
+      return Object.assign({}, state, { url: action.payload.url });
     case query.SET_SUBSCRIPTION_URL:
       return Object.assign({}, state, { subscriptionUrl: action.payload.subscriptionUrl });
     case query.SET_QUERY_RESULT:
@@ -93,8 +94,8 @@ export function queryReducer(state = initialState, action: query.Action): State 
       });
     case query.SET_SUBSCRIPTION_RESPONSE_LIST:
       return Object.assign({}, state, { subscriptionResponseList: action.payload.list });
-    case query.SET_METHOD:
-      return Object.assign({}, state, { verb: action.payload });
+    case query.SET_HTTP_VERB:
+      return Object.assign({}, state, { httpVerb: action.payload.httpVerb });
     default:
       return state;
   }
