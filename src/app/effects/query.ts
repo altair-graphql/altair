@@ -62,6 +62,7 @@ export class QueryEffects {
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
+                .setHTTPMethod(response.data.query.httpVerb)
                 ._send(response.data.query.query, response.data.variables.variables)
                 .map(res => {
                     requestStatusCode = res.status;
@@ -132,7 +133,7 @@ export class QueryEffects {
     saveUrlToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
         .map((data: queryActions.Action) => {
-            this.queryService.storeUrl(data.payload, data.windowId);
+            this.queryService.storeUrl(data.payload.url, data.windowId);
             return new dbActions.SaveUrlSuccessAction();
         });
 

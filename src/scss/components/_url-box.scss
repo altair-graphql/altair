@@ -11,7 +11,8 @@
   box-shadow: 0 4px 30px rgba($black, .05);
   padding: 0 15px;
   transition: all .3s ease;
-  border-radius: 4px;
+  /* top-left | top-right | bottom-right | bottom-left */
+  border-radius: 0px 4px 4px 0px;
   &:hover {
     border-color: $light-grey;
   }
@@ -19,3 +20,13 @@
     border-color: $primary-color;
   }
 }
+
+.btn.btn-outline-primary.url-box__button {
+  /* top-left | top-right | bottom-right | bottom-left */
+  border-radius: 4px 0px 0px 4px;
+  height: 100%;
+  border-color: $green;
+  color: $green;
+}
+
+
