@@ -127,6 +127,11 @@ export class WindowComponent implements OnInit {
             this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
           }
         }
+
+        // Backward compatibility: set the HTTP verb if it is not set.
+        if (!this.httpVerb) {
+          this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb: 'POST' }, this.windowId));
+        }
         // console.log(data.query);
       });
 
