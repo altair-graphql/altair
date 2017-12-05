@@ -8,7 +8,7 @@ export interface State {
   url: string;
   subscriptionUrl: string;
   query: string;
-  httpVerb: string
+  httpVerb: string;
   response: any;
   responseTime: number;
   responseStatus: number;
@@ -51,7 +51,6 @@ export function queryReducer(state = initialState, action: query.Action): State 
       return Object.assign({}, state, { query: action.payload });
     case query.SET_URL:
     case query.SET_URL_FROM_DB:
-      console.log(JSON.stringify(action.payload.url));
       return Object.assign({}, state, { url: action.payload.url });
     case query.SET_SUBSCRIPTION_URL:
       return Object.assign({}, state, { subscriptionUrl: action.payload.subscriptionUrl });

@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
 export const SET_URL = 'SET_URL';
-export const SET_HTTP_VERB = 'SET_HTTP_VERB';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
+export const SET_HTTP_VERB = 'SET_HTTP_VERB';
 
 export const SET_SUBSCRIPTION_URL = 'SET_SUBSCRIPTION_URL';
 

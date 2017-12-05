@@ -22,7 +22,7 @@ export class QueryService {
   loadUrl(windowId): Subscription {
     return this.db.getItem(`${windowId}:url`).subscribe(url => {
       if (url) {
-        this.store.dispatch(new queryActions.SetUrlFromDbAction({url}, windowId));
+        this.store.dispatch(new queryActions.SetUrlFromDbAction({ url }, windowId));
       }
     });
   }

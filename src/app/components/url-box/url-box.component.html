@@ -5,7 +5,7 @@
       <clr-icon shape="angle down"></clr-icon>
     </button>
     <clr-dropdown-menu *clrIfOpen>
-      <button *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb($event)">{{method}}</button>
+      <button *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
     </clr-dropdown-menu>
   </clr-dropdown>
   <input #urlInput type="text" class="url-box__input col-xs-11" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"

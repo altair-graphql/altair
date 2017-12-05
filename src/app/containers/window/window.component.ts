@@ -138,13 +138,13 @@ export class WindowComponent implements OnInit {
 
   setApiUrl(url) {
     if (url !== this.apiUrl) {
-      this.store.dispatch(new queryActions.SetUrlAction({url}, this.windowId));
+      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
       this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
     }
   }
 
   setApiMethod(httpVerb) {
-    this.store.dispatch(new queryActions.SetHTTPMethodAction({httpVerb}, this.windowId));
+    this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
   sendRequest() {

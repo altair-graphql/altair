@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import 'clarity-icons';
+import 'clarity-icons/shapes/all-shapes';
 
 @Component({
   selector: 'app-url-box',
@@ -21,7 +23,7 @@ export class UrlBoxComponent {
     this.urlChange.emit(url);
   }
 
-  setVerb(event: any) {
-    this.httpVerbChange.emit(event.target.value);
+  setVerb(verb) {
+    this.httpVerbChange.emit(verb);
   }
 }

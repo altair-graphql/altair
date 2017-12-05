@@ -102,7 +102,7 @@ export class QueryEffects {
         .ofType(queryActions.SET_URL)
         .do((data: queryActions.Action) => {
             // If the URL is not valid
-            if (!validUrl.isUri(data.payload)) {
+            if (!validUrl.isUri(data.payload.url)) {
                 this.notifyService.error('The URL is invalid!');
             } else {
               this.notifyService.success('URL has been set.');

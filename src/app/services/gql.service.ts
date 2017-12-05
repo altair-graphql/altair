@@ -62,7 +62,6 @@ export class GqlService {
         return Observable.throw(err);
       }
     }
-    console.log('_send');
     return this.http.request(this.method, this.api_url, {
       body: JSON.stringify(data),
       headers: this.headers,
@@ -80,7 +79,6 @@ export class GqlService {
    * @param vars
    */
   send(query, vars?) {
-    console.log('send');
     return this._send(query, vars).map(res => res.body);
   }
 

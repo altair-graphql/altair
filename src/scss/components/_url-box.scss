@@ -11,7 +11,6 @@
   box-shadow: 0 4px 30px rgba($black, .05);
   padding: 0 15px;
   transition: all .3s ease;
-  /* top-left | top-right | bottom-right | bottom-left */
   border-radius: 0px 4px 4px 0px;
   &:hover {
     border-color: $light-grey;
@@ -22,11 +21,19 @@
 }
 
 .btn.btn-outline-primary.url-box__button {
-  /* top-left | top-right | bottom-right | bottom-left */
   border-radius: 4px 0px 0px 4px;
+  border: 1px solid $grey;
+  border-right: none;
   height: 100%;
-  border-color: $green;
   color: $green;
+  width: 115px;
+  &:hover {
+    border-color: $light-grey;
+    background: transparent;
+  }
+  &:active {
+    box-shadow: none;
+  }
 }
 
 
