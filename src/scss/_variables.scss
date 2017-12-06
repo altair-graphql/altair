@@ -1,6 +1,12 @@
 $clr-header-bgColor: #fff;
 $clr_baseline: 24;
 $clr-baseline-px: $clr_baseline * 1px;
+$clr-breakpoints: (
+    small : 544px,
+    medium: 768px,
+    large : 992px,
+    xlarge: 1200px
+);
 
 $result-default: $black;
 $result-string: $red;

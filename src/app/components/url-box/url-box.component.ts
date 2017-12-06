@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import 'clarity-icons';
-import 'clarity-icons/shapes/all-shapes';
 
 @Component({
   selector: 'app-url-box',
