@@ -43,7 +43,7 @@ test_script:
 # - npm --version
 # - npm run test-build
 - yarn --version
-- yarn text-build
+- yarn test-build
 
 build: off # We do not intend to build using MS Build
 
