@@ -22,6 +22,7 @@ export class GqlService {
   headers: HttpHeaders;
 
   private api_url = localStorage.getItem('altair:url');
+  private method = 'POST';
   introspectionData = {};
 
   constructor(
@@ -61,13 +62,15 @@ export class GqlService {
         return Observable.throw(err);
       }
     }
-
-    return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers, observe: 'response' })
-      .map(this.checkForError)
-      .catch(err => {
-        console.error(err);
-        return Observable.throw(err);
-      });
+    return this.http.request(this.method, this.api_url, {
+      body: JSON.stringify(data),
+      headers: this.headers,
+      observe: 'response'
+    }).map(this.checkForError)
+    .catch(err => {
+      console.error(err);
+      return Observable.throw(err);
+    });
   }
 
   /**
@@ -100,6 +103,11 @@ export class GqlService {
 
   setUrl(url) {
     this.api_url = url;
+    return this;
+  }
+
+  setHTTPMethod(httpVerb) {
+    this.method = httpVerb;
     return this;
   }
 

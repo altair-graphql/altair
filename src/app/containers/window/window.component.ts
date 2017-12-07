@@ -8,9 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
-import * as fromVariable from '../../reducers/variables/variables';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -32,9 +30,8 @@ export class WindowComponent implements OnInit {
 
   @Input() windowId: string;
 
-  @ViewChild('urlInput') urlInput;
-
   apiUrl = '';
+  httpVerb = '';
   initialQuery = '';
   query = '';
   queryResult = '';
@@ -93,6 +90,7 @@ export class WindowComponent implements OnInit {
 
         this.apiUrl = data.query.url;
         this.query = data.query.query;
+        this.httpVerb = data.query.httpVerb;
         this.queryResult = data.query.response;
         this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
@@ -129,6 +127,11 @@ export class WindowComponent implements OnInit {
             this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
           }
         }
+
+        // Backward compatibility: set the HTTP verb if it is not set.
+        if (!this.httpVerb) {
+          this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb: 'POST' }, this.windowId));
+        }
         // console.log(data.query);
       });
 
@@ -138,12 +141,15 @@ export class WindowComponent implements OnInit {
     this.initSetup();
   }
 
-  setApiUrl() {
-    const url = this.urlInput.nativeElement.value;
+  setApiUrl(url) {
     if (url !== this.apiUrl) {
-      this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
+      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
       this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
     }
+  }
+
+  setApiMethod(httpVerb) {
+    this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
   sendRequest() {

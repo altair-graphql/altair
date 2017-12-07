@@ -1,0 +1,13 @@
+<div class="url-box row">
+  <clr-dropdown>
+    <button type="button" class="url-box__button btn btn-outline-primary col-xs-1" clrDropdownTrigger [value]="httpVerb">
+      {{ httpVerb }}
+      <clr-icon shape="angle down"></clr-icon>
+    </button>
+    <clr-dropdown-menu *clrIfOpen>
+      <button *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
+    </clr-dropdown-menu>
+  </clr-dropdown>
+  <input #urlInput type="text" class="url-box__input col-xs-11" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
+         [value]="apiUrl">
+</div>

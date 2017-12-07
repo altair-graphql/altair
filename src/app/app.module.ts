@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+import 'clarity-icons';
+import 'clarity-icons/shapes/all-shapes';
+
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { StoreModule } from '@ngrx/store';

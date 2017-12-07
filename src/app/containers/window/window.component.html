@@ -7,10 +7,7 @@
       </div>
     </div>
   </div>
-  <div class="url-box">
-    <input #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
-      [value]="apiUrl">
-  </div>
+  <app-url-box [apiUrl]="apiUrl" [httpVerb]="httpVerb" (urlChange)="setApiUrl($event)" (httpVerbChange)="setApiMethod($event)"></app-url-box>
   <app-action-bar
     (toggleHeaderDialog)="toggleHeader()"
     (toggleVariableDialog)="toggleVariableDialog()"
