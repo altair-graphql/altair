@@ -123,7 +123,9 @@ export class WindowComponent implements OnInit {
         this.subscriptionUrl = data.query.subscriptionUrl;
         this.isSubscribed = data.query.isSubscribed;
         this.subscriptionResponses = data.query.subscriptionResponseList;
-        this.historyList = data.history.list;
+        if (data.history) { // Remove condition when all users have upgraded to v1.6.0+
+          this.historyList = data.history.list;
+        }
 
         this.showEditorAlert = data.query.showEditorAlert;
         this.editorAlertMessage = data.query.editorAlertMessage;
