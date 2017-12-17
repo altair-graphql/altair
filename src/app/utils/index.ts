@@ -5,6 +5,7 @@ export const downloadJson = (obj, fileName = 'response') => {
   const downloadLink = document.createElement('a');
   const linkText = document.createTextNode('Download');
   downloadLink.appendChild(linkText);
+  downloadLink.style.display = 'none';
   downloadLink.setAttribute('href', dataStr);
   downloadLink.setAttribute('download', `${toSnakeCase(fileName)}.json`);
   document.body.appendChild(downloadLink);
