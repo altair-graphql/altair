@@ -35,6 +35,9 @@ app-window {
   .nav-trigger + .nav-content {
     border-top: none;
   }
+  .nav-trigger-icon {
+    margin-right: 0.8rem;
+  }
 }
 // Due to the extremely high specificity of clarity UI, this is the only way to style this element :(
 .main-container:not([class*="open-overflow-menu"]):not([class*="open-hamburger-menu"]) .clr-vertical-nav.is-collapsed .nav-icon {

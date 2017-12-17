@@ -52,6 +52,11 @@
     background: $green;
   }
 }
+.query-result__bottom-actions {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
 .subscription-result__actions {
   display: flex;
   align-items: center;

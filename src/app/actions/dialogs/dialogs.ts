@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export const TOGGLE_HEADER_DIALOG = 'TOGGLE_HEADER_DIALOG';
 export const TOGGLE_VARIABLE_DIALOG = 'TOGGLE_VARIABLE_DIALOG';
 export const TOGGLE_SUBSCRIPTION_URL_DIALOG = 'TOGGLE_SUBSCRIPTION_URL_DIALOG';
+export const TOGGLE_HISTORY_DIALOG = 'TOGGLE_HISTORY_DIALOG';
 
 export class ToggleHeaderDialogAction implements Action {
   readonly type = TOGGLE_HEADER_DIALOG;
@@ -21,3 +22,15 @@ export class ToggleSubscriptionUrlDialogAction implements Action {
 
   constructor(public windowId: string) { }
 }
+
+export class ToggleHistoryDialogAction implements Action {
+  readonly type = TOGGLE_HISTORY_DIALOG;
+
+  constructor(public windowId: string) { }
+}
+
+export type Action =
+  ToggleHeaderDialogAction |
+  ToggleVariableDialogAction |
+  ToggleSubscriptionUrlDialogAction |
+  ToggleHistoryDialogAction;

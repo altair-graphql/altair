@@ -26,12 +26,16 @@
           <span class="response-status-text response-stats__item">{{responseStatusText}}</span>
           {{ 'QUERY_RESULT_STATUS_CODE_TEXT' | translate }}:
           <span class="response-status-code response-stats__item">{{responseStatus}}</span>
-          {{ 'QUERY_RESULT_TIME_SPENT_TEXT' | translate }}:
-          <span class="response-time response-stats__item">{{responseTime}}ms</span>
+          <span class="response-time response-stats__item"><clr-icon shape="clock"></clr-icon> {{responseTime}}ms</span>
         </div>
         <div class="right">
-          <button class="response-stats__download-result-link" (click)="downloadResultChange.next()">{{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}</button>
         </div>
+      </div>
+      <div class="query-result__bottom-actions">
+        <button class="btn btn-link btn-sm" (click)="downloadResultChange.next()">
+          <clr-icon shape="download"></clr-icon>
+          {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
+        </button>
       </div>
       <codemirror
         #editor

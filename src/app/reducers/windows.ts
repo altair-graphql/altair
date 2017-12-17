@@ -4,7 +4,7 @@ import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 
 export interface State {
-    [id: string]: any;
+    [id: string]: fromRoot.PerWindowState;
 }
 
 /**

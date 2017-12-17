@@ -106,6 +106,12 @@
         (toggleDialogChange)="toggleSubscriptionUrlDialog()"
         (subscriptionUrlChange)="updateSubscriptionUrl($event)"
       ></app-subscription-url-dialog>
+      <app-history-dialog
+        [historyList]="historyList"
+        [showDialog]="showHistoryDialog"
+        (toggleDialogChange)="toggleHistoryDialog()"
+        (restoreHistoryChange)="restoreHistory($event)"
+      ></app-history-dialog>
     </div>
   </div>
   <!-- <nav class="sidenav">
@@ -131,6 +137,10 @@
     <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
       {{ 'CLEAR_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleHistoryDialog()" title="{{ 'HISTORY_TEXT' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
+      {{ 'HISTORY_TEXT' | translate }}
     </a>
   </clr-vertical-nav>
 </div>

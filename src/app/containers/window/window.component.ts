@@ -8,7 +8,9 @@ import {
 import { Store } from '@ngrx/store';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
+import * as fromHistory from '../../reducers/history/history';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -17,6 +19,7 @@ import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
 import * as layoutActions from '../../actions/layout/layout';
 import * as schemaActions from '../../actions/gql-schema/gql-schema';
+import * as historyActions from '../../actions/history/history';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
@@ -35,9 +38,12 @@ export class WindowComponent implements OnInit {
   initialQuery = '';
   query = '';
   queryResult = '';
+
   showHeaderDialog = false;
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
+  showHistoryDialog = false;
+
   showDocs = true;
   docsIsLoading = false;
   headers: fromHeader.State = [];
@@ -65,13 +71,15 @@ export class WindowComponent implements OnInit {
   isSubscribed = false;
   subscriptionResponses = [];
 
+  historyList: fromHistory.HistoryList = [];
+
   collapsed = true;
 
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
     private notifyService: NotifyService,
-    private store: Store<any>,
+    private store: Store<fromRoot.State>,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef
   ) {
@@ -98,6 +106,7 @@ export class WindowComponent implements OnInit {
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
+        this.showHistoryDialog = data.dialogs.showHistoryDialog;
         this.introspectionResult = data.schema.introspection;
 
         this.variables = data.variables.variables;
@@ -114,6 +123,7 @@ export class WindowComponent implements OnInit {
         this.subscriptionUrl = data.query.subscriptionUrl;
         this.isSubscribed = data.query.isSubscribed;
         this.subscriptionResponses = data.query.subscriptionResponseList;
+        this.historyList = data.history.list;
 
         this.showEditorAlert = data.query.showEditorAlert;
         this.editorAlertMessage = data.query.editorAlertMessage;
@@ -155,6 +165,11 @@ export class WindowComponent implements OnInit {
   }
 
   sendRequest() {
+    // Store the current query into the history if it does not already exist in the history
+    if (!this.historyList.filter(item => item.query.trim() === this.query.trim()).length) {
+      this.store.dispatch(new historyActions.AddHistoryAction(this.windowId, { query: this.query }));
+    }
+
     // If the query is a subscription, subscribe to the subscription URL and send the query
     if (this.gql.isSubscriptionQuery(this.query)) {
       console.log('Your query is a SUBSCRIPTION!!!');
@@ -195,6 +210,10 @@ export class WindowComponent implements OnInit {
 
   toggleSubscriptionUrlDialog() {
     this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
+  }
+
+  toggleHistoryDialog() {
+    this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
   }
 
   toggleDocs() {
@@ -251,6 +270,13 @@ export class WindowComponent implements OnInit {
 
   downloadResult() {
     this.store.dispatch(new queryActions.DownloadResultAction(this.windowId));
+  }
+
+  // Set the value of the item in the specified index of the history list
+  restoreHistory(index) {
+    if (this.historyList[index]) {
+      this.store.dispatch(new queryActions.SetQueryAction(this.historyList[index].query, this.windowId));
+    }
   }
 
   trackByFn(index, item) {
