@@ -6,6 +6,7 @@
   "SET_VARIABLES_BUTTON": "Set Variables",
   "RELOAD_DOCS_BUTTON": "Reload Docs",
   "SHOW_DOCS_BUTTON": "Show Docs",
+  "DOCS_TEXT": "Docs",
   "LOADING_INDICATOR_TEXT": "Loading...",
   "CANCEL_TEXT": "Cancel",
   "SERVER_NO_INTROSPECTION_SUPPORT": "Sorry. The provided server doesn't support introspection.",

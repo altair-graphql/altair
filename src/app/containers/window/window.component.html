@@ -1,99 +1,136 @@
-<div class="content-area app-content-area">
-  <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
-    <div class="window-loader__content">
-      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
-      <div class="window-loader__actions">
-        <button class="app-button cancel-request-button" (click)="cancelRequest()">{{ 'CANCEL_TEXT' | translate }}</button>
-      </div>
-    </div>
-  </div>
-  <app-url-box [apiUrl]="apiUrl" [httpVerb]="httpVerb" (urlChange)="setApiUrl($event)" (httpVerbChange)="setApiMethod($event)"></app-url-box>
-  <app-action-bar
-    (toggleHeaderDialog)="toggleHeader()"
-    (toggleVariableDialog)="toggleVariableDialog()"
-    (prettifyCodeChange)="prettifyCode()"
-    (sendRequest)="sendRequest()"
-    (toggleDocsChange)="toggleDocs()"
-    (reloadDocsChange)="reloadDocs()"
-    (clearEditorChange)="clearEditor()"
-    (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
-    [showDocs]="showDocs"
-    [isSubscribed]="isSubscribed"
-  ></app-action-bar>
-  <div class="main-content-area">
-    <div class="row main-content-row">
-      <div class="col-xs-6">
-        <app-query-editor
-          #queryEditor
-          (queryChange)="updateQuery($event)"
-          (sendRequest)="sendRequest()"
-          [query]="query"
-          [gqlSchema]="gqlSchema"
-        ></app-query-editor>
-      </div>
-      <div class="col-xs-6">
-        <app-query-result
-          [queryResult]="queryResult"
-          [responseTime]="responseTime"
-          [responseStatus]="responseStatus"
-          [responseStatusText]="responseStatusText"
-          [isSubscribed]="isSubscribed"
-          [subscriptionResponses]="subscriptionResponses"
-          [subscriptionUrl]="subscriptionUrl"
-
-          (downloadResultChange)="downloadResult()"
-          (stopSubscriptionChange)="stopSubscription()"
-        ></app-query-result>
-      </div>
-      <app-doc-viewer
-        [gqlSchema]="gqlSchema"
-        [allowIntrospection]="allowIntrospection"
-        [ngClass]="{'show-doc': showDocs}"
-        [isLoading]="docsIsLoading"
-        (toggleDocsChange)="toggleDocs()"
-        (addQueryToEditorChange)="addQueryToEditor($event)"
-      ></app-doc-viewer>
-    </div>
-  </div>
-  <div class="dialogs">
-    <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
-      <h3 class="modal-title">
-        <div class="app-dialog-header">
-          <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
-          {{ 'SET_HEADERS_DIALOG_SUBTEXT' | translate }}
+<div class="content-container">
+  <div class="content-area app-content-area">
+    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
+      <div class="window-loader__content">
+        <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
+        <div class="window-loader__actions">
+          <button class="app-button cancel-request-button" (click)="cancelRequest()">{{ 'CANCEL_TEXT' | translate }}</button>
         </div>
-      </h3>
-      <div class="modal-body">
-        <div class="app-dialog-body">
-          <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
-            <div class="set-header-input-column">
-              <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+      </div>
+    </div>
+    <app-url-box
+      [apiUrl]="apiUrl"
+      [httpVerb]="httpVerb"
+      [isSubscribed]="isSubscribed"
+      [showDocs]="showDocs"
+
+      (urlChange)="setApiUrl($event)"
+      (httpVerbChange)="setApiMethod($event)"
+      (sendRequest)="sendRequest()"
+      (toggleDocsChange)="toggleDocs()"
+      (reloadDocsChange)="reloadDocs()"
+    ></app-url-box>
+    <!-- <app-action-bar
+      (toggleHeaderDialog)="toggleHeader()"
+      (toggleVariableDialog)="toggleVariableDialog()"
+      (prettifyCodeChange)="prettifyCode()"
+      (toggleDocsChange)="toggleDocs()"
+      (reloadDocsChange)="reloadDocs()"
+      (clearEditorChange)="clearEditor()"
+      (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
+      [showDocs]="showDocs"
+      [isSubscribed]="isSubscribed"
+    ></app-action-bar> -->
+    <div class="main-content-area">
+      <div class="row main-content-row">
+        <div class="col-xs-6">
+          <app-query-editor
+            #queryEditor
+            (queryChange)="updateQuery($event)"
+            (sendRequest)="sendRequest()"
+            [query]="query"
+            [gqlSchema]="gqlSchema"
+          ></app-query-editor>
+        </div>
+        <div class="col-xs-6">
+          <app-query-result
+            [queryResult]="queryResult"
+            [responseTime]="responseTime"
+            [responseStatus]="responseStatus"
+            [responseStatusText]="responseStatusText"
+            [isSubscribed]="isSubscribed"
+            [subscriptionResponses]="subscriptionResponses"
+            [subscriptionUrl]="subscriptionUrl"
+
+            (downloadResultChange)="downloadResult()"
+            (stopSubscriptionChange)="stopSubscription()"
+          ></app-query-result>
+        </div>
+        <app-doc-viewer
+          [gqlSchema]="gqlSchema"
+          [allowIntrospection]="allowIntrospection"
+          [ngClass]="{'show-doc': showDocs}"
+          [isLoading]="docsIsLoading"
+          (toggleDocsChange)="toggleDocs()"
+          (addQueryToEditorChange)="addQueryToEditor($event)"
+        ></app-doc-viewer>
+      </div>
+    </div>
+    <div class="dialogs">
+      <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
+        <h3 class="modal-title">
+          <div class="app-dialog-header">
+            <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
+            {{ 'SET_HEADERS_DIALOG_SUBTEXT' | translate }}
+          </div>
+        </h3>
+        <div class="modal-body">
+          <div class="app-dialog-body">
+            <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
+              <div class="set-header-input-column">
+                <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+              </div>
+              <div class="set-header-input-column">
+                <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
+              </div>
+              <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
             </div>
-            <div class="set-header-input-column">
-              <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
-            </div>
-            <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <div class="app-dialog-footer">
-          <button class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
-          <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
+        <div class="modal-footer">
+          <div class="app-dialog-footer">
+            <button class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
+            <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
+          </div>
         </div>
-      </div>
-    </clr-modal>
-    <app-set-variable-dialog
-      [variables]="variables"
-      [showVariableDialog]="showVariableDialog"
-      (toggleVariableDialog)="toggleVariableDialog()"
-      (variablesChange)="updateVariables($event)"
-    ></app-set-variable-dialog>
-    <app-subscription-url-dialog
-      [subscriptionUrl]="subscriptionUrl"
-      [showDialog]="showSubscriptionUrlDialog"
-      (toggleDialogChange)="toggleSubscriptionUrlDialog()"
-      (subscriptionUrlChange)="updateSubscriptionUrl($event)"
-    ></app-subscription-url-dialog>
+      </clr-modal>
+      <app-set-variable-dialog
+        [variables]="variables"
+        [showVariableDialog]="showVariableDialog"
+        (toggleVariableDialog)="toggleVariableDialog()"
+        (variablesChange)="updateVariables($event)"
+      ></app-set-variable-dialog>
+      <app-subscription-url-dialog
+        [subscriptionUrl]="subscriptionUrl"
+        [showDialog]="showSubscriptionUrlDialog"
+        (toggleDialogChange)="toggleSubscriptionUrlDialog()"
+        (subscriptionUrlChange)="updateSubscriptionUrl($event)"
+      ></app-subscription-url-dialog>
+    </div>
   </div>
+  <!-- <nav class="sidenav">
+    ...
+  </nav> -->
+  <clr-vertical-nav [(clrVerticalNavCollapsed)]="collapsed" [clrVerticalNavCollapsible]="true">
+    <a clrVerticalNavLink (click)="toggleHeader()" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
+      {{ 'SET_HEADERS_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleVariableDialog()" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
+      {{ 'SET_VARIABLES_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog()" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
+      {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
+      {{ 'PRETTIFY_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
+      {{ 'CLEAR_BUTTON' | translate }}
+    </a>
+  </clr-vertical-nav>
 </div>

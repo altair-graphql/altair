@@ -65,6 +65,8 @@ export class WindowComponent implements OnInit {
   isSubscribed = false;
   subscriptionResponses = [];
 
+  collapsed = true;
+
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
