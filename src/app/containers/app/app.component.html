@@ -23,14 +23,22 @@
       (activeWindowChange)="setActiveWindow($event)"
       (removeWindowChange)="removeWindow($event)"
       (windowNameChange)="setWindowName($event)"></app-window-switcher>
+      <div class="header-actions" *ngIf="false">
+        <clr-dropdown>
+          <button class="nav-icon" type="button" clrDropdownTrigger>
+            <clr-icon shape="cog"></clr-icon>
+            <clr-icon shape="caret down"></clr-icon>
+          </button>
+          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+            <button type="button" clrDropdownItem>Settings</button>
+            <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>View on GitHub</button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+      </div>
   </header>
-  <div class="content-container">
-    <ng-container *ngFor="let windowId of windowIds">
-      <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
-    </ng-container>
-    <!-- <nav class="sidenav">
-      ...
-    </nav> -->
-  </div>
+  <ng-container *ngFor="let windowId of windowIds">
+    <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+  </ng-container>
 </div>
+<!-- The github link has been added to the settings dropdown -->
 <app-fork-repo *ngIf="!isElectron"></app-fork-repo>

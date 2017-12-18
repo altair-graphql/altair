@@ -18,6 +18,7 @@ import { ForkRepoComponent } from './fork-repo/fork-repo.component';
 import { WindowSwitcherComponent } from './window-switcher/window-switcher.component';
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog/subscription-url-dialog.component';
 import { SubscriptionResultItemComponent } from './subscription-result-item/subscription-result-item.component';
+import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
 
 const COMPONENTS = [
     QueryEditorComponent,
@@ -28,7 +29,8 @@ const COMPONENTS = [
     WindowSwitcherComponent,
     SubscriptionUrlDialogComponent,
     SubscriptionResultItemComponent,
-    UrlBoxComponent
+    UrlBoxComponent,
+    HistoryDialogComponent
 ];
 
 @NgModule({

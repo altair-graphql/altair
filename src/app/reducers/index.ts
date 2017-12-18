@@ -12,9 +12,10 @@ import * as fromDialogs from './dialogs/dialogs';
 import * as fromGqlSchema from './gql-schema/gql-schema';
 import * as fromDocs from './docs/docs';
 import * as fromWindows from './windows';
+import * as fromHistory from './history/history';
 import * as fromWindowsMeta from './windows-meta/windows-meta';
 
-export interface State {
+export interface PerWindowState {
   layout: fromLayout.State;
   query: fromQuery.State;
   headers: fromHeaders.State;
@@ -22,17 +23,25 @@ export interface State {
   dialogs: fromDialogs.State;
   schema: fromGqlSchema.State;
   docs: fromDocs.State;
+  history: fromHistory.State;
+  windowId: string; // Used by the window reducer
 }
 
-const reducers = {
+const perWindowReducers = {
   layout: fromLayout.layoutReducer,
   query: fromQuery.queryReducer,
   headers: fromHeaders.headerReducer,
   variables: fromVariables.variableReducer,
   dialogs: fromDialogs.dialogReducer,
   schema: fromGqlSchema.gqlSchemaReducer,
-  docs: fromDocs.docsReducer
+  docs: fromDocs.docsReducer,
+  history: fromHistory.historyReducer
 };
+
+export interface State {
+  windows: fromWindows.State;
+  windowsMeta: fromWindowsMeta.State;
+}
 
 // Meta reducer to log actions
 export const log = (reducer) => (state: State, action: Action) => {
@@ -51,7 +60,7 @@ export function createReducer() {
     log,
     combineReducers
   )({
-    windows: fromWindows.windows(combineReducers(reducers)),
+    windows: fromWindows.windows(combineReducers(perWindowReducers)),
     windowsMeta: fromWindowsMeta.windowsMetaReducer
   });
 

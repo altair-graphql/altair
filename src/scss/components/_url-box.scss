@@ -1,22 +1,54 @@
+$url-input-height: 50px;
+
 .url-box {
   // max-width: 900px;
   margin: 0 auto 20px;
   width: 100%;
+  display: flex;
+}
+.url-box__input-container {
+  position: relative;
+  width: 100%;
 }
 .url-box__input {
-  height: 50px;
-  line-height: 50px;
+  height: $url-input-height;
+  line-height: $url-input-height;
   font-size: 14px;
   border: 1px solid $grey;
   box-shadow: 0 4px 30px rgba($black, .05);
   padding: 0 15px;
   transition: all .3s ease;
-  border-radius: 0px 4px 4px 0px;
+
   &:hover {
     border-color: $light-grey;
   }
   &:focus, &:active {
     border-color: $primary-color;
+  }
+}
+.url-box__input-actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.url-box__input-btn {
+  background: transparent;
+  border: none;
+  padding: 0 15px;
+  color: $black;
+  transition: all .3s ease;
+  &--active {
+    color: $primary-color;
+  }
+}
+.url-box__button {
+  height: $url-input-height;
+  white-space: nowrap;
+  &--send {
+    border-radius: 0px 4px 4px 0px;
   }
 }
 

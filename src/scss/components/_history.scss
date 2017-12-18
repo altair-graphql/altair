@@ -1,0 +1,20 @@
+.history-container {
+  border-radius: 4px;
+}
+
+.history-item {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  cursor: pointer;
+  transition: all .3s ease;
+  background: $white;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid $light-grey;
+  &:hover {
+    border-color: $primary-color;
+  }
+}

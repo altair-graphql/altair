@@ -1,4 +1,4 @@
-$clr-header-bgColor: #fff;
+$clr-header-bgColor: #ffffff;
 $clr_baseline: 24;
 $clr-baseline-px: $clr_baseline * 1px;
 $clr-breakpoints: (
@@ -7,6 +7,11 @@ $clr-breakpoints: (
     large : 992px,
     xlarge: 1200px
 );
+$vertical-nav-width: 180px;
+$vertical-nav-min-width: 65px;
+$vertical-nav-bg-color: #ffffff;
+$vertical-nav-item-height: 2rem;
+$vertical-nav-icon-size: 0.8rem;
 
 $result-default: $black;
 $result-string: $red;

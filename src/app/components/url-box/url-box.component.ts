@@ -7,7 +7,12 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 export class UrlBoxComponent {
   @Input() apiUrl: string;
   @Input() httpVerb: string;
+  @Input() isSubscribed = false;
+  @Input() showDocs = false;
 
+  @Output() toggleDocsChange = new EventEmitter();
+  @Output() reloadDocsChange = new EventEmitter();
+  @Output() sendRequest = new EventEmitter();
   @Output() urlChange = new EventEmitter();
   @Output() httpVerbChange = new EventEmitter();
 
