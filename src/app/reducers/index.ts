@@ -1,5 +1,5 @@
-import { combineReducers, Action, ActionReducer } from '@ngrx/store';
-import { compose } from '@ngrx/core/compose';
+import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { compose } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { environment } from '../../environments/environment';
@@ -44,29 +44,21 @@ export interface State {
 }
 
 // Meta reducer to log actions
-export const log = (reducer) => (state: State, action: Action) => {
+export const log = (_reducer) => (state: State, action: Action) => {
   if (!environment.production) {
     console.log(action.type, action);
   }
-  return reducer(state, action);
+  return _reducer(state, action);
 };
 
 export const keySerializer = (key) => 'altair_' + key;
 
-// Needed to fix the error encountered resolving symbol values statically error for the compose() method
-export function createReducer() {
-  const reducer = compose(
-    localStorageSync({ keys: ['windows', 'windowsMeta'], rehydrate: true, storageKeySerializer: keySerializer}),
-    log,
-    combineReducers
-  )({
-    windows: fromWindows.windows(combineReducers(perWindowReducers)),
-    windowsMeta: fromWindowsMeta.windowsMetaReducer
-  });
+export const metaReducers: MetaReducer<any>[] = [
+  localStorageSync({ keys: ['windows', 'windowsMeta'], rehydrate: true, storageKeySerializer: keySerializer }),
+  log
+];
 
-  return reducer;
-}
-
-export function appReducer(state: State, action: Action) {
-  return createReducer()(state, action);
-}
+export const reducer: ActionReducerMap<State> = {
+  windows: fromWindows.windows(combineReducers(perWindowReducers)),
+  windowsMeta: fromWindowsMeta.windowsMetaReducer
+};

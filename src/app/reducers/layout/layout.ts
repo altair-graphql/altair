@@ -12,7 +12,7 @@ const initialState: State = {
     title: 'New window'
 };
 
-export function layoutReducer(state = initialState, action: Action): State {
+export function layoutReducer(state = initialState, action: layout.Action): State {
     switch (action.type) {
         case layout.START_LOADING:
             return Object.assign({}, state, { isLoading: true });

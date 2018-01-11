@@ -18,7 +18,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SharedModule } from './shared/shared.module';
 
-import { appReducer } from './reducers';
+import { reducer, metaReducers } from './reducers';
 
 import { QueryEffects } from './effects/query';
 
@@ -69,9 +69,9 @@ const providers = [
     SharedModule,
     ComponentModule,
     DocViewerModule,
-    StoreModule.provideStore(appReducer),
-    EffectsModule.run(QueryEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreModule.forRoot(reducer, { metaReducers }),
+    EffectsModule.forRoot([ QueryEffects ]),
+    StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
