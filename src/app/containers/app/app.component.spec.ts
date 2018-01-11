@@ -9,6 +9,7 @@ import * as services from './../../services';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { CodemirrorModule } from 'ng2-codemirror';
+import { ClarityModule } from 'clarity-angular';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
@@ -47,6 +48,7 @@ describe('AppComponent', () => {
         HttpModule,
         StoreModule,
         CodemirrorModule,
+        ClarityModule.forRoot(),
         ComponentModule,
         DocViewerModule,
         TranslateModule.forRoot()
