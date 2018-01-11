@@ -59,7 +59,7 @@
     "clarity-icons": "^0.10.13",
     "clarity-ui": "^0.10.13",
     "codemirror": "^5.33.0",
-    "codemirror-graphql": "^0.6.11",
+    "codemirror-graphql": "^0.6.12",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.3",
     "electron-compile": "^6.4.1",

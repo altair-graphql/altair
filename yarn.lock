@@ -2025,7 +2025,7 @@ codelyzer@^4.0.2:
     source-map "^0.5.6"
     sprintf-js "^1.0.3"
 
-codemirror-graphql@^0.6.11:
+codemirror-graphql@^0.6.12:
   version "0.6.12"
   resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.6.12.tgz#91a273fe5188857524a30221d06e645b4ca41f00"
   dependencies:
