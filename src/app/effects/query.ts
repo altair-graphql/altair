@@ -188,8 +188,7 @@ export class QueryEffects {
             } else {
               this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
             }
-            this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
-            return Observable.empty();
+            return Observable.of(new docsAction.StopLoadingDocsAction(res.windowId));
           })
           .map(introspectionData => {
             if (!introspectionData) {
@@ -275,6 +274,7 @@ export class QueryEffects {
                 responseTime: (new Date()).getTime() // store responseTime in ms
               }));
 
+              // TODO: Consider moving this functionality into the notify service
               // Send notification in electron app
               const myNotification = new Notification(res.data.layout.title, {
                 body: strData
@@ -294,7 +294,7 @@ export class QueryEffects {
               console.log('Subscription complete.');
             }
           });
-          this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
+          return Observable.of(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
         } catch (err) {
           console.error('An error occurred starting the subscription.', err);
         }
@@ -309,8 +309,7 @@ export class QueryEffects {
       })
       .switchMap(res => {
         this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
-        this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
-        return Observable.empty();
+        return Observable.of(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
       });
 
     @Effect()
@@ -328,7 +327,28 @@ export class QueryEffects {
         }
 
         if (prettified) {
-          this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
+          return Observable.of(new queryActions.SetQueryAction(prettified, res.windowId));
+        }
+        return Observable.empty();
+      });
+
+    @Effect()
+    compressQuery$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.COMPRESS_QUERY)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        let compressed = '';
+        try {
+          compressed = this.gqlService.compress(res.data.query.query);
+        } catch (err) {
+          console.log(err);
+          this.notifyService.error('Your query does not appear to be valid. Please check it.');
+        }
+
+        if (compressed) {
+          return Observable.of(new queryActions.SetQueryAction(compressed, res.windowId));
         }
         return Observable.empty();
       });

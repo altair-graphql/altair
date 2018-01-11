@@ -1,6 +1,7 @@
 {
   "SEND_REQUEST_BUTTON": "Send Request",
   "PRETTIFY_BUTTON": "Prettify",
+  "COMPRESS_QUERY_BUTTON": "Compress",
   "CLEAR_BUTTON": "Clear",
   "SET_HEADERS_BUTTON": "Set Headers",
   "SET_VARIABLES_BUTTON": "Set Variables",

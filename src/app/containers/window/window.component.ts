@@ -73,7 +73,7 @@ export class WindowComponent implements OnInit {
 
   historyList: fromHistory.HistoryList = [];
 
-  collapsed = true;
+  collapsed = false;
 
   constructor(
     private queryService: QueryService,
@@ -253,6 +253,10 @@ export class WindowComponent implements OnInit {
 
   prettifyCode() {
     this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
+  }
+
+  compressQuery() {
+    this.store.dispatch(new queryActions.CompressQueryAction(this.windowId));
   }
 
   addQueryToEditor(queryData: { query: String, meta: any }) {

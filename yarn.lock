@@ -4331,6 +4331,12 @@ graphql-language-service-utils@0.0.17:
     graphql "^0.10.1"
     graphql-language-service-types "0.0.21"
 
+graphql-query-compress@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/graphql-query-compress/-/graphql-query-compress-0.9.6.tgz#182cbdc22cfb2006ac2f00ce6d2eafbe000c340d"
+  dependencies:
+    tokenizr "~1.1.7"
+
 graphql-tag@^2.0.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.5.0.tgz#b43bfd8b5babcd2c205ad680c03e98b238934e0f"
@@ -8780,6 +8786,10 @@ to-space-case@^1.0.0:
   resolved "https://registry.yarnpkg.com/to-space-case/-/to-space-case-1.0.0.tgz#b052daafb1b2b29dc770cea0163e5ec0ebc9fc17"
   dependencies:
     to-no-case "^1.0.0"
+
+tokenizr@~1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.1.7.tgz#92163d1656b26e04b100a4cba8d33243970d4785"
 
 topo@1.x.x:
   version "1.1.0"

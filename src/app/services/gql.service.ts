@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { buildClientSchema, parse, print } from 'graphql';
+import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 import { GraphQLSchema } from 'graphql/type';
 import { introspectionQuery } from './instrospectionQuery';
 
@@ -186,5 +187,13 @@ export class GqlService {
    */
   prettify(query) {
     return print(parse(query));
+  }
+
+  /**
+   * Compresses a given query
+   * @param query
+   */
+  compress(query) {
+    return compress(this.prettify(query));
   }
 }

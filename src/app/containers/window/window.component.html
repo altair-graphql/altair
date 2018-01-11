@@ -117,7 +117,21 @@
   <!-- <nav class="sidenav">
     ...
   </nav> -->
+
   <clr-vertical-nav [(clrVerticalNavCollapsed)]="collapsed" [clrVerticalNavCollapsible]="true">
+    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
+      {{ 'PRETTIFY_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="shrink"></clr-icon>
+      {{ 'COMPRESS_QUERY_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
+      {{ 'CLEAR_BUTTON' | translate }}
+    </a>
+    <div class="nav-divider"></div>
     <a clrVerticalNavLink (click)="toggleHeader()" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
       {{ 'SET_HEADERS_BUTTON' | translate }}
@@ -129,14 +143,6 @@
     <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog()" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
       <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
       {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
-    </a>
-    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}">
-      <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
-      {{ 'PRETTIFY_BUTTON' | translate }}
-    </a>
-    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
-      <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
-      {{ 'CLEAR_BUTTON' | translate }}
     </a>
     <a clrVerticalNavLink (click)="toggleHistoryDialog()" title="{{ 'HISTORY_TEXT' | translate }}">
       <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
