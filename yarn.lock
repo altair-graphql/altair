@@ -1913,15 +1913,15 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-clarity-angular@^0.10.13:
+clarity-angular@^0.10.21:
   version "0.10.21"
   resolved "https://registry.yarnpkg.com/clarity-angular/-/clarity-angular-0.10.21.tgz#689b965bbcbfa096f845a67d1e17d73e50bf743c"
 
-clarity-icons@^0.10.13:
+clarity-icons@^0.10.21:
   version "0.10.21"
   resolved "https://registry.yarnpkg.com/clarity-icons/-/clarity-icons-0.10.21.tgz#87dba0d53ed2d8db234fe19c37d7c69f0243c085"
 
-clarity-ui@^0.10.13:
+clarity-ui@^0.10.21:
   version "0.10.21"
   resolved "https://registry.yarnpkg.com/clarity-ui/-/clarity-ui-0.10.21.tgz#512a67f3d728f5e94cbd8477bf95603100a11d76"
 
@@ -3205,7 +3205,7 @@ electron-updater@^2.16.1:
     semver "^5.4.1"
     source-map-support "^0.5.0"
 
-electron@*, electron@^1.6.11:
+electron@*:
   version "1.7.10"
   resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.10.tgz#3a3e83d965fd7fafe473be8ddf8f472561b6253d"
   dependencies:
@@ -6191,11 +6191,9 @@ ngrx-store-localstorage@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-0.3.0.tgz#d2803b7ada274a05363fc9d37931f13cce8ab8aa"
 
-ngx-electron@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-1.0.3.tgz#7387bbd69382592e63b9b6a482bcb6e15d263d8f"
-  dependencies:
-    electron "^1.6.11"
+ngx-electron@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-1.0.4.tgz#2d80b25d74ae4d6226ad8b3bc4ecfa611e48fdca"
 
 nib@^1.1.2:
   version "1.1.2"
