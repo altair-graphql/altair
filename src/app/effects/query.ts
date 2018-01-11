@@ -8,6 +8,7 @@ import * as validUrl from 'valid-url';
 import { GqlService, QueryService, NotifyService, DbService } from '../services';
 import * as fromRoot from '../reducers';
 
+import { Action as allActions } from '../actions';
 import * as queryActions from '../actions/query/query';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
@@ -156,7 +157,7 @@ export class QueryEffects {
       });
 
     @Effect()
-    getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
+    getIntrospectionForUrl$: Observable<allActions> = this.actions$
       .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
       .withLatestFrom(this.store, (action: queryActions.Action, state) => {
         return { data: state.windows[action.windowId], windowId: action.windowId, action };
@@ -192,7 +193,7 @@ export class QueryEffects {
           })
           .map(introspectionData => {
             if (!introspectionData) {
-                return Observable.empty();
+                return null;
             }
 
             this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));

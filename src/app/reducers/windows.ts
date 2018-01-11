@@ -32,10 +32,10 @@ export function windows(reducer: ActionReducer<any>) {
 
                 return _state;
             case windowsActions.SET_WINDOWS:
-                const windows = action.payload;
+                const _windows = action.payload;
 
                 const newWindowsState = {};
-                windows.forEach(window => {
+                _windows.forEach(window => {
                     const windowKey = window.windowId;
                     const windowTitle = window.title;
 
@@ -44,7 +44,7 @@ export function windows(reducer: ActionReducer<any>) {
                     _windowState.windowId = windowKey;
                     _windowState.layout.title = _windowState.layout.title || windowTitle;
 
-                    newWindowsState[windowKey] = Object.assign({}, _windowState);
+                    newWindowsState[windowKey] = { ..._windowState };
                 });
 
                 return newWindowsState;

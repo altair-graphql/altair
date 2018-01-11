@@ -64,6 +64,7 @@
 
 
 /* Clarity - Begin Part 2 */
+@import "node_modules/clarity-ui/src/utils/maps.clarity";
 
 //Reboot
 @import "node_modules/clarity-ui/src/utils/reboot.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
@@ -196,6 +197,7 @@
 
 // Signposts
 @import "node_modules/clarity-ui/src/popover/signpost/signposts.clarity";
+
 
 
 // === *** OVERRIDES *** ===

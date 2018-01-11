@@ -39,7 +39,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function mapValuesToArray(obj: any): Array<any> {
-    return Object.keys(obj).map(function(key){
+    return Object.keys(obj).map(function(key) {
         return obj[key];
     });
 };

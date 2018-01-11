@@ -29,3 +29,5 @@ export class SetAllowIntrospectionAction implements Action {
 
     constructor(public payload: any, public windowId: string) {}
 }
+
+export type Action = SetIntrospectionAction | SetIntrospectionFromDbAction | SetSchemaAction | SetAllowIntrospectionAction;
