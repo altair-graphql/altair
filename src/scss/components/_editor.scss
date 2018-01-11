@@ -3,6 +3,9 @@
   overflow: auto;
   background: $white;
   border-radius: 4px;
+  pre {
+    font-family: inherit;
+  }
 }
 .query-editor__input {
   height: 100%;
@@ -18,6 +21,9 @@
   overflow: auto;
   background: $light-grey;
   border-radius: 4px;
+  pre {
+    font-family: inherit;
+  }
 }
 .query-result__normal-container, .query-result__subscription-container {
   height: 100%;

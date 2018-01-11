@@ -53,6 +53,7 @@
     "@ngx-translate/core": "^9.0.2",
     "@ngx-translate/http-loader": "^2.0.1",
     "@webcomponents/custom-elements": "^1.0.6",
+    "balloon-css": "^0.5.0",
     "body-parser": "^1.17.1",
     "bootstrap": "4.0.0-alpha.5",
     "clarity-angular": "^0.10.21",
