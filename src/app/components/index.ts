@@ -40,9 +40,9 @@ const COMPONENTS = [
       CodemirrorModule,
       PipesModule,
       SharedModule,
-      ClarityModule.forRoot()
+      ClarityModule
     ],
     declarations: COMPONENTS,
-    exports: [...COMPONENTS, ClarityModule ]
+    exports: [...COMPONENTS ]
 })
 export class ComponentModule {}

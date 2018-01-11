@@ -16,6 +16,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { ClarityModule } from 'clarity-angular';
 import { SharedModule } from './shared/shared.module';
 
 import { reducer, metaReducers } from './reducers';
@@ -67,6 +68,7 @@ const providers = [
     FormsModule,
     HttpClientModule,
     SharedModule,
+    ClarityModule.forRoot(),
     ComponentModule,
     DocViewerModule,
     StoreModule.forRoot(reducer, { metaReducers }),

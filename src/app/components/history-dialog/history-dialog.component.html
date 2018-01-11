@@ -1,4 +1,4 @@
-<clr-modal [clrModalOpen]="showDialog" (clrModalOpenChange)="toggleDialogChange.next()">
+<clr-modal [clrModalOpen]="showDialog" (clrModalOpenChange)="toggleDialogChange.next($event)">
   <h3 class="modal-title">
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'HISTORY_TEXT' | translate }}</div>
@@ -16,7 +16,7 @@
   </div>
   <div class="modal-footer">
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" (click)="toggleDialogChange.next()">{{ 'DONE_BUTTON' | translate }}</button>
+      <button class="app-button active-primary right" (click)="toggleDialogChange.next($event)">{{ 'DONE_BUTTON' | translate }}</button>
     </div>
   </div>
 </clr-modal>

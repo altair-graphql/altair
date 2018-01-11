@@ -67,7 +67,7 @@
       </div>
     </div>
     <div class="dialogs">
-      <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
+      <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader($event)">
         <h3 class="modal-title">
           <div class="app-dialog-header">
             <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
@@ -90,26 +90,26 @@
         <div class="modal-footer">
           <div class="app-dialog-footer">
             <button class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
-            <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
+            <button class="app-button active-primary right" (click)="toggleHeader($event)">{{ 'SAVE_BUTTON' | translate }}</button>
           </div>
         </div>
       </clr-modal>
       <app-set-variable-dialog
         [variables]="variables"
         [showVariableDialog]="showVariableDialog"
-        (toggleVariableDialog)="toggleVariableDialog()"
+        (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"
       ></app-set-variable-dialog>
       <app-subscription-url-dialog
         [subscriptionUrl]="subscriptionUrl"
         [showDialog]="showSubscriptionUrlDialog"
-        (toggleDialogChange)="toggleSubscriptionUrlDialog()"
+        (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
         (subscriptionUrlChange)="updateSubscriptionUrl($event)"
       ></app-subscription-url-dialog>
       <app-history-dialog
         [historyList]="historyList"
         [showDialog]="showHistoryDialog"
-        (toggleDialogChange)="toggleHistoryDialog()"
+        (toggleDialogChange)="toggleHistoryDialog($event)"
         (restoreHistoryChange)="restoreHistory($event)"
       ></app-history-dialog>
     </div>

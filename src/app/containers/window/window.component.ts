@@ -177,7 +177,7 @@ export class WindowComponent implements OnInit {
       console.log('Your query is a SUBSCRIPTION!!!');
       // If the subscription URL is not set, show the dialog for the user to set it
       if (!this.subscriptionUrl) {
-        this.toggleSubscriptionUrlDialog();
+        this.toggleSubscriptionUrlDialog(true);
       } else {
         this.startSubscription();
       }
@@ -202,20 +202,28 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
-  toggleHeader() {
-    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
+  toggleHeader(isOpen) {
+    if (this.showHeaderDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
+    }
   }
 
-  toggleVariableDialog() {
-    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
+  toggleVariableDialog(isOpen) {
+    if (this.showVariableDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
+    }
   }
 
-  toggleSubscriptionUrlDialog() {
-    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
+  toggleSubscriptionUrlDialog(isOpen) {
+    if (this.showSubscriptionUrlDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
+    }
   }
 
-  toggleHistoryDialog() {
-    this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
+  toggleHistoryDialog(isOpen) {
+    if (this.showHistoryDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
+    }
   }
 
   toggleDocs() {
