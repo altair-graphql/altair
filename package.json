@@ -90,7 +90,7 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "codelyzer": "~2.0.0",
+    "codelyzer": "^4.0.2",
     "electron-builder": "^19.46.4",
     "electron-prebuilt-compile": "1.6.11",
     "jasmine-core": "~2.5.2",
@@ -101,12 +101,13 @@
     "karma-coverage-istanbul-reporter": "^0.2.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "mime-types": "^2.1.15",
-    "protractor": "~5.1.0",
-    "ts-node": "~2.0.0",
-    "tslint": "~4.5.0",
-    "typescript": ">=2.1.0 <2.4.0",
-    "web-ext": "^2.2.2"
+    "mime-types": "^2.1.17",
+    "ngrx-store-freeze": "^0.2.0",
+    "protractor": "^5.2.2",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2",
+    "web-ext": "^2.3.1"
   },
   "config": {
     "forge": "./forge.config.js"
