@@ -12,7 +12,7 @@
       [apiUrl]="apiUrl"
       [httpVerb]="httpVerb"
       [isSubscribed]="isSubscribed"
-      [showDocs]="showDocs"
+      [showDocs]="showDocs$ | async"
 
       (urlChange)="setApiUrl($event)"
       (httpVerbChange)="setApiMethod($event)"
@@ -28,7 +28,7 @@
       (reloadDocsChange)="reloadDocs()"
       (clearEditorChange)="clearEditor()"
       (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
-      [showDocs]="showDocs"
+      [showDocs]="showDocs$ | async"
       [isSubscribed]="isSubscribed"
     ></app-action-bar> -->
     <div class="main-content-area">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-xs-6">
           <app-query-result
-            [queryResult]="queryResult"
+            [queryResult]="queryResult$ | async"
             [responseTime]="responseTime"
             [responseStatus]="responseStatus"
             [responseStatusText]="responseStatusText"
@@ -59,8 +59,8 @@
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
           [allowIntrospection]="allowIntrospection"
-          [ngClass]="{'show-doc': showDocs}"
-          [isLoading]="docsIsLoading"
+          [ngClass]="{'show-doc': showDocs$ | async}"
+          [isLoading]="docsIsLoading$ | async"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
         ></app-doc-viewer>
@@ -76,7 +76,7 @@
         </h3>
         <div class="modal-body">
           <div class="app-dialog-body">
-            <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
+            <div class="set-header-input-container" *ngFor="let header of headers$ | async;trackBy:trackByFn; let i = index">
               <div class="set-header-input-column">
                 <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
               </div>

@@ -64,3 +64,9 @@ export const reducer: ActionReducerMap<State> = {
   windows: fromWindows.windows(combineReducers(perWindowReducers)),
   windowsMeta: fromWindowsMeta.windowsMetaReducer
 };
+
+export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];
+
+export * from './query/selectors';
+export * from './docs/selectors';
+export * from './headers/selectors';

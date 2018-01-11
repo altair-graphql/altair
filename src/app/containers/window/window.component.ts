@@ -23,13 +23,17 @@ import * as historyActions from '../../actions/history/history';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html'
 })
 export class WindowComponent implements OnInit {
-  apiUrl$;
+  queryResult$: Observable<any>;
+  showDocs$: Observable<boolean>;
+  docsIsLoading$: Observable<boolean>;
+  headers$: Observable<fromHeader.State>;
 
   @Input() windowId: string;
 
@@ -37,16 +41,12 @@ export class WindowComponent implements OnInit {
   httpVerb = '';
   initialQuery = '';
   query = '';
-  queryResult = '';
 
   showHeaderDialog = false;
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
 
-  showDocs = true;
-  docsIsLoading = false;
-  headers: fromHeader.State = [];
   variables = '';
   introspectionResult = {};
   gqlSchema = null;
@@ -89,7 +89,11 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.apiUrl$ = this.store.select(fromRoot.getUrl);
+    this.queryResult$ = this.getWindowState().select(fromRoot.getQueryResult);
+    this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);
+    this.docsIsLoading$ = this.getWindowState().select(fromRoot.getDocsLoading);
+    this.headers$ = this.getWindowState().select(fromRoot.getHeaders);
+
     this.store
       .map(data => data.windows[this.windowId])
       .distinctUntilChanged()
@@ -101,8 +105,6 @@ export class WindowComponent implements OnInit {
         this.apiUrl = data.query.url;
         this.query = data.query.query;
         this.httpVerb = data.query.httpVerb;
-        this.queryResult = data.query.response;
-        this.headers = data.headers;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
@@ -110,9 +112,7 @@ export class WindowComponent implements OnInit {
         this.introspectionResult = data.schema.introspection;
 
         this.variables = data.variables.variables;
-        this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
-        this.docsIsLoading = data.docs.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
         this.urlAlertMessage = data.query.urlAlertMessage;
         this.urlAlertSuccess = data.query.urlAlertSuccess;
@@ -295,6 +295,10 @@ export class WindowComponent implements OnInit {
 
   trackByFn(index, item) {
     return index;
+  }
+
+  getWindowState(): Store<fromRoot.PerWindowState> {
+    return this.store.select(fromRoot.selectWindowState(this.windowId));
   }
 
   /**
