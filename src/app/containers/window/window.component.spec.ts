@@ -36,7 +36,7 @@ describe('WindowComponent', () => {
       } },
       { provide: Store, useValue: {
         subscribe: () => {},
-        select: () => [],
+        select: () => ({ select: () => {}}),
         map: () => Observable.empty(),
         dispatch: () => {}
       } },
