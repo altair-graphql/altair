@@ -27,6 +27,10 @@ app-window {
   background: transparent;
   .nav-link {
     cursor: pointer;
+    &:hover,
+    &.active {
+      background-color: $theme-bg-color;
+    }
   }
   .nav-trigger {
     margin-top: 0;
@@ -39,7 +43,7 @@ app-window {
     margin-right: 0.2rem;
   }
   .nav-divider {
-    border-color: $light-grey;
+    border-color: $theme-off-border-color;
   }
 }
 // Due to the extremely high specificity of clarity UI, this is the only way to style this element :(

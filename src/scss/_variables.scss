@@ -1,5 +1,10 @@
 $theme: 'light';
-$theme-bg-color: #ffffff !default;
+$theme-bg-color: $white !default;
+$theme-off-bg-color: $light-grey !default;
+$theme-font-color: $black !default;
+$theme-off-font-color: $dark-grey !default;
+$theme-border-color: $grey !default;
+$theme-off-border-color: $light-grey !default;
 
 $clr-header-bgColor: $theme-bg-color;
 $clr_baseline: 24;
@@ -15,9 +20,6 @@ $vertical-nav-min-width: 65px;
 $vertical-nav-bg-color: $theme-bg-color;
 $vertical-nav-item-height: 2rem;
 $vertical-nav-icon-size: 0.8rem;
-
-$result-default: $black;
-$result-string: $red;
 
 $dialog-z-index: 10;
 

@@ -9,11 +9,11 @@
 
   cursor: pointer;
   transition: all .3s ease;
-  background: $white;
+  background: $theme-bg-color;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 5px;
-  border: 1px solid $light-grey;
+  border: 1px solid $theme-off-border-color;
   &:hover {
     border-color: $primary-color;
   }

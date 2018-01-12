@@ -138,8 +138,15 @@
 
 
 // === *** OVERRIDES *** ===
-.header .branding {
-  min-width: 75px;
+.header {
+  .branding {
+    min-width: 75px;
+  }
+  .header-nav {
+    .nav-link {
+      color: $theme-font-color;
+    }
+  }
 }
 .modal-backdrop {
   background: $theme-bg-color;

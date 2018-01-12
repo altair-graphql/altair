@@ -6,7 +6,7 @@
   border-bottom: 2px solid transparent;
   &:hover{
     // color: $green;
-    border-bottom-color: $grey;
+    border-bottom-color: $theme-border-color;
     .window-switcher__close{
       opacity: 1;
     }

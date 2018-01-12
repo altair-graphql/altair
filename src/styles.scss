@@ -1,6 +1,6 @@
 @import "scss/colors";
 @import "scss/variables";
-
+$clr-header-textColor: $white;
 @import "../node_modules/clarity-icons/clarity-icons.css";
 
 @import "../node_modules/codemirror/lib/codemirror.css";
@@ -18,8 +18,6 @@
   // This is required because clarity uses the exports mixin mechanism to prevent loading components multiple times.
   // This prevents being able to include styles for the component in the new theme class.
   $imported-modules: () !global;
-  $theme: 'dark';
-  $theme-bg-color: $black;
   @import "scss/framework.dark";
   @import "scss/all";
 }

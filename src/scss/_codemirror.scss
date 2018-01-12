@@ -1,9 +1,15 @@
+$result-default: $theme-font-color;
+$result-string: $red;
+
 .CodeMirror{
     height: 100%;
     width: 100%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4;
     background: transparent;
+    pre {
+      color: $theme-font-color;
+    }
 }
 .CodeMirror-cursor{
     border-left-color: $blue;
@@ -13,18 +19,28 @@
     border: 0;
 }
 .CodeMirror-foldmarker{
-    color: $black;
+    color: $theme-font-color;
     text-shadow: none;
+}
+.CodeMirror-scroll {
+  &::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $theme-off-bg-color;
+  }
 }
 .CodeMirror-lint-mark-error{
     // border-bottom: 1px dotted #f00;
 }
 .CodeMirror-lint-tooltip{
-    background: $white;
-    border: 1px solid $light-grey;
+    background: $theme-bg-color;
+    border: 1px solid $theme-off-border-color;
     box-shadow: 0 2px 12px -2px rgba($black, .05);
     border-radius: 5px;
-    color: $black;
+    color: $theme-font-color;
     padding: 10px;
     font-family: sans-serif;
 }
@@ -39,13 +55,13 @@
 }
 .cm-s-default{
     .cm-atom{
-        color: $black;
+        color: $theme-font-color;
     }
     .cm-attribute{
         color: $green;
     }
     .cm-string{
-        color: $black;
+        color: $theme-font-color;
     }
     .cm-property{
         color: $blue;
@@ -79,7 +95,7 @@
     }
 }
 .cm-s-variable-editor{
-    background: $light-grey;
+    background: $theme-off-bg-color;
     .CodeMirror-scroll{
         min-height: 200px;
     }

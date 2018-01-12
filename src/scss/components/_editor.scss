@@ -1,7 +1,7 @@
 .query-editor-container {
   height: 100%;
   overflow: auto;
-  background: $white;
+  background: $theme-bg-color;
   border-radius: 4px;
   pre {
     font-family: inherit;
@@ -19,7 +19,7 @@
 .query-result-container {
   height: 100%;
   overflow: auto;
-  background: $light-grey;
+  background: $theme-off-bg-color;
   border-radius: 4px;
   pre {
     font-family: inherit;
@@ -37,7 +37,7 @@
   width: 100%;
   font-size: 24px;
   font-weight: bold;
-  color: $dark-grey;
+  color: $theme-off-font-color;
 }
 .query-result__none-subtext{
   font-size: 16px;
@@ -101,7 +101,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: $white;
+  background: $theme-bg-color;
   padding: 5px 10px;
   border-radius: 3px;
 }
@@ -110,6 +110,6 @@
   top: 0;
   right: 0;
   padding: 5px 10px;
-  background: $white;
-  color: $dark-grey;
+  background: $theme-bg-color;
+  color: $theme-off-font-color;
 }
