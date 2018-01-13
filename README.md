@@ -73,6 +73,8 @@ To get more help on working with the project, check out the [Angular CLI README]
 - Merge the staging branch to master
 - C'est fini.
 
+In the case of an error while deploying, delete the release tags locally and remotely using `git tag --delete <tag> && git push --delete origin <tag>`
+
 ## Contributing
 
 1. Fork it!
