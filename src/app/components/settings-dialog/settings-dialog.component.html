@@ -19,7 +19,7 @@
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
         <select class="dialog-select" (change)="onSelectLanguage($event.target.value)">
-          <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language === settings?.language">
+          <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
             {{ language[1] | titlecase }}
           </option>
         </select>
