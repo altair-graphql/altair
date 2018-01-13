@@ -5,6 +5,7 @@ export default {
   add_query_depth_limit: 3,
   max_windows: 10,
   default_language: 'en',
-  languages: ['en'],
-  query_history_depth: isElectron ? 25 : 7
+  languages: { en: 'English' },
+  query_history_depth: isElectron ? 25 : 7,
+  themes: ['light', 'dark']
 };

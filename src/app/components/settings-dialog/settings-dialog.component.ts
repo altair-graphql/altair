@@ -1,0 +1,33 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import config from '../../config';
+
+@Component({
+  selector: 'app-settings-dialog',
+  templateUrl: './settings-dialog.component.html',
+  styleUrls: ['./settings-dialog.component.scss']
+})
+export class SettingsDialogComponent implements OnInit {
+
+  @Input() settings = {};
+  @Output() toggleDialogChange = new EventEmitter();
+  @Output() themeChange = new EventEmitter();
+  @Output() languageChange = new EventEmitter();
+
+  themes = config.themes;
+  languages = Object.entries(config.languages);
+
+  constructor() {}
+
+  ngOnInit() {
+  }
+
+  onSelectTheme(theme) {
+    return this.themeChange.next(theme);
+  }
+
+  onSelectLanguage(language) {
+    return this.languageChange.next(language);
+  }
+
+}

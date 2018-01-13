@@ -9,6 +9,7 @@ import isElectron from '../../utils/is_electron';
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
+import * as fromSettings from '../../reducers/settings/settings';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -18,6 +19,7 @@ import * as layoutActions from '../../actions/layout/layout';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
 import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
+import * as settingsActions from '../../actions/settings/settings';
 
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
@@ -30,7 +32,9 @@ import config from '../../config';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  windowIds$: Observable<any>;
+  windowIds$: Observable<any[]>;
+  settings$: Observable<fromSettings.State>;
+
   windowIds = [];
   windowsArr = [];
   activeWindowId = '';
@@ -43,6 +47,8 @@ export class AppComponent {
     private translate: TranslateService,
     private electron: ElectronService
   ) {
+    this.settings$ = this.store.select('settings');
+
     this.setDefaultLanguage();
     this.setAvailableLanguages();
 
@@ -89,7 +95,7 @@ export class AppComponent {
   }
 
   setAvailableLanguages(): void {
-    const availableLanguages = config.languages;
+    const availableLanguages = Object.keys(config.languages);
     this.translate.addLangs(availableLanguages);
   }
 
@@ -121,6 +127,22 @@ export class AppComponent {
   setWindowName(data) {
     const { windowId, windowName } = data;
     this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
+  }
+
+  showSettingsDialog() {
+    this.store.dispatch(new settingsActions.ShowSettingsAction());
+  }
+
+  hideSettingsDialog() {
+    this.store.dispatch(new settingsActions.HideSettingsAction());
+  }
+
+  onThemeChange(theme) {
+    this.store.dispatch(new settingsActions.SetThemeAction({ value: theme }));
+  }
+
+  onLanguageChange(language) {
+    this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
   /**

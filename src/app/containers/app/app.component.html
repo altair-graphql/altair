@@ -1,4 +1,4 @@
-<div class="app-wrapper">
+<div class="app-wrapper" [ngClass]="(settings$ | async).theme + '-theme'">
   <div class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
@@ -24,14 +24,14 @@
         (activeWindowChange)="setActiveWindow($event)"
         (removeWindowChange)="removeWindow($event)"
         (windowNameChange)="setWindowName($event)"></app-window-switcher>
-        <div class="header-actions" *ngIf="false">
+        <div class="header-actions">
           <clr-dropdown>
             <button class="nav-icon" type="button" clrDropdownTrigger>
               <clr-icon shape="cog"></clr-icon>
               <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-              <button type="button" clrDropdownItem>Settings</button>
+              <button type="button" clrDropdownItem (click)="showSettingsDialog()">Settings</button>
               <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>View on GitHub</button>
             </clr-dropdown-menu>
           </clr-dropdown>
@@ -40,7 +40,15 @@
     <ng-container *ngFor="let windowId of windowIds">
       <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
     </ng-container>
+    <div class="dialogs">
+      <app-settings-dialog
+        [settings]="settings$ | async"
+        (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
+        (themeChange)="onThemeChange($event)"
+        (languageChange)="onLanguageChange($event)"
+      ></app-settings-dialog>
+    </div>
   </div>
   <!-- The github link has been added to the settings dropdown -->
-  <app-fork-repo *ngIf="!isElectron"></app-fork-repo>
+  <!-- <app-fork-repo *ngIf="!isElectron"></app-fork-repo> -->
 </div>

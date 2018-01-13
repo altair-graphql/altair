@@ -46,5 +46,10 @@
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
 
   "HISTORY_TEXT": "History",
-  "HISTORY_SUB_TEXT": "You can select an item from the history to restore"
+  "HISTORY_SUB_TEXT": "You can select an item from the history to restore",
+
+  "SETTINGS_TEXT": "Settings",
+  "SETTINGS_SUB_TEXT": "You can adjust any of the settings below",
+  "SETTINGS_THEME_TEXT": "Theme",
+  "SETTINGS_LANGUAGE_TEXT": "Language"
 }

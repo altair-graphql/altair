@@ -15,6 +15,7 @@ import * as fromDocs from './docs/docs';
 import * as fromWindows from './windows';
 import * as fromHistory from './history/history';
 import * as fromWindowsMeta from './windows-meta/windows-meta';
+import * as fromSettings from './settings/settings';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -42,6 +43,7 @@ const perWindowReducers = {
 export interface State {
   windows: fromWindows.State;
   windowsMeta: fromWindowsMeta.State;
+  settings: fromSettings.State;
 }
 
 // Meta reducer to log actions
@@ -55,14 +57,15 @@ export const log = (_reducer) => (state: State, action: Action) => {
 export const keySerializer = (key) => 'altair_' + key;
 
 export const metaReducers: MetaReducer<any>[] = [
-  localStorageSync({ keys: ['windows', 'windowsMeta'], rehydrate: true, storageKeySerializer: keySerializer }),
+  localStorageSync({ keys: ['windows', 'windowsMeta', 'settings'], rehydrate: true, storageKeySerializer: keySerializer }),
   // !environment.production ? storeFreeze : null,
   log
 ];
 
 export const reducer: ActionReducerMap<State> = {
   windows: fromWindows.windows(combineReducers(perWindowReducers)),
-  windowsMeta: fromWindowsMeta.windowsMetaReducer
+  windowsMeta: fromWindowsMeta.windowsMetaReducer,
+  settings: fromSettings.settingsReducer
 };
 
 export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];

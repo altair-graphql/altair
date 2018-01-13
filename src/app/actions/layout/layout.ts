@@ -29,4 +29,8 @@ export class NotifyExperimentalAction implements Action {
   constructor(public windowId: string) {}
 }
 
-export type Action = StartLoadingAction | StopLoadingAction | SetWindowNameAction | NotifyExperimentalAction;
+export type Action =
+  | StartLoadingAction
+  | StopLoadingAction
+  | SetWindowNameAction
+  | NotifyExperimentalAction;

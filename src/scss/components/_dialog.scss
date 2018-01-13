@@ -21,10 +21,29 @@
   max-height: 500px;
   overflow: auto;
 }
+.app-dialog-section {
+  margin-bottom: 20px;
+}
 .app-dialog-footer {
   width: 100%;
 }
 
+.dialog-select {
+  display: block;
+  font-size: 14px;
+  padding: 5px 0;
+  line-height: 1;
+  border: none;
+  border-bottom: 2px solid $theme-border-color;
+  transition: all .3s ease;
+  min-width: 250px;
+  border-radius: 0;
+  background: transparent;
+  color: $theme-font-color;
+  &:focus{
+    border-color: $green;
+  }
+}
 .set-header-input-container {
   display: flex;
   flex: 1;
