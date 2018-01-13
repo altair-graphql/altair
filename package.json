@@ -69,7 +69,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^2.16.1",
     "express": "^4.16.2",
-    "graphql": "^0.12.3",
+    "graphql": "0.9.3",
     "graphql-query-compress": "^0.9.6",
     "marked": "^0.3.12",
     "ng2-codemirror": "^1.1.3",

@@ -6,7 +6,7 @@ export interface State {
     variables: string;
 }
 
-const initialState: State = {
+export const initialState: State = {
     variables: '{}'
 };
 

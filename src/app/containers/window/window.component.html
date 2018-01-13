@@ -132,19 +132,19 @@
       {{ 'CLEAR_BUTTON' | translate }}
     </a>
     <div class="nav-divider"></div>
-    <a clrVerticalNavLink (click)="toggleHeader()" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
       {{ 'SET_HEADERS_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleVariableDialog()" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="toggleVariableDialog(true)" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
       {{ 'SET_VARIABLES_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog()" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
+    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
       <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
       {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleHistoryDialog()" title="{{ 'HISTORY_TEXT' | translate }}">
+    <a clrVerticalNavLink (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}">
       <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
       {{ 'HISTORY_TEXT' | translate }}
     </a>

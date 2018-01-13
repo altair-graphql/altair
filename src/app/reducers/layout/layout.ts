@@ -7,7 +7,7 @@ export interface State {
   title: string;
 }
 
-const initialState: State = {
+export const initialState: State = {
   isLoading: false,
   title: 'New window',
 };

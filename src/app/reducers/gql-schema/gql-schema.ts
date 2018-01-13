@@ -13,7 +13,7 @@ export interface State {
     allowIntrospection: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
     introspection: null,
     schema: null,
     allowIntrospection: true

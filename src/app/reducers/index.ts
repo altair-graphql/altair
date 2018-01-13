@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { compose } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -47,17 +48,23 @@ export interface State {
 }
 
 // Meta reducer to log actions
-export const log = (_reducer) => (state: State, action: Action) => {
-  if (!environment.production) {
-    console.log(action.type, action);
-  }
-  return _reducer(state, action);
-};
+export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state: State, action: Action) => {
+    if (!environment.production) {
+      console.log(action.type, action);
+    }
+    return _reducer(state, action);
+  };
+}
 
 export const keySerializer = (key) => 'altair_' + key;
 
+export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({ keys: ['windows', 'windowsMeta', 'settings'], rehydrate: true, storageKeySerializer: keySerializer })(_reducer);
+}
+
 export const metaReducers: MetaReducer<any>[] = [
-  localStorageSync({ keys: ['windows', 'windowsMeta', 'settings'], rehydrate: true, storageKeySerializer: keySerializer }),
+  localStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log
 ];
@@ -67,6 +74,12 @@ export const reducer: ActionReducerMap<State> = {
   windowsMeta: fromWindowsMeta.windowsMetaReducer,
   settings: fromSettings.settingsReducer
 };
+
+export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
+
+export const reducerProvider = [
+  { provide: reducerToken, useValue: reducer }
+];
 
 export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];
 

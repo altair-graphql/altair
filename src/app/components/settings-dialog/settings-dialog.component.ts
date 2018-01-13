@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import * as fromSettings from '../../reducers/settings/settings';
+
 import config from '../../config';
 
 @Component({
@@ -9,7 +11,7 @@ import config from '../../config';
 })
 export class SettingsDialogComponent implements OnInit {
 
-  @Input() settings = {};
+  @Input() settings: fromSettings.State;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() themeChange = new EventEmitter();
   @Output() languageChange = new EventEmitter();

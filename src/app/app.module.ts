@@ -19,7 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ClarityModule } from 'clarity-angular';
 import { SharedModule } from './shared/shared.module';
 
-import { reducer, metaReducers } from './reducers';
+import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
 
 import { QueryEffects } from './effects/query';
 
@@ -54,7 +54,8 @@ const providers = [
     services.QueryService,
     services.WindowService,
     services.NotifyService,
-    { provide: ToastOptions, useClass: CustomOption }
+    { provide: ToastOptions, useClass: CustomOption },
+    reducerProvider
 ];
 
 @NgModule({
@@ -71,7 +72,7 @@ const providers = [
     ClarityModule.forRoot(),
     ComponentModule,
     DocViewerModule,
-    StoreModule.forRoot(reducer, { metaReducers }),
+    StoreModule.forRoot(reducerToken, { metaReducers }),
     EffectsModule.forRoot([ QueryEffects ]),
     StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),

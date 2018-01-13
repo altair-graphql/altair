@@ -9,7 +9,7 @@ export interface State {
   showHistoryDialog: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
   showHeaderDialog: false,
   showVariableDialog: false,
   showSubscriptionUrlDialog: false,

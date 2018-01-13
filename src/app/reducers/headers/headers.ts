@@ -11,7 +11,7 @@ export interface State extends Array<Header> {
     [index: number]: Header;
 }
 
-const initialState: State = [
+export const initialState: State = [
     { key: '', value: '' },
     { key: '', value: '' },
     { key: '', value: '' },
