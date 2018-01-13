@@ -67,7 +67,7 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.11",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^2.16.1",
+    "electron-updater": "^2.18.2",
     "express": "^4.16.2",
     "graphql": "0.9.3",
     "graphql-query-compress": "^0.9.6",

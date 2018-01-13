@@ -3195,7 +3195,7 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30:
   dependencies:
     electron-releases "^2.1.0"
 
-electron-updater@^2.16.1:
+electron-updater@^2.18.2:
   version "2.18.2"
   resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.18.2.tgz#776b50389b849535425e9e2893d7943ee61e8e3f"
   dependencies:
