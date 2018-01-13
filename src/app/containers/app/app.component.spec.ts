@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
+import { Observable } from 'rxjs/Observable';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { CodemirrorModule } from 'ng2-codemirror';
@@ -30,9 +31,9 @@ describe('AppComponent', () => {
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => {},
-        select: () => [],
-        map: () => [],
+        subscribe: () => Observable.empty(),
+        select: () => Observable.empty(),
+        map: () => Observable.empty(),
         dispatch: () => {}
       } }
   ];

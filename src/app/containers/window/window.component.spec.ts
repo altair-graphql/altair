@@ -35,8 +35,8 @@ describe('WindowComponent', () => {
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => {},
-        select: () => ({ select: () => {}}),
+        subscribe: () => Observable.empty(),
+        select: () => Observable.empty(),
         map: () => Observable.empty(),
         dispatch: () => {}
       } },
