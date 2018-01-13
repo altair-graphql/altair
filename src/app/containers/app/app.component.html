@@ -31,8 +31,8 @@
               <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-              <button type="button" clrDropdownItem (click)="showSettingsDialog()">Settings</button>
-              <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>View on GitHub</button>
+              <button type="button" clrDropdownItem (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</button>
+              <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>{{ 'VIEW_ON_GITHUB_TEXT' | translate }}</button>
             </clr-dropdown-menu>
           </clr-dropdown>
         </div>

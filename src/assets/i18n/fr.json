@@ -39,7 +39,7 @@
   "SET_VARIABLES_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer variables dans votre requête",
 
   "HEADERS_TEXT": "Headers",
-  "SET_HEADERS_DIALOG_SUBTEXT": "jouter, modifier et supprimer headers dans votre requête",
+  "SET_HEADERS_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer headers dans votre requête",
   "ADD_HEADER_TEXT": "Ajouter header",
 
   "SUBSCRIPTION_URL_TEXT": "URL Subscription",
@@ -51,5 +51,7 @@
   "SETTINGS_TEXT": "Paramètres",
   "SETTINGS_SUB_TEXT": "Vous pouvez ajuster n'importe lequel des paramètres ci-dessous",
   "SETTINGS_THEME_TEXT": "Thème",
-  "SETTINGS_LANGUAGE_TEXT": "Langue"
+  "SETTINGS_LANGUAGE_TEXT": "Langue",
+
+  "VIEW_ON_GITHUB_TEXT": "Voir sur GitHub"
 }

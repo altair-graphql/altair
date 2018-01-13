@@ -51,5 +51,7 @@
   "SETTINGS_TEXT": "Settings",
   "SETTINGS_SUB_TEXT": "You can adjust any of the settings below",
   "SETTINGS_THEME_TEXT": "Theme",
-  "SETTINGS_LANGUAGE_TEXT": "Language"
+  "SETTINGS_LANGUAGE_TEXT": "Language",
+
+  "VIEW_ON_GITHUB_TEXT": "View on GitHub"
 }

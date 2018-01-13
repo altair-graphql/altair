@@ -47,15 +47,25 @@ export class AppComponent {
     private translate: TranslateService,
     private electron: ElectronService
   ) {
-    this.settings$ = this.store.select('settings');
+    this.settings$ = this.store.select('settings').distinctUntilChanged();
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
 
-    const applicationLanguage = this.detectLanguage();
+    const applicationLanguage = this.getAppLanguage();
     this.translate.use(applicationLanguage).subscribe(() => {
       this.isReady = true;
     });
+
+    // Update the app translation if the language settings is changed.
+    // TODO: Consider moving this into a settings effect.
+    this.settings$
+      .map(settings => settings.language)
+      .filter(x => !!x)
+      .distinctUntilChanged()
+      .subscribe(language => {
+        this.translate.use(language);
+      });
 
     if (this.electron.isElectronApp) {
       this.electron.ipcRenderer.on('create-tab', () => {
@@ -89,22 +99,34 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Sets the default language from config
+   */
   setDefaultLanguage(): void {
     const defaultLanguage = config.default_language;
     this.translate.setDefaultLang(defaultLanguage);
   }
 
+  /**
+   * Sets the available languages from config
+   */
   setAvailableLanguages(): void {
     const availableLanguages = Object.keys(config.languages);
     this.translate.addLangs(availableLanguages);
   }
 
+  /**
+   * Checks if the specified language is available
+   * @param language Language code
+   */
   checkLanguageAvailability(language: string): boolean {
-    const availableLanguages = this.translate.getLangs();
-    return availableLanguages.includes(language);
+    return this.translate.getLangs().includes(language);
   }
 
-  detectLanguage(): string {
+  /**
+   * Gets the language to use for the app
+   */
+  getAppLanguage(): string {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
