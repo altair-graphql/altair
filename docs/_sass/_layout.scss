@@ -177,5 +177,6 @@ $hero-height: 700px;
     @extend %button;
     color: $light;
     background: $dark;
+    margin-bottom: 20px;
   }
 }
