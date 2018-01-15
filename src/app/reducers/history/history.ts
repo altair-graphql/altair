@@ -16,7 +16,7 @@ export interface State {
   list: HistoryList;
 }
 
-const initialState: State = {
+export const initialState: State = {
   list: []
 };
 

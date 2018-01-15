@@ -35,4 +35,13 @@
       curTabId = null;
     }
   });
+
+  // Open the update page after every new update
+  chrome.runtime.onInstalled.addListener(function (details) {
+    if (details.reason === 'update') {
+      chrome.tabs.create({ url: "https://altair.sirmuel.design/updated" }, function (tab) {
+        console.log("New tab launched with https://altair.sirmuel.design/updated");
+      });
+    }
+  });
 })();

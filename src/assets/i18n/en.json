@@ -1,6 +1,7 @@
 {
   "SEND_REQUEST_BUTTON": "Send Request",
   "PRETTIFY_BUTTON": "Prettify",
+  "COMPRESS_QUERY_BUTTON": "Compress",
   "CLEAR_BUTTON": "Clear",
   "SET_HEADERS_BUTTON": "Set Headers",
   "SET_VARIABLES_BUTTON": "Set Variables",
@@ -45,5 +46,12 @@
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
 
   "HISTORY_TEXT": "History",
-  "HISTORY_SUB_TEXT": "You can select an item from the history to restore"
+  "HISTORY_SUB_TEXT": "You can select an item from the history to restore",
+
+  "SETTINGS_TEXT": "Settings",
+  "SETTINGS_SUB_TEXT": "You can adjust any of the settings below",
+  "SETTINGS_THEME_TEXT": "Theme",
+  "SETTINGS_LANGUAGE_TEXT": "Language",
+
+  "VIEW_ON_GITHUB_TEXT": "View on GitHub"
 }

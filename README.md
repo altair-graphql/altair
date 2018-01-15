@@ -55,6 +55,26 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on working with the project, check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Deploying
+
+- Make sure your local repo is up to date `git pull`
+- Run tests locally `ng test --single-run && ng lint && ng e2e`
+- Build extensions locally `yarn build-ext`
+- Verify that extensions (chrome and firefox) are working properly 
+- Verify chrome extension https://developer.chrome.com/extensions/getstarted#unpacked
+- Verify firefox extension `./bin/run_ext_firefox.sh`
+- Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`
+- Create commit, push and update local repo `git add --all && git commit -am "Upgraded to v<version_number>" && git pull && git push`
+- Create release tag for the new version `git tag v<version_number>`
+- Push new tag `git push --tags`
+- Create release notes (Using https://www.npmjs.com/package/release) `release`
+- Upload updated browser extensions
+- Wait till all the CI builds are completed, and the binaries have been published in [Github release](https://help.github.com/articles/creating-releases/)
+- Merge the staging branch to master
+- C'est fini.
+
+In the case of an error while deploying, delete the release tags locally and remotely using `git tag --delete <tag> && git push --delete origin <tag>`
+
 ## Contributing
 
 1. Fork it!

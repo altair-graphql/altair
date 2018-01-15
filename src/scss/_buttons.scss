@@ -14,13 +14,13 @@
         vertical-align: middle;
     }
     &:hover{
-        background: $light-grey;
+        background: $theme-off-bg-color;
     }
     &:focus{
         outline: 0;
     }
     &.active-grey{
-        background: $light-grey;
+        background: $theme-off-bg-color;
     }
     &.active-primary{
         background: $green;

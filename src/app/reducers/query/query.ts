@@ -24,7 +24,7 @@ export interface State {
   subscriptionResponseList: Array<any>;
 }
 
-const initialState: State = {
+export const initialState: State = {
   url: '',
   subscriptionUrl: '',
   query: initialQuery,

@@ -17,7 +17,7 @@
           <clr-icon shape="refresh"></clr-icon>
         </button>
         <clr-tooltip-content clrPosition="bottom-left" *clrIfOpen>
-          <span>Reload</span>
+          <span>{{ 'RELOAD_DOCS_BUTTON' | translate }}</span>
         </clr-tooltip-content>
       </clr-tooltip>
       <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}">

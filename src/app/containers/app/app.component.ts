@@ -9,6 +9,7 @@ import isElectron from '../../utils/is_electron';
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
+import * as fromSettings from '../../reducers/settings/settings';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -18,6 +19,7 @@ import * as layoutActions from '../../actions/layout/layout';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
 import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
+import * as settingsActions from '../../actions/settings/settings';
 
 import { QueryService } from '../../services/query.service';
 import { GqlService } from '../../services/gql.service';
@@ -30,7 +32,9 @@ import config from '../../config';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  windowIds$: Observable<any>;
+  windowIds$: Observable<any[]>;
+  settings$: Observable<fromSettings.State>;
+
   windowIds = [];
   windowsArr = [];
   activeWindowId = '';
@@ -43,13 +47,25 @@ export class AppComponent {
     private translate: TranslateService,
     private electron: ElectronService
   ) {
+    this.settings$ = this.store.select('settings').distinctUntilChanged();
+
     this.setDefaultLanguage();
     this.setAvailableLanguages();
 
-    const applicationLanguage = this.detectLanguage();
+    const applicationLanguage = this.getAppLanguage();
     this.translate.use(applicationLanguage).subscribe(() => {
       this.isReady = true;
     });
+
+    // Update the app translation if the language settings is changed.
+    // TODO: Consider moving this into a settings effect.
+    this.settings$
+      .map(settings => settings.language)
+      .filter(x => !!x)
+      .distinctUntilChanged()
+      .subscribe(language => {
+        this.translate.use(language);
+      });
 
     if (this.electron.isElectronApp) {
       this.electron.ipcRenderer.on('create-tab', () => {
@@ -83,22 +99,34 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Sets the default language from config
+   */
   setDefaultLanguage(): void {
     const defaultLanguage = config.default_language;
     this.translate.setDefaultLang(defaultLanguage);
   }
 
+  /**
+   * Sets the available languages from config
+   */
   setAvailableLanguages(): void {
-    const availableLanguages = config.languages;
+    const availableLanguages = Object.keys(config.languages);
     this.translate.addLangs(availableLanguages);
   }
 
+  /**
+   * Checks if the specified language is available
+   * @param language Language code
+   */
   checkLanguageAvailability(language: string): boolean {
-    const availableLanguages = this.translate.getLangs();
-    return availableLanguages.includes(language);
+    return this.translate.getLangs().includes(language);
   }
 
-  detectLanguage(): string {
+  /**
+   * Gets the language to use for the app
+   */
+  getAppLanguage(): string {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
@@ -121,6 +149,22 @@ export class AppComponent {
   setWindowName(data) {
     const { windowId, windowName } = data;
     this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
+  }
+
+  showSettingsDialog() {
+    this.store.dispatch(new settingsActions.ShowSettingsAction());
+  }
+
+  hideSettingsDialog() {
+    this.store.dispatch(new settingsActions.HideSettingsAction());
+  }
+
+  onThemeChange(theme) {
+    this.store.dispatch(new settingsActions.SetThemeAction({ value: theme }));
+  }
+
+  onLanguageChange(language) {
+    this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
   /**

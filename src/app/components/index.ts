@@ -19,30 +19,32 @@ import { WindowSwitcherComponent } from './window-switcher/window-switcher.compo
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog/subscription-url-dialog.component';
 import { SubscriptionResultItemComponent } from './subscription-result-item/subscription-result-item.component';
 import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
+import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 const COMPONENTS = [
-    QueryEditorComponent,
-    QueryResultComponent,
-    ActionBarComponent,
-    SetVariableDialogComponent,
-    ForkRepoComponent,
-    WindowSwitcherComponent,
-    SubscriptionUrlDialogComponent,
-    SubscriptionResultItemComponent,
-    UrlBoxComponent,
-    HistoryDialogComponent
+  QueryEditorComponent,
+  QueryResultComponent,
+  ActionBarComponent,
+  SetVariableDialogComponent,
+  ForkRepoComponent,
+  WindowSwitcherComponent,
+  SubscriptionUrlDialogComponent,
+  SubscriptionResultItemComponent,
+  UrlBoxComponent,
+  HistoryDialogComponent,
+  SettingsDialogComponent
 ];
 
 @NgModule({
-    imports: [
-      CommonModule,
-      FormsModule,
-      CodemirrorModule,
-      PipesModule,
-      SharedModule,
-      ClarityModule.forRoot()
-    ],
-    declarations: COMPONENTS,
-    exports: [...COMPONENTS, ClarityModule ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    CodemirrorModule,
+    PipesModule,
+    SharedModule,
+    ClarityModule
+  ],
+  declarations: COMPONENTS,
+  exports: [...COMPONENTS ]
 })
 export class ComponentModule {}

@@ -7,8 +7,8 @@ describe('altair App', () => {
     page = new AltairPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should have at lease one window', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getWindows().isDisplayed()).toBe(true);
   });
 });

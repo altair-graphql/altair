@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse, print } from 'graphql';
-import { GraphQLSchema } from 'graphql/type';
+import { buildClientSchema, parse, print, GraphQLSchema } from 'graphql';
+import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
@@ -186,5 +186,13 @@ export class GqlService {
    */
   prettify(query) {
     return print(parse(query));
+  }
+
+  /**
+   * Compresses a given query
+   * @param query
+   */
+  compress(query) {
+    return compress(this.prettify(query));
   }
 }

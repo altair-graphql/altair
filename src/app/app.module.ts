@@ -16,9 +16,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { ClarityModule } from 'clarity-angular';
 import { SharedModule } from './shared/shared.module';
 
-import { appReducer } from './reducers';
+import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
 
 import { QueryEffects } from './effects/query';
 
@@ -39,7 +40,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function mapValuesToArray(obj: any): Array<any> {
-    return Object.keys(obj).map(function(key){
+    return Object.keys(obj).map(function(key) {
         return obj[key];
     });
 };
@@ -53,7 +54,8 @@ const providers = [
     services.QueryService,
     services.WindowService,
     services.NotifyService,
-    { provide: ToastOptions, useClass: CustomOption }
+    { provide: ToastOptions, useClass: CustomOption },
+    reducerProvider
 ];
 
 @NgModule({
@@ -67,11 +69,12 @@ const providers = [
     FormsModule,
     HttpClientModule,
     SharedModule,
+    ClarityModule.forRoot(),
     ComponentModule,
     DocViewerModule,
-    StoreModule.provideStore(appReducer),
-    EffectsModule.run(QueryEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreModule.forRoot(reducerToken, { metaReducers }),
+    EffectsModule.forRoot([ QueryEffects ]),
+    StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="350px" height="392px" viewBox="0 0 350 392" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Pubsicle logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Altair-logo" fill-rule="nonzero">
+            <g id="Pubsicle-logo">
+                <rect id="Rectangle-path" fill="#368CBF" transform="translate(105.354800, 155.820100) rotate(-149.999272) translate(-105.354800, -155.820100) " x="97.0549826" y="-4.32637666" width="16.5996348" height="320.292953"></rect>
+                <rect id="Rectangle-path" fill="#368CBF" x="14.8" y="268.2" width="320.3" height="16.6"></rect>
+                <rect id="Rectangle-path" fill="#33363B" transform="translate(105.392900, 316.587900) rotate(-149.999272) translate(-105.392900, -316.587900) " x="12.894935" y="308.288083" width="184.99593" height="16.5996348"></rect>
+                <rect id="Rectangle-path" fill="#33363B" transform="translate(244.567300, 75.508900) rotate(-149.999272) translate(-244.567300, -75.508900) " x="152.069335" y="67.2090826" width="184.99593" height="16.5996348"></rect>
+                <rect id="Rectangle-path" fill="#33363B" transform="translate(105.437300, 75.445700) rotate(-120.000728) translate(-105.437300, -75.445700) " x="97.1374826" y="-17.052265" width="16.5996348" height="184.99593"></rect>
+                <rect id="Rectangle-path" fill="#368CBF" transform="translate(244.681200, 155.823100) rotate(-120.000728) translate(-244.681200, -155.823100) " x="84.5347233" y="147.523283" width="320.292953" height="16.5996348"></rect>
+                <rect id="Rectangle-path" fill="#33363B" x="27.5" y="103.5" width="16.6" height="185"></rect>
+                <rect id="Rectangle-path" fill="#33363B" x="305.9" y="103.5" width="16.6" height="185"></rect>
+                <rect id="Rectangle-path" fill="#33363B" transform="translate(244.566600, 316.495600) rotate(-120.000728) translate(-244.566600, -316.495600) " x="237.31676" y="236.04737" width="14.499681" height="160.89646"></rect>
+                <path d="M344.5,293.9 C334.9,310.6 313.5,316.3 296.8,306.7 C280.1,297.1 274.4,275.7 284,259 C293.6,242.3 315,236.6 331.7,246.2 C348.5,255.9 354.2,277.2 344.5,293.9" id="Shape" fill="#368CBF"></path>
+                <path d="M65.9,133 C56.3,149.7 34.9,155.4 18.2,145.8 C1.5,136.2 -4.2,114.8 5.4,98.1 C15,81.4 36.4,75.7 53.1,85.3 C69.8,95 75.5,116.3 65.9,133" id="Shape" fill="#7EBC59"></path>
+                <path d="M5.5,293.9 C-4.1,277.2 1.6,255.9 18.3,246.2 C35,236.6 56.3,242.3 66,259 C75.6,275.7 69.9,297 53.2,306.7 C36.4,316.3 15.1,310.6 5.5,293.9" id="Shape" fill="#368CBF"></path>
+                <path d="M284.1,133 C274.5,116.3 280.2,95 296.9,85.3 C313.6,75.7 334.9,81.4 344.6,98.1 C354.2,114.8 348.5,136.1 331.8,145.8 C315.1,155.4 293.7,149.7 284.1,133" id="Shape" fill="#7EBC59"></path>
+                <path d="M175,391.8 C155.7,391.8 140.1,376.2 140.1,356.9 C140.1,337.6 155.7,322 175,322 C194.3,322 209.9,337.6 209.9,356.9 C209.9,376.1 194.3,391.8 175,391.8" id="Shape" fill="#7EBC59"></path>
+                <path d="M175,70 C155.7,70 140.1,54.4 140.1,35.1 C140.1,15.8 155.7,0.2 175,0.2 C194.3,0.2 209.9,15.8 209.9,35.1 C209.9,54.4 194.3,70 175,70" id="Shape" fill="#368CBF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

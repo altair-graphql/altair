@@ -12,7 +12,7 @@
       [apiUrl]="apiUrl"
       [httpVerb]="httpVerb"
       [isSubscribed]="isSubscribed"
-      [showDocs]="showDocs"
+      [showDocs]="showDocs$ | async"
 
       (urlChange)="setApiUrl($event)"
       (httpVerbChange)="setApiMethod($event)"
@@ -28,7 +28,7 @@
       (reloadDocsChange)="reloadDocs()"
       (clearEditorChange)="clearEditor()"
       (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
-      [showDocs]="showDocs"
+      [showDocs]="showDocs$ | async"
       [isSubscribed]="isSubscribed"
     ></app-action-bar> -->
     <div class="main-content-area">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-xs-6">
           <app-query-result
-            [queryResult]="queryResult"
+            [queryResult]="queryResult$ | async"
             [responseTime]="responseTime"
             [responseStatus]="responseStatus"
             [responseStatusText]="responseStatusText"
@@ -59,15 +59,15 @@
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
           [allowIntrospection]="allowIntrospection"
-          [ngClass]="{'show-doc': showDocs}"
-          [isLoading]="docsIsLoading"
+          [ngClass]="{'show-doc': showDocs$ | async}"
+          [isLoading]="docsIsLoading$ | async"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
         ></app-doc-viewer>
       </div>
     </div>
     <div class="dialogs">
-      <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader()">
+      <clr-modal [clrModalOpen]="showHeaderDialog" (clrModalOpenChange)="toggleHeader($event)">
         <h3 class="modal-title">
           <div class="app-dialog-header">
             <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
@@ -76,7 +76,7 @@
         </h3>
         <div class="modal-body">
           <div class="app-dialog-body">
-            <div class="set-header-input-container" *ngFor="let header of headers;trackBy:trackByFn; let i = index">
+            <div class="set-header-input-container" *ngFor="let header of headers$ | async;trackBy:trackByFn; let i = index">
               <div class="set-header-input-column">
                 <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
               </div>
@@ -90,26 +90,26 @@
         <div class="modal-footer">
           <div class="app-dialog-footer">
             <button class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
-            <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
+            <button class="app-button active-primary right" (click)="toggleHeader($event)">{{ 'SAVE_BUTTON' | translate }}</button>
           </div>
         </div>
       </clr-modal>
       <app-set-variable-dialog
         [variables]="variables"
         [showVariableDialog]="showVariableDialog"
-        (toggleVariableDialog)="toggleVariableDialog()"
+        (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"
       ></app-set-variable-dialog>
       <app-subscription-url-dialog
         [subscriptionUrl]="subscriptionUrl"
         [showDialog]="showSubscriptionUrlDialog"
-        (toggleDialogChange)="toggleSubscriptionUrlDialog()"
+        (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
         (subscriptionUrlChange)="updateSubscriptionUrl($event)"
       ></app-subscription-url-dialog>
       <app-history-dialog
         [historyList]="historyList"
         [showDialog]="showHistoryDialog"
-        (toggleDialogChange)="toggleHistoryDialog()"
+        (toggleDialogChange)="toggleHistoryDialog($event)"
         (restoreHistoryChange)="restoreHistory($event)"
       ></app-history-dialog>
     </div>
@@ -117,28 +117,34 @@
   <!-- <nav class="sidenav">
     ...
   </nav> -->
+
   <clr-vertical-nav [(clrVerticalNavCollapsed)]="collapsed" [clrVerticalNavCollapsible]="true">
-    <a clrVerticalNavLink (click)="toggleHeader()" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
-      <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
-      {{ 'SET_HEADERS_BUTTON' | translate }}
-    </a>
-    <a clrVerticalNavLink (click)="toggleVariableDialog()" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
-      <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
-      {{ 'SET_VARIABLES_BUTTON' | translate }}
-    </a>
-    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog()" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
-      <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
-      {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
-    </a>
     <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
       {{ 'PRETTIFY_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="shrink"></clr-icon>
+      {{ 'COMPRESS_QUERY_BUTTON' | translate }}
     </a>
     <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
       <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
       {{ 'CLEAR_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleHistoryDialog()" title="{{ 'HISTORY_TEXT' | translate }}">
+    <div class="nav-divider"></div>
+    <a clrVerticalNavLink (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
+      {{ 'SET_HEADERS_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleVariableDialog(true)" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
+      {{ 'SET_VARIABLES_BUTTON' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
+      <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
+      {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+    </a>
+    <a clrVerticalNavLink (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}">
       <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
       {{ 'HISTORY_TEXT' | translate }}
     </a>

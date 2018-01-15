@@ -1,6 +1,7 @@
 sudo: required
 dist: trusty
 language: node_js
+cache: yarn
 os:
 - linux
 - osx
@@ -30,6 +31,7 @@ before_script:
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then npm run build-electron; fi
 deploy:
