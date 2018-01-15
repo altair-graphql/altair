@@ -92,7 +92,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "codelyzer": "^4.0.2",
-    "electron-builder": "git+https://github.com/imolorhe/electron-builder.git#patch-1",
+    "electron-builder": "^19.53.6",
     "electron-prebuilt-compile": "1.6.11",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
