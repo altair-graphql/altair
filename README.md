@@ -68,9 +68,9 @@ To get more help on working with the project, check out the [Angular CLI README]
 - Create release tag for the new version `git tag v<version_number>`
 - Push new tag `git push --tags`
 - Create release notes (Using https://www.npmjs.com/package/release) `release`
-- Upload updated browser extensions
 - Wait till all the CI builds are completed, and the binaries have been published in [Github release](https://help.github.com/articles/creating-releases/)
 - Merge the staging branch to master
+- Upload updated browser extensions
 - C'est fini.
 
 In the case of an error while deploying, delete the release tags locally and remotely using `git tag --delete <tag> && git push --delete origin <tag>`
