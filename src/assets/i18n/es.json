@@ -1,0 +1,57 @@
+{
+  "SEND_REQUEST_BUTTON": "Enviar petición",
+  "PRETTIFY_BUTTON": "Embellecer",
+  "COMPRESS_QUERY_BUTTON": "Comprimir",
+  "CLEAR_BUTTON": "Limpiar",
+  "SET_HEADERS_BUTTON": "Establecer Cabeceras",
+  "SET_VARIABLES_BUTTON": "Establecer Variables",
+  "RELOAD_DOCS_BUTTON": "Recargar Documentación",
+  "SHOW_DOCS_BUTTON": "Mostrar Documentación",
+  "DOCS_TEXT": "Documentación",
+  "LOADING_INDICATOR_TEXT": "Cargando...",
+  "CANCEL_TEXT": "Cancelar",
+  "SERVER_NO_INTROSPECTION_SUPPORT": "Lo siento. El servidor proporcionado no es compatible con la introspección.",
+  "SAVE_BUTTON": "Guardar",
+  "DONE_BUTTON": "Hecho",
+  "ADD_NEW_WINDOW_TEXT": "+ Agregar nueva",
+
+  "DOCS_GO_BACK_TEXT": "Volver",
+  "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Buscar en documentación...",
+  "DOCS_ARGUMENTS_TEXT": "Argumentos",
+  "DOCS_TYPE_TEXT": "Tipo",
+  "DOCS_FIELD_TEXT": "Campo",
+  "DOCS_FIELDS_TEXT": "Campos",
+  "DOCS_SEARCH_RESULTS_TEXT": "Resultados de la búsqueda",
+  "DOCS_VALUES_TEXT": "Valores",
+  "DOCS_DEPRECATED_TEXT": "OBSOLETO",
+  "DOCS_ADD_QUERY_TEXT": "Añadir consulta",
+  "DOCS_ADD_FRAGMENT_TEXT": "Añadir fragmento",
+  "DOCS_UNION_TEXT": "Unión",
+  "DOCS_SUBTYPES_TEXT": "Subtipos",
+
+  "QUERY_RESULT_NO_RESULT_TEXT": "Ezio, amigo mío, ¿cómo puedo servir?",
+  "QUERY_RESULT_STATUS_TEXT": "ESTADO",
+  "QUERY_RESULT_STATUS_CODE_TEXT": "CÓDIGO DE ESTADO",
+  "QUERY_RESULT_TIME_SPENT_TEXT": "TIEMPO USADO",
+  "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Descargar",
+
+  "VARIABLES_TEXT": "Variables",
+  "SET_VARIABLES_DIALOG_SUBTEXT": "Agrega, edita y elimina variables en tu solicitud",
+
+  "HEADERS_TEXT": "Cabeceras",
+  "SET_HEADERS_DIALOG_SUBTEXT": "Agrega, edita y elimina encabezados en tu solicitud",
+  "ADD_HEADER_TEXT": "Añadir cabecera",
+
+  "SUBSCRIPTION_URL_TEXT": "URL de suscripción",
+  "SET_SUBSCRIPTION_URL_TEXT": "Ingrese la URL de suscripción para su servidor a continuación",
+
+  "HISTORY_TEXT": "Historial",
+  "HISTORY_SUB_TEXT": "Puede seleccionar un elemento del historial para restaurar",
+
+  "SETTINGS_TEXT": "Configuraciones",
+  "SETTINGS_SUB_TEXT": "Puede ajustar cualquiera de las configuraciones a continuación",
+  "SETTINGS_THEME_TEXT": "Plantilla",
+  "SETTINGS_LANGUAGE_TEXT": "Idioma",
+
+  "VIEW_ON_GITHUB_TEXT": "Ver en GitHub"
+}
