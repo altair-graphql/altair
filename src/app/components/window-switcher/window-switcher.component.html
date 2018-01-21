@@ -1,4 +1,4 @@
-<div class="header-nav window-switcher__container">
+<div class="header-nav window-switcher__container" sortablejs [sortablejsOptions]="sortableOptions">
   <div
     class="nav-link nav-text window-switcher _track_me"
     *ngFor="let windowId of windowIds; let index = index;"

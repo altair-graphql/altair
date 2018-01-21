@@ -28,9 +28,16 @@ export class WindowSwitcherComponent implements OnInit {
   windowNameEditing = null;
   maxWindowCount = config.max_windows;
 
-  constructor() { }
+  sortableOptions = {};
+
+  constructor() {}
 
   ngOnInit() {
+    this.sortableOptions = {
+      onUpdate: (event: any) => {
+        this.moveWindow(event.oldIndex, event.newIndex);
+      }
+    };
   }
 
   editWindowNameInput(windowId, wTitle) {

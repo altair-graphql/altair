@@ -17,6 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ClarityModule } from 'clarity-angular';
+import { SortablejsModule } from 'angular-sortablejs';
 import { SharedModule } from './shared/shared.module';
 
 import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
@@ -71,6 +72,7 @@ const providers = [
     HttpClientModule,
     SharedModule,
     ClarityModule.forRoot(),
+    SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
