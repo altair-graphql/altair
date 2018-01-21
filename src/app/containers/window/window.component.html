@@ -1,6 +1,6 @@
 <div class="content-container">
   <div class="content-area app-content-area">
-    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
+    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
       <div class="window-loader__content">
         <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
         <div class="window-loader__actions">
@@ -11,7 +11,7 @@
     <app-url-box
       [apiUrl]="apiUrl"
       [httpVerb]="httpVerb"
-      [isSubscribed]="isSubscribed"
+      [isSubscribed]="isSubscribed$ | async"
       [showDocs]="showDocs$ | async"
 
       (urlChange)="setApiUrl($event)"
@@ -29,7 +29,7 @@
       (clearEditorChange)="clearEditor()"
       (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
       [showDocs]="showDocs$ | async"
-      [isSubscribed]="isSubscribed"
+      [isSubscribed]="isSubscribed$ | async"
     ></app-action-bar> -->
     <div class="main-content-area">
       <div class="row main-content-row">
@@ -45,11 +45,11 @@
         <div class="col-xs-6">
           <app-query-result
             [queryResult]="queryResult$ | async"
-            [responseTime]="responseTime"
-            [responseStatus]="responseStatus"
-            [responseStatusText]="responseStatusText"
-            [isSubscribed]="isSubscribed"
-            [subscriptionResponses]="subscriptionResponses"
+            [responseTime]="responseTime$ | async"
+            [responseStatus]="responseStatus$ | async"
+            [responseStatusText]="responseStatusText$ | async"
+            [isSubscribed]="isSubscribed | async"
+            [subscriptionResponses]="subscriptionResponses$ | async"
             [subscriptionUrl]="subscriptionUrl"
 
             (downloadResultChange)="downloadResult()"
@@ -58,7 +58,7 @@
         </div>
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
-          [allowIntrospection]="allowIntrospection"
+          [allowIntrospection]="allowIntrospection$ | async"
           [ngClass]="{'show-doc': showDocs$ | async}"
           [isLoading]="docsIsLoading$ | async"
           (toggleDocsChange)="toggleDocs()"
@@ -95,7 +95,7 @@
         </div>
       </clr-modal>
       <app-set-variable-dialog
-        [variables]="variables"
+        [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"

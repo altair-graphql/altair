@@ -2,11 +2,6 @@ import { Action } from '@ngrx/store';
 
 import * as gqlSchema from '../../actions/gql-schema/gql-schema';
 
-export interface Variable {
-    key: string;
-    value: string;
-}
-
 export interface State {
     introspection: object;
     schema: object;
