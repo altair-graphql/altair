@@ -1,6 +1,8 @@
-import { combineReducers, Action, ActionReducer } from '@ngrx/store';
-import { compose } from '@ngrx/core/compose';
+import { InjectionToken } from '@angular/core';
+import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { compose } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
 
@@ -12,50 +14,75 @@ import * as fromDialogs from './dialogs/dialogs';
 import * as fromGqlSchema from './gql-schema/gql-schema';
 import * as fromDocs from './docs/docs';
 import * as fromWindows from './windows';
+import * as fromHistory from './history/history';
+import * as fromWindowsMeta from './windows-meta/windows-meta';
+import * as fromSettings from './settings/settings';
 
-export interface State {
-    layout: fromLayout.State;
-    query: fromQuery.State;
-    headers: fromHeaders.State;
-    variables: fromVariables.State;
-    dialogs: fromDialogs.State;
-    schema: fromGqlSchema.State;
-    docs: fromDocs.State;
-    // windows: fromWindows.State;
+export interface PerWindowState {
+  layout: fromLayout.State;
+  query: fromQuery.State;
+  headers: fromHeaders.State;
+  variables: fromVariables.State;
+  dialogs: fromDialogs.State;
+  schema: fromGqlSchema.State;
+  docs: fromDocs.State;
+  history: fromHistory.State;
+  windowId: string; // Used by the window reducer
 }
 
-const reducers = {
-    layout: fromLayout.layoutReducer,
-    query: fromQuery.queryReducer,
-    headers: fromHeaders.headerReducer,
-    variables: fromVariables.variableReducer,
-    dialogs: fromDialogs.dialogReducer,
-    schema: fromGqlSchema.gqlSchemaReducer,
-    docs: fromDocs.docsReducer,
-    // windows: fromWindows.windowReducer
+const perWindowReducers = {
+  layout: fromLayout.layoutReducer,
+  query: fromQuery.queryReducer,
+  headers: fromHeaders.headerReducer,
+  variables: fromVariables.variableReducer,
+  dialogs: fromDialogs.dialogReducer,
+  schema: fromGqlSchema.gqlSchemaReducer,
+  docs: fromDocs.docsReducer,
+  history: fromHistory.historyReducer
 };
 
+export interface State {
+  windows: fromWindows.State;
+  windowsMeta: fromWindowsMeta.State;
+  settings: fromSettings.State;
+}
+
 // Meta reducer to log actions
-export const log = (reducer) => (state: State, action: Action) => {
+export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state: State, action: Action) => {
     if (!environment.production) {
-        console.log(action.type, action);
+      console.log(action.type, action);
     }
-    return reducer(state, action);
-};
+    return _reducer(state, action);
+  };
+}
 
 export const keySerializer = (key) => 'altair_' + key;
 
-// Needed to fix the error encountered resolving symbol values statically error for the compose() method
-export function createReducer() {
-    const reducer = compose(
-        localStorageSync({ keys: ['windows'], rehydrate: true, storageKeySerializer: keySerializer}),
-        log,
-        combineReducers
-    )({ windows: fromWindows.windows(combineReducers(reducers)) });
-
-    return reducer;
+export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({ keys: ['windows', 'windowsMeta', 'settings'], rehydrate: true, storageKeySerializer: keySerializer })(_reducer);
 }
 
-export function appReducer(state: State, action: Action) {
-    return createReducer()(state, action);
-}
+export const metaReducers: MetaReducer<any>[] = [
+  localStorageSyncReducer,
+  // !environment.production ? storeFreeze : null,
+  log
+];
+
+export const reducer: ActionReducerMap<State> = {
+  windows: fromWindows.windows(combineReducers(perWindowReducers)),
+  windowsMeta: fromWindowsMeta.windowsMetaReducer,
+  settings: fromSettings.settingsReducer
+};
+
+export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
+
+export const reducerProvider = [
+  { provide: reducerToken, useValue: reducer }
+];
+
+export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];
+
+export * from './query/selectors';
+export * from './docs/selectors';
+export * from './headers/selectors';

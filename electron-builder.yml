@@ -1,0 +1,23 @@
+appId: com.xkoji.altair
+directories:
+  buildResources: electron
+  output: out
+files:
+  - '**/*'
+  - 'electron/**/*'
+mac:
+  category: public.app-category.developer-tools
+  icon: electron/icon.icns
+dmg:
+  icon: electron/icon.icns
+linux:
+  icon: electron/icons
+electronCompile: false
+protocols:
+  name: Altair GraphQL Client
+  schemes:
+    - altair
+  role: Viewer
+publish:
+  provider: github
+  releaseType: release

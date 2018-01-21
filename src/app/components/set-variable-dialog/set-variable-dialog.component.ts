@@ -26,7 +26,7 @@ import 'codemirror/mode/javascript/javascript';
 export class SetVariableDialogComponent implements OnChanges {
 
   @Input() showVariableDialog = false;
-  @Input() variables = [];
+  @Input() variables = '';
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() variablesChange = new EventEmitter();
 

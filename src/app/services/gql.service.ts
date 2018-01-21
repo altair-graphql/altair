@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse } from 'graphql';
-import { GraphQLSchema } from 'graphql/type';
+import { buildClientSchema, parse, print, GraphQLSchema } from 'graphql';
+import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
@@ -22,6 +22,7 @@ export class GqlService {
   headers: HttpHeaders;
 
   private api_url = localStorage.getItem('altair:url');
+  private method = 'POST';
   introspectionData = {};
 
   constructor(
@@ -61,13 +62,15 @@ export class GqlService {
         return Observable.throw(err);
       }
     }
-
-    return this.http.post(this.api_url, JSON.stringify(data), { headers: this.headers, observe: 'response' })
-      .map(this.checkForError)
-      .catch(err => {
-        console.error(err);
-        return Observable.throw(err);
-      });
+    return this.http.request(this.method, this.api_url, {
+      body: JSON.stringify(data),
+      headers: this.headers,
+      observe: 'response'
+    }).map(this.checkForError)
+    .catch(err => {
+      console.error(err);
+      return Observable.throw(err);
+    });
   }
 
   /**
@@ -103,6 +106,11 @@ export class GqlService {
     return this;
   }
 
+  setHTTPMethod(httpVerb) {
+    this.method = httpVerb;
+    return this;
+  }
+
   getIntrospectionRequest(url): Observable<any> {
     const currentApiUrl = this.api_url;
 
@@ -118,14 +126,19 @@ export class GqlService {
   }
 
   getIntrospectionSchema(data) {
-    if (data && data.__schema) {
-      const schema = buildClientSchema(data);
+    try {
+      if (data && data.__schema) {
+        const schema = buildClientSchema(data);
 
-      // One type => many fields
-      // One field => One type
-      return schema;
+        // One type => many fields
+        // One field => One type
+        return schema;
+      }
+      return null;
+    } catch (err) {
+      console.error('Bad introspection data.');
+      return null;
     }
-    return null;
   }
 
   /**
@@ -165,5 +178,21 @@ export class GqlService {
         subscriptionClient.close();
       }
     }
+  }
+
+  /**
+   * Prettifies (formats) a given query
+   * @param query
+   */
+  prettify(query) {
+    return print(parse(query));
+  }
+
+  /**
+   * Compresses a given query
+   * @param query
+   */
+  compress(query) {
+    return compress(this.prettify(query));
   }
 }

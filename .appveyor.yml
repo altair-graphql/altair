@@ -7,10 +7,13 @@ environment:
 cache:
 - '%APPDATA%\npm-cache'
 - '%USERPROFILE%\.electron'
-
+skip_non_tags: true
 artifacts:
 - path: 'out\make\**\*'
   name: altairAll
+
+- path: 'out\altair-win32-x64\altair.exe'
+  name: altairWin
 
 - path: 'out\make\**/*.exe'
   name: altairExe
@@ -21,33 +24,42 @@ artifacts:
 install:
 - ps: Install-Product node $env:nodejs_version $env:platform
 - set PATH=%APPDATA%\npm;%PATH%
-- npm install
+# - npm install
+- yarn
 
 before_test:
-- npm install -g @angular/cli
-- npm install -g karma
-- npm install -g electron-forge
-- npm install
+- yarn global add @angular/cli
+- yarn global add karma
+- yarn global add electron-forge
+- yarn
+# - npm install -g @angular/cli
+# - npm install -g karma
+# - npm install -g electron-forge
+# - npm install
 - ng build
 
 test_script:
 - node --version
-- npm --version
-- npm run test-build
+# - npm --version
+# - npm run test-build
+- yarn --version
+- yarn test-build
 
 build: off # We do not intend to build using MS Build
 
 # Run build in after_test to generate artifacts
 after_test:
 - ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace '<base href="/">', '<base href="./">' } | Set-Content .\dist\index.html
-- npm run make
+# - npm run make
+- yarn dist-electron
+# - npm run dist-electron
 
 deploy:
   description: ''
   provider: GitHub
   auth_token:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
-  artifact: altairAll
+  artifact: altairAll, altairWin
   draft: false
   prerelease: false
   on:

@@ -4,7 +4,7 @@ app-doc-viewer{
   bottom: 0;
   right: 0;
   width: 40%;
-  background: $white;
+  background: $theme-bg-color;
   z-index: 2;
   transform: translateX(100%);
   transition: all .5s var(--app-easing);
@@ -36,7 +36,7 @@ app-doc-viewer{
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba($white, .8);
+  background: rgba($theme-bg-color, .8);
   z-index: 5;
   img{
       vertical-align: middle;
@@ -51,7 +51,7 @@ app-doc-viewer{
 .doc-viewer-close{
     float: right;
     font-size: 25px;
-    color: $black;
+    color: $theme-font-color;
     cursor: pointer;
 }
 .doc-viewer-back-link{
@@ -92,7 +92,7 @@ app-doc-viewer{
     font-size: 14px;
     padding: 5px 0;
     border: none;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid $theme-border-color;
     transition: all .3s ease;
     &:focus{
         border-bottom-color: $green;
@@ -108,7 +108,7 @@ app-doc-viewer{
     position: relative;
     padding: 10px 60px 10px 5px;
     border-radius: 3px;
-    color: $black;
+    color: $theme-font-color;
     font-size: 13px;
     transition: all .3s ease;
     cursor: pointer;
@@ -120,7 +120,7 @@ app-doc-viewer{
     font-weight: bold;
 }
 .doc-viewer-search-result-parent-type{
-    color: $dark-grey;
+    color: $theme-off-font-color;
 }
 .doc-viewer-search-result-cat{
     position: absolute;
@@ -153,7 +153,7 @@ app-doc-viewer{
   background: rgba($orange, .1);
 }
 .doc-viewer-search-result-description{
-    color: $dark-grey;
+    color: $theme-off-font-color;
     font-size: 12px;
     font-weight: normal;
 }
@@ -163,7 +163,7 @@ app-doc-viewer{
 }
 .doc-viewer-section-title{
     font-size: 10px;
-    color: $dark-grey;
+    color: $theme-off-font-color;
     text-transform: uppercase;
     font-weight: bold;
     margin-bottom: 10px;
@@ -221,7 +221,7 @@ app-doc-viewer{
 .doc-viewer-item-query-description{
     font-size: 13px;
     // font-style: italic;
-    color: $dark-grey;
+    color: $theme-off-font-color;
 }
 .doc-viewer-item-query-add-btn{
     position: absolute;

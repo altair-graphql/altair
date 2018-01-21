@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ClarityModule } from 'clarity-angular';
 
 import * as services from './../../services';
 
@@ -34,8 +35,8 @@ describe('WindowComponent', () => {
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => {},
-        select: () => [],
+        subscribe: () => Observable.empty(),
+        select: () => ({ select: () => Observable.empty() }),
         map: () => Observable.empty(),
         dispatch: () => {}
       } },
@@ -49,6 +50,7 @@ describe('WindowComponent', () => {
         HttpClientModule,
         StoreModule,
         CodemirrorModule,
+        ClarityModule.forRoot(),
         ComponentModule,
         DocViewerModule,
         ToastModule.forRoot(),

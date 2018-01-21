@@ -8,11 +8,13 @@ import * as validUrl from 'valid-url';
 import { GqlService, QueryService, NotifyService, DbService } from '../services';
 import * as fromRoot from '../reducers';
 
+import { Action as allActions } from '../actions';
 import * as queryActions from '../actions/query/query';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
+import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
 import { downloadJson } from '../utils';
 
@@ -49,7 +51,9 @@ export class QueryEffects {
             let requestStatusText = '';
 
             try {
-              JSON.parse(response.data.variables.variables);
+              if (response.data.variables.variables) {
+                JSON.parse(response.data.variables.variables);
+              }
             } catch (err) {
               this.notifyService.error('Looks like your variables is not a valid JSON string.');
               this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
@@ -59,6 +63,7 @@ export class QueryEffects {
             return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
+                .setHTTPMethod(response.data.query.httpVerb)
                 ._send(response.data.query.query, response.data.variables.variables)
                 .map(res => {
                     requestStatusCode = res.status;
@@ -98,7 +103,7 @@ export class QueryEffects {
         .ofType(queryActions.SET_URL)
         .do((data: queryActions.Action) => {
             // If the URL is not valid
-            if (!validUrl.isUri(data.payload)) {
+            if (!validUrl.isUri(data.payload.url)) {
                 this.notifyService.error('The URL is invalid!');
             } else {
               this.notifyService.success('URL has been set.');
@@ -129,7 +134,7 @@ export class QueryEffects {
     saveUrlToDb$: Observable<Action> = this.actions$
         .ofType(queryActions.SET_URL)
         .map((data: queryActions.Action) => {
-            this.queryService.storeUrl(data.payload, data.windowId);
+            this.queryService.storeUrl(data.payload.url, data.windowId);
             return new dbActions.SaveUrlSuccessAction();
         });
 
@@ -152,7 +157,7 @@ export class QueryEffects {
       });
 
     @Effect()
-    getIntrospectionForUrl$: Observable<queryActions.Action> = this.actions$
+    getIntrospectionForUrl$: Observable<allActions> = this.actions$
       .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
       .withLatestFrom(this.store, (action: queryActions.Action, state) => {
         return { data: state.windows[action.windowId], windowId: action.windowId, action };
@@ -184,12 +189,11 @@ export class QueryEffects {
             } else {
               this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
             }
-            this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
-            return Observable.empty();
+            return Observable.of(new docsAction.StopLoadingDocsAction(res.windowId));
           })
           .map(introspectionData => {
             if (!introspectionData) {
-                return Observable.empty();
+                return null;
             }
 
             this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
@@ -258,10 +262,28 @@ export class QueryEffects {
             variables: JSON.parse(res.data.variables.variables)
           }).subscribe({
             next: data => {
+              let strData = '';
+              try {
+                strData = JSON.stringify(data);
+              } catch (err) {
+                console.error('Invalid subscription response format.');
+                return false;
+              }
+
               this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
-                response: JSON.stringify(data),
+                response: strData,
                 responseTime: (new Date()).getTime() // store responseTime in ms
               }));
+
+              // TODO: Consider moving this functionality into the notify service
+              // Send notification in electron app
+              const myNotification = new Notification(res.data.layout.title, {
+                body: strData
+              });
+              myNotification.onclick = () => {
+                this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+              };
+
               console.log(data);
             },
             error: err => {
@@ -273,7 +295,7 @@ export class QueryEffects {
               console.log('Subscription complete.');
             }
           });
-          this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
+          return Observable.of(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
         } catch (err) {
           console.error('An error occurred starting the subscription.', err);
         }
@@ -288,7 +310,47 @@ export class QueryEffects {
       })
       .switchMap(res => {
         this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
-        this.store.dispatch(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+        return Observable.of(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+      });
+
+    @Effect()
+    prettifyQuery$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.PRETTIFY_QUERY)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        let prettified = '';
+        try {
+          prettified = this.gqlService.prettify(res.data.query.query);
+        } catch (err) {
+          this.notifyService.error('Your query does not appear to be valid. Please check it.');
+        }
+
+        if (prettified) {
+          return Observable.of(new queryActions.SetQueryAction(prettified, res.windowId));
+        }
+        return Observable.empty();
+      });
+
+    @Effect()
+    compressQuery$: Observable<queryActions.Action> = this.actions$
+      .ofType(queryActions.COMPRESS_QUERY)
+      .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+        let compressed = '';
+        try {
+          compressed = this.gqlService.compress(res.data.query.query);
+        } catch (err) {
+          console.log(err);
+          this.notifyService.error('Your query does not appear to be valid. Please check it.');
+        }
+
+        if (compressed) {
+          return Observable.of(new queryActions.SetQueryAction(compressed, res.windowId));
+        }
         return Observable.empty();
       });
 

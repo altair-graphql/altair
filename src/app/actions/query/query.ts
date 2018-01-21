@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
+export const SET_HTTP_VERB = 'SET_HTTP_VERB';
 
 export const SET_SUBSCRIPTION_URL = 'SET_SUBSCRIPTION_URL';
 
@@ -12,6 +13,7 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
+export const COMPRESS_QUERY = 'COMPRESS_QUERY';
 
 export const SEND_QUERY_REQUEST = 'SEND_QUERY_REQUEST';
 export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
@@ -33,13 +35,19 @@ export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 export class SetUrlAction implements Action {
   readonly type = SET_URL;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(public payload: { url: string }, public windowId: string) {}
+}
+
+export class SetHTTPMethodAction implements Action {
+  readonly type = SET_HTTP_VERB;
+
+  constructor(public payload: { httpVerb: string }, public windowId: string) {}
 }
 
 export class SetUrlFromDbAction implements Action {
   readonly type = SET_URL_FROM_DB;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(public payload: { url: string }, public windowId: string) {}
 }
 
 export class SetSubscriptionUrlAction implements Action {
@@ -74,6 +82,12 @@ export class SetQueryResultAction implements Action {
 
 export class PrettifyQueryAction implements Action {
   readonly type = PRETTIFY_QUERY;
+
+  constructor(public windowId: string, public payload?) {}
+}
+
+export class CompressQueryAction implements Action {
+  readonly type = COMPRESS_QUERY;
 
   constructor(public windowId: string, public payload?) {}
 }
@@ -165,6 +179,7 @@ SetQueryAction |
 SetQueryFromDbAction |
 SetQueryResultAction |
 PrettifyQueryAction |
+CompressQueryAction |
 SendQueryRequestAction |
 StartSubscriptionAction |
 StopSubscriptionAction |
@@ -177,4 +192,5 @@ CancelQueryRequestAction |
 HideUrlAlertAction |
 ShowUrlAlertAction |
 HideEditorAlertAction |
-ShowEditorAlertAction;
+ShowEditorAlertAction |
+SetHTTPMethodAction;

@@ -130,3 +130,53 @@ $hero-height: 700px;
     }
   }
 }
+
+.ns-updated {
+  min-height: 100vh;
+  background-image: url('../assets/img/hero_bg.png');
+  .logo-container {
+    text-align: center;
+    padding: 30px;
+    margin-bottom: 20px;
+  }
+  .logo {
+    max-width: 150px;
+  }
+  .inner-container {
+    margin: 0 auto;
+    max-width: 700px;
+    text-align: center;
+    ul {
+      margin-left: 30px;
+    }
+    li {
+      list-style-type: square;
+    }
+  }
+  .version {
+    font-size: 32px;
+    margin-bottom: 10px;;
+  }
+  .heading {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .subheading {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .changelog {
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    background: rgba($dark, .1);
+    border-radius: 5px;
+  }
+  .changelog-btn {
+    @extend %button;
+    color: $light;
+    background: $dark;
+    margin-bottom: 20px;
+  }
+}

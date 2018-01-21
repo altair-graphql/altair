@@ -6,12 +6,14 @@ export interface State {
   showHeaderDialog: boolean;
   showVariableDialog: boolean;
   showSubscriptionUrlDialog: boolean;
+  showHistoryDialog: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
   showHeaderDialog: false,
   showVariableDialog: false,
-  showSubscriptionUrlDialog: false
+  showSubscriptionUrlDialog: false,
+  showHistoryDialog: false,
 };
 
 export function dialogReducer(state = initialState, action: Action): State {
@@ -22,6 +24,8 @@ export function dialogReducer(state = initialState, action: Action): State {
       return Object.assign({}, state, { showVariableDialog: !state.showVariableDialog });
     case dialogs.TOGGLE_SUBSCRIPTION_URL_DIALOG:
       return Object.assign({}, state, { showSubscriptionUrlDialog: !state.showSubscriptionUrlDialog });
+    case dialogs.TOGGLE_HISTORY_DIALOG:
+      return { ...state, showHistoryDialog: !state.showHistoryDialog };
     default:
       return state;
   }

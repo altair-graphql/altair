@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from 'ng2-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { ComponentModule } from '../../components';
+
 import { QueryResultComponent } from './query-result.component';
 
 describe('QueryResultComponent', () => {
@@ -12,8 +14,12 @@ describe('QueryResultComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryResultComponent ],
-      imports: [ FormsModule, CodemirrorModule, TranslateModule.forRoot() ]
+      imports: [
+        FormsModule,
+        CodemirrorModule,
+        ComponentModule,
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));

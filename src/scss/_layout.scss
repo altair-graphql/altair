@@ -1,5 +1,6 @@
 .main-container {
-  background: $white;
+  color: $theme-font-color;
+  background: $theme-bg-color;
 }
 .app-content-area {
   position: relative;
@@ -14,7 +15,39 @@
 }
 .main-content-row {
   height: 100%;
+  flex-wrap: nowrap;
 }
 app-window {
-  width: 100%;
+  // width: 100%;
+  // height: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 1px;
+}
+.clr-vertical-nav {
+  background: transparent;
+  .nav-link {
+    cursor: pointer;
+    &:hover,
+    &.active {
+      background-color: $theme-bg-color;
+    }
+  }
+  .nav-trigger {
+    margin-top: 0;
+    // background: rgba($primary-color, .5);
+  }
+  .nav-trigger + .nav-content {
+    border-top: none;
+  }
+  .nav-trigger-icon {
+    margin-right: 0.2rem;
+  }
+  .nav-divider {
+    border-color: $theme-off-border-color;
+  }
+}
+// Due to the extremely high specificity of clarity UI, this is the only way to style this element :(
+.main-container:not([class*="open-overflow-menu"]):not([class*="open-hamburger-menu"]) .clr-vertical-nav.is-collapsed .nav-icon {
+  margin-left: 1rem;
 }

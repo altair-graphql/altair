@@ -1,0 +1,31 @@
+<div class="url-box">
+  <clr-dropdown>
+    <button type="button" class="url-box__button btn btn-outline-primary" clrDropdownTrigger [value]="httpVerb">
+      {{ httpVerb }}
+      <clr-icon shape="angle down"></clr-icon>
+    </button>
+    <clr-dropdown-menu *clrIfOpen>
+      <button *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
+    </clr-dropdown-menu>
+  </clr-dropdown>
+  <div class="url-box__input-container">
+    <input #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
+         [value]="apiUrl">
+    <div class="url-box__input-actions">
+      <clr-tooltip>
+        <button clrTooltipTrigger type="button" class="url-box__input-btn" (click)="reloadDocsChange.next()">
+          <clr-icon shape="refresh"></clr-icon>
+        </button>
+        <clr-tooltip-content clrPosition="bottom-left" *clrIfOpen>
+          <span>{{ 'RELOAD_DOCS_BUTTON' | translate }}</span>
+        </clr-tooltip-content>
+      </clr-tooltip>
+      <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}">
+        {{ 'DOCS_TEXT' | translate }}
+      </button>
+    </div>
+  </div>
+  <button class="app-button url-box__button url-box__button--send active-primary" (click)="!isSubscribed && this.sendRequest.next()" [ngClass]="{ 'url-box__button--disabled': isSubscribed }">
+    <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+  </button>
+</div>

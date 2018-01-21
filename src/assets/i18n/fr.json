@@ -1,0 +1,57 @@
+{
+  "SEND_REQUEST_BUTTON": "Envoyer requête",
+  "PRETTIFY_BUTTON": "Prettify",
+  "COMPRESS_QUERY_BUTTON": "Compresser",
+  "CLEAR_BUTTON": "Nettoyer",
+  "SET_HEADERS_BUTTON": "Configurer Headers",
+  "SET_VARIABLES_BUTTON": "Configurer Variables",
+  "RELOAD_DOCS_BUTTON": "Rafraîchir la documentation",
+  "SHOW_DOCS_BUTTON": "Afficher la documentation",
+  "DOCS_TEXT": "Documentation",
+  "LOADING_INDICATOR_TEXT": "Chargement...",
+  "CANCEL_TEXT": "Annuler",
+  "SERVER_NO_INTROSPECTION_SUPPORT": "Désolé. Le serveur GraphQL ne supporte pas l'introspection.",
+  "SAVE_BUTTON": "Enregistrer",
+  "DONE_BUTTON": "Valider",
+  "ADD_NEW_WINDOW_TEXT": "+ Nouvel onglet",
+
+  "DOCS_GO_BACK_TEXT": "Retour",
+  "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Rechercher docs...",
+  "DOCS_ARGUMENTS_TEXT": "Arguments",
+  "DOCS_TYPE_TEXT": "Type",
+  "DOCS_FIELD_TEXT": "Champ",
+  "DOCS_FIELDS_TEXT": "Champs",
+  "DOCS_SEARCH_RESULTS_TEXT": "Rechercher résultat",
+  "DOCS_VALUES_TEXT": "Valeurs",
+  "DOCS_DEPRECATED_TEXT": "DÉPRÉCIÉ",
+  "DOCS_ADD_QUERY_TEXT": "Ajouter requête",
+  "DOCS_ADD_FRAGMENT_TEXT": "Ajouter Fragment",
+  "DOCS_UNION_TEXT": "Union",
+  "DOCS_SUBTYPES_TEXT": "Sous-type",
+
+  "QUERY_RESULT_NO_RESULT_TEXT": "Ezio mon ami, comment puis-je vous aider?",
+  "QUERY_RESULT_STATUS_TEXT": "STATUS",
+  "QUERY_RESULT_STATUS_CODE_TEXT": "CODE STATUS",
+  "QUERY_RESULT_TIME_SPENT_TEXT": "TEMPS ÉCOULÉ",
+  "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Télécharger",
+
+  "VARIABLES_TEXT": "Variables",
+  "SET_VARIABLES_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer variables dans votre requête",
+
+  "HEADERS_TEXT": "Headers",
+  "SET_HEADERS_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer headers dans votre requête",
+  "ADD_HEADER_TEXT": "Ajouter header",
+
+  "SUBSCRIPTION_URL_TEXT": "URL Subscription",
+  "SET_SUBSCRIPTION_URL_TEXT": "Entrer l'URL de subscription de votre serveur ci-dessous",
+
+  "HISTORY_TEXT": "Historique",
+  "HISTORY_SUB_TEXT": "Vous pouvez sélectionner un élément pour le restorer",
+
+  "SETTINGS_TEXT": "Paramètres",
+  "SETTINGS_SUB_TEXT": "Vous pouvez ajuster n'importe lequel des paramètres ci-dessous",
+  "SETTINGS_THEME_TEXT": "Thème",
+  "SETTINGS_LANGUAGE_TEXT": "Langue",
+
+  "VIEW_ON_GITHUB_TEXT": "Voir sur GitHub"
+}

@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+import 'clarity-icons';
+import 'clarity-icons/shapes/all-shapes';
+
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { StoreModule } from '@ngrx/store';
@@ -13,9 +16,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { ClarityModule } from 'clarity-angular';
 import { SharedModule } from './shared/shared.module';
 
-import { appReducer } from './reducers';
+import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
 
 import { QueryEffects } from './effects/query';
 
@@ -36,7 +40,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function mapValuesToArray(obj: any): Array<any> {
-    return Object.keys(obj).map(function(key){
+    return Object.keys(obj).map(function(key) {
         return obj[key];
     });
 };
@@ -50,7 +54,8 @@ const providers = [
     services.QueryService,
     services.WindowService,
     services.NotifyService,
-    { provide: ToastOptions, useClass: CustomOption }
+    { provide: ToastOptions, useClass: CustomOption },
+    reducerProvider
 ];
 
 @NgModule({
@@ -64,11 +69,12 @@ const providers = [
     FormsModule,
     HttpClientModule,
     SharedModule,
+    ClarityModule.forRoot(),
     ComponentModule,
     DocViewerModule,
-    StoreModule.provideStore(appReducer),
-    EffectsModule.run(QueryEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreModule.forRoot(reducerToken, { metaReducers }),
+    EffectsModule.forRoot([ QueryEffects ]),
+    StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

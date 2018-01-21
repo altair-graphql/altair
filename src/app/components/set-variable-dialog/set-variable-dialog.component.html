@@ -1,4 +1,4 @@
-<clr-modal [clrModalOpen]="showVariableDialog" (clrModalOpenChange)="toggleVariableDialog.next()">
+<clr-modal [clrModalOpen]="showVariableDialog" (clrModalOpenChange)="toggleVariableDialog.next($event)">
   <h3 class="modal-title">
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'VARIABLES_TEXT' | translate }}</div>
@@ -18,7 +18,7 @@
   </div>
   <div class="modal-footer">
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" (click)="toggleVariableDialog.next()">{{ 'SAVE_BUTTON' | translate }}</button>
+      <button class="app-button active-primary right" (click)="toggleVariableDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
     </div>
   </div>
 </clr-modal>

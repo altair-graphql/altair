@@ -1,5 +1,10 @@
 .header {
   box-shadow: 0 5px 12px 2px rgba($black, .1);
+  .branding {
+    padding: 0;
+    justify-content: center;
+    min-width: 65px;
+  }
 }
 .header-logo {
   width: 30px;

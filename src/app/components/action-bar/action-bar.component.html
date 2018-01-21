@@ -1,7 +1,4 @@
 <div class="action-bar">
-  <button class="app-button active-primary" (click)="this.sendRequest.next()" *ngIf="!isSubscribed">
-    <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-  </button>
   <button class="app-button" (click)="this.prettifyCodeChange.next()">
     {{ 'PRETTIFY_BUTTON' | translate }}
   </button>

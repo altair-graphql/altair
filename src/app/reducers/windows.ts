@@ -4,7 +4,7 @@ import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 
 export interface State {
-    [id: string]: any;
+    [id: string]: fromRoot.PerWindowState;
 }
 
 /**
@@ -19,6 +19,7 @@ export function windows(reducer: ActionReducer<any>) {
     return function(state = initialState, action: any) {
 
         const _state = Object.assign({}, state);
+        let _windowState = _state[action.windowId];
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
@@ -32,19 +33,19 @@ export function windows(reducer: ActionReducer<any>) {
 
                 return _state;
             case windowsActions.SET_WINDOWS:
-                const windows = action.payload;
+                const _windows = action.payload;
 
                 const newWindowsState = {};
-                windows.forEach(window => {
+                _windows.forEach(window => {
                     const windowKey = window.windowId;
                     const windowTitle = window.title;
 
                     // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                    const _windowState = JSON.parse(JSON.stringify(initWindowState));
+                    _windowState = JSON.parse(JSON.stringify(initWindowState));
                     _windowState.windowId = windowKey;
                     _windowState.layout.title = _windowState.layout.title || windowTitle;
 
-                    newWindowsState[windowKey] = Object.assign({}, _windowState);
+                    newWindowsState[windowKey] = { ..._windowState };
                 });
 
                 return newWindowsState;
@@ -57,7 +58,6 @@ export function windows(reducer: ActionReducer<any>) {
 
                 return Object.assign({}, _state);
             default:
-                const _windowState = _state[action.windowId];
                 if (!_windowState) {
                     // If the provided windowId is invalid, log the error and just return the state
                     console.warn('Invalid window ID provided.');

@@ -13,13 +13,13 @@ export interface State {
     allowIntrospection: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
     introspection: null,
     schema: null,
     allowIntrospection: true
 };
 
-export function gqlSchemaReducer(state = initialState, action: Action): State {
+export function gqlSchemaReducer(state = initialState, action: gqlSchema.Action): State {
     switch (action.type) {
         case gqlSchema.SET_INTROSPECTION:
         case gqlSchema.SET_INTROSPECTION_FROM_DB:

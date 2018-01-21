@@ -10,7 +10,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
-import * as fromVariable from '../../reducers/variables/variables';
+import * as fromHistory from '../../reducers/history/history';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -19,31 +19,34 @@ import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as docsActions from '../../actions/docs/docs';
 import * as layoutActions from '../../actions/layout/layout';
 import * as schemaActions from '../../actions/gql-schema/gql-schema';
+import * as historyActions from '../../actions/history/history';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html'
 })
 export class WindowComponent implements OnInit {
-  apiUrl$;
+  queryResult$: Observable<any>;
+  showDocs$: Observable<boolean>;
+  docsIsLoading$: Observable<boolean>;
+  headers$: Observable<fromHeader.State>;
 
   @Input() windowId: string;
 
-  @ViewChild('urlInput') urlInput;
-
   apiUrl = '';
+  httpVerb = '';
   initialQuery = '';
   query = '';
-  queryResult = '';
+
   showHeaderDialog = false;
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
-  showDocs = true;
-  docsIsLoading = false;
-  headers: fromHeader.State = [];
+  showHistoryDialog = false;
+
   variables = '';
   introspectionResult = {};
   gqlSchema = null;
@@ -68,11 +71,15 @@ export class WindowComponent implements OnInit {
   isSubscribed = false;
   subscriptionResponses = [];
 
+  historyList: fromHistory.HistoryList = [];
+
+  collapsed = false;
+
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
     private notifyService: NotifyService,
-    private store: Store<any>,
+    private store: Store<fromRoot.State>,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef
   ) {
@@ -82,7 +89,11 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.apiUrl$ = this.store.select(fromRoot.getUrl);
+    this.queryResult$ = this.getWindowState().select(fromRoot.getQueryResult);
+    this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);
+    this.docsIsLoading$ = this.getWindowState().select(fromRoot.getDocsLoading);
+    this.headers$ = this.getWindowState().select(fromRoot.getHeaders);
+
     this.store
       .map(data => data.windows[this.windowId])
       .distinctUntilChanged()
@@ -93,17 +104,15 @@ export class WindowComponent implements OnInit {
 
         this.apiUrl = data.query.url;
         this.query = data.query.query;
-        this.queryResult = data.query.response;
-        this.headers = data.headers;
+        this.httpVerb = data.query.httpVerb;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
+        this.showHistoryDialog = data.dialogs.showHistoryDialog;
         this.introspectionResult = data.schema.introspection;
 
         this.variables = data.variables.variables;
-        this.showDocs = data.docs.showDocs;
         this.isLoading = data.layout.isLoading;
-        this.docsIsLoading = data.docs.isLoading;
         this.showUrlAlert = data.query.showUrlAlert;
         this.urlAlertMessage = data.query.urlAlertMessage;
         this.urlAlertSuccess = data.query.urlAlertSuccess;
@@ -114,6 +123,9 @@ export class WindowComponent implements OnInit {
         this.subscriptionUrl = data.query.subscriptionUrl;
         this.isSubscribed = data.query.isSubscribed;
         this.subscriptionResponses = data.query.subscriptionResponseList;
+        if (data.history) { // Remove condition when all users have upgraded to v1.6.0+
+          this.historyList = data.history.list;
+        }
 
         this.showEditorAlert = data.query.showEditorAlert;
         this.editorAlertMessage = data.query.editorAlertMessage;
@@ -129,6 +141,11 @@ export class WindowComponent implements OnInit {
             this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
           }
         }
+
+        // Backward compatibility: set the HTTP verb if it is not set.
+        if (!this.httpVerb) {
+          this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb: 'POST' }, this.windowId));
+        }
         // console.log(data.query);
       });
 
@@ -138,19 +155,29 @@ export class WindowComponent implements OnInit {
     this.initSetup();
   }
 
-  setApiUrl() {
-    const url = this.urlInput.nativeElement.value;
-    this.store.dispatch(new queryActions.SetUrlAction(url, this.windowId));
-    this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
+  setApiUrl(url) {
+    if (url !== this.apiUrl) {
+      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
+      this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
+    }
+  }
+
+  setApiMethod(httpVerb) {
+    this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
   sendRequest() {
+    // Store the current query into the history if it does not already exist in the history
+    if (!this.historyList.filter(item => item.query.trim() === this.query.trim()).length) {
+      this.store.dispatch(new historyActions.AddHistoryAction(this.windowId, { query: this.query }));
+    }
+
     // If the query is a subscription, subscribe to the subscription URL and send the query
     if (this.gql.isSubscriptionQuery(this.query)) {
       console.log('Your query is a SUBSCRIPTION!!!');
       // If the subscription URL is not set, show the dialog for the user to set it
       if (!this.subscriptionUrl) {
-        this.toggleSubscriptionUrlDialog();
+        this.toggleSubscriptionUrlDialog(true);
       } else {
         this.startSubscription();
       }
@@ -175,16 +202,28 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
-  toggleHeader() {
-    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
+  toggleHeader(isOpen) {
+    if (this.showHeaderDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
+    }
   }
 
-  toggleVariableDialog() {
-    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
+  toggleVariableDialog(isOpen) {
+    if (this.showVariableDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
+    }
   }
 
-  toggleSubscriptionUrlDialog() {
-    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
+  toggleSubscriptionUrlDialog(isOpen) {
+    if (this.showSubscriptionUrlDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
+    }
+  }
+
+  toggleHistoryDialog(isOpen) {
+    if (this.showHistoryDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
+    }
   }
 
   toggleDocs() {
@@ -224,6 +263,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
   }
 
+  compressQuery() {
+    this.store.dispatch(new queryActions.CompressQueryAction(this.windowId));
+  }
+
   addQueryToEditor(queryData: { query: String, meta: any }) {
     // Add the query to what is already in the editor
     this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
@@ -243,8 +286,19 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.DownloadResultAction(this.windowId));
   }
 
+  // Set the value of the item in the specified index of the history list
+  restoreHistory(index) {
+    if (this.historyList[index]) {
+      this.store.dispatch(new queryActions.SetQueryAction(this.historyList[index].query, this.windowId));
+    }
+  }
+
   trackByFn(index, item) {
     return index;
+  }
+
+  getWindowState(): Store<fromRoot.PerWindowState> {
+    return this.store.select(fromRoot.selectWindowState(this.windowId));
   }
 
   /**

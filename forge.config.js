@@ -16,7 +16,7 @@ module.exports = {
     quiet: true,
     protocol: 'altair://',
     protocolName: 'Altair GraphQL Client File',
-    icon: './electron/logo',
+    icon: './electron/icon',
     prune: true,
     // "ignore": [
     //   "idea",
@@ -45,7 +45,7 @@ module.exports = {
   },
   electronWinstallerConfig: {
     name: 'Altair',
-    setupIcon: './electron/logo.ico'
+    setupIcon: './electron/icon.ico'
   },
   electronInstallerDebian: {},
   electronInstallerRedhat: {},
