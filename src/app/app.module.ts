@@ -22,6 +22,7 @@ import { SharedModule } from './shared/shared.module';
 import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
 
 import { QueryEffects } from './effects/query';
+import { WindowsEffects } from './effects/windows';
 
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
@@ -73,7 +74,7 @@ const providers = [
     ComponentModule,
     DocViewerModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
-    EffectsModule.forRoot([ QueryEffects ]),
+    EffectsModule.forRoot([ QueryEffects, WindowsEffects ]),
     StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),
     TranslateModule.forRoot({

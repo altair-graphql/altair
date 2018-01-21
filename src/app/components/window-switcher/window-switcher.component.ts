@@ -15,13 +15,15 @@ import config from '../../config';
 })
 export class WindowSwitcherComponent implements OnInit {
 
-  @Input() windows = [];
+  @Input() windows = {};
+  @Input() windowIds = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Output() activeWindowChange = new EventEmitter();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter();
   @Output() windowNameChange = new EventEmitter();
+  @Output() repositionWindowChange = new EventEmitter();
 
   windowNameEditing = null;
   maxWindowCount = config.max_windows;
@@ -40,6 +42,10 @@ export class WindowSwitcherComponent implements OnInit {
   saveWindowName(windowId, windowName) {
     this.windowNameChange.next({ windowId, windowName });
     this.windowNameEditing = null;
+  }
+
+  moveWindow(currentPosition, newPosition) {
+    this.repositionWindowChange.next(({ currentPosition, newPosition }));
   }
 
 }

@@ -43,7 +43,7 @@ export class WindowComponent implements OnInit {
   responseTime$: Observable<number>;
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
-  subscriptionResponses$: Observable<Array<string>>;
+  subscriptionResponses$: Observable<string[]>;
 
   @Input() windowId: string;
 

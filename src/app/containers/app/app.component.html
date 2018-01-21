@@ -17,25 +17,28 @@
         <img src="assets/img/logo.svg" alt="logo" class="header-logo">
       </div>
       <app-window-switcher
-        [windows]="windowsArr"
+        [windows]="windows"
+        [windowIds] = "windowIds"
         [activeWindowId]="activeWindowId"
         [isElectron]="isElectron"
         (newWindowChange)="newWindow()"
         (activeWindowChange)="setActiveWindow($event)"
         (removeWindowChange)="removeWindow($event)"
-        (windowNameChange)="setWindowName($event)"></app-window-switcher>
-        <div class="header-actions">
-          <clr-dropdown>
-            <button class="nav-icon" type="button" clrDropdownTrigger>
-              <clr-icon shape="cog"></clr-icon>
-              <clr-icon shape="caret down"></clr-icon>
-            </button>
-            <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-              <button type="button" clrDropdownItem (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</button>
-              <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>{{ 'VIEW_ON_GITHUB_TEXT' | translate }}</button>
-            </clr-dropdown-menu>
-          </clr-dropdown>
-        </div>
+        (windowNameChange)="setWindowName($event)"
+        (repositionWindowChange)="repositionWindow($event)"
+      ></app-window-switcher>
+      <div class="header-actions">
+        <clr-dropdown>
+          <button class="nav-icon" type="button" clrDropdownTrigger>
+            <clr-icon shape="cog"></clr-icon>
+            <clr-icon shape="caret down"></clr-icon>
+          </button>
+          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+            <button type="button" clrDropdownItem (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</button>
+            <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>{{ 'VIEW_ON_GITHUB_TEXT' | translate }}</button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+      </div>
     </header>
     <ng-container *ngFor="let windowId of windowIds">
       <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
