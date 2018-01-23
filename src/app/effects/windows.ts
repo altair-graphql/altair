@@ -11,14 +11,29 @@ import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 @Injectable()
 export class WindowsEffects {
 
-  @Effect() // remove, add, reposition
-  setWindowIDs$: Observable<Action> = this.actions$
-    .ofType(windowActions.ADD_WINDOW, windowActions.REMOVE_WINDOW)
+  @Effect() // add
+  addWindowID$: Observable<Action> = this.actions$
+    .ofType(windowActions.ADD_WINDOW)
     .withLatestFrom(this.store, (action: windowActions.Action, state) => {
-      return { windows: state.windows, action };
+      return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
     }).switchMap(data => {
       const windowIds = Object.keys(data.windows);
-      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: windowIds }));
+      const metaWindowIds = data.windowIds;
+      const newWindowIds = [...metaWindowIds, ...windowIds.filter(id => !metaWindowIds.includes(id))]
+
+      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
+    });
+
+  @Effect() // remove
+  removeWindowID$: Observable<Action> = this.actions$
+    .ofType(windowActions.REMOVE_WINDOW)
+    .withLatestFrom(this.store, (action: windowActions.Action, state) => {
+      return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
+    }).switchMap(data => {
+      const windowIds = Object.keys(data.windows);
+      const metaWindowIds = data.windowIds;
+      const newWindowIds = metaWindowIds.filter(id => windowIds.includes(id));
+      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
     });
 
   constructor(

@@ -88,7 +88,11 @@ export class AppComponent {
 
         // Set the window IDs in the meta state if it does not already exist
         if (data.windowsMeta.windowIds) {
-          this.windowIds = data.windowsMeta.windowIds;
+          // Filter the IDs based on the windows that are valid.
+          // This fixes issues with when windows are removed.
+          // Before the effect gets the remove action, the store has already been updated.
+          // While this is valid, it causes the component to try to retrieve the invalid window.
+          this.windowIds = data.windowsMeta.windowIds.filter(id => !!this.windows[id]);
         } else {
           this.store.dispatch(new windowsMetaActions.SetWindowIdsAction( { ids: this.windowIds }));
         }
