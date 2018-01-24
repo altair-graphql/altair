@@ -8,7 +8,7 @@
 [![GitHub release](https://img.shields.io/github/release/imolorhe/altair.svg)](https://github.com/imolorhe/altair/releases)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
 
-![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
