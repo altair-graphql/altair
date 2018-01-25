@@ -1,5 +1,6 @@
 <div class="header-nav window-switcher__container" sortablejs [sortablejsOptions]="sortableOptions">
   <div
+    track-id="window_tab"
     class="nav-link nav-text window-switcher _track_me"
     *ngFor="let windowId of windowIds; let index = index;"
     [class.active]="windowId === activeWindowId"

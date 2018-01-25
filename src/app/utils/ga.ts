@@ -3,7 +3,11 @@ import { on } from './events';
 
 // Track button click event
 export const trackButton = e => {
-  window['_gaq'].push(['_trackEvent', `${e.target.innerText} (${e.target.className})`, 'clicked']);
+  const defaultCategory = 'Others';
+  const trackCategory = e.target.getAttribute('track-id');
+  const category = trackCategory || defaultCategory;
+
+  window['_gaq'].push(['_trackEvent', category, `${e.target.innerText} (${e.target.className})`, 'clicked']);
 };
 
 // Track JavaScript errors
@@ -35,9 +39,7 @@ export const initTracking = () => {
   s.parentNode.insertBefore(ga, s);
 
   // Listen for click events on buttons and links
-  on('click', 'button', trackButton);
-  on('click', 'a', trackButton);
-  on('click', '._track_me', trackButton);
+  on('click', 'button, a, ._track_me, [track-id]', trackButton);
 
   trackJSErrors();
 };

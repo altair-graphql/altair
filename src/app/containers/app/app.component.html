@@ -29,13 +29,13 @@
       ></app-window-switcher>
       <div class="header-actions">
         <clr-dropdown>
-          <button class="nav-icon" type="button" clrDropdownTrigger>
+          <button class="nav-icon" type="button" clrDropdownTrigger track-id="show_settings_menu">
             <clr-icon shape="cog"></clr-icon>
             <clr-icon shape="caret down"></clr-icon>
           </button>
           <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-            <button type="button" clrDropdownItem (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</button>
-            <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem>{{ 'VIEW_ON_GITHUB_TEXT' | translate }}</button>
+            <button type="button" clrDropdownItem (click)="showSettingsDialog()" track-id="show_settings">{{ 'SETTINGS_TEXT' | translate }}</button>
+            <button type="button" (click)="externalLink($event, 'https://github.com/imolorhe/altair')" clrDropdownItem track-id="view_on_github">{{ 'VIEW_ON_GITHUB_TEXT' | translate }}</button>
           </clr-dropdown-menu>
         </clr-dropdown>
       </div>

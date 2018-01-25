@@ -1,6 +1,6 @@
 <div class="url-box">
   <clr-dropdown>
-    <button type="button" class="url-box__button btn btn-outline-primary" clrDropdownTrigger [value]="httpVerb">
+    <button type="button" class="url-box__button btn btn-outline-primary" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
       {{ httpVerb }}
       <clr-icon shape="angle down"></clr-icon>
     </button>
@@ -13,19 +13,19 @@
          [value]="apiUrl">
     <div class="url-box__input-actions">
       <clr-tooltip>
-        <button clrTooltipTrigger type="button" class="url-box__input-btn" (click)="reloadDocsChange.next()">
+        <button clrTooltipTrigger type="button" class="url-box__input-btn" (click)="reloadDocsChange.next()" track-id="reload_docs">
           <clr-icon shape="refresh"></clr-icon>
         </button>
         <clr-tooltip-content clrPosition="bottom-left" *clrIfOpen>
           <span>{{ 'RELOAD_DOCS_BUTTON' | translate }}</span>
         </clr-tooltip-content>
       </clr-tooltip>
-      <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}">
+      <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}" track-id="show_docs">
         {{ 'DOCS_TEXT' | translate }}
       </button>
     </div>
   </div>
-  <button class="app-button url-box__button url-box__button--send active-primary" (click)="!isSubscribed && this.sendRequest.next()" [ngClass]="{ 'url-box__button--disabled': isSubscribed }">
+  <button class="app-button url-box__button url-box__button--send active-primary" (click)="!isSubscribed && this.sendRequest.next()" [ngClass]="{ 'url-box__button--disabled': isSubscribed }" track-id="set_request">
     <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
   </button>
 </div>
