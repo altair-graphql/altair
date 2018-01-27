@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div class="app-dialog-body">
       <div class="history-container">
-        <div class="history-item _track_me" *ngFor="let item of historyList; let index = index;" (click)="restoreHistory(index)">
+        <div class="history-item _track_me" *ngFor="let item of historyList; let index = index;" (click)="restoreHistory(index)" track-id="use_history_item">
           {{item.query}}
         </div>
       </div>

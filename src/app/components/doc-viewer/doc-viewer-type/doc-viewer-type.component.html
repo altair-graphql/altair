@@ -48,6 +48,7 @@
     <div class="doc-viewer-item-query-inner">
       <span class="no-link-link"
        (click)="goToField(item.name, data.name)"
+       track-id="gotofield_docs"
       >
         {{ item.name }}
       </span>
@@ -82,7 +83,7 @@
       {{ item.description }}
     </div>
     <button class="doc-viewer-item-query-add-btn"
-     (click)="addToEditor(item.name, data.name)">
+     (click)="addToEditor(item.name, data.name)" track-id="add_query">
       <ng-container *ngIf="isRootType(data.name)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
       <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
     </button>
