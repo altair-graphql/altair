@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -28,7 +28,8 @@
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "dist-electron": "build"
+    "dist-electron": "build",
+    "postinstall": "opencollective postinstall"
   },
   "engines": {
     "node": ">= 6.9.1 < 9.0.0"
@@ -53,6 +54,7 @@
     "@ngx-translate/core": "^9.0.2",
     "@ngx-translate/http-loader": "^2.0.1",
     "@webcomponents/custom-elements": "^1.0.6",
+    "angular-sortablejs": "^2.5.1",
     "balloon-css": "^0.5.0",
     "body-parser": "^1.17.1",
     "bootstrap": "4.0.0-alpha.5",
@@ -77,7 +79,9 @@
     "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^0.3.0",
     "ngx-electron": "^1.0.4",
+    "opencollective": "^1.0.3",
     "rxjs": "^5.5.6",
+    "sortablejs": "^1.7.0",
     "subscriptions-transport-ws": "^0.9.5",
     "to-snake-case": "^1.0.0",
     "uuid": "^3.1.0",
@@ -119,5 +123,10 @@
   },
   "bugs": {
     "url": "https://github.com/imolorhe/altair/issues"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
   }
 }

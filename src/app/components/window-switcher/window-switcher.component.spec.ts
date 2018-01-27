@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { SortablejsModule } from 'angular-sortablejs';
 import { WindowSwitcherComponent } from './window-switcher.component';
 
 describe('WindowSwitcherComponent', () => {
@@ -11,7 +12,8 @@ describe('WindowSwitcherComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ WindowSwitcherComponent ],
       imports: [
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        SortablejsModule.forRoot({})
       ]
     })
     .compileComponents();

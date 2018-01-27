@@ -11,6 +11,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromHistory from '../../reducers/history/history';
+import * as fromVariable from '../../reducers/variables/variables';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -34,6 +35,15 @@ export class WindowComponent implements OnInit {
   showDocs$: Observable<boolean>;
   docsIsLoading$: Observable<boolean>;
   headers$: Observable<fromHeader.State>;
+  variables$: Observable<string>;
+  isLoading$: Observable<boolean>;
+  introspection$: Observable<any>;
+  allowIntrospection$: Observable<boolean>;
+  responseStatus$: Observable<number>;
+  responseTime$: Observable<number>;
+  responseStatusText$: Observable<string>;
+  isSubscribed$: Observable<boolean>;
+  subscriptionResponses$: Observable<string[]>;
 
   @Input() windowId: string;
 
@@ -47,29 +57,9 @@ export class WindowComponent implements OnInit {
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
 
-  variables = '';
-  introspectionResult = {};
   gqlSchema = null;
 
-  showUrlAlert = false;
-  urlAlertMessage = '';
-  urlAlertSuccess = false;
-
-  showEditorAlert = false;
-  editorAlertMessage = '';
-  editorAlertSuccess = false;
-
-  isLoading = false;
-
-  allowIntrospection = true;
-
-  responseTime = 0;
-  responseStatus = 0;
-  responseStatusText = '';
-
   subscriptionUrl = '';
-  isSubscribed = false;
-  subscriptionResponses = [];
 
   historyList: fromHistory.HistoryList = [];
 
@@ -93,6 +83,15 @@ export class WindowComponent implements OnInit {
     this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);
     this.docsIsLoading$ = this.getWindowState().select(fromRoot.getDocsLoading);
     this.headers$ = this.getWindowState().select(fromRoot.getHeaders);
+    this.variables$ = this.getWindowState().select(fromRoot.getVariables);
+    this.isLoading$ = this.getWindowState().select(fromRoot.getIsLoading);
+    this.introspection$ = this.getWindowState().select(fromRoot.getIntrospection);
+    this.allowIntrospection$ = this.getWindowState().select(fromRoot.allowIntrospection);
+    this.responseStatus$ = this.getWindowState().select(fromRoot.getResponseStatus);
+    this.responseTime$ = this.getWindowState().select(fromRoot.getResponseTime);
+    this.responseStatusText$ = this.getWindowState().select(fromRoot.getResponseStatusText);
+    this.isSubscribed$ = this.getWindowState().select(fromRoot.isSubscribed);
+    this.subscriptionResponses$ = this.getWindowState().select(fromRoot.getSubscriptionResponses);
 
     this.store
       .map(data => data.windows[this.windowId])
@@ -109,27 +108,11 @@ export class WindowComponent implements OnInit {
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
         this.showHistoryDialog = data.dialogs.showHistoryDialog;
-        this.introspectionResult = data.schema.introspection;
 
-        this.variables = data.variables.variables;
-        this.isLoading = data.layout.isLoading;
-        this.showUrlAlert = data.query.showUrlAlert;
-        this.urlAlertMessage = data.query.urlAlertMessage;
-        this.urlAlertSuccess = data.query.urlAlertSuccess;
-        this.allowIntrospection = data.schema.allowIntrospection;
-        this.responseStatus = data.query.responseStatus;
-        this.responseTime = data.query.responseTime;
-        this.responseStatusText = data.query.responseStatusText;
         this.subscriptionUrl = data.query.subscriptionUrl;
-        this.isSubscribed = data.query.isSubscribed;
-        this.subscriptionResponses = data.query.subscriptionResponseList;
         if (data.history) { // Remove condition when all users have upgraded to v1.6.0+
           this.historyList = data.history.list;
         }
-
-        this.showEditorAlert = data.query.showEditorAlert;
-        this.editorAlertMessage = data.query.editorAlertMessage;
-        this.editorAlertSuccess = data.query.editorAlertSuccess;
 
         // Schema needs to be valid instances of GQLSchema.
         // Rehydrated schema objects are not valid, so we get the schema again.

@@ -17,11 +17,13 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ClarityModule } from 'clarity-angular';
+import { SortablejsModule } from 'angular-sortablejs';
 import { SharedModule } from './shared/shared.module';
 
 import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
 
 import { QueryEffects } from './effects/query';
+import { WindowsEffects } from './effects/windows';
 
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
@@ -70,10 +72,11 @@ const providers = [
     HttpClientModule,
     SharedModule,
     ClarityModule.forRoot(),
+    SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
-    EffectsModule.forRoot([ QueryEffects ]),
+    EffectsModule.forRoot([ QueryEffects, WindowsEffects ]),
     StoreDevtoolsModule.instrument(),
     ToastModule.forRoot(),
     TranslateModule.forRoot({

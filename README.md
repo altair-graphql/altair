@@ -7,8 +7,9 @@
 [![Gitter](https://img.shields.io/gitter/room/altair-graphql/Lobby.svg)](https://gitter.im/altair-graphql/Lobby)
 [![GitHub release](https://img.shields.io/github/release/imolorhe/altair.svg)](https://github.com/imolorhe/altair/releases)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
+[![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
 
-![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
@@ -84,6 +85,12 @@ In the case of an error while deploying, delete the release tags locally and rem
 5. Submit a pull request :D
 6. See anything that needs improving, create an issue.
 
+### Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/altair/contributors.svg?width=890" /></a>
+
+
 ## Credits
 
 This project was built using [Angular](https://angular.io/), an awesome opensource project from the folks at [Google](https://www.google.com).
@@ -91,6 +98,29 @@ This project was built using [Angular](https://angular.io/), an awesome opensour
 The desktop apps were built using [electron](https://electron.atom.io/), another awesome opensource project from the folks at [github](http://www.github.com/).
 
 In case I missed out any other projects, do let me know :)
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/altair#backer)]
+
+<a href="https://opencollective.com/altair#backers" target="_blank"><img src="https://opencollective.com/altair/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/altair#sponsor)]
+
+<a href="https://opencollective.com/altair/sponsor/0/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/1/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/2/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/3/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/4/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/5/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/6/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/7/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/8/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/altair/sponsor/9/website" target="_blank"><img src="https://opencollective.com/altair/sponsor/9/avatar.svg"></a>
+
 
 
 ## License

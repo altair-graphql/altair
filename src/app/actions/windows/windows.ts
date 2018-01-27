@@ -20,7 +20,7 @@ export class SetWindowsAction implements Action {
 export class RemoveWindowAction implements Action {
     readonly type = REMOVE_WINDOW;
 
-    constructor(public windowId: string) {}
+  constructor(public payload: any) {}
 }
 
 export type Action = AddWindowAction | SetWindowsAction | RemoveWindowAction;

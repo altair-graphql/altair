@@ -50,7 +50,7 @@ export function windows(reducer: ActionReducer<any>) {
 
                 return newWindowsState;
             case windowsActions.REMOVE_WINDOW:
-                const _windowId = action.windowId;
+                const _windowId = action.payload.windowId;
 
                 if (_state[_windowId]) {
                     delete _state[_windowId];

@@ -62,7 +62,7 @@ export class WindowService {
             windowKeys.map(key => this.db.removeItemByExactKey(key));
 
             // Dispatch the remove window action
-            return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction(windowId)));
+            return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
           });
       });
     });

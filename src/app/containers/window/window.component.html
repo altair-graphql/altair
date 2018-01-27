@@ -1,17 +1,17 @@
 <div class="content-container">
   <div class="content-area app-content-area">
-    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading }">
+    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
       <div class="window-loader__content">
         <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
         <div class="window-loader__actions">
-          <button class="app-button cancel-request-button" (click)="cancelRequest()">{{ 'CANCEL_TEXT' | translate }}</button>
+          <button class="app-button cancel-request-button" (click)="cancelRequest()" track-id="cancel_request">{{ 'CANCEL_TEXT' | translate }}</button>
         </div>
       </div>
     </div>
     <app-url-box
       [apiUrl]="apiUrl"
       [httpVerb]="httpVerb"
-      [isSubscribed]="isSubscribed"
+      [isSubscribed]="isSubscribed$ | async"
       [showDocs]="showDocs$ | async"
 
       (urlChange)="setApiUrl($event)"
@@ -29,7 +29,7 @@
       (clearEditorChange)="clearEditor()"
       (toggleSubscriptionUrlDialog)="toggleSubscriptionUrlDialog()"
       [showDocs]="showDocs$ | async"
-      [isSubscribed]="isSubscribed"
+      [isSubscribed]="isSubscribed$ | async"
     ></app-action-bar> -->
     <div class="main-content-area">
       <div class="row main-content-row">
@@ -45,11 +45,11 @@
         <div class="col-xs-6">
           <app-query-result
             [queryResult]="queryResult$ | async"
-            [responseTime]="responseTime"
-            [responseStatus]="responseStatus"
-            [responseStatusText]="responseStatusText"
-            [isSubscribed]="isSubscribed"
-            [subscriptionResponses]="subscriptionResponses"
+            [responseTime]="responseTime$ | async"
+            [responseStatus]="responseStatus$ | async"
+            [responseStatusText]="responseStatusText$ | async"
+            [isSubscribed]="isSubscribed$ | async"
+            [subscriptionResponses]="subscriptionResponses$ | async"
             [subscriptionUrl]="subscriptionUrl"
 
             (downloadResultChange)="downloadResult()"
@@ -58,7 +58,7 @@
         </div>
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
-          [allowIntrospection]="allowIntrospection"
+          [allowIntrospection]="allowIntrospection$ | async"
           [ngClass]="{'show-doc': showDocs$ | async}"
           [isLoading]="docsIsLoading$ | async"
           (toggleDocsChange)="toggleDocs()"
@@ -95,7 +95,7 @@
         </div>
       </clr-modal>
       <app-set-variable-dialog
-        [variables]="variables"
+        [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"
@@ -119,32 +119,32 @@
   </nav> -->
 
   <clr-vertical-nav [(clrVerticalNavCollapsed)]="collapsed" [clrVerticalNavCollapsible]="true">
-    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
       <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
       {{ 'PRETTIFY_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
       <clr-icon clrVerticalNavIcon shape="shrink"></clr-icon>
       {{ 'COMPRESS_QUERY_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
       <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
       {{ 'CLEAR_BUTTON' | translate }}
     </a>
     <div class="nav-divider"></div>
-    <a clrVerticalNavLink (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
       <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
       {{ 'SET_HEADERS_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleVariableDialog(true)" title="{{ 'SET_VARIABLES_BUTTON' | translate }}">
+    <a clrVerticalNavLink (click)="toggleVariableDialog(true)" title="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
       <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
       {{ 'SET_VARIABLES_BUTTON' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}">
+    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
       <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
       {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
     </a>
-    <a clrVerticalNavLink (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}">
+    <a clrVerticalNavLink (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
       <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
       {{ 'HISTORY_TEXT' | translate }}
     </a>

@@ -86,3 +86,6 @@ export const selectWindowState = (windowId: string) => (state: State) => state.w
 export * from './query/selectors';
 export * from './docs/selectors';
 export * from './headers/selectors';
+export * from './variables/selectors';
+export * from './layout/selectors';
+export * from './gql-schema/selectors';

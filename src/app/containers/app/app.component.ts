@@ -36,14 +36,14 @@ export class AppComponent {
   settings$: Observable<fromSettings.State>;
 
   windowIds = [];
-  windowsArr = [];
+  windows = {};
   activeWindowId = '';
   isElectron = isElectron;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
 
   constructor(
     private windowService: WindowService,
-    private store: Store<any>,
+    private store: Store<fromRoot.State>,
     private translate: TranslateService,
     private electron: ElectronService
   ) {
@@ -83,18 +83,30 @@ export class AppComponent {
     });
     this.store
       .subscribe(data => {
+        this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
-        console.log(data.windows, this.windowIds);
-        this.windowsArr = this.windowIds.map(id => data.windows[id]);
+
+        // Set the window IDs in the meta state if it does not already exist
+        if (data.windowsMeta.windowIds) {
+          // Filter the IDs based on the windows that are valid.
+          // This fixes issues with when windows are removed.
+          // Before the effect gets the remove action, the store has already been updated.
+          // While this is valid, it causes the component to try to retrieve the invalid window.
+          this.windowIds = data.windowsMeta.windowIds.filter(id => !!this.windows[id]);
+        } else {
+          this.store.dispatch(new windowsMetaActions.SetWindowIdsAction( { ids: this.windowIds }));
+        }
+
         this.activeWindowId = data.windowsMeta.activeWindowId;
+        console.log(data.windows, this.windowIds);
 
         // If the active window has not been set, default it
-        if (this.windowsArr.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {
+        if (this.windowIds.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
       });
 
-    if (!this.windowsArr.length) {
+    if (!this.windowIds.length) {
       this.windowService.newWindow();
     }
   }
@@ -149,6 +161,11 @@ export class AppComponent {
   setWindowName(data) {
     const { windowId, windowName } = data;
     this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
+  }
+
+  repositionWindow(data) {
+    const { currentPosition, newPosition } = data;
+    this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
   }
 
   showSettingsDialog() {
