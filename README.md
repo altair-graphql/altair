@@ -13,19 +13,87 @@
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
+# Altair GraphQL Client (https://altair.sirmuel.design/)
 
-![set url](src/assets/img/readme/set-url.gif "Altair GraphQL Client")
-![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
+A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.
 
-# Altair GraphQL Client
-
-A graphQL client for making graphQL queries to a graphQL server - Postman for GraphQL.
-
-<!-- Web app: https://altair-gql.herokuapp.com/ -->
+Web app: https://altair-gql.firebaseapp.com/
 
 There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and a [firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 
-There are apps for [mac, windows and linux users](https://github.com/imolorhe/altair/releases/latest) as well.
+There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
+
+![set url](src/assets/img/readme/set-url.gif "Altair GraphQL Client")
+
+## Features
+
+### Headers
+
+You can add, edit and remove HTTP headers used in making the request. This is particularly useful if you need to add things like authentication token headers when making a request that requires authorized access.
+
+### Variables
+
+You can add [GraphQL variables](http://graphql.org/learn/queries/#variables) to your request. [Variables](http://graphql.org/learn/queries/#variables) make it easy to use dynamic values in your queries.
+
+### Response Stats
+
+You can easily know how long your query takes with the response stats information displayed for each request you make.
+
+### Documentation (via introspection)
+
+You can view the GraphQL schema in a nicely displayed manner with information about the various kinds of queries, types, arguments available to you and some description (where provided) of each of them. This is powered by the [introspection capabilities](http://graphql.org/learn/introspection/) provided by GraphQL. This needs to be enabled from the GraphQL server for it to be available.
+
+### Documentation search
+
+You can also search for a particular item in the docs as well. Useful for when you're not sure where a particular field, type or query is in the schema.
+
+### Syntax highlighting
+
+The syntax of the query in the editor is highlighted for easier parsing.
+
+### Error highlighting
+
+You also get errors in your query highlighted for you as you type out your query.
+
+### Add queries and fragments from documentation
+
+You can easily add a query (or fragment) you see in the documentation into the editor without having to manually type every field within the query. This makes it easier to test and develop with the available queries from the GraphQL server.
+![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
+
+### Autocompletion of fields, arguments, types, etc
+
+You get an autocomplete list of valid terms you can use as you type out your query in the editor.
+
+### Prettify Query
+
+You can format the query in the editor in a properly indented manner for easier reading. This makes it easy to work with queries you might copy from one file to another, which might have lost their indentation (or were never indented before).
+
+### Compress Query
+
+You can compress the query to a minified form, removing any unnecessary whitespace and comments. You can use this after you have made a query and you want to use it in your client side application. This helps save as many bytes as possible when making network requests.
+
+### History of recent queries
+You can view a list of your recent queries that you make in each window, so you can easily go back to a query you tried previously.
+
+### Multiple Windows
+
+You are not limited to only one window at a time but you can have multiple windows open to work with multiple different queries at the same time. You can also name the various windows (by doubleclicking the name) and arrange them however you like to make it easier to work with them.
+
+### GraphQL Subscriptions
+
+You can test your [GraphQL subscriptions](https://www.apollographql.com/docs/graphql-subscriptions/) without any worry. Just provide the subscription URL and start the subscription, and you would get each message as they are sent once you're subscribed. This is very handy when developing apps that use the realtime feature of GraphQL, like chatting ang gaming applications that need realtime feedback. Currently, GraphQL subscriptions has been implemented by the [Apollo GraphQL team](https://www.apollographql.com/).
+
+### Multiple Languages
+
+You can use Altair with several languages including English, Chinese, French, Spanish, among others. Pull Requests for new languages are also welcome.
+
+### Light and Dark themes
+
+You can use Altair with either the light or the dark theme, depending on which theme you like.
+
+### Missing feature?
+
+Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/CONTRIBUTING.md).
 
 ## Development server
 

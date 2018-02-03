@@ -13,9 +13,10 @@
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
     >{{ windows[windowId].layout.title }}</div>
-    <div class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="removeWindowChange.next(windowId)">&#x00D7;</div>
+    <div track-id="close_window_tab" class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="removeWindowChange.next(windowId)">&#x00D7;</div>
   </div>
   <div
+     track-id="new_window_tab"
     class="nav-link nav-text window-switcher window-switcher--new-window _track_me"
     (click)="newWindowChange.next($event)"
     *ngIf="windowIds.length < maxWindowCount">
