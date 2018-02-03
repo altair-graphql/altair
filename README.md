@@ -58,6 +58,7 @@ You also get errors in your query highlighted for you as you type out your query
 ### Add queries and fragments from documentation
 
 You can easily add a query (or fragment) you see in the documentation into the editor without having to manually type every field within the query. This makes it easier to test and develop with the available queries from the GraphQL server.
+
 ![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 
 ### Autocompletion of fields, arguments, types, etc
