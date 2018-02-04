@@ -3892,6 +3892,10 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+file-dialog@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/file-dialog/-/file-dialog-0.0.7.tgz#1cef1a10d25043bb548e2dfa5b00b423ef669f63"
+
 file-entry-cache@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-2.0.0.tgz#c392990c3e684783d838b8c84a45d8a048458361"

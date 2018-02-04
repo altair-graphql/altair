@@ -5,8 +5,10 @@ import * as uuid from 'uuid/v4';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import * as fromRoot from '../reducers';
+import * as fromWindows from '../reducers/windows';
 
 import * as windowActions from '../actions/windows/windows';
 
@@ -20,29 +22,18 @@ export class WindowService {
     private store: Store<fromRoot.State>
   ) { }
 
-  loadWindows(): Subscription {
-    return this.db.getItem('windows').subscribe(data => {
-      if (data && Object.keys(data).length) {
-        this.store.dispatch(new windowActions.SetWindowsAction(data));
-      } else {
-        this.newWindow();
-      }
-    });
-  }
+  newWindow(): Observable<any> {
+    return Observable.create((obs: Observer<any>) => {
+      return this.store.first().subscribe(data => {
 
-  newWindow(): Subscription {
-    return this.db.getItem('windows').subscribe(data => {
-      data = data || [];
+        const newWindow = {
+          windowId: uuid(),
+          title: `Window ${Object.keys(data.windows).length + 1}`
+        };
 
-      const newWindow = {
-        windowId: uuid(),
-        title: `Window ${data.length + 1}`
-      };
+        this.store.dispatch(new windowActions.AddWindowAction(newWindow));
 
-      const newWindows = [...data, newWindow];
-
-      return this.db.setItem('windows', newWindows).subscribe(() => {
-        return Observable.of(this.store.dispatch(new windowActions.AddWindowAction(newWindow)));
+        obs.next(newWindow);
       });
     });
   }
@@ -64,6 +55,27 @@ export class WindowService {
             // Dispatch the remove window action
             return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
           });
+      });
+    });
+  }
+
+  getWindowExportData(windowId): Observable<fromWindows.ExportWindowState> {
+    return Observable.create((obs: Observer<fromWindows.ExportWindowState>) => {
+      return this.store.first().subscribe(data => {
+        const window = { ...data.windows[windowId] };
+
+        // TODO: Check that there is data to be exported
+
+        obs.next({
+          version: 1,
+          type: 'window',
+          query: window.query.query,
+          apiUrl: window.query.url,
+          variables: window.variables.variables,
+          subscriptionUrl: window.query.subscriptionUrl,
+          headers: window.headers,
+          windowName: window.layout.title
+        });
       });
     });
   }

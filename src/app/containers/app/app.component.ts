@@ -107,7 +107,7 @@ export class AppComponent {
       });
 
     if (!this.windowIds.length) {
-      this.windowService.newWindow();
+      this.windowService.newWindow().subscribe();
     }
   }
 
@@ -147,7 +147,7 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow();
+    this.windowService.newWindow().first().subscribe();
   }
 
   setActiveWindow(windowId) {
@@ -166,6 +166,10 @@ export class AppComponent {
   repositionWindow(data) {
     const { currentPosition, newPosition } = data;
     this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
+  }
+
+  importWindow() {
+    this.store.dispatch(new windowsActions.ImportWindowAction());
   }
 
   showSettingsDialog() {

@@ -148,5 +148,10 @@
       <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
       {{ 'HISTORY_TEXT' | translate }}
     </a>
+    <div class="nav-divider"></div>
+    <a clrVerticalNavLink (click)="exportWindowData()" title="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
+      <clr-icon clrVerticalNavIcon shape="export"></clr-icon>
+      {{ 'EXPORT_WINDOW_TEXT' | translate }}
+    </a>
   </clr-vertical-nav>
 </div>

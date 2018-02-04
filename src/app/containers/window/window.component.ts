@@ -21,6 +21,7 @@ import * as docsActions from '../../actions/docs/docs';
 import * as layoutActions from '../../actions/layout/layout';
 import * as schemaActions from '../../actions/gql-schema/gql-schema';
 import * as historyActions from '../../actions/history/history';
+import * as windowActions from '../../actions/windows/windows';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { graphql } from 'graphql';
@@ -275,6 +276,14 @@ export class WindowComponent implements OnInit {
       this.store.dispatch(new queryActions.SetQueryAction(this.historyList[index].query, this.windowId));
     }
   }
+
+  /**
+   * Export the data in the current window
+   */
+  exportWindowData() {
+    this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.windowId }));
+  }
+
 
   trackByFn(index, item) {
     return index;

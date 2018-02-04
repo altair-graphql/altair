@@ -34,6 +34,7 @@ describe('AppComponent', () => {
         subscribe: () => Observable.empty(),
         select: () => Observable.empty(),
         map: () => Observable.empty(),
+        first: () => Observable.empty(),
         dispatch: () => {}
       } }
   ];

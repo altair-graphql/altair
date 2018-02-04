@@ -57,5 +57,8 @@
 
   "EDIT_WINDOW_TEXT": "Edit",
   "CLOSE_WINDOW_TEXT": "Close",
-  "DUPLICATE_WINDOW_TEXT": "Duplicate"
+  "DUPLICATE_WINDOW_TEXT": "Duplicate",
+
+  "IMPORT_WINDOW_TEXT": "Import Window...",
+  "EXPORT_WINDOW_TEXT": "Export Window"
 }
