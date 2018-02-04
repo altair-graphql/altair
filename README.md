@@ -94,7 +94,7 @@ You can use Altair with either the light or the dark theme, depending on which t
 
 ### Missing feature?
 
-Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/CONTRIBUTING.md).
+Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/.github/CONTRIBUTING.md).
 
 ## Development server
 

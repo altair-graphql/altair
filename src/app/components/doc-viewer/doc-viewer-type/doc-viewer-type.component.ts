@@ -25,25 +25,6 @@ export class DocViewerTypeComponent implements OnInit {
   }
 
   /**
-   * Transform an object into an array
-   * @param obj
-   */
-  objToArr(obj: any) {
-    const arr = [];
-
-    // Convert any object created with the dict pattern (Object.create(null)) to a regular object
-    const _obj = Object.assign({}, obj);
-
-    for (const key in _obj) {
-      if (_obj.hasOwnProperty(key)) {
-        arr.push(_obj[key]);
-      }
-    }
-
-    return arr;
-  }
-
-  /**
    * Check if the current type is a root type
    * @param type
    */
