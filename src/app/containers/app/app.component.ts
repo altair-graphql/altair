@@ -188,6 +188,13 @@ export class AppComponent {
     this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
+  fileDropped(event) {
+    const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
+    if (dataTransfer && dataTransfer.files) {
+      this.windowService.handleImportedFile(dataTransfer.files);
+    }
+  }
+
   externalLink(e, url) {
     e.preventDefault();
 

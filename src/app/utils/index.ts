@@ -26,20 +26,21 @@ export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
   downloadLink.click();
 };
 
+export const getFileStr = files => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = function (e: any) {
+      const contents: string = e.target.result;
+
+      // Resolve file content
+      resolve(contents);
+    };
+    fileReader.readAsText(files[0]);
+  });
+};
+
 export const openFile = (...args) => {
-  return fileDialog(...args).then(files => {
-
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.onload = function(e: any) {
-        const contents: string = e.target.result;
-
-        // Resolve file content
-        resolve(contents);
-      };
-      fileReader.readAsText(files[0]);
-    });
-  }).catch(err => {
+  return fileDialog(...args).then(getFileStr).catch(err => {
     console.log('There was an issue while opening the file: ', err);
   });
 }

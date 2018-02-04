@@ -6,10 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import * as fromRoot from '../reducers';
 import * as fromWindows from '../reducers/windows';
 
-import * as queryActions from '../actions/query/query';
-import * as headerActions from '../actions/headers/headers';
-import * as variableActions from '../actions/variables/variables';
-import * as layoutActions from '../actions/layout/layout';
 import * as windowActions from '../actions/windows/windows';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
@@ -68,53 +64,7 @@ export class WindowsEffects {
     .ofType(windowActions.IMPORT_WINDOW)
     .switchMap(action => {
       openFile().then((data: string) => {
-        try {
-          // Verify file's content
-          if (!data) {
-            throw new Error('File is empty.');
-          }
-          const parsed: fromWindows.ExportWindowState = JSON.parse(data);
-          if (!parsed.version || !parsed.type || parsed.type !== 'window') {
-            throw new Error('File is not a valid Altair file.');
-          }
-          // Importing window data...
-          // Add new window
-          // Set window name
-          // Set API URL
-          // Set query
-          // Set headers
-          // Set variables
-          // Set subscription URL
-          this.windowService.newWindow().subscribe(newWindow => {
-            const windowId = newWindow.windowId;
-
-            if (parsed.windowName) {
-              this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, parsed.windowName));
-            }
-
-            if (parsed.apiUrl) {
-              this.store.dispatch(new queryActions.SetUrlAction({ url: parsed.apiUrl }, windowId));
-            }
-
-            if (parsed.query) {
-              this.store.dispatch(new queryActions.SetQueryAction(parsed.query, windowId));
-            }
-
-            if (parsed.headers.length) {
-              this.store.dispatch(new headerActions.SetHeadersAction({ headers: parsed.headers }, windowId));
-            }
-
-            if (parsed.variables) {
-              this.store.dispatch(new variableActions.UpdateVariablesAction(parsed.variables, windowId));
-            }
-
-            if (parsed.subscriptionUrl) {
-              this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: parsed.subscriptionUrl }, windowId));
-            }
-          });
-        } catch (err) {
-          console.log('The file is invalid.', err);
-        }
+        this.windowService.importWindowData(data);
       });
       return Observable.empty();
     });
