@@ -4,6 +4,8 @@
     class="nav-link nav-text window-switcher _track_me"
     *ngFor="let windowId of windowIds; let index = index;"
     [class.active]="windowId === activeWindowId"
+    [contextMenu]="windowTabMenu"
+    [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle}"
     (click)="activeWindowChange.next(windowId)"
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
@@ -13,7 +15,7 @@
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
     >{{ windows[windowId].layout.title }}</div>
-    <div track-id="close_window_tab" class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="removeWindowChange.next(windowId)">&#x00D7;</div>
+    <div track-id="close_window_tab" class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="closeWindow(windowId)">&#x00D7;</div>
   </div>
   <div
      track-id="new_window_tab"
@@ -23,3 +25,11 @@
     {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
   </div>
 </div>
+<context-menu>
+  <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
+    {{ 'EDIT_WINDOW_TEXT' | translate }}
+  </ng-template>
+  <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
+    {{ 'CLOSE_WINDOW_TEXT' | translate }}
+  </ng-template>
+</context-menu>

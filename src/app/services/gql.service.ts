@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse, print, GraphQLSchema } from 'graphql';
+import { buildClientSchema, parse, print, GraphQLSchema, printSchema } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 import { introspectionQuery } from './instrospectionQuery';
 
@@ -194,5 +194,16 @@ export class GqlService {
    */
   compress(query) {
     return compress(this.prettify(query));
+  }
+
+  /**
+   * Return the Schema Definition Language of the provided schema
+   * @param schema
+   */
+  getSDL(schema): string {
+    if (this.isSchema(schema)) {
+      return printSchema(schema);
+    }
+    return '';
   }
 }

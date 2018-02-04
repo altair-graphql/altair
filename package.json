@@ -37,6 +37,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
+    "@angular/cdk": "2.0.0-beta.12",
     "@angular/cli": "^1.6.3",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
@@ -78,6 +79,7 @@
     "ng2-completer": "^1.6.3",
     "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^0.3.0",
+    "ngx-contextmenu": "^4.1.2",
     "ngx-electron": "^1.0.4",
     "ngx-pipes": "^2.1.0",
     "opencollective": "^1.0.3",

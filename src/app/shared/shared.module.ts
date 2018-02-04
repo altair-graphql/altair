@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxElectronModule } from 'ngx-electron';
 import { SortablejsModule } from 'angular-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 @NgModule({
   imports: [
@@ -12,13 +13,15 @@ import { NgPipesModule } from 'ngx-pipes';
     TranslateModule,
     NgxElectronModule,
     SortablejsModule,
-    NgPipesModule
+    NgPipesModule,
+    ContextMenuModule.forRoot(),
   ],
   exports: [
     TranslateModule,
     NgxElectronModule,
     SortablejsModule,
-    NgPipesModule
+    NgPipesModule,
+    ContextMenuModule
   ]
 })
 export class SharedModule { }

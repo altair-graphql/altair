@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-fork-repo',
   templateUrl: './fork-repo.component.html',
-  styleUrls: ['./fork-repo.component.scss']
+  styleUrls: ['./fork-repo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForkRepoComponent implements OnInit {
 

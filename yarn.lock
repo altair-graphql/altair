@@ -53,6 +53,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/cdk@2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-2.0.0-beta.12.tgz#3a243cb62b93f4e039120ba70f900dc9e235622e"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@^1.6.3":
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.6.3.tgz#63120b347fc8ee206f773074d25fdd4807c189e3"
@@ -6243,6 +6249,10 @@ ngrx-store-freeze@^0.2.0:
 ngrx-store-localstorage@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-0.3.0.tgz#d2803b7ada274a05363fc9d37931f13cce8ab8aa"
+
+ngx-contextmenu@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-4.1.2.tgz#1048f3553bf906aef96fa9febdeddc058f86958b"
 
 ngx-electron@^1.0.4:
   version "1.0.4"

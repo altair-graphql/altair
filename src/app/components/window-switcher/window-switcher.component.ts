@@ -3,8 +3,11 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewChild
 } from '@angular/core';
+
+import { ContextMenuComponent } from 'ngx-contextmenu';
 
 import config from '../../config';
 
@@ -24,6 +27,12 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() removeWindowChange = new EventEmitter();
   @Output() windowNameChange = new EventEmitter();
   @Output() repositionWindowChange = new EventEmitter();
+
+  @ViewChild(ContextMenuComponent) public windowTabMenu: ContextMenuComponent;
+
+  windowTabMenuData = [
+    { name: 'Edit' }
+  ];
 
   windowNameEditing = null;
   maxWindowCount = config.max_windows;
@@ -53,6 +62,14 @@ export class WindowSwitcherComponent implements OnInit {
 
   moveWindow(currentPosition, newPosition) {
     this.repositionWindowChange.next(({ currentPosition, newPosition }));
+  }
+
+  closeWindow(windowId) {
+    this.removeWindowChange.next(windowId);
+  }
+
+  log(str) {
+    console.log(str);
   }
 
 }
