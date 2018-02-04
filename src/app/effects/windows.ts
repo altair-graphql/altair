@@ -63,7 +63,7 @@ export class WindowsEffects {
   importWindow$: Observable<Action> = this.actions$
     .ofType(windowActions.IMPORT_WINDOW)
     .switchMap(action => {
-      openFile().then((data: string) => {
+      openFile({ accept: '.agq' }).then((data: string) => {
         this.windowService.importWindowData(data);
       });
       return Observable.empty();
