@@ -284,6 +284,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.windowId }));
   }
 
+  exportSDL() {
+    this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId));
+  }
+
 
   trackByFn(index, item) {
     return index;

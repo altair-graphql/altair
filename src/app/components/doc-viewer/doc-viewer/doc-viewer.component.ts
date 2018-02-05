@@ -24,6 +24,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() isLoading = false;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
+  @Output() exportSDLChange = new EventEmitter();
 
   rootTypes = [];
   index = [];
@@ -397,5 +398,9 @@ export class DocViewerComponent implements OnChanges {
       return false;
     }
     this.addQueryToEditorChange.next(this.generateQuery(name, parentType));
+  }
+
+  exportSDL() {
+    this.exportSDLChange.next();
   }
 }

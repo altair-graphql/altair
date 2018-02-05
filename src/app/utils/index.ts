@@ -2,20 +2,22 @@ import * as toSnakeCase from 'to-snake-case';
 const fileDialog = require('file-dialog');
 
 /**
- * Download an object as a JSON file
- * @param obj The object to be downloaded
- * @param fileName The name the file will be called
+ * Download the specified data with the provided options
+ * @param data data string to download
+ * @param fileName name of downloaded file
+ * @param opts configuration options
  */
-export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
+export const downloadData = (data, fileName = 'data', opts = undefined) => {
   let _opts = {
-    fileType: 'json'
+    dataUriAttr: 'text/plain;charset=utf-8',
+    fileType: 'txt'
   };
 
   if (opts) {
     _opts = { ..._opts, ...opts };
   }
 
-  const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj));
+  const dataStr = `data:${_opts.dataUriAttr},${data}`;
   const downloadLink = document.createElement('a');
   const linkText = document.createTextNode('Download');
   downloadLink.appendChild(linkText);
@@ -26,6 +28,29 @@ export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
   downloadLink.click();
 };
 
+/**
+ * Download an object as a JSON file
+ * @param obj The object to be downloaded
+ * @param fileName The name the file will be called
+ */
+export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
+  let _opts = {
+    dataUriAttr: 'text/json;charset=utf-8',
+    fileType: 'json'
+  };
+
+  if (opts) {
+    _opts = { ..._opts, ...opts };
+  }
+
+  const dataStr = encodeURIComponent(JSON.stringify(obj));
+  downloadData(dataStr, fileName, _opts);
+};
+
+/**
+ * Get file data as string
+ * @param files FileList object
+ */
 export const getFileStr = files => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();

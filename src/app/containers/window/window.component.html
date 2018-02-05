@@ -63,6 +63,7 @@
           [isLoading]="docsIsLoading$ | async"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
+          (exportSDLChange)="exportSDL()"
         ></app-doc-viewer>
       </div>
     </div>
