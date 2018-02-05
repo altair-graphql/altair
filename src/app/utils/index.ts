@@ -1,4 +1,5 @@
 import * as toSnakeCase from 'to-snake-case';
+import * as downloadJs from 'downloadjs';
 const fileDialog = require('file-dialog');
 
 /**
@@ -9,6 +10,7 @@ const fileDialog = require('file-dialog');
  */
 export const downloadData = (data, fileName = 'data', opts = undefined) => {
   let _opts = {
+    mimeType: 'text/plain',
     dataUriAttr: 'text/plain;charset=utf-8',
     fileType: 'txt'
   };
@@ -18,14 +20,16 @@ export const downloadData = (data, fileName = 'data', opts = undefined) => {
   }
 
   const dataStr = `data:${_opts.dataUriAttr},${data}`;
-  const downloadLink = document.createElement('a');
-  const linkText = document.createTextNode('Download');
-  downloadLink.appendChild(linkText);
-  downloadLink.style.display = 'none';
-  downloadLink.setAttribute('href', dataStr);
-  downloadLink.setAttribute('download', `${toSnakeCase(fileName)}.${_opts.fileType}`);
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
+  downloadJs(dataStr, `${toSnakeCase(fileName)}.${_opts.fileType}`, _opts.mimeType);
+  // const downloadLink = document.createElement('a');
+  // const linkText = document.createTextNode('Download');
+  // downloadLink.appendChild(linkText);
+  // downloadLink.style.display = 'none';
+  // downloadLink.setAttribute('target', '_blank');
+  // downloadLink.setAttribute('href', dataStr);
+  // downloadLink.setAttribute('download', `${toSnakeCase(fileName)}.${_opts.fileType}`);
+  // document.body.appendChild(downloadLink);
+  // downloadLink.click();
 };
 
 /**
@@ -35,6 +39,7 @@ export const downloadData = (data, fileName = 'data', opts = undefined) => {
  */
 export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
   let _opts = {
+    mimeType: 'text/json',
     dataUriAttr: 'text/json;charset=utf-8',
     fileType: 'json'
   };
