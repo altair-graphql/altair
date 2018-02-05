@@ -42,7 +42,7 @@ const COMPONENTS = [
     CodemirrorModule,
     PipesModule,
     SharedModule,
-    ClarityModule
+    ClarityModule,
   ],
   declarations: COMPONENTS,
   exports: [...COMPONENTS ]

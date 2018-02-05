@@ -53,5 +53,12 @@
   "SETTINGS_THEME_TEXT": "Theme",
   "SETTINGS_LANGUAGE_TEXT": "Language",
 
-  "VIEW_ON_GITHUB_TEXT": "View on GitHub"
+  "VIEW_ON_GITHUB_TEXT": "View on GitHub",
+
+  "EDIT_WINDOW_TEXT": "Edit",
+  "CLOSE_WINDOW_TEXT": "Close",
+  "DUPLICATE_WINDOW_TEXT": "Duplicate",
+
+  "IMPORT_WINDOW_TEXT": "Import Window...",
+  "EXPORT_WINDOW_TEXT": "Export Window"
 }

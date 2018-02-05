@@ -107,7 +107,7 @@ export class AppComponent {
       });
 
     if (!this.windowIds.length) {
-      this.windowService.newWindow();
+      this.windowService.newWindow().subscribe();
     }
   }
 
@@ -147,7 +147,7 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow();
+    this.windowService.newWindow().first().subscribe();
   }
 
   setActiveWindow(windowId) {
@@ -168,6 +168,10 @@ export class AppComponent {
     this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
   }
 
+  importWindow() {
+    this.store.dispatch(new windowsActions.ImportWindowAction());
+  }
+
   showSettingsDialog() {
     this.store.dispatch(new settingsActions.ShowSettingsAction());
   }
@@ -184,23 +188,11 @@ export class AppComponent {
     this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
-  /**
-   * Transform an object into an array
-   * @param obj
-   */
-  objToArr(obj: any) {
-    const arr = [];
-
-    // Convert any object created with the dict pattern (Object.create(null)) to a regular object
-    const _obj = Object.assign({}, obj);
-
-    for (const key in _obj) {
-      if (_obj.hasOwnProperty(key)) {
-        arr.push(_obj[key]);
-      }
+  fileDropped(event) {
+    const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
+    if (dataTransfer && dataTransfer.files) {
+      this.windowService.handleImportedFile(dataTransfer.files);
     }
-
-    return arr;
   }
 
   externalLink(e, url) {

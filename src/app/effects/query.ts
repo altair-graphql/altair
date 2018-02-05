@@ -16,7 +16,7 @@ import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
-import { downloadJson } from '../utils';
+import { downloadJson, downloadData } from '../utils';
 
 @Injectable()
 export class QueryEffects {
@@ -350,6 +350,24 @@ export class QueryEffects {
 
         if (compressed) {
           return Observable.of(new queryActions.SetQueryAction(compressed, res.windowId));
+        }
+        return Observable.empty();
+      });
+
+    @Effect()
+    exportSDL$: Observable<Action> = this.actions$
+      .ofType(gqlSchemaActions.EXPORT_SDL)
+      .withLatestFrom(this.store, (action: gqlSchemaActions.Action, state: fromRoot.State) => {
+        return { data: state.windows[action.windowId], windowId: action.windowId, action };
+      })
+      .switchMap(res => {
+
+        if (res.data.schema.schema) {
+          const sdl = this.gqlService.getSDL(res.data.schema.schema);
+
+          if (sdl) {
+            downloadData(sdl, 'sdl', { fileType: 'gql' });
+          }
         }
         return Observable.empty();
       });

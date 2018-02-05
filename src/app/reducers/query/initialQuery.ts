@@ -1,9 +1,10 @@
 const initialQuery = `
-    # Welcome to Altair GraphQL Client.
+  # Welcome to Altair GraphQL Client.
+  # You can send your request using CmdOrCtrl + Enter.
 
-    # Enter your graphQL query here.
+  # Enter your graphQL query here.
 `;
 
 export {
-    initialQuery
+  initialQuery
 };

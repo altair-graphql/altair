@@ -7,6 +7,17 @@ export interface State {
     [id: string]: fromRoot.PerWindowState;
 }
 
+export interface ExportWindowState {
+  version: 1;
+  type: 'window';
+  windowName: string;
+  apiUrl: string;
+  query: string;
+  headers: Array<{key: string, value: string}>;
+  variables: string;
+  subscriptionUrl: string;
+}
+
 /**
  * Metareducer to add new window and pass the correct window state to the main reducer
  * @param reducer

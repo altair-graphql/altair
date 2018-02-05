@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../../../shared/shared.module';
 import { DocViewerTypeComponent } from './doc-viewer-type.component';
 
 describe('DocViewerTypeComponent', () => {
@@ -11,7 +12,8 @@ describe('DocViewerTypeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ DocViewerTypeComponent ],
       imports: [
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        SharedModule
       ]
     })
     .compileComponents();

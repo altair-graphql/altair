@@ -24,6 +24,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() isLoading = false;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
+  @Output() exportSDLChange = new EventEmitter();
 
   rootTypes = [];
   index = [];
@@ -218,25 +219,6 @@ export class DocViewerComponent implements OnChanges {
   }
 
   /**
-   * Transform an object into an array
-   * @param obj
-   */
-  objToArr(obj: any) {
-    const arr = [];
-
-    // Convert any object created with the dict pattern (Object.create(null)) to a regular object
-    const _obj = Object.assign({}, obj);
-
-    for (const key in _obj) {
-      if (_obj.hasOwnProperty(key)) {
-        arr.push(_obj[key]);
-      }
-    }
-
-    return arr;
-  }
-
-  /**
    * Cleans out getType() names to contain only the type name itself
    * @param name
    */
@@ -416,5 +398,9 @@ export class DocViewerComponent implements OnChanges {
       return false;
     }
     this.addQueryToEditorChange.next(this.generateQuery(name, parentType));
+  }
+
+  exportSDL() {
+    this.exportSDLChange.next();
   }
 }

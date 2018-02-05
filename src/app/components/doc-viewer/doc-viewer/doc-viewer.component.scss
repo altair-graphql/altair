@@ -54,6 +54,20 @@ app-doc-viewer{
     color: $theme-font-color;
     cursor: pointer;
 }
+.doc-viewer-export-sdl {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  line-height: 30px;
+  font-size: 12px;
+  color: $orange;
+  cursor: pointer;
+  opacity: .5;
+  transition: all .3s ease;
+  &:hover {
+    opacity: 1;
+  }
+}
 .doc-viewer-back-link{
     padding: 10px 0;
     color: $blue;

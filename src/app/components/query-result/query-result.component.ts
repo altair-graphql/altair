@@ -46,6 +46,7 @@ export class QueryResultComponent implements OnChanges {
     lineNumbers: true,
     foldGutter: true,
     readOnly: true,
+    dragDrop: false,
     autoRefresh: true,
     theme: 'default query-result',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']

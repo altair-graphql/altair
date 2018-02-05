@@ -39,6 +39,7 @@ export class SetVariableDialogComponent implements OnChanges {
     lineNumbers: true,
     foldGutter: true,
     autoRefresh: true,
+    dragDrop: false,
     autoCloseBrackets: true,
     theme: 'default variable-editor',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']

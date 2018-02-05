@@ -1,0 +1,22 @@
+.ngx-contextmenu {
+  .dropdown-menu {
+    border: solid 1px $theme-off-border-color;
+    background-color: $theme-bg-color;
+    padding: 0;
+  }
+  li {
+    display: block;
+    text-align: left;
+  }
+  a {
+    color: $theme-font-color;
+    display: block;
+    padding: 5px 10px;
+
+    &:hover {
+      text-decoration: none;
+      background-color: $theme-off-bg-color;
+    }
+  }
+}
+

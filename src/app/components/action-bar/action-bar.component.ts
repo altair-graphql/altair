@@ -2,13 +2,15 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
   selector: 'app-action-bar',
   templateUrl: './action-bar.component.html',
-  styleUrls: ['./action-bar.component.scss']
+  styleUrls: ['./action-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionBarComponent {
 

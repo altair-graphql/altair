@@ -5,11 +5,11 @@
       <clr-icon shape="angle down"></clr-icon>
     </button>
     <clr-dropdown-menu *clrIfOpen>
-      <button *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
+      <button track-id="http_verb_method" *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
     </clr-dropdown-menu>
   </clr-dropdown>
   <div class="url-box__input-container">
-    <input #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
+    <input track-id="set_url" #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
          [value]="apiUrl">
     <div class="url-box__input-actions">
       <clr-tooltip>

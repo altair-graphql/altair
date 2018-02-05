@@ -44,7 +44,7 @@
 
 <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
   <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of objToArr(data.getFields());">
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values);">
     <div class="doc-viewer-item-query-inner">
       <span class="no-link-link"
        (click)="goToField(item.name, data.name)"
