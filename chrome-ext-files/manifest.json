@@ -17,7 +17,7 @@
       "https://*/",
       "tabs"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "background": {
       "scripts": ["js/background.js"]
   },
