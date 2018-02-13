@@ -24,7 +24,7 @@ releases:
   -
     name: macOS
     image: osx_logo.svg
-    unique_term: mac
+    unique_term: dmg
     link: https://github.com/imolorhe/altair/releases/latest
   -
     name: linux
