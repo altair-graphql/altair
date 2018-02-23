@@ -15,6 +15,8 @@
 
 # Altair GraphQL Client (https://altair.sirmuel.design/)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
+
 A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.
 
 Web app: https://altair-gql.firebaseapp.com/
