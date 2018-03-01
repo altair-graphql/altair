@@ -1,5 +1,7 @@
-import express from 'express';
-import path from 'path';
+'use strict';
+
+const path = require('path');
+const express = require('express');
 
 module.exports = {
   altairExpress: (opts) => {
