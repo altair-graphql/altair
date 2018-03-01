@@ -1,0 +1,29 @@
+{
+  "name": "altair-express-middleware",
+  "version": "0.1.0",
+  "description": "Express middleware for altair graphql client",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "node scripts/get_dist.js"
+  },
+  "engines": {
+    "node": ">= 6.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imolorhe/altair.git"
+  },
+  "keywords": [
+    "altair",
+    "graphql",
+    "express",
+    "middleware"
+  ],
+  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imolorhe/altair/issues"
+  },
+  "homepage": "https://github.com/imolorhe/altair#readme"
+}

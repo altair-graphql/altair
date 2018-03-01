@@ -30,7 +30,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "dist-electron": "build",
-    "postinstall": "opencollective postinstall"
+    "postinstall": "opencollective postinstall",
+    "publish-packages": "lerna publish"
   },
   "engines": {
     "node": ">= 6.9.1 < 9.0.0"
@@ -113,7 +114,9 @@
     "karma-coverage-istanbul-reporter": "^1.4.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "lerna": "^3.0.0-alpha.1",
     "mime-types": "^2.1.17",
+    "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "^5.2.2",
     "ts-node": "^5.0.0",
