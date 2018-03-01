@@ -1,11 +1,11 @@
 {
   "name": "altair-express-middleware",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Express middleware for altair graphql client",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "node scripts/get_dist.js"
+    "prepare": "node scripts/prepare_dist.js"
   },
   "engines": {
     "node": ">= 6.9.1"
