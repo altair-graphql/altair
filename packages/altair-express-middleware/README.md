@@ -1,4 +1,7 @@
 # altair-express-middleware
+
+![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)
+
 This is an express middleware for mounting an instance of altair GraphQL client.
 
 ### Installation
