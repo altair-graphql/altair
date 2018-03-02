@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/imolorhe/altair/issues"
   },
-  "homepage": "https://github.com/imolorhe/altair#readme"
+  "homepage": "https://github.com/imolorhe/altair#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
