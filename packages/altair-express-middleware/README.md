@@ -1,6 +1,6 @@
 # altair-express-middleware
 
-![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)
+[![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)](https://www.npmjs.com/package/altair-express-middleware)
 
 This is an express middleware for mounting an instance of altair GraphQL client.
 
