@@ -3,8 +3,10 @@
   background: $theme-bg-color;
   cursor: default;
 }
-.app-content-area {
+.content-container {
   position: relative;
+}
+.app-content-area {
   display: flex;
   flex-direction: column;
   height: 100%;

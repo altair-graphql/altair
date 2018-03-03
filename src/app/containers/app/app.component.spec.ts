@@ -25,6 +25,7 @@ describe('AppComponent', () => {
       services.GqlService,
       services.DbService,
       services.WindowService,
+      services.DonationService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},

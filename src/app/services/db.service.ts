@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
 
 @Injectable()
 export class DbService {
@@ -25,7 +26,7 @@ export class DbService {
   getItemByExactKey(key): Observable<any> {
     const dbValue = localStorage.getItem(key);
 
-    return Observable.create((observer) => {
+    return Observable.create((observer: Subscriber<any>) => {
       if (dbValue) {
         try {
           const parsedValue = JSON.parse(dbValue);
