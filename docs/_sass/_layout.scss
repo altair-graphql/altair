@@ -9,6 +9,11 @@
 
 $hero-height: 700px;
 
+.action-btn-group {
+  padding: 10px;
+  text-align: center;
+}
+
 //styles for the landing page
 .ns-landing {
 
@@ -69,6 +74,7 @@ $hero-height: 700px;
       flex-wrap: wrap;
       padding: 50px 0;
       text-align: center;
+      justify-content: center;
       @media #{$breakpoint-medium} {
         display: flex;
       }

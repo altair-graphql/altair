@@ -17,7 +17,7 @@ title: "Altair GraphQL Client"
 email: samuelimolo4real@gmail.com
 download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
-  The best GraphQL Client you will ever need
+  A beautiful feature-rich GraphQL Client for all platforms
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 releases:

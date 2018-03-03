@@ -4,12 +4,14 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/flnheeellpciglgpaodhkhmapeljopja.svg)](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/flnheeellpciglgpaodhkhmapeljopja.svg)](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja)
 [![Mozilla Add-on](https://img.shields.io/amo/v/altair-graphql-client.svg)](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/)
+[![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)](https://www.npmjs.com/package/altair-express-middleware)
 [![Gitter](https://img.shields.io/gitter/room/altair-graphql/Lobby.svg)](https://gitter.im/altair-graphql/Lobby)
 [![GitHub release](https://img.shields.io/github/release/imolorhe/altair.svg)](https://github.com/imolorhe/altair/releases)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
 [![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
+[![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
@@ -24,6 +26,9 @@ There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-gr
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
 
 ![set url](src/assets/img/readme/set-url.gif "Altair GraphQL Client")
+
+### Usage with express
+You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
 ## Features
 
@@ -116,6 +121,10 @@ Run `npm run build-ext` to build the chrome extension files. The extension files
 
 Run `npm run build-electron` to build the electron apps. The apps will be stored in the `electron-builds/` directory.
 
+## Updating docs
+
+Run `bundle exec jekyll serve`.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
@@ -133,11 +142,11 @@ To get more help on working with the project, check out the [Angular CLI README]
 
 - Make sure your local repo is up to date `git pull`
 - Run tests locally `ng test --single-run && ng lint && ng e2e`
+- Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`
 - Build extensions locally `yarn build-ext`
 - Verify that extensions (chrome and firefox) are working properly 
 - Verify chrome extension https://developer.chrome.com/extensions/getstarted#unpacked
 - Verify firefox extension `./bin/run_ext_firefox.sh`
-- Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`
 - Create commit, push and update local repo `git add --all && git commit -am "Upgraded to v<version_number>" && git pull && git push`
 - Create release tag for the new version `git tag v<version_number>`
 - Push new tag `git push --tags`

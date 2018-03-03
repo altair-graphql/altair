@@ -5,7 +5,7 @@
     that is preserved across browser sessions. In addition, you can give each window
     a custom name.
 -
-  title: Syntax Highlighting
+  title: Syntax and Error Highlighting
   content: >
     With syntax highlighting, you have immediate feedback on what you input in the
     query editor and can easily detect errors. The editor also affords folding of
@@ -32,3 +32,47 @@
     Altair provides convenient support for setting GraphQL variables. You can also add
     fragments in the code editor and reference them within the parent query. Fragments can
     also be added from the docs bar.
+-
+  title: Add Queries and Fragments
+  content: >
+    You can easily add a query (or fragment) you see in the documentation into the editor
+    without having to manually type every field within the query. This makes it easier to
+    test and develop with the available queries from the GraphQL server.
+-
+  title: Prettify Query
+  content: >
+    You can format the query in the editor in a properly indented manner for easier reading.
+    This makes it easy to work with queries you might copy from one file to another,
+    which might have lost their indentation (or were never indented before).
+-
+  title: Compress Query
+  content: >
+    You can compress the query to a minified form, removing any unnecessary whitespace
+    and comments. You can use this after you have made a query and you want to use it in your
+    client side application. This helps save as many bytes as possible when making network requests.
+-
+  title: History of recent queries
+  content: >
+    You can view a list of your most recent queries that you make in each window, so you can easily go
+    back to a query you tried previously.
+-
+  title: GraphQL Subscriptions (with desktop notifications)
+  content: >
+    You can test your GraphQL subscriptions easily and also get a notification when you are away from the
+    app (desktop apps only). This is very handy when developing apps that use the realtime feature of
+    GraphQL, like chatting ang gaming applications that need realtime feedback.
+-
+  title: Import and Export Queries
+  content: >
+    You can export the query you are working on and import the .agq file into another device
+    (also supports drag and drop). This is also useful for sharing queries with variables and headers
+    with other members of your team.
+-
+  title: Multiple Languages
+  content: >
+    You can use Altair comfortably in your native language with several languages
+    (including English, Chinese, French, Spanish, among others) supported.
+-
+  title: Multiple themes
+  content: >
+    You can use Altair with either the light or the dark theme, depending on which theme you like.

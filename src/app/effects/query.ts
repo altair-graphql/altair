@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService, QueryService, NotifyService, DbService } from '../services';
+import { GqlService, QueryService, NotifyService, DbService, DonationService } from '../services';
 import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
@@ -15,8 +15,11 @@ import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
+import * as donationAction from '../actions/donation';
 
 import { downloadJson, downloadData } from '../utils';
+import { uaSeedHash } from '../utils/simple_hash';
+import config from '../config';
 
 @Injectable()
 export class QueryEffects {
@@ -372,6 +375,18 @@ export class QueryEffects {
         return Observable.empty();
       });
 
+    @Effect()
+    showDonationAlert$: Observable<Action> = this.actions$
+      .ofType(queryActions.SEND_QUERY_REQUEST)
+      .switchMap((data: queryActions.Action) => {
+        this.donationService.trackAndCheckIfEligible().subscribe(shouldShow => {
+          if (shouldShow) {
+            this.store.dispatch(new donationAction.ShowDonationAlertAction());
+          }
+        });
+        return Observable.empty();
+      });
+
     // Get the introspection after setting the URL
     constructor(
       private actions$: Actions,
@@ -379,6 +394,7 @@ export class QueryEffects {
       private queryService: QueryService,
       private notifyService: NotifyService,
       private dbService: DbService,
+      private donationService: DonationService,
       private store: Store<any>
     ) {}
 

@@ -20,10 +20,9 @@ import * as docsActions from '../../actions/docs/docs';
 import * as windowsActions from '../../actions/windows/windows';
 import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
+import * as donationActions from '../../actions/donation';
 
-import { QueryService } from '../../services/query.service';
-import { GqlService } from '../../services/gql.service';
-import { WindowService } from '../../services/window.service';
+import { QueryService, GqlService, WindowService, DonationService } from '../../services';
 
 import config from '../../config';
 
@@ -40,12 +39,14 @@ export class AppComponent {
   activeWindowId = '';
   isElectron = isElectron;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
+  showDonationAlert = false;
 
   constructor(
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
     private translate: TranslateService,
-    private electron: ElectronService
+    private electron: ElectronService,
+    private donationService: DonationService
   ) {
     this.settings$ = this.store.select('settings').distinctUntilChanged();
 
@@ -85,6 +86,7 @@ export class AppComponent {
       .subscribe(data => {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
+        this.showDonationAlert = data.donation.showAlert;
 
         // Set the window IDs in the meta state if it does not already exist
         if (data.windowsMeta.windowIds) {
@@ -193,6 +195,16 @@ export class AppComponent {
     if (dataTransfer && dataTransfer.files) {
       this.windowService.handleImportedFile(dataTransfer.files);
     }
+  }
+
+  hideDonationAlert() {
+    this.store.dispatch(new donationActions.HideDonationAlertAction());
+  }
+
+  openDonationPage(e) {
+    this.donationService.donated();
+    this.externalLink(e, config.donation.url);
+    this.hideDonationAlert();
   }
 
   externalLink(e, url) {

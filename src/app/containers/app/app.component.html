@@ -52,6 +52,17 @@
         (languageChange)="onLanguageChange($event)"
       ></app-settings-dialog>
     </div>
+
+    <clr-alert [clrAlertType]="'alert-warning'" [clrAlertAppLevel]="true" (clrAlertClosedChange)="hideDonationAlert()" *ngIf="showDonationAlert">
+      <clr-alert-item>
+        <span class="alert-text">
+          Do you find this app useful? Would you mind supporting it's development?
+        </span>
+        <div class="alert-actions">
+          <button class="btn alert-action" (click)="openDonationPage($event)">Donate</button>
+        </div>
+      </clr-alert-item>
+    </clr-alert>
   </div>
   <!-- The github link has been added to the settings dropdown -->
   <!-- <app-fork-repo *ngIf="!isElectron"></app-fork-repo> -->
