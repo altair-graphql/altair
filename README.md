@@ -142,11 +142,11 @@ To get more help on working with the project, check out the [Angular CLI README]
 
 - Make sure your local repo is up to date `git pull`
 - Run tests locally `ng test --single-run && ng lint && ng e2e`
+- Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`
 - Build extensions locally `yarn build-ext`
 - Verify that extensions (chrome and firefox) are working properly 
 - Verify chrome extension https://developer.chrome.com/extensions/getstarted#unpacked
 - Verify firefox extension `./bin/run_ext_firefox.sh`
-- Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`
 - Create commit, push and update local repo `git add --all && git commit -am "Upgraded to v<version_number>" && git pull && git push`
 - Create release tag for the new version `git tag v<version_number>`
 - Push new tag `git push --tags`
