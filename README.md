@@ -121,6 +121,10 @@ Run `npm run build-ext` to build the chrome extension files. The extension files
 
 Run `npm run build-electron` to build the electron apps. The apps will be stored in the `electron-builds/` directory.
 
+## Updating docs
+
+Run `bundle exec jekyll serve`.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
