@@ -38,4 +38,4 @@ export class SetHeadersAction implements Action {
   constructor(public payload: { headers: Array<fromHeaders.Header> }, public windowId: string) { }
 }
 
-export type Action = AddHeaderAction | RemoveHeaderAction | EditHeaderKeyAction | EditHeaderValueAction;
+export type Action = AddHeaderAction | RemoveHeaderAction | EditHeaderKeyAction | EditHeaderValueAction | SetHeadersAction;
