@@ -5,7 +5,7 @@ app-doc-viewer{
   right: 0;
   width: 40%;
   background: $theme-bg-color;
-  z-index: 2;
+  z-index: 7;
   transform: translateX(100%);
   transition: all .5s var(--app-easing);
   overflow: auto;
