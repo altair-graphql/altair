@@ -24,6 +24,8 @@ export function headerReducer(state = initialState, action: headers.Action): Sta
                 ...state,
                 { key: '', value: '' }
             ];
+        case headers.SET_HEADERS:
+            return [ ...action.payload.headers ];
         case headers.EDIT_HEADER_KEY:
             return state.map((val, i) => {
                 if (i === action.payload.i) {
