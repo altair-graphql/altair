@@ -345,7 +345,9 @@ export class QueryEffects {
       .switchMap(res => {
         let compressed = '';
         try {
+          console.log('We compress..');
           compressed = this.gqlService.compress(res.data.query.query);
+          console.log('Compressed..');
         } catch (err) {
           console.log(err);
           this.notifyService.error('Your query does not appear to be valid. Please check it.');

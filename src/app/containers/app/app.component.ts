@@ -190,6 +190,10 @@ export class AppComponent {
     this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
+  onAddQueryDepthLimitChange(depthLimit) {
+    this.store.dispatch(new settingsActions.SetAddQueryDepthLimitAction({ value: depthLimit }));
+  }
+
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
     if (dataTransfer && dataTransfer.files) {
