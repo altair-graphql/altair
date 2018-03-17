@@ -27,7 +27,7 @@
 
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }} <small>(Recommended: 3)</small></label>
-        <input aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
+        <input attr.aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
       </div>
     </div>
   </div>
