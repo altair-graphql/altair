@@ -11,6 +11,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ClarityModule } from 'clarity-angular';
 
 import * as services from './../../services';
+import { reducer } from '../../reducers';
 
 import { CodemirrorModule } from 'ng2-codemirror';
 
@@ -25,6 +26,12 @@ describe('WindowComponent', () => {
   let fixture: ComponentFixture<WindowComponent>;
 
   beforeEach(async(() => {
+    const obs: any = Observable.empty();
+    obs.select = () => obs;
+    obs.subscribe = () => obs;
+    obs.map = () => obs;
+    obs.dispatch = () => obs;
+
     const providers = [
       services.ApiService,
       services.GqlService,
@@ -34,12 +41,7 @@ describe('WindowComponent', () => {
         loadUrl: () => {},
         loadIntrospection: () => {},
       } },
-      { provide: Store, useValue: {
-        subscribe: () => Observable.empty(),
-        select: () => ({ select: () => Observable.empty() }),
-        map: () => Observable.empty(),
-        dispatch: () => {}
-      } },
+      { provide: Store, useValue: obs },
       services.NotifyService
     ];
     TestBed.configureTestingModule({
@@ -48,7 +50,7 @@ describe('WindowComponent', () => {
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        StoreModule,
+        StoreModule.forRoot(reducer),
         CodemirrorModule,
         ClarityModule.forRoot(),
         ComponentModule,
