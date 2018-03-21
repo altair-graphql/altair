@@ -55,7 +55,9 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
     extraKeys: {
       'Cmd-Enter': (cm) => this.sendRequest.next(cm),
       'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
-      'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true })
+      'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true }),
+      'Cmd-/': (cm) => cm.execCommand('toggleComment'),
+      'Ctrl-/': (cm) => cm.execCommand('toggleComment')
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
