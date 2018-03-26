@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse, print, GraphQLSchema, printSchema } from 'graphql';
+// TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
+import { buildClientSchema, parse, print, GraphQLSchema, printSchema, introspectionQuery } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
-import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';

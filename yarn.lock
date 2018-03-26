@@ -302,9 +302,9 @@
   version "8.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.4.tgz#dfd327582a06c114eb6e0441fa3d6fab35edad48"
 
-"@types/node@~9.4.6":
-  version "9.4.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
+"@types/node@~9.6.0":
+  version "9.6.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.0.tgz#d3480ee666df9784b1001a1872a2f6ccefb6c2d7"
 
 "@types/q@^0.0.32":
   version "0.0.32"
@@ -1073,7 +1073,7 @@ babel-plugin-syntax-trailing-function-commas@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-6.22.0.tgz#ba0360937f8d06e40180a43fe0d5616fff532cf3"
 
-babel-plugin-transform-async-to-generator@^6.1.4, babel-plugin-transform-async-to-generator@^6.22.0, babel-plugin-transform-async-to-generator@^6.24.1, babel-plugin-transform-async-to-generator@^6.8.0:
+babel-plugin-transform-async-to-generator@^6.1.4, babel-plugin-transform-async-to-generator@^6.22.0, babel-plugin-transform-async-to-generator@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-async-to-generator/-/babel-plugin-transform-async-to-generator-6.24.1.tgz#6536e378aff6cb1d5517ac0e40eb3e9fc8d08761"
   dependencies:
@@ -1384,7 +1384,7 @@ babel-preset-flow@^6.23.0:
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
 
-babel-preset-react@^6.11.1, babel-preset-react@^6.24.1:
+babel-preset-react@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-preset-react/-/babel-preset-react-6.24.1.tgz#ba69dfaea45fc3ec639b6a4ecea6e17702c91380"
   dependencies:
@@ -3691,15 +3691,15 @@ electron-osx-sign@0.4.8:
     minimist "^1.2.0"
     plist "^2.1.0"
 
-electron-prebuilt-compile@1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.8.2.tgz#e7fc755759e5c638d5a0ac4832effb52e5016c87"
+electron-prebuilt-compile@1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.8.3.tgz#1dadbc7bb33a4f8419865df31e4e86facdccb6d9"
   dependencies:
     babel-plugin-array-includes "^2.0.3"
-    babel-plugin-transform-async-to-generator "^6.8.0"
+    babel-plugin-transform-async-to-generator "^6.24.1"
     babel-preset-es2016-node5 "^1.1.2"
-    babel-preset-react "^6.11.1"
-    electron "1.8.2"
+    babel-preset-react "^6.24.1"
+    electron "1.8.3"
     electron-compile "*"
     electron-compilers "*"
     yargs "^6.6.0"
@@ -3754,9 +3754,9 @@ electron@*:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron@1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.2.tgz#a817cd733c2972b3c7cc4f777caf6e424b88014d"
+electron@1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.3.tgz#001416ea3a25ce594e317cb5531bc41eadd22f7f"
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^3.0.1"
@@ -5139,11 +5139,11 @@ graphql-language-service-utils@^1.0.18:
     graphql-config "1.1.4"
     graphql-language-service-types "^1.0.18"
 
-graphql-query-compress@^0.9.10:
-  version "0.9.10"
-  resolved "https://registry.yarnpkg.com/graphql-query-compress/-/graphql-query-compress-0.9.10.tgz#75f914f7742bdcd1bf2f7441931538ac33bf0590"
+graphql-query-compress@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-query-compress/-/graphql-query-compress-1.0.0.tgz#2181775bae06f14cbbf0876d9d65cffe980bb06a"
   dependencies:
-    tokenizr "~1.3.0"
+    tokenizr "1.3.1"
 
 graphql-request@^1.4.0:
   version "1.4.1"
@@ -5155,17 +5155,17 @@ graphql-tag@^2.0.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.6.1.tgz#4788d509f6e29607d947fc47a40c4e18f736d34a"
 
-graphql@0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.1.tgz#9b3db3d8e40d1827e4172404bfdd2e4e17a58b55"
-  dependencies:
-    iterall "^1.2.0"
-
 graphql@^0.12.3:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.12.3.tgz#11668458bbe28261c0dcb6e265f515ba79f6ce07"
   dependencies:
     iterall "1.1.3"
+
+graphql@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.2.tgz#4c740ae3c222823e7004096f832e7b93b2108270"
+  dependencies:
+    iterall "^1.2.1"
 
 graphql@^0.9.3:
   version "0.9.6"
@@ -6243,7 +6243,7 @@ iterall@1.1.3, iterall@^1.0.0, iterall@^1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
 
-iterall@^1.2.0:
+iterall@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
 
@@ -10789,9 +10789,9 @@ to-space-case@^1.0.0:
   dependencies:
     to-no-case "^1.0.0"
 
-tokenizr@~1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.3.0.tgz#6b0edc8316406ade5c9b7be99a287a593d51af68"
+tokenizr@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.3.1.tgz#9f841906ea5769722093086ed85d90156986ad7d"
 
 topo@1.x.x:
   version "1.1.0"
