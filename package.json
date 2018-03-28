@@ -55,7 +55,7 @@
     "@ngrx/store": "^4.1.1",
     "@ngrx/store-devtools": "^4.1.1",
     "@ngx-translate/core": "^9.0.2",
-    "@ngx-translate/http-loader": "^2.0.1",
+    "@ngx-translate/http-loader": "^3.0.0",
     "@webcomponents/custom-elements": "^1.0.6",
     "angular-sortablejs": "^2.5.1",
     "balloon-css": "^0.5.0",
