@@ -12,6 +12,8 @@ import 'rxjs/Rx';
 // TODO - Check if this is necessary
 import 'rxjs/add/observable/throw';
 
+import { oldIntrospectionQuery } from './oldIntrospectionQuery';
+
 @Injectable()
 export class GqlService {
   defaultHeaders = {
@@ -118,7 +120,17 @@ export class GqlService {
     return this.send(introspectionQuery).map(data => {
       console.log('introspection', data.data);
       return data.data;
-    }).do(() => this.api_url = currentApiUrl);
+    })
+    .catch((err) => {
+      console.log('Error from first introspection query.', err);
+
+      // Try the old introspection query
+      return this.send(oldIntrospectionQuery).map(data => {
+        console.log('old introspection', data.data);
+        return data.data;
+      });
+    })
+    .do(() => this.api_url = currentApiUrl);
   }
 
   getIntrospectionData() {
