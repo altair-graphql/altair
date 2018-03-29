@@ -1,14 +1,14 @@
-const {app, protocol } = require('electron');
+const { app, protocol } = require('electron');
 const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
-const { instance, createWindow } = require('./window');
+const { instance, createWindow, getInstance } = require('./window');
 
 // Default Squirrel.Windows event handler for your Electron apps.
 // if (require('electron-squirrel-startup')) return; // Not required when using NSIS target
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win = instance;
+let win = getInstance();
 
 protocol.registerStandardSchemes(['altair']);
 
@@ -34,7 +34,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (instance === null) {
+  if (getInstance() === null) {
     createWindow();
   }
 });
