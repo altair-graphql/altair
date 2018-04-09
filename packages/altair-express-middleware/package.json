@@ -2,10 +2,13 @@
   "name": "altair-express-middleware",
   "version": "0.1.4",
   "description": "Express middleware for altair graphql client",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "node scripts/prepare_dist.js"
+    "prepare-dist": "node scripts/prepare_dist.js",
+    "declarations": "tsc --declaration",
+    "prepare": "npm run prepare-dist; npm run declarations"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -28,5 +31,8 @@
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1"
   }
 }
