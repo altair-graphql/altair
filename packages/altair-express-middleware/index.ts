@@ -7,10 +7,10 @@ module.exports = {
   altairExpress: (opts) => {
     const app = express();
 
-    app.use(express.static(path.join(__dirname, 'dist')));
+    app.use(express.static(path.join(__dirname, '../dist')));
 
     app.get('*', (req, res) => {
-      return res.sendFile(path.join(__dirname, 'dist/index.html'));
+      return res.sendFile(path.join(__dirname, '../dist/index.html'));
     });
 
     return app;

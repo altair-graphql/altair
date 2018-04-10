@@ -1,6 +1,6 @@
 {
   "name": "altair-express-middleware",
-  "version": "0.1.4",
+  "version": "1.0.1",
   "description": "Express middleware for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
