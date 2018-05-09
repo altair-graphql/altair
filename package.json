@@ -34,7 +34,7 @@
     "publish-packages": "npm run build && lerna publish --skip-git --force-publish"
   },
   "engines": {
-    "node": ">= 6.9.1 < 9.0.0"
+    "node": ">= 6.9.1"
   },
   "private": true,
   "dependencies": {
