@@ -15,6 +15,7 @@ export class SettingsDialogComponent implements OnInit {
   @Output() toggleDialogChange = new EventEmitter();
   @Output() themeChange = new EventEmitter();
   @Output() languageChange = new EventEmitter();
+  @Output() addQueryDepthLimitChange = new EventEmitter();
 
   themes = config.themes;
   languages = Object.entries(config.languages);
@@ -30,6 +31,10 @@ export class SettingsDialogComponent implements OnInit {
 
   onSelectLanguage(language) {
     return this.languageChange.next(language);
+  }
+
+  onChangeAddQueryDepthLimit(depthLimit) {
+    return this.addQueryDepthLimitChange.next(depthLimit);
   }
 
 }

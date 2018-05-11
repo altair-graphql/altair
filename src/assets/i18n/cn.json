@@ -53,5 +53,12 @@
   "SETTINGS_THEME_TEXT": "主题",
   "SETTINGS_LANGUAGE_TEXT": "语言",
 
-  "VIEW_ON_GITHUB_TEXT": "在GitHub上打开"
+  "VIEW_ON_GITHUB_TEXT": "在GitHub上打开",
+
+  "EDIT_WINDOW_TEXT": "编辑",
+  "CLOSE_WINDOW_TEXT": "关闭",
+  "DUPLICATE_WINDOW_TEXT": "复制",
+
+  "IMPORT_WINDOW_TEXT": "导入窗口",
+  "EXPORT_WINDOW_TEXT": "导出窗口"
 }
