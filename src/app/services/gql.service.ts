@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { buildClientSchema, parse, print, GraphQLSchema, printSchema } from 'graphql';
+// TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
+import { buildClientSchema, parse, print, GraphQLSchema, printSchema, introspectionQuery } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
-import { introspectionQuery } from './instrospectionQuery';
 
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';
 // TODO - Check if this is necessary
 import 'rxjs/add/observable/throw';
+
+import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 
 @Injectable()
 export class GqlService {
@@ -118,7 +120,17 @@ export class GqlService {
     return this.send(introspectionQuery).map(data => {
       console.log('introspection', data.data);
       return data.data;
-    }).do(() => this.api_url = currentApiUrl);
+    })
+    .catch((err) => {
+      console.log('Error from first introspection query.', err);
+
+      // Try the old introspection query
+      return this.send(oldIntrospectionQuery).map(data => {
+        console.log('old introspection', data.data);
+        return data.data;
+      });
+    })
+    .do(() => this.api_url = currentApiUrl);
   }
 
   getIntrospectionData() {

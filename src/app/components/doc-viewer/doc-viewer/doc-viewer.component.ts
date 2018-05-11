@@ -22,6 +22,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema = null;
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
+  @Input() addQueryDepthLimit = config.add_query_depth_limit;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
@@ -352,7 +353,7 @@ export class DocViewerComponent implements OnChanges {
     }
 
     // Stop adding new fields once the specified level depth limit is reached
-    if (level >= config.add_query_depth_limit) {
+    if (level >= this.addQueryDepthLimit) {
       return { query: '', meta: {} };
     }
 

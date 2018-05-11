@@ -61,6 +61,7 @@
           [allowIntrospection]="allowIntrospection$ | async"
           [ngClass]="{'show-doc': showDocs$ | async}"
           [isLoading]="docsIsLoading$ | async"
+          [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
           (exportSDLChange)="exportSDL()"
