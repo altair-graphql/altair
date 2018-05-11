@@ -107,32 +107,28 @@ Is there a feature that is missing? You can let us know by creating a [new issue
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `yarn start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `yarn build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
 ## Generate chrome extension files
 
-Run `npm run build-ext` to build the chrome extension files. The extension files will be stored in the `chrome-extension/` directory.
+Run `yarn build-ext` to build the chrome extension files. The extension files will be stored in the `chrome-extension/` directory.
 
 ## Generate electron app
 
-Run `npm run build-electron` to build the electron apps. The apps will be stored in the `electron-builds/` directory.
+Run `yarn build-electron` to build the electron apps. The apps will be stored in the `electron-builds/` directory.
 
 ## Updating docs
 
 Run `bundle exec jekyll serve`.
 
-## Running unit tests
+## Running tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `yarn test` to execute the unit tests via [Karma](https://karma-runner.github.io) and the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Further help
 
