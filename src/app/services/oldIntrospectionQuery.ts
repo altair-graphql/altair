@@ -1,4 +1,4 @@
-export const introspectionQuery = `
+export const oldIntrospectionQuery = `
 
   query IntrospectionQuery {
     __schema {

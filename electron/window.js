@@ -92,7 +92,10 @@ const createWindow = () => {
   })
 };
 
+const getInstance = () => instance;
+
 module.exports = {
+  getInstance,
   instance,
   createWindow,
   actions
