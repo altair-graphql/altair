@@ -6790,13 +6790,13 @@ jade@^1.11.0:
     void-elements "~2.0.1"
     with "~4.0.0"
 
+jasmine-core@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.1.0.tgz#a4785e135d5df65024dfc9224953df585bd2766c"
+
 jasmine-core@~2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
-
-jasmine-core@~2.99.1:
-  version "2.99.1"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.99.1.tgz#e6400df1e6b56e130b61c4bcd093daa7f6e8ca15"
 
 jasmine-spec-reporter@~4.2.1:
   version "4.2.1"
@@ -7943,9 +7943,11 @@ ngrx-store-localstorage@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-5.0.0.tgz#adc5b8373fee995f6bb2c508a0e510fc2047a74e"
 
-ngx-contextmenu@^4.1.2:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-4.2.0.tgz#aee4c355e79c2cc3c552d43d254eb399015307ae"
+ngx-contextmenu@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-5.0.0.tgz#2d2945436c8f24b9e04b7bb0650b2ec958766a7a"
+  dependencies:
+    tslib "^1.9.0"
 
 ngx-electron@^1.0.4:
   version "1.0.4"
