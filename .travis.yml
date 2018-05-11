@@ -6,7 +6,7 @@ os:
 - linux
 - osx
 node_js:
-- 6
+- 9
 env:
 - DEBUG=electron-forge:*
 addons:
@@ -23,17 +23,17 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 before_script:
-- npm install -g @angular/cli
-- npm install -g karma
-- npm install -g electron-forge
-- npm install
-- ng build
+- yarn global add @angular/cli
+- yarn global add karma
+- yarn global add electron-forge
+- yarn
+- yarn build
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
 before_deploy:
-- if [ ! -z "$TRAVIS_TAG" ]; then npm run build-electron; fi
+- if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 deploy:
 - provider: releases
   api_key:
