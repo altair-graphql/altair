@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "1.6.6",
+  "version": "1.7.0",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -34,12 +34,12 @@
     "publish-packages": "npm run build && lerna publish --skip-git --force-publish"
   },
   "engines": {
-    "node": ">= 6.9.1 < 9.0.0"
+    "node": ">= 6.9.1"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
-    "@angular/cdk": "5.2.2",
+    "@angular/cdk": "5.2.5",
     "@angular/cli": "^1.6.3",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
@@ -55,7 +55,7 @@
     "@ngrx/store": "^4.1.1",
     "@ngrx/store-devtools": "^5.2.0",
     "@ngx-translate/core": "^9.0.2",
-    "@ngx-translate/http-loader": "^2.0.1",
+    "@ngx-translate/http-loader": "^3.0.0",
     "@webcomponents/custom-elements": "^1.0.6",
     "angular-sortablejs": "^2.5.1",
     "balloon-css": "^0.5.0",
@@ -76,8 +76,8 @@
     "electron-updater": "^2.18.2",
     "express": "^4.16.2",
     "file-dialog": "^0.0.7",
-    "graphql": "0.13.1",
-    "graphql-query-compress": "^0.9.6",
+    "graphql": "^0.13.2",
+    "graphql-query-compress": "^1.0.0",
     "marked": "^0.3.12",
     "ng2-codemirror": "^1.1.3",
     "ng2-completer": "^1.6.3",
@@ -98,14 +98,14 @@
   },
   "devDependencies": {
     "@types/electron": "^1.4.38",
-    "@types/jasmine": "2.8.6",
-    "@types/node": "~9.4.6",
+    "@types/jasmine": "2.8.7",
+    "@types/node": "~10.0.3",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "codelyzer": "^4.0.2",
     "electron-builder": "^20.0.8",
-    "electron-prebuilt-compile": "1.8.2",
+    "electron-prebuilt-compile": "1.8.3",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
