@@ -84,7 +84,7 @@
     "ng2-dnd": "^5.0.2",
     "ng2-toastr": "^4.1.2",
     "ngrx-store-localstorage": "^5.0.0",
-    "ngx-contextmenu": "^4.1.2",
+    "ngx-contextmenu": "^5.0.0",
     "ngx-electron": "^1.0.4",
     "ngx-pipes": "^2.1.0",
     "opencollective": "^1.0.3",
