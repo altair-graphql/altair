@@ -7471,9 +7471,9 @@ ngx-contextmenu@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-4.1.2.tgz#1048f3553bf906aef96fa9febdeddc058f86958b"
 
-ngx-electron@imolorhe/ngx-electron:
+ngx-electron@^1.0.4:
   version "1.0.4"
-  resolved "https://codeload.github.com/imolorhe/ngx-electron/tar.gz/c0c87721466ea942797d49615f69974fac5a440e"
+  resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-1.0.4.tgz#2d80b25d74ae4d6226ad8b3bc4ecfa611e48fdca"
 
 ngx-pipes@^2.1.0:
   version "2.1.0"
