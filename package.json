@@ -50,7 +50,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/platform-server": "^6.0.0",
-    "@angular/router": "^5.2.0",
+    "@angular/router": "^6.0.0",
     "@ngrx/effects": "^4.1.1",
     "@ngrx/store": "^4.1.1",
     "@ngrx/store-devtools": "^4.1.1",
