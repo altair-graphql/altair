@@ -11,6 +11,8 @@ const buildDir = path.resolve(__dirname, '../build');
 
 const indexHtmlFile = path.join(distDestination, 'index.html');
 
+const cdnFile = fileName => `https://cdn.jsdelivr.net/npm/altair-static/dist/${fileName}`;
+
 ncp(distSrc, distDestination, function (err) {
   if (err) {
     return console.error(err);
@@ -20,7 +22,8 @@ ncp(distSrc, distDestination, function (err) {
   let indexHtmlStr = fs.readFileSync(indexHtmlFile, 'utf8');
 
   // Adjust the base URL to be relative to the current path
-  indexHtmlStr = indexHtmlStr.replace('<base href="/">', '<base href="./">');
+  indexHtmlStr = indexHtmlStr.replace('<base href="/">', '<base href="https://cdn.jsdelivr.net/npm/altair-static/dist/">'
+    /*'<base href="./">'*/);
 
   // Write the new string back to file
   fs.writeFileSync(indexHtmlFile, indexHtmlStr, 'utf8');
@@ -29,6 +32,9 @@ ncp(distSrc, distDestination, function (err) {
     const stats = JSON.parse(fs.readFileSync(path.resolve(distSrc, 'stats.json')));
 
     let buildIndexHtmlStr = fs.readFileSync(path.resolve(srcDir, 'index.html'), 'utf8');
+    buildIndexHtmlStr = buildIndexHtmlStr.replace('<base href="/">', '<base href="https://cdn.jsdelivr.net/npm/altair-static/dist/">'
+      /*'<base href="./">'*/
+    );
     buildIndexHtmlStr = buildIndexHtmlStr.replace('[% STYLES_FILE %]', stats.assetsByChunkName.styles);
     buildIndexHtmlStr = buildIndexHtmlStr.replace('[% INLINE_SCRIPT %]', stats.assetsByChunkName.inline);
     buildIndexHtmlStr = buildIndexHtmlStr.replace('[% POLYFILLS_SCRIPT %]', stats.assetsByChunkName.polyfills);
