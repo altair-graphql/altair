@@ -175,19 +175,19 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-server@^5.2.0":
-  version "5.2.10"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-5.2.10.tgz#36185a8ce137c1b65d74186f4b21566bcdb791b3"
+"@angular/platform-server@^6.0.0":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-6.0.1.tgz#90aeaa765bf44334561bc0a0209d3800e3881ae0"
   dependencies:
-    domino "^1.0.29"
-    tslib "^1.7.1"
+    domino "^2.0.1"
+    tslib "^1.9.0"
     xhr2 "^0.1.4"
 
-"@angular/router@^5.2.0":
-  version "5.2.10"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.2.10.tgz#cb36c32de0a233a9b49789e11ca0f96c5304f25a"
+"@angular/router@^6.0.0":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.0.1.tgz#bc4943b1798ed8f622f1a4f773ff5f01b5ab70de"
   dependencies:
-    tslib "^1.7.1"
+    tslib "^1.9.0"
 
 "@cliqz-oss/firefox-client@0.3.1":
   version "0.3.1"
@@ -672,9 +672,9 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ngrx/effects@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-4.1.1.tgz#cb758b8527964b258ea41951f59aa144e3ef9fae"
+"@ngrx/effects@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-5.2.0.tgz#aa762b69cb6fd4644d724a1cecd265caa42baf09"
 
 "@ngrx/store-devtools@^4.1.1":
   version "4.1.1"
@@ -3945,9 +3945,9 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-domino@^1.0.29:
-  version "1.0.30"
-  resolved "https://registry.yarnpkg.com/domino/-/domino-1.0.30.tgz#54a4154ecae968616680f8feba3cedff355c71f4"
+domino@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/domino/-/domino-2.0.2.tgz#fa2da6ace8381cf64089079470ee33c53901010f"
 
 domutils@1.1:
   version "1.1.6"
@@ -4198,15 +4198,15 @@ electron-osx-sign@0.4.10:
     minimist "^1.2.0"
     plist "^2.1.0"
 
-electron-prebuilt-compile@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.8.3.tgz#1dadbc7bb33a4f8419865df31e4e86facdccb6d9"
+electron-prebuilt-compile@1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.8.4.tgz#5f542de75334c8a48c1b32db853790567dd6a2b0"
   dependencies:
     babel-plugin-array-includes "^2.0.3"
     babel-plugin-transform-async-to-generator "^6.24.1"
     babel-preset-es2016-node5 "^1.1.2"
     babel-preset-react "^6.24.1"
-    electron "1.8.3"
+    electron "1.8.4"
     electron-compile "*"
     electron-compilers "*"
     yargs "^6.6.0"
@@ -4255,9 +4255,9 @@ electron@*:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.3.tgz#001416ea3a25ce594e317cb5531bc41eadd22f7f"
+electron@1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.4.tgz#cca8d0e6889f238f55b414ad224f03e03b226a38"
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^3.0.1"
@@ -6790,13 +6790,13 @@ jade@^1.11.0:
     void-elements "~2.0.1"
     with "~4.0.0"
 
+jasmine-core@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.1.0.tgz#a4785e135d5df65024dfc9224953df585bd2766c"
+
 jasmine-core@~2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
-
-jasmine-core@~2.99.1:
-  version "2.99.1"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.99.1.tgz#e6400df1e6b56e130b61c4bcd093daa7f6e8ca15"
 
 jasmine-spec-reporter@~4.2.1:
   version "4.2.1"
@@ -7035,33 +7035,31 @@ jws@^3.1.3:
     jwa "^1.1.4"
     safe-buffer "^5.0.1"
 
-karma-chrome-launcher@~2.2.0:
+karma-chrome-launcher@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/karma-chrome-launcher/-/karma-chrome-launcher-2.2.0.tgz#cf1b9d07136cc18fe239327d24654c3dbc368acf"
   dependencies:
     fs-access "^1.0.0"
     which "^1.2.1"
 
-karma-cli@~1.0.1:
+karma-cli@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/karma-cli/-/karma-cli-1.0.1.tgz#ae6c3c58a313a1d00b45164c455b9b86ce17f960"
   dependencies:
     resolve "^1.1.6"
 
-karma-coverage-istanbul-reporter@^1.4.1:
+karma-coverage-istanbul-reporter@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/karma-coverage-istanbul-reporter/-/karma-coverage-istanbul-reporter-1.4.2.tgz#a8d0c8815c7d6f6cea15a394a7c4b39ef151a939"
   dependencies:
     istanbul-api "^1.1.14"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-0.2.2.tgz#48a8e5ef18807617ee2b5e33c1194c35b439524c"
-  dependencies:
-    karma-jasmine "^1.0.2"
+karma-jasmine-html-reporter@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.1.0.tgz#e6ce732fac43cb3907d927d5a6b3ed6ee7e95486"
 
-karma-jasmine@^1.0.2, karma-jasmine@~1.1.0:
+karma-jasmine@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-1.1.2.tgz#394f2b25ffb4a644b9ada6f22d443e2fd08886c3"
 
@@ -7071,7 +7069,7 @@ karma-source-map-support@^1.2.0:
   dependencies:
     source-map-support "^0.5.5"
 
-karma@~2.0.0:
+karma@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.2.tgz#4d2db9402850a66551fa784b0164fb0824ed8c4b"
   dependencies:
@@ -7943,9 +7941,11 @@ ngrx-store-localstorage@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-5.0.0.tgz#adc5b8373fee995f6bb2c508a0e510fc2047a74e"
 
-ngx-contextmenu@^4.1.2:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-4.2.0.tgz#aee4c355e79c2cc3c552d43d254eb399015307ae"
+ngx-contextmenu@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-5.0.0.tgz#2d2945436c8f24b9e04b7bb0650b2ec958766a7a"
+  dependencies:
+    tslib "^1.9.0"
 
 ngx-electron@^1.0.4:
   version "1.0.4"
@@ -11661,9 +11661,9 @@ truncate-utf8-bytes@^1.0.0:
   dependencies:
     utf8-byte-length "^1.0.1"
 
-ts-node@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-5.0.1.tgz#78e5d1cb3f704de1b641e43b76be2d4094f06f81"
+ts-node@^6.0.0:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.0.3.tgz#28bf74bcad134fad17f7469dad04638ece03f0f4"
   dependencies:
     arrify "^1.0.0"
     chalk "^2.3.0"
