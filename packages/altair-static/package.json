@@ -1,6 +1,6 @@
 {
   "name": "altair-static",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Static package for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -28,10 +28,8 @@
     "url": "https://github.com/imolorhe/altair/issues"
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
-  "dependencies": {
-  },
   "devDependencies": {
     "typescript": "^2.8.1"
-  }
+  },
+  "gitHead": "eaad78119e8966f659d2115ff28cf30f27f729bf"
 }
-
