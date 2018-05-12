@@ -3,5 +3,7 @@
     "packages/*"
   ],
   "version": "independent",
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "lerna": "2.11.0",
+  "npmClient": "yarn"
 }

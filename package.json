@@ -114,7 +114,7 @@
     "karma-coverage-istanbul-reporter": "^1.4.2",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^1.1.0",
-    "lerna": "^3.0.0-alpha.1",
+    "lerna": "^2.11.0",
     "mime-types": "^2.1.17",
     "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.0",
