@@ -1,7 +1,7 @@
 platform:
 - x64
 environment:
-  nodejs_version: "6"
+  nodejs_version: "9"
   GITHUB_TOKEN:
     secure: UAWP+sQRK/cwf+zm45J2nJdQ50HWFHL14jnjWN/bc2nqZbU9RDq1yiLF+mM7RaSo
 cache:

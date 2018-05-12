@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "build/",
+    "declaration": true,
+    "types": [
+      "node",
+      "express"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.d.ts"
+  ]
+}

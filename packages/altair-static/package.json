@@ -1,14 +1,14 @@
 {
-  "name": "altair-express-middleware",
-  "version": "1.0.6",
-  "description": "Express middleware for altair graphql client",
+  "name": "altair-static",
+  "version": "1.0.5",
+  "description": "Static package for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare-dist": "node scripts/prepare_dist.js",
-    "declarations": "tsc --declaration",
-    "prepare": "npm run declarations"
+    "compile": "tsc --declaration",
+    "prepare": "npm run prepare-dist; npm run compile"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -20,8 +20,7 @@
   "keywords": [
     "altair",
     "graphql",
-    "express",
-    "middleware"
+    "static"
   ],
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design)",
   "license": "MIT",
@@ -29,12 +28,7 @@
     "url": "https://github.com/imolorhe/altair/issues"
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
-  "dependencies": {
-    "altair-static": "^1.0.5",
-    "express": "^4.16.2"
-  },
   "devDependencies": {
-    "@types/express": "^4.11.1",
     "typescript": "^2.8.1"
   },
   "gitHead": "eaad78119e8966f659d2115ff28cf30f27f729bf"

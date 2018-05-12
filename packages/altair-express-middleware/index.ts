@@ -2,15 +2,14 @@
 
 const path = require('path');
 const express = require('express');
+const altairStatic = require('altair-static');
 
 module.exports = {
   altairExpress: (opts) => {
     const app = express();
 
-    app.use(express.static(path.join(__dirname, 'dist')));
-
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'dist/index.html'));
+      return res.send(altairStatic.renderAltair());
     });
 
     return app;
