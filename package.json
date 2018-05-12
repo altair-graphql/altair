@@ -53,7 +53,7 @@
     "@angular/router": "^6.0.0",
     "@ngrx/effects": "^5.2.0",
     "@ngrx/store": "^5.2.0",
-    "@ngrx/store-devtools": "^4.1.1",
+    "@ngrx/store-devtools": "^5.2.0",
     "@ngx-translate/core": "^9.0.2",
     "@ngx-translate/http-loader": "^3.0.0",
     "@webcomponents/custom-elements": "^1.0.6",
