@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../reducers';
