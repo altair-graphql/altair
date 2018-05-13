@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "outDir": "build/",
+    "rootDir": "src",
     "declaration": true,
+    "target": "es5",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "types": [
-      "node",
-      "express"
+      "node"
     ]
-  },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.d.ts"
-  ]
+  }
 }

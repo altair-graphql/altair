@@ -41,6 +41,8 @@ export class AppComponent {
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 
+  showImportCurlDialog = false;
+
   constructor(
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
@@ -87,6 +89,8 @@ export class AppComponent {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
         this.showDonationAlert = data.donation.showAlert;
+
+        this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
 
         // Set the window IDs in the meta state if it does not already exist
         if (data.windowsMeta.windowIds) {
@@ -174,12 +178,20 @@ export class AppComponent {
     this.store.dispatch(new windowsActions.ImportWindowAction());
   }
 
+  importWindowFromCurl(data: string) {
+    this.store.dispatch(new windowsActions.ImportWindowFromCurlAction({ data }));
+  }
+
   showSettingsDialog() {
     this.store.dispatch(new settingsActions.ShowSettingsAction());
   }
 
   hideSettingsDialog() {
     this.store.dispatch(new settingsActions.HideSettingsAction());
+  }
+
+  setShowImportCurlDialog(value) {
+    this.store.dispatch(new windowsMetaActions.ShowImportCurlDialogAction({ value }));
   }
 
   onThemeChange(theme) {

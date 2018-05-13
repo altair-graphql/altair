@@ -1,5 +1,6 @@
 import * as toSnakeCase from 'to-snake-case';
 import * as downloadJs from 'downloadjs';
+import * as parseCurl from 'parse-curl';
 const fileDialog = require('file-dialog');
 
 /**
@@ -74,3 +75,5 @@ export const openFile = (...args) => {
     console.log('There was an issue while opening the file: ', err);
   });
 }
+
+export const parseCurlToObj = (...args) => parseCurl(...args);

@@ -18,7 +18,7 @@ import * as windowActions from '../actions/windows/windows';
 
 import { DbService } from '../services/db.service';
 
-import { getFileStr } from '../utils';
+import { getFileStr, parseCurlToObj } from '../utils';
 
 @Injectable()
 export class WindowService {
@@ -86,18 +86,53 @@ export class WindowService {
     });
   }
 
+  importWindowDataFromJson(data: string) {
+    if (!data) {
+      throw new Error('String is empty.');
+    }
+
+    try {
+      return this.importWindowData(JSON.parse(data));
+    } catch (err) {
+      console.log('The file is invalid.', err);
+    }
+  }
+
+  importWindowDataFromCurl(curlStr: string) {
+    if (!curlStr) {
+      throw new Error('String is empty.');
+    }
+
+    try {
+      const curlObj = parseCurlToObj(curlStr);
+      const windowData: fromWindows.ExportWindowState = {
+        version: 1,
+        type: 'window',
+        query: curlObj.body ? JSON.parse(curlObj.body).query : '',
+        apiUrl: curlObj.url,
+        variables: curlObj.body ? JSON.stringify(JSON.parse(curlObj.body).variables) : '',
+        subscriptionUrl: '',
+        headers: curlObj.headers ? Object.keys(curlObj.headers).map(key => ({ key, value: curlObj.headers[key] })) : [],
+        windowName: `cURL-${Date.now()}`
+      };
+
+      return this.importWindowData(windowData);
+    } catch (err) {
+      console.log('The file is invalid.', err);
+    }
+  }
+
   /**
    * Import the window represented by the provided data string
    * @param data window data string
    */
-  importWindowData(data: string) {
+  importWindowData(data: fromWindows.ExportWindowState) {
     try {
       // Verify file's content
       if (!data) {
-        throw new Error('File is empty.');
+        throw new Error('Object is empty.');
       }
-      const parsed: fromWindows.ExportWindowState = JSON.parse(data);
-      if (!parsed.version || !parsed.type || parsed.type !== 'window') {
+      if (!data.version || !data.type || data.type !== 'window') {
         throw new Error('File is not a valid Altair file.');
       }
       // Importing window data...
@@ -111,33 +146,33 @@ export class WindowService {
       this.newWindow().subscribe(newWindow => {
         const windowId = newWindow.windowId;
 
-        if (parsed.windowName) {
-          this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, parsed.windowName));
+        if (data.windowName) {
+          this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
         }
 
-        if (parsed.apiUrl) {
-          this.store.dispatch(new queryActions.SetUrlAction({ url: parsed.apiUrl }, windowId));
+        if (data.apiUrl) {
+          this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
           this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
         }
 
-        if (parsed.query) {
-          this.store.dispatch(new queryActions.SetQueryAction(parsed.query, windowId));
+        if (data.query) {
+          this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
         }
 
-        if (parsed.headers.length) {
-          this.store.dispatch(new headerActions.SetHeadersAction({ headers: parsed.headers }, windowId));
+        if (data.headers.length) {
+          this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
         }
 
-        if (parsed.variables) {
-          this.store.dispatch(new variableActions.UpdateVariablesAction(parsed.variables, windowId));
+        if (data.variables) {
+          this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
         }
 
-        if (parsed.subscriptionUrl) {
-          this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: parsed.subscriptionUrl }, windowId));
+        if (data.subscriptionUrl) {
+          this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
         }
       });
     } catch (err) {
-      console.log('The file is invalid.', err);
+      console.log('Something went wrong while importing the data.', err);
     }
   }
 
@@ -151,7 +186,7 @@ export class WindowService {
         const parsed = JSON.parse(dataStr);
 
         if (parsed.type === 'window') {
-          this.importWindowData(dataStr);
+          this.importWindowData(parsed);
         }
       } catch (err) {
         console.log('There was an issue importing the file.');

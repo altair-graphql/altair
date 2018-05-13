@@ -5,11 +5,13 @@ import * as windowsMeta from '../../actions/windows-meta/windows-meta';
 export interface State {
   activeWindowId: string;
   windowIds: Array<string>;
+  showImportCurlDialog: boolean;
 }
 
 const initialState: State = {
   activeWindowId: '',
-  windowIds: []
+  windowIds: [],
+  showImportCurlDialog: false,
 };
 
 export function windowsMetaReducer(state = initialState, action: windowsMeta.Action): State {
@@ -29,6 +31,8 @@ export function windowsMetaReducer(state = initialState, action: windowsMeta.Act
         return { ...state, windowIds: [ ...arr ] };
       }
       return state;
+    case windowsMeta.SHOW_IMPORT_CURL_DIALOG:
+      return { ...state, showImportCurlDialog: action.payload.value };
     default:
       return state;
   }
