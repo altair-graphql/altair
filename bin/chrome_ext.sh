@@ -24,6 +24,9 @@ find chrome-extension -name '*.map' -type f -delete
 # Remove all .DS_Store files from the chrome-extension directory
 find chrome-extension -name '.DS_Store' -type f -delete
 
+# Remove all stats.json files from the chrome-extension directory
+find chrome-extension -name 'stats.json' -type f -delete
+
 # Remove all readme image assets
 echo 'Removing readme image assets...'
 rm -rf chrome-extension/assets/img/readme/

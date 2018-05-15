@@ -15,6 +15,8 @@
 
 ![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
 
+Would you like to help with translations? [Click here](https://crwd.in/altair-gql).
+
 # Altair GraphQL Client (https://altair.sirmuel.design/)
 
 A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.

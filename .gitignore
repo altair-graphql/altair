@@ -1,7 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
 /tmp
 /out-tsc
 /chrome-extension
@@ -15,10 +14,11 @@ altair.zip
 /firebase-sample-dist
 *.nex
 
-/packages/**/dist
+dist
+build
 
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
 /.idea
