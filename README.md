@@ -13,15 +13,16 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 [![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
 
-<div style="text-align: center;">
+<div align="center" style="text-align: center;">
 
-![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
+<img src="src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
 
+<h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
+
+<hr>
 </div>
 
 Would you like to help with translations? [Click here](https://crwd.in/altair-gql).
-
-# Altair GraphQL Client (https://altair.sirmuel.design/)
 
 ![set url](src/assets/img/readme/app-shot.jpg "Altair GraphQL Client")
 
