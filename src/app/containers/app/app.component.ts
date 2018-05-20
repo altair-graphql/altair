@@ -2,9 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { ElectronService } from 'ngx-electron';
-
-import isElectron from '../../utils/is_electron';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
@@ -22,9 +19,10 @@ import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
 
-import { QueryService, GqlService, WindowService, DonationService } from '../../services';
+import { QueryService, GqlService, WindowService, DonationService, ElectronAppService } from '../../services';
 
 import config from '../../config';
+import isElectron from '../../utils/is_electron';
 
 @Component({
   selector: 'app-root',
@@ -47,8 +45,8 @@ export class AppComponent {
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
     private translate: TranslateService,
-    private electron: ElectronService,
-    private donationService: DonationService
+    private donationService: DonationService,
+    private electronApp: ElectronAppService,
   ) {
     this.settings$ = this.store.select('settings').distinctUntilChanged();
 
@@ -70,16 +68,7 @@ export class AppComponent {
         this.translate.use(language);
       });
 
-    if (this.electron.isElectronApp) {
-      this.electron.ipcRenderer.on('create-tab', () => {
-        this.newWindow();
-      });
-      this.electron.ipcRenderer.on('close-tab', () => {
-        if (this.windowIds.length > 1) {
-          this.removeWindow(this.activeWindowId);
-        }
-      });
-    }
+    this.electronApp.connect();
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);

@@ -57,6 +57,7 @@ const providers = [
     services.WindowService,
     services.NotifyService,
     services.DonationService,
+    services.ElectronAppService,
     { provide: ToastOptions, useClass: CustomOption },
     reducerProvider
 ];
