@@ -13,21 +13,26 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 [![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
 
-![altair logo](src/assets/img/altair_logo_128.png "Altair GraphQL Client")
+<div align="center" style="text-align: center;">
+
+<img src="src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
+
+<h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
+
+<hr>
+</div>
 
 Would you like to help with translations? [Click here](https://crwd.in/altair-gql).
 
-# Altair GraphQL Client (https://altair.sirmuel.design/)
+![set url](src/assets/img/readme/app-shot.jpg "Altair GraphQL Client")
 
 A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.
 
-Web app: https://altair-gql.firebaseapp.com/
+Web app: https://altair-gql.sirmuel.design/
 
 There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and a [firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
-
-![set url](src/assets/img/readme/set-url.gif "Altair GraphQL Client")
 
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
