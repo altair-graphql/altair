@@ -26,6 +26,7 @@ describe('AppComponent', () => {
       services.DbService,
       services.WindowService,
       services.DonationService,
+      services.ElectronAppService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
