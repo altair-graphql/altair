@@ -64,8 +64,16 @@ export class WindowsEffects {
     .ofType(windowActions.IMPORT_WINDOW)
     .switchMap(action => {
       openFile({ accept: '.agq' }).then((data: string) => {
-        this.windowService.importWindowData(data);
+        this.windowService.importWindowDataFromJson(data);
       });
+      return Observable.empty();
+    });
+
+  @Effect()
+  importWindowFromCurl$: Observable<Action> = this.actions$
+    .ofType(windowActions.IMPORT_WINDOW_FROM_CURL)
+    .switchMap((action: windowActions.Action) => {
+      this.windowService.importWindowDataFromCurl(action.payload.data);
       return Observable.empty();
     });
 

@@ -61,5 +61,10 @@
   "DUPLICATE_WINDOW_TEXT": "Duplicate",
 
   "IMPORT_WINDOW_TEXT": "Import Window...",
-  "EXPORT_WINDOW_TEXT": "Export Window"
+  "IMPORT_WINDOW_FROM_CURL_TEXT": "Import from cURL...",
+  "EXPORT_WINDOW_TEXT": "Export Window",
+
+  "IMPORT_CURL_TITLE_TEXT": "Import cURL",
+  "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
+  "IMPORT_BUTTON": "Import"
 }

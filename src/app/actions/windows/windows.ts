@@ -8,6 +8,7 @@ export const REMOVE_WINDOW = 'REMOVE_WINDOW';
 
 export const EXPORT_WINDOW = 'EXPORT_WINDOW';
 export const IMPORT_WINDOW = 'IMPORT_WINDOW';
+export const IMPORT_WINDOW_FROM_CURL = 'IMPORT_WINDOW_FROM_CURL';
 
 export class AddWindowAction implements Action {
   readonly type = ADD_WINDOW;
@@ -38,4 +39,16 @@ export class ImportWindowAction implements Action {
   constructor(public payload?: any) { }
 }
 
-export type Action = AddWindowAction | SetWindowsAction | RemoveWindowAction | ExportWindowAction | ImportWindowAction;
+export class ImportWindowFromCurlAction implements Action {
+  readonly type = IMPORT_WINDOW_FROM_CURL;
+
+  constructor(public payload?: { data: string }) { }
+}
+
+export type Action =
+  | AddWindowAction
+  | SetWindowsAction
+  | RemoveWindowAction
+  | ExportWindowAction
+  | ImportWindowAction
+  | ImportWindowFromCurlAction;

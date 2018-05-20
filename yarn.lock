@@ -8083,6 +8083,12 @@ parse-color@^1.0.0:
   dependencies:
     color-convert "~0.5.0"
 
+parse-curl@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/parse-curl/-/parse-curl-0.2.6.tgz#bf755ae6b572de2745daf6b98af144dff32d225b"
+  dependencies:
+    shellwords "^0.1.0"
+
 parse-entities@^1.0.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/parse-entities/-/parse-entities-1.1.2.tgz#9eaf719b29dc3bd62246b4332009072e01527777"
@@ -9860,7 +9866,7 @@ shelljs@^0.7.5:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
-shellwords@^0.1.1:
+shellwords@^0.1.0, shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
 
