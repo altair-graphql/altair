@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -88,6 +88,7 @@
     "ngx-electron": "^1.0.4",
     "ngx-pipes": "^2.1.0",
     "opencollective": "^1.0.3",
+    "parse-curl": "^0.2.6",
     "rxjs": "^5.5.6",
     "sortablejs": "^1.7.0",
     "subscriptions-transport-ws": "^0.9.5",
@@ -99,7 +100,7 @@
   "devDependencies": {
     "@types/electron": "^1.4.38",
     "@types/jasmine": "2.8.7",
-    "@types/node": "~10.0.3",
+    "@types/node": "~10.1.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
@@ -111,7 +112,7 @@
     "karma": "^2.0.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
-    "karma-coverage-istanbul-reporter": "^1.4.2",
+    "karma-coverage-istanbul-reporter": "^2.0.0",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^1.1.0",
     "lerna": "^2.11.0",

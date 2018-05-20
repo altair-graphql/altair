@@ -22,8 +22,8 @@ export class UrlBoxComponent {
   constructor() { }
 
   setApiUrl() {
-    const url = this.urlInput.nativeElement.value;
-    this.urlChange.emit(url);
+    const url: string = this.urlInput.nativeElement.value;
+    this.urlChange.emit(url.trim());
   }
 
   setVerb(verb) {

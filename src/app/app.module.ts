@@ -57,6 +57,7 @@ const providers = [
     services.WindowService,
     services.NotifyService,
     services.DonationService,
+    services.ElectronAppService,
     { provide: ToastOptions, useClass: CustomOption },
     reducerProvider
 ];
@@ -64,7 +65,7 @@ const providers = [
 @NgModule({
   declarations: [
     AppComponent,
-    WindowComponent
+    WindowComponent,
   ],
   imports: [
     BrowserModule,

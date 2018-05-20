@@ -5,7 +5,7 @@ const fs = require('fs');
 const mime = require('mime-types');
 
 const { createMenu } = require('./menu');
-const { touchBar } = require('./touchbar');
+const { createTouchBar } = require('./touchbar');
 
 let instance = null;
 
@@ -17,7 +17,16 @@ const actions = {
   closeTab: () => {
     console.log('Close tab.');
     instance.webContents.send('close-tab', true);
-  }
+  },
+  sendRequest: () => {
+    instance.webContents.send('send-request', true);
+  },
+  reloadDocs: () => {
+    instance.webContents.send('reload-docs', true);
+  },
+  showDocs: () => {
+    instance.webContents.send('show-docs', true);
+  },
 };
 
 const createWindow = () => {
@@ -78,7 +87,7 @@ const createWindow = () => {
   // instance.webContents.openDevTools();
 
   // Set the touchbar
-  instance.setTouchBar(touchBar);
+  instance.setTouchBar(createTouchBar(actions));
 
   // Prevent the app from navigating away from the app
   instance.webContents.on('will-navigate', (e, url) => e.preventDefault());

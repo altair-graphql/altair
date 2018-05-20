@@ -20,6 +20,7 @@ import { SubscriptionUrlDialogComponent } from './subscription-url-dialog/subscr
 import { SubscriptionResultItemComponent } from './subscription-result-item/subscription-result-item.component';
 import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
+import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dialog.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -32,7 +33,8 @@ const COMPONENTS = [
   SubscriptionResultItemComponent,
   UrlBoxComponent,
   HistoryDialogComponent,
-  SettingsDialogComponent
+  SettingsDialogComponent,
+  ImportCurlDialogComponent,
 ];
 
 @NgModule({

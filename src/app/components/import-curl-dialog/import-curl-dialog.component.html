@@ -1,0 +1,20 @@
+<clr-modal [clrModalOpen]="showImportCurlDialog" (clrModalOpenChange)="toggleDialogChange.next($event)">
+  <h3 class="modal-title">
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'IMPORT_CURL_TITLE_TEXT' | translate }}</div>
+      {{ 'IMPORT_CURL_TITLE_SUBTEXT' | translate }}
+    </div>
+  </h3>
+  <div class="modal-body">
+    <div class="app-dialog-body">
+      <div class="form-group">
+        <textarea class="dialog-textarea" aria-label="text input" cols="30" rows="10" [(ngModel)]="textAreaInput"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="app-dialog-footer">
+      <button class="app-button active-primary right" (click)="importInput()">{{ 'IMPORT_BUTTON' | translate }}</button>
+    </div>
+  </div>
+</clr-modal>

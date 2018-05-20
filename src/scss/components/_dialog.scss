@@ -44,6 +44,11 @@
     border-color: $green;
   }
 }
+.dialog-textarea {
+  width: 100%;
+  border: 1px solid $green;
+  border-radius: 4px;
+}
 .set-header-input-container {
   display: flex;
   flex: 1;

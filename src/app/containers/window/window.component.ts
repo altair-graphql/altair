@@ -153,6 +153,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
+  // TODO: Move logic into effect
   sendRequest() {
     // Store the current query into the history if it does not already exist in the history
     if (!this.historyList.filter(item => item.query.trim() === this.query.trim()).length) {
@@ -257,7 +258,6 @@ export class WindowComponent implements OnInit {
   addQueryToEditor(queryData: { query: String, meta: any }) {
     // Add the query to what is already in the editor
     this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
-    this.store.dispatch(new layoutActions.NotifyExperimentalAction(this.windowId));
 
     // If the query has args
     if (queryData.meta.hasArgs) {

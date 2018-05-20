@@ -47,7 +47,7 @@ releases:
   -
     name: web
     image: webapp_icon.svg
-    link: https://altair-gql.firebaseapp.com/
+    link: https://altair-gql.sirmuel.design/
 
 # Build settings
 markdown: kramdown

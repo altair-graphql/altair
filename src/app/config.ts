@@ -10,6 +10,6 @@ export default {
   max_windows: 10,
   default_language: 'en',
   languages: { en: 'English', fr: 'French', es: 'Español', cn: '中文' },
-  query_history_depth: isElectron ? 25 : 7,
+  query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark']
 };
