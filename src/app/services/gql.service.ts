@@ -148,7 +148,7 @@ export class GqlService {
       }
       return null;
     } catch (err) {
-      console.error('Bad introspection data.');
+      console.error('Bad introspection data.', err);
       return null;
     }
   }
