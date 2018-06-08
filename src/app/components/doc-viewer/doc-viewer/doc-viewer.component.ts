@@ -193,6 +193,14 @@ export class DocViewerComponent implements OnChanges {
       this.index = [...this.index, ...getTypeIndices(type, true, this.index)];
     });
 
+    // Get types from typeMap into index as well, excluding the __
+    const schemaTypeMap = schema.getTypeMap();
+    Object.keys(schemaTypeMap).forEach(key => {
+      if (!/^__/.test(key)) {
+        this.index = [...this.index, ...getTypeIndices(schemaTypeMap[key], false, this.index)];
+      }
+    });
+
     this.index$.next(this.index);
 
     console.log('Index: ', this.index);

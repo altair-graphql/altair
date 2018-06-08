@@ -4,6 +4,7 @@
     <div class="doc-viewer-item-query-inner">
       {{ data.name }}
       <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
+      <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
     </div>
     <div class="doc-viewer-item-query-description">
       {{ data.description }}
@@ -88,3 +89,32 @@
       <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
     </button>
   </div>
+</div>
+
+<div class="doc-viewer-section doc-viewer-implementations" *ngIf="getTypeImplementations(data).length">
+  <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}</div>
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data);">
+    <div class="doc-viewer-item-query-inner">
+      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        {{ item.name }}
+      </span>
+    </div>
+    <div class="doc-viewer-item-query-description">
+      {{ item.description }}
+    </div>
+  </div>
+</div>
+
+<div class="doc-viewer-section doc-viewer-implements" *ngIf="getTypeImplements(data).length">
+  <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTS_TEXT' | translate }}</div>
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data);">
+    <div class="doc-viewer-item-query-inner">
+      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        {{ item.name }}
+      </span>
+    </div>
+    <div class="doc-viewer-item-query-description">
+      {{ item.description }}
+    </div>
+  </div>
+</div>
