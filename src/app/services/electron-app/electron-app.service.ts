@@ -50,4 +50,10 @@ export class ElectronAppService {
       console.log('Electron app connected.');
     }
   }
+
+  setHeaders(headers) {
+    if (this.electron.isElectronApp) {
+      this.electron.ipcRenderer.sendSync('set-headers-sync', headers);
+    }
+  }
 }

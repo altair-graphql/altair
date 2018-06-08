@@ -124,7 +124,7 @@ export class DocViewerComponent implements OnChanges {
 
         // For each argument of the field, create an entry in the index for the field,
         // searchable by the argument name
-        if (field.args.length) {
+        if (field.args && field.args.length) {
           field.args.forEach(arg => {
             index = [...index, {
               ...fieldIndex,
