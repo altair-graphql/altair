@@ -24,6 +24,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = config.add_query_depth_limit;
+  @Input() tabSize = config.tab_size;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
@@ -332,7 +333,7 @@ export class DocViewerComponent implements OnChanges {
 
     // console.log('Generating query for ', name, parentType);
 
-    const tabSize = 2;
+    const tabSize = this.tabSize || 2;
     const field = this.gqlSchema.getType(parentType).getFields()[name];
 
     const meta = {

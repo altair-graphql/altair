@@ -7,6 +7,7 @@ export default {
   },
   ga: 'UA-41432833-6',
   add_query_depth_limit: 3,
+  tab_size: 2,
   max_windows: 10,
   default_language: 'en',
   languages: { en: 'English', fr: 'French', es: 'Español', cn: '中文' },

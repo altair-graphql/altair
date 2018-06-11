@@ -39,6 +39,7 @@
           (sendRequest)="sendRequest()"
           [query]="query"
           [gqlSchema]="gqlSchema"
+          [tabSize]="tabSize$ | async"
         ></app-query-editor>
         <app-query-result
           [queryResult]="queryResult$ | async"
@@ -58,6 +59,7 @@
           [ngClass]="{'hide-doc': !(showDocs$ | async)}"
           [isLoading]="docsIsLoading$ | async"
           [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
+          [tabSize]="tabSize$ | async"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
           (exportSDLChange)="exportSDL()"

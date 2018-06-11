@@ -195,6 +195,10 @@ export class AppComponent {
     this.store.dispatch(new settingsActions.SetAddQueryDepthLimitAction({ value: depthLimit }));
   }
 
+  onTabSizeChange(tabSize) {
+    this.store.dispatch(new settingsActions.SetTabSizeAction({ value: tabSize }));
+  }
+
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
     if (dataTransfer && dataTransfer.files) {

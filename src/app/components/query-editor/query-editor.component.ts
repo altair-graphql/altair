@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   AfterViewInit,
   OnChanges,
   Input,
@@ -37,12 +38,13 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements AfterViewInit, OnChanges {
+export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
   @Output() queryChange = new EventEmitter<string>();
   @Input() query;
   @Input() gqlSchema = null;
+  @Input() tabSize = 2;
 
   @ViewChild('editor') editor;
 
@@ -53,7 +55,8 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
     lineWrapping: true,
     lineNumbers: true,
     foldGutter: true,
-    tabSize: 2,
+    tabSize: this.tabSize,
+    indentUnit: this.tabSize,
     extraKeys: {
       'Cmd-Enter': (cm) => this.sendRequest.next(cm),
       'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
@@ -75,6 +78,9 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
   };
 
   constructor() {
+  }
+
+  ngOnInit() {
     if (this.gqlSchema) {
       this.editorConfig.lint = {};
       this.editorConfig.hintOptions = {
@@ -87,6 +93,8 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
         }
       };
       this.editorConfig.jump = {};
+      this.editorConfig.tabSize = this.tabSize || 2;
+      this.editorConfig.indentUnit = this.tabSize || 2;
 
       this.updateEditorSchema(this.gqlSchema);
     }
