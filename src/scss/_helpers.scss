@@ -9,9 +9,10 @@
     }
 }
 @mixin main-content-col {
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
-  flex: 1;
+    position: relative;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    flex: 1;
 }
 
 .hide{

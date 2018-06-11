@@ -5,6 +5,8 @@ import {
   ElementRef,
   Output,
   EventEmitter,
+  Input,
+  HostBinding,
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -14,14 +16,16 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./flex-resizer.component.scss']
 })
 export class FlexResizerComponent implements OnInit {
+  @Input() resizeDirection = 'left';
   @Output() resizeChange = new EventEmitter();
+
+  @HostBinding('class.is-right') isRight = false;
 
   /**
    * Element to be resized
    */
   resizeElement: Element;
   resizeContainer: Element;
-  resizeDirection = 'left';
   draggingMode = false;
   px: number;
   py: number;
@@ -46,6 +50,9 @@ export class FlexResizerComponent implements OnInit {
 
   ngOnInit() {
     this.mouseMoveObservable.subscribe((event: MouseEvent) => this.handleResizerMove(event));
+    if (this.resizeDirection === 'right') {
+      this.isRight = true;
+    }
   }
 
   @HostListener('mousedown', [ '$event' ])
@@ -75,7 +82,7 @@ export class FlexResizerComponent implements OnInit {
     this.diffX = event.clientX - this.originalX;
     const offsetY = event.clientY - this.py;
 
-    const newWidth = this.originalWidth - this.diffX;
+    const newWidth = this.isRight ? this.originalWidth + this.diffX : this.originalWidth - this.diffX;
 
     const widthRatio = newWidth / this.resizeContainer.clientWidth;
     const newGrowthFactor = (widthRatio * this.siblingGrowthFactor) / (1 - widthRatio);

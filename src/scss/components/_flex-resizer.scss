@@ -16,6 +16,10 @@ app-flex-resizer {
   border-radius: 10px;
   transition: all .3s ease;
   cursor: col-resize;
+  &.is-right {
+      right: 0;
+      left: auto;
+  }
   &:hover {
       background: $theme-border-color;
   }

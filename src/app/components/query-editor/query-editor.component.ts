@@ -1,13 +1,13 @@
 import {
   Component,
-  OnInit,
   AfterViewInit,
   OnChanges,
   Input,
   Output,
   EventEmitter,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  HostBinding
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -45,6 +45,8 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
   @Input() gqlSchema = null;
 
   @ViewChild('editor') editor;
+
+  @HostBinding('style.flex-grow') public resizeFactor;
 
   editorConfig = <any>{
     mode: 'graphql',
@@ -146,6 +148,10 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
       this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
+  }
+
+  onResize(resizeFactor) {
+    this.resizeFactor = resizeFactor;
   }
 
 }
