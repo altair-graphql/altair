@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from 'ng2-codemirror';
 
 import { QueryEditorComponent } from './query-editor.component';
+import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';
 
 describe('QueryEditorComponent', () => {
   let component: QueryEditorComponent;
@@ -11,10 +12,10 @@ describe('QueryEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryEditorComponent ],
+      declarations: [ QueryEditorComponent, FlexResizerComponent ],
       imports: [
         FormsModule,
-        CodemirrorModule
+        CodemirrorModule,
       ]
     })
     .compileComponents();
