@@ -63,3 +63,4 @@
 <div class="app-doc-notice" *ngIf="!allowIntrospection">
   {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
 </div>
+<app-flex-resizer (resizeChange)="onResize($event)"></app-flex-resizer>

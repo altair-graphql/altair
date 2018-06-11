@@ -4,7 +4,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  HostBinding
 } from '@angular/core';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +27,8 @@ export class DocViewerComponent implements OnChanges {
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
+
+  @HostBinding('style.flex-grow') public resizeFactor;
 
   rootTypes = [];
   index = [];
@@ -411,5 +414,9 @@ export class DocViewerComponent implements OnChanges {
 
   exportSDL() {
     this.exportSDLChange.next();
+  }
+
+  onResize(resizeFactor) {
+    this.resizeFactor = resizeFactor;
   }
 }

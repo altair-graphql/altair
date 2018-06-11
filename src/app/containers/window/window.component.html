@@ -32,7 +32,7 @@
       [isSubscribed]="isSubscribed$ | async"
     ></app-action-bar> -->
     <div class="main-content-area">
-      <div class="row main-content-row">
+      <div class="row main-content-row" data-resize-container>
         <app-query-editor
           #queryEditor
           (queryChange)="updateQuery($event)"
