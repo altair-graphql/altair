@@ -33,33 +33,29 @@
     ></app-action-bar> -->
     <div class="main-content-area">
       <div class="row main-content-row">
-        <div class="col-xs-6">
-          <app-query-editor
-            #queryEditor
-            (queryChange)="updateQuery($event)"
-            (sendRequest)="sendRequest()"
-            [query]="query"
-            [gqlSchema]="gqlSchema"
-          ></app-query-editor>
-        </div>
-        <div class="col-xs-6">
-          <app-query-result
-            [queryResult]="queryResult$ | async"
-            [responseTime]="responseTime$ | async"
-            [responseStatus]="responseStatus$ | async"
-            [responseStatusText]="responseStatusText$ | async"
-            [isSubscribed]="isSubscribed$ | async"
-            [subscriptionResponses]="subscriptionResponses$ | async"
-            [subscriptionUrl]="subscriptionUrl"
+        <app-query-editor
+          #queryEditor
+          (queryChange)="updateQuery($event)"
+          (sendRequest)="sendRequest()"
+          [query]="query"
+          [gqlSchema]="gqlSchema"
+        ></app-query-editor>
+        <app-query-result
+          [queryResult]="queryResult$ | async"
+          [responseTime]="responseTime$ | async"
+          [responseStatus]="responseStatus$ | async"
+          [responseStatusText]="responseStatusText$ | async"
+          [isSubscribed]="isSubscribed$ | async"
+          [subscriptionResponses]="subscriptionResponses$ | async"
+          [subscriptionUrl]="subscriptionUrl"
 
-            (downloadResultChange)="downloadResult()"
-            (stopSubscriptionChange)="stopSubscription()"
-          ></app-query-result>
-        </div>
+          (downloadResultChange)="downloadResult()"
+          (stopSubscriptionChange)="stopSubscription()"
+        ></app-query-result>
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
           [allowIntrospection]="allowIntrospection$ | async"
-          [ngClass]="{'show-doc': showDocs$ | async}"
+          [ngClass]="{'hide-doc': !(showDocs$ | async)}"
           [isLoading]="docsIsLoading$ | async"
           [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
           (toggleDocsChange)="toggleDocs()"

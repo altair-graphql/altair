@@ -65,7 +65,7 @@ export class WindowComponent implements OnInit {
 
   historyList: fromHistory.HistoryList = [];
 
-  collapsed = false;
+  collapsed = true;
 
   constructor(
     private queryService: QueryService,
