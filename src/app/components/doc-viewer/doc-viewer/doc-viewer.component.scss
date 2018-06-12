@@ -1,18 +1,14 @@
-app-doc-viewer{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 40%;
+app-doc-viewer {
+    position: relative;
   background: $theme-bg-color;
   z-index: 7;
-  transform: translateX(100%);
   transition: all .5s var(--app-easing);
-  overflow: auto;
+//   overflow: auto;
   line-height: 1.2;
-  &.show-doc{
-    transform: translateX(0);
-    box-shadow: -2px 0 3px -2px rgba($black, .5);
+  &.hide-doc{
+    flex-grow: 0 !important;
+    width: 0;
+    padding: 0;
   }
 }
 .app-doc-notice{
@@ -23,6 +19,7 @@ app-doc-viewer{
     padding: 70px 30px;
 }
 .app-doc-viewer{
+    position: relative;
     padding: 20px;
 }
 .app-doc-loader{

@@ -4,7 +4,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  HostBinding
 } from '@angular/core';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,9 +24,12 @@ export class DocViewerComponent implements OnChanges {
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = config.add_query_depth_limit;
+  @Input() tabSize = config.tab_size;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
+
+  @HostBinding('style.flex-grow') public resizeFactor;
 
   rootTypes = [];
   index = [];
@@ -124,7 +128,7 @@ export class DocViewerComponent implements OnChanges {
 
         // For each argument of the field, create an entry in the index for the field,
         // searchable by the argument name
-        if (field.args.length) {
+        if (field.args && field.args.length) {
           field.args.forEach(arg => {
             index = [...index, {
               ...fieldIndex,
@@ -191,6 +195,14 @@ export class DocViewerComponent implements OnChanges {
     // Store the indices of all the types and fields
     this.rootTypes.forEach(type => {
       this.index = [...this.index, ...getTypeIndices(type, true, this.index)];
+    });
+
+    // Get types from typeMap into index as well, excluding the __
+    const schemaTypeMap = schema.getTypeMap();
+    Object.keys(schemaTypeMap).forEach(key => {
+      if (!/^__/.test(key)) {
+        this.index = [...this.index, ...getTypeIndices(schemaTypeMap[key], false, this.index)];
+      }
     });
 
     this.index$.next(this.index);
@@ -321,7 +333,7 @@ export class DocViewerComponent implements OnChanges {
 
     // console.log('Generating query for ', name, parentType);
 
-    const tabSize = 2;
+    const tabSize = this.tabSize || 2;
     const field = this.gqlSchema.getType(parentType).getFields()[name];
 
     const meta = {
@@ -403,5 +415,9 @@ export class DocViewerComponent implements OnChanges {
 
   exportSDL() {
     this.exportSDLChange.next();
+  }
+
+  onResize(resizeFactor) {
+    this.resizeFactor = resizeFactor;
   }
 }

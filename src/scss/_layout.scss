@@ -54,3 +54,15 @@ app-window {
 .main-container:not([class*="open-overflow-menu"]):not([class*="open-hamburger-menu"]) .clr-vertical-nav.is-collapsed .nav-icon {
   margin-left: 1rem;
 }
+
+app-query-editor {
+  @include main-content-col;
+}
+
+app-query-result {
+  @include main-content-col;
+}
+
+app-doc-viewer {
+  @include main-content-col;
+}

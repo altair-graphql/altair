@@ -1,4 +1,4 @@
-const { BrowserWindow, protocol } = require('electron');
+const { BrowserWindow, protocol, ipcMain, session } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -8,6 +8,9 @@ const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
 
 let instance = null;
+
+const headersToSet = [ 'Origin' ];
+let requestHeaders = {};
 
 const actions = {
   createTab: () => {
@@ -98,7 +101,31 @@ const createWindow = () => {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     instance = null;
-  })
+  });
+
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    // Set the request headers
+    Object.keys(requestHeaders).forEach(key => {
+      details.requestHeaders[key] = requestHeaders[key];
+    });
+    callback({
+      cancel: false,
+      requestHeaders: details.requestHeaders
+    });
+  });
+
+  // Get 'set headers' instruction from app
+  ipcMain.on('set-headers-sync', (e, headers) => {
+    requestHeaders = {};
+
+    headers.forEach(header => {
+      if (headersToSet.includes(header.key) && header.key && header.value) {
+        requestHeaders[header.key] = header.value;
+      }
+    });
+
+    e.returnValue = true;
+  });
 };
 
 const getInstance = () => instance;

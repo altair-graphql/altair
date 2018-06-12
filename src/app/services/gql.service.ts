@@ -87,9 +87,11 @@ export class GqlService {
   setHeaders(headers?) {
     let newHeaders = new HttpHeaders(this.defaultHeaders);
 
+    const forbiddenHeaders = [ 'Origin' ];
+
     if (headers) {
       headers.forEach(header => {
-        if (header.key && header.value) {
+        if (!forbiddenHeaders.includes(header.key) && header.key && header.value) {
           newHeaders = newHeaders.set(header.key, header.value);
         }
       });
@@ -148,7 +150,7 @@ export class GqlService {
       }
       return null;
     } catch (err) {
-      console.error('Bad introspection data.');
+      console.error('Bad introspection data.', err);
       return null;
     }
   }

@@ -21,6 +21,7 @@ import { SubscriptionResultItemComponent } from './subscription-result-item/subs
 import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dialog.component';
+import { FlexResizerComponent } from './flex-resizer/flex-resizer.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -35,6 +36,7 @@ const COMPONENTS = [
   HistoryDialogComponent,
   SettingsDialogComponent,
   ImportCurlDialogComponent,
+  FlexResizerComponent,
 ];
 
 @NgModule({

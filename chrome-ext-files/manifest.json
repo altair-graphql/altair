@@ -3,7 +3,7 @@
   "name": "Altair GraphQL Client",
   "short_name": "Altair",
   "description": "The only graphQL client you'll ever need.",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "icons": {
     "16": "assets/img/altair_logo_128.png",
     "48": "assets/img/altair_logo_128.png",

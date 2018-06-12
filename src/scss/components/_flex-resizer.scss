@@ -1,0 +1,26 @@
+/**
+Constraints:
+
+- Needs to be in a relative container.
+- Needs to be a direct child of the container to be resized.
+*/
+
+app-flex-resizer {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: $theme-off-border-color;
+  width: 5px;
+  height: 50px;
+  border-radius: 10px;
+  transition: all .3s ease;
+  cursor: col-resize;
+  &.is-right {
+      right: 0;
+      left: auto;
+  }
+  &:hover {
+      background: $theme-border-color;
+  }
+}

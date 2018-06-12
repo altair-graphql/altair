@@ -8,13 +8,15 @@ export interface State {
   theme: string;
   language: string;
   addQueryDepthLimit: number;
+  tabSize: number;
 }
 
 const initialState: State = {
   isShown: false,
   theme: 'light',
   language: 'en',
-  addQueryDepthLimit: config.add_query_depth_limit
+  addQueryDepthLimit: config.add_query_depth_limit,
+  tabSize: config.tab_size,
 };
 
 export function settingsReducer(state = initialState, action: settings.Action): State {
@@ -29,6 +31,8 @@ export function settingsReducer(state = initialState, action: settings.Action): 
       return { ...state, language: action.payload.value };
     case settings.SET_ADD_QUERY_DEPTH_LIMIT:
       return { ...state, addQueryDepthLimit: action.payload.value };
+    case settings.SET_TAB_SIZE_ACTION:
+      return { ...state, tabSize: action.payload.value };
     default:
       return state;
   }
