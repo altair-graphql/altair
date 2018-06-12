@@ -21,6 +21,8 @@ app-doc-viewer {
 .app-doc-viewer{
     position: relative;
     padding: 20px;
+    height: 100%;
+    overflow: auto;
 }
 .app-doc-loader{
   @include hide-transition;
