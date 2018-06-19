@@ -45,7 +45,9 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<string[]>;
+
   addQueryDepthLimit$: Observable<number>;
+  tabSize$: Observable<number>;
 
   @Input() windowId: string;
 
@@ -65,7 +67,7 @@ export class WindowComponent implements OnInit {
 
   historyList: fromHistory.HistoryList = [];
 
-  collapsed = false;
+  collapsed = true;
 
   constructor(
     private queryService: QueryService,
@@ -82,6 +84,7 @@ export class WindowComponent implements OnInit {
 
   ngOnInit() {
     this.addQueryDepthLimit$ = this.store.select(state => state.settings.addQueryDepthLimit);
+    this.tabSize$ = this.store.select(state => state.settings.tabSize);
 
     this.queryResult$ = this.getWindowState().select(fromRoot.getQueryResult);
     this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);

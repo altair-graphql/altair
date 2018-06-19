@@ -7,7 +7,8 @@ import {
   Output,
   EventEmitter,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  HostBinding
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -37,21 +38,25 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements AfterViewInit, OnChanges {
+export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() sendRequest = new EventEmitter();
   @Output() queryChange = new EventEmitter<string>();
   @Input() query;
   @Input() gqlSchema = null;
+  @Input() tabSize = 2;
 
   @ViewChild('editor') editor;
+
+  @HostBinding('style.flex-grow') public resizeFactor;
 
   editorConfig = <any>{
     mode: 'graphql',
     lineWrapping: true,
     lineNumbers: true,
     foldGutter: true,
-    tabSize: 2,
+    tabSize: this.tabSize,
+    indentUnit: this.tabSize,
     extraKeys: {
       'Cmd-Enter': (cm) => this.sendRequest.next(cm),
       'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
@@ -73,6 +78,9 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
   };
 
   constructor() {
+  }
+
+  ngOnInit() {
     if (this.gqlSchema) {
       this.editorConfig.lint = {};
       this.editorConfig.hintOptions = {
@@ -85,6 +93,8 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
         }
       };
       this.editorConfig.jump = {};
+      this.editorConfig.tabSize = this.tabSize || 2;
+      this.editorConfig.indentUnit = this.tabSize || 2;
 
       this.updateEditorSchema(this.gqlSchema);
     }
@@ -146,6 +156,10 @@ export class QueryEditorComponent implements AfterViewInit, OnChanges {
       this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
+  }
+
+  onResize(resizeFactor) {
+    this.resizeFactor = resizeFactor;
   }
 
 }

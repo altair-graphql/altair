@@ -16,6 +16,7 @@ export class SettingsDialogComponent implements OnInit {
   @Output() themeChange = new EventEmitter();
   @Output() languageChange = new EventEmitter();
   @Output() addQueryDepthLimitChange = new EventEmitter();
+  @Output() tabSizeChange = new EventEmitter();
 
   themes = config.themes;
   languages = Object.entries(config.languages);
@@ -35,6 +36,10 @@ export class SettingsDialogComponent implements OnInit {
 
   onChangeAddQueryDepthLimit(depthLimit) {
     return this.addQueryDepthLimitChange.next(depthLimit);
+  }
+
+  onChangeTabSize(tabSize) {
+    return this.tabSizeChange.next(tabSize);
   }
 
 }

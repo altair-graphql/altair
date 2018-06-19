@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService, QueryService, NotifyService, DbService, DonationService } from '../services';
+import { GqlService, QueryService, NotifyService, DbService, DonationService, ElectronAppService } from '../services';
 import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
@@ -62,6 +62,9 @@ export class QueryEffects {
               this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
               return Observable.empty();
             }
+
+            // For electron app, send the instruction to set headers
+            this.electronAppService.setHeaders(response.data.headers);
 
             return this.gqlService
                 .setUrl(response.data.query.url)
@@ -397,6 +400,7 @@ export class QueryEffects {
       private notifyService: NotifyService,
       private dbService: DbService,
       private donationService: DonationService,
+      private electronAppService: ElectronAppService,
       private store: Store<any>
     ) {}
 
