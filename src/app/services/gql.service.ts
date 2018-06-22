@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -65,7 +65,9 @@ export class GqlService {
       }
     }
     return this.http.request(this.method, this.api_url, {
-      body: JSON.stringify(data),
+      // GET method uses params, while the other methods use body
+      body: this.method.toLowerCase() !== 'get' ? JSON.stringify(data) : null,
+      params: this.method.toLowerCase() !== 'get' ? null : this.getParamsFromData(data),
       headers: this.headers,
       observe: 'response'
     }).map(this.checkForError)
@@ -99,6 +101,14 @@ export class GqlService {
 
     this.headers = newHeaders;
     return this;
+  }
+
+  getParamsFromData(data) {
+    return Object.keys(data)
+      .reduce(
+        (params, key) => params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]),
+        new HttpParams()
+      );
   }
 
   getUrl() {
