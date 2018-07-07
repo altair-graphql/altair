@@ -204,6 +204,17 @@ export class GqlService {
     }
   }
 
+  getOperations(query: string) {
+    const parsedQuery = parse(query);
+
+    if (parsedQuery.definitions) {
+      return parsedQuery.definitions
+        .filter(def => def.kind === 'OperationDefinition');
+    }
+
+    return [];
+  }
+
   /**
    * Prettifies (formats) a given query
    * @param query

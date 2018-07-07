@@ -34,9 +34,6 @@ export class QueryEffects {
         .withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
             return { data: state.windows[action.windowId], windowId: action.windowId, action };
         })
-        .do((response) => {
-            this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
-        })
         .switchMap(response => {
             // If the URL is not set or is invalid, just return
             if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
@@ -68,6 +65,22 @@ export class QueryEffects {
               return Observable.empty();
             }
 
+            // Check if there are more than one operations in the query
+            // If check if there is already a selected operation
+            // Check if the selected operation matches any operation, else ask the user to select again
+            const operations = this.gqlService.getOperations(response.data.query.query);
+
+            if (operations && operations.length > 1) {
+              if (
+                !response.data.query.selectedOperation ||
+                operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
+                // TODO: Ask the user to select operation
+                console.log('[TODO]: User needs to choose an operation');
+                return Observable.empty();
+              }
+            }
+
+          this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
             const requestStartTime = new Date().getTime();
             let requestStatusCode = 0;
             let requestStatusText = '';

@@ -11,6 +11,8 @@ export const SEND_INTROSPECTION_QUERY_REQUEST = 'SEND_INTROSPECTION_QUERY_REQUES
 export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 
+export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
+
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
@@ -98,6 +100,12 @@ export class SendQueryRequestAction implements Action {
   constructor(public windowId: string, public payload?) {}
 }
 
+export class SetSelectedOperationAction implements Action {
+  readonly type = SET_SELECTED_OPERATION;
+
+  constructor(public windowId: string, public payload: { selectedOperation: string }) {}
+}
+
 export class SetResponseStatsAction implements Action {
   readonly type = SET_RESPONSE_STATS;
 
@@ -181,6 +189,7 @@ SetQueryResultAction |
 PrettifyQueryAction |
 CompressQueryAction |
 SendQueryRequestAction |
+SetSelectedOperationAction |
 StartSubscriptionAction |
 StopSubscriptionAction |
 SetSubscriptionClientAction |
