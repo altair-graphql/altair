@@ -8,7 +8,7 @@ $clr-header-textColor: $white;
 @import "../node_modules/codemirror/addon/hint/show-hint.css";
 @import "../node_modules/codemirror/addon/lint/lint.css";
 
-@import "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css";
+@import "~ngx-toastr/toastr.css";
 
 @import "scss/framework";
 @import "scss/all";

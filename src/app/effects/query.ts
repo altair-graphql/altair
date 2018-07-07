@@ -260,7 +260,7 @@ export class QueryEffects {
               This feature is experimental, and still in beta.
               Click here to submit bugs, improvements, etc.
             `, null, {
-              dismiss: 'click',
+              tapToDismiss: true,
               data: {
                 url: 'https://github.com/imolorhe/altair/issues/new'
               }
