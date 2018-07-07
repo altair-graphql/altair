@@ -156,25 +156,8 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
-  // TODO: Move logic into effect
   sendRequest() {
-    // Store the current query into the history if it does not already exist in the history
-    if (!this.historyList.filter(item => item.query.trim() === this.query.trim()).length) {
-      this.store.dispatch(new historyActions.AddHistoryAction(this.windowId, { query: this.query }));
-    }
-
-    // If the query is a subscription, subscribe to the subscription URL and send the query
-    if (this.gql.isSubscriptionQuery(this.query)) {
-      console.log('Your query is a SUBSCRIPTION!!!');
-      // If the subscription URL is not set, show the dialog for the user to set it
-      if (!this.subscriptionUrl) {
-        this.toggleSubscriptionUrlDialog(true);
-      } else {
-        this.startSubscription();
-      }
-    } else {
-      this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
-    }
+    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
   cancelRequest() {

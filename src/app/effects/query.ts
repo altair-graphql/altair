@@ -16,6 +16,8 @@ import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as donationAction from '../actions/donation';
+import * as historyActions from '../actions/history/history';
+import * as dialogsActions from '../actions/dialogs/dialogs';
 
 import { downloadJson, downloadData } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
@@ -29,7 +31,7 @@ export class QueryEffects {
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
         .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
-        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        .withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
             return { data: state.windows[action.windowId], windowId: action.windowId, action };
         })
         .do((response) => {
@@ -47,6 +49,23 @@ export class QueryEffects {
             if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return Observable.empty();
+            }
+
+            // Store the current query into the history if it does not already exist in the history
+            if (!response.data.history.list.filter(item => item.query.trim() === response.data.query.query.trim()).length) {
+              this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query: response.data.query.query }));
+            }
+
+            // If the query is a subscription, subscribe to the subscription URL and send the query
+            if (this.gqlService.isSubscriptionQuery(response.data.query.query)) {
+              console.log('Your query is a SUBSCRIPTION!!!');
+              // If the subscription URL is not set, show the dialog for the user to set it
+              if (!response.data.query.subscriptionUrl) {
+                this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+              } else {
+                this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
+              }
+              return Observable.empty();
             }
 
             const requestStartTime = new Date().getTime();
