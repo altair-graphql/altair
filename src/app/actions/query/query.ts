@@ -34,6 +34,8 @@ export const SHOW_URL_ALERT = 'SHOW_URL_ALERT';
 export const HIDE_EDITOR_ALERT = 'HIDE_EDITOR_ALERT';
 export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
+export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
+
 export class SetUrlAction implements Action {
   readonly type = SET_URL;
 
@@ -178,6 +180,12 @@ export class ShowEditorAlertAction implements Action {
   constructor(public payload: any, public windowId: string) {}
 }
 
+export class SetQueryOperationsAction implements Action {
+  readonly type = SET_QUERY_OPERATIONS;
+
+  constructor(public windowId: string, public payload: { operations: any[] }) {}
+}
+
 export type Action =
 SetUrlAction |
 SetUrlFromDbAction |
@@ -202,4 +210,5 @@ HideUrlAlertAction |
 ShowUrlAlertAction |
 HideEditorAlertAction |
 ShowEditorAlertAction |
-SetHTTPMethodAction;
+SetHTTPMethodAction |
+SetQueryOperationsAction;

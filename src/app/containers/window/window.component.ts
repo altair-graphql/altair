@@ -44,6 +44,8 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<string[]>;
+  selectedOperation$: Observable<string>;
+  queryOperations$: Observable<any[]>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -94,6 +96,8 @@ export class WindowComponent implements OnInit {
     this.responseStatusText$ = this.getWindowState().select(fromRoot.getResponseStatusText);
     this.isSubscribed$ = this.getWindowState().select(fromRoot.isSubscribed);
     this.subscriptionResponses$ = this.getWindowState().select(fromRoot.getSubscriptionResponses);
+    this.selectedOperation$ = this.getWindowState().select(fromRoot.getSelectedOperation);
+    this.queryOperations$ = this.getWindowState().select(fromRoot.getQueryOperations);
 
     this.store
       .map(data => data.windows[this.windowId])
@@ -157,6 +161,11 @@ export class WindowComponent implements OnInit {
 
   cancelRequest() {
     this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
+  }
+
+  selectOperation(selectedOperation) {
+    this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation }));
+    this.sendRequest();
   }
 
   startSubscription() {

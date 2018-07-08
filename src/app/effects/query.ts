@@ -70,14 +70,23 @@ export class QueryEffects {
             // Check if the selected operation matches any operation, else ask the user to select again
             const operations = this.gqlService.getOperations(response.data.query.query);
 
+            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
+
             if (operations && operations.length > 1) {
               if (
                 !response.data.query.selectedOperation ||
                 operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
-                // TODO: Ask the user to select operation
-                console.log('[TODO]: User needs to choose an operation');
+                // Ask the user to select operation
+                this.notifyService.warning(
+                  `You have more than one query operations.
+                  You need to select the one you want to run from the dropdown.`
+                );
+                this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
                 return Observable.empty();
               }
+            } else {
+              // Clear out the selected operation
+              this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
             }
 
           this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
@@ -102,7 +111,7 @@ export class QueryEffects {
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
                 .setHTTPMethod(response.data.query.httpVerb)
-                ._send(response.data.query.query, response.data.variables.variables)
+                ._send(response.data.query.query, response.data.variables.variables, response.data.query.selectedOperation)
                 .map(res => {
                     requestStatusCode = res.status;
                     requestStatusText = res.statusText;
