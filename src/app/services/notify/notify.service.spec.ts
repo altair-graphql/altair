@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import { NotifyService } from './notify.service';
 
@@ -7,7 +7,7 @@ describe('NotifyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ToastModule.forRoot()
+        ToastrModule.forRoot()
       ],
       providers: [NotifyService]
     });

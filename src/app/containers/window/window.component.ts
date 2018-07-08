@@ -6,7 +6,6 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
@@ -45,6 +44,8 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<string[]>;
+  selectedOperation$: Observable<string>;
+  queryOperations$: Observable<any[]>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -74,12 +75,8 @@ export class WindowComponent implements OnInit {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
-    private toastr: ToastsManager,
     private vRef: ViewContainerRef
   ) {
-
-    // Required by the notify service
-    this.toastr.setRootViewContainerRef(this.vRef);
   }
 
   ngOnInit() {
@@ -99,6 +96,8 @@ export class WindowComponent implements OnInit {
     this.responseStatusText$ = this.getWindowState().select(fromRoot.getResponseStatusText);
     this.isSubscribed$ = this.getWindowState().select(fromRoot.isSubscribed);
     this.subscriptionResponses$ = this.getWindowState().select(fromRoot.getSubscriptionResponses);
+    this.selectedOperation$ = this.getWindowState().select(fromRoot.getSelectedOperation);
+    this.queryOperations$ = this.getWindowState().select(fromRoot.getQueryOperations);
 
     this.store
       .map(data => data.windows[this.windowId])
@@ -156,29 +155,17 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
-  // TODO: Move logic into effect
   sendRequest() {
-    // Store the current query into the history if it does not already exist in the history
-    if (!this.historyList.filter(item => item.query.trim() === this.query.trim()).length) {
-      this.store.dispatch(new historyActions.AddHistoryAction(this.windowId, { query: this.query }));
-    }
-
-    // If the query is a subscription, subscribe to the subscription URL and send the query
-    if (this.gql.isSubscriptionQuery(this.query)) {
-      console.log('Your query is a SUBSCRIPTION!!!');
-      // If the subscription URL is not set, show the dialog for the user to set it
-      if (!this.subscriptionUrl) {
-        this.toggleSubscriptionUrlDialog(true);
-      } else {
-        this.startSubscription();
-      }
-    } else {
-      this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
-    }
+    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
   cancelRequest() {
     this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
+  }
+
+  selectOperation(selectedOperation) {
+    this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation }));
+    this.sendRequest();
   }
 
   startSubscription() {

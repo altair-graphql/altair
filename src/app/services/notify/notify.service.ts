@@ -1,23 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ActiveToast } from 'ngx-toastr';
 
 @Injectable()
 export class NotifyService {
 
   constructor(
-    private toastr: ToastsManager
+    private toastr: ToastrService
   ) {
-    this.toastr.onClickToast().subscribe(toast => {
-      if (toast.data && toast.data['url']) {
-        // navigate to
-        window.open(toast.data['url'], '_blank');
-      }
-      if (toast.timeoutId) {
-        clearTimeout(toast.timeoutId);
-        // do something before dismiss the toast
-        this.toastr.dismissToast(toast);
-      }
-    });
   }
 
   success(message, title = 'Altair', opts = {}) {
@@ -32,7 +21,13 @@ export class NotifyService {
   info(message, title = 'Altair', opts = {}) {
     return this.exec('info', message, title, opts);
   }
-  exec(type, message, title, opts) {
-    return this.toastr[type](message, title, opts);
+  exec(type, message, title, opts): ActiveToast<any> {
+    const toast: ActiveToast<any> = this.toastr[type](message, title, opts);
+    if (opts.data && opts.data.url) {
+      toast.onTap.subscribe(_toast => {
+        window.open(opts.data.url, '_blank');
+      })
+    }
+    return toast;
   }
 }

@@ -71,7 +71,7 @@ export class FlexResizerComponent implements OnInit {
   @HostListener('mousemove', [ '$event' ])
   onResizerMove(event: MouseEvent) {
     if (!this.draggingMode) {
-      return false;
+      return true;
     }
     event.stopPropagation();
     event.preventDefault();
@@ -93,7 +93,7 @@ export class FlexResizerComponent implements OnInit {
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(event) {
     if (!this.draggingMode) {
-      return false;
+      return true;
     }
 
     this.draggingMode = false;

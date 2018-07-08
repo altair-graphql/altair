@@ -16,6 +16,8 @@ import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as donationAction from '../actions/donation';
+import * as historyActions from '../actions/history/history';
+import * as dialogsActions from '../actions/dialogs/dialogs';
 
 import { downloadJson, downloadData } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
@@ -29,11 +31,8 @@ export class QueryEffects {
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
         .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
-        .withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        .withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
             return { data: state.windows[action.windowId], windowId: action.windowId, action };
-        })
-        .do((response) => {
-            this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
         })
         .switchMap(response => {
             // If the URL is not set or is invalid, just return
@@ -49,6 +48,48 @@ export class QueryEffects {
                 return Observable.empty();
             }
 
+            // Store the current query into the history if it does not already exist in the history
+            if (!response.data.history.list.filter(item => item.query.trim() === response.data.query.query.trim()).length) {
+              this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query: response.data.query.query }));
+            }
+
+            // If the query is a subscription, subscribe to the subscription URL and send the query
+            if (this.gqlService.isSubscriptionQuery(response.data.query.query)) {
+              console.log('Your query is a SUBSCRIPTION!!!');
+              // If the subscription URL is not set, show the dialog for the user to set it
+              if (!response.data.query.subscriptionUrl) {
+                this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+              } else {
+                this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
+              }
+              return Observable.empty();
+            }
+
+            // Check if there are more than one operations in the query
+            // If check if there is already a selected operation
+            // Check if the selected operation matches any operation, else ask the user to select again
+            const operations = this.gqlService.getOperations(response.data.query.query);
+
+            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
+
+            if (operations && operations.length > 1) {
+              if (
+                !response.data.query.selectedOperation ||
+                operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
+                // Ask the user to select operation
+                this.notifyService.warning(
+                  `You have more than one query operations.
+                  You need to select the one you want to run from the dropdown.`
+                );
+                this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+                return Observable.empty();
+              }
+            } else {
+              // Clear out the selected operation
+              this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+            }
+
+          this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
             const requestStartTime = new Date().getTime();
             let requestStatusCode = 0;
             let requestStatusText = '';
@@ -70,7 +111,7 @@ export class QueryEffects {
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
                 .setHTTPMethod(response.data.query.httpVerb)
-                ._send(response.data.query.query, response.data.variables.variables)
+                ._send(response.data.query.query, response.data.variables.variables, response.data.query.selectedOperation)
                 .map(res => {
                     requestStatusCode = res.status;
                     requestStatusText = res.statusText;
@@ -228,7 +269,7 @@ export class QueryEffects {
               This feature is experimental, and still in beta.
               Click here to submit bugs, improvements, etc.
             `, null, {
-              dismiss: 'click',
+              tapToDismiss: true,
               data: {
                 url: 'https://github.com/imolorhe/altair/issues/new'
               }

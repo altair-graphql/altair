@@ -152,5 +152,5 @@
   background: $theme-bg-color;
 }
 .modal-dialog .modal-content {
-  box-shadow: 0 5px 12px 2px rgba($black, .1);
+  box-shadow: 0 5px 12px 2px $modal-shadow-color;
 }

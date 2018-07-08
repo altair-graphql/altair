@@ -51,8 +51,12 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send(query, vars?) {
-    const data = { query: query, variables: {} };
+  _send(query, vars?, selectedOperation?) {
+    const data: any = { query, variables: {} };
+
+    if (selectedOperation) {
+      data.operationName = selectedOperation;
+    }
 
     // If there is a variables option, add it to the data
     if (vars) {
@@ -82,8 +86,8 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  send(query, vars?) {
-    return this._send(query, vars).map(res => res.body);
+  send(query, vars?, selectedOperation?) {
+    return this._send(query, vars, selectedOperation).map(res => res.body);
   }
 
   setHeaders(headers?) {
@@ -202,6 +206,25 @@ export class GqlService {
         subscriptionClient.close();
       }
     }
+  }
+
+  getOperations(query: string) {
+    const parsedQuery = parse(query);
+
+    if (parsedQuery.definitions) {
+      return parsedQuery.definitions
+        .filter(def => def.kind === 'OperationDefinition')
+        .map((def, i) => {
+          // Make sure all operations have names
+          if (!def['name'] || !def['name'].value) {
+            def['name'] = def['name'] || {};
+            def['name'].value = '#' + i.toString();
+          }
+          return def;
+        });
+    }
+
+    return [];
   }
 
   /**

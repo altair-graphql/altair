@@ -7,8 +7,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ClarityModule } from 'clarity-angular';
+import { ToastrModule } from 'ngx-toastr';
 
 import * as services from './../../services';
 import { reducer } from '../../reducers';
@@ -55,7 +55,7 @@ describe('WindowComponent', () => {
         ClarityModule.forRoot(),
         ComponentModule,
         DocViewerModule,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         TranslateModule.forRoot()
       ],
       providers: providers
