@@ -6,7 +6,7 @@ os:
 - linux
 - osx
 node_js:
-- 9
+- 10
 env:
 - DEBUG=electron-forge:*
 addons:
