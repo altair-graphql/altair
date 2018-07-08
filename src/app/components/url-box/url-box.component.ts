@@ -9,12 +9,15 @@ export class UrlBoxComponent {
   @Input() httpVerb: string;
   @Input() isSubscribed = false;
   @Input() showDocs = false;
+  @Input() selectedOperation = '';
+  @Input() queryOperations = [];
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
   @Output() urlChange = new EventEmitter();
   @Output() httpVerbChange = new EventEmitter();
+  @Output() selectedOperationChange = new EventEmitter();
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 

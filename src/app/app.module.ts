@@ -7,7 +7,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import 'clarity-icons';
 import 'clarity-icons/shapes/all-shapes';
 
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,7 +31,6 @@ import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 import { AppComponent } from './containers/app/app.component';
 import { WindowComponent } from './containers/window/window.component';
 
-import { CustomOption } from './services/notify/toastr-options';
 
 import * as services from './services';
 
@@ -58,7 +57,6 @@ const providers = [
     services.NotifyService,
     services.DonationService,
     services.ElectronAppService,
-    { provide: ToastOptions, useClass: CustomOption },
     reducerProvider
 ];
 
@@ -80,7 +78,12 @@ const providers = [
     StoreModule.forRoot(reducerToken, { metaReducers }),
     EffectsModule.forRoot([ QueryEffects, WindowsEffects ]),
     StoreDevtoolsModule.instrument(),
-    ToastModule.forRoot(),
+    ToastrModule.forRoot({
+      newestOnTop: false,
+      closeButton: true,
+      positionClass: 'toast-top-center',
+      enableHtml: true,
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

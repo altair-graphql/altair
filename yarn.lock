@@ -7451,10 +7451,6 @@ ng2-dnd@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/ng2-dnd/-/ng2-dnd-5.0.2.tgz#862278ac7dedfa14f5783bbf34014d5d73dfefb4"
 
-ng2-toastr@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.1.2.tgz#1b452f07139961c38f866c6e24a06247efa21b11"
-
 ngrx-store-freeze@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/ngrx-store-freeze/-/ngrx-store-freeze-0.2.2.tgz#fbc1f50dbee8f5a63a34aa589abeb422d68f7fc5"
@@ -7478,6 +7474,12 @@ ngx-electron@^1.0.4:
 ngx-pipes@^2.1.0:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/ngx-pipes/-/ngx-pipes-2.1.7.tgz#aa3f0b6fda9636000d5cb7c6d21a5cdee2342458"
+
+ngx-toastr@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-8.8.0.tgz#69dc4a174f14b16eafefc19e16c923357fd11de5"
+  dependencies:
+    tslib "^1.9.0"
 
 nib@^1.1.2:
   version "1.1.2"

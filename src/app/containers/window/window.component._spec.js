@@ -6,12 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule, Store } from '@ngrx/store';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { StoreModule, Store, Action } from '@ngrx/store';
 import { ClarityModule } from 'clarity-angular';
+import { ToastrModule } from 'ngx-toastr';
 
 import * as services from './../../services';
-import { reducer } from '../../reducers';
+import { reducer, reducerToken, reducerProvider, State } from '../../reducers';
 
 import { CodemirrorModule } from 'ng2-codemirror';
 
@@ -20,6 +20,27 @@ import { ComponentModule } from './../../components';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { WindowComponent } from './window.component';
+
+import { mockState } from './mock_state';
+import { Subject } from 'rxjs/Subject';
+
+function mockStore<T>({
+  actions = new Subject<Action>(),
+  states = new Subject<T>()
+}: {
+  actions?: Subject<Action>,
+  states?: Subject<T>
+}): Store<T> {
+  const source = Observable.interval(1000).map(() => 1);
+  const result = states as any;
+  result.select = () => result;
+  result.dispatch = (action: Action) => actions.next(action);
+  source.subscribe(result);
+  return result;
+}
+const _actions = new Subject<Action>();
+const _states = new Subject<State>();
+const store = mockStore<State>({ actions: _actions, states: _states });
 
 describe('WindowComponent', () => {
   let component: WindowComponent;
@@ -31,6 +52,7 @@ describe('WindowComponent', () => {
     obs.subscribe = () => obs;
     obs.map = () => obs;
     obs.dispatch = () => obs;
+    // obs.unsubscribe = () => obs;
 
     const providers = [
       services.ApiService,
@@ -41,8 +63,9 @@ describe('WindowComponent', () => {
         loadUrl: () => {},
         loadIntrospection: () => {},
       } },
-      { provide: Store, useValue: obs },
-      services.NotifyService
+      { provide: Store, useValue: store },
+      services.NotifyService,
+      // reducerProvider
     ];
     TestBed.configureTestingModule({
       declarations: [ WindowComponent ],
@@ -50,12 +73,12 @@ describe('WindowComponent', () => {
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        StoreModule.forRoot(reducer),
+        StoreModule.forRoot(reducer, { initialState: <any>mockState }),
         CodemirrorModule,
         ClarityModule.forRoot(),
         ComponentModule,
         DocViewerModule,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         TranslateModule.forRoot()
       ],
       providers: providers
