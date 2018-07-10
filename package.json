@@ -17,6 +17,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:prod": "node server",
+    "start:prod:translate": "node server --translate",
     "build": "ng build -prod --aot --stats-json",
     "test": "ng test",
     "test-build": "ng lint && npm run build && karma start karma.conf.js --single-run",

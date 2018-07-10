@@ -142,7 +142,7 @@ export class AppComponent {
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
 
-    return isClientLanguageAvailable ? clientLanguage : defaultLanguage;
+    return isClientLanguageAvailable && !config.isTranslateMode ? clientLanguage : defaultLanguage;
   }
 
   newWindow() {
