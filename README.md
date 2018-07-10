@@ -22,7 +22,7 @@
 <hr>
 </div>
 
-Would you like to help with translations? [Click here](https://crwd.in/altair-gql).
+Would you like to help with translations? https://altair-gql-translate.herokuapp.com/ [Click here](https://crwd.in/altair-gql).
 
 ![set url](src/assets/img/readme/app-shot.jpg "Altair GraphQL Client")
 
