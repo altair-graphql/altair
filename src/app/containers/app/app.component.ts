@@ -19,6 +19,8 @@ import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
 
+import { environment } from '../../../environments/environment';
+
 import { QueryService, GqlService, WindowService, DonationService, ElectronAppService } from '../../services';
 
 import config from '../../config';
@@ -40,6 +42,8 @@ export class AppComponent {
   showDonationAlert = false;
 
   showImportCurlDialog = false;
+
+  appVersion = environment.version;
 
   constructor(
     private windowService: WindowService,
