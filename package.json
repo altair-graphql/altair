@@ -52,7 +52,7 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/platform-server": "^6.0.0",
     "@angular/router": "^6.0.0",
-    "@ngrx/effects": "^5.2.0",
+    "@ngrx/effects": "^6.0.0",
     "@ngrx/store": "^5.2.0",
     "@ngrx/store-devtools": "^5.2.0",
     "@ngx-translate/core": "^9.0.2",
