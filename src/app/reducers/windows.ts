@@ -1,4 +1,3 @@
-import { DUPLICATE_WINDOW } from './../actions/windows/windows';
 import { Action, ActionReducer } from '@ngrx/store';
 
 import * as windowsActions from '../actions/windows/windows';

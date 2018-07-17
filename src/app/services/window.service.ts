@@ -69,24 +69,26 @@ export class WindowService {
     return this.store.first().subscribe(data => {
       const window = { ...data.windows[windowId] };
 
-      // TODO: Check that there is data to be exported
+      if (window) {
+        const windowData: fromWindows.WindowState = {
+          query: window.query.query,
+          apiUrl: window.query.url,
+          variables: window.variables.variables,
+          subscriptionUrl: window.query.subscriptionUrl,
+          headers: window.headers,
+          windowName: `${window.layout.title} (Copy)`
+        };
 
-      const windowData: fromWindows.WindowState = {
-        query: window.query.query,
-        apiUrl: window.query.url,
-        variables: window.variables.variables,
-        subscriptionUrl: window.query.subscriptionUrl,
-        headers: window.headers,
-        windowName: `${window.layout.title} (Copy)`
-      };
+        return this.newWindow().subscribe(newWindow => {
 
-      return this.newWindow().subscribe(newWindow => {
-
-        // We don't need to dispatch something like `DuplicateWindowAction`
-        // after these operations, since calling this.newWindow() already does
-        // what we'd have needed it to do (which =>, we don't create a reducer for it)
-        return this.populateNewWindow(newWindow.windowId, windowData);
-      });
+          // We don't need to dispatch something like `DuplicateWindowAction`
+          // after these operations, since calling this.newWindow() already does
+          // what we'd have needed it to do (which =>, we don't create a reducer for it)
+          return this.populateNewWindow(newWindow.windowId, windowData);
+        });
+      } else {
+        // Todo: throw/flash descriptive message
+      }
     });
   }
 
