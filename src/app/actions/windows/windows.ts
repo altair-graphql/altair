@@ -28,12 +28,6 @@ export class RemoveWindowAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class DuplicateWindowAction implements Action {
-  readonly type = DUPLICATE_WINDOW;
-
-  constructor(public payload: any) {}
-}
-
 export class ExportWindowAction implements Action {
   readonly type = EXPORT_WINDOW;
 

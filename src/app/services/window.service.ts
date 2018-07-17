@@ -1,4 +1,3 @@
-import { DuplicateWindowAction } from './../actions/windows/windows';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -82,6 +81,10 @@ export class WindowService {
       };
 
       return this.newWindow().subscribe(newWindow => {
+
+        // We don't need to dispatch something like `DuplicateWindowAction`
+        // after these operations, since calling this.newWindow() already does
+        // what we'd have needed it to do (which =>, we don't create a reducer for it)
         return this.populateNewWindow(newWindow.windowId, windowData);
       });
     });

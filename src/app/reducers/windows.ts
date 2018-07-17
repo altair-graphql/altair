@@ -72,18 +72,6 @@ export function windows(reducer: ActionReducer<any>) {
                 }
 
                 return Object.assign({}, _state);
-
-            // Todo: Add a new window with the new window ID
-            case windowsActions.DUPLICATE_WINDOW:
-                const _duplicateWindowId = JSON.parse(JSON.stringify(initWindowState));
-
-                console.log('=>> ', JSON.parse(JSON.stringify(_state[action.payload.windowId])));
-
-                if (_state[action.payload.windowId]) {
-                    // delete _state[action.payload.windowId];
-                }
-
-                return Object.assign({}, _state);
             default:
                 if (!_windowState) {
                     // If the provided windowId is invalid, log the error and just return the state

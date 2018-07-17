@@ -45,20 +45,6 @@ export class WindowsEffects {
       return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
     });
 
-  // Todo: Update windowsMeta with window IDs when a window is duplicated
-  @Effect()
-  duplicateWindowID$: Observable<Action> = this.actions$
-    .ofType(windowActions.DUPLICATE_WINDOW)
-    .withLatestFrom(this.store, (action: windowActions.Action, state) => {
-      return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
-    })
-    .switchMap(data => {
-      const windowIds = Object.keys(data.windows);
-      const metaWindowIds = data.windowIds;
-      const newWindowIds = metaWindowIds.filter(id => windowIds.includes(id));
-      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
-    });
-
   // Exports the window data
   @Effect()
   exportWindow$: Observable<Action> = this.actions$
