@@ -24,6 +24,8 @@
 .window-switcher__input{
   &:focus{
     outline: 1px solid $orange;
+    padding-left: 4px;
+    padding-right: 4px;
   }
 }
 .window-switcher__close{

@@ -29,10 +29,10 @@
   <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
     {{ 'EDIT_WINDOW_TEXT' | translate }}
   </ng-template>
-  <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
-    {{ 'CLOSE_WINDOW_TEXT' | translate }}
-  </ng-template>
   <ng-template contextMenuItem (execute)="duplicateWindow($event.item.windowId)">
     {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
+  </ng-template>
+  <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
+    {{ 'CLOSE_WINDOW_TEXT' | translate }}
   </ng-template>
 </context-menu>
