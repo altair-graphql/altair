@@ -1,3 +1,4 @@
+import { DUPLICATE_WINDOW } from './../actions/windows/windows';
 import { Action, ActionReducer } from '@ngrx/store';
 
 import * as windowsActions from '../actions/windows/windows';
@@ -65,6 +66,16 @@ export function windows(reducer: ActionReducer<any>) {
 
                 if (_state[_windowId]) {
                     delete _state[_windowId];
+                }
+
+                return Object.assign({}, _state);
+
+            // Todo: Add a new window with the new window ID
+            case windowsActions.DUPLICATE_WINDOW:
+                const _duplicateWindowId = JSON.parse(JSON.stringify(initWindowState));
+
+                if (_state[action.payload.windowId]) {
+                    delete _state[action.payload.windowId];
                 }
 
                 return Object.assign({}, _state);

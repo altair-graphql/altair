@@ -5,6 +5,7 @@ import * as fromWindows from '../../reducers/windows';
 export const ADD_WINDOW = 'ADD_WINDOW';
 export const SET_WINDOWS = 'SET_WINDOWS';
 export const REMOVE_WINDOW = 'REMOVE_WINDOW';
+export const DUPLICATE_WINDOW = 'DUPLICATE_WINDOW';
 
 export const EXPORT_WINDOW = 'EXPORT_WINDOW';
 export const IMPORT_WINDOW = 'IMPORT_WINDOW';
@@ -23,6 +24,12 @@ export class SetWindowsAction implements Action {
 
 export class RemoveWindowAction implements Action {
   readonly type = REMOVE_WINDOW;
+
+  constructor(public payload: any) {}
+}
+
+export class DuplicateWindowAction implements Action {
+  readonly type = DUPLICATE_WINDOW;
 
   constructor(public payload: any) {}
 }

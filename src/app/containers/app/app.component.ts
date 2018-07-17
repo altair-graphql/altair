@@ -157,6 +157,10 @@ export class AppComponent {
     this.windowService.removeWindow(windowId);
   }
 
+  duplicateWindow(windowId) {
+    this.windowService.duplicateWindow(windowId);
+  }
+
   setWindowName(data) {
     const { windowId, windowName } = data;
     this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));

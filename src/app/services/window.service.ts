@@ -1,3 +1,4 @@
+import { DuplicateWindowAction } from './../actions/windows/windows';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -60,6 +61,29 @@ export class WindowService {
 
             // Dispatch the remove window action
             return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
+          });
+      });
+    });
+  }
+
+  duplicateWindow(windowId): Subscription {
+    return this.db.getItem('windows').subscribe(data => {
+      data = data || [];
+
+      const newWindows = data.filter(window => window.windowId !== windowId);
+
+      return this.db.setItem('windows', newWindows).subscribe(() => {
+        this.db.getAllKeys()
+          // Filter out items that are for the current window via the windowId
+          .map(keys => keys.filter(key => key.includes(windowId)))
+          .subscribe(windowKeys => {
+            // Remove all the items related to the current window
+            windowKeys.map(key => this.db.removeItemByExactKey(key));
+
+            console.log('Here man 2', windowKeys, windowId);
+
+            // Dispatch the remove window action
+            return Observable.of(this.store.dispatch(new windowActions.DuplicateWindowAction({ windowId })));
           });
       });
     });
