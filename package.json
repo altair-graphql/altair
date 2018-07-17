@@ -74,7 +74,7 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.11",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^2.18.2",
+    "electron-updater": "^3.0.1",
     "express": "^4.16.2",
     "file-dialog": "^0.0.7",
     "graphql": "^0.13.2",
@@ -101,7 +101,7 @@
   "devDependencies": {
     "@types/electron": "^1.4.38",
     "@types/jasmine": "2.8.8",
-    "@types/node": "~10.3.0",
+    "@types/node": "^10.5.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",

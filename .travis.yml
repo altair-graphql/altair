@@ -51,3 +51,9 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
+- provider: snap
+  snap: out/make/*.snap
+  channel: edge
+  skip_cleanup: true
+  on:
+    tags: true
