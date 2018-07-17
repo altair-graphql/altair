@@ -67,24 +67,22 @@ export class WindowService {
   }
 
   duplicateWindow(windowId): Subscription {
-    return this.db.getItem('windows').subscribe(data => {
-      data = data || [];
+    return this.store.first().subscribe(data => {
+      const window = { ...data.windows[windowId] };
 
-      const newWindows = data.filter(window => window.windowId !== windowId);
+      // TODO: Check that there is data to be exported
 
-      return this.db.setItem('windows', newWindows).subscribe(() => {
-        this.db.getAllKeys()
-          // Filter out items that are for the current window via the windowId
-          .map(keys => keys.filter(key => key.includes(windowId)))
-          .subscribe(windowKeys => {
-            // Remove all the items related to the current window
-            windowKeys.map(key => this.db.removeItemByExactKey(key));
+      const windowData: fromWindows.WindowState = {
+        query: window.query.query,
+        apiUrl: window.query.url,
+        variables: window.variables.variables,
+        subscriptionUrl: window.query.subscriptionUrl,
+        headers: window.headers,
+        windowName: `${window.layout.title} (Copy)`
+      };
 
-            console.log('Here man 2', windowKeys, windowId);
-
-            // Dispatch the remove window action
-            return Observable.of(this.store.dispatch(new windowActions.DuplicateWindowAction({ windowId })));
-          });
+      return this.newWindow().subscribe(newWindow => {
+        return this.populateNewWindow(newWindow.windowId, windowData);
       });
     });
   }
@@ -159,41 +157,14 @@ export class WindowService {
       if (!data.version || !data.type || data.type !== 'window') {
         throw new Error('File is not a valid Altair file.');
       }
+
       // Importing window data...
       // Add new window
-      // Set window name
-      // Set API URL
-      // Set query
-      // Set headers
-      // Set variables
-      // Set subscription URL
+      // Set required data
       this.newWindow().subscribe(newWindow => {
         const windowId = newWindow.windowId;
 
-        if (data.windowName) {
-          this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
-        }
-
-        if (data.apiUrl) {
-          this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
-          this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
-        }
-
-        if (data.query) {
-          this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
-        }
-
-        if (data.headers.length) {
-          this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
-        }
-
-        if (data.variables) {
-          this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
-        }
-
-        if (data.subscriptionUrl) {
-          this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
-        }
+        this.populateNewWindow(windowId, data)
       });
     } catch (err) {
       console.log('Something went wrong while importing the data.', err);
@@ -216,5 +187,43 @@ export class WindowService {
         console.log('There was an issue importing the file.');
       }
     });
+  }
+
+  /**
+   * Populates the store with data for a new window
+   * @param windowId The id of the new window
+   * @param data The data to be populated
+   */
+  populateNewWindow(windowId: string, data: fromWindows.WindowState) {
+      // Set window name
+      // Set API URL
+      // Set query
+      // Set headers
+      // Set variables
+      // Set subscription URL
+      if (data.windowName) {
+        this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
+      }
+
+      if (data.apiUrl) {
+        this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
+        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+      }
+
+      if (data.query) {
+        this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
+      }
+
+      if (data.headers.length) {
+        this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
+      }
+
+      if (data.variables) {
+        this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
+      }
+
+      if (data.subscriptionUrl) {
+        this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
+      }
   }
 }

@@ -8,15 +8,18 @@ export interface State {
     [id: string]: fromRoot.PerWindowState;
 }
 
-export interface ExportWindowState {
-  version: 1;
-  type: 'window';
+export interface WindowState {
   windowName: string;
   apiUrl: string;
   query: string;
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
+}
+
+export interface ExportWindowState extends WindowState {
+  version: 1;
+  type: 'window';
 }
 
 /**
@@ -74,8 +77,10 @@ export function windows(reducer: ActionReducer<any>) {
             case windowsActions.DUPLICATE_WINDOW:
                 const _duplicateWindowId = JSON.parse(JSON.stringify(initWindowState));
 
+                console.log('=>> ', JSON.parse(JSON.stringify(_state[action.payload.windowId])));
+
                 if (_state[action.payload.windowId]) {
-                    delete _state[action.payload.windowId];
+                    // delete _state[action.payload.windowId];
                 }
 
                 return Object.assign({}, _state);
