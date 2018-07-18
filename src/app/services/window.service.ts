@@ -70,7 +70,9 @@ export class WindowService {
       const window = { ...data.windows[windowId] };
 
       if (window) {
-        const windowData: fromWindows.WindowState = {
+        const windowData: fromWindows.ExportWindowState = {
+          version: 1,
+          type: 'window',
           query: window.query.query,
           apiUrl: window.query.url,
           variables: window.variables.variables,
@@ -199,7 +201,7 @@ export class WindowService {
    * @param windowId The id of the new window
    * @param data The data to be populated
    */
-  populateNewWindow(windowId: string, data: fromWindows.WindowState) {
+  populateNewWindow(windowId: string, data: fromWindows.ExportWindowState) {
       // Set window name
       // Set API URL
       // Set query

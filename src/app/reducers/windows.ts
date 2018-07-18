@@ -7,18 +7,15 @@ export interface State {
     [id: string]: fromRoot.PerWindowState;
 }
 
-export interface WindowState {
+export interface ExportWindowState {
+  version: 1;
+  type: 'window';
   windowName: string;
   apiUrl: string;
   query: string;
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
-}
-
-export interface ExportWindowState extends WindowState {
-  version: 1;
-  type: 'window';
 }
 
 /**
