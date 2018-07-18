@@ -81,13 +81,7 @@ export class WindowService {
           windowName: `${window.layout.title} (Copy)`
         };
 
-        return this.newWindow().subscribe(newWindow => {
-
-          // We don't need to dispatch something like `DuplicateWindowAction`
-          // after these operations, since calling this.newWindow() already does
-          // what we'd have needed it to do (which =>, we don't create a reducer for it)
-          return this.populateNewWindow(newWindow.windowId, windowData);
-        });
+          return this.importWindowData(windowData);
       } else {
         // Todo: throw/flash descriptive message
       }
@@ -167,11 +161,39 @@ export class WindowService {
 
       // Importing window data...
       // Add new window
-      // Set required data
+      // Set window name
+      // Set API URL
+      // Set query
+      // Set headers
+      // Set variables
+      // Set subscription URL
       this.newWindow().subscribe(newWindow => {
         const windowId = newWindow.windowId;
 
-        this.populateNewWindow(windowId, data)
+        if (data.windowName) {
+          this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
+        }
+
+        if (data.apiUrl) {
+          this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
+          this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+        }
+
+        if (data.query) {
+          this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
+        }
+
+        if (data.headers.length) {
+          this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
+        }
+
+        if (data.variables) {
+          this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
+        }
+
+        if (data.subscriptionUrl) {
+          this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
+        }
       });
     } catch (err) {
       console.log('Something went wrong while importing the data.', err);
@@ -194,43 +216,5 @@ export class WindowService {
         console.log('There was an issue importing the file.');
       }
     });
-  }
-
-  /**
-   * Populates the store with data for a new window
-   * @param windowId The id of the new window
-   * @param data The data to be populated
-   */
-  populateNewWindow(windowId: string, data: fromWindows.ExportWindowState) {
-      // Set window name
-      // Set API URL
-      // Set query
-      // Set headers
-      // Set variables
-      // Set subscription URL
-      if (data.windowName) {
-        this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
-      }
-
-      if (data.apiUrl) {
-        this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
-        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
-      }
-
-      if (data.query) {
-        this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
-      }
-
-      if (data.headers.length) {
-        this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
-      }
-
-      if (data.variables) {
-        this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
-      }
-
-      if (data.subscriptionUrl) {
-        this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
-      }
   }
 }
