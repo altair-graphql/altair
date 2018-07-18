@@ -21,7 +21,7 @@ import * as donationActions from '../../actions/donation';
 
 import { environment } from '../../../environments/environment';
 
-import { QueryService, GqlService, WindowService, DonationService, ElectronAppService } from '../../services';
+import { QueryService, GqlService, WindowService, DonationService, ElectronAppService, KeybinderService } from '../../services';
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
@@ -51,6 +51,7 @@ export class AppComponent {
     private translate: TranslateService,
     private donationService: DonationService,
     private electronApp: ElectronAppService,
+    private keybinder: KeybinderService,
   ) {
     this.settings$ = this.store.select('settings').distinctUntilChanged();
 
@@ -73,6 +74,7 @@ export class AppComponent {
       });
 
     this.electronApp.connect();
+    this.keybinder.connect();
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);
