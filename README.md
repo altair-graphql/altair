@@ -35,6 +35,12 @@ There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-gr
 
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
 
+You can also install using cask:
+
+```
+$ brew cask install altair
+```
+
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
