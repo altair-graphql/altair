@@ -148,7 +148,9 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().first().subscribe();
+    this.windowService.newWindow().first().subscribe(({ windowId }) => {
+      this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+    });
   }
 
   setActiveWindow(windowId) {
