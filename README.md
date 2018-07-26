@@ -21,6 +21,7 @@
 <h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
 
 <hr>
+<img src="https://opencollective.com/altair/donate/button.png" alt="Donate to Altair">
 </div>
 
 Would you like to help with translations? https://altair-gql-translate.herokuapp.com/ [Click here](https://crwd.in/altair-gql).
