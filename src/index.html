@@ -9,6 +9,21 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+  <script>
+    if (location.hash === '#translate') {
+      // Insert crowdin translation script.
+      var _jipt = [];
+      _jipt.push(['project', 'altair-gql']);
+
+      // Insert script tag
+      var head = document.getElementsByTagName('head')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = '//cdn.crowdin.com/jipt/jipt.js';
+      head.appendChild(script);
+      window.__ALTAIR_TRANSLATE__ = 1;
+    }
+  </script>
   <app-root>
     <style>
       .loading-screen{
