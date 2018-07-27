@@ -10,7 +10,7 @@
 </head>
 <body>
   <script>
-    if (location.hash === '#translate') {
+    if (/altair-gql-translate/.test(location.host)) {
       // Insert crowdin translation script.
       var _jipt = [];
       _jipt.push(['project', 'altair-gql']);
