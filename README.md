@@ -21,8 +21,8 @@
 <h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
 
 <hr>
-[<img src="https://opencollective.com/altair/donate/button@2x.png?color=blue" width="300px" alt="Donate to Altair">](https://opencollective.com/altair/donate)
 
+[![Donate to Altair](https://opencollective.com/altair/donate/button.png?color=blue)](https://opencollective.com/altair/donate)
 
 </div>
 
