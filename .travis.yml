@@ -52,6 +52,7 @@ deploy:
   on:
     branch: master
 - provider: snap
+  file_glob: true
   snap: out/make/*.snap
   channel: edge
   skip_cleanup: true
