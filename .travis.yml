@@ -34,6 +34,7 @@ script:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi
 deploy:
 - provider: releases
   api_key:
