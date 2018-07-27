@@ -12,6 +12,7 @@ import config from '../../config';
 export class SettingsDialogComponent implements OnInit {
 
   @Input() settings: fromSettings.State;
+  @Input() appVersion: string;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() themeChange = new EventEmitter();
   @Output() languageChange = new EventEmitter();

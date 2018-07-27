@@ -19,7 +19,9 @@ import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
 
-import { QueryService, GqlService, WindowService, DonationService, ElectronAppService } from '../../services';
+import { environment } from '../../../environments/environment';
+
+import { QueryService, GqlService, WindowService, DonationService, ElectronAppService, KeybinderService } from '../../services';
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
@@ -41,12 +43,15 @@ export class AppComponent {
 
   showImportCurlDialog = false;
 
+  appVersion = environment.version;
+
   constructor(
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
     private translate: TranslateService,
     private donationService: DonationService,
     private electronApp: ElectronAppService,
+    private keybinder: KeybinderService,
   ) {
     this.settings$ = this.store.select('settings').distinctUntilChanged();
 
@@ -69,6 +74,7 @@ export class AppComponent {
       });
 
     this.electronApp.connect();
+    this.keybinder.connect();
 
     this.windowIds$ = this.store.select('windows').map(windows => {
       return Object.keys(windows);
@@ -138,11 +144,13 @@ export class AppComponent {
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
 
-    return isClientLanguageAvailable ? clientLanguage : defaultLanguage;
+    return isClientLanguageAvailable && !config.isTranslateMode ? clientLanguage : defaultLanguage;
   }
 
   newWindow() {
-    this.windowService.newWindow().first().subscribe();
+    this.windowService.newWindow().first().subscribe(({ windowId }) => {
+      this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+    });
   }
 
   setActiveWindow(windowId) {
@@ -151,6 +159,10 @@ export class AppComponent {
 
   removeWindow(windowId) {
     this.windowService.removeWindow(windowId);
+  }
+
+  duplicateWindow(windowId) {
+    this.windowService.duplicateWindow(windowId);
   }
 
   setWindowName(data) {

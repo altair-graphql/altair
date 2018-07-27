@@ -28,7 +28,7 @@ install:
 - yarn
 
 before_test:
-- yarn global add @angular/cli
+- yarn global add @angular/cli@1.6.3
 - yarn global add karma
 - yarn global add electron-forge
 - yarn

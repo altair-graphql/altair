@@ -25,6 +25,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() activeWindowChange = new EventEmitter();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter();
+  @Output() duplicateWindowChange = new EventEmitter();
   @Output() windowNameChange = new EventEmitter();
   @Output() repositionWindowChange = new EventEmitter();
 
@@ -66,6 +67,10 @@ export class WindowSwitcherComponent implements OnInit {
 
   closeWindow(windowId) {
     this.removeWindowChange.next(windowId);
+  }
+
+  duplicateWindow(windowId) {
+    this.duplicateWindowChange.next(windowId);
   }
 
   log(str) {

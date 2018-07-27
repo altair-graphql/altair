@@ -23,7 +23,6 @@ import * as historyActions from '../../actions/history/history';
 import * as windowActions from '../../actions/windows/windows';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
-import { graphql } from 'graphql';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

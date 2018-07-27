@@ -9,6 +9,10 @@ app-doc-viewer {
     flex-grow: 0 !important;
     width: 0;
     padding: 0;
+    .app-doc-viewer {
+        padding: 0;
+        width: 0;
+    }
   }
 }
 .app-doc-notice{

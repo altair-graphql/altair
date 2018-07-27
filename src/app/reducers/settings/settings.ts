@@ -14,7 +14,7 @@ export interface State {
 const initialState: State = {
   isShown: false,
   theme: 'light',
-  language: 'en',
+  language: config.default_language,
   addQueryDepthLimit: config.add_query_depth_limit,
   tabSize: config.tab_size,
 };

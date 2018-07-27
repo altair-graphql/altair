@@ -24,6 +24,7 @@
         (newWindowChange)="newWindow()"
         (activeWindowChange)="setActiveWindow($event)"
         (removeWindowChange)="removeWindow($event)"
+        (duplicateWindowChange)="duplicateWindow($event)"
         (windowNameChange)="setWindowName($event)"
         (repositionWindowChange)="repositionWindow($event)"
       ></app-window-switcher>
@@ -48,6 +49,7 @@
     <div class="dialogs">
       <app-settings-dialog
         [settings]="settings$ | async"
+        [appVersion]="appVersion"
         (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
         (themeChange)="onThemeChange($event)"
         (languageChange)="onLanguageChange($event)"

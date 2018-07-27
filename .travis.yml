@@ -34,6 +34,7 @@ script:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi
 deploy:
 - provider: releases
   api_key:
@@ -51,3 +52,16 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
+- provider: surge
+  project: ./dist
+  domain: altair-gql-translate.surge.sh
+  skip_cleanup: true
+  on:
+    branch: staging
+# - provider: snap
+#   file_glob: true
+#   snap: out/make/*.snap
+#   channel: edge
+#   skip_cleanup: true
+#   on:
+#     tags: true

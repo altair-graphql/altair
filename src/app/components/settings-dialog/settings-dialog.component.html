@@ -34,6 +34,10 @@
         <label>{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}</label>
         <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
       </div>
+
+      <div class="app-dialog-section">
+        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
