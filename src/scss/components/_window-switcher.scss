@@ -11,14 +11,14 @@ app-window-switcher {
 
   background:
       //Left start and right start 'inside' container colors (they overlap the shadows)
-      linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)),
-      linear-gradient(-90deg, white 0%, rgba(255, 255, 255, 0)) 100% 0,
+      linear-gradient(90deg, $clr-header-bgColor 0%, rgba(255, 255, 255, 0)),
+      linear-gradient(-90deg, $clr-header-bgColor 0%, rgba(255, 255, 255, 0)) 100% 0,
       //Left and right scroll shadows
       linear-gradient(90deg, $shadow-color, rgba(0, 0, 0, 0)),
       linear-gradient(-90deg, $shadow-color, rgba(0, 0, 0, 0)) 100% 0;
 
   background-repeat: no-repeat;
-  background-color: #fff;
+  background-color: $clr-header-bgColor;
   background-size: 100px 100%, 100px 100%, $shadow-weight $shadow-height, $shadow-weight $shadow-height;
   background-attachment: local, local, scroll, scroll;
 
@@ -28,7 +28,7 @@ app-window-switcher {
     height: 0px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #000000;
+    background-color: $theme-bg-color;
   }
   &::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
