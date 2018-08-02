@@ -27,6 +27,7 @@ describe('AppComponent', () => {
       services.WindowService,
       services.DonationService,
       services.ElectronAppService,
+      services.KeybinderService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},

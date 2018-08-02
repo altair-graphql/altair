@@ -65,6 +65,29 @@ export class WindowService {
     });
   }
 
+  duplicateWindow(windowId): Subscription {
+    return this.store.first().subscribe(data => {
+      const window = { ...data.windows[windowId] };
+
+      if (window) {
+        const windowData: fromWindows.ExportWindowState = {
+          version: 1,
+          type: 'window',
+          query: window.query.query,
+          apiUrl: window.query.url,
+          variables: window.variables.variables,
+          subscriptionUrl: window.query.subscriptionUrl,
+          headers: window.headers,
+          windowName: `${window.layout.title} (Copy)`
+        };
+
+          return this.importWindowData(windowData);
+      } else {
+        // Todo: throw/flash descriptive message
+      }
+    });
+  }
+
   getWindowExportData(windowId): Observable<fromWindows.ExportWindowState> {
     return Observable.create((obs: Observer<fromWindows.ExportWindowState>) => {
       return this.store.first().subscribe(data => {
@@ -135,6 +158,7 @@ export class WindowService {
       if (!data.version || !data.type || data.type !== 'window') {
         throw new Error('File is not a valid Altair file.');
       }
+
       // Importing window data...
       // Add new window
       // Set window name

@@ -21,9 +21,12 @@
 <h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
 
 <hr>
+
+[![Donate to Altair](https://opencollective.com/altair/donate/button.png?color=blue)](https://opencollective.com/altair/donate)
+
 </div>
 
-Would you like to help with translations? https://altair-gql-translate.herokuapp.com/ [Click here](https://crwd.in/altair-gql).
+Would you like to help with translations? http://altair-gql-translate.surge.sh/ [Click here](https://crwd.in/altair-gql).
 
 ![set url](src/assets/img/readme/app-shot.jpg "Altair GraphQL Client")
 
@@ -34,6 +37,12 @@ Web app: https://altair-gql.sirmuel.design/
 There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and a [firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
+
+You can also install using cask:
+
+```
+$ brew cask install altair
+```
 
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).

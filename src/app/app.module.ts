@@ -57,6 +57,7 @@ const providers = [
     services.NotifyService,
     services.DonationService,
     services.ElectronAppService,
+    services.KeybinderService,
     reducerProvider
 ];
 
@@ -88,11 +89,11 @@ const providers = [
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
+        deps: [ HttpClient ]
       }
     })
   ],
   providers: providers,
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
