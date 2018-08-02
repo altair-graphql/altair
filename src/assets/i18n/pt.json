@@ -57,8 +57,8 @@
   "DUPLICATE_WINDOW_TEXT": "Duplicado",
   "IMPORT_WINDOW_TEXT": "Janela de importação...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importar do cURL...",
-  "EXPORT_WINDOW_TEXT": "Export Window",
-  "IMPORT_CURL_TITLE_TEXT": "Import cURL",
-  "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
-  "IMPORT_BUTTON": "Import"
+  "EXPORT_WINDOW_TEXT": "Janela de exportação",
+  "IMPORT_CURL_TITLE_TEXT": "Importa cURL",
+  "IMPORT_CURL_TITLE_SUBTEXT": "Cole seu comando cURL abaixo",
+  "IMPORT_BUTTON": "Importar"
 }
