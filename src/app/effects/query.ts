@@ -217,6 +217,7 @@ export class QueryEffects {
         this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
         return this.gqlService
           .setHeaders(res.data.headers)
+          .setHTTPMethod(res.data.query.httpVerb)
           .getIntrospectionRequest(res.data.query.url)
           .catch(err => {
             const errorObj = err.error || err;
