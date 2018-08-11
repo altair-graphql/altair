@@ -13,9 +13,7 @@
   "SERVER_NO_INTROSPECTION_SUPPORT": "Sorry. The provided server doesn't support introspection.",
   "SAVE_BUTTON": "Save",
   "DONE_BUTTON": "Done",
-  "CLICK_HERE_TEXT": "Click here",
   "ADD_NEW_WINDOW_TEXT": "+ Add new",
-
   "DOCS_GO_BACK_TEXT": "Back",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Search docs...",
   "DOCS_ARGUMENTS_TEXT": "Arguments",
@@ -32,26 +30,20 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementations",
   "DOCS_IMPLEMENTS_TEXT": "Implements",
-
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio my friend, how may I be of service?",
   "QUERY_RESULT_STATUS_TEXT": "STATUS",
   "QUERY_RESULT_STATUS_CODE_TEXT": "STATUS CODE",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TIME SPENT",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Download",
-
   "VARIABLES_TEXT": "Variables",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Add, edit and remove variables in your request",
-
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
   "ADD_HEADER_TEXT": "Add header",
-
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
-
   "HISTORY_TEXT": "History",
   "HISTORY_SUB_TEXT": "You can select an item from the history to restore",
-
   "SETTINGS_TEXT": "Settings",
   "SETTINGS_SUB_TEXT": "You can adjust any of the settings below",
   "SETTINGS_VERSION_TEXT": "App Version:",
@@ -59,19 +51,14 @@
   "SETTINGS_LANGUAGE_TEXT": "Language",
   "SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT": "Add Query Depth Limit",
   "SETTINGS_TAB_SIZE_TEXT": "Tab Size",
-  "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Would you like to help with translations?",
-
   "VIEW_ON_GITHUB_TEXT": "View on GitHub",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
-
   "EDIT_WINDOW_TEXT": "Edit",
   "CLOSE_WINDOW_TEXT": "Close",
   "DUPLICATE_WINDOW_TEXT": "Duplicate",
-
   "IMPORT_WINDOW_TEXT": "Import Window...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Import from cURL...",
   "EXPORT_WINDOW_TEXT": "Export Window",
-
   "IMPORT_CURL_TITLE_TEXT": "Import cURL",
   "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
   "IMPORT_BUTTON": "Import"
