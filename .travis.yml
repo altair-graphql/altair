@@ -58,10 +58,10 @@ deploy:
   skip_cleanup: true
   on:
     branch: staging
-# - provider: snap
-#   file_glob: true
-#   snap: out/make/*.snap
-#   channel: edge
-#   skip_cleanup: true
-#   on:
-#     tags: true
+- provider: snap
+  file_glob: true
+  snap: out/**/*.snap
+  channel: edge
+  skip_cleanup: true
+  on:
+    tags: true
