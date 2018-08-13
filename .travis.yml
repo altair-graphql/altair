@@ -61,7 +61,7 @@ deploy:
 - provider: snap
   file_glob: true
   snap: out/**/*.snap
-  channel: edge
+  channel: stable
   skip_cleanup: true
   on:
     tags: true
