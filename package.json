@@ -69,6 +69,7 @@
     "codemirror-graphql": "^0.6.12",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.3",
+    "curlup": "^1.0.0",
     "downloadjs": "^1.4.7",
     "electron-compile": "^6.4.1",
     "electron-is-dev": "^0.3.0",

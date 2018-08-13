@@ -3064,6 +3064,10 @@ cuint@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cuint/-/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
 
+curlup@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/curlup/-/curlup-1.0.0.tgz#568b7769f7a15dc7ea80bbe43c6a0a4ca5105b1d"
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
