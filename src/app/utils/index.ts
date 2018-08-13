@@ -1,6 +1,7 @@
 import * as toSnakeCase from 'to-snake-case';
 import * as downloadJs from 'downloadjs';
 import * as parseCurl from 'parse-curl';
+const curlup = require('curlup');
 const fileDialog = require('file-dialog');
 
 /**
@@ -76,4 +77,4 @@ export const openFile = (...args) => {
   });
 }
 
-export const parseCurlToObj = (...args) => parseCurl(...args);
+export const parseCurlToObj = (...args) => curlup.parseCurl(...args);
