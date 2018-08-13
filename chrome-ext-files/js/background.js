@@ -14,6 +14,20 @@
     chrome.tabs.update(tabId, updateProperties, function (tab) { });
   }
 
+  function openChangeLog() {
+    chrome.storage.sync.get({
+      showChangeLog: true
+    }, function (items) {
+      if (items.showChangeLog) {
+        chrome.tabs.create({
+          url: "https://altair.sirmuel.design/updated"
+        }, function (tab) {
+          console.log("New tab launched with https://altair.sirmuel.design/updated");
+        });
+      }
+    });
+  }
+
   // Open the extension tab when the extension icon is clicked
   chrome.browserAction.onClicked.addListener(function (tab) {
     if (!curTabId) {
@@ -36,20 +50,20 @@
     }
   });
 
-  // Open the update page after every new update
+  // Show the update notification after every new update
   chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'update') {
-      chrome.storage.sync.get({
-        showChangeLog: true
-      }, function (items) {
-        if (items.showChangeLog) {
-          chrome.tabs.create({
-            url: "https://altair.sirmuel.design/updated"
-          }, function (tab) {
-            console.log("New tab launched with https://altair.sirmuel.design/updated");
-          });
-        }
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'assets/img/logo.png',
+        title: 'Altair has been updated',
+        message: 'Click to view changelog.'
+      }, function(notifId) {
       });
     }
+  });
+
+  chrome.notifications.onClicked.addListener(function (notifId) {
+    openChangeLog();
   });
 })();
