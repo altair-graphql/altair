@@ -44,7 +44,7 @@ You can also install using cask:
 $ brew cask install altair
 ```
 
-For linux users, you can also install using [snap](https://snapcraft.io/):
+For linux users, you can also install using [snap](https://snapcraft.io/altair):
 
 ```
 $ snap install altair
