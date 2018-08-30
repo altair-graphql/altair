@@ -78,7 +78,7 @@
     "electron-updater": "^3.1.1",
     "express": "^4.16.2",
     "file-dialog": "^0.0.7",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.0",
     "graphql-query-compress": "^1.0.0",
     "marked": "^0.4.0",
     "mousetrap": "^1.6.2",
