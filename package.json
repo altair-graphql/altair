@@ -66,7 +66,7 @@
     "clarity-icons": "^0.10.21",
     "clarity-ui": "^0.10.21",
     "codemirror": "^5.33.0",
-    "codemirror-graphql": "^0.6.12",
+    "codemirror-graphql": "^0.7.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.3",
     "curlup": "^1.0.0",
