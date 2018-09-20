@@ -29,9 +29,13 @@
           #queryEditor
           (queryChange)="updateQuery($event)"
           (sendRequest)="sendRequest()"
+          (variablesChange)="updateVariables($event)"
+          (toggleVariableDialog)="toggleVariableDialog($event)"
           [query]="query"
           [gqlSchema]="gqlSchema"
           [tabSize]="tabSize$ | async"
+          [variables]="variables$ | async"
+          [showVariableDialog]="showVariableDialog"
         ></app-query-editor>
         <app-query-result
           [queryResult]="queryResult$ | async"
@@ -87,12 +91,12 @@
           </div>
         </div>
       </clr-modal>
-      <app-set-variable-dialog
+      <!-- <app-set-variable-dialog
         [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"
-      ></app-set-variable-dialog>
+      ></app-set-variable-dialog> -->
       <app-subscription-url-dialog
         [subscriptionUrl]="subscriptionUrl"
         [showDialog]="showSubscriptionUrlDialog"

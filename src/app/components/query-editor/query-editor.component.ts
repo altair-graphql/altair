@@ -46,6 +46,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() gqlSchema = null;
   @Input() tabSize = 2;
 
+  @Input() variables = '';
+  @Input() showVariableDialog = false;
+  @Output() variablesChange = new EventEmitter();
+  @Output() toggleVariableDialog = new EventEmitter();
+
   @ViewChild('editor') editor;
 
   @HostBinding('style.flex-grow') public resizeFactor;
