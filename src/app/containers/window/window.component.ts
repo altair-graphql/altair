@@ -175,6 +175,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
   }
 
+  clearSubscription() {
+    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
+  }
+
   updateQuery(query) {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }

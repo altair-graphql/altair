@@ -54,7 +54,8 @@
             </div>
           </div>
           <div class="subscription-result__actions-right">
-            <button track-id="stop_subscription" class="subscription-stop-button" (click)="stopSubscriptionChange.next()">Stop</button>
+            <button track-id="clear_subscription" class="subscription-button" (click)="clearSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_CLEAR_TEXT' | translate }}</button>
+            <button track-id="stop_subscription" class="subscription-button subscription-button--stop" (click)="stopSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}</button>
           </div>
       </div>
       <div class="subscription-result__list-wrapper">

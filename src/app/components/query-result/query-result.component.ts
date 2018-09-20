@@ -36,6 +36,7 @@ export class QueryResultComponent implements OnChanges {
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
+  @Output() clearSubscriptionChange = new EventEmitter();
 
   @ViewChild('editor') editor;
 
