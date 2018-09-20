@@ -78,3 +78,5 @@ export const openFile = (...args) => {
 }
 
 export const parseCurlToObj = (...args) => curlup.parseCurl(...args);
+
+export const isExtension = !!(window['chrome'] && window['chrome'].runtime && window['chrome'].runtime.id);

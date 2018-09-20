@@ -768,11 +768,27 @@
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
+"@types/chrome@^0.0.74":
+  version "0.0.74"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.74.tgz#f69827c48fcf7fecc90c96089807661749a5a5e3"
+  dependencies:
+    "@types/filesystem" "*"
+
 "@types/electron@^1.4.38":
   version "1.6.10"
   resolved "https://registry.yarnpkg.com/@types/electron/-/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
   dependencies:
     electron "*"
+
+"@types/filesystem@*":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/filesystem/-/filesystem-0.0.29.tgz#ee3748eb5be140dcf980c3bd35f11aec5f7a3748"
+  dependencies:
+    "@types/filewriter" "*"
+
+"@types/filewriter@*":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.28.tgz#c054e8af4d9dd75db4e63abc76f885168714d4b3"
 
 "@types/graphql@0.11.7":
   version "0.11.7"
@@ -7414,9 +7430,9 @@ markdown-to-ast@~3.4.0:
     structured-source "^3.0.2"
     traverse "^0.6.6"
 
-marked@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
+marked@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.5.0.tgz#9e590bad31584a48ff405b33ab1c0dd25172288e"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
