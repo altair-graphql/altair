@@ -36,6 +36,8 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "STATUS CODE",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TIME SPENT",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Загрузить",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
+  "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
   "VARIABLES_TEXT": "Переменные",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Добавлять, редактировать и удалять переменные в запросе",
   "HEADERS_TEXT": "Заголовок",
