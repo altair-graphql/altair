@@ -36,6 +36,8 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "CÓDIGO DE STATUS",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TEMPO GASTO",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Download",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
+  "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
   "VARIABLES_TEXT": "Variáveis",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Adicionar, editar e remover variáveis em sua requisição",
   "HEADERS_TEXT": "Cabeçalhos",
