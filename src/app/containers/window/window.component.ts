@@ -187,7 +187,7 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  toggleVariableDialog(isOpen) {
+  toggleVariableDialog(isOpen = undefined) {
     if (this.showVariableDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
     }

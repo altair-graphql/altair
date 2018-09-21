@@ -5,6 +5,8 @@ import { CodemirrorModule } from 'ng2-codemirror';
 
 import { QueryEditorComponent } from './query-editor.component';
 import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
 
 describe('QueryEditorComponent', () => {
   let component: QueryEditorComponent;
@@ -12,10 +14,11 @@ describe('QueryEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryEditorComponent, FlexResizerComponent ],
+      declarations: [ QueryEditorComponent, FlexResizerComponent, VariablesEditorComponent ],
       imports: [
         FormsModule,
         CodemirrorModule,
+        TranslateModule.forRoot()
       ]
     })
     .compileComponents();
