@@ -36,6 +36,8 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "CODE STATUS",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TEMPS ÉCOULÉ",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Télécharger",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
+  "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
   "VARIABLES_TEXT": "Variables",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer variables dans votre requête",
   "HEADERS_TEXT": "Headers",
