@@ -67,8 +67,6 @@ export class WindowComponent implements OnInit {
 
   historyList: fromHistory.HistoryList = [];
 
-  collapsed = true;
-
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
@@ -175,6 +173,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
   }
 
+  clearSubscription() {
+    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
+  }
+
   updateQuery(query) {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
@@ -185,7 +187,7 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  toggleVariableDialog(isOpen) {
+  toggleVariableDialog(isOpen = undefined) {
     if (this.showVariableDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.windowId));
     }

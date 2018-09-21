@@ -1,5 +1,7 @@
 app-query-editor {
   transition: all .3s ease;
+  display: flex;
+  flex-direction: column;
 }
 .query-editor-container {
   position: relative;
@@ -142,4 +144,17 @@ app-query-editor {
   padding: 5px 10px;
   background: $theme-bg-color;
   color: $theme-off-font-color;
+}
+
+.variables-editor {
+  &--title {
+    text-transform: uppercase;
+    padding: 0 15px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  // &-inner {
+    // height: 0;
+  // }
 }

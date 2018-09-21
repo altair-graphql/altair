@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ToastrService, ActiveToast } from 'ngx-toastr';
+import { isExtension } from '../../utils';
 
 @Injectable()
 export class NotifyService {
 
+  extensionNotifications = {};
+
   constructor(
     private toastr: ToastrService
   ) {
+    this.manageExtensionNotifications();
   }
 
   success(message, title = 'Altair', opts = {}) {
@@ -29,5 +33,61 @@ export class NotifyService {
       })
     }
     return toast;
+  }
+
+  pushNotify(message, title = 'Altair', opts: any = {}) {
+    if (isExtension) {
+      return this.extensionPushNotify(message, title, opts);
+    } else {
+      return this.electronPushNotify(message, title, opts);
+    }
+  }
+
+  electronPushNotify(message, title = 'Altair', opts: any = {}) {
+    const myNotification = new Notification(title, {
+      body: message
+    });
+    if (opts) {
+      myNotification.onclick = opts.onclick;
+    }
+
+    return myNotification;
+  }
+
+  extensionPushNotify(message, title = 'Altair', opts: any = {}) {
+    window['chrome'].notifications.create({
+      type: 'basic',
+      iconUrl: 'assets/img/logo.png',
+      title,
+      message
+    }, notifId => {
+      if (opts) {
+        this.extensionNotifications[notifId] = {};
+
+        if (opts.onclick) {
+          this.extensionNotifications[notifId].onclick = opts.onclick;
+        }
+      }
+    });
+  }
+
+  private manageExtensionNotifications() {
+    if (!isExtension) {
+      return;
+    }
+
+    // Handle click events
+    window['chrome'].notifications.onClicked.addListener(notifId => {
+      if (this.extensionNotifications[notifId] && this.extensionNotifications[notifId].onclick) {
+        this.extensionNotifications[notifId].onclick();
+      }
+    });
+
+    // Handle closed notifications
+    window['chrome'].notifications.onClosed.addListener(notifId => {
+      if (this.extensionNotifications[notifId]) {
+        delete this.extensionNotifications[notifId];
+      }
+    });
   }
 }

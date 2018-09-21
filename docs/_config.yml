@@ -26,11 +26,13 @@ releases:
     image: osx_logo.svg
     unique_term: dmg
     link: https://github.com/imolorhe/altair/releases/latest
+    extra: brew install altair
   -
     name: linux
     image: linux_logo.svg
     unique_term: AppImage
     link:
+    extra: snap install altair
   -
     name: windows
     image: windows_logo.svg
