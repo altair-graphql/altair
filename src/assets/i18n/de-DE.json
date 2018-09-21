@@ -36,6 +36,8 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "STATUS-CODE",
   "QUERY_RESULT_TIME_SPENT_TEXT": "VERBRACHTE ZEIT",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Herunterladen",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
+  "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
   "VARIABLES_TEXT": "Variablen",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Variablen in Ihrer Anfrage",
   "HEADERS_TEXT": "Kopfzeilen",
