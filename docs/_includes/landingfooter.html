@@ -18,6 +18,9 @@
             {% if link %}
               </a>
             {% endif %}
+            {% if platform.extra %}
+              <div class="platform--extra">{{ platform.extra }}</div>
+            {% endif %}
           </div>
         {% endfor %}
       </div>

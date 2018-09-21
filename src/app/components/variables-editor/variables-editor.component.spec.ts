@@ -1,31 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { VariablesEditorComponent } from './variables-editor.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from 'ng2-codemirror';
-
-import { QueryEditorComponent } from './query-editor.component';
-import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';
+import { ClarityModule } from 'clarity-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
 
-describe('QueryEditorComponent', () => {
-  let component: QueryEditorComponent;
-  let fixture: ComponentFixture<QueryEditorComponent>;
+describe('VariablesEditorComponent', () => {
+  let component: VariablesEditorComponent;
+  let fixture: ComponentFixture<VariablesEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryEditorComponent, FlexResizerComponent, VariablesEditorComponent ],
+      declarations: [ VariablesEditorComponent ],
       imports: [
         FormsModule,
         CodemirrorModule,
+        ClarityModule.forRoot(),
         TranslateModule.forRoot()
-      ]
+      ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QueryEditorComponent);
+    fixture = TestBed.createComponent(VariablesEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

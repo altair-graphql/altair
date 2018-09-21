@@ -325,12 +325,11 @@ export class QueryEffects {
 
               // TODO: Consider moving this functionality into the notify service
               // Send notification in electron app
-              const myNotification = new Notification(res.data.layout.title, {
-                body: strData
+              this.notifyService.pushNotify(strData, res.data.layout.title, {
+                onclick: () => {
+                  this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+                }
               });
-              myNotification.onclick = () => {
-                this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
-              };
 
               console.log(data);
             },
