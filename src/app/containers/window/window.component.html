@@ -29,9 +29,13 @@
           #queryEditor
           (queryChange)="updateQuery($event)"
           (sendRequest)="sendRequest()"
+          (variablesChange)="updateVariables($event)"
+          (toggleVariableDialog)="toggleVariableDialog($event)"
           [query]="query"
           [gqlSchema]="gqlSchema"
           [tabSize]="tabSize$ | async"
+          [variables]="variables$ | async"
+          [showVariableDialog]="showVariableDialog"
         ></app-query-editor>
         <app-query-result
           [queryResult]="queryResult$ | async"
@@ -44,6 +48,7 @@
 
           (downloadResultChange)="downloadResult()"
           (stopSubscriptionChange)="stopSubscription()"
+          (clearSubscriptionChange)="clearSubscription()"
         ></app-query-result>
         <app-doc-viewer
           [gqlSchema]="gqlSchema"
@@ -86,12 +91,12 @@
           </div>
         </div>
       </clr-modal>
-      <app-set-variable-dialog
+      <!-- <app-set-variable-dialog
         [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         (toggleVariableDialog)="toggleVariableDialog($event)"
         (variablesChange)="updateVariables($event)"
-      ></app-set-variable-dialog>
+      ></app-set-variable-dialog> -->
       <app-subscription-url-dialog
         [subscriptionUrl]="subscriptionUrl"
         [showDialog]="showSubscriptionUrlDialog"
@@ -110,40 +115,72 @@
     ...
   </nav> -->
 
-  <clr-vertical-nav [(clrVerticalNavCollapsed)]="collapsed" [clrVerticalNavCollapsible]="true">
-    <a clrVerticalNavLink (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
-      <clr-icon clrVerticalNavIcon shape="wand"></clr-icon>
-      {{ 'PRETTIFY_BUTTON' | translate }}
+  <div class="app-side-menu">
+    <a class="side-menu-item" (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="wand"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'PRETTIFY_BUTTON' | translate }}
+      </div>
     </a>
-    <a clrVerticalNavLink (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
-      <clr-icon clrVerticalNavIcon shape="shrink"></clr-icon>
-      {{ 'COMPRESS_QUERY_BUTTON' | translate }}
+    <a class="side-menu-item" (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="shrink"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'COMPRESS_QUERY_BUTTON' | translate }}
+      </div>
     </a>
-    <a clrVerticalNavLink (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
-      <clr-icon clrVerticalNavIcon shape="trash"></clr-icon>
-      {{ 'CLEAR_BUTTON' | translate }}
+    <a class="side-menu-item" (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="trash"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'CLEAR_BUTTON' | translate }}
+      </div>
     </a>
-    <div class="nav-divider"></div>
-    <a clrVerticalNavLink (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
-      <clr-icon clrVerticalNavIcon shape="asterisk"></clr-icon>
-      {{ 'SET_HEADERS_BUTTON' | translate }}
+    <div class="side-menu-divider"></div>
+    <a class="side-menu-item" (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="asterisk"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'SET_HEADERS_BUTTON' | translate }}
+      </div>
     </a>
-    <a clrVerticalNavLink (click)="toggleVariableDialog(true)" title="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
-      <clr-icon clrVerticalNavIcon shape="blocks-group"></clr-icon>
-      {{ 'SET_VARIABLES_BUTTON' | translate }}
+    <a class="side-menu-item" (click)="toggleVariableDialog()" title="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="blocks-group"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'SET_VARIABLES_BUTTON' | translate }}
+      </div>
     </a>
-    <a clrVerticalNavLink (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
-      <clr-icon clrVerticalNavIcon shape="switch"></clr-icon>
-      {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+    <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="switch"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+      </div>
     </a>
-    <a clrVerticalNavLink (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
-      <clr-icon clrVerticalNavIcon shape="history"></clr-icon>
-      {{ 'HISTORY_TEXT' | translate }}
+    <a class="side-menu-item" (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="history"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'HISTORY_TEXT' | translate }}
+      </div>
     </a>
-    <div class="nav-divider"></div>
-    <a clrVerticalNavLink (click)="exportWindowData()" title="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
-      <clr-icon clrVerticalNavIcon shape="export"></clr-icon>
-      {{ 'EXPORT_WINDOW_TEXT' | translate }}
+    <div class="side-menu-divider"></div>
+    <a class="side-menu-item" (click)="exportWindowData()" title="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
+      <div class="side-menu-item-icon">
+        <clr-icon shape="export"></clr-icon>
+      </div>
+      <div class="side-menu-item-label">
+        {{ 'EXPORT_WINDOW_TEXT' | translate }}
+      </div>
     </a>
-  </clr-vertical-nav>
+  </div>
 </div>

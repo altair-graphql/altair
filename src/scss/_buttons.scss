@@ -38,17 +38,19 @@
     line-height: 20px;
     margin: 10px 0;
 }
-.subscription-stop-button {
+.subscription-button {
     font-size: 14px;
     border: 0;
     padding: 0 15px;
     line-height: 25px;
     height: 25px;
-    background: $red;
-    color: $white;
     vertical-align: middle;
     cursor: pointer;
     border-radius: 4px;
+}
+.subscription-button--stop {
+    background: $red;
+    color: $white;
     transition: all .3s ease;
     &:hover {
       background: lighten($red, 5%);

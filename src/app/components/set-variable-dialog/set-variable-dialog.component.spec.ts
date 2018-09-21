@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import * as services from '../../services';
 import { SetVariableDialogComponent } from './set-variable-dialog.component';
+import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
 
 describe('SetVariableDialogComponent', () => {
   let component: SetVariableDialogComponent;
@@ -14,7 +15,7 @@ describe('SetVariableDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetVariableDialogComponent ],
+      declarations: [ SetVariableDialogComponent, VariablesEditorComponent ],
       imports: [
         FormsModule,
         CodemirrorModule,

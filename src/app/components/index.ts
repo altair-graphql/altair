@@ -22,6 +22,7 @@ import { HistoryDialogComponent } from './history-dialog/history-dialog.componen
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dialog.component';
 import { FlexResizerComponent } from './flex-resizer/flex-resizer.component';
+import { VariablesEditorComponent } from './variables-editor/variables-editor.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -37,6 +38,7 @@ const COMPONENTS = [
   SettingsDialogComponent,
   ImportCurlDialogComponent,
   FlexResizerComponent,
+  VariablesEditorComponent,
 ];
 
 @NgModule({
