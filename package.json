@@ -94,7 +94,7 @@
     "parse-curl": "^0.2.6",
     "rxjs": "^5.5.6",
     "sortablejs": "^1.7.0",
-    "subscriptions-transport-ws": "^0.9.5",
+    "subscriptions-transport-ws": "0.9.14",
     "to-snake-case": "^1.0.0",
     "uuid": "^3.1.0",
     "valid-url": "^1.0.9",
