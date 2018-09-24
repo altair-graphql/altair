@@ -19,6 +19,7 @@ export default {
     'cs-CZ': 'Czech',
     'de-DE': 'German',
     'pt-BR': 'Brazilian',
+    'ru-RU': 'Russian',
     'zh-CN': '中文'
   },
   query_history_depth: isElectron ? 50 : 7,
