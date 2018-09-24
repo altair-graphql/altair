@@ -253,7 +253,7 @@ export class GqlService {
    */
   getSDL(schema): string {
     if (this.isSchema(schema)) {
-      return printSchema(schema);
+      return this.prettify(printSchema(schema));
     }
     return '';
   }
