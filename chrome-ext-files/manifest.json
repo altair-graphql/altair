@@ -19,7 +19,7 @@
       "storage",
       "notifications"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';",
   "background": {
       "scripts": ["js/background.js"]
   },
