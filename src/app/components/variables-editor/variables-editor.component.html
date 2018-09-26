@@ -1,0 +1,7 @@
+<codemirror
+  #editor
+  class="set-variable-textarea"
+  [config]="variableEditorConfig"
+  [ngModel]="variables"
+  (ngModelChange)="variablesChange.emit($event)"
+></codemirror>

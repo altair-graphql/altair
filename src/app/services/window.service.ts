@@ -34,7 +34,10 @@ export class WindowService {
 
         const newWindow = {
           windowId: uuid(),
-          title: `Window ${Object.keys(data.windows).length + 1}`
+          title: `Window ${Object.keys(data.windows).length + 1}`,
+          url: data.windowsMeta.activeWindowId &&
+            data.windows[data.windowsMeta.activeWindowId] &&
+            data.windows[data.windowsMeta.activeWindowId].query.url
         };
 
         this.store.dispatch(new windowActions.AddWindowAction(newWindow));

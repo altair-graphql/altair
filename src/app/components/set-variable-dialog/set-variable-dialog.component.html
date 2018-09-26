@@ -7,13 +7,10 @@
   </h3>
   <div class="modal-body">
     <div class="app-dialog-body">
-      <codemirror
-        #editor
-        class="set-variable-textarea"
-        [config]="variableEditorConfig"
-        [ngModel]="variables"
-        (ngModelChange)="variablesChange.emit($event)"
-      ></codemirror>
+      <app-variables-editor
+        [variables]="variables"
+        (variablesChange)="variablesChange.emit($event)"
+      ></app-variables-editor>
     </div>
   </div>
   <div class="modal-footer">

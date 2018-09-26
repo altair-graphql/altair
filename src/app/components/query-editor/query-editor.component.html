@@ -7,4 +7,13 @@
     [config]="editorConfig"
   ></codemirror>
 </div>
+<div class="variables-editor-container">
+  <div class="variables-editor--title" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
+  <div class="variables-editor-inner" *ngIf="showVariableDialog">
+    <app-variables-editor
+      [variables]="variables"
+      (variablesChange)="variablesChange.emit($event)"
+    ></app-variables-editor>
+  </div>
+</div>
 <app-flex-resizer [resizeDirection]="'right'" (resizeChange)="onResize($event)"></app-flex-resizer>

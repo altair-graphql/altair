@@ -126,12 +126,23 @@ $hero-height: 700px;
     }
 
     .platform {
+      position: relative;
       &--unavailable{
         opacity: .4;
       }
 
       &--name{
         text-transform: capitalize;
+      }
+
+      &--extra {
+        position: absolute;
+        text-align: center;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 14px;
+        opacity: .5;
       }
     }
   }
