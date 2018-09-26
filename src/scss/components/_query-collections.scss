@@ -1,0 +1,23 @@
+.query-collections-wrapper {
+  height: 100%;
+  background: $theme-off-bg-color;
+  padding: 0 5px;
+}
+.query-collections__inner {
+  height: 100%;
+  overflow: auto;
+  background: $theme-bg-color;
+  padding: 10px;
+  .clr-treenode-content {
+    line-height: 1.4;
+    margin-bottom: 5px;
+  }
+}
+.query-collections__title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.query-collections__items {
+  font-size: 13px;
+}
