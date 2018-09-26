@@ -36,6 +36,8 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "STAVOVÝ KÓD",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TRVÁNÍ",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Stáhnout",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
+  "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
   "VARIABLES_TEXT": "Proměnné",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Přidejte, upravte či odeberte proměnné v požadavku",
   "HEADERS_TEXT": "Hlavičky",
