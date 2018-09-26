@@ -238,14 +238,6 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: url }, this.windowId));
   }
 
-  prettifyCode() {
-    this.store.dispatch(new queryActions.PrettifyQueryAction(this.windowId));
-  }
-
-  compressQuery() {
-    this.store.dispatch(new queryActions.CompressQueryAction(this.windowId));
-  }
-
   addQueryToEditor(queryData: { query: String, meta: any }) {
     // Add the query to what is already in the editor
     this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
@@ -254,10 +246,6 @@ export class WindowComponent implements OnInit {
     if (queryData.meta.hasArgs) {
       this.notifyService.warning('Fill in the arguments for the query!');
     }
-  }
-
-  clearEditor() {
-    this.store.dispatch(new queryActions.SetQueryAction(``, this.windowId));
   }
 
   downloadResult() {
@@ -271,12 +259,6 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  /**
-   * Export the data in the current window
-   */
-  exportWindowData() {
-    this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.windowId }));
-  }
 
   exportSDL() {
     this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId));

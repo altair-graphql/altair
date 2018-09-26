@@ -3,6 +3,11 @@
   background: $theme-bg-color;
   cursor: default;
 }
+.main-container-inner {
+  flex: 1 1 auto;
+  min-height: 1px;
+  display: flex;
+}
 .content-container {
   position: relative;
 }

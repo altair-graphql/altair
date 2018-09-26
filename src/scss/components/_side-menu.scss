@@ -1,13 +1,25 @@
 .app-side-menu {
   background: $theme-bg-color;
-  width: 60px;
-  min-width: 60px;
-  padding-top: 15px;
   flex: 0 0 auto;
   order: -1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   will-change: width;
+}
+.side-menu__main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 60px;
+  min-width: 60px;
+  padding-top: 15px;
+}
+.side-menu__main-bottom {
+  margin-top: auto;
+}
+.side-menu__extra {
+  max-width: 250px;
+  width: 250px;
 }
 
 .side-menu-item {
