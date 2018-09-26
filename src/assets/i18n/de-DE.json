@@ -65,5 +65,6 @@
   "EXPORT_WINDOW_TEXT": "Fenster exportieren",
   "IMPORT_CURL_TITLE_TEXT": "cURL importieren",
   "IMPORT_CURL_TITLE_SUBTEXT": "Fügen Sie Ihr cURL Befehl unten ein",
-  "IMPORT_BUTTON": "Importieren"
+  "IMPORT_BUTTON": "Importieren",
+  "COLLECTIONS_TEXT": "Collections"
 }
