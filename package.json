@@ -113,7 +113,7 @@
     "babel-preset-react": "^6.24.1",
     "codelyzer": "^4.0.2",
     "electron-builder": "^20.27.1",
-    "electron-prebuilt-compile": "^2.0.7",
+    "electron-prebuilt-compile": "^3.0.0",
     "jasmine-core": "^3.1.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^3.0.0",
