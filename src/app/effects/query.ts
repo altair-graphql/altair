@@ -371,6 +371,7 @@ export class QueryEffects {
         try {
           prettified = this.gqlService.prettify(res.data.query.query);
         } catch (err) {
+          console.log(err);
           this.notifyService.error('Your query does not appear to be valid. Please check it.');
         }
 

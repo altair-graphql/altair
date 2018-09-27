@@ -1,6 +1,9 @@
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import * as prettier from 'prettier/standalone';
+import * as prettierGraphql from 'prettier/parser-graphql';
+
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
@@ -232,7 +235,8 @@ export class GqlService {
    * @param query
    */
   prettify(query) {
-    return print(parse(query));
+    // return print(parse(query));
+    return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ] });
   }
 
   /**
@@ -249,7 +253,7 @@ export class GqlService {
    */
   getSDL(schema): string {
     if (this.isSchema(schema)) {
-      return printSchema(schema);
+      return this.prettify(printSchema(schema));
     }
     return '';
   }
