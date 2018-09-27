@@ -18,6 +18,7 @@ import * as windowsActions from '../../actions/windows/windows';
 import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
+import * as windowActions from '../../actions/windows/windows';
 
 import { environment } from '../../../environments/environment';
 
@@ -210,6 +211,45 @@ export class AppComponent {
   onTabSizeChange(tabSize) {
     this.store.dispatch(new settingsActions.SetTabSizeAction({ value: tabSize }));
   }
+
+  prettifyCode() {
+    this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId));
+  }
+
+  compressQuery() {
+    this.store.dispatch(new queryActions.CompressQueryAction(this.activeWindowId));
+  }
+
+  clearEditor() {
+    this.store.dispatch(new queryActions.SetQueryAction(``, this.activeWindowId));
+  }
+
+  toggleHeader(isOpen) {
+    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
+  }
+
+  toggleVariableDialog(isOpen = undefined) {
+    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId));
+  }
+
+  toggleSubscriptionUrlDialog(isOpen) {
+    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.activeWindowId));
+  }
+
+  toggleHistoryDialog(isOpen) {
+    this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
+  }
+
+  /**
+   * Export the data in the current window
+   */
+  exportWindowData() {
+    this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.activeWindowId }));
+  }
+
+  toggleCollections() {}
+
+
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
