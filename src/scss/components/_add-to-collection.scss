@@ -1,0 +1,19 @@
+.add-to-collection__list-item {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  cursor: pointer;
+  transition: all .3s ease;
+  background: $theme-bg-color;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid $theme-off-border-color;
+  &:hover {
+    border-color: $primary-color;
+  }
+}
+.add-to-collection__actions {
+  padding: 10px 0;
+}

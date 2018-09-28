@@ -64,7 +64,7 @@ const providers = [
 @NgModule({
   declarations: [
     AppComponent,
-    WindowComponent
+    WindowComponent,
   ],
   imports: [
     BrowserModule,

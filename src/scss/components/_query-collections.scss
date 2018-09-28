@@ -1,7 +1,21 @@
+app-query-collections {
+  height: 100%;
+}
+
 .query-collections-wrapper {
   height: 100%;
+  max-width: 320px;
+  width: 320px;
   background: $theme-off-bg-color;
   padding: 0 5px;
+  will-change: width;
+  overflow: hidden;
+  // transition: all .3s ease;
+  &.query-collections-wrapper--close {
+    width: 0;
+    padding: 0;
+    flex-grow: 0;
+  }
 }
 .query-collections__inner {
   height: 100%;
@@ -16,8 +30,33 @@
 .query-collections__title {
   text-transform: uppercase;
   font-weight: bold;
+  margin-bottom: 5px;
+}
+.query-collections__actions {
+  margin-bottom: 10px;
 }
 
-.query-collections__items {
+.query-collections__items-wrapper {
   font-size: 13px;
+}
+
+.query-collections__item {
+  cursor: pointer;
+}
+.query-collections__item-details {
+  padding: 5px 0;
+  border-bottom: 1px solid $theme-border-color;
+}
+.query-collections__item-title {
+  font-weight: bold;
+}
+.query-collections__item-description {
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  // max-height: 50px;
+}
+.query-collections__item-nested {
+  padding-left: 10px;
 }

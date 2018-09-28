@@ -18,8 +18,6 @@
   margin-top: auto;
 }
 .side-menu__extra {
-  max-width: 250px;
-  width: 250px;
 }
 
 .side-menu-item {
@@ -38,6 +36,10 @@
     .side-menu-item-label {
       max-width: 300px;
     }
+  }
+  &--active {
+    opacity: 1;
+    // background: rgba($theme-off-font-color, .1);
   }
 }
 .side-menu-item-label {

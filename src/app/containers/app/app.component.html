@@ -114,10 +114,10 @@
             </div>
           </a>
     
-          <div class="side-menu__main-bottom" *ngIf="false">
-            <a class="side-menu-item" (click)="toggleCollections()" title="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections">
+          <div class="side-menu__main-bottom">
+            <a class="side-menu-item" (click)="toggleCollections()" title="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
               <div class="side-menu-item-icon">
-                <clr-icon shape="file-group"></clr-icon>
+                <clr-icon shape="folder" class="has-badge"></clr-icon>
               </div>
               <div class="side-menu-item-label">
                 {{ 'COLLECTIONS_TEXT' | translate }}
@@ -125,31 +125,8 @@
             </a>
           </div>
         </div>
-        <div class="side-menu__extra" *ngIf="false">
-          <div class="query-collections-wrapper">
-            <div class="query-collections__inner">
-              <div class="query-collections__title">Collections</div>
-              <div class="query-collections__actions">
-                  <button type="button" class="btn btn-sm btn-icon">
-                      <clr-icon shape="home"></clr-icon>
-                  </button>
-              </div>
-              <div class="query-collections__items">
-                <clr-tree-node>
-                    David Wallace (CFO)
-                    <ng-template [clrIfExpanded]="true">
-                        <clr-tree-node>
-                            Michael Scott (Regional Manager)
-                
-                            <ng-template [clrIfExpanded]="true">
-                                <clr-tree-node>Dwight K. Schrute (Assistant to the Regional Manager)</clr-tree-node>
-                            </ng-template>
-                        </clr-tree-node>
-                    </ng-template>
-                </clr-tree-node>
-              </div>
-            </div>
-          </div>
+        <div class="side-menu__extra">
+          <app-query-collections [showCollections]="showCollections"></app-query-collections>
         </div>
       </div>
       <ng-container *ngFor="let windowId of windowIds">

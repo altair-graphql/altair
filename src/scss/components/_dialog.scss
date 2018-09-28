@@ -18,7 +18,7 @@
 }
 .app-dialog-body{
   margin-bottom: 10px;
-  max-height: 500px;
+  // max-height: 500px;
   overflow: auto;
 }
 .app-dialog-section {
@@ -48,6 +48,10 @@
   width: 100%;
   border: 1px solid $green;
   border-radius: 4px;
+}
+.dialog-block {
+  width: 100%;
+  display: block;
 }
 .set-header-input-container {
   display: flex;

@@ -43,6 +43,7 @@ export class AppComponent {
   showDonationAlert = false;
 
   showImportCurlDialog = false;
+  showCollections = true;
 
   appVersion = environment.version;
 
@@ -247,7 +248,9 @@ export class AppComponent {
     this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.activeWindowId }));
   }
 
-  toggleCollections() {}
+  toggleCollections() {
+    this.showCollections = !this.showCollections;
+  }
 
 
 

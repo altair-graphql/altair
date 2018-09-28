@@ -60,6 +60,7 @@ export class WindowComponent implements OnInit {
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
+  showAddToCollectionDialog = false;
 
   gqlSchema = null;
 
@@ -111,6 +112,7 @@ export class WindowComponent implements OnInit {
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
         this.showHistoryDialog = data.dialogs.showHistoryDialog;
+        this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
 
         this.subscriptionUrl = data.query.subscriptionUrl;
         if (data.history) { // Remove condition when all users have upgraded to v1.6.0+
@@ -202,6 +204,12 @@ export class WindowComponent implements OnInit {
   toggleHistoryDialog(isOpen) {
     if (this.showHistoryDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
+    }
+  }
+
+  toggleAddToCollectionDialog(isOpen) {
+    if (this.showAddToCollectionDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.ToggleAddToCollectionDialogAction(this.windowId));
     }
   }
 
