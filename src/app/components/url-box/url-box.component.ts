@@ -14,6 +14,7 @@ export class UrlBoxComponent {
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
+  @Output() addToCollectionChange = new EventEmitter();
   @Output() sendRequest = new EventEmitter();
   @Output() urlChange = new EventEmitter();
   @Output() httpVerbChange = new EventEmitter();

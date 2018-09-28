@@ -21,6 +21,7 @@
       (sendRequest)="sendRequest()"
       (toggleDocsChange)="toggleDocs()"
       (reloadDocsChange)="reloadDocs()"
+      (addToCollectionChange)="toggleAddToCollectionDialog()"
       (selectedOperationChange)="selectOperation($event)"
     ></app-url-box>
     <div class="main-content-area">
@@ -109,6 +110,34 @@
         (toggleDialogChange)="toggleHistoryDialog($event)"
         (restoreHistoryChange)="restoreHistory($event)"
       ></app-history-dialog>
+      <app-dialog
+        [showDialog]="showAddToCollectionDialog"
+        [heading]="'SAVE_TO_COLLECTION_HEADER' | translate"
+        [subheading]="'SAVE_TO_COLLCTION_SUBTEXT' | translate"
+        [showFooter]="false"
+
+        (toggleDialog)="toggleAddToCollectionDialog($event)"
+      >
+        <div class="add-to-collection-wrapper">
+          <div class="app-dialog-section">
+            {{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}
+            <input type="text" class="dialog-input">
+            <div class="add-to-collection__actions clearfix">
+              <button class="app-button active-grey right">{{ 'CREATE_COLLECTION_BUTTON' | translate }}</button>
+            </div>
+          </div>
+          <div class="app-dialog-section">
+            <div class="add-to-collection__list">
+              <div class="add-to-collection__list-item">
+                okay
+              </div>
+              <div class="add-to-collection__list-item">
+                okay
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-dialog>
     </div>
   </div>
 </div>

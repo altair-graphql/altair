@@ -79,5 +79,10 @@
   "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
   "IMPORT_BUTTON": "Import",
 
-  "COLLECTIONS_TEXT": "Collections"
+  "COLLECTIONS_TEXT": "Collections",
+  "SAVE_TO_COLLECTION_BUTTON": "Add to collection",
+  "SAVE_TO_COLLECTION_HEADER": "Add to collection",
+  "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",
+  "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "or create a new collection",
+  "CREATE_COLLECTION_BUTTON": "Create collection"
 }

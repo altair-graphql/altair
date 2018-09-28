@@ -23,6 +23,9 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dialog.component';
 import { FlexResizerComponent } from './flex-resizer/flex-resizer.component';
 import { VariablesEditorComponent } from './variables-editor/variables-editor.component';
+import { QueryCollectionsComponent } from './query-collections/query-collections.component';
+import { QueryCollectionItemComponent } from './query-collection-item/query-collection-item.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -39,6 +42,9 @@ const COMPONENTS = [
   ImportCurlDialogComponent,
   FlexResizerComponent,
   VariablesEditorComponent,
+  QueryCollectionsComponent,
+  QueryCollectionItemComponent,
+  DialogComponent,
 ];
 
 @NgModule({
