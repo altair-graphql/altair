@@ -65,5 +65,6 @@
   "EXPORT_WINDOW_TEXT": "Export Window",
   "IMPORT_CURL_TITLE_TEXT": "Import cURL",
   "IMPORT_CURL_TITLE_SUBTEXT": "Вставьте вашу cURL комманду ниже",
-  "IMPORT_BUTTON": "Импортировать"
+  "IMPORT_BUTTON": "Импортировать",
+  "COLLECTIONS_TEXT": "Collections"
 }

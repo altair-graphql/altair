@@ -65,5 +65,6 @@
   "EXPORT_WINDOW_TEXT": "Exportovat okno",
   "IMPORT_CURL_TITLE_TEXT": "Importovat cURL",
   "IMPORT_CURL_TITLE_SUBTEXT": "Vložte cURL příkaz",
-  "IMPORT_BUTTON": "Importovat"
+  "IMPORT_BUTTON": "Importovat",
+  "COLLECTIONS_TEXT": "Collections"
 }

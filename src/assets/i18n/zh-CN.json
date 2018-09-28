@@ -65,5 +65,6 @@
   "EXPORT_WINDOW_TEXT": "导出窗口",
   "IMPORT_CURL_TITLE_TEXT": "Import cURL",
   "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
-  "IMPORT_BUTTON": "Import"
+  "IMPORT_BUTTON": "Import",
+  "COLLECTIONS_TEXT": "Collections"
 }
