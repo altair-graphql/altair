@@ -3,6 +3,11 @@ const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
 const { instance, createWindow, getInstance } = require('./window');
 
+// require('electron-debug')();
+// try {
+// 	require('electron-reloader')(module);
+// } catch (err) {}
+
 // Default Squirrel.Windows event handler for your Electron apps.
 // if (require('electron-squirrel-startup')) return; // Not required when using NSIS target
 
