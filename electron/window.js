@@ -1,4 +1,4 @@
-const { BrowserWindow, protocol, ipcMain, session } = require('electron');
+const { BrowserWindow, protocol, ipcMain, session, app } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -34,33 +34,55 @@ const actions = {
 
 const createWindow = () => {
 
+  const getFilePath = (filePath) => {
+    return new Promise((resolve, reject) => {
+
+      if (!filePath) {
+        return resolve();
+      }
+
+      console.log('checking stat..', filePath);
+      fs.stat(filePath, (err, stats) => {
+        if (err) {
+          return reject(err);
+        }
+        if (stats.isFile()) {
+          return resolve(filePath);
+        }
+
+        if (stats.isDirectory()) {
+          return resolve(getFilePath(path.join(filePath, 'index.html')));
+        }
+
+        return resolve();
+      });
+    });
+  };
+
   /**
    * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
    */
   protocol.registerBufferProtocol('altair', (request, callback) => {
-    let url = request.url.substr(7);
 
-    // In windows, the url comes as altair://c/Users/Jackie/Documents/projects/altair/dist/index.html
-    // We also need to strip out the //c from the path
-    // TODO - Find a better way of handling this
-    if (process.platform === 'win32') {
-      url = request.url.substr(10);
-    }
+    const requestDirectory = path.resolve(app.getAppPath(), 'dist');
+    const filePath = path.join(requestDirectory, new url.URL(request.url).pathname);
+    const indexPath = path.join(requestDirectory, 'index.html');
 
-    // Maybe this could work?
-    // console.log('::>>', path.join(__dirname, '../dist', path.basename(request.url)));
-
-    fs.readFile(path.normalize(`${url}`), 'utf8', function (err, data) {
-      if (err) {
-        return console.log('Error loading file to buffer.', err);
+    getFilePath(filePath).then((filePath) => {
+      if (!filePath) {
+        filePath = indexPath;
       }
 
-      // Load the data from the file into a buffer and pass it to the callback
-      // Using the mime package to get the mime type for the file, based on the file name
-      callback({ mimeType: mime.lookup(url), data: new Buffer(data) });
-      // console.log(data);
+      fs.readFile(filePath, 'utf8', function (err, data) {
+        if (err) {
+          return console.log('Error loading file to buffer.', err);
+        }
+
+        // Load the data from the file into a buffer and pass it to the callback
+        // Using the mime package to get the mime type for the file, based on the file name
+        callback({ mimeType: mime.lookup(filePath), data: new Buffer(data) });
+      });
     });
-    // callback({path: path.normalize(`${__dirname}/${url}`)})
   }, (error) => {
     if (error) console.error('Failed to register protocol')
   });
@@ -80,11 +102,10 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   instance.loadURL(url.format({
-    pathname: path.join(__dirname, '../dist/index.html'),
+    pathname: '-',
     protocol: 'altair:',
     slashes: true
   }));
-  // instance.loadURL('altair://' + __dirname + '/../dist/index.html');
 
   // Open the DevTools.
   // instance.webContents.openDevTools();
