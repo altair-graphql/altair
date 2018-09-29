@@ -18,6 +18,7 @@ import * as fromHistory from './history/history';
 import * as fromWindowsMeta from './windows-meta/windows-meta';
 import * as fromSettings from './settings/settings';
 import * as fromDonation from './donation';
+import * as fromCollection from './collection';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -47,6 +48,7 @@ export interface State {
   windowsMeta: fromWindowsMeta.State;
   settings: fromSettings.State;
   donation: fromDonation.State;
+  collection: fromCollection.State;
 }
 
 // Meta reducer to log actions
@@ -75,7 +77,8 @@ export const reducer: ActionReducerMap<State> = {
   windows: fromWindows.windows(combineReducers(perWindowReducers)),
   windowsMeta: fromWindowsMeta.windowsMetaReducer,
   settings: fromSettings.settingsReducer,
-  donation: fromDonation.donationReducer
+  donation: fromDonation.donationReducer,
+  collection: fromCollection.collectionReducer,
 };
 
 export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');

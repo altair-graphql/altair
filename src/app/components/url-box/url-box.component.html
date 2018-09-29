@@ -12,6 +12,9 @@
     <input track-id="set_url" #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
          [value]="apiUrl">
     <div class="url-box__input-actions">
+      <button type="button" class="url-box__input-btn" (click)="addToCollectionChange.next()" track-id="add_to_collection">
+        <clr-icon shape="floppy" class="has-badge"></clr-icon>
+      </button>
       <clr-tooltip>
         <button clrTooltipTrigger type="button" class="url-box__input-btn" (click)="reloadDocsChange.next()" track-id="reload_docs">
           <clr-icon shape="refresh"></clr-icon>

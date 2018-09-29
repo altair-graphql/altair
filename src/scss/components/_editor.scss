@@ -74,7 +74,7 @@ app-query-editor {
   display: inline-block;
   width: 50px;
   height: 20px;
-  background: darken($light-grey, 5%);
+  background: darken($theme-off-bg-color, 5%);
   opacity: .8;
   border-radius: 5px;
   &.send{

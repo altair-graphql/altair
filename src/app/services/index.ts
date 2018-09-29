@@ -8,3 +8,4 @@ export { DonationService } from './donation.service';
 export { ElectronAppService } from './electron-app/electron-app.service';
 export { KeybinderService } from './keybinder/keybinder.service';
 export { StorageService } from './storage/storage.service';
+export { QueryCollectionService } from './query-collection/query-collection.service';
