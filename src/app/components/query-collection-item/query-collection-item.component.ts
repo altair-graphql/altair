@@ -18,7 +18,7 @@ export class QueryCollectionItemComponent implements OnInit {
   }
 
   getQueryCount(collection) {
-    return collection.queries.length;
+    return collection.queries && collection.queries.length;
   }
 
   toggleContent() {

@@ -1,5 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule } from '@angular/forms';
+import { ClarityModule } from 'clarity-angular';
+import { CodemirrorModule } from 'ng2-codemirror';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { DialogComponent } from './dialog.component';
 
 describe('DialogComponent', () => {
@@ -8,7 +13,13 @@ describe('DialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DialogComponent ]
+      declarations: [ DialogComponent ],
+      imports: [
+        FormsModule,
+        CodemirrorModule,
+        ClarityModule.forRoot(),
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));
