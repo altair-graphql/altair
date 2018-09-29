@@ -7,6 +7,7 @@ import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromSettings from '../../reducers/settings/settings';
+import * as fromCollection from '../../reducers/collection';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -19,6 +20,7 @@ import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
 import * as windowActions from '../../actions/windows/windows';
+import * as collectionActions from '../../actions/collection/collection';
 
 import { environment } from '../../../environments/environment';
 
@@ -34,6 +36,7 @@ import isElectron from '../../utils/is_electron';
 export class AppComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
+  collection$: Observable<fromCollection.State>;
 
   windowIds = [];
   windows = {};
@@ -43,7 +46,7 @@ export class AppComponent {
   showDonationAlert = false;
 
   showImportCurlDialog = false;
-  showCollections = true;
+  showCollections = false;
 
   appVersion = environment.version;
 
@@ -56,6 +59,7 @@ export class AppComponent {
     private keybinder: KeybinderService,
   ) {
     this.settings$ = this.store.select('settings').distinctUntilChanged();
+    this.collection$ = this.store.select('collection');
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -252,6 +256,13 @@ export class AppComponent {
     this.showCollections = !this.showCollections;
   }
 
+  loadCollections() {
+    this.store.dispatch(new collectionActions.LoadCollectionsAction());
+  }
+
+  selectQueryFromCollection(query) {
+    this.windowService.importWindowData(query);
+  }
 
 
   fileDropped(event) {

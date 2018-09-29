@@ -21,7 +21,7 @@ app-query-collections {
   height: 100%;
   overflow: auto;
   background: $theme-bg-color;
-  padding: 10px;
+  // padding: 10px;
   .clr-treenode-content {
     line-height: 1.4;
     margin-bottom: 5px;
@@ -30,7 +30,7 @@ app-query-collections {
 .query-collections__title {
   text-transform: uppercase;
   font-weight: bold;
-  margin-bottom: 5px;
+  padding: 10px;
 }
 .query-collections__actions {
   margin-bottom: 10px;
@@ -41,11 +41,15 @@ app-query-collections {
 }
 
 .query-collections__item {
-  cursor: pointer;
 }
 .query-collections__item-details {
-  padding: 5px 0;
+  padding: 5px 10px;
   border-bottom: 1px solid $theme-border-color;
+  cursor: pointer;
+  transition: all .3s ease;
+  &:hover {
+    background: rgba($theme-font-color, .05);
+  }
 }
 .query-collections__item-title {
   font-weight: bold;
@@ -57,6 +61,40 @@ app-query-collections {
   text-overflow: ellipsis;
   // max-height: 50px;
 }
+.query-collections__item-meta {
+  font-size: 12px;
+}
+.query-collections__item-content-wrapper {
+  overflow: hidden;
+  max-height: 99em;
+  transition: all .3s ease;
+}
+.query-collections__item-content--hidden {
+  max-height: 0;
+  opacity: 0;
+}
 .query-collections__item-nested {
   padding-left: 10px;
+}
+.query-collections__item-queries-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: all .3s ease;
+  &:hover {
+    background: rgba($theme-font-color, .05);
+    .query-collections__item-queries-item-right-icon {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+.query-collections__item-queries-item-title {
+  display: inline-block;
+  vertical-align: middle;
+}
+.query-collections__item-queries-item-right-icon {
+  float: right;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: all .3s ease;
 }

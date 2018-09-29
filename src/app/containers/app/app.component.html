@@ -126,7 +126,13 @@
           </div>
         </div>
         <div class="side-menu__extra">
-          <app-query-collections [showCollections]="showCollections"></app-query-collections>
+          <app-query-collections
+            [showCollections]="showCollections"
+            [collections]="(collection$ | async).list"
+
+            (loadCollectionsChange)="loadCollections()"
+            (selectQueryChange)="selectQueryFromCollection($event)"
+          ></app-query-collections>
         </div>
       </div>
       <ng-container *ngFor="let windowId of windowIds">

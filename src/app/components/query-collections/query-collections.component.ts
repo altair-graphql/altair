@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-query-collections',
@@ -7,9 +7,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class QueryCollectionsComponent implements OnInit {
   @Input() showCollections = true;
-  constructor() { }
+  @Input() collections = [];
+
+  @Output() loadCollectionsChange = new EventEmitter();
+  @Output() selectQueryChange = new EventEmitter();
+
+  constructor(
+  ) {
+  }
 
   ngOnInit() {
+    this.loadCollectionsChange.next();
   }
 
 }

@@ -16,15 +16,19 @@ export class StorageService extends Dexie {
     });
   }
 
+  now() {
+    return +(new Date());
+  }
+
 }
 
-interface IQueryCollection {
+export interface IQueryCollection {
   id?: number;
   title: string;
-  description: string;
-  queries: any;
-  collections: IQueryCollection[];
+  description?: string;
+  queries: any[];
+  collections?: IQueryCollection[];
 
-  created_at: number;
-  updated_at: number;
+  created_at?: number;
+  updated_at?: number;
 }
