@@ -120,8 +120,8 @@
       >
         <div class="add-to-collection-wrapper">
           <div class="app-dialog-section">
-            Name of query
-            <input type="text" class="dialog-input" [(ngModel)]="newCollectionQueryTitle">
+            {{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}
+            <input type="text" class="dialog-input" [(ngModel)]="newCollectionQueryTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}">
           </div>
           <div class="app-dialog-section">
             <div class="add-to-collection__list">
@@ -132,7 +132,7 @@
           </div>
           <div class="app-dialog-section">
             {{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}
-            <input type="text" class="dialog-input" [(ngModel)]="newCollectionTitle">
+            <input type="text" class="dialog-input" [(ngModel)]="newCollectionTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}">
             <div class="add-to-collection__actions clearfix">
               <button class="app-button active-grey right" (click)="createCollectionAndSaveQueryToCollection()">{{ 'CREATE_COLLECTION_BUTTON' | translate }}</button>
             </div>
