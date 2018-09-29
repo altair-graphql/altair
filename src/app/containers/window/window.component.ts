@@ -21,6 +21,7 @@ import * as layoutActions from '../../actions/layout/layout';
 import * as schemaActions from '../../actions/gql-schema/gql-schema';
 import * as historyActions from '../../actions/history/history';
 import * as windowActions from '../../actions/windows/windows';
+import * as collectionActions from '../../actions/collection/collection';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { Observable } from 'rxjs/Observable';
@@ -49,12 +50,19 @@ export class WindowComponent implements OnInit {
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
 
+  collections$: Observable<any[]>;
+
   @Input() windowId: string;
 
   apiUrl = '';
   httpVerb = '';
   initialQuery = '';
   query = '';
+  windowTitle = '';
+
+
+  newCollectionTitle = '';
+  newCollectionQueryTitle = '';
 
   showHeaderDialog = false;
   showVariableDialog = false;
@@ -68,6 +76,7 @@ export class WindowComponent implements OnInit {
 
   historyList: fromHistory.HistoryList = [];
 
+
   constructor(
     private queryService: QueryService,
     private gql: GqlService,
@@ -80,6 +89,7 @@ export class WindowComponent implements OnInit {
   ngOnInit() {
     this.addQueryDepthLimit$ = this.store.select(state => state.settings.addQueryDepthLimit);
     this.tabSize$ = this.store.select(state => state.settings.tabSize);
+    this.collections$ = this.store.select(state => state.collection.list);
 
     this.queryResult$ = this.getWindowState().select(fromRoot.getQueryResult);
     this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);
@@ -113,9 +123,10 @@ export class WindowComponent implements OnInit {
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
         this.showHistoryDialog = data.dialogs.showHistoryDialog;
         this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
+        this.windowTitle = data.layout.title;
 
         this.subscriptionUrl = data.query.subscriptionUrl;
-        if (data.history) { // Remove condition when all users have upgraded to v1.6.0+
+        if (data.history) { // TODO: Remove condition when all users have upgraded to v1.6.0+
           this.historyList = data.history.list;
         }
 
@@ -133,6 +144,10 @@ export class WindowComponent implements OnInit {
         // Backward compatibility: set the HTTP verb if it is not set.
         if (!this.httpVerb) {
           this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb: 'POST' }, this.windowId));
+        }
+
+        if (!this.newCollectionQueryTitle) {
+          this.newCollectionQueryTitle = data.layout.title;
         }
         // console.log(data.query);
       });
@@ -267,6 +282,33 @@ export class WindowComponent implements OnInit {
     }
   }
 
+  createCollectionAndSaveQueryToCollection() {
+    this.store.dispatch(
+      new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
+        collectionTitle: this.newCollectionTitle,
+        windowId: this.windowId,
+        windowTitle: this.newCollectionQueryTitle
+      })
+    );
+
+    this.onCloseAddToCollectionDialog();
+  }
+
+  saveQueryToCollection(collectionId) {
+    this.store.dispatch(new collectionActions.SaveQueryToCollectionAction({
+      windowId: this.windowId,
+      collectionId,
+      windowTitle: this.newCollectionQueryTitle
+    }));
+
+    this.onCloseAddToCollectionDialog();
+  }
+
+  onCloseAddToCollectionDialog() {
+    this.newCollectionTitle = '';
+    this.newCollectionQueryTitle = this.windowTitle;
+    this.toggleAddToCollectionDialog(false);
+  }
 
   exportSDL() {
     this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId));

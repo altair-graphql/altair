@@ -15,6 +15,7 @@ import * as headerActions from '../actions/headers/headers';
 import * as variableActions from '../actions/variables/variables';
 import * as layoutActions from '../actions/layout/layout';
 import * as windowActions from '../actions/windows/windows';
+import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
 import { DbService } from '../services/db.service';
 
@@ -197,6 +198,8 @@ export class WindowService {
         if (data.subscriptionUrl) {
           this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
         }
+
+        this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
       });
     } catch (err) {
       console.log('Something went wrong while importing the data.', err);

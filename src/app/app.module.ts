@@ -24,6 +24,7 @@ import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers
 
 import { QueryEffects } from './effects/query';
 import { WindowsEffects } from './effects/windows';
+import { QueryCollectionEffects } from './effects/query-collection';
 
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
@@ -58,6 +59,8 @@ const providers = [
     services.DonationService,
     services.ElectronAppService,
     services.KeybinderService,
+    services.StorageService,
+    services.QueryCollectionService,
     reducerProvider
 ];
 
@@ -77,7 +80,7 @@ const providers = [
     ComponentModule,
     DocViewerModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
-    EffectsModule.forRoot([ QueryEffects, WindowsEffects ]),
+    EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects ]),
     StoreDevtoolsModule.instrument(),
     ToastrModule.forRoot({
       newestOnTop: false,

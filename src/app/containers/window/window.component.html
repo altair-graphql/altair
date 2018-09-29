@@ -21,7 +21,7 @@
       (sendRequest)="sendRequest()"
       (toggleDocsChange)="toggleDocs()"
       (reloadDocsChange)="reloadDocs()"
-      (addToCollectionChange)="toggleAddToCollectionDialog()"
+      (addToCollectionChange)="toggleAddToCollectionDialog(true)"
       (selectedOperationChange)="selectOperation($event)"
     ></app-url-box>
     <div class="main-content-area">
@@ -120,20 +120,21 @@
       >
         <div class="add-to-collection-wrapper">
           <div class="app-dialog-section">
-            {{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}
-            <input type="text" class="dialog-input">
-            <div class="add-to-collection__actions clearfix">
-              <button class="app-button active-grey right">{{ 'CREATE_COLLECTION_BUTTON' | translate }}</button>
-            </div>
+            Name of query
+            <input type="text" class="dialog-input" [(ngModel)]="newCollectionQueryTitle">
           </div>
           <div class="app-dialog-section">
             <div class="add-to-collection__list">
-              <div class="add-to-collection__list-item">
-                okay
+              <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async)" (click)="saveQueryToCollection(collection.id)">
+                {{ collection.title }}
               </div>
-              <div class="add-to-collection__list-item">
-                okay
-              </div>
+            </div>
+          </div>
+          <div class="app-dialog-section">
+            {{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}
+            <input type="text" class="dialog-input" [(ngModel)]="newCollectionTitle">
+            <div class="add-to-collection__actions clearfix">
+              <button class="app-button active-grey right" (click)="createCollectionAndSaveQueryToCollection()">{{ 'CREATE_COLLECTION_BUTTON' | translate }}</button>
             </div>
           </div>
         </div>
