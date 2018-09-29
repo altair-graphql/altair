@@ -1,0 +1,13 @@
+<div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
+  <div class="query-collections__inner">
+    <div class="query-collections__title">Collections</div>
+    <div class="query-collections__actions" *ngIf="false">
+        <button type="button" class="icon-button">
+            <clr-icon shape="import" class="is-solid"></clr-icon>
+        </button>
+    </div>
+    <div class="query-collections__items-wrapper">
+      <app-query-collection-item *ngFor="let collection of collections" [collection]="collection" (selectQueryChange)="selectQueryChange.next($event)"></app-query-collection-item>
+    </div>
+  </div>
+</div>

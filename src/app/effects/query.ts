@@ -323,7 +323,6 @@ export class QueryEffects {
                 responseTime: (new Date()).getTime() // store responseTime in ms
               }));
 
-              // TODO: Consider moving this functionality into the notify service
               // Send notification in electron app
               this.notifyService.pushNotify(strData, res.data.layout.title, {
                 onclick: () => {
