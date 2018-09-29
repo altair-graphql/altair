@@ -84,6 +84,7 @@
   "SAVE_TO_COLLECTION_HEADER": "Add to collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "create a new collection",
+  "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "CREATE_COLLECTION_BUTTON": "Create collection",
   "NUMBER_OF_QUERIES": "Number of queries:"
 }
