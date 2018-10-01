@@ -43,6 +43,9 @@
   &:focus{
     border-color: $green;
   }
+  option {
+    color: $theme-select-color;
+  }
 }
 .dialog-textarea {
   width: 100%;
