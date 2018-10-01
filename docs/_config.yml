@@ -26,7 +26,7 @@ releases:
     image: osx_logo.svg
     unique_term: dmg
     link: https://github.com/imolorhe/altair/releases/latest
-    extra: brew install altair
+    extra: brew cask install altair
   -
     name: linux
     image: linux_logo.svg
