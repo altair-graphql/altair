@@ -157,4 +157,7 @@
 }
 .dropdown-menu {
   padding: 0;
+  .dropdown-item {
+    padding: 1px 15px 0;
+  }
 }

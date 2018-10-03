@@ -27,6 +27,10 @@ app-query-collections {
     margin-bottom: 5px;
   }
 }
+.query-title-icon {
+  display: flex;
+  margin-right: 5px;
+}
 .query-collections__title {
   text-transform: uppercase;
   font-weight: bold;
@@ -42,14 +46,25 @@ app-query-collections {
 
 .query-collections__item {
 }
-.query-collections__item-details {
+.query-collections__item-details-wrapper {
+  display: flex;
   padding: 5px 10px;
   border-bottom: 1px solid $theme-border-color;
   cursor: pointer;
   transition: all .3s ease;
   &:hover {
     background: rgba($theme-font-color, .05);
+    .query-collections__item-icon {
+      opacity: 1;
+    }
   }
+}
+.query-collections__item-details {
+  flex: 1;
+}
+.query-collections__item-icon {
+  opacity: 0;
+  transition: all .3s ease;
 }
 .query-collections__item-title {
   display: flex;
