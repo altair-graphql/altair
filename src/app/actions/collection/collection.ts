@@ -4,6 +4,7 @@ export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
 export const DELETE_QUERY_FROM_COLLECTION = 'DELETE_QUERY_FROM_COLLECTION';
 
+export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const SET_COLLECTIONS = 'SET_COLLECTIONS';
 export const LOAD_COLLECTIONS = 'LOAD_COLLECTIONS';
 
@@ -24,6 +25,11 @@ export class DeleteQueryFromCollectionAction implements Action {
   constructor(public payload: { collectionId: number, query }) {}
 }
 
+export class DeleteCollectionAction implements Action {
+  readonly type = DELETE_COLLECTION;
+  constructor(public payload: { collectionId: number }) {}
+}
+
 export class SetCollectionsAction implements Action {
   readonly type = SET_COLLECTIONS;
 
@@ -40,5 +46,6 @@ export type Action =
   CreateCollectionAndSaveQueryToCollectionAction |
   SaveQueryToCollectionAction |
   DeleteQueryFromCollectionAction |
+  DeleteCollectionAction |
   SetCollectionsAction |
   LoadCollectionsAction;

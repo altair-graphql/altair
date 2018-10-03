@@ -51,6 +51,10 @@ export class QueryCollectionService {
     );
   }
 
+  deleteCollection(collectionId: number) {
+    return Observable.fromPromise(this.storage.queryCollections.delete(collectionId));
+  }
+
   getAll() {
     return Observable.fromPromise(this.storage.queryCollections.toArray());
   }
