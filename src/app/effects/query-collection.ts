@@ -76,6 +76,15 @@ export class QueryCollectionEffects {
         .map(() => new collectionActions.LoadCollectionsAction());
     });
 
+  @Effect()
+  deleteCollection$: Observable<Action> = this.actions$
+    .ofType(collectionActions.DELETE_COLLECTION)
+    .switchMap((action: collectionActions.DeleteCollectionAction) => {
+      return this.collectionService.deleteCollection(action.payload.collectionId)
+        .do(() => this.notifyService.success('Deleted query from collection.'))
+        .map(() => new collectionActions.LoadCollectionsAction());
+    });
+
   constructor(
     private actions$: Actions,
     private store: Store<fromRoot.State>,
