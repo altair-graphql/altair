@@ -80,6 +80,7 @@
   "IMPORT_BUTTON": "Import",
 
   "COLLECTIONS_TEXT": "Collections",
+  "COLLECTIONS_EMPTY_TEXT": "Your collections would appear here.",
   "SAVE_TO_COLLECTION_BUTTON": "Add to collection",
   "SAVE_TO_COLLECTION_HEADER": "Add to collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",

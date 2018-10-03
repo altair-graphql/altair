@@ -1,6 +1,6 @@
 <div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
   <div class="query-collections__inner">
-    <div class="query-collections__title">Collections</div>
+    <div class="query-collections__title">{{ 'COLLECTIONS_TEXT' | translate }}</div>
     <div class="query-collections__actions" *ngIf="false">
         <button type="button" class="icon-button">
             <clr-icon shape="import" class="is-solid"></clr-icon>
@@ -19,7 +19,7 @@
           <clr-icon shape="library" size='40'></clr-icon>
         </div>
         <div class="query-collections__empty-description">
-          Your collections would appear here.
+          {{ 'COLLECTIONS_EMPTY_TEXT' | translate }}
         </div>
       </div>
     </div>
