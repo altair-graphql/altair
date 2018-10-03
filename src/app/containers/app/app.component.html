@@ -117,7 +117,7 @@
           <div class="side-menu__main-bottom">
             <a class="side-menu-item" (click)="toggleCollections()" title="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
               <div class="side-menu-item-icon">
-                <clr-icon shape="folder" class="has-badge"></clr-icon>
+                <clr-icon shape="library"></clr-icon>
               </div>
               <div class="side-menu-item-label">
                 {{ 'COLLECTIONS_TEXT' | translate }}
@@ -132,6 +132,7 @@
 
             (loadCollectionsChange)="loadCollections()"
             (selectQueryChange)="selectQueryFromCollection($event)"
+            (deleteQueryChange)="deleteQueryFromCollection($event)"
           ></app-query-collections>
         </div>
       </div>

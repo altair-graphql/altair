@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
+export const DELETE_QUERY_FROM_COLLECTION = 'DELETE_QUERY_FROM_COLLECTION';
 
 export const SET_COLLECTIONS = 'SET_COLLECTIONS';
 export const LOAD_COLLECTIONS = 'LOAD_COLLECTIONS';
@@ -16,6 +17,11 @@ export class SaveQueryToCollectionAction implements Action {
   readonly type = SAVE_QUERY_TO_COLLECTION;
 
   constructor(public payload: { windowId: string, collectionId: number, windowTitle?: string }) {}
+}
+
+export class DeleteQueryFromCollectionAction implements Action {
+  readonly type = DELETE_QUERY_FROM_COLLECTION;
+  constructor(public payload: { collectionId: number, query }) {}
 }
 
 export class SetCollectionsAction implements Action {
@@ -33,5 +39,6 @@ export class LoadCollectionsAction implements Action {
 export type Action =
   CreateCollectionAndSaveQueryToCollectionAction |
   SaveQueryToCollectionAction |
+  DeleteQueryFromCollectionAction |
   SetCollectionsAction |
   LoadCollectionsAction;

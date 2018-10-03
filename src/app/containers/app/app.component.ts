@@ -264,6 +264,10 @@ export class AppComponent {
     this.windowService.importWindowData(query);
   }
 
+  deleteQueryFromCollection({ collectionId, query }) {
+   this.store.dispatch(new collectionActions.DeleteQueryFromCollectionAction({ collectionId, query }));
+  }
+
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;

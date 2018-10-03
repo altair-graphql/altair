@@ -31,11 +31,10 @@ export class QueryCollectionEffects {
         this.collectionService.create({
           title: res.action.payload.collectionTitle,
           queries: [ query ]
-        }).then(() => {
+        }).subscribe(() => {
           this.notifyService.success('Created collection.');
-          this.collectionService.getAll()
-            .then(collections => this.store.dispatch(new collectionActions.SetCollectionsAction({ collections })));
-        }).catch(err => console.log(err));
+          this.store.dispatch(new collectionActions.LoadCollectionsAction());
+        });
       });
       return Observable.empty();
     });
@@ -52,11 +51,10 @@ export class QueryCollectionEffects {
         if (res.action.payload.windowTitle) {
           query.windowName = res.action.payload.windowTitle;
         }
-        this.collectionService.addQuery(res.action.payload.collectionId, query).then(() => {
+        this.collectionService.addQuery(res.action.payload.collectionId, query).subscribe(() => {
           this.notifyService.success('Added query to collection.');
-          this.collectionService.getAll()
-            .then(collections => this.store.dispatch(new collectionActions.SetCollectionsAction({ collections })));
-        }).catch(err => console.log(err));
+          this.store.dispatch(new collectionActions.LoadCollectionsAction());
+        });
       });
       return Observable.empty();
     });
@@ -65,9 +63,17 @@ export class QueryCollectionEffects {
   loadCollections$: Observable<Action> = this.actions$
     .ofType(collectionActions.LOAD_COLLECTIONS)
     .switchMap(action => {
-      this.collectionService.getAll()
-        .then(collections => this.store.dispatch(new collectionActions.SetCollectionsAction({ collections })));
-      return Observable.empty();
+      return this.collectionService.getAll()
+        .map(collections => new collectionActions.SetCollectionsAction({ collections }));
+    });
+
+  @Effect()
+  deleteQueryFromCollection$: Observable<Action> = this.actions$
+    .ofType(collectionActions.DELETE_QUERY_FROM_COLLECTION)
+    .switchMap((action: collectionActions.DeleteQueryFromCollectionAction) => {
+      return this.collectionService.deleteQuery(action.payload.collectionId, action.payload.query)
+        .do(() => this.notifyService.success('Deleted query from collection.'))
+        .map(() => new collectionActions.LoadCollectionsAction());
     });
 
   constructor(
