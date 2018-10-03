@@ -35,4 +35,6 @@ export class QueryCollectionItemComponent implements OnInit {
     }
   }
 
+  deleteCollection() {}
+
 }
