@@ -9,6 +9,7 @@ export class QueryCollectionItemComponent implements OnInit {
   @Input() collection: any = {};
 
   @Output() selectQueryChange = new EventEmitter();
+  @Output() deleteQueryChange = new EventEmitter();
 
   showContent = true;
 
@@ -23,6 +24,15 @@ export class QueryCollectionItemComponent implements OnInit {
 
   toggleContent() {
     this.showContent = !this.showContent;
+  }
+
+  deleteQuery(query) {
+    if (confirm('Are you sure you want to delete this query from the collection?')) {
+      this.deleteQueryChange.next({
+        query,
+        collectionId: this.collection.id
+      });
+    }
   }
 
 }

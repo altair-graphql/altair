@@ -1,20 +1,31 @@
 <div class="query-collections__item">
   <div class="query-collections__item-details" (click)="toggleContent()">
-    <div class="query-collections__item-title">{{ collection.title }}</div>
+    <div class="query-collections__item-title"><clr-icon shape="folder"></clr-icon> <span>{{ collection.title }}</span></div>
     <div class="query-collections__item-meta">{{ 'NUMBER_OF_QUERIES' | translate }} {{ getQueryCount(collection) }}</div>
     <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
   </div>
   <div class="query-collections__item-content-wrapper" [ngClass]="{ 'query-collections__item-content--hidden': !showContent }">
     <div class="query-collections__item-nested">
-      <app-query-collection-item *ngFor="let subcollection of collection.collections" [collection]="subcollection" (selectQueryChange)="selectQueryChange.next($event)"></app-query-collection-item>
+      <app-query-collection-item *ngFor="let subcollection of collection.collections" [collection]="subcollection" (selectQueryChange)="selectQueryChange.next($event)" (deleteQueryChange)="deleteQueryChange.next($event)"></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
-      <div class="query-collections__item-queries-item" *ngFor="let query of collection.queries" (click)="selectQueryChange.next(query)">
-        <span class="query-collections__item-queries-item-title">
+      <div class="query-collections__item-queries-item" *ngFor="let query of collection.queries">
+        <span class="query-collections__item-queries-item-title" (click)="selectQueryChange.next(query)">
+          <clr-icon shape="file"></clr-icon>
           {{ query.windowName }}
         </span>
-        <span class="query-collections__item-queries-item-right-icon">
-          <clr-icon shape="login"></clr-icon>
+        <span class="query-collections__item-queries-item-right">
+          <clr-dropdown>
+            <span class="query-collections__item-queries-item-icon">
+              <button type="button" clrDropdownTrigger>
+                <clr-icon shape="ellipsis-horizontal"></clr-icon>
+              </button>
+              <!-- <clr-icon shape="login"></clr-icon> -->
+            </span>
+            <clr-dropdown-menu *clrIfOpen>
+                <button type="button" clrDropdownItem (click)="deleteQuery(query)">{{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}</button>
+            </clr-dropdown-menu>
+          </clr-dropdown>
         </span>
       </div>
     </div>

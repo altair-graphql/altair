@@ -7,7 +7,7 @@
         </button>
     </div>
     <div class="query-collections__items-wrapper">
-      <app-query-collection-item *ngFor="let collection of collections" [collection]="collection" (selectQueryChange)="selectQueryChange.next($event)"></app-query-collection-item>
+      <app-query-collection-item *ngFor="let collection of collections" [collection]="collection" (selectQueryChange)="selectQueryChange.next($event)" (deleteQueryChange)="deleteQueryChange.next($event)"></app-query-collection-item>
     </div>
   </div>
 </div>

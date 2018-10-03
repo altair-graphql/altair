@@ -86,5 +86,6 @@
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "create a new collection",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "CREATE_COLLECTION_BUTTON": "Create collection",
-  "NUMBER_OF_QUERIES": "Number of queries:"
+  "NUMBER_OF_QUERIES": "Number of queries:",
+  "COLLECTIONS_QUERY_MENU_DELETE": "Delete"
 }

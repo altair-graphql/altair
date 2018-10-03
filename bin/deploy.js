@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// https://www.sitepoint.com/javascript-command-line-interface-cli-node-js/
+// https://www.npmjs.com/package/shelljs
 function log(output) {
     process.stdout.write(output);
     process.stdout.write('\n');
