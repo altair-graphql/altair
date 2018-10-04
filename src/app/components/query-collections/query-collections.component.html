@@ -1,13 +1,27 @@
 <div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
   <div class="query-collections__inner">
-    <div class="query-collections__title">Collections</div>
+    <div class="query-collections__title">{{ 'COLLECTIONS_TEXT' | translate }}</div>
     <div class="query-collections__actions" *ngIf="false">
         <button type="button" class="icon-button">
             <clr-icon shape="import" class="is-solid"></clr-icon>
         </button>
     </div>
     <div class="query-collections__items-wrapper">
-      <app-query-collection-item *ngFor="let collection of collections" [collection]="collection" (selectQueryChange)="selectQueryChange.next($event)" (deleteQueryChange)="deleteQueryChange.next($event)"></app-query-collection-item>
+      <app-query-collection-item
+        *ngFor="let collection of collections"
+        [collection]="collection"
+        (selectQueryChange)="selectQueryChange.next($event)"
+        (deleteQueryChange)="deleteQueryChange.next($event)"
+        (deleteCollectionChange)="deleteCollectionChange.next($event)"
+      ></app-query-collection-item>
+      <div class="query-collections__empty" *ngIf="!(collections?.length)">
+        <div class="query-collections__empty-icon">
+          <clr-icon shape="library" size='40'></clr-icon>
+        </div>
+        <div class="query-collections__empty-description">
+          {{ 'COLLECTIONS_EMPTY_TEXT' | translate }}
+        </div>
+      </div>
     </div>
   </div>
 </div>

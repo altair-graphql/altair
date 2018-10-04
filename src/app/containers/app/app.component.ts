@@ -268,6 +268,10 @@ export class AppComponent {
    this.store.dispatch(new collectionActions.DeleteQueryFromCollectionAction({ collectionId, query }));
   }
 
+  deleteCollection({ collectionId }) {
+    this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
+  }
+
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;

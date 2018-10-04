@@ -44,6 +44,15 @@ app-query-collections {
   font-size: 13px;
 }
 
+.query-collections__empty {
+  padding: 50px 10px;
+  text-align: center;
+}
+.query-collections__empty-icon {
+  margin-bottom: 10px;
+  opacity: .7;
+}
+
 .query-collections__item {
 }
 .query-collections__item-details-wrapper {
@@ -61,6 +70,10 @@ app-query-collections {
 }
 .query-collections__item-details {
   flex: 1;
+}
+.query-collections__item-right {
+  display: flex;
+  align-items: center;
 }
 .query-collections__item-icon {
   opacity: 0;
