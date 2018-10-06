@@ -6,6 +6,7 @@ const mime = require('mime-types');
 
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
+const { checkForUpdates } = require('./updates');
 
 let instance = null;
 
@@ -30,6 +31,7 @@ const actions = {
   showDocs: () => {
     instance.webContents.send('show-docs', true);
   },
+  checkForUpdates,
 };
 
 const createWindow = () => {

@@ -42,6 +42,27 @@ const setupAutoUpdates = () => {
   autoUpdater.checkForUpdatesAndNotify();
 };
 
+autoUpdater.on('update-not-available', () => {
+  dialog.showMessageBox({
+    title: 'No Updates',
+    message: 'Current version is up-to-date.'
+  });
+});
+
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox({
+    title: 'Install Updates',
+    message: 'Updates downloaded, application will be quit for update...'
+  }, () => {
+    setImmediate(() => autoUpdater.quitAndInstall());
+  })
+});
+
+const checkForUpdates = (menuItem) => {
+  autoUpdater.checkForUpdates();
+};
+
 module.exports = {
-  setupAutoUpdates
+  setupAutoUpdates,
+  checkForUpdates
 };
