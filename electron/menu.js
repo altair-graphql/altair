@@ -50,6 +50,7 @@ const createMenu = (actions) => {
       label: app.getName(),
       submenu: [
         { role: "about" },
+        { label: 'Check for Updates...', click: actions.checkForUpdates },
         { type: "separator" },
         { role: "services", submenu: [] },
         { type: "separator" },
