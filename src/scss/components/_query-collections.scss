@@ -18,6 +18,7 @@ app-query-collections {
   }
 }
 .query-collections__inner {
+  position: relative;
   height: 100%;
   overflow: auto;
   background: $theme-bg-color;
@@ -38,6 +39,11 @@ app-query-collections {
 }
 .query-collections__actions {
   margin-bottom: 10px;
+}
+.query-collections__feedback-box {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
 }
 
 .query-collections__items-wrapper {
