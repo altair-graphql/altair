@@ -6,6 +6,51 @@ import { environment } from 'environments/environment';
 
 const GA_URL = environment.production ? 'https://www.google-analytics.com/collect' : 'https://www.google-analytics.com/debug/collect';
 
+export const trackEvent = ({ category, action, label, value = undefined }) => {
+  const cid = localStorage.getItem('altair:cid') || uuid();
+  localStorage.setItem('altair:cid', cid);
+
+  const bodyParams = {
+    v: 1, // version
+    aip: 1, // anonymize ip
+    tid: config.ga, // tracking id
+    cid, // client id
+    ds: detectEnvironment(), // data source
+    t: 'event', // Must be one of 'pageview', 'screenview', 'event', 'transaction', 'item', 'social', 'exception', 'timing'.
+
+    ec: category, // event category
+    ea: action, // event action
+    el: label, // event label
+    ev: value, // event value
+
+    an: 'Altair', // application name
+    av: environment.version, // application version
+
+    dr: document.referrer, // document referrer
+    sr: `${window.screen.availWidth}x${window.screen.availHeight}`, // screen resolution
+    vp: `${document.documentElement.clientWidth}x${document.documentElement.clientHeight}`, // viewport
+    de: document.characterSet, // document encoding
+    sd: `${screen.colorDepth}-bits`, // screen color depth
+    ul: navigator.language, // user language
+    je: +navigator.javaEnabled(), // java enabled
+    dl: location.href, // document location url
+
+    z: +(new Date()), // cache busting
+  };
+
+  const bodyStr = Object.keys(bodyParams)
+          .filter(key => bodyParams[key] !== undefined)
+          .map(key => [key, encodeURIComponent(bodyParams[key])].join('='))
+          .join('&');
+
+  fetch(GA_URL, {
+    method: 'POST',
+    cache: 'no-cache',
+    mode: 'cors',
+    body: bodyStr
+  }).catch(err => {});
+};
+
 // Track button click event
 export const trackButton = e => {
   const defaultCategory = 'Others';
@@ -54,49 +99,4 @@ export const initTracking = () => {
   on('click', 'button, a, ._track_me, [track-id]', trackButton);
 
   trackJSErrors();
-};
-
-export const trackEvent = ({ category, action, label, value = undefined }) => {
-  const cid = localStorage.getItem('altair:cid') || uuid();
-  localStorage.setItem('altair:cid', cid);
-
-  const bodyParams = {
-    v: 1, // version
-    aip: 1, // anonymize ip
-    tid: config.ga, // tracking id
-    cid, // client id
-    ds: detectEnvironment(), // data source
-    t: 'event', // Must be one of 'pageview', 'screenview', 'event', 'transaction', 'item', 'social', 'exception', 'timing'.
-
-    ec: category, // event category
-    ea: action, // event action
-    el: label, // event label
-    ev: value, // event value
-
-    an: 'Altair', // application name
-    av: environment.version, // application version
-
-    dr: document.referrer, // document referrer
-    sr: `${window.screen.availWidth}x${window.screen.availHeight}`, // screen resolution
-    vp: `${document.documentElement.clientWidth}x${document.documentElement.clientHeight}`, // viewport
-    de: document.characterSet, // document encoding
-    sd: `${screen.colorDepth}-bits`, // screen color depth
-    ul: navigator.language, // user language
-    je: +navigator.javaEnabled(), // java enabled
-    dl: location.href, // document location url
-
-    z: +(new Date()), // cache busting
-  };
-
-  const bodyStr = Object.keys(bodyParams)
-          .filter(key => bodyParams[key] !== undefined)
-          .map(key => [key, encodeURIComponent(bodyParams[key])].join('='))
-          .join('&');
-
-  fetch(GA_URL, {
-    method: 'POST',
-    cache: 'no-cache',
-    mode: 'cors',
-    body: bodyStr
-  }).catch(err => {});
 };
