@@ -26,8 +26,3 @@ fileAssociations:
   - ext: agq
     description: Altair GraphQL file
     role: Viewer
-    protocols:
-      name: Altair GraphQL Client
-      schemes:
-        - altair
-      role: Viewer
