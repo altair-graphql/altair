@@ -55,10 +55,11 @@ export const trackEvent = ({ category, action, label, value = undefined }) => {
 export const trackButton = e => {
   const defaultCategory = 'Others';
   const trackCategory = e.target.getAttribute('track-id');
+  const trackLabel = e.target.getAttribute('track-label') || `${e.target.innerText} (${e.target.className})`;
   const category = trackCategory || defaultCategory;
 
   // window['_gaq'].push(['_trackEvent', category, `${e.target.innerText} (${e.target.className})`, 'clicked']);
-  trackEvent({ category, label: `${e.target.innerText} (${e.target.className})`, action: 'clicked'});
+  trackEvent({ category, label: trackLabel, action: 'clicked'});
 };
 
 // Track JavaScript errors
