@@ -9,7 +9,7 @@
     <div class="app-dialog-body">
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_THEME_TEXT' | translate }}</label>
-        <select class="dialog-select" (change)="onSelectTheme($event.target.value)">
+        <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)">
           <option *ngFor="let theme of themes" value="{{ theme }}" [selected]="theme === settings?.theme">
             {{ theme | titlecase }}
           </option>
@@ -18,22 +18,22 @@
 
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
-        <select class="dialog-select" (change)="onSelectLanguage($event.target.value)">
+        <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)">
           <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
             {{ language[1] | titlecase }}
           </option>
         </select>
-        <small>{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }} <a href="https://altair-gql-translate.surge.sh/" target="_blank">{{ 'CLICK_HERE_TEXT' | translate }}</a></small>
+        <small>{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }} <a href="https://altair-gql-translate.surge.sh/" target="_blank" track-id="go_to_translate_link">{{ 'CLICK_HERE_TEXT' | translate }}</a></small>
       </div>
 
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }} <small>(Recommended: 3)</small></label>
-        <input attr.aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
+        <input attr.aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_add_query_depth_limit" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
       </div>
 
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}</label>
-        <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
+        <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_tab_size" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
       </div>
 
       <div class="app-dialog-section">

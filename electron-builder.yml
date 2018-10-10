@@ -1,5 +1,5 @@
 appId: com.xkoji.altair
-productName: Altair GraphQL CLient
+productName: Altair GraphQL Client
 directories:
   buildResources: electron
   output: out
