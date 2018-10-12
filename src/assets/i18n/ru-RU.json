@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Введите URL-адрес подписки для вашего сервера ниже",
   "HISTORY_TEXT": "История",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Вы можете выбрать элемент из истории для восстановления",
   "SETTINGS_TEXT": "Настройки",
   "SETTINGS_SUB_TEXT": "Вы можете настроить любой из параметров ниже",
