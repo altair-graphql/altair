@@ -38,6 +38,8 @@ export function historyReducer(state = initialState, action: history.Action): St
           ..._state.list
         ]
       };
+    case history.CLEAR_HISTORY:
+      return {list: []};
     default:
       return state;
   }
