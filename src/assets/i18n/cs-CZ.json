@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
   "HISTORY_TEXT": "Historie",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Můžete vybrat položku z historie pro její obnovení",
   "SETTINGS_TEXT": "Nastavení",
   "SETTINGS_SUB_TEXT": "Můžete upravit kterékoli z níže uvedených nastavení",
