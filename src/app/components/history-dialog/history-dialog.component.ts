@@ -10,6 +10,7 @@ export class HistoryDialogComponent implements OnInit {
   @Input() showDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() restoreHistoryChange = new EventEmitter();
+  @Output() clearHistoryChange = new EventEmitter();
 
   constructor() { }
 
@@ -19,5 +20,9 @@ export class HistoryDialogComponent implements OnInit {
   restoreHistory(index) {
     this.restoreHistoryChange.next(index);
     this.toggleDialogChange.next();
+  }
+
+  clearHistory() {
+    this.clearHistoryChange.next();
   }
 }
