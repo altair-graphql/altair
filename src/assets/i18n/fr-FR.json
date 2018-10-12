@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "URL Subscription",
   "SET_SUBSCRIPTION_URL_TEXT": "Entrer l'URL de subscription de votre serveur ci-dessous",
   "HISTORY_TEXT": "Historique",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Vous pouvez sélectionner un élément pour le restorer",
   "SETTINGS_TEXT": "Paramètres",
   "SETTINGS_SUB_TEXT": "Vous pouvez ajuster n'importe lequel des paramètres ci-dessous",
