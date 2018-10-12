@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "Abonneement-URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Geben Sie unten die Abonnement-URL für Ihren Server ein",
   "HISTORY_TEXT": "Verlauf",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Sie können ein Element aus dem Verlauf auswählen",
   "SETTINGS_TEXT": "Einstellungen",
   "SETTINGS_SUB_TEXT": "Sie können die folgenden Einstellungen anpassen",
