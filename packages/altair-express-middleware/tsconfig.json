@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "build/",
-    "rootDir": "src",
+    "rootDir": "./",
     "declaration": true,
     "target": "es5",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "module": "commonjs",
     "lib": [
       "dom",
       "esnext"
