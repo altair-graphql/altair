@@ -42,20 +42,35 @@ const setupAutoUpdates = () => {
   autoUpdater.checkForUpdatesAndNotify();
 };
 
-autoUpdater.on('update-not-available', () => {
-  dialog.showMessageBox({
-    title: 'No Updates',
-    message: 'Current version is up-to-date.'
-  });
-});
+// autoUpdater.on('update-not-available', () => {
+//   dialog.showMessageBox({
+//     title: 'No Updates',
+//     message: 'Current version is up-to-date.'
+//   });
+// });
 
-autoUpdater.on('update-downloaded', () => {
-  dialog.showMessageBox({
+// autoUpdater.on('update-downloaded', () => {
+//   dialog.showMessageBox({
+//     title: 'Install Updates',
+//     message: 'Updates downloaded, application will be quit for update...'
+//   }, () => {
+//     setImmediate(() => autoUpdater.quitAndInstall());
+//   })
+// });
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
     title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...'
-  }, () => {
-    setImmediate(() => autoUpdater.quitAndInstall());
-  })
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  };
+
+  dialog.showMessageBox(dialogOpts, (response) => {
+    if (response === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  });
 });
 
 const checkForUpdates = (menuItem) => {
