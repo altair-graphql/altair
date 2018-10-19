@@ -32,7 +32,7 @@
     "make": "electron-forge make",
     "dist-electron": "build",
     "postinstall": "opencollective postinstall",
-    "lerna-publish": "lerna publish --skip-git --force-publish --yes",
+    "lerna-publish": "lerna publish --skip-git --force-publish",
     "publish-packages": "npm run build && npm run lerna-publish"
   },
   "engines": {
