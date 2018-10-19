@@ -9,7 +9,7 @@
     <div class="app-dialog-body">
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_THEME_TEXT' | translate }}</label>
-        <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)">
+        <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)" attr.aria-label="{{ 'SETTINGS_THEME_TEXT' | translate }}">
           <option *ngFor="let theme of themes" value="{{ theme }}" [selected]="theme === settings?.theme">
             {{ theme | titlecase }}
           </option>
@@ -18,7 +18,7 @@
 
       <div class="app-dialog-section">
         <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
-        <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)">
+        <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)" attr.aria-label="{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}">
           <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
             {{ language[1] | titlecase }}
           </option>
