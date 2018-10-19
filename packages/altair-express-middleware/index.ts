@@ -1,17 +1,22 @@
 'use strict';
 
-const path = require('path');
-const express = require('express');
-const altairStatic = require('altair-static');
+import * as express from 'express';
+import { getDistDirectory, renderAltair, RenderOptions } from 'altair-static';
 
-module.exports = {
-  altairExpress: (opts) => {
-    const app = express();
+export const altairExpress = (opts: RenderOptions): express.Express => {
+  const app = express();
 
-    app.get('*', (req, res) => {
-      return res.send(altairStatic.renderAltair());
-    });
+  app.get('/', (req, res) => {
+    return res.send(renderAltair(opts));
+  });
+  app.use(express.static(getDistDirectory()));
 
-    return app;
-  }
+  /**
+   * Catch-all route
+   */
+  app.get('*', (req, res) => {
+    return res.send('404.');
+  });
+
+  return app;
 };
