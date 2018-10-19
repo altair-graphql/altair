@@ -36,7 +36,8 @@ server.use('/graphql', bodyParser.json(), graphqlExpress({
 // Mount your altair GraphQL client
 server.use('/altair', altairExpress({
   endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:4000/subscriptions`
+  subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
+  initialQuery: `{ getData { id name surname } }`,
 }));
 
 // ... the rest of your code ...
