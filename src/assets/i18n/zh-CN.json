@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "订阅地址",
   "SET_SUBSCRIPTION_URL_TEXT": "输入您服务的订阅地址",
   "HISTORY_TEXT": "历史",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "你可以选择一个历史记录还原",
   "SETTINGS_TEXT": "设置",
   "SETTINGS_SUB_TEXT": "你可以调整如下设置",
@@ -57,6 +58,7 @@
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Would you like to help with translations?",
   "VIEW_ON_GITHUB_TEXT": "在GitHub上打开",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
+  "REPORT_BUG_TEXT": "Report a bug",
   "EDIT_WINDOW_TEXT": "编辑",
   "CLOSE_WINDOW_TEXT": "关闭",
   "DUPLICATE_WINDOW_TEXT": "复制",
@@ -67,6 +69,7 @@
   "IMPORT_CURL_TITLE_SUBTEXT": "Paste your cURL command below",
   "IMPORT_BUTTON": "Import",
   "COLLECTIONS_TEXT": "Collections",
+  "COLLECTIONS_EMPTY_TEXT": "Your collections would appear here.",
   "SAVE_TO_COLLECTION_BUTTON": "Add to collection",
   "SAVE_TO_COLLECTION_HEADER": "Add to collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",
@@ -74,5 +77,6 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "CREATE_COLLECTION_BUTTON": "Create collection",
   "NUMBER_OF_QUERIES": "Number of queries:",
-  "COLLECTIONS_QUERY_MENU_DELETE": "Delete"
+  "COLLECTIONS_QUERY_MENU_DELETE": "Delete",
+  "COLLECTIONS_MENU_DELETE": "Delete"
 }

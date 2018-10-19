@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
   "HISTORY_TEXT": "Historie",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Můžete vybrat položku z historie pro její obnovení",
   "SETTINGS_TEXT": "Nastavení",
   "SETTINGS_SUB_TEXT": "Můžete upravit kterékoli z níže uvedených nastavení",
@@ -57,6 +58,7 @@
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Would you like to help with translations?",
   "VIEW_ON_GITHUB_TEXT": "Zobrazit na GitHubu",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
+  "REPORT_BUG_TEXT": "Report a bug",
   "EDIT_WINDOW_TEXT": "Upravit",
   "CLOSE_WINDOW_TEXT": "Zavřít",
   "DUPLICATE_WINDOW_TEXT": "Duplicitní",
@@ -67,6 +69,7 @@
   "IMPORT_CURL_TITLE_SUBTEXT": "Vložte cURL příkaz",
   "IMPORT_BUTTON": "Importovat",
   "COLLECTIONS_TEXT": "Collections",
+  "COLLECTIONS_EMPTY_TEXT": "Your collections would appear here.",
   "SAVE_TO_COLLECTION_BUTTON": "Add to collection",
   "SAVE_TO_COLLECTION_HEADER": "Add to collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",
@@ -74,5 +77,6 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "CREATE_COLLECTION_BUTTON": "Create collection",
   "NUMBER_OF_QUERIES": "Number of queries:",
-  "COLLECTIONS_QUERY_MENU_DELETE": "Delete"
+  "COLLECTIONS_QUERY_MENU_DELETE": "Delete",
+  "COLLECTIONS_MENU_DELETE": "Delete"
 }

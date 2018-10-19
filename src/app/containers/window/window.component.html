@@ -109,6 +109,7 @@
         [showDialog]="showHistoryDialog"
         (toggleDialogChange)="toggleHistoryDialog($event)"
         (restoreHistoryChange)="restoreHistory($event)"
+        (clearHistoryChange)="clearHistory()"
       ></app-history-dialog>
       <app-dialog
         [showDialog]="showAddToCollectionDialog"

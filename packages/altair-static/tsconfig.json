@@ -4,7 +4,7 @@
     "rootDir": "src",
     "declaration": true,
     "target": "es5",
-    "moduleResolution": "node",
+    "module": "commonjs",
     "sourceMap": true,
     "lib": [
       "dom",

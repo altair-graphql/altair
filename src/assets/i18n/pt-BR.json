@@ -46,6 +46,7 @@
   "SUBSCRIPTION_URL_TEXT": "URL de inscrição",
   "SET_SUBSCRIPTION_URL_TEXT": "Digite o URL de assinatura para o seu servidor abaixo",
   "HISTORY_TEXT": "Histórico",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Você pode selecionar um item do histórico para restaurar",
   "SETTINGS_TEXT": "Configurações",
   "SETTINGS_SUB_TEXT": "Você pode ajustar as configurações abaixo",
@@ -57,6 +58,7 @@
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Você gostaria de nos ajudar com as traduções?",
   "VIEW_ON_GITHUB_TEXT": "Ver no GitHub",
   "STAR_ON_GITHUB_TEXT": "Seguir no GitHub",
+  "REPORT_BUG_TEXT": "Report a bug",
   "EDIT_WINDOW_TEXT": "Editar",
   "CLOSE_WINDOW_TEXT": "Fechar",
   "DUPLICATE_WINDOW_TEXT": "Duplicado",
@@ -67,6 +69,7 @@
   "IMPORT_CURL_TITLE_SUBTEXT": "Cole seu comando cURL abaixo",
   "IMPORT_BUTTON": "Importar",
   "COLLECTIONS_TEXT": "Collections",
+  "COLLECTIONS_EMPTY_TEXT": "Your collections would appear here.",
   "SAVE_TO_COLLECTION_BUTTON": "Add to collection",
   "SAVE_TO_COLLECTION_HEADER": "Add to collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Choose a collection below to save the query, or create a new one",
@@ -74,5 +77,6 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "CREATE_COLLECTION_BUTTON": "Create collection",
   "NUMBER_OF_QUERIES": "Number of queries:",
-  "COLLECTIONS_QUERY_MENU_DELETE": "Delete"
+  "COLLECTIONS_QUERY_MENU_DELETE": "Delete",
+  "COLLECTIONS_MENU_DELETE": "Delete"
 }
