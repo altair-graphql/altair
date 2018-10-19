@@ -32,7 +32,8 @@
     "make": "electron-forge make",
     "dist-electron": "build",
     "postinstall": "opencollective postinstall",
-    "publish-packages": "npm run build && lerna publish --skip-git --force-publish --yes"
+    "lerna-publish": "lerna publish --skip-git --force-publish --yes",
+    "publish-packages": "npm run build && npm run lerna-publish"
   },
   "engines": {
     "node": ">= 6.9.1"

@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
-    "altair-static": "^1.0.5",
+    "altair-static": "^2.0.1",
     "express": "^4.16.2"
   },
   "devDependencies": {
