@@ -126,9 +126,7 @@ export class WindowComponent implements OnInit {
         this.windowTitle = data.layout.title;
 
         this.subscriptionUrl = data.query.subscriptionUrl;
-        if (data.history) { // TODO: Remove condition when all users have upgraded to v1.6.0+
-          this.historyList = data.history.list;
-        }
+        this.historyList = data.history.list;
 
         // Schema needs to be valid instances of GQLSchema.
         // Rehydrated schema objects are not valid, so we get the schema again.
@@ -139,11 +137,6 @@ export class WindowComponent implements OnInit {
           if (schema) {
             this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
           }
-        }
-
-        // Backward compatibility: set the HTTP verb if it is not set.
-        if (!this.httpVerb) {
-          this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb: 'POST' }, this.windowId));
         }
 
         if (!this.newCollectionQueryTitle) {
@@ -280,6 +273,10 @@ export class WindowComponent implements OnInit {
     if (this.historyList[index]) {
       this.store.dispatch(new queryActions.SetQueryAction(this.historyList[index].query, this.windowId));
     }
+  }
+
+  clearHistory() {
+    this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId, {}));
   }
 
   createCollectionAndSaveQueryToCollection() {

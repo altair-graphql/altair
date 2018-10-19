@@ -53,6 +53,7 @@
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
 
   "HISTORY_TEXT": "History",
+  "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "You can select an item from the history to restore",
 
   "SETTINGS_TEXT": "Settings",
@@ -66,6 +67,7 @@
 
   "VIEW_ON_GITHUB_TEXT": "View on GitHub",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
+  "REPORT_BUG_TEXT": "Report a bug",
 
   "EDIT_WINDOW_TEXT": "Edit",
   "CLOSE_WINDOW_TEXT": "Close",

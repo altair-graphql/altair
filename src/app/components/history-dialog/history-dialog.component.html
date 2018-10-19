@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div class="app-dialog-body">
       <div class="history-container">
-        <div class="history-item _track_me" *ngFor="let item of historyList; let index = index;" (click)="restoreHistory(index)" track-id="use_history_item">
+        <div class="history-item _track_me" *ngFor="let item of historyList; let index = index;" (click)="restoreHistory(index)" track-id="use_history_item" track-label=".">
           {{item.query}}
         </div>
       </div>
@@ -16,7 +16,8 @@
   </div>
   <div class="modal-footer">
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" (click)="toggleDialogChange.next($event)">{{ 'DONE_BUTTON' | translate }}</button>
+      <button class="app-button active-primary right" track-id="close_history_dialog" (click)="toggleDialogChange.next($event)">{{ 'DONE_BUTTON' | translate }}</button>
+      <button class="app-button active-secondary left" track-id="clear_history_items" (click)="clearHistory()">{{ 'HISTORY_CLEAR_TEXT' | translate }}</button>
     </div>
   </div>
 </clr-modal>

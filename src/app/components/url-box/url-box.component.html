@@ -41,7 +41,7 @@
     <button
       class="btn app-button url-box__button url-box__button--send active-primary"
       [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
-      track-id="set_request"
+      track-id="send_request"
       clrDropdownTrigger>
       <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
       <span *ngIf="selectedOperation">({{ selectedOperation }})</span>

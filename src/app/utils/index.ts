@@ -1,6 +1,7 @@
 import * as toSnakeCase from 'to-snake-case';
 import * as downloadJs from 'downloadjs';
 import * as parseCurl from 'parse-curl';
+import is_electron from './is_electron';
 const curlup = require('curlup');
 const fileDialog = require('file-dialog');
 
@@ -80,3 +81,24 @@ export const openFile = (...args) => {
 export const parseCurlToObj = (...args) => curlup.parseCurl(...args);
 
 export const isExtension = !!(window['chrome'] && window['chrome'].runtime && window['chrome'].runtime.id);
+export const isFirefoxExtension = !!(window['chrome'] && window['chrome']['geckoProfiler']);
+
+export const detectEnvironment = () => {
+  if (is_electron) {
+    return 'electron';
+  }
+
+  if (isExtension) {
+    if (isFirefoxExtension) {
+      return 'firefox-extension';
+    } else {
+      return 'chrome-extension'
+    }
+  }
+
+  if (/http/.test(location.protocol)) {
+    return 'web-app';
+  }
+
+  return 'other';
+};

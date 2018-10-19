@@ -1,4 +1,5 @@
 appId: com.xkoji.altair
+productName: Altair GraphQL Client
 directories:
   buildResources: electron
   output: out
@@ -21,3 +22,7 @@ protocols:
 publish:
   provider: github
   releaseType: release
+fileAssociations:
+  - ext: agq
+    description: Altair GraphQL file
+    role: Viewer

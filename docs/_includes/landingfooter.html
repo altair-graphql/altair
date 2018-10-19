@@ -8,7 +8,7 @@
           <div class="column-4 platform">
             {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
             {% if link %}
-              <a href="{{ link }}">
+              <a track-category="download_altair" track-label="{{ platform.name }}" href="{{ link }}">
             {% endif %}
             <img class="{% unless link %}platform--unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
             <p class="platform--name">{{ platform.name }}</p>

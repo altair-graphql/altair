@@ -6,6 +6,7 @@ import { environment } from './environments/environment';
 
 import isElectron from './app/utils/is_electron';
 import { initTracking } from './app/utils/ga';
+import { handleExternalLinks } from 'app/utils/events';
 
 if (environment.production) {
   enableProdMode();
@@ -20,4 +21,5 @@ if (isElectron) {
 
 platformBrowserDynamic().bootstrapModule(AppModule);
 
-// initTracking();
+initTracking();
+handleExternalLinks();
