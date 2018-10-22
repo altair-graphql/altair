@@ -85,7 +85,7 @@
     "electron-log": "^2.2.11",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^3.1.1",
-    "electron-util": "^0.9.1",
+    "electron-util": "^0.10.0",
     "express": "^4.16.2",
     "file-dialog": "^0.0.7",
     "graphql": "^14.0.2",
