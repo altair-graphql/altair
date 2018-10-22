@@ -4542,11 +4542,11 @@ electron-updater@^3.1.1:
     semver "^5.5.1"
     source-map-support "^0.5.9"
 
-electron-util@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.9.1.tgz#b69a0615375808ef08b89cadb82804fbcf205997"
+electron-util@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.10.0.tgz#a01025aa6467bbedfff3a05a843f299c58302c87"
   dependencies:
-    electron-is-dev "^0.3.0"
+    electron-is-dev "^1.0.0"
 
 electron@*:
   version "3.0.2"
