@@ -107,7 +107,7 @@
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.74",
+    "@types/chrome": "^0.0.75",
     "@types/electron": "^1.4.38",
     "@types/jasmine": "2.8.9",
     "@types/mousetrap": "^1.6.0",
