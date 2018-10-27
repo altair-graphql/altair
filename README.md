@@ -45,7 +45,7 @@ There are apps for [mac, windows and linux users](https://altair.sirmuel.design/
 You can also install using cask:
 
 ```
-$ brew cask install altair
+$ brew cask install altair-graphql-client
 ```
 
 For linux users, you can also install using [snap](https://snapcraft.io/altair):
