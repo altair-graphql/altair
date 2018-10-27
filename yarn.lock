@@ -870,9 +870,9 @@
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
-"@types/chrome@^0.0.74":
-  version "0.0.74"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.74.tgz#f69827c48fcf7fecc90c96089807661749a5a5e3"
+"@types/chrome@^0.0.75":
+  version "0.0.75"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.75.tgz#11cb716cdaa13fc15c47bfcc11da325f375f23d1"
   dependencies:
     "@types/filesystem" "*"
 
