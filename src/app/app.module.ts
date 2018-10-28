@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-import 'clarity-icons';
-import 'clarity-icons/shapes/all-shapes';
+import '@clr/icons';
+import '@clr/icons/shapes/all-shapes';
 
 import { ToastrModule } from 'ngx-toastr';
 

@@ -1,12 +1,14 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {map, catchError} from 'rxjs/operators';
 import { Headers, Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-
-import { Observable } from 'rxjs/Observable';
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';
 // TODO - Check if this is necessary
-import 'rxjs/add/observable/throw';
+
 
 @Injectable()
 export class ApiService {
@@ -36,21 +38,21 @@ export class ApiService {
         }
     }
     get(path: string): Observable<any> {
-        return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
-            .map(this.checkForError)
-            .catch(err => Observable.throw(err));
+        return this.http.get(`${this.api_url}${path}`, { headers: this.headers }).pipe(
+            map(this.checkForError),
+            catchError(err => observableThrowError(err)),);
     }
 
     post(path: string, body): Observable<any> {
-        return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
-            .map(this.checkForError)
-            .catch(err => Observable.throw(err));
+        return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers }).pipe(
+            map(this.checkForError),
+            catchError(err => observableThrowError(err)),);
     }
 
     delete(path: string): Observable<any> {
-        return this.http.delete(`${this.api_url}${path}`, { headers: this.headers })
-            .map(this.checkForError)
-            .catch(err => Observable.throw(err));
+        return this.http.delete(`${this.api_url}${path}`, { headers: this.headers }).pipe(
+            map(this.checkForError),
+            catchError(err => observableThrowError(err)),);
     }
 
     setHeaders(headers) {

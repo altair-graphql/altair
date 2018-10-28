@@ -6,7 +6,8 @@ import { NgxElectronModule } from 'ngx-electron';
 import { SortablejsModule } from 'angular-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
-import { DndModule } from 'ng2-dnd';
+import { DndModule } from '@beyerleinf/ngx-dnd';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { DndModule } from 'ng2-dnd';
     NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
+    // CodemirrorModule,
     ContextMenuModule.forRoot(),
     DndModule.forRoot(),
   ],

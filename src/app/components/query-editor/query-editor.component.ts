@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 // Import the codemirror packages
-import Codemirror from 'codemirror';
+import * as Codemirror from 'codemirror';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/lint/lint';
@@ -109,7 +109,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     if (this.editor) {
-      this.editor.instance.on('keyup', (cm, event) => this.onKeyUp(cm, event));
+      this.editor.codeMirror.on('keyup', (cm, event) => this.onKeyUp(cm, event));
     }
   }
 
@@ -121,8 +121,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.instance) {
-      this.editor.instance.refresh();
+    if (this.editor.codeMirror) {
+      this.editor.codeMirror.refresh();
     }
   }
 
@@ -133,7 +133,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    */
   onKeyUp(cm, event) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
-      this.editor.instance.execCommand('autocomplete');
+      this.editor.codeMirror.execCommand('autocomplete');
     }
   }
 
@@ -142,10 +142,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    */
   prettifyCode() {
     // if (this.editor) {
-    //   this.editor.instance.operation(() => {
-    //     const len = this.editor.instance.lineCount();
+    //   this.editor.codeMirror.operation(() => {
+    //     const len = this.editor.codeMirror.lineCount();
     //     for (let i = 0; i < len; i++) {
-    //       this.editor.instance.indentLine(i);
+    //       this.editor.codeMirror.indentLine(i);
     //     }
     //   });
     // }

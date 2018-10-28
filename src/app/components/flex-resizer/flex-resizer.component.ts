@@ -1,3 +1,5 @@
+
+import {throttleTime} from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -8,7 +10,7 @@ import {
   Input,
   HostBinding,
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-flex-resizer',
@@ -40,7 +42,7 @@ export class FlexResizerComponent implements OnInit {
 
   // Subject and observable for throttling mousemove
   mouseMoveSubject = new Subject();
-  mouseMoveObservable = this.mouseMoveSubject.asObservable().throttleTime(200);
+  mouseMoveObservable = this.mouseMoveSubject.asObservable().pipe(throttleTime(200));
   constructor(
     private el: ElementRef
   ) {
