@@ -1,7 +1,10 @@
+
+import {empty as observableEmpty, of as observableOf,  Observable } from 'rxjs';
+
+import {switchMap, withLatestFrom} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../reducers';
 import * as fromWindows from '../reducers/windows';
@@ -19,63 +22,63 @@ export class WindowsEffects {
   // Updates windowsMeta with window IDs when a window is added
   @Effect()
   addWindowID$: Observable<Action> = this.actions$
-    .ofType(windowActions.ADD_WINDOW)
-    .withLatestFrom(this.store, (action: windowActions.Action, state) => {
+    .ofType(windowActions.ADD_WINDOW).pipe(
+    withLatestFrom(this.store, (action: windowActions.Action, state) => {
       return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
-    })
-    .switchMap(data => {
+    }),
+    switchMap(data => {
       const windowIds = Object.keys(data.windows);
       const metaWindowIds = data.windowIds;
       const newWindowIds = [...metaWindowIds, ...windowIds.filter(id => !metaWindowIds.includes(id))]
 
-      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
-    });
+      return observableOf(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
+    }),);
 
   // Updates windowsMeta with window IDs when a window is removed
   @Effect()
   removeWindowID$: Observable<Action> = this.actions$
-    .ofType(windowActions.REMOVE_WINDOW)
-    .withLatestFrom(this.store, (action: windowActions.Action, state) => {
+    .ofType(windowActions.REMOVE_WINDOW).pipe(
+    withLatestFrom(this.store, (action: windowActions.Action, state) => {
       return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
-    })
-    .switchMap(data => {
+    }),
+    switchMap(data => {
       const windowIds = Object.keys(data.windows);
       const metaWindowIds = data.windowIds;
       const newWindowIds = metaWindowIds.filter(id => windowIds.includes(id));
-      return Observable.of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
-    });
+      return observableOf(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
+    }),);
 
   // Exports the window data
   @Effect()
   exportWindow$: Observable<Action> = this.actions$
-    .ofType(windowActions.EXPORT_WINDOW)
-    .withLatestFrom(this.store, (action: windowActions.Action, state) => {
+    .ofType(windowActions.EXPORT_WINDOW).pipe(
+    withLatestFrom(this.store, (action: windowActions.Action, state) => {
       return { data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
-    })
-    .switchMap(data => {
+    }),
+    switchMap(data => {
       this.windowService.getWindowExportData(data.windowId).subscribe(exportData => {
         downloadJson(exportData, data.data.layout.title, { fileType: 'agq' });
       });
-      return Observable.empty();
-    });
+      return observableEmpty();
+    }),);
 
   @Effect()
   importWindow$: Observable<Action> = this.actions$
-    .ofType(windowActions.IMPORT_WINDOW)
-    .switchMap(action => {
+    .ofType(windowActions.IMPORT_WINDOW).pipe(
+    switchMap(action => {
       openFile({ accept: '.agq' }).then((data: string) => {
         this.windowService.importWindowDataFromJson(data);
       });
-      return Observable.empty();
-    });
+      return observableEmpty();
+    }));
 
   @Effect()
   importWindowFromCurl$: Observable<Action> = this.actions$
-    .ofType(windowActions.IMPORT_WINDOW_FROM_CURL)
-    .switchMap((action: windowActions.Action) => {
+    .ofType(windowActions.IMPORT_WINDOW_FROM_CURL).pipe(
+    switchMap((action: windowActions.Action) => {
       this.windowService.importWindowDataFromCurl(action.payload.data);
-      return Observable.empty();
-    });
+      return observableEmpty();
+    }));
 
   constructor(
     private actions$: Actions,

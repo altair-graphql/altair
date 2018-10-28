@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 import config from '../../../config';
 

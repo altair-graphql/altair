@@ -1,6 +1,9 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {map, catchError, tap} from 'rxjs/operators';
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import * as prettier from 'prettier/standalone';
 import * as prettierGraphql from 'prettier/parser-graphql';
 
@@ -13,7 +16,7 @@ import * as compress from 'graphql-query-compress'; // Somehow this is the way t
 // Import Rx to get all the operators loaded into the file
 import 'rxjs/Rx';
 // TODO - Check if this is necessary
-import 'rxjs/add/observable/throw';
+
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 
@@ -68,7 +71,7 @@ export class GqlService {
       } catch (err) {
         // Notify the user about badly written variables.
         console.error(err);
-        return Observable.throw(err);
+        return observableThrowError(err);
       }
     }
     return this.http.request(this.method, this.api_url, {
@@ -77,11 +80,11 @@ export class GqlService {
       params: this.method.toLowerCase() !== 'get' ? null : this.getParamsFromData(data),
       headers: this.headers,
       observe: 'response'
-    }).map(this.checkForError)
-    .catch(err => {
+    }).pipe(map(this.checkForError),
+    catchError(err => {
       console.error(err);
-      return Observable.throw(err);
-    });
+      return observableThrowError(err);
+    }),);
   }
 
   /**
@@ -90,7 +93,7 @@ export class GqlService {
    * @param vars
    */
   send(query, vars?, selectedOperation?) {
-    return this._send(query, vars, selectedOperation).map(res => res.body);
+    return this._send(query, vars, selectedOperation).pipe(map(res => res.body));
   }
 
   setHeaders(headers?) {
@@ -136,20 +139,20 @@ export class GqlService {
     const currentApiUrl = this.api_url;
 
     this.api_url = url;
-    return this.send(introspectionQuery).map(data => {
+    return this.send(introspectionQuery).pipe(map(data => {
       console.log('introspection', data.data);
       return data.data;
-    })
-    .catch((err) => {
+    }),
+    catchError((err) => {
       console.log('Error from first introspection query.', err);
 
       // Try the old introspection query
-      return this.send(oldIntrospectionQuery).map(data => {
+      return this.send(oldIntrospectionQuery).pipe(map(data => {
         console.log('old introspection', data.data);
         return data.data;
-      });
-    })
-    .do(() => this.api_url = currentApiUrl);
+      }));
+    }),
+    tap(() => this.api_url = currentApiUrl),);
   }
 
   getIntrospectionData() {
