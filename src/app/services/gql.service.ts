@@ -80,11 +80,14 @@ export class GqlService {
       params: this.method.toLowerCase() !== 'get' ? null : this.getParamsFromData(data),
       headers: this.headers,
       observe: 'response'
-    }).pipe(map(this.checkForError),
-    catchError(err => {
-      console.error(err);
-      return observableThrowError(err);
-    }),);
+    })
+    .pipe(
+      map(this.checkForError),
+      catchError(err => {
+        console.error(err);
+        return observableThrowError(err);
+      }),
+    );
   }
 
   /**
@@ -139,20 +142,22 @@ export class GqlService {
     const currentApiUrl = this.api_url;
 
     this.api_url = url;
-    return this.send(introspectionQuery).pipe(map(data => {
-      console.log('introspection', data.data);
-      return data.data;
-    }),
-    catchError((err) => {
-      console.log('Error from first introspection query.', err);
-
-      // Try the old introspection query
-      return this.send(oldIntrospectionQuery).pipe(map(data => {
-        console.log('old introspection', data.data);
+    return this.send(introspectionQuery).pipe(
+      map(data => {
+        console.log('introspection', data.data);
         return data.data;
-      }));
-    }),
-    tap(() => this.api_url = currentApiUrl),);
+      }),
+      catchError((err) => {
+        console.log('Error from first introspection query.', err);
+
+        // Try the old introspection query
+        return this.send(oldIntrospectionQuery).pipe(map(data => {
+          console.log('old introspection', data.data);
+          return data.data;
+        }));
+      }),
+      tap(() => this.api_url = currentApiUrl),
+    );
   }
 
   getIntrospectionData() {

@@ -33,96 +33,99 @@ export class QueryEffects {
     // Sends the query request to the specified URL
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
-        .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST).pipe(
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId, action };
-        }),
-        switchMap(response => {
-            // If the URL is not set or is invalid, just return
-            if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+        .ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST)
+        .pipe(
+          withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+              return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          }),
+          switchMap(response => {
+              // If the URL is not set or is invalid, just return
+              if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
 
-                this.notifyService.error('The URL is invalid!');
-                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                  this.notifyService.error('The URL is invalid!');
+                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                  return observableEmpty();
+              }
+
+              if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
+                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                  return observableEmpty();
+              }
+
+              // Store the current query into the history if it does not already exist in the history
+              if (!response.data.history.list.filter(item => item.query.trim() === response.data.query.query.trim()).length) {
+                this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query: response.data.query.query }));
+              }
+
+              // If the query is a subscription, subscribe to the subscription URL and send the query
+              if (this.gqlService.isSubscriptionQuery(response.data.query.query)) {
+                console.log('Your query is a SUBSCRIPTION!!!');
+                // If the subscription URL is not set, show the dialog for the user to set it
+                if (!response.data.query.subscriptionUrl) {
+                  this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+                } else {
+                  this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
+                }
                 return observableEmpty();
-            }
+              }
 
-            if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
-                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                return observableEmpty();
-            }
+              // Check if there are more than one operations in the query
+              // If check if there is already a selected operation
+              // Check if the selected operation matches any operation, else ask the user to select again
+              const operations = this.gqlService.getOperations(response.data.query.query);
 
-            // Store the current query into the history if it does not already exist in the history
-            if (!response.data.history.list.filter(item => item.query.trim() === response.data.query.query.trim()).length) {
-              this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query: response.data.query.query }));
-            }
+              this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
 
-            // If the query is a subscription, subscribe to the subscription URL and send the query
-            if (this.gqlService.isSubscriptionQuery(response.data.query.query)) {
-              console.log('Your query is a SUBSCRIPTION!!!');
-              // If the subscription URL is not set, show the dialog for the user to set it
-              if (!response.data.query.subscriptionUrl) {
-                this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+              if (operations && operations.length > 1) {
+                if (
+                  !response.data.query.selectedOperation ||
+                  operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
+                  // Ask the user to select operation
+                  this.notifyService.warning(
+                    `You have more than one query operations.
+                    You need to select the one you want to run from the dropdown.`
+                  );
+                  this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+                  return observableEmpty();
+                }
               } else {
-                this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
-              }
-              return observableEmpty();
-            }
-
-            // Check if there are more than one operations in the query
-            // If check if there is already a selected operation
-            // Check if the selected operation matches any operation, else ask the user to select again
-            const operations = this.gqlService.getOperations(response.data.query.query);
-
-            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
-
-            if (operations && operations.length > 1) {
-              if (
-                !response.data.query.selectedOperation ||
-                operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
-                // Ask the user to select operation
-                this.notifyService.warning(
-                  `You have more than one query operations.
-                  You need to select the one you want to run from the dropdown.`
-                );
+                // Clear out the selected operation
                 this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+              }
+
+            this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
+              const requestStartTime = new Date().getTime();
+              let requestStatusCode = 0;
+              let requestStatusText = '';
+
+              try {
+                if (response.data.variables.variables) {
+                  JSON.parse(response.data.variables.variables);
+                }
+              } catch (err) {
+                this.notifyService.error('Looks like your variables is not a valid JSON string.');
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return observableEmpty();
               }
-            } else {
-              // Clear out the selected operation
-              this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-            }
 
-          this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
-            const requestStartTime = new Date().getTime();
-            let requestStatusCode = 0;
-            let requestStatusText = '';
+              // For electron app, send the instruction to set headers
+              this.electronAppService.setHeaders(response.data.headers);
 
-            try {
-              if (response.data.variables.variables) {
-                JSON.parse(response.data.variables.variables);
-              }
-            } catch (err) {
-              this.notifyService.error('Looks like your variables is not a valid JSON string.');
-              this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-              return observableEmpty();
-            }
-
-            // For electron app, send the instruction to set headers
-            this.electronAppService.setHeaders(response.data.headers);
-
-            return this.gqlService
+              return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
                 .setHTTPMethod(response.data.query.httpVerb)
-                ._send(response.data.query.query, response.data.variables.variables, response.data.query.selectedOperation).pipe(
-                map(res => {
+                ._send(response.data.query.query, response.data.variables.variables, response.data.query.selectedOperation)
+                .pipe(
+                  map(res => {
                     requestStatusCode = res.status;
                     requestStatusText = res.statusText;
                     return res.body;
-                }),
-                map(result => {
+                  }),
+                  map(result => {
                     return new queryActions.SetQueryResultAction(result, response.windowId);
-                }),catchError((error) => {
+                  }),
+                  catchError((error) => {
                     let output = 'Server Error';
 
                     console.log(error);
@@ -130,27 +133,31 @@ export class QueryEffects {
                     requestStatusText = error.statusText;
 
                     if (error.status) {
-                        output = error.error;
+                      output = error.error;
                     }
                     return observableOf(new queryActions.SetQueryResultAction(output, response.windowId));
-                }),tap(() => {
+                  }),
+                  tap(() => {
                     const requestEndTime = new Date().getTime();
                     const requestElapsedTime = requestEndTime - requestStartTime;
 
                     this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
-                        responseStatus: requestStatusCode,
-                        responseTime: requestElapsedTime,
-                        responseStatusText: requestStatusText
+                      responseStatus: requestStatusCode,
+                      responseTime: requestElapsedTime,
+                      responseStatusText: requestStatusText
                     }));
                     this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                }),);
-        }),);
+                  }),
+                );
+          }),
+        );
 
     // TODO: Clean this effect up!
     @Effect()
     // Shows the URL set alert after the URL is set
     showUrlSetAlert$: Observable<queryActions.Action> = this.actions$
-        .ofType(queryActions.SET_URL).pipe(
+      .ofType(queryActions.SET_URL)
+      .pipe(
         tap((data: queryActions.Action) => {
             // If the URL is not valid
             if (!validUrl.isUri(data.payload.url)) {
@@ -164,7 +171,8 @@ export class QueryEffects {
         switchMap((data: queryActions.Action) => {
             return observableTimer(3000).pipe(
                 switchMap(() => observableOf(new queryActions.HideUrlAlertAction(data.windowId))));
-        }),);
+        }),
+      );
 
     @Effect()
     // Gets the gql schema after the introspection is set
@@ -190,13 +198,15 @@ export class QueryEffects {
 
     @Effect()
     saveQueryToDb$: Observable<Action> = this.actions$
-        .ofType(queryActions.SET_QUERY).pipe(
+      .ofType(queryActions.SET_QUERY)
+      .pipe(
         // Save query after user has stopped typing for 500ms
         debounce(() => observableTimer(500)),
         map((data: queryActions.Action) => {
             this.queryService.storeQuery(data.payload, data.windowId);
             return new dbActions.SaveQuerySuccessAction();
-        }),);
+        }),
+      );
 
     @Effect()
     saveIntrospectionToDb$: Observable<Action> = this.actions$
@@ -208,51 +218,55 @@ export class QueryEffects {
 
     @Effect()
     getIntrospectionForUrl$: Observable<allActions> = this.actions$
-      .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap((res) => {
-        if (!res.data.query.url) {
-          return observableEmpty();
-        }
+      .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap((res) => {
+          if (!res.data.query.url) {
+            return observableEmpty();
+          }
 
-        this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
-        return this.gqlService
-          .setHeaders(res.data.headers)
-          .setHTTPMethod(res.data.query.httpVerb)
-          .getIntrospectionRequest(res.data.query.url).pipe(
-          catchError(err => {
-            const errorObj = err.error || err;
-            let allowsIntrospection = true;
+          this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
+          return this.gqlService
+            .setHeaders(res.data.headers)
+            .setHTTPMethod(res.data.query.httpVerb)
+            .getIntrospectionRequest(res.data.query.url)
+            .pipe(
+              catchError(err => {
+                const errorObj = err.error || err;
+                let allowsIntrospection = true;
 
-            if (errorObj.errors) {
-              errorObj.errors.forEach(error => {
-                if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
-                  allowsIntrospection = false;
+                if (errorObj.errors) {
+                  errorObj.errors.forEach(error => {
+                    if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
+                      allowsIntrospection = false;
+                    }
+                  });
                 }
-              });
-            }
 
-            // If the server does not support introspection
-            if (!allowsIntrospection) {
-              this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
-            } else {
-              this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
-            }
-            return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
-          }),
-          map(introspectionData => {
-            if (!introspectionData) {
-                return null;
-            }
+                // If the server does not support introspection
+                if (!allowsIntrospection) {
+                  this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
+                } else {
+                  this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
+                }
+                return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
+              }),
+              map(introspectionData => {
+                if (!introspectionData) {
+                    return null;
+                }
 
-            this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
-            this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+                this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
 
-            return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
-          }),);
-      }),);
+                return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
+              }),
+            );
+        }),
+      );
 
     @Effect()
     // Hides the editor set alert after it has been shown
@@ -286,143 +300,155 @@ export class QueryEffects {
 
     @Effect()
     downloadResult$: Observable<queryActions.Action> = this.actions$
-      .ofType(queryActions.DOWNLOAD_RESULT).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
-        downloadJson(res.data.query.response, res.data.layout.title);
+      .ofType(queryActions.DOWNLOAD_RESULT)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          downloadJson(res.data.query.response, res.data.layout.title);
 
-        return observableEmpty();
-      }),);
+          return observableEmpty();
+        }),
+      );
 
     @Effect()
     startSubscription$: Observable<queryActions.Action> = this.actions$
-      .ofType(queryActions.START_SUBSCRIPTION).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
-        try {
-          // Stop any currently active subscription
-          this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+      .ofType(queryActions.START_SUBSCRIPTION)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          try {
+            // Stop any currently active subscription
+            this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
 
-          const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl);
-          const subClientRequest = subscriptionClient.request({
-            query: res.data.query.query,
-            variables: JSON.parse(res.data.variables.variables)
-          }).subscribe({
-            next: data => {
-              let strData = '';
-              try {
-                strData = JSON.stringify(data);
-              } catch (err) {
-                console.error('Invalid subscription response format.');
-                return false;
-              }
-
-              this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
-                response: strData,
-                responseTime: (new Date()).getTime() // store responseTime in ms
-              }));
-
-              // Send notification in electron app
-              this.notifyService.pushNotify(strData, res.data.layout.title, {
-                onclick: () => {
-                  this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+            const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl);
+            const subClientRequest = subscriptionClient.request({
+              query: res.data.query.query,
+              variables: JSON.parse(res.data.variables.variables)
+            }).subscribe({
+              next: data => {
+                let strData = '';
+                try {
+                  strData = JSON.stringify(data);
+                } catch (err) {
+                  console.error('Invalid subscription response format.');
+                  return false;
                 }
-              });
 
-              console.log(data);
-            },
-            error: err => {
-              // Stop the subscription if this happens.
-              console.log('Err', err);
-            },
-            complete: () => {
-              // Not yet sure what needs to be done here.
-              console.log('Subscription complete.');
-            }
-          });
-          return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
-        } catch (err) {
-          console.error('An error occurred starting the subscription.', err);
-        }
-        return observableEmpty();
-      }),);
+                this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
+                  response: strData,
+                  responseTime: (new Date()).getTime() // store responseTime in ms
+                }));
+
+                // Send notification in electron app
+                this.notifyService.pushNotify(strData, res.data.layout.title, {
+                  onclick: () => {
+                    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+                  }
+                });
+
+                console.log(data);
+              },
+              error: err => {
+                // Stop the subscription if this happens.
+                console.log('Err', err);
+              },
+              complete: () => {
+                // Not yet sure what needs to be done here.
+                console.log('Subscription complete.');
+              }
+            });
+            return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
+          } catch (err) {
+            console.error('An error occurred starting the subscription.', err);
+          }
+          return observableEmpty();
+        }),
+      );
 
     @Effect()
     stopSubscription$: Observable<queryActions.Action> = this.actions$
-      .ofType(queryActions.STOP_SUBSCRIPTION).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
-        this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
-        return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
-      }),);
+      .ofType(queryActions.STOP_SUBSCRIPTION)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+          return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+        }),
+      );
 
     @Effect()
     prettifyQuery$: Observable<queryActions.Action> = this.actions$
-      .ofType(queryActions.PRETTIFY_QUERY).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
-        let prettified = '';
-        try {
-          prettified = this.gqlService.prettify(res.data.query.query);
-        } catch (err) {
-          console.log(err);
-          this.notifyService.error('Your query does not appear to be valid. Please check it.');
-        }
+      .ofType(queryActions.PRETTIFY_QUERY)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          let prettified = '';
+          try {
+            prettified = this.gqlService.prettify(res.data.query.query);
+          } catch (err) {
+            console.log(err);
+            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          }
 
-        if (prettified) {
-          return observableOf(new queryActions.SetQueryAction(prettified, res.windowId));
-        }
-        return observableEmpty();
-      }),);
+          if (prettified) {
+            return observableOf(new queryActions.SetQueryAction(prettified, res.windowId));
+          }
+          return observableEmpty();
+        }),
+      );
 
     @Effect()
     compressQuery$: Observable<queryActions.Action> = this.actions$
-      .ofType(queryActions.COMPRESS_QUERY).pipe(
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
-        let compressed = '';
-        try {
-          console.log('We compress..');
-          compressed = this.gqlService.compress(res.data.query.query);
-          console.log('Compressed..');
-        } catch (err) {
-          console.log(err);
-          this.notifyService.error('Your query does not appear to be valid. Please check it.');
-        }
+      .ofType(queryActions.COMPRESS_QUERY)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          let compressed = '';
+          try {
+            console.log('We compress..');
+            compressed = this.gqlService.compress(res.data.query.query);
+            console.log('Compressed..');
+          } catch (err) {
+            console.log(err);
+            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          }
 
-        if (compressed) {
-          return observableOf(new queryActions.SetQueryAction(compressed, res.windowId));
-        }
-        return observableEmpty();
-      }),);
+          if (compressed) {
+            return observableOf(new queryActions.SetQueryAction(compressed, res.windowId));
+          }
+          return observableEmpty();
+        }),
+      );
 
     @Effect()
     exportSDL$: Observable<Action> = this.actions$
-      .ofType(gqlSchemaActions.EXPORT_SDL).pipe(
-      withLatestFrom(this.store, (action: gqlSchemaActions.Action, state: fromRoot.State) => {
-        return { data: state.windows[action.windowId], windowId: action.windowId, action };
-      }),
-      switchMap(res => {
+      .ofType(gqlSchemaActions.EXPORT_SDL)
+      .pipe(
+        withLatestFrom(this.store, (action: gqlSchemaActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
 
-        if (res.data.schema.schema) {
-          const sdl = this.gqlService.getSDL(res.data.schema.schema);
+          if (res.data.schema.schema) {
+            const sdl = this.gqlService.getSDL(res.data.schema.schema);
 
-          if (sdl) {
-            downloadData(sdl, 'sdl', { fileType: 'gql' });
+            if (sdl) {
+              downloadData(sdl, 'sdl', { fileType: 'gql' });
+            }
           }
-        }
-        return observableEmpty();
-      }),);
+          return observableEmpty();
+        }),
+      );
 
     @Effect()
     showDonationAlert$: Observable<Action> = this.actions$
