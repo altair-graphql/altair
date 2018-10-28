@@ -25,8 +25,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "",
-                "node_modules/"
+                "node_modules"
               ]
             }
           },
@@ -78,6 +77,11 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "assets": [
               "src/assets",
               "src/favicon.ico"
