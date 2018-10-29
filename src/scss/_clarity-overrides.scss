@@ -1,23 +1,29 @@
 // === *** OVERRIDES *** ===
 .header {
   z-index: 1;
+
   .branding {
     min-width: 75px;
   }
+
   .header-nav {
     .nav-link {
       color: $theme-font-color;
     }
   }
 }
+
 .modal-backdrop {
   background: $theme-bg-color;
 }
+
 .modal-dialog .modal-content {
   box-shadow: 0 5px 12px 2px $modal-shadow-color;
 }
+
 .dropdown-menu {
   padding: 0;
+
   .dropdown-item {
     padding: 1px 15px 0;
   }
