@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty } from 'rxjs';
 
 import { StoreModule, Store } from '@ngrx/store';
 
@@ -16,7 +16,7 @@ describe('WindowService', () => {
         { provide: Store, useValue: {
           subscribe: () => {},
           select: () => [],
-          map: () => Observable.empty(),
+          map: () => observableEmpty(),
           dispatch: () => {}
         } }
       ]

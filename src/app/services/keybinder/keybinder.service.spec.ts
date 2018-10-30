@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { KeybinderService } from './keybinder.service';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty } from 'rxjs';
 import { WindowService } from '../window.service';
 import { DbService } from '../db.service';
 
@@ -17,7 +17,7 @@ describe('KeybinderService', () => {
           provide: Store, useValue: {
             subscribe: () => { },
             select: () => [],
-            map: () => Observable.empty(),
+            map: () => observableEmpty(),
             dispatch: () => { }
           }
         }
