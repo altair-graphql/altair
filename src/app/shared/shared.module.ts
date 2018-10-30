@@ -7,16 +7,17 @@ import { SortablejsModule } from 'angular-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { DndModule } from '@beyerleinf/ngx-dnd';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslateModule.forRoot(),
     NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
-    // CodemirrorModule,
+    NguiAutoCompleteModule,
     ContextMenuModule.forRoot(),
     DndModule.forRoot(),
   ],
@@ -26,7 +27,8 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
     SortablejsModule,
     NgPipesModule,
     ContextMenuModule,
-    DndModule
+    DndModule,
+    NguiAutoCompleteModule,
   ]
 })
 export class SharedModule { }

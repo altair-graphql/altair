@@ -13,16 +13,17 @@
     </div>
   </div>
   <div class="doc-viewer-search-wrapper">
-    <ng2-completer
+    <input
+      class="doc-viewer-search-input"
+      ngui-auto-complete
       [(ngModel)]="searchTerm"
-      [datasource]="dataService"
-      [minSearchLength]="2"
-      [inputClass]="'doc-viewer-search-input'"
+      [source]="autocompleteSource.bind(this)"
+      [min-chars]="2"
+      [list-formatter]="'search'"
       [placeholder]="searchInputPlaceholder"
-      [pause]="500"
       (keyup)="searchInputKeyUp(searchTerm, $event)"
-      (selected)="$event && searchDocs($event.title)"
-    ></ng2-completer>
+      (valueChanged)="$event && searchDocs($event.title)"
+    />
   </div>
   <div class="doc-viewer-items">
     <div [ngSwitch]="docView.view">

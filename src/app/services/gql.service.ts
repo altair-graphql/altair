@@ -13,10 +13,6 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { buildClientSchema, parse, print, GraphQLSchema, printSchema, introspectionQuery } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
-// Import Rx to get all the operators loaded into the file
-import 'rxjs/Rx';
-// TODO - Check if this is necessary
-
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 

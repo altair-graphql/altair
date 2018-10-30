@@ -5,9 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import { Headers, Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-// Import Rx to get all the operators loaded into the file
-import 'rxjs/Rx';
-// TODO - Check if this is necessary
 
 
 @Injectable()
