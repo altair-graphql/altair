@@ -7,16 +7,18 @@
 
   gtag('config', 'UA-41432833-7');
 
-  document.body.addEventListener('click', function(e) {
-    if (e.target && e.target.matches('a')) {
-      var trackCategory = e.target.getAttribute('track-category') || 'general';
-      var trackAction = 'clicked';
-      var trackLabel = e.target.getAttribute('track-label');
-
-      gtag('event', trackAction, {
-        'event_category' : trackCategory,
-        'event_label' : trackLabel
-      });
-    }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('click', function(e) {
+      if (e.target && e.target.matches('a')) {
+        var trackCategory = e.target.getAttribute('track-category') || 'general';
+        var trackAction = 'clicked';
+        var trackLabel = e.target.getAttribute('track-label');
+  
+        gtag('event', trackAction, {
+          'event_category' : trackCategory,
+          'event_label' : trackLabel
+        });
+      }
+    });
   });
 </script>

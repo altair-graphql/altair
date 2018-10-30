@@ -37,12 +37,12 @@
           {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
         </button>
       </div>
-      <codemirror
+      <ngx-codemirror
         #editor
         class="app-query-result-textarea"
-        [config]="resultEditorConfig"
+        [options]="resultEditorConfig"
         [ngModel]="queryResult | json"
-      ></codemirror>
+      ></ngx-codemirror>
     </div>
   </div>
   <div class="query-result__subscription-container" [ngClass]="{ 'hide': !isSubscribed }">

@@ -1,11 +1,11 @@
+
+import {of as observableOf,  Subscription ,  Observable ,  Observer } from 'rxjs';
+
+import {map, first} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as uuid from 'uuid/v4';
-
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 
 import * as fromRoot from '../reducers';
 import * as fromWindows from '../reducers/windows';
@@ -31,7 +31,7 @@ export class WindowService {
 
   newWindow(): Observable<any> {
     return Observable.create((obs: Observer<any>) => {
-      return this.store.first().subscribe(data => {
+      return this.store.pipe(first()).subscribe(data => {
 
         const newWindow = {
           windowId: uuid(),
@@ -55,22 +55,22 @@ export class WindowService {
       const newWindows = data.filter(window => window.windowId !== windowId);
 
       return this.db.setItem('windows', newWindows).subscribe(() => {
-        this.db.getAllKeys()
+        this.db.getAllKeys().pipe(
           // Filter out items that are for the current window via the windowId
-          .map(keys => keys.filter(key => key.includes(windowId)))
+          map(keys => keys.filter(key => key.includes(windowId))))
           .subscribe(windowKeys => {
             // Remove all the items related to the current window
             windowKeys.map(key => this.db.removeItemByExactKey(key));
 
             // Dispatch the remove window action
-            return Observable.of(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
+            return observableOf(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
           });
       });
     });
   }
 
   duplicateWindow(windowId): Subscription {
-    return this.store.first().subscribe(data => {
+    return this.store.pipe(first()).subscribe(data => {
       const window = { ...data.windows[windowId] };
 
       if (window) {
@@ -94,7 +94,7 @@ export class WindowService {
 
   getWindowExportData(windowId): Observable<fromWindows.ExportWindowState> {
     return Observable.create((obs: Observer<fromWindows.ExportWindowState>) => {
-      return this.store.first().subscribe(data => {
+      return this.store.pipe(first()).subscribe(data => {
         const window = { ...data.windows[windowId] };
 
         // TODO: Check that there is data to be exported

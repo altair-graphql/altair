@@ -30,7 +30,7 @@ before_script:
 - yarn build
 script:
 - ng lint
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then karma start karma.conf.js --single-run; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi

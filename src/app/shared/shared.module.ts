@@ -6,15 +6,18 @@ import { NgxElectronModule } from 'ngx-electron';
 import { SortablejsModule } from 'angular-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
-import { DndModule } from 'ng2-dnd';
+import { DndModule } from '@beyerleinf/ngx-dnd';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslateModule.forRoot(),
     NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
+    NguiAutoCompleteModule,
     ContextMenuModule.forRoot(),
     DndModule.forRoot(),
   ],
@@ -24,7 +27,8 @@ import { DndModule } from 'ng2-dnd';
     SortablejsModule,
     NgPipesModule,
     ContextMenuModule,
-    DndModule
+    DndModule,
+    NguiAutoCompleteModule,
   ]
 })
 export class SharedModule { }
