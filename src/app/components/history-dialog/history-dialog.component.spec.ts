@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from 'clarity-angular';
-import { CodemirrorModule } from 'ng2-codemirror';
+import { ClarityModule } from '@clr/angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { HistoryDialogComponent } from './history-dialog.component';
 
@@ -16,7 +16,7 @@ describe('HistoryDialogComponent', () => {
       imports: [
         FormsModule,
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
         TranslateModule.forRoot()
       ]
     })

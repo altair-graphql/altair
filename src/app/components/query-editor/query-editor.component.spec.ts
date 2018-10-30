@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from 'ng2-codemirror';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { QueryEditorComponent } from './query-editor.component';
 import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';

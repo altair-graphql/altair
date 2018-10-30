@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty } from 'rxjs';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { CodemirrorModule } from 'ng2-codemirror';
-import { ClarityModule } from 'clarity-angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { ClarityModule } from '@clr/angular';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
@@ -34,10 +34,11 @@ describe('AppComponent', () => {
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => Observable.empty(),
-        select: () => Observable.empty(),
-        map: () => Observable.empty(),
-        first: () => Observable.empty(),
+        subscribe: () => observableEmpty(),
+        select: () => observableEmpty(),
+        map: () => observableEmpty(),
+        first: () => observableEmpty(),
+        pipe: () => observableEmpty(),
         dispatch: () => {}
       } }
   ];
@@ -53,7 +54,7 @@ describe('AppComponent', () => {
         HttpModule,
         StoreModule,
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
         ComponentModule,
         DocViewerModule,
         TranslateModule.forRoot()

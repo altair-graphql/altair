@@ -7,9 +7,8 @@ import {
   SimpleChanges,
   HostBinding
 } from '@angular/core';
-import { CompleterService, CompleterData } from 'ng2-completer';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
+import { of } from 'rxjs';
 
 import config from '../../../config';
 
@@ -33,7 +32,6 @@ export class DocViewerComponent implements OnChanges {
 
   rootTypes = [];
   index = [];
-  index$ = new Subject();
 
   searchInputPlaceholder = 'Search docs...';
 
@@ -52,14 +50,9 @@ export class DocViewerComponent implements OnChanges {
   searchResult = [];
   searchTerm = '';
 
-  protected dataService: CompleterData;
-
   constructor(
-    private completerService: CompleterService,
     private translate: TranslateService
   ) {
-    this.dataService = this.completerService.local(this.index$, 'search', 'search');
-    // .descriptionField('description');
 
     // Set translations
     this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT').subscribe(text => this.searchInputPlaceholder = text);
@@ -205,9 +198,11 @@ export class DocViewerComponent implements OnChanges {
       }
     });
 
-    this.index$.next(this.index);
-
     console.log('Index: ', this.index);
+  }
+
+  autocompleteSource(term) {
+    return of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
   }
 
   searchInputKeyUp(term, e) {

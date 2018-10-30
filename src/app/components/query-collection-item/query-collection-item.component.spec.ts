@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QueryCollectionItemComponent } from './query-collection-item.component';
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from 'ng2-codemirror';
-import { ClarityModule } from 'clarity-angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { ClarityModule } from '@clr/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('QueryCollectionItemComponent', () => {
@@ -16,7 +16,7 @@ describe('QueryCollectionItemComponent', () => {
       imports: [
         FormsModule,
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
         TranslateModule.forRoot()
       ]
     })

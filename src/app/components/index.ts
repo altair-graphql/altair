@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { ClarityModule } from 'clarity-angular';
-import { CodemirrorModule } from 'ng2-codemirror';
+import { ClarityModule } from '@clr/angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { SharedModule } from '../shared/shared.module';
 
