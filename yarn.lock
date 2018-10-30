@@ -783,9 +783,9 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ngrx/effects@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-5.2.0.tgz#aa762b69cb6fd4644d724a1cecd265caa42baf09"
+"@ngrx/effects@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.1.tgz#547b30c5508bb7cb3b18f6b10c16f0cd99c6a429"
 
 "@ngrx/store-devtools@^5.2.0":
   version "5.2.0"
