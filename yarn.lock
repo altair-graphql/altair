@@ -791,9 +791,9 @@
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-5.2.0.tgz#2fff916a9aa349375826772b359dbb64b9e5d622"
 
-"@ngrx/store@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-5.2.0.tgz#627ed74c9cd95462930485d912a557117b23903e"
+"@ngrx/store@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-6.1.1.tgz#35a3d87f545df4d6a544087f5fa45e143f0a0e90"
 
 "@ngtools/json-schema@1.2.0":
   version "1.2.0"
