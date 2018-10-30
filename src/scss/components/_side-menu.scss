@@ -34,7 +34,8 @@
     opacity: 1;
     color: $theme-font-color;
     .side-menu-item-label {
-      max-width: 300px;
+      // max-width: 300px;
+      opacity: 1;
     }
   }
   &--active {
@@ -48,7 +49,8 @@
   left: 45px;
   z-index: 4;
   background: $theme-bg-color;
-  max-width: 0;
+  // max-width: 0;
+  opacity: 0;
   white-space: nowrap;
   overflow: hidden;
   transition: all 0.3s ease;

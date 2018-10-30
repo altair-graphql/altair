@@ -1,7 +1,7 @@
 @import "scss/colors";
 @import "scss/variables";
 $clr-header-textColor: $white;
-@import "../node_modules/clarity-icons/clarity-icons.css";
+@import "../node_modules/@clr/icons/clr-icons.min.css";
 
 @import "../node_modules/codemirror/lib/codemirror.css";
 @import "../node_modules/codemirror/addon/fold/foldgutter.css";

@@ -4,7 +4,7 @@ import { ElectronAppService } from './electron-app.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { WindowService, DbService } from '..';
 import { NgxElectronModule } from 'ngx-electron';
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty } from 'rxjs';
 
 describe('ElectronAppService', () => {
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('ElectronAppService', () => {
           provide: Store, useValue: {
             subscribe: () => { },
             select: () => [],
-            map: () => Observable.empty(),
+            map: () => observableEmpty(),
             dispatch: () => { }
           }
         }

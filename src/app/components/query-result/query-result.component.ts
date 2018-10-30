@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 // Import the codemirror packages
-import Codemirror from 'codemirror';
+import * as Codemirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/fold/foldcode';
@@ -58,8 +58,8 @@ export class QueryResultComponent implements OnChanges {
   ngOnChanges() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.instance) {
-      this.editor.instance.refresh();
+    if (this.editor.codeMirror) {
+      this.editor.codeMirror.refresh();
     }
   }
 }

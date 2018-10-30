@@ -1,26 +1,10 @@
-// Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
-// This software is released under MIT license.
-// The full license information can be found in LICENSE in the root directory of this project.
+// /*** CLARITY COMPONENTS ***/
 
-// Bootstrap 4 Dependencies - Begin Part 2
-// NOTE: These are here b/c they need to be overwritable for the $grid-breakpoints map in a theme.
-// @deprecated Bootstrap dependencies are deprecated since 1.0. Remove before 2.0.
-@import "bootstrap/scss/media";
-@import "bootstrap/scss/utilities";
-@import "bootstrap/scss/images";
-@import "bootstrap/scss/list-group";
-@import "bootstrap/scss/close";
-@import "bootstrap/scss/grid";
-@import "bootstrap/scss/responsive-embed";
-
-// Clarity scss maps w/ overridable variables per component
+// /* Clarity - Begin Part 2 */
 @import "node_modules/@clr/ui/src/utils/maps.clarity";
 
 //Reboot
 @import "node_modules/@clr/ui/src/utils/reboot.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
-
-//@import "./media/media.clarity"; //Deleted
-//@import "./utils/utilities.clarity"; // deleted
 
 //Popover
 @import "node_modules/@clr/ui/src/popover/common/popover.clarity";
@@ -32,7 +16,6 @@
 //Typography
 //depends on colors.clarity, color.clarity, variables.clarity, utilities.clarity
 @import "node_modules/@clr/ui/src/typography/typography.clarity";
-// @import "node_modules/@clr/ui/src/typography/code.clarity";
 
 //Buttons
 @import "node_modules/@clr/ui/src/button/buttons.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity
@@ -44,14 +27,12 @@
 //depends on variables.clarity, mixins.clarity, color.clarity, icons.clarity, buttons.clarity
 @import "node_modules/@clr/ui/src/emphasis/alert/alert.clarity";
 
-//List Group
-//@import "./list-group/list-group.clarity"; // deleted
-
 //Cards
 //depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, list-group.clarity, buttons.clarity
 @import "node_modules/@clr/ui/src/layout/card.clarity";
 
-//@import "./custom-forms-deprecated/custom-forms-deprecated.clarity"; // deleted
+//Code
+// @import "node_modules/@clr/ui/src/code/syntax-highlight/code.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, code.scss
 
 //Dropdowns
 //depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, layers.clarity
@@ -63,7 +44,6 @@
 
 //Grid
 //depends on variables.clarity, mixins.clarity
-@import "node_modules/@clr/ui/src/layout/grid-deprecated.clarity";
 @import "node_modules/@clr/ui/src/layout/grid/grid.clarity";
 
 //Lists
@@ -83,17 +63,22 @@
 @import "node_modules/@clr/ui/src/modal/modal.clarity";
 
 //Nav
+//@import "node_modules/@clr/ui/src/navbar/navbar.clarity"; //deleted
 @import "node_modules/@clr/ui/src/layout/nav/header.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity, layers.clarity
+
 @import "node_modules/@clr/ui/src/layout/nav/nav.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity, layers.clarity
+
 @import "node_modules/@clr/ui/src/layout/nav/subnav.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity, layers.clarity
+
 @import "node_modules/@clr/ui/src/layout/nav/sidenav.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity
+
 @import "node_modules/@clr/ui/src/layout/vertical-nav/vertical-nav.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity
+
 @import "node_modules/@clr/ui/src/layout/nav/responsive-nav.clarity"; // depends on variables.clarity, mixins.clarity, helpers.clarity, color.clarity, layers.clarity
 
 //Progress Bars
 //depends on variables.clarity, helpers.clarity, color.clarity, cards.clarity
 @import "node_modules/@clr/ui/src/progress/progress-bars/progress-bars.clarity";
-
 //Spinners
 //depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, icons.clarity
 @import "node_modules/@clr/ui/src/progress/spinner/spinner.clarity";
@@ -107,27 +92,19 @@
 @import "node_modules/@clr/ui/src/popover/tooltip/tooltips.clarity";
 
 //Forms
-@import "node_modules/@clr/ui/src/forms/styles/mixins.forms";
-@import "node_modules/@clr/ui/src/forms/styles/containers.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/form.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/checkbox.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/file.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/input.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/input-group.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/radio.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/select.clarity";
-@import "node_modules/@clr/ui/src/forms/styles/textarea.clarity";
+@import "node_modules/@clr/ui/src/forms/utils/form-variables.clarity";
 
-//Forms Deprecated
-@import "node_modules/@clr/ui/src/forms-deprecated/utils/form-variables.clarity";
-@import "node_modules/@clr/ui/src/forms-deprecated/utils/mixins.clarity";
-// @import "node_modules/@clr/ui/src/forms-deprecated/inputs.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
-@import "node_modules/@clr/ui/src/forms-deprecated/checkbox/checkbox.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
-@import "node_modules/@clr/ui/src/forms-deprecated/radio.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
-@import "node_modules/@clr/ui/src/forms-deprecated/select.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, layers.clarity, icons.clarity, images.clarity
-@import "node_modules/@clr/ui/src/forms/datepicker/datepicker.clarity";
-@import "node_modules/@clr/ui/src/forms-deprecated/forms.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
-@import "node_modules/@clr/ui/src/forms/combobox/combobox.clarity";
+@import "node_modules/@clr/ui/src/forms/utils/mixins.clarity";
+
+// @import "node_modules/@clr/ui/src/forms/inputs.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity
+
+@import "node_modules/@clr/ui/src/forms/checkbox/checkbox.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, form-variables.clarity
+
+@import "node_modules/@clr/ui/src/forms/radio.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, form-variables.clarity
+
+@import "node_modules/@clr/ui/src/forms/select.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, layers.clarity, icons.clarity, images.clarity
+
+@import "node_modules/@clr/ui/src/forms/forms.clarity"; // depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, form-variables.clarity
 
 //Stack View
 //depends on variables.clarity, mixins.clarity, color.clarity, helpers.clarity, forms.clarity
@@ -145,9 +122,6 @@
 // no dependencies on other clarity scss
 @import "node_modules/@clr/ui/src/utils/animations/animations.clarity";
 
-//Focus Trap
-@import "node_modules/@clr/ui/src/utils/focus-trap/focus-trap.clarity";
-
 //Tabs
 @import "node_modules/@clr/ui/src/layout/tabs/tabs.clarity"; // no dependencies on other clarity scss
 
@@ -156,13 +130,9 @@
 @import "node_modules/@clr/ui/src/wizard/wizard.clarity";
 
 //Fonts
-// depends on variables.clarity
 @import "node_modules/@clr/ui/src/typography/fonts.clarity"; // no dependencies on other clarity scss
 
 // Signposts
 @import "node_modules/@clr/ui/src/popover/signpost/signposts.clarity";
-
-// Drag and Drop
-@import "node_modules/@clr/ui/src/utils/drag-and-drop/drag-and-drop.clarity";
 
 @import "clarity-overrides";

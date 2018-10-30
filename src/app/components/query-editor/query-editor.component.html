@@ -1,11 +1,11 @@
 <div class="query-editor-container">
-  <codemirror
+  <ngx-codemirror
     #editor
     class="query-editor__input"
     [(ngModel)]="query"
     (ngModelChange)="queryChange.emit($event)"
-    [config]="editorConfig"
-  ></codemirror>
+    [options]="editorConfig"
+  ></ngx-codemirror>
 </div>
 <div class="variables-editor-container">
   <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>

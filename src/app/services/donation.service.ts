@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
+import {combineLatest as observableCombineLatest,  Observable ,  Subscriber } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import { DbService } from './';
 import config from '../config';
@@ -48,7 +47,7 @@ export class DonationService {
     const curHash$ = this.dbService.getItem(this.hashKey);
 
     return Observable.create((obs: Subscriber<boolean>) => {
-      Observable.combineLatest(actionCount$, seed$, curHash$).subscribe(([actionCount, seed, curHash]) => {
+      observableCombineLatest(actionCount$, seed$, curHash$).subscribe(([actionCount, seed, curHash]) => {
         if (actionCount && actionCount >= config.donation.action_count_threshold) {
           // Reset count
           this.dbService.setItem(this.actionCountKey, 0);

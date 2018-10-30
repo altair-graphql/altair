@@ -1,6 +1,7 @@
+import { first, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { Component, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as fromRoot from '../../reducers';
@@ -58,7 +59,7 @@ export class AppComponent {
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
   ) {
-    this.settings$ = this.store.select('settings').distinctUntilChanged();
+    this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
 
     this.setDefaultLanguage();
@@ -71,20 +72,21 @@ export class AppComponent {
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
-    this.settings$
-      .map(settings => settings.language)
-      .filter(x => !!x)
-      .distinctUntilChanged()
-      .subscribe(language => {
-        this.translate.use(language);
-      });
+    this.settings$.pipe(
+      map(settings => settings.language),
+      filter(x => !!x),
+      distinctUntilChanged(),
+    )
+    .subscribe(language => {
+      this.translate.use(language);
+    });
 
     this.electronApp.connect();
     this.keybinder.connect();
 
-    this.windowIds$ = this.store.select('windows').map(windows => {
+    this.windowIds$ = this.store.select('windows').pipe(map(windows => {
       return Object.keys(windows);
-    });
+    }));
     this.store
       .subscribe(data => {
         this.windows = data.windows;
@@ -154,7 +156,7 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().first().subscribe(({ windowId }) => {
+    this.windowService.newWindow().pipe(first()).subscribe(({ windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
     });
   }
