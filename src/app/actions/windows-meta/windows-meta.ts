@@ -5,6 +5,7 @@ export const SET_WINDOW_IDS = 'SET_WINDOW_IDS';
 export const REPOSITION_WINDOW = 'REPOSITION_WINDOW';
 
 export const SHOW_IMPORT_CURL_DIALOG = 'SHOW_IMPORT_CURL_DIALOG';
+export const SHOW_EDIT_COLLECTION_DIALOG = 'SHOW_EDIT_COLLECTION_DIALOG';
 
 export class SetActiveWindowIdAction implements Action {
   readonly type = SET_ACTIVE_WINDOW_ID;
@@ -30,4 +31,15 @@ export class ShowImportCurlDialogAction implements Action {
   constructor(public payload?: { value: boolean }) { }
 }
 
-export type Action = SetActiveWindowIdAction | SetWindowIdsAction | RepositionWindowAction | ShowImportCurlDialogAction;
+export class ShowEditCollectionDialogAction implements Action {
+  readonly type = SHOW_EDIT_COLLECTION_DIALOG;
+
+  constructor(public payload?: { value: boolean }) { }
+}
+
+export type Action =
+  | SetActiveWindowIdAction
+  | SetWindowIdsAction
+  | RepositionWindowAction
+  | ShowImportCurlDialogAction
+  | ShowEditCollectionDialogAction;

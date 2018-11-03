@@ -135,6 +135,7 @@
             (selectQueryChange)="selectQueryFromCollection($event)"
             (deleteQueryChange)="deleteQueryFromCollection($event)"
             (deleteCollectionChange)="deleteCollection($event)"
+            (editCollectionChange)="toggleEditCollectionDialog($event)"
           ></app-query-collections>
         </div>
       </div>
@@ -156,7 +157,13 @@
         [showImportCurlDialog]="showImportCurlDialog"
         (toggleDialogChange)="setShowImportCurlDialog($event)"
         (importCurlChange)="importWindowFromCurl($event)"
-      ></app-import-curl-dialog>
+        ></app-import-curl-dialog>
+        <app-edit-collection-dialog
+        [showEditCollectionDialog]="showEditCollectionDialog"
+        [collection]="(collection$ | async).activeCollection"
+        (toggleDialogChange)="setShowEditCollectionDialog($event)"
+        (updateCollectionChange)="updateCollection($event)"
+      ></app-edit-collection-dialog>
     </div>
 
     <clr-alert [clrAlertType]="'alert-warning'" [clrAlertAppLevel]="true" (clrAlertClosedChange)="hideDonationAlert()" *ngIf="showDonationAlert">

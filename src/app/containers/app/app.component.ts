@@ -47,6 +47,7 @@ export class AppComponent {
   showDonationAlert = false;
 
   showImportCurlDialog = false;
+  showEditCollectionDialog = false;
   showCollections = false;
 
   appVersion = environment.version;
@@ -94,6 +95,7 @@ export class AppComponent {
         this.showDonationAlert = data.donation.showAlert;
 
         this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
+        this.showEditCollectionDialog = data.windowsMeta.showEditCollectionDialog;
 
         // Set the window IDs in the meta state if it does not already exist
         if (data.windowsMeta.windowIds) {
@@ -274,6 +276,18 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
   }
 
+  toggleEditCollectionDialog({ collection }) {
+    this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
+    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
+  }
+
+  setShowEditCollectionDialog(value) {
+    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
+  }
+
+  updateCollection({ collection }) {
+    this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
+  }
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;

@@ -21,5 +21,5 @@ if (isElectron) {
 
 platformBrowserDynamic().bootstrapModule(AppModule);
 
-initTracking();
+// initTracking();
 handleExternalLinks();

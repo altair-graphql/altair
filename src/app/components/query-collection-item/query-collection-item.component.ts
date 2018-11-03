@@ -11,6 +11,7 @@ export class QueryCollectionItemComponent implements OnInit {
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{ collectionId, query }> = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{ collectionId }> = new EventEmitter();
+  @Output() editCollectionChange: EventEmitter<{ collection }> = new EventEmitter();
 
   showContent = true;
 
@@ -42,6 +43,10 @@ export class QueryCollectionItemComponent implements OnInit {
         collectionId: this.collection.id
       });
     }
+  }
+
+  editCollection() {
+    this.editCollectionChange.next({ collection: this.collection });
   }
 
 }

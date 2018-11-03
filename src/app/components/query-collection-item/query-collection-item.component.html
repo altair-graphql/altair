@@ -19,6 +19,9 @@
           <button type="button" clrDropdownItem (click)="deleteCollection()">
             {{ 'COLLECTIONS_MENU_DELETE' | translate }}
           </button>
+          <button type="button" clrDropdownItem (click)="editCollection()">
+            {{ 'COLLECTIONS_MENU_EDIT' | translate }}
+          </button>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>
@@ -31,6 +34,7 @@
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
+        (editCollectionChange)="editCollectionChange.next($event)"
       ></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
