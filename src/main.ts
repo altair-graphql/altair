@@ -19,7 +19,9 @@ if (isElectron) {
   electron.webFrame.registerURLSchemeAsPrivileged('altair');
 };
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule, {
+  preserveWhitespaces: true
+});
 
 // initTracking();
 handleExternalLinks();
