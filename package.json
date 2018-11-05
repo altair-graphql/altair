@@ -112,7 +112,7 @@
     "@angular-devkit/build-angular": "~0.10.0",
     "@types/chrome": "^0.0.74",
     "@types/electron": "^1.4.38",
-    "@types/jasmine": "2.8.9",
+    "@types/jasmine": "2.8.10",
     "@types/mousetrap": "^1.6.0",
     "@types/node": "10.12.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
