@@ -6,7 +6,7 @@ app-query-collections {
   height: 100%;
   max-width: 320px;
   width: 320px;
-  background: $theme-off-bg-color;
+  background: var(--theme-off-bg-color);
   padding: 0 5px;
   will-change: width;
   overflow: hidden;
@@ -20,7 +20,7 @@ app-query-collections {
 .query-collections__inner {
   height: 100%;
   overflow: auto;
-  background: $theme-bg-color;
+  background: var(--theme-bg-color);
   // padding: 10px;
   .clr-treenode-content {
     line-height: 1.4;
@@ -63,11 +63,11 @@ app-query-collections {
 .query-collections__item-details-wrapper {
   display: flex;
   padding: 5px 10px;
-  border-bottom: 1px solid $theme-border-color;
+  border-bottom: 1px solid var(--theme-border-color);
   cursor: pointer;
   transition: all .3s ease;
   &:hover {
-    background: rgba($theme-font-color, .05);
+    background: rgba(var(--rgb-theme-font), .05);
     .query-collections__item-icon {
       opacity: 1;
     }
@@ -117,7 +117,7 @@ app-query-collections {
   cursor: pointer;
   transition: all .3s ease;
   &:hover {
-    background: rgba($theme-font-color, .05);
+    background: rgba(var(--rgb-theme-font), .05);
     .query-collections__item-queries-item-icon {
       opacity: 1;
       // transform: translateX(0);

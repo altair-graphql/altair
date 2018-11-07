@@ -10,7 +10,7 @@ app-flex-resizer {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  background: $theme-off-border-color;
+  background: var(--theme-off-border-color);
   width: 5px;
   height: 50px;
   border-radius: 10px;
@@ -21,6 +21,6 @@ app-flex-resizer {
       left: auto;
   }
   &:hover {
-      background: $theme-border-color;
+      background: var(--theme-border-color);
   }
 }
