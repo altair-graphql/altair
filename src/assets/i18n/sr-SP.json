@@ -78,5 +78,9 @@
   "CREATE_COLLECTION_BUTTON": "Dodaj kolekciju",
   "NUMBER_OF_QUERIES": "Broj upita:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Обриши",
-  "COLLECTIONS_MENU_DELETE": "Обриши"
+  "COLLECTIONS_MENU_DELETE": "Обриши",
+  "COLLECTIONS_MENU_EDIT": "Edit",
+  "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
+  "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
+  "COLLECTION_TITLE_LABEL": "Collection title"
 }
