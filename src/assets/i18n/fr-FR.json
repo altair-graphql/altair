@@ -78,5 +78,9 @@
   "CREATE_COLLECTION_BUTTON": "Créer une collection",
   "NUMBER_OF_QUERIES": "Nombre de requêtes :",
   "COLLECTIONS_QUERY_MENU_DELETE": "Supprimer",
-  "COLLECTIONS_MENU_DELETE": "Supprimer"
+  "COLLECTIONS_MENU_DELETE": "Supprimer",
+  "COLLECTIONS_MENU_EDIT": "Edit",
+  "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
+  "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
+  "COLLECTION_TITLE_LABEL": "Collection title"
 }
