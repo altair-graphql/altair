@@ -44,15 +44,27 @@
     color: var(--theme-font-color);
     padding: 10px;
     font-family: sans-serif;
+    z-index: 1050;
+}
+.CodeMirror-Tern-tooltip {
+    z-index: 1050;
 }
 .CodeMirror-hints{
     font-family: inherit;
     box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
+    z-index: 1050;
 }
 .CodeMirror-hint {
     line-height: 1.4;
     padding: 5px 10px;
     min-width: 100px;
+    &.CodeMirror-Tern-completion {
+        padding-left: 25px;
+        &:before {
+            left: 5px;
+            bottom: 5px;
+        }
+    }
 }
 .cm-s-default{
     .cm-atom{
@@ -111,5 +123,20 @@
     }
     .cm-punctuation{
         color: var(--result-default);
+    }
+}
+.cm-s-settings-editor {
+    line-height: 2;
+    pre {
+        color: var(--theme-off-font-color);
+    }
+    .cm-string {
+        color: var(--theme-font-color);
+    }
+    .cm-property {
+        color: var(--orange-color);
+    }
+    .cm-number {
+        color: var(--green-color);
     }
 }
