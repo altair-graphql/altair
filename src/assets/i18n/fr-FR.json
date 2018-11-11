@@ -56,6 +56,7 @@
   "SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT": "Ajouter une limite de profondeur de requête",
   "SETTINGS_TAB_SIZE_TEXT": "Largeur d'onglet",
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Aimeriez-vous aider avec la traduction?",
+  "SETTINGS_SHOW_EDITOR_HINT": "Press ctrl-space to show hint",
   "VIEW_ON_GITHUB_TEXT": "Voir sur GitHub",
   "STAR_ON_GITHUB_TEXT": "Aimer sur Github",
   "REPORT_BUG_TEXT": "Signaler un problème",
