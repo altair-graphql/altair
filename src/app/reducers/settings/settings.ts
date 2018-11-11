@@ -23,7 +23,8 @@ export interface State {
     'de-DE': 'German',
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
-    'zh-CN': '中文'
+    'zh-CN': '中文',
+    'sr-SP': 'Serbian'
    */
   language: SettingsLanguage;
 
