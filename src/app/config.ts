@@ -20,7 +20,8 @@ export default {
     'de-DE': 'German',
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
-    'zh-CN': '中文'
+    'zh-CN': '中文',
+    'sr-SP': 'Serbian'
   },
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],

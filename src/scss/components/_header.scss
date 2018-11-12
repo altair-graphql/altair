@@ -1,9 +1,13 @@
 .header {
-  box-shadow: 0 5px 12px 2px rgba($black, .1);
+  box-shadow: 0 5px 12px 2px rgba(var(--rgb-black), .1);
+  background: var(--header-bg-color);
   .branding {
     padding: 0;
     justify-content: center;
     min-width: 65px;
+  }
+  .header-actions {
+    flex: 0 0 auto;
   }
 }
 .header-logo {

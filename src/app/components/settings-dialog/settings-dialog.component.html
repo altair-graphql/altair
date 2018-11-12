@@ -1,4 +1,4 @@
-<clr-modal [clrModalOpen]="settings?.isShown" (clrModalOpenChange)="toggleDialogChange.next($event)">
+<clr-modal [clrModalOpen]="showSettingsDialog" [clrModalSize]="'lg'" (clrModalOpenChange)="toggleDialogChange.next($event)">
   <h3 class="modal-title">
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'SETTINGS_TEXT' | translate }}</div>
@@ -8,6 +8,17 @@
   <div class="modal-body">
     <div class="app-dialog-body">
       <div class="app-dialog-section">
+        <ngx-codemirror
+          #editor
+          class="settings-editor-textarea"
+          [options]="jsonEditorConfig"
+          [ngModel]="settings | json"
+          (ngModelChange)="onSettingsChange($event)"
+        ></ngx-codemirror>
+        <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
+      </div>
+
+      <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_THEME_TEXT' | translate }}</label>
         <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)" attr.aria-label="{{ 'SETTINGS_THEME_TEXT' | translate }}">
           <option *ngFor="let theme of themes" value="{{ theme }}" [selected]="theme === settings?.theme">
@@ -16,34 +27,35 @@
         </select>
       </div>
 
-      <div class="app-dialog-section">
+      <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
         <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)" attr.aria-label="{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}">
           <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
             {{ language[1] | titlecase }}
           </option>
         </select>
-        <small>{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }} <a href="https://altair-gql-translate.surge.sh/" target="_blank" track-id="go_to_translate_link">{{ 'CLICK_HERE_TEXT' | translate }}</a></small>
       </div>
 
-      <div class="app-dialog-section">
+      <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }} <small>(Recommended: 3)</small></label>
         <input attr.aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_add_query_depth_limit" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
       </div>
 
-      <div class="app-dialog-section">
+      <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}</label>
         <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_tab_size" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
-      </div>
-
-      <div class="app-dialog-section">
-        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <div class="app-dialog-footer">
-      <button track-id="save_settings" class="app-button active-primary right" (click)="toggleDialogChange.next(false)">{{ 'SAVE_BUTTON' | translate }}</button>
+      <div class="left">
+        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
+        <div>
+          <small>{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }} <a href="https://altair-gql-translate.surge.sh/" target="_blank" track-id="go_to_translate_link">{{ 'CLICK_HERE_TEXT' | translate }}</a></small>
+        </div>
+      </div>
+      <button track-id="save_settings" class="app-button active-primary right" (click)="saveSettings()">{{ 'SAVE_BUTTON' | translate }}</button>
     </div>
   </div>
 </clr-modal>

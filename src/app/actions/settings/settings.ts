@@ -1,31 +1,23 @@
 import { Action } from '@ngrx/store';
-
-export const SHOW_SETTINGS = 'SHOW_SETTINGS';
-export const HIDE_SETTINGS = 'HIDE_SETTINGS';
+import { SettingsTheme, SettingsLanguage } from 'app/reducers/settings/settings';
 
 export const SET_THEME = 'SET_THEME';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const SET_ADD_QUERY_DEPTH_LIMIT = 'SET_ADD_QUERY_DEPTH_LIMIT';
 export const SET_TAB_SIZE_ACTION = 'SET_TAB_SIZE_ACTION';
 
-export class ShowSettingsAction implements Action {
-  readonly type = SHOW_SETTINGS;
-}
-
-export class HideSettingsAction implements Action {
-  readonly type = HIDE_SETTINGS;
-}
+export const SET_SETTINGS_JSON = 'SET_SETTINGS_JSON';
 
 export class SetThemeAction implements Action {
   readonly type = SET_THEME;
 
-  constructor(public payload: { value: string }) {}
+  constructor(public payload: { value: SettingsTheme }) {}
 }
 
 export class SetLanguageAction implements Action {
   readonly type = SET_LANGUAGE;
 
-  constructor(public payload: { value: string }) { }
+  constructor(public payload: { value: SettingsLanguage }) { }
 }
 
 export class SetAddQueryDepthLimitAction implements Action {
@@ -40,10 +32,15 @@ export class SetTabSizeAction implements Action {
   constructor(public payload: { value: number }) { }
 }
 
+export class SetSettingsJsonAction implements Action {
+  readonly type = SET_SETTINGS_JSON;
+
+  constructor(public payload: { value: string }) { }
+}
+
 export type Action =
-  | ShowSettingsAction
-  | HideSettingsAction
   | SetThemeAction
   | SetLanguageAction
   | SetAddQueryDepthLimitAction
-  | SetTabSizeAction;
+  | SetTabSizeAction
+  | SetSettingsJsonAction;
