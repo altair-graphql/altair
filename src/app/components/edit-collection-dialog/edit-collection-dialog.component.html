@@ -1,0 +1,21 @@
+<clr-modal [clrModalOpen]="showEditCollectionDialog" (clrModalOpenChange)="toggleDialogChange.next($event)">
+  <h3 class="modal-title">
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'EDIT_COLLECTION_TITLE_TEXT' | translate }}</div>
+      {{ 'EDIT_COLLECTION_TITLE_SUBTEXT' | translate }}
+    </div>
+  </h3>
+  <div class="modal-body">
+    <div class="app-dialog-body" *ngIf="collection">
+      <div class="form-group">
+        {{ 'COLLECTION_TITLE_LABEL' | translate }}
+        <input type="text" class="dialog-input" [(ngModel)]="collection.title">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="app-dialog-footer">
+      <button class="app-button active-primary right" track-id="" (click)="updateCollection()">{{ 'SAVE_BUTTON' | translate }}</button>
+    </div>
+  </div>
+</clr-modal>

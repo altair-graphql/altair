@@ -26,6 +26,7 @@ import { VariablesEditorComponent } from './variables-editor/variables-editor.co
 import { QueryCollectionsComponent } from './query-collections/query-collections.component';
 import { QueryCollectionItemComponent } from './query-collection-item/query-collection-item.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -45,6 +46,7 @@ const COMPONENTS = [
   QueryCollectionsComponent,
   QueryCollectionItemComponent,
   DialogComponent,
+  EditCollectionDialogComponent,
 ];
 
 @NgModule({

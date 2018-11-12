@@ -5,7 +5,7 @@
   right: 0;
   padding: 10px;
   font-size: 12px;
-  color: $theme-font-color;
+  color: var(--theme-font-color);
 }
 .response-stats__item {
   display: inline-block;
@@ -15,11 +15,11 @@
 }
 .response-status-text{
   text-transform: uppercase;
-  background: rgba($black, .5);
+  background: rgba(var(--rgb-black), .5);
   color: $white;
 }
 .response-status-code{
-  background: rgba($blue, .1);
+  background: rgba(var(--rgb-blue), .1);
 }
 .response-time{
   display: inline-block;
