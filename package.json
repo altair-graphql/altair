@@ -1,5 +1,6 @@
 {
   "name": "altair",
+  "productName": "Altair GraphQL Client",
   "version": "1.9.2",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",

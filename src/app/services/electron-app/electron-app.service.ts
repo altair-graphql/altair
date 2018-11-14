@@ -30,6 +30,10 @@ export class ElectronAppService {
 
   connect() {
     if (this.electron.isElectronApp) {
+      this.electron.ipcRenderer.on('file-opened', (evt, content) => {
+        this.windowService.importStringData(content);
+      });
+
       this.electron.ipcRenderer.on('create-tab', () => {
         this.windowService.newWindow().pipe(first()).subscribe();
       });
@@ -50,6 +54,8 @@ export class ElectronAppService {
       });
 
       console.log('Electron app connected.');
+
+      this.electron.ipcRenderer.send('get-file-opened');
     }
   }
 
