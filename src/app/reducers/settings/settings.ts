@@ -37,6 +37,9 @@ export interface State {
    * Specifies the tab size in the editor
    */
   tabSize: number;
+
+  // 'theme.foreground': string;
+  // 'theme.header.background': string;
 }
 
 const initialState: State = {
