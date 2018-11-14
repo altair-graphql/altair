@@ -42,10 +42,12 @@
   display: inline-block;
   border: none;
   border-radius: 3px;
+  border: 1px solid $primary-color;
   background: $light;
   padding: 15px 25px;
   cursor: pointer;
   transition: all .3s ease;
+  text-decoration: none;
   &:hover{
       text-decoration: none;
       box-shadow: 0 0 15px rgba(255, 255, 255, .5);
