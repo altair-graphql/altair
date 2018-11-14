@@ -6,12 +6,16 @@ export interface State {
   activeWindowId: string;
   windowIds: Array<string>;
   showImportCurlDialog: boolean;
+  showEditCollectionDialog: boolean;
+  showSettingsDialog: boolean;
 }
 
 const initialState: State = {
   activeWindowId: '',
   windowIds: [],
   showImportCurlDialog: false,
+  showEditCollectionDialog: false,
+  showSettingsDialog: false,
 };
 
 export function windowsMetaReducer(state = initialState, action: windowsMeta.Action): State {
@@ -33,6 +37,10 @@ export function windowsMetaReducer(state = initialState, action: windowsMeta.Act
       return state;
     case windowsMeta.SHOW_IMPORT_CURL_DIALOG:
       return { ...state, showImportCurlDialog: action.payload.value };
+    case windowsMeta.SHOW_EDIT_COLLECTION_DIALOG:
+      return { ...state, showEditCollectionDialog: action.payload.value };
+    case windowsMeta.SHOW_SETTINGS_DIALOG:
+      return { ...state, showSettingsDialog: action.payload.value };
     default:
       return state;
   }

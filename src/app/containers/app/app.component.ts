@@ -1,6 +1,7 @@
+import { first, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { Component, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as fromRoot from '../../reducers';
@@ -8,6 +9,7 @@ import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromSettings from '../../reducers/settings/settings';
 import * as fromCollection from '../../reducers/collection';
+import * as fromWindowsMeta from '../../reducers/windows-meta/windows-meta';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -37,6 +39,7 @@ export class AppComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
+  windowsMeta$: Observable<fromWindowsMeta.State>;
 
   windowIds = [];
   windows = {};
@@ -46,6 +49,7 @@ export class AppComponent {
   showDonationAlert = false;
 
   showImportCurlDialog = false;
+  showEditCollectionDialog = false;
   showCollections = false;
 
   appVersion = environment.version;
@@ -58,8 +62,9 @@ export class AppComponent {
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
   ) {
-    this.settings$ = this.store.select('settings').distinctUntilChanged();
+    this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
+    this.windowsMeta$ = this.store.select('windowsMeta');
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -71,20 +76,21 @@ export class AppComponent {
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
-    this.settings$
-      .map(settings => settings.language)
-      .filter(x => !!x)
-      .distinctUntilChanged()
-      .subscribe(language => {
-        this.translate.use(language);
-      });
+    this.settings$.pipe(
+      map(settings => settings.language),
+      filter(x => !!x),
+      distinctUntilChanged(),
+    )
+    .subscribe(language => {
+      this.translate.use(language);
+    });
 
     this.electronApp.connect();
     this.keybinder.connect();
 
-    this.windowIds$ = this.store.select('windows').map(windows => {
+    this.windowIds$ = this.store.select('windows').pipe(map(windows => {
       return Object.keys(windows);
-    });
+    }));
     this.store
       .subscribe(data => {
         this.windows = data.windows;
@@ -92,6 +98,7 @@ export class AppComponent {
         this.showDonationAlert = data.donation.showAlert;
 
         this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
+        this.showEditCollectionDialog = data.windowsMeta.showEditCollectionDialog;
 
         // Set the window IDs in the meta state if it does not already exist
         if (data.windowsMeta.windowIds) {
@@ -119,11 +126,11 @@ export class AppComponent {
   }
 
   /**
-   * Sets the default language from config
+   * Sets the default language
    */
   setDefaultLanguage(): void {
-    const defaultLanguage = config.default_language;
-    this.translate.setDefaultLang(defaultLanguage);
+    // Set fallback language to default.json
+    this.translate.setDefaultLang('default');
   }
 
   /**
@@ -154,7 +161,7 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().first().subscribe(({ windowId }) => {
+    this.windowService.newWindow().pipe(first()).subscribe(({ windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
     });
   }
@@ -190,11 +197,15 @@ export class AppComponent {
   }
 
   showSettingsDialog() {
-    this.store.dispatch(new settingsActions.ShowSettingsAction());
+    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true }));
   }
 
   hideSettingsDialog() {
-    this.store.dispatch(new settingsActions.HideSettingsAction());
+    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: false }));
+  }
+
+  setSettingsJson(settingsJson) {
+    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: settingsJson }));
   }
 
   setShowImportCurlDialog(value) {
@@ -272,6 +283,18 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
   }
 
+  toggleEditCollectionDialog({ collection }) {
+    this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
+    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
+  }
+
+  setShowEditCollectionDialog(value) {
+    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
+  }
+
+  updateCollection({ collection }) {
+    this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
+  }
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;

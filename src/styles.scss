@@ -1,12 +1,13 @@
-@import "scss/colors";
 @import "scss/variables";
-$clr-header-textColor: $white;
-@import "../node_modules/clarity-icons/clarity-icons.css";
+// $clr-header-textColor: $white;
+@import "../node_modules/@clr/icons/clr-icons.min.css";
 
-@import "../node_modules/codemirror/lib/codemirror.css";
-@import "../node_modules/codemirror/addon/fold/foldgutter.css";
-@import "../node_modules/codemirror/addon/hint/show-hint.css";
-@import "../node_modules/codemirror/addon/lint/lint.css";
+@import "~codemirror/lib/codemirror.css";
+@import "~codemirror/addon/fold/foldgutter.css";
+@import "~codemirror/addon/hint/show-hint.css";
+@import "~codemirror/addon/lint/lint.css";
+@import "~codemirror/addon/dialog/dialog.css";
+@import "~codemirror/addon/tern/tern.css";
 
 @import "~ngx-toastr/toastr.css";
 
@@ -17,7 +18,20 @@ $clr-header-textColor: $white;
   // Reset the imported modules for the new theme.
   // This is required because clarity uses the exports mixin mechanism to prevent loading components multiple times.
   // This prevents being able to include styles for the component in the new theme class.
-  $imported-modules: () !global;
-  @import "scss/framework.dark";
-  @import "scss/all";
+  // $imported-modules: () !global;
+
+  --theme-bg-color: var(--black-color);
+  --theme-off-bg-color: #3f4349;
+  --theme-font-color: var(--white-color);
+  --theme-off-font-color: var(--light-grey-color);
+  --theme-border-color: #565c64;
+  --theme-off-border-color: #565656;
+  --shadow-bg: rgba(0, 0, 0, 0.3);
+  --header-bg-color: var(--theme-off-bg-color);
+  // $clr-dropdown-bg-color: $theme-bg-color;
+  // $clr-dropdown-bg-hover-color: $theme-off-bg-color;
+  // $clr-dropdown-border-color: $theme-border-color;
+
+  // @import "scss/framework.dark";
+  // @import "scss/all";
 }

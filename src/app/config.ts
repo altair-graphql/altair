@@ -11,7 +11,7 @@ export default {
   add_query_depth_limit: 3,
   tab_size: 2,
   max_windows: isElectron ? 50 : 15,
-  default_language: isTranslateMode ? 'ach-UG' : 'default',
+  default_language: isTranslateMode ? 'ach-UG' : 'en-US',
   languages: {
     'en-US': 'English',
     'fr-FR': 'French',
@@ -20,7 +20,8 @@ export default {
     'de-DE': 'German',
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
-    'zh-CN': '中文'
+    'zh-CN': '中文',
+    'sr-SP': 'Serbian'
   },
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],

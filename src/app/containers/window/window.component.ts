@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -5,7 +7,7 @@ import {
   OnInit,
   ViewContainerRef
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
@@ -24,7 +26,7 @@ import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-window',
@@ -87,63 +89,64 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addQueryDepthLimit$ = this.store.select(state => state.settings.addQueryDepthLimit);
-    this.tabSize$ = this.store.select(state => state.settings.tabSize);
-    this.collections$ = this.store.select(state => state.collection.list);
+    this.addQueryDepthLimit$ = this.store.pipe(select(state => state.settings.addQueryDepthLimit));
+    this.tabSize$ = this.store.pipe(select(state => state.settings.tabSize));
+    this.collections$ = this.store.pipe(select(state => state.collection.list));
 
-    this.queryResult$ = this.getWindowState().select(fromRoot.getQueryResult);
-    this.showDocs$ = this.getWindowState().select(fromRoot.getShowDocs);
-    this.docsIsLoading$ = this.getWindowState().select(fromRoot.getDocsLoading);
-    this.headers$ = this.getWindowState().select(fromRoot.getHeaders);
-    this.variables$ = this.getWindowState().select(fromRoot.getVariables);
-    this.isLoading$ = this.getWindowState().select(fromRoot.getIsLoading);
-    this.introspection$ = this.getWindowState().select(fromRoot.getIntrospection);
-    this.allowIntrospection$ = this.getWindowState().select(fromRoot.allowIntrospection);
-    this.responseStatus$ = this.getWindowState().select(fromRoot.getResponseStatus);
-    this.responseTime$ = this.getWindowState().select(fromRoot.getResponseTime);
-    this.responseStatusText$ = this.getWindowState().select(fromRoot.getResponseStatusText);
-    this.isSubscribed$ = this.getWindowState().select(fromRoot.isSubscribed);
-    this.subscriptionResponses$ = this.getWindowState().select(fromRoot.getSubscriptionResponses);
-    this.selectedOperation$ = this.getWindowState().select(fromRoot.getSelectedOperation);
-    this.queryOperations$ = this.getWindowState().select(fromRoot.getQueryOperations);
+    this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
+    this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
+    this.docsIsLoading$ = this.getWindowState().pipe(select(fromRoot.getDocsLoading));
+    this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
+    this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
+    this.isLoading$ = this.getWindowState().pipe(select(fromRoot.getIsLoading));
+    this.introspection$ = this.getWindowState().pipe(select(fromRoot.getIntrospection));
+    this.allowIntrospection$ = this.getWindowState().pipe(select(fromRoot.allowIntrospection));
+    this.responseStatus$ = this.getWindowState().pipe(select(fromRoot.getResponseStatus));
+    this.responseTime$ = this.getWindowState().pipe(select(fromRoot.getResponseTime));
+    this.responseStatusText$ = this.getWindowState().pipe(select(fromRoot.getResponseStatusText));
+    this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
+    this.subscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getSubscriptionResponses));
+    this.selectedOperation$ = this.getWindowState().pipe(select(fromRoot.getSelectedOperation));
+    this.queryOperations$ = this.getWindowState().pipe(select(fromRoot.getQueryOperations));
 
-    this.store
-      .map(data => data.windows[this.windowId])
-      .distinctUntilChanged()
-      .subscribe(data => {
-        if (!data) {
-          return false;
+    this.store.pipe(
+      map(data => data.windows[this.windowId]),
+      distinctUntilChanged(),
+    )
+    .subscribe(data => {
+      if (!data) {
+        return false;
+      }
+
+      this.apiUrl = data.query.url;
+      this.query = data.query.query;
+      this.httpVerb = data.query.httpVerb;
+      this.showHeaderDialog = data.dialogs.showHeaderDialog;
+      this.showVariableDialog = data.dialogs.showVariableDialog;
+      this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
+      this.showHistoryDialog = data.dialogs.showHistoryDialog;
+      this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
+      this.windowTitle = data.layout.title;
+
+      this.subscriptionUrl = data.query.subscriptionUrl;
+      this.historyList = data.history.list;
+
+      // Schema needs to be valid instances of GQLSchema.
+      // Rehydrated schema objects are not valid, so we get the schema again.
+      if (this.gql.isSchema(data.schema.schema)) {
+        this.gqlSchema = data.schema.schema;
+      } else {
+        const schema = this.gql.getIntrospectionSchema(data.schema.introspection);
+        if (schema) {
+          this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
         }
+      }
 
-        this.apiUrl = data.query.url;
-        this.query = data.query.query;
-        this.httpVerb = data.query.httpVerb;
-        this.showHeaderDialog = data.dialogs.showHeaderDialog;
-        this.showVariableDialog = data.dialogs.showVariableDialog;
-        this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
-        this.showHistoryDialog = data.dialogs.showHistoryDialog;
-        this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
-        this.windowTitle = data.layout.title;
-
-        this.subscriptionUrl = data.query.subscriptionUrl;
-        this.historyList = data.history.list;
-
-        // Schema needs to be valid instances of GQLSchema.
-        // Rehydrated schema objects are not valid, so we get the schema again.
-        if (this.gql.isSchema(data.schema.schema)) {
-          this.gqlSchema = data.schema.schema;
-        } else {
-          const schema = this.gql.getIntrospectionSchema(data.schema.introspection);
-          if (schema) {
-            this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
-          }
-        }
-
-        if (!this.newCollectionQueryTitle) {
-          this.newCollectionQueryTitle = data.layout.title;
-        }
-        // console.log(data.query);
-      });
+      if (!this.newCollectionQueryTitle) {
+        this.newCollectionQueryTitle = data.layout.title;
+      }
+      // console.log(data.query);
+    });
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
@@ -316,8 +319,8 @@ export class WindowComponent implements OnInit {
     return index;
   }
 
-  getWindowState(): Store<fromRoot.PerWindowState> {
-    return this.store.select(fromRoot.selectWindowState(this.windowId));
+  getWindowState(): Observable<fromRoot.PerWindowState> {
+    return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 
   /**

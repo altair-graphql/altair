@@ -1,5 +1,5 @@
 .app-side-menu {
-  background: $theme-bg-color;
+  background: var(--theme-bg-color);
   flex: 0 0 auto;
   order: -1;
   display: flex;
@@ -27,19 +27,19 @@
   line-height: 50px;
   text-align: center;
   cursor: pointer;
-  color: $theme-font-color;
+  color: var(--theme-font-color);
   opacity: .5;
   transition: all .3s ease;
   &:hover {
     opacity: 1;
-    color: $theme-font-color;
+    color: var(--theme-font-color);
     .side-menu-item-label {
-      max-width: 300px;
+      // max-width: 300px;
+      opacity: 1;
     }
   }
   &--active {
     opacity: 1;
-    // background: rgba($theme-off-font-color, .1);
   }
 }
 .side-menu-item-label {
@@ -47,15 +47,16 @@
   top: 0;
   left: 45px;
   z-index: 4;
-  background: $theme-bg-color;
-  max-width: 0;
+  background: var(--theme-bg-color);
+  // max-width: 0;
+  opacity: 0;
   white-space: nowrap;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .side-menu-divider {
-  border: 1px solid $theme-off-bg-color;
+  border: 1px solid var(--theme-off-bg-color);
   margin: 10px 0;
   opacity: .5;
 }

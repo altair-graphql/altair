@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { ClarityModule } from 'clarity-angular';
-import { CodemirrorModule } from 'ng2-codemirror';
+import { ClarityModule } from '@clr/angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -26,6 +26,7 @@ import { VariablesEditorComponent } from './variables-editor/variables-editor.co
 import { QueryCollectionsComponent } from './query-collections/query-collections.component';
 import { QueryCollectionItemComponent } from './query-collection-item/query-collection-item.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -45,6 +46,7 @@ const COMPONENTS = [
   QueryCollectionsComponent,
   QueryCollectionItemComponent,
   DialogComponent,
+  EditCollectionDialogComponent,
 ];
 
 @NgModule({

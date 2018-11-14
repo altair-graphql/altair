@@ -27,27 +27,23 @@ layout: default
     </div>
   </div>
 
-  <div class="features">
+  <div class="learn-more-section">
     <div class="wrapper">
       <div class="row">
         <div class="column-12">
-          <ul class="features-list">
-            {% for feature in site.data.features %}
-            <li class="features-list--item">
-              <p class="features-list--item-title">{{ feature.title }}</p>
-              <p>{{ feature.content }}</p>
-            </li>
-          {% endfor %}
-          </ul>
+          <div class="learn-more-card">
+            <p class="learn-more-card--description">{{ site.learn_more | markdownify }}</p>
+
+            <div class="button-wrapper">
+              <a href="/features" class="btn">Learn More</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="action-btn-group">
-      <a track-category="dontate_to_open_collective" track-label="." href="https://opencollective.com/altair/donate" target="_blank">
-        <img src="https://opencollective.com/altair/donate/button@2x.png?color=blue" width=300 alt="donate" />
-      </a>
-    </div>
   </div>
+
+  {% include donate_button.html %}
 
   {% include landingfooter.html %}
 </div>
