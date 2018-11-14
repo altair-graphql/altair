@@ -4,6 +4,7 @@ const url = require('url');
 const fs = require('fs');
 const mime = require('mime-types');
 
+const { getStore } = require('./store');
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
 const { checkForUpdates } = require('./updates');
@@ -148,6 +149,20 @@ const createWindow = () => {
     });
 
     e.returnValue = true;
+  });
+
+  // Listen for the `get-file-opened` instruction,
+  // then retrieve the opened file from the store and send it to the instance.
+  // Then remove it from the store
+  ipcMain.on('get-file-opened', () => {
+    var store = getStore();
+    var openedFileContent = store.get('file-opened');
+    if (!openedFileContent) {
+      return;
+    }
+
+    instance.webContents.send('file-opened', openedFileContent);
+    store.delete('file-opened');
   });
 };
 

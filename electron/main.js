@@ -1,7 +1,9 @@
 const { app, protocol } = require('electron');
+const { readFileSync, readFile } = require('fs');
 const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
 const { instance, createWindow, getInstance } = require('./window');
+const { getStore } = require('./store');
 
 // require('electron-debug')();
 // try {
@@ -44,5 +46,14 @@ app.on('activate', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+app.on('will-finish-launching', function() {
+  app.on('open-file', function(ev, path) {
+    readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        return;
+      }
+
+      getStore().set('file-opened', data);
+    });
+  });
+});
