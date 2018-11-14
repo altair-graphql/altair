@@ -126,11 +126,11 @@ export class AppComponent {
   }
 
   /**
-   * Sets the default language from config
+   * Sets the default language
    */
   setDefaultLanguage(): void {
-    const defaultLanguage = config.default_language;
-    this.translate.setDefaultLang(defaultLanguage);
+    // Set fallback language to default.json
+    this.translate.setDefaultLang('default');
   }
 
   /**
