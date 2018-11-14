@@ -9,6 +9,7 @@ import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromSettings from '../../reducers/settings/settings';
 import * as fromCollection from '../../reducers/collection';
+import * as fromWindowsMeta from '../../reducers/windows-meta/windows-meta';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -38,6 +39,7 @@ export class AppComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
+  windowsMeta$: Observable<fromWindowsMeta.State>;
 
   windowIds = [];
   windows = {};
@@ -62,6 +64,7 @@ export class AppComponent {
   ) {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
+    this.windowsMeta$ = this.store.select('windowsMeta');
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -123,11 +126,11 @@ export class AppComponent {
   }
 
   /**
-   * Sets the default language from config
+   * Sets the default language
    */
   setDefaultLanguage(): void {
-    const defaultLanguage = config.default_language;
-    this.translate.setDefaultLang(defaultLanguage);
+    // Set fallback language to default.json
+    this.translate.setDefaultLang('default');
   }
 
   /**
@@ -194,11 +197,15 @@ export class AppComponent {
   }
 
   showSettingsDialog() {
-    this.store.dispatch(new settingsActions.ShowSettingsAction());
+    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true }));
   }
 
   hideSettingsDialog() {
-    this.store.dispatch(new settingsActions.HideSettingsAction());
+    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: false }));
+  }
+
+  setSettingsJson(settingsJson) {
+    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: settingsJson }));
   }
 
   setShowImportCurlDialog(value) {

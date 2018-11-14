@@ -2,10 +2,12 @@
 // $clr-header-textColor: $white;
 @import "../node_modules/@clr/icons/clr-icons.min.css";
 
-@import "../node_modules/codemirror/lib/codemirror.css";
-@import "../node_modules/codemirror/addon/fold/foldgutter.css";
-@import "../node_modules/codemirror/addon/hint/show-hint.css";
-@import "../node_modules/codemirror/addon/lint/lint.css";
+@import "~codemirror/lib/codemirror.css";
+@import "~codemirror/addon/fold/foldgutter.css";
+@import "~codemirror/addon/hint/show-hint.css";
+@import "~codemirror/addon/lint/lint.css";
+@import "~codemirror/addon/dialog/dialog.css";
+@import "~codemirror/addon/tern/tern.css";
 
 @import "~ngx-toastr/toastr.css";
 

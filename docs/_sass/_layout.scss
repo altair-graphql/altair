@@ -9,6 +9,11 @@
 
 $hero-height: 700px;
 
+.btn {
+  @extend %button;
+  margin-top: 20px;
+  font-size: 14px;
+}
 .action-btn-group {
   padding: 10px;
   text-align: center;
@@ -31,11 +36,6 @@ $hero-height: 700px;
     }
   }
 
-  .btn {
-    @extend %button;
-    margin-top: 20px;
-    font-size: 14px;
-  }
   .hero-cta{
     position: relative;
     height: inherit;
@@ -67,98 +67,11 @@ $hero-height: 700px;
     }
 
   }
-
-  .features{
-    .features-list {
-      display: block;
-      flex-wrap: wrap;
-      padding: 50px 0;
-      text-align: center;
-      justify-content: center;
-      @media #{$breakpoint-medium} {
-        display: flex;
-      }
-      &--item{
-        width: 100%;
-        list-style: none;
-        position: relative;
-        padding: 30px 20px 20px;
-        margin-bottom: 50px;
-        @media #{$breakpoint-medium} {
-          width: 33.33%;
-        }
-        &:before{
-          content: '';
-          display: block;
-          position: absolute;
-          left: 50%;
-          top: 0;
-          transform: translateX(-50%);
-          height: 20px;
-          width: 20px;
-          border-radius: 3px;
-          background: $primary-color;
-        }
-      }
-
-      &--item-title{
-        font-weight: 600;
-        font-size: 20px;
-        margin-bottom: 20px;
-      }
-    }
-  }
-
-  .releases {
-    background: $dark;
-    padding: 50px 0px;
-    color: $light;
-    text-align: center;
-    .heading{
-      padding: 10px 0px;
-      margin-bottom: 20px;
-      font-size: 30px;
-    }
-    .releases--latest-version {
-      display: block;
-      font-size: 16px;
-      font-weight: normal;
-    }
-
-    .platform {
-      position: relative;
-      &--unavailable{
-        opacity: .4;
-      }
-
-      &--name{
-        text-transform: capitalize;
-      }
-
-      &--extra {
-        position: absolute;
-        text-align: center;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        font-size: 14px;
-        opacity: .5;
-      }
-    }
-  }
 }
 
 .ns-updated {
   min-height: 100vh;
   background-image: url('../assets/img/hero_bg.png');
-  .logo-container {
-    text-align: center;
-    padding: 30px;
-    margin-bottom: 20px;
-  }
-  .logo {
-    max-width: 150px;
-  }
   .inner-container {
     margin: 0 auto;
     max-width: 700px;
@@ -195,5 +108,116 @@ $hero-height: 700px;
     color: $light;
     background: $dark;
     margin-bottom: 20px;
+  }
+}
+
+.logo-container {
+  text-align: center;
+  padding: 30px;
+  margin-bottom: 20px;
+  .logo {
+    max-width: 150px;
+  }
+}
+.features{
+  .features-list {
+    display: block;
+    flex-wrap: wrap;
+    padding: 50px 0;
+    text-align: center;
+    justify-content: center;
+    @media #{$breakpoint-medium} {
+      display: flex;
+    }
+    &--item{
+      width: 100%;
+      list-style: none;
+      position: relative;
+      padding: 30px 20px 20px;
+      margin-bottom: 50px;
+      @media #{$breakpoint-medium} {
+        width: 33.33%;
+      }
+      &:before{
+        content: '';
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        height: 20px;
+        width: 20px;
+        border-radius: 3px;
+        background: $primary-color;
+      }
+    }
+
+    &--item-title{
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}
+.releases {
+  background: $dark;
+  padding: 50px 0px;
+  color: $light;
+  text-align: center;
+  .heading{
+    padding: 10px 0px;
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+  .releases--latest-version {
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .platform {
+    position: relative;
+    &--unavailable{
+      opacity: .4;
+    }
+
+    &--name{
+      text-transform: capitalize;
+    }
+
+    &--extra {
+      position: absolute;
+      text-align: center;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 14px;
+      opacity: .5;
+    }
+  }
+}
+.learn-more-card {
+  margin: 0 auto;
+  max-width: 700px;
+  padding: 50px;
+  text-align: center;
+  // background: $primary-color;
+  // color: white;
+}
+.video-wrapper {
+  margin: 0 auto;
+  max-width: 700px;
+  .video-wrapper-inner {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 }

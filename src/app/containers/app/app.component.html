@@ -145,9 +145,11 @@
     </div>
     <div class="dialogs">
       <app-settings-dialog
+        [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
         [settings]="settings$ | async"
         [appVersion]="appVersion"
         (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
+        (settingsJsonChange)="setSettingsJson($event)"
         (themeChange)="onThemeChange($event)"
         (languageChange)="onLanguageChange($event)"
         (addQueryDepthLimitChange)="onAddQueryDepthLimitChange($event)"
