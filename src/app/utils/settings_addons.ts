@@ -1,14 +1,11 @@
 import * as Codemirror from 'codemirror';
-import { jsonc } from '.';
-import * as Ajv from 'ajv';
+import { jsonc } from '../utils';
 
-const ajv = new Ajv({ removeAdditional: true });
-
-const settingsSchema = require('./settings.schema.json');
+const settingsValidator = require('./validate_settings_schema');
 
 export const validateSettings = settings => {
   const data = jsonc(settings);
-  const valid = ajv.validate(settingsSchema, data);
+  const valid = settingsValidator(data);
 
   return valid;
 };
@@ -20,7 +17,7 @@ export const registerSettingsLinter = CM => {
       if (!validateSettings(text)) {
         found = [
           ...found,
-          ...ajv.errors.map(error => {
+          ...settingsValidator.errors.map(error => {
             let message = `[${error.keyword}] '${error.dataPath.substring(1)}' ${error.message}`;
 
             if (error.params && error.params['allowedValues']) {
@@ -36,7 +33,7 @@ export const registerSettingsLinter = CM => {
       }
       // console.log(valid, ajv.errors, text);
     } catch (error) {
-      // console.log(error);
+      console.log(text, error);
       found.push({
         from: CM.Pos(1, 1),
         to: CM.Pos(1, 1),
@@ -116,13 +113,13 @@ export const getHint = (cm) => {
     before = currentWord.substr(0, 1);
     after = currentWord.substr(-1, 1);
   }
-  const fullList = Object.keys(settingsSchema.properties)
+  const fullList = Object.keys(settingsValidator.schema.properties)
     .map(item => ({
-      ...settingsSchema.properties[item],
+      ...settingsValidator.schema.properties[item],
       text: `${before}${item}${after}`,
       displayText: item,
-      description: settingsSchema.properties[item].description
-        + '\nType: ' + getPropertyType(settingsSchema.properties[item], settingsSchema)
+      description: settingsValidator.schema.properties[item].description
+        + '\nType: ' + getPropertyType(settingsValidator.schema.properties[item], settingsValidator.schema)
     }));
   const list = fullList
     .filter(item => item.displayText.indexOf(currentWord.replace(new RegExp(`(^${before})|(${after}$)`, 'g'), '')) > -1);

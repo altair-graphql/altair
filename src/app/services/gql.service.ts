@@ -10,9 +10,10 @@ import * as prettierGraphql from 'prettier/parser-graphql';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
-import { buildClientSchema, parse, print, GraphQLSchema, printSchema, introspectionQuery } from 'graphql';
+import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
+import { NotifyService } from './notify/notify.service';
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 
@@ -30,7 +31,8 @@ export class GqlService {
   introspectionData = {};
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private notifyService: NotifyService
   ) {
 
     // Set the default headers on initialization
@@ -138,7 +140,7 @@ export class GqlService {
     const currentApiUrl = this.api_url;
 
     this.api_url = url;
-    return this.send(introspectionQuery).pipe(
+    return this.send(getIntrospectionQuery()).pipe(
       map(data => {
         console.log('introspection', data.data);
         return data.data;
@@ -172,6 +174,8 @@ export class GqlService {
       return null;
     } catch (err) {
       console.error('Bad introspection data.', err);
+      this.notifyService
+        .error('Looks like the GraphQL schema is invalid. Please check that your schema conforms to the latest GraphQL spec.');
       return null;
     }
   }

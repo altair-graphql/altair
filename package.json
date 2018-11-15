@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -19,7 +19,7 @@
     "start": "ng serve",
     "start:prod": "node server",
     "start:prod:translate": "node server --translate",
-    "build": "npm run generate-settings-schema && ng build --prod --aot --stats-json",
+    "build": "npm run generate-settings-schema-validator && ng build --prod --aot --stats-json",
     "test": "ng test",
     "test-single-run": "ng test --watch=false --code-coverage",
     "test-build": "ng lint && npm run build && npm run test-single-run",
@@ -33,11 +33,13 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "dist-electron": "build",
-    "postinstall": "opencollective postinstall",
+    "postinstall": "npm run generate-settings-schema-validator && opencollective postinstall",
     "lerna-version": "lerna version --no-git-tag-version --no-push --force-publish",
     "lerna-publish": "lerna publish --force-publish",
     "publish-packages": "npm run build && lerna bootstrap && npm run lerna-publish",
-    "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json"
+    "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json",
+    "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
+    "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -122,6 +124,7 @@
     "@types/jasmine": "2.8.10",
     "@types/mousetrap": "^1.6.0",
     "@types/node": "10.12.9",
+    "ajv-cli": "^3.0.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
