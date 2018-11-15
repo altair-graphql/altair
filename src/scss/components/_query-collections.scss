@@ -46,7 +46,7 @@ app-query-collections {
 }
 
 .query-collections__items-wrapper {
-  font-size: 13px;
+  font-size: calc((13 / var(--baseline-size)) * 1rem);
 }
 
 .query-collections__empty {
@@ -90,14 +90,14 @@ app-query-collections {
   font-weight: bold;
 }
 .query-collections__item-description {
-  font-size: 12px;
+  font-size: calc((12 / var(--baseline-size)) * 1rem);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   // max-height: 50px;
 }
 .query-collections__item-meta {
-  font-size: 12px;
+  font-size: calc((12 / var(--baseline-size)) * 1rem);
 }
 .query-collections__item-content-wrapper {
   overflow: hidden;

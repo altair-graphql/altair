@@ -75,6 +75,10 @@
   --rgb-theme-off-font: var(--rgb-dark-grey);
   --rgb-theme-border: var(--rgb-grey);
   --rgb-theme-off-border: var(--rgb-light-grey);
+
+  --baseline-size: 24;
+  --rem-base: var(--baseline-size);
+  --body-font-size: 14;
 }
 
 $black: #33363B;

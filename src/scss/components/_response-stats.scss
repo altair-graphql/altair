@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   padding: 10px;
-  font-size: 12px;
+  font-size: calc((12 / var(--baseline-size)) * 1rem);
   color: var(--theme-font-color);
 }
 .response-stats__item {
@@ -25,7 +25,7 @@
   display: inline-block;
 }
 .response-stats__download-result-link {
-  font-size: 12px;
+  font-size: calc((12 / var(--baseline-size)) * 1rem);
   border: none;
   background: transparent;
   color: $blue;

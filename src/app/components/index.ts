@@ -8,6 +8,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { SharedModule } from '../shared/shared.module';
 
 import { PipesModule } from '../pipes';
+import { DirectivesModule } from '../directives';
 
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
@@ -55,10 +56,11 @@ const COMPONENTS = [
     FormsModule,
     CodemirrorModule,
     PipesModule,
+    DirectivesModule,
     SharedModule,
     ClarityModule,
   ],
   declarations: COMPONENTS,
-  exports: [...COMPONENTS ]
+  exports: [ ...COMPONENTS ]
 })
 export class ComponentModule {}

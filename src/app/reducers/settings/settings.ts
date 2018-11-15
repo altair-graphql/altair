@@ -40,6 +40,12 @@ export interface State {
 
   // 'theme.foreground': string;
   // 'theme.header.background': string;
+
+  /**
+   * Specifies the base font size
+   * Default size: 24
+   */
+  'theme.fontsize'?: number;
 }
 
 const initialState: State = {
@@ -52,7 +58,7 @@ const initialState: State = {
 export function settingsReducer(state = initialState, action: settings.Action): State {
   switch (action.type) {
     case settings.SET_SETTINGS_JSON:
-      const newState = { ...state, ...jsonc(action.payload.value) };
+      const newState = { ...initialState, ...jsonc(action.payload.value) };
 
       // Removes old isShown state
       delete newState.isShown;

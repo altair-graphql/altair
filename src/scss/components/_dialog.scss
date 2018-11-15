@@ -7,12 +7,12 @@
 .app-dialog-header{
   margin-bottom: 30px;
   color: var(--theme-font-color);
-  font-size: 14px;
+  font-size: calc((14 / var(--baseline-size)) * 1rem);
 }
 .app-dialog-title{
   color: $green;
   font-weight: bold;
-  font-size: 14px;
+  font-size: calc((14 / var(--baseline-size)) * 1rem);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -30,7 +30,7 @@
 
 .dialog-select, .dialog-input {
   display: block;
-  font-size: 14px;
+  font-size: calc((14 / var(--baseline-size)) * 1rem);
   padding: 5px 0;
   line-height: 1;
   border: none;
@@ -67,7 +67,7 @@
   padding: 0 10px;
 }
 .set-header-input, .dialog-input {
-  font-size: 14px;
+  font-size: calc((14 / var(--baseline-size)) * 1rem);
   padding: 5px 0;
   line-height: 1;
   border: none;
@@ -78,7 +78,7 @@
   }
 }
 .header-input-remove-button {
-  font-size: 16px;
+  font-size: calc((16 / var(--baseline-size)) * 1rem);
   background: transparent;
   border: none;
   cursor: pointer;

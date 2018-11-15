@@ -6,13 +6,18 @@ const ajv = new Ajv({ removeAdditional: true });
 
 const settingsSchema = require('./settings.schema.json');
 
+export const validateSettings = settings => {
+  const data = jsonc(settings);
+  const valid = ajv.validate(settingsSchema, data);
+
+  return valid;
+};
+
 export const registerSettingsLinter = CM => {
   CM.registerHelper('lint', 'json', function(text) {
     let found = [];
     try {
-      const data = jsonc(text);
-      const valid = ajv.validate(settingsSchema, data);
-      if (!valid) {
+      if (!validateSettings(text)) {
         found = [
           ...found,
           ...ajv.errors.map(error => {

@@ -16,7 +16,7 @@
   .toast-title {
     line-height: 1.2;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: calc((14 / var(--baseline-size)) * 1rem);
     letter-spacing: .5px;
     margin-bottom: 3px;
   }
@@ -26,6 +26,6 @@
     transition: all .3s ease;
   }
   .toast-message {
-    font-size: 13px;
+    font-size: calc((13 / var(--baseline-size)) * 1rem);
   }
 }

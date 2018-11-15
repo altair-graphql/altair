@@ -10,7 +10,7 @@ button{
     border-radius: 4px;
 }
 .app-button{
-    font-size: 14px;
+    font-size: calc((14 / var(--baseline-size)) * 1rem);
     border: 0;
     padding: 0 20px;
     line-height: 40px;
@@ -54,7 +54,7 @@ button{
     margin: 10px 0;
 }
 .subscription-button {
-    font-size: 14px;
+    font-size: calc((14 / var(--baseline-size)) * 1rem);
     border: 0;
     padding: 0 15px;
     line-height: 25px;

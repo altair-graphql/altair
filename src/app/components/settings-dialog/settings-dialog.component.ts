@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 
 import * as fromSettings from '../../reducers/settings/settings';
 
@@ -14,7 +14,7 @@ import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
-import { registerSettingsLinter, getHint } from 'app/utils/settings_addons';
+import { registerSettingsLinter, getHint, validateSettings } from 'app/utils/settings_addons';
 
 registerSettingsLinter(Codemirror);
 
@@ -23,7 +23,7 @@ registerSettingsLinter(Codemirror);
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss']
 })
-export class SettingsDialogComponent implements OnInit, AfterViewInit {
+export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() settings: fromSettings.State;
   @Input() appVersion: string;
@@ -70,6 +70,15 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    if (this.editor.codeMirror) {
+      this.editor.codeMirror.refresh();
+    }
+  }
+
   showHint(cm) {
     cm.showHint({ hint: getHint, completeSingle: false });
   }
@@ -79,8 +88,10 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit {
   }
 
   saveSettings() {
-    this.settingsJsonChange.next(this.jsonSettings);
-    this.toggleDialogChange.next(false);
+    if (validateSettings(this.jsonSettings)) {
+      this.settingsJsonChange.next(this.jsonSettings);
+      this.toggleDialogChange.next(false);
+    }
   }
 
   onSelectTheme(theme) {

@@ -26,6 +26,7 @@ import { QueryEffects } from './effects/query';
 import { WindowsEffects } from './effects/windows';
 import { QueryCollectionEffects } from './effects/query-collection';
 
+import { DirectivesModule } from './directives';
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 
@@ -79,6 +80,7 @@ const providers = [
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
+    DirectivesModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
     EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects ]),
     StoreDevtoolsModule.instrument(),

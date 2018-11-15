@@ -1,4 +1,4 @@
-<div class="app-wrapper" [ngClass]="(settings$ | async).theme + '-theme'" dnd-droppable (onDropSuccess)="fileDropped($event)">
+<div class="app-wrapper" [appSetCssVariables]="{ '--rem-base': (settings$ | async)['theme.fontsize'] }" [ngClass]="(settings$ | async).theme + '-theme'" dnd-droppable (onDropSuccess)="fileDropped($event)">
   <div class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
