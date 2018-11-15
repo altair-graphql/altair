@@ -207,20 +207,28 @@ export class WindowService {
   }
 
   /**
+   * Parse data and import as identified type
+   * @param dataStr data
+   */
+  importStringData(dataStr) {
+    try {
+      const parsed = JSON.parse(dataStr);
+
+      if (parsed.type === 'window') {
+        this.importWindowData(parsed);
+      }
+    } catch (err) {
+      console.log('There was an issue importing the file.');
+    }
+  }
+
+  /**
    * Handle the imported file
    * @param files FilesList object
    */
   handleImportedFile(files) {
     getFileStr(files).then((dataStr: string) => {
-      try {
-        const parsed = JSON.parse(dataStr);
-
-        if (parsed.type === 'window') {
-          this.importWindowData(parsed);
-        }
-      } catch (err) {
-        console.log('There was an issue importing the file.');
-      }
+      this.importStringData(dataStr);
     });
   }
 }
