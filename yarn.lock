@@ -983,9 +983,9 @@
   version "10.11.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.3.tgz#c055536ac8a5e871701aa01914be5731539d01ee"
 
-"@types/node@10.12.6":
-  version "10.12.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.6.tgz#7fc213c1b811c90fc9a3edb6206742b95d697678"
+"@types/node@10.12.9":
+  version "10.12.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.9.tgz#a07bfa74331471e1dc22a47eb72026843f7b95c8"
 
 "@types/node@^10.11.7":
   version "10.12.1"
@@ -7392,7 +7392,7 @@ karma-coverage-istanbul-reporter@^2.0.0:
     istanbul-api "^2.0.5"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@^1.1.0:
+karma-jasmine-html-reporter@1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.3.1.tgz#17db92e76ecbce97b281c97c9ac3d8b1723848f9"
 
