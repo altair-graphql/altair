@@ -56,6 +56,16 @@ export class QueryCollectionService {
     return observableFrom(this.storage.queryCollections.delete(collectionId));
   }
 
+  updateCollection(collectionId: number, modifiedCollection: IQueryCollection) {
+    return observableFrom(
+      this.storage.queryCollections.where('id').equals(collectionId).modify((collection, ctx) => {
+        console.log('We update.');
+        ctx.value = modifiedCollection;
+        ctx.value.updated_at = this.storage.now();
+      })
+    );
+  }
+
   getAll() {
     return observableFrom(this.storage.queryCollections.toArray());
   }

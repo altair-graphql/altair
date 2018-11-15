@@ -8,23 +8,30 @@
 
   .header-nav {
     .nav-link {
-      color: $theme-font-color;
+      color: var(--theme-font-color);
     }
+  }
+
+  .header-actions > .dropdown > .dropdown-toggle {
+    color: var(--theme-font-color);
   }
 }
 
 .modal-backdrop {
-  background: $theme-bg-color;
+  background: var(--theme-bg-color);
 }
 
 .modal-dialog .modal-content {
-  box-shadow: 0 5px 12px 2px $modal-shadow-color;
+  background: var(--theme-bg-color);
+  box-shadow: 0 5px 12px 2px var(--shadow-bg);
 }
 
 .dropdown-menu {
+  background: var(--theme-bg-color);
   padding: 0;
 
   .dropdown-item {
-    padding: 1px 15px 0;
+    color: var(--theme-font-color);
+    // padding: 1px 15px 0;
   }
 }

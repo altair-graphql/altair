@@ -5,21 +5,21 @@ app-window-switcher {
   flex: 1 1 auto;
   overflow: auto;
 
-  $shadow-height: 100%;
-  $shadow-color: rgba(0, 0, 0, 0.1);
-  $shadow-weight: 9px;
+  --shadow-height: 100%;
+  // --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-weight: 9px;
 
   background:
       //Left start and right start 'inside' container colors (they overlap the shadows)
-      linear-gradient(90deg, $clr-header-bgColor 0%, rgba(255, 255, 255, 0)),
-      linear-gradient(-90deg, $clr-header-bgColor 0%, rgba(255, 255, 255, 0)) 100% 0,
+      linear-gradient(90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)),
+      linear-gradient(-90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)) 100% 0,
       //Left and right scroll shadows
-      linear-gradient(90deg, $shadow-color, rgba(0, 0, 0, 0)),
-      linear-gradient(-90deg, $shadow-color, rgba(0, 0, 0, 0)) 100% 0;
+      linear-gradient(90deg, var(--shadow-bg), rgba(0, 0, 0, 0)),
+      linear-gradient(-90deg, var(--shadow-bg), rgba(0, 0, 0, 0)) 100% 0;
 
   background-repeat: no-repeat;
-  background-color: $clr-header-bgColor;
-  background-size: 100px 100%, 100px 100%, $shadow-weight $shadow-height, $shadow-weight $shadow-height;
+  background-color: var(--header-bg-color);
+  background-size: 100px 100%, 100px 100%, var(--shadow-weight) var(--shadow-height), var(--shadow-weight) var(--shadow-height);
   background-attachment: local, local, scroll, scroll;
 
 
@@ -28,7 +28,7 @@ app-window-switcher {
     height: 0px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: $theme-bg-color;
+    background-color: var(--theme-bg-color);
   }
   &::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -40,14 +40,14 @@ app-window-switcher {
   border-bottom: 2px solid transparent;
   &:hover{
     // color: $green;
-    border-bottom-color: $theme-border-color;
+    border-bottom-color: var(--theme-border-color);
     .window-switcher__close{
       opacity: 1;
     }
   }
   &.active{
     // color: $green;
-    border-bottom-color: $green;
+    border-bottom-color: var(--green-color);
     // background: $white;
     // box-shadow: 0 0 5px rgba($black, .2);
     // .window-switcher__close{
@@ -60,7 +60,7 @@ app-window-switcher {
   padding-right: 4px;
 
   &:focus{
-    outline: 1px solid $orange;
+    outline: 1px solid var(--orange-color);
   }
 }
 .window-switcher__close{
@@ -76,11 +76,11 @@ app-window-switcher {
   transition: all .3s ease;
   line-height: 1;
   &:hover {
-    color: $red;
+    color: var(--red-color);
   }
 }
 .header-nav .nav-link.window-switcher--new-window {
   &:hover {
-    color: $green;
+    color: var(--green-color);
   }
 }

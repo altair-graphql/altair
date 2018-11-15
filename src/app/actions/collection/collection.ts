@@ -7,6 +7,8 @@ export const DELETE_QUERY_FROM_COLLECTION = 'DELETE_QUERY_FROM_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const SET_COLLECTIONS = 'SET_COLLECTIONS';
 export const LOAD_COLLECTIONS = 'LOAD_COLLECTIONS';
+export const SET_ACTIVE_COLLECTION = 'SET_ACTIVE_COLLECTION';
+export const UPDATE_COLLECTION = 'UPDATE_COLLECTION';
 
 export class CreateCollectionAndSaveQueryToCollectionAction implements Action {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
@@ -36,6 +38,18 @@ export class SetCollectionsAction implements Action {
   constructor(public payload: { collections: any[] }) {}
 }
 
+export class SetActiveCollectionAction implements Action {
+  readonly type = SET_ACTIVE_COLLECTION;
+
+  constructor(public payload: { collection: any }) {}
+}
+
+export class UpdateCollectionAction implements Action {
+  readonly type = UPDATE_COLLECTION;
+
+  constructor(public payload: { collectionId: number, collection: any }) {}
+}
+
 export class LoadCollectionsAction implements Action {
   readonly type = LOAD_COLLECTIONS;
 
@@ -43,9 +57,11 @@ export class LoadCollectionsAction implements Action {
 }
 
 export type Action =
-  CreateCollectionAndSaveQueryToCollectionAction |
-  SaveQueryToCollectionAction |
-  DeleteQueryFromCollectionAction |
-  DeleteCollectionAction |
-  SetCollectionsAction |
-  LoadCollectionsAction;
+  | CreateCollectionAndSaveQueryToCollectionAction
+  | SaveQueryToCollectionAction
+  | DeleteQueryFromCollectionAction
+  | DeleteCollectionAction
+  | SetCollectionsAction
+  | SetActiveCollectionAction
+  | UpdateCollectionAction
+  | LoadCollectionsAction;

@@ -86,6 +86,19 @@ export class QueryCollectionEffects {
     }));
 
   @Effect()
+  updateCollection$: Observable<Action> = this.actions$
+    .ofType(collectionActions.UPDATE_COLLECTION)
+    .pipe(
+      switchMap((action: collectionActions.UpdateCollectionAction) => {
+        return this.collectionService.updateCollection(action.payload.collectionId, action.payload.collection)
+          .pipe(
+            tap(() => this.notifyService.success('Updated collection.')),
+            map(() => new collectionActions.LoadCollectionsAction()),
+          )
+      })
+    )
+
+  @Effect()
   deleteCollection$: Observable<Action> = this.actions$
     .ofType(collectionActions.DELETE_COLLECTION).pipe(
     switchMap((action: collectionActions.DeleteCollectionAction) => {

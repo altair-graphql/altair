@@ -1,25 +1,26 @@
-$result-default: $theme-font-color;
-$result-string: $red;
 
 .CodeMirror{
+    --result-default: var(--theme-font-color);
+    --result-string: var(--red-color);
+
     height: 100%;
     width: 100%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4;
     background: transparent;
     pre {
-      color: $theme-font-color;
+      color: var(--theme-font-color);
     }
 }
 .CodeMirror-cursor{
-    border-left-color: $blue;
+    border-left-color: var(--blue-color);
 }
 .CodeMirror-gutters{
     background: transparent;
     border: 0;
 }
 .CodeMirror-foldmarker{
-    color: $theme-font-color;
+    color: var(--theme-font-color);
     text-shadow: none;
 }
 .CodeMirror-scroll {
@@ -29,86 +30,113 @@ $result-string: $red;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: $theme-off-bg-color;
+    background-color: var(--theme-off-bg-color);
   }
 }
 // .CodeMirror-lint-mark-error{
 //     border-bottom: 1px dotted #f00;
 // }
 .CodeMirror-lint-tooltip{
-    background: $theme-bg-color;
-    border: 1px solid $theme-off-border-color;
-    box-shadow: 0 2px 12px -2px rgba($black, .05);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-off-border-color);
+    box-shadow: 0 2px 12px -2px rgba(var(--rgb-black), .05);
     border-radius: 5px;
-    color: $theme-font-color;
+    color: var(--theme-font-color);
     padding: 10px;
     font-family: sans-serif;
+    z-index: 1050;
+}
+.CodeMirror-Tern-tooltip {
+    z-index: 1050;
 }
 .CodeMirror-hints{
     font-family: inherit;
-    box-shadow: 0 0 5px rgba($black, .1);
+    box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
+    z-index: 1050;
 }
 .CodeMirror-hint {
     line-height: 1.4;
     padding: 5px 10px;
     min-width: 100px;
+    &.CodeMirror-Tern-completion {
+        padding-left: 25px;
+        &:before {
+            left: 5px;
+            bottom: 5px;
+        }
+    }
 }
 .cm-s-default{
     .cm-atom{
-        color: $theme-font-color;
+        color: var(--theme-font-color);
     }
     .cm-attribute{
-        color: $green;
+        color: var(--green-color);
     }
     .cm-string{
-        color: $theme-font-color;
+        color: var(--theme-font-color);
     }
     .cm-property{
-        color: $blue;
+        color: var(--blue-color);
     }
     .cm-punctuation{
-        color: $blue;
+        color: var(--blue-color);
     }
     .cm-keyword{
-        color: $blue;
+        color: var(--blue-color);
         font-weight: bold;
     }
     .cm-comment{
-        color: $dark-grey;
+        color: var(--dark-grey-color);
     }
     .cm-def{
-        color: $orange;
+        color: var(--orange-color);
     }
 }
 .cm-s-query-result{
     .cm-attribute{
-        color: $result-default;
+        color: var(--result-default);
     }
     .cm-string{
-        color: $result-string;
+        color: var(--result-string);
     }
     .cm-property{
-        color: $result-default;
+        color: var(--result-default);
     }
     .cm-punctuation{
-        color: $result-default;
+        color: var(--result-default);
     }
 }
 .cm-s-variable-editor{
-    background: $theme-off-bg-color;
+    background: var(--theme-off-bg-color);
     .CodeMirror-scroll{
         min-height: 200px;
     }
     .cm-attribute{
-        color: $result-default;
+        color: var(--result-default);
     }
     .cm-string{
-        color: $result-string;
+        color: var(--result-string);
     }
     .cm-property{
-        color: $result-default;
+        color: var(--result-default);
     }
     .cm-punctuation{
-        color: $result-default;
+        color: var(--result-default);
+    }
+}
+.cm-s-settings-editor {
+    line-height: 2;
+    pre {
+        color: var(--theme-off-font-color);
+    }
+    .cm-string {
+        color: var(--theme-font-color);
+    }
+    .cm-property {
+        color: var(--orange-color);
+    }
+    .cm-number {
+        color: var(--green-color);
     }
 }
