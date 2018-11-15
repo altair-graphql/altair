@@ -13,7 +13,7 @@ $url-input-height: 50px;
 .url-box__input {
   height: $url-input-height;
   line-height: $url-input-height;
-  font-size: calc((14 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(14);
   border: 1px solid var(--theme-border-color);
   box-shadow: 0 4px 30px rgba(var(--rgb-black), .05);
   padding: 0 15px;

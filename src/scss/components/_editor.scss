@@ -19,7 +19,7 @@ app-query-editor {
   top: 0;
   height: 100%;
   width: 100%;
-  font-size: calc((14 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(14);
   border: 0;
   padding: 0;
   resize: none;
@@ -58,12 +58,12 @@ app-query-editor {
   text-align: center;
   height: 100%;
   width: 100%;
-  font-size: calc((24 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(24);
   font-weight: bold;
   color: var(--theme-off-font-color);
 }
 .query-result__none-subtext{
-  font-size: calc((16 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(16);
   margin-bottom: 10px;
 }
 .query-result__none-inner{
@@ -112,14 +112,14 @@ app-query-editor {
 .subscription-result__actions-url {
   display: inline-block;
   vertical-align: middle;
-  font-size: calc((13 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(13);
 }
 .subscription-result__list-wrapper {
   padding: 0 10px;
 }
 .subscription-result__list-item {
   position: relative;
-  font-size: calc((12 / var(--baseline-size)) * 1rem);
+  font-size: fontsize(12);
   margin-bottom: 10px;
 }
 .subscription-result__list-item--expanded {
@@ -151,7 +151,7 @@ app-query-editor {
   &--title {
     text-transform: uppercase;
     padding: 0 15px;
-    font-size: calc((13 / var(--baseline-size)) * 1rem);
+    font-size: fontsize(13);
     font-weight: 700;
     cursor: pointer;
   }

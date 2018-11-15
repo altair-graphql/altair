@@ -1,0 +1,3 @@
+@function fontsize($size) {
+  @return calc((#{$size} / var(--baseline-size)) * 1rem);
+}
