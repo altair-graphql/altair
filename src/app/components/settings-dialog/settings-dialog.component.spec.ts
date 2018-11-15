@@ -6,6 +6,8 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
+import { NotifyService } from 'app/services';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -18,7 +20,11 @@ describe('SettingsDialogComponent', () => {
         FormsModule,
         CodemirrorModule,
         ClarityModule,
+        ToastrModule.forRoot(),
         TranslateModule.forRoot()
+      ],
+      providers: [
+        NotifyService
       ]
     })
     .compileComponents();

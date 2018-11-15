@@ -17,6 +17,8 @@ import { ComponentModule } from './../../components';
 
 import { AppComponent } from './app.component';
 import { WindowComponent } from '../window/window.component';
+import { DirectivesModule } from 'app/directives';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,6 +30,7 @@ describe('AppComponent', () => {
       services.DonationService,
       services.ElectronAppService,
       services.KeybinderService,
+      services.NotifyService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
@@ -55,6 +58,8 @@ describe('AppComponent', () => {
         StoreModule,
         CodemirrorModule,
         ClarityModule,
+        DirectivesModule,
+        ToastrModule.forRoot(),
         ComponentModule,
         DocViewerModule,
         TranslateModule.forRoot()
