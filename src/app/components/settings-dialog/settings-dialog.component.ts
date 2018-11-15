@@ -15,6 +15,7 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
 import { registerSettingsLinter, getHint, validateSettings } from 'app/utils/settings_addons';
+import { NotifyService } from 'app/services';
 
 registerSettingsLinter(Codemirror);
 
@@ -58,7 +59,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     }
   };
 
-  constructor() {}
+  constructor(private notifyService: NotifyService) {}
 
   ngOnInit() {
   }
@@ -91,6 +92,8 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     if (validateSettings(this.jsonSettings)) {
       this.settingsJsonChange.next(this.jsonSettings);
       this.toggleDialogChange.next(false);
+    } else {
+      this.notifyService.error('Check that the settings are correct.');
     }
   }
 
