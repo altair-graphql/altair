@@ -70,7 +70,6 @@
     "@ngui/auto-complete": "^2.0.0",
     "@ngx-translate/core": "^11.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
-    "@swimlane/ngx-dnd": "^5.1.0",
     "@webcomponents/custom-elements": "^1.0.6",
     "ajv": "^6.5.5",
     "angular-sortablejs": "^2.5.1",

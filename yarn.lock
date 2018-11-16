@@ -935,12 +935,6 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@swimlane/ngx-dnd@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@swimlane/ngx-dnd/-/ngx-dnd-5.1.0.tgz#f30c120ed8a9a362d36f373d2244ea323d58d5fe"
-  dependencies:
-    tslib "^1.9.0"
-
 "@types/chrome@^0.0.74":
   version "0.0.74"
   resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.74.tgz#f69827c48fcf7fecc90c96089807661749a5a5e3"
