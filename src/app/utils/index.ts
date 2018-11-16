@@ -1,6 +1,8 @@
 import * as toSnakeCase from 'to-snake-case';
 import * as downloadJs from 'downloadjs';
 import * as parseCurl from 'parse-curl';
+import * as FileSaver from 'file-saver';
+import * as commentRegex from 'comment-regex';
 import is_electron from './is_electron';
 const curlup = require('curlup');
 const fileDialog = require('file-dialog');
@@ -23,7 +25,10 @@ export const downloadData = (data, fileName = 'data', opts = undefined) => {
   }
 
   const dataStr = `data:${_opts.dataUriAttr},${data}`;
-  downloadJs(dataStr, `${toSnakeCase(fileName)}.${_opts.fileType}`, _opts.mimeType);
+  const fileNameWithExt = `${toSnakeCase(fileName)}.${_opts.fileType}`;
+  const fileBlob = new Blob([data], {type: _opts.dataUriAttr});
+  FileSaver.saveAs(fileBlob, fileNameWithExt);
+  // downloadJs(dataStr, fileNameWithExt, _opts.mimeType);
   // const downloadLink = document.createElement('a');
   // const linkText = document.createTextNode('Download');
   // downloadLink.appendChild(linkText);
@@ -101,4 +106,18 @@ export const detectEnvironment = () => {
   }
 
   return 'other';
+};
+
+/**
+ * Parse JSON with comments
+ * @param str
+ */
+export const jsonc = (str: string) => {
+  str = str.trim();
+  str = str.replace(commentRegex(), '');
+
+  if (!str) {
+    return {};
+  }
+  return JSON.parse(str);
 };

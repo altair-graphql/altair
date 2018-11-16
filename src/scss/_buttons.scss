@@ -1,15 +1,22 @@
+
+button{
+    cursor: pointer;
+    &:focus{
+        outline: 0;
+    }
+}
 .icon-button {
     border: 0;
     border-radius: 4px;
 }
 .app-button{
-    font-size: 14px;
+    font-size: fontsize(14);
     border: 0;
     padding: 0 20px;
     line-height: 40px;
     height: 40px;
     background: transparent;
-    color: $green;
+    color: var(--green-color);
     vertical-align: middle;
     cursor: pointer;
     letter-spacing: normal;
@@ -21,19 +28,23 @@
         vertical-align: middle;
     }
     &:hover{
-        background: $theme-off-bg-color;
+        background: var(--theme-off-bg-color);
     }
     &:focus{
         outline: 0;
     }
     &.active-grey{
-        background: $theme-off-bg-color;
+        background: var(--theme-off-bg-color);
     }
     &.active-primary{
-        background: $green;
-        color: $white;
+        background: var(--green-color);
+        color: var(--white-color);
         &:hover{
-            background: lighten($green, 5%);
+            // TODO: Figure out how to transition CSS gradients for the button hover effect
+            background-image: linear-gradient(
+                rgba(255,255,255,0.2),
+                rgba(255,255,255,0.2)
+            );
         }
     }
 }
@@ -43,7 +54,7 @@
     margin: 10px 0;
 }
 .subscription-button {
-    font-size: 14px;
+    font-size: fontsize(14);
     border: 0;
     padding: 0 15px;
     line-height: 25px;
@@ -53,10 +64,14 @@
     border-radius: 4px;
 }
 .subscription-button--stop {
-    background: $red;
-    color: $white;
+    background: var(--red-color);
+    color: var(--white-color);
     transition: all .3s ease;
     &:hover {
-      background: lighten($red, 5%);
+        // TODO: Figure out how to transition CSS gradients for the button hover effect
+        background-image: linear-gradient(
+            rgba(255,255,255,0.2),
+            rgba(255,255,255,0.2)
+        );
     }
 }

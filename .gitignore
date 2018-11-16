@@ -13,6 +13,8 @@ altair.zip
 /web-ext-artifacts
 /firebase-sample-dist
 *.nex
+src/app/utils/settings.schema.json
+src/app/utils/validate_settings_schema.js
 
 dist
 build

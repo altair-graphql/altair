@@ -13,18 +13,18 @@ $url-input-height: 50px;
 .url-box__input {
   height: $url-input-height;
   line-height: $url-input-height;
-  font-size: 14px;
-  border: 1px solid $theme-border-color;
-  box-shadow: 0 4px 30px rgba($black, .05);
+  font-size: fontsize(14);
+  border: 1px solid var(--theme-border-color);
+  box-shadow: 0 4px 30px rgba(var(--rgb-black), .05);
   padding: 0 15px;
   transition: all .3s ease;
-  background-color: lighten($theme-bg-color, 5%);
+  background-color: var(--theme-off-bg-color);
 
   &:hover {
-    border-color: $theme-off-border-color;
+    border-color: var(--theme-off-border-color);
   }
   &:focus, &:active {
-    border-color: $primary-color;
+    border-color: var(--primary-color);
   }
 }
 .url-box__input-actions {
@@ -39,10 +39,10 @@ $url-input-height: 50px;
   background: transparent;
   border: none;
   padding: 0 15px;
-  color: $theme-font-color;
+  color: var(--theme-font-color);
   transition: all .3s ease;
   &--active {
-    color: $primary-color;
+    color: var(--primary-color);
   }
 }
 .url-box__button {
@@ -55,13 +55,13 @@ $url-input-height: 50px;
 
 .btn.btn-outline-primary.url-box__button {
   border-radius: 4px 0px 0px 4px;
-  border: 1px solid $theme-border-color;
+  border: 1px solid var(--theme-border-color);
   border-right: none;
   height: 100%;
-  color: $green;
+  color: var(--green-color);
   width: 115px;
   &:hover {
-    border-color: $theme-off-border-color;
+    border-color: var(--theme-off-border-color);
     background: transparent;
   }
   &:active {

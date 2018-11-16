@@ -7,7 +7,7 @@ app-query-editor {
   position: relative;
   height: 100%;
   overflow: auto;
-  background: $theme-bg-color;
+  background: var(--theme-bg-color);
   border-radius: 4px;
   pre {
     font-family: inherit;
@@ -19,7 +19,7 @@ app-query-editor {
   top: 0;
   height: 100%;
   width: 100%;
-  font-size: 14px;
+  font-size: fontsize(14);
   border: 0;
   padding: 0;
   resize: none;
@@ -38,7 +38,7 @@ app-query-editor {
 .query-result-container {
   height: 100%;
   // overflow: auto;
-  background: $theme-off-bg-color;
+  background: var(--theme-off-bg-color);
   border-radius: 4px;
   pre {
     font-family: inherit;
@@ -58,12 +58,12 @@ app-query-editor {
   text-align: center;
   height: 100%;
   width: 100%;
-  font-size: 24px;
+  font-size: fontsize(24);
   font-weight: bold;
-  color: $theme-off-font-color;
+  color: var(--theme-off-font-color);
 }
 .query-result__none-subtext{
-  font-size: 16px;
+  font-size: fontsize(16);
   margin-bottom: 10px;
 }
 .query-result__none-inner{
@@ -74,7 +74,8 @@ app-query-editor {
   display: inline-block;
   width: 50px;
   height: 20px;
-  background: darken($theme-off-bg-color, 5%);
+  // background: darken($theme-off-bg-color, 5%);
+  background: var(--theme-bg-color);
   opacity: .8;
   border-radius: 5px;
   &.send{
@@ -111,14 +112,14 @@ app-query-editor {
 .subscription-result__actions-url {
   display: inline-block;
   vertical-align: middle;
-  font-size: 13px;
+  font-size: fontsize(13);
 }
 .subscription-result__list-wrapper {
   padding: 0 10px;
 }
 .subscription-result__list-item {
   position: relative;
-  font-size: 12px;
+  font-size: fontsize(12);
   margin-bottom: 10px;
 }
 .subscription-result__list-item--expanded {
@@ -133,7 +134,7 @@ app-query-editor {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: $theme-bg-color;
+  background: var(--theme-bg-color);
   padding: 5px 10px;
   border-radius: 3px;
 }
@@ -142,15 +143,15 @@ app-query-editor {
   top: 0;
   right: 0;
   padding: 5px 10px;
-  background: $theme-bg-color;
-  color: $theme-off-font-color;
+  background: var(--theme-bg-color);
+  color: var(--theme-off-font-color);
 }
 
 .variables-editor {
   &--title {
     text-transform: uppercase;
     padding: 0 15px;
-    font-size: 13px;
+    font-size: fontsize(13);
     font-weight: 700;
     cursor: pointer;
   }

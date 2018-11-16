@@ -4,8 +4,8 @@
   left: 0;
   right: 0;
   padding: 10px;
-  font-size: 12px;
-  color: $theme-font-color;
+  font-size: fontsize(12);
+  color: var(--theme-font-color);
 }
 .response-stats__item {
   display: inline-block;
@@ -15,17 +15,17 @@
 }
 .response-status-text{
   text-transform: uppercase;
-  background: rgba($black, .5);
+  background: rgba(var(--rgb-black), .5);
   color: $white;
 }
 .response-status-code{
-  background: rgba($blue, .1);
+  background: rgba(var(--rgb-blue), .1);
 }
 .response-time{
   display: inline-block;
 }
 .response-stats__download-result-link {
-  font-size: 12px;
+  font-size: fontsize(12);
   border: none;
   background: transparent;
   color: $blue;

@@ -1,7 +1,8 @@
+
+import {from as observableFrom,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { StorageService, IQueryCollection } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
-import { Observable } from 'rxjs/Observable';
 
 // Handling hierarchical data
 // https://stackoverflow.com/questions/4048151/what-are-the-options-for-storing-hierarchical-data-in-a-relational-database
@@ -14,12 +15,12 @@ export class QueryCollectionService {
 
   create(collection: IQueryCollection) {
     const now = this.storage.now();
-    return Observable.fromPromise(this.storage.queryCollections.add({ ...collection, created_at: now, updated_at: now }));
+    return observableFrom(this.storage.queryCollections.add({ ...collection, created_at: now, updated_at: now }));
   }
 
   addQuery(collectionId: number, query): Observable<any> {
     const now = this.storage.now();
-    return Observable.fromPromise(
+    return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
         const uQuery = { ...query, id: uuid() };
         collection.queries.push(uQuery);
@@ -29,7 +30,7 @@ export class QueryCollectionService {
   }
 
   deleteQuery(collectionId: number, query): Observable<any> {
-    return Observable.fromPromise(
+    return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
         collection.queries = collection.queries.filter(collectionQuery => {
           if (query.id) {
@@ -52,11 +53,21 @@ export class QueryCollectionService {
   }
 
   deleteCollection(collectionId: number) {
-    return Observable.fromPromise(this.storage.queryCollections.delete(collectionId));
+    return observableFrom(this.storage.queryCollections.delete(collectionId));
+  }
+
+  updateCollection(collectionId: number, modifiedCollection: IQueryCollection) {
+    return observableFrom(
+      this.storage.queryCollections.where('id').equals(collectionId).modify((collection, ctx) => {
+        console.log('We update.');
+        ctx.value = modifiedCollection;
+        ctx.value.updated_at = this.storage.now();
+      })
+    );
   }
 
   getAll() {
-    return Observable.fromPromise(this.storage.queryCollections.toArray());
+    return observableFrom(this.storage.queryCollections.toArray());
   }
 
 }

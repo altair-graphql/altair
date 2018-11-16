@@ -6,17 +6,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty } from 'rxjs';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { CodemirrorModule } from 'ng2-codemirror';
-import { ClarityModule } from 'clarity-angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { ClarityModule } from '@clr/angular';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
 
 import { AppComponent } from './app.component';
 import { WindowComponent } from '../window/window.component';
+import { DirectivesModule } from 'app/directives';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,16 +30,18 @@ describe('AppComponent', () => {
       services.DonationService,
       services.ElectronAppService,
       services.KeybinderService,
+      services.NotifyService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
         loadIntrospection: () => {},
       } },
       { provide: Store, useValue: {
-        subscribe: () => Observable.empty(),
-        select: () => Observable.empty(),
-        map: () => Observable.empty(),
-        first: () => Observable.empty(),
+        subscribe: () => observableEmpty(),
+        select: () => observableEmpty(),
+        map: () => observableEmpty(),
+        first: () => observableEmpty(),
+        pipe: () => observableEmpty(),
         dispatch: () => {}
       } }
   ];
@@ -53,7 +57,9 @@ describe('AppComponent', () => {
         HttpModule,
         StoreModule,
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
+        DirectivesModule,
+        ToastrModule.forRoot(),
         ComponentModule,
         DocViewerModule,
         TranslateModule.forRoot()

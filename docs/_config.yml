@@ -26,7 +26,7 @@ releases:
     image: osx_logo.svg
     unique_term: dmg
     link: https://github.com/imolorhe/altair/releases/latest
-    extra: brew cask install altair
+    extra: brew cask install altair-graphql-client
   -
     name: linux
     image: linux_logo.svg
@@ -50,6 +50,11 @@ releases:
     name: web
     image: webapp_icon.svg
     link: https://altair-gql.sirmuel.design/
+learn_more: >
+  A beautiful feature-rich GraphQL Client IDE for all platforms.
+  Enables you interact with any GraphQL server you are authorized to access from any platform you are on.
+  Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.
+  You also have several features to make your GraphQL development process much easier including subscriptions, query scaffolding, formatting, multiple languages, themes, and many more.
 
 # Build settings
 markdown: kramdown

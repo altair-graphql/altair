@@ -71,8 +71,18 @@
   title: Multiple Languages
   content: >
     You can use Altair comfortably in your native language with several languages
-    (including English, Chinese, French, Spanish, among others) supported.
+    (including English, Chinese, French, Spanish, Russian, German, Brazilian among others) supported.
+    You can also contribute and add support for your language by clicking [here.](https://altair-gql-translate.surge.sh/)
 -
-  title: Multiple themes
+  title: Multiple Themes
   content: >
-    You can use Altair with either the light or the dark theme, depending on which theme you like.
+    You can use Altair with either the light or the dark theme, depending on which theme you like. *Support for custom theme is coming very soon*.
+-
+  title: Multiple Platforms
+  content: >
+    Use Altair on any platform you are. Altair is available in linux (as a binary and via [snapcraft](https://snapcraft.io/altair)),
+    macOS (as a binary and via homebrew), windows, [Google Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/), and also as [an online web application](https://altair-gql.sirmuel.design/).
+-
+  title: Any missing feature?
+  content: >
+    Are we missing any feature that you think Altair should have? Let us know by [creating an issue on GitHub](https://github.com/imolorhe/altair/issues/new?labels=&template=Feature_request.md).

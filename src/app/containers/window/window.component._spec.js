@@ -7,13 +7,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store, Action } from '@ngrx/store';
-import { ClarityModule } from 'clarity-angular';
+import { ClarityModule } from '@clr/angular';
 import { ToastrModule } from 'ngx-toastr';
 
 import * as services from './../../services';
 import { reducer, reducerToken, reducerProvider, State } from '../../reducers';
 
-import { CodemirrorModule } from 'ng2-codemirror';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
@@ -75,7 +75,7 @@ describe('WindowComponent', () => {
         HttpClientModule,
         StoreModule.forRoot(reducer, { initialState: <any>mockState }),
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
         ComponentModule,
         DocViewerModule,
         ToastrModule.forRoot(),

@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
+import {of as observableOf,  Observable ,  Subscriber } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DbService {
@@ -94,7 +93,7 @@ export class DbService {
     const allKeys = Object.keys(localStorage).filter((key: string) => key.includes(this.storagePrefix));
 
     // return Observable.combineLatest(allKeys.map(key => this.getItemByExactKey(key)));
-    return Observable.of(allKeys);
+    return observableOf(allKeys);
   }
 
 }

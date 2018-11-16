@@ -2,8 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "independent",
+  "version": "2.0.3",
   "registry": "https://registry.npmjs.org/",
-  "lerna": "2.11.0",
   "npmClient": "yarn"
 }

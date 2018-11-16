@@ -1,7 +1,7 @@
 // @import "framework";
 @import "globals";
-@import "helpers";
 @import "layout";
+@import "links";
 @import "buttons";
 @import "tooltip";
 @import "loading-screen";
@@ -23,5 +23,4 @@
 @import "components/side-menu";
 @import "components/query-collections";
 @import "components/add-to-collection";
-
-@import "../app/components/doc-viewer/doc-viewer/doc-viewer.component";
+@import "components/doc-viewer";

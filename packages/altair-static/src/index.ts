@@ -23,7 +23,7 @@ export const renderAltair = ({ endpointURL, subscriptionsEndpoint, initialQuery 
     }
 
     const renderedOptionsInScript = `<script>${renderedOptions}</script>`;
-    return altairHtml.replace('</body>', `${renderedOptionsInScript}</body>`);
+    return altairHtml.replace('<body>', `<body>${renderedOptionsInScript}`);
 };
 
 export const getDistDirectory = () => resolve(__dirname, 'dist');

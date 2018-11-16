@@ -5,7 +5,7 @@
     left: 0;
     right: 0;
     z-index: 5;
-    background: white;
+    background: var(--white-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,7 +29,7 @@
         height: 10px;
         border-radius: 50%;
         margin: 3px;
-        background: $blue;
+        background: var(--blue-color);
         animation: 1.5s loading-indicator-blink infinite linear;
 
         &:nth-child(1){

@@ -1,3 +1,5 @@
+
+import {first} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
@@ -28,8 +30,12 @@ export class ElectronAppService {
 
   connect() {
     if (this.electron.isElectronApp) {
+      this.electron.ipcRenderer.on('file-opened', (evt, content) => {
+        this.windowService.importStringData(content);
+      });
+
       this.electron.ipcRenderer.on('create-tab', () => {
-        this.windowService.newWindow().first().subscribe();
+        this.windowService.newWindow().pipe(first()).subscribe();
       });
       this.electron.ipcRenderer.on('close-tab', () => {
         if (this.windowIds.length > 1) {
@@ -48,6 +54,8 @@ export class ElectronAppService {
       });
 
       console.log('Electron app connected.');
+
+      this.electron.ipcRenderer.send('get-file-opened');
     }
   }
 

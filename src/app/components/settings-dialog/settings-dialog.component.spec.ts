@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from 'clarity-angular';
-import { CodemirrorModule } from 'ng2-codemirror';
+import { ClarityModule } from '@clr/angular';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
+import { NotifyService } from 'app/services';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -17,8 +19,12 @@ describe('SettingsDialogComponent', () => {
       imports: [
         FormsModule,
         CodemirrorModule,
-        ClarityModule.forRoot(),
+        ClarityModule,
+        ToastrModule.forRoot(),
         TranslateModule.forRoot()
+      ],
+      providers: [
+        NotifyService
       ]
     })
     .compileComponents();

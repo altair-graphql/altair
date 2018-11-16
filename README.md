@@ -16,6 +16,7 @@
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 [![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
 <div align="center" style="text-align: center;">
 
@@ -44,7 +45,7 @@ There are apps for [mac, windows and linux users](https://altair.sirmuel.design/
 You can also install using cask:
 
 ```
-$ brew cask install altair
+$ brew cask install altair-graphql-client
 ```
 
 For linux users, you can also install using [snap](https://snapcraft.io/altair):
