@@ -13,9 +13,10 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
-import { NotifyService } from './notify/notify.service';
+import { NotifyService } from '../notify/notify.service';
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
+import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
 
 @Injectable()
 export class GqlService {
@@ -173,10 +174,38 @@ export class GqlService {
       }
       return null;
     } catch (err) {
-      console.error('Bad introspection data.', err);
-      this.notifyService
-        .error('Looks like the GraphQL schema is invalid. Please check that your schema conforms to the latest GraphQL spec.');
+      console.log('Trying old buildClientSchema.', err);
+      try {
+        const schema = oldBuildClientSchema(data);
+
+        this.notifyService.info(`
+          Looks like your server is still using an old version of GraphQL (older than v0.5.0).
+          You should upgrade to avoid broken implementations.
+        `);
+        return schema;
+      } catch (err) {
+        console.log('Bad introspection data.', err);
+        this.notifyService
+          .error(`
+            Looks like the GraphQL schema is invalid.
+            Please check that your schema in your GraphQL server conforms to the latest GraphQL spec.
+          `);
+      }
+
       return null;
+    }
+  }
+
+  parseQuery(query) {
+    if (!query) {
+      return {};
+    }
+    try {
+      return parse(query);
+    } catch (err) {
+      console.error('Something wrong with your query', err);
+
+      return {};
     }
   }
 
@@ -193,7 +222,8 @@ export class GqlService {
    * @param query
    */
   isSubscriptionQuery(query) {
-    const parsedQuery = parse(query);
+
+    const parsedQuery = this.parseQuery(query);
 
     if (!parsedQuery.definitions) {
       return false;
@@ -220,7 +250,7 @@ export class GqlService {
   }
 
   getOperations(query: string) {
-    const parsedQuery = parse(query);
+    const parsedQuery = this.parseQuery(query);
 
     if (parsedQuery.definitions) {
       return parsedQuery.definitions

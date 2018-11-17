@@ -39,59 +39,66 @@ export class QueryEffects {
               return { data: state.windows[action.windowId], windowId: action.windowId, action };
           }),
           switchMap(response => {
-              // If the URL is not set or is invalid, just return
-              if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+            const query = response.data.query.query.trim();
 
-                  this.notifyService.error('The URL is invalid!');
-                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                  return observableEmpty();
+            // If the query is empty, just return
+            if (!query) {
+              return observableEmpty();
+            }
+
+            // If the URL is not set or is invalid, just return
+            if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+
+                this.notifyService.error('The URL is invalid!');
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                return observableEmpty();
+            }
+
+            if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
+                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                return observableEmpty();
+            }
+
+            // Store the current query into the history if it does not already exist in the history
+            if (!response.data.history.list.filter(item => item.query.trim() === query.trim()).length) {
+              this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
+            }
+
+            // If the query is a subscription, subscribe to the subscription URL and send the query
+            if (this.gqlService.isSubscriptionQuery(query)) {
+              console.log('Your query is a SUBSCRIPTION!!!');
+              // If the subscription URL is not set, show the dialog for the user to set it
+              if (!response.data.query.subscriptionUrl) {
+                this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+              } else {
+                this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
               }
+              return observableEmpty();
+            }
 
-              if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
-                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                  return observableEmpty();
-              }
+            // Check if there are more than one operations in the query
+            // If check if there is already a selected operation
+            // Check if the selected operation matches any operation, else ask the user to select again
+            const operations = this.gqlService.getOperations(query);
 
-              // Store the current query into the history if it does not already exist in the history
-              if (!response.data.history.list.filter(item => item.query.trim() === response.data.query.query.trim()).length) {
-                this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query: response.data.query.query }));
-              }
+            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
 
-              // If the query is a subscription, subscribe to the subscription URL and send the query
-              if (this.gqlService.isSubscriptionQuery(response.data.query.query)) {
-                console.log('Your query is a SUBSCRIPTION!!!');
-                // If the subscription URL is not set, show the dialog for the user to set it
-                if (!response.data.query.subscriptionUrl) {
-                  this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
-                } else {
-                  this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
-                }
+            if (operations && operations.length > 1) {
+              if (
+                !response.data.query.selectedOperation ||
+                operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
+                // Ask the user to select operation
+                this.notifyService.warning(
+                  `You have more than one query operations.
+                  You need to select the one you want to run from the dropdown.`
+                );
+                this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
                 return observableEmpty();
               }
-
-              // Check if there are more than one operations in the query
-              // If check if there is already a selected operation
-              // Check if the selected operation matches any operation, else ask the user to select again
-              const operations = this.gqlService.getOperations(response.data.query.query);
-
-              this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
-
-              if (operations && operations.length > 1) {
-                if (
-                  !response.data.query.selectedOperation ||
-                  operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
-                  // Ask the user to select operation
-                  this.notifyService.warning(
-                    `You have more than one query operations.
-                    You need to select the one you want to run from the dropdown.`
-                  );
-                  this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-                  return observableEmpty();
-                }
-              } else {
-                // Clear out the selected operation
-                this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-              }
+            } else {
+              // Clear out the selected operation
+              this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+            }
 
             this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
               const requestStartTime = new Date().getTime();
@@ -111,11 +118,12 @@ export class QueryEffects {
               // For electron app, send the instruction to set headers
               this.electronAppService.setHeaders(response.data.headers);
 
+              console.log('Sending..');
               return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
                 .setHTTPMethod(response.data.query.httpVerb)
-                ._send(response.data.query.query, response.data.variables.variables, response.data.query.selectedOperation)
+                ._send(query, response.data.variables.variables, response.data.query.selectedOperation)
                 .pipe(
                   map(res => {
                     requestStatusCode = res.status;
@@ -250,7 +258,10 @@ export class QueryEffects {
                 if (!allowsIntrospection) {
                   this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
                 } else {
-                  this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
+                  this.notifyService.warning(`
+                    Seems like something is broken. Please check that the URL is valid,
+                    and the server is up and running properly.
+                  `);
                 }
                 return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
               }),
