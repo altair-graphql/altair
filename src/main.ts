@@ -23,5 +23,5 @@ platformBrowserDynamic().bootstrapModule(AppModule, {
   preserveWhitespaces: true
 });
 
-// initTracking();
+initTracking();
 handleExternalLinks();

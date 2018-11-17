@@ -3,8 +3,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
 import { GqlService } from './gql.service';
-import * as services from '../services';
-import { NotifyService } from './notify/notify.service';
+import * as services from '../../services';
+import { NotifyService } from '../notify/notify.service';
 import { ToastrModule } from 'ngx-toastr';
 
 describe('GqlService', () => {
