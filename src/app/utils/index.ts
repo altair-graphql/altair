@@ -1,6 +1,4 @@
 import * as toSnakeCase from 'to-snake-case';
-import * as downloadJs from 'downloadjs';
-import * as parseCurl from 'parse-curl';
 import * as FileSaver from 'file-saver';
 import * as commentRegex from 'comment-regex';
 import is_electron from './is_electron';
@@ -28,16 +26,6 @@ export const downloadData = (data, fileName = 'data', opts = undefined) => {
   const fileNameWithExt = `${toSnakeCase(fileName)}.${_opts.fileType}`;
   const fileBlob = new Blob([data], {type: _opts.dataUriAttr});
   FileSaver.saveAs(fileBlob, fileNameWithExt);
-  // downloadJs(dataStr, fileNameWithExt, _opts.mimeType);
-  // const downloadLink = document.createElement('a');
-  // const linkText = document.createTextNode('Download');
-  // downloadLink.appendChild(linkText);
-  // downloadLink.style.display = 'none';
-  // downloadLink.setAttribute('target', '_blank');
-  // downloadLink.setAttribute('href', dataStr);
-  // downloadLink.setAttribute('download', `${toSnakeCase(fileName)}.${_opts.fileType}`);
-  // document.body.appendChild(downloadLink);
-  // downloadLink.click();
 };
 
 /**
