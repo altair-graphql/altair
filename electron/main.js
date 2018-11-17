@@ -2,7 +2,7 @@ const { app, protocol } = require('electron');
 const { readFileSync, readFile } = require('fs');
 const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
-const { instance, createWindow, getInstance } = require('./window');
+const { createWindow, getInstance } = require('./window');
 const { getStore } = require('./store');
 
 // require('electron-debug')();
