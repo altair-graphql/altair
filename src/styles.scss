@@ -29,6 +29,13 @@
   --theme-off-border-color: #565656;
   --shadow-bg: rgba(0, 0, 0, 0.3);
   --header-bg-color: var(--theme-off-bg-color);
+
+  --rgb-theme-bg: var(--rgb-black);
+  --rgb-theme-off-bg: 63, 67, 73; // #3f4349
+  --rgb-theme-font: var(--rgb-white);
+  --rgb-theme-off-font: var(--rgb-light-grey);
+  --rgb-theme-border: 86, 92, 100; // #565c64
+  --rgb-theme-off-border: 86, 86, 86; // #565656
   // $clr-dropdown-bg-color: $theme-bg-color;
   // $clr-dropdown-bg-hover-color: $theme-off-bg-color;
   // $clr-dropdown-border-color: $theme-border-color;
