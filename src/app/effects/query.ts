@@ -258,7 +258,10 @@ export class QueryEffects {
                 if (!allowsIntrospection) {
                   this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
                 } else {
-                  this.notifyService.warning('Seems like something is broken. Please check that the URL is valid.');
+                  this.notifyService.warning(`
+                    Seems like something is broken. Please check that the URL is valid,
+                    and the server is up and running properly.
+                  `);
                 }
                 return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
               }),
