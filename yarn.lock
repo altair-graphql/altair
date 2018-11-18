@@ -8342,9 +8342,11 @@ ngx-contextmenu@^5.1.1:
   dependencies:
     tslib "^1.9.0"
 
-ngx-electron@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-1.0.4.tgz#2d80b25d74ae4d6226ad8b3bc4ecfa611e48fdca"
+ngx-electron@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-2.0.0.tgz#589f230af1c8dddd3f87ae86342e647b29945257"
+  dependencies:
+    tslib "^1.9.0"
 
 ngx-pipes@^2.1.0:
   version "2.3.5"
