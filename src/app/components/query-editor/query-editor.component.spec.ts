@@ -7,6 +7,9 @@ import { QueryEditorComponent } from './query-editor.component';
 import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
+import { NotifyService, GqlService } from 'app/services';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('QueryEditorComponent', () => {
   let component: QueryEditorComponent;
@@ -17,8 +20,14 @@ describe('QueryEditorComponent', () => {
       declarations: [ QueryEditorComponent, FlexResizerComponent, VariablesEditorComponent ],
       imports: [
         FormsModule,
+        HttpClientModule,
         CodemirrorModule,
+        ToastrModule.forRoot(),
         TranslateModule.forRoot()
+      ],
+      providers: [
+        GqlService,
+        NotifyService
       ]
     })
     .compileComponents();
