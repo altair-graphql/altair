@@ -64,11 +64,12 @@ export const trackButton = e => {
 
 // Track JavaScript errors
 export const trackJSErrors = () => {
-  window.addEventListener('error', (e: any) => {
+  window.addEventListener('error', (e) => {
+    console.log(e);
     trackEvent({
       category: 'JS Error',
       action: e.message,
-      label: e.filename + ': ' + e.lineno,
+      label: `${e.filename}: ${e.lineno}:${e.colno} from ${e.srcElement} - ${window['__LAST_ACTION__']}`,
     });
     // window['_gaq'].push([
     //   '_trackEvent',

@@ -57,6 +57,7 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
     if (!environment.production) {
       console.log(action.type, action);
     }
+    window['__LAST_ACTION__'] = action.type;
     return _reducer(state, action);
   };
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ToastrService, ActiveToast } from 'ngx-toastr';
+import { ToastrService, ActiveToast, ToastrConfig } from 'ngx-toastr';
 import { isExtension } from '../../utils';
+
+type NotifyOptions = Partial<ToastrConfig & { data: any }>;
 
 @Injectable()
 export class NotifyService {
@@ -13,19 +15,19 @@ export class NotifyService {
     this.manageExtensionNotifications();
   }
 
-  success(message, title = 'Altair', opts = {}) {
+  success(message, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('success', message, title, opts);
   }
-  error(message, title = 'Altair', opts = {}) {
+  error(message, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('error', message, title, opts);
   }
-  warning(message, title = 'Altair', opts = {}) {
+  warning(message, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('warning', message, title, opts);
   }
-  info(message, title = 'Altair', opts = {}) {
+  info(message, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('info', message, title, opts);
   }
-  exec(type, message, title, opts): ActiveToast<any> {
+  exec(type, message, title, opts: NotifyOptions = {}): ActiveToast<any> {
     const toast: ActiveToast<any> = this.toastr[type](message, title, opts);
     if (opts.data && opts.data.url) {
       toast.onTap.subscribe(_toast => {

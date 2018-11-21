@@ -19,7 +19,7 @@
     "start": "ng serve",
     "start:prod": "node server",
     "start:prod:translate": "node server --translate",
-    "build": "npm run generate-settings-schema-validator && ng build --prod --aot --stats-json",
+    "build": "npm run generate-settings-schema-validator && ng build --prod --aot --stats-json --source-map",
     "test": "ng test",
     "test-single-run": "ng test --watch=false --code-coverage",
     "test-build": "ng lint && npm run build && npm run test-single-run",
