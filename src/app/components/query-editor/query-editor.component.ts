@@ -24,12 +24,14 @@ import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/display/autorefresh';
 import 'codemirror-graphql/hint';
-import 'codemirror-graphql/lint';
+// import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
-import 'codemirror-graphql/info';
+// import 'codemirror-graphql/info';
 import 'codemirror-graphql/jump';
+import '../../utils/codemirror/graphql-linter';
 
 import { marked } from 'marked';
+import { GqlService, NotifyService } from 'app/services';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -80,12 +82,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     hintOptions: {
       completeSingle: false
     },
-    info: {},
+    // info: {},
     jump: {}
   };
 
-  constructor() {
-  }
+  constructor(
+    private gqlService: GqlService,
+    private notifyService: NotifyService,
+  ) {}
 
   ngOnInit() {
     if (this.gqlSchema) {
@@ -93,12 +97,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.editorConfig.hintOptions = {
         completeSingle: false
       };
-      this.editorConfig.info = {
-        renderDescription: text => {
-          console.log('rendering..', text);
-          return marked(text, { sanitize: true });
-        }
-      };
+      // this.editorConfig.info = {
+      //   renderDescription: text => {
+      //     console.log('rendering..', text);
+      //     return marked(text, { sanitize: true });
+      //   }
+      // };
       this.editorConfig.jump = {};
       this.editorConfig.tabSize = this.tabSize || 2;
       this.editorConfig.indentUnit = this.tabSize || 2;
@@ -117,6 +121,16 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     // If there is a new schema, update the editor schema
     if (changes && changes.gqlSchema && changes.gqlSchema.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
+      // Validate the schema to know if we can work with it
+      const validationErrors = this.gqlService.validateSchema(changes.gqlSchema.currentValue);
+      if (validationErrors.length) {
+        const errorList = validationErrors.map(error => '<br><br>' + error.message).join('');
+        this.notifyService.warning(`
+          The schema definition is invalid according to the GraphQL specs.
+          Linting and other functionalities would be unavailable.
+          ${errorList}
+        `, 'Altair', { disableTimeOut: true });
+      }
     }
 
     // Refresh the query result editor view when there are any changes
@@ -160,7 +174,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       console.log('Updating schema...', schema);
       this.editorConfig.lint.schema = schema;
       this.editorConfig.hintOptions.schema = schema;
-      this.editorConfig.info.schema = schema;
+      // this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
   }

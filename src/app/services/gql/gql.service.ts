@@ -1,16 +1,18 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import {throwError as observableThrowError, Observable } from 'rxjs';
 
 import {map, catchError, tap} from 'rxjs/operators';
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import * as prettier from 'prettier/standalone';
 import * as prettierGraphql from 'prettier/parser-graphql';
 
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
-import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery } from 'graphql';
+import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery, validateSchema } from 'graphql';
+import { getDiagnostics } from 'graphql-language-service-interface';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
@@ -294,5 +296,9 @@ export class GqlService {
       return this.prettify(printSchema(schema));
     }
     return '';
+  }
+
+  validateSchema(schema) {
+    return validateSchema(schema);
   }
 }
