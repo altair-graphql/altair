@@ -7,7 +7,7 @@
     [options]="editorConfig"
   ></ngx-codemirror>
 </div>
-<div class="variables-editor-container">
+<div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
   <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
   <div class="variables-editor-inner" *ngIf="showVariableDialog">
     <app-variables-editor
