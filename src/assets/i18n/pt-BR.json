@@ -45,6 +45,7 @@
   "ADD_HEADER_TEXT": "Adicionar cabeçalho",
   "SUBSCRIPTION_URL_TEXT": "URL de inscrição",
   "SET_SUBSCRIPTION_URL_TEXT": "Digite o URL de assinatura para o seu servidor abaixo",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "Histórico",
   "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Você pode selecionar um item do histórico para restaurar",

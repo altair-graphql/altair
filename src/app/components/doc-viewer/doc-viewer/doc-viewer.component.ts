@@ -201,9 +201,7 @@ export class DocViewerComponent implements OnChanges {
     console.log('Index: ', this.index);
   }
 
-  autocompleteSource(term) {
-    return of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
-  }
+  autocompleteSource = term => of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
 
   searchInputKeyUp(term, e) {
     if (e && e.keyCode !== 13) {
@@ -217,6 +215,10 @@ export class DocViewerComponent implements OnChanges {
    * search through the docs for the provided term
    */
   searchDocs(term) {
+    if (typeof term !== 'string') {
+      term = term.name;
+    }
+
     if (!this.hasSearchIndex) {
       return false;
     }

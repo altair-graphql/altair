@@ -7,7 +7,21 @@
   </h3>
   <div class="modal-body">
     <div class="app-dialog-body">
-      <input type="url" class="dialog-input" [value]="subscriptionUrl" (input)="subscriptionUrlInput($event)" placeholder="ws://example.com/subscriptions" />
+      <div class="app-dialog-section">
+        <input type="url" class="dialog-input" [value]="subscriptionUrl" (input)="subscriptionUrlInput($event)" placeholder="ws://example.com/subscriptions" />
+      </div>
+      <div class="subscription-params-section">
+        <div class="subscription-params-title">{{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}</div>
+        <div class="subscription-params-editor-wrapper">
+          <ngx-codemirror
+            #editor
+            class="subscription-params__input"
+            [ngModel]="subscriptionConnectionParams"
+            (ngModelChange)="subscriptionConnectionParamsChange.emit($event)"
+            [options]="subscriptionConnectionParamsEditorConfig"
+          ></ngx-codemirror>
+        </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">

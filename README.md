@@ -18,6 +18,8 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/imolorhe/altair.svg)](https://greenkeeper.io/)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
+[Deploying?](#deploying)
+
 <div align="center" style="text-align: center;">
 
 <img src="src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">

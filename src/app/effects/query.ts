@@ -327,16 +327,47 @@ export class QueryEffects {
     startSubscription$: Observable<queryActions.Action> = this.actions$
       .ofType(queryActions.START_SUBSCRIPTION)
       .pipe(
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
+          const subscriptionErrorHandler = (err, errMsg?) => {
+            if (Array.isArray(err)) {
+              err = err[0];
+            }
+            errMsg = errMsg || err.message || err.stack;
+            this.notifyService.error(`
+              An error occurred in subscription.<br>
+              Error: ${errMsg}
+            `);
+            this.store.dispatch(new queryActions.StopSubscriptionAction(res.windowId));
+            return observableEmpty();
+          };
           try {
             // Stop any currently active subscription
             this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
 
-            const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl);
-            const subClientRequest = subscriptionClient.request({
+            let connectionParams = undefined;
+
+            try {
+              connectionParams =
+                res.data.query.subscriptionConnectionParams ? JSON.parse(res.data.query.subscriptionConnectionParams) : undefined;
+            } catch (err) {
+              this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(res.windowId));
+              return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
+            }
+
+            const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl, {
+              connectionParams,
+              connectionCallback: error => {
+                if (error) {
+                  console.log('Subscription connection error', error);
+                  return subscriptionErrorHandler(error);
+                }
+                console.log('Connected subscription.');
+              }
+            });
+            const subscriptionClientRequest = subscriptionClient.request({
               query: res.data.query.query,
               variables: JSON.parse(res.data.variables.variables)
             }).subscribe({
@@ -346,7 +377,7 @@ export class QueryEffects {
                   strData = JSON.stringify(data);
                 } catch (err) {
                   console.error('Invalid subscription response format.');
-                  return false;
+                  strData = 'ERROR: Invalid subscription response format.';
                 }
 
                 this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
@@ -366,17 +397,19 @@ export class QueryEffects {
               error: err => {
                 // Stop the subscription if this happens.
                 console.log('Err', err);
+                return subscriptionErrorHandler(err);
               },
               complete: () => {
                 // Not yet sure what needs to be done here.
                 console.log('Subscription complete.');
               }
             });
+
             return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
           } catch (err) {
             console.error('An error occurred starting the subscription.', err);
+            return subscriptionErrorHandler(err);
           }
-          return observableEmpty();
         }),
       );
 

@@ -17,12 +17,12 @@
       class="doc-viewer-search-input"
       ngui-auto-complete
       [(ngModel)]="searchTerm"
-      [source]="autocompleteSource.bind(this)"
+      [source]="autocompleteSource"
       [min-chars]="2"
       [list-formatter]="'search'"
       [placeholder]="searchInputPlaceholder"
       (keyup)="searchInputKeyUp(searchTerm, $event)"
-      (valueChanged)="$event && searchDocs($event.title)"
+      (valueChanged)="$event && searchDocs($event)"
     />
   </div>
   <div class="doc-viewer-items">

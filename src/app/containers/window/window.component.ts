@@ -75,6 +75,7 @@ export class WindowComponent implements OnInit {
   gqlSchema = null;
 
   subscriptionUrl = '';
+  subscriptionConnectionParams = '';
 
   historyList: fromHistory.HistoryList = [];
 
@@ -129,6 +130,7 @@ export class WindowComponent implements OnInit {
       this.windowTitle = data.layout.title;
 
       this.subscriptionUrl = data.query.subscriptionUrl;
+      this.subscriptionConnectionParams = data.query.subscriptionConnectionParams || '';
       this.historyList = data.history.list;
 
       // Schema needs to be valid instances of GQLSchema.
@@ -255,6 +257,9 @@ export class WindowComponent implements OnInit {
 
   updateSubscriptionUrl(url) {
     this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: url }, this.windowId));
+  }
+  updateSubscriptionConnectionParams(connectionParams) {
+    this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
   }
 
   addQueryToEditor(queryData: { query: String, meta: any }) {

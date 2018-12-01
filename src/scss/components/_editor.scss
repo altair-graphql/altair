@@ -147,6 +147,14 @@ app-query-editor {
   color: var(--theme-off-font-color);
 }
 
+.variables-editor-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 50%;
+  &.show-variables {
+    min-height: 50%;
+  }
+}
 .variables-editor {
   &--title {
     text-transform: uppercase;
@@ -158,4 +166,14 @@ app-query-editor {
   // &-inner {
     // height: 0;
   // }
+}
+.variables-editor-inner {
+  position: relative;
+  overflow: auto;
+  flex: 1;
+}
+.set-variable-textarea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
