@@ -45,6 +45,7 @@
   "ADD_HEADER_TEXT": "添加Header",
   "SUBSCRIPTION_URL_TEXT": "订阅地址",
   "SET_SUBSCRIPTION_URL_TEXT": "输入您服务的订阅地址",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "历史",
   "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "你可以选择一个历史记录还原",
