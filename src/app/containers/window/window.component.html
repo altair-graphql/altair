@@ -100,9 +100,11 @@
       ></app-set-variable-dialog> -->
       <app-subscription-url-dialog
         [subscriptionUrl]="subscriptionUrl"
+        [subscriptionConnectionParams]="subscriptionConnectionParams"
         [showDialog]="showSubscriptionUrlDialog"
         (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
         (subscriptionUrlChange)="updateSubscriptionUrl($event)"
+        (subscriptionConnectionParamsChange)="updateSubscriptionConnectionParams($event)"
       ></app-subscription-url-dialog>
       <app-history-dialog
         [historyList]="historyList"

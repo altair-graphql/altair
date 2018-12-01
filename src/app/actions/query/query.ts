@@ -23,6 +23,7 @@ export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
 export const START_SUBSCRIPTION = 'START_SUBSCRIPTION';
 export const STOP_SUBSCRIPTION = 'STOP_SUBSCRIPTION';
 export const SET_SUBSCRIPTION_CLIENT = 'SET_SUBSCRIPTION_CLIENT';
+export const SET_SUBSCRIPTION_CONNECTION_PARAMS = 'SET_SUBSCRIPTION_CONNECTION_PARAMS';
 export const ADD_SUBSCRIPTION_RESPONSE = 'ADD_SUBSCRIPTION_RESPONSE';
 export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
 
@@ -126,6 +127,12 @@ export class StopSubscriptionAction implements Action {
   constructor(public windowId: string, public payload?) { }
 }
 
+export class SetSubscriptionConnectionParamsAction implements Action {
+  readonly type = SET_SUBSCRIPTION_CONNECTION_PARAMS;
+
+  constructor(public windowId: string, public payload: { connectionParams: string }) {}
+}
+
 export class SetSubscriptionClientAction implements Action {
   readonly type = SET_SUBSCRIPTION_CLIENT;
 
@@ -187,28 +194,29 @@ export class SetQueryOperationsAction implements Action {
 }
 
 export type Action =
-SetUrlAction |
-SetUrlFromDbAction |
-SetSubscriptionUrlAction |
-SendIntrospectionQueryRequestAction |
-SetQueryAction |
-SetQueryFromDbAction |
-SetQueryResultAction |
-PrettifyQueryAction |
-CompressQueryAction |
-SendQueryRequestAction |
-SetSelectedOperationAction |
-StartSubscriptionAction |
-StopSubscriptionAction |
-SetSubscriptionClientAction |
-AddSubscriptionResponseAction |
-SetSubscriptionResponseListAction |
-SetResponseStatsAction |
-DownloadResultAction |
-CancelQueryRequestAction |
-HideUrlAlertAction |
-ShowUrlAlertAction |
-HideEditorAlertAction |
-ShowEditorAlertAction |
-SetHTTPMethodAction |
-SetQueryOperationsAction;
+  | SetUrlAction
+  | SetUrlFromDbAction
+  | SetSubscriptionUrlAction
+  | SendIntrospectionQueryRequestAction
+  | SetQueryAction
+  | SetQueryFromDbAction
+  | SetQueryResultAction
+  | PrettifyQueryAction
+  | CompressQueryAction
+  | SendQueryRequestAction
+  | SetSelectedOperationAction
+  | StartSubscriptionAction
+  | StopSubscriptionAction
+  | SetSubscriptionClientAction
+  | SetSubscriptionConnectionParamsAction
+  | AddSubscriptionResponseAction
+  | SetSubscriptionResponseListAction
+  | SetResponseStatsAction
+  | DownloadResultAction
+  | CancelQueryRequestAction
+  | HideUrlAlertAction
+  | ShowUrlAlertAction
+  | HideEditorAlertAction
+  | ShowEditorAlertAction
+  | SetHTTPMethodAction
+  | SetQueryOperationsAction;

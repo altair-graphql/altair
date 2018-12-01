@@ -23,6 +23,7 @@ export interface State {
   editorAlertMessage: string;
   editorAlertSuccess: boolean;
   subscriptionClient: any;
+  subscriptionConnectionParams: string;
   isSubscribed: boolean;
   subscriptionResponseList: Array<any>;
 }
@@ -45,6 +46,7 @@ export const initialState: State = {
   editorAlertMessage: 'Query is set',
   editorAlertSuccess: true,
   subscriptionClient: null,
+  subscriptionConnectionParams: '{}',
   isSubscribed: false,
   subscriptionResponseList: []
 };
@@ -89,6 +91,8 @@ export function queryReducer(state = initialState, action: query.Action): State 
       return Object.assign({}, state, { isSubscribed: true });
     case query.STOP_SUBSCRIPTION:
       return Object.assign({}, state, { isSubscribed: false });
+    case query.SET_SUBSCRIPTION_CONNECTION_PARAMS:
+      return { ...state, subscriptionConnectionParams: action.payload.connectionParams };
     case query.SET_SUBSCRIPTION_CLIENT:
       return Object.assign({}, state, { subscriptionClient: action.payload.subscriptionClient });
     case query.ADD_SUBSCRIPTION_RESPONSE:

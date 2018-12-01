@@ -51,6 +51,7 @@
 
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
 
   "HISTORY_TEXT": "History",
   "HISTORY_CLEAR_TEXT": "Clear History",

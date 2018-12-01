@@ -9,10 +9,9 @@ import * as prettier from 'prettier/standalone';
 import * as prettierGraphql from 'prettier/parser-graphql';
 
 
-import { SubscriptionClient } from 'subscriptions-transport-ws';
+import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from 'subscriptions-transport-ws';
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
 import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery, validateSchema } from 'graphql';
-import { getDiagnostics } from 'graphql-language-service-interface';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
@@ -236,9 +235,10 @@ export class GqlService {
     }, false);
   }
 
-  createSubscriptionClient(subscriptionUrl): SubscriptionClient {
+  createSubscriptionClient(subscriptionUrl, opts?: SubscriptionClientOptions): SubscriptionClient {
     return new SubscriptionClient(subscriptionUrl, {
-      reconnect: true
+      reconnect: true,
+      ...opts
     });
   }
 
