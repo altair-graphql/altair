@@ -45,6 +45,7 @@
   "ADD_HEADER_TEXT": "Přidat hlavičku",
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "Historie",
   "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "Můžete vybrat položku z historie pro její obnovení",

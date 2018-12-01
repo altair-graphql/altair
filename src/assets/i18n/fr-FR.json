@@ -45,6 +45,7 @@
   "ADD_HEADER_TEXT": "Ajouter une entête",
   "SUBSCRIPTION_URL_TEXT": "URL pour Subscription",
   "SET_SUBSCRIPTION_URL_TEXT": "Entrer l'URL de subscription de votre serveur ci-dessous",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "Historique",
   "HISTORY_CLEAR_TEXT": "Nettoyer L'historique",
   "HISTORY_SUB_TEXT": "Vous pouvez sélectionner un élément de l’historique à restaurer",
