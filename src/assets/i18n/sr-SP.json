@@ -45,6 +45,7 @@
   "ADD_HEADER_TEXT": "Dodaj zaglavlje",
   "SUBSCRIPTION_URL_TEXT": "Link za pretplatu",
   "SET_SUBSCRIPTION_URL_TEXT": "Unesite pretplatnicki link za var server ispod",
+  "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "Историја",
   "HISTORY_CLEAR_TEXT": "Очисти Историју",
   "HISTORY_SUB_TEXT": "Изаберите ставку из историје да бисте је вратили",
