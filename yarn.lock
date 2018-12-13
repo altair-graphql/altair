@@ -308,11 +308,10 @@
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-0.13.7.tgz#4a9b333ff00cdbcf1e7ab1899e4700989d16b825"
 
-"@clr/ui@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-0.13.7.tgz#0c86cc4146f158bd8e195bd1ab2d9983debc59d9"
-  optionalDependencies:
-    bootstrap "4.0.0-alpha.5"
+"@clr/ui@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-1.0.1.tgz#226885a55158e1685060c6ca718b0aec2d2a575c"
+  integrity sha512-J0Bs239zKnhNg02lkSXHZm4mBTTip126NnuWlRS9U9Z56pJ3QmtPFRExSM0oPtNTUa+DCcp+joqeSA60/6VMbA==
 
 "@ctrl/ngx-codemirror@^1.3.9":
   version "1.3.9"
@@ -961,9 +960,10 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.28.tgz#c054e8af4d9dd75db4e63abc76f885168714d4b3"
 
-"@types/jasmine@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.0.tgz#6b0e4b0192367d77e438ff660ccc4487c9602e7b"
+"@types/jasmine@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.1.tgz#b6c4f356013364e98b583647c7b3b6de6fccd2cc"
+  integrity sha512-JnKB+cEIFuQZXizZP6N0zxma+JlvowkjefWuL61otVmXN7Ebbs4ka3IbDVIz1pc+TCiT00q925jANz3gQJ9qXw==
 
 "@types/js-beautify@0.0.28":
   version "0.0.28"
@@ -977,9 +977,10 @@
   version "10.11.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.3.tgz#c055536ac8a5e871701aa01914be5731539d01ee"
 
-"@types/node@10.12.11":
-  version "10.12.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.11.tgz#715c476c99a5f6898a1ae61caf9825e43c03912e"
+"@types/node@10.12.12":
+  version "10.12.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.12.tgz#e15a9d034d9210f00320ef718a50c4a799417c47"
+  integrity sha512-Pr+6JRiKkfsFvmU/LK68oBRCQeEg36TyAbPhc2xpez24OOZZCuoIhWGTd39VZy6nGafSbxzGouFPTFD/rR1A0A==
 
 "@types/node@^10.11.7":
   version "10.12.1"
@@ -7414,11 +7415,12 @@ karma-chrome-launcher@^2.2.0:
     fs-access "^1.0.0"
     which "^1.2.1"
 
-karma-cli@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/karma-cli/-/karma-cli-1.0.1.tgz#ae6c3c58a313a1d00b45164c455b9b86ce17f960"
+karma-cli@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/karma-cli/-/karma-cli-2.0.0.tgz#481548d28661af4cc68f3d8e09708f17d2cba931"
+  integrity sha512-1Kb28UILg1ZsfqQmeELbPzuEb5C6GZJfVIk0qOr8LNYQuYWmAaqP16WpbpKEjhejDrDYyYOwwJXSZO6u7q5Pvw==
   dependencies:
-    resolve "^1.1.6"
+    resolve "^1.3.3"
 
 karma-coverage-istanbul-reporter@^2.0.0:
   version "2.0.4"
@@ -10332,7 +10334,7 @@ resolve@1.1.x:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.1.6, resolve@^1.1.7, resolve@^1.2.0, resolve@^1.3.2:
+resolve@^1.1.6, resolve@^1.1.7, resolve@^1.2.0, resolve@^1.3.2, resolve@^1.3.3:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.8.1.tgz#82f1ec19a423ac1fbd080b0bab06ba36e84a7a26"
   dependencies:
