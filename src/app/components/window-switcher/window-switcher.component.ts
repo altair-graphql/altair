@@ -67,7 +67,19 @@ export class WindowSwitcherComponent implements OnInit {
   }
 
   closeWindow(windowId) {
-    this.removeWindowChange.next(windowId);
+    return this.removeWindowChange.next(windowId);
+  }
+
+  closeWindowsToTheRight(curIndex: number) {
+    const lowerBound = curIndex + 1;
+    if (lowerBound >= this.windowIds.length) {
+      return;
+    }
+    return this.windowIds.filter((wid, i) => i > curIndex).map(_ => this.closeWindow(_));
+  }
+
+  closeOtherWindows(windowId) {
+    return this.windowIds.filter(wid => wid !== windowId).map(_ => this.closeWindow(_));
   }
 
   duplicateWindow(windowId) {

@@ -58,6 +58,7 @@ app-window-switcher {
 .window-switcher__input{
   padding-left: 4px;
   padding-right: 4px;
+  user-select: none; // Prevent tab title from highlighting on right click
 
   &:focus{
     outline: 1px solid var(--orange-color);
