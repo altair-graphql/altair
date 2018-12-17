@@ -10,6 +10,7 @@ import {
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
 import config from '../../config';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-window-switcher',
@@ -74,7 +75,7 @@ export class WindowSwitcherComponent implements OnInit {
   }
 
   log(str) {
-    console.log(str);
+    debug.log(str);
   }
 
 }

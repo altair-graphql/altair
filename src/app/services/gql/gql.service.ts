@@ -18,6 +18,7 @@ import { NotifyService } from '../notify/notify.service';
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
+import { debug } from 'app/utils/logger';
 
 @Injectable()
 export class GqlService {
@@ -42,7 +43,7 @@ export class GqlService {
   }
 
   private checkForError(res: HttpResponse<any>): HttpResponse<any> {
-    // console.log(res);
+    // debug.log(res);
     if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
@@ -144,15 +145,15 @@ export class GqlService {
     this.api_url = url;
     return this.send(getIntrospectionQuery()).pipe(
       map(data => {
-        console.log('introspection', data.data);
+        debug.log('introspection', data.data);
         return data.data;
       }),
       catchError((err) => {
-        console.log('Error from first introspection query.', err);
+        debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
         return this.send(oldIntrospectionQuery).pipe(map(data => {
-          console.log('old introspection', data.data);
+          debug.log('old introspection', data.data);
           return data.data;
         }));
       }),
@@ -175,7 +176,7 @@ export class GqlService {
       }
       return null;
     } catch (err) {
-      console.log('Trying old buildClientSchema.', err);
+      debug.log('Trying old buildClientSchema.', err);
       try {
         const schema = oldBuildClientSchema(data);
 
@@ -185,7 +186,7 @@ export class GqlService {
         `);
         return schema;
       } catch (err) {
-        console.log('Bad introspection data.', err);
+        debug.log('Bad introspection data.', err);
         this.notifyService
           .error(`
             Looks like the GraphQL schema is invalid.

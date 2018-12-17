@@ -3,6 +3,7 @@ import { on } from './events';
 import * as uuid from 'uuid/v4';
 import { detectEnvironment } from '.';
 import { environment } from 'environments/environment';
+import { debug } from './logger';
 
 const GA_URL = environment.production ? 'https://www.google-analytics.com/collect' : 'https://www.google-analytics.com/debug/collect';
 
@@ -65,7 +66,7 @@ export const trackButton = e => {
 // Track JavaScript errors
 export const trackJSErrors = () => {
   window.addEventListener('error', (e) => {
-    console.log(e);
+    debug.log(e);
     trackEvent({
       category: 'JS Error',
       action: e.message,

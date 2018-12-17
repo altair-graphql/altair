@@ -20,6 +20,7 @@ import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import { DbService } from '../services/db.service';
 
 import { getFileStr, parseCurlToObj } from '../utils';
+import { debug } from 'app/utils/logger';
 
 @Injectable()
 export class WindowService {
@@ -121,7 +122,7 @@ export class WindowService {
     try {
       return this.importWindowData(JSON.parse(data));
     } catch (err) {
-      console.log('The file is invalid.', err);
+      debug.log('The file is invalid.', err);
     }
   }
 
@@ -145,7 +146,7 @@ export class WindowService {
 
       return this.importWindowData(windowData);
     } catch (err) {
-      console.log('The file is invalid.', err);
+      debug.log('The file is invalid.', err);
     }
   }
 
@@ -202,7 +203,7 @@ export class WindowService {
         this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
       });
     } catch (err) {
-      console.log('Something went wrong while importing the data.', err);
+      debug.log('Something went wrong while importing the data.', err);
     }
   }
 
@@ -218,7 +219,7 @@ export class WindowService {
         this.importWindowData(parsed);
       }
     } catch (err) {
-      console.log('There was an issue importing the file.');
+      debug.log('There was an issue importing the file.');
     }
   }
 

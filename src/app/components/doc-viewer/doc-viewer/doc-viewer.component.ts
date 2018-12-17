@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import config from '../../../config';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-doc-viewer',
@@ -68,7 +69,7 @@ export class DocViewerComponent implements OnChanges {
   }
 
   updateDocs(schema) {
-    console.log(schema);
+    debug.log(schema);
     this.rootTypes = [
       schema.getQueryType(),
       schema.getMutationType(),
@@ -79,7 +80,7 @@ export class DocViewerComponent implements OnChanges {
       this.generateIndex(schema);
       this.hasSearchIndex = true;
     } catch (err) {
-      console.log('Error while generating index.', err);
+      debug.log('Error while generating index.', err);
       this.hasSearchIndex = false;
     }
   }
@@ -198,7 +199,7 @@ export class DocViewerComponent implements OnChanges {
       }
     });
 
-    console.log('Index: ', this.index);
+    debug.log('Index: ', this.index);
   }
 
   autocompleteSource = term => of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
@@ -225,7 +226,7 @@ export class DocViewerComponent implements OnChanges {
     this.updateDocHistory();
     this.docView.view = 'search';
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
-    console.log(this.searchResult);
+    debug.log(this.searchResult);
   }
 
   /**

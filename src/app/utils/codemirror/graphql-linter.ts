@@ -9,6 +9,7 @@
 
 import * as CodeMirror from 'codemirror';
 import { getDiagnostics } from 'graphql-language-service-interface';
+import { debug } from '../logger';
 
 const SEVERITY = ['error', 'warning', 'information', 'hint'];
 const TYPE = {
@@ -46,7 +47,7 @@ CodeMirror.registerHelper('lint', 'graphql', (text, options) => {
 
     return results;
   } catch (err) {
-    console.log(err);
+    debug.log(err);
     return [];
   }
 });

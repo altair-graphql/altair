@@ -2,6 +2,7 @@ import * as toSnakeCase from 'to-snake-case';
 import * as FileSaver from 'file-saver';
 import * as commentRegex from 'comment-regex';
 import is_electron from './is_electron';
+import { debug } from './logger';
 const curlup = require('curlup');
 const fileDialog = require('file-dialog');
 
@@ -67,7 +68,7 @@ export const getFileStr = files => {
 
 export const openFile = (...args) => {
   return fileDialog(...args).then(getFileStr).catch(err => {
-    console.log('There was an issue while opening the file: ', err);
+    debug.log('There was an issue while opening the file: ', err);
   });
 }
 

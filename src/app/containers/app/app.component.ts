@@ -30,6 +30,7 @@ import { QueryService, GqlService, WindowService, DonationService, ElectronAppSe
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-root',
@@ -112,7 +113,7 @@ export class AppComponent {
         }
 
         this.activeWindowId = data.windowsMeta.activeWindowId;
-        console.log(data.windows, this.windowIds);
+        debug.log(data.windows, this.windowIds);
 
         // If the active window has not been set, default it
         if (this.windowIds.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {

@@ -32,6 +32,7 @@ import '../../utils/codemirror/graphql-linter';
 
 import { marked } from 'marked';
 import { GqlService, NotifyService } from 'app/services';
+import { debug } from 'app/utils/logger';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -171,7 +172,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    */
   updateEditorSchema(schema) {
     if (schema) {
-      console.log('Updating schema...', schema);
+      debug.log('Updating schema...', schema);
       this.editorConfig.lint.schema = schema;
       this.editorConfig.hintOptions.schema = schema;
       // this.editorConfig.info.schema = schema;

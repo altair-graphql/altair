@@ -25,6 +25,7 @@ import * as dialogsActions from '../actions/dialogs/dialogs';
 import { downloadJson, downloadData } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
 import config from '../config';
+import { debug } from 'app/utils/logger';
 
 @Injectable()
 export class QueryEffects {
@@ -66,7 +67,7 @@ export class QueryEffects {
 
             // If the query is a subscription, subscribe to the subscription URL and send the query
             if (this.gqlService.isSubscriptionQuery(query)) {
-              console.log('Your query is a SUBSCRIPTION!!!');
+              debug.log('Your query is a SUBSCRIPTION!!!');
               // If the subscription URL is not set, show the dialog for the user to set it
               if (!response.data.query.subscriptionUrl) {
                 this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
@@ -118,7 +119,7 @@ export class QueryEffects {
               // For electron app, send the instruction to set headers
               this.electronAppService.setHeaders(response.data.headers);
 
-              console.log('Sending..');
+              debug.log('Sending..');
               return this.gqlService
                 .setUrl(response.data.query.url)
                 .setHeaders(response.data.headers)
@@ -136,7 +137,7 @@ export class QueryEffects {
                   catchError((error) => {
                     let output = 'Server Error';
 
-                    console.log(error);
+                    debug.log(error);
                     requestStatusCode = error.status;
                     requestStatusText = error.statusText;
 
@@ -361,10 +362,10 @@ export class QueryEffects {
               connectionParams,
               connectionCallback: error => {
                 if (error) {
-                  console.log('Subscription connection error', error);
+                  debug.log('Subscription connection error', error);
                   return subscriptionErrorHandler(error);
                 }
-                console.log('Connected subscription.');
+                debug.log('Connected subscription.');
               }
             });
             const subscriptionClientRequest = subscriptionClient.request({
@@ -392,16 +393,16 @@ export class QueryEffects {
                   }
                 });
 
-                console.log(data);
+                debug.log(data);
               },
               error: err => {
                 // Stop the subscription if this happens.
-                console.log('Err', err);
+                debug.log('Err', err);
                 return subscriptionErrorHandler(err);
               },
               complete: () => {
                 // Not yet sure what needs to be done here.
-                console.log('Subscription complete.');
+                debug.log('Subscription complete.');
               }
             });
 
@@ -438,7 +439,7 @@ export class QueryEffects {
           try {
             prettified = this.gqlService.prettify(res.data.query.query);
           } catch (err) {
-            console.log(err);
+            debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');
           }
 
@@ -459,11 +460,11 @@ export class QueryEffects {
         switchMap(res => {
           let compressed = '';
           try {
-            console.log('We compress..');
+            debug.log('We compress..');
             compressed = this.gqlService.compress(res.data.query.query);
-            console.log('Compressed..');
+            debug.log('Compressed..');
           } catch (err) {
-            console.log(err);
+            debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');
           }
 
