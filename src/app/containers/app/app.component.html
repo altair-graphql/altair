@@ -48,7 +48,7 @@
 
       <div class="app-side-menu">
         <div class="side-menu__main">
-          <a class="side-menu-item" (click)="prettifyCode()" title="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
+          <a class="side-menu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
             <div class="side-menu-item-icon">
               <clr-icon shape="wand"></clr-icon>
             </div>
@@ -56,7 +56,7 @@
               {{ 'PRETTIFY_BUTTON' | translate }}
             </div>
           </a>
-          <a class="side-menu-item" (click)="compressQuery()" title="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
+          <a class="side-menu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
             <div class="side-menu-item-icon">
               <clr-icon shape="shrink"></clr-icon>
             </div>
@@ -64,7 +64,7 @@
               {{ 'COMPRESS_QUERY_BUTTON' | translate }}
             </div>
           </a>
-          <a class="side-menu-item" (click)="clearEditor()" title="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
+          <a class="side-menu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
             <div class="side-menu-item-icon">
               <clr-icon shape="trash"></clr-icon>
             </div>
@@ -73,7 +73,7 @@
             </div>
           </a>
           <div class="side-menu-divider"></div>
-          <a class="side-menu-item" (click)="toggleHeader(true)" title="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
+          <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
             <div class="side-menu-item-icon">
               <clr-icon shape="asterisk"></clr-icon>
             </div>
@@ -81,7 +81,7 @@
               {{ 'SET_HEADERS_BUTTON' | translate }}
             </div>
           </a>
-          <a class="side-menu-item" (click)="toggleVariableDialog()" title="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
+          <a class="side-menu-item" (click)="toggleVariableDialog()" attr.aria-label="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
             <div class="side-menu-item-icon">
               <clr-icon shape="blocks-group"></clr-icon>
             </div>
@@ -89,7 +89,7 @@
               {{ 'SET_VARIABLES_BUTTON' | translate }}
             </div>
           </a>
-          <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" title="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
+          <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
             <div class="side-menu-item-icon">
               <clr-icon shape="switch"></clr-icon>
             </div>
@@ -97,7 +97,7 @@
               {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
             </div>
           </a>
-          <a class="side-menu-item" (click)="toggleHistoryDialog(true)" title="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
+          <a class="side-menu-item" (click)="toggleHistoryDialog(true)" attr.aria-label="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
             <div class="side-menu-item-icon">
               <clr-icon shape="history"></clr-icon>
             </div>
@@ -106,7 +106,7 @@
             </div>
           </a>
           <div class="side-menu-divider"></div>
-          <a class="side-menu-item" (click)="exportWindowData()" title="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
+          <a class="side-menu-item" (click)="exportWindowData()" attr.aria-label="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
             <div class="side-menu-item-icon">
               <clr-icon shape="export"></clr-icon>
             </div>
@@ -116,7 +116,7 @@
           </a>
     
           <div class="side-menu__main-bottom">
-            <a class="side-menu-item" (click)="toggleCollections()" title="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
+            <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
               <div class="side-menu-item-icon">
                 <clr-icon shape="library"></clr-icon>
               </div>
