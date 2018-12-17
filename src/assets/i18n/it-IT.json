@@ -36,7 +36,7 @@
   "QUERY_RESULT_STATUS_CODE_TEXT": "CODICE DI STATO",
   "QUERY_RESULT_TIME_SPENT_TEXT": "TEMPO TRASCORSO",
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Scarica",
-  "SUBSCRIPTIONS_STOP_TEXT": "Interrompi",
+  "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Cancella",
   "VARIABLES_TEXT": "Variabili",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Aggiungere, modificare e rimuovere le variabili nella vostra request",
