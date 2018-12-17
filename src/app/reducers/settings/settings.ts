@@ -16,7 +16,7 @@ export interface State {
   /**
    * Specifies the language
    * Options:
-   * 'en-US': 'English',
+    'en-US': 'English',
     'fr-FR': 'French',
     'es-ES': 'Español',
     'cs-CZ': 'Czech',
@@ -24,7 +24,9 @@ export interface State {
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
     'zh-CN': '中文',
-    'sr-SP': 'Serbian'
+    'sr-SP': 'Serbian',
+    'it-IT': 'Italian',
+    'pl-PL': 'Polish',
    */
   language: SettingsLanguage;
 

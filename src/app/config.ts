@@ -21,7 +21,9 @@ export default {
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
     'zh-CN': '中文',
-    'sr-SP': 'Serbian'
+    'sr-SP': 'Serbian',
+    'it-IT': 'Italian',
+    'pl-PL': 'Polish',
   },
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],
