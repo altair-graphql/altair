@@ -1,4 +1,6 @@
 .ngx-contextmenu {
+  font-size: fontsize(12);
+  font-weight: 500;
   .dropdown-menu {
     border: solid 1px var(--theme-off-border-color);
     background-color: var(--theme-bg-color);
@@ -8,6 +10,9 @@
     display: block;
     text-align: left;
   }
+  .divider {
+    border-bottom: 1px solid var(--theme-off-border-color);
+  }
   a {
     color: var(--theme-font-color);
     display: block;
@@ -16,7 +21,17 @@
     &:hover {
       text-decoration: none;
       background-color: var(--theme-off-bg-color);
+      transition: all .3s ease;
     }
+  }
+  .menu-icon {
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .menu-text {
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 

@@ -5,7 +5,7 @@
     *ngFor="let windowId of windowIds; let index = index;"
     [class.active]="windowId === activeWindowId"
     [contextMenu]="windowTabMenu"
-    [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle}"
+    [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle, index: index }"
     (click)="activeWindowChange.next(windowId)"
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
@@ -27,12 +27,44 @@
 </div>
 <context-menu>
   <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
-    {{ 'EDIT_WINDOW_TEXT' | translate }}
+    <span class="menu-icon">
+      <clr-icon shape="pencil" class="is-solid"></clr-icon>
+    </span>
+    <span class="menu-text">
+      {{ 'EDIT_WINDOW_TEXT' | translate }}
+    </span>
   </ng-template>
   <ng-template contextMenuItem (execute)="duplicateWindow($event.item.windowId)">
-    {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
+    <span class="menu-icon">
+      <clr-icon shape="copy" class="is-solid"></clr-icon>
+    </span>
+    <span class="menu-text">
+      {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
+    </span>
   </ng-template>
+  <ng-template contextMenuItem divider="true"></ng-template>
   <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
-    {{ 'CLOSE_WINDOW_TEXT' | translate }}
+    <span class="menu-icon">
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
+    </span>
+    <span class="menu-text">
+      {{ 'CLOSE_WINDOW_TEXT' | translate }}
+    </span>
+  </ng-template>
+  <ng-template contextMenuItem (execute)="closeWindowsToTheRight($event.item.index)">
+    <span class="menu-icon">
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
+    </span>
+    <span class="menu-text">
+      {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
+    </span>
+  </ng-template>
+  <ng-template contextMenuItem (execute)="closeOtherWindows($event.item.windowId)">
+    <span class="menu-icon">
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
+    </span>
+    <span class="menu-text">
+      {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
+    </span>
   </ng-template>
 </context-menu>
