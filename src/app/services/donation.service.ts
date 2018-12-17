@@ -2,7 +2,7 @@
 import {combineLatest as observableCombineLatest,  Observable ,  Subscriber } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { DbService } from './';
+import { DbService } from './db.service';
 import config from '../config';
 import { uaSeedHash } from '../utils/simple_hash';
 

@@ -1,5 +1,6 @@
 import * as Codemirror from 'codemirror';
 import { jsonc } from '../utils';
+import { debug } from './logger';
 
 const settingsValidator = require('./validate_settings_schema');
 
@@ -33,7 +34,7 @@ export const registerSettingsLinter = CM => {
       }
       // console.log(valid, ajv.errors, text);
     } catch (error) {
-      console.log(text, error);
+      debug.log(text, error);
       found.push({
         from: CM.Pos(1, 1),
         to: CM.Pos(1, 1),

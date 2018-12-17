@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
 
-import { WindowService } from '..';
+import { WindowService } from '../window.service';
 
 import * as fromRoot from '../../reducers';
 
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
+import { debug } from 'app/utils/logger';
 
 @Injectable()
 export class ElectronAppService {
@@ -53,7 +54,7 @@ export class ElectronAppService {
         this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId));
       });
 
-      console.log('Electron app connected.');
+      debug.log('Electron app connected.');
 
       this.electron.ipcRenderer.send('get-file-opened');
     }

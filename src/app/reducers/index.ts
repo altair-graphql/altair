@@ -19,6 +19,7 @@ import * as fromWindowsMeta from './windows-meta/windows-meta';
 import * as fromSettings from './settings/settings';
 import * as fromDonation from './donation';
 import * as fromCollection from './collection';
+import { debug } from 'app/utils/logger';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -55,7 +56,7 @@ export interface State {
 export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   return (state: State, action: Action) => {
     if (!environment.production) {
-      console.log(action.type, action);
+      debug.log(action.type, action);
     }
     window['__LAST_ACTION__'] = action.type;
     return _reducer(state, action);

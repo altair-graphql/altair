@@ -3,6 +3,7 @@ import {from as observableFrom,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { StorageService, IQueryCollection } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
+import { debug } from 'app/utils/logger';
 
 // Handling hierarchical data
 // https://stackoverflow.com/questions/4048151/what-are-the-options-for-storing-hierarchical-data-in-a-relational-database
@@ -59,7 +60,7 @@ export class QueryCollectionService {
   updateCollection(collectionId: number, modifiedCollection: IQueryCollection) {
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify((collection, ctx) => {
-        console.log('We update.');
+        debug.log('We update.');
         ctx.value = modifiedCollection;
         ctx.value.updated_at = this.storage.now();
       })
