@@ -245,6 +245,10 @@ export class AppComponent {
     this.store.dispatch(new queryActions.CopyAsCurlAction(this.activeWindowId));
   }
 
+  convertToNamedQuery() {
+    this.store.dispatch(new queryActions.ConvertToNamedQueryAction(this.activeWindowId));
+  }
+
   toggleHeader(isOpen) {
     this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
   }
