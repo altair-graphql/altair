@@ -35,6 +35,10 @@ app-window-switcher {
     background-color: #F5F5F5;
   }
 }
+.header .header-nav .nav-link.nav-text {
+  padding: .5rem 1rem;
+  line-height: 1.5rem;
+}
 .window-switcher {
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -61,7 +65,8 @@ app-window-switcher {
   user-select: none; // Prevent tab title from highlighting on right click
 
   &:focus{
-    outline: 1px solid var(--orange-color);
+    box-shadow: 0 0 2px 2px var(--orange-color);
+    border-radius: 3px;
   }
 }
 .window-switcher__close{
