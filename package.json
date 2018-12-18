@@ -115,7 +115,7 @@
     "@angular-devkit/build-angular": "~0.10.0",
     "@types/chrome": "^0.0.76",
     "@types/electron": "^1.4.38",
-    "@types/jasmine": "3.3.1",
+    "@types/jasmine": "3.3.3",
     "@types/mousetrap": "^1.6.0",
     "@types/node": "10.12.13",
     "ajv-cli": "^3.0.0",
