@@ -3,7 +3,7 @@
   "PRETTIFY_BUTTON": "Formatta",
   "COMPRESS_QUERY_BUTTON": "Comprimi",
   "CLEAR_BUTTON": "Cancella",
-  "COPY_AS_CURL_BUTTON": "Copy as cURL",
+  "COPY_AS_CURL_BUTTON": "Copia come cURL",
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "Inserisci Header",
   "SET_VARIABLES_BUTTON": "Inserisci Variabili",
