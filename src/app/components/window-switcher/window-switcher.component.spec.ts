@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SortablejsModule } from 'angular-sortablejs';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { WindowSwitcherComponent } from './window-switcher.component';
+import { ClarityModule } from '@clr/angular';
 
 describe('WindowSwitcherComponent', () => {
   let component: WindowSwitcherComponent;
@@ -13,6 +14,7 @@ describe('WindowSwitcherComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ WindowSwitcherComponent ],
       imports: [
+        ClarityModule,
         TranslateModule.forRoot(),
         SortablejsModule.forRoot({}),
         ContextMenuModule.forRoot()

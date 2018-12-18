@@ -144,9 +144,7 @@ export class WindowComponent implements OnInit {
         }
       }
 
-      if (!this.newCollectionQueryTitle) {
-        this.newCollectionQueryTitle = data.layout.title;
-      }
+      this.newCollectionQueryTitle = data.layout.title;
       // console.log(data.query);
     });
 
