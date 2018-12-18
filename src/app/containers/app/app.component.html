@@ -48,47 +48,6 @@
 
       <div class="app-side-menu">
         <div class="side-menu__main">
-          <a class="side-menu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="wand"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'PRETTIFY_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="shrink"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'COMPRESS_QUERY_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="trash"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'CLEAR_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="file-share"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'COPY_AS_CURL_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="container"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
-            </div>
-          </a>
-          <div class="side-menu-divider"></div>
           <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
             <div class="side-menu-item-icon">
               <clr-icon shape="asterisk"></clr-icon>
@@ -121,6 +80,54 @@
               {{ 'HISTORY_TEXT' | translate }}
             </div>
           </a>
+          <div class="side-menu-divider"></div>
+          <div class="side-menu-item">
+            <div class="side-menu-item-icon">
+              <clr-icon shape="tools"></clr-icon>
+            </div>
+            <div class="side-menu-item-submenu">
+              <a class="submenu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
+                <div class="submenu-item-icon">
+                  <clr-icon shape="wand"></clr-icon>
+                </div>
+                <div class="submenu-item-label">
+                  {{ 'PRETTIFY_BUTTON' | translate }}
+                </div>
+              </a>
+              <a class="submenu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
+                <div class="submenu-item-icon">
+                  <clr-icon shape="shrink"></clr-icon>
+                </div>
+                <div class="submenu-item-label">
+                  {{ 'COMPRESS_QUERY_BUTTON' | translate }}
+                </div>
+              </a>
+              <a class="submenu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
+                <div class="submenu-item-icon">
+                  <clr-icon shape="trash"></clr-icon>
+                </div>
+                <div class="submenu-item-label">
+                  {{ 'CLEAR_BUTTON' | translate }}
+                </div>
+              </a>
+              <a class="submenu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
+                <div class="submenu-item-icon">
+                  <clr-icon shape="file-share"></clr-icon>
+                </div>
+                <div class="submenu-item-label">
+                  {{ 'COPY_AS_CURL_BUTTON' | translate }}
+                </div>
+              </a>
+              <a class="submenu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
+                <div class="submenu-item-icon">
+                  <clr-icon shape="container"></clr-icon>
+                </div>
+                <div class="submenu-item-label">
+                  {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
+                </div>
+              </a>
+            </div>
+          </div>
           <div class="side-menu-divider"></div>
           <a class="side-menu-item" (click)="exportWindowData()" attr.aria-label="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
             <div class="side-menu-item-icon">
