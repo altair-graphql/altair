@@ -22,10 +22,11 @@ import * as donationAction from '../actions/donation';
 import * as historyActions from '../actions/history/history';
 import * as dialogsActions from '../actions/dialogs/dialogs';
 
-import { downloadJson, downloadData } from '../utils';
+import { downloadJson, downloadData, copyToClipboard } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
 import config from '../config';
-import { debug } from 'app/utils/logger';
+import { debug } from '../utils/logger';
+import { generateCurl } from 'app/utils/curl';
 
 @Injectable()
 export class QueryEffects {
@@ -494,6 +495,37 @@ export class QueryEffects {
           return observableEmpty();
         }),
       );
+
+    @Effect()
+    copyAsCurl$: Observable<Action> = this.actions$
+      .ofType(queryActions.COPY_AS_CURL)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          try {
+            const curlCommand = generateCurl({
+              url: res.data.query.url,
+              method: res.data.query.httpVerb,
+              headers: res.data.headers.reduce((acc, cur) => {
+                acc[cur.key] = cur.value;
+                return acc;
+              }, {}),
+              data: {
+                query: res.data.query.query,
+                variables: JSON.parse(res.data.variables.variables)
+              }
+            });
+            debug.log(curlCommand);
+            copyToClipboard(curlCommand);
+            this.notifyService.success('Copied cURL command to clipboard.');
+          } catch (err) {
+            debug.log('Error while copying as curl', err);
+          }
+          return observableEmpty();
+        })
+      )
 
     @Effect()
     showDonationAlert$: Observable<Action> = this.actions$

@@ -241,6 +241,10 @@ export class AppComponent {
     this.store.dispatch(new queryActions.SetQueryAction(``, this.activeWindowId));
   }
 
+  copyAsCurl() {
+    this.store.dispatch(new queryActions.CopyAsCurlAction(this.activeWindowId));
+  }
+
   toggleHeader(isOpen) {
     this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
   }

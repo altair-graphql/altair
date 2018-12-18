@@ -16,6 +16,7 @@ export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
+export const COPY_AS_CURL = 'COPY_AS_CURL';
 
 export const SEND_QUERY_REQUEST = 'SEND_QUERY_REQUEST';
 export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
@@ -93,6 +94,12 @@ export class PrettifyQueryAction implements Action {
 
 export class CompressQueryAction implements Action {
   readonly type = COMPRESS_QUERY;
+
+  constructor(public windowId: string, public payload?) {}
+}
+
+export class CopyAsCurlAction implements Action {
+  readonly type = COPY_AS_CURL;
 
   constructor(public windowId: string, public payload?) {}
 }
@@ -203,6 +210,7 @@ export type Action =
   | SetQueryResultAction
   | PrettifyQueryAction
   | CompressQueryAction
+  | CopyAsCurlAction
   | SendQueryRequestAction
   | SetSelectedOperationAction
   | StartSubscriptionAction
