@@ -528,6 +528,26 @@ export class QueryEffects {
       )
 
     @Effect()
+    convertToNamedQuery$: Observable<Action> = this.actions$
+      .ofType(queryActions.CONVERT_TO_NAMED_QUERY)
+      .pipe(
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          try {
+            const namedQuery = this.gqlService.nameQuery(res.data.query.query);
+            return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
+          } catch (err) {
+            debug.log(err);
+            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          }
+
+          return observableEmpty();
+        }),
+      );
+
+    @Effect()
     showDonationAlert$: Observable<Action> = this.actions$
       .ofType(queryActions.SEND_QUERY_REQUEST).pipe(
       switchMap((data: queryActions.Action) => {

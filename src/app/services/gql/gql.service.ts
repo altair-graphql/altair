@@ -11,7 +11,7 @@ import * as prettierGraphql from 'prettier/parser-graphql';
 
 import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from 'subscriptions-transport-ws';
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
-import { buildClientSchema, parse, GraphQLSchema, printSchema, getIntrospectionQuery, validateSchema } from 'graphql';
+import { buildClientSchema, parse, print, GraphQLSchema, printSchema, getIntrospectionQuery, validateSchema, visit } from 'graphql';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
@@ -198,7 +198,7 @@ export class GqlService {
     }
   }
 
-  parseQuery(query) {
+  parseQuery(query: string) {
     if (!query) {
       return {};
     }
@@ -275,7 +275,7 @@ export class GqlService {
    * Prettifies (formats) a given query
    * @param query
    */
-  prettify(query) {
+  prettify(query: string) {
     // return print(parse(query));
     return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ] });
   }
@@ -284,8 +284,34 @@ export class GqlService {
    * Compresses a given query
    * @param query
    */
-  compress(query) {
+  compress(query: string) {
     return compress(this.prettify(query));
+  }
+
+  /**
+   * Gives a name to an anonymous query
+   */
+  nameQuery(query: string) {
+    if (!query) {
+      return;
+    }
+    const ast = this.parseQuery(query);
+    const constructedName = query.trim().replace(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').substr(0, 20) + (Math.random() * 10).toFixed(0);
+    const edited = visit(ast, {
+      OperationDefinition(node) {
+        debug.log(node);
+        const NameKind = node.name || {
+          kind: 'Name',
+          value: constructedName
+        };
+        return {
+          ...node,
+          name: NameKind,
+        };
+      }
+    })
+
+    return print(edited);
   }
 
   /**

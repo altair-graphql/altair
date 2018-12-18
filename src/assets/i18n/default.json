@@ -4,6 +4,7 @@
   "COMPRESS_QUERY_BUTTON": "Compress",
   "CLEAR_BUTTON": "Clear",
   "COPY_AS_CURL_BUTTON": "Copy as cURL",
+  "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "Set Headers",
   "SET_VARIABLES_BUTTON": "Set Variables",
   "RELOAD_DOCS_BUTTON": "Reload Docs",
