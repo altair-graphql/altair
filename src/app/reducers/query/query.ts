@@ -11,7 +11,7 @@ export interface State {
   query: string;
   selectedOperation: string;
   operations: Array<any>;
-  httpVerb: string;
+  httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
   response: any;
   responseTime: number;
   responseStatus: number;

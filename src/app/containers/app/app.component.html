@@ -72,6 +72,14 @@
               {{ 'CLEAR_BUTTON' | translate }}
             </div>
           </a>
+          <a class="side-menu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
+            <div class="side-menu-item-icon">
+              <clr-icon shape="file-share"></clr-icon>
+            </div>
+            <div class="side-menu-item-label">
+              {{ 'COPY_AS_CURL_BUTTON' | translate }}
+            </div>
+          </a>
           <div class="side-menu-divider"></div>
           <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
             <div class="side-menu-item-icon">

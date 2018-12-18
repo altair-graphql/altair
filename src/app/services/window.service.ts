@@ -19,7 +19,8 @@ import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 
 import { DbService } from '../services/db.service';
 
-import { getFileStr, parseCurlToObj } from '../utils';
+import { getFileStr } from '../utils';
+import { parseCurlToObj } from '../utils/curl';
 import { debug } from 'app/utils/logger';
 
 @Injectable()
