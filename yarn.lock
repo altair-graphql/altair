@@ -839,9 +839,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ngrx/effects@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.0.tgz#3c1e1ab1e5a86c6d9c29d4f3771e42cc9bd8576c"
+"@ngrx/effects@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.0.0.tgz#57ea3a42ed970b748e78292e54fe02a768027b05"
+  integrity sha512-lhwt+UMDPYuxeTQ5vBw/MuKrIroHvQ6cLy0nGvNl8oPxakI2Jz/NAPuTYd+AdV/6ao9M9+kxXhQRFkAV53EEjA==
 
 "@ngrx/store-devtools@^6.1.0":
   version "6.1.0"
