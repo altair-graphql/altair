@@ -962,10 +962,10 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.28.tgz#c054e8af4d9dd75db4e63abc76f885168714d4b3"
 
-"@types/jasmine@3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.3.tgz#e11cbe32639640f15d2356f8013472743047dcf8"
-  integrity sha512-5br1BmlnoFZNlH6z2hnLut9qD4ojyP2Gr4yLsYbSvXcR+X2b2BqPqhRyaArKBkFqejhBOP5N98KiZHKQlJKqhA==
+"@types/jasmine@3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.5.tgz#3738ffbf34dffae9ecaac4503d7d969744f0e1d7"
+  integrity sha512-LJtc52O1PNUffMvH6Q3fS0BOhQWYlkh3SVu/Jc4GoPgJkUytk5Y6YPbw+6lZK2mWWvG62BtVyOFw0ih7r8STsw==
 
 "@types/js-beautify@0.0.28":
   version "0.0.28"
