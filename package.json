@@ -125,7 +125,7 @@
     "codelyzer": "^4.0.2",
     "devtron": "^1.4.0",
     "electron-builder": "^20.27.1",
-    "electron-prebuilt-compile": "^3.0.6",
+    "electron-prebuilt-compile": "^4.0.0",
     "electron-reloader": "^0.2.0",
     "jasmine-core": "^3.1.0",
     "jasmine-spec-reporter": "~4.2.1",
