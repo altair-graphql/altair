@@ -113,7 +113,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
-    "@types/chrome": "^0.0.76",
+    "@types/chrome": "^0.0.77",
     "@types/electron": "^1.4.38",
     "@types/jasmine": "3.3.5",
     "@types/mousetrap": "^1.6.0",
