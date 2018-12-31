@@ -935,10 +935,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.76":
-  version "0.0.76"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.76.tgz#43efd8cc144772808f11cdf5b50e559941fea657"
-  integrity sha512-SBUody36BLcWdUTVDgBS5zEWX8njOfkJoouTGJaQAuZRQw6ZQYR51/1nvYrt+kkERrXhjRwBJhHKIAfHCV9nLg==
+"@types/chrome@^0.0.77":
+  version "0.0.77"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.77.tgz#afab7a45da9ebf67d5d50c0ee0a347582128d47e"
+  integrity sha512-VPjm9KeAbwNM0gY8wFGCqO45N382xxiUhgGaiqQPai/NmLNOHBl6w6m71seq566Na0v/+skcWozzyalmX/FMIg==
   dependencies:
     "@types/filesystem" "*"
 
