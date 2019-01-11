@@ -96,7 +96,7 @@
     "graphql-query-compress": "^1.0.0",
     "marked": "^0.5.0",
     "mousetrap": "^1.6.2",
-    "ngrx-store-localstorage": "^5.0.0",
+    "ngrx-store-localstorage": "^6.0.0",
     "ngx-contextmenu": "^5.1.1",
     "ngx-electron": "^2.0.0",
     "ngx-pipes": "^2.1.0",
