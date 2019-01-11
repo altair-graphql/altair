@@ -8336,9 +8336,10 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-5.1.0.tgz#02e2e2c061c5ebacbe10c848ba8d4853aaa911ed"
+ngrx-store-localstorage@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-6.0.0.tgz#c8706b11c090f0e096aae7518bc64a7b8a22def8"
+  integrity sha512-rr6JUPFiPSUmR9j8DPVOxIK7h9ayJvtFKBfWeC6iWa2WE1Btpa5KJeH8TJPwLMvKJQ0NXh7EEBtCw/ibWZhyfA==
 
 ngx-contextmenu@^5.1.1:
   version "5.1.1"
