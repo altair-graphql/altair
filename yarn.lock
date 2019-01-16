@@ -935,10 +935,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.76":
-  version "0.0.76"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.76.tgz#43efd8cc144772808f11cdf5b50e559941fea657"
-  integrity sha512-SBUody36BLcWdUTVDgBS5zEWX8njOfkJoouTGJaQAuZRQw6ZQYR51/1nvYrt+kkERrXhjRwBJhHKIAfHCV9nLg==
+"@types/chrome@^0.0.77":
+  version "0.0.77"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.77.tgz#afab7a45da9ebf67d5d50c0ee0a347582128d47e"
+  integrity sha512-VPjm9KeAbwNM0gY8wFGCqO45N382xxiUhgGaiqQPai/NmLNOHBl6w6m71seq566Na0v/+skcWozzyalmX/FMIg==
   dependencies:
     "@types/filesystem" "*"
 
@@ -12085,9 +12085,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.33.0.tgz#b732db5bab465a729654cfb736f11ee5862f2f0f"
+typescript-json-schema@^0.34.0:
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.34.0.tgz#25c6effeee9e885771718f510bf03122f8624e18"
+  integrity sha512-BCTqkHXEIOcI78kipp6tEMUFS8b5dbWIp8tpaPC5FFjmK7iFsE5qWS6L6S+lmt71+APp+RlapXb8EEyqkmOt/w==
   dependencies:
     glob "~7.1.2"
     json-stable-stringify "^1.0.1"
