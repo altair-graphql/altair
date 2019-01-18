@@ -117,13 +117,34 @@ transition: all .3s ease;
   }
 }
 .ngui-auto-complete-wrapper {
-  ul li {
-      border: none;
-      padding: 10px;
-      background: var(--white-color);
-      color: var(--black-color);
+  .ngui-auto-complete > ul li {
+    display: block;
+    border: none;
+    padding: 10px;
+    background: var(--theme-bg-color);
+    color: var(--theme-font-color);
+    transition: all .3s ease;
+    &:hover {
+      background: var(--theme-off-bg-color);
+    }
   }
 }
+.doc-viewer-autocomplete-item {
+  // padding: 5px;
+  // background: var(--theme-bg-color);
+  // color: var(--theme-font-color);
+}
+.doc-viewer-autocomplete-item-name {}
+.doc-viewer-autocomplete-item-field {
+  float: right;
+  font-size: smaller;
+  text-transform: uppercase;
+}
+.doc-viewer-autocomplete-item-description {
+  color: var(--theme-off-font-color);
+  font-size: smaller;
+}
+
 .doc-viewer-search-results-title{
   text-transform: uppercase;
   font-size: fontsize(10);
