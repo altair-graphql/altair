@@ -230,7 +230,7 @@ export class QueryEffects {
     getIntrospectionForUrl$: Observable<allActions> = this.actions$
       .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
       .pipe(
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap((res) => {
