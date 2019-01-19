@@ -42,7 +42,7 @@ export class FlexResizerComponent implements OnInit {
 
   // Subject and observable for throttling mousemove
   mouseMoveSubject = new Subject();
-  mouseMoveObservable = this.mouseMoveSubject.asObservable().pipe(throttleTime(200));
+  mouseMoveObservable = this.mouseMoveSubject.asObservable().pipe(throttleTime(50));
   constructor(
     private el: ElementRef
   ) {

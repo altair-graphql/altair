@@ -73,7 +73,6 @@ const createMenu = (actions) => {
 
     // Window menu
     template[3].submenu = [
-      { role: "close" },
       { role: "minimize" },
       { type: "separator" },
       { role: "front" }

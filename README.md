@@ -35,7 +35,7 @@
 
 Would you like to help with translations? https://altair-gql-translate.surge.sh/ [Click here](https://crwd.in/altair-gql).
 
-![set url](src/assets/img/readme/app-shot.jpg "Altair GraphQL Client")
+![set url](src/assets/img/readme/app-shot.png "Altair GraphQL Client")
 
 A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.
 

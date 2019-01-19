@@ -12,6 +12,7 @@ import { of } from 'rxjs';
 
 import config from '../../../config';
 import { debug } from 'app/utils/logger';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-doc-viewer',
@@ -52,7 +53,8 @@ export class DocViewerComponent implements OnChanges {
   searchTerm = '';
 
   constructor(
-    private translate: TranslateService
+    private translate: TranslateService,
+    private _sanitizer: DomSanitizer,
   ) {
 
     // Set translations
@@ -203,6 +205,15 @@ export class DocViewerComponent implements OnChanges {
   }
 
   autocompleteSource = term => of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
+  autocompleteListFormatter = data => {
+    const html = `
+      <div class='doc-viewer-autocomplete-item'>
+        ${data.search}
+        <span class='doc-viewer-autocomplete-item-field'>${data.cat}</span>
+        <span class='doc-viewer-autocomplete-item-description'>${data.description || ''}</span>
+      </div>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
+  };
 
   searchInputKeyUp(term, e) {
     if (e && e.keyCode !== 13) {
