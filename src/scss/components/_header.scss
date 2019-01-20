@@ -9,6 +9,11 @@
   .header-actions {
     flex: 0 0 auto;
   }
+  .nav-link {
+    background: var(--header-bg-color);
+    color: var(--theme-font-color);
+    border: none;
+  }
 }
 .header-logo {
   width: 30px;

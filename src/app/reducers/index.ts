@@ -19,6 +19,7 @@ import * as fromWindowsMeta from './windows-meta/windows-meta';
 import * as fromSettings from './settings/settings';
 import * as fromDonation from './donation';
 import * as fromCollection from './collection';
+import * as fromEnvironments from './environments';
 import { debug } from 'app/utils/logger';
 
 export interface PerWindowState {
@@ -50,6 +51,7 @@ export interface State {
   settings: fromSettings.State;
   donation: fromDonation.State;
   collection: fromCollection.State;
+  environments: fromEnvironments.State;
 }
 
 // Meta reducer to log actions
@@ -66,7 +68,11 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
 export const keySerializer = (key) => 'altair_' + key;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({ keys: ['windows', 'windowsMeta', 'settings'], rehydrate: true, storageKeySerializer: keySerializer })(_reducer);
+  return localStorageSync({
+    keys: ['windows', 'windowsMeta', 'settings', 'environments'],
+    rehydrate: true,
+    storageKeySerializer: keySerializer
+  })(_reducer);
 }
 
 export const metaReducers: MetaReducer<any>[] = [
@@ -81,6 +87,7 @@ export const reducer: ActionReducerMap<State> = {
   settings: fromSettings.settingsReducer,
   donation: fromDonation.donationReducer,
   collection: fromCollection.collectionReducer,
+  environments: fromEnvironments.environmentsReducer,
 };
 
 export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
