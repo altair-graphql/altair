@@ -1,0 +1,68 @@
+<clr-modal [clrModalOpen]="showEnvironmentManager" [clrModalSize]="'lg'" (clrModalOpenChange)="toggleDialogChange.next($event)">
+  <h3 class="modal-title">
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'ENVIRONMENTS_MANAGER_TEXT' | translate }}</div>
+      {{ 'ENVIRONMENTS_SUB_TEXT' | translate }}
+    </div>
+  </h3>
+  <div class="modal-body">
+    <div class="app-dialog-body">
+      <div class="app-dialog-section">
+        <div class="environment-manager-wrapper">
+          <div class="environment-manager__list-wrapper">
+            <div class="environment-manager__list">
+              <div
+                class="environment-manager__list-item"
+                (click)="selectEnvironment('base')"
+                [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === 'base' }"
+              >{{ 'BASE_ENVIRONMENT_TEXT' | translate }}</div>
+            </div>
+            <div class="environment-manager__list">
+              <div class="environment-manager__list-title">{{ 'SUB_ENVIRONMENTS_HEADER' | translate }}</div>
+              <div
+                class="environment-manager__list-item"
+                *ngFor="let item of environments?.subEnvironments"
+                (click)="selectEnvironment(item.id)"
+                (dblclick)="setFocusOnEnvironmentTitle()"
+                [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
+              >{{ item.title }}</div>
+            </div>
+            <div class="environment-manager__list-actions">
+              <button class="app-button full-width" (click)="addSubEnvironmentChange.next()">{{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}</button>
+            </div>
+          </div>
+          <div class="environment-manager__editor-wrapper">
+            <div class="environment-manager__editor-meta" *ngIf="selectedEnvironmentId !== 'base'">
+              <div class="environment-manager__editor-meta-input-wrapper">
+                <input
+                  #subEnvironmentTitle
+                  type="text"
+                  class="environment-manager__editor-meta-input"
+                  placeholder="{{ 'SUB_ENVIRONMENT_TITLE_PLACEHOLDER' | translate }}"
+                  [(ngModel)]="editorTitle"
+                  (ngModelChange)="onTitleChange($event)">
+              </div>
+              <div class="environment-manager__editor-meta-actions">
+                <button class="app-button icon-button">
+                  <clr-icon shape="trash"></clr-icon>
+                </button>
+              </div>
+            </div>
+            <ngx-codemirror
+              #editor
+              class="environments-editor-textarea"
+              [options]="jsonEditorConfig"
+              [(ngModel)]="editorContent"
+              (ngModelChange)="onEditorChange($event)"
+            ></ngx-codemirror>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="app-dialog-footer">
+      <button track-id="save_environments" class="app-button active-primary right" (click)="toggleDialogChange.next(false);">{{ 'SAVE_BUTTON' | translate }}</button>
+    </div>
+  </div>
+</clr-modal>

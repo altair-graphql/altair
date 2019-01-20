@@ -28,6 +28,7 @@ import { QueryCollectionsComponent } from './query-collections/query-collections
 import { QueryCollectionItemComponent } from './query-collection-item/query-collection-item.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
+import { EnvironmentManagerComponent } from './environment-manager/environment-manager.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -48,6 +49,7 @@ const COMPONENTS = [
   QueryCollectionItemComponent,
   DialogComponent,
   EditCollectionDialogComponent,
+  EnvironmentManagerComponent,
 ];
 
 @NgModule({
