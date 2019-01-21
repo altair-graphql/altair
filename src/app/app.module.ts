@@ -62,7 +62,8 @@ const providers = [
     services.KeybinderService,
     services.StorageService,
     services.QueryCollectionService,
-    reducerProvider
+    services.EnvironmentService,
+    reducerProvider,
 ];
 
 @NgModule({
