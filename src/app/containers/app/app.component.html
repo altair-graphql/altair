@@ -194,6 +194,7 @@
         (subEnvironmentJsonChange)="updateSubEnvironmentJson($event)"
         (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
         (addSubEnvironmentChange)="addNewSubEnvironment()"
+        (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
       ></app-environment-manager>
       <app-settings-dialog
         [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"

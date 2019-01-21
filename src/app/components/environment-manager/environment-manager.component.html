@@ -43,7 +43,7 @@
                   (ngModelChange)="onTitleChange($event)">
               </div>
               <div class="environment-manager__editor-meta-actions">
-                <button class="app-button icon-button">
+                <button class="app-button icon-button" (click)="onDeleteSubEnvironment()">
                   <clr-icon shape="trash"></clr-icon>
                 </button>
               </div>
