@@ -88,5 +88,13 @@
   "COLLECTIONS_MENU_EDIT": "Edytuj",
   "EDIT_COLLECTION_TITLE_TEXT": "Edytuj kolekcję",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Aktualizuj dane kolekcji",
-  "COLLECTION_TITLE_LABEL": "Nazwa kolekcji"
+  "COLLECTION_TITLE_LABEL": "Nazwa kolekcji",
+  "ENVIRONMENTS_BUTTON": "Environments",
+  "ENVIRONMENTS_MANAGER_TEXT": "Environments",
+  "ENVIRONMENTS_SUB_TEXT": "Manage your environment variables and preferences",
+  "BASE_ENVIRONMENT_TEXT": "Global environment",
+  "SUB_ENVIRONMENTS_HEADER": "Environments",
+  "ADD_SUB_ENVIRONMENT_BUTTON": "Add Environment",
+  "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Environment title",
+  "NO_ENVIRONMENT_TEXT": "No environment"
 }
