@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const ADD_SUB_ENVIRONMENT = 'ADD_SUB_ENVIRONMENT';
+export const DELETE_SUB_ENVIRONMENT = 'DELETE_SUB_ENVIRONMENT';
 
 export const UPDATE_BASE_ENVIRONMENT_JSON = 'UPDATE_BASE_ENVIRONMENT_JSON';
 export const UPDATE_SUB_ENVIRONMENT_JSON = 'UPDATE_SUB_ENVIRONMENT_JSON';
@@ -10,6 +11,12 @@ export const SELECT_ACTIVE_SUB_ENVIRONMENT = 'SELECT_ACTIVE_SUB_ENVIRONMENT';
 
 export class AddSubEnvironmentAction implements Action {
   readonly type = ADD_SUB_ENVIRONMENT;
+
+  constructor(public payload: { id: string }) {}
+}
+
+export class DeleteSubEnvironmentAction implements Action {
+  readonly type = DELETE_SUB_ENVIRONMENT;
 
   constructor(public payload: { id: string }) {}
 }
@@ -40,6 +47,7 @@ export class SelectActiveSubEnvironmentAction implements Action {
 
 export type Action =
   | AddSubEnvironmentAction
+  | DeleteSubEnvironmentAction
   | UpdateBaseEnvironmentJsonAction
   | UpdateSubEnvironmentJsonAction
   | UpdateSubEnvironmentTitleAction

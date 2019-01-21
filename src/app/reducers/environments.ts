@@ -40,6 +40,9 @@ export function environmentsReducer(state = initialState, action: environmentsAc
           }
         ]
       };
+    case environmentsAction.DELETE_SUB_ENVIRONMENT: {
+      return { ...state, subEnvironments: state.subEnvironments.filter(env => env.id !== action.payload.id) };
+    }
     case environmentsAction.UPDATE_BASE_ENVIRONMENT_JSON:
       const base = state.base;
       base.variablesJson = action.payload.value;

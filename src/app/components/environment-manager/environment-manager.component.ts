@@ -16,6 +16,7 @@ export class EnvironmentManagerComponent implements OnInit {
   @Output() subEnvironmentJsonChange = new EventEmitter();
   @Output() subEnvironmentTitleChange = new EventEmitter();
   @Output() addSubEnvironmentChange = new EventEmitter();
+  @Output() deleteSubEnvironmentChange = new EventEmitter();
 
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
 
@@ -83,6 +84,13 @@ export class EnvironmentManagerComponent implements OnInit {
 
   setFocusOnEnvironmentTitle() {
     this.subEnvironmentTitleEl.nativeElement.focus();
+  }
+
+  onDeleteSubEnvironment() {
+    if (confirm('Are you sure you want to delete this environment?')) {
+      this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId });
+      this.selectEnvironment('base');
+    }
   }
 
 }

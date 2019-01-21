@@ -288,6 +288,10 @@ export class AppComponent {
   addNewSubEnvironment() {
     this.store.dispatch(new environmentsActions.AddSubEnvironmentAction({ id: uuid() }));
   }
+  deleteSubEnvironment(opts) {
+    this.store.dispatch(new environmentsActions.DeleteSubEnvironmentAction(opts));
+    this.selectActiveEnvironment(null);
+  }
   selectActiveEnvironment(id) {
     this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
   }
