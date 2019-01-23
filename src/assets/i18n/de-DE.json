@@ -45,7 +45,7 @@
   "HEADERS_TEXT": "Kopfzeilen",
   "SET_HEADERS_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Kopfzeilen in Ihrer Anfrage",
   "ADD_HEADER_TEXT": "Kopfzeile hinzufügen",
-  "SUBSCRIPTION_URL_TEXT": "Abonneement-URL",
+  "SUBSCRIPTION_URL_TEXT": "Abonnement-URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Geben Sie unten die Abonnement-URL für Ihren Server ein",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
   "HISTORY_TEXT": "Verlauf",
