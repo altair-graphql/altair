@@ -23,9 +23,7 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 before_script:
-- yarn global add @angular/cli
-- yarn global add karma
-- yarn global add electron-forge
+- yarn global add @angular/cli karma electron-forge lerna
 - yarn
 - yarn build
 script:
@@ -35,6 +33,7 @@ script:
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 deploy:
 - provider: releases
   api_key:
@@ -62,6 +61,14 @@ deploy:
   file_glob: true
   snap: out/**/*.snap
   channel: stable
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $TRAVIS_OS_NAME = linux
+- provider: script
+  script:
+  - lerna bootstrap
+  - npm run lerna-publish
   skip_cleanup: true
   on:
     tags: true
