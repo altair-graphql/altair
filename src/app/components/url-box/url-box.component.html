@@ -12,17 +12,28 @@
     <input track-id="set_url" #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
          [value]="apiUrl">
     <div class="url-box__input-actions">
-      <button type="button" class="url-box__input-btn" (click)="addToCollectionChange.next()" track-id="add_to_collection">
-        <clr-icon shape="floppy"></clr-icon>
+        <clr-dropdown>
+          <button clrDropdownTrigger
+            type="button"
+            class="url-box__input-btn"
+          >
+            <clr-icon shape="floppy"></clr-icon>
+          </button>
+          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+            <button type="button" clrDropdownItem (click)="addToCollectionChange.next()" track-id="add_to_collection">{{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}</button>
+            <button type="button" clrDropdownItem (click)="exportWindowChange.next()" track-id="export_window">{{ 'EXPORT_WINDOW_TEXT' | translate }}</button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+      <button
+        type="button"
+        class="url-box__input-btn"
+        (click)="reloadDocsChange.next()"
+        track-id="reload_docs"
+        [popper]="'RELOAD_DOCS_BUTTON' | translate"
+        [popperPlacement]="'bottom'"
+      >
+        <clr-icon shape="refresh"></clr-icon>
       </button>
-      <clr-tooltip>
-        <button clrTooltipTrigger type="button" class="url-box__input-btn" (click)="reloadDocsChange.next()" track-id="reload_docs">
-          <clr-icon shape="refresh"></clr-icon>
-        </button>
-        <clr-tooltip-content clrPosition="bottom-left" *clrIfOpen>
-          <span>{{ 'RELOAD_DOCS_BUTTON' | translate }}</span>
-        </clr-tooltip-content>
-      </clr-tooltip>
       <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}" track-id="show_docs">
         {{ 'DOCS_TEXT' | translate }}
       </button>

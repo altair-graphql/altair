@@ -33,6 +33,9 @@ button{
     &:focus{
         outline: 0;
     }
+    &.full-width {
+        width: 100%;
+    }
     &.active-grey{
         background: var(--theme-off-bg-color);
     }

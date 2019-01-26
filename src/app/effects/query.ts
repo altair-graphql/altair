@@ -8,7 +8,7 @@ import { Effect, Actions } from '@ngrx/effects';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService, QueryService, NotifyService, DbService, DonationService, ElectronAppService } from '../services';
+import { GqlService, QueryService, NotifyService, DbService, DonationService, ElectronAppService, EnvironmentService } from '../services';
 import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
@@ -42,6 +42,7 @@ export class QueryEffects {
           }),
           switchMap(response => {
             const query = response.data.query.query.trim();
+            const url = this.environmentService.hydrate(response.data.query.url);
 
             // If the query is empty, just return
             if (!query) {
@@ -49,7 +50,7 @@ export class QueryEffects {
             }
 
             // If the URL is not set or is invalid, just return
-            if (!response.data.query.url || !validUrl.isUri(response.data.query.url)) {
+            if (!url || !validUrl.isUri(url)) {
 
                 this.notifyService.error('The URL is invalid!');
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
@@ -122,7 +123,7 @@ export class QueryEffects {
 
               debug.log('Sending..');
               return this.gqlService
-                .setUrl(response.data.query.url)
+                .setUrl(url)
                 .setHeaders(response.data.headers)
                 .setHTTPMethod(response.data.query.httpVerb)
                 ._send(query, response.data.variables.variables, response.data.query.selectedOperation)
@@ -162,25 +163,21 @@ export class QueryEffects {
           }),
         );
 
-    // TODO: Clean this effect up!
     @Effect()
     // Shows the URL set alert after the URL is set
     showUrlSetAlert$: Observable<queryActions.Action> = this.actions$
       .ofType(queryActions.SET_URL)
       .pipe(
-        tap((data: queryActions.Action) => {
-            // If the URL is not valid
-            if (!validUrl.isUri(data.payload.url)) {
-                this.notifyService.error('The URL is invalid!');
-            } else {
-              this.notifyService.success('URL has been set.');
-            }
-
-            return data;
-        }),
         switchMap((data: queryActions.Action) => {
-            return observableTimer(3000).pipe(
-                switchMap(() => observableOf(new queryActions.HideUrlAlertAction(data.windowId))));
+          const url = this.environmentService.hydrate(data.payload.url);
+          // If the URL is not valid
+          if (!validUrl.isUri(url)) {
+              this.notifyService.error('The URL is invalid!');
+          } else {
+            this.notifyService.success('URL has been set.');
+          }
+
+          return observableEmpty();
         }),
       );
 
@@ -234,7 +231,9 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap((res) => {
-          if (!res.data.query.url) {
+          const url = this.environmentService.hydrate(res.data.query.url);
+
+          if (!url) {
             return observableEmpty();
           }
 
@@ -242,7 +241,7 @@ export class QueryEffects {
           return this.gqlService
             .setHeaders(res.data.headers)
             .setHTTPMethod(res.data.query.httpVerb)
-            .getIntrospectionRequest(res.data.query.url)
+            .getIntrospectionRequest(url)
             .pipe(
               catchError(err => {
                 const errorObj = err.error || err;
@@ -333,6 +332,10 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
+          let connectionParams = undefined;
+          const subscriptionUrl = this.environmentService.hydrate(res.data.query.subscriptionUrl);
+          const query = this.environmentService.hydrate(res.data.query.query);
+          const variables = this.environmentService.hydrate(res.data.variables.variables);
           const subscriptionErrorHandler = (err, errMsg?) => {
             if (Array.isArray(err)) {
               err = err[0];
@@ -349,17 +352,18 @@ export class QueryEffects {
             // Stop any currently active subscription
             this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
 
-            let connectionParams = undefined;
 
             try {
+              const subscriptionConnectionParams = this.environmentService.hydrate(res.data.query.subscriptionConnectionParams);
+
               connectionParams =
-                res.data.query.subscriptionConnectionParams ? JSON.parse(res.data.query.subscriptionConnectionParams) : undefined;
+                subscriptionConnectionParams ? JSON.parse(subscriptionConnectionParams) : undefined;
             } catch (err) {
               this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(res.windowId));
               return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
             }
 
-            const subscriptionClient = this.gqlService.createSubscriptionClient(res.data.query.subscriptionUrl, {
+            const subscriptionClient = this.gqlService.createSubscriptionClient(subscriptionUrl, {
               connectionParams,
               connectionCallback: error => {
                 if (error) {
@@ -370,8 +374,8 @@ export class QueryEffects {
               }
             });
             const subscriptionClientRequest = subscriptionClient.request({
-              query: res.data.query.query,
-              variables: JSON.parse(res.data.variables.variables)
+              query: query,
+              variables: JSON.parse(variables)
             }).subscribe({
               next: data => {
                 let strData = '';
@@ -504,17 +508,20 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
+          const url = this.environmentService.hydrate(res.data.query.url);
+          const query = this.environmentService.hydrate(res.data.query.query);
+          const variables = this.environmentService.hydrate(res.data.variables.variables);
           try {
             const curlCommand = generateCurl({
-              url: res.data.query.url,
+              url,
               method: res.data.query.httpVerb,
               headers: res.data.headers.reduce((acc, cur) => {
-                acc[cur.key] = cur.value;
+                acc[cur.key] = this.environmentService.hydrate(cur.value);
                 return acc;
               }, {}),
               data: {
-                query: res.data.query.query,
-                variables: JSON.parse(res.data.variables.variables)
+                query,
+                variables: JSON.parse(variables)
               }
             });
             debug.log(curlCommand);
@@ -568,6 +575,7 @@ export class QueryEffects {
       private dbService: DbService,
       private donationService: DonationService,
       private electronAppService: ElectronAppService,
+      private environmentService: EnvironmentService,
       private store: Store<any>
     ) {}
 

@@ -8,6 +8,7 @@ export interface State {
   showImportCurlDialog: boolean;
   showEditCollectionDialog: boolean;
   showSettingsDialog: boolean;
+  showEnvironmentManager: boolean;
 }
 
 const initialState: State = {
@@ -16,6 +17,7 @@ const initialState: State = {
   showImportCurlDialog: false,
   showEditCollectionDialog: false,
   showSettingsDialog: false,
+  showEnvironmentManager: false,
 };
 
 export function windowsMetaReducer(state = initialState, action: windowsMeta.Action): State {
@@ -41,6 +43,8 @@ export function windowsMetaReducer(state = initialState, action: windowsMeta.Act
       return { ...state, showEditCollectionDialog: action.payload.value };
     case windowsMeta.SHOW_SETTINGS_DIALOG:
       return { ...state, showSettingsDialog: action.payload.value };
+    case windowsMeta.SHOW_ENVIRONMENT_MANAGER:
+      return { ...state, showEnvironmentManager: action.payload.value };
     default:
       return state;
   }

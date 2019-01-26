@@ -1,0 +1,9 @@
+.tooltip-content {
+  &.ngxp__container {
+    background: var(--theme-bg-color);
+    color: var(--theme-font-color);
+    border-color: var(--theme-border-color);
+    padding: 5px 10px;
+    z-index: 5;
+  }
+}

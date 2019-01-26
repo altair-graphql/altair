@@ -30,6 +30,31 @@
       ></app-window-switcher>
       <div class="header-actions">
         <clr-dropdown>
+          <button
+            clrDropdownTrigger
+            class="nav-icon"
+            type="button"
+            track-id="show_environment_menu"
+            [popper]="'ENVIRONMENTS_BUTTON' | translate"
+          >
+              <clr-icon shape="file-settings" [ngClass]="{ 'has-badge': (environments$ | async)?.activeSubEnvironment}"></clr-icon>
+          </button>
+          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+            <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
+              <button
+                type="button"
+                clrDropdownItem
+                (click)="selectActiveEnvironment(environment.id)"
+                *ngFor="let environment of (environments$ | async).subEnvironments"
+                [ngClass]="{ 'active': environment.id === (environments$ | async).activeSubEnvironment }"
+                track-id="select_environment">{{ environment.title }}</button>
+              <button type="button" clrDropdownItem (click)="selectActiveEnvironment(null)" track-id="select_no_environment">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</button>
+              <div class="dropdown-divider"></div>
+            </ng-container>
+            <button type="button" clrDropdownItem (click)="toggleEnvironmentManager(true)" track-id="show_environment_manager">{{ 'ENVIRONMENTS_BUTTON' | translate }}</button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+        <clr-dropdown>
           <button class="nav-icon" type="button" clrDropdownTrigger track-id="show_settings_menu">
             <clr-icon shape="cog"></clr-icon>
             <clr-icon shape="caret down"></clr-icon>
@@ -167,6 +192,16 @@
       </ng-container>
     </div>
     <div class="dialogs">
+      <app-environment-manager
+        [showEnvironmentManager]="(windowsMeta$ | async)?.showEnvironmentManager"
+        [environments]="environments$ | async"
+        (toggleDialogChange)="toggleEnvironmentManager(!!$event)"
+        (baseEnvironmentJsonChange)="updateBaseEnvironmentJson($event)"
+        (subEnvironmentJsonChange)="updateSubEnvironmentJson($event)"
+        (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
+        (addSubEnvironmentChange)="addNewSubEnvironment()"
+        (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
+      ></app-environment-manager>
       <app-settings-dialog
         [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
         [settings]="settings$ | async"

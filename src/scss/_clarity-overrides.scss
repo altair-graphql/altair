@@ -35,3 +35,6 @@
     // padding: 1px 15px 0;
   }
 }
+.dropdown button.dropdown-toggle:not(.btn) {
+  color: var(--theme-font-color);
+}

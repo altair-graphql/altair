@@ -4,12 +4,15 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
+import * as uuid from 'uuid/v4';
+
 import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromSettings from '../../reducers/settings/settings';
 import * as fromCollection from '../../reducers/collection';
 import * as fromWindowsMeta from '../../reducers/windows-meta/windows-meta';
+import * as fromEnvironments from '../../reducers/environments';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -23,6 +26,7 @@ import * as settingsActions from '../../actions/settings/settings';
 import * as donationActions from '../../actions/donation';
 import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
+import * as environmentsActions from '../../actions/environments/environments';
 
 import { environment } from '../../../environments/environment';
 
@@ -41,6 +45,7 @@ export class AppComponent {
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
+  environments$: Observable<fromEnvironments.State>;
 
   windowIds = [];
   windows = {};
@@ -66,6 +71,7 @@ export class AppComponent {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
+    this.environments$ = this.store.select('environments');
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -265,7 +271,33 @@ export class AppComponent {
     this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
   }
 
+  toggleEnvironmentManager(show) {
+    this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
+  }
+
+  updateBaseEnvironmentJson(opts: { value: string }) {
+    this.store.dispatch(new environmentsActions.UpdateBaseEnvironmentJsonAction(opts));
+  }
+  updateSubEnvironmentJson(opts: { id, value }) {
+    this.store.dispatch(new environmentsActions.UpdateSubEnvironmentJsonAction(opts));
+  }
+  updateSubEnvironmentTitle(opts: { id, value}) {
+    this.store.dispatch(new environmentsActions.UpdateSubEnvironmentTitleAction(opts));
+  }
+
+  addNewSubEnvironment() {
+    this.store.dispatch(new environmentsActions.AddSubEnvironmentAction({ id: uuid() }));
+  }
+  deleteSubEnvironment(opts) {
+    this.store.dispatch(new environmentsActions.DeleteSubEnvironmentAction(opts));
+    this.selectActiveEnvironment(null);
+  }
+  selectActiveEnvironment(id) {
+    this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
+  }
+
   /**
+   * TODO: Deprecated. Moved to url box. Cleanup.
    * Export the data in the current window
    */
   exportWindowData() {

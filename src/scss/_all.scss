@@ -3,7 +3,6 @@
 @import "layout";
 @import "links";
 @import "buttons";
-@import "tooltip";
 @import "loading-screen";
 
 @import "codemirror";
@@ -25,3 +24,5 @@
 @import "components/add-to-collection";
 @import "components/doc-viewer";
 @import "components/subscriptions";
+@import "components/environment-manager";
+@import "components/tooltip";

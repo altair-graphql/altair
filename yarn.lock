@@ -2375,10 +2375,6 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-balloon-css@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/balloon-css/-/balloon-css-0.5.0.tgz#6a3c065efab9ea5f509a95d4315df00aae114fa3"
-
 base64-arraybuffer@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
@@ -8362,6 +8358,13 @@ ngx-pipes@^2.1.0:
   dependencies:
     tslib "^1.9.0"
 
+ngx-popper@^6.0.6:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/ngx-popper/-/ngx-popper-6.0.6.tgz#ffcb7a40117909d83a0b4e3826b95a078745f2ff"
+  integrity sha512-LpDZRX2t+4o6yhk/iswknPTapP5TtU0FpTfioNG+s55ftPabYB6hn5OeZfr3r+JNahJVa4542uvp6wpanIoqsw==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-toastr@^8.8.0:
   version "8.10.2"
   resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-8.10.2.tgz#08f7d392a76d3d5c87cde92f55c81d51ced64e74"
@@ -9290,6 +9293,11 @@ po2json@0.4.5:
   dependencies:
     gettext-parser "1.1.0"
     nomnom "1.8.1"
+
+popper.js@^1.14.6:
+  version "1.14.6"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.6.tgz#ab20dd4edf9288b8b3b6531c47c361107b60b4b0"
+  integrity sha512-AGwHGQBKumlk/MDfrSOf0JHhJCImdDMcGNoqKmKkU+68GFazv3CQ6q9r7Ja1sKDZmYWTckY/uLyEznheTDycnA==
 
 portfinder@1.0.17:
   version "1.0.17"
