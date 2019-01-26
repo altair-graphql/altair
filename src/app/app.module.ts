@@ -35,6 +35,7 @@ import { WindowComponent } from './containers/window/window.component';
 
 
 import * as services from './services';
+import { NgxPopperModule } from 'ngx-popper';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -76,7 +77,7 @@ const providers = [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    SharedModule,
+    SharedModule.forRoot(),
     ClarityModule,
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,

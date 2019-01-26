@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { DndModule } from '@beyerleinf/ngx-dnd';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { NgxPopperModule } from 'ngx-popper';
 
 
 @NgModule({
@@ -20,7 +21,13 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     NguiAutoCompleteModule,
     ContextMenuModule.forRoot(),
     DndModule.forRoot(),
+    NgxPopperModule.forRoot({
+      applyClass: 'tooltip-content',
+      trigger: 'hover'
+    }),
   ],
+
+  // DON'T FORGET TO EXPORT MODULE
   exports: [
     TranslateModule,
     NgxElectronModule,
@@ -29,6 +36,14 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     ContextMenuModule,
     DndModule,
     NguiAutoCompleteModule,
+    NgxPopperModule,
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: []
+    };
+  }
+}

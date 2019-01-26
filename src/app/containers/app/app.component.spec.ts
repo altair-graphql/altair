@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { WindowComponent } from '../window/window.component';
 import { DirectivesModule } from 'app/directives';
 import { ToastrModule } from 'ngx-toastr';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -62,7 +63,8 @@ describe('AppComponent', () => {
         ToastrModule.forRoot(),
         ComponentModule,
         DocViewerModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        SharedModule.forRoot(),
       ],
       providers: providers
     }).compileComponents();

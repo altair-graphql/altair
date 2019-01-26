@@ -30,7 +30,13 @@
       ></app-window-switcher>
       <div class="header-actions">
         <clr-dropdown>
-          <button clrDropdownTrigger class="nav-icon" type="button" track-id="show_environment_menu">
+          <button
+            clrDropdownTrigger
+            class="nav-icon"
+            type="button"
+            track-id="show_environment_menu"
+            [popper]="'ENVIRONMENTS_BUTTON' | translate"
+          >
               <clr-icon shape="file-settings" [ngClass]="{ 'has-badge': (environments$ | async)?.activeSubEnvironment}"></clr-icon>
           </button>
           <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>

@@ -297,6 +297,7 @@ export class AppComponent {
   }
 
   /**
+   * TODO: Deprecated. Moved to url box. Cleanup.
    * Export the data in the current window
    */
   exportWindowData() {
