@@ -15,3 +15,8 @@ sed -i '' "s|$OLD_BASE|$NEW_BASE|g" ./chrome-ext-files/manifest.json
 
 # Update version in package.json
 sed -i '' "s|$OLD_BASE|$NEW_BASE|g" ./package.json
+
+if (lerna --version); then
+  # Set the lerna packages versions as well
+  lerna version $NEW_VERSION --no-git-tag-version --no-push --yes;
+fi
