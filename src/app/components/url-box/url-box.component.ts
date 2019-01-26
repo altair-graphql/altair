@@ -19,6 +19,7 @@ export class UrlBoxComponent {
   @Output() urlChange = new EventEmitter();
   @Output() httpVerbChange = new EventEmitter();
   @Output() selectedOperationChange = new EventEmitter();
+  @Output() exportWindowChange = new EventEmitter();
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
