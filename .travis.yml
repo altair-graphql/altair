@@ -66,9 +66,7 @@ deploy:
     tags: true
     condition: $TRAVIS_OS_NAME = linux
 - provider: script
-  script:
-  - lerna bootstrap
-  - npm run lerna-publish
+  script: sh bin/publish_packages.sh
   skip_cleanup: true
   on:
     tags: true
