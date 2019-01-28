@@ -7,7 +7,7 @@ ncp.limit = 16;
 const distSrc = path.join(__dirname, '../../../dist'); // From the main altair dist folder
 const distDestination = path.join(__dirname, '../build/dist'); // To altair-static dist folder
 if (!fs.existsSync(distDestination)){
-  fs.mkdirSync(distDestination);
+  fs.mkdirSync(distDestination, { recursive: true });
 }
 
 const srcDir = path.resolve(__dirname, '../src');
