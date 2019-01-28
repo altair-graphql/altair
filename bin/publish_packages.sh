@@ -1,4 +1,5 @@
 #!/bin/bash
 
 lerna bootstrap
-npm run lerna-publish
+# lerna publish from-git --force-publish=* --yes
+lerna publish from-git --force-publish=* --yes --skip-npm --skip-git
