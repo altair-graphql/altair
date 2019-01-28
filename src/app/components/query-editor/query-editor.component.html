@@ -9,11 +9,39 @@
 </div>
 <div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
   <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
-  <div class="variables-editor-inner" *ngIf="showVariableDialog">
-    <app-variables-editor
-      [variables]="variables"
-      (variablesChange)="variablesChange.emit($event)"
-    ></app-variables-editor>
-  </div>
+  <ng-container *ngIf="showVariableDialog">
+    <div class="variables-editor-inner">
+      <app-variables-editor
+        [variables]="variables.variables"
+        (variablesChange)="variablesChange.emit($event)"
+      ></app-variables-editor>
+    </div>
+    <div class="variables-files-container">
+      <button class="variables-add-files-button" (click)="addFileVariableChange.next()">{{ 'ADD_FILES_TEXT' | translate }}</button>
+
+      <div class="variables-files-list">
+        <div class="variables-file-item" *ngFor="let file of variables.files; let index = index;">
+          <div class="variables-file-item-name-input-wrapper">
+            <input
+              type="text"
+              class="variables-file-item-name-input"
+              placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
+              [ngModel]="file.name"
+              (ngModelChange)="fileVariableNameChange.next({ index: index, name: $event })"
+            >
+          </div>
+          <div class="variables-file-item-input-wrapper">
+            <input
+              #fileEl
+              type="file"
+              class="variables-file-item-input"
+              (change)="fileVariableDataChange.next({ index: index, fileData: fileEl.files[0] })"
+            >
+          </div>
+          <div class="variables-file-item-input-delete" (click)="deleteFileVariableChange.next({ index: index })">&#x00D7;</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
 <app-flex-resizer [resizeDirection]="'right'" (resizeChange)="onResize($event)"></app-flex-resizer>

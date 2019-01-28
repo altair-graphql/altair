@@ -125,10 +125,14 @@ export class QueryEffects {
 
               debug.log('Sending..');
               return this.gqlService
-                .setUrl(url)
-                .setHeaders(headers)
-                .setHTTPMethod(response.data.query.httpVerb)
-                ._send(query, variables, response.data.query.selectedOperation)
+                .sendRequest(url, {
+                  query,
+                  variables,
+                  headers,
+                  method: response.data.query.httpVerb,
+                  selectedOperation: response.data.query.selectedOperation,
+                  files: response.data.variables.files,
+                })
                 .pipe(
                   map(res => {
                     requestStatusCode = res.status;

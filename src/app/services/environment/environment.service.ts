@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as fromEnvironments from '../../reducers/environments';
+import * as fromHeaders from '../../reducers/headers/headers';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,15 @@ export class EnvironmentService {
 
       return activeEnvironment[variable];
     });
+  }
+
+  hydrateHeaders(headers: fromHeaders.Header[]) {
+    const hydratedHeaders = headers.map(header => {
+      header.key = this.hydrate(header.key);
+      header.value = this.hydrate(header.value);
+      return header;
+    });
+
+    return hydratedHeaders;
   }
 }

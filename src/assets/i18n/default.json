@@ -111,5 +111,8 @@
   "SUB_ENVIRONMENTS_HEADER": "Environments",
   "ADD_SUB_ENVIRONMENT_BUTTON": "Add Environment",
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Environment title",
-  "NO_ENVIRONMENT_TEXT": "No environment"
+  "NO_ENVIRONMENT_TEXT": "No environment",
+
+  "ADD_FILES_TEXT": "Add files",
+  "FILE_NAME_PLACEHOLDER": "File name (used as query variable)"
 }
