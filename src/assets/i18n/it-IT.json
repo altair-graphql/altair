@@ -97,6 +97,6 @@
   "ADD_SUB_ENVIRONMENT_BUTTON": "Aggiungi ambiente",
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Titolo ambiente",
   "NO_ENVIRONMENT_TEXT": "Nessun ambiente",
-  "ADD_FILES_TEXT": "Add files",
-  "FILE_NAME_PLACEHOLDER": "File name (used as query variable)"
+  "ADD_FILES_TEXT": "Aggiungi file",
+  "FILE_NAME_PLACEHOLDER": "Nome file (usato come query variable)"
 }
