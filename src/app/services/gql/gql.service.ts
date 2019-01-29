@@ -151,7 +151,7 @@ export class GqlService {
 
     this.setUrl(url)
       // Skip json default headers for files
-      .setHeaders(opts.headers, { skipDefaults: !!files.length })
+      .setHeaders(opts.headers, { skipDefaults: !!(files && files.length) })
       .setHTTPMethod(opts.method);
 
     return this._send(opts.query, opts.variables, opts.selectedOperation, files);
