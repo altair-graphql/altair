@@ -26,14 +26,14 @@ before_script:
 - yarn global add @angular/cli karma electron-forge lerna
 - yarn
 - yarn build
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
-before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi
-- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
+before_deploy:
 deploy:
 - provider: releases
   api_key:
