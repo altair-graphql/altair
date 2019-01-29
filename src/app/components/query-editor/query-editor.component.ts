@@ -11,6 +11,8 @@ import {
   HostBinding
 } from '@angular/core';
 
+import * as fromVariables from '../../reducers/variables/variables';
+
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
 import 'codemirror/addon/comment/comment';
@@ -49,10 +51,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() gqlSchema = null;
   @Input() tabSize = 2;
 
-  @Input() variables = '';
+  @Input() variables: fromVariables.State = null;
   @Input() showVariableDialog = false;
   @Output() variablesChange = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
+  @Output() addFileVariableChange = new EventEmitter();
+  @Output() fileVariableNameChange = new EventEmitter();
+  @Output() fileVariableDataChange = new EventEmitter();
+  @Output() deleteFileVariableChange = new EventEmitter();
 
   @ViewChild('editor') editor;
 

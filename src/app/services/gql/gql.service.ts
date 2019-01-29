@@ -2,7 +2,7 @@
 import {throwError as observableThrowError, Observable } from 'rxjs';
 
 import {map, catchError, tap} from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as prettier from 'prettier/standalone';
@@ -19,6 +19,18 @@ import { NotifyService } from '../notify/notify.service';
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
 import { debug } from 'app/utils/logger';
+
+import * as fromHeaders from '../../reducers/headers/headers';
+import * as fromVariables from '../../reducers/variables/variables';
+
+interface SendRequestOptions {
+  query: string;
+  variables: string;
+  method: string;
+  headers?: fromHeaders.Header[];
+  files?: fromVariables.FileVariable[];
+  selectedOperation?: string;
+};
 
 @Injectable()
 export class GqlService {
@@ -58,8 +70,11 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send(query, vars?, selectedOperation?) {
-    const data: any = { query, variables: {} };
+  _send(query, vars?, selectedOperation?, files?: fromVariables.FileVariable[]) {
+    const data = { query, variables: {}, operationName: null };
+    let body = null;
+    let params = null;
+    const headers = this.headers;
 
     if (selectedOperation) {
       data.operationName = selectedOperation;
@@ -75,12 +90,43 @@ export class GqlService {
         return observableThrowError(err);
       }
     }
+
+    if (this.method.toLowerCase() !== 'get') {
+      if (files && files.length) {
+        // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
+        const fileMap = {};
+        data.variables = data.variables || {};
+        files.forEach((file, i) => {
+          const fileNameParts = file.name.split('.');
+          if (fileNameParts[1]) {
+            data.variables[fileNameParts[0]] = data.variables[fileNameParts[0]] || [];
+            data.variables[fileNameParts[0]] = [ ...data.variables[fileNameParts[0]], null ];
+          } else {
+            data.variables[file.name] = null;
+          }
+          fileMap[i] = [ `variables.${file.name}` ];
+        });
+        const formData = new FormData();
+        formData.append('operations', JSON.stringify(data));
+        formData.append('map', JSON.stringify(fileMap));
+        files.forEach((file, i) => {
+          formData.append(`${i}`, file.data);
+        });
+
+        body = formData;
+      } else {
+        body = JSON.stringify(data);
+      }
+    } else {
+      params = this.getParamsFromData(data);
+    }
+    debug.log(headers.keys());
     return this.http.request(this.method, this.api_url, {
       // GET method uses params, while the other methods use body
-      body: this.method.toLowerCase() !== 'get' ? JSON.stringify(data) : null,
-      params: this.method.toLowerCase() !== 'get' ? null : this.getParamsFromData(data),
-      headers: this.headers,
-      observe: 'response'
+      body,
+      params,
+      headers,
+      observe: 'response',
     })
     .pipe(
       map(this.checkForError),
@@ -96,16 +142,30 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  send(query, vars?, selectedOperation?) {
-    return this._send(query, vars, selectedOperation).pipe(map(res => res.body));
+  send(query, vars?, selectedOperation?, files?) {
+    return this._send(query, vars, selectedOperation, files).pipe(map(res => res.body));
   }
 
-  setHeaders(headers?) {
-    let newHeaders = new HttpHeaders(this.defaultHeaders);
+  sendRequest(url: string, opts: SendRequestOptions) {
+    const files = opts.files && opts.files.length && opts.files.filter(file => file && file.data instanceof File && file.name);
+
+    this.setUrl(url)
+      // Skip json default headers for files
+      .setHeaders(opts.headers, { skipDefaults: !!files.length })
+      .setHTTPMethod(opts.method);
+
+    return this._send(opts.query, opts.variables, opts.selectedOperation, files);
+  }
+
+  setHeaders(headers = [], opts = { skipDefaults: false }) {
+    let newHeaders = new HttpHeaders();
+    if (!opts.skipDefaults) {
+      newHeaders = new HttpHeaders(this.defaultHeaders);
+    }
 
     const forbiddenHeaders = [ 'Origin' ];
 
-    if (headers) {
+    if (headers && headers.length) {
       headers.forEach(header => {
         if (!forbiddenHeaders.includes(header.key) && header.key && header.value) {
           newHeaders = newHeaders.set(header.key, header.value);

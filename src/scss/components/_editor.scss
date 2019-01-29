@@ -177,3 +177,48 @@ app-query-editor {
   width: 100%;
   height: 100%;
 }
+
+.variables-add-files-button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+.variables-files-container {
+  padding: 3px 5px;
+}
+
+.variables-file-item {
+  display: flex;
+}
+.variables-file-item-name-input-wrapper {
+  flex: 1;
+  padding: 0 5px;
+}
+.variables-file-item-input-wrapper {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+.variables-file-item-name-input {
+  font-size: fontsize(14);
+  padding: 5px 0;
+  line-height: 1;
+  border: none;
+  border-bottom: 2px solid var(--theme-border-color);
+  transition: all .3s ease;
+  &:focus{
+    border-color: $green;
+  }
+}
+::-webkit-file-upload-button {
+  border-radius: 4px;
+}
+.variables-file-item-input-delete {
+  padding: 3px;
+  cursor: pointer;
+  &:hover {
+    color: var(--red-color);
+  }
+}

@@ -43,6 +43,8 @@ export class QueryEffects {
           switchMap(response => {
             const query = response.data.query.query.trim();
             const url = this.environmentService.hydrate(response.data.query.url);
+            const variables = this.environmentService.hydrate(response.data.variables.variables);
+            const headers = this.environmentService.hydrateHeaders(response.data.headers);
 
             // If the query is empty, just return
             if (!query) {
@@ -109,8 +111,8 @@ export class QueryEffects {
               let requestStatusText = '';
 
               try {
-                if (response.data.variables.variables) {
-                  JSON.parse(response.data.variables.variables);
+                if (variables) {
+                  JSON.parse(variables);
                 }
               } catch (err) {
                 this.notifyService.error('Looks like your variables is not a valid JSON string.');
@@ -119,14 +121,18 @@ export class QueryEffects {
               }
 
               // For electron app, send the instruction to set headers
-              this.electronAppService.setHeaders(response.data.headers);
+              this.electronAppService.setHeaders(headers);
 
               debug.log('Sending..');
               return this.gqlService
-                .setUrl(url)
-                .setHeaders(response.data.headers)
-                .setHTTPMethod(response.data.query.httpVerb)
-                ._send(query, response.data.variables.variables, response.data.query.selectedOperation)
+                .sendRequest(url, {
+                  query,
+                  variables,
+                  headers,
+                  method: response.data.query.httpVerb,
+                  selectedOperation: response.data.query.selectedOperation,
+                  files: response.data.variables.files,
+                })
                 .pipe(
                   map(res => {
                     requestStatusCode = res.status;
@@ -232,6 +238,7 @@ export class QueryEffects {
         }),
         switchMap((res) => {
           const url = this.environmentService.hydrate(res.data.query.url);
+          const headers = this.environmentService.hydrateHeaders(res.data.headers);
 
           if (!url) {
             return observableEmpty();
@@ -239,7 +246,7 @@ export class QueryEffects {
 
           this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
           return this.gqlService
-            .setHeaders(res.data.headers)
+            .setHeaders(headers)
             .setHTTPMethod(res.data.query.httpVerb)
             .getIntrospectionRequest(url)
             .pipe(

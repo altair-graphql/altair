@@ -37,7 +37,7 @@ export class WindowComponent implements OnInit {
   showDocs$: Observable<boolean>;
   docsIsLoading$: Observable<boolean>;
   headers$: Observable<fromHeader.State>;
-  variables$: Observable<string>;
+  variables$: Observable<fromVariable.State>;
   isLoading$: Observable<boolean>;
   introspection$: Observable<any>;
   allowIntrospection$: Observable<boolean>;
@@ -98,7 +98,7 @@ export class WindowComponent implements OnInit {
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docsIsLoading$ = this.getWindowState().pipe(select(fromRoot.getDocsLoading));
     this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
-    this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
+    this.variables$ = this.getWindowState().pipe(select('variables'));
     this.isLoading$ = this.getWindowState().pipe(select(fromRoot.getIsLoading));
     this.introspection$ = this.getWindowState().pipe(select(fromRoot.getIntrospection));
     this.allowIntrospection$ = this.getWindowState().pipe(select(fromRoot.allowIntrospection));
@@ -251,6 +251,21 @@ export class WindowComponent implements OnInit {
 
   updateVariables(variables) {
     this.store.dispatch(new variableActions.UpdateVariablesAction(variables, this.windowId));
+  }
+
+  addFileVariable() {
+    this.store.dispatch(new variableActions.AddFileVariableAction(this.windowId));
+  }
+  updateFileVariableName({ index, name }) {
+    this.store.dispatch(new variableActions.UpdateFileVariableNameAction(this.windowId, { index, name }));
+  }
+
+  updateFileVariableData({ index, fileData }) {
+    this.store.dispatch(new variableActions.UpdateFileVariableDataAction(this.windowId, { index, fileData }));
+  }
+
+  deleteFileVariable({ index }) {
+    this.store.dispatch(new variableActions.DeleteFileVariableAction(this.windowId, { index }));
   }
 
   updateSubscriptionUrl(url) {

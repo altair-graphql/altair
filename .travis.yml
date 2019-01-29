@@ -23,18 +23,17 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 before_script:
-- yarn global add @angular/cli
-- yarn global add karma
-- yarn global add electron-forge
+- yarn global add @angular/cli karma electron-forge lerna@3.0.6
 - yarn
 - yarn build
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
-before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
+before_deploy:
 deploy:
 - provider: releases
   api_key:
@@ -62,6 +61,12 @@ deploy:
   file_glob: true
   snap: out/**/*.snap
   channel: stable
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $TRAVIS_OS_NAME = linux
+- provider: script
+  script: sh bin/publish_packages.sh
   skip_cleanup: true
   on:
     tags: true
