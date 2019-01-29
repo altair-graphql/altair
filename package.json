@@ -87,6 +87,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.0.1",
     "electron-util": "^0.10.0",
+    "electron-window-state": "^5.0.3",
     "express": "^4.16.2",
     "file-dialog": "^0.0.7",
     "file-saver": "^2.0.0-rc.4",

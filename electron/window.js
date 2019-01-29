@@ -3,12 +3,16 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const mime = require('mime-types');
+const windowStateKeeper = require('electron-window-state');
 
 const { getStore } = require('./store');
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
 const { checkForUpdates } = require('./updates');
 
+/**
+ * @type {BrowserWindow}
+ */
 let instance = null;
 
 const headersToSet = [ 'Origin' ];
@@ -90,15 +94,29 @@ const createWindow = () => {
     if (error) console.error('Failed to register protocol')
   });
 
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1280,
+    defaultHeight: 800
+  });
+
   // Create the browser window.
   instance = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    show: false, // show when ready
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     webPreferences: {
       webSecurity: false
     },
     // titleBarStyle: 'hidden-inset'
   });
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(instance);
 
   // Populate the application menu
   createMenu(actions);
@@ -125,6 +143,11 @@ const createWindow = () => {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     instance = null;
+  });
+
+  instance.on('ready-to-show', () => {
+    instance.show();
+    instance.focus();
   });
 
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
