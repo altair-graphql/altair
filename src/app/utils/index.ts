@@ -44,7 +44,7 @@ export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
     _opts = { ..._opts, ...opts };
   }
 
-  const dataStr = encodeURIComponent(JSON.stringify(obj));
+  const dataStr = JSON.stringify(obj);
   downloadData(dataStr, fileName, _opts);
 };
 
