@@ -60,7 +60,12 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
     if (!environment.production) {
       debug.log(action.type, action);
     }
-    window['__LAST_ACTION__'] = action.type;
+    window['__LAST_ACTION__'] = window['__LAST_ACTION__'] || [];
+    window['__LAST_ACTION__'].push(action.type);
+    if (window['__LAST_ACTION__'].length > 10) {
+      window['__LAST_ACTION__'].shift();
+    }
+
     return _reducer(state, action);
   };
 }
