@@ -7,15 +7,6 @@ import { debug } from './logger';
 
 const GA_URL = environment.production ? 'https://www.google-analytics.com/collect' : 'https://www.google-analytics.com/debug/collect';
 
-export const trackPageview = () => {
-  const bodyParams = {
-    dh: location.hostname,
-    dp: location.pathname,
-    dt: document.title,
-  };
-
-  return sendTracking(bodyParams);
-};
 export const sendTracking = (data) => {
   const cid = localStorage.getItem('altair:cid') || uuid();
   localStorage.setItem('altair:cid', cid);
@@ -56,6 +47,16 @@ export const sendTracking = (data) => {
     mode: 'cors',
     body: bodyStr
   }).catch(err => {});
+};
+
+export const trackPageview = () => {
+  const bodyParams = {
+    dh: location.hostname,
+    dp: location.pathname,
+    dt: document.title,
+  };
+
+  return sendTracking(bodyParams);
 };
 
 export const trackEvent = ({ category, action, label, value = undefined }) => {
