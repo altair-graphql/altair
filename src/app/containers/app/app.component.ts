@@ -296,14 +296,6 @@ export class AppComponent {
     this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
   }
 
-  /**
-   * TODO: Deprecated. Moved to url box. Cleanup.
-   * Export the data in the current window
-   */
-  exportWindowData() {
-    this.store.dispatch(new windowActions.ExportWindowAction({ windowId: this.activeWindowId }));
-  }
-
   toggleCollections() {
     this.showCollections = !this.showCollections;
   }
