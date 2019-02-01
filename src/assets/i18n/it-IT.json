@@ -98,5 +98,6 @@
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Titolo ambiente",
   "NO_ENVIRONMENT_TEXT": "Nessun ambiente",
   "ADD_FILES_TEXT": "Aggiungi file",
-  "FILE_NAME_PLACEHOLDER": "Nome file (usato come query variable)"
+  "FILE_NAME_PLACEHOLDER": "Nome file (usato come query variable)",
+  "LEARN_MORE_TEXT": "Altre informazioni"
 }
