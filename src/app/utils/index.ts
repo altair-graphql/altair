@@ -1,6 +1,7 @@
 import * as toSnakeCase from 'to-snake-case';
 import * as FileSaver from 'file-saver';
 import * as commentRegex from 'comment-regex';
+import * as validUrl from 'valid-url';
 import is_electron from './is_electron';
 import { debug } from './logger';
 const fileDialog = require('file-dialog');
@@ -126,4 +127,19 @@ export const copyToClipboard = str => {
     document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
     document.getSelection().addRange(selected);   // Restore the original selection
   }
+};
+
+export const getFullUrl = (url: string) => {
+  if (!url) {
+    return url;
+  }
+
+  if (!validUrl.isUri(url)) {
+    if (url.substr(0, 1) === '/') {
+      url = url.substr(1);
+    }
+    return location.origin + '/' + url;
+  }
+
+  return url;
 };

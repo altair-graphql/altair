@@ -4,6 +4,7 @@ import { initialQuery } from './initialQuery';
 
 import * as query from '../../actions/query/query';
 import config from '../../config';
+import { getFullUrl } from '../../utils';
 
 export interface State {
   url: string;
@@ -29,7 +30,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  url: config.initialData.url,
+  url: getFullUrl(config.initialData.url),
   subscriptionUrl: config.initialData.subscriptionsEndpoint,
   query: config.initialData.query || initialQuery,
   selectedOperation: null,

@@ -41,7 +41,9 @@ export function windows(reducer: ActionReducer<any>) {
 
                 _state[windowId].layout.title = title;
                 _state[windowId].windowId = windowId;
-                _state[windowId].query.url = url;
+                if (url) {
+                    _state[windowId].query.url = url;
+                }
 
                 return _state;
             case windowsActions.SET_WINDOWS:
