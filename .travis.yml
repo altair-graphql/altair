@@ -23,7 +23,7 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 before_script:
-- yarn global add @angular/cli karma electron-forge lerna@3.0.6
+- yarn global add @angular/cli karma electron-forge lerna
 - yarn
 - yarn build
 - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc

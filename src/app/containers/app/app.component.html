@@ -154,14 +154,6 @@
             </div>
           </div>
           <div class="side-menu-divider"></div>
-          <a class="side-menu-item" (click)="exportWindowData()" attr.aria-label="{{ 'EXPORT_WINDOW_TEXT' | translate }}" track-id="export_window">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="export"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'EXPORT_WINDOW_TEXT' | translate }}
-            </div>
-          </a>
     
           <div class="side-menu__main-bottom">
             <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">

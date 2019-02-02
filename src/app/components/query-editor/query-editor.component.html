@@ -19,6 +19,11 @@
     <div class="variables-files-container">
       <button class="variables-add-files-button" (click)="addFileVariableChange.next()">{{ 'ADD_FILES_TEXT' | translate }}</button>
 
+      <a href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f" target="_blank">
+        <clr-icon shape="info-circle"></clr-icon>
+        {{ 'LEARN_MORE_TEXT' | translate }}
+      </a>
+
       <div class="variables-files-list">
         <div class="variables-file-item" *ngFor="let file of variables.files; let index = index;">
           <div class="variables-file-item-name-input-wrapper">

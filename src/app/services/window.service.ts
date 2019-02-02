@@ -123,6 +123,12 @@ export class WindowService {
     try {
       return this.importWindowData(JSON.parse(data));
     } catch (err) {
+      try {
+        // For a period, the JSON data was URI encoded.
+        // Maybe that is the problem with this data.
+        debug.log('(Second attempt) Trying to decode JSON data...');
+        return this.importWindowData(JSON.parse(decodeURIComponent(data)));
+      } catch (err) {}
       debug.log('The file is invalid.', err);
     }
   }

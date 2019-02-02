@@ -106,66 +106,67 @@ export class QueryEffects {
             }
 
             this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
-              const requestStartTime = new Date().getTime();
-              let requestStatusCode = 0;
-              let requestStatusText = '';
 
-              try {
-                if (variables) {
-                  JSON.parse(variables);
-                }
-              } catch (err) {
-                this.notifyService.error('Looks like your variables is not a valid JSON string.');
-                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                return observableEmpty();
+            const requestStartTime = new Date().getTime();
+            let requestStatusCode = 0;
+            let requestStatusText = '';
+
+            try {
+              if (variables) {
+                JSON.parse(variables);
               }
+            } catch (err) {
+              this.notifyService.error('Looks like your variables is not a valid JSON string.');
+              this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+              return observableEmpty();
+            }
 
-              // For electron app, send the instruction to set headers
-              this.electronAppService.setHeaders(headers);
+            // For electron app, send the instruction to set headers
+            this.electronAppService.setHeaders(headers);
 
-              debug.log('Sending..');
-              return this.gqlService
-                .sendRequest(url, {
-                  query,
-                  variables,
-                  headers,
-                  method: response.data.query.httpVerb,
-                  selectedOperation: response.data.query.selectedOperation,
-                  files: response.data.variables.files,
-                })
-                .pipe(
-                  map(res => {
-                    requestStatusCode = res.status;
-                    requestStatusText = res.statusText;
-                    return res.body;
-                  }),
-                  map(result => {
-                    return new queryActions.SetQueryResultAction(result, response.windowId);
-                  }),
-                  catchError((error) => {
-                    let output = 'Server Error';
+            debug.log('Sending..');
+            return this.gqlService
+              .sendRequest(url, {
+                query,
+                variables,
+                headers,
+                method: response.data.query.httpVerb,
+                selectedOperation: response.data.query.selectedOperation,
+                files: response.data.variables.files,
+              })
+              .pipe(
+                map(res => {
+                  requestStatusCode = res.status;
+                  requestStatusText = res.statusText;
+                  return res.body;
+                }),
+                map(result => {
+                  return new queryActions.SetQueryResultAction(result, response.windowId);
+                }),
+                catchError((error) => {
+                  let output = 'Server Error';
 
-                    debug.log(error);
-                    requestStatusCode = error.status;
-                    requestStatusText = error.statusText;
+                  debug.log(error);
+                  requestStatusCode = error.status;
+                  requestStatusText = error.statusText;
 
-                    if (error.status) {
-                      output = error.error;
-                    }
-                    return observableOf(new queryActions.SetQueryResultAction(output, response.windowId));
-                  }),
-                  tap(() => {
-                    const requestEndTime = new Date().getTime();
-                    const requestElapsedTime = requestEndTime - requestStartTime;
+                  if (error.status) {
+                    output = error.error;
+                  }
+                  return observableOf(new queryActions.SetQueryResultAction(output, response.windowId));
+                }),
+                tap(() => {
+                  const requestEndTime = new Date().getTime();
+                  const requestElapsedTime = requestEndTime - requestStartTime;
 
-                    this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
-                      responseStatus: requestStatusCode,
-                      responseTime: requestElapsedTime,
-                      responseStatusText: requestStatusText
-                    }));
-                    this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                  }),
-                );
+                  this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
+                    responseStatus: requestStatusCode,
+                    responseTime: requestElapsedTime,
+                    responseStatusText: requestStatusText
+                  }));
+                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                }),
+              );
           }),
         );
 
@@ -230,7 +231,7 @@ export class QueryEffects {
       }));
 
     @Effect()
-    getIntrospectionForUrl$: Observable<allActions> = this.actions$
+    getIntrospectionForUrl$: Observable<Action> = this.actions$
       .ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST)
       .pipe(
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
@@ -274,12 +275,12 @@ export class QueryEffects {
                 return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
               }),
               map(introspectionData => {
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 if (!introspectionData) {
-                    return null;
+                  return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
                 }
 
                 this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
-                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
 
                 return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
               }),

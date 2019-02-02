@@ -98,7 +98,7 @@ export class WindowComponent implements OnInit {
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docsIsLoading$ = this.getWindowState().pipe(select(fromRoot.getDocsLoading));
     this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
-    this.variables$ = this.getWindowState().pipe(select('variables'));
+    this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
     this.isLoading$ = this.getWindowState().pipe(select(fromRoot.getIsLoading));
     this.introspection$ = this.getWindowState().pipe(select(fromRoot.getIntrospection));
     this.allowIntrospection$ = this.getWindowState().pipe(select(fromRoot.allowIntrospection));
