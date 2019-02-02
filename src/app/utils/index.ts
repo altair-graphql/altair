@@ -135,6 +135,10 @@ export const getFullUrl = (url: string) => {
   }
 
   if (!validUrl.isUri(url)) {
+    if (url.trim() === '*') {
+      return location.href;
+    }
+
     if (url.substr(0, 1) === '/') {
       url = url.substr(1);
     }
