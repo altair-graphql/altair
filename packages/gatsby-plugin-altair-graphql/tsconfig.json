@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": ".",
+    "rootDir": "src",
+    "declaration": true,
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": ["src"],
+  "exclude": []
+}

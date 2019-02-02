@@ -46,7 +46,7 @@ ncp(distSrc, distDestination, function (err) {
       .replace('<base href="/">', '<base href="./">')
       // Set scripts and styles
       .replace('[% STYLES_FILE %]', stats.assetsByChunkName.styles)
-      .replace('[% INLINE_SCRIPT %]', stats.assetsByChunkName.inline)
+      .replace('[% RUNTIME_SCRIPT %]', stats.assetsByChunkName.runtime)
       .replace('[% POLYFILLS_SCRIPT %]', stats.assetsByChunkName.polyfills)
       .replace('[% MAIN_SCRIPT %]', stats.assetsByChunkName.main);
 
