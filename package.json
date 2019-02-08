@@ -100,7 +100,7 @@
     "ngx-electron": "^2.0.0",
     "ngx-pipes": "^2.1.0",
     "ngx-popper": "^6.0.6",
-    "ngx-toastr": "^8.8.0",
+    "ngx-toastr": "^9.1.2",
     "opencollective": "^1.0.3",
     "popper.js": "^1.14.6",
     "prettier": "^1.14.3",
