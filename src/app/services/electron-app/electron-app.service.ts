@@ -1,6 +1,6 @@
 
 import {first} from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
 
@@ -22,6 +22,7 @@ export class ElectronAppService {
     private electron: ElectronService,
     private store: Store<fromRoot.State>,
     private windowService: WindowService,
+    private zone: NgZone,
   ) {
     this.store.subscribe(data => {
       this.windowIds = Object.keys(data.windows);
@@ -32,26 +33,28 @@ export class ElectronAppService {
   connect() {
     if (this.electron.isElectronApp) {
       this.electron.ipcRenderer.on('file-opened', (evt, content) => {
-        this.windowService.importStringData(content);
+        this.zone.run(() => this.windowService.importStringData(content));
       });
 
       this.electron.ipcRenderer.on('create-tab', () => {
-        this.windowService.newWindow().pipe(first()).subscribe();
+        this.zone.run(() => this.windowService.newWindow().pipe(first()).subscribe());
       });
       this.electron.ipcRenderer.on('close-tab', () => {
-        if (this.windowIds.length > 1) {
-          this.windowService.removeWindow(this.activeWindowId);
-        }
+        this.zone.run(() => {
+          if (this.windowIds.length > 1) {
+            this.windowService.removeWindow(this.activeWindowId);
+          }
+        });
       });
 
       this.electron.ipcRenderer.on('send-request', () => {
-        this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId));
+        this.zone.run(() => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)));
       });
       this.electron.ipcRenderer.on('reload-docs', () => {
-        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId));
+        this.zone.run(() => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)));
       });
       this.electron.ipcRenderer.on('show-docs', () => {
-        this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId));
+        this.zone.run(() => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)));
       });
 
       debug.log('Electron app connected.');
