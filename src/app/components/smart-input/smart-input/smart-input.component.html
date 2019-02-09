@@ -1,7 +1,10 @@
 <div class="smart-input-line" *ngFor="let line of state.lines; let lineIndex = index;">
   <app-smart-input-block *ngFor="let block of line.blocks; let blockIndex = index;"
+    [attr.data-line-index]="lineIndex"
+    [attr.data-block-index]="blockIndex"
     [block]="block"
     (inputChange)="onBlockInput($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
     (cursorMoveChange)="onBlockMoveCursor($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
+    (backspaceChange)="onBlockBackspace($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
   ></app-smart-input-block>
 </div>
