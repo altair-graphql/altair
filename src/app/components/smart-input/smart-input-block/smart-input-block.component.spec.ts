@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SmartInputBlockComponent } from './smart-input-block.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { SmartInputModule } from '../smart-input.module';
 
 describe('SmartInputBlockComponent', () => {
   let component: SmartInputBlockComponent;
@@ -8,7 +10,10 @@ describe('SmartInputBlockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartInputBlockComponent ]
+      imports: [
+        TranslateModule.forRoot(),
+        SmartInputModule
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +21,7 @@ describe('SmartInputBlockComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SmartInputBlockComponent);
     component = fixture.componentInstance;
+    component.block = { content: '' };
     fixture.detectChanges();
   });
 
