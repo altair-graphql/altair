@@ -12434,10 +12434,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.34.0:
-  version "0.34.0"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.34.0.tgz#25c6effeee9e885771718f510bf03122f8624e18"
-  integrity sha512-BCTqkHXEIOcI78kipp6tEMUFS8b5dbWIp8tpaPC5FFjmK7iFsE5qWS6L6S+lmt71+APp+RlapXb8EEyqkmOt/w==
+typescript-json-schema@^0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.35.0.tgz#b7a27cd721a7bec2a9c87c8d02b451a6d1bb1440"
+  integrity sha512-1ydPuGfC+V0a70Ssau5zVinTqWSRwB/LbdassZrnjBrOgq0yj4dED1aZaH3EHHcEkpuYOkMw092picIxkAl+LQ==
   dependencies:
     glob "~7.1.2"
     json-stable-stringify "^1.0.1"
