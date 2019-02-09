@@ -3,8 +3,5 @@
     [attr.data-line-index]="lineIndex"
     [attr.data-block-index]="blockIndex"
     [block]="block"
-    (inputChange)="onBlockInput($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
-    (cursorMoveChange)="onBlockMoveCursor($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
-    (backspaceChange)="onBlockBackspace($event, { lineIndex: lineIndex, blockIndex: blockIndex })"
   ></app-smart-input-block>
 </div>

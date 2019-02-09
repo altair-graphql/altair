@@ -1,27 +1,14 @@
 import { Component, OnInit, AfterViewInit, HostListener, ElementRef } from '@angular/core';
 import { KEYS } from '../keys';
 import { Cursor } from '../models/cursor';
+import { debug } from '../../../utils/logger';
+import { InputState, BlockEvent, BlockState } from '../models';
 
-interface BlockEvent {
-  value: any;
-  cursor: Cursor;
-  isFocused: boolean;
-}
 
-interface BlockState {
-  content: string;
-  isFocused?: boolean;
-  caretOffset?: number;
-  type?: string;
-}
-
-interface InputLineState {
-  blocks: BlockState[];
-}
-
-interface InputState {
-  lines: InputLineState[];
-}
+const VARIABLE_STRUCT = {
+  open: '{{',
+  close: '}}'
+};
 
 @Component({
   selector: 'app-smart-input',
@@ -59,10 +46,19 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     return { curBlockEl, lineIndex, blockIndex };
   }
 
+  createNewBlock(data: BlockState): BlockState {
+    return {
+      content: data.content || '',
+      isFocused: data.isFocused || false,
+      caretOffset: data.caretOffset || null,
+      type: data.type || '',
+    };
+  }
   getBlock({ lineIndex, blockIndex }) {
     return this.state.lines[lineIndex].blocks[blockIndex];
   }
   updateBlock(data: BlockState, { lineIndex, blockIndex }) {
+    debug.log('updating..', data, lineIndex, blockIndex);
     this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.map((block, i) => {
       if (i === blockIndex) {
         return { ...block, ...data };
@@ -78,14 +74,20 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     });
   }
 
+  replaceBlock(newBlocks: BlockState[], { lineIndex, blockIndex }) {
+    const beforeBlocks = this.state.lines[lineIndex].blocks.slice(0, blockIndex);
+    const afterBlocks = this.state.lines[lineIndex].blocks.slice(blockIndex + 1);
+    this.state.lines[lineIndex].blocks = [ ...beforeBlocks, ...newBlocks, ...afterBlocks ];
+  }
+
   deleteBlock(data, { lineIndex, blockIndex }) {
     this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.filter((block, i) => {
       return i !== blockIndex;
     })
   }
 
-  onBlockInput(data) {
-    console.log(data);
+  onBlockInput(data: BlockEvent) {
+    debug.log(data);
     const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
     const curBlock = this.getBlock({ lineIndex, blockIndex });
     const originalContent = curBlock.content;
@@ -94,10 +96,36 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     curBlock.isFocused = data.isFocused;
     curBlock.caretOffset = data.cursor.offset + data.value.length;
 
-    this.updateBlock(curBlock, { lineIndex, blockIndex });
+    if (output.slice(curBlock.caretOffset - VARIABLE_STRUCT.open.length, curBlock.caretOffset) === VARIABLE_STRUCT.open) {
+      // before - variable - after
+      const beforeContent = output.slice(0, curBlock.caretOffset - 2);
+      const afterContent = output.slice(curBlock.caretOffset);
+      const variableContent = [VARIABLE_STRUCT.open, VARIABLE_STRUCT.close].join('');
+
+      const newBlocks = [
+        this.createNewBlock({
+          content: beforeContent,
+          isFocused: false
+        }),
+        this.createNewBlock({
+          content: variableContent,
+          caretOffset: VARIABLE_STRUCT.open.length,
+          isFocused: true,
+          type: 'special'
+        }),
+        this.createNewBlock({
+          content: afterContent,
+          isFocused: false
+        }),
+      ].filter(x => !!x.content);
+
+      return this.replaceBlock(newBlocks, { lineIndex, blockIndex });
+    }
+
+    return this.updateBlock(curBlock, { lineIndex, blockIndex });
   }
 
-  onBlockBackspace(data) {
+  onBlockBackspace(data: BlockEvent) {
     const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
     const curBlock = this.getBlock({ lineIndex, blockIndex });
     const previousBlock = this.getBlock({ lineIndex, blockIndex: blockIndex - 1 });
@@ -113,6 +141,11 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
 
     // Merge with previous block
     if (previousBlock) {
+      // If previous is a special block, remove it instead.
+      if (previousBlock.type === 'special') {
+        return this.deleteBlock(null, { lineIndex, blockIndex: blockIndex - 1 });
+      }
+
       previousBlock.caretOffset = previousBlock.content.length - 1;
       previousBlock.content = [previousBlock.content.slice(0, -1), curBlock.content].join('');
       previousBlock.isFocused = data.isFocused;
@@ -122,8 +155,8 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onBlockMoveCursor(data) {
-    console.log('ok', data);
+  onBlockMoveCursor(data: BlockEvent) {
+    debug.log('ok', data);
     const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
     switch (data.value) {
       case KEYS.UP:
@@ -249,7 +282,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
       event.preventDefault();
       event.stopPropagation();
     }
-    console.log('key down', e, window.getSelection());
+    debug.log('key down', e, window.getSelection());
   }
 
   @HostListener('keypress', [ '$event' ])
@@ -259,7 +292,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     }
     e.preventDefault();
     e.stopPropagation();
-    console.log('keypress', e, String.fromCharCode(e.charCode));
+    debug.log('keypress', e, String.fromCharCode(e.charCode));
     this.onBlockInput(this.createBlockEvent(String.fromCharCode(e.charCode)));
   }
 
@@ -271,19 +304,19 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     // }
     e.preventDefault();
     e.stopPropagation();
-    console.log('paste', e);
+    debug.log('paste', e);
   }
 
   @HostListener('compositionstart', [ '$event' ])
   onCompositionStart(e) {
     e.preventDefault();
     // handler.onTextCompositionStart();
-    console.log('compositionstart', e);
+    debug.log('compositionstart', e);
   }
 
   @HostListener('compositionupdate', [ '$event' ])
   onCompositionUpdate(e) {
-    console.log('compositionupdate', e);
+    debug.log('compositionupdate', e);
   }
 
   @HostListener('compositionend', [ '$event' ])
@@ -292,19 +325,19 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     // handler.onInput(event.data);
     e.preventDefault();
     e.stopPropagation();
-    console.log('compositionend', e);
+    debug.log('compositionend', e);
   }
 
   @HostListener('input', [ '$event' ])
   onInput(e) {
-    console.log('input', e.data);
+    debug.log('input', e.data);
     e.preventDefault();
     e.stopPropagation();
   }
 
   @HostListener('textInput', [ '$event' ])
   onTextInput(e) {
-    console.log('textInput', e);
+    debug.log('textInput', e);
   }
 
 }
