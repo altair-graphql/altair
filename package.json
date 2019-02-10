@@ -58,7 +58,7 @@
     "@angular/platform-browser-dynamic": "^7.0.1",
     "@angular/platform-server": "^7.0.1",
     "@angular/router": "^7.0.1",
-    "@beyerleinf/ngx-dnd": "^6.0.0-preview3",
+    "@beyerleinf/ngx-dnd": "^7.0.0",
     "@clr/angular": "^0.13.7",
     "@clr/icons": "^0.13.7",
     "@clr/ui": "^0.13.7",
