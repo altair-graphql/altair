@@ -50,6 +50,11 @@ export interface State {
    * Default size: 24
    */
   'theme.fontsize'?: number;
+
+  /**
+   * Specifies the font family for the editors
+   */
+  'theme.editorFontFamily'?: string;
 }
 
 const initialState: State = {
