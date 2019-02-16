@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
+import { IQueryCollection } from 'app/reducers/collection';
 
 @Injectable()
 export class StorageService extends Dexie {
@@ -22,13 +23,3 @@ export class StorageService extends Dexie {
 
 }
 
-export interface IQueryCollection {
-  id?: number;
-  title: string;
-  description?: string;
-  queries: any[];
-  collections?: IQueryCollection[];
-
-  created_at?: number;
-  updated_at?: number;
-}

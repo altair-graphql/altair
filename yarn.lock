@@ -1016,10 +1016,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.79":
-  version "0.0.79"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.79.tgz#1c83b35bd9b21b6204fb56e4816a1ea65dc013e5"
-  integrity sha512-4+Xducpig6lpwVX65Hk8KSZwRoURHXMDbd38SDNcV8TBaw4xyJki39fjB1io2h7ip+BsyFvgTm9OxR5qneLPiA==
+"@types/chrome@^0.0.80":
+  version "0.0.80"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.80.tgz#615b4d861e80f8065a2bf7b6293da9d9a27502ed"
+  integrity sha512-I8YtD80sp/3oJnz/dEmACTsXj3fXqv0gHCq4gM7RS4q58qCqTirb0iDJwb8Zv5njJo7+EJjkjoloFefjhoNR1w==
   dependencies:
     "@types/filesystem" "*"
 
@@ -1060,10 +1060,10 @@
   version "10.11.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.3.tgz#c055536ac8a5e871701aa01914be5731539d01ee"
 
-"@types/node@11.9.0":
-  version "11.9.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.0.tgz#35fea17653490dab82e1d5e69731abfdbf13160d"
-  integrity sha512-ry4DOrC+xenhQbzk1iIPzCZGhhPGEFv7ia7Iu6XXSLVluiJIe9FfG7Iu3mObH9mpxEXCWLCMU4JWbCCR9Oy1Zg==
+"@types/node@11.9.1":
+  version "11.9.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.1.tgz#38fd4be2e0f1b1b94e713599afc43f4b2343c61e"
+  integrity sha512-XJHvu7fvycZ7ORTyThXiKCtld+R4Y1GGerYRrVSf/GhaNahRBIf/Nx+7Xh3AvI5nudOVt/L671CxHGkJt1/+hQ==
 
 "@types/node@^10.11.7":
   version "10.12.1"
@@ -8480,6 +8480,11 @@ modify-values@^1.0.0:
 moment@^2.10.6:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+
+mousetrap-global-bind@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/mousetrap-global-bind/-/mousetrap-global-bind-1.1.0.tgz#cd7de9222bd0646fa2e010d54c84a74c26a88edd"
+  integrity sha1-zX3pIivQZG+i4BDVTISnTCaojt0=
 
 mousetrap@^1.6.2:
   version "1.6.2"

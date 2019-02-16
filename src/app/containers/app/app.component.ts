@@ -316,6 +316,14 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
   }
 
+  exportCollection({ collectionId }) {
+    this.store.dispatch(new collectionActions.ExportCollectionAction({ collectionId }));
+  }
+
+  importCollection() {
+    this.store.dispatch(new collectionActions.ImportCollectionAction());
+  }
+
   toggleEditCollectionDialog({ collection }) {
     this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));

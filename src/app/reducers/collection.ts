@@ -3,8 +3,24 @@ import { Action } from '@ngrx/store';
 import * as collectionActions from '../actions/collection/collection';
 
 export interface State {
-  list: any[];
+  list: IQueryCollection[];
   activeCollection: any;
+}
+
+export interface IQueryCollection {
+  id?: number;
+  title: string;
+  description?: string;
+  queries: any[];
+  collections?: IQueryCollection[];
+
+  created_at?: number;
+  updated_at?: number;
+}
+
+export interface ExportCollectionState extends IQueryCollection {
+  version: 1;
+  type: 'collection';
 }
 
 export const initialState: State = {

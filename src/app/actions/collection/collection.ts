@@ -10,6 +10,9 @@ export const LOAD_COLLECTIONS = 'LOAD_COLLECTIONS';
 export const SET_ACTIVE_COLLECTION = 'SET_ACTIVE_COLLECTION';
 export const UPDATE_COLLECTION = 'UPDATE_COLLECTION';
 
+export const IMPORT_COLLECTION = 'IMPORT_COLLECTION';
+export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
+
 export class CreateCollectionAndSaveQueryToCollectionAction implements Action {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
 
@@ -56,6 +59,16 @@ export class LoadCollectionsAction implements Action {
   constructor() {}
 }
 
+export class ExportCollectionAction implements Action {
+  readonly type = EXPORT_COLLECTION;
+
+  constructor(public payload: { collectionId: number }) {}
+}
+
+export class ImportCollectionAction implements Action {
+  readonly type = IMPORT_COLLECTION;
+}
+
 export type Action =
   | CreateCollectionAndSaveQueryToCollectionAction
   | SaveQueryToCollectionAction
@@ -64,4 +77,7 @@ export type Action =
   | SetCollectionsAction
   | SetActiveCollectionAction
   | UpdateCollectionAction
-  | LoadCollectionsAction;
+  | LoadCollectionsAction
+  | ExportCollectionAction
+  | ImportCollectionAction
+  ;

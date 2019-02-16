@@ -24,5 +24,8 @@ publish:
   releaseType: release
 fileAssociations:
   - ext: agq
-    description: Altair GraphQL file
+    description: Altair GraphQL Query
+    role: Viewer
+  - ext: agc
+    description: Altair GraphQL Collection
     role: Viewer

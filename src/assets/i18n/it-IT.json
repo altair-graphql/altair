@@ -86,6 +86,8 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Elimina",
   "COLLECTIONS_MENU_DELETE": "Elimina",
   "COLLECTIONS_MENU_EDIT": "Modifica",
+  "COLLECTIONS_MENU_EXPORT": "Export",
+  "COLLECTIONS_IMPORT_TEXT": "Import",
   "EDIT_COLLECTION_TITLE_TEXT": "Modifica Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Aggiorna i dettagli della tua collection",
   "COLLECTION_TITLE_LABEL": "Titolo collection",

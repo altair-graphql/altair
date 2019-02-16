@@ -8,7 +8,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  HostBinding
 } from '@angular/core';
 import { Cursor } from '../models/cursor';
 import { KEYS } from '../keys';
@@ -22,9 +23,8 @@ import { KEYS } from '../keys';
 export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() block;
-  @Output() inputChange = new EventEmitter();
-  @Output() cursorMoveChange = new EventEmitter();
-  @Output() backspaceChange = new EventEmitter();
+
+  @HostBinding('class.special-block') isSpecialBlock = false;
 
   constructor(private element: ElementRef) { }
 
@@ -35,10 +35,13 @@ export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChange
   }
 
   ngOnInit() {
+    this.isSpecialBlock = this.block && this.block.type === 'special';
   }
 
   renderUIChanges() {
-    this.setCaretPosition(this.block.caretOffset);
+    if (this.block.caretOffset !== null && this.block.caretOffset !== undefined) {
+      this.setCaretPosition(this.block.caretOffset);
+    }
     if (this.block.isFocused) {
       this.element.nativeElement.focus();
     }
