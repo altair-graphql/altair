@@ -32,7 +32,7 @@ export class VariablesEditorComponent implements OnChanges {
     autoRefresh: true,
     dragDrop: false,
     autoCloseBrackets: true,
-    theme: 'default variable-editor',
+    theme: 'default variable-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
   };
 

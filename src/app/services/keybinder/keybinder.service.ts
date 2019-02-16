@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { bind } from 'mousetrap';
+import { bind, bindGlobal } from 'mousetrap';
+import 'mousetrap-global-bind';
 import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
 
 import * as fromRoot from '../../reducers';
 
 import * as dialogsActions from '../../actions/dialogs/dialogs';
+import * as queryActions from '../../actions/query/query';
 
 @Injectable()
 export class KeybinderService {
@@ -24,11 +26,14 @@ export class KeybinderService {
   }
 
   connect() {
-    bind('ctrl+shift+v', () =>
+    bindGlobal('ctrl+shift+v', () =>
       this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)));
 
-    bind('ctrl+shift+h', () =>
+    bindGlobal('ctrl+shift+h', () =>
       this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)));
+
+    bindGlobal(['command+enter', 'ctrl+enter'], () =>
+      this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)));
   }
 
 }
