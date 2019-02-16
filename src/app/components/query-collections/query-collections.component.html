@@ -1,8 +1,15 @@
 <div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
   <div class="query-collections__inner">
     <div class="query-collections__title">{{ 'COLLECTIONS_TEXT' | translate }}</div>
-    <div class="query-collections__actions" *ngIf="false">
-        <button type="button" class="icon-button">
+    <div class="query-collections__actions">
+        <button
+          type="button"
+          class="icon-button"
+          [popper]="'COLLECTIONS_IMPORT_TEXT' | translate"
+          [popperPlacement]="'bottom'"
+          track-id="import_collection"
+          (click)="importCollectionChange.next()"
+        >
             <clr-icon shape="import" class="is-solid"></clr-icon>
         </button>
     </div>
@@ -14,6 +21,7 @@
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
         (editCollectionChange)="editCollectionChange.next($event)"
+        (exportCollectionChange)="exportCollectionChange.next($event)"
       ></app-query-collection-item>
       <div class="query-collections__empty" *ngIf="!(collections?.length)">
         <div class="query-collections__empty-icon">

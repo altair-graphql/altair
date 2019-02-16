@@ -1,5 +1,5 @@
 export class Cursor {
-  offset = null;
+  offset: number = null;
   constructor(public selection: Selection = window.getSelection()) {
     this.offset = selection.focusOffset;
   }

@@ -8,6 +8,7 @@ export class UrlBoxComponent {
   @Input() apiUrl: string;
   @Input() httpVerb: string;
   @Input() isSubscribed = false;
+  @Input() isLoading = false;
   @Input() showDocs = false;
   @Input() selectedOperation = '';
   @Input() queryOperations = [];

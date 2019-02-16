@@ -9,9 +9,6 @@ app-query-editor {
   overflow: auto;
   background: var(--theme-bg-color);
   border-radius: 4px;
-  pre {
-    font-family: inherit;
-  }
 }
 .query-editor__input {
   position: absolute;
@@ -40,9 +37,6 @@ app-query-editor {
   // overflow: auto;
   background: var(--theme-off-bg-color);
   border-radius: 4px;
-  pre {
-    font-family: inherit;
-  }
 }
 .query-result__normal-container, .query-result__subscription-container {
   height: 100%;

@@ -11,6 +11,7 @@
     cursor: text;
     pre {
       color: var(--theme-font-color);
+      font-family: var(--editor-font-family);
     }
 }
 .CodeMirror-cursor{
@@ -92,6 +93,9 @@
     }
     .cm-def{
         color: var(--orange-color);
+    }
+    .cm-number {
+        color: var(--theme-font-color);
     }
 }
 .cm-s-query-result{

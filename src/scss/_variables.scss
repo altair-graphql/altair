@@ -1,4 +1,8 @@
 :root {
+  --baseline-size: 24;
+  --rem-base: var(--baseline-size);
+  --body-font-size: 14;
+
   --simple-ease: ease;
   --ease-in-quad: cubic-bezier(.55, .085, .68, .53);
   --ease-in-cubic: cubic-bezier(.550, .055, .675, .19);
@@ -76,9 +80,8 @@
   --rgb-theme-border: var(--rgb-grey);
   --rgb-theme-off-border: var(--rgb-light-grey);
 
-  --baseline-size: 24;
-  --rem-base: var(--baseline-size);
-  --body-font-size: 14;
+  --editor-font-family: inherit;
+
 }
 
 $black: #33363b;

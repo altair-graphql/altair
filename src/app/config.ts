@@ -25,6 +25,7 @@ export default {
     'sr-SP': 'Serbian',
     'it-IT': 'Italian',
     'pl-PL': 'Polish',
+    'ko-KR': 'Korean',
   },
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],

@@ -1,4 +1,13 @@
-<div class="app-wrapper" [appSetCssVariables]="{ '--rem-base': (settings$ | async)['theme.fontsize'] }" [ngClass]="(settings$ | async).theme + '-theme'" dnd-droppable (onDropSuccess)="fileDropped($event)">
+<div
+  class="app-wrapper"
+  [appSetCssVariables]="{
+    '--rem-base': (settings$ | async)['theme.fontsize'],
+    '--editor-font-family': (settings$ | async)['theme.editorFontFamily']
+  }"
+  [ngClass]="(settings$ | async).theme + '-theme'"
+  dnd-droppable
+  (onDropSuccess)="fileDropped($event)"
+>
   <div class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
@@ -177,6 +186,8 @@
             (deleteQueryChange)="deleteQueryFromCollection($event)"
             (deleteCollectionChange)="deleteCollection($event)"
             (editCollectionChange)="toggleEditCollectionDialog($event)"
+            (exportCollectionChange)="exportCollection($event)"
+            (importCollectionChange)="importCollection()"
           ></app-query-collections>
         </div>
       </div>
