@@ -168,7 +168,7 @@ export class WindowService {
         throw new Error('Object is empty.');
       }
       if (!data.version || !data.type || data.type !== 'window') {
-        throw new Error('File is not a valid Altair file.');
+        throw new Error('File is not a valid Altair query file.');
       }
 
       // Importing window data...

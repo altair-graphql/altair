@@ -16,11 +16,14 @@
           </button>
         </span>
         <clr-dropdown-menu *clrIfOpen>
-          <button type="button" clrDropdownItem (click)="deleteCollection()">
+          <button type="button" clrDropdownItem (click)="deleteCollection()" track-id="delete_collection">
             {{ 'COLLECTIONS_MENU_DELETE' | translate }}
           </button>
-          <button type="button" clrDropdownItem (click)="editCollection()">
+          <button type="button" clrDropdownItem (click)="editCollection()" track-id="edit_collection">
             {{ 'COLLECTIONS_MENU_EDIT' | translate }}
+          </button>
+          <button type="button" clrDropdownItem (click)="exportCollection()" track-id="export_collection">
+            {{ 'COLLECTIONS_MENU_EXPORT' | translate }}
           </button>
         </clr-dropdown-menu>
       </clr-dropdown>
@@ -35,6 +38,7 @@
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
         (editCollectionChange)="editCollectionChange.next($event)"
+        (exportCollectionChange)="exportCollectionChange.next($event)"
       ></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
@@ -52,7 +56,7 @@
               <!-- <clr-icon shape="login"></clr-icon> -->
             </span>
             <clr-dropdown-menu *clrIfOpen>
-              <button type="button" clrDropdownItem (click)="deleteQuery(query)">
+              <button type="button" clrDropdownItem (click)="deleteQuery(query)" track-id="delete_query_from_collection">
                 {{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}
               </button>
             </clr-dropdown-menu>
