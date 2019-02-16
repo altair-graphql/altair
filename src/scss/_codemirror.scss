@@ -11,6 +11,7 @@
     cursor: text;
     pre {
       color: var(--theme-font-color);
+      font-family: inherit;
     }
 }
 .CodeMirror-cursor{

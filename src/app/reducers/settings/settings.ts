@@ -28,6 +28,7 @@ export interface State {
     'sr-SP': 'Serbian',
     'it-IT': 'Italian',
     'pl-PL': 'Polish',
+    'ko-KR': 'Korean',
    */
   language: SettingsLanguage;
 
