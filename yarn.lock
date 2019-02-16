@@ -304,9 +304,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@clr/icons@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-0.13.7.tgz#4a9b333ff00cdbcf1e7ab1899e4700989d16b825"
+"@clr/icons@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-1.1.0.tgz#af24d4f97a29988289b7ce615a9d5436347f947c"
+  integrity sha512-N1UaQRPvEBBLRcG5L2e6sBqP8b2vpRxt53uVAl+hysloPNuxVnstZjhO/G0yqIS4G0F9Q6hv9b/D4kBHwWxFKA==
 
 "@clr/ui@^0.13.7":
   version "0.13.7"
