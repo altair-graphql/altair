@@ -308,11 +308,10 @@
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-0.13.7.tgz#4a9b333ff00cdbcf1e7ab1899e4700989d16b825"
 
-"@clr/ui@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-0.13.7.tgz#0c86cc4146f158bd8e195bd1ab2d9983debc59d9"
-  optionalDependencies:
-    bootstrap "4.0.0-alpha.5"
+"@clr/ui@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-1.1.0.tgz#b226fbd8263a04301c8862a72962566348a5aff3"
+  integrity sha512-sY2YDyteGARrG8IDKic1Fnz1uK9zlyiFkKM/4f9/FFBLDhF4B53eTZMJQ/Gh/OfWTICrE6/nwGlmC2gfHWpTiw==
 
 "@ctrl/ngx-codemirror@^1.3.9":
   version "1.3.9"
