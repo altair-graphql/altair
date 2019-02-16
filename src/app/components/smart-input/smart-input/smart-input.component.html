@@ -1,0 +1,7 @@
+<div class="smart-input-line" *ngFor="let line of state.lines; let lineIndex = index;">
+  <app-smart-input-block *ngFor="let block of line.blocks; let blockIndex = index;"
+    [attr.data-line-index]="lineIndex"
+    [attr.data-block-index]="blockIndex"
+    [block]="block"
+  ></app-smart-input-block>
+</div>

@@ -1,0 +1,12 @@
+.smart-input-line {
+  min-height: 30px;
+}
+
+app-smart-input-block {
+  height: 100%;
+  display: inline-block;
+  &.special-block {
+    background: var(--secondary-color);
+    color: var(--white-color);
+  }
+}

@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "2.0.7",
+  "version": "2.0.8",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "yarn"
 }

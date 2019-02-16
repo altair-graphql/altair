@@ -1016,10 +1016,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.77":
-  version "0.0.77"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.77.tgz#afab7a45da9ebf67d5d50c0ee0a347582128d47e"
-  integrity sha512-VPjm9KeAbwNM0gY8wFGCqO45N382xxiUhgGaiqQPai/NmLNOHBl6w6m71seq566Na0v/+skcWozzyalmX/FMIg==
+"@types/chrome@^0.0.80":
+  version "0.0.80"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.80.tgz#615b4d861e80f8065a2bf7b6293da9d9a27502ed"
+  integrity sha512-I8YtD80sp/3oJnz/dEmACTsXj3fXqv0gHCq4gM7RS4q58qCqTirb0iDJwb8Zv5njJo7+EJjkjoloFefjhoNR1w==
   dependencies:
     "@types/filesystem" "*"
 
@@ -1060,10 +1060,10 @@
   version "10.11.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.3.tgz#c055536ac8a5e871701aa01914be5731539d01ee"
 
-"@types/node@10.12.18":
-  version "10.12.18"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
-  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
+"@types/node@11.9.1":
+  version "11.9.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.1.tgz#38fd4be2e0f1b1b94e713599afc43f4b2343c61e"
+  integrity sha512-XJHvu7fvycZ7ORTyThXiKCtld+R4Y1GGerYRrVSf/GhaNahRBIf/Nx+7Xh3AvI5nudOVt/L671CxHGkJt1/+hQ==
 
 "@types/node@^10.11.7":
   version "10.12.1"
@@ -4538,9 +4538,10 @@ electron-builder@^20.27.1:
     update-notifier "^2.5.0"
     yargs "^12.0.1"
 
-electron-compile@*, electron-compile@^6.4.1:
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/electron-compile/-/electron-compile-6.4.3.tgz#54a9ec4418ab5faf77ba48f75ab5eb80156a64d4"
+electron-compile@*, electron-compile@^6.4.4:
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/electron-compile/-/electron-compile-6.4.4.tgz#24c5bc4c937856fcc9141cf3cc7251172e0205df"
+  integrity sha512-LEOq5Tt7fAfONEyYLR0Ue1kL6/H8NAX6s9ouw4g6Azhu6onWh166fnf2O7Y3f9qkQEqYzwZl49Rd/QWxLG2AYw==
   dependencies:
     "@paulcbetts/mime-types" "^2.1.10"
     "@types/node" "^7.0.12"
@@ -8480,6 +8481,11 @@ moment@^2.10.6:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
+mousetrap-global-bind@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/mousetrap-global-bind/-/mousetrap-global-bind-1.1.0.tgz#cd7de9222bd0646fa2e010d54c84a74c26a88edd"
+  integrity sha1-zX3pIivQZG+i4BDVTISnTCaojt0=
+
 mousetrap@^1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
@@ -8656,9 +8662,10 @@ ngx-popper@^6.0.6:
   dependencies:
     tslib "^1.9.0"
 
-ngx-toastr@^8.8.0:
-  version "8.10.2"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-8.10.2.tgz#08f7d392a76d3d5c87cde92f55c81d51ced64e74"
+ngx-toastr@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-9.1.2.tgz#2e59cfc02255f94556cfe3690a36c57a6a209796"
+  integrity sha512-XhK3xA73ueF+YZawtqKs6+FQ1OMdx+EzCPihNTMSSXDthglfcgzDzia/OMSGjhx0h7/AK4N/BAbFau9L5RqVDg==
   dependencies:
     tslib "^1.9.0"
 
@@ -12432,17 +12439,17 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.34.0:
-  version "0.34.0"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.34.0.tgz#25c6effeee9e885771718f510bf03122f8624e18"
-  integrity sha512-BCTqkHXEIOcI78kipp6tEMUFS8b5dbWIp8tpaPC5FFjmK7iFsE5qWS6L6S+lmt71+APp+RlapXb8EEyqkmOt/w==
+typescript-json-schema@^0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.35.0.tgz#b7a27cd721a7bec2a9c87c8d02b451a6d1bb1440"
+  integrity sha512-1ydPuGfC+V0a70Ssau5zVinTqWSRwB/LbdassZrnjBrOgq0yj4dED1aZaH3EHHcEkpuYOkMw092picIxkAl+LQ==
   dependencies:
     glob "~7.1.2"
     json-stable-stringify "^1.0.1"
     typescript "^3.0.1"
     yargs "^12.0.1"
 
-typescript@3.1.3, typescript@^3.1.3:
+typescript@3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.3.tgz#01b70247a6d3c2467f70c45795ef5ea18ce191d5"
 
@@ -12450,7 +12457,7 @@ typescript@>=1.6:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.1.tgz#3362ba9dd1e482ebb2355b02dfe8bcd19a2c7c96"
 
-typescript@^3.0.1:
+"typescript@>=3.1.1 <3.2", typescript@^3.0.1:
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.6.tgz#b6543a83cfc8c2befb3f4c8fba6896f5b0c9be68"
 

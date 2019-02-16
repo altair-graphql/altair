@@ -86,6 +86,8 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Обриши",
   "COLLECTIONS_MENU_DELETE": "Обриши",
   "COLLECTIONS_MENU_EDIT": "Edit",
+  "COLLECTIONS_MENU_EXPORT": "Export",
+  "COLLECTIONS_IMPORT_TEXT": "Import",
   "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
   "COLLECTION_TITLE_LABEL": "Collection title",

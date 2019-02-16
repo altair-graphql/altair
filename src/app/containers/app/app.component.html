@@ -1,4 +1,13 @@
-<div class="app-wrapper" [appSetCssVariables]="{ '--rem-base': (settings$ | async)['theme.fontsize'] }" [ngClass]="(settings$ | async).theme + '-theme'" dnd-droppable (onDropSuccess)="fileDropped($event)">
+<div
+  class="app-wrapper"
+  [appSetCssVariables]="{
+    '--rem-base': (settings$ | async)['theme.fontsize'],
+    '--editor-font-family': (settings$ | async)['theme.editorFontFamily']
+  }"
+  [ngClass]="(settings$ | async).theme + '-theme'"
+  dnd-droppable
+  (onDropSuccess)="fileDropped($event)"
+>
   <div class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
@@ -12,6 +21,7 @@
         </div>
       </div>
     </div>
+    <app-smart-input *ngIf="false"></app-smart-input>
     <header class="header">
       <div class="branding">
         <img src="assets/img/logo.svg" alt="logo" class="header-logo">
@@ -176,6 +186,8 @@
             (deleteQueryChange)="deleteQueryFromCollection($event)"
             (deleteCollectionChange)="deleteCollection($event)"
             (editCollectionChange)="toggleEditCollectionDialog($event)"
+            (exportCollectionChange)="exportCollection($event)"
+            (importCollectionChange)="importCollection()"
           ></app-query-collections>
         </div>
       </div>
@@ -224,7 +236,7 @@
           Do you find this app useful? Would you mind supporting its development?
         </span>
         <div class="alert-actions">
-          <button class="btn alert-action" (click)="openDonationPage($event)">Donate</button>
+          <button class="btn alert-action" (click)="openDonationPage($event)" track-id="donate">Donate</button>
         </div>
       </clr-alert-item>
     </clr-alert>

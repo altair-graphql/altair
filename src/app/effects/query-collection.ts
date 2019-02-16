@@ -1,7 +1,7 @@
 
-import {empty as observableEmpty,  Observable } from 'rxjs';
+import { empty as observableEmpty,  Observable } from 'rxjs';
 
-import {map, withLatestFrom, switchMap, tap} from 'rxjs/operators';
+import { map, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
@@ -10,6 +10,7 @@ import * as fromRoot from '../reducers';
 
 import * as collectionActions from '../actions/collection/collection';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
+import { downloadJson, openFile } from 'app/utils';
 
 
 @Injectable()
@@ -108,6 +109,34 @@ export class QueryCollectionEffects {
           map(() => new collectionActions.LoadCollectionsAction()),
         );
     }));
+
+  @Effect()
+  exportCollection$: Observable<Action> = this.actions$
+    .ofType(collectionActions.EXPORT_COLLECTION)
+    .pipe(
+      switchMap((action: collectionActions.ExportCollectionAction) => {
+        this.collectionService.getExportCollectionData(action.payload.collectionId).subscribe(exportData => {
+          downloadJson(exportData, exportData.title, { fileType: 'agc' });
+        });
+        return observableEmpty();
+      })
+    );
+
+  @Effect()
+  importCollection$: Observable<Action> = this.actions$
+      .ofType(collectionActions.IMPORT_COLLECTION)
+      .pipe(
+        switchMap(() => {
+          openFile({ accept: '.agc' }).then((data: string) => {
+            return this.collectionService.importCollectionDataFromJson(data)
+              .subscribe(() => {
+                this.notifyService.success('Successfully imported collection.');
+                this.store.dispatch(new collectionActions.LoadCollectionsAction());
+              });
+          });
+          return observableEmpty();
+        })
+      );
 
   constructor(
     private actions$: Actions,

@@ -20,6 +20,7 @@ import { WindowComponent } from '../window/window.component';
 import { DirectivesModule } from 'app/directives';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/shared/shared.module';
+import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -63,6 +64,7 @@ describe('AppComponent', () => {
         ToastrModule.forRoot(),
         ComponentModule,
         DocViewerModule,
+        SmartInputModule,
         TranslateModule.forRoot(),
         SharedModule.forRoot(),
       ],

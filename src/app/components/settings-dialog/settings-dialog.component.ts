@@ -53,7 +53,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     dragDrop: false,
     autoCloseBrackets: true,
     theme: 'default settings-editor',
-    gutters: ['CodeMirror-lint-markers', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    gutters: ['CodeMirror-lint-markers', 'CodeMirror-foldgutter'],
     extraKeys: {
       'Ctrl-Space': (cm) => { this.showHint(cm); },
     }

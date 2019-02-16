@@ -57,7 +57,7 @@ export interface State {
 // Meta reducer to log actions
 export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   return (state: State, action: Action) => {
-    if (!environment.production) {
+    if (!environment.production || window['__ENABLE_DEBUG_MODE__']) {
       debug.log(action.type, action);
     }
     window['__LAST_ACTION__'] = window['__LAST_ACTION__'] || [];

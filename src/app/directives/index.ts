@@ -4,10 +4,10 @@ import { SetCssVariablesDirective } from './set-css-variables/set-css-variables.
 
 @NgModule({
     declarations: [
-        SetCssVariablesDirective
+        SetCssVariablesDirective,
     ],
     exports: [
-        SetCssVariablesDirective
+        SetCssVariablesDirective,
     ]
 })
 export class DirectivesModule {}

@@ -14,6 +14,8 @@ export class QueryCollectionsComponent implements OnInit {
   @Output() deleteQueryChange = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{ collectionId }> = new EventEmitter();
   @Output() editCollectionChange: EventEmitter<{ collection }> = new EventEmitter();
+  @Output() exportCollectionChange = new EventEmitter();
+  @Output() importCollectionChange = new EventEmitter();
 
   constructor(
   ) {

@@ -8,7 +8,7 @@ import {
   EventEmitter,
   SimpleChanges,
   ViewChild,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
 
 import * as fromVariables from '../../reducers/variables/variables';
@@ -72,8 +72,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     tabSize: this.tabSize,
     indentUnit: this.tabSize,
     extraKeys: {
-      'Cmd-Enter': (cm) => this.sendRequest.next(cm),
-      'Ctrl-Enter': (cm) => this.sendRequest.next(cm),
       'Cmd-Space': (cm) => cm.showHint({ completeSingle: true }),
       'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true }),
       'Alt-Space': (cm) => cm.showHint({ completeSingle: true }),

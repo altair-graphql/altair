@@ -42,11 +42,12 @@
   <button
     class="app-button url-box__button url-box__button--send active-primary"
     (click)="!isSubscribed && this.sendRequest.next()"
-    [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
+    [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
     track-id="set_request"
     *ngIf="queryOperations.length < 2"
   >
-    <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+    <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+    <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
   </button>
   <clr-dropdown [clrCloseMenuOnItemClick]="true" *ngIf="queryOperations.length > 1">
     <button
@@ -54,7 +55,8 @@
       [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
       track-id="send_request"
       clrDropdownTrigger>
-      <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
       <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
       <clr-icon shape="caret down"></clr-icon>
     </button>
