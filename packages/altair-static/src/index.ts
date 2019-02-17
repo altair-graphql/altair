@@ -5,9 +5,10 @@ export interface RenderOptions {
     endpointURL?: string;
     subscriptionsEndpoint?: string;
     initialQuery?: string;
+    initialVariables?: string;
 }
 
-export const renderAltair = ({ endpointURL, subscriptionsEndpoint, initialQuery }: RenderOptions = {}) => {
+export const renderAltair = ({ endpointURL, subscriptionsEndpoint, initialQuery, initialVariables }: RenderOptions = {}) => {
     const altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
 
     let renderedOptions = '';
@@ -20,6 +21,10 @@ export const renderAltair = ({ endpointURL, subscriptionsEndpoint, initialQuery 
     }
     if (initialQuery) {
         renderedOptions += `window.__ALTAIR_INITIAL_QUERY__ = '${initialQuery}';`;
+    }
+
+    if (initialVariables) {
+        renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = '${initialVariables}';`;
     }
 
     const renderedOptionsInScript = `<script>${renderedOptions}</script>`;

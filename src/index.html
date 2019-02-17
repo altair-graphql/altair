@@ -23,6 +23,10 @@
       head.appendChild(script);
       window.__ALTAIR_TRANSLATE__ = 1;
     }
+
+    if (/altair-gql.sirmuel.design/.test(location.host)) {
+      window.__ALTAIR_WEB_APP__ = 1;
+    }
   </script>
   <app-root>
     <style>

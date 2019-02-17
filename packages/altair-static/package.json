@@ -1,6 +1,6 @@
 {
   "name": "altair-static",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Static package for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare-dist": "node scripts/prepare_dist.js",
     "compile": "tsc --declaration",
-    "prepare": "npm run prepare-dist; npm run compile"
+    "prepare": "npm run prepare-dist && npm run compile"
   },
   "engines": {
     "node": ">= 6.9.1"

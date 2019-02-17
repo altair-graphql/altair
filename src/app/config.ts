@@ -30,9 +30,11 @@ export default {
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],
   isTranslateMode,
+  isWebApp: window['__ALTAIR_WEB_APP__'],
   initialData: {
     url: window['__ALTAIR_ENDPOINT_URL__'] || '',
     subscriptionsEndpoint: window['__ALTAIR_SUBSCRIPTIONS_ENDPOINT__'] || '',
     query: window['__ALTAIR_INITIAL_QUERY__'] || '',
+    variables: window['__ALTAIR_INITIAL_VARIABLES__'] || '',
   }
 };

@@ -174,7 +174,7 @@ To get more help on working with the project, check out the [Angular CLI README]
 - Verify chrome extension https://developer.chrome.com/extensions/getstarted#unpacked
 - Verify firefox extension `./bin/run_ext_firefox.sh`
 - Create commit, push and update local repo `git add --all && git commit -am "Upgraded to v<version_number>" && git pull && git push`
-- Create an annotated release tag for the new version `git tag -a -m v<version_number> v<version_number>`
+- Create an annotated release tag for the new version `./bin/create_tag.sh v<version_number>`
 - Push new tag `git push --tags`
 - Create release notes (Using https://www.npmjs.com/package/release) `release`
 - Wait till all the CI builds are completed, and the binaries have been published in [Github release](https://help.github.com/articles/creating-releases/)
@@ -182,7 +182,7 @@ To get more help on working with the project, check out the [Angular CLI README]
 - Upload updated browser extensions
 - C'est fini.
 
-In the case of an error while deploying, delete the release tags locally and remotely using `git tag --delete <tag> && git push --delete origin <tag>`
+In the case of an error while deploying, delete the release tags locally and remotely using `./bin/delete_tag.sh <tag>`
 
 ## Contributing
 
