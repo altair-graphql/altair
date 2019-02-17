@@ -35,5 +35,6 @@ export default {
     url: window['__ALTAIR_ENDPOINT_URL__'] || '',
     subscriptionsEndpoint: window['__ALTAIR_SUBSCRIPTIONS_ENDPOINT__'] || '',
     query: window['__ALTAIR_INITIAL_QUERY__'] || '',
+    variables: window['__ALTAIR_INITIAL_VARIABLES__'] || '',
   }
 };
