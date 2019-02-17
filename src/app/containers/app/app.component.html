@@ -230,6 +230,17 @@
       ></app-edit-collection-dialog>
     </div>
 
+    <clr-alert [clrAlertType]="'alert-warning'" [clrAlertClosable]="false" [clrAlertAppLevel]="true" *ngIf="isWebApp">
+      <clr-alert-item>
+        <span class="alert-text">
+          Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
+        </span>
+        <div class="alert-actions">
+          <button class="btn alert-action" (click)="openWebAppLimitationPost($event)" track-id="web_app_disclaimer_learn_more">Learn more</button>
+        </div>
+      </clr-alert-item>
+    </clr-alert>
+
     <clr-alert [clrAlertType]="'alert-warning'" [clrAlertAppLevel]="true" (clrAlertClosedChange)="hideDonationAlert()" *ngIf="showDonationAlert">
       <clr-alert-item>
         <span class="alert-text">
@@ -241,6 +252,4 @@
       </clr-alert-item>
     </clr-alert>
   </div>
-  <!-- The github link has been added to the settings dropdown -->
-  <!-- <app-fork-repo *ngIf="!isElectron"></app-fork-repo> -->
 </div>

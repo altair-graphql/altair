@@ -51,6 +51,7 @@ export class AppComponent {
   windows = {};
   activeWindowId = '';
   isElectron = isElectron;
+  isWebApp = config.isWebApp;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 
@@ -352,6 +353,10 @@ export class AppComponent {
     this.donationService.donated();
     this.externalLink(e, config.donation.url);
     this.hideDonationAlert();
+  }
+
+  openWebAppLimitationPost(e) {
+    this.externalLink(e, 'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8');
   }
 
   externalLink(e, url) {
