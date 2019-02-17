@@ -36,6 +36,13 @@ input[type="text"], input[type="search"], input[type="url"] {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @mixin clearfix() {
   &:before,
   &:after {
