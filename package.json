@@ -114,7 +114,7 @@
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.10.0",
+    "@angular-devkit/build-angular": "~0.13.2",
     "@types/chrome": "^0.0.80",
     "@types/electron": "^1.4.38",
     "@types/jasmine": "3.3.9",
