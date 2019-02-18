@@ -52,6 +52,11 @@ app.on('will-finish-launching', function() {
       if (err) {
         return;
       }
+      const instance = getInstance();
+
+      if (instance) {
+        instance.webContents.send('file-opened', openedFileContent);
+      }
 
       getStore().set('file-opened', data);
     });
