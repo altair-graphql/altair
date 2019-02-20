@@ -1016,10 +1016,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.80":
-  version "0.0.80"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.80.tgz#615b4d861e80f8065a2bf7b6293da9d9a27502ed"
-  integrity sha512-I8YtD80sp/3oJnz/dEmACTsXj3fXqv0gHCq4gM7RS4q58qCqTirb0iDJwb8Zv5njJo7+EJjkjoloFefjhoNR1w==
+"@types/chrome@^0.0.81":
+  version "0.0.81"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.81.tgz#4fbf34c370a60235be4f97f32429e701fb644d10"
+  integrity sha512-NKkQGMJSppFwUwMbEbYcq8/p/ACVHmQCUpWaqJVdHn81tU3by+YXnxw86KFa0tUSLamu35wtzFaMyY4TFaMceQ==
   dependencies:
     "@types/filesystem" "*"
 
