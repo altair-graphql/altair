@@ -119,7 +119,7 @@
     "@types/electron": "^1.4.38",
     "@types/jasmine": "3.3.9",
     "@types/mousetrap": "^1.6.0",
-    "@types/node": "10.5.7",
+    "@types/node": "11.9.5",
     "ajv-cli": "^3.0.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
