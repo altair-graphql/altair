@@ -15,12 +15,10 @@
       class="url-box__input"
       track-id="set_url"
       placholder="Enter URL"
-      (blur)="setApiUrlFancy()"
-      (submit)="setApiUrlFancy()"
+      (blur)="setApiUrl()"
+      (submit)="setApiUrl()"
       [(ngModel)]="apiUrl"
     ></app-fancy-input>
-    <input track-id="set_url" #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
-         [value]="apiUrl" *ngIf="false">
     <div class="url-box__input-actions">
         <clr-dropdown>
           <button clrDropdownTrigger

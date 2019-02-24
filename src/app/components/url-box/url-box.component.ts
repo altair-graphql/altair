@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-url-box',
@@ -24,14 +24,9 @@ export class UrlBoxComponent {
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
-  @ViewChild('urlInput') urlInput;
   constructor() { }
 
   setApiUrl() {
-    const url: string = this.urlInput.nativeElement.value;
-    this.urlChange.emit(url.trim());
-  }
-  setApiUrlFancy() {
     this.urlChange.emit(this.apiUrl.trim());
   }
 
