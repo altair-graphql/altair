@@ -1,8 +1,10 @@
 <div class="url-box">
   <clr-dropdown>
-    <button type="button" class="url-box__button btn btn-outline-primary" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
+    <button type="button" class="url-box__button btn btn-outline-primary url-box__button--method" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
       {{ httpVerb }}
-      <clr-icon shape="angle down"></clr-icon>
+      &#9660;
+      <!-- &#8964; -->
+      <!-- <clr-icon shape="angle down"></clr-icon> -->
     </button>
     <clr-dropdown-menu *clrIfOpen>
       <button track-id="http_verb_method" *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>

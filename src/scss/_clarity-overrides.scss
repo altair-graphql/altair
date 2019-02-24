@@ -29,10 +29,13 @@
 .dropdown-menu {
   background: var(--theme-bg-color);
   padding: 0;
+  min-width: 170px;
 
   .dropdown-item {
+    transition: all .3s ease;
     color: var(--theme-font-color);
     // padding: 1px 15px 0;
+    padding: 5px 10px;
   }
 }
 .dropdown button.dropdown-toggle:not(.btn) {
