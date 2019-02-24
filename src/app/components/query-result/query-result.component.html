@@ -22,10 +22,7 @@
     <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
       <div class="response-stats">
         <div class="left">
-          {{ 'QUERY_RESULT_STATUS_TEXT' | translate }}:
-          <span class="response-status-text response-stats__item">{{responseStatusText}}</span>
-          {{ 'QUERY_RESULT_STATUS_CODE_TEXT' | translate }}:
-          <span class="response-status-code response-stats__item">{{responseStatus}}</span>
+          <span class="response-status-code response-stats__item">{{responseStatus}} {{responseStatusText}}</span>
           <span class="response-time response-stats__item"><clr-icon shape="clock"></clr-icon> {{responseTime}}ms</span>
         </div>
         <div class="right">

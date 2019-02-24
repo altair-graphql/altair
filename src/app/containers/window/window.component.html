@@ -82,10 +82,20 @@
           <div class="app-dialog-body">
             <div class="set-header-input-container" *ngFor="let header of headers$ | async;trackBy:trackByFn; let i = index">
               <div class="set-header-input-column">
-                <input type="text" class="set-header-input" placeholder="Header key" value="{{header.key}}" (input)="headerKeyChange($event, i)">
+                <app-fancy-input
+                  class="set-header-input"
+                  placeholder="Header key"
+                  [ngModel]="header.key"
+                  (ngModelChange)="headerKeyChange($event, i)"
+                ></app-fancy-input>
               </div>
               <div class="set-header-input-column">
-                <input type="text" class="set-header-input" placeholder="Header value" value="{{header.value}}" (input)="headerValueChange($event, i)">
+                <app-fancy-input
+                  class="set-header-input"
+                  placeholder="Header value"
+                  [ngModel]="header.value"
+                  (ngModelChange)="headerValueChange($event, i)"
+                ></app-fancy-input>
               </div>
               <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
             </div>

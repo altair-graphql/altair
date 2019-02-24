@@ -23,6 +23,7 @@ interface BoundaryMarker {
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // @Input() value = '';
+  @Input() placeholder = '';
   @Output() blur = new EventEmitter();
   @Output() submit = new EventEmitter();
 

@@ -236,12 +236,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new headerActions.AddHeaderAction(this.windowId));
   }
 
-  headerKeyChange($event, i) {
-    const val = $event.target.value;
+  headerKeyChange(val, i) {
     this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }, this.windowId));
   }
-  headerValueChange($event, i) {
-    const val = $event.target.value;
+  headerValueChange(val, i) {
     this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }, this.windowId));
   }
 

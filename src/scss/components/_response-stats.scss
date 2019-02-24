@@ -13,23 +13,12 @@
   border-radius: 5px;
   margin-right: 10px;
 }
-.response-status-text{
-  text-transform: uppercase;
-  background: rgba(var(--rgb-black), .5);
-  color: $white;
-}
 .response-status-code{
   background: rgba(var(--rgb-blue), .1);
 }
 .response-time{
-  display: inline-block;
+  background: rgba(var(--rgb-black), .5);
 }
-.response-stats__download-result-link {
-  font-size: fontsize(12);
-  border: none;
-  background: transparent;
-  color: $blue;
-  &:hover {
-    text-decoration: underline;
-  }
+.response-time{
+  display: inline-block;
 }
