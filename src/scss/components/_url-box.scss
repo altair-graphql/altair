@@ -19,11 +19,13 @@ $url-input-height: 50px;
   padding: 0 15px;
   transition: all .3s ease;
   background-color: var(--theme-off-bg-color);
+  width: 100%;
+  display: block;
 
   &:hover {
     border-color: var(--theme-off-border-color);
   }
-  &:focus, &:active {
+  &:focus, &:active, &:focus-within {
     border-color: var(--primary-color);
   }
 }

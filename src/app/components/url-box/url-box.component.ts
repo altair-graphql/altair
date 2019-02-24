@@ -31,6 +31,9 @@ export class UrlBoxComponent {
     const url: string = this.urlInput.nativeElement.value;
     this.urlChange.emit(url.trim());
   }
+  setApiUrlFancy() {
+    this.urlChange.emit(this.apiUrl.trim());
+  }
 
   setVerb(verb) {
     this.httpVerbChange.emit(verb);
