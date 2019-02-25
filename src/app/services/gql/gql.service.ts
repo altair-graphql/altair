@@ -120,7 +120,6 @@ export class GqlService {
     } else {
       params = this.getParamsFromData(data);
     }
-    debug.log(headers.keys());
     return this.http.request(this.method, this.api_url, {
       // GET method uses params, while the other methods use body
       body,
@@ -203,18 +202,18 @@ export class GqlService {
     const currentApiUrl = this.api_url;
 
     this.api_url = url;
-    return this.send(getIntrospectionQuery()).pipe(
+    return this._send(getIntrospectionQuery()).pipe(
       map(data => {
-        debug.log('introspection', data.data);
-        return data.data;
+        debug.log('introspection', data);
+        return data;
       }),
       catchError((err) => {
         debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
-        return this.send(oldIntrospectionQuery).pipe(map(data => {
-          debug.log('old introspection', data.data);
-          return data.data;
+        return this._send(oldIntrospectionQuery).pipe(map(data => {
+          debug.log('old introspection', data);
+          return data;
         }));
       }),
       tap(() => this.api_url = currentApiUrl),
@@ -387,5 +386,19 @@ export class GqlService {
 
   validateSchema(schema) {
     return validateSchema(schema);
+  }
+
+  createStreamClient(streamUrl): EventSource {
+    const eventSource = new EventSource(streamUrl);
+    return eventSource;
+  }
+
+  closeStreamClient(streamClient: EventSource) {
+    if (streamClient) {
+
+      if (streamClient.close) {
+        streamClient.close();
+      }
+    }
   }
 }

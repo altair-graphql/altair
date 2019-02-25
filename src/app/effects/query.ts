@@ -21,6 +21,7 @@ import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as donationAction from '../actions/donation';
 import * as historyActions from '../actions/history/history';
 import * as dialogsActions from '../actions/dialogs/dialogs';
+import * as streamActions from '../actions/stream/stream';
 
 import { downloadJson, downloadData, copyToClipboard } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
@@ -274,8 +275,15 @@ export class QueryEffects {
                 }
                 return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
               }),
-              map(introspectionData => {
+              map(introspectionResponse => {
+                const introspectionData = introspectionResponse.body && introspectionResponse.body.data;
+                const streamUrl = introspectionResponse.headers
+                  && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/graphql/stream'; // For development.
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+                this.store.dispatch(new streamActions.SetStreamSettingAction(res.windowId, { streamUrl }));
+                if (streamUrl) {
+                  this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId));
+                }
                 if (!introspectionData) {
                   return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
                 }
@@ -573,6 +581,80 @@ export class QueryEffects {
         });
         return observableEmpty();
       }));
+
+      @Effect()
+      startStreamClient$: Observable<streamActions.Action> = this.actions$
+        .ofType(streamActions.START_STREAM_CLIENT)
+        .pipe(
+          withLatestFrom(this.store, (action: streamActions.Action, state: fromRoot.State) => {
+            return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          }),
+          switchMap(res => {
+
+            if (!res.data.stream.url) {
+              return observableEmpty();
+            }
+            const endpoint = new URL(this.environmentService.hydrate(res.data.query.url));
+            const streamUrl = new URL(
+              this.environmentService.hydrate(res.data.stream.url),
+              endpoint
+            );
+
+            if (endpoint.host !== streamUrl.host) {
+              this.notifyService.error(`
+                The stream and endpoint domains do not match. Please check your server implementation.
+                [${endpoint.host} != ${streamUrl.host}]
+              `);
+              return observableEmpty();
+            }
+            try {
+              // Stop any currently active stream client
+              this.gqlService.closeStreamClient(res.data.stream.client);
+
+              const streamClient = this.gqlService.createStreamClient(streamUrl);
+              let backoff = res.action.payload.backoff || 200;
+
+              streamClient.addEventListener('change', () => {
+                this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(res.windowId));
+              }, false);
+
+              streamClient.addEventListener('open', () => {
+                // Clear error state
+                this.store.dispatch(new streamActions.SetStreamFailedAction(res.windowId, { failed: null }));
+                this.store.dispatch(new streamActions.SetStreamConnectedAction(res.windowId, { connected: true }));
+                // Reset backoff
+                backoff = 200;
+              }, false);
+
+              streamClient.addEventListener('error', (err) => {
+                this.store.dispatch(new streamActions.SetStreamFailedAction(res.windowId, { failed: err }));
+                // Retry after sometime
+                setTimeout(() => {
+                  backoff = Math.min(backoff * 1.7, 30000);
+                  this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId, { backoff }));
+                }, backoff);
+              }, false);
+
+              return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient }));
+            } catch (err) {
+              console.error('An error occurred starting the stream.', err);
+              // return subscriptionErrorHandler(err);
+            }
+          }),
+        );
+
+    @Effect()
+    stopStreamClient$: Observable<streamActions.Action> = this.actions$
+      .ofType(streamActions.STOP_STREAM_CLIENT)
+      .pipe(
+        withLatestFrom(this.store, (action: streamActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          this.gqlService.closeStreamClient(res.data.stream.client);
+          return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient: null }));
+        }),
+      );
 
     // Get the introspection after setting the URL
     constructor(

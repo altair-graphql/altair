@@ -29,6 +29,21 @@ $url-input-height: 50px;
     border-color: var(--primary-color);
   }
 }
+.url-box__input-prepend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  width: 40px;
+  text-align: center;
+  & ~ .url-box__input {
+    padding-left: 30px;
+  }
+}
 .url-box__input-actions {
   position: absolute;
   right: 0;
@@ -74,4 +89,17 @@ $url-input-height: 50px;
   }
 }
 
-
+.url-box__connection-indicator {
+  display: inline-block;
+  opacity: .6;
+  transition: all .3s ease;
+  &:hover {
+    opacity: 1;
+  }
+}
+.connection-indicator--connected {
+  color: var(--green-color);
+}
+.connection-indicator--uncertain {
+  color: var(--orange-color);
+}

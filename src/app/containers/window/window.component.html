@@ -16,6 +16,7 @@
       [showDocs]="showDocs$ | async"
       [selectedOperation]="selectedOperation$ | async"
       [queryOperations]="queryOperations$ | async"
+      [streamState]="streamState$ | async"
 
       (urlChange)="setApiUrl($event)"
       (httpVerbChange)="setApiMethod($event)"

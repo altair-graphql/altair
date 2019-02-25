@@ -11,6 +11,24 @@
     </clr-dropdown-menu>
   </clr-dropdown>
   <div class="url-box__input-container">
+    <div class="url-box__input-prepend" *ngIf="streamState">
+      <div class="url-box__connection-indicator">
+        <clr-icon
+          *ngIf="streamState == 'uncertain'"
+          shape="exclamation-circle"
+          class="is-solid connection-indicator--uncertain"
+          [popper]="'Trying to connect to server stream...'"
+          [popperStyles]="{ 'white-space': 'nowrap' }"
+        ></clr-icon>
+        <clr-icon
+          *ngIf="streamState == 'connected'"
+          shape="circle"
+          class="is-solid connection-indicator--connected"
+          [popper]="'Connected to server stream'"
+          [popperStyles]="{ 'white-space': 'nowrap' }"
+        ></clr-icon>
+      </div>
+    </div>
     <app-fancy-input
       class="url-box__input"
       track-id="set_url"

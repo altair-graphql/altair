@@ -20,6 +20,7 @@ import * as fromSettings from './settings/settings';
 import * as fromDonation from './donation';
 import * as fromCollection from './collection';
 import * as fromEnvironments from './environments';
+import * as fromStream from './stream/stream';
 import { debug } from 'app/utils/logger';
 
 export interface PerWindowState {
@@ -31,6 +32,7 @@ export interface PerWindowState {
   schema: fromGqlSchema.State;
   docs: fromDocs.State;
   history: fromHistory.State;
+  stream: fromStream.State;
   windowId: string; // Used by the window reducer
 }
 
@@ -42,7 +44,8 @@ const perWindowReducers = {
   dialogs: fromDialogs.dialogReducer,
   schema: fromGqlSchema.gqlSchemaReducer,
   docs: fromDocs.docsReducer,
-  history: fromHistory.historyReducer
+  history: fromHistory.historyReducer,
+  stream: fromStream.streamReducer,
 };
 
 export interface State {

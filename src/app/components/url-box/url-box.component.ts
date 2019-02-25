@@ -12,6 +12,7 @@ export class UrlBoxComponent {
   @Input() showDocs = false;
   @Input() selectedOperation = '';
   @Input() queryOperations = [];
+  @Input() streamState = '';
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
