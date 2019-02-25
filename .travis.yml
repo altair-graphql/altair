@@ -57,16 +57,16 @@ deploy:
   skip_cleanup: true
   on:
     branch: staging
-- provider: snap
-  file_glob: true
-  snap: out/**/*.snap
-  channel: stable
+- provider: script
+  script: sh bin/publish_packages.sh
   skip_cleanup: true
   on:
     tags: true
     condition: $TRAVIS_OS_NAME = linux
-- provider: script
-  script: sh bin/publish_packages.sh
+- provider: snap
+  file_glob: true
+  snap: out/**/*.snap
+  channel: stable
   skip_cleanup: true
   on:
     tags: true
