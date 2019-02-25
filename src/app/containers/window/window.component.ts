@@ -24,6 +24,7 @@ import * as schemaActions from '../../actions/gql-schema/gql-schema';
 import * as historyActions from '../../actions/history/history';
 import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
+import * as streamActions from '../../actions/stream/stream';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { Observable } from 'rxjs';
@@ -48,6 +49,7 @@ export class WindowComponent implements OnInit {
   subscriptionResponses$: Observable<string[]>;
   selectedOperation$: Observable<string>;
   queryOperations$: Observable<any[]>;
+  streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -109,6 +111,17 @@ export class WindowComponent implements OnInit {
     this.subscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getSubscriptionResponses));
     this.selectedOperation$ = this.getWindowState().pipe(select(fromRoot.getSelectedOperation));
     this.queryOperations$ = this.getWindowState().pipe(select(fromRoot.getQueryOperations));
+    this.streamState$ = this.getWindowState().pipe(
+      map(data => {
+        if (data && data.stream.url) {
+          if (data.stream.isConnected && data.stream.client instanceof EventSource) {
+            return 'connected';
+          }
+          return 'uncertain';
+        }
+        return '';
+      })
+    )
 
     this.store.pipe(
       map(data => data.windows[this.windowId]),
@@ -236,12 +249,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new headerActions.AddHeaderAction(this.windowId));
   }
 
-  headerKeyChange($event, i) {
-    const val = $event.target.value;
+  headerKeyChange(val, i) {
     this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }, this.windowId));
   }
-  headerValueChange($event, i) {
-    const val = $event.target.value;
+  headerValueChange(val, i) {
     this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }, this.windowId));
   }
 
@@ -354,5 +365,7 @@ export class WindowComponent implements OnInit {
   initSetup() {
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
     this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
+    this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
+    this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
   }
 }

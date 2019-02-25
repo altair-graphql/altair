@@ -2,7 +2,7 @@ $url-input-height: 50px;
 
 .url-box {
   // max-width: 900px;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
   width: 100%;
   display: flex;
 }
@@ -19,12 +19,29 @@ $url-input-height: 50px;
   padding: 0 15px;
   transition: all .3s ease;
   background-color: var(--theme-off-bg-color);
+  width: 100%;
+  display: block;
 
   &:hover {
     border-color: var(--theme-off-border-color);
   }
-  &:focus, &:active {
+  &:focus, &:active, &:focus-within {
     border-color: var(--primary-color);
+  }
+}
+.url-box__input-prepend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  width: 40px;
+  text-align: center;
+  & ~ .url-box__input {
+    padding-left: 30px;
   }
 }
 .url-box__input-actions {
@@ -52,14 +69,17 @@ $url-input-height: 50px;
     border-radius: 0px 4px 4px 0px;
   }
 }
-
+.url-box .url-box__button.url-box__button--method {
+  min-width: 75px;
+  padding: 0 0.5rem;
+  letter-spacing: normal;
+}
 .btn.btn-outline-primary.url-box__button {
   border-radius: 4px 0px 0px 4px;
   border: 1px solid var(--theme-border-color);
   border-right: none;
   height: 100%;
   color: var(--green-color);
-  width: 115px;
   &:hover {
     border-color: var(--theme-off-border-color);
     background: transparent;
@@ -69,4 +89,17 @@ $url-input-height: 50px;
   }
 }
 
-
+.url-box__connection-indicator {
+  display: inline-block;
+  opacity: .6;
+  transition: all .3s ease;
+  &:hover {
+    opacity: 1;
+  }
+}
+.connection-indicator--connected {
+  color: var(--green-color);
+}
+.connection-indicator--uncertain {
+  color: var(--orange-color);
+}

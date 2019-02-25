@@ -1,0 +1,22 @@
+<div class="fancy-input-container">
+  <div class="fancy-input-backdrop">
+    <div class="fancy-input-content fancy-input-highlights" #fancyInputHighlightsEl>
+      <ng-container *ngFor="let section of highlightData.sections">
+        <span *ngIf="!section.type">{{ section.content }}</span>
+        <mark *ngIf="section.type === 'mark'">{{ section.content }}</mark>
+      </ng-container>
+    </div>
+  </div>
+  <input
+    #fancyInputEl
+    type="text"
+    class="fancy-input-content fancy-input-element"
+    [placeholder]="placeholder"
+    [(ngModel)]="value"
+    (input)="handleInput()"
+    (scroll)="handleScroll()"
+    (keydown)="handleKeydown()"
+    (blur)="handleBlur()"
+    (keydown.enter)="handleSubmit()"
+  >
+</div>

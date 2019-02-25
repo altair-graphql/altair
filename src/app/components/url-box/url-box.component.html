@@ -1,16 +1,42 @@
 <div class="url-box">
   <clr-dropdown>
-    <button type="button" class="url-box__button btn btn-outline-primary" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
+    <button type="button" class="url-box__button btn btn-outline-primary url-box__button--method" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
       {{ httpVerb }}
-      <clr-icon shape="angle down"></clr-icon>
+      &#9660;
+      <!-- &#8964; -->
+      <!-- <clr-icon shape="angle down"></clr-icon> -->
     </button>
     <clr-dropdown-menu *clrIfOpen>
       <button track-id="http_verb_method" *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
     </clr-dropdown-menu>
   </clr-dropdown>
   <div class="url-box__input-container">
-    <input track-id="set_url" #urlInput type="text" class="url-box__input" placeholder="Enter URL" (blur)="setApiUrl()" (keyup.enter)="setApiUrl()"
-         [value]="apiUrl">
+    <div class="url-box__input-prepend" *ngIf="streamState">
+      <div class="url-box__connection-indicator">
+        <clr-icon
+          *ngIf="streamState == 'uncertain'"
+          shape="exclamation-circle"
+          class="is-solid connection-indicator--uncertain"
+          [popper]="'Trying to connect to server stream...'"
+          [popperStyles]="{ 'white-space': 'nowrap' }"
+        ></clr-icon>
+        <clr-icon
+          *ngIf="streamState == 'connected'"
+          shape="circle"
+          class="is-solid connection-indicator--connected"
+          [popper]="'Connected to server stream'"
+          [popperStyles]="{ 'white-space': 'nowrap' }"
+        ></clr-icon>
+      </div>
+    </div>
+    <app-fancy-input
+      class="url-box__input"
+      track-id="set_url"
+      placholder="Enter URL"
+      (blur)="setApiUrl()"
+      (submit)="setApiUrl()"
+      [(ngModel)]="apiUrl"
+    ></app-fancy-input>
     <div class="url-box__input-actions">
         <clr-dropdown>
           <button clrDropdownTrigger

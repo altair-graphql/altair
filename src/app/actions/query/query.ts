@@ -39,6 +39,7 @@ export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 
+
 export class SetUrlAction implements Action {
   readonly type = SET_URL;
 
@@ -235,4 +236,5 @@ export type Action =
   | HideEditorAlertAction
   | ShowEditorAlertAction
   | SetHTTPMethodAction
-  | SetQueryOperationsAction;
+  | SetQueryOperationsAction
+  ;

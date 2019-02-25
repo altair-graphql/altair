@@ -1,0 +1,59 @@
+app-fancy-input, .fancy-input-container {
+	display: inline-block;
+	position: relative;
+	overflow: hidden !important;
+  -webkit-text-size-adjust: none !important;
+  width: 100%;
+}
+
+.fancy-input-backdrop {
+	position: absolute !important;
+	top: 0 !important;
+	right: -99px !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	padding-right: 99px !important;
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+}
+
+.fancy-input-highlights {
+	// width: auto !important;
+	height: auto !important;
+	border-color: transparent !important;
+	// white-space: pre-wrap !important;
+  // word-wrap: break-word !important;
+  white-space: pre;
+	color: transparent !important;
+	overflow: hidden !important;
+}
+
+.fancy-input-element {
+	display: block !important;
+	position: relative !important;
+	// padding: 0;
+	border-radius: 0;
+	font: inherit;
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+}
+
+.fancy-input-content {
+  margin: 0;
+  width: inherit;
+  padding: 0;
+	border: 0;
+  background: none transparent !important;
+  span, mark {
+    // display: inline-block;
+  }
+}
+
+.fancy-input-content mark {
+  // background: var(--cerise-color);
+  background: rgba(var(--rgb-cerise), .5);
+  // color: var(--green-color);
+  border-radius: 4px;
+	padding: 0 !important;
+	// color: var(--white-color);
+}

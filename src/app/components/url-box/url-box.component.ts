@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-url-box',
@@ -12,6 +12,7 @@ export class UrlBoxComponent {
   @Input() showDocs = false;
   @Input() selectedOperation = '';
   @Input() queryOperations = [];
+  @Input() streamState = '';
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
@@ -24,12 +25,10 @@ export class UrlBoxComponent {
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
-  @ViewChild('urlInput') urlInput;
   constructor() { }
 
   setApiUrl() {
-    const url: string = this.urlInput.nativeElement.value;
-    this.urlChange.emit(url.trim());
+    this.urlChange.emit(this.apiUrl.trim());
   }
 
   setVerb(verb) {

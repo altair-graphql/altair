@@ -49,7 +49,7 @@ export const initialState: State = {
   subscriptionClient: null,
   subscriptionConnectionParams: '{}',
   isSubscribed: false,
-  subscriptionResponseList: []
+  subscriptionResponseList: [],
 };
 
 export function queryReducer(state = initialState, action: query.Action): State {

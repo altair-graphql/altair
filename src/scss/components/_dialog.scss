@@ -69,7 +69,7 @@
 .set-header-input, .dialog-input {
   font-size: fontsize(14);
   padding: 5px 0;
-  line-height: 1;
+  // line-height: 1;
   border: none;
   border-bottom: 2px solid var(--theme-border-color);
   transition: all .3s ease;
