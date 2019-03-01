@@ -33,6 +33,9 @@ export class KeybinderService {
     bindGlobal('ctrl+shift+h', () =>
       this.zone.run(() => this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId))));
 
+    bindGlobal('ctrl+shift+r', () =>
+      this.zone.run(() => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId))));
+
     bindGlobal(['command+enter', 'ctrl+enter'], () =>
       this.zone.run(() => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId))));
   }
