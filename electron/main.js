@@ -55,7 +55,7 @@ app.on('will-finish-launching', function() {
       const instance = getInstance();
 
       if (instance) {
-        instance.webContents.send('file-opened', openedFileContent);
+        instance.webContents.send('file-opened', data);
       }
 
       getStore().set('file-opened', data);

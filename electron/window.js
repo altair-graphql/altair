@@ -15,7 +15,7 @@ const { checkForUpdates } = require('./updates');
  */
 let instance = null;
 
-const headersToSet = [ 'Origin' ];
+const headersToSet = [ 'Origin', 'Cookie' ];
 let requestHeaders = {};
 
 const actions = {
@@ -151,6 +151,9 @@ const createWindow = () => {
   });
 
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    // Set defaults
+    details.requestHeaders['Origin'] = 'electron://altair';
+
     // Set the request headers
     Object.keys(requestHeaders).forEach(key => {
       details.requestHeaders[key] = requestHeaders[key];
