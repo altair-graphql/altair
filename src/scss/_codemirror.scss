@@ -15,7 +15,7 @@
     }
 }
 .CodeMirror-cursor{
-    border-left-color: var(--blue-color);
+    border-left-color: var(--editor-cursor-color);
 }
 .CodeMirror-gutters{
     background: transparent;
@@ -68,49 +68,52 @@
         }
     }
 }
-.cm-s-default{
-    .cm-atom{
-        color: var(--theme-font-color);
+.cm-s-default {
+    .cm-atom {
+        color: var(--editor-atom-color);
     }
-    .cm-attribute{
-        color: var(--green-color);
+    .cm-attribute {
+        color: var(--editor-attribute-color);
     }
-    .cm-string{
-        color: var(--theme-font-color);
+    .cm-string, .cm-string-2, .cm-string-3 {
+        color: var(--editor-string-color);
     }
-    .cm-property{
-        color: var(--blue-color);
+    .cm-variable, .cm-variable-2, .cm-variable-3 {
+        color: var(--editor-variable-color);
     }
-    .cm-punctuation{
-        color: var(--blue-color);
+    .cm-property {
+        color: var(--editor-property-color);
     }
-    .cm-keyword{
-        color: var(--blue-color);
+    .cm-punctuation {
+        color: var(--editor-punctuation-color);
+    }
+    .cm-keyword {
+        color: var(--editor-keyword-color);
         font-weight: bold;
     }
-    .cm-comment{
-        color: var(--dark-grey-color);
+    .cm-comment {
+        color: var(--editor-comment-color);
     }
-    .cm-def{
-        color: var(--orange-color);
+    .cm-def {
+        color: var(--editor-def-color);
     }
     .cm-number {
-        color: var(--theme-font-color);
+        color: var(--editor-number-color);
     }
 }
 .cm-s-query-result{
-    .cm-attribute{
-        color: var(--result-default);
-    }
-    .cm-string{
-        color: var(--result-string);
-    }
-    .cm-property{
-        color: var(--result-default);
-    }
-    .cm-punctuation{
-        color: var(--result-default);
-    }
+    // .cm-attribute{
+    //     color: var(--result-default);
+    // }
+    // .cm-string{
+    //     color: var(--result-string);
+    // }
+    // .cm-property{
+    //     color: var(--result-default);
+    // }
+    // .cm-punctuation{
+    //     color: var(--result-default);
+    // }
 }
 .cm-s-variable-editor{
     background: var(--theme-off-bg-color);

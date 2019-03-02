@@ -30,12 +30,25 @@
   background: var(--theme-bg-color);
   padding: 0;
   min-width: 170px;
+  border: 1px solid var(--theme-border-color);
+
+  .dropdown-divider {
+    border-color: var(--theme-border-color);
+  }
 
   .dropdown-item {
     transition: all .3s ease;
     color: var(--theme-font-color);
     // padding: 1px 15px 0;
     padding: 5px 10px;
+    &:hover {
+      color: var(--theme-font-color);
+      background: var(--theme-border-color);
+    }
+    &.active {
+      color: var(--primary-color);
+      background: var(--theme-border-color);
+    }
   }
 }
 .dropdown button.dropdown-toggle:not(.btn) {

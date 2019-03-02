@@ -2,14 +2,14 @@ import * as settings from '../../actions/settings/settings';
 import config from '../../config';
 import { jsonc } from 'app/utils';
 
-export type SettingsTheme = 'light' | 'dark';
+export type SettingsTheme = 'light' | 'dark' | 'dracula';
 export type SettingsLanguage = keyof typeof config.languages;
 
 export interface State {
 
   /**
    * Specifies the theme
-   * Options: 'light', 'dark'
+   * Options: 'light', 'dark', 'dracula'
    */
   theme: SettingsTheme;
 
