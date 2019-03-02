@@ -17,14 +17,14 @@
           *ngIf="streamState == 'uncertain'"
           shape="exclamation-circle"
           class="is-solid connection-indicator--uncertain"
-          [popper]="'Trying to connect to server stream...'"
+          [popper]="'STREAM_CONNECTION_TRYING' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
         ></clr-icon>
         <clr-icon
           *ngIf="streamState == 'connected'"
           shape="circle"
           class="is-solid connection-indicator--connected"
-          [popper]="'Connected to server stream'"
+          [popper]="'STREAM_CONNECTION_CONNECTED' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
         ></clr-icon>
       </div>
