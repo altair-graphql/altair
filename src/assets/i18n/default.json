@@ -114,6 +114,7 @@
   "ADD_SUB_ENVIRONMENT_BUTTON": "Add Environment",
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Environment title",
   "NO_ENVIRONMENT_TEXT": "No environment",
+  "ENVIRONMENT_VARIABLE_TIP": "You can use any of your variables in the app using {{variable}} syntax.",
 
   "ADD_FILES_TEXT": "Add files",
   "FILE_NAME_PLACEHOLDER": "File name (used as query variable)",
