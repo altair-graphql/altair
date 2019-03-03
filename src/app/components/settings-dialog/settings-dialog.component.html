@@ -16,6 +16,19 @@
           (ngModelChange)="onSettingsChange($event)"
         ></ngx-codemirror>
         <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
+        <clr-stack-view>
+          <clr-stack-block>
+              <clr-stack-label>{{ 'SETTINGS_KEYBOARD_SHORTCUTS' | translate }}</clr-stack-label>
+
+              <clr-stack-block [clrSbExpanded]="true" *ngFor="let category of shortcutCategories">
+                <clr-stack-label class="settings-shortcut-category-title">{{ category.title }}</clr-stack-label>
+                <clr-stack-block *ngFor="let shortcut of category.shortcuts">
+                  <clr-stack-label class="settings-shortcut-description">{{ shortcut.description }}</clr-stack-label>
+                  <clr-stack-content class="settings-shortcut-key" *ngFor="let key of shortcut.keys">{{ key }}</clr-stack-content>
+                </clr-stack-block>
+              </clr-stack-block>
+          </clr-stack-block>
+        </clr-stack-view>
       </div>
 
       <div class="app-dialog-section" *ngIf="false">

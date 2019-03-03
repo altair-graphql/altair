@@ -65,9 +65,10 @@ export class EnvironmentService {
 
   hydrateHeaders(headers: fromHeaders.Header[]) {
     const hydratedHeaders = headers.map(header => {
-      header.key = this.hydrate(header.key);
-      header.value = this.hydrate(header.value);
-      return header;
+      return {
+        key: this.hydrate(header.key),
+        value: this.hydrate(header.value),
+      };
     });
 
     return hydratedHeaders;

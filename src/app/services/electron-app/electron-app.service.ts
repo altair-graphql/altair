@@ -68,4 +68,8 @@ export class ElectronAppService {
       this.electron.ipcRenderer.sendSync('set-headers-sync', headers);
     }
   }
+
+  isElectronApp() {
+    return this.electron.isElectronApp;
+  }
 }

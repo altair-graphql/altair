@@ -42,4 +42,37 @@
 
   // @import "scss/framework.dark";
   // @import "scss/all";
+
+  --editor-comment-color: var(--dark-grey-color);
+  --editor-string-color: var(--orange-color);
+  --editor-number-color: var(--orange-color);
+  --editor-variable-color: var(--theme-font-color);
+  --editor-keyword-color: var(--blue-color);
+  --editor-atom-color: var(--theme-font-color);
+  --editor-attribute-color: var(--green-color);
+  --editor-property-color: var(--blue-color);
+  --editor-punctuation-color: var(--blue-color);
+  --editor-def-color: var(--orange-color);
+  --editor-cursor-color: var(--blue-color);
+}
+
+.dracula-theme {
+  --theme-bg-color: #282a36;
+  --theme-off-bg-color: #303240;
+  --theme-font-color: #f8f8f2;
+  --theme-off-font-color: #f8f8f2;
+  --theme-border-color: #40414d;
+  --theme-off-border-color: #383942;
+  --header-bg-color: var(--theme-off-bg-color);
+
+  --editor-comment-color: #6272a4;
+  --editor-string-color: #f1fa8c;
+  --editor-number-color: #bd93f9;
+  --editor-variable-color: #50fa7b;
+  --editor-attribute-color: #ff79c6;
+  --editor-keyword-color: #ff79c6;
+  --editor-atom-color: #bd93f9;
+  --editor-property-color: #bd93f9;
+  --editor-punctuation-color: #f8f8f2;
+  --editor-cursor-color: #f8f8f2;
 }

@@ -1,13 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { empty as observableEmpty } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
-import { NotifyService } from 'app/services';
+import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService } from 'app/services';
 import { ToastrModule } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import { ElectronService } from 'ngx-electron';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -17,14 +21,28 @@ describe('SettingsDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SettingsDialogComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
         ClarityModule,
         ToastrModule.forRoot(),
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
       ],
       providers: [
-        NotifyService
+        NotifyService,
+        KeybinderService,
+        WindowService,
+        DbService,
+        ElectronAppService,
+        ElectronService,
+        {
+          provide: Store, useValue: {
+            subscribe: () => { },
+            select: () => [],
+            map: () => observableEmpty(),
+            dispatch: () => { }
+          }
+        }
       ]
     })
     .compileComponents();
