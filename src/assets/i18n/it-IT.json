@@ -99,7 +99,10 @@
   "ADD_SUB_ENVIRONMENT_BUTTON": "Aggiungi ambiente",
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Titolo ambiente",
   "NO_ENVIRONMENT_TEXT": "Nessun ambiente",
+  "ENVIRONMENT_VARIABLE_TIP": "You can use any of your variables in the app using {{variable}} syntax.",
   "ADD_FILES_TEXT": "Aggiungi file",
   "FILE_NAME_PLACEHOLDER": "Nome file (usato come query variable)",
-  "LEARN_MORE_TEXT": "Altre informazioni"
+  "LEARN_MORE_TEXT": "Altre informazioni",
+  "STREAM_CONNECTION_TRYING": "Trying to connect to server stream...",
+  "STREAM_CONNECTION_CONNECTED": "Connected to server stream"
 }
