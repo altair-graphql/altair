@@ -42,6 +42,18 @@
 
   // @import "scss/framework.dark";
   // @import "scss/all";
+
+  --editor-comment-color: var(--dark-grey-color);
+  --editor-string-color: var(--orange-color);
+  --editor-number-color: var(--orange-color);
+  --editor-variable-color: var(--theme-font-color);
+  --editor-keyword-color: var(--blue-color);
+  --editor-atom-color: var(--theme-font-color);
+  --editor-attribute-color: var(--green-color);
+  --editor-property-color: var(--blue-color);
+  --editor-punctuation-color: var(--blue-color);
+  --editor-def-color: var(--orange-color);
+  --editor-cursor-color: var(--blue-color);
 }
 
 .dracula-theme {
