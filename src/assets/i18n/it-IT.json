@@ -60,7 +60,7 @@
   "SETTINGS_TAB_SIZE_TEXT": "Dimensione scheda",
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Vorresti aiutare con le traduzioni?",
   "SETTINGS_SHOW_EDITOR_HINT": "Premere ctrl-space per i suggerimenti",
-  "SETTINGS_KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+  "SETTINGS_KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
   "VIEW_ON_GITHUB_TEXT": "Vedi su GitHub",
   "STAR_ON_GITHUB_TEXT": "Vota su Github",
   "REPORT_BUG_TEXT": "Segnala un bug",
@@ -100,10 +100,10 @@
   "ADD_SUB_ENVIRONMENT_BUTTON": "Aggiungi ambiente",
   "SUB_ENVIRONMENT_TITLE_PLACEHOLDER": "Titolo ambiente",
   "NO_ENVIRONMENT_TEXT": "Nessun ambiente",
-  "ENVIRONMENT_VARIABLE_TIP": "You can use any of your variables in the app using {{variable}} syntax.",
+  "ENVIRONMENT_VARIABLE_TIP": "È possibile utilizzare uno qualsiasi delle variabili nell'applicazione utilizzando la sintassi {{NOME_VARIABILE}}.",
   "ADD_FILES_TEXT": "Aggiungi file",
   "FILE_NAME_PLACEHOLDER": "Nome file (usato come query variable)",
   "LEARN_MORE_TEXT": "Altre informazioni",
-  "STREAM_CONNECTION_TRYING": "Trying to connect to server stream...",
-  "STREAM_CONNECTION_CONNECTED": "Connected to server stream"
+  "STREAM_CONNECTION_TRYING": "Tentativo di connessione allo stream del server...",
+  "STREAM_CONNECTION_CONNECTED": "Connesso allo stream del server"
 }
