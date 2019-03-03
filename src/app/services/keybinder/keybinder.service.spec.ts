@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { empty as observableEmpty } from 'rxjs';
 import { WindowService } from '../window.service';
 import { DbService } from '../db.service';
+import { ElectronAppService } from '../electron-app/electron-app.service';
+import { ElectronService } from 'ngx-electron';
 
 describe('KeybinderService', () => {
   beforeEach(() => {
@@ -13,6 +15,8 @@ describe('KeybinderService', () => {
         KeybinderService,
         WindowService,
         DbService,
+        ElectronAppService,
+        ElectronService,
         {
           provide: Store, useValue: {
             subscribe: () => { },
