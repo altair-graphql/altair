@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ng build --outputHashing=none --prod --aot --stats-json
+
 # Get new tags from remote
 git fetch --tags
 

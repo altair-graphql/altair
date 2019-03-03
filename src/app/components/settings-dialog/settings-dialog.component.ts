@@ -15,7 +15,7 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
 import { registerSettingsLinter, getHint, validateSettings } from 'app/utils/settings_addons';
-import { NotifyService } from 'app/services';
+import { NotifyService, KeybinderService } from 'app/services';
 
 registerSettingsLinter(Codemirror);
 
@@ -38,6 +38,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   themes = config.themes;
   languages = Object.entries(config.languages);
+  shortcutCategories = [];
 
   @ViewChild('editor') editor;
   jsonSettings = '';
@@ -47,21 +48,24 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     // json: true,
     lint: true,
     lineWrapping: true,
-    lineNumbers: true,
     foldGutter: true,
     autoRefresh: true,
     dragDrop: false,
     autoCloseBrackets: true,
     theme: 'default settings-editor',
-    gutters: ['CodeMirror-lint-markers', 'CodeMirror-foldgutter'],
+    gutters: ['CodeMirror-lint-markers'],
     extraKeys: {
       'Ctrl-Space': (cm) => { this.showHint(cm); },
     }
   };
 
-  constructor(private notifyService: NotifyService) {}
+  constructor(
+    private notifyService: NotifyService,
+    private keybinderService: KeybinderService,
+  ) {}
 
   ngOnInit() {
+    this.shortcutCategories = this.keybinderService.getShortcuts();
   }
 
   ngAfterViewInit() {

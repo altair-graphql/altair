@@ -57,3 +57,49 @@
 .clr-checkbox-wrapper label {
   color: var(--theme-font-color);
 }
+
+.stack-view {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  border-color: var(--theme-border-color);
+  .stack-block-label, .stack-block-content {
+    background: var(--theme-bg-color);
+    color: var(--theme-font-color);
+  }
+  .stack-block {
+    border-color: var(--theme-border-color);
+  }
+  .stack-children .stack-block {
+    border-color: var(--theme-border-color);
+  }
+  .stack-block, .stack-block-expanded, .stack-block-expandable.on-focus {
+    > {
+      .stack-block-label, .stack-block-content {
+        background: var(--theme-bg-color);
+        color: var(--theme-font-color);
+      }
+    }
+    &:hover {
+      .stack-block-label, .stack-block-content {
+        background: var(--theme-bg-color);
+        color: var(--theme-font-color);
+      }
+    }
+  }
+}
+.stack-view .stack-block-expanded > .stack-block-label,
+.stack-view .stack-block-expanded > .stack-block-content {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+}
+.stack-view .stack-block-expandable.on-focus:not(.stack-block-expanded) > .stack-block-label,
+.stack-view .stack-block-expandable.on-focus:not(.stack-block-expanded) > .stack-block-content,
+.stack-view .stack-block-expandable:hover:not(.stack-block-expanded) > .stack-block-label,
+.stack-view .stack-block-expandable:hover:not(.stack-block-expanded) > .stack-block-content {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+
+}
+.modal .stack-view {
+  height: auto;
+}

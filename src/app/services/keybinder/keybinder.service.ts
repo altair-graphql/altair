@@ -9,6 +9,13 @@ import * as fromRoot from '../../reducers';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
+import { ElectronAppService } from '../electron-app/electron-app.service';
+
+
+interface KeyboardShortcut {
+  keys: string[];
+  description: string;
+}
 
 @Injectable()
 export class KeybinderService {
@@ -16,11 +23,12 @@ export class KeybinderService {
   windowIds;
   activeWindowId = '';
 
-  private shortcuts = [];
+  private shortcuts: KeyboardShortcut[] = [];
 
   constructor(
     private store: Store<fromRoot.State>,
     private windowService: WindowService,
+    private electronService: ElectronAppService,
     private zone: NgZone,
   ) {
     this.store.subscribe(data => {
@@ -31,25 +39,25 @@ export class KeybinderService {
 
   connect() {
     this.bindShortcut(
-      'ctrl+shift+v',
+      ['ctrl+shift+v'],
       () => this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)),
       'Toggle Variable Pane'
     );
 
     this.bindShortcut(
-      'ctrl+shift+h',
+      ['ctrl+shift+h'],
       () => this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)),
       'Toggle Header Pane'
     );
 
     this.bindShortcut(
-      'ctrl+shift+r',
+      ['ctrl+shift+r'],
       () => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)),
       'Reload Docs'
     );
 
     this.bindShortcut(
-      'ctrl+shift+d',
+      ['ctrl+shift+d'],
       () => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)),
       'Toggle Docs'
     );
@@ -61,7 +69,7 @@ export class KeybinderService {
     );
   }
 
-  bindShortcut(keys, callback, description?: string) {
+  bindShortcut(keys: string[], callback, description?: string) {
     this.shortcuts.push({
       keys,
       description
@@ -71,7 +79,21 @@ export class KeybinderService {
   }
 
   getShortcuts() {
-    return this.shortcuts;
+    const categories = [
+      {
+        title: 'General',
+        shortcuts: this.shortcuts
+      }
+    ];
+    if (this.electronService.isElectronApp()) {
+      categories.push({
+        title: 'Electron Shortcuts',
+        shortcuts: [
+        ]
+      });
+    }
+
+    return categories;
   }
 
 }
