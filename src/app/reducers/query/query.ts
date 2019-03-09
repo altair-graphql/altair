@@ -6,6 +6,11 @@ import * as query from '../../actions/query/query';
 import config from '../../config';
 import { getFullUrl } from '../../utils';
 
+export interface QueryEditorState {
+  isFocused: boolean;
+  cursorIndex: number;
+}
+
 export interface State {
   url: string;
   subscriptionUrl: string;
@@ -27,6 +32,8 @@ export interface State {
   subscriptionConnectionParams: string;
   isSubscribed: boolean;
   subscriptionResponseList: Array<any>;
+
+  queryEditorState: QueryEditorState;
 }
 
 export const initialState: State = {
@@ -50,6 +57,10 @@ export const initialState: State = {
   subscriptionConnectionParams: '{}',
   isSubscribed: false,
   subscriptionResponseList: [],
+  queryEditorState: {
+    isFocused: false,
+    cursorIndex: null,
+  },
 };
 
 export function queryReducer(state = initialState, action: query.Action): State {
@@ -109,6 +120,8 @@ export function queryReducer(state = initialState, action: query.Action): State 
       return Object.assign({}, state, { httpVerb: action.payload.httpVerb });
     case query.SET_QUERY_OPERATIONS:
       return Object.assign({}, state, { operations: action.payload.operations });
+    case query.SET_QUERY_EDITOR_STATE:
+      return { ...state, queryEditorState: action.payload };
     default:
       return state;
   }

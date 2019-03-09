@@ -46,6 +46,7 @@ export class QueryEffects {
             const url = this.environmentService.hydrate(response.data.query.url);
             const variables = this.environmentService.hydrate(response.data.variables.variables);
             const headers = this.environmentService.hydrateHeaders(response.data.headers);
+            let selectedOperation = response.data.query.selectedOperation;
 
             // If the query is empty, just return
             if (!query) {
@@ -90,9 +91,18 @@ export class QueryEffects {
             this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
 
             if (operations && operations.length > 1) {
+              const operationNameAtCursorIndex =
+                response.data.query.queryEditorState &&
+                response.data.query.queryEditorState.isFocused &&
+                this.gqlService.getOperationNameAtIndex(query, response.data.query.queryEditorState.cursorIndex);
+
+              console.log(operationNameAtCursorIndex, response.data.query.queryEditorState);
               if (
-                !response.data.query.selectedOperation ||
-                operations.map(def => def['name'] && def['name'].value).indexOf(response.data.query.selectedOperation) === -1) {
+                !(
+                  (selectedOperation && operations.map(def => def['name'] && def['name'].value).indexOf(selectedOperation) !== -1) ||
+                  (selectedOperation = operationNameAtCursorIndex)
+                )
+              ) {
                 // Ask the user to select operation
                 this.notifyService.warning(
                   `You have more than one query operations.
@@ -132,7 +142,7 @@ export class QueryEffects {
                 variables,
                 headers,
                 method: response.data.query.httpVerb,
-                selectedOperation: response.data.query.selectedOperation,
+                selectedOperation,
                 files: response.data.variables.files,
               })
               .pipe(

@@ -13,6 +13,7 @@ import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromHistory from '../../reducers/history/history';
 import * as fromVariable from '../../reducers/variables/variables';
+import * as fromQuery from '../../reducers/query/query';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -189,6 +190,10 @@ export class WindowComponent implements OnInit {
   selectOperation(selectedOperation) {
     this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation }));
     this.sendRequest();
+  }
+
+  setQueryEditorState(queryEditorState: fromQuery.QueryEditorState) {
+    this.store.dispatch(new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState));
   }
 
   startSubscription() {

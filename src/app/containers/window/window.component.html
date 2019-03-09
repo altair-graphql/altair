@@ -39,6 +39,7 @@
           (fileVariableNameChange)="updateFileVariableName($event)"
           (fileVariableDataChange)="updateFileVariableData($event)"
           (deleteFileVariableChange)="deleteFileVariable($event)"
+          (queryEditorStateChange)="setQueryEditorState($event)"
           [query]="query"
           [gqlSchema]="gqlSchema"
           [tabSize]="tabSize$ | async"
