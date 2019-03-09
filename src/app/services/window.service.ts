@@ -31,7 +31,7 @@ export class WindowService {
     private store: Store<fromRoot.State>
   ) { }
 
-  newWindow(opts?: { title?, url?, collectionId?, windowIdInCollection? }): Observable<any> {
+  newWindow(opts: { title?, url?, collectionId?, windowIdInCollection? } = {}): Observable<any> {
     return Observable.create((obs: Observer<any>) => {
       return this.store.pipe(first()).subscribe(data => {
 
