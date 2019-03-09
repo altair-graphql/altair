@@ -31,16 +31,20 @@ export class WindowService {
     private store: Store<fromRoot.State>
   ) { }
 
-  newWindow(): Observable<any> {
+  newWindow(opts?: { title?, url?, collectionId?, windowIdInCollection? }): Observable<any> {
     return Observable.create((obs: Observer<any>) => {
       return this.store.pipe(first()).subscribe(data => {
 
         const newWindow = {
           windowId: uuid(),
-          title: `Window ${Object.keys(data.windows).length + 1}`,
-          url: data.windowsMeta.activeWindowId &&
+          title: opts.title || `Window ${Object.keys(data.windows).length + 1}`,
+          url: opts.url || (
+            data.windowsMeta.activeWindowId &&
             data.windows[data.windowsMeta.activeWindowId] &&
             data.windows[data.windowsMeta.activeWindowId].query.url
+          ),
+          collectionId: opts.collectionId,
+          windowIdInCollection: opts.windowIdInCollection,
         };
 
         this.store.dispatch(new windowActions.AddWindowAction(newWindow));
@@ -109,7 +113,7 @@ export class WindowService {
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
           headers: window.headers,
-          windowName: window.layout.title
+          windowName: window.layout.title,
         });
       });
     });
@@ -179,12 +183,13 @@ export class WindowService {
       // Set headers
       // Set variables
       // Set subscription URL
-      this.newWindow().subscribe(newWindow => {
+      this.newWindow({
+        title: data.windowName,
+        url: data.apiUrl,
+        collectionId: data.collectionId,
+        windowIdInCollection: data.windowIdInCollection,
+      }).subscribe(newWindow => {
         const windowId = newWindow.windowId;
-
-        if (data.windowName) {
-          this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, data.windowName));
-        }
 
         if (data.apiUrl) {
           this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));

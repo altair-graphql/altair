@@ -305,8 +305,8 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.LoadCollectionsAction());
   }
 
-  selectQueryFromCollection(query) {
-    this.windowService.importWindowData(query);
+  selectQueryFromCollection({ query, collectionId, windowIdInCollection }) {
+    this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
   }
 
   deleteQueryFromCollection({ collectionId, query }) {

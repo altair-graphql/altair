@@ -46,6 +46,7 @@
             <clr-icon shape="floppy"></clr-icon>
           </button>
           <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+            <button type="button" clrDropdownItem *ngIf="currentCollection" (click)="updateQueryInCollectionChange.next()" track-id="update_window_in_collection">{{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})</button>
             <button type="button" clrDropdownItem (click)="addToCollectionChange.next()" track-id="add_to_collection">{{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}</button>
             <button type="button" clrDropdownItem (click)="exportWindowChange.next()" track-id="export_window">{{ 'EXPORT_WINDOW_TEXT' | translate }}</button>
           </clr-dropdown-menu>
