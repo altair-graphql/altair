@@ -69,6 +69,7 @@
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Would you like to help with translations?",
   "SETTINGS_SHOW_EDITOR_HINT": "Press ctrl-space to show hint",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+  "SETTINGS_RESET_APPLICATION_DATA": "Reset application data (only use this if you know what you are doing).",
 
   "VIEW_ON_GITHUB_TEXT": "View on GitHub",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",

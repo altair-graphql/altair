@@ -29,6 +29,9 @@
               </clr-stack-block>
           </clr-stack-block>
         </clr-stack-view>
+        <div>
+          <small><a href="#" class="settings__reset-link" (click)="onResetApplicationData($event)" track-id="reset_application_data">{{ 'SETTINGS_RESET_APPLICATION_DATA' | translate }}</a></small>
+        </div>
       </div>
 
       <div class="app-dialog-section" *ngIf="false">

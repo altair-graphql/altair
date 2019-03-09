@@ -21,5 +21,18 @@ export class StorageService extends Dexie {
     return +(new Date());
   }
 
+  clearAllLocalData() {
+    // Clear indexedDb
+    Dexie.getDatabaseNames()
+      .then(names => {
+        names.forEach(name => {
+          const db = new Dexie(name);
+          db.delete().catch(() => {});
+        });
+      });
+
+    localStorage.clear();
+  }
+
 }
 
