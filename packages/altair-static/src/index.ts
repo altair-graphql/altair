@@ -29,16 +29,17 @@ export interface RenderOptions {
 }
 
 export const renderAltair = ({
-    baseURL,
+    baseURL = './',
     endpointURL,
     subscriptionsEndpoint,
     initialQuery,
     initialVariables
 }: RenderOptions = {}) => {
-    const altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
+    let altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
 
     let renderedOptions = '';
 
+    altairHtml = altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
     if (endpointURL) {
         renderedOptions += `window.__ALTAIR_ENDPOINT_URL__ = '${endpointURL}';`;
     }
