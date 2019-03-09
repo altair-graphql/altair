@@ -43,12 +43,16 @@
         <clr-dropdown>
           <button
             clrDropdownTrigger
-            class="nav-icon"
+            class="nav-text"
             type="button"
             track-id="show_environment_menu"
             [popper]="'ENVIRONMENTS_BUTTON' | translate"
           >
-              <clr-icon shape="file-settings" [ngClass]="{ 'has-badge': (environments$ | async)?.activeSubEnvironment}"></clr-icon>
+            <span class="header__environemnt-link">
+              <clr-icon shape="file-settings" [ngClass]="{ 'has-badge': (activeEnvironment$ | async) }"></clr-icon>
+              <span *ngIf="(activeEnvironment$ | async)">{{ (activeEnvironment$ | async)?.title }}</span>
+              <span *ngIf="!(activeEnvironment$ | async)">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
+            </span>
           </button>
           <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
             <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
@@ -57,7 +61,7 @@
                 clrDropdownItem
                 (click)="selectActiveEnvironment(environment.id)"
                 *ngFor="let environment of (environments$ | async).subEnvironments"
-                [ngClass]="{ 'active': environment.id === (environments$ | async).activeSubEnvironment }"
+                [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
                 track-id="select_environment">{{ environment.title }}</button>
               <button type="button" clrDropdownItem (click)="selectActiveEnvironment(null)" track-id="select_no_environment">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</button>
               <div class="dropdown-divider"></div>
