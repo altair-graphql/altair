@@ -9,8 +9,8 @@
 </div>
 <div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
   <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
-  <ng-container *ngIf="showVariableDialog">
-    <div class="variables-editor-inner">
+  <div class="variables-editor-inner" [ngClass]="{ 'hide': !showVariableDialog }">
+    <div class="variables-editor-input-container">
       <app-variables-editor
         [variables]="variables.variables"
         (variablesChange)="variablesChange.emit($event)"
@@ -47,6 +47,6 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
 </div>
 <app-flex-resizer [resizeDirection]="'right'" (resizeChange)="onResize($event)"></app-flex-resizer>
