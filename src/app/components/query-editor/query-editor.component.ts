@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 
 import * as fromVariables from '../../reducers/variables/variables';
+import * as fromQuery from '../../reducers/query/query';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -59,6 +60,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
+  @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
 
   @ViewChild('editor') editor;
 
@@ -119,6 +121,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit() {
     if (this.editor) {
       this.editor.codeMirror.on('keyup', (cm, event) => this.onKeyUp(cm, event));
+      this.editor.codeMirror.on('focus', (cm, event) => this.onEditorStateChange(cm, event));
+      this.editor.codeMirror.on('blur', (cm, event) => this.onEditorStateChange(cm, event));
+      this.editor.codeMirror.on('cursorActivity', (cm, event) => this.onEditorStateChange(cm, event));
     }
   }
 
@@ -154,6 +159,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
       this.editor.codeMirror.execCommand('autocomplete');
     }
+  }
+
+  onEditorStateChange(cm, event) {
+    const cursor = cm.getCursor();
+    const cursorIndex = cm.indexFromPos(cursor);
+    const isFocused = cm.hasFocus();
+    this.queryEditorStateChange.next({ isFocused, cursorIndex });
   }
 
   /**

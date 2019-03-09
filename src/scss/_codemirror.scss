@@ -117,9 +117,6 @@
 }
 .cm-s-variable-editor{
     background: var(--theme-off-bg-color);
-    .CodeMirror-scroll{
-        min-height: 200px;
-    }
     .cm-attribute{
         color: var(--result-default);
     }

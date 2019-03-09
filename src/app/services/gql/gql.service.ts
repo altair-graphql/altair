@@ -311,7 +311,7 @@ export class GqlService {
     }
   }
 
-  getOperations(query: string) {
+  getOperations(query: string): any[] {
     const parsedQuery = this.parseQuery(query);
 
     if (parsedQuery.definitions) {
@@ -328,6 +328,21 @@ export class GqlService {
     }
 
     return [];
+  }
+
+  getOperationAtIndex(query: string, index: number) {
+    return this.getOperations(query).find(operation => {
+      return operation.loc.start <= index && operation.loc.end >= index;
+    });
+  }
+
+  getOperationNameAtIndex(query: string, index: number): string {
+    const operation = this.getOperationAtIndex(query, index);
+
+    if (operation) {
+      return operation.name && operation.name.value;
+    }
+    return '';
   }
 
   /**

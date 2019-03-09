@@ -18,3 +18,10 @@
 .header-logo {
   width: 30px;
 }
+
+.header__environemnt-link {
+  padding: 3px 5px;
+  background: var(--theme-bg-color);
+  border-radius: 4px;
+  border: 1px solid var(--theme-border-color);
+}

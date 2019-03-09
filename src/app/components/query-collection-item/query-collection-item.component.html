@@ -43,7 +43,10 @@
     </div>
     <div class="query-collections__item-queries">
       <div class="query-collections__item-queries-item" *ngFor="let query of collection.queries">
-        <span class="query-collections__item-queries-item-title" (click)="selectQueryChange.next(query)">
+        <span
+          class="query-collections__item-queries-item-title"
+          (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"
+        >
           <span class="query-title-icon"><clr-icon shape="file"></clr-icon></span>
           {{ query.windowName }}
         </span>

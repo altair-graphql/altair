@@ -68,6 +68,26 @@ export class QueryCollectionEffects {
     );
 
   @Effect()
+  updateQueryInCollection$: Observable<Action> = this.actions$
+    .ofType(collectionActions.UPDATE_QUERY_IN_COLLECTION)
+    .pipe(
+      withLatestFrom(this.store, (action: collectionActions.UpdateQueryInCollectionAction, state) => {
+        return { data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
+      }),
+      switchMap(res => {
+        this.windowService.getWindowExportData(res.windowId).subscribe(exportData => {
+          const query = exportData;
+
+          this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query).subscribe(() => {
+            this.notifyService.success('Updated query in collection.');
+            this.store.dispatch(new collectionActions.LoadCollectionsAction());
+          });
+        });
+        return observableEmpty();
+      }),
+    )
+
+  @Effect()
   loadCollections$: Observable<Action> = this.actions$
     .ofType(collectionActions.LOAD_COLLECTIONS).pipe(
     switchMap(action => {

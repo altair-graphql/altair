@@ -16,6 +16,15 @@ export interface ExportWindowState {
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
+
+  /**
+   * ID of the collection this query belongs to
+   */
+  collectionId?: number;
+  /**
+   * ID for window in collection
+   */
+  windowIdInCollection?: string;
 }
 
 /**
@@ -34,7 +43,7 @@ export function windows(reducer: ActionReducer<any>) {
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
-                const { windowId, title, url } = action.payload;
+                const { windowId, title, url, collectionId, windowIdInCollection } = action.payload;
 
                 // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
                 _state[windowId] = JSON.parse(JSON.stringify(initWindowState));
@@ -43,6 +52,13 @@ export function windows(reducer: ActionReducer<any>) {
                 _state[windowId].windowId = windowId;
                 if (url) {
                     _state[windowId].query.url = url;
+                }
+
+                if (collectionId) {
+                    _state[windowId].layout.collectionId = collectionId;
+                }
+                if (windowIdInCollection) {
+                    _state[windowId].layout.windowIdInCollection = windowIdInCollection;
                 }
 
                 return _state;

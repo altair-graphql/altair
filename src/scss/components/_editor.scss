@@ -161,10 +161,17 @@ app-query-editor {
     // height: 0;
   // }
 }
-.variables-editor-inner {
+.variables-editor-input-container {
   position: relative;
   overflow: auto;
   flex: 1;
+  min-height: 150px;
+}
+.variables-editor-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 .set-variable-textarea {
   position: absolute;

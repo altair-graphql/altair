@@ -15,7 +15,7 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
 import { registerSettingsLinter, getHint, validateSettings } from 'app/utils/settings_addons';
-import { NotifyService, KeybinderService } from 'app/services';
+import { NotifyService, KeybinderService, StorageService } from 'app/services';
 
 registerSettingsLinter(Codemirror);
 
@@ -62,6 +62,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   constructor(
     private notifyService: NotifyService,
     private keybinderService: KeybinderService,
+    private storageService: StorageService,
   ) {}
 
   ngOnInit() {
@@ -115,6 +116,28 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   onChangeTabSize(tabSize: number) {
     return this.tabSizeChange.next(tabSize);
+  }
+
+  onResetApplicationData(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (confirm(`
+    ❌❌❌
+    Warning! You are about to reset the application.
+    Are you sure you want to reset the application?
+
+    This is not reversible!`.trim().replace(/ +/g, ' '))) {
+      if (confirm(`
+        THIS IS YOUR LAST WARNING!
+        TURN BACK NOW IF YOU DON'T WANT TO LOSE ALL THE APPLICATION DATA.
+
+        ARE YOU REALLY SURE YOU WANT TO RESET ALTAIR?!
+      `.trim().replace(/ +/g, ' '))) {
+        this.storageService.clearAllLocalData();
+      }
+    }
+
+    return false;
   }
 
 }
