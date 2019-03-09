@@ -26,6 +26,15 @@ export interface RenderOptions {
      * Initial variables to be added
      */
     initialVariables?: string;
+
+    /**
+     * Initial headers object to be added
+     * @example
+     * {
+     *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+     * }
+     */
+    initialHeaders?: Object;
 }
 
 export const renderAltair = ({
@@ -33,7 +42,8 @@ export const renderAltair = ({
     endpointURL,
     subscriptionsEndpoint,
     initialQuery,
-    initialVariables
+    initialVariables,
+    initialHeaders,
 }: RenderOptions = {}) => {
     let altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
 
@@ -52,6 +62,10 @@ export const renderAltair = ({
 
     if (initialVariables) {
         renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = '${initialVariables}';`;
+    }
+
+    if (initialHeaders) {
+        renderedOptions += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
     }
 
     const renderedOptionsInScript = `<script>${renderedOptions}</script>`;

@@ -1,6 +1,20 @@
 import { Action } from '@ngrx/store';
 
 import * as headers from '../../actions/headers/headers';
+import config from 'app/config';
+
+const getInitialHeadersState = () => {
+    let initialHeaders: State = [];
+    if (config.initialData.headers) {
+        initialHeaders = Object.keys(config.initialData.headers).map(key => ({
+            key,
+            value: config.initialData.headers[key]
+        }));
+    }
+    initialHeaders = [ ...initialHeaders, { key: '', value: '' } ];
+
+    return initialHeaders;
+};
 
 export interface Header {
     key: string;
@@ -11,11 +25,7 @@ export interface State extends Array<Header> {
     [index: number]: Header;
 }
 
-export const initialState: State = [
-    { key: '', value: '' },
-    { key: '', value: '' },
-    { key: '', value: '' },
-];
+export const initialState: State = getInitialHeadersState();
 
 export function headerReducer(state = initialState, action: headers.Action): State {
     switch (action.type) {
