@@ -44,22 +44,23 @@ button{
         color: var(--white-color);
         position: relative;
         z-index: 1;
+
         &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s;
             background-image: linear-gradient(
                 rgba(255,255,255,0.2),
                 rgba(255,255,255,0.2)
             );
+            content: "";
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            transition: opacity 0.4s;
+            width: 100%;
+            z-index: -1;
         }
-        &:hover::before{
+        &:hover::before {
             opacity: 1;
         }
     }
