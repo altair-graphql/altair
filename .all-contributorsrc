@@ -1,0 +1,23 @@
+{
+  "projectName": "altair",
+  "projectOwner": "imolorhe",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "IgorSzymanski",
+      "name": "Igor Szymanski",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12682069?v=4",
+      "profile": "https://github.com/IgorSzymanski",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
