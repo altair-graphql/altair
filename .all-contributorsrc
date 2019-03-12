@@ -1,0 +1,50 @@
+{
+  "projectName": "altair",
+  "projectOwner": "imolorhe",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "DaniloCaruso",
+      "name": "Danilo Caruso",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4080177?v=4",
+      "profile": "https://github.com/DaniloCaruso",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "IgorSzymanski",
+      "name": "Igor Szymanski",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12682069?v=4",
+      "profile": "https://github.com/IgorSzymanski",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "kporten",
+      "name": "Kevin Porten",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1839345?v=4",
+      "profile": "https://github.com/kporten",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "disjukr",
+      "name": "JongChan Choi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/690661?v=4",
+      "profile": "https://0xabcdef.com/",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
