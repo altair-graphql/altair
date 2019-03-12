@@ -1,5 +1,5 @@
 [![Build](https://travis-ci.org/imolorhe/altair.svg?branch=master "Travis CI")](https://travis-ci.org/imolorhe/altair)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 [![Build status](https://ci.appveyor.com/api/projects/status/qp69kxnlxntsumdj/branch/staging?svg=true)](https://ci.appveyor.com/project/imolorhe/altair/branch/staging)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/altair-gql/localized.svg)](https://crowdin.com/project/altair-gql)
@@ -232,8 +232,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt="Danilo Caruso"/><br /><sub><b>Danilo Caruso</b></sub>](https://github.com/DaniloCaruso)<br />[🌍](#translation-DaniloCaruso "Translation") |
-| :---: |
+| [<img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt="Danilo Caruso"/><br /><sub><b>Danilo Caruso</b></sub>](https://github.com/DaniloCaruso)<br />[🌍](#translation-DaniloCaruso "Translation") | [<img src="https://avatars0.githubusercontent.com/u/12682069?v=4" width="100px;" alt="Igor Szymanski"/><br /><sub><b>Igor Szymanski</b></sub>](https://github.com/IgorSzymanski)<br />[🌍](#translation-IgorSzymanski "Translation") |
+| :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
