@@ -1,0 +1,23 @@
+{
+  "projectName": "altair",
+  "projectOwner": "imolorhe",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "DaniloCaruso",
+      "name": "Danilo Caruso",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4080177?v=4",
+      "profile": "https://github.com/DaniloCaruso",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
