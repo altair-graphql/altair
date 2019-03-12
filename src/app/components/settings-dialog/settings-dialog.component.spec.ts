@@ -7,7 +7,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
-import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService } from 'app/services';
+import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService } from 'app/services';
 import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
@@ -35,6 +35,7 @@ describe('SettingsDialogComponent', () => {
         DbService,
         ElectronAppService,
         ElectronService,
+        StorageService,
         {
           provide: Store, useValue: {
             subscribe: () => { },

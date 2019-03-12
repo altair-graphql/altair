@@ -31,17 +31,28 @@ export class QueryCollectionService {
     );
   }
 
+  updateQuery(collectionId: number, queryId: string, query): Observable<any> {
+    const now = this.storage.now();
+    return observableFrom(
+      this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
+        const uQuery = { ...query, id: queryId };
+        collection.queries = collection.queries.map(collectionQuery => {
+          if (collectionQuery.id === queryId) {
+            collectionQuery = uQuery;
+          }
+          return collectionQuery;
+        });
+        collection.updated_at = now;
+      })
+    );
+  }
+
   deleteQuery(collectionId: number, query): Observable<any> {
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
         collection.queries = collection.queries.filter(collectionQuery => {
           if (query.id) {
             if (query.id === collectionQuery.id) {
-              return false;
-            }
-          } else {
-            // Added for backward compatibility. Initially queries didn't have ids. Remove after a while.
-            if (query.windowName === collectionQuery.windowName) {
               return false;
             }
           }

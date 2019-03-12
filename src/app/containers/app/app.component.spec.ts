@@ -33,6 +33,7 @@ describe('AppComponent', () => {
       services.ElectronAppService,
       services.KeybinderService,
       services.NotifyService,
+      services.StorageService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},

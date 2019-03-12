@@ -1,5 +1,5 @@
 
-import {distinctUntilChanged, map} from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -13,6 +13,8 @@ import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromHistory from '../../reducers/history/history';
 import * as fromVariable from '../../reducers/variables/variables';
+import * as fromQuery from '../../reducers/query/query';
+import * as fromCollection from '../../reducers/collection';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -27,7 +29,7 @@ import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
-import { Observable } from 'rxjs';
+import { Observable, empty as observableEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-window',
@@ -50,11 +52,12 @@ export class WindowComponent implements OnInit {
   selectedOperation$: Observable<string>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
+  currentCollection$: Observable<fromCollection.IQueryCollection>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
 
-  collections$: Observable<any[]>;
+  collections$: Observable<fromCollection.IQueryCollection[]>;
 
   @Input() windowId: string;
 
@@ -121,7 +124,20 @@ export class WindowComponent implements OnInit {
         }
         return '';
       })
-    )
+    );
+    this.currentCollection$ = this.getWindowState().pipe(
+      switchMap(data => {
+        if (data && data.layout.collectionId) {
+          return this.collections$.pipe(
+            map(collections => {
+              return collections.find(collection => collection.id === data.layout.collectionId);
+            })
+          );
+        }
+
+        return observableEmpty();
+      })
+    );
 
     this.store.pipe(
       map(data => data.windows[this.windowId]),
@@ -189,6 +205,10 @@ export class WindowComponent implements OnInit {
   selectOperation(selectedOperation) {
     this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation }));
     this.sendRequest();
+  }
+
+  setQueryEditorState(queryEditorState: fromQuery.QueryEditorState) {
+    this.store.dispatch(new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState));
   }
 
   startSubscription() {
@@ -331,6 +351,10 @@ export class WindowComponent implements OnInit {
     }));
 
     this.onCloseAddToCollectionDialog();
+  }
+
+  updateQueryInCollection() {
+    this.store.dispatch(new collectionActions.UpdateQueryInCollectionAction({ windowId: this.windowId }));
   }
 
   onCloseAddToCollectionDialog() {

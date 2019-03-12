@@ -13,6 +13,7 @@ export class UrlBoxComponent {
   @Input() selectedOperation = '';
   @Input() queryOperations = [];
   @Input() streamState = '';
+  @Input() currentCollection = null;
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
@@ -22,6 +23,7 @@ export class UrlBoxComponent {
   @Output() httpVerbChange = new EventEmitter();
   @Output() selectedOperationChange = new EventEmitter();
   @Output() exportWindowChange = new EventEmitter();
+  @Output() updateQueryInCollectionChange = new EventEmitter();
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
 

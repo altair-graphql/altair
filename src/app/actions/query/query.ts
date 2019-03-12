@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { QueryEditorState } from 'app/reducers/query/query';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
@@ -38,6 +39,7 @@ export const HIDE_EDITOR_ALERT = 'HIDE_EDITOR_ALERT';
 export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
+export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
 
 
 export class SetUrlAction implements Action {
@@ -208,6 +210,12 @@ export class SetQueryOperationsAction implements Action {
   constructor(public windowId: string, public payload: { operations: any[] }) {}
 }
 
+export class SetQueryEditorStateAction implements Action {
+  readonly type = SET_QUERY_EDITOR_STATE;
+
+  constructor(public windowId: string, public payload: QueryEditorState) {}
+}
+
 export type Action =
   | SetUrlAction
   | SetUrlFromDbAction
@@ -237,4 +245,5 @@ export type Action =
   | ShowEditorAlertAction
   | SetHTTPMethodAction
   | SetQueryOperationsAction
+  | SetQueryEditorStateAction
   ;

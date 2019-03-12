@@ -8,3 +8,14 @@
   border-radius: 4px;
   margin-right: 5px;
 }
+.settings__reset-link,
+.settings__reset-link:visited,
+.settings__reset-link:link {
+  color: var(--theme-font-color);
+  opacity: .1;
+  &:hover {
+    transition: .3s all 1s ease;
+    opacity: 1;
+    color: var(--red-color);
+  }
+}

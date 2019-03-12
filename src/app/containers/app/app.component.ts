@@ -46,6 +46,7 @@ export class AppComponent {
   collection$: Observable<fromCollection.State>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
   environments$: Observable<fromEnvironments.State>;
+  activeEnvironment$: Observable<fromEnvironments.EnvironmentState>;
 
   windowIds = [];
   windows = {};
@@ -73,6 +74,14 @@ export class AppComponent {
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
+    this.activeEnvironment$ = this.environments$.pipe(
+      map(environments => {
+        if (environments.activeSubEnvironment) {
+          return environments.subEnvironments.find(subEnvironment => subEnvironment.id === environments.activeSubEnvironment);
+        }
+        return null;
+      })
+    );
 
     this.setDefaultLanguage();
     this.setAvailableLanguages();
@@ -305,8 +314,8 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.LoadCollectionsAction());
   }
 
-  selectQueryFromCollection(query) {
-    this.windowService.importWindowData(query);
+  selectQueryFromCollection({ query, collectionId, windowIdInCollection }) {
+    this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
   }
 
   deleteQueryFromCollection({ collectionId, query }) {
