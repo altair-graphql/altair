@@ -42,12 +42,26 @@ button{
     &.active-primary{
         background: var(--green-color);
         color: var(--white-color);
-        &:hover{
-            // TODO: Figure out how to transition CSS gradients for the button hover effect
+        position: relative;
+        z-index: 1;
+
+        &::before {
             background-image: linear-gradient(
                 rgba(255,255,255,0.2),
                 rgba(255,255,255,0.2)
             );
+            content: "";
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            transition: opacity 0.4s;
+            width: 100%;
+            z-index: -1;
+        }
+        &:hover::before {
+            opacity: 1;
         }
     }
 }
