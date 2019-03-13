@@ -61,7 +61,7 @@
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Vorresti aiutare con le traduzioni?",
   "SETTINGS_SHOW_EDITOR_HINT": "Premere ctrl-space per i suggerimenti",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
-  "SETTINGS_RESET_APPLICATION_DATA": "Reset application data (only use this if you know what you are doing).",
+  "SETTINGS_RESET_APPLICATION_DATA": "Reset dei dati dell'applicazione (da usare solo se si sa cosa si sta facendo).",
   "VIEW_ON_GITHUB_TEXT": "Vedi su GitHub",
   "STAR_ON_GITHUB_TEXT": "Vota su Github",
   "REPORT_BUG_TEXT": "Segnala un bug",
