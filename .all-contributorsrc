@@ -53,6 +53,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "kurisutofu",
+      "name": "kurisutofu",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/742894?v=4",
+      "profile": "https://github.com/kurisutofu",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7
