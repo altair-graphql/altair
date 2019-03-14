@@ -293,9 +293,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@beyerleinf/ngx-dnd@^6.0.0-preview3":
-  version "6.0.0-preview3"
-  resolved "https://registry.yarnpkg.com/@beyerleinf/ngx-dnd/-/ngx-dnd-6.0.0-preview3.tgz#15a0e594a4d0d9fecc80e9fe1e3ba3fea9a1bcca"
+"@beyerleinf/ngx-dnd@^7.1.1":
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/@beyerleinf/ngx-dnd/-/ngx-dnd-7.1.1.tgz#2f9b068fac445a07dfc0374af4f8fe6c07a60f01"
+  integrity sha512-SfGObcjlAaF9QSr0rJ7qMkBXl8dqb75654g9MwZsQguZaOqZWdHgLz4FXk7xKgvK42XxBdhaYmlZWB9h8Ae56Q==
   dependencies:
     tslib "^1.9.0"
 
