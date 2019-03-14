@@ -97,6 +97,10 @@ You can easily add a query (or fragment) you see in the documentation into the e
 
 ![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 
+### Upload files via GraphQL
+
+You can use binary files as variables to upload them via GraphQL to server (if it implemented the [GraphQL multipart request specification](https://github.com/jaydenseric/graphql-multipart-request-spec)).
+
 ### Autocompletion of fields, arguments, types, etc
 
 You get an autocomplete list of valid terms you can use as you type out your query in the editor.
