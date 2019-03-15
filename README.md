@@ -1,5 +1,5 @@
 [![Build](https://travis-ci.org/imolorhe/altair.svg?branch=master "Travis CI")](https://travis-ci.org/imolorhe/altair)
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors)
 [![Build status](https://ci.appveyor.com/api/projects/status/qp69kxnlxntsumdj/branch/staging?svg=true)](https://ci.appveyor.com/project/imolorhe/altair/branch/staging)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/altair-gql/localized.svg)](https://crowdin.com/project/altair-gql)
@@ -96,6 +96,10 @@ You also get errors in your query highlighted for you as you type out your query
 You can easily add a query (or fragment) you see in the documentation into the editor without having to manually type every field within the query. This makes it easier to test and develop with the available queries from the GraphQL server.
 
 ![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
+
+### Upload files via GraphQL
+
+You can use binary files as variables to upload them via GraphQL to server (if it implemented the [GraphQL multipart request specification](https://github.com/jaydenseric/graphql-multipart-request-spec)).
 
 ### Autocompletion of fields, arguments, types, etc
 
@@ -232,8 +236,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt="Danilo Caruso"/><br /><sub><b>Danilo Caruso</b></sub>](https://github.com/DaniloCaruso)<br />[🌍](#translation-DaniloCaruso "Translation") | [<img src="https://avatars0.githubusercontent.com/u/12682069?v=4" width="100px;" alt="Igor Szymanski"/><br /><sub><b>Igor Szymanski</b></sub>](https://github.com/IgorSzymanski)<br />[🌍](#translation-IgorSzymanski "Translation") | [<img src="https://avatars2.githubusercontent.com/u/1839345?v=4" width="100px;" alt="Kevin Porten"/><br /><sub><b>Kevin Porten</b></sub>](https://github.com/kporten)<br />[🌍](#translation-kporten "Translation") | [<img src="https://avatars0.githubusercontent.com/u/690661?v=4" width="100px;" alt="JongChan Choi"/><br /><sub><b>JongChan Choi</b></sub>](https://0xabcdef.com/)<br />[🌍](#translation-disjukr "Translation") |
-| :---: | :---: | :---: | :---: |
+| [<img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt="Danilo Caruso"/><br /><sub><b>Danilo Caruso</b></sub>](https://github.com/DaniloCaruso)<br />[🌍](#translation-DaniloCaruso "Translation") | [<img src="https://avatars0.githubusercontent.com/u/12682069?v=4" width="100px;" alt="Igor Szymanski"/><br /><sub><b>Igor Szymanski</b></sub>](https://github.com/IgorSzymanski)<br />[🌍](#translation-IgorSzymanski "Translation") | [<img src="https://avatars2.githubusercontent.com/u/1839345?v=4" width="100px;" alt="Kevin Porten"/><br /><sub><b>Kevin Porten</b></sub>](https://github.com/kporten)<br />[🌍](#translation-kporten "Translation") | [<img src="https://avatars0.githubusercontent.com/u/690661?v=4" width="100px;" alt="JongChan Choi"/><br /><sub><b>JongChan Choi</b></sub>](https://0xabcdef.com/)<br />[🌍](#translation-disjukr "Translation") | [<img src="https://avatars1.githubusercontent.com/u/7892779?v=4" width="100px;" alt="Alexey Rodionov"/><br /><sub><b>Alexey Rodionov</b></sub>](https://twitter.com/alexey_rodionov)<br />[📖](https://github.com/imolorhe/altair/commits?author=FluorescentHallucinogen "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/742894?v=4" width="100px;" alt="kurisutofu"/><br /><sub><b>kurisutofu</b></sub>](https://github.com/kurisutofu)<br />[🌍](#translation-kurisutofu "Translation") | [<img src="https://avatars1.githubusercontent.com/u/5834593?v=4" width="100px;" alt="Claércio Santos"/><br /><sub><b>Claércio Santos</b></sub>](https://github.com/Claercio)<br />[🌍](#translation-Claercio "Translation") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars3.githubusercontent.com/u/16863691?v=4" width="100px;" alt="jenda"/><br /><sub><b>jenda</b></sub>](https://janjaromirhorak.cz/)<br />[🌍](#translation-janjaromirhorak "Translation") | [<img src="https://avatars2.githubusercontent.com/u/20699793?v=4" width="100px;" alt="pcharbon70"/><br /><sub><b>pcharbon70</b></sub>](https://github.com/pcharbon70)<br />[🌍](#translation-pcharbon70 "Translation") | [<img src="https://avatars1.githubusercontent.com/u/5823011?v=4" width="100px;" alt="Juan Cruz"/><br /><sub><b>Juan Cruz</b></sub>](https://github.com/juca-cruz)<br />[🌍](#translation-juca-cruz "Translation") |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
