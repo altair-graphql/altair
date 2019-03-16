@@ -6,7 +6,7 @@
       <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
       <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
     </div>
-    <div class="doc-viewer-item-query-description">
+    <div class="doc-viewer-item-query-description" markdown>
       {{ data.description }}
     </div>
   </div>
@@ -23,7 +23,7 @@
         {{ item.value }}
       </span>
     </div>
-    <div class="doc-viewer-item-query-description">
+    <div class="doc-viewer-item-query-description" markdown>
       {{ item.description }}
     </div>
   </div>
@@ -37,7 +37,7 @@
         {{ item.name }}
       </span>
     </div>
-    <div class="doc-viewer-item-query-description">
+    <div class="doc-viewer-item-query-description" markdown>
       {{ item.description }}
     </div>
   </div>
@@ -99,7 +99,7 @@
         {{ item.name }}
       </span>
     </div>
-    <div class="doc-viewer-item-query-description">
+    <div class="doc-viewer-item-query-description" markdown>
       {{ item.description }}
     </div>
   </div>

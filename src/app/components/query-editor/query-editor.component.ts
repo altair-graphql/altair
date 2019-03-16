@@ -33,7 +33,6 @@ import 'codemirror-graphql/mode';
 import 'codemirror-graphql/jump';
 import '../../utils/codemirror/graphql-linter';
 
-import { marked } from 'marked';
 import { GqlService, NotifyService } from 'app/services';
 import { debug } from 'app/utils/logger';
 

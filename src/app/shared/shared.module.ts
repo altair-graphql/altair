@@ -9,7 +9,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { DndModule } from '@beyerleinf/ngx-dnd';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
-
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -25,6 +25,7 @@ import { NgxPopperModule } from 'ngx-popper';
       applyClass: 'tooltip-content',
       trigger: 'hover'
     }),
+    MarkdownModule.forRoot(),
   ],
 
   // DON'T FORGET TO EXPORT MODULE
@@ -37,6 +38,7 @@ import { NgxPopperModule } from 'ngx-popper';
     DndModule,
     NguiAutoCompleteModule,
     NgxPopperModule,
+    MarkdownModule,
   ]
 })
 export class SharedModule {
