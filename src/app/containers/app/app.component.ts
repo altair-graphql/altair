@@ -138,7 +138,7 @@ export class AppComponent {
       });
 
     if (!this.windowIds.length) {
-      this.windowService.newWindow().subscribe();
+      this.newWindow();
     }
   }
 
@@ -178,8 +178,12 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().pipe(first()).subscribe(({ windowId }) => {
+    this.windowService.newWindow().pipe(first()).subscribe(({ url, windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+
+      if (url) {
+        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+      }
     });
   }
 
