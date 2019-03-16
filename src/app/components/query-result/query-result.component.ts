@@ -57,7 +57,10 @@ export class QueryResultComponent implements OnChanges {
     autoRefresh: true,
     theme: 'default query-result',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    extraKeys: { 'Alt-F': 'findPersistent' },
+    extraKeys: {
+      'Alt-F': 'findPersistent',
+      'Ctrl-F': 'findPersistent',
+    },
   };
 
   constructor() {}
