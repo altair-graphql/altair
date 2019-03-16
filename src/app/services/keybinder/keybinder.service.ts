@@ -39,31 +39,31 @@ export class KeybinderService {
 
   connect() {
     this.bindShortcut(
-      ['ctrl+shift+v'],
+      ['Ctrl+Shift+V'],
       () => this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)),
       'Toggle Variable Pane'
     );
 
     this.bindShortcut(
-      ['ctrl+shift+h'],
+      ['Ctrl+Shift+H'],
       () => this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)),
       'Toggle Header Pane'
     );
 
     this.bindShortcut(
-      ['ctrl+shift+r'],
+      ['Ctrl+Shift+R'],
       () => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)),
       'Reload Docs'
     );
 
     this.bindShortcut(
-      ['ctrl+shift+d'],
+      ['Ctrl+Shift+D'],
       () => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)),
       'Toggle Docs'
     );
 
     this.bindShortcut(
-      ['command+enter', 'ctrl+enter'],
+      ['Command+Enter', 'Ctrl+Enter'],
       () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
       'Send Request'
     );
@@ -75,15 +75,32 @@ export class KeybinderService {
       description
     });
 
-    return mousetrap.bindGlobal(keys, () => this.zone.run(callback));
+    return mousetrap.bindGlobal(keys.map(key => key.toLowerCase()), () => this.zone.run(callback));
   }
 
   getShortcuts() {
-    const categories = [
+    const categories: { title, shortcuts: KeyboardShortcut[] }[] = [
       {
         title: 'General',
         shortcuts: this.shortcuts
-      }
+      },
+      {
+        title: 'Editor',
+        shortcuts: [
+          {
+            keys: ['Ctrl+D'],
+            description: 'Jump to docs'
+          },
+          {
+            keys: ['Ctrl+F', 'Alt+F'],
+            description: 'Search in context'
+          },
+          {
+            keys: ['Ctrl+/', 'Command+/'],
+            description: 'Toggle comment'
+          },
+        ]
+      },
     ];
     if (this.electronService.isElectronApp()) {
       categories.push({
