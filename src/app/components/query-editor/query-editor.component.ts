@@ -92,6 +92,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
       // show current token parent type in docs
       'Ctrl-D': cm => this.onShowInDocsByToken(cm),
+
+      'Shift-Ctrl-Enter': cm => this.onFillFields(cm),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
@@ -218,6 +220,25 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         name: reference.type.inspect()
       });
     }
+  }
+
+  onFillFields(cm) {
+    const cursor = cm.getCursor();
+    const token = cm.getTokenAt(cursor);
+    const typeInfo = getTypeInfo(this.gqlSchema, token.state);
+
+    const schema = this.gqlSchema;
+    if (!schema) {
+      return;
+    }
+
+    const rawResults = this.gqlService.getAutocompleteSuggestions(
+      schema,
+      cm.getValue(),
+      cursor,
+      token,
+    );
+    // console.log(token, typeInfo, rawResults);
   }
 
   /**

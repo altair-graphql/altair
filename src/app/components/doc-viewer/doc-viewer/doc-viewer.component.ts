@@ -263,6 +263,7 @@ export class DocViewerComponent implements OnChanges {
    */
   goHome() {
     this.setDocViewChange.next({ view: 'root' });
+    this.docHistory = [];
   }
 
   /**
