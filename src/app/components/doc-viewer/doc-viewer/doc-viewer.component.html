@@ -48,6 +48,7 @@
         <app-doc-viewer-field
          [data]="gqlSchema.getType(docView.parentType).getFields()[docView.name]"
          [gqlSchema]="gqlSchema"
+         [parentType]="docView.parentType"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
          (addToEditorChange)="addToEditor($event.name, $event.parentType)"

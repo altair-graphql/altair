@@ -217,28 +217,28 @@ background: rgba(var(--rgb-orange), .1);
   margin-bottom: 10px;
 }
 .doc-viewer-item{
+  position: relative;
   margin-bottom: 20px;
+  &:hover{
+    .doc-viewer-item-query-add-btn{
+      opacity: 1;
+    }
+  }
 }
 .doc-viewer-item-query{
-  position: relative;
   padding-left: 10px;
   padding-right: 75px;
   &:before{
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 0;
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 2px;
-      background-color: var(--green-color);
-      vertical-align: middle;
-  }
-  &:hover{
-      .doc-viewer-item-query-add-btn{
-          opacity: 1;
-      }
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 2px;
+    background-color: var(--green-color);
+    vertical-align: middle;
   }
 }
 .doc-viewer-item-field{

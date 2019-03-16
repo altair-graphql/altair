@@ -7,6 +7,13 @@
     <div class="doc-viewer-item-query-description">
       {{ data.description }}
     </div>
+    <div class="doc-viewer-item-query-inner">
+      <button class="doc-viewer-item-query-add-btn"
+      (click)="addToEditor({ name: data.name, parentType: parentType })" track-id="add_query">
+        <ng-container *ngIf="isRootType(parentType)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
+        <ng-container *ngIf="!isRootType(parentType)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
+      </button>
+    </div>
   </div>
 </div>
 
