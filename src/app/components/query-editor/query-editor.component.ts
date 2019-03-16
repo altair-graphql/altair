@@ -26,11 +26,18 @@ import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/dialog/dialog';
+import 'codemirror/addon/search/search';
+import 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/search/matchesonscrollbar';
+import 'codemirror/addon/search/jump-to-line';
+import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/hint';
-// import 'codemirror-graphql/lint';
+import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
-// import 'codemirror-graphql/info';
+import 'codemirror-graphql/info';
 import 'codemirror-graphql/jump';
+import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import '../../utils/codemirror/graphql-linter';
 
 import { GqlService, NotifyService } from 'app/services';
@@ -60,6 +67,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() fileVariableDataChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
   @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
+  @Output() showTokenInDocsChange = new EventEmitter();
 
   @ViewChild('editor') editor;
 
@@ -77,7 +85,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true }),
       'Alt-Space': (cm) => cm.showHint({ completeSingle: true }),
       'Cmd-/': (cm) => cm.execCommand('toggleComment'),
-      'Ctrl-/': (cm) => cm.execCommand('toggleComment')
+      'Ctrl-/': (cm) => cm.execCommand('toggleComment'),
+
+      'Alt-F': 'findPersistent',
+      'Ctrl-F': 'findPersistent',
+
+      // show current token parent type in docs
+      'Ctrl-D': cm => this.onShowInDocsByToken(cm),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
@@ -88,8 +102,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     hintOptions: {
       completeSingle: false
     },
-    // info: {},
-    jump: {}
+    info: {
+      onClick: reference => this.onShowInDocsByReference(reference),
+    },
+    jump: {
+      onClick: reference => this.onShowInDocsByReference(reference),
+    }
   };
 
   constructor(
@@ -167,18 +185,39 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.queryEditorStateChange.next({ isFocused, cursorIndex });
   }
 
-  /**
-   * Formats the query in the editor
-   */
-  prettifyCode() {
-    // if (this.editor) {
-    //   this.editor.codeMirror.operation(() => {
-    //     const len = this.editor.codeMirror.lineCount();
-    //     for (let i = 0; i < len; i++) {
-    //       this.editor.codeMirror.indentLine(i);
-    //     }
-    //   });
-    // }
+  onShowInDocsByToken(cm) {
+    const cursor = cm.getCursor();
+    const token = cm.getTokenAt(cursor);
+    const typeInfo = getTypeInfo(this.gqlSchema, token.state);
+
+    if (typeInfo.fieldDef && typeInfo.parentType) {
+      this.showTokenInDocsChange.next({
+        view: 'field',
+        parentType: typeInfo.parentType.inspect(),
+        name: typeInfo.fieldDef.name,
+      });
+    } else if (typeInfo.type) {
+      this.showTokenInDocsChange.next({
+        view: 'type',
+        name: typeInfo.type.inspect()
+      });
+    }
+    this.editor.codeMirror.getInputField().blur();
+  }
+
+  onShowInDocsByReference(reference) {
+    if (reference.field && reference.type) {
+      this.showTokenInDocsChange.next({
+        view: 'field',
+        parentType: reference.type.inspect(),
+        name: reference.field.name,
+      });
+    } else if (reference.type) {
+      this.showTokenInDocsChange.next({
+        view: 'type',
+        name: reference.type.inspect()
+      });
+    }
   }
 
   /**
@@ -190,7 +229,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       debug.log('Updating schema...', schema);
       this.editorConfig.lint.schema = schema;
       this.editorConfig.hintOptions.schema = schema;
-      // this.editorConfig.info.schema = schema;
+      this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
   }

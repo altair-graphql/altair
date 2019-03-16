@@ -26,7 +26,13 @@ export class DocViewerComponent implements OnChanges {
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = config.add_query_depth_limit;
   @Input() tabSize = config.tab_size;
+  @Input() docView = {
+    view: 'root', // type, field, root, search
+    parentType: 'Query', // used by field views
+    name: 'Conference' // identifies type/field
+  };
   @Output() toggleDocsChange = new EventEmitter();
+  @Output() setDocViewChange = new EventEmitter<{ view?, parentType?, name? }>();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
 
@@ -42,12 +48,6 @@ export class DocViewerComponent implements OnChanges {
   hasSearchIndex = false;
 
   docHistory = [];
-
-  docView = {
-    view: 'root', // type, field, root, search
-    parentType: 'Query', // used by field views
-    name: 'Conference' // identifies type/field
-  };
 
   searchResult = [];
   searchTerm = '';
@@ -235,7 +235,7 @@ export class DocViewerComponent implements OnChanges {
       return false;
     }
     this.updateDocHistory();
-    this.docView.view = 'search';
+    this.setDocViewChange.next({ view: 'search' });
     this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
     debug.log(this.searchResult);
   }
@@ -254,8 +254,15 @@ export class DocViewerComponent implements OnChanges {
   goBack() {
     // console.log(this.docHistory);
     if (this.docHistory.length) {
-      this.docView = this.docHistory.pop();
+      this.setDocViewChange.next(this.docHistory.pop());
     }
+  }
+
+  /**
+   * Go back to root view
+   */
+  goHome() {
+    this.setDocViewChange.next({ view: 'root' });
   }
 
   /**
@@ -263,7 +270,7 @@ export class DocViewerComponent implements OnChanges {
    */
   updateDocHistory() {
     if (this.docView && this.docView.view !== 'search') {
-      this.docHistory.push(Object.assign({}, this.docView));
+      this.docHistory.push({ ...this.docView });
     }
   }
 
@@ -273,9 +280,7 @@ export class DocViewerComponent implements OnChanges {
    */
   goToType(name) {
     this.updateDocHistory();
-    // console.log('Going to type..', name);
-    this.docView.view = 'type';
-    this.docView.name = name.replace(/[\[\]!]/g, '');
+    this.setDocViewChange.next({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
   }
 
   /**
@@ -285,11 +290,7 @@ export class DocViewerComponent implements OnChanges {
    */
   goToField(name, parentType) {
     this.updateDocHistory();
-    // console.log('Going to field..', name, parentType, this.gqlSchema);
-
-    this.docView.view = 'field';
-    this.docView.name = name.replace(/[\[\]!]/g, '');
-    this.docView.parentType = parentType.replace(/[\[\]!]/g, '');
+    this.setDocViewChange.next({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
   }
 
   /**

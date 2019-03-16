@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ClarityModule } from '@clr/angular';
 
 import { SharedModule } from '../../shared/shared.module';
 
@@ -14,6 +15,7 @@ import { ComponentModule } from '..';
   imports: [
     CommonModule,
     FormsModule,
+    ClarityModule,
     SharedModule,
     ComponentModule,
   ],

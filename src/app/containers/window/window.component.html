@@ -42,6 +42,7 @@
           (fileVariableDataChange)="updateFileVariableData($event)"
           (deleteFileVariableChange)="deleteFileVariable($event)"
           (queryEditorStateChange)="setQueryEditorState($event)"
+          (showTokenInDocsChange)="onShowTokenInDocs($event)"
           [query]="query"
           [gqlSchema]="gqlSchema"
           [tabSize]="tabSize$ | async"
@@ -62,12 +63,14 @@
           (clearSubscriptionChange)="clearSubscription()"
         ></app-query-result>
         <app-doc-viewer
+          [docView]="docView$ | async"
           [gqlSchema]="gqlSchema"
           [allowIntrospection]="allowIntrospection$ | async"
           [ngClass]="{'hide-doc': !(showDocs$ | async)}"
           [isLoading]="docsIsLoading$ | async"
           [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
           [tabSize]="tabSize$ | async"
+          (setDocViewChange)="setDocView($event)"
           (toggleDocsChange)="toggleDocs()"
           (addQueryToEditorChange)="addQueryToEditor($event)"
           (exportSDLChange)="exportSDL()"

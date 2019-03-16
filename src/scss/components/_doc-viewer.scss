@@ -71,24 +71,29 @@ app-doc-viewer {
   cursor: pointer;
 }
 .doc-viewer-export-sdl {
-position: absolute;
-transform: translateX(-50%);
-left: 50%;
-line-height: 30px;
-font-size: fontsize(12);
-color: var(--orange-color);
-cursor: pointer;
-opacity: .5;
-transition: all .3s ease;
-&:hover {
-  opacity: 1;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  line-height: 30px;
+  font-size: fontsize(12);
+  color: var(--orange-color);
+  cursor: pointer;
+  opacity: .5;
+  transition: all .3s ease;
+  &:hover {
+    opacity: 1;
+  }
 }
-}
+.doc-viewer-home-link,
 .doc-viewer-back-link{
-  padding: 10px 0;
+  padding: 5px;
   color: var(--blue-color);
   cursor: pointer;
   display: inline-block;
+  vertical-align: middle;
+  background: rgba(var(--rgb-blue), .05);
+  border-radius: 4px;
+  height: 25px;
 }
 .doc-viewer-breadcrumbs-container{
   padding: 10px 0;
