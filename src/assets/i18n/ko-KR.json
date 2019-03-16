@@ -3,7 +3,7 @@
   "PRETTIFY_BUTTON": "정리하기",
   "COMPRESS_QUERY_BUTTON": "압축하기",
   "CLEAR_BUTTON": "지우기",
-  "COPY_AS_CURL_BUTTON": "cURL로 복사하기",
+  "COPY_AS_CURL_BUTTON": "cURL 로 복사하기",
   "CONVERT_TO_NAMED_QUERY_BUTTON": "이름있는 쿼리로 변환하기",
   "SET_HEADERS_BUTTON": "헤더 설정...",
   "SET_VARIABLES_BUTTON": "변수 설정...",
