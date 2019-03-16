@@ -62,7 +62,7 @@ input[type="text"], input[type="search"], input[type="url"] {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .left {
