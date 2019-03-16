@@ -20,7 +20,7 @@ export class EnvironmentService {
     });
   }
 
-  getActiveEnvironment() {
+  getActiveEnvironment(): any {
     let baseEnvironment = {};
     let subEnvironment = {};
 
@@ -70,6 +70,19 @@ export class EnvironmentService {
         value: this.hydrate(header.value),
       };
     });
+
+    const environmentHeadersMap = this.getActiveEnvironment().headers;
+
+    if (environmentHeadersMap) {
+      const environmentHeaders = Object.keys(environmentHeadersMap).map(key => {
+        return {
+          key,
+          value: environmentHeadersMap[key],
+        }
+      });
+
+      return { ...environmentHeaders, ...hydratedHeaders };
+    }
 
     return hydratedHeaders;
   }
