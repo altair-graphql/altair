@@ -1,5 +1,5 @@
 
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -38,6 +38,7 @@ import { Observable, empty as observableEmpty } from 'rxjs';
 export class WindowComponent implements OnInit {
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
+  docView$: Observable<any>;
   docsIsLoading$: Observable<boolean>;
   headers$: Observable<fromHeader.State>;
   variables$: Observable<fromVariable.State>;
@@ -101,6 +102,7 @@ export class WindowComponent implements OnInit {
 
     this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
+    this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
     this.docsIsLoading$ = this.getWindowState().pipe(select(fromRoot.getDocsLoading));
     this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
     this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
@@ -257,6 +259,19 @@ export class WindowComponent implements OnInit {
     }
   }
 
+  setDocView(docView) {
+    this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
+  }
+  onShowTokenInDocs(docView) {
+    this.setDocView(docView);
+    this.showDocs$.pipe(
+      take(1)
+    ).subscribe(docsShown => {
+      if (!docsShown) {
+        this.toggleDocs();
+      }
+    });
+  }
   toggleDocs() {
     this.store.dispatch(new docsActions.ToggleDocsViewAction(this.windowId));
   }

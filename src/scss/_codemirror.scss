@@ -25,6 +25,12 @@
     color: var(--theme-font-color);
     text-shadow: none;
 }
+.CodeMirror-dialog {
+    background: var(--theme-bg-color);
+}
+input.CodeMirror-search-field {
+    display: inline-block;
+}
 .CodeMirror-scroll {
   &::-webkit-scrollbar {
     width: 15px;

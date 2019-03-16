@@ -5,7 +5,6 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 import isElectron from './app/utils/is_electron';
-import { initTracking } from './app/utils/ga';
 import { handleExternalLinks } from 'app/utils/events';
 import { debug } from 'app/utils/logger';
 
@@ -24,5 +23,4 @@ platformBrowserDynamic().bootstrapModule(AppModule, {
   preserveWhitespaces: true
 });
 
-initTracking();
 handleExternalLinks();

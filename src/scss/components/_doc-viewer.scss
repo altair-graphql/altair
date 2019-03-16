@@ -1,19 +1,32 @@
 app-doc-viewer {
   position: relative;
-background: var(--theme-bg-color);
-//z-index: 7;
-transition: all .5s var(--app-easing);
-//   overflow: auto;
-line-height: 1.2;
-&.hide-doc{
-  flex-grow: 0 !important;
-  width: 0;
-  padding: 0;
-  .app-doc-viewer {
+  background: var(--theme-bg-color);
+  transition: all .5s var(--app-easing);
+  line-height: 1.2;
+  &.hide-doc{
+    flex-grow: 0 !important;
+    width: 0;
+    padding: 0;
+    .app-doc-viewer {
       padding: 0;
       width: 0;
+    }
   }
-}
+
+  p {
+    line-height: inherit;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    margin: 0;
+  }
+  code {
+    color: var(--theme-font-color);
+    background: var(--theme-off-bg-color);
+    padding: 0px 4px;
+    border-radius: 4px;
+  }
 }
 .app-doc-notice{
   text-align: center;
@@ -58,24 +71,29 @@ line-height: 1.2;
   cursor: pointer;
 }
 .doc-viewer-export-sdl {
-position: absolute;
-transform: translateX(-50%);
-left: 50%;
-line-height: 30px;
-font-size: fontsize(12);
-color: var(--orange-color);
-cursor: pointer;
-opacity: .5;
-transition: all .3s ease;
-&:hover {
-  opacity: 1;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  line-height: 30px;
+  font-size: fontsize(12);
+  color: var(--orange-color);
+  cursor: pointer;
+  opacity: .5;
+  transition: all .3s ease;
+  &:hover {
+    opacity: 1;
+  }
 }
-}
+.doc-viewer-home-link,
 .doc-viewer-back-link{
-  padding: 10px 0;
+  padding: 5px;
   color: var(--blue-color);
   cursor: pointer;
   display: inline-block;
+  vertical-align: middle;
+  background: rgba(var(--rgb-blue), .05);
+  border-radius: 4px;
+  height: 25px;
 }
 .doc-viewer-breadcrumbs-container{
   padding: 10px 0;
@@ -217,28 +235,28 @@ background: rgba(var(--rgb-orange), .1);
   margin-bottom: 10px;
 }
 .doc-viewer-item{
+  position: relative;
   margin-bottom: 20px;
+  &:hover{
+    .doc-viewer-item-query-add-btn{
+      opacity: 1;
+    }
+  }
 }
 .doc-viewer-item-query{
-  position: relative;
   padding-left: 10px;
   padding-right: 75px;
   &:before{
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 0;
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 2px;
-      background-color: var(--green-color);
-      vertical-align: middle;
-  }
-  &:hover{
-      .doc-viewer-item-query-add-btn{
-          opacity: 1;
-      }
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 2px;
+    background-color: var(--green-color);
+    vertical-align: middle;
   }
 }
 .doc-viewer-item-field{

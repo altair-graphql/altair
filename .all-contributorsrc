@@ -1,0 +1,104 @@
+{
+  "projectName": "altair",
+  "projectOwner": "imolorhe",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "DaniloCaruso",
+      "name": "Danilo Caruso",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4080177?v=4",
+      "profile": "https://github.com/DaniloCaruso",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "IgorSzymanski",
+      "name": "Igor Szymanski",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12682069?v=4",
+      "profile": "https://github.com/IgorSzymanski",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "kporten",
+      "name": "Kevin Porten",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1839345?v=4",
+      "profile": "https://github.com/kporten",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "disjukr",
+      "name": "JongChan Choi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/690661?v=4",
+      "profile": "https://0xabcdef.com/",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "FluorescentHallucinogen",
+      "name": "Alexey Rodionov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7892779?v=4",
+      "profile": "https://twitter.com/alexey_rodionov",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "kurisutofu",
+      "name": "kurisutofu",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/742894?v=4",
+      "profile": "https://github.com/kurisutofu",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Claercio",
+      "name": "Claércio Santos",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5834593?v=4",
+      "profile": "https://github.com/Claercio",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "janjaromirhorak",
+      "name": "jenda",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16863691?v=4",
+      "profile": "https://janjaromirhorak.cz/",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "pcharbon70",
+      "name": "pcharbon70",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/20699793?v=4",
+      "profile": "https://github.com/pcharbon70",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "juca-cruz",
+      "name": "Juan Cruz",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5823011?v=4",
+      "profile": "https://github.com/juca-cruz",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

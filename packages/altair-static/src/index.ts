@@ -51,17 +51,17 @@ export const renderAltair = ({
 
     altairHtml = altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
     if (endpointURL) {
-        renderedOptions += `window.__ALTAIR_ENDPOINT_URL__ = '${endpointURL}';`;
+        renderedOptions += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
     }
     if (subscriptionsEndpoint) {
-        renderedOptions += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = '${subscriptionsEndpoint}';`;
+        renderedOptions += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
     }
     if (initialQuery) {
-        renderedOptions += `window.__ALTAIR_INITIAL_QUERY__ = '${initialQuery}';`;
+        renderedOptions += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
     }
 
     if (initialVariables) {
-        renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = '${initialVariables}';`;
+        renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
     }
 
     if (initialHeaders) {
