@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: "Altair GraphQL Client"
+title: Altair GraphQL
 email: samuelimolo4real@gmail.com
 download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
@@ -60,6 +60,21 @@ learn_more: >
 markdown: kramdown
 plugins_dir:
   - jekyll-feed
+
+
+remote_theme: fluffyemily/just-the-docs
+# Enable or disable the site search
+search_enabled: true
+# Aux links for the upper right navigation
+aux_links:
+  "Altair on GitHub":
+    - "https://github.com/imolorhe/altair"
+# Color scheme currently only supports "dark" or nil (default)
+# color_scheme: 'dark'
+# Google Analytics Tracking (optional)
+# e.g, UA-1234567-89
+ga_tracking: UA-41432833-7
+
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
