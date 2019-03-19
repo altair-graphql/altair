@@ -81,7 +81,7 @@ export class EnvironmentService {
         }
       });
 
-      return { ...environmentHeaders, ...hydratedHeaders };
+      return [ ...environmentHeaders, ...hydratedHeaders ];
     }
 
     return hydratedHeaders;
