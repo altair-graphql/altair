@@ -7,16 +7,22 @@ import { WindowService } from '../window.service';
 import { DbService } from '../db.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ElectronService } from 'ngx-electron';
+import { NotifyService } from '../notify/notify.service';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('KeybinderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        ToastrModule.forRoot()
+      ],
       providers: [
         KeybinderService,
         WindowService,
         DbService,
         ElectronAppService,
         ElectronService,
+        NotifyService,
         {
           provide: Store, useValue: {
             subscribe: () => { },
