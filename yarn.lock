@@ -323,11 +323,10 @@
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-0.13.7.tgz#4a9b333ff00cdbcf1e7ab1899e4700989d16b825"
 
-"@clr/ui@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-0.13.7.tgz#0c86cc4146f158bd8e195bd1ab2d9983debc59d9"
-  optionalDependencies:
-    bootstrap "4.0.0-alpha.5"
+"@clr/ui@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-1.1.2.tgz#ca055be5c1d77d7acd1d744aa64c103376eedd41"
+  integrity sha512-48uX8d5lYEyuLDRva21Dz7dHiIXZWBbrZxzSUrqYnb6C5yFYfkTxjtNRA250ebhOgAyn3Pnhz8F1K9c+/BoPAQ==
 
 "@ctrl/ngx-codemirror@^1.3.9":
   version "1.3.9"
@@ -1058,10 +1057,10 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.28.tgz#c054e8af4d9dd75db4e63abc76f885168714d4b3"
 
-"@types/jasmine@3.3.9":
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.9.tgz#ee886a9113db567e722a8a0c37f0e6283f2cefa3"
-  integrity sha512-vw3VyFPa9mlba6NZPBZC3q2Zrnkgy5xuCVI43/tTLX6umdYrYvcFtQUKi2zH3PjFZQ9XCxNM/NMrM9uk8TPOzg==
+"@types/jasmine@3.3.12":
+  version "3.3.12"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.12.tgz#bf282cb540e9ad7a0a04b742082c073b655eab39"
+  integrity sha512-lXvr2xFQEVQLkIhuGaR3GC1L9lMU1IxeWnAF/wNY5ZWpC4p9dgxkKkzMp7pntpAdv9pZSnYqgsBkCg32MXSZMg==
 
 "@types/js-beautify@0.0.28":
   version "0.0.28"
