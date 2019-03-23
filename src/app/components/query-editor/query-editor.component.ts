@@ -129,7 +129,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       //     return marked(text, { sanitize: true });
       //   }
       // };
-      this.editorConfig.jump = {};
       this.editorConfig.tabSize = this.tabSize || 2;
       this.editorConfig.indentUnit = this.tabSize || 2;
 
