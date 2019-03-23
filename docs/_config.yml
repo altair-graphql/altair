@@ -13,13 +13,21 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Altair GraphQL
+title: Altair GraphQL Client
+short_title: Altair GraphQL
+logo_url: /assets/img/altair.svg
 email: samuelimolo4real@gmail.com
 download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
-  A beautiful feature-rich GraphQL Client for all platforms
+  A beautiful feature-rich GraphQL Client IDE for all platforms.
+  Enables you interact with any GraphQL server you are authorized to access from any platform you are on.
+  Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.
+  You also have several features to make your GraphQL development process much easier including subscriptions,
+  query scaffolding, formatting, multiple languages, themes, and many more.
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
+seo_image: /assets/img/app-shot.jpg
+seo_author: Samuel Imolorhe
 releases:
   -
     name: macOS
@@ -62,7 +70,7 @@ plugins_dir:
   - jekyll-feed
 
 
-remote_theme: fluffyemily/just-the-docs
+remote_theme: imolorhe/just-the-docs
 # Enable or disable the site search
 search_enabled: true
 # Aux links for the upper right navigation
