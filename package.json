@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
