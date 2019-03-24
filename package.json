@@ -83,7 +83,7 @@
     "electron-compile": "^6.4.4",
     "electron-debug": "^2.0.0",
     "electron-is-dev": "^1.0.0",
-    "electron-log": "^2.2.11",
+    "electron-log": "^3.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.0.1",
     "electron-util": "^0.10.0",
