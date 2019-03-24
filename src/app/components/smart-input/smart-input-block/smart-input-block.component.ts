@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { Cursor } from '../models/cursor';
 import { KEYS } from '../keys';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-smart-input-block',
@@ -48,7 +49,7 @@ export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChange
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('change', changes);
+    debug.log('change', changes);
   }
 
   setCaretPosition(offset: number) {

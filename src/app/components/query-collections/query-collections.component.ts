@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class QueryCollectionsComponent implements OnInit {
   @Input() showCollections = true;
   @Input() collections = [];
+  @Input() sortBy = '';
 
   @Output() loadCollectionsChange = new EventEmitter();
   @Output() selectQueryChange = new EventEmitter();
@@ -16,6 +17,7 @@ export class QueryCollectionsComponent implements OnInit {
   @Output() editCollectionChange: EventEmitter<{ collection }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
   @Output() importCollectionChange = new EventEmitter();
+  @Output() sortCollectionsChange = new EventEmitter();
 
   constructor(
   ) {

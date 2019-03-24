@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import * as collectionActions from '../actions/collection/collection';
+import * as collectionActions from '../../actions/collection/collection';
 
 export interface State {
   list: IQueryCollection[];
   activeCollection: any;
+  sortBy: 'a-z' | 'z-a' | 'newest' | 'oldest';
 }
 
 export interface IQueryCollection {
@@ -25,7 +26,8 @@ export interface ExportCollectionState extends IQueryCollection {
 
 export const initialState: State = {
   list: [],
-  activeCollection: null
+  activeCollection: null,
+  sortBy: 'newest',
 };
 
 export function collectionReducer(state = initialState, action: collectionActions.Action): State {
@@ -34,6 +36,8 @@ export function collectionReducer(state = initialState, action: collectionAction
       return { ...state, list: action.payload.collections };
     case collectionActions.SET_ACTIVE_COLLECTION:
       return { ...state, activeCollection: action.payload.collection };
+    case collectionActions.SORT_COLLECTIONS:
+      return { ...state, sortBy: action.payload.sortBy };
     default:
       return state;
   }

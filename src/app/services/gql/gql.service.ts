@@ -97,7 +97,7 @@ export class GqlService {
         data.variables = JSON.parse(vars);
       } catch (err) {
         // Notify the user about badly written variables.
-        console.error(err);
+        debug.error(err);
         return observableThrowError(err);
       }
     }
@@ -141,7 +141,7 @@ export class GqlService {
     .pipe(
       map(this.checkForError),
       catchError(err => {
-        console.error(err);
+        debug.error(err);
         return observableThrowError(err);
       }),
     );
@@ -323,7 +323,7 @@ export class GqlService {
     try {
       return parse(query);
     } catch (err) {
-      console.error('Something wrong with your query', err);
+      debug.error('Something wrong with your query', err);
 
       return {};
     }

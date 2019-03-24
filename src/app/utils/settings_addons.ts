@@ -32,7 +32,7 @@ export const registerSettingsLinter = CM => {
           })
         ];
       }
-      // console.log(valid, ajv.errors, text);
+      // debug.log(valid, ajv.errors, text);
     } catch (error) {
       debug.log(text, error);
       found.push({

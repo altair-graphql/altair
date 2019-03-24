@@ -33,7 +33,9 @@ Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {
  * Only logs in development or when __ENABLE_DEBUG_MODE__ flag is true
  */
 const debug = {
-  log: (...args) => console.log(args)
+  log: (...args) => console.log(...args),
+  error: (...args) => console.error(...args),
+  warn: (...args) => console.warn(...args),
 };
 
 Object.defineProperty(debug, 'log', {

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
 import { debug } from 'app/utils/logger';
-import { IQueryCollection, ExportCollectionState } from 'app/reducers/collection';
+import { IQueryCollection, ExportCollectionState } from 'app/reducers/collection/collection';
 
 // Handling hierarchical data
 // https://stackoverflow.com/questions/4048151/what-are-the-options-for-storing-hierarchical-data-in-a-relational-database

@@ -17,6 +17,9 @@ app-query-collections {
     flex-grow: 0;
   }
 }
+.query-collections__actions--right {
+  float: right;
+}
 .query-collections__inner {
   height: 100%;
   overflow: auto;

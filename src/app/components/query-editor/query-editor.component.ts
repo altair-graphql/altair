@@ -125,7 +125,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       };
       // this.editorConfig.info = {
       //   renderDescription: text => {
-      //     console.log('rendering..', text);
+      //     debug.log('rendering..', text);
       //     return marked(text, { sanitize: true });
       //   }
       // };
@@ -241,7 +241,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     setTimeout(() => {
       cm.setCursor(cursor);
     }, 1);
-    // console.log(token, typeInfo, rawResults);
   }
 
   /**

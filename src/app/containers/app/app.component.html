@@ -184,7 +184,8 @@
         <div class="side-menu__extra">
           <app-query-collections
             [showCollections]="showCollections"
-            [collections]="(collection$ | async).list"
+            [collections]="sortedCollections$ | async"
+            [sortBy]="(collection$ | async).sortBy"
 
             (loadCollectionsChange)="loadCollections()"
             (selectQueryChange)="selectQueryFromCollection($event)"
@@ -193,6 +194,7 @@
             (editCollectionChange)="toggleEditCollectionDialog($event)"
             (exportCollectionChange)="exportCollection($event)"
             (importCollectionChange)="importCollection()"
+            (sortCollectionsChange)="sortCollections($event)"
           ></app-query-collections>
         </div>
       </div>

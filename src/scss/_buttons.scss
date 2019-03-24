@@ -8,6 +8,12 @@ button{
 .icon-button {
     border: 0;
     border-radius: 4px;
+    background: var(--theme-bg-color);
+    color: var(--theme-font-color);
+    transition: all .3s ease;
+    &:hover {
+        background: var(--theme-off-bg-color);
+    }
 }
 .app-button{
     font-size: fontsize(14);
