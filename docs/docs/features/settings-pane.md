@@ -23,7 +23,7 @@ Options include `light`, `dark`, `dracula`.
 ### `language` - Specifies the language
 The options are any of the valid language codes according to: [https://support.crowdin.com/api/language-codes/](https://support.crowdin.com/api/language-codes/).
 
-However not all the languages are translated. The available translations are English, French, Español, Czech, German, Brazilian, Russian, Chinese Simplified, Japanese, Serbian, Italian, Polish, Korea.
+However not all the languages are translated. The available translations are [English, French, Español, Czech, German, Brazilian, Russian, Chinese Simplified, Japanese, Serbian, Italian, Polish, Korea](https://crowdin.com/project/altair-gql).
 
 ### `addQueryDepthLimit` - Specifies how deep the 'Add query' functionality would go
 You can specify any valid number here.
