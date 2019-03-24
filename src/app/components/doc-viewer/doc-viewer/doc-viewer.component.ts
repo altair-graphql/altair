@@ -252,7 +252,6 @@ export class DocViewerComponent implements OnChanges {
    * Go back through the doc history
    */
   goBack() {
-    // console.log(this.docHistory);
     if (this.docHistory.length) {
       this.setDocViewChange.next(this.docHistory.pop());
     }
@@ -341,8 +340,6 @@ export class DocViewerComponent implements OnChanges {
    * @param level current depth level of the current field
    */
   private generateFieldData(name, parentType, parentFields, level): { query: String, meta: any } {
-
-    // console.log('Generating query for ', name, parentType);
 
     const tabSize = this.tabSize || 2;
     const field = this.gqlSchema.getType(parentType).getFields()[name];

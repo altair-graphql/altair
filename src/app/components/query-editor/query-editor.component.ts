@@ -52,14 +52,14 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Output() sendRequest = new EventEmitter();
-  @Output() queryChange = new EventEmitter<string>();
   @Input() query;
   @Input() gqlSchema = null;
   @Input() tabSize = 2;
 
   @Input() variables: fromVariables.State = null;
   @Input() showVariableDialog = false;
+  @Output() sendRequest = new EventEmitter();
+  @Output() queryChange = new EventEmitter<string>();
   @Output() variablesChange = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() addFileVariableChange = new EventEmitter();
@@ -125,11 +125,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       };
       // this.editorConfig.info = {
       //   renderDescription: text => {
-      //     console.log('rendering..', text);
+      //     debug.log('rendering..', text);
       //     return marked(text, { sanitize: true });
       //   }
       // };
-      this.editorConfig.jump = {};
       this.editorConfig.tabSize = this.tabSize || 2;
       this.editorConfig.indentUnit = this.tabSize || 2;
 
@@ -232,13 +231,16 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       return;
     }
 
-    const rawResults = this.gqlService.getAutocompleteSuggestions(
+    const updatedQuery = this.gqlService.fillAllFields(
       schema,
       cm.getValue(),
       cursor,
       token,
     );
-    // console.log(token, typeInfo, rawResults);
+    this.queryChange.next(updatedQuery);
+    setTimeout(() => {
+      cm.setCursor(cursor);
+    }, 1);
   }
 
   /**

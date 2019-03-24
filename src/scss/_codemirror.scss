@@ -28,6 +28,11 @@
 .CodeMirror-dialog {
     background: var(--theme-bg-color);
 }
+.CodeMirror-jump-token {
+    cursor: pointer;
+    background: rgba(var(--rgb-yellow), .3);
+    border-radius: 4px;
+}
 input.CodeMirror-search-field {
     display: inline-block;
 }

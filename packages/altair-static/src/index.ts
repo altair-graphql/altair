@@ -37,6 +37,10 @@ export interface RenderOptions {
     initialHeaders?: Object;
 }
 
+/**
+ * Render Altair as a string using the provided renderOptions
+ * @param renderOptions
+ */
 export const renderAltair = ({
     baseURL = './',
     endpointURL,
@@ -72,6 +76,9 @@ export const renderAltair = ({
     return altairHtml.replace('<body>', `<body>${renderedOptionsInScript}`);
 };
 
+/**
+ * Returns the path to Altair assets, for resolving the assets when rendering Altair
+ */
 export const getDistDirectory = () => resolve(__dirname, 'dist');
 
 export default renderAltair;

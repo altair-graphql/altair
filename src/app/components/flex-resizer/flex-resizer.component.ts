@@ -11,6 +11,7 @@ import {
   HostBinding,
 } from '@angular/core';
 import { Subject } from 'rxjs';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-flex-resizer',
@@ -89,7 +90,7 @@ export class FlexResizerComponent implements OnInit {
     const widthRatio = newWidth / this.resizeContainer.clientWidth;
     const newGrowthFactor = (widthRatio * this.siblingGrowthFactor) / (1 - widthRatio);
     this.resizeChange.next(newGrowthFactor);
-    // console.log('mouse moved resizer', newWidth, newGrowthFactor);
+    debug.log('mouse moved resizer', newWidth, newGrowthFactor);
   }
 
   @HostListener('document:mouseup', ['$event'])
@@ -100,7 +101,7 @@ export class FlexResizerComponent implements OnInit {
 
     this.draggingMode = false;
 
-    // console.log('mouse up.', this.originalWidth, this.diffX);
+    debug.log('mouse up.', this.originalWidth, this.diffX);
   }
 
   getResizeContainer() {

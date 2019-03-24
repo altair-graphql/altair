@@ -62,3 +62,10 @@ app.on('will-finish-launching', function() {
     });
   });
 });
+
+app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+  event.preventDefault();
+  callback(true);
+  // Inform user of invalid certificate
+  webContents.send('certificate-error', error);
+});

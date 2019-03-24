@@ -48,12 +48,10 @@ export class DocViewerFieldComponent implements OnInit {
   }
 
   goToField(name, parentType) {
-    // console.log('field field', name, parentType);
     this.goToFieldChange.next({ name, parentType });
   }
 
   goToType(name) {
-    // console.log('field type', name);
     this.goToTypeChange.next({ name });
   }
 

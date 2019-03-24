@@ -14,7 +14,7 @@ import * as fromHeader from '../../reducers/headers/headers';
 import * as fromHistory from '../../reducers/history/history';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromQuery from '../../reducers/query/query';
-import * as fromCollection from '../../reducers/collection';
+import * as fromCollection from '../../reducers/collection/collection';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -176,7 +176,6 @@ export class WindowComponent implements OnInit {
       }
 
       this.newCollectionQueryTitle = data.layout.title;
-      // console.log(data.query);
     });
 
     this.queryService.loadQuery(this.windowId);

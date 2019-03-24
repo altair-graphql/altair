@@ -14,6 +14,8 @@ export const UPDATE_COLLECTION = 'UPDATE_COLLECTION';
 export const IMPORT_COLLECTION = 'IMPORT_COLLECTION';
 export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
 
+export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
+
 export class CreateCollectionAndSaveQueryToCollectionAction implements Action {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
 
@@ -76,6 +78,12 @@ export class ImportCollectionAction implements Action {
   readonly type = IMPORT_COLLECTION;
 }
 
+export class SortCollectionsAction implements Action {
+  readonly type = SORT_COLLECTIONS;
+
+  constructor(public payload: { sortBy }) {}
+}
+
 export type Action =
   | CreateCollectionAndSaveQueryToCollectionAction
   | SaveQueryToCollectionAction
@@ -88,4 +96,5 @@ export type Action =
   | LoadCollectionsAction
   | ExportCollectionAction
   | ImportCollectionAction
+  | SortCollectionsAction
   ;

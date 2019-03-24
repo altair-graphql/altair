@@ -48,7 +48,7 @@ export class EnvironmentService {
    * Variables are written with double curly braces .e.g. {{ VARIABLE_ONE }}
    * @param content {string}
    */
-  hydrate(content: string) {
+  hydrate(content: string): string {
 
     if (!content) {
       return content;
@@ -63,7 +63,7 @@ export class EnvironmentService {
     });
   }
 
-  hydrateHeaders(headers: fromHeaders.Header[]) {
+  hydrateHeaders(headers: fromHeaders.Header[]): fromHeaders.Header[] {
     const hydratedHeaders = headers.map(header => {
       return {
         key: this.hydrate(header.key),
@@ -81,7 +81,7 @@ export class EnvironmentService {
         }
       });
 
-      return { ...environmentHeaders, ...hydratedHeaders };
+      return [ ...environmentHeaders, ...hydratedHeaders ];
     }
 
     return hydratedHeaders;

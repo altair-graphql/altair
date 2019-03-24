@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Getting Started
 nav_order: 0
 ---
 
@@ -46,47 +46,7 @@ It is **NOT** recommended to use the web app for full development, because there
 
 
 ### Usage with express
-You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware).
+You can use altair with an express server using [altair-express-middleware](/docs/integrations/altair-express-middleware).
 
-This is an express middleware for mounting an instance of altair GraphQL client.
 
-#### Installation
-This is a node module and can be installed using npm:
-
-```
-npm install --save altair-express-middleware
-```
-
-Alternatively, if you are using [`yarn`](https://yarnpkg.com/):
-
-```
-yarn add altair-express-middleware
-```
-
-#### Usage
-
-```js
-import express from 'express';
-import { graphqlExpress } from 'graphql-server-express';
-import { altairExpress } from 'altair-express-middleware';
-
-import { schema } from './schema';
-
-const server = express();
-
-// Mount your graphQL server endpoint
-server.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema
-}));
-
-// Mount your altair GraphQL client
-server.use('/altair', altairExpress({
-  endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
-  initialQuery: `{ getData { id name surname } }`,
-}));
-
-// ... the rest of your code ...
-```
-
-An instance of Altair GraphQL Client would be available at `/altair` of your server.
+Checkout the features available in Altair [here](/docs/features).

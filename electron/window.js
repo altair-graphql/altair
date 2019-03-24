@@ -108,7 +108,17 @@ const createWindow = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     webPreferences: {
-      webSecurity: false
+      /**
+       * Disables the same-origin policy.
+       * Altair would be used to make requests to different endpoints, as a developer tool.
+       * Other security measures are put in place, such as CSP to ensure the app content is secure.
+       */
+      webSecurity: false,
+      allowRunningInsecureContent: false,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload', 'index.js'),
     },
     // titleBarStyle: 'hidden-inset'
   });
@@ -137,6 +147,15 @@ const createWindow = () => {
   // Prevent the app from navigating away from the app
   instance.webContents.on('will-navigate', (e, url) => e.preventDefault());
 
+  instance.on('web-contents-created', (event, contents) => {
+    contents.on('new-window', (event, navigationUrl) => {
+      // Ask the operating system to open this event's url in the default browser.
+      event.preventDefault();
+  
+      shell.openExternalSync(navigationUrl);
+    })
+  });
+
   // Emitted when the window is closed.
   instance.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -150,6 +169,16 @@ const createWindow = () => {
     instance.focus();
   });
 
+  // Doesn't seem to be called. Might be because of buffer protocol.
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        // Setting CSP
+        'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
+      }
+    });
+  });
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
     // Set defaults
     details.requestHeaders['Origin'] = 'electron://altair';

@@ -96,7 +96,7 @@ export class QueryEffects {
                 response.data.query.queryEditorState.isFocused &&
                 this.gqlService.getOperationNameAtIndex(query, response.data.query.queryEditorState.cursorIndex);
 
-              console.log(operationNameAtCursorIndex, response.data.query.queryEditorState);
+              debug.log(operationNameAtCursorIndex, response.data.query.queryEditorState);
               if (
                 !(
                   (selectedOperation && operations.map(def => def['name'] && def['name'].value).indexOf(selectedOperation) !== -1) ||
@@ -408,7 +408,7 @@ export class QueryEffects {
                 try {
                   strData = JSON.stringify(data);
                 } catch (err) {
-                  console.error('Invalid subscription response format.');
+                  debug.error('Invalid subscription response format.');
                   strData = 'ERROR: Invalid subscription response format.';
                 }
 
@@ -439,7 +439,7 @@ export class QueryEffects {
 
             return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
           } catch (err) {
-            console.error('An error occurred starting the subscription.', err);
+            debug.error('An error occurred starting the subscription.', err);
             return subscriptionErrorHandler(err);
           }
         }),
@@ -647,7 +647,7 @@ export class QueryEffects {
 
               return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient }));
             } catch (err) {
-              console.error('An error occurred starting the stream.', err);
+              debug.error('An error occurred starting the stream.', err);
               // return subscriptionErrorHandler(err);
             }
           }),

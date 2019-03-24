@@ -10,7 +10,7 @@ import * as fromRoot from '../../reducers';
 import * as fromHeader from '../../reducers/headers/headers';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromSettings from '../../reducers/settings/settings';
-import * as fromCollection from '../../reducers/collection';
+import * as fromCollection from '../../reducers/collection/collection';
 import * as fromWindowsMeta from '../../reducers/windows-meta/windows-meta';
 import * as fromEnvironments from '../../reducers/environments';
 
@@ -44,6 +44,7 @@ export class AppComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
+  sortedCollections$: Observable<any[]>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
   environments$: Observable<fromEnvironments.State>;
   activeEnvironment$: Observable<fromEnvironments.EnvironmentState>;
@@ -74,6 +75,7 @@ export class AppComponent {
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
+    this.sortedCollections$ = this.store.select(fromRoot.selectSortedCollections);
     this.activeEnvironment$ = this.environments$.pipe(
       map(environments => {
         if (environments.activeSubEnvironment) {
@@ -349,6 +351,10 @@ export class AppComponent {
 
   updateCollection({ collection }) {
     this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
+  }
+
+  sortCollections({ sortBy }) {
+    this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
   }
 
   fileDropped(event) {

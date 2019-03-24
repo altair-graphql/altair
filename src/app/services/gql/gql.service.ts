@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 
 import * as prettier from 'prettier/standalone';
 import * as prettierGraphql from 'prettier/parser-graphql';
+import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 
 
 import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from 'subscriptions-transport-ws';
@@ -96,7 +97,7 @@ export class GqlService {
         data.variables = JSON.parse(vars);
       } catch (err) {
         // Notify the user about badly written variables.
-        console.error(err);
+        debug.error(err);
         return observableThrowError(err);
       }
     }
@@ -140,7 +141,7 @@ export class GqlService {
     .pipe(
       map(this.checkForError),
       catchError(err => {
-        console.error(err);
+        debug.error(err);
         return observableThrowError(err);
       }),
     );
@@ -267,8 +268,52 @@ export class GqlService {
     }
   }
 
-  getAutocompleteSuggestions(...args) {
-    return getAutocompleteSuggestions(...args);
+  getActualTypeName(type) {
+    if (type) {
+      return type.inspect().replace(/[\[\]!]/g, '');
+    }
+    return '';
+  }
+
+  fillAllFields(schema, query, cursor, token) {
+    const typeInfo = getTypeInfo(schema, token.state);
+    const typeName = this.getActualTypeName(typeInfo.type);
+    const graphqlType = schema.getType(typeName);
+    const edited = visit(this.parseQuery(query), {
+      Field: {
+        enter(node) {
+          if (
+            node.name.value === token.state.name &&
+            // AST line number is 1-indexed while codemirror cursor line number is 0-indexed.
+            node.loc.startToken.line - 1 === cursor.line &&
+            typeInfo.type && graphqlType.getFields
+          ) {
+            const fields = graphqlType.getFields();
+            debug.log(node, typeInfo, fields, cursor, token);
+            return {
+              ...node,
+              selectionSet: {
+                kind: 'SelectionSet',
+                selections: Object.keys(fields).map(field => {
+                  return {
+                    kind: 'Field',
+                    name: {
+                      kind: 'Name',
+                      value: field
+                    }
+                  };
+                })
+              }
+            };
+          }
+        },
+        leave(node) {
+          debug.log(node);
+        }
+      }
+    });
+
+    return print(edited);
   }
 
   parseQuery(query: string) {
@@ -278,7 +323,7 @@ export class GqlService {
     try {
       return parse(query);
     } catch (err) {
-      console.error('Something wrong with your query', err);
+      debug.error('Something wrong with your query', err);
 
       return {};
     }
@@ -397,7 +442,7 @@ export class GqlService {
           name: NameKind,
         };
       }
-    })
+    });
 
     return print(edited);
   }

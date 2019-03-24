@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { debug } from 'app/utils/logger';
 
 interface BoundaryMarker {
   index: number;
@@ -89,7 +90,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     this.updateHighlighterScroll();
   }
   handleScroll() {
-    console.log('scrolling input');
+    debug.log('scrolling input');
   }
   handleKeydown() {
     this.updateHighlighterScroll();

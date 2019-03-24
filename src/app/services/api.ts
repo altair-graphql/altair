@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Headers, Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { debug } from 'app/utils/logger';
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class ApiService {
         } else {
             const err = new Error(res.statusText);
             err['response'] = res;
-            console.error(err);
+            debug.error(err);
             throw err;
         }
     }
