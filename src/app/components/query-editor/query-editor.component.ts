@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
   HostBinding,
+  NgZone,
 } from '@angular/core';
 
 import * as fromVariables from '../../reducers/variables/variables';
@@ -93,7 +94,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       // show current token parent type in docs
       'Ctrl-D': cm => this.onShowInDocsByToken(cm),
 
-      'Shift-Ctrl-Enter': cm => this.onFillFields(cm),
+      'Shift-Ctrl-Enter': cm => this.zone.run(() => this.onFillFields(cm)),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
@@ -115,6 +116,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(
     private gqlService: GqlService,
     private notifyService: NotifyService,
+    private zone: NgZone,
   ) {}
 
   ngOnInit() {
