@@ -85,7 +85,7 @@ export const withInsertions = (initialQuery: string, insertions) => {
 
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
-export const fillAllFields = (schema, query: string, cursor, token) => {
+export const fillAllFields = (schema, query: string, cursor, token, { maxDepth = 1 } = {}) => {
   const insertions = [];
   if (!schema) {
     return { insertions, result: query };
@@ -115,8 +115,8 @@ export const fillAllFields = (schema, query: string, cursor, token) => {
           // AST line number is 1-indexed while codemirror cursor line number is 0-indexed.
           && node.loc.startToken.line - 1 === cursor.line
         ) {
-          debug.log(node, typeInfo, typeInfo.getType(), cursor, token);
-          const selectionSet = buildSelectionSet(fieldType);
+          debug.log(node, typeInfo, typeInfo.getType(), cursor, token, maxDepth);
+          const selectionSet = buildSelectionSet(fieldType, { maxDepth });
           const indent = getIndentation(query, node.loc.start);
           if (selectionSet) {
             insertions.push({

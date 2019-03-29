@@ -48,6 +48,7 @@
           [tabSize]="tabSize$ | async"
           [variables]="variables$ | async"
           [showVariableDialog]="showVariableDialog"
+          [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
         ></app-query-editor>
         <app-query-result
           [queryResult]="queryResult$ | async"

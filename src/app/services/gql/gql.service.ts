@@ -276,8 +276,8 @@ export class GqlService {
     return '';
   }
 
-  fillAllFields(schema, query: string, cursor, token) {
-    return fillAllFields(schema, query, cursor, token);
+  fillAllFields(schema, query: string, cursor, token, opts) {
+    return fillAllFields(schema, query, cursor, token, opts);
   }
 
   parseQuery(query: string) {

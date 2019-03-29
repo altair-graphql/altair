@@ -56,6 +56,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() query;
   @Input() gqlSchema = null;
   @Input() tabSize = 2;
+  @Input() addQueryDepthLimit = 2;
 
   @Input() variables: fromVariables.State = null;
   @Input() showVariableDialog = false;
@@ -238,6 +239,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       cm.getValue(),
       cursor,
       token,
+      {
+        maxDepth: this.addQueryDepthLimit
+      }
     );
 
     this.queryChange.next(updatedQuery.result);
