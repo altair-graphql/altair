@@ -4,11 +4,24 @@ const fs = require('fs');
 
 ncp.limit = 16;
 
+const deleteFolderRecursive = function(path) {
+  if (fs.existsSync(path)) {
+    fs.readdirSync(path).forEach(function(file, index){
+      var curPath = path + "/" + file;
+      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
+
 const distSrc = path.join(__dirname, '../../../dist'); // From the main altair dist folder
 const distDestination = path.join(__dirname, '../build/dist'); // To altair-static dist folder
-if (!fs.existsSync(distDestination)){
-  fs.mkdirSync(distDestination, { recursive: true });
-}
+deleteFolderRecursive(distDestination);
+fs.mkdirSync(distDestination, { recursive: true });
 
 const srcDir = path.resolve(__dirname, '../src');
 const buildDir = path.resolve(__dirname, '../build');

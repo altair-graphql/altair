@@ -237,7 +237,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       cursor,
       token,
     );
-    this.queryChange.next(updatedQuery);
+
+    this.queryChange.next(updatedQuery.result);
     setTimeout(() => {
       cm.setCursor(cursor);
     }, 1);
