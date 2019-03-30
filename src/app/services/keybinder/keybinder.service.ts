@@ -99,6 +99,10 @@ export class KeybinderService {
             keys: ['Ctrl+/', 'Command+/'],
             description: 'Toggle comment'
           },
+          {
+            keys: ['Ctrl+Shift+Enter'],
+            description: 'Fill all fields'
+          },
         ]
       },
     ];
