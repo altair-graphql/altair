@@ -3,6 +3,7 @@ app-query-editor {
   display: flex;
   flex-direction: column;
 }
+
 .query-editor-container {
   position: relative;
   height: 100%;
@@ -10,6 +11,7 @@ app-query-editor {
   background: var(--theme-bg-color);
   border-radius: 4px;
 }
+
 .query-editor__input {
   position: absolute;
   left: 0;
@@ -26,12 +28,14 @@ app-query-editor {
   display: flex;
   justify-content: space-between;
 }
+
 .query-editor__autocomplete-item__type {
   color: var(--orange-color);
 }
 
 .query-result__normal-container {
   position: relative;
+
   .app-query-result-textarea {
     position: absolute;
     top: 40px;
@@ -40,20 +44,25 @@ app-query-editor {
     width: 100%;
   }
 }
+
 .query-result-container {
   height: 100%;
   // overflow: auto;
   background: var(--theme-off-bg-color);
   border-radius: 4px;
 }
-.query-result__normal-container, .query-result__subscription-container {
+
+.query-result__normal-container,
+.query-result__subscription-container {
   height: 100%;
 }
+
 .query-result__subscription-container {
   position: relative;
   overflow: auto;
 }
-.query-result__none{
+
+.query-result__none {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,15 +73,18 @@ app-query-editor {
   font-weight: bold;
   color: var(--theme-off-font-color);
 }
-.query-result__none-subtext{
+
+.query-result__none-subtext {
   font-size: fontsize(16);
   margin-bottom: 10px;
 }
-.query-result__none-inner{
+
+.query-result__none-inner {
   width: 400px;
   max-width: 90%;
 }
-.query-result__none-art-button{
+
+.query-result__none-art-button {
   display: inline-block;
   width: 50px;
   height: 20px;
@@ -80,10 +92,12 @@ app-query-editor {
   background: var(--theme-bg-color);
   opacity: .8;
   border-radius: 5px;
-  &.send{
+
+  &.send {
     background: $green;
   }
 }
+
 .query-result__bottom-actions {
   position: absolute;
   bottom: 10px;
@@ -98,40 +112,49 @@ app-query-editor {
   width: 100%;
   height: 100%;
 }
+
 .subscription-result__actions {
   display: flex;
   align-items: center;
   padding: 10px;
   line-height: 1;
 }
+
 .subscription-result__actions-left {
   flex: 1 1 50%;
 }
+
 .subscription-result__actions-right {
   flex: 1 1 50%;
   text-align: right;
 }
+
 .subscription-result__actions-url {
   display: inline-block;
   vertical-align: middle;
   font-size: fontsize(13);
 }
+
 .subscription-result__list-wrapper {
   padding: 0 10px;
 }
+
 .subscription-result__list-item {
   position: relative;
   font-size: fontsize(12);
   margin-bottom: 10px;
 }
+
 .subscription-result__list-item--expanded {
   .subscription-result__list-item-content {
     white-space: normal;
   }
+
   .subscription-result__list-item-time {
     position: static;
   }
 }
+
 .subscription-result__list-item-content {
   white-space: nowrap;
   overflow: hidden;
@@ -140,6 +163,7 @@ app-query-editor {
   padding: 5px 10px;
   border-radius: 3px;
 }
+
 .subscription-result__list-item-time {
   position: absolute;
   top: 0;
@@ -153,10 +177,12 @@ app-query-editor {
   display: flex;
   flex-direction: column;
   max-height: 50%;
+
   &.show-variables {
     min-height: 50%;
   }
 }
+
 .variables-editor {
   &--title {
     text-transform: uppercase;
@@ -169,18 +195,21 @@ app-query-editor {
     // height: 0;
   // }
 }
+
 .variables-editor-input-container {
   position: relative;
   overflow: auto;
   flex: 1;
   min-height: 150px;
 }
+
 .variables-editor-inner {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: auto;
 }
+
 .set-variable-textarea {
   position: absolute;
   width: 100%;
@@ -189,10 +218,11 @@ app-query-editor {
 
 .variables-add-files-button {
   background: none;
-  border: none;
+  border: 0;
   color: var(--primary-color);
   text-decoration: underline;
 }
+
 .variables-files-container {
   padding: 3px 5px;
 }
@@ -200,33 +230,40 @@ app-query-editor {
 .variables-file-item {
   display: flex;
 }
+
 .variables-file-item-name-input-wrapper {
   flex: 1;
   padding: 0 5px;
 }
+
 .variables-file-item-input-wrapper {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 5px;
 }
+
 .variables-file-item-name-input {
   font-size: fontsize(14);
   padding: 5px 0;
   line-height: 1;
-  border: none;
+  border: 0;
   border-bottom: 2px solid var(--theme-border-color);
   transition: all .3s ease;
-  &:focus{
+
+  &:focus {
     border-color: $green;
   }
 }
+
 ::-webkit-file-upload-button {
   border-radius: 4px;
 }
+
 .variables-file-item-input-delete {
   padding: 3px;
   cursor: pointer;
+
   &:hover {
     color: var(--red-color);
   }
