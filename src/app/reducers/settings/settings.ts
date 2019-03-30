@@ -29,6 +29,7 @@ export interface State {
     'it-IT': 'Italian',
     'pl-PL': 'Polish',
     'ko-KR': 'Korean',
+    'ro-RO': 'Romanian',
    */
   language: SettingsLanguage;
 

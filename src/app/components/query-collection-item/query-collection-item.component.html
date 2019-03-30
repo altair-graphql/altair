@@ -25,6 +25,31 @@
           <button type="button" clrDropdownItem (click)="exportCollection()" track-id="export_collection">
             {{ 'COLLECTIONS_MENU_EXPORT' | translate }}
           </button>
+          <clr-dropdown>
+            <button type="button" clrDropdownTrigger>{{ 'COLLECTIONS_SORT_BY' | translate }}</button>
+            <clr-dropdown-menu *clrIfOpen>
+              <button
+                type="button"
+                clrDropdownItem
+                (click)="setQueriesSortBy('a-z')"
+              >{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</button>
+              <button
+                type="button"
+                clrDropdownItem
+                (click)="setQueriesSortBy('z-a')"
+              >{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</button>
+              <button
+                type="button"
+                clrDropdownItem
+                (click)="setQueriesSortBy('newest')"
+              >{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</button>
+              <button
+                type="button"
+                clrDropdownItem
+                (click)="setQueriesSortBy('oldest')"
+              >{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</button>
+            </clr-dropdown-menu>
+          </clr-dropdown>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>
@@ -42,7 +67,7 @@
       ></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
-      <div class="query-collections__item-queries-item" *ngFor="let query of collection.queries">
+      <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries()">
         <span
           class="query-collections__item-queries-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"

@@ -24,7 +24,7 @@ export class QueryCollectionService {
     const now = this.storage.now();
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
-        const uQuery = { ...query, id: uuid() };
+        const uQuery = { ...query, id: uuid(), created_at: now, updated_at: now };
         collection.queries.push(uQuery);
         collection.updated_at = now;
       })
@@ -35,7 +35,7 @@ export class QueryCollectionService {
     const now = this.storage.now();
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
-        const uQuery = { ...query, id: queryId };
+        const uQuery = { ...query, id: queryId, updated_at: now };
         collection.queries = collection.queries.map(collectionQuery => {
           if (collectionQuery.id === queryId) {
             collectionQuery = uQuery;

@@ -20,7 +20,7 @@ import {
   printSchema,
   getIntrospectionQuery,
   validateSchema,
-  visit
+  visit,
 } from 'graphql';
 import { getAutocompleteSuggestions } from 'graphql-language-service-interface';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
@@ -33,6 +33,7 @@ import { debug } from 'app/utils/logger';
 
 import * as fromHeaders from '../../reducers/headers/headers';
 import * as fromVariables from '../../reducers/variables/variables';
+import { fillAllFields } from './fillFields';
 
 interface SendRequestOptions {
   query: string;
@@ -275,45 +276,8 @@ export class GqlService {
     return '';
   }
 
-  fillAllFields(schema, query, cursor, token) {
-    const typeInfo = getTypeInfo(schema, token.state);
-    const typeName = this.getActualTypeName(typeInfo.type);
-    const graphqlType = schema.getType(typeName);
-    const edited = visit(this.parseQuery(query), {
-      Field: {
-        enter(node) {
-          if (
-            node.name.value === token.state.name &&
-            // AST line number is 1-indexed while codemirror cursor line number is 0-indexed.
-            node.loc.startToken.line - 1 === cursor.line &&
-            typeInfo.type && graphqlType.getFields
-          ) {
-            const fields = graphqlType.getFields();
-            debug.log(node, typeInfo, fields, cursor, token);
-            return {
-              ...node,
-              selectionSet: {
-                kind: 'SelectionSet',
-                selections: Object.keys(fields).map(field => {
-                  return {
-                    kind: 'Field',
-                    name: {
-                      kind: 'Name',
-                      value: field
-                    }
-                  };
-                })
-              }
-            };
-          }
-        },
-        leave(node) {
-          debug.log(node);
-        }
-      }
-    });
-
-    return print(edited);
+  fillAllFields(schema, query: string, cursor, token, opts) {
+    return fillAllFields(schema, query, cursor, token, opts);
   }
 
   parseQuery(query: string) {

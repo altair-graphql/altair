@@ -96,7 +96,7 @@ linters:
     width: 2
 
   LeadingZero:
-    enabled: true
+    enabled: false
     style: include_zero # or 'exclude_zero'
 
   MergeableSelector:
@@ -126,7 +126,7 @@ linters:
     max_properties: 10
 
   PropertySortOrder:
-    enabled: true
+    enabled: false
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
@@ -163,7 +163,7 @@ linters:
     max_depth: 2
 
   SelectorFormat:
-    enabled: true
+    enabled: false
     convention: hyphenated_lowercase # or 'strict_BEM', or 'hyphenated_BEM', or 'snake_case', or 'camel_case', or a regex pattern
 
   Shorthand:
