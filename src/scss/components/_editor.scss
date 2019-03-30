@@ -22,6 +22,14 @@ app-query-editor {
   resize: none;
 }
 
+.query-editor__autocomplete-item {
+  display: flex;
+  justify-content: space-between;
+}
+.query-editor__autocomplete-item__type {
+  color: var(--orange-color);
+}
+
 .query-result__normal-container {
   position: relative;
   .app-query-result-textarea {

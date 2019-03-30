@@ -33,16 +33,18 @@ import 'codemirror/addon/search/searchcursor';
 import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
-import 'codemirror-graphql/hint';
+// import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror-graphql/info';
 import 'codemirror-graphql/jump';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import '../../utils/codemirror/graphql-linter';
+import '../../utils/codemirror/graphql-hint';
 
 import { GqlService, NotifyService } from 'app/services';
 import { debug } from 'app/utils/logger';
+import { onHasCompletion } from 'app/utils/codemirror/graphql-has-completion';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -104,7 +106,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     dragDrop: false,
     lint: {},
     hintOptions: {
-      completeSingle: false
+      completeSingle: false,
+      render: (elt: Element, data, cur) => {
+        elt.classList.add('query-editor__autocomplete-item');
+        elt.innerHTML = `
+          <span class="query-editor__autocomplete-item__text">${cur.text}</span>
+          <span class="query-editor__autocomplete-item__type">${cur.typeDetail}</span>
+        `.trim().replace(/ +/g, ' ');
+        debug.log(elt, data, cur);
+      }
     },
     info: {
       onClick: reference => this.onShowInDocsByReference(reference),
@@ -123,9 +133,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
     if (this.gqlSchema) {
       this.editorConfig.lint = {};
-      this.editorConfig.hintOptions = {
-        completeSingle: false
-      };
       // this.editorConfig.info = {
       //   renderDescription: text => {
       //     debug.log('rendering..', text);
@@ -145,6 +152,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.editor.codeMirror.on('focus', (cm, event) => this.onEditorStateChange(cm, event));
       this.editor.codeMirror.on('blur', (cm, event) => this.onEditorStateChange(cm, event));
       this.editor.codeMirror.on('cursorActivity', (cm, event) => this.onEditorStateChange(cm, event));
+      this.editor.codeMirror.on('hasCompletion', (cm, event) => this.onHasCompletion(cm, event));
     }
   }
 
@@ -248,6 +256,22 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     setTimeout(() => {
       cm.setCursor(cursor);
     }, 1);
+  }
+
+  onHasCompletion(cm, event) {
+    onHasCompletion(cm, event, {
+      onClickHintInformation: type => {
+        if (this.gqlSchema) {
+          const typeDef = this.gqlSchema.getType(type);
+          if (typeDef) {
+            this.showTokenInDocsChange.next({
+              view: 'type',
+              name: typeDef.inspect()
+            });
+          }
+        }
+      }
+    });
   }
 
   /**

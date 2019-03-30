@@ -62,21 +62,50 @@ input.CodeMirror-search-field {
 .CodeMirror-Tern-tooltip {
     z-index: 1050;
 }
-.CodeMirror-hints{
+.CodeMirror-hint-information,
+.CodeMirror-hint-deprecation {
+    position: sticky;
+    bottom: 0;
+    border-top: 1px solid var(--theme-border-color);
+    white-space: normal;
+    line-height: 1.4;
+    padding: 5px 10px;
+    background: var(--white-color);
+}
+.CodeMirror-hint-information {
+    cursor: pointer;
+}
+.CodeMirror-hints {
     font-family: inherit;
     box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
     z-index: 1050;
+    min-width: 175px;
+    max-width: 300px;
+    p {
+        line-height: inherit;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        letter-spacing: inherit;
+        margin: 0;
+    }
 }
 .CodeMirror-hint {
     line-height: 1.4;
     padding: 5px 10px;
-    min-width: 100px;
+    width: 100%;
     &.CodeMirror-Tern-completion {
         padding-left: 25px;
         &:before {
             left: 5px;
             bottom: 5px;
         }
+    }
+}
+li.CodeMirror-hint-active {
+    background: var(--blue-color);
+    * {
+        color: var(--white-color);
     }
 }
 .cm-s-default {
