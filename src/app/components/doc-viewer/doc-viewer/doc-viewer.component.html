@@ -33,7 +33,7 @@
     />
   </div>
   <div class="doc-viewer-items">
-    <div [ngSwitch]="docView.view">
+    <div *ngIf="gqlSchema" [ngSwitch]="docView.view">
       <ng-container *ngSwitchCase="'root'">
         <div class="doc-viewer-item" *ngFor="let item of rootTypes">
               <span class="no-link-link" *ngIf="item" (click)="goToType(item.name)">{{ item.name }}</span>
