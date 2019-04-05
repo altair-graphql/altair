@@ -235,8 +235,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   onFillFields(cm) {
     const cursor = cm.getCursor();
     const token = cm.getTokenAt(cursor);
-    const typeInfo = getTypeInfo(this.gqlSchema, token.state);
-
     const schema = this.gqlSchema;
     if (!schema) {
       return;

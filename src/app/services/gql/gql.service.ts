@@ -22,7 +22,6 @@ import {
   validateSchema,
   visit,
 } from 'graphql';
-import { getAutocompleteSuggestions } from 'graphql-language-service-interface';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
