@@ -22,6 +22,7 @@ export const onHasCompletion = (cm, data, { onHintInformationRender = null, onCl
 
   let information: HTMLElement;
   let deprecation: HTMLElement;
+  let fillAllFieldsOption: HTMLElement;
 
   // When a hint result is selected, we augment the UI with information.
   CodeMirror.on(data, 'select', (ctx, el) => {
@@ -46,6 +47,15 @@ export const onHasCompletion = (cm, data, { onHintInformationRender = null, onCl
       deprecation.className = 'CodeMirror-hint-deprecation';
       hintsUl.appendChild(deprecation);
 
+      // This "fillAllFieldsOption" node will contain the fill all fields option.
+      fillAllFieldsOption = document.createElement('div');
+      fillAllFieldsOption.className = 'CodeMirror-hint-fill-all-fields';
+      fillAllFieldsOption.innerHTML = `
+        <span class="query-editor__autocomplete-item__text">Fill all fields</span>
+        <span class="query-editor__autocomplete-item__shortcut">Ctrl+Shift+Enter</span>
+      `.trim().replace(/ +/g, ' ');
+      hintsUl.appendChild(fillAllFieldsOption);
+
       // When CodeMirror attempts to remove the hint UI, we detect that it was
       // removed and in turn remove the information nodes.
       let onRemoveFn;
@@ -59,6 +69,7 @@ export const onHasCompletion = (cm, data, { onHintInformationRender = null, onCl
             hintsUl.removeEventListener('DOMNodeRemoved', onRemoveFn);
             information = null;
             deprecation = null;
+            fillAllFieldsOption = null;
             onRemoveFn = null;
           }
         }),
