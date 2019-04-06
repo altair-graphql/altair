@@ -68,7 +68,8 @@ export const onHasCompletion = (cm, data, { onHintInformationRender = null, onCl
     // Now that the UI has been set up, add info to information.
     const description = ctx.description
       ? marked(ctx.description)
-      : 'Self descriptive.';
+      : ctx.type && ctx.type.description
+        ? marked(ctx.type.description) : 'Self descriptive.';
     const type = ctx.type
       ? '<span class="infoType">' + renderType(ctx.type) + '</span>'
       : '';
