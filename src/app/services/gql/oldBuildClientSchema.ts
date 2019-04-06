@@ -139,7 +139,7 @@ export function buildClientSchema(
   }
 
   function getInputType(typeRef: IntrospectionInputTypeRef): GraphQLInputType {
-    const type = getType(typeRef);
+    const type = <GraphQLInputType>getType(typeRef);
     invariant(
       isInputType(type),
       'Introspection must provide input type for arguments.',
@@ -150,7 +150,7 @@ export function buildClientSchema(
   function getOutputType(
     typeRef: IntrospectionOutputTypeRef,
   ): GraphQLOutputType {
-    const type = getType(typeRef);
+    const type = <GraphQLOutputType>getType(typeRef);
     invariant(
       isOutputType(type),
       'Introspection must provide output type for fields.',
