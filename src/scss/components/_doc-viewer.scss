@@ -93,8 +93,11 @@ app-doc-viewer {
     opacity: 1;
   }
 }
-.doc-viewer-home-link,
-.doc-viewer-back-link{
+.doc-viewer-navigation {
+  display: flex;
+  justify-content: space-between;
+}
+.doc-viewer-navigation__option {
   padding: 5px;
   color: var(--blue-color);
   cursor: pointer;
@@ -103,7 +106,12 @@ app-doc-viewer {
   background: rgba(var(--rgb-blue), .05);
   border-radius: 4px;
   height: 25px;
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
+
 .doc-viewer-breadcrumbs-container{
   padding: 10px 0;
 }

@@ -5,6 +5,8 @@ import {
   getNamedType,
   isLeafType,
   parse,
+  GraphQLType,
+  GraphQLInputObjectType,
 } from 'graphql';
 import { debug } from 'app/utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
@@ -22,10 +24,10 @@ export const parseQuery = (query: string) => {
   }
 };
 
-export const buildSelectionSet = (type, { maxDepth = 1, currentDepth = 0 } = {}) => {
-  const namedType = getNamedType(type);
+export const buildSelectionSet = (type: GraphQLType, { maxDepth = 1, currentDepth = 0 } = {}) => {
+  const namedType: GraphQLInputObjectType = <GraphQLInputObjectType>getNamedType(type);
 
-  if (!type || isLeafType(type) || !namedType.getFields) {
+  if (!type || isLeafType(type) || !namedType || !namedType.getFields) {
     return;
   }
 
@@ -33,7 +35,7 @@ export const buildSelectionSet = (type, { maxDepth = 1, currentDepth = 0 } = {})
     return;
   }
 
-  const fields = namedType.getFields();
+  const fields = namedType && namedType.getFields();
   return {
     kind: 'SelectionSet',
     selections: Object.keys(fields).map(field => {

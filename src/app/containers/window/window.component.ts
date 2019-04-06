@@ -381,6 +381,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId));
   }
 
+  loadSchemaFromSDL() {
+    this.store.dispatch(new schemaActions.LoadSDLSchemaAction(this.windowId));
+  }
+
   /**
    * Export the data in the current window
    */

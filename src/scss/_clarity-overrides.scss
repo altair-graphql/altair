@@ -54,6 +54,10 @@
 .dropdown button.dropdown-toggle:not(.btn) {
   color: var(--theme-font-color);
 }
+.dropdown .dropdown-toggle:not(.btn) {
+  padding: 0;
+  color: inherit;
+}
 .clr-checkbox-wrapper label {
   color: var(--theme-font-color);
 }

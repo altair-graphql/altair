@@ -19,6 +19,8 @@
   "ADD_NEW_WINDOW_TEXT": "+ Add new",
 
   "DOCS_GO_BACK_TEXT": "Back",
+  "DOCS_EXPORT_SDL": "Export SDL",
+  "DOCS_LOAD_SCHEMA": "Load Schema",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Search docs...",
   "DOCS_ARGUMENTS_TEXT": "Arguments",
   "DOCS_TYPE_TEXT": "Type",

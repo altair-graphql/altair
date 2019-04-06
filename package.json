@@ -118,6 +118,7 @@
     "@angular-devkit/build-angular": "~0.10.0",
     "@types/chrome": "^0.0.81",
     "@types/electron": "^1.4.38",
+    "@types/graphql": "^14.2.0",
     "@types/jasmine": "3.3.12",
     "@types/mousetrap": "^1.6.0",
     "@types/node": "^11.11.8",

@@ -1058,6 +1058,11 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.28.tgz#c054e8af4d9dd75db4e63abc76f885168714d4b3"
 
+"@types/graphql@^14.2.0":
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.2.0.tgz#74e1da5f2a4a744ac6eb3ed57b48242ea9367202"
+  integrity sha512-lELg5m6eBOmATWyCZl8qULEOvnPIUG6B443yXKj930glXIgwQirIBPp5rthP2amJW0YSzUg2s5sfgba4mRRCNw==
+
 "@types/jasmine@3.3.12":
   version "3.3.12"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.12.tgz#bf282cb540e9ad7a0a04b742082c073b655eab39"

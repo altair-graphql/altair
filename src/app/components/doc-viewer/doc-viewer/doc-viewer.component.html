@@ -6,14 +6,29 @@
       </div>
     </div>
   <div class="doc-viewer-header">
-    <span class="doc-viewer-close" (click)="toggleDocsChange.next()">&times;</span>
-    <div class="doc-viewer-export-sdl" (click)="exportSDL()" track-id="export_sdl" *ngIf="gqlSchema">Export SDL</div>
     <div class="doc-viewer-navigation">
-      <div class="doc-viewer-back-link" (click)="goBack()" *ngIf="docView.view !== 'root' && docHistory.length" track-id="go_back_docs">
-        &#8592; {{ 'DOCS_GO_BACK_TEXT' | translate }}
+      <div class="doc-viewer-navigation--left">
+        <div class="doc-viewer-navigation__option" (click)="goBack()" *ngIf="docView.view !== 'root' && docHistory.length" track-id="go_back_docs">
+          <clr-icon shape="arrow" dir="left"></clr-icon>
+          <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
+        </div>
+        <div class="doc-viewer-navigation__option" (click)="goHome()" *ngIf="docView.view !== 'root'">
+          <clr-icon shape="home"></clr-icon>
+        </div>
       </div>
-      <div class="doc-viewer-home-link" (click)="goHome()" *ngIf="docView.view !== 'root'">
-        <clr-icon shape="home"></clr-icon>
+      <div class="doc-viewer-navigation--right">
+        <clr-dropdown>
+          <div class="doc-viewer-navigation__option">
+            <clr-icon shape="ellipsis-horizontal" clrDropdownTrigger></clr-icon>
+          </div>
+          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+            <button type="button" clrDropdownItem (click)="exportSDL()" *ngIf="gqlSchema">{{ 'DOCS_EXPORT_SDL' | translate }}</button>
+            <button type="button" clrDropdownItem (click)="loadSchemaChange.next()">{{ 'DOCS_LOAD_SCHEMA' | translate }}...</button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+        <div class="doc-viewer-navigation__option" (click)="toggleDocsChange.next()">
+          <clr-icon shape="times"></clr-icon>
+        </div>
       </div>
     </div>
   </div>

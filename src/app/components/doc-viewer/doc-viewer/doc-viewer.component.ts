@@ -35,6 +35,7 @@ export class DocViewerComponent implements OnChanges {
   @Output() setDocViewChange = new EventEmitter<{ view?, parentType?, name? }>();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
+  @Output() loadSchemaChange = new EventEmitter();
 
   @HostBinding('style.flex-grow') public resizeFactor;
 
