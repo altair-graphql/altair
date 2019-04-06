@@ -26,7 +26,7 @@ description: > # this means to ignore newlines until "baseurl:"
   query scaffolding, formatting, multiple languages, themes, and many more.
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
-seo_image: /assets/img/app-shot.jpg
+seo_image: /assets/img/app-shot.png
 seo_author: Samuel Imolorhe
 releases:
   -

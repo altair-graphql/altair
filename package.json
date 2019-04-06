@@ -33,6 +33,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "dist-electron": "build",
+    "test-electron": "npm run build && ./electron/fix-base-path.sh && node electron/__tests__",
     "postinstall": "npm run generate-settings-schema-validator && opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "publish-packages": "npm run build && lerna bootstrap && npm run lerna-publish",
