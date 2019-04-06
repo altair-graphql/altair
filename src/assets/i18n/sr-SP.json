@@ -18,6 +18,8 @@
   "CLICK_HERE_TEXT": "Кликните овде",
   "ADD_NEW_WINDOW_TEXT": "+ Додај нови",
   "DOCS_GO_BACK_TEXT": "Назад",
+  "DOCS_EXPORT_SDL": "Export SDL",
+  "DOCS_LOAD_SCHEMA": "Load Schema",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Pretrazi dokument...",
   "DOCS_ARGUMENTS_TEXT": "Аргументи",
   "DOCS_TYPE_TEXT": "Tip",

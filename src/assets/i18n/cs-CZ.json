@@ -18,6 +18,8 @@
   "CLICK_HERE_TEXT": "Click here",
   "ADD_NEW_WINDOW_TEXT": "+ Nový",
   "DOCS_GO_BACK_TEXT": "Zpět",
+  "DOCS_EXPORT_SDL": "Export SDL",
+  "DOCS_LOAD_SCHEMA": "Load Schema",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Hledat v dokumentaci...",
   "DOCS_ARGUMENTS_TEXT": "Parametry",
   "DOCS_TYPE_TEXT": "Type",
