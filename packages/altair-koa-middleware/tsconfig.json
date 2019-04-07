@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "build/",
+    "rootDir": "./",
+    "declaration": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ]
+  }
+}

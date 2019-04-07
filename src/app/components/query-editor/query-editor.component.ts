@@ -113,7 +113,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
           <span class="query-editor__autocomplete-item__text">${cur.text}</span>
           <span class="query-editor__autocomplete-item__type">${cur.typeDetail}</span>
         `.trim().replace(/ +/g, ' ');
-        debug.log(elt, data, cur);
+        // debug.log(elt, data, cur);
       }
     },
     info: {
@@ -235,8 +235,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   onFillFields(cm) {
     const cursor = cm.getCursor();
     const token = cm.getTokenAt(cursor);
-    const typeInfo = getTypeInfo(this.gqlSchema, token.state);
-
     const schema = this.gqlSchema;
     if (!schema) {
       return;

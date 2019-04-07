@@ -18,6 +18,8 @@
   "CLICK_HERE_TEXT": "Clicca qui",
   "ADD_NEW_WINDOW_TEXT": "+ Aggiungi nuova",
   "DOCS_GO_BACK_TEXT": "Indietro",
+  "DOCS_EXPORT_SDL": "Esporta SDL",
+  "DOCS_LOAD_SCHEMA": "Carica Schema",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "Cerca Docs...",
   "DOCS_ARGUMENTS_TEXT": "Parametri",
   "DOCS_TYPE_TEXT": "Tipo",

@@ -33,6 +33,10 @@ app-query-editor {
   color: var(--orange-color);
 }
 
+.query-editor__autocomplete-item__shortcut {
+  color: var(--theme-off-font-color);
+}
+
 .query-result__normal-container {
   position: relative;
 

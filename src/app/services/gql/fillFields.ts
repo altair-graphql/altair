@@ -5,8 +5,11 @@ import {
   getNamedType,
   isLeafType,
   parse,
+  GraphQLType,
+  GraphQLInputObjectType,
 } from 'graphql';
 import { debug } from 'app/utils/logger';
+import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 
 export const parseQuery = (query: string) => {
   if (!query) {
@@ -21,10 +24,10 @@ export const parseQuery = (query: string) => {
   }
 };
 
-export const buildSelectionSet = (type, { maxDepth = 1, currentDepth = 0 } = {}) => {
-  const namedType = getNamedType(type);
+export const buildSelectionSet = (type: GraphQLType, { maxDepth = 1, currentDepth = 0 } = {}) => {
+  const namedType: GraphQLInputObjectType = <GraphQLInputObjectType>getNamedType(type);
 
-  if (!type || isLeafType(type) || !namedType.getFields) {
+  if (!type || isLeafType(type) || !namedType || !namedType.getFields) {
     return;
   }
 
@@ -32,7 +35,7 @@ export const buildSelectionSet = (type, { maxDepth = 1, currentDepth = 0 } = {})
     return;
   }
 
-  const fields = namedType.getFields();
+  const fields = namedType && namedType.getFields();
   return {
     kind: 'SelectionSet',
     selections: Object.keys(fields).map(field => {
@@ -91,29 +94,40 @@ export const fillAllFields = (schema, query: string, cursor, token, { maxDepth =
     return { insertions, result: query };
   }
 
+  let tokenState = token.state;
+  if (token.state.kind === 'SelectionSet') {
+    tokenState.wasSelectionSet = true;
+    tokenState = { ...tokenState, ...tokenState.prevState };
+  }
+  const fieldType = getTypeInfo(schema, token.state).type;
+  // Strip out empty selection sets since those throw errors while parsing query
+  query = query.replace(/{\s*}/g, '');
   const ast = parseQuery(query);
 
-  if (!ast) {
+  if (!fieldType || !ast) {
     return { insertions, result: query };
   }
 
   const typeInfo = new TypeInfo(schema);
   const edited = visit(ast, {
     leave(node) {
-      typeInfo.leave(node);
+      // typeInfo.leave(node);
       debug.log(node);
     },
     enter(node) {
       typeInfo.enter(node);
       if (node.kind === 'Field') {
-        const fieldType = typeInfo.getType();
+        // const fieldType = typeInfo.getType();
         if (
           1
-          && node.name.value === token.state.name
+          && node.name.value === tokenState.name
 
           && node.loc
+          // With tokenState of SelectionSet (i.e. between braces { | }),
+          // we wouldn't have the right position since we strip out the empty braces before
+          // parsing the query to make it valid
           // AST line number is 1-indexed while codemirror cursor line number is 0-indexed.
-          && node.loc.startToken.line - 1 === cursor.line
+          && (tokenState.wasSelectionSet || node.loc.startToken.line - 1 === cursor.line)
         ) {
           debug.log(node, typeInfo, typeInfo.getType(), cursor, token, maxDepth);
           const selectionSet = buildSelectionSet(fieldType, { maxDepth });

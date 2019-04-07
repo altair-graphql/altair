@@ -13,3 +13,8 @@
 // window.bar = 'bar'
 
 window.ipc = require('electron').ipcRenderer;
+
+// Giving access to spectron to run tests successfully
+if (process.env.NODE_ENV === 'test') {
+  window.electronRequire = require;
+}

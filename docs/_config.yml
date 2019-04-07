@@ -19,14 +19,14 @@ logo_url: /assets/img/altair.svg
 email: samuelimolo4real@gmail.com
 download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
-  A beautiful feature-rich GraphQL Client IDE for all platforms.
+  A beautiful feature-rich GraphQL Client IDE for all platforms. Available for MacOS, Windows, Linux, Chrome, Firefox.
   Enables you interact with any GraphQL server you are authorized to access from any platform you are on.
   Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.
   You also have several features to make your GraphQL development process much easier including subscriptions,
   query scaffolding, formatting, multiple languages, themes, and many more.
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
-seo_image: /assets/img/app-shot.jpg
+seo_image: /assets/img/app-shot.png
 seo_author: Samuel Imolorhe
 releases:
   -
@@ -59,7 +59,7 @@ releases:
     image: webapp_icon.svg
     link: https://altair-gql.sirmuel.design/
 learn_more: >
-  A beautiful feature-rich GraphQL Client IDE for all platforms.
+  A beautiful feature-rich GraphQL Client IDE for all platforms. Available for MacOS, Windows, Linux, Chrome, Firefox.
   Enables you interact with any GraphQL server you are authorized to access from any platform you are on.
   Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.
   You also have several features to make your GraphQL development process much easier including subscriptions, query scaffolding, formatting, multiple languages, themes, and many more.

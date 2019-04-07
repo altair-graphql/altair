@@ -23,7 +23,7 @@ import * as historyActions from '../actions/history/history';
 import * as dialogsActions from '../actions/dialogs/dialogs';
 import * as streamActions from '../actions/stream/stream';
 
-import { downloadJson, downloadData, copyToClipboard } from '../utils';
+import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
 import config from '../config';
 import { debug } from '../utils/logger';
@@ -212,6 +212,27 @@ export class QueryEffects {
 
             return observableEmpty();
         }));
+
+    @Effect()
+    loadSDLSchema$: Observable<Action> = this.actions$
+        .ofType(gqlSchemaActions.LOAD_SDL_SCHEMA)
+        .pipe(
+          switchMap((data: gqlSchemaActions.LoadSDLSchemaAction) => {
+            openFile({ accept: '.gql' }).then((sdlData: string) => {
+              try {
+                const schema = this.gqlService.sdlToSchema(sdlData);
+                if (schema) {
+                  this.notifyService.success('Loaded schema successfully');
+                  return this.store.dispatch(new gqlSchemaActions.SetSchemaAction(data.windowId, schema));
+                }
+              } catch (err) {
+                this.notifyService.error('There was a problem loading the schema');
+                debug.error('Error while loading schema', err);
+              }
+            })
+            return observableEmpty();
+          })
+        )
 
     @Effect()
     saveUrlToDb$: Observable<Action> = this.actions$

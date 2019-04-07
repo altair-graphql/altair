@@ -95,8 +95,8 @@ export class QueryCollectionItemComponent implements OnInit {
         });
       case 'newest':
         return this.collection.queries.sort((a, b) => {
-          const aTimeStamp = a.updated_at;
-          const bTimeStamp = b.updated_at;
+          const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
+          const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
 
           if (aTimeStamp > bTimeStamp) {
             return -1;
@@ -108,8 +108,8 @@ export class QueryCollectionItemComponent implements OnInit {
         });
       case 'oldest':
         return this.collection.queries.sort((a, b) => {
-          const aTimeStamp = a.updated_at;
-          const bTimeStamp = b.updated_at;
+          const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
+          const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
 
           if (aTimeStamp > bTimeStamp) {
             return 1;

@@ -14,6 +14,7 @@ import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from '
 // TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
 import {
   buildClientSchema,
+  buildSchema,
   parse,
   print,
   GraphQLSchema,
@@ -21,8 +22,8 @@ import {
   getIntrospectionQuery,
   validateSchema,
   visit,
+  DocumentNode,
 } from 'graphql';
-import { getAutocompleteSuggestions } from 'graphql-language-service-interface';
 import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
@@ -236,7 +237,7 @@ export class GqlService {
     return this.introspectionData;
   }
 
-  getIntrospectionSchema(data) {
+  getIntrospectionSchema(data): GraphQLSchema {
     try {
       if (data && data.__schema) {
         const schema = buildClientSchema(data);
@@ -282,14 +283,14 @@ export class GqlService {
 
   parseQuery(query: string) {
     if (!query) {
-      return {};
+      return <DocumentNode>{};
     }
     try {
       return parse(query);
     } catch (err) {
       debug.error('Something wrong with your query', err);
 
-      return {};
+      return <DocumentNode>{};
     }
   }
 
@@ -420,6 +421,10 @@ export class GqlService {
       return this.prettify(printSchema(schema));
     }
     return '';
+  }
+
+  sdlToSchema(sdl: string): GraphQLSchema {
+    return buildSchema(sdl);
   }
 
   validateSchema(schema) {

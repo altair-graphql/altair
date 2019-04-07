@@ -7,6 +7,7 @@ export const SET_SCHEMA = 'SET_SCHEMA';
 export const SET_ALLOW_INTROSPECTION = 'SET_ALLOW_INTROSPECTION';
 
 export const EXPORT_SDL = 'EXPORT_SDL';
+export const LOAD_SDL_SCHEMA = 'LOAD_SDL_SCHEMA';
 
 export class SetIntrospectionAction implements Action {
   readonly type = SET_INTROSPECTION;
@@ -38,9 +39,17 @@ export class ExportSDLAction implements Action {
   constructor(public windowId: string) { }
 }
 
+export class LoadSDLSchemaAction implements Action {
+  readonly type = LOAD_SDL_SCHEMA;
+
+  constructor(public windowId: string) {}
+}
+
 export type Action =
   | SetIntrospectionAction
   | SetIntrospectionFromDbAction
   | SetSchemaAction
   | SetAllowIntrospectionAction
-  | ExportSDLAction;
+  | ExportSDLAction
+  | LoadSDLSchemaAction
+  ;

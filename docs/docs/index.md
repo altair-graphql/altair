@@ -45,8 +45,7 @@ Note
 It is **NOT** recommended to use the web app for full development, because there are some limitations there which might lead to frustrations if something isn't working as expected. It is preferred for you to use the desktop apps where possible, or the browser extensions for ease of use.
 
 
-### Usage with express
-You can use altair with an express server using [altair-express-middleware](/docs/integrations/altair-express-middleware).
-
+### Usage with your application
+You can easily integrate altair with several application setups. Check the [available integrations](/docs/integrations).
 
 Checkout the features available in Altair [here](/docs/features).

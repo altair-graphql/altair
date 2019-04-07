@@ -18,6 +18,8 @@
   "CLICK_HERE_TEXT": "ここにクリック",
   "ADD_NEW_WINDOW_TEXT": "新規追加",
   "DOCS_GO_BACK_TEXT": "戻る",
+  "DOCS_EXPORT_SDL": "Export SDL",
+  "DOCS_LOAD_SCHEMA": "Load Schema",
   "DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT": "資料で検索",
   "DOCS_ARGUMENTS_TEXT": "引数",
   "DOCS_TYPE_TEXT": "タイプ",
