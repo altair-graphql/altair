@@ -94,7 +94,7 @@
     "file-saver": "^2.0.0-rc.4",
     "graphql": "^14.0.2",
     "graphql-query-compress": "^1.0.0",
-    "marked": "^0.6.0",
+    "marked": "^0.6.2",
     "mousetrap": "^1.6.2",
     "mousetrap-global-bind": "^1.1.0",
     "ngrx-store-localstorage": "^6.0.0",
