@@ -31,6 +31,7 @@ script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-electron; fi
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 before_deploy:
