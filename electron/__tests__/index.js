@@ -1,8 +1,8 @@
 const Application = require('spectron').Application;
-const assert = require('assert');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
 
-console.log(__dirname);
 let electronPath = path.join(__dirname, '../../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../main');
 if (process.platform === 'win32') {
@@ -14,28 +14,24 @@ const app = new Application({
   env: {
     ELECTRON_ENABLE_LOGGING: true,
     ELECTRON_ENABLE_STACK_DUMPING: true,
-    NODE_ENV: 'development'
+    NODE_ENV: 'test'
   },
   startTimeout: 20000,
+  requireName: 'electronRequire',
 });
 
-app.start().then(() => {
-  // Check if the window is visible
-  return app.browserWindow.isVisible();
-}).then((isVisible) => {
-  // Verify the window is visible
-  assert.equal(isVisible, true);
-}).then(() => {
-  // Get the window's title
-  return app.client.getTitle();
-}).then((title) => {
-  // Verify the window's title
-  assert.equal(title, 'Altair');
-}).then(() => {
-  // Stop the application
-  return app.stop();
-}).catch((error) => {
-  // Log any failures
-  console.error('Test failed', error.message);
-  return app.stop();
-})
+global.before(function() {
+  chai.should();
+  chai.use(chaiAsPromised);
+});
+describe('Altair electron', () => {
+  beforeEach(function() {
+    this.timeout(20000);
+    return app.start();
+  });
+  afterEach(() => app.stop());
+
+  it('load window successfully', () => {
+    return app.browserWindow.isVisible().should.eventually.equal(true);
+  });
+});
