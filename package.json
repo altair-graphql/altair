@@ -118,7 +118,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
-    "@types/chrome": "^0.0.81",
+    "@types/chrome": "^0.0.82",
     "@types/electron": "^1.4.38",
     "@types/graphql": "^14.2.0",
     "@types/jasmine": "3.3.12",
