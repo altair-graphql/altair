@@ -6,15 +6,18 @@ Constraints:
 */
 
 app-flex-resizer {
+  display: flex;
+  align-items: center;
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
   background: var(--theme-off-border-color);
-  width: 5px;
+  width: 16px;
   height: 50px;
   border-radius: 10px;
   transition: all .3s ease;
+  opacity: .6;
   cursor: col-resize;
   &.is-right {
       right: 0;
