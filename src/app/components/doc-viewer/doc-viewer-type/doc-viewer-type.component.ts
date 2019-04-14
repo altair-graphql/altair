@@ -3,14 +3,16 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
   templateUrl: './doc-viewer-type.component.html',
-  styleUrls: ['./doc-viewer-type.component.scss']
+  styleUrls: ['./doc-viewer-type.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerTypeComponent implements OnInit {
 
