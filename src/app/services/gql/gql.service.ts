@@ -104,7 +104,7 @@ export class GqlService {
       }
     }
 
-    if (this.method.toLowerCase() !== 'get') {
+    if (!this.isGETRequest()) {
       if (files && files.length) {
         // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
         const fileMap = {};
@@ -135,7 +135,7 @@ export class GqlService {
     }
     return this.http.request(this.method, this.api_url, {
       // GET method uses params, while the other methods use body
-      body,
+      ...(!this.isGETRequest() && { body }),
       params,
       headers,
       observe: 'response',
@@ -162,11 +162,16 @@ export class GqlService {
     const files = opts.files && opts.files.length && opts.files.filter(file => file && file.data instanceof File && file.name);
 
     this.setUrl(url)
+      .setHTTPMethod(opts.method)
       // Skip json default headers for files
-      .setHeaders(opts.headers, { skipDefaults: !!(files && files.length) })
-      .setHTTPMethod(opts.method);
+      .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(files && files.length) });
 
     return this._send(opts.query, opts.variables, opts.selectedOperation, files);
+  }
+
+  isGETRequest(method = this.method) {
+    console.log(method.toLowerCase() === 'get');
+    return method.toLowerCase() === 'get';
   }
 
   setHeaders(headers = [], opts = { skipDefaults: false }) {
