@@ -359,7 +359,7 @@ export class AppComponent {
 
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
-    if (dataTransfer && dataTransfer.files) {
+    if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
       this.windowService.handleImportedFile(dataTransfer.files);
     }
   }
