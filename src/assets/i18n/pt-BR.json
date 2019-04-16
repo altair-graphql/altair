@@ -61,7 +61,7 @@
   "SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT": "Adicionar limite de consulta",
   "SETTINGS_TAB_SIZE_TEXT": "Tamanho da guia",
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Você gostaria de nos ajudar com as traduções?",
-  "SETTINGS_SHOW_EDITOR_HINT": "Pressione ctrl-space para mostrar dica",
+  "SETTINGS_SHOW_EDITOR_HINT": "Pressione ctrl-espaço para mostrar sugestões",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Atalhos de teclado",
   "SETTINGS_RESET_APPLICATION_DATA": "Reiniciar dados da aplicação (use isso apenas se você sabe o que está fazendo).",
   "VIEW_ON_GITHUB_TEXT": "Ver no GitHub",
