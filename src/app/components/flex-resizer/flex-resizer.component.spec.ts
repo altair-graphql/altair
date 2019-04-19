@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlexResizerComponent } from './flex-resizer.component';
+import { ClarityModule } from '@clr/angular';
 
 describe('FlexResizerComponent', () => {
   let component: FlexResizerComponent;
@@ -8,7 +9,10 @@ describe('FlexResizerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexResizerComponent ]
+      declarations: [ FlexResizerComponent ],
+      imports: [
+        ClarityModule
+      ]
     })
     .compileComponents();
   }));
