@@ -118,7 +118,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
-    "@types/chrome": "^0.0.82",
+    "@types/chrome": "^0.0.83",
     "@types/electron": "^1.4.38",
     "@types/graphql": "^14.2.0",
     "@types/jasmine": "3.3.12",
@@ -146,7 +146,7 @@
     "karma-jasmine-html-reporter": "1.3.1",
     "lerna": "^3.10.7",
     "mime-types": "^2.1.17",
-    "mocha": "6.1.3",
+    "mocha": "6.1.4",
     "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "^5.2.2",
