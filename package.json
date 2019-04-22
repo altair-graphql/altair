@@ -71,7 +71,7 @@
     "@ngui/auto-complete": "^2.0.0",
     "@ngx-translate/core": "^11.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
-    "@webcomponents/custom-elements": "^1.0.6",
+    "@webcomponents/custom-elements": "^1.2.4",
     "angular-sortablejs": "^2.5.1",
     "body-parser": "^1.17.1",
     "bootstrap": "4.0.0-alpha.5",
