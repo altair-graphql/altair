@@ -1,120 +1,122 @@
-<div class="doc-viewer-section">
-  <!--Type name and description-->
-  <div class="doc-viewer-item doc-viewer-item-field">
-    <div class="doc-viewer-item-query-inner">
-      {{ data.name }}
-      <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
-      <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
-    </div>
-    <div class="doc-viewer-item-query-description" markdown>
-      {{ data.description }}
-    </div>
-  </div>
-</div>
-
-<div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getValues">
-  <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues();">
-    <div class="doc-viewer-item-query-inner">
-      <span class="doc-viewer-item-field doc-viewer-item-value">
-        {{ item.name }}
-      </span>
-      <span class="doc-viewer-item-type">
-        {{ item.value }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-description" markdown>
-      {{ item.description }}
+<ng-container>
+  <div class="doc-viewer-section">
+    <!--Type name and description-->
+    <div class="doc-viewer-item doc-viewer-item-field">
+      <div class="doc-viewer-item-query-inner">
+        {{ data.name }}
+        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
+        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
+      </div>
+      <div class="doc-viewer-item-query-description" *ngIf="data.description" markdown>
+        {{ data.description }}
+      </div>
     </div>
   </div>
-</div>
-
-<div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data && data.getTypes">
-  <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes();">
-    <div class="doc-viewer-item-query-inner">
-      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
-        {{ item.name }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-description" markdown>
-      {{ item.description }}
-    </div>
-  </div>
-</div>
-
-<div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
-  <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values);">
-    <div class="doc-viewer-item-query-inner">
-      <span class="no-link-link"
-       (click)="goToField(item.name, data.name)"
-       track-id="gotofield_docs"
-      >
-        {{ item.name }}
-      </span>
-      <ng-container *ngIf="item.args && item.args.length">
-        (
-        <span *ngFor="let arg of item.args; let last = last">
-          <span
-           class="doc-viewer-item-field no-link-link"
-           (click)="goToType(arg.type.inspect())"
-          >
-            {{ arg.name }}
-            <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
-          </span>
-          <span
-           class="doc-viewer-item-type no-link-link"
-           (click)="goToType(arg.type.inspect())"
-          >{{ arg.type.inspect() }}</span><span *ngIf="!last">,</span>
+  
+  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getValues">
+    <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues();">
+      <div class="doc-viewer-item-query-inner">
+        <span class="doc-viewer-item-field doc-viewer-item-value">
+          {{ item.name }}
         </span>
-        )
-      </ng-container>
-      <span
-        class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-        (click)="goToType(item.type.inspect())"
-      >
-        {{ item.type.inspect() }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-deprecated" *ngIf="item.isDeprecated">
-      {{ 'DOCS_DEPRECATED_TEXT' | translate }}: {{ item.deprecationReason }}
-    </div>
-    <div class="doc-viewer-item-query-description">
-      {{ item.description }}
-    </div>
-    <button class="doc-viewer-item-query-add-btn"
-     (click)="addToEditor(item.name, data.name)" track-id="add_query">
-      <ng-container *ngIf="isRootType(data.name)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
-      <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
-    </button>
-  </div>
-</div>
-
-<div class="doc-viewer-section doc-viewer-implementations" *ngIf="getTypeImplementations(data).length">
-  <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data);">
-    <div class="doc-viewer-item-query-inner">
-      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
-        {{ item.name }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-description" markdown>
-      {{ item.description }}
+        <span class="doc-viewer-item-type">
+          {{ item.value }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-description" *ngIf="item.description" markdown>
+        {{ item.description }}
+      </div>
     </div>
   </div>
-</div>
-
-<div class="doc-viewer-section doc-viewer-implements" *ngIf="getTypeImplements(data).length">
-  <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data);">
-    <div class="doc-viewer-item-query-inner">
-      <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
-        {{ item.name }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-description">
-      {{ item.description }}
+  
+  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data && data.getTypes">
+    <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes();">
+      <div class="doc-viewer-item-query-inner">
+        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+          {{ item.name }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-description" *ngIf="item.description" markdown>
+        {{ item.description }}
+      </div>
     </div>
   </div>
-</div>
+  
+  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
+    <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values);">
+      <div class="doc-viewer-item-query-inner">
+        <span class="no-link-link"
+         (click)="goToField(item.name, data.name)"
+         track-id="gotofield_docs"
+        >
+          {{ item.name }}
+        </span>
+        <ng-container *ngIf="item.args && item.args.length">
+          (
+          <span *ngFor="let arg of item.args; let last = last">
+            <span
+             class="doc-viewer-item-field no-link-link"
+             (click)="goToType(arg.type.inspect())"
+            >
+              {{ arg.name }}
+              <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
+            </span>
+            <span
+             class="doc-viewer-item-type no-link-link"
+             (click)="goToType(arg.type.inspect())"
+            >{{ arg.type.inspect() }}</span><span *ngIf="!last">,</span>
+          </span>
+          )
+        </ng-container>
+        <span
+          class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+          (click)="goToType(item.type.inspect())"
+        >
+          {{ item.type.inspect() }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-deprecated" *ngIf="item.isDeprecated">
+        {{ 'DOCS_DEPRECATED_TEXT' | translate }}: {{ item.deprecationReason }}
+      </div>
+      <div class="doc-viewer-item-query-description">
+        {{ item.description }}
+      </div>
+      <button class="doc-viewer-item-query-add-btn"
+       (click)="addToEditor(item.name, data.name)" track-id="add_query">
+        <ng-container *ngIf="isRootType(data.name)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
+        <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
+      </button>
+    </div>
+  </div>
+  
+  <div class="doc-viewer-section doc-viewer-implementations" *ngIf="getTypeImplementations(data).length">
+    <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data);">
+      <div class="doc-viewer-item-query-inner">
+        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+          {{ item.name }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-description" markdown>
+        {{ item.description }}
+      </div>
+    </div>
+  </div>
+  
+  <div class="doc-viewer-section doc-viewer-implements" *ngIf="getTypeImplements(data).length">
+    <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTS_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data);">
+      <div class="doc-viewer-item-query-inner">
+        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+          {{ item.name }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-description">
+        {{ item.description }}
+      </div>
+    </div>
+  </div>
+</ng-container>

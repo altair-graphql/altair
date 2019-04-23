@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-query-collection-item',
   templateUrl: './query-collection-item.component.html',
-  styleUrls: ['./query-collection-item.component.scss']
+  styleUrls: ['./query-collection-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryCollectionItemComponent implements OnInit {
   @Input() collection: any = {};

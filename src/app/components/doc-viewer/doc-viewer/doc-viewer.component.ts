@@ -5,7 +5,8 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  HostBinding
+  HostBinding,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -17,6 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   // styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnChanges {

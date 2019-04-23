@@ -3,13 +3,15 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
   selector: 'app-doc-viewer-field',
   templateUrl: './doc-viewer-field.component.html',
-  styleUrls: ['./doc-viewer-field.component.scss']
+  styleUrls: ['./doc-viewer-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerFieldComponent implements OnInit {
   @Input() data: any = {};

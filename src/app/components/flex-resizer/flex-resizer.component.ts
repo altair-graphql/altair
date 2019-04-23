@@ -9,9 +9,12 @@ import {
   EventEmitter,
   Input,
   HostBinding,
+  Inject,
+  NgZone,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { debug } from 'app/utils/logger';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-flex-resizer',
@@ -41,24 +44,41 @@ export class FlexResizerComponent implements OnInit {
    */
   siblingGrowthFactor = 2;
 
-  // Subject and observable for throttling mousemove
-  mouseMoveSubject = new Subject();
-  mouseMoveObservable = this.mouseMoveSubject.asObservable().pipe(throttleTime(50));
+  throttleMs = 100;
+
+  documentMouseUp$ = fromEvent(this.document, 'mouseup');
+  documentMouseMove$ = fromEvent(this.document, 'mousemove').pipe(throttleTime(this.throttleMs));
+  elMouseMove$ = fromEvent(this.el.nativeElement, 'mousemove').pipe(throttleTime(this.throttleMs));
+  elMouseDown$ = fromEvent(this.el.nativeElement, 'mousedown');
+
   constructor(
-    private el: ElementRef
+    private el: ElementRef,
+    @Inject(DOCUMENT)
+    private document: Document,
+    private zone: NgZone,
   ) {
     this.resizeElement = this.el.nativeElement.parentElement;
     this.resizeContainer = this.getResizeContainer();
   }
 
   ngOnInit() {
-    this.mouseMoveObservable.subscribe((event: MouseEvent) => this.handleResizerMove(event));
     if (this.resizeDirection === 'right') {
       this.isRight = true;
     }
+
+    this.zone.runOutsideAngular(() => {
+      this.documentMouseUp$.subscribe((evt: MouseEvent) => this.onMouseUp(evt));
+
+      this.documentMouseMove$.subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+
+      this.elMouseMove$.subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+
+      this.elMouseDown$.subscribe((evt: MouseEvent) => this.onResizerPress(evt));
+    });
+
+
   }
 
-  @HostListener('mousedown', [ '$event' ])
   onResizerPress(event: MouseEvent) {
     this.draggingMode = true;
     this.originalWidth = this.resizeElement.clientWidth;
@@ -70,18 +90,12 @@ export class FlexResizerComponent implements OnInit {
 
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  @HostListener('mousemove', [ '$event' ])
   onResizerMove(event: MouseEvent) {
     if (!this.draggingMode) {
       return true;
     }
     event.stopPropagation();
     event.preventDefault();
-    this.mouseMoveSubject.next(event);
-  }
-
-  handleResizerMove(event: MouseEvent) {
     this.diffX = event.clientX - this.originalX;
     const offsetY = event.clientY - this.py;
 
@@ -89,11 +103,13 @@ export class FlexResizerComponent implements OnInit {
 
     const widthRatio = newWidth / this.resizeContainer.clientWidth;
     const newGrowthFactor = (widthRatio * this.siblingGrowthFactor) / (1 - widthRatio);
-    this.resizeChange.next(newGrowthFactor);
-    debug.log('mouse moved resizer', newWidth, newGrowthFactor);
+
+    this.zone.run(() => {
+      this.resizeChange.next(newGrowthFactor);
+      debug.log('mouse moved resizer', newWidth, newGrowthFactor);
+    });
   }
 
-  @HostListener('document:mouseup', ['$event'])
   onMouseUp(event) {
     if (!this.draggingMode) {
       return true;
