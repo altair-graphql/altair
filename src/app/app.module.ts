@@ -64,6 +64,7 @@ const providers = [
     services.StorageService,
     services.QueryCollectionService,
     services.EnvironmentService,
+    services.PluginRegistryService,
     reducerProvider,
 ];
 

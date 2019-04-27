@@ -30,7 +30,15 @@ import * as environmentsActions from '../../actions/environments/environments';
 
 import { environment } from '../../../environments/environment';
 
-import { QueryService, GqlService, WindowService, DonationService, ElectronAppService, KeybinderService } from '../../services';
+import {
+  QueryService,
+  GqlService,
+  WindowService,
+  DonationService,
+  ElectronAppService,
+  KeybinderService,
+  PluginRegistryService
+} from '../../services';
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
@@ -70,6 +78,7 @@ export class AppComponent {
     private donationService: DonationService,
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
+    private pluginRegistry: PluginRegistryService,
   ) {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
@@ -142,6 +151,8 @@ export class AppComponent {
     if (!this.windowIds.length) {
       this.newWindow();
     }
+
+    this.pluginRegistry.getPlugin('qwasezio-explorer');
   }
 
   /**
