@@ -213,6 +213,23 @@ export class QueryEffects {
             return observableEmpty();
         }));
 
+    // Sets the schema SDL after setting the schema
+    @Effect()
+    setSchemaSDL$: Observable<Action> = this.actions$
+        .ofType(gqlSchemaActions.SET_SCHEMA)
+        .pipe(
+          switchMap((action: gqlSchemaActions.SetSchemaAction) => {
+            const schema = action.payload;
+            if (schema) {
+              return observableOf(
+                new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl: this.gqlService.getSDL(schema) })
+              );
+            }
+
+            return observableEmpty();
+          })
+        );
+
     @Effect()
     loadSDLSchema$: Observable<Action> = this.actions$
         .ofType(gqlSchemaActions.LOAD_SDL_SCHEMA)
