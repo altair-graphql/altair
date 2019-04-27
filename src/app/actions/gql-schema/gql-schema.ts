@@ -4,6 +4,7 @@ export const SET_INTROSPECTION = 'SET_INTROSPECTION';
 export const SET_INTROSPECTION_FROM_DB = 'SET_INTROSPECTION_FROM_DB';
 
 export const SET_SCHEMA = 'SET_SCHEMA';
+export const SET_SCHEMA_SDL = 'SET_SCHEMA_SDL';
 export const SET_ALLOW_INTROSPECTION = 'SET_ALLOW_INTROSPECTION';
 
 export const EXPORT_SDL = 'EXPORT_SDL';
@@ -25,6 +26,12 @@ export class SetSchemaAction implements Action {
   readonly type = SET_SCHEMA;
 
   constructor(public windowId: string, public payload: any) { }
+}
+
+export class SetSchemaSDLAction implements Action {
+  readonly type = SET_SCHEMA_SDL;
+
+  constructor(public windowId: string, public payload: { sdl: string }) { }
 }
 
 export class SetAllowIntrospectionAction implements Action {
@@ -49,6 +56,7 @@ export type Action =
   | SetIntrospectionAction
   | SetIntrospectionFromDbAction
   | SetSchemaAction
+  | SetSchemaSDLAction
   | SetAllowIntrospectionAction
   | ExportSDLAction
   | LoadSDLSchemaAction
