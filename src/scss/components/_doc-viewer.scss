@@ -282,6 +282,7 @@ background: rgba(var(--rgb-orange), .1);
 .doc-viewer-item-type{
   color: var(--green-color);
   font-size: fontsize(13);
+  text-decoration: underline;
 }
 .doc-viewer-item-value{
   font-size: fontsize(12);
