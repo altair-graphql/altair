@@ -108,6 +108,14 @@ You can use binary files as variables to upload them via GraphQL to server (if i
 
 You get an autocomplete list of valid terms you can use as you type out your query in the editor.
 
+### Autofill all fields at cursor
+
+You can insert all fields of the type at cursor using `Ctrl+Shift+Enter`. You can change the autocompletion depth limit using a `"addQueryDepthLimit"` option in the settings.
+
+### Schema auto refresh
+
+Usually you would reload the docs everytime you make a change to your schema on the server, but if your server supports the `X-GraphQL-Event-Stream` header, it should be able to notify Altair to reload the docs automatically.
+
 ### Prettify Query
 
 You can format the query in the editor in a properly indented manner for easier reading. This makes it easy to work with queries you might copy from one file to another, which might have lost their indentation (or were never indented before).
