@@ -1,4 +1,4 @@
-import { first, distinctUntilChanged, map, filter } from 'rxjs/operators';
+import { first, distinctUntilChanged, map, filter, take } from 'rxjs/operators';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -158,7 +158,15 @@ export class AppComponent implements OnDestroy {
       this.newWindow();
     }
 
-    this.pluginRegistry.getPlugin('qwasezio-explorer');
+    this.store.pipe(
+      take(1),
+      untilDestroyed(this)
+    )
+    .subscribe(data => {
+      if (data.settings.enableExperimental) {
+        this.pluginRegistry.getPlugin('qwasezio-explorer');
+      }
+    });
   }
 
   /**

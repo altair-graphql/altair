@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 enum PluginSource {
   NPM = 'npm',
@@ -8,6 +9,10 @@ enum PluginSource {
 }
 enum PluginType {
   SIDEBAR = 'sidebar',
+}
+interface PluginSidebarOptions {
+  element_name: string;
+  icon: string;
 }
 interface PluginManifest {
   manifest_version: number;
@@ -17,15 +22,15 @@ interface PluginManifest {
   authorEmail?: string;
   author?: string;
   type: PluginType;
-  sidebar_opts?: {
-    element_name: string;
-    icon: string;
-  };
+  sidebar_opts?: PluginSidebarOptions;
   scripts: string[];
 }
 interface PluginInstance {
   name: string;
-  type: string;
+  type: PluginType;
+  sidebar_opts: PluginSidebarOptions;
+  props?: any;
+  context?: any;
 }
 
 interface PluginRegistryMap {
@@ -36,6 +41,7 @@ interface PluginRegistryMap {
 export class PluginRegistryService {
 
   private registry: PluginRegistryMap = {};
+  private pluginRegistrySubject$ = new Subject<PluginRegistryMap>();
 
   constructor(
     private http: HttpClient,
@@ -43,6 +49,7 @@ export class PluginRegistryService {
 
   add(key: string, pluginInstance: PluginInstance) {
     this.registry[key] = pluginInstance;
+    this.pluginRegistrySubject$.next(this.registry);
   }
 
   getPlugin(name: string, pluginSource = PluginSource.NPM) {
@@ -62,11 +69,28 @@ export class PluginRegistryService {
           return Promise.all(manifest.scripts.map(script => {
             return this.injectPluginScript(`${pluginBaseUrl}${script}`);
           })).then(() => {
+            this.add(name, {
+              name,
+              type: manifest.type,
+              sidebar_opts: manifest.sidebar_opts,
+            });
             debug.log('PLUGIN', 'plugin scripts injected and loaded.');
           });
         }
       }
     });
+  }
+
+  installedPlugins() {
+    return this.pluginRegistrySubject$;
+  }
+
+  getPluginProps() {
+    // Props are the data that would be accessible to the plugin
+  }
+  getPluginContext() {
+    // Context is basically an object with the set of allowed functionality
+    // Returns context based on type of plugin.
   }
 
   private injectPluginScript(url) {

@@ -29,8 +29,8 @@ import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 
-import { QueryService, GqlService, NotifyService } from '../../services';
-import { Observable, empty as observableEmpty } from 'rxjs';
+import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
@@ -86,6 +86,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   subscriptionConnectionParams = '';
 
   historyList: fromHistory.HistoryList = [];
+  plugins = [];
 
 
   constructor(
@@ -93,7 +94,8 @@ export class WindowComponent implements OnInit, OnDestroy {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
-    private vRef: ViewContainerRef
+    private vRef: ViewContainerRef,
+    private pluginRegistry: PluginRegistryService,
   ) {
   }
 
@@ -180,6 +182,34 @@ export class WindowComponent implements OnInit, OnDestroy {
 
       this.newCollectionQueryTitle = data.layout.title;
     });
+
+    this.store.pipe(
+      take(1),
+      untilDestroyed(this),
+    )
+    .subscribe(data => {
+      if (data.settings.enableExperimental) {
+        combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
+          return Object.values(plugins).map(plugin => {
+            return {
+              ...plugin,
+              props: {
+                sdl: state.schema.sdl,
+                query: state.query.query,
+              },
+              context: {
+                setQuery: query => this.updateQuery(query),
+              }
+            };
+          });
+        })
+        .pipe(untilDestroyed(this))
+        .subscribe(plugins => {
+          this.plugins = plugins;
+        });
+      }
+    });
+
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
@@ -417,6 +447,10 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   trackById(index, item) {
     return item.id;
+  }
+
+  pluginTrackBy(index, plugin) {
+    return plugin.name;
   }
 
   ngOnDestroy() {}
