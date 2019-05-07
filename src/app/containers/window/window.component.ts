@@ -5,7 +5,8 @@ import {
   ViewChild,
   Input,
   OnInit,
-  ViewContainerRef
+  ViewContainerRef,
+  OnDestroy
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
@@ -30,12 +31,13 @@ import * as streamActions from '../../actions/stream/stream';
 
 import { QueryService, GqlService, NotifyService } from '../../services';
 import { Observable, empty as observableEmpty } from 'rxjs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html'
 })
-export class WindowComponent implements OnInit {
+export class WindowComponent implements OnInit, OnDestroy {
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -144,6 +146,7 @@ export class WindowComponent implements OnInit {
     this.store.pipe(
       map(data => data.windows[this.windowId]),
       distinctUntilChanged(),
+      untilDestroyed(this),
     )
     .subscribe(data => {
       if (!data) {
@@ -264,7 +267,8 @@ export class WindowComponent implements OnInit {
   onShowTokenInDocs(docView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
-      take(1)
+      take(1),
+      untilDestroyed(this),
     ).subscribe(docsShown => {
       if (!docsShown) {
         this.toggleDocs();
@@ -410,4 +414,6 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
   }
+
+  ngOnDestroy() {}
 }

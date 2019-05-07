@@ -1,7 +1,7 @@
 import { first, distinctUntilChanged, map, filter } from 'rxjs/operators';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as uuid from 'uuid/v4';
@@ -43,12 +43,13 @@ import {
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
@@ -98,7 +99,9 @@ export class AppComponent {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    this.translate.use(applicationLanguage).subscribe(() => {
+    this.translate.use(applicationLanguage)
+    .pipe(untilDestroyed(this))
+    .subscribe(() => {
       this.isReady = true;
     });
 
@@ -108,6 +111,7 @@ export class AppComponent {
       map(settings => settings.language),
       filter(x => !!x),
       distinctUntilChanged(),
+      untilDestroyed(this),
     )
     .subscribe(language => {
       this.translate.use(language);
@@ -119,7 +123,9 @@ export class AppComponent {
     this.windowIds$ = this.store.select('windows').pipe(map(windows => {
       return Object.keys(windows);
     }));
+
     this.store
+      .pipe(untilDestroyed(this))
       .subscribe(data => {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
@@ -191,7 +197,12 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().pipe(first()).subscribe(({ url, windowId }) => {
+    this.windowService.newWindow()
+    .pipe(
+      first(),
+      untilDestroyed(this),
+    )
+    .subscribe(({ url, windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
 
       if (url) {
@@ -403,4 +414,6 @@ export class AppComponent {
       }
     }
   }
+
+  ngOnDestroy() {}
 }
