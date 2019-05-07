@@ -437,6 +437,10 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.resizeFactor = resizeFactor;
   }
 
+  rootTypeTrackBy(index, type) {
+    return type.name;
+  }
+
   ngOnDestroy() {
   }
 }

@@ -27,4 +27,8 @@ export class QueryCollectionsComponent implements OnInit {
     this.loadCollectionsChange.next();
   }
 
+  trackById(index, collection) {
+    return collection.id;
+  }
+
 }

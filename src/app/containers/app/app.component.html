@@ -60,7 +60,7 @@
                 type="button"
                 clrDropdownItem
                 (click)="selectActiveEnvironment(environment.id)"
-                *ngFor="let environment of (environments$ | async).subEnvironments"
+                *ngFor="let environment of (environments$ | async).subEnvironments; trackBy:trackById;"
                 [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
                 track-id="select_environment">{{ environment.title }}</button>
               <button type="button" clrDropdownItem (click)="selectActiveEnvironment(null)" track-id="select_no_environment">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</button>

@@ -153,7 +153,7 @@
           </div>
           <div class="app-dialog-section">
             <div class="add-to-collection__list">
-              <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async)" (click)="saveQueryToCollection(collection.id)">
+              <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async); trackBy:trackById" (click)="saveQueryToCollection(collection.id)">
                 {{ collection.title }}
               </div>
             </div>

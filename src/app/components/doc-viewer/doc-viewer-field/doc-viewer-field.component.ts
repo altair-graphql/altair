@@ -61,4 +61,8 @@ export class DocViewerFieldComponent implements OnInit {
     this.addToEditorChange.next(data);
   }
 
+  argTrackBy(index, arg) {
+    return arg.name;
+  }
+
 }

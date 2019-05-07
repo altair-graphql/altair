@@ -72,4 +72,8 @@ export class QueryResultComponent implements OnChanges {
       this.editor.codeMirror.refresh();
     }
   }
+
+  subscriptionResponseTrackBy(index, response) {
+    return response.responseTime;
+  }
 }

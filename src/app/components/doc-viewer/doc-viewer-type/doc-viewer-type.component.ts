@@ -85,4 +85,8 @@ export class DocViewerTypeComponent implements OnInit {
     }
     return [];
   }
+
+  schemaItemTrackBy(index, schemaItem) {
+    return schemaItem.name;
+  }
 }

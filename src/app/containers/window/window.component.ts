@@ -397,7 +397,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
 
-  trackByFn(index, item) {
+  trackByFn(index) {
     return index;
   }
 
@@ -413,6 +413,10 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
+  }
+
+  trackById(index, item) {
+    return item.id;
   }
 
   ngOnDestroy() {}

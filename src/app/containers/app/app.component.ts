@@ -415,5 +415,9 @@ export class AppComponent implements OnDestroy {
     }
   }
 
+  trackById(index, item) {
+    return item.id;
+  }
+
   ngOnDestroy() {}
 }
