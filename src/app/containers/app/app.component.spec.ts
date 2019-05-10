@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
 import { empty as observableEmpty } from 'rxjs';
@@ -34,6 +34,7 @@ describe('AppComponent', () => {
       services.KeybinderService,
       services.NotifyService,
       services.StorageService,
+      services.PluginRegistryService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
@@ -57,7 +58,7 @@ describe('AppComponent', () => {
       imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         StoreModule,
         CodemirrorModule,
         ClarityModule,

@@ -16,6 +16,7 @@ describe('PluginElementComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PluginElementComponent);
     component = fixture.componentInstance;
+    component.plugin = {};
     fixture.detectChanges();
   });
 
