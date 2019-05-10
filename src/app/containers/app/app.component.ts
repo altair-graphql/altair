@@ -72,6 +72,8 @@ export class AppComponent implements OnDestroy {
 
   appVersion = environment.version;
 
+  installedPlugins = [];
+
   constructor(
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
@@ -166,6 +168,11 @@ export class AppComponent implements OnDestroy {
       if (data.settings.enableExperimental) {
         this.pluginRegistry.getPlugin('qwasezio-explorer');
       }
+      this.pluginRegistry.installedPlugins()
+        .pipe(
+          untilDestroyed(this),
+        )
+        .subscribe(plugins => this.installedPlugins = Object.values(plugins));
     });
   }
 
@@ -385,6 +392,10 @@ export class AppComponent implements OnDestroy {
 
   sortCollections({ sortBy }) {
     this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
+  }
+
+  togglePluginActive(plugin) {
+    this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
   }
 
   fileDropped(event) {

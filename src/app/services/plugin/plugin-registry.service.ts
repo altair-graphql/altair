@@ -2,40 +2,7 @@ import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-
-enum PluginSource {
-  NPM = 'npm',
-  GITHUB = 'github'
-}
-enum PluginType {
-  SIDEBAR = 'sidebar',
-}
-interface PluginSidebarOptions {
-  element_name: string;
-  icon: string;
-}
-interface PluginManifest {
-  manifest_version: number;
-  name: string;
-  version: string;
-  description: string;
-  authorEmail?: string;
-  author?: string;
-  type: PluginType;
-  sidebar_opts?: PluginSidebarOptions;
-  scripts: string[];
-}
-interface PluginInstance {
-  name: string;
-  type: PluginType;
-  sidebar_opts: PluginSidebarOptions;
-  props?: any;
-  context?: any;
-}
-
-interface PluginRegistryMap {
-  [s: string]: PluginInstance;
-}
+import { AltairPlugin, PluginRegistryMap, PluginInstance, PluginSource, PluginManifest, PluginType } from './plugin';
 
 @Injectable()
 export class PluginRegistryService {
@@ -49,7 +16,7 @@ export class PluginRegistryService {
 
   add(key: string, pluginInstance: PluginInstance) {
     this.registry[key] = pluginInstance;
-    this.pluginRegistrySubject$.next(this.registry);
+    this.emitRegistryUpdate();
   }
 
   getPlugin(name: string, pluginSource = PluginSource.NPM) {
@@ -59,23 +26,18 @@ export class PluginRegistryService {
     const pluginBaseUrl = `${baseUrl}${name}@${version}/`;
     const manifestUrl = `${pluginBaseUrl}manifest.json`;
     // Get manifest file
-    this.http.get(manifestUrl).subscribe((manifest: PluginManifest) => {
+    this.http.get(manifestUrl).subscribe(async (manifest: PluginManifest) => {
       debug.log('PLUGIN', manifest);
 
       if (manifest) {
         if (manifest.scripts && manifest.scripts.length) {
           debug.log('PLUGIN', manifest.scripts);
 
-          return Promise.all(manifest.scripts.map(script => {
+          await Promise.all(manifest.scripts.map(script => {
             return this.injectPluginScript(`${pluginBaseUrl}${script}`);
-          })).then(() => {
-            this.add(name, {
-              name,
-              type: manifest.type,
-              sidebar_opts: manifest.sidebar_opts,
-            });
-            debug.log('PLUGIN', 'plugin scripts injected and loaded.');
-          });
+          }));
+          this.add(name, new AltairPlugin(name, manifest));
+          debug.log('PLUGIN', 'plugin scripts injected and loaded.');
         }
       }
     });
@@ -83,6 +45,26 @@ export class PluginRegistryService {
 
   installedPlugins() {
     return this.pluginRegistrySubject$;
+  }
+
+  setPluginActive(name: string, active: boolean) {
+    const pluginInstance = this.registry[name];
+    if (!pluginInstance) {
+      debug.error(`"${name}" plugin not found in registry!`);
+      return;
+    }
+
+    // If plugin is a sidebar plugin and we want to set the plugin active,
+    // disable other sidebar plugins first
+    if (active && pluginInstance.type === PluginType.SIDEBAR) {
+      Object.values(this.registry).forEach(plugin => {
+        if (plugin.name !== name && plugin.type === PluginType.SIDEBAR) {
+          plugin.isActive = false;
+        }
+      });
+    }
+    pluginInstance.isActive = active;
+    this.emitRegistryUpdate();
   }
 
   getPluginProps() {
@@ -93,6 +75,9 @@ export class PluginRegistryService {
     // Returns context based on type of plugin.
   }
 
+  private emitRegistryUpdate() {
+    this.pluginRegistrySubject$.next(this.registry);
+  }
   private injectPluginScript(url) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
