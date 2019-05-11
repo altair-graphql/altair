@@ -8865,10 +8865,10 @@ ngx-popper@^6.0.6:
   dependencies:
     tslib "^1.9.0"
 
-ngx-toastr@^9.1.2:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-9.1.2.tgz#2e59cfc02255f94556cfe3690a36c57a6a209796"
-  integrity sha512-XhK3xA73ueF+YZawtqKs6+FQ1OMdx+EzCPihNTMSSXDthglfcgzDzia/OMSGjhx0h7/AK4N/BAbFau9L5RqVDg==
+ngx-toastr@^10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-10.0.3.tgz#a5a22e2da24c49098393a26c54fc1761f1baca16"
+  integrity sha512-bkTz3caMsqwH1nWcwaqoreQ90QMQzQHzh3ZFpbFEfOim4JHzV70rvjUXyZpqsfDNnWqbXkSNF4s5A6ZljbSUJg==
   dependencies:
     tslib "^1.9.0"
 
