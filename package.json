@@ -104,7 +104,7 @@
     "ngx-markdown": "^7.1.4",
     "ngx-pipes": "^2.1.0",
     "ngx-popper": "^6.0.6",
-    "ngx-toastr": "^9.1.2",
+    "ngx-toastr": "^10.0.3",
     "opencollective": "^1.0.3",
     "popper.js": "^1.14.6",
     "prettier": "^1.14.3",
