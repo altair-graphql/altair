@@ -500,13 +500,13 @@ export class QueryEffects {
     prettifyQuery$: Observable<queryActions.Action> = this.actions$
       .ofType(queryActions.PRETTIFY_QUERY)
       .pipe(
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
           let prettified = '';
           try {
-            prettified = this.gqlService.prettify(res.data.query.query);
+            prettified = this.gqlService.prettify(res.data.query.query, res.settings.tabSize);
           } catch (err) {
             debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');

@@ -378,9 +378,9 @@ export class GqlService {
    * Prettifies (formats) a given query
    * @param query
    */
-  prettify(query: string) {
+  prettify(query: string, tabWidth: number = 2) {
     // return print(parse(query));
-    return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ] });
+    return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ], tabWidth });
   }
 
   /**
