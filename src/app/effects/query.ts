@@ -67,7 +67,7 @@ export class QueryEffects {
             }
 
             // Store the current query into the history if it does not already exist in the history
-            if (!response.data.history.list.filter(item => item.query.trim() === query.trim()).length) {
+            if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
               this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
             }
 
