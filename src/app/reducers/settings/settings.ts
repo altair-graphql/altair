@@ -43,6 +43,12 @@ export interface State {
    */
   tabSize: number;
 
+  /**
+   * Enable experimental features in Altair.
+   * Note: The features might be unstable.
+   */
+  enableExperimental?: boolean;
+
   // 'theme.foreground': string;
   // 'theme.header.background': string;
 

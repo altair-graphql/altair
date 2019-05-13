@@ -9,6 +9,7 @@ import * as uuid from 'uuid/v4';
 
 import * as fromRoot from '../reducers';
 import * as fromWindows from '../reducers/windows';
+import * as fromQuery from '../reducers/query/query';
 
 import * as queryActions from '../actions/query/query';
 import * as headerActions from '../actions/headers/headers';
@@ -35,14 +36,16 @@ export class WindowService {
     return Observable.create((obs: Observer<any>) => {
       return this.store.pipe(first()).subscribe(data => {
 
+        const url = opts.url || fromQuery.initialState.url || (
+          data.windowsMeta.activeWindowId &&
+          data.windows[data.windowsMeta.activeWindowId] &&
+          data.windows[data.windowsMeta.activeWindowId].query.url
+        )
+
         const newWindow = {
           windowId: uuid(),
           title: opts.title || `Window ${Object.keys(data.windows).length + 1}`,
-          url: opts.url || (
-            data.windowsMeta.activeWindowId &&
-            data.windows[data.windowsMeta.activeWindowId] &&
-            data.windows[data.windowsMeta.activeWindowId].query.url
-          ),
+          url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
         };

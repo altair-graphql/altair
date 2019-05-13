@@ -67,7 +67,7 @@ export class QueryEffects {
             }
 
             // Store the current query into the history if it does not already exist in the history
-            if (!response.data.history.list.filter(item => item.query.trim() === query.trim()).length) {
+            if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
               this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
             }
 
@@ -212,6 +212,23 @@ export class QueryEffects {
 
             return observableEmpty();
         }));
+
+    // Sets the schema SDL after setting the schema
+    @Effect()
+    setSchemaSDL$: Observable<Action> = this.actions$
+        .ofType(gqlSchemaActions.SET_SCHEMA)
+        .pipe(
+          switchMap((action: gqlSchemaActions.SetSchemaAction) => {
+            const schema = action.payload;
+            if (schema) {
+              return observableOf(
+                new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl: this.gqlService.getSDL(schema) })
+              );
+            }
+
+            return observableEmpty();
+          })
+        );
 
     @Effect()
     loadSDLSchema$: Observable<Action> = this.actions$
@@ -483,13 +500,13 @@ export class QueryEffects {
     prettifyQuery$: Observable<queryActions.Action> = this.actions$
       .ofType(queryActions.PRETTIFY_QUERY)
       .pipe(
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
           let prettified = '';
           try {
-            prettified = this.gqlService.prettify(res.data.query.query);
+            prettified = this.gqlService.prettify(res.data.query.query, res.settings.tabSize);
           } catch (err) {
             debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');

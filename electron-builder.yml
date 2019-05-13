@@ -8,9 +8,9 @@ files:
   - 'electron/**/*'
 mac:
   category: public.app-category.developer-tools
-  icon: electron/icon.icns
+  icon: electron/icon.png
 dmg:
-  icon: electron/icon.icns
+  icon: electron/icon.png
 linux:
   icon: electron/icons
 electronCompile: false
