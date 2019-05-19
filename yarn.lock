@@ -1031,10 +1031,10 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@types/chrome@^0.0.83":
-  version "0.0.83"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.83.tgz#f71cb2aaec0b83cdb039243e7e5afec27bbabe1c"
-  integrity sha512-noEu2ehY4CjOQnPr30NgBVuakUWs04+LNHNBz6+LUyAK0LzpP41O/5vTVBq7vfXyMsuTePEvL9k1nXkx3anirA==
+"@types/chrome@^0.0.84":
+  version "0.0.84"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.84.tgz#ef27885d3df5e1939203c63b3ef247647621d084"
+  integrity sha512-GF3x2MAw6/Xm0ONbCGE49w5aNKcTWDPGJl+IxK5HHbTM4A6z6gYJyjjzrzXwdP9UZt7lpChCG8HKJLp7nGFe/A==
   dependencies:
     "@types/filesystem" "*"
 
