@@ -374,6 +374,47 @@ export class GqlService {
     return '';
   }
 
+  // Check if there are more than one operations in the query
+  // If check if there is already a selected operation
+  // Check if the selected operation matches any operation, else ask the user to select again
+  getSelectedOperationData({ query = '', queryCursorIndex, selectedOperation = '', selectIfOneOperation = false }) {
+    const operations = this.getOperations(query);
+
+    // Need to choose an operation
+    if (operations) {
+      // def.name.Kind = 'Name' is not set when the name is anonymous (#0, #1, etc.. set by the graphql parse() method)
+      const availableOperationNames = operations.map(def => def.name && def.name.kind === 'Name' && def.name.value).filter(Boolean);
+
+      if (availableOperationNames.length > 1) {
+        let operationNameAtCursorIndex = '';
+        if (typeof queryCursorIndex !== 'undefined') {
+          operationNameAtCursorIndex = this.getOperationNameAtIndex(query, queryCursorIndex);
+        }
+
+        if (!availableOperationNames.includes(selectedOperation)) {
+          if (operationNameAtCursorIndex) {
+            selectedOperation = operationNameAtCursorIndex;
+          } else {
+            selectedOperation = '';
+            // Ask the user to select operation
+            throw new Error(
+              `You have more than one query operations.
+              You need to select the one you want to run from the dropdown.`
+            );
+          }
+        }
+      } else {
+        if (selectIfOneOperation) {
+          selectedOperation = availableOperationNames[0];
+        }
+      }
+    } else {
+      selectedOperation = '';
+    }
+
+    return { selectedOperation, operations };
+  }
+
   /**
    * Prettifies (formats) a given query
    * @param query
