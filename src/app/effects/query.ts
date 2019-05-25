@@ -280,11 +280,13 @@ export class QueryEffects {
 
           this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
           return this.gqlService
-            .setHeaders(headers)
-            .setHTTPMethod(res.data.query.httpVerb)
-            .getIntrospectionRequest(url)
+            .getIntrospectionRequest(url, {
+              method: res.data.query.httpVerb,
+              headers
+            })
             .pipe(
               catchError(err => {
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 const errorObj = err.error || err;
                 let allowsIntrospection = true;
 
@@ -305,13 +307,13 @@ export class QueryEffects {
                     and the server is up and running properly.
                   `);
                 }
-                return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
+                return observableEmpty();
               }),
               map(introspectionResponse => {
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 const introspectionData = introspectionResponse.body && introspectionResponse.body.data;
                 const streamUrl = introspectionResponse.headers
                   && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/graphql/stream'; // For development.
-                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 this.store.dispatch(new streamActions.SetStreamSettingAction(res.windowId, { streamUrl }));
                 if (streamUrl) {
                   this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId));

@@ -36,14 +36,18 @@ import * as fromHeaders from '../../reducers/headers/headers';
 import * as fromVariables from '../../reducers/variables/variables';
 import { fillAllFields } from './fillFields';
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+
 interface SendRequestOptions {
   query: string;
-  variables: string;
   method: string;
+  variables?: string;
   headers?: fromHeaders.Header[];
   files?: fromVariables.FileVariable[];
   selectedOperation?: string;
 };
+
+type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
 
 @Injectable()
 export class GqlService {
@@ -216,11 +220,14 @@ export class GqlService {
     return this;
   }
 
-  getIntrospectionRequest(url): Observable<any> {
-    const currentApiUrl = this.api_url;
-
-    this.api_url = url;
-    return this._send(getIntrospectionQuery()).pipe(
+  getIntrospectionRequest(url, opts: IntrospectionRequestOptions): Observable<any> {
+    const requestOpts = {
+      query: getIntrospectionQuery(),
+      headers: opts.headers,
+      method: opts.method,
+      variables: '{}',
+    };
+    return this.sendRequest(url, requestOpts).pipe(
       map(data => {
         debug.log('introspection', data);
         return data;
@@ -229,12 +236,12 @@ export class GqlService {
         debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
-        return this._send(oldIntrospectionQuery).pipe(map(data => {
-          debug.log('old introspection', data);
-          return data;
-        }));
+        return this.sendRequest(url, { ...requestOpts, query: oldIntrospectionQuery })
+          .pipe(map(data => {
+            debug.log('old introspection', data);
+            return data;
+          }));
       }),
-      tap(() => this.api_url = currentApiUrl),
     );
   }
 
