@@ -30,6 +30,7 @@ export interface State {
     'pl-PL': 'Polish',
     'ko-KR': 'Korean',
     'ro-RO': 'Romanian',
+    'vi-VN': 'Vietnamese',
    */
   language: SettingsLanguage;
 
