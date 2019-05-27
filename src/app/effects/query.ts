@@ -83,37 +83,21 @@ export class QueryEffects {
               return observableEmpty();
             }
 
-            // Check if there are more than one operations in the query
-            // If check if there is already a selected operation
-            // Check if the selected operation matches any operation, else ask the user to select again
-            const operations = this.gqlService.getOperations(query);
+            try {
+              const operationData = this.gqlService.getSelectedOperationData({
+                query,
+                selectedOperation,
+                queryCursorIndex: response.data.query.queryEditorState &&
+                  response.data.query.queryEditorState.isFocused &&
+                  response.data.query.queryEditorState.cursorIndex,
+              });
 
-            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations }));
-
-            if (operations && operations.length > 1) {
-              const operationNameAtCursorIndex =
-                response.data.query.queryEditorState &&
-                response.data.query.queryEditorState.isFocused &&
-                this.gqlService.getOperationNameAtIndex(query, response.data.query.queryEditorState.cursorIndex);
-
-              debug.log(operationNameAtCursorIndex, response.data.query.queryEditorState);
-              if (
-                !(
-                  (selectedOperation && operations.map(def => def['name'] && def['name'].value).indexOf(selectedOperation) !== -1) ||
-                  (selectedOperation = operationNameAtCursorIndex)
-                )
-              ) {
-                // Ask the user to select operation
-                this.notifyService.warning(
-                  `You have more than one query operations.
-                  You need to select the one you want to run from the dropdown.`
-                );
-                this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-                return observableEmpty();
-              }
-            } else {
-              // Clear out the selected operation
+              this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations: operationData.operations }));
+              selectedOperation = operationData.selectedOperation;
+            } catch (err) {
               this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+              this.notifyService.warning(err.message);
+              return observableEmpty();
             }
 
             this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
@@ -296,11 +280,13 @@ export class QueryEffects {
 
           this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
           return this.gqlService
-            .setHeaders(headers)
-            .setHTTPMethod(res.data.query.httpVerb)
-            .getIntrospectionRequest(url)
+            .getIntrospectionRequest(url, {
+              method: res.data.query.httpVerb,
+              headers
+            })
             .pipe(
               catchError(err => {
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 const errorObj = err.error || err;
                 let allowsIntrospection = true;
 
@@ -321,13 +307,13 @@ export class QueryEffects {
                     and the server is up and running properly.
                   `);
                 }
-                return observableOf(new docsAction.StopLoadingDocsAction(res.windowId));
+                return observableEmpty();
               }),
               map(introspectionResponse => {
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 const introspectionData = introspectionResponse.body && introspectionResponse.body.data;
                 const streamUrl = introspectionResponse.headers
                   && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/graphql/stream'; // For development.
-                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 this.store.dispatch(new streamActions.SetStreamSettingAction(res.windowId, { streamUrl }));
                 if (streamUrl) {
                   this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId));
@@ -400,6 +386,26 @@ export class QueryEffects {
           const subscriptionUrl = this.environmentService.hydrate(res.data.query.subscriptionUrl);
           const query = this.environmentService.hydrate(res.data.query.query);
           const variables = this.environmentService.hydrate(res.data.variables.variables);
+          let selectedOperation = res.data.query.selectedOperation;
+
+          try {
+            const operationData = this.gqlService.getSelectedOperationData({
+              query,
+              selectedOperation,
+              queryCursorIndex: res.data.query.queryEditorState &&
+                res.data.query.queryEditorState.isFocused &&
+                res.data.query.queryEditorState.cursorIndex,
+              selectIfOneOperation: true,
+            });
+
+            this.store.dispatch(new queryActions.SetQueryOperationsAction(res.windowId, { operations: operationData.operations }));
+            selectedOperation = operationData.selectedOperation;
+          } catch (err) {
+            this.store.dispatch(new queryActions.SetSelectedOperationAction(res.windowId, { selectedOperation: '' }));
+            this.notifyService.warning(err.message);
+            return observableEmpty();
+          }
+
           const subscriptionErrorHandler = (err, errMsg?) => {
             if (Array.isArray(err)) {
               err = err[0];
@@ -439,7 +445,8 @@ export class QueryEffects {
             });
             const subscriptionClientRequest = subscriptionClient.request({
               query: query,
-              variables: JSON.parse(variables)
+              variables: JSON.parse(variables),
+              operationName: selectedOperation || undefined,
             }).subscribe({
               next: data => {
                 let strData = '';

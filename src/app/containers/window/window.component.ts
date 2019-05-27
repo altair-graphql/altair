@@ -228,7 +228,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
-  toggleHeader(isOpen) {
+  toggleHeader(isOpen = undefined) {
     if (this.showHeaderDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.windowId));
     }

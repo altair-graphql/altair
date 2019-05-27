@@ -27,6 +27,7 @@ export default {
     'pl-PL': 'Polish',
     'ko-KR': 'Korean',
     'ro-RO': 'Romanian',
+    'vi-VN': 'Vietnamese',
   },
   query_history_depth: isElectron ? 50 : 7,
   themes: ['light', 'dark'],
