@@ -126,10 +126,6 @@
   line-height: 1.4;
   padding: 5px 10px;
   width: 100%;
-  
-  &.query-editor__autocomplete-item {
-    flex-shrink: 0;
-  }
 
   &.CodeMirror-Tern-completion {
     padding-left: 25px;
