@@ -41,40 +41,39 @@ export interface RenderOptions {
  * Render Altair as a string using the provided renderOptions
  * @param renderOptions
  */
-export const renderAltair = ({
-    baseURL = './',
+export const renderAltair = ({baseURL = './'}: RenderOptions = {}) => {
+    const altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
+
+    return altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
+};
+
+export const renderInitialOptions = ({
     endpointURL,
     subscriptionsEndpoint,
     initialQuery,
     initialVariables,
     initialHeaders,
 }: RenderOptions = {}) => {
-    let altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
-
-    let renderedOptions = '';
-
-    altairHtml = altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
+    let result = '';
     if (endpointURL) {
-        renderedOptions += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
+        result += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
     }
     if (subscriptionsEndpoint) {
-        renderedOptions += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
+        result += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
     }
     if (initialQuery) {
-        renderedOptions += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
+        result += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
     }
 
     if (initialVariables) {
-        renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
+        result += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
     }
 
     if (initialHeaders) {
-        renderedOptions += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
+        result += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
     }
-
-    const renderedOptionsInScript = `<script>${renderedOptions}</script>`;
-    return altairHtml.replace('<body>', `<body>${renderedOptionsInScript}`);
-};
+    return result;
+}
 
 /**
  * Returns the path to Altair assets, for resolving the assets when rendering Altair
