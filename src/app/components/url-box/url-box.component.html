@@ -87,7 +87,7 @@
       <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
       <clr-icon shape="caret down"></clr-icon>
     </button>
-    <clr-dropdown-menu *clrIfOpen>
+    <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
       <button type="button" clrDropdownItem *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;" (click)="selectedOperationChange.next(operation.name.value)">{{ operation.name.value }}</button>
     </clr-dropdown-menu>
   </clr-dropdown>

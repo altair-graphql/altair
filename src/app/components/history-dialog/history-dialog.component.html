@@ -9,7 +9,7 @@
     <div class="app-dialog-body">
       <div class="history-container">
         <div class="history-item" *ngFor="let item of historyList; let index = index; trackBy:trackByIndex;" (click)="restoreHistory(index)">
-          {{item.query}}
+          {{ item.query }}
         </div>
       </div>
     </div>

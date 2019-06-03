@@ -95,7 +95,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       'Ctrl-F': 'findPersistent',
 
       // show current token parent type in docs
-      'Ctrl-D': cm => this.onShowInDocsByToken(cm),
+      'Ctrl-D': cm => this.zone.run(() => this.onShowInDocsByToken(cm)),
 
       'Shift-Ctrl-Enter': cm => this.zone.run(() => this.onFillFields(cm)),
     },
@@ -117,10 +117,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       }
     },
     info: {
-      onClick: reference => this.onShowInDocsByReference(reference),
+      onClick: reference => this.zone.run(() => this.onShowInDocsByReference(reference)),
     },
     jump: {
-      onClick: reference => this.onShowInDocsByReference(reference),
+      onClick: reference => this.zone.run(() => this.onShowInDocsByReference(reference)),
     }
   };
 

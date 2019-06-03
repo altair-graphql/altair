@@ -23,10 +23,12 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 before_script:
-- yarn global add @angular/cli karma electron-forge lerna
+- yarn global add @angular/cli karma electron-forge lerna surge
 - yarn
 - yarn build
-- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
+- npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+- yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+# - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
@@ -34,6 +36,8 @@ script:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-electron; fi
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
+after_success:
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi
 before_deploy:
 deploy:
 - provider: releases
@@ -58,16 +62,16 @@ deploy:
   skip_cleanup: true
   on:
     branch: staging
-- provider: script
-  script: sh bin/publish_packages.sh
-  skip_cleanup: true
-  on:
-    tags: true
-    condition: $TRAVIS_OS_NAME = linux
 - provider: snap
   file_glob: true
   snap: out/**/*.snap
   channel: stable
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $TRAVIS_OS_NAME = linux
+- provider: script
+  script: sh bin/publish_packages.sh
   skip_cleanup: true
   on:
     tags: true

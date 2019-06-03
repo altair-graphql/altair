@@ -62,6 +62,7 @@
           [isSubscribed]="isSubscribed$ | async"
           [subscriptionResponses]="subscriptionResponses$ | async"
           [subscriptionUrl]="subscriptionUrl"
+          [tabSize]="tabSize$ | async"
 
           (downloadResultChange)="downloadResult()"
           (stopSubscriptionChange)="stopSubscription()"
@@ -100,6 +101,7 @@
                   placeholder="Header key"
                   [ngModel]="header.key"
                   (ngModelChange)="headerKeyChange($event, i)"
+                  (submit)="toggleHeader()"
                 ></app-fancy-input>
               </div>
               <div class="set-header-input-column">
@@ -108,6 +110,7 @@
                   placeholder="Header value"
                   [ngModel]="header.value"
                   (ngModelChange)="headerValueChange($event, i)"
+                  (submit)="toggleHeader()"
                 ></app-fancy-input>
               </div>
               <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
@@ -117,7 +120,7 @@
         <div class="modal-footer">
           <div class="app-dialog-footer">
             <button track-id="add_header" class="app-button active-grey left" (click)="addHeader()">{{ 'ADD_HEADER_TEXT' | translate }}</button>
-            <button class="app-button active-primary right" (click)="toggleHeader($event)">{{ 'SAVE_BUTTON' | translate }}</button>
+            <button class="app-button active-primary right" (click)="toggleHeader()">{{ 'SAVE_BUTTON' | translate }}</button>
           </div>
         </div>
       </clr-modal>

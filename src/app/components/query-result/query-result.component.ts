@@ -39,6 +39,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() isSubscribed = false;
   @Input() subscriptionResponses = [];
   @Input() subscriptionUrl = '';
+  @Input() tabSize = 2;
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
@@ -49,6 +50,8 @@ export class QueryResultComponent implements OnChanges {
   resultEditorConfig = {
     mode: 'graphql-results',
     json: true,
+    tabSize: this.tabSize,
+    indentUnit: this.tabSize,
     lineWrapping: true,
     lineNumbers: true,
     foldGutter: true,
