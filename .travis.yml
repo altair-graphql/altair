@@ -37,7 +37,7 @@ script:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then if [ ! -z "$SURGE_TOKEN" ]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi fi
 before_deploy:
 deploy:
 - provider: releases
