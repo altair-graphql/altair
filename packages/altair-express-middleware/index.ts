@@ -15,7 +15,7 @@ export const altairExpress = (opts: RenderOptions): express.Express => {
     return res.send(renderAltair(opts));
   });
   app.get('/initial_options.js', (req, res) => {
-      return res.send(renderInitialOptions(opts));
+    return res.send(renderInitialOptions(opts));
   });
   app.use(express.static(getDistDirectory()));
 
