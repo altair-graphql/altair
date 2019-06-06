@@ -48,13 +48,13 @@ export class EnvironmentService {
    * Variables are written with double curly braces .e.g. {{ VARIABLE_ONE }}
    * @param content {string}
    */
-  hydrate(content: string): string {
+  hydrate(content: string, options: { activeEnvironment? } = {}): string {
 
     if (!content) {
       return content;
     }
 
-    const activeEnvironment = this.getActiveEnvironment();
+    const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
 
     return content.replace(/{{\s*[\w\.]+\s*}}/g, (match) => {
       const variable = match.match(/[\w\.]+/)[0];
@@ -63,15 +63,17 @@ export class EnvironmentService {
     });
   }
 
-  hydrateHeaders(headers: fromHeaders.Header[]): fromHeaders.Header[] {
+  hydrateHeaders(headers: fromHeaders.Header[], options: { activeEnvironment? } = {}): fromHeaders.Header[] {
     const hydratedHeaders = headers.map(header => {
       return {
-        key: this.hydrate(header.key),
-        value: this.hydrate(header.value),
+        key: this.hydrate(header.key, options),
+        value: this.hydrate(header.value, options),
       };
     });
 
-    const environmentHeadersMap = this.getActiveEnvironment().headers;
+    const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
+
+    const environmentHeadersMap = activeEnvironment.headers;
 
     if (environmentHeadersMap) {
       const environmentHeaders = Object.keys(environmentHeadersMap).map(key => {

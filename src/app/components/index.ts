@@ -30,6 +30,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
 import { EnvironmentManagerComponent } from './environment-manager/environment-manager.component';
 import { FancyInputComponent } from './fancy-input/fancy-input.component';
+import { PreRequestEditorComponent } from './pre-request-editor/pre-request-editor.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -52,6 +53,7 @@ const COMPONENTS = [
   EditCollectionDialogComponent,
   EnvironmentManagerComponent,
   FancyInputComponent,
+  PreRequestEditorComponent,
 ];
 
 @NgModule({

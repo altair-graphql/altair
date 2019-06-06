@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-
 import * as stream from '../../actions/stream/stream';
 
 export interface State {
