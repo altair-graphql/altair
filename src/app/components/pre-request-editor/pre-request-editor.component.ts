@@ -27,7 +27,7 @@ import 'codemirror/mode/javascript/javascript';
 })
 export class PreRequestEditorComponent implements OnChanges {
 
-  @Input() preRequest = {};
+  @Input() preRequest: any = {};
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
@@ -43,7 +43,11 @@ export class PreRequestEditorComponent implements OnChanges {
     autoCloseBrackets: true,
     theme: 'default pre-request-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    extraKeys: {'Ctrl-Space': 'autocomplete'},
+    extraKeys: {
+      'Ctrl-Space': 'autocomplete',
+      'Cmd-/': (cm) => cm.execCommand('toggleComment'),
+      'Ctrl-/': (cm) => cm.execCommand('toggleComment'),
+    },
     hintOptions: {
       completeSingle: false,
       globalScope: Object.create(null, {

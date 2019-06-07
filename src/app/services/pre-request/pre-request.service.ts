@@ -19,7 +19,7 @@ export class PreRequestService {
     private cookieService: CookieService,
   ) { }
 
-  executeScript(script: string, data: ScriptContextData) {
+  executeScript(script: string, data: ScriptContextData): Promise<any> {
     const self = this;
     const ast = parse(`${script};altair.data;`);
     data = { ...data };
@@ -39,9 +39,9 @@ export class PreRequestService {
     });
 
     const sandbox = SandBoxr.create(ast);
-    const result = sandbox.execute(env);
+    const result = sandbox.resolve(env);
 
-    return data;
+    return sandbox.resolve(env).then(() => data);
   }
 
   private createEnvironment(data: any) {

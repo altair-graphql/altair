@@ -1,4 +1,5 @@
 import * as preRequest from '../../actions/pre-request/pre-request';
+import config from 'app/config';
 
 export interface State {
   enabled: boolean;
@@ -6,8 +7,8 @@ export interface State {
 }
 
 export const initialState: State = {
-  enabled: false,
-  script: '',
+  enabled: !!config.initialData.preRequestScript,
+  script: config.initialData.preRequestScript || '',
 };
 
 export function preRequestReducer(state = initialState, action: preRequest.Action): State {

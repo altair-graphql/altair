@@ -67,14 +67,15 @@ export class QueryEffects {
                */
               if (response.data.preRequest.enabled) {
                 try {
-                  const transformedData = this.preRequestService.executeScript(response.data.preRequest.script, {
+                  this.preRequestService.executeScript(response.data.preRequest.script, {
                     environment: this.environmentService.getActiveEnvironment(),
                     headers: response.data.headers,
                     query,
                     variables: response.data.variables.variables,
+                  }).then(transformedData => {
+                    subscriber.next(transformedData);
+                    subscriber.complete();
                   });
-                  subscriber.next(transformedData);
-                  subscriber.complete();
                 } catch (err) {
                   console.error(err);
                   this.notifyService.error(err.message, 'Pre-request error');
