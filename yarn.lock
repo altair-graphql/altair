@@ -8960,6 +8960,11 @@ ngx-contextmenu@^5.1.1:
   dependencies:
     tslib "^1.9.0"
 
+ngx-cookie-service@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.2.0.tgz#79fe67863b3b93ee226c9ea8d60e1542c7115a58"
+  integrity sha512-2kaC1itlEMxiMAPJ320hOpcwU9vhvjbKQCZ1Go6bGhYjJtqG7eYvhNP7mM9IhFz1/afG2tBryJPySWmFUGhRpA==
+
 ngx-electron@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ngx-electron/-/ngx-electron-2.0.0.tgz#589f230af1c8dddd3f87ae86342e647b29945257"

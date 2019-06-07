@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as SandBoxr from 'sandboxr';
 import { parse } from 'acorn';
+import { CookieService } from 'ngx-cookie-service';
 
 interface ScriptContextData {
   headers;
@@ -14,9 +15,12 @@ interface ScriptContextData {
 })
 export class PreRequestService {
 
-  constructor() { }
+  constructor(
+    private cookieService: CookieService,
+  ) { }
 
   executeScript(script: string, data: ScriptContextData) {
+    const self = this;
     const ast = parse(`${script};altair.data;`);
     data = { ...data };
     const env = this.createEnvironment({
@@ -27,7 +31,10 @@ export class PreRequestService {
         },
         setEnvironment(key: string, val) {
           data.environment[key] = val;
-        }
+        },
+        getCookie(key: string) {
+          return self.cookieService.get(key);
+        },
       }
     });
 

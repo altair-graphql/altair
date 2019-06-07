@@ -57,6 +57,9 @@ export class PreRequestEditorComponent implements OnChanges {
                 setEnvironment: {
                   value: null
                 },
+                getCookie: {
+                  value: null
+                },
               }),
             }
           })

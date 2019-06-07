@@ -1,12 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { PreRequestService } from './pre-request.service';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('PreRequestService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [ CookieService, PreRequestService ]
+  }));
 
-  it('should be created', () => {
-    const service: PreRequestService = TestBed.get(PreRequestService);
+  it('should be created', inject([PreRequestService], (service: PreRequestService) => {
     expect(service).toBeTruthy();
-  });
+  }));
 });
