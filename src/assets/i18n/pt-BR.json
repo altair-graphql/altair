@@ -114,5 +114,8 @@
   "FILE_NAME_PLACEHOLDER": "Nome do arquivo (usado como variável de consulta)",
   "LEARN_MORE_TEXT": "Saiba mais",
   "STREAM_CONNECTION_TRYING": "Tentando se conectar ao servidor…",
-  "STREAM_CONNECTION_CONNECTED": "Conectado ao fluxo do servidor"
+  "STREAM_CONNECTION_CONNECTED": "Conectado ao fluxo do servidor",
+  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
 }
