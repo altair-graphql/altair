@@ -131,5 +131,9 @@
   "LEARN_MORE_TEXT": "Learn more",
 
   "STREAM_CONNECTION_TRYING": "Trying to connect to server stream...",
-  "STREAM_CONNECTION_CONNECTED": "Connected to server stream"
+  "STREAM_CONNECTION_CONNECTED": "Connected to server stream",
+
+  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
 }

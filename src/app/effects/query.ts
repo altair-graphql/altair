@@ -8,7 +8,16 @@ import { Effect, Actions } from '@ngrx/effects';
 
 import * as validUrl from 'valid-url';
 
-import { GqlService, QueryService, NotifyService, DbService, DonationService, ElectronAppService, EnvironmentService } from '../services';
+import {
+  GqlService,
+  QueryService,
+  NotifyService,
+  DbService,
+  DonationService,
+  ElectronAppService,
+  EnvironmentService,
+  PreRequestService
+} from '../services';
 import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
@@ -43,125 +52,174 @@ export class QueryEffects {
           }),
           switchMap(response => {
             const query = response.data.query.query.trim();
-            const url = this.environmentService.hydrate(response.data.query.url);
-            const variables = this.environmentService.hydrate(response.data.variables.variables);
-            const headers = this.environmentService.hydrateHeaders(response.data.headers);
-            let selectedOperation = response.data.query.selectedOperation;
-
-            // If the query is empty, just return
-            if (!query) {
-              return observableEmpty();
-            }
-
-            // If the URL is not set or is invalid, just return
-            if (!url || !validUrl.isUri(url)) {
-
-                this.notifyService.error('The URL is invalid!');
-                this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                return observableEmpty();
-            }
 
             if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
                 this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                 return observableEmpty();
             }
 
-            // Store the current query into the history if it does not already exist in the history
-            if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
-              this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
-            }
+            return new Observable(subscriber => {
 
-            // If the query is a subscription, subscribe to the subscription URL and send the query
-            if (this.gqlService.isSubscriptionQuery(query)) {
-              debug.log('Your query is a SUBSCRIPTION!!!');
-              // If the subscription URL is not set, show the dialog for the user to set it
-              if (!response.data.query.subscriptionUrl) {
-                this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+              /**
+               * pre request execution context is passed the current headers, environment, variables, query, etc
+               * and returns a set of the same that would have potentially been modified during the script execution.
+               * The returned data is used instead of the original set of data
+               */
+              if (response.data.preRequest.enabled) {
+                try {
+                  this.preRequestService.executeScript(response.data.preRequest.script, {
+                    environment: this.environmentService.getActiveEnvironment(),
+                    headers: response.data.headers,
+                    query,
+                    variables: response.data.variables.variables,
+                  }).then(transformedData => {
+                    subscriber.next(transformedData);
+                    subscriber.complete();
+                  });
+                } catch (err) {
+                  console.error(err);
+                  this.notifyService.error(err.message, 'Pre-request error');
+                  subscriber.next(null);
+                  subscriber.complete();
+                }
               } else {
-                this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
+                subscriber.next(null);
+                subscriber.complete();
               }
-              return observableEmpty();
-            }
+            }).pipe(
+              switchMap((transformedData: any) => {
 
-            try {
-              const operationData = this.gqlService.getSelectedOperationData({
-                query,
-                selectedOperation,
-                queryCursorIndex: response.data.query.queryEditorState &&
-                  response.data.query.queryEditorState.isFocused &&
-                  response.data.query.queryEditorState.cursorIndex,
-              });
+                let url = this.environmentService.hydrate(response.data.query.url);
+                let variables = this.environmentService.hydrate(response.data.variables.variables);
+                let headers = this.environmentService.hydrateHeaders(response.data.headers);
+                let selectedOperation = response.data.query.selectedOperation;
 
-              this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations: operationData.operations }));
-              selectedOperation = operationData.selectedOperation;
-            } catch (err) {
-              this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-              this.notifyService.warning(err.message);
-              return observableEmpty();
-            }
+                if (transformedData) {
+                  url = this.environmentService.hydrate(response.data.query.url, {
+                    activeEnvironment: transformedData.environment
+                  });
+                  variables = this.environmentService.hydrate(response.data.variables.variables, {
+                    activeEnvironment: transformedData.environment
+                  });
+                  headers = this.environmentService.hydrateHeaders(response.data.headers, {
+                    activeEnvironment: transformedData.environment
+                  });
+                }
+                // If the query is empty, just return
+                if (!query) {
+                  return observableEmpty();
+                }
 
-            this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
+                // If the URL is not set or is invalid, just return
+                if (!url || !validUrl.isUri(url)) {
 
-            const requestStartTime = new Date().getTime();
-            let requestStatusCode = 0;
-            let requestStatusText = '';
-
-            try {
-              if (variables) {
-                JSON.parse(variables);
-              }
-            } catch (err) {
-              this.notifyService.error('Looks like your variables is not a valid JSON string.');
-              this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-              return observableEmpty();
-            }
-
-            // For electron app, send the instruction to set headers
-            this.electronAppService.setHeaders(headers);
-
-            debug.log('Sending..');
-            return this.gqlService
-              .sendRequest(url, {
-                query,
-                variables,
-                headers,
-                method: response.data.query.httpVerb,
-                selectedOperation,
-                files: response.data.variables.files,
-              })
-              .pipe(
-                map(res => {
-                  requestStatusCode = res.status;
-                  requestStatusText = res.statusText;
-                  return res.body;
-                }),
-                map(result => {
-                  return new queryActions.SetQueryResultAction(result, response.windowId);
-                }),
-                catchError((error) => {
-                  let output = 'Server Error';
-
-                  debug.log(error);
-                  requestStatusCode = error.status;
-                  requestStatusText = error.statusText;
-
-                  if (error.status) {
-                    output = error.error;
-                  }
-                  return observableOf(new queryActions.SetQueryResultAction(output, response.windowId));
-                }),
-                tap(() => {
-                  const requestEndTime = new Date().getTime();
-                  const requestElapsedTime = requestEndTime - requestStartTime;
-
-                  this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
-                    responseStatus: requestStatusCode,
-                    responseTime: requestElapsedTime,
-                    responseStatusText: requestStatusText
-                  }));
+                  this.notifyService.error('The URL is invalid!');
                   this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
-                }),
-              );
+                  return observableEmpty();
+                }
+
+                // Store the current query into the history if it does not already exist in the history
+                if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
+                  this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
+                }
+
+                // If the query is a subscription, subscribe to the subscription URL and send the query
+                if (this.gqlService.isSubscriptionQuery(query)) {
+                  debug.log('Your query is a SUBSCRIPTION!!!');
+                  // If the subscription URL is not set, show the dialog for the user to set it
+                  if (!response.data.query.subscriptionUrl) {
+                    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
+                  } else {
+                    this.store.dispatch(new queryActions.StartSubscriptionAction(response.windowId));
+                  }
+                  return observableEmpty();
+                }
+
+                try {
+                  const operationData = this.gqlService.getSelectedOperationData({
+                    query,
+                    selectedOperation,
+                    queryCursorIndex: response.data.query.queryEditorState &&
+                      response.data.query.queryEditorState.isFocused &&
+                      response.data.query.queryEditorState.cursorIndex,
+                  });
+
+                  this.store.dispatch(
+                    new queryActions.SetQueryOperationsAction(response.windowId, { operations: operationData.operations })
+                  );
+                  selectedOperation = operationData.selectedOperation;
+                } catch (err) {
+                  this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
+                  this.notifyService.warning(err.message);
+                  return observableEmpty();
+                }
+
+                this.store.dispatch(new layoutActions.StartLoadingAction(response.windowId));
+
+                const requestStartTime = new Date().getTime();
+                let requestStatusCode = 0;
+                let requestStatusText = '';
+
+                try {
+                  if (variables) {
+                    JSON.parse(variables);
+                  }
+                } catch (err) {
+                  this.notifyService.error('Looks like your variables is not a valid JSON string.');
+                  this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                  return observableEmpty();
+                }
+
+                // For electron app, send the instruction to set headers
+                this.electronAppService.setHeaders(headers);
+
+                debug.log('Sending..');
+                return this.gqlService
+                  .sendRequest(url, {
+                    query,
+                    variables,
+                    headers,
+                    method: response.data.query.httpVerb,
+                    selectedOperation,
+                    files: response.data.variables.files,
+                  })
+                  .pipe(
+                    map(res => {
+                      requestStatusCode = res.status;
+                      requestStatusText = res.statusText;
+                      return res.body;
+                    }),
+                    map(result => {
+                      return new queryActions.SetQueryResultAction(result, response.windowId);
+                    }),
+                    catchError((error) => {
+                      let output = 'Server Error';
+
+                      debug.log(error);
+                      requestStatusCode = error.status;
+                      requestStatusText = error.statusText;
+
+                      if (error.status) {
+                        output = error.error;
+                      }
+                      return observableOf(new queryActions.SetQueryResultAction(output, response.windowId));
+                    }),
+                    tap(() => {
+                      const requestEndTime = new Date().getTime();
+                      const requestElapsedTime = requestEndTime - requestStartTime;
+
+                      this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
+                        responseStatus: requestStatusCode,
+                        responseTime: requestElapsedTime,
+                        responseStatusText: requestStatusText
+                      }));
+                      this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                    }),
+                  );
+
+              })
+            );
+
           }),
         );
 
@@ -721,6 +779,7 @@ export class QueryEffects {
       private donationService: DonationService,
       private electronAppService: ElectronAppService,
       private environmentService: EnvironmentService,
+      private preRequestService: PreRequestService,
       private store: Store<any>
     ) {}
 

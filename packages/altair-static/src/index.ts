@@ -28,6 +28,11 @@ export interface RenderOptions {
     initialVariables?: string;
 
     /**
+     * Initial pre-request script to be added
+     */
+    initialPreRequestScript?: string;
+
+    /**
      * Initial headers object to be added
      * @example
      * {
@@ -38,8 +43,8 @@ export interface RenderOptions {
 
     /**
      * Whether to render the initial options in a seperate javascript file or not.
-     * Use this to be able to enforce stric CSP rules.
-     * Defaults to false.
+     * Use this to be able to enforce strict CSP rules.
+     * @default false
      */
     serveInitialOptionsInSeperateRequest?: boolean;
 }
@@ -54,6 +59,7 @@ export const renderInitialOptions = ({
     initialQuery,
     initialVariables,
     initialHeaders,
+    initialPreRequestScript,
 }: RenderOptions = {}) => {
     let result = '';
     if (endpointURL) {
@@ -68,6 +74,10 @@ export const renderInitialOptions = ({
 
     if (initialVariables) {
         result += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
+    }
+
+    if (initialPreRequestScript) {
+        result += `window.__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ = \`${initialPreRequestScript}\`;`;
     }
 
     if (initialHeaders) {

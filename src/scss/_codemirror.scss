@@ -227,6 +227,27 @@
   }
 }
 
+.cm-s-pre-request-editor {
+  background: var(--theme-off-bg-color);
+  min-height: 200px;
+
+  .cm-attribute {
+    color: var(--result-default);
+  }
+
+  .cm-string {
+    color: var(--result-string);
+  }
+
+  .cm-property {
+    color: var(--result-default);
+  }
+
+  .cm-punctuation {
+    color: var(--result-default);
+  }
+}
+
 .cm-s-settings-editor {
   line-height: 2;
 
