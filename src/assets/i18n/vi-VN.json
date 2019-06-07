@@ -114,5 +114,8 @@
   "FILE_NAME_PLACEHOLDER": "Tên tệp (sử dung như biến truy vấn)",
   "LEARN_MORE_TEXT": "Đọc thêm",
   "STREAM_CONNECTION_TRYING": "Đang cố gắng kết nối với máy chủ...",
-  "STREAM_CONNECTION_CONNECTED": "Đã kết nối đến máy chủ trực tuyến"
+  "STREAM_CONNECTION_CONNECTED": "Đã kết nối đến máy chủ trực tuyến",
+  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
 }
