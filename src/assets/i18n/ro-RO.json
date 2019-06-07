@@ -114,5 +114,8 @@
   "FILE_NAME_PLACEHOLDER": "Nume de fişier (folosit ca interogare variabilă)",
   "LEARN_MORE_TEXT": "Aflați mai multe",
   "STREAM_CONNECTION_TRYING": "Încearcă să se conecteze la server de streaming...",
-  "STREAM_CONNECTION_CONNECTED": "Conectat la serverul de stream"
+  "STREAM_CONNECTION_CONNECTED": "Conectat la serverul de stream",
+  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
 }
