@@ -27,7 +27,7 @@ import 'codemirror/mode/javascript/javascript';
 })
 export class PreRequestEditorComponent implements OnChanges {
 
-  @Input() preRequest = null;
+  @Input() preRequest = {};
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
