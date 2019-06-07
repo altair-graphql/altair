@@ -18,6 +18,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ClarityModule } from '@clr/angular';
 import { SortablejsModule } from 'angular-sortablejs';
+import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './shared/shared.module';
 
 import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
@@ -65,7 +66,9 @@ const providers = [
     services.QueryCollectionService,
     services.EnvironmentService,
     services.PluginRegistryService,
+    services.PreRequestService,
     reducerProvider,
+    CookieService,
 ];
 
 @NgModule({

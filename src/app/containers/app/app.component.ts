@@ -324,6 +324,10 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
   }
 
+  togglePreRequestDialog(isOpen) {
+    this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId));
+  }
+
   toggleEnvironmentManager(show) {
     this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
   }

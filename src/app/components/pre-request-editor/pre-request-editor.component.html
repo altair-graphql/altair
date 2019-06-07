@@ -1,0 +1,14 @@
+<div class="pre-request-editor">
+  <div class="pre-request-editor__toggle-wrapper">
+    <clr-checkbox [clrChecked]="preRequest.enabled" (clrCheckedChange)="preRequestEnabledChange.next($event)">
+      {{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}
+    </clr-checkbox>
+  </div>
+  <ngx-codemirror
+    #editor
+    class="pre-request-textarea mousetrap"
+    [options]="preRequestEditorConfig"
+    [ngModel]="preRequest.script"
+    (ngModelChange)="preRequestScriptChange.emit($event)"
+  ></ngx-codemirror>
+</div>

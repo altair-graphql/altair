@@ -120,6 +120,14 @@
               {{ 'HISTORY_TEXT' | translate }}
             </div>
           </a>
+          <a class="side-menu-item" (click)="togglePreRequestDialog(true)" attr.aria-label="{{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}">
+            <div class="side-menu-item-icon">
+              <clr-icon shape="helix"></clr-icon>
+            </div>
+            <div class="side-menu-item-label">
+              {{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}
+            </div>
+          </a>
           <div class="side-menu-divider"></div>
           <div class="side-menu-item">
             <div class="side-menu-item-icon">

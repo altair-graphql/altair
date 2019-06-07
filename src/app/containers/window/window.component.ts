@@ -16,6 +16,7 @@ import * as fromHistory from '../../reducers/history/history';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromQuery from '../../reducers/query/query';
 import * as fromCollection from '../../reducers/collection/collection';
+import * as fromPreRequest from '../../reducers/pre-request/pre-request';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -28,6 +29,7 @@ import * as historyActions from '../../actions/history/history';
 import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
+import * as preRequestActions from '../../actions/pre-request/pre-request';
 
 import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
@@ -56,6 +58,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection>;
+  preRequest$: Observable<fromPreRequest.State>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -79,6 +82,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
   showAddToCollectionDialog = false;
+  showPreRequestDialog = true;
 
   gqlSchema = null;
 
@@ -144,6 +148,7 @@ export class WindowComponent implements OnInit, OnDestroy {
         return observableEmpty();
       })
     );
+    this.preRequest$ = this.getWindowState().pipe(select('preRequest'));
 
     this.store.pipe(
       map(data => data.windows[this.windowId]),
@@ -163,6 +168,7 @@ export class WindowComponent implements OnInit, OnDestroy {
       this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
       this.showHistoryDialog = data.dialogs.showHistoryDialog;
       this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
+      this.showPreRequestDialog = data.dialogs.showPreRequestDialog;
       this.windowTitle = data.layout.title;
 
       this.subscriptionUrl = data.query.subscriptionUrl;
@@ -291,6 +297,12 @@ export class WindowComponent implements OnInit, OnDestroy {
     }
   }
 
+  togglePreRequestDialog(isOpen) {
+    if (this.showPreRequestDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.windowId));
+    }
+  }
+
   setDocView(docView) {
     this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
   }
@@ -352,6 +364,14 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
   updateSubscriptionConnectionParams(connectionParams) {
     this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
+  }
+
+  updatePreRequestScript(script) {
+    this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(this.windowId, { script }));
+  }
+
+  updatePreRequestEnabled(enabled) {
+    this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(this.windowId, { enabled }));
   }
 
   addQueryToEditor(queryData: { query: String, meta: any }) {
