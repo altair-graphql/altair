@@ -96,4 +96,11 @@ export class DocViewerSearchResultsComponent implements OnInit {
     return name;
   }
 
+  resultTrackBy(index, result) {
+    return `${result.name}.${result.type}.${result.cat}`;
+  }
+  resultArgTrackBy(index, arg) {
+    return arg.name;
+  }
+
 }

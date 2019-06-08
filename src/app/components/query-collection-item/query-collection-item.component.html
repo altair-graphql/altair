@@ -57,7 +57,7 @@
   <div class="query-collections__item-content-wrapper" [ngClass]="{ 'query-collections__item-content--hidden': !showContent }">
     <div class="query-collections__item-nested">
       <app-query-collection-item
-        *ngFor="let subcollection of collection.collections"
+        *ngFor="let subcollection of collection.collections; trackBy:trackById;"
         [collection]="subcollection"
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
@@ -67,7 +67,7 @@
       ></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
-      <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries()">
+      <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries(); trackBy:trackById;">
         <span
           class="query-collections__item-queries-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"

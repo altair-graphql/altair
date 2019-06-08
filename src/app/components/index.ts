@@ -30,6 +30,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
 import { EnvironmentManagerComponent } from './environment-manager/environment-manager.component';
 import { FancyInputComponent } from './fancy-input/fancy-input.component';
+import { PluginElementComponent } from './plugin-element/plugin-element.component';
 import { PreRequestEditorComponent } from './pre-request-editor/pre-request-editor.component';
 
 const COMPONENTS = [
@@ -53,6 +54,7 @@ const COMPONENTS = [
   EditCollectionDialogComponent,
   EnvironmentManagerComponent,
   FancyInputComponent,
+  PluginElementComponent,
   PreRequestEditorComponent,
 ];
 

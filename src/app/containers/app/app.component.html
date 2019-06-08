@@ -60,7 +60,7 @@
                 type="button"
                 clrDropdownItem
                 (click)="selectActiveEnvironment(environment.id)"
-                *ngFor="let environment of (environments$ | async).subEnvironments"
+                *ngFor="let environment of (environments$ | async).subEnvironments; trackBy:trackById;"
                 [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
                 track-id="select_environment">{{ environment.title }}</button>
               <button type="button" clrDropdownItem (click)="selectActiveEnvironment(null)" track-id="select_no_environment">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</button>
@@ -177,7 +177,24 @@
             </div>
           </div>
           <div class="side-menu-divider"></div>
-    
+
+          <div class="side-menu__plugins">
+            <a
+              *ngFor="let plugin of installedPlugins"
+              class="side-menu-item"
+              (click)="togglePluginActive(plugin)"
+              attr.aria-label="{{ plugin.display_name}}"
+              [ngClass]="{ 'side-menu-item--active': plugin.isActive }"
+            >
+              <div class="side-menu-item-icon">
+                <clr-icon shape="objects"></clr-icon>
+              </div>
+              <div class="side-menu-item-label">
+                {{ plugin.display_name }}
+              </div>
+            </a>
+          </div>
+
           <div class="side-menu__main-bottom">
             <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
               <div class="side-menu-item-icon">

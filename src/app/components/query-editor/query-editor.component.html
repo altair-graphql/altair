@@ -25,7 +25,7 @@
       </a>
 
       <div class="variables-files-list">
-        <div class="variables-file-item" *ngFor="let file of variables?.files; let index = index;">
+        <div class="variables-file-item" *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;">
           <div class="variables-file-item-name-input-wrapper">
             <input
               type="text"

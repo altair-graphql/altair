@@ -36,4 +36,8 @@ export class UrlBoxComponent {
   setVerb(verb) {
     this.httpVerbChange.emit(verb);
   }
+
+  queryOperationTrackBy(index, operation) {
+    return operation.name.value;
+  }
 }

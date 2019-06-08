@@ -10,4 +10,5 @@ export { KeybinderService } from './keybinder/keybinder.service';
 export { StorageService } from './storage/storage.service';
 export { QueryCollectionService } from './query-collection/query-collection.service';
 export { EnvironmentService } from './environment/environment.service';
+export { PluginRegistryService } from './plugin/plugin-registry.service';
 export { PreRequestService } from './pre-request/pre-request.service';

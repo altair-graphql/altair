@@ -1,0 +1,12 @@
+app-plugin-element {
+  overflow: auto;
+}
+
+.plugin__hide-content {
+  display: none !important;
+}
+
+// Temporary hide title bar in plugin element for graphql explorer
+app-plugin-element .history-title-bar {
+  display: none;
+}

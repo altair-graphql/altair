@@ -21,11 +21,11 @@
           <clr-stack-block>
               <clr-stack-label>{{ 'SETTINGS_KEYBOARD_SHORTCUTS' | translate }}</clr-stack-label>
 
-              <clr-stack-block [clrSbExpanded]="true" *ngFor="let category of shortcutCategories">
+              <clr-stack-block [clrSbExpanded]="true" *ngFor="let category of shortcutCategories; trackBy:trackByIndex;">
                 <clr-stack-label class="settings-shortcut-category-title">{{ category.title }}</clr-stack-label>
-                <clr-stack-block *ngFor="let shortcut of category.shortcuts">
+                <clr-stack-block *ngFor="let shortcut of category.shortcuts; trackBy:trackByIndex;">
                   <clr-stack-label class="settings-shortcut-description">{{ shortcut.description }}</clr-stack-label>
-                  <clr-stack-content class="settings-shortcut-key" *ngFor="let key of shortcut.keys">{{ key }}</clr-stack-content>
+                  <clr-stack-content class="settings-shortcut-key" *ngFor="let key of shortcut.keys; trackBy:trackByIndex;">{{ key }}</clr-stack-content>
                 </clr-stack-block>
               </clr-stack-block>
           </clr-stack-block>
@@ -38,7 +38,7 @@
       <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_THEME_TEXT' | translate }}</label>
         <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)" attr.aria-label="{{ 'SETTINGS_THEME_TEXT' | translate }}">
-          <option *ngFor="let theme of themes" value="{{ theme }}" [selected]="theme === settings?.theme">
+          <option *ngFor="let theme of themes; trackBy:trackByIndex;" value="{{ theme }}" [selected]="theme === settings?.theme">
             {{ theme | titlecase }}
           </option>
         </select>
@@ -47,7 +47,7 @@
       <div class="app-dialog-section" *ngIf="false">
         <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
         <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)" attr.aria-label="{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}">
-          <option *ngFor="let language of languages" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
+          <option *ngFor="let language of languages; trackBy:trackByIndex;" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
             {{ language[1] | titlecase }}
           </option>
         </select>

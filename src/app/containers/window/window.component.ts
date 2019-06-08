@@ -5,7 +5,8 @@ import {
   ViewChild,
   Input,
   OnInit,
-  ViewContainerRef
+  ViewContainerRef,
+  OnDestroy
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
@@ -30,14 +31,15 @@ import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 import * as preRequestActions from '../../actions/pre-request/pre-request';
 
-import { QueryService, GqlService, NotifyService } from '../../services';
-import { Observable, empty as observableEmpty } from 'rxjs';
+import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html'
 })
-export class WindowComponent implements OnInit {
+export class WindowComponent implements OnInit, OnDestroy {
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -88,6 +90,7 @@ export class WindowComponent implements OnInit {
   subscriptionConnectionParams = '';
 
   historyList: fromHistory.HistoryList = [];
+  plugins = [];
 
 
   constructor(
@@ -95,7 +98,8 @@ export class WindowComponent implements OnInit {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
-    private vRef: ViewContainerRef
+    private vRef: ViewContainerRef,
+    private pluginRegistry: PluginRegistryService,
   ) {
   }
 
@@ -149,6 +153,7 @@ export class WindowComponent implements OnInit {
     this.store.pipe(
       map(data => data.windows[this.windowId]),
       distinctUntilChanged(),
+      untilDestroyed(this),
     )
     .subscribe(data => {
       if (!data) {
@@ -183,6 +188,34 @@ export class WindowComponent implements OnInit {
 
       this.newCollectionQueryTitle = data.layout.title;
     });
+
+    this.store.pipe(
+      take(1),
+      untilDestroyed(this),
+    )
+    .subscribe(data => {
+      if (data.settings.enableExperimental) {
+        combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
+          return Object.values(plugins).map(plugin => {
+            return {
+              ...plugin,
+              props: {
+                sdl: state.schema.sdl,
+                query: state.query.query,
+              },
+              context: {
+                setQuery: query => this.updateQuery(query),
+              }
+            };
+          });
+        })
+        .pipe(untilDestroyed(this))
+        .subscribe(plugins => {
+          this.plugins = plugins;
+        });
+      }
+    });
+
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
@@ -276,7 +309,8 @@ export class WindowComponent implements OnInit {
   onShowTokenInDocs(docView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
-      take(1)
+      take(1),
+      untilDestroyed(this),
     ).subscribe(docsShown => {
       if (!docsShown) {
         this.toggleDocs();
@@ -413,7 +447,7 @@ export class WindowComponent implements OnInit {
   }
 
 
-  trackByFn(index, item) {
+  trackByFn(index) {
     return index;
   }
 
@@ -430,4 +464,14 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
   }
+
+  trackById(index, item) {
+    return item.id;
+  }
+
+  pluginTrackBy(index, plugin) {
+    return plugin.name;
+  }
+
+  ngOnDestroy() {}
 }

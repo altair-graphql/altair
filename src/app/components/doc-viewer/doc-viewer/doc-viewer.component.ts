@@ -6,7 +6,8 @@ import {
   OnChanges,
   SimpleChanges,
   HostBinding,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -15,13 +16,15 @@ import config from '../../../config';
 import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { untilDestroyed } from 'ngx-take-until-destroy';
+
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   // styleUrls: ['./doc-viewer.component.scss']
 })
-export class DocViewerComponent implements OnChanges {
+export class DocViewerComponent implements OnChanges, OnDestroy {
 
   @Input() gqlSchema = null;
   @Input() allowIntrospection = true;
@@ -61,7 +64,9 @@ export class DocViewerComponent implements OnChanges {
   ) {
 
     // Set translations
-    this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT').subscribe(text => this.searchInputPlaceholder = text);
+    this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT')
+    .pipe(untilDestroyed(this))
+    .subscribe(text => this.searchInputPlaceholder = text);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -430,5 +435,12 @@ export class DocViewerComponent implements OnChanges {
 
   onResize(resizeFactor) {
     this.resizeFactor = resizeFactor;
+  }
+
+  rootTypeTrackBy(index, type) {
+    return type.name;
+  }
+
+  ngOnDestroy() {
   }
 }

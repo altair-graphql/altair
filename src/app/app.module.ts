@@ -65,6 +65,7 @@ const providers = [
     services.StorageService,
     services.QueryCollectionService,
     services.EnvironmentService,
+    services.PluginRegistryService,
     services.PreRequestService,
     reducerProvider,
     CookieService,

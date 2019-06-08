@@ -1,4 +1,4 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ApplicationRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
@@ -7,6 +7,7 @@ import { environment } from './environments/environment';
 import isElectron from './app/utils/is_electron';
 import { handleExternalLinks } from 'app/utils/events';
 import { debug } from 'app/utils/logger';
+import { enableDebugTools } from '@angular/platform-browser';
 
 // import * as sandboxr from 'sandboxr';
 // import { parse } from 'acorn';
@@ -42,6 +43,11 @@ if (isElectron) {
 
 platformBrowserDynamic().bootstrapModule(AppModule, {
   preserveWhitespaces: true
-});
+}).then(moduleRef => {
+  const applicationRef = moduleRef.injector.get(ApplicationRef);
+  const componentRef = applicationRef.components[0];
+
+  enableDebugTools(componentRef);
+}).catch(err => console.log(err));
 
 handleExternalLinks();

@@ -22,7 +22,7 @@
 <!--Field arguments-->
 <div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
   <div class="doc-viewer-section-title">{{ 'DOCS_ARGUMENTS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args">
+  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args; trackBy: argTrackBy">
     <div class="doc-viewer-item-query-inner">
       <span class="no-link-link"
        (click)="goToType(arg.type.inspect())"

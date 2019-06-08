@@ -1,3 +1,7 @@
+<app-plugin-element
+  *ngFor="let plugin of plugins; trackBy:pluginTrackBy;"
+  [plugin]="plugin"
+></app-plugin-element>
 <div class="content-container">
   <div class="content-area app-content-area">
     <div class="window-loader window-loader--show" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
@@ -156,7 +160,7 @@
           </div>
           <div class="app-dialog-section">
             <div class="add-to-collection__list">
-              <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async)" (click)="saveQueryToCollection(collection.id)">
+              <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async); trackBy:trackById" (click)="saveQueryToCollection(collection.id)">
                 {{ collection.title }}
               </div>
             </div>
