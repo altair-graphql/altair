@@ -192,7 +192,7 @@ export class QueryEffects {
                     map(result => {
                       return new queryActions.SetQueryResultAction(result, response.windowId);
                     }),
-                    catchError((error) => {
+                    catchError((error: any) => {
                       let output = 'Server Error';
 
                       debug.log(error);
@@ -217,9 +217,12 @@ export class QueryEffects {
                     }),
                   );
 
+              }),
+              catchError((error: any) => {
+                debug.error('Error sending the request', error);
+                return observableEmpty();
               })
             );
-
           }),
         );
 
@@ -343,7 +346,7 @@ export class QueryEffects {
               headers
             })
             .pipe(
-              catchError(err => {
+              catchError((err: any) => {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
                 const errorObj = err.error || err;
                 let allowsIntrospection = true;
@@ -384,6 +387,10 @@ export class QueryEffects {
 
                 return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
               }),
+              catchError((error: any) => {
+                debug.error(error);
+                return observableEmpty();
+              })
             );
         }),
       );

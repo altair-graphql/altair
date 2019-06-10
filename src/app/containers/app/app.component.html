@@ -24,8 +24,15 @@
     <app-smart-input *ngIf="false"></app-smart-input>
     <app-fancy-input *ngIf="false"></app-fancy-input>
     <header class="header">
-      <div class="branding">
-        <img src="assets/img/logo.svg" alt="logo" class="header-logo">
+      <div
+        class="branding header-logo-wrapper"
+        [ngClass]="{ 'header-logo-wrapper--experimental': (settings$ | async).enableExperimental }"
+      >
+        <img
+          src="assets/img/logo.svg"
+          alt="logo"
+          class="header-logo"
+        >
       </div>
       <app-window-switcher
         [windows]="windows"
