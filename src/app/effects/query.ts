@@ -346,9 +346,9 @@ export class QueryEffects {
               headers
             })
             .pipe(
-              catchError((error: any) => {
+              catchError((err: any) => {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
-                const errorObj = error.error || error;
+                const errorObj = err.error || err;
                 let allowsIntrospection = true;
 
                 if (errorObj.errors) {
