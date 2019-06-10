@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import '@clr/icons';
 import '@clr/icons/shapes/all-shapes';
@@ -37,6 +37,8 @@ import { WindowComponent } from './containers/window/window.component';
 
 
 import * as services from './services';
+import { HTTPErrorInterceptor } from './interceptors/http-error.interceptor';
+import { GlobalErrorHandler } from './error-handler';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -53,22 +55,31 @@ export function mapValuesToArray(obj: any): Array<any> {
 const servicesArray: Array<any> = mapValuesToArray(services);
 
 const providers = [
-    services.ApiService,
-    services.GqlService,
-    services.DbService,
-    services.QueryService,
-    services.WindowService,
-    services.NotifyService,
-    services.DonationService,
-    services.ElectronAppService,
-    services.KeybinderService,
-    services.StorageService,
-    services.QueryCollectionService,
-    services.EnvironmentService,
-    services.PluginRegistryService,
-    services.PreRequestService,
-    reducerProvider,
-    CookieService,
+  services.ApiService,
+  services.GqlService,
+  services.DbService,
+  services.QueryService,
+  services.WindowService,
+  services.NotifyService,
+  services.DonationService,
+  services.ElectronAppService,
+  services.KeybinderService,
+  services.StorageService,
+  services.QueryCollectionService,
+  services.EnvironmentService,
+  services.PluginRegistryService,
+  services.PreRequestService,
+  reducerProvider,
+  CookieService,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HTTPErrorInterceptor,
+    multi: true,
+  },
+  {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler,
+  },
 ];
 
 @NgModule({
@@ -81,8 +92,8 @@ const providers = [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    SharedModule.forRoot(),
     ClarityModule,
+    SharedModule.forRoot(),
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,

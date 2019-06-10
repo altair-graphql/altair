@@ -4,7 +4,7 @@
 ></app-plugin-element>
 <div class="content-container">
   <div class="content-area app-content-area">
-    <div class="window-loader window-loader--show" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
+    <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
       <div class="window-loader__content">
         <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
         <div class="window-loader__actions">
