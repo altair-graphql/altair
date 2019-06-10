@@ -115,7 +115,7 @@
   "LEARN_MORE_TEXT": "Weitere Informationen",
   "STREAM_CONNECTION_TRYING": "Versuche zum Server-Stream zu verbinden...",
   "STREAM_CONNECTION_CONNECTED": "Mit Server-Stream verbunden",
-  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
-  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_EDITOR_HEADER": "Anfrage-Skript Editor",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Schreibe ein Skript, das ausgeführt werden soll, bevor die Anfrage gesendet wird",
+  "PRE_REQUEST_ENABLE_TEXT": "Anfrage-Skript aktivieren"
 }
