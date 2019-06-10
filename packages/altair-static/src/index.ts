@@ -28,6 +28,11 @@ export interface RenderOptions {
     initialVariables?: string;
 
     /**
+     * Initial pre-request script to be added
+     */
+    initialPreRequestScript?: string;
+
+    /**
      * Initial headers object to be added
      * @example
      * {
@@ -35,46 +40,71 @@ export interface RenderOptions {
      * }
      */
     initialHeaders?: Object;
+
+    /**
+     * Whether to render the initial options in a seperate javascript file or not.
+     * Use this to be able to enforce strict CSP rules.
+     * @default false
+     */
+    serveInitialOptionsInSeperateRequest?: boolean;
+}
+
+/**
+ * Render Altair Initial options as a string using the provided renderOptions
+ * @param renderOptions
+ */
+export const renderInitialOptions = ({
+    endpointURL,
+    subscriptionsEndpoint,
+    initialQuery,
+    initialVariables,
+    initialHeaders,
+    initialPreRequestScript,
+}: RenderOptions = {}) => {
+    let result = '';
+    if (endpointURL) {
+        result += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
+    }
+    if (subscriptionsEndpoint) {
+        result += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
+    }
+    if (initialQuery) {
+        result += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
+    }
+
+    if (initialVariables) {
+        result += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
+    }
+
+    if (initialPreRequestScript) {
+        result += `window.__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ = \`${initialPreRequestScript}\`;`;
+    }
+
+    if (initialHeaders) {
+        result += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
+    }
+    return result;
 }
 
 /**
  * Render Altair as a string using the provided renderOptions
  * @param renderOptions
  */
-export const renderAltair = ({
-    baseURL = './',
-    endpointURL,
-    subscriptionsEndpoint,
-    initialQuery,
-    initialVariables,
-    initialHeaders,
-}: RenderOptions = {}) => {
-    let altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
-
-    let renderedOptions = '';
-
-    altairHtml = altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
-    if (endpointURL) {
-        renderedOptions += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
+export const renderAltair = (options: RenderOptions = {}) => {
+    const altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
+    const initialOptions = renderInitialOptions(options);
+    const baseURL = options.baseURL || './';
+    if (!initialOptions) {
+        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
     }
-    if (subscriptionsEndpoint) {
-        renderedOptions += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
+    if (options.serveInitialOptionsInSeperateRequest) {
+        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}"><script src="initial_options.js"></script>`);
+    } else {
+        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}"><script>${initialOptions}</script>`);
     }
-    if (initialQuery) {
-        renderedOptions += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
-    }
-
-    if (initialVariables) {
-        renderedOptions += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
-    }
-
-    if (initialHeaders) {
-        renderedOptions += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
-    }
-
-    const renderedOptionsInScript = `<script>${renderedOptions}</script>`;
-    return altairHtml.replace('<body>', `<body>${renderedOptionsInScript}`);
 };
+
+
 
 /**
  * Returns the path to Altair assets, for resolving the assets when rendering Altair

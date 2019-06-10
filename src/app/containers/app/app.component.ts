@@ -1,7 +1,7 @@
-import { first, distinctUntilChanged, map, filter } from 'rxjs/operators';
-import { Component, ViewChild } from '@angular/core';
+import { first, distinctUntilChanged, map, filter, take } from 'rxjs/operators';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as uuid from 'uuid/v4';
@@ -30,17 +30,26 @@ import * as environmentsActions from '../../actions/environments/environments';
 
 import { environment } from '../../../environments/environment';
 
-import { QueryService, GqlService, WindowService, DonationService, ElectronAppService, KeybinderService } from '../../services';
+import {
+  QueryService,
+  GqlService,
+  WindowService,
+  DonationService,
+  ElectronAppService,
+  KeybinderService,
+  PluginRegistryService
+} from '../../services';
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   windowIds$: Observable<any[]>;
   settings$: Observable<fromSettings.State>;
   collection$: Observable<fromCollection.State>;
@@ -63,6 +72,8 @@ export class AppComponent {
 
   appVersion = environment.version;
 
+  installedPlugins = [];
+
   constructor(
     private windowService: WindowService,
     private store: Store<fromRoot.State>,
@@ -70,6 +81,7 @@ export class AppComponent {
     private donationService: DonationService,
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
+    private pluginRegistry: PluginRegistryService,
   ) {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
@@ -89,7 +101,9 @@ export class AppComponent {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    this.translate.use(applicationLanguage).subscribe(() => {
+    this.translate.use(applicationLanguage)
+    .pipe(untilDestroyed(this))
+    .subscribe(() => {
       this.isReady = true;
     });
 
@@ -99,6 +113,7 @@ export class AppComponent {
       map(settings => settings.language),
       filter(x => !!x),
       distinctUntilChanged(),
+      untilDestroyed(this),
     )
     .subscribe(language => {
       this.translate.use(language);
@@ -110,7 +125,9 @@ export class AppComponent {
     this.windowIds$ = this.store.select('windows').pipe(map(windows => {
       return Object.keys(windows);
     }));
+
     this.store
+      .pipe(untilDestroyed(this))
       .subscribe(data => {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
@@ -142,6 +159,21 @@ export class AppComponent {
     if (!this.windowIds.length) {
       this.newWindow();
     }
+
+    this.store.pipe(
+      take(1),
+      untilDestroyed(this)
+    )
+    .subscribe(data => {
+      if (data.settings.enableExperimental) {
+        this.pluginRegistry.getPlugin('qwasezio-explorer');
+      }
+      this.pluginRegistry.installedPlugins()
+        .pipe(
+          untilDestroyed(this),
+        )
+        .subscribe(plugins => this.installedPlugins = Object.values(plugins));
+    });
   }
 
   /**
@@ -180,7 +212,12 @@ export class AppComponent {
   }
 
   newWindow() {
-    this.windowService.newWindow().pipe(first()).subscribe(({ url, windowId }) => {
+    this.windowService.newWindow()
+    .pipe(
+      first(),
+      untilDestroyed(this),
+    )
+    .subscribe(({ url, windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
 
       if (url) {
@@ -287,6 +324,10 @@ export class AppComponent {
     this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
   }
 
+  togglePreRequestDialog(isOpen) {
+    this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId));
+  }
+
   toggleEnvironmentManager(show) {
     this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
   }
@@ -357,6 +398,10 @@ export class AppComponent {
     this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
   }
 
+  togglePluginActive(plugin) {
+    this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
+  }
+
   fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
     if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
@@ -392,4 +437,10 @@ export class AppComponent {
       }
     }
   }
+
+  trackById(index, item) {
+    return item.id;
+  }
+
+  ngOnDestroy() {}
 }

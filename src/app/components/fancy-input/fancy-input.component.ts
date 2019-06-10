@@ -216,4 +216,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     // highlighter.height = input.height
   }
 
+  trackByIndex(index) {
+    return index;
+  }
+
 }

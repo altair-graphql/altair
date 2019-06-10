@@ -25,4 +25,8 @@ export class HistoryDialogComponent implements OnInit {
   clearHistory() {
     this.clearHistoryChange.next();
   }
+
+  trackByIndex(index) {
+    return index;
+  }
 }

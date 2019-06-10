@@ -93,4 +93,8 @@ export class EnvironmentManagerComponent implements OnInit {
     }
   }
 
+  trackById(index, item) {
+    return item.id;
+  }
+
 }

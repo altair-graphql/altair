@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-
 import * as dialogs from '../../actions/dialogs/dialogs';
 
 export interface State {
@@ -8,6 +6,7 @@ export interface State {
   showSubscriptionUrlDialog: boolean;
   showHistoryDialog: boolean;
   showAddToCollectionDialog: boolean;
+  showPreRequestDialog: boolean;
 }
 
 export const initialState: State = {
@@ -16,9 +15,10 @@ export const initialState: State = {
   showSubscriptionUrlDialog: false,
   showHistoryDialog: false,
   showAddToCollectionDialog: false,
+  showPreRequestDialog: false,
 };
 
-export function dialogReducer(state = initialState, action: Action): State {
+export function dialogReducer(state = initialState, action: dialogs.Action): State {
   switch (action.type) {
     case dialogs.TOGGLE_HEADER_DIALOG:
       return Object.assign({}, state, { showHeaderDialog: !state.showHeaderDialog });
@@ -30,6 +30,8 @@ export function dialogReducer(state = initialState, action: Action): State {
       return { ...state, showHistoryDialog: !state.showHistoryDialog };
     case dialogs.TOGGLE_ADD_TO_COLLECTION_DIALOG:
       return { ...state, showAddToCollectionDialog: !state.showAddToCollectionDialog };
+    case dialogs.TOGGLE_PRE_REQUEST_DIALOG:
+      return { ...state, showPreRequestDialog: !state.showPreRequestDialog };
     default:
       return state;
   }

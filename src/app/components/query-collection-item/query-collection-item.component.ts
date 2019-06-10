@@ -125,4 +125,8 @@ export class QueryCollectionItemComponent implements OnInit {
     }
   }
 
+  trackById(index, collection) {
+    return collection.id;
+  }
+
 }

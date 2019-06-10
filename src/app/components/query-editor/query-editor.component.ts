@@ -290,4 +290,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.resizeFactor = resizeFactor;
   }
 
+  trackByIndex(index) {
+    return index;
+  }
+
 }

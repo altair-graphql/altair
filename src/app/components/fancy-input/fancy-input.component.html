@@ -1,7 +1,7 @@
 <div class="fancy-input-container">
   <div class="fancy-input-backdrop">
     <div class="fancy-input-content fancy-input-highlights" #fancyInputHighlightsEl>
-      <ng-container *ngFor="let section of highlightData.sections">
+      <ng-container *ngFor="let section of highlightData.sections; trackBy:trackByIndex;">
         <span *ngIf="!section.type">{{ section.content }}</span>
         <mark *ngIf="section.type === 'mark'">{{ section.content }}</mark>
       </ng-container>

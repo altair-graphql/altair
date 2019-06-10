@@ -134,10 +134,14 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
         ARE YOU REALLY SURE YOU WANT TO RESET ALTAIR?!
       `.trim().replace(/ +/g, ' '))) {
         this.storageService.clearAllLocalData();
+        location.reload();
       }
     }
 
     return false;
   }
 
+  trackByIndex(index) {
+    return index;
+  }
 }

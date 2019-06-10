@@ -1,5 +1,5 @@
 
-import {throttleTime} from 'rxjs/operators';
+import { throttleTime } from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -11,17 +11,19 @@ import {
   HostBinding,
   Inject,
   NgZone,
+  OnDestroy,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debug } from 'app/utils/logger';
 import { DOCUMENT } from '@angular/common';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-flex-resizer',
   templateUrl: './flex-resizer.component.html',
   styleUrls: ['./flex-resizer.component.scss']
 })
-export class FlexResizerComponent implements OnInit {
+export class FlexResizerComponent implements OnInit, OnDestroy {
   @Input() resizeDirection = 'left';
   @Output() resizeChange = new EventEmitter();
 
@@ -67,13 +69,21 @@ export class FlexResizerComponent implements OnInit {
     }
 
     this.zone.runOutsideAngular(() => {
-      this.documentMouseUp$.subscribe((evt: MouseEvent) => this.onMouseUp(evt));
+      this.documentMouseUp$
+        .pipe(untilDestroyed(this))
+        .subscribe((evt: MouseEvent) => this.onMouseUp(evt));
 
-      this.documentMouseMove$.subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+        this.documentMouseMove$
+        .pipe(untilDestroyed(this))
+        .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
-      this.elMouseMove$.subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+        this.elMouseMove$
+        .pipe(untilDestroyed(this))
+        .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
-      this.elMouseDown$.subscribe((evt: MouseEvent) => this.onResizerPress(evt));
+        this.elMouseDown$
+        .pipe(untilDestroyed(this))
+        .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
     });
 
 
@@ -127,5 +137,8 @@ export class FlexResizerComponent implements OnInit {
       el = el.parentElement;
     }
     return el;
+  }
+
+  ngOnDestroy() {
   }
 }

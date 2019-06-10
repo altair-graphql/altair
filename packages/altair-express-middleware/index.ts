@@ -1,7 +1,7 @@
 'use strict';
 
 import * as express from 'express';
-import { getDistDirectory, renderAltair, RenderOptions } from 'altair-static';
+import { getDistDirectory, renderAltair, renderInitialOptions, RenderOptions } from 'altair-static';
 
 export const altairExpress = (opts: RenderOptions): express.Express => {
   const app = express();
@@ -13,6 +13,9 @@ export const altairExpress = (opts: RenderOptions): express.Express => {
       return res.redirect(301, req.originalUrl + '/');
     }
     return res.send(renderAltair(opts));
+  });
+  app.get('/initial_options.js', (req, res) => {
+    return res.send(renderInitialOptions(opts));
   });
   app.use(express.static(getDistDirectory()));
 

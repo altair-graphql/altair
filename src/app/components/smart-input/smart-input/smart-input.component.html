@@ -1,5 +1,5 @@
-<div class="smart-input-line" *ngFor="let line of state.lines; let lineIndex = index;">
-  <app-smart-input-block *ngFor="let block of line.blocks; let blockIndex = index;"
+<div class="smart-input-line" *ngFor="let line of state.lines; let lineIndex = index; trackBy:trackByIndex;">
+  <app-smart-input-block *ngFor="let block of line.blocks; let blockIndex = index; trackBy: trackByIndex;"
     [attr.data-line-index]="lineIndex"
     [attr.data-block-index]="blockIndex"
     [block]="block"

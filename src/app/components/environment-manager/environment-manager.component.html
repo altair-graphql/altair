@@ -21,7 +21,7 @@
               <div class="environment-manager__list-title">{{ 'SUB_ENVIRONMENTS_HEADER' | translate }}</div>
               <div
                 class="environment-manager__list-item"
-                *ngFor="let item of environments?.subEnvironments"
+                *ngFor="let item of environments?.subEnvironments; trackBy: trackById;"
                 (click)="selectEnvironment(item.id)"
                 (dblclick)="setFocusOnEnvironmentTitle()"
                 [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"

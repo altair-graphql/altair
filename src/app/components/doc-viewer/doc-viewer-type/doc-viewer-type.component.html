@@ -15,7 +15,7 @@
   
   <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getValues">
     <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues();">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues(); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value">
           {{ item.name }}
@@ -32,7 +32,7 @@
   
   <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data && data.getTypes">
     <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes();">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes(); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
           {{ item.name }}
@@ -46,7 +46,7 @@
   
   <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
     <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values);">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="no-link-link"
          (click)="goToField(item.name, data.name)"
@@ -56,7 +56,7 @@
         </span>
         <ng-container *ngIf="item.args && item.args.length">
           (
-          <span *ngFor="let arg of item.args; let last = last">
+          <span *ngFor="let arg of item.args; trackBy: schemaItemTrackBy; let last = last">
             <span
              class="doc-viewer-item-field no-link-link"
              (click)="goToType(arg.type.inspect())"
@@ -94,7 +94,7 @@
   
   <div class="doc-viewer-section doc-viewer-implementations" *ngIf="getTypeImplementations(data).length">
     <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data);">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
           {{ item.name }}
@@ -108,7 +108,7 @@
   
   <div class="doc-viewer-section doc-viewer-implements" *ngIf="getTypeImplements(data).length">
     <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data);">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
           {{ item.name }}

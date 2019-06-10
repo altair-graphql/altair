@@ -57,7 +57,7 @@
       </div>
       <div class="subscription-result__list-wrapper">
         <app-subscription-result-item
-          *ngFor="let item of subscriptionResponses"
+          *ngFor="let item of subscriptionResponses; trackBy:subscriptionResponseTrackBy;"
           [data]="item"
         ></app-subscription-result-item>
       </div>

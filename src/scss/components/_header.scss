@@ -2,6 +2,7 @@
   box-shadow: 0 0px 5px 2px rgba(var(--rgb-black), 0.1);
   background: var(--header-bg-color);
   .branding {
+    position: relative;
     padding: 0;
     justify-content: center;
     min-width: 65px;
@@ -17,6 +18,23 @@
 }
 .header-logo {
   width: 30px;
+}
+.header-logo-wrapper--experimental {
+  mix-blend-mode: luminosity;
+
+  &:before {
+    content: '🔥Dev🔥';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: var(--theme-font-color);
+    text-transform: uppercase;
+    font-size: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }
 }
 
 .header__environemnt-link {

@@ -5,7 +5,8 @@ import {
   ViewChild,
   Input,
   OnInit,
-  ViewContainerRef
+  ViewContainerRef,
+  OnDestroy
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
@@ -15,6 +16,7 @@ import * as fromHistory from '../../reducers/history/history';
 import * as fromVariable from '../../reducers/variables/variables';
 import * as fromQuery from '../../reducers/query/query';
 import * as fromCollection from '../../reducers/collection/collection';
+import * as fromPreRequest from '../../reducers/pre-request/pre-request';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -27,15 +29,17 @@ import * as historyActions from '../../actions/history/history';
 import * as windowActions from '../../actions/windows/windows';
 import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
+import * as preRequestActions from '../../actions/pre-request/pre-request';
 
-import { QueryService, GqlService, NotifyService } from '../../services';
-import { Observable, empty as observableEmpty } from 'rxjs';
+import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html'
 })
-export class WindowComponent implements OnInit {
+export class WindowComponent implements OnInit, OnDestroy {
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -54,6 +58,7 @@ export class WindowComponent implements OnInit {
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection>;
+  preRequest$: Observable<fromPreRequest.State>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -77,6 +82,7 @@ export class WindowComponent implements OnInit {
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
   showAddToCollectionDialog = false;
+  showPreRequestDialog = true;
 
   gqlSchema = null;
 
@@ -84,6 +90,7 @@ export class WindowComponent implements OnInit {
   subscriptionConnectionParams = '';
 
   historyList: fromHistory.HistoryList = [];
+  plugins = [];
 
 
   constructor(
@@ -91,7 +98,8 @@ export class WindowComponent implements OnInit {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
-    private vRef: ViewContainerRef
+    private vRef: ViewContainerRef,
+    private pluginRegistry: PluginRegistryService,
   ) {
   }
 
@@ -140,10 +148,12 @@ export class WindowComponent implements OnInit {
         return observableEmpty();
       })
     );
+    this.preRequest$ = this.getWindowState().pipe(select('preRequest'));
 
     this.store.pipe(
       map(data => data.windows[this.windowId]),
       distinctUntilChanged(),
+      untilDestroyed(this),
     )
     .subscribe(data => {
       if (!data) {
@@ -158,6 +168,7 @@ export class WindowComponent implements OnInit {
       this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
       this.showHistoryDialog = data.dialogs.showHistoryDialog;
       this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
+      this.showPreRequestDialog = data.dialogs.showPreRequestDialog;
       this.windowTitle = data.layout.title;
 
       this.subscriptionUrl = data.query.subscriptionUrl;
@@ -177,6 +188,34 @@ export class WindowComponent implements OnInit {
 
       this.newCollectionQueryTitle = data.layout.title;
     });
+
+    this.store.pipe(
+      take(1),
+      untilDestroyed(this),
+    )
+    .subscribe(data => {
+      if (data.settings.enableExperimental) {
+        combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
+          return Object.values(plugins).map(plugin => {
+            return {
+              ...plugin,
+              props: {
+                sdl: state.schema.sdl,
+                query: state.query.query,
+              },
+              context: {
+                setQuery: query => this.updateQuery(query),
+              }
+            };
+          });
+        })
+        .pipe(untilDestroyed(this))
+        .subscribe(plugins => {
+          this.plugins = plugins;
+        });
+      }
+    });
+
 
     this.queryService.loadQuery(this.windowId);
     this.queryService.loadUrl(this.windowId);
@@ -258,13 +297,20 @@ export class WindowComponent implements OnInit {
     }
   }
 
+  togglePreRequestDialog(isOpen) {
+    if (this.showPreRequestDialog !== isOpen) {
+      this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.windowId));
+    }
+  }
+
   setDocView(docView) {
     this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
   }
   onShowTokenInDocs(docView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
-      take(1)
+      take(1),
+      untilDestroyed(this),
     ).subscribe(docsShown => {
       if (!docsShown) {
         this.toggleDocs();
@@ -318,6 +364,14 @@ export class WindowComponent implements OnInit {
   }
   updateSubscriptionConnectionParams(connectionParams) {
     this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
+  }
+
+  updatePreRequestScript(script) {
+    this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(this.windowId, { script }));
+  }
+
+  updatePreRequestEnabled(enabled) {
+    this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(this.windowId, { enabled }));
   }
 
   addQueryToEditor(queryData: { query: String, meta: any }) {
@@ -393,7 +447,7 @@ export class WindowComponent implements OnInit {
   }
 
 
-  trackByFn(index, item) {
+  trackByFn(index) {
     return index;
   }
 
@@ -410,4 +464,14 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
   }
+
+  trackById(index, item) {
+    return item.id;
+  }
+
+  pluginTrackBy(index, plugin) {
+    return plugin.name;
+  }
+
+  ngOnDestroy() {}
 }

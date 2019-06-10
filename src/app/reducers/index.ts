@@ -21,6 +21,7 @@ import * as fromDonation from './donation';
 import * as fromCollection from './collection/collection';
 import * as fromEnvironments from './environments';
 import * as fromStream from './stream/stream';
+import * as fromPreRequest from './pre-request/pre-request';
 import { debug } from 'app/utils/logger';
 
 export interface PerWindowState {
@@ -33,6 +34,7 @@ export interface PerWindowState {
   docs: fromDocs.State;
   history: fromHistory.State;
   stream: fromStream.State;
+  preRequest: fromPreRequest.State;
   windowId: string; // Used by the window reducer
 }
 
@@ -46,6 +48,7 @@ const perWindowReducers = {
   docs: fromDocs.docsReducer,
   history: fromHistory.historyReducer,
   stream: fromStream.streamReducer,
+  preRequest: fromPreRequest.preRequestReducer,
 };
 
 export interface State {
