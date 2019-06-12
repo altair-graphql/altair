@@ -321,9 +321,10 @@
     "@cliqz-oss/firefox-client" "0.3.1"
     es6-promise "^2.0.1"
 
-"@clr/angular@^0.13.7":
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/@clr/angular/-/angular-0.13.7.tgz#ce2fad9b4c1d804460ca834af6ae0635866195dc"
+"@clr/angular@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@clr/angular/-/angular-2.0.0.tgz#f70bf62e82d6613529c770e84605052bf6df0bda"
+  integrity sha512-6daZ95ij6I12NeyDlewgHE/i2owYuh13LRUmY84urQXRb+hJ1ZwZ6rXB1VC7Wg5HB9cw/2NmkmimfAHwNZoeHQ==
   dependencies:
     tslib "^1.9.0"
 
