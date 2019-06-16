@@ -55,6 +55,11 @@ export class QueryCollectionService {
             if (query.id === collectionQuery.id) {
               return false;
             }
+          } else {
+            // Added for backward compatibility. Initially queries didn't have ids. Remove after a while.
+            if (query.windowName === collectionQuery.windowName) {
+              return false;
+            }
           }
 
           return true;
