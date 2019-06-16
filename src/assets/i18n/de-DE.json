@@ -98,6 +98,7 @@
   "COLLECTIONS_SORT_BY_Z_A": "Z - A",
   "COLLECTIONS_SORT_BY_NEWEST": "Neueste",
   "COLLECTIONS_SORT_BY_OLDEST": "Älteste",
+  "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "EDIT_COLLECTION_TITLE_TEXT": "Sammlung bearbeiten",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Details der Sammlung aktualisieren",
   "COLLECTION_TITLE_LABEL": "Name der Sammlung",
