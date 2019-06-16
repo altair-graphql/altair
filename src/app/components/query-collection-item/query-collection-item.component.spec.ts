@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { ClarityModule } from '@clr/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxPopperModule } from 'ngx-popper';
 
 describe('QueryCollectionItemComponent', () => {
   let component: QueryCollectionItemComponent;
@@ -17,7 +18,8 @@ describe('QueryCollectionItemComponent', () => {
         FormsModule,
         CodemirrorModule,
         ClarityModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        NgxPopperModule.forRoot(),
       ]
     })
     .compileComponents();
