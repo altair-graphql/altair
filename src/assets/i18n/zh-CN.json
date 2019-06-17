@@ -98,6 +98,7 @@
   "COLLECTIONS_SORT_BY_Z_A": "Z 到 A",
   "COLLECTIONS_SORT_BY_NEWEST": "最新的记录",
   "COLLECTIONS_SORT_BY_OLDEST": "最旧的记录",
+  "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "EDIT_COLLECTION_TITLE_TEXT": "编辑收藏集",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "更新您的收藏集详情",
   "COLLECTION_TITLE_LABEL": "收藏集标题",
