@@ -98,7 +98,7 @@
   "COLLECTIONS_SORT_BY_Z_A": "Z - A",
   "COLLECTIONS_SORT_BY_NEWEST": "Più recente",
   "COLLECTIONS_SORT_BY_OLDEST": "Meno recente",
-  "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
+  "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Questa query risulta osoleta e non compatibile con il sistema. Siete pregati di cancellarla e ricrearla per evitare perdite di dati.",
   "EDIT_COLLECTION_TITLE_TEXT": "Modifica Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Aggiorna i dettagli della collection",
   "COLLECTION_TITLE_LABEL": "Titolo collection",
