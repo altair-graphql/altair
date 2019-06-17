@@ -63,7 +63,7 @@
     "@beyerleinf/ngx-dnd": "^6.0.0-preview3",
     "@clr/angular": "^0.13.7",
     "@clr/icons": "^0.13.7",
-    "@clr/ui": "^0.13.7",
+    "@clr/ui": "^2.0.1",
     "@ctrl/ngx-codemirror": "^2.0.0",
     "@ngrx/effects": "^6.1.0",
     "@ngrx/store": "^6.1.0",
