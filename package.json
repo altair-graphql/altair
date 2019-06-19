@@ -99,7 +99,7 @@
     "marked": "^0.6.2",
     "mousetrap": "^1.6.2",
     "mousetrap-global-bind": "^1.1.0",
-    "ngrx-store-localstorage": "^6.0.0",
+    "ngrx-store-localstorage": "^7.0.1",
     "ngx-contextmenu": "^5.1.1",
     "ngx-cookie-service": "^2.2.0",
     "ngx-electron": "^2.0.0",
