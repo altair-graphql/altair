@@ -8353,6 +8353,11 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
+lodash.merge@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
+  integrity sha512-AOYza4+Hf5z1/0Hztxpm2/xiPZgi/cjMqdnKTUWTBSKchJlxXXuUSxCCl8rJlf4g6yww/j6mA8nC8Hw/EZWxKQ==
+
 lodash.mergewith@^4.6.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
@@ -8987,10 +8992,12 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-6.0.0.tgz#c8706b11c090f0e096aae7518bc64a7b8a22def8"
-  integrity sha512-rr6JUPFiPSUmR9j8DPVOxIK7h9ayJvtFKBfWeC6iWa2WE1Btpa5KJeH8TJPwLMvKJQ0NXh7EEBtCw/ibWZhyfA==
+ngrx-store-localstorage@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-7.0.1.tgz#58b9fb7797698d07e41330ec2f78fa25052dc245"
+  integrity sha512-Mw5Vjp/KbYZ9qvWw68ixt97+QXsqIAQyceeUIKiMwVQtoWdjs008rYAkO54mJDx57CXVseogVdsnjXokcRijOA==
+  dependencies:
+    lodash.merge "^4.6.1"
 
 ngx-contextmenu@^5.1.1:
   version "5.1.1"
