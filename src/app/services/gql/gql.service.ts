@@ -35,6 +35,7 @@ import { debug } from 'app/utils/logger';
 import * as fromHeaders from '../../reducers/headers/headers';
 import * as fromVariables from '../../reducers/variables/variables';
 import { fillAllFields } from './fillFields';
+import { setByDotNotation } from 'app/utils';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -114,13 +115,7 @@ export class GqlService {
         const fileMap = {};
         data.variables = data.variables || {};
         files.forEach((file, i) => {
-          const fileNameParts = file.name.split('.');
-          if (fileNameParts[1]) {
-            data.variables[fileNameParts[0]] = data.variables[fileNameParts[0]] || [];
-            data.variables[fileNameParts[0]] = [ ...data.variables[fileNameParts[0]], null ];
-          } else {
-            data.variables[file.name] = null;
-          }
+          setByDotNotation(data.variables, file.name, null);
           fileMap[i] = [ `variables.${file.name}` ];
         });
         const formData = new FormData();
