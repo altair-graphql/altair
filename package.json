@@ -40,7 +40,9 @@
     "publish-packages": "npm run build && lerna bootstrap && npm run lerna-publish",
     "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json",
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
-    "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator"
+    "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -118,7 +120,8 @@
     "to-snake-case": "^1.0.0",
     "uuid": "^3.1.0",
     "valid-url": "^1.0.9",
-    "zone.js": "^0.8.20"
+    "zone.js": "^0.8.20",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
@@ -176,5 +179,6 @@
     "type": "opencollective",
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"
-  }
+  },
+  "snyk": true
 }
