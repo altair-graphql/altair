@@ -1,8 +1,8 @@
 
-import {throwError as observableThrowError, Observable } from 'rxjs';
+import {throwError as observableThrowError, Observable, of } from 'rxjs';
 
 import {map, catchError, tap} from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as prettier from 'prettier/standalone';
@@ -140,9 +140,26 @@ export class GqlService {
       observe: 'response',
     })
     .pipe(
-      map(this.checkForError),
-      catchError(err => {
+      catchError((err: HttpErrorResponse) => {
         debug.error(err);
+        if (err.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', err.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.error(
+            `Backend returned code ${err.status}, ` +
+            `body was: ${err.error}`);
+
+          return of(new HttpResponse({
+            body: err.error || err.message,
+            headers: err.headers,
+            status: err.status,
+            statusText: err.statusText,
+            url: err.url,
+          }));
+        }
         return observableThrowError(err);
       }),
     );
