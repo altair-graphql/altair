@@ -32,3 +32,25 @@ patch:
         patched: '2019-07-04T08:21:07.817Z'
     - codemirror-graphql > graphql-language-service-interface > graphql-language-service-utils > graphql-language-service-types > graphql-config > graphql-import > lodash:
         patched: '2019-07-04T08:21:07.817Z'
+    - snyk > inquirer > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-nodejs-lockfile-parser > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-config > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > @snyk/dep-graph > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        patched: '2019-07-06T23:22:30.006Z'
