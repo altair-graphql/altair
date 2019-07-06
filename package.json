@@ -105,7 +105,7 @@
     "ngx-contextmenu": "^5.1.1",
     "ngx-cookie-service": "^2.2.0",
     "ngx-electron": "^2.0.0",
-    "ngx-markdown": "^7.1.4",
+    "ngx-markdown": "^8.1.0",
     "ngx-pipes": "^2.1.0",
     "ngx-popper": "^6.0.6",
     "ngx-take-until-destroy": "^5.4.0",
