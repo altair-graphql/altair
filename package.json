@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -40,7 +40,9 @@
     "publish-packages": "npm run build && lerna bootstrap && npm run lerna-publish",
     "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json",
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
-    "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator"
+    "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -64,7 +66,7 @@
     "@clr/angular": "^0.13.7",
     "@clr/icons": "^0.13.7",
     "@clr/ui": "^0.13.7",
-    "@ctrl/ngx-codemirror": "^1.3.9",
+    "@ctrl/ngx-codemirror": "^2.0.0",
     "@ngrx/effects": "^6.1.0",
     "@ngrx/store": "^6.1.0",
     "@ngrx/store-devtools": "^6.1.0",
@@ -118,7 +120,8 @@
     "to-snake-case": "^1.0.0",
     "uuid": "^3.1.0",
     "valid-url": "^1.0.9",
-    "zone.js": "^0.8.20"
+    "zone.js": "^0.8.20",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
@@ -155,7 +158,7 @@
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "^5.2.2",
     "rxjs-tslint-rules": "^4.23.1",
-    "spectron": "^5.0.0",
+    "spectron": "^6.0.0",
     "ts-node": "^8.0.3",
     "tslint": "^5.9.1",
     "typescript": ">=3.1.1 <3.2",
@@ -176,5 +179,6 @@
     "type": "opencollective",
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"
-  }
+  },
+  "snyk": true
 }

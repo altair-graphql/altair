@@ -74,6 +74,18 @@
         >
           <span class="query-title-icon"><clr-icon shape="file"></clr-icon></span>
           {{ query.windowName }}
+          <span
+            *ngIf="!query.id"
+            class="query-title-icon"
+            [popper]="deprecatedCollectionQuery"
+            [popperPlacement]="'bottom'"
+          >
+            <clr-icon shape="exclamation-triangle" class="is-solid"></clr-icon>
+          </span>
+          <popper-content #deprecatedCollectionQuery>
+              {{ 'COLLECTIONS_DEPRECATED_QUERY_WARNING' | translate }}
+              <a target="_blank" href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries">{{ 'LEARN_MORE_TEXT' | translate }}</a>
+          </popper-content>
         </span>
         <span class="query-collections__item-queries-item-right">
           <clr-dropdown>

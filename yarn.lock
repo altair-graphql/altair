@@ -337,11 +337,12 @@
   optionalDependencies:
     bootstrap "4.0.0-alpha.5"
 
-"@ctrl/ngx-codemirror@^1.3.9":
-  version "1.3.9"
-  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-1.3.9.tgz#6eab973d9353527b8c6b6253905b7074b9d6e619"
+"@ctrl/ngx-codemirror@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-2.0.0.tgz#a1d1f7a1e02708a73f7215a3659d77c6008adb61"
+  integrity sha512-CB2xRraDCfONj4JJpLrAzWBV3mCAKY7WBPB9jXinDtg6RxcckP1O3UjkfE1xzU7/jAlj09ZzPA55ezCyLaNZVg==
   dependencies:
-    "@types/codemirror" "0.0.58"
+    "@types/codemirror" "0.0.72"
     tslib "^1.9.0"
 
 "@lerna/add@3.10.6":
@@ -1053,15 +1054,23 @@
   dependencies:
     "@types/filesystem" "*"
 
-"@types/codemirror@0.0.58":
-  version "0.0.58"
-  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.58.tgz#48b23cc6179f143dc3a4eb175f3c1f2c11808529"
+"@types/codemirror@0.0.72":
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.72.tgz#75e95e3b488717605d2591cd80c4d2ed88ff276e"
+  integrity sha512-dKtEP139Jxdrog/6zW8akX3LdhJ3V8NjYNCpIHdBVVo6ZiYpShPamtQoGpVhzrUzTOu5A6NlozOSiZipCEVCow==
+  dependencies:
+    "@types/tern" "*"
 
 "@types/electron@^1.4.38":
   version "1.6.10"
   resolved "https://registry.yarnpkg.com/@types/electron/-/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
   dependencies:
     electron "*"
+
+"@types/estree@*":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+  integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
 "@types/filesystem@*":
   version "0.0.29"
@@ -1132,6 +1141,13 @@
 "@types/semver@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-5.5.0.tgz#146c2a29ee7d3bae4bf2fcb274636e264c813c45"
+
+"@types/tern@*":
+  version "0.23.3"
+  resolved "https://registry.yarnpkg.com/@types/tern/-/tern-0.23.3.tgz#4b54538f04a88c9ff79de1f6f94f575a7f339460"
+  integrity sha512-imDtS4TAoTcXk0g7u4kkWqedB3E4qpjXzCpD2LU5M5NAXHzCDsypyvXSaG7mM8DKYkCRa7tFp4tS/lp/Wo7Q3w==
+  dependencies:
+    "@types/estree" "*"
 
 "@webassemblyjs/ast@1.7.6":
   version "1.7.6"
@@ -4760,10 +4776,10 @@ electron-chromedriver@^5.0.0-beta.1:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
-electron-chromedriver@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-3.0.0.tgz#ec0a17badb6c3529813c660bf91a43fb91407674"
-  integrity sha512-xWivZRiPTtDFJt+qXv7Ax/Dmhxj0iqESOxoLZ2szu3fv6k1vYDUDJUMHfdfVAke9D2gBRIgChuGb5j3YEt6hxQ==
+electron-chromedriver@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-4.0.0.tgz#064fa2f0d5a97998eeff3258575b90bac8d436da"
+  integrity sha512-CeeAr4QVtsxkEpDWvFLzhdtgDVLQt32RBWjEJ4WxkIPNj0MX5D8gzli2djEPnnLUOX19vcBgs/CW7WBB/O3JIg==
   dependencies:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
@@ -11859,13 +11875,13 @@ spdy@^3.4.1:
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
 
-spectron@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/spectron/-/spectron-5.0.0.tgz#602440da0c892f8d73471652ae68000b98d7769c"
-  integrity sha512-wJrFe8EZ7xvarYawBPd1pDegmSz81U1jG0rSCx+yXqD1TISUH9ASB21KysLXkPylAnc2vhbpGiWQxrqVFtsiJg==
+spectron@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/spectron/-/spectron-6.0.0.tgz#b6ead4735837f36b4be05afa29094460666e61d8"
+  integrity sha512-YQnQgdlpdPU572YhyX1hcDT40Q+5D0hkH4hM3jYy8HLHU1+6z4WTRQkjYdCBcYHE/3fHIQdPeaI+9DUzupQZtw==
   dependencies:
     dev-null "^0.1.1"
-    electron-chromedriver "~3.0.0"
+    electron-chromedriver "~4.0.0"
     request "^2.87.0"
     split "^1.0.0"
     webdriverio "^4.13.0"

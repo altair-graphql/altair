@@ -98,6 +98,7 @@
   "COLLECTIONS_SORT_BY_Z_A": "Z - A",
   "COLLECTIONS_SORT_BY_NEWEST": "Newest",
   "COLLECTIONS_SORT_BY_OLDEST": "Oldest",
+  "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "EDIT_COLLECTION_TITLE_TEXT": "컬렉션 편집",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "컬렉션 정보를 수정합니다",
   "COLLECTION_TITLE_LABEL": "컬렉션 제목",

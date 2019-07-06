@@ -451,7 +451,29 @@ export class QueryEffects {
           const subscriptionUrl = this.environmentService.hydrate(res.data.query.subscriptionUrl);
           const query = this.environmentService.hydrate(res.data.query.query);
           const variables = this.environmentService.hydrate(res.data.variables.variables);
+          let variablesObj = undefined;
           let selectedOperation = res.data.query.selectedOperation;
+
+          const subscriptionErrorHandler = (err, errMsg?) => {
+            if (Array.isArray(err)) {
+              err = err[0];
+            }
+            errMsg = errMsg || err.message || err.stack;
+            this.notifyService.error(`
+              An error occurred in subscription.<br>
+              Error: ${errMsg}
+            `);
+            this.store.dispatch(new queryActions.StopSubscriptionAction(res.windowId));
+            return observableEmpty();
+          };
+
+          try {
+            if (variables) {
+              variablesObj = JSON.parse(variables);
+            }
+          } catch (err) {
+            return subscriptionErrorHandler(err, 'Your variables is not a valid JSON object.');
+          }
 
           try {
             const operationData = this.gqlService.getSelectedOperationData({
@@ -471,18 +493,6 @@ export class QueryEffects {
             return observableEmpty();
           }
 
-          const subscriptionErrorHandler = (err, errMsg?) => {
-            if (Array.isArray(err)) {
-              err = err[0];
-            }
-            errMsg = errMsg || err.message || err.stack;
-            this.notifyService.error(`
-              An error occurred in subscription.<br>
-              Error: ${errMsg}
-            `);
-            this.store.dispatch(new queryActions.StopSubscriptionAction(res.windowId));
-            return observableEmpty();
-          };
           try {
             // Stop any currently active subscription
             this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
@@ -510,7 +520,7 @@ export class QueryEffects {
             });
             const subscriptionClientRequest = subscriptionClient.request({
               query: query,
-              variables: JSON.parse(variables),
+              variables: variablesObj,
               operationName: selectedOperation || undefined,
             }).subscribe({
               next: data => {
@@ -790,15 +800,4 @@ export class QueryEffects {
       private store: Store<any>
     ) {}
 
-  getVariablesObj(variables) {
-    const vars = {};
-
-    variables.forEach(v => {
-      if (v.key && v.value) {
-        vars[v.key] = JSON.parse(v.value);
-      }
-    });
-
-    return vars;
-  }
 }
