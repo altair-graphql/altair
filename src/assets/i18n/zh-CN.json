@@ -116,7 +116,7 @@
   "LEARN_MORE_TEXT": "了解更多",
   "STREAM_CONNECTION_TRYING": "尝试连接到服务器流",
   "STREAM_CONNECTION_CONNECTED": "已经连接到服务器流",
-  "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
-  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_EDITOR_HEADER": "预请求编辑器",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "在请求发送之前写下要执行的脚本",
+  "PRE_REQUEST_ENABLE_TEXT": "启用预请求脚本"
 }
