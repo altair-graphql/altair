@@ -69,7 +69,7 @@
     "@ctrl/ngx-codemirror": "^2.0.0",
     "@ngrx/effects": "^6.1.0",
     "@ngrx/store": "^6.1.0",
-    "@ngrx/store-devtools": "^6.1.0",
+    "@ngrx/store-devtools": "^8.1.0",
     "@ngui/auto-complete": "^2.0.0",
     "@ngx-translate/core": "^11.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
