@@ -1,4 +1,4 @@
-# altair-express-middleware
+# altair-koa-middleware
 
 [![npm](https://img.shields.io/npm/v/altair-koa-middleware.svg)](https://www.npmjs.com/package/altair-koa-middleware)
 
