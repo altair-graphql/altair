@@ -139,7 +139,7 @@
     "chai-as-promised": "^7.1.1",
     "codelyzer": "^4.0.2",
     "devtron": "^1.4.0",
-    "electron-builder": "^20.27.1",
+    "electron-builder": "^21.1.0",
     "electron-chromedriver": "^5.0.0-beta.1",
     "electron-prebuilt-compile": "^4.0.0",
     "electron-reloader": "^0.3.0",
