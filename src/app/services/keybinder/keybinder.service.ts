@@ -63,6 +63,12 @@ export class KeybinderService {
     );
 
     this.bindShortcut(
+      ['Ctrl+Shift+P'],
+      () => this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId)),
+      'Prettify Query'
+    );
+
+    this.bindShortcut(
       ['Command+Enter', 'Ctrl+Enter'],
       () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
       'Send Request'
