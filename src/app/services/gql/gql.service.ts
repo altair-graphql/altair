@@ -425,6 +425,8 @@ export class GqlService {
       } else {
         if (selectIfOneOperation) {
           selectedOperation = availableOperationNames[0];
+        } else {
+          selectedOperation = '';
         }
       }
     } else {
