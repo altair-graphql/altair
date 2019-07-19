@@ -113,7 +113,7 @@ $dark-purple: #303965;
 $primary-color: $green;
 $secondary-color: $blue;
 
-$theme: 'light';
+$theme: "light";
 $theme-bg-color: $white !default;
 $theme-off-bg-color: $light-grey !default;
 $theme-font-color: $black !default;
@@ -147,4 +147,4 @@ $clr-dropdown-bg-color: var(--theme-bg-color);
 $dialog-z-index: 10;
 
 $baseline-size: $clr-baseline-px;
-$base-font-size: (14/$clr_baseline) * 1rem;
+$base-font-size: (14 / $clr_baseline) * 1rem;

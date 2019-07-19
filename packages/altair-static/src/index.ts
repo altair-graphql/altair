@@ -47,6 +47,14 @@ export interface RenderOptions {
      * @default false
      */
     serveInitialOptionsInSeperateRequest?: boolean;
+
+    /**
+     * Namespace for storing the data for the altair instance.
+     * Use this when you have multiple altair instances running on the same domain.
+     * @example
+     * instanceStorageNamespace: 'altair_dev_'
+     */
+    instanceStorageNamespace?: string;
 }
 
 /**
@@ -60,6 +68,7 @@ export const renderInitialOptions = ({
     initialVariables,
     initialHeaders,
     initialPreRequestScript,
+    instanceStorageNamespace
 }: RenderOptions = {}) => {
     let result = '';
     if (endpointURL) {
@@ -82,6 +91,10 @@ export const renderInitialOptions = ({
 
     if (initialHeaders) {
         result += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
+    }
+
+    if (instanceStorageNamespace) {
+        result += `window.__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ = \`${instanceStorageNamespace}\`;`;
     }
     return result;
 }
