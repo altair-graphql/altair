@@ -76,7 +76,8 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-export const keySerializer = (key) => 'altair_' + key;
+const altairInstanceStorageNamespace = window['__ALTAIR_INSTANCE_STORAGE_NAMESPACE__'] || 'altair_';
+export const keySerializer = (key) => `${altairInstanceStorageNamespace}${key}`;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
