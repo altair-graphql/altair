@@ -2,56 +2,54 @@
   <div class="query-collections__item-details-wrapper">
     <div class="query-collections__item-details" (click)="toggleContent()">
       <div class="query-collections__item-title">
-        <span class="query-title-icon" *ngIf="showContent"><clr-icon shape="folder-open"></clr-icon></span>
-        <span class="query-title-icon" *ngIf="!showContent"><clr-icon shape="folder"></clr-icon></span>
+        <span class="query-title-icon" *ngIf="showContent"><i nz-icon nzType="folder-open" nzTheme="outline"></i></span>
+        <span class="query-title-icon" *ngIf="!showContent"><i nz-icon nzType="folder" nzTheme="outline"></i></span>
         <span>{{ collection.title }}</span></div>
       <div class="query-collections__item-meta">{{ 'NUMBER_OF_QUERIES' | translate }} {{ getQueryCount(collection) }}</div>
       <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
     </div>
     <div class="query-collections__item-right">
-      <clr-dropdown>
-        <span class="query-collections__item-icon">
-          <button type="button" clrDropdownTrigger>
-            <clr-icon shape="ellipsis-horizontal"></clr-icon>
-          </button>
-        </span>
-        <clr-dropdown-menu *clrIfOpen>
-          <button type="button" clrDropdownItem (click)="deleteCollection()" track-id="delete_collection">
+      <span class="query-collections__item-icon">
+        <button
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="collectionItemMenu"
+          type="button"
+          class="query-collections__item-icon__button"
+        >
+          <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+        </button>
+      </span>
+      <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            (click)="deleteCollection()"
+          >
             {{ 'COLLECTIONS_MENU_DELETE' | translate }}
-          </button>
-          <button type="button" clrDropdownItem (click)="editCollection()" track-id="edit_collection">
+          </li>
+          <li
+            nz-menu-item
+            (click)="editCollection()"
+          >
             {{ 'COLLECTIONS_MENU_EDIT' | translate }}
-          </button>
-          <button type="button" clrDropdownItem (click)="exportCollection()" track-id="export_collection">
+          </li>
+          <li
+            nz-menu-item
+            (click)="exportCollection()"
+          >
             {{ 'COLLECTIONS_MENU_EXPORT' | translate }}
-          </button>
-          <clr-dropdown>
-            <button type="button" clrDropdownTrigger>{{ 'COLLECTIONS_SORT_BY' | translate }}</button>
-            <clr-dropdown-menu *clrIfOpen>
-              <button
-                type="button"
-                clrDropdownItem
-                (click)="setQueriesSortBy('a-z')"
-              >{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
-                (click)="setQueriesSortBy('z-a')"
-              >{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
-                (click)="setQueriesSortBy('newest')"
-              >{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
-                (click)="setQueriesSortBy('oldest')"
-              >{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</button>
-            </clr-dropdown-menu>
-          </clr-dropdown>
-        </clr-dropdown-menu>
-      </clr-dropdown>
+          </li>
+          <li nz-submenu [nzTitle]="'COLLECTIONS_SORT_BY' | translate">
+            <ul>
+              <li nz-menu-item (click)="setQueriesSortBy('a-z')">{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</li>
+              <li nz-menu-item (click)="setQueriesSortBy('z-a')">{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</li>
+              <li nz-menu-item (click)="setQueriesSortBy('newest')">{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</li>
+              <li nz-menu-item (click)="setQueriesSortBy('oldest')">{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</li>
+            </ul>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
     </div>
   </div>
   <div class="query-collections__item-content-wrapper" [ngClass]="{ 'query-collections__item-content--hidden': !showContent }">
@@ -72,7 +70,7 @@
           class="query-collections__item-queries-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"
         >
-          <span class="query-title-icon"><clr-icon shape="file"></clr-icon></span>
+          <span class="query-title-icon"><i nz-icon nzType="file" nzTheme="outline"></i></span>
           {{ query.windowName }}
           <span
             *ngIf="!query.id"
@@ -80,7 +78,7 @@
             [popper]="deprecatedCollectionQuery"
             [popperPlacement]="'bottom'"
           >
-            <clr-icon shape="exclamation-triangle" class="is-solid"></clr-icon>
+            <i nz-icon nzType="warning" nzTheme="fill"></i>
           </span>
           <popper-content #deprecatedCollectionQuery>
               {{ 'COLLECTIONS_DEPRECATED_QUERY_WARNING' | translate }}
@@ -88,19 +86,27 @@
           </popper-content>
         </span>
         <span class="query-collections__item-queries-item-right">
-          <clr-dropdown>
-            <span class="query-collections__item-queries-item-icon">
-              <button type="button" clrDropdownTrigger>
-                <clr-icon shape="ellipsis-horizontal"></clr-icon>
-              </button>
-              <!-- <clr-icon shape="login"></clr-icon> -->
-            </span>
-            <clr-dropdown-menu *clrIfOpen>
-              <button type="button" clrDropdownItem (click)="deleteQuery(query)" track-id="delete_query_from_collection">
+          <span class="query-collections__item-queries-item-icon">
+            <button
+              type="button"
+              nz-dropdown
+              nzTrigger="click"
+              [nzDropdownMenu]="collectionQueryItemMenu"
+              class="query-collections__item-icon__button"
+            >
+              <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+            </button>
+          </span>
+          <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                (click)="deleteQuery(query)"
+              >
                 {{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}
-              </button>
-            </clr-dropdown-menu>
-          </clr-dropdown>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
         </span>
       </div>
     </div>

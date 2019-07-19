@@ -8,7 +8,7 @@
   dnd-droppable
   (onDropSuccess)="fileDropped($event)"
 >
-  <div class="main-container">
+<nz-layout class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
         <div class="loading-screen-logo-container">
@@ -21,12 +21,10 @@
         </div>
       </div>
     </div>
-    <app-smart-input *ngIf="false"></app-smart-input>
-    <app-fancy-input *ngIf="false"></app-fancy-input>
-    <header class="header">
+    <nz-header class="app-header">
       <div
-        class="branding header-logo-wrapper"
-        [ngClass]="{ 'header-logo-wrapper--experimental': (settings$ | async).enableExperimental }"
+        class="branding app-header__logo-wrapper"
+        [ngClass]="{ 'app-header__logo-wrapper--experimental': (settings$ | async).enableExperimental }"
       >
         <img
           src="assets/img/logo.svg"
@@ -34,6 +32,7 @@
           class="header-logo"
         >
       </div>
+
       <app-window-switcher
         [windows]="windows"
         [windowIds] = "windowIds"
@@ -47,248 +46,297 @@
         (repositionWindowChange)="repositionWindow($event)"
       ></app-window-switcher>
       <div class="header-actions">
-        <clr-dropdown>
-          <button
-            clrDropdownTrigger
-            class="nav-text"
-            type="button"
-            track-id="show_environment_menu"
-            [popper]="'ENVIRONMENTS_BUTTON' | translate"
+        <ul
+          nz-menu
+          [nzSelectable]="false"
+          nzMode="horizontal"
+          class="app-header__menu"
+        >
+          <li
+            nz-menu-item
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="environmentsMenu"
           >
-            <span class="header__environemnt-link">
-              <clr-icon shape="file-settings" [ngClass]="{ 'has-badge': (activeEnvironment$ | async) }"></clr-icon>
-              <span *ngIf="(activeEnvironment$ | async)">{{ (activeEnvironment$ | async)?.title }}</span>
-              <span *ngIf="!(activeEnvironment$ | async)">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
+            <span *ngIf="(activeEnvironment$ | async)">
+              <i nz-icon nzType="eye" nzTheme="outline"></i>
+              <span>{{ (activeEnvironment$ | async)?.title }}</span>
             </span>
-          </button>
-          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-            <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
-              <button
-                type="button"
-                clrDropdownItem
-                (click)="selectActiveEnvironment(environment.id)"
-                *ngFor="let environment of (environments$ | async).subEnvironments; trackBy:trackById;"
-                [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
-                track-id="select_environment">{{ environment.title }}</button>
-              <button type="button" clrDropdownItem (click)="selectActiveEnvironment(null)" track-id="select_no_environment">{{ 'NO_ENVIRONMENT_TEXT' | translate }}</button>
-              <div class="dropdown-divider"></div>
-            </ng-container>
-            <button type="button" clrDropdownItem (click)="toggleEnvironmentManager(true)" track-id="show_environment_manager">{{ 'ENVIRONMENTS_BUTTON' | translate }}...</button>
-          </clr-dropdown-menu>
-        </clr-dropdown>
-        <clr-dropdown>
-          <button class="nav-icon" type="button" clrDropdownTrigger track-id="show_settings_menu">
-            <clr-icon shape="cog"></clr-icon>
-            <clr-icon shape="caret down"></clr-icon>
-          </button>
-          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-            <button type="button" clrDropdownItem (click)="importWindow()" track-id="import_window">{{ 'IMPORT_WINDOW_TEXT' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="setShowImportCurlDialog(true)" track-id="import_window_from_curl">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="showSettingsDialog()" track-id="show_settings">{{ 'SETTINGS_TEXT' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="externalLink($event, 'https://github.com/imolorhe/altair')" track-id="view_on_github">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="externalLink($event, 'https://github.com/imolorhe/altair/issues/new?template=Bug_report.md')" track-id="report_bug">{{ 'REPORT_BUG_TEXT' | translate }}</button>
-          </clr-dropdown-menu>
-        </clr-dropdown>
+            <span *ngIf="!(activeEnvironment$ | async)">
+              <i nz-icon nzType="eye-invisible" nzTheme="outline"></i>
+              <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
+            </span>
+          </li>
+          <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
+                <li
+                  nz-menu-item
+                  (click)="selectActiveEnvironment(environment.id)"
+                  *ngFor="let environment of (environments$ | async).subEnvironments; trackBy:trackById;"
+                  [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
+                >
+                  {{ environment.title }}
+                </li>
+                <li
+                  nz-menu-item
+                  (click)="selectActiveEnvironment(null)"
+                >
+                  {{ 'NO_ENVIRONMENT_TEXT' | translate }}
+                </li>
+                <li nz-menu-divider></li>
+              </ng-container>
+              <li
+                nz-menu-item
+                (click)="toggleEnvironmentManager(true)"
+              >
+                {{ 'ENVIRONMENTS_BUTTON' | translate }}...
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+          <li
+            nz-menu-item
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="settingsMenu"
+            class="app-header__menu-item app-header__menu-item--icon"
+          >
+            <i nz-icon nzType="setting"></i>
+          </li>
+          <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="importWindow()">{{ 'IMPORT_WINDOW_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="setShowImportCurlDialog(true)">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="externalLink($event, 'https://github.com/imolorhe/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="externalLink($event, 'https://github.com/imolorhe/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
+            </ul>
+          </nz-dropdown-menu>
+        </ul>
       </div>
-    </header>
-    <div class="main-container-inner">
-
-      <div class="app-side-menu">
-        <div class="side-menu__main">
-          <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="asterisk"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'SET_HEADERS_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="toggleVariableDialog()" attr.aria-label="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="blocks-group"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'SET_VARIABLES_BUTTON' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="switch"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="toggleHistoryDialog(true)" attr.aria-label="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="history"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'HISTORY_TEXT' | translate }}
-            </div>
-          </a>
-          <a class="side-menu-item" (click)="togglePreRequestDialog(true)" attr.aria-label="{{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="helix"></clr-icon>
-            </div>
-            <div class="side-menu-item-label">
-              {{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}
-            </div>
-          </a>
-          <div class="side-menu-divider"></div>
-          <div class="side-menu-item">
-            <div class="side-menu-item-icon">
-              <clr-icon shape="tools"></clr-icon>
-            </div>
-            <div class="side-menu-item-submenu">
-              <a class="submenu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
-                <div class="submenu-item-icon">
-                  <clr-icon shape="wand"></clr-icon>
+    </nz-header>
+    <nz-layout>
+      <nz-sider *ngIf="false" nzWidth="200px" nzTheme="light">
+        <ul nz-menu nzMode="inline" class="sider-menu">
+          <li nz-submenu nzOpen nzIcon="user" nzTitle="subnav 1">
+            <ul>
+              <li nz-menu-item nzSelected>option1</li>
+              <li nz-menu-item>option2</li>
+              <li nz-menu-item>option3</li>
+              <li nz-menu-item>option4</li>
+            </ul>
+          </li>
+          <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
+            <ul>
+              <li nz-menu-item>option5</li>
+              <li nz-menu-item>option6</li>
+              <li nz-menu-item>option7</li>
+              <li nz-menu-item>option8</li>
+            </ul>
+          </li>
+          <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
+            <ul>
+              <li nz-menu-item>option9</li>
+              <li nz-menu-item>option10</li>
+              <li nz-menu-item>option11</li>
+              <li nz-menu-item>option12</li>
+            </ul>
+          </li>
+        </ul>
+      </nz-sider>
+      <nz-layout class="inner-layout">
+        <nz-content class="main-container-inner">
+          <div class="app-side-menu">
+            <div class="side-menu__main">
+              <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="border" nzTheme="outline"></i>
                 </div>
-                <div class="submenu-item-label">
-                  {{ 'PRETTIFY_BUTTON' | translate }}
+                <div class="side-menu-item-label">
+                  {{ 'SET_HEADERS_BUTTON' | translate }}
                 </div>
               </a>
-              <a class="submenu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
-                <div class="submenu-item-icon">
-                  <clr-icon shape="shrink"></clr-icon>
+              <a class="side-menu-item" (click)="toggleVariableDialog()" attr.aria-label="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="gold" nzTheme="outline"></i>
                 </div>
-                <div class="submenu-item-label">
-                  {{ 'COMPRESS_QUERY_BUTTON' | translate }}
-                </div>
-              </a>
-              <a class="submenu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
-                <div class="submenu-item-icon">
-                  <clr-icon shape="trash"></clr-icon>
-                </div>
-                <div class="submenu-item-label">
-                  {{ 'CLEAR_BUTTON' | translate }}
+                <div class="side-menu-item-label">
+                  {{ 'SET_VARIABLES_BUTTON' | translate }}
                 </div>
               </a>
-              <a class="submenu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
-                <div class="submenu-item-icon">
-                  <clr-icon shape="file-share"></clr-icon>
+              <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="swap" nzTheme="outline"></i>
                 </div>
-                <div class="submenu-item-label">
-                  {{ 'COPY_AS_CURL_BUTTON' | translate }}
-                </div>
-              </a>
-              <a class="submenu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
-                <div class="submenu-item-icon">
-                  <clr-icon shape="container"></clr-icon>
-                </div>
-                <div class="submenu-item-label">
-                  {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
+                <div class="side-menu-item-label">
+                  {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
                 </div>
               </a>
+              <a class="side-menu-item" (click)="toggleHistoryDialog(true)" attr.aria-label="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="history" nzTheme="outline"></i>
+                </div>
+                <div class="side-menu-item-label">
+                  {{ 'HISTORY_TEXT' | translate }}
+                </div>
+              </a>
+              <a class="side-menu-item" (click)="togglePreRequestDialog(true)" attr.aria-label="{{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="file-protect" nzTheme="outline"></i>
+                </div>
+                <div class="side-menu-item-label">
+                  {{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}
+                </div>
+              </a>
+              <div class="side-menu-divider"></div>
+              <div class="side-menu-item">
+                <div class="side-menu-item-icon">
+                  <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+                </div>
+                <div class="side-menu-item-submenu">
+                  <a class="submenu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
+                    <div class="submenu-item-icon">
+                      <i nz-icon nzType="monitor" nzTheme="outline"></i>
+                    </div>
+                    <div class="submenu-item-label">
+                      {{ 'PRETTIFY_BUTTON' | translate }}
+                    </div>
+                  </a>
+                  <a class="submenu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
+                    <div class="submenu-item-icon">
+                      <i nz-icon nzType="shrink" nzTheme="outline"></i>
+                    </div>
+                    <div class="submenu-item-label">
+                      {{ 'COMPRESS_QUERY_BUTTON' | translate }}
+                    </div>
+                  </a>
+                  <a class="submenu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
+                    <div class="submenu-item-icon">
+                      <i nz-icon nzType="delete" nzTheme="outline"></i>
+                    </div>
+                    <div class="submenu-item-label">
+                      {{ 'CLEAR_BUTTON' | translate }}
+                    </div>
+                  </a>
+                  <a class="submenu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
+                    <div class="submenu-item-icon">
+                      <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                    </div>
+                    <div class="submenu-item-label">
+                      {{ 'COPY_AS_CURL_BUTTON' | translate }}
+                    </div>
+                  </a>
+                  <a class="submenu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
+                    <div class="submenu-item-icon">
+                      <i nz-icon nzType="container" nzTheme="outline"></i>
+                    </div>
+                    <div class="submenu-item-label">
+                      {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="side-menu-divider"></div>
+    
+              <div class="side-menu__plugins">
+                <a
+                  *ngFor="let plugin of installedPlugins"
+                  class="side-menu-item"
+                  (click)="togglePluginActive(plugin)"
+                  attr.aria-label="{{ plugin.display_name}}"
+                  [ngClass]="{ 'side-menu-item--active': plugin.isActive }"
+                >
+                  <div class="side-menu-item-icon">
+                    <i nz-icon nzType="block" nzTheme="outline"></i>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ plugin.display_name }}
+                  </div>
+                </a>
+              </div>
+    
+              <div class="side-menu__main-bottom">
+                <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
+                  <div class="side-menu-item-icon">
+                    <i nz-icon nzType="book" nzTheme="outline"></i>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ 'COLLECTIONS_TEXT' | translate }}
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="side-menu__extra">
+              <app-query-collections
+                [showCollections]="showCollections"
+                [collections]="sortedCollections$ | async"
+                [sortBy]="(collection$ | async).sortBy"
+    
+                (loadCollectionsChange)="loadCollections()"
+                (selectQueryChange)="selectQueryFromCollection($event)"
+                (deleteQueryChange)="deleteQueryFromCollection($event)"
+                (deleteCollectionChange)="deleteCollection($event)"
+                (editCollectionChange)="toggleEditCollectionDialog($event)"
+                (exportCollectionChange)="exportCollection($event)"
+                (importCollectionChange)="importCollection()"
+                (sortCollectionsChange)="sortCollections($event)"
+              ></app-query-collections>
             </div>
           </div>
-          <div class="side-menu-divider"></div>
-
-          <div class="side-menu__plugins">
-            <a
-              *ngFor="let plugin of installedPlugins"
-              class="side-menu-item"
-              (click)="togglePluginActive(plugin)"
-              attr.aria-label="{{ plugin.display_name}}"
-              [ngClass]="{ 'side-menu-item--active': plugin.isActive }"
-            >
-              <div class="side-menu-item-icon">
-                <clr-icon shape="objects"></clr-icon>
-              </div>
-              <div class="side-menu-item-label">
-                {{ plugin.display_name }}
-              </div>
-            </a>
-          </div>
-
-          <div class="side-menu__main-bottom">
-            <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
-              <div class="side-menu-item-icon">
-                <clr-icon shape="library"></clr-icon>
-              </div>
-              <div class="side-menu-item-label">
-                {{ 'COLLECTIONS_TEXT' | translate }}
-              </div>
-            </a>
-          </div>
+          <ng-container *ngFor="let windowId of windowIds">
+            <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+          </ng-container>
+        </nz-content>
+        <div class="dialogs">
+          <app-environment-manager
+            [showEnvironmentManager]="(windowsMeta$ | async)?.showEnvironmentManager"
+            [environments]="environments$ | async"
+            (toggleDialogChange)="toggleEnvironmentManager(!!$event)"
+            (baseEnvironmentJsonChange)="updateBaseEnvironmentJson($event)"
+            (subEnvironmentJsonChange)="updateSubEnvironmentJson($event)"
+            (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
+            (addSubEnvironmentChange)="addNewSubEnvironment()"
+            (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
+          ></app-environment-manager>
+          <app-settings-dialog
+            [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
+            [settings]="settings$ | async"
+            [appVersion]="appVersion"
+            (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
+            (settingsJsonChange)="setSettingsJson($event)"
+            (themeChange)="onThemeChange($event)"
+            (languageChange)="onLanguageChange($event)"
+            (addQueryDepthLimitChange)="onAddQueryDepthLimitChange($event)"
+            (tabSizeChange)="onTabSizeChange($event)"
+          ></app-settings-dialog>
+          <app-import-curl-dialog
+            [showImportCurlDialog]="showImportCurlDialog"
+            (toggleDialogChange)="setShowImportCurlDialog($event)"
+            (importCurlChange)="importWindowFromCurl($event)"
+            ></app-import-curl-dialog>
+            <app-edit-collection-dialog
+            [showEditCollectionDialog]="showEditCollectionDialog"
+            [collection]="(collection$ | async).activeCollection"
+            (toggleDialogChange)="setShowEditCollectionDialog($event)"
+            (updateCollectionChange)="updateCollection($event)"
+          ></app-edit-collection-dialog>
         </div>
-        <div class="side-menu__extra">
-          <app-query-collections
-            [showCollections]="showCollections"
-            [collections]="sortedCollections$ | async"
-            [sortBy]="(collection$ | async).sortBy"
-
-            (loadCollectionsChange)="loadCollections()"
-            (selectQueryChange)="selectQueryFromCollection($event)"
-            (deleteQueryChange)="deleteQueryFromCollection($event)"
-            (deleteCollectionChange)="deleteCollection($event)"
-            (editCollectionChange)="toggleEditCollectionDialog($event)"
-            (exportCollectionChange)="exportCollection($event)"
-            (importCollectionChange)="importCollection()"
-            (sortCollectionsChange)="sortCollections($event)"
-          ></app-query-collections>
-        </div>
-      </div>
-      <ng-container *ngFor="let windowId of windowIds">
-        <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
-      </ng-container>
-    </div>
-    <div class="dialogs">
-      <app-environment-manager
-        [showEnvironmentManager]="(windowsMeta$ | async)?.showEnvironmentManager"
-        [environments]="environments$ | async"
-        (toggleDialogChange)="toggleEnvironmentManager(!!$event)"
-        (baseEnvironmentJsonChange)="updateBaseEnvironmentJson($event)"
-        (subEnvironmentJsonChange)="updateSubEnvironmentJson($event)"
-        (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
-        (addSubEnvironmentChange)="addNewSubEnvironment()"
-        (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
-      ></app-environment-manager>
-      <app-settings-dialog
-        [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
-        [settings]="settings$ | async"
-        [appVersion]="appVersion"
-        (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
-        (settingsJsonChange)="setSettingsJson($event)"
-        (themeChange)="onThemeChange($event)"
-        (languageChange)="onLanguageChange($event)"
-        (addQueryDepthLimitChange)="onAddQueryDepthLimitChange($event)"
-        (tabSizeChange)="onTabSizeChange($event)"
-      ></app-settings-dialog>
-      <app-import-curl-dialog
-        [showImportCurlDialog]="showImportCurlDialog"
-        (toggleDialogChange)="setShowImportCurlDialog($event)"
-        (importCurlChange)="importWindowFromCurl($event)"
-        ></app-import-curl-dialog>
-        <app-edit-collection-dialog
-        [showEditCollectionDialog]="showEditCollectionDialog"
-        [collection]="(collection$ | async).activeCollection"
-        (toggleDialogChange)="setShowEditCollectionDialog($event)"
-        (updateCollectionChange)="updateCollection($event)"
-      ></app-edit-collection-dialog>
-    </div>
-
-    <clr-alert [clrAlertType]="'alert-warning'" [clrAlertClosable]="false" [clrAlertAppLevel]="true" *ngIf="isWebApp">
-      <clr-alert-item>
-        <span class="alert-text">
-          Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
-        </span>
-        <div class="alert-actions">
+        <nz-alert nzBanner [nzMessage]="webappLimitation" *ngIf="isWebApp"></nz-alert>
+        <ng-template #webappLimitation>
+          <span class="alert-text">
+            Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
+          </span>
           <button class="btn alert-action" (click)="openWebAppLimitationPost($event)" track-id="web_app_disclaimer_learn_more">Learn more</button>
-        </div>
-      </clr-alert-item>
-    </clr-alert>
+        </ng-template>
 
-    <clr-alert [clrAlertType]="'alert-warning'" [clrAlertAppLevel]="true" (clrAlertClosedChange)="hideDonationAlert()" *ngIf="showDonationAlert">
-      <clr-alert-item>
-        <span class="alert-text">
-          Do you find this app useful? Would you mind supporting its development?
-        </span>
-        <div class="alert-actions">
+        <nz-alert nzBanner [nzMessage]="supportDevelopment" *ngIf="showDonationAlert" nzCloseable (nzOnClose)="hideDonationAlert()"></nz-alert>
+        <ng-template #supportDevelopment>
+          <span class="alert-text">
+              Do you find this app useful? Would you mind supporting its development?
+          </span>
           <button class="btn alert-action" (click)="openDonationPage($event)" track-id="donate">Donate</button>
-        </div>
-      </clr-alert-item>
-    </clr-alert>
-  </div>
+        </ng-template>
+      </nz-layout>
+    </nz-layout>
+  </nz-layout>
 </div>

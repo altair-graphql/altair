@@ -42,14 +42,14 @@ export class SubscriptionUrlDialogComponent implements OnChanges {
     jump: {}
   };
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor', { static: false }) editor;
 
   constructor() { }
 
   ngOnChanges() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.codeMirror) {
+    if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
     }
   }

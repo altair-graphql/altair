@@ -9,21 +9,25 @@ app-flex-resizer {
   display: flex;
   align-items: center;
   position: absolute;
-  left: 0;
+  left: -8px;
   top: 50%;
   transform: translateY(-50%);
   background: var(--theme-off-border-color);
   width: 16px;
   height: 50px;
-  border-radius: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--theme-border-color);
   transition: all .3s ease;
   opacity: .6;
   cursor: col-resize;
+  z-index: 1;
+
   &.is-right {
-      right: 0;
-      left: auto;
+    right: -8px;
+    left: auto;
   }
+
   &:hover {
-      background: var(--theme-border-color);
+    background: var(--theme-border-color);
   }
 }

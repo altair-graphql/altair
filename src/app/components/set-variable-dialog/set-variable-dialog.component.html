@@ -1,21 +1,30 @@
-<clr-modal [clrModalOpen]="showVariableDialog" (clrModalOpenChange)="toggleVariableDialog.next($event)">
-  <h3 class="modal-title">
+<nz-modal
+  [nzVisible]="showVariableDialog"
+  (nzVisibleChange)="toggleVariableDialog.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="toggleDialog.next()"
+>
+  <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'VARIABLES_TEXT' | translate }}</div>
       {{ 'SET_VARIABLES_DIALOG_SUBTEXT' | translate }}
     </div>
-  </h3>
-  <div class="modal-body">
+  </ng-template>
+
+  <ng-template #modalContent>
     <div class="app-dialog-body">
       <app-variables-editor
         [variables]="variables"
         (variablesChange)="variablesChange.emit($event)"
       ></app-variables-editor>
     </div>
-  </div>
-  <div class="modal-footer">
+  </ng-template>
+
+  <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button class="app-button active-primary right" track-id="close_set_variables_dialog" (click)="toggleVariableDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
     </div>
-  </div>
-</clr-modal>
+  </ng-template>
+</nz-modal>

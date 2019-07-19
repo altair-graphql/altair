@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { SortablejsModule } from 'angular-sortablejs';
+import { SortablejsModule } from 'ngx-sortablejs';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { WindowSwitcherComponent } from './window-switcher.component';
 import { ClarityModule } from '@clr/angular';

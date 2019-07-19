@@ -9,25 +9,41 @@
     <div class="doc-viewer-navigation">
       <div class="doc-viewer-navigation--left">
         <div class="doc-viewer-navigation__option" (click)="goBack()" *ngIf="docView.view !== 'root' && docHistory.length" track-id="go_back_docs">
-          <clr-icon shape="arrow" dir="left"></clr-icon>
+          <i nz-icon nzType="arrow-left" nzTheme="outline"></i>
           <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
         </div>
         <div class="doc-viewer-navigation__option" (click)="goHome()" *ngIf="docView.view !== 'root'">
-          <clr-icon shape="home"></clr-icon>
+          <i nz-icon nzType="home" nzTheme="outline"></i>
         </div>
       </div>
       <div class="doc-viewer-navigation--right">
-        <clr-dropdown>
-          <div class="doc-viewer-navigation__option">
-            <clr-icon shape="ellipsis-horizontal" clrDropdownTrigger></clr-icon>
-          </div>
-          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-            <button type="button" clrDropdownItem (click)="exportSDL()" *ngIf="gqlSchema">{{ 'DOCS_EXPORT_SDL' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="loadSchemaChange.next()">{{ 'DOCS_LOAD_SCHEMA' | translate }}...</button>
-          </clr-dropdown-menu>
-        </clr-dropdown>
+        <div
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="docViewerMenu"
+          class="doc-viewer-navigation__option"
+        >
+          <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+        </div>
+        <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li
+              *ngIf="gqlSchema"
+              nz-menu-item
+              (click)="exportSDL()"
+            >
+              {{ 'DOCS_EXPORT_SDL' | translate }}
+            </li>
+            <li
+              nz-menu-item
+              (click)="loadSchemaChange.next()"
+            >
+              {{ 'DOCS_LOAD_SCHEMA' | translate }}...
+            </li>
+          </ul>
+        </nz-dropdown-menu>
         <div class="doc-viewer-navigation__option" (click)="toggleDocsChange.next()">
-          <clr-icon shape="times"></clr-icon>
+          <i nz-icon nzType="close" nzTheme="outline"></i>
         </div>
       </div>
     </div>

@@ -121,30 +121,16 @@ $theme-off-font-color: $dark-grey !default;
 $theme-border-color: $grey !default;
 $theme-off-border-color: $light-grey !default;
 
-$clr_baseline: 24;
-$clr-baseline-px: $clr_baseline * 1px;
-$clr-breakpoints: (
-    small : 544px,
-    medium: 768px,
-    large : 992px,
-    xlarge: 1200px
-);
-$clr-modal-content-box-shadow-color: var(--shadow-bg);
-$clr-modal-bg-color: var(--theme-bg-color);
+$baseline: 24;
+$baseline-px: $baseline * 1px;
 $modal-shadow-color: var(--shadow-bg);
 $vertical-nav-width: 180px;
 $vertical-nav-min-width: 65px;
 $vertical-nav-bg-color: var(--theme-bg-color);
 $vertical-nav-item-height: 2rem;
 $vertical-nav-icon-size: 0.8rem;
-$clr-content-area-padding-top: 10px;
-$clr-content-area-padding-right: 10px;
-$clr-content-area-padding-bottom: 10px;
-$clr-content-area-padding-left: 10px;
-
-$clr-dropdown-bg-color: var(--theme-bg-color);
 
 $dialog-z-index: 10;
 
-$baseline-size: $clr-baseline-px;
-$base-font-size: (14 / $clr_baseline) * 1rem;
+$baseline-size: $baseline-px;
+$base-font-size: (14 / $baseline) * 1rem;

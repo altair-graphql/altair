@@ -1,11 +1,20 @@
-<clr-modal [clrModalOpen]="showEnvironmentManager" [clrModalSize]="'lg'" (clrModalOpenChange)="toggleDialogChange.next($event)">
-  <h3 class="modal-title">
+<nz-modal
+  [nzVisible]="showEnvironmentManager"
+  (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  [nzWidth]="870"
+  (nzOnCancel)="toggleDialogChange.next($event)"
+>
+  <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'ENVIRONMENTS_MANAGER_TEXT' | translate }}</div>
       {{ 'ENVIRONMENTS_SUB_TEXT' | translate }}
     </div>
-  </h3>
-  <div class="modal-body">
+  </ng-template>
+
+  <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="app-dialog-section">
         <div class="environment-manager-wrapper">
@@ -44,7 +53,7 @@
               </div>
               <div class="environment-manager__editor-meta-actions">
                 <button class="app-button icon-button" (click)="onDeleteSubEnvironment()">
-                  <clr-icon shape="trash"></clr-icon>
+                  <i nz-icon nzType="delete" nzTheme="outline"></i>
                 </button>
               </div>
             </div>
@@ -59,11 +68,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
+  </ng-template>
+
+  <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <div class="environment-manager__tips left">{{ 'ENVIRONMENT_VARIABLE_TIP' | translate }}</div>
       <button track-id="save_environments" class="app-button active-primary right" (click)="toggleDialogChange.next(false);">{{ 'SAVE_BUTTON' | translate }}</button>
     </div>
-  </div>
-</clr-modal>
+  </ng-template>
+</nz-modal>

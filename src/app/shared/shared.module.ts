@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxElectronModule } from 'ngx-electron';
-import { SortablejsModule } from 'angular-sortablejs';
+import { SortablejsModule } from 'ngx-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { DndModule } from '@beyerleinf/ngx-dnd';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 @NgModule({
   imports: [
@@ -20,12 +21,13 @@ import { MarkdownModule } from 'ngx-markdown';
     NgPipesModule,
     NguiAutoCompleteModule,
     ContextMenuModule.forRoot(),
-    DndModule.forRoot(),
+    DndModule,
     NgxPopperModule.forRoot({
       applyClass: 'tooltip-content',
       trigger: 'hover'
     }),
     MarkdownModule.forRoot(),
+    NgZorroAntdModule,
   ],
 
   // DON'T FORGET TO EXPORT MODULE
@@ -39,6 +41,7 @@ import { MarkdownModule } from 'ngx-markdown';
     NguiAutoCompleteModule,
     NgxPopperModule,
     MarkdownModule,
+    NgZorroAntdModule,
   ]
 })
 export class SharedModule {
