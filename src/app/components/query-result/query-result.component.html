@@ -22,7 +22,7 @@
     <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
       <div class="response-stats">
         <div class="left">
-          <span class="response-status-code response-stats__item">{{responseStatus}} {{responseStatusText}}</span>
+          <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
           <span class="response-time response-stats__item"><clr-icon shape="clock"></clr-icon> {{responseTime}}ms</span>
         </div>
         <div class="right">

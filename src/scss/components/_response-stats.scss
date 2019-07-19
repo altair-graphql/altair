@@ -1,4 +1,4 @@
-.response-stats{
+.response-stats {
   // position: absolute;
   top: 0;
   left: 0;
@@ -7,19 +7,45 @@
   font-size: fontsize(12);
   color: var(--theme-font-color);
 }
+
 .response-stats__item {
   display: inline-block;
   padding: 0 10px;
   border-radius: 5px;
   margin-right: 10px;
+
+  &[data-status-code^="1"] {
+    background: var(--orange-color);
+    color: var(--white-color);
+  }
+
+  &[data-status-code^="2"] {
+    background: var(--green-color);
+    color: var(--white-color);
+  }
+
+  &[data-status-code^="3"] {
+    background: var(--orange-color);
+    color: var(--white-color);
+  }
+
+  &[data-status-code^="4"] {
+    background: var(--red-color);
+    color: var(--white-color);
+  }
+
+  &[data-status-code^="5"] {
+    background: var(--red-color);
+    color: var(--white-color);
+  }
 }
-.response-status-code{
+
+.response-status-code {
   background: rgba(var(--rgb-blue), .1);
 }
-.response-time{
+
+.response-time {
   background: rgba(var(--rgb-black), .5);
   color: var(--white-color);
-}
-.response-time{
   display: inline-block;
 }
