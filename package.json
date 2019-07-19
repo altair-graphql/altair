@@ -41,8 +41,7 @@
     "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json",
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "snyk-protect": "snyk protect"
   },
   "engines": {
     "node": ">= 6.9.1"
