@@ -59,6 +59,12 @@ For linux users, you can also install using [snap](https://snapcraft.io/altair):
 $ snap install altair
 ```
 
+For arch linux users, an AUR package [aur/altair](https://aur.archlinux.org/packages/altair/) exists:
+
+```
+$ yay -S altair
+```
+
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
