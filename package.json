@@ -89,7 +89,7 @@
     "electron-is-dev": "^1.0.0",
     "electron-log": "^3.0.2",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^4.0.1",
+    "electron-updater": "^4.1.2",
     "electron-util": "^0.10.0",
     "electron-window-state": "^5.0.3",
     "express": "^4.16.2",
