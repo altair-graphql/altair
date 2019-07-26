@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { HistoryDialogComponent } from './history-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('HistoryDialogComponent', () => {
   let component: HistoryDialogComponent;
@@ -14,9 +15,10 @@ describe('HistoryDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HistoryDialogComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot()
       ]
     })
