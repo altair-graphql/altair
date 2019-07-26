@@ -27,24 +27,20 @@
   <div class="url-box__input-container">
     <div class="url-box__input-prepend" *ngIf="streamState">
       <div class="url-box__connection-indicator">
-        <i
-          nz-icon
-          nzType="exclamation-circle"
-          nzTheme="fill"
+        <clr-icon
           *ngIf="streamState == 'uncertain'"
-          class="connection-indicator--uncertain"
+          shape="exclamation-circle"
+          class="is-solid connection-indicator--uncertain"
           [popper]="'STREAM_CONNECTION_TRYING' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
-        ></i>
-        <i
-          nz-icon
-          nzType="compass"
-          nzTheme="fill"
+        ></clr-icon>
+        <clr-icon
           *ngIf="streamState == 'connected'"
-          class="connection-indicator--connected"
+          shape="circle"
+          class="is-solid connection-indicator--connected"
           [popper]="'STREAM_CONNECTION_CONNECTED' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
-        ></i>
+        ></clr-icon>
       </div>
     </div>
     <app-fancy-input
@@ -63,7 +59,7 @@
         [nzDropdownMenu]="urlBoxActionMenu"
         class="url-box__input-btn"
       >
-        <i nz-icon nzType="save" nzTheme="outline"></i>
+        <clr-icon shape="floppy"></clr-icon>
       </button>
       <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
         <ul nz-menu>
@@ -96,7 +92,7 @@
         [popper]="'RELOAD_DOCS_BUTTON' | translate"
         [popperPlacement]="'bottom'"
       >
-        <i nz-icon nzType="reload" nzTheme="outline"></i>
+        <clr-icon shape="refresh"></clr-icon>
       </button>
       <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}" track-id="show_docs">
         {{ 'DOCS_TEXT' | translate }}
@@ -126,7 +122,7 @@
     <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
     <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
     <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
-    <i nz-icon nzType="down" nzTheme="outline"></i>
+    <clr-icon shape="caret down"></clr-icon>
   </button>
   <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
     <ul nz-menu>

@@ -59,11 +59,11 @@
             [nzDropdownMenu]="environmentsMenu"
           >
             <span *ngIf="(activeEnvironment$ | async)">
-              <i nz-icon nzType="eye" nzTheme="outline"></i>
+              <clr-icon shape="eye"></clr-icon>
               <span>{{ (activeEnvironment$ | async)?.title }}</span>
             </span>
             <span *ngIf="!(activeEnvironment$ | async)">
-              <i nz-icon nzType="eye-invisible" nzTheme="outline"></i>
+              <clr-icon shape="eye-hide"></clr-icon>
               <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
             </span>
           </li>
@@ -101,7 +101,8 @@
             [nzDropdownMenu]="settingsMenu"
             class="app-header__menu-item app-header__menu-item--icon"
           >
-            <i nz-icon nzType="setting"></i>
+            <clr-icon shape="cog"></clr-icon>
+            <clr-icon shape="caret down"></clr-icon>
           </li>
           <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
             <ul nz-menu>
@@ -150,7 +151,7 @@
             <div class="side-menu__main">
               <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="border" nzTheme="outline"></i>
+                  <clr-icon shape="asterisk"></clr-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'SET_HEADERS_BUTTON' | translate }}
@@ -158,7 +159,7 @@
               </a>
               <a class="side-menu-item" (click)="toggleVariableDialog()" attr.aria-label="{{ 'SET_VARIABLES_BUTTON' | translate }}" track-id="show_set_variables">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="gold" nzTheme="outline"></i>
+                  <clr-icon shape="blocks-group"></clr-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'SET_VARIABLES_BUTTON' | translate }}
@@ -166,7 +167,7 @@
               </a>
               <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="swap" nzTheme="outline"></i>
+                  <clr-icon shape="switch"></clr-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
@@ -174,7 +175,7 @@
               </a>
               <a class="side-menu-item" (click)="toggleHistoryDialog(true)" attr.aria-label="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="history" nzTheme="outline"></i>
+                  <clr-icon shape="history"></clr-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'HISTORY_TEXT' | translate }}
@@ -182,7 +183,7 @@
               </a>
               <a class="side-menu-item" (click)="togglePreRequestDialog(true)" attr.aria-label="{{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="file-protect" nzTheme="outline"></i>
+                  <clr-icon shape="helix"></clr-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'PRE_REQUEST_EDITOR_HEADER' | translate }}
@@ -191,12 +192,12 @@
               <div class="side-menu-divider"></div>
               <div class="side-menu-item">
                 <div class="side-menu-item-icon">
-                  <i nz-icon nzType="ellipsis" nzTheme="outline"></i>
+                  <clr-icon shape="tools"></clr-icon>
                 </div>
                 <div class="side-menu-item-submenu">
                   <a class="submenu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
                     <div class="submenu-item-icon">
-                      <i nz-icon nzType="monitor" nzTheme="outline"></i>
+                      <clr-icon shape="wand"></clr-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'PRETTIFY_BUTTON' | translate }}
@@ -204,7 +205,7 @@
                   </a>
                   <a class="submenu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
                     <div class="submenu-item-icon">
-                      <i nz-icon nzType="shrink" nzTheme="outline"></i>
+                      <clr-icon shape="shrink"></clr-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'COMPRESS_QUERY_BUTTON' | translate }}
@@ -212,7 +213,7 @@
                   </a>
                   <a class="submenu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
                     <div class="submenu-item-icon">
-                      <i nz-icon nzType="delete" nzTheme="outline"></i>
+                      <clr-icon shape="trash"></clr-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'CLEAR_BUTTON' | translate }}
@@ -220,7 +221,7 @@
                   </a>
                   <a class="submenu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
                     <div class="submenu-item-icon">
-                      <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                      <clr-icon shape="file-share"></clr-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'COPY_AS_CURL_BUTTON' | translate }}
@@ -228,7 +229,7 @@
                   </a>
                   <a class="submenu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
                     <div class="submenu-item-icon">
-                      <i nz-icon nzType="container" nzTheme="outline"></i>
+                      <clr-icon shape="container"></clr-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
@@ -247,7 +248,7 @@
                   [ngClass]="{ 'side-menu-item--active': plugin.isActive }"
                 >
                   <div class="side-menu-item-icon">
-                    <i nz-icon nzType="block" nzTheme="outline"></i>
+                    <clr-icon shape="objects"></clr-icon>
                   </div>
                   <div class="side-menu-item-label">
                     {{ plugin.display_name }}
@@ -258,7 +259,7 @@
               <div class="side-menu__main-bottom">
                 <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
                   <div class="side-menu-item-icon">
-                    <i nz-icon nzType="book" nzTheme="outline"></i>
+                    <clr-icon shape="library"></clr-icon>
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'COLLECTIONS_TEXT' | translate }}

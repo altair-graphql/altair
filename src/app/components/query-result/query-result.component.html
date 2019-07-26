@@ -23,14 +23,14 @@
       <div class="response-stats">
         <div class="left">
           <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
-          <span class="response-time response-stats__item"><i nz-icon nzType="clock-circle" nzTheme="outline"></i> {{responseTime}}ms</span>
+          <span class="response-time response-stats__item"><clr-icon shape="clock"></clr-icon> {{responseTime}}ms</span>
         </div>
         <div class="right">
         </div>
       </div>
       <div class="query-result__bottom-actions">
         <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
-          <i nz-icon nzType="download" nzTheme="outline"></i>
+          <clr-icon shape="download"></clr-icon>
           {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
         </button>
       </div>

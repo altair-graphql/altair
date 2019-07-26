@@ -36,7 +36,7 @@
 <context-menu>
   <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
     <span class="menu-icon">
-      <i nz-icon nzType="edit" nzTheme="fill"></i>
+      <clr-icon shape="pencil" class="is-solid"></clr-icon>
     </span>
     <span class="menu-text">
       {{ 'EDIT_WINDOW_TEXT' | translate }}
@@ -44,7 +44,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="duplicateWindow($event.item.windowId)">
     <span class="menu-icon">
-      <i nz-icon nzType="copy" nzTheme="fill"></i>
+      <clr-icon shape="clone" class="is-solid"></clr-icon>
     </span>
     <span class="menu-text">
       {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
@@ -53,7 +53,7 @@
   <ng-template contextMenuItem divider="true"></ng-template>
   <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
     <span class="menu-icon">
-      <i nz-icon nzType="stop" nzTheme="fill"></i>
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_WINDOW_TEXT' | translate }}
@@ -61,7 +61,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="closeWindowsToTheRight($event.item.index)">
     <span class="menu-icon">
-      <i nz-icon nzType="stop" nzTheme="fill"></i>
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
@@ -69,7 +69,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="closeOtherWindows($event.item.windowId)">
     <span class="menu-icon">
-      <i nz-icon nzType="stop" nzTheme="fill"></i>
+      <clr-icon shape="circle" class="is-solid"></clr-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
