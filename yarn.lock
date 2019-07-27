@@ -5501,14 +5501,6 @@ electron-builder@^21.1.1:
     update-notifier "^3.0.1"
     yargs "^13.3.0"
 
-electron-chromedriver@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-5.0.1.tgz#0c102a482f16bd47f54fcdd238cf64210395ff4a"
-  integrity sha512-w82q6KkIsKjzhcucllpxeulIxYn5rccNw43rpbMuZcgMQ0EPsckoYwUt7Gadmdi14xniZ+debN9SM8V1EUyaBQ==
-  dependencies:
-    electron-download "^4.1.1"
-    extract-zip "^1.6.7"
-
 electron-chromedriver@^6.0.0-beta.3:
   version "6.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-6.0.0-beta.3.tgz#336e0358cfd29d3d62fe36de4096e7285c74975c"
@@ -5516,6 +5508,14 @@ electron-chromedriver@^6.0.0-beta.3:
   dependencies:
     electron-download "^4.1.1"
     extract-zip "^1.6.7"
+
+electron-chromedriver@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-4.0.0.tgz#064fa2f0d5a97998eeff3258575b90bac8d436da"
+  integrity sha512-CeeAr4QVtsxkEpDWvFLzhdtgDVLQt32RBWjEJ4WxkIPNj0MX5D8gzli2djEPnnLUOX19vcBgs/CW7WBB/O3JIg==
+  dependencies:
+    electron-download "^4.1.0"
+    extract-zip "^1.6.5"
 
 electron-compile@*, electron-compile@^6.4.4:
   version "6.4.4"
@@ -6354,7 +6354,7 @@ extract-opts@^3.0.1:
     editions "^1.1.1"
     typechecker "^4.3.0"
 
-extract-zip@^1.0.3, extract-zip@^1.6.7:
+extract-zip@^1.0.3, extract-zip@^1.6.5, extract-zip@^1.6.7:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/extract-zip/-/extract-zip-1.6.7.tgz#a840b4b8af6403264c8db57f4f1a74333ef81fe9"
   dependencies:
@@ -13191,13 +13191,13 @@ spdy@^4.0.0:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
-spectron@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/spectron/-/spectron-7.0.0.tgz#2a16ea2b2fbe6149f5fa9fa1a2be601f5878e00c"
-  integrity sha512-l6EqXNJLLjbHFr4s2tky0hQU7Ql8UzNsAJm6CiDvX1eGOPiRVJBf2lqZWHGPayZQ7auxdhqAhnHceJJkokDiPQ==
+spectron@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/spectron/-/spectron-6.0.0.tgz#b6ead4735837f36b4be05afa29094460666e61d8"
+  integrity sha512-YQnQgdlpdPU572YhyX1hcDT40Q+5D0hkH4hM3jYy8HLHU1+6z4WTRQkjYdCBcYHE/3fHIQdPeaI+9DUzupQZtw==
   dependencies:
     dev-null "^0.1.1"
-    electron-chromedriver "^5.0.1"
+    electron-chromedriver "~4.0.0"
     request "^2.87.0"
     split "^1.0.0"
     webdriverio "^4.13.0"

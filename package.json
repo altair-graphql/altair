@@ -158,7 +158,7 @@
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "^5.4.2",
     "rxjs-tslint-rules": "^4.24.3",
-    "spectron": "^7.0.0",
+    "spectron": "6.0.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
