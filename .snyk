@@ -32,3 +32,11 @@ patch:
         patched: '2019-07-04T08:21:07.817Z'
     - codemirror-graphql > graphql-language-service-interface > graphql-language-service-utils > graphql-language-service-types > graphql-config > graphql-import > lodash:
         patched: '2019-07-04T08:21:07.817Z'
+    - codemirror-graphql > graphql-language-service-parser > graphql-config > lodash:
+        patched: '2019-07-28T05:58:57.419Z'
+    - codemirror-graphql > graphql-language-service-parser > graphql-language-service-types > graphql-config > lodash:
+        patched: '2019-07-28T05:58:57.419Z'
+    - codemirror-graphql > graphql-language-service-parser > graphql-config > graphql-import > lodash:
+        patched: '2019-07-28T05:58:57.419Z'
+    - codemirror-graphql > graphql-language-service-parser > graphql-language-service-types > graphql-config > graphql-import > lodash:
+        patched: '2019-07-28T05:58:57.419Z'
