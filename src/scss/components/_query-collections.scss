@@ -24,11 +24,6 @@ app-query-collections {
   height: 100%;
   overflow: auto;
   background: var(--theme-bg-color);
-  // padding: 10px;
-  .clr-treenode-content {
-    line-height: 1.4;
-    margin-bottom: 5px;
-  }
 }
 .query-title-icon {
   display: flex;
@@ -88,6 +83,13 @@ app-query-collections {
   opacity: 0;
   transition: all .3s ease;
 }
+
+.query-collections__item-icon__button {
+  background: var(--theme-off-bg-color);
+  border: none;
+  color: var(--theme-font-color);
+}
+
 .query-collections__item-title {
   display: flex;
   align-items: center;

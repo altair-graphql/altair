@@ -45,7 +45,7 @@ export class QueryResultComponent implements OnChanges {
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor', { static: true }) editor;
 
   resultEditorConfig = {
     mode: 'graphql-results',
@@ -71,7 +71,7 @@ export class QueryResultComponent implements OnChanges {
   ngOnChanges() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.codeMirror) {
+    if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
     }
   }

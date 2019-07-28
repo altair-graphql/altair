@@ -17,7 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ClarityModule } from '@clr/angular';
-import { SortablejsModule } from 'angular-sortablejs';
+import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './shared/shared.module';
 
@@ -39,6 +39,12 @@ import { WindowComponent } from './containers/window/window.component';
 import * as services from './services';
 import { HTTPErrorInterceptor } from './interceptors/http-error.interceptor';
 import { GlobalErrorHandler } from './error-handler';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { AppOverlayContainer } from './overlay-container';
+
+registerLocaleData(en);
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -80,6 +86,11 @@ const providers = [
     provide: ErrorHandler,
     useClass: GlobalErrorHandler,
   },
+  {
+    provide: OverlayContainer,
+    useClass: AppOverlayContainer,
+    // useFactory: () => new AppOverlayContainer()
+  }
 ];
 
 @NgModule({

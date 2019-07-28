@@ -40,6 +40,8 @@ app-window-switcher {
   line-height: 1.5rem;
 }
 .window-switcher {
+  top: 0;
+  height: 60px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
   &:hover{

@@ -9,7 +9,7 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
 
   @Input() plugin = null;
 
-  @ViewChild('pluginElRef') pluginElRef: ElementRef;
+  @ViewChild('pluginElRef', { static: true }) pluginElRef: ElementRef;
   pluginElement = null;
 
   constructor() { }

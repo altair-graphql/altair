@@ -1,19 +1,27 @@
-<clr-modal [clrModalOpen]="showDialog" (clrModalOpenChange)="toggleDialog.next($event)">
-  <h3 class="modal-title">
+<nz-modal
+  [nzVisible]="showDialog"
+  (nzVisibleChange)="toggleDialog.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="toggleDialog.next()"
+>
+  <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ heading }}</div>
-      {{ subheading}}
+      {{ subheading }}
     </div>
-  </h3>
-  <div class="modal-body">
-    <div class="app-dialog-body">
-      <ng-content></ng-content>
-    </div>
-  </div>
-  <div class="modal-footer" *ngIf="showFooter">
-    <div class="app-dialog-footer">
-      <button class="app-button active-primary right" (click)="toggleDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
-    </div>
-  </div>
-</clr-modal>
-  
+  </ng-template>
+
+  <ng-template #modalContent>
+    <ng-content></ng-content>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <ng-container *ngIf="showFooter">
+      <div class="app-dialog-footer">
+        <button class="app-button active-primary right" (click)="toggleDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
+      </div>
+    </ng-container>
+  </ng-template>
+</nz-modal>

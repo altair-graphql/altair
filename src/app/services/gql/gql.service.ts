@@ -24,7 +24,7 @@ import {
   visit,
   DocumentNode,
 } from 'graphql';
-import * as compress from 'graphql-query-compress'; // Somehow this is the way to use this
+import compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
 import { NotifyService } from '../notify/notify.service';
 

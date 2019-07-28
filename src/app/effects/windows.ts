@@ -4,7 +4,7 @@ import {empty as observableEmpty, of as observableOf,  Observable } from 'rxjs';
 import {switchMap, withLatestFrom} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import * as fromRoot from '../reducers';
 import * as fromWindows from '../reducers/windows';
@@ -22,8 +22,8 @@ export class WindowsEffects {
   // Updates windowsMeta with window IDs when a window is added
   @Effect()
   addWindowID$: Observable<Action> = this.actions$
-    .ofType(windowActions.ADD_WINDOW)
     .pipe(
+      ofType(windowActions.ADD_WINDOW),
       withLatestFrom(this.store, (action: windowActions.Action, state) => {
         return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
       }),
@@ -39,8 +39,8 @@ export class WindowsEffects {
   // Updates windowsMeta with window IDs when a window is removed
   @Effect()
   removeWindowID$: Observable<Action> = this.actions$
-    .ofType(windowActions.REMOVE_WINDOW)
     .pipe(
+      ofType(windowActions.REMOVE_WINDOW),
       withLatestFrom(this.store, (action: windowActions.Action, state) => {
         return { windows: state.windows, windowIds: state.windowsMeta.windowIds, action };
       }),
@@ -55,8 +55,8 @@ export class WindowsEffects {
   // Exports the window data
   @Effect()
   exportWindow$: Observable<Action> = this.actions$
-    .ofType(windowActions.EXPORT_WINDOW)
     .pipe(
+      ofType(windowActions.EXPORT_WINDOW),
       withLatestFrom(this.store, (action: windowActions.Action, state) => {
         return { data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
       }),
@@ -70,8 +70,8 @@ export class WindowsEffects {
 
   @Effect()
   importWindow$: Observable<Action> = this.actions$
-    .ofType(windowActions.IMPORT_WINDOW)
     .pipe(
+      ofType(windowActions.IMPORT_WINDOW),
       switchMap(action => {
         openFile({ accept: '.agq' }).then((data: string) => {
           this.windowService.importWindowDataFromJson(data);
@@ -82,8 +82,8 @@ export class WindowsEffects {
 
   @Effect()
   importWindowFromCurl$: Observable<Action> = this.actions$
-    .ofType(windowActions.IMPORT_WINDOW_FROM_CURL)
     .pipe(
+      ofType(windowActions.IMPORT_WINDOW_FROM_CURL),
       switchMap((action: windowActions.Action) => {
         this.windowService.importWindowDataFromCurl(action.payload.data);
         return observableEmpty();

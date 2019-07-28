@@ -1,7 +1,9 @@
 .toast-top-center {
   top: 10px;
 }
+
 #toast-container {
+
   & > .toast {
     line-height: 1.4;
     box-shadow: none;
@@ -11,8 +13,8 @@
     border-left: 5px solid white;
     width: 100%;
     max-width: 400px;
-
   }
+
   .toast-title {
     line-height: 1.2;
     text-transform: uppercase;
@@ -20,12 +22,24 @@
     letter-spacing: .5px;
     margin-bottom: 3px;
   }
+
   .toast-close-button {
     font-weight: normal;
     text-shadow: none;
     transition: all .3s ease;
   }
+
   .toast-message {
     font-size: fontsize(13);
   }
+}
+
+nz-alert {
+  text-align: center;
+}
+
+.alert-action {
+  background: transparent;
+  border: currentColor 1px solid;
+  border-radius: 4px;
 }

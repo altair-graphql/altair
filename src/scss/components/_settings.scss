@@ -2,17 +2,24 @@
 .settings-shortcut-category-title {
   text-transform: uppercase;
 }
+
+.settings-shortcut-description {
+  margin-right: 20px;
+}
+
 .settings-shortcut-key {
-  background: var(--theme-off-bg-color);
+  background: var(--theme-bg-color);
   padding: 3px 5px;
   border-radius: 4px;
   margin-right: 5px;
 }
+
 .settings__reset-link,
 .settings__reset-link:visited,
 .settings__reset-link:link {
   color: var(--theme-font-color);
   opacity: .1;
+
   &:hover {
     transition: .3s all 1s ease;
     opacity: 1;

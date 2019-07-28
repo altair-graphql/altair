@@ -3,10 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImportCurlDialogComponent } from './import-curl-dialog.component';
 
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { SharedModule } from 'app/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as services from '../../services';
 
 describe('ImportCurlDialogComponent', () => {
@@ -17,9 +18,10 @@ describe('ImportCurlDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ImportCurlDialogComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot()
       ],
     })

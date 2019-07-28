@@ -12,7 +12,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       debug.error('Backend returned status code: ', error.status);
       debug.error('Response body:', error.message);
     } else {
-      debug.error(error.message);
+      debug.error('Application error:', error.message);
     }
     // appRef.tick();
   }

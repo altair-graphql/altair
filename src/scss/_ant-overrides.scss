@@ -1,0 +1,82 @@
+.ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-submenu {
+  top: 0;
+}
+
+.ant-layout {
+  background: var(--theme-bg-color);
+}
+
+.ant-modal-footer {
+  @include clearfix;
+  border-color: var(--theme-border-color);
+}
+
+.ant-modal-header {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-modal-close-x,
+.ant-modal-close {
+  color: var(--theme-font-color);
+}
+
+.ant-modal-content {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+}
+
+.anticon {
+  vertical-align: middle;
+}
+
+.ant-checkbox-wrapper {
+  color: var(--theme-font-color);
+}
+
+.ant-collapse {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-collapse > .ant-collapse-item {
+  border-color: var(--theme-border-color);
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  color: var(--theme-font-color);
+}
+
+.ant-collapse-content {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-list {
+  color: var(--theme-font-color);
+}
+.ant-list-bordered {
+  border-color: var(--theme-border-color);
+}
+
+.ant-list-bordered .ant-list-item {
+  border-color: var(--theme-border-color);
+}
+
+.ant-dropdown-menu {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+}
+
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  background: transparent;
+  color: var(--theme-font-color);
+  &:hover {
+    background: var(--theme-off-bg-color);
+  }
+}

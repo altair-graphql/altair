@@ -1,15 +1,29 @@
 <div class="url-box">
-  <clr-dropdown>
-    <button type="button" class="url-box__button btn btn-outline-primary url-box__button--method" clrDropdownTrigger [value]="httpVerb" track-id="http_verb">
-      {{ httpVerb }}
-      &#9660;
-      <!-- &#8964; -->
-      <!-- <clr-icon shape="angle down"></clr-icon> -->
-    </button>
-    <clr-dropdown-menu *clrIfOpen>
-      <button track-id="http_verb_method" *ngFor="let method of methods" type="button" clrDropdownItem [value]="method" (click)="setVerb(method)">{{method}}</button>
-    </clr-dropdown-menu>
-  </clr-dropdown>
+  <button
+    type="button"
+    nz-dropdown
+    nzTrigger="click"
+    [nzDropdownMenu]="httpVerbMenu"
+    class="url-box__button btn btn-outline-primary url-box__button--method"
+    [value]="httpVerb"
+    track-id="http_verb"
+  >
+    {{ httpVerb }}
+    &#9660;
+  </button>
+  <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
+    <ul nz-menu>
+      <li
+        nz-menu-item
+        *ngFor="let method of methods"
+        (click)="loadSchemaChange.next()"
+        [value]="method"
+        (click)="setVerb(method)"
+      >
+        {{method}}
+      </li>
+    </ul>
+  </nz-dropdown-menu>
   <div class="url-box__input-container">
     <div class="url-box__input-prepend" *ngIf="streamState">
       <div class="url-box__connection-indicator">
@@ -38,19 +52,38 @@
       [(ngModel)]="apiUrl"
     ></app-fancy-input>
     <div class="url-box__input-actions">
-        <clr-dropdown>
-          <button clrDropdownTrigger
-            type="button"
-            class="url-box__input-btn"
+      <button
+        type="button"
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="urlBoxActionMenu"
+        class="url-box__input-btn"
+      >
+        <clr-icon shape="floppy"></clr-icon>
+      </button>
+      <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            *ngIf="currentCollection"
+            nz-menu-item
+            (click)="updateQueryInCollectionChange.next()"
           >
-            <clr-icon shape="floppy"></clr-icon>
-          </button>
-          <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-            <button type="button" clrDropdownItem *ngIf="currentCollection" (click)="updateQueryInCollectionChange.next()" track-id="update_window_in_collection">{{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})</button>
-            <button type="button" clrDropdownItem (click)="addToCollectionChange.next()" track-id="add_to_collection">{{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}</button>
-            <button type="button" clrDropdownItem (click)="exportWindowChange.next()" track-id="export_window">{{ 'EXPORT_WINDOW_TEXT' | translate }}</button>
-          </clr-dropdown-menu>
-        </clr-dropdown>
+            {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})
+          </li>
+          <li
+            nz-menu-item
+            (click)="addToCollectionChange.next()"
+          >
+            {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
+          </li>
+          <li
+            nz-menu-item
+            (click)="exportWindowChange.next()"
+          >
+            {{ 'EXPORT_WINDOW_TEXT' | translate }}
+          </li>
+        </ul>
+      </nz-dropdown-menu>
       <button
         type="button"
         class="url-box__input-btn"
@@ -76,19 +109,30 @@
     <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
     <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
   </button>
-  <clr-dropdown [clrCloseMenuOnItemClick]="true" *ngIf="queryOperations.length > 1">
-    <button
-      class="btn app-button url-box__button url-box__button--send active-primary"
-      [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
-      track-id="send_request"
-      clrDropdownTrigger>
-      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-      <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
-      <clr-icon shape="caret down"></clr-icon>
-    </button>
-    <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-      <button type="button" clrDropdownItem *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;" (click)="selectedOperationChange.next(operation.name.value)">{{ operation.name.value }}</button>
-    </clr-dropdown-menu>
-  </clr-dropdown>
+  <button
+    *ngIf="queryOperations.length > 1"
+    class="btn app-button url-box__button url-box__button--send active-primary"
+    [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
+    track-id="send_request"
+    nz-dropdown
+    nzTrigger="click"
+    nzPlacement="bottomRight"
+    [nzDropdownMenu]="queryOperationsMenu"
+  >
+    <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+    <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+    <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
+    <clr-icon shape="caret down"></clr-icon>
+  </button>
+  <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
+    <ul nz-menu>
+      <li
+        nz-menu-item
+        *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;"
+        (click)="selectedOperationChange.next(operation.name.value)"
+      >
+        {{ operation.name.value }}
+      </li>
+    </ul>
+  </nz-dropdown-menu>
 </div>

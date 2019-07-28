@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { EditCollectionDialogComponent } from './edit-collection-dialog.component';
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('EditCollectionDialogComponent', () => {
   let component: EditCollectionDialogComponent;
@@ -19,7 +19,7 @@ describe('EditCollectionDialogComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot()
       ],
     })
