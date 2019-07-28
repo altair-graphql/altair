@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { QueryCollectionItemComponent } from './query-collection-item.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { ClarityModule } from '@clr/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPopperModule } from 'ngx-popper';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('QueryCollectionItemComponent', () => {
   let component: QueryCollectionItemComponent;
@@ -17,7 +17,7 @@ describe('QueryCollectionItemComponent', () => {
       imports: [
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot(),
         NgxPopperModule.forRoot(),
       ]

@@ -69,17 +69,22 @@ $url-input-height: 50px;
     border-radius: 0px 4px 4px 0px;
   }
 }
+
 .url-box .url-box__button.url-box__button--method {
   min-width: 75px;
   padding: 0 0.5rem;
   letter-spacing: normal;
 }
+
 .btn.btn-outline-primary.url-box__button {
   border-radius: 4px 0px 0px 4px;
   border: 1px solid var(--theme-border-color);
   border-right: none;
   height: 100%;
+  background: var(--theme-bg-color);
   color: var(--green-color);
+  height: 50px;
+
   &:hover {
     border-color: var(--theme-off-border-color);
     background: transparent;

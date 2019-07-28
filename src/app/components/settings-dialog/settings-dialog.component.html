@@ -1,11 +1,21 @@
-<clr-modal [clrModalOpen]="showSettingsDialog" [clrModalSize]="'lg'" (clrModalOpenChange)="toggleDialogChange.next($event)">
-  <h3 class="modal-title">
+
+<nz-modal
+  [nzVisible]="showSettingsDialog"
+  (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  [nzWidth]="800"
+  (nzOnCancel)="toggleDialogChange.next($event)"
+>
+  <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'SETTINGS_TEXT' | translate }}</div>
       {{ 'SETTINGS_SUB_TEXT' | translate }}
     </div>
-  </h3>
-  <div class="modal-body">
+  </ng-template>
+
+  <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="app-dialog-section">
         <ngx-codemirror
@@ -17,19 +27,34 @@
         ></ngx-codemirror>
         <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
         <small><a target="_blank" href="http://altair.sirmuel.design/docs/features/settings-pane">Click here for available settings options</a></small>
-        <clr-stack-view>
-          <clr-stack-block>
-              <clr-stack-label>{{ 'SETTINGS_KEYBOARD_SHORTCUTS' | translate }}</clr-stack-label>
-
-              <clr-stack-block [clrSbExpanded]="true" *ngFor="let category of shortcutCategories; trackBy:trackByIndex;">
-                <clr-stack-label class="settings-shortcut-category-title">{{ category.title }}</clr-stack-label>
-                <clr-stack-block *ngFor="let shortcut of category.shortcuts; trackBy:trackByIndex;">
-                  <clr-stack-label class="settings-shortcut-description">{{ shortcut.description }}</clr-stack-label>
-                  <clr-stack-content class="settings-shortcut-key" *ngFor="let key of shortcut.keys; trackBy:trackByIndex;">{{ key }}</clr-stack-content>
-                </clr-stack-block>
-              </clr-stack-block>
-          </clr-stack-block>
-        </clr-stack-view>
+        <nz-collapse>
+          <nz-collapse-panel
+            [nzHeader]="'SETTINGS_KEYBOARD_SHORTCUTS' | translate"
+          >
+            <div>
+              <nz-collapse [nzBordered]="false">
+                <nz-collapse-panel
+                  *ngFor="let category of shortcutCategories; trackBy:trackByIndex;"
+                  [nzHeader]="category.title"
+                >
+                  <nz-list [nzDataSource]="category.shortcuts" nzBordered [nzRenderItem]="shortcutItem">
+                    <ng-template #shortcutItem let-shortcut>
+                      <nz-list-item>
+                        <span class="settings-shortcut-description">
+                            {{ shortcut.description }}
+                        </span>
+                        <span
+                          class="settings-shortcut-key"
+                          *ngFor="let key of shortcut.keys; trackBy:trackByIndex;"
+                        >{{ key }}</span>
+                      </nz-list-item>
+                    </ng-template>
+                  </nz-list>
+                </nz-collapse-panel>
+              </nz-collapse>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
         <div>
           <small><a href="#" class="settings__reset-link" (click)="onResetApplicationData($event)" track-id="reset_application_data">{{ 'SETTINGS_RESET_APPLICATION_DATA' | translate }}</a></small>
         </div>
@@ -63,8 +88,9 @@
         <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_tab_size" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
+  </ng-template>
+
+  <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <div class="left">
         <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
@@ -74,5 +100,5 @@
       </div>
       <button track-id="save_settings" class="app-button active-primary right" (click)="saveSettings()">{{ 'SAVE_BUTTON' | translate }}</button>
     </div>
-  </div>
-</clr-modal>
+  </ng-template>
+</nz-modal>
