@@ -18,7 +18,7 @@ export class EnvironmentManagerComponent implements OnInit {
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
 
-  @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
+  @ViewChild('subEnvironmentTitle', { static: false }) subEnvironmentTitleEl: ElementRef;
 
   jsonEditorConfig = {
     mode: 'javascript',

@@ -28,8 +28,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   @Output() blur = new EventEmitter();
   @Output() submit = new EventEmitter();
 
-  @ViewChild('fancyInputEl') fancyInputEl: ElementRef;
-  @ViewChild('fancyInputHighlightsEl') fancyInputHighlightsEl: ElementRef;
+  @ViewChild('fancyInputEl', { static: true }) fancyInputEl: ElementRef;
+  @ViewChild('fancyInputHighlightsEl',  { static: true }) fancyInputHighlightsEl: ElementRef;
 
 
   highlightData = {

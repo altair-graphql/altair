@@ -21,7 +21,7 @@ export class VariablesEditorComponent implements OnChanges {
   @Input() variables = '';
   @Output() variablesChange = new EventEmitter();
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor', { static: true }) editor;
 
   variableEditorConfig = {
     mode: 'javascript',
@@ -41,7 +41,7 @@ export class VariablesEditorComponent implements OnChanges {
   ngOnChanges() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.codeMirror) {
+    if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
     }
   }
