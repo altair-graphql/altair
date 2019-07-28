@@ -26,6 +26,7 @@
   </li>
   <li
     nz-menu-item
+    [nzSelected]="false"
     class="nav-link nav-text window-switcher window-switcher--new-window"
     (click)="newWindowChange.next($event)"
     *ngIf="windowIds.length < maxWindowCount"
