@@ -57,7 +57,7 @@ input[type="text"], input[type="search"], input[type="url"] {
 @mixin main-content-col {
   position: relative;
   padding-right: 0.5rem;
-  padding-left: 0.5rem;
+  // padding-left: 0.5rem;
   flex: 1;
 }
 

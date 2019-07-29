@@ -1,6 +1,5 @@
 @import "scss/variables";
 @import "scss/functions";
-// $clr-header-textColor: $white;
 @import "../node_modules/@clr/icons/clr-icons.min.css";
 
 @import "~codemirror/lib/codemirror.css";
@@ -13,6 +12,7 @@
 
 @import "~ngx-toastr/toastr.css";
 
+@import "scss/globals";
 @import "scss/framework";
 @import "scss/all";
 
@@ -37,9 +37,6 @@
   --rgb-theme-off-font: var(--rgb-light-grey);
   --rgb-theme-border: 86, 92, 100; // #565c64
   --rgb-theme-off-border: 86, 86, 86; // #565656
-  // $clr-dropdown-bg-color: $theme-bg-color;
-  // $clr-dropdown-bg-hover-color: $theme-off-bg-color;
-  // $clr-dropdown-border-color: $theme-border-color;
 
   // @import "scss/framework.dark";
   // @import "scss/all";

@@ -30,7 +30,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() windowNameChange = new EventEmitter();
   @Output() repositionWindowChange = new EventEmitter();
 
-  @ViewChild(ContextMenuComponent) public windowTabMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: false }) public windowTabMenu: ContextMenuComponent;
 
   windowTabMenuData = [
     { name: 'Edit' }

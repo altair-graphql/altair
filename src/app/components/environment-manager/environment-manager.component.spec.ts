@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EnvironmentManagerComponent } from './environment-manager.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { ClarityModule } from '@clr/angular';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'app/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EnvironmentManagerComponent', () => {
   let component: EnvironmentManagerComponent;
@@ -15,9 +16,10 @@ describe('EnvironmentManagerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EnvironmentManagerComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         ToastrModule.forRoot(),
         TranslateModule.forRoot()
       ],

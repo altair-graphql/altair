@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import * as services from '../../services';
 
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;
@@ -17,9 +18,10 @@ describe('SubscriptionUrlDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SubscriptionUrlDialogComponent ],
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot()
       ]
     })

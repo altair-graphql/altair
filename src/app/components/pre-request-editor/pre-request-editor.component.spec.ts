@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PreRequestEditorComponent } from './pre-request-editor.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { ClarityModule } from '@clr/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('PreRequestEditorComponent', () => {
   let component: PreRequestEditorComponent;
@@ -16,7 +16,7 @@ describe('PreRequestEditorComponent', () => {
       imports: [
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         TranslateModule.forRoot()
       ]
     })

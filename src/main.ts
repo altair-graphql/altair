@@ -27,6 +27,6 @@ platformBrowserDynamic().bootstrapModule(AppModule, {
   const componentRef = applicationRef.components[0];
 
   enableDebugTools(componentRef);
-}).catch(err => console.log(err));
+}).catch(err => console.log('Error bootstrapping application:', err));
 
 handleExternalLinks();

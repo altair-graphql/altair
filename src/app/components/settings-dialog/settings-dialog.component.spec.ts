@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from 'app/shared/shared.module';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -24,7 +25,7 @@ describe('SettingsDialogComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
-        ClarityModule,
+        SharedModule,
         ToastrModule.forRoot(),
         TranslateModule.forRoot(),
       ],

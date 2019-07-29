@@ -1,4 +1,7 @@
 .main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   color: var(--theme-font-color);
   background: var(--theme-bg-color);
   cursor: default;
@@ -11,18 +14,24 @@
 .content-container {
   position: relative;
 }
-.app-content-area {
+
+.app-window__content {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   height: 100%;
   padding: 10px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
 .main-content-area {
   position: relative;
   flex: 1;
   overflow: hidden;
 }
 .main-content-row {
+  display: flex;
   height: 100%;
   flex-wrap: nowrap;
 }
@@ -40,8 +49,11 @@ app-query-editor {
 
 app-query-result {
   @include main-content-col;
+  padding: 0;
 }
 
 app-doc-viewer {
   @include main-content-col;
+  padding: 0;
+  padding-left: 0.5rem;
 }
