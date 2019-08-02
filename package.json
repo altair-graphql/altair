@@ -157,7 +157,7 @@
     "mocha": "^6.2.0",
     "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.0",
-    "protractor": "^5.4.2",
+    "protractor": "6.0.0",
     "rxjs-tslint-rules": "^4.24.3",
     "spectron": "6.0.0",
     "start-server-and-test": "^1.9.1",
