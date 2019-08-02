@@ -1454,10 +1454,10 @@
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.2.2.tgz#10f197e6f8559c11b16d630c5e9c10c3c8e61c5e"
   integrity sha512-okXbUmdZFMO3AYBEJCcpJFPFDkKmIiZZBqWD5TmPtAv+GHfjD2qLZEI0PvZ8IWMU4ozoK2HV2lDxWjw4LbVlnw==
 
-"@types/jasmine@3.3.14":
-  version "3.3.14"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.14.tgz#593440eef2793ed6c2beddf65850f4ed3028599c"
-  integrity sha512-0mE8mLKrobGicrQqSU3GI1rE+yy0tfGWoGklhrsYVV3ZaHcQGNUs0UQ07pXIiGVHJB3fKP0qApcmApySk4wCRw==
+"@types/jasmine@3.3.15":
+  version "3.3.15"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.15.tgz#545be0670e828ac570566c45be570bbffcbc66d8"
+  integrity sha512-MljubxUVLT9wh/0NiyRWlcxSu/0axK+UYheZ04N5yaQclQkE8JuFYMsmwltPap2LEsJrvSf5p49/1514IY+d1Q==
 
 "@types/js-beautify@0.0.28":
   version "0.0.28"
@@ -5008,6 +5008,11 @@ deepmerge@4.0.0:
 deepmerge@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.1.tgz#e862b4e45ea0555072bf51e7fd0d9845170ae768"
+
+deepmerge@^3.2.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
+  integrity sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
 
 deepmerge@~2.0.1:
   version "2.0.1"
@@ -9136,11 +9141,6 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
-lodash.merge@^4.6.1:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
-  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
-
 lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
@@ -9847,10 +9847,10 @@ next-tick@1, next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-ng-zorro-antd@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.1.0.tgz#a28df435fa246e36cc5f361f50df26b4c56d6943"
-  integrity sha512-Hf7lp+G0m+W9rx/3Pzk+UOIdtp9+ZJQfS2JWrPpz55TMWog16bULc104JY/SIKNORWl3mKV1/S/YNEtdFEyvJg==
+ng-zorro-antd@8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.1.1.tgz#896535ca5c5518ee1adcacbf184b5c68eefcc89f"
+  integrity sha512-rlf+Ync/3FP2CpbUF5tqBsXaAI3aLzkrnH8R9YF1ntIgb+oKbFrlr7O19YpZQ8rDAt5g7oe/lDv2e+N6wB0M7w==
   dependencies:
     "@angular/cdk" "^8.0.0"
     "@ant-design/icons-angular" "^8.0.2"
@@ -9863,12 +9863,12 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-7.0.1.tgz#58b9fb7797698d07e41330ec2f78fa25052dc245"
-  integrity sha512-Mw5Vjp/KbYZ9qvWw68ixt97+QXsqIAQyceeUIKiMwVQtoWdjs008rYAkO54mJDx57CXVseogVdsnjXokcRijOA==
+ngrx-store-localstorage@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-8.0.0.tgz#da307a54188347803f68566ff927d20dcb9c810b"
+  integrity sha512-3AHqw1AeXDXU/Hgxlh5fjP/srgGuP8BJR2uQ6ViGLeKwMEQDZuQfwd8zu9+bPZcvIxbAcxjWoGCVJXYEkBlxmg==
   dependencies:
-    lodash.merge "^4.6.1"
+    deepmerge "^3.2.0"
 
 ngx-contextmenu@^5.2.0:
   version "5.2.0"
@@ -14132,10 +14132,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.38.3:
-  version "0.38.3"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.38.3.tgz#90faca22860a656680ebcde102c8510b6b349c65"
-  integrity sha512-+13qUoBUQwOXqxUoYQWtLA9PEM7ojfv8r+hYc2ebeqqVwVM4+yI5JSlsYRBlJKKewc9q1FHqrMR6L6d9TNX9Dw==
+typescript-json-schema@^0.39.0:
+  version "0.39.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.39.0.tgz#223d4c0e11b4bc56d8f1dd98e275804ab488be9e"
+  integrity sha512-ax2UxMMdEhWIwvTjxwJxLmbGIATkY4vxPHeS9wItTb1RfhiUU927YqVixopxURQejbW+ki2awg+eSwRnA5ZUgA==
   dependencies:
     glob "~7.1.4"
     json-stable-stringify "^1.0.1"
