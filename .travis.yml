@@ -22,6 +22,7 @@ before_install:
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
 - yarn global add @angular/cli karma electron-forge lerna surge
 - yarn
@@ -32,8 +33,8 @@ before_script:
 script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then ng e2e; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-electron; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-electron; fi
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 after_success:

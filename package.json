@@ -41,6 +41,7 @@
     "generate-settings-schema": "./node_modules/.bin/typescript-json-schema --ignoreErrors src/app/reducers/settings/settings.ts State > src/app/utils/settings.schema.json",
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
+    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=76.0.3809.68",
     "snyk-protect": "snyk protect"
   },
   "engines": {
@@ -100,8 +101,8 @@
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
     "ng-zorro-antd": "8.1.1",
-    "ngx-contextmenu": "^5.2.0",
     "ngrx-store-localstorage": "^8.0.0",
+    "ngx-contextmenu": "^5.2.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-electron": "^2.1.1",
     "ngx-markdown": "^8.1.0",
@@ -159,6 +160,7 @@
     "protractor": "^5.4.2",
     "rxjs-tslint-rules": "^4.24.3",
     "spectron": "6.0.0",
+    "start-server-and-test": "^1.9.1",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
