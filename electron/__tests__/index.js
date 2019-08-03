@@ -36,22 +36,34 @@ describe('Altair electron', function() {
     this.timeout(20000);
     await app.start();
 
-    app.client.addCommand('newAltairWindow', async() => {
+    await app.client.addCommand('newAltairWindow', async() => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
-      app.client.$('.window-switcher--new-window').click();
+      await app.client.$('.window-switcher--new-window').click();
       await app.client.pause(500);
       const addedElements = await app.client.$$(selectors.windowSwitcherSelector);
       assert.strictEqual(addedElements.length, elements.length + 1, 'New window was not created.');
     });
-    app.client.addCommand('closeLastAltairWindow', async() => {
+    await app.client.addCommand('closeLastAltairWindow', async() => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
-      app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
+      // const toastElResult = await app.client.$('.ngx-toastr');
+      // if (toastElResult.value) {
+      //   await app.client.$('.ngx-toastr').click();
+      // }
+
+      // await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2)`).click();
+      // await app.client.windowByIndex(0);
+      // await app.client.keys([ 'Meta', 'w' ]);
+      app.browserWindow.focus();
+      await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
       await app.client.pause(500);
       const removedElements = await app.client.$$(selectors.windowSwitcherSelector);
       assert.strictEqual(removedElements.length, elements.length - 1, 'Window was not closed.');
     });
-    app.client.addCommand('setTestServerQraphQLUrl', async() => {
+    await app.client.addCommand('setTestServerQraphQLUrl', async() => {
       await app.client.$(`${selectors.visibleWindowSelector} .url-box__input input`).setValue('http://localhost:5400/graphql');
+      await app.client.keys(['Return']);
+      await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+      await app.client.pause(1000);
     });
 
     await app.client.pause(500);
@@ -70,7 +82,7 @@ describe('Altair electron', function() {
   it('can set URL and see docs loaded automatically', async() => {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
-    app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
+    await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
     await app.client.pause(100);
     const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
     assert.isTrue(isDocVisible);
@@ -81,11 +93,26 @@ describe('Altair electron', function() {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
-    app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
     await app.client.pause(100);
     await app.client.keys(`
     { hello }`);
-    app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
+    await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
+    await app.client.pause(1000);
+    const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
+    assert.include(result, 'Hello world');
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can send a request with keyboard shortcuts', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+    await app.client.pause(100);
+    await app.client.keys(`
+    { hello }`);
+    await app.client.keys([ 'Control', 'Return' ]);
     await app.client.pause(1000);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
     assert.include(result, 'Hello world');
