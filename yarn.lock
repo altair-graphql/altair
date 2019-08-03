@@ -1504,6 +1504,16 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.50.tgz#f3d68482b1f54b5f4fba8daaac385db12bb6a706"
   integrity sha512-+ZbcUwJdaBgOZpwXeT0v+gHC/jQbEfzoc9s4d0rN0JIKeQbuTrT+A2n1aQY6LpZjrLXJT7avVUqiCecCJeeZxA==
 
+"@types/q@^0.0.32":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@types/q/-/q-0.0.32.tgz#bd284e57c84f1325da702babfc82a5328190c0c5"
+  integrity sha1-vShOV8hPEyXacCur/IKlMoGQwMU=
+
+"@types/selenium-webdriver@^3.0.0":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-3.0.16.tgz#50a4755f8e33edacd9c406729e9b930d2451902a"
+  integrity sha512-lMC2G0ItF2xv4UCiwbJGbnJlIuUixHrioOhNGHSCsYCJ8l4t9hMCUimCytvFv7qy6AfSzRxhRHoGa+UqaqwyeA==
+
 "@types/semver@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-5.5.0.tgz#146c2a29ee7d3bae4bf2fcb274636e264c813c45"
@@ -1856,7 +1866,7 @@ addons-linter@1.10.0:
   optionalDependencies:
     fsevents "2.0.7"
 
-adm-zip@^0.4.13:
+adm-zip@^0.4.9:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.13.tgz#597e2f8cc3672151e1307d3e95cddbc75672314a"
   integrity sha512-fERNJX8sOXfel6qCBCMPvZLzENBEhZTzKqg6vrOW5pvoEaQuJhRU4ndTAh6lHOxn1I6jnz2NHra56ZODM751uw==
@@ -5086,7 +5096,7 @@ degenerator@^1.0.4:
     escodegen "1.x.x"
     esprima "3.x.x"
 
-del@^2.0.2:
+del@^2.0.2, del@^2.2.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/del/-/del-2.2.2.tgz#c12c981d067846c84bcaf862cff930d907ffd1a8"
   dependencies:
@@ -6278,6 +6288,11 @@ exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
 
+exit@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
+  integrity sha1-BjJjj42HfMghB9MKD/8aF8uhzQw=
+
 expand-brackets@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
@@ -7063,7 +7078,7 @@ glob@7.1.3, glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glo
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@7.1.4, glob@^7.1.4, glob@~7.1.4:
+glob@7.1.4, glob@^7.0.6, glob@^7.1.4, glob@~7.1.4:
   version "7.1.4"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.4.tgz#aa608a2f6c577ad357e1ae5a5c26d9a8d1969255"
   integrity sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==
@@ -8508,10 +8523,15 @@ jasmine-core@^3.3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.3.0.tgz#dea1cdc634bc93c7e0d4ad27185df30fa971b10e"
 
-jasmine-core@^3.4.0, jasmine-core@~3.4.0:
+jasmine-core@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.4.0.tgz#2a74618e966026530c3518f03e9f845d26473ce3"
   integrity sha512-HU/YxV4i6GcmiH4duATwAbJQMlE0MsDIR5XmSVxURxKHn3aGAdbY1/ZJFmVRbKtnLwIxxMJD7gYaPsypcbYimg==
+
+jasmine-core@~2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
+  integrity sha1-vMl5rh+f0FcB5F5S5l06XWPxok4=
 
 jasmine-spec-reporter@~4.2.1:
   version "4.2.1"
@@ -8519,13 +8539,19 @@ jasmine-spec-reporter@~4.2.1:
   dependencies:
     colors "1.1.2"
 
-jasmine@^3.3.1:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-3.4.0.tgz#0fa68903ff0c9697459cd044b44f4dcef5ec8bdc"
-  integrity sha512-sR9b4n+fnBFDEd7VS2el2DeHgKcPiMVn44rtKFumq9q7P/t8WrxsVIZPob4UDdgcDNCwyDqwxCt4k9TDRmjPoQ==
+jasmine@2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-2.8.0.tgz#6b089c0a11576b1f16df11b80146d91d4e8b8a3e"
+  integrity sha1-awicChFXax8W3xG4AUbZHU6Lij4=
   dependencies:
-    glob "^7.1.3"
-    jasmine-core "~3.4.0"
+    exit "^0.1.2"
+    glob "^7.0.6"
+    jasmine-core "~2.8.0"
+
+jasminewd2@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
+  integrity sha1-43zwsX8ZnM4jvqcbIDk5Uka07E4=
 
 jed@1.1.1:
   version "1.1.1"
@@ -8758,7 +8784,7 @@ jszip@^2.4.0:
   dependencies:
     pako "~1.0.2"
 
-jszip@^3.1.5:
+jszip@^3.1.3, jszip@^3.1.5:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
   integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
@@ -9243,7 +9269,7 @@ log4js@^4.0.0:
     rfdc "^1.1.2"
     streamroller "^1.0.1"
 
-loglevel@^1.6.1, loglevel@^1.6.3:
+loglevel@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.3.tgz#77f2eb64be55a404c9fd04ad16d57c1d6d6b1280"
   integrity sha512-LoEDv5pgpvWgPF4kNYuIp0qqSJVWak/dML0RY74xlzMZiT9w77teNAwKYKWBTYjlokMirg+o3jBwp+vlLrcfAA==
@@ -11397,21 +11423,26 @@ protoduck@^5.0.1:
   dependencies:
     genfun "^5.0.0"
 
-protractor@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/protractor/-/protractor-6.0.0.tgz#e047981440159a17ae2ea65a7371acba4e417618"
-  integrity sha512-kCV1hK9gAh+N9to04oXLXtqnnG/UX/aDL2YvLS0SYqzzpeLt8Are3y3JPjWC/OSsYBkOW8T1cXmcMn0QaGUudw==
+protractor@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.4.2.tgz#329efe37f48b2141ab9467799be2d4d12eb48c13"
+  integrity sha512-zlIj64Cr6IOWP7RwxVeD8O4UskLYPoyIcg0HboWJL9T79F1F0VWtKkGTr/9GN6BKL+/Q/GmM7C9kFVCfDbP5sA==
   dependencies:
+    "@types/q" "^0.0.32"
+    "@types/selenium-webdriver" "^3.0.0"
     blocking-proxy "^1.0.0"
     browserstack "^1.5.1"
     chalk "^1.1.3"
     glob "^7.0.3"
-    jasmine "^3.3.1"
+    jasmine "2.8.0"
+    jasminewd2 "^2.1.0"
     optimist "~0.6.0"
+    q "1.4.1"
     saucelabs "^1.5.0"
-    selenium-webdriver "^4.0.0-alpha.1"
+    selenium-webdriver "3.6.0"
     source-map-support "~0.4.0"
-    webdriver-manager "13.0.0"
+    webdriver-js-extender "2.1.0"
+    webdriver-manager "^12.0.6"
 
 proxy-addr@~2.0.5:
   version "2.0.5"
@@ -11504,7 +11535,12 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-q@^1.1.2, q@^1.5.1, q@~1.5.0:
+q@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
+  integrity sha1-VXBbzZPF82c1MMLCy8DCs63cKG4=
+
+q@^1.1.2, q@^1.4.1, q@^1.5.1, q@~1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
@@ -12395,15 +12431,15 @@ select@^1.1.2:
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@^4.0.0-alpha.1:
-  version "4.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.0.0-alpha.4.tgz#73694490e02c941d9d0bf7a36f7c49beb9372512"
-  integrity sha512-etJt20d8qInkxMAHIm5SEpPBSS+CdxVcybnxzSIB/GlWErb8pIWrArz/VA6VfUW0/6tIcokepXQ5ufvdzqqk1A==
+selenium-webdriver@3.6.0, selenium-webdriver@^3.0.1:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-3.6.0.tgz#2ba87a1662c020b8988c981ae62cb2a01298eafc"
+  integrity sha512-WH7Aldse+2P5bbFBO4Gle/nuQOdVwpHMTL6raL3uuBj/vPG07k6uzt3aiahu352ONBr5xXh0hDlM3LhtXPOC4Q==
   dependencies:
-    jszip "^3.1.5"
-    rimraf "^2.6.3"
+    jszip "^3.1.3"
+    rimraf "^2.5.4"
     tmp "0.0.30"
-    xml2js "^0.4.19"
+    xml2js "^0.4.17"
 
 selfsigned@^1.10.4:
   version "1.10.4"
@@ -14600,18 +14636,30 @@ web-ext@^3.1.1:
     yargs "13.2.4"
     zip-dir "1.0.2"
 
-webdriver-manager@13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/webdriver-manager/-/webdriver-manager-13.0.0.tgz#f93c16e467b7a6b58ade6aaad259ccc4742f63b8"
-  integrity sha512-nwcbUWZwwqw4Nn+Xs8rgyX5JWDJ3oOAEc+OMI9sp8QlM7yg1CDaqqk/2DRZI/ig3DxQwZ1Xna3Eq0unNUaSQvA==
+webdriver-js-extender@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/webdriver-js-extender/-/webdriver-js-extender-2.1.0.tgz#57d7a93c00db4cc8d556e4d3db4b5db0a80c3bb7"
+  integrity sha512-lcUKrjbBfCK6MNsh7xaY2UAUmZwe+/ib03AjVOpFobX4O7+83BUveSrLfU0Qsyb1DaKJdQRbuU+kM9aZ6QUhiQ==
   dependencies:
-    adm-zip "^0.4.13"
-    loglevel "^1.6.1"
-    request "^2.88.0"
-    semver "^5.6.0"
-    tar "^4.4.8"
-    xml2js "^0.4.19"
-    yargs "^12.0.5"
+    "@types/selenium-webdriver" "^3.0.0"
+    selenium-webdriver "^3.0.1"
+
+webdriver-manager@^12.0.6:
+  version "12.1.6"
+  resolved "https://registry.yarnpkg.com/webdriver-manager/-/webdriver-manager-12.1.6.tgz#9e5410c506d1a7e0a7aa6af91ba3d5bb37f362b6"
+  integrity sha512-B1mOycNCrbk7xODw7Jgq/mdD3qzPxMaTsnKIQDy2nXlQoyjTrJTTD0vRpEZI9b8RibPEyQvh9zIZ0M1mpOxS3w==
+  dependencies:
+    adm-zip "^0.4.9"
+    chalk "^1.1.1"
+    del "^2.2.0"
+    glob "^7.0.3"
+    ini "^1.3.4"
+    minimist "^1.2.0"
+    q "^1.4.1"
+    request "^2.87.0"
+    rimraf "^2.5.2"
+    semver "^5.3.0"
+    xml2js "^0.4.17"
 
 webdriverio@^4.13.0:
   version "4.14.3"
@@ -15003,7 +15051,7 @@ xhr2@^0.1.4:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
 
-xml2js@^0.4.17, xml2js@^0.4.19, xml2js@~0.4.4:
+xml2js@^0.4.17, xml2js@~0.4.4:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
   dependencies:
