@@ -140,7 +140,7 @@ You are not limited to only one window at a time but you can have multiple windo
 
 ### GraphQL Subscriptions (with desktop notifications)
 
-You can test your [GraphQL subscriptions](https://www.apollographql.com/docs/graphql-subscriptions/) without any worry. Just provide the subscription URL and start the subscription, and you would get each message as they are sent once you're subscribed. You would also get a notification when you are away from the app (desktop apps only). This is very handy when developing apps that use the realtime feature of GraphQL, like chatting ang gaming applications that need realtime feedback. Currently, GraphQL subscriptions has been implemented by the [Apollo GraphQL team](https://www.apollographql.com/).
+You can test your [GraphQL subscriptions](https://www.apollographql.com/docs/graphql-subscriptions/) without any worry. Just provide the subscription URL and start the subscription, and you would get each message as they are sent once you're subscribed. You would also get a notification when you are away from the app (desktop apps only). This is very handy when developing apps that use the realtime feature of GraphQL, like chatting and gaming applications that need realtime feedback. Currently, GraphQL subscriptions has been implemented by the [Apollo GraphQL team](https://www.apollographql.com/).
 
 ### Import/Export Queries
 
