@@ -76,7 +76,12 @@
 .ant-dropdown-menu-submenu-title {
   background: transparent;
   color: var(--theme-font-color);
+
   &:hover {
     background: var(--theme-off-bg-color);
   }
+}
+
+.ant-dropdown-menu-item-divider, .ant-dropdown-menu-submenu-title-divider {
+  background: var(--theme-border-color);
 }

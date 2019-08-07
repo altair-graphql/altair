@@ -1,7 +1,7 @@
 
 import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable } from 'rxjs';
 
-import {debounce, tap, catchError, withLatestFrom, switchMap, map} from 'rxjs/operators';
+import { debounce, tap, catchError, withLatestFrom, switchMap, map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
@@ -87,6 +87,7 @@ export class QueryEffects {
               subscriber.complete();
             }
           }).pipe(
+            take(1),
             switchMap((transformedData: any) => {
 
               let url = this.environmentService.hydrate(response.data.query.url);
