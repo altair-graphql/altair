@@ -13,4 +13,11 @@
     [ngModel]="preRequest.script"
     (ngModelChange)="preRequestScriptChange.emit($event)"
   ></ngx-codemirror>
+  
+  <small>
+    <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank">
+      <clr-icon shape="info-circle"></clr-icon>
+      {{ 'LEARN_MORE_TEXT' | translate }}
+    </a>
+  </small>
 </div>
