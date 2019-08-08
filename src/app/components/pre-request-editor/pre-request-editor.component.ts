@@ -64,6 +64,9 @@ export class PreRequestEditorComponent implements OnChanges {
                 getCookie: {
                   value: null
                 },
+                request: {
+                  value: null
+                },
               }),
             }
           })

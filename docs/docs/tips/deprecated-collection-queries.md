@@ -1,5 +1,5 @@
 ---
-parent: Features
+parent: Tips
 ---
 
 ## Deprecated Collection queries
