@@ -34,7 +34,7 @@ script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-electron; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-electron; bin/stop_ci_test_server.sh; fi
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 after_success:

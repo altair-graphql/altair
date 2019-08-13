@@ -9,10 +9,10 @@ import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 window['jsonlint'] = window['jsonlint'] || {
   parser: {
-    parse: function(str){
+    parse: function(str) {
       try {
         return JSON.parse(str);
-      } catch(err) {
+      } catch (err) {
         if (this.parseError) {
           this.parseError('Invalid JSON', {
             loc: {
