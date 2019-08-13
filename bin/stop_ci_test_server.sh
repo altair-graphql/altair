@@ -1,4 +1,4 @@
 #!/bin/bash
 
 jobs
-kill $!
+kill -9 $CI_TEST_SERVER_ID;
