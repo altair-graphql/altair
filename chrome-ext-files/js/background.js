@@ -1,5 +1,5 @@
 (function () {
-  const MAX_EXT_LOAD_COUNT = 20;
+  const MAX_EXT_LOAD_COUNT = 30;
   var curTabId = null;
 
   // Create a new tab for the extension
