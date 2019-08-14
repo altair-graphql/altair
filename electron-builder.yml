@@ -13,6 +13,8 @@ dmg:
   icon: electron/icon.png
 linux:
   icon: electron/icons
+snap:
+  publish: github
 electronCompile: false
 protocols:
   name: Altair GraphQL Client

@@ -5,6 +5,7 @@ cache: yarn
 os:
 - linux
 - osx
+osx_image: xcode11
 node_js:
 - 10
 env:
