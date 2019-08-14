@@ -32,7 +32,7 @@
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "dist-electron": "build",
+    "dist-electron": "electron-builder",
     "test-electron": "npm run build && ./electron/fix-base-path.sh && npm run test-electron:simple",
     "test-electron:simple": "./node_modules/.bin/mocha --full-trace electron/__tests__",
     "postinstall": "npm run generate-settings-schema-validator && opencollective postinstall",
