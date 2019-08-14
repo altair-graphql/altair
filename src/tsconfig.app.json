@@ -4,7 +4,8 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [],
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "test.ts",

@@ -1,10 +1,14 @@
 (function () {
+  const MAX_EXT_LOAD_COUNT = 30;
   var curTabId = null;
 
   // Create a new tab for the extension
   function createNewTab() {
     chrome.tabs.create({ url: 'index.html' }, function (tab) {
       curTabId = tab.id;
+
+      // Handle donation logic
+      handleDonation();
     });
   }
 
@@ -26,6 +30,33 @@
         });
       }
     });
+  }
+
+  function handleDonation() {
+    if (!chrome.runtime.getBrowserInfo) {
+      // FIXME: A chrome extension
+      chrome.storage.sync.get({
+        userDonated: false,
+        extLoadCount: 0,
+      }, function (items) {
+        if (!items.userDonated) {
+          console.log('extension loaded count: ', items.extLoadCount);
+          if (items.extLoadCount > MAX_EXT_LOAD_COUNT) {
+            // show donation page
+            chrome.tabs.create({ url: 'donate.html' }, function (tab) {
+              console.log('New tab launched with donation.');
+            });
+            chrome.storage.sync.set({
+              extLoadCount: 0
+            });
+          } else {
+            chrome.storage.sync.set({
+              extLoadCount: items.extLoadCount + 1
+            });
+          }
+        }
+      });
+    }
   }
 
   // Open the extension tab when the extension icon is clicked

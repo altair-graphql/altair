@@ -34,6 +34,7 @@ import * as preRequestActions from '../../actions/pre-request/pre-request';
 import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-window',
@@ -148,7 +149,7 @@ export class WindowComponent implements OnInit, OnDestroy {
         return observableEmpty();
       })
     );
-    this.preRequest$ = this.getWindowState().pipe(select('preRequest'));
+    this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
 
     this.store.pipe(
       map(data => data.windows[this.windowId]),
@@ -196,6 +197,11 @@ export class WindowComponent implements OnInit, OnDestroy {
     .subscribe(data => {
       if (data.settings.enableExperimental) {
         combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
+          if (!state) {
+            debug.warn('State is not defined. This shouldnt happen.');
+
+            return [];
+          }
           return Object.values(plugins).map(plugin => {
             return {
               ...plugin,

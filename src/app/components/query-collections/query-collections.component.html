@@ -9,46 +9,51 @@
           [popperPlacement]="'bottom'"
           (click)="importCollectionChange.next()"
         >
-            <clr-icon shape="import" class="is-solid"></clr-icon>
+          <clr-icon shape="import" class="is-solid"></clr-icon>
         </button>
         <div class="query-collections__actions--right">
-          <clr-dropdown>
-            <button
-              clrDropdownTrigger
-              type="button"
-              class="icon-button"
-            >
-              <clr-icon shape="sort-by"></clr-icon>
-              <ng-container [ngSwitch]="sortBy">
-                <ng-container *ngSwitchCase="'a-z'">{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</ng-container>
-                <ng-container *ngSwitchCase="'z-a'">{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</ng-container>
-                <ng-container *ngSwitchCase="'newest'">{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</ng-container>
-                <ng-container *ngSwitchCase="'oldest'">{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</ng-container>
-              </ng-container>
-            </button>
-            <clr-dropdown-menu *clrIfOpen>
-              <button
-                type="button"
-                clrDropdownItem
+          <button
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="docViewerMenu"
+            type="button"
+            class="icon-button"
+          >
+            <ng-container [ngSwitch]="sortBy">
+              <ng-container *ngSwitchCase="'a-z'">{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'z-a'">{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'newest'">{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'oldest'">{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</ng-container>
+            </ng-container>
+          </button>
+          <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'a-z' })"
-              >{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
+              >
+                {{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}
+              </li>
+              <li
+                nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'z-a' })"
-              >{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
+              >
+                {{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}
+              </li>
+              <li
+                nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'newest' })"
-              >{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</button>
-              <button
-                type="button"
-                clrDropdownItem
+              >
+                {{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}
+              </li>
+              <li
+                nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'oldest' })"
-              >{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</button>
-            </clr-dropdown-menu>
-          </clr-dropdown>
+              >
+                {{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}
+              </li>
+            </ul>
+          </nz-dropdown-menu>
         </div>
     </div>
     <div class="query-collections__items-wrapper">

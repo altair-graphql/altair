@@ -17,7 +17,7 @@ const { getStore } = require('./store');
 // be closed automatically when the JavaScript object is garbage collected.
 let win = getInstance();
 
-protocol.registerStandardSchemes(['altair']);
+protocol.registerStandardSchemes(['altair'], { secure: true });
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

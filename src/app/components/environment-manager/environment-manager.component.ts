@@ -2,6 +2,32 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef }
 
 import * as fromEnvironments from '../../reducers/environments';
 
+// Import the codemirror packages
+import * as Codemirror from 'codemirror';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/addon/lint/lint';
+import 'codemirror/addon/lint/json-lint';
+window['jsonlint'] = window['jsonlint'] || {
+  parser: {
+    parse: function(str) {
+      try {
+        return JSON.parse(str);
+      } catch (err) {
+        if (this.parseError) {
+          this.parseError('Invalid JSON', {
+            loc: {
+              first_line: 1,
+              first_column: 1,
+              last_line: 1,
+              last_column: 1,
+            }
+          });
+        }
+      }
+    }
+  },
+};
+
 @Component({
   selector: 'app-environment-manager',
   templateUrl: './environment-manager.component.html',
@@ -18,10 +44,10 @@ export class EnvironmentManagerComponent implements OnInit {
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
 
-  @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
+  @ViewChild('subEnvironmentTitle', { static: false }) subEnvironmentTitleEl: ElementRef;
 
   jsonEditorConfig = {
-    mode: 'javascript',
+    mode: 'application/json',
     json: true,
     lint: true,
     lineWrapping: true,

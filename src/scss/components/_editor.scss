@@ -109,6 +109,22 @@ app-query-editor {
   z-index: 3;
 }
 
+.query-result__download-button {
+  background: var(--theme-off-bg-color);
+  color: var(--primary-color);
+  opacity: .5;
+  transition: all .3s ease;
+  border: 1px solid var(--primary-color);
+  text-transform: uppercase;
+  font-size: fontsize(12);
+  padding: 3px 10px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .subscription-result {
   position: absolute;
   top: 0;

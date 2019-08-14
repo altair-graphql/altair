@@ -1,8 +1,10 @@
 <div class="pre-request-editor">
   <div class="pre-request-editor__toggle-wrapper">
-    <clr-checkbox [clrChecked]="preRequest.enabled" (clrCheckedChange)="preRequestEnabledChange.next($event)">
-      {{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}
-    </clr-checkbox>
+    <label
+      nz-checkbox
+      [ngModel]="preRequest.enabled"
+      (ngModelChange)="preRequestEnabledChange.next($event)"
+    >{{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}</label>
   </div>
   <ngx-codemirror
     #editor
@@ -11,4 +13,11 @@
     [ngModel]="preRequest.script"
     (ngModelChange)="preRequestScriptChange.emit($event)"
   ></ngx-codemirror>
+  
+  <small>
+    <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank">
+      <clr-icon shape="info-circle"></clr-icon>
+      {{ 'LEARN_MORE_TEXT' | translate }}
+    </a>
+  </small>
 </div>

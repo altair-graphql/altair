@@ -1,11 +1,19 @@
-<clr-modal [clrModalOpen]="showDialog" (clrModalOpenChange)="toggleDialogChange.next($event)">
-  <h3 class="modal-title">
+<nz-modal
+  [nzVisible]="showDialog"
+  (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="toggleDialogChange.next($event)"
+>
+  <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'HISTORY_TEXT' | translate }}</div>
       {{ 'HISTORY_SUB_TEXT' | translate }}
     </div>
-  </h3>
-  <div class="modal-body">
+  </ng-template>
+
+  <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="history-container">
         <div class="history-item" *ngFor="let item of historyList; let index = index; trackBy:trackByIndex;" (click)="restoreHistory(index)">
@@ -13,11 +21,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
+  </ng-template>
+
+  <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button class="app-button active-primary right" track-id="close_history_dialog" (click)="toggleDialogChange.next($event)">{{ 'DONE_BUTTON' | translate }}</button>
       <button class="app-button active-secondary left" track-id="clear_history_items" (click)="clearHistory()">{{ 'HISTORY_CLEAR_TEXT' | translate }}</button>
     </div>
-  </div>
-</clr-modal>
+  </ng-template>
+</nz-modal>

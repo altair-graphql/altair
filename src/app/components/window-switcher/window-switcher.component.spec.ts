@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { SortablejsModule } from 'angular-sortablejs';
+import { SortablejsModule } from 'ngx-sortablejs';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { WindowSwitcherComponent } from './window-switcher.component';
-import { ClarityModule } from '@clr/angular';
+import { SharedModule } from 'app/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WindowSwitcherComponent', () => {
   let component: WindowSwitcherComponent;
@@ -14,7 +15,8 @@ describe('WindowSwitcherComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ WindowSwitcherComponent ],
       imports: [
-        ClarityModule,
+        BrowserAnimationsModule,
+        SharedModule,
         TranslateModule.forRoot(),
         SortablejsModule.forRoot({}),
         ContextMenuModule.forRoot()

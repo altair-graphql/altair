@@ -40,7 +40,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   languages = Object.entries(config.languages);
   shortcutCategories = [];
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor', { static: true }) editor;
   jsonSettings = '';
 
   jsonEditorConfig = {
@@ -80,7 +80,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor.codeMirror) {
+    if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
     }
   }

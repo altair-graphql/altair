@@ -68,7 +68,7 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
     }
     window['__LAST_ACTION__'] = window['__LAST_ACTION__'] || [];
     window['__LAST_ACTION__'].push(action.type);
-    if (window['__LAST_ACTION__'].length > 10) {
+    if (environment.production && window['__LAST_ACTION__'].length > 10) {
       window['__LAST_ACTION__'].shift();
     }
 
@@ -117,3 +117,4 @@ export * from './variables/selectors';
 export * from './layout/selectors';
 export * from './gql-schema/selectors';
 export * from './collection/selectors';
+export * from './pre-request/selectors';
