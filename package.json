@@ -124,7 +124,7 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.801.2",
+    "@angular-devkit/build-angular": "~0.802.2",
     "@types/chrome": "^0.0.86",
     "@types/electron": "^1.6.10",
     "@types/graphql": "^14.2.2",
