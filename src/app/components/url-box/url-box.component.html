@@ -16,7 +16,6 @@
       <li
         nz-menu-item
         *ngFor="let method of methods"
-        (click)="loadSchemaChange.next()"
         [value]="method"
         (click)="setVerb(method)"
       >
