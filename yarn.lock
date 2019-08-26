@@ -1463,6 +1463,11 @@
   version "0.0.28"
   resolved "http://registry.npmjs.org/@types/js-beautify/-/js-beautify-0.0.28.tgz#3220bbbd92fc0e728ba5306bfa44b0048821612d"
 
+"@types/json-schema@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
+  integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
+
 "@types/marked@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.6.5.tgz#3cf2a56ef615dad24aaf99784ef90a9eba4e29d8"
@@ -1485,6 +1490,11 @@
 "@types/node@^10.11.7":
   version "10.12.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.1.tgz#da61b64a2930a80fa708e57c45cd5441eb379d5b"
+
+"@types/node@^10.12.18":
+  version "10.14.16"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.16.tgz#4d690c96cbb7b2728afea0e260d680501b3da5cf"
+  integrity sha512-/opXIbfn0P+VLt+N8DE4l8Mn8rbhiJgabU96ZJ0p9mxOkIks5gh6RUnpHak7Yh0SFkyjO/ODbxsQQPV2bpMmyA==
 
 "@types/node@^12.6.8":
   version "12.6.8"
@@ -5738,6 +5748,15 @@ electron@4.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.0.3"
 
+electron@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.4.tgz#28372c458f615c6cd989d75e602b1fdad48b6180"
+  integrity sha512-zrPi36etADOAjxnVX6TxRNKSWaBscMLd9S7AB+qISzI0dnYIDKycHpc2mB+5QWBd/8cR4m/1NLNTqNhX5KKGFg==
+  dependencies:
+    "@types/node" "^10.12.18"
+    electron-download "^4.1.0"
+    extract-zip "^1.0.3"
+
 elliptic@^6.0.0:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.1.tgz#c2d0b7776911b86722c632c3c06c60f2f819939a"
@@ -9975,10 +9994,10 @@ ngx-pipes@^2.5.6:
   dependencies:
     tslib "^1.9.0"
 
-ngx-popper@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-popper/-/ngx-popper-6.2.0.tgz#5de730f8c4344ab1a2be135094fc75fea71df7f5"
-  integrity sha512-rp123sbpjrj1qNSdbIL0w0HXRaI9t2qX+wLR79qKwlHHKcYUpgM3FXYyBh4orm5Q3QLRZHCps5FMAJF9mNCNUg==
+ngx-popper@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-popper/-/ngx-popper-7.0.0.tgz#4a46557f27384680a0298b395b2f296016cf3f78"
+  integrity sha512-YEp5defNRRs/vq3OaF5aosvfDQEXw0ZJytlfcEfWUu43gxs6AoQIHD82EC41MfQi6impvRie+M1ZO5KpEBH43Q==
   dependencies:
     tslib "^1.9.0"
 
@@ -14229,15 +14248,16 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-json-schema@^0.39.0:
-  version "0.39.0"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.39.0.tgz#223d4c0e11b4bc56d8f1dd98e275804ab488be9e"
-  integrity sha512-ax2UxMMdEhWIwvTjxwJxLmbGIATkY4vxPHeS9wItTb1RfhiUU927YqVixopxURQejbW+ki2awg+eSwRnA5ZUgA==
+typescript-json-schema@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.40.0.tgz#4815092e5acf1662a94aa140924809ff5922da7c"
+  integrity sha512-C8D3Ca6+1x3caWOR+u45Shn3KqkRZi5M3+E8ePpEmYMqOh3xhhLdq+39pqT0Bf8+fCgAmpTFSJMT6Xwqbm0Tkw==
   dependencies:
+    "@types/json-schema" "^7.0.3"
     glob "~7.1.4"
     json-stable-stringify "^1.0.1"
-    typescript "^3.5.1"
-    yargs "^13.2.4"
+    typescript "^3.5.3"
+    yargs "^14.0.0"
 
 typescript@3.4.5, typescript@^3.4.5:
   version "3.4.5"
@@ -14248,7 +14268,7 @@ typescript@>=1.6:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.1.tgz#3362ba9dd1e482ebb2355b02dfe8bcd19a2c7c96"
 
-typescript@^3.5.1:
+typescript@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
   integrity sha512-ACzBtm/PhXBDId6a6sDJfroT2pOWt/oOnk4/dElG5G33ZL776N3Y6/6bKZJBFpd+b05F3Ct9qDjMeJmRWtE2/g==
@@ -15230,7 +15250,7 @@ yargs@13.2.2:
     y18n "^4.0.0"
     yargs-parser "^13.0.0"
 
-yargs@13.2.4, yargs@^13.2.4, yargs@~13.2.0:
+yargs@13.2.4, yargs@~13.2.0:
   version "13.2.4"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.2.4.tgz#0b562b794016eb9651b98bd37acf364aa5d6dc83"
   integrity sha512-HG/DWAJa1PAnHT9JAhNa8AbAv3FPaiLzioSjCcmuXXhP8MlpHO5vwls4g4j6n30Z74GVQj8Xa62dWVx1QCGklg==
@@ -15270,6 +15290,23 @@ yargs@^13.3.0:
   integrity sha512-2eehun/8ALW8TLoIl7MVaRUrg+yCnenu8B4kBlRxj3GJGDKU1Og7sMXPNm1BYyM1DOJmTZ4YeN/Nwxv+8XJsUA==
   dependencies:
     cliui "^5.0.0"
+    find-up "^3.0.0"
+    get-caller-file "^2.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^2.0.0"
+    set-blocking "^2.0.0"
+    string-width "^3.0.0"
+    which-module "^2.0.0"
+    y18n "^4.0.0"
+    yargs-parser "^13.1.1"
+
+yargs@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-14.0.0.tgz#ba4cacc802b3c0b3e36a9e791723763d57a85066"
+  integrity sha512-ssa5JuRjMeZEUjg7bEL99AwpitxU/zWGAGpdj0di41pOEmJti8NR6kyUIJBkR78DTYNPZOU08luUo0GTHuB+ow==
+  dependencies:
+    cliui "^5.0.0"
+    decamelize "^1.2.0"
     find-up "^3.0.0"
     get-caller-file "^2.0.1"
     require-directory "^2.1.1"
