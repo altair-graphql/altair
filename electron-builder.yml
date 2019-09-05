@@ -9,18 +9,23 @@ files:
 mac:
   category: public.app-category.developer-tools
   icon: electron/icon.png
+  artifactName: ${name}_${version}_${arch}_mac.${ext}
 dmg:
   icon: electron/icon.png
 linux:
+  artifactName: ${name}_${version}_${arch}_linux.${ext}
   icon: electron/icons
 snap:
   publish: github
+win:
+  artifactName: ${name}_${version}_${arch}_win.${ext}
 electronCompile: false
 protocols:
   name: Altair GraphQL Client
   schemes:
     - altair
   role: Viewer
+artifactName: ${name}_${version}_${arch}.${ext}
 publish:
   provider: github
   releaseType: release
