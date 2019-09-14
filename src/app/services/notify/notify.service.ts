@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ToastrService, ActiveToast, ToastrConfig } from 'ngx-toastr';
 import { isExtension } from '../../utils';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
 
 type NotifyOptions = Partial<ToastrConfig & { data: any }>;
 
@@ -10,7 +12,8 @@ export class NotifyService {
   extensionNotifications = {};
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<fromRoot.State>
   ) {
     this.manageExtensionNotifications();
   }
@@ -46,30 +49,42 @@ export class NotifyService {
   }
 
   electronPushNotify(message, title = 'Altair', opts: any = {}) {
-    const myNotification = new Notification(title, {
-      body: message
-    });
-    if (opts) {
-      myNotification.onclick = opts.onclick;
-    }
+    this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
+      if (disablePushNotification) {
+        return;
+      }
 
-    return myNotification;
+      const myNotification = new Notification(title, {
+        body: message
+      });
+      if (opts) {
+        myNotification.onclick = opts.onclick;
+      }
+
+      return myNotification;
+    });
   }
 
   extensionPushNotify(message, title = 'Altair', opts: any = {}) {
-    window['chrome'].notifications.create({
-      type: 'basic',
-      iconUrl: 'assets/img/logo.png',
-      title,
-      message
-    }, notifId => {
-      if (opts) {
-        this.extensionNotifications[notifId] = {};
-
-        if (opts.onclick) {
-          this.extensionNotifications[notifId].onclick = opts.onclick;
-        }
+    this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
+      if (disablePushNotification) {
+        return;
       }
+
+      window['chrome'].notifications.create({
+        type: 'basic',
+        iconUrl: 'assets/img/logo.png',
+        title,
+        message
+      }, notifId => {
+        if (opts) {
+          this.extensionNotifications[notifId] = {};
+
+          if (opts.onclick) {
+            this.extensionNotifications[notifId].onclick = opts.onclick;
+          }
+        }
+      });
     });
   }
 
