@@ -21,7 +21,7 @@ addons:
 services:
   - xvfb
 before_install:
-- export CHROME_BIN=chromium-browser
+- export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
