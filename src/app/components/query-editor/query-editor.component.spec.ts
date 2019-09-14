@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/shared/shared.module';
 import { ClarityModule } from '@clr/angular';
+import { Store } from '@ngrx/store';
+import { empty as observableEmpty } from 'rxjs';
 
 describe('QueryEditorComponent', () => {
   let component: QueryEditorComponent;
@@ -31,7 +33,15 @@ describe('QueryEditorComponent', () => {
       ],
       providers: [
         GqlService,
-        NotifyService
+        NotifyService,
+        { provide: Store, useValue: {
+          subscribe: () => observableEmpty(),
+          select: () => observableEmpty(),
+          map: () => observableEmpty(),
+          first: () => observableEmpty(),
+          pipe: () => observableEmpty(),
+          dispatch: () => {}
+        } }
       ]
     })
     .compileComponents();
