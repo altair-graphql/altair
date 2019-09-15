@@ -38,10 +38,16 @@ import config from '../config';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 
+interface EffectResponseData {
+  data: fromRoot.PerWindowState;
+  windowId: string;
+  action: any;
+}
+
 @Injectable()
 export class QueryEffects {
 
-    @Effect({ resubscribeOnError: true })
+    @Effect()
     // Sends the query request to the specified URL
     // with the specified headers and variables
     sendQueryRequest$: Observable<Action> = this.actions$
@@ -65,42 +71,7 @@ export class QueryEffects {
           return of(response);
         }),
         switchMap(response => {
-          if (!response) {
-            return observableEmpty();
-          }
-          const query = response.data.query.query.trim();
-          /**
-           * pre request execution context is passed the current headers, environment, variables, query, etc
-           * and returns a set of the same that would have potentially been modified during the script execution.
-           * The returned data is used instead of the original set of data
-           */
-          return iif(
-            () => response.data.preRequest.enabled,
-            Observable.create((subscriber) => {
-              try {
-                this.preRequestService.executeScript(response.data.preRequest.script, {
-                  environment: this.environmentService.getActiveEnvironment(),
-                  headers: response.data.headers,
-                  query,
-                  variables: response.data.variables.variables,
-                }).then(transformedData => {
-                  subscriber.next({ response, transformedData });
-                  subscriber.complete();
-                }).catch(error => {
-                  console.error(error);
-                  this.notifyService.error(error.message, 'Pre-request error');
-                  subscriber.next(null);
-                  subscriber.complete();
-                });
-              } catch (err) {
-                console.error(err);
-                this.notifyService.error(err.message, 'Pre-request error');
-                subscriber.next(null);
-                subscriber.complete();
-              }
-            }) as Observable<{ response: typeof response, transformedData }>,
-            of({ response, transformedData: null })
-          );
+          return this.getPrerequesstTransformedData$(response);
         }),
         switchMap((returnedData) => {
           if (!returnedData) {
@@ -356,23 +327,39 @@ export class QueryEffects {
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
+        switchMap(response => {
+          return this.getPrerequesstTransformedData$(response);
+        }),
         switchMap((res) => {
-          const url = this.environmentService.hydrate(res.data.query.url);
-          const headers = this.environmentService.hydrateHeaders(res.data.headers);
+          if (!res) {
+            return observableEmpty();
+          }
+          const { response, transformedData } = res;
+          let url = this.environmentService.hydrate(response.data.query.url);
+          let headers = this.environmentService.hydrateHeaders(response.data.headers);
+
+          if (transformedData) {
+            url = this.environmentService.hydrate(response.data.query.url, {
+              activeEnvironment: transformedData.environment
+            });
+            headers = this.environmentService.hydrateHeaders(response.data.headers, {
+              activeEnvironment: transformedData.environment
+            });
+          }
 
           if (!url) {
             return observableEmpty();
           }
 
-          this.store.dispatch(new docsAction.StartLoadingDocsAction(res.windowId));
+          this.store.dispatch(new docsAction.StartLoadingDocsAction(response.windowId));
           return this.gqlService
             .getIntrospectionRequest(url, {
-              method: res.data.query.httpVerb,
+              method: response.data.query.httpVerb,
               headers
             })
             .pipe(
               catchError((err: any) => {
-                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
                 const errorObj = err.error || err;
                 let allowsIntrospection = true;
 
@@ -386,7 +373,7 @@ export class QueryEffects {
 
                 // If the server does not support introspection
                 if (!allowsIntrospection) {
-                  this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, res.windowId));
+                  this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, response.windowId));
                 } else {
                   this.notifyService.warning(`
                     Seems like something is broken. Please check that the URL is valid,
@@ -396,21 +383,21 @@ export class QueryEffects {
                 return observableEmpty();
               }),
               map(introspectionResponse => {
-                this.store.dispatch(new docsAction.StopLoadingDocsAction(res.windowId));
+                this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
                 const introspectionData = introspectionResponse.body && introspectionResponse.body.data;
                 const streamUrl = introspectionResponse.headers
                   && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/graphql/stream'; // For development.
-                this.store.dispatch(new streamActions.SetStreamSettingAction(res.windowId, { streamUrl }));
+                this.store.dispatch(new streamActions.SetStreamSettingAction(response.windowId, { streamUrl }));
                 if (streamUrl) {
-                  this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId));
+                  this.store.dispatch(new streamActions.StartStreamClientAction(response.windowId));
                 }
                 if (!introspectionData) {
-                  return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
+                  return new gqlSchemaActions.SetIntrospectionAction(introspectionData, response.windowId);
                 }
 
-                this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, res.windowId));
+                this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, response.windowId));
 
-                return new gqlSchemaActions.SetIntrospectionAction(introspectionData, res.windowId);
+                return new gqlSchemaActions.SetIntrospectionAction(introspectionData, response.windowId);
               }),
               catchError((error: any) => {
                 debug.error(error);
@@ -831,4 +818,47 @@ export class QueryEffects {
       private store: Store<any>
     ) {}
 
+
+    getPrerequesstTransformedData$(input: EffectResponseData) {
+      return of(input).pipe(
+        switchMap(response => {
+          if (!response) {
+            return observableEmpty();
+          }
+          const query = response.data.query.query.trim();
+          /**
+           * pre request execution context is passed the current headers, environment, variables, query, etc
+           * and returns a set of the same that would have potentially been modified during the script execution.
+           * The returned data is used instead of the original set of data
+           */
+          return iif(
+            () => response.data.preRequest.enabled,
+            Observable.create((subscriber) => {
+              try {
+                this.preRequestService.executeScript(response.data.preRequest.script, {
+                  environment: this.environmentService.getActiveEnvironment(),
+                  headers: response.data.headers,
+                  query,
+                  variables: response.data.variables.variables,
+                }).then(transformedData => {
+                  subscriber.next({ response, transformedData });
+                  subscriber.complete();
+                }).catch(error => {
+                  console.error(error);
+                  this.notifyService.error(error.message, 'Pre-request error');
+                  subscriber.next(null);
+                  subscriber.complete();
+                });
+              } catch (err) {
+                console.error(err);
+                this.notifyService.error(err.message, 'Pre-request error');
+                subscriber.next(null);
+                subscriber.complete();
+              }
+            }) as Observable<{ response: typeof response, transformedData }>,
+            of({ response, transformedData: null })
+          );
+        }),
+      );
+    }
 }
