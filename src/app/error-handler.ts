@@ -23,6 +23,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         repo: 'altair',
         title: issueTitle,
         body: issueBody,
+        template: 'Bug_report.md',
       });
       debug.error('Application error:', errorMessage);
       notifyService.error(`An error occured: ${errorMessage}`);
