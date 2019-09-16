@@ -91,7 +91,9 @@ export class WindowService {
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
           headers: window.headers,
-          windowName: `${window.layout.title} (Copy)`
+          windowName: `${window.layout.title} (Copy)`,
+          preRequestScript: window.preRequest.script,
+          preRequestScriptEnabled: window.preRequest.enabled,
         };
 
           return this.importWindowData(windowData);
@@ -117,6 +119,8 @@ export class WindowService {
           subscriptionUrl: window.query.subscriptionUrl,
           headers: window.headers,
           windowName: window.layout.title,
+          preRequestScript: window.preRequest.script,
+          preRequestScriptEnabled: window.preRequest.enabled,
         });
       });
     });
@@ -155,7 +159,9 @@ export class WindowService {
         variables: curlObj.body ? JSON.stringify(JSON.parse(curlObj.body).variables) : '',
         subscriptionUrl: '',
         headers: curlObj.headers ? Object.keys(curlObj.headers).map(key => ({ key, value: curlObj.headers[key] })) : [],
-        windowName: `cURL-${Date.now()}`
+        windowName: `cURL-${Date.now()}`,
+        preRequestScript: '',
+        preRequestScriptEnabled: false,
       };
 
       return this.importWindowData(windowData);

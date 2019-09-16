@@ -8,6 +8,9 @@ export interface State {
     [id: string]: fromRoot.PerWindowState;
 }
 
+/**
+ * Data structure for exported windows
+ */
 export interface ExportWindowState {
   version: 1;
   type: 'window';
@@ -17,6 +20,8 @@ export interface ExportWindowState {
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
+  preRequestScript: string;
+  preRequestScriptEnabled: boolean;
 
   /**
    * ID of the collection this query belongs to
