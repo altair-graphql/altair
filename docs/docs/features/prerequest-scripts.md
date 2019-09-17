@@ -52,3 +52,24 @@ const sessid = altair.helpers.getCookie('sessid');
 const res = await altair.helpers.request('GET', 'https://api.agify.io/?name=michael');
 // res => {"name":"michael","age":60,"count":41938}
 ```
+
+### Persisting your data between requests
+
+Since altair pretty much lives in a browser environment, it does support the `LocalStorage` feature. This is useful when you need an authentication token before each request but only requesting the token when your authentication expired.
+
+```js
+const nowInSeconds = () => Date.now() / 1000;
+const tokenExpiry = localStorage.getItem("token_expiry") || 0;
+
+if (nowInSeconds() >= tokenExpiry) {
+  const res = await altair.helpers.request('POST', 'https://auth.example.com', { /* auth payload */ });
+  // res => {"token":"abcd","expiry":3600}
+  
+  localStorage.setItem("token", res.token);
+  localStorage.setItem("token_expiry", nowInSeconds() + res.expiry);
+}
+
+const token = localStorage.getItem("token");
+
+altair.data.headers.push({ key: 'Authorization', value: `Bearer ${token}` });
+```
