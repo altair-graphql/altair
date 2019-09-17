@@ -57,6 +57,14 @@ const res = await altair.helpers.request('GET', 'https://api.agify.io/?name=mich
 
 Since altair pretty much lives in a browser environment, it does support the `LocalStorage` feature. This is useful when you need an authentication token before each request but only requesting the token when your authentication expired.
 
+Assuming you have this header in the `Set Headers window`:
+
+| Key           | Value                |
+| ------------- | -------------------- |
+| Authorization | Bearer {{token_env}} |
+
+Below is a working example of persisting data between requests (token, token_expiry):
+
 ```js
 const nowInSeconds = () => Date.now() / 1000;
 const tokenExpiry = localStorage.getItem("token_expiry") || 0;
@@ -71,5 +79,5 @@ if (nowInSeconds() >= tokenExpiry) {
 
 const token = localStorage.getItem("token");
 
-altair.data.headers.push({ key: 'Authorization', value: `Bearer ${token}` });
+altair.helpers.setEnvironment('token_env', token);
 ```
