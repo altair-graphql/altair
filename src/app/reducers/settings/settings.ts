@@ -63,6 +63,11 @@ export interface State {
    * Specifies the font family for the editors
    */
   'theme.editorFontFamily'?: string;
+
+  /**
+   * Specifies if the push notifications should be disabled
+   */
+  disablePushNotification?: boolean;
 }
 
 const initialState: State = {

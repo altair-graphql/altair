@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { ToastrModule } from 'ngx-toastr';
 
 import { NotifyService } from './notify.service';
+import { Store } from '@ngrx/store';
+import { empty as observableEmpty } from 'rxjs';
 
 describe('NotifyService', () => {
   beforeEach(() => {
@@ -9,7 +11,17 @@ describe('NotifyService', () => {
       imports: [
         ToastrModule.forRoot()
       ],
-      providers: [NotifyService]
+      providers: [
+        NotifyService,
+        { provide: Store, useValue: {
+          subscribe: () => observableEmpty(),
+          select: () => observableEmpty(),
+          map: () => observableEmpty(),
+          first: () => observableEmpty(),
+          pipe: () => observableEmpty(),
+          dispatch: () => {}
+        } }
+      ]
     });
   });
 
