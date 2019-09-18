@@ -1,6 +1,7 @@
 
 ## Deploying
 
+- Check docs are up to date (settings options, pre request script API, supported languages)
 - Make sure your local repo is up to date `git pull`
 - Run tests locally `ng test --single-run && ng lint && ng e2e`
 - Update extension version `./bin/update_version.sh <version_number e.g. 1.6.1>`

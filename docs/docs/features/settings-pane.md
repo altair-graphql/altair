@@ -37,3 +37,6 @@ _Default: 24_
 
 ### `theme.editorFontFamily` - Specifies the font family for the editors
 Any valid CSS font family combinations can be used here.
+
+### `disablePushNotification` - Specifies if native push notifications should be disabled
+_Default: false_

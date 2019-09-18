@@ -17,6 +17,7 @@ import * as variableActions from '../actions/variables/variables';
 import * as layoutActions from '../actions/layout/layout';
 import * as windowActions from '../actions/windows/windows';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
+import * as preRequestActions from '../actions/pre-request/pre-request';
 
 import { DbService } from '../services/db.service';
 
@@ -219,6 +220,13 @@ export class WindowService {
 
         if (data.subscriptionUrl) {
           this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
+        }
+
+        if (data.preRequestScriptEnabled) {
+          this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(windowId, { enabled: data.preRequestScriptEnabled }));
+        }
+        if (data.preRequestScript) {
+          this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(windowId, { script: data.preRequestScript }));
         }
 
         this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));

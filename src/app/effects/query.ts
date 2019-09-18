@@ -1,5 +1,5 @@
 
-import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, of, iif } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif } from 'rxjs';
 
 import { debounce, tap, catchError, withLatestFrom, switchMap, map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -68,7 +68,7 @@ export class QueryEffects {
             return observableEmpty();
           }
 
-          return of(response);
+          return observableOf(response);
         }),
         switchMap(response => {
           return this.getPrerequesstTransformedData$(response);
@@ -78,7 +78,7 @@ export class QueryEffects {
             return observableEmpty();
           }
 
-          return of(returnedData)
+          return observableOf(returnedData)
             .pipe(
               switchMap((_returnedData) => {
                 const { response, transformedData } = _returnedData;
@@ -820,7 +820,7 @@ export class QueryEffects {
 
 
     getPrerequesstTransformedData$(input: EffectResponseData) {
-      return of(input).pipe(
+      return observableOf(input).pipe(
         switchMap(response => {
           if (!response) {
             return observableEmpty();
@@ -856,7 +856,7 @@ export class QueryEffects {
                 subscriber.complete();
               }
             }) as Observable<{ response: typeof response, transformedData }>,
-            of({ response, transformedData: null })
+            observableOf({ response, transformedData: null })
           );
         }),
       );
