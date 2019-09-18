@@ -107,6 +107,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "qonn",
+      "name": "Furqan Anas",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/43688724?v=4",
+      "profile": "https://github.com/qonn",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
