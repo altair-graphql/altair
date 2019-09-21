@@ -16,13 +16,14 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else {
       const notifyService = this.injector.get(NotifyService);
       const errorMessage = error.message ? error.message : error.toString();
-      const issueTitle = 'Bug: Application error';
+      const issueTitle = `Bug: Application error: ${errorMessage}`;
       const issueBody = `Error message: ${errorMessage}\n\nError stack:\n\n\`\`\`\n${error.stack}\n\`\`\``;
       const issueUrl = newGithubIssueUrl({
         user: 'imolorhe',
         repo: 'altair',
         title: issueTitle,
         body: issueBody,
+        labels: [ 'bug-report' ],
         template: 'Bug_report.md',
       });
       debug.error('Application error:', errorMessage);
