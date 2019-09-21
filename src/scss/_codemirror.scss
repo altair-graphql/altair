@@ -187,6 +187,11 @@
     color: var(--editor-def-color);
   }
 
+  .cm-builtin {
+    color: var(--editor-builtin-color);
+    font-weight: bold;
+  }
+
   .cm-number {
     color: var(--editor-number-color);
   }
