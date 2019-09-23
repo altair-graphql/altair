@@ -1,7 +1,8 @@
 
 export enum PluginSource {
   NPM = 'npm',
-  GITHUB = 'github'
+  GITHUB = 'github',
+  URL = 'url',
 }
 export enum PluginType {
   SIDEBAR = 'sidebar',
@@ -21,6 +22,7 @@ export interface PluginManifest {
   type: PluginType;
   sidebar_opts?: PluginSidebarOptions;
   scripts: string[];
+  styles: string[];
 }
 export interface PluginInstance {
   name: string;
@@ -35,6 +37,12 @@ export interface PluginInstance {
 
 export interface PluginRegistryMap {
   [s: string]: PluginInstance;
+}
+
+export interface GetPluginOption {
+  pluginSource?: PluginSource;
+  version?: string;
+  [key: string]: any;
 }
 
 export class AltairPlugin implements PluginInstance {

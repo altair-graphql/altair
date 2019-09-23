@@ -19,26 +19,40 @@ export class PluginRegistryService {
     this.emitRegistryUpdate();
   }
 
-  getPlugin(name: string, pluginSource = PluginSource.NPM) {
+  getPlugin(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: any = {}) {
     debug.log('PLUGIN: ', name, pluginSource);
-    const baseUrl = 'https://cdn.jsdelivr.net/npm/';
-    const version = 'latest';
-    const pluginBaseUrl = `${baseUrl}${name}@${version}/`;
+    let pluginBaseUrl = ``;
+    switch (pluginSource) {
+      case PluginSource.NPM:
+        pluginBaseUrl = this.getNPMPluginBaseURL(name, { version });
+        break;
+      case PluginSource.URL:
+        pluginBaseUrl = this.getURLPluginBaseURL(name, { version, ...remainingOpts });
+    }
+
     const manifestUrl = `${pluginBaseUrl}manifest.json`;
+
     // Get manifest file
     this.http.get(manifestUrl).subscribe(async (manifest: PluginManifest) => {
       debug.log('PLUGIN', manifest);
 
       if (manifest) {
+        if (manifest.styles && manifest.styles.length) {
+          debug.log('PLUGIN styles', manifest.styles);
+
+          await Promise.all(manifest.styles.map(style => {
+            return this.injectPluginStylesheet(`${pluginBaseUrl}${style}`);
+          }));
+        }
         if (manifest.scripts && manifest.scripts.length) {
-          debug.log('PLUGIN', manifest.scripts);
+          debug.log('PLUGIN scripts', manifest.scripts);
 
           await Promise.all(manifest.scripts.map(script => {
             return this.injectPluginScript(`${pluginBaseUrl}${script}`);
           }));
-          this.add(name, new AltairPlugin(name, manifest));
-          debug.log('PLUGIN', 'plugin scripts injected and loaded.');
         }
+        this.add(name, new AltairPlugin(name, manifest));
+        debug.log('PLUGIN', 'plugin scripts and styles injected and loaded.');
       }
     });
   }
@@ -88,6 +102,28 @@ export class PluginRegistryService {
       script.onerror = (err) => reject(err);
       head.appendChild(script);
     });
+  }
+  private injectPluginStylesheet(url) {
+    return new Promise((resolve, reject) => {
+      const head = document.getElementsByTagName('head')[0];
+      const style = document.createElement('link');
+      style.type = 'text/css';
+      style.rel = 'stylesheet';
+      style.href = url;
+      style.onload = () => resolve();
+      style.onerror = (err) => reject(err);
+      head.appendChild(style);
+    });
+  }
+
+  private getNPMPluginBaseURL(name, { version }) {
+    const baseUrl = 'https://cdn.jsdelivr.net/npm/';
+    const pluginBaseUrl = `${baseUrl}${name}@${version}/`;
+    return pluginBaseUrl;
+  }
+
+  private getURLPluginBaseURL(name, opts) {
+    return opts.url;
   }
 
 }

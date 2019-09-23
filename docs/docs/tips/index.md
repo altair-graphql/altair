@@ -2,6 +2,7 @@
 title: Tips
 has_children: true
 permalink: /docs/tips
+nav_order: 4
 ---
 
 ## Tips

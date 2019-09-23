@@ -73,6 +73,14 @@ input[type="text"], input[type="search"], input[type="url"] {
   float: right;
 }
 
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
 .anim {
   animation-duration: 1s;
   animation-iteration-count: infinite;
