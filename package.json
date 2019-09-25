@@ -110,7 +110,7 @@
     "ngx-popper": "^7.0.0",
     "ngx-sortablejs": "^3.1.3",
     "ngx-take-until-destroy": "^5.4.0",
-    "ngx-toastr": "^10.0.4",
+    "ngx-toastr": "^11.0.0",
     "opencollective": "^1.0.3",
     "popper.js": "^1.15.0",
     "prettier": "^1.18.2",
