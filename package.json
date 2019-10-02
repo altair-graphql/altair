@@ -141,7 +141,7 @@
     "codelyzer": "^5.1.0",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "4.2.9",
+    "electron": "6.0.11",
     "electron-builder": "^21.1.1",
     "electron-chromedriver": "^6.0.0-beta.3",
     "electron-notarize": "^0.1.1",
