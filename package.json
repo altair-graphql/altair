@@ -42,7 +42,8 @@
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=76.0.3809.68",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -115,7 +116,7 @@
     "popper.js": "^1.15.0",
     "prettier": "^1.18.2",
     "rxjs": "^6.5.2",
-    "snyk": "^1.195.0",
+    "snyk": "^1.230.5",
     "sortablejs": "^1.10.0-rc3",
     "subscriptions-transport-ws": "^0.9.16",
     "sval": "^0.4.6",
