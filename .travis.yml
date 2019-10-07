@@ -1,6 +1,5 @@
 sudo: required
 language: node_js
-cache: yarn
 os:
 - linux
 - osx
