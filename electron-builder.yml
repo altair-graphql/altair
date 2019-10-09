@@ -6,6 +6,13 @@ directories:
 files:
   - '**/*'
   - 'electron/**/*'
+  - '!src/**/*'
+  - '!out/**/*'
+  - '!packages/**/*'
+  - '!web-ext-artifacts/**/*'
+  - '!coverage/**/*'
+  - '!docs/**/*'
+  - '!chrome-extension/**/*'
 afterSign: electron/scripts/notarize.js
 mac:
   category: public.app-category.developer-tools
