@@ -1,25 +1,24 @@
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
 directories:
-  buildResources: electron
+  buildResources: resources
   output: out
 files:
   - '**/*'
-  - 'electron/**/*'
-afterSign: electron/scripts/notarize.js
+afterSign: scripts/notarize.js
 mac:
   category: public.app-category.developer-tools
-  icon: electron/icon.png
+  icon: resources/icon.png
   artifactName: ${name}_${version}_${arch}_mac.${ext}
   hardenedRuntime: true
-  entitlements: electron/entitlements.mac.plist
-  entitlementsInherit: electron/entitlements.mac.plist
+  entitlements: resources/entitlements.mac.plist
+  entitlementsInherit: resources/entitlements.mac.plist
   # gatekeeperAssess: false
 dmg:
-  icon: electron/icon.png
+  icon: resources/icon.png
 linux:
   artifactName: ${name}_${version}_${arch}_linux.${ext}
-  icon: electron/icons
+  icon: resources/icons
 snap:
   publish: github
 win:

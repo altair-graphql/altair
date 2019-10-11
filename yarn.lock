@@ -9959,10 +9959,10 @@ next-tick@1, next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-ng-zorro-antd@8.2.1:
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.2.1.tgz#272568b82a21a63a13b382936602830d16779f2e"
-  integrity sha512-CweOa87XFKictl/gyIaNpIsMgDjWLxHTwXSRdAuBuT6On/90Ik0mLtIJ5EY+q3TNrb5PjzptwU8R/rp+SwtJ3w==
+ng-zorro-antd@8.3.1:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.3.1.tgz#191a78565bb72e8372d837fd542d0a3914dba67a"
+  integrity sha512-a5Oyo4nUBjl4qtVFuS9FHXZp1yak+cN5t6zOr0Fe7QSWX+4VqmYk04JG0/gcdGy5NLKOqAVBVTqTGMGXPflUVw==
   dependencies:
     "@angular/cdk" "^8.0.0"
     "@ant-design/icons-angular" "^8.0.2"
@@ -10039,10 +10039,10 @@ ngx-take-until-destroy@^5.4.0:
   dependencies:
     tslib "^1.9.0"
 
-ngx-toastr@^10.0.4:
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-10.0.4.tgz#cbc61b8d67d748194ea7a28542b01e39bf1fc6c2"
-  integrity sha512-iN+zr2Msae5wV334c1dytRhSYNdUz467jwv1NE91lMmllsMkpUzZlu8VdFCeTFt+/R4TWzz19xBRqhpp+OAuVA==
+ngx-toastr@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-11.0.0.tgz#dcdad7846267ba51ad88e89a73a6d17348ae8978"
+  integrity sha512-WO+dVaGufn+kAtBnHl7s9ruDwDdJ5+vLJsaZO6tMKwavsgPLycl2iymVgUkQssEsRUYUKBix0Af4pjN0JZVOtw==
   dependencies:
     tslib "^1.9.0"
 

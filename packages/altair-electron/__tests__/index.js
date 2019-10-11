@@ -4,8 +4,8 @@ const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const path = require('path');
 
-let electronPath = path.join(__dirname, '../../node_modules', '.bin', 'electron');
-const appPath = path.join(__dirname, '../main');
+let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
+const appPath = path.join(__dirname, '../');
 if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
