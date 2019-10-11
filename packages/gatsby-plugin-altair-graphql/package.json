@@ -1,10 +1,10 @@
 {
   "name": "gatsby-plugin-altair-graphql",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "description": "A gatsby plugin for using Altair GraphQL client",
   "main": "gatsby-node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "compile": "tsc --declaration",
     "prepare": "npm run compile"
   },
@@ -28,6 +28,6 @@
     "typescript": "^3.3.1"
   },
   "dependencies": {
-    "altair-express-middleware": "^2.3.4"
+    "altair-express-middleware": "^2.3.5"
   }
 }

@@ -7,8 +7,6 @@ os:
 osx_image: xcode11
 node_js:
 - 10
-env:
-- DEBUG=electron-forge:*
 addons:
   apt:
     sources:
@@ -27,7 +25,7 @@ before_install:
 - export DISPLAY=:99.0
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
-- yarn global add @angular/cli karma electron-forge lerna surge
+- yarn global add @angular/cli karma lerna surge
 - yarn
 - yarn build
 - npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
@@ -37,7 +35,7 @@ script:
 - ng lint
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-electron; bin/stop_ci_test_server.sh; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-all; bin/stop_ci_test_server.sh; fi
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 after_success:
@@ -49,7 +47,7 @@ deploy:
     secure: Raef82s/PIkWThnr5vxHsxZX7FI6LKB3dbUkHzEs/S88hhibQCLuUIrvtbPwEJ/nxj0tpnD93elRQWpYsFRa38omv11g0o5eSUy7WwEHEum6g6se1fH3DqhBJsnIJFtfNXwdysMuvzWeJQ4P4j37jSg3wuCs9oJn0I+GrtS/wrE8EyxGKjtd68lVZo5rNCllUiHeizl8oIcRTUREKexxpsLEapBqgxmkFDn7lbgLDgt4/VwtaCZVN6bAnjknJS9DMynOJS0S1uyl6Gqd1paHVvEPrJv/UpeGKsp+OyoU7qbt/0ZXqXd1Yyym5jp0NAdb2IVNUAiyAAMUjy0qYDIZJMLAOhoO/GlJjvr+Sun81Fgv3fTDPzdUkHLUOVAFqsAmqhkupdZ3PnbiPExk3M3vTIEYI6v2CdxEglZyuZ1GNZ1551CT2hddHuoGue3JGaeq/V8n7QGZUGdplw9NHr7YOkuGpbbxGDjJM/RQXXEdAj1YXTSe225NNEOjoY5AuaVnIW76pfzhjEZtAHCpiYDfqECjtQ9dNuV5K58qElfPmDlBjYv1/G46OiEb/wpFiXtNZel+pvYaV7EK0RNA5IYSUn/S5v2MHEd8XVS90KV2L+CFv++9M46le3Nx6Qr4Lbu7VeY3va7JA/FCN+6HWpoupCg4N98rNOgfjay6FO/d56c=
   file_glob: true
   file:
-    - out/make/*
+    - packages/altair-electron/out/make/*
   skip_cleanup: true
   on:
     tags: true
@@ -68,7 +66,7 @@ deploy:
     branch: staging
 - provider: snap
   file_glob: true
-  snap: out/**/*.snap
+  snap: packages/altair-electron/out/**/*.snap
   channel: stable
   skip_cleanup: true
   on:
