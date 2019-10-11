@@ -9,7 +9,7 @@
 /docs/.sass-cache
 /docs/.jekyll-metadata
 altair.zip
-/out
+out/
 /web-ext-artifacts
 /firebase-sample-dist
 *.nex
