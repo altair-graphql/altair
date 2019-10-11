@@ -1,23 +1,28 @@
 #!/bin/bash
 
+# !!! TODO: Remove as deprecated
 # Remove any electron-builds directory
-rm -rf electron-builds
+# rm -rf electron-builds
 
 # Create a new electron-builds directory
-mkdir electron-builds
+# mkdir electron-builds
 
 # Build the angular app
-npm run build
+# npm run build
 
 # Fix the base href path for the electron app
-./electron/fix-base-path.sh
+# ./electron/fix-base-path.sh
 
 # Make the electron apps
 # npm run make
-npm run dist-electron
+# npm run dist-electron
 
 # Package the electron app
 # ./node_modules/electron-packager/cli.js . Altair --out=electron-builds --overwrite --icon=electron/logo.icns
+
+./node_modules/.bin/lerna bootstrap
+
+./node_modules/.bin/lerna run --scope altair-electron build
 
 # Snippet:
 # Remove git tags

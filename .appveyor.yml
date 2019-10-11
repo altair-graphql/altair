@@ -9,16 +9,16 @@ cache:
 - '%USERPROFILE%\.electron'
 skip_non_tags: true
 artifacts:
-- path: 'out\make\**\*'
+- path: 'packages\altair-electron\out\make\**\*'
   name: altairAll
 
-- path: 'out\altair-win32-x64\altair.exe'
+- path: 'packages\altair-electron\out\altair-win32-x64\altair.exe'
   name: altairWin
 
-- path: 'out\make\**/*.exe'
+- path: 'packages\altair-electron\out\make\**/*.exe'
   name: altairExe
 
-- path: 'out\make\**/*.nupkg'
+- path: 'packages\altair-electron\out\make\**/*.nupkg'
   name: altairNuget
 
 install:
@@ -30,7 +30,7 @@ install:
 before_test:
 - yarn global add @angular/cli@1.6.3
 - yarn global add karma
-- yarn global add electron-forge
+# - yarn global add electron-forge
 - yarn
 # - npm install -g @angular/cli
 # - npm install -g karma
@@ -49,9 +49,9 @@ build: off # We do not intend to build using MS Build
 
 # Run build in after_test to generate artifacts
 after_test:
-- ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace '<base href="/">', '<base href="./">' } | Set-Content .\dist\index.html
+# - ps: (Get-Content .\dist\index.html) | ForEach-Object { $_ -replace '<base href="/">', '<base href="./">' } | Set-Content .\dist\index.html
 # - npm run make
-- yarn dist-electron
+- yarn build-electron
 # - npm run dist-electron
 
 deploy:
