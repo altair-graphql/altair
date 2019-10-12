@@ -117,6 +117,6 @@
   "STREAM_CONNECTION_TRYING": "Tentando se conectar ao servidor…",
   "STREAM_CONNECTION_CONNECTED": "Conectado ao fluxo do servidor",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
-  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Escreva um script a ser executado antes de enviar a solicitação",
+  "PRE_REQUEST_ENABLE_TEXT": "Ativar script de pre-request"
 }
