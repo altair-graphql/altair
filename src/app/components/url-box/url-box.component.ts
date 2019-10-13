@@ -9,6 +9,7 @@ export class UrlBoxComponent {
   @Input() httpVerb: string;
   @Input() isSubscribed = false;
   @Input() isLoading = false;
+  @Input() isMac = navigator.appVersion.includes('Mac');
   @Input() showDocs = false;
   @Input() selectedOperation = '';
   @Input() queryOperations = [];

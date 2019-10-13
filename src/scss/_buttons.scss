@@ -15,6 +15,12 @@ button{
         background: var(--theme-off-bg-color);
     }
 }
+.button-tip-label {
+    display: block; 
+    font-size: 10px;
+    color: darkgreen;
+}
+
 .app-button{
     font-size: fontsize(14);
     border: 0;
