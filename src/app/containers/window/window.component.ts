@@ -31,7 +31,7 @@ import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 import * as preRequestActions from '../../actions/pre-request/pre-request';
 
-import { QueryService, GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { GqlService, NotifyService, PluginRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
@@ -95,7 +95,6 @@ export class WindowComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private queryService: QueryService,
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
@@ -221,12 +220,6 @@ export class WindowComponent implements OnInit, OnDestroy {
         });
       }
     });
-
-
-    this.queryService.loadQuery(this.windowId);
-    this.queryService.loadUrl(this.windowId);
-
-    this.initSetup();
   }
 
   setApiUrl(url) {
@@ -459,16 +452,6 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   getWindowState(): Observable<fromRoot.PerWindowState> {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
-  }
-
-  /**
-   * Carry out any necessary house cleaning tasks.
-   */
-  initSetup() {
-    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
-    this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
-    this.store.dispatch(new streamActions.StopStreamClientAction(this.windowId));
-    this.store.dispatch(new streamActions.StartStreamClientAction(this.windowId));
   }
 
   trackById(index, item) {

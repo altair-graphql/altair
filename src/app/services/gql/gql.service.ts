@@ -144,11 +144,11 @@ export class GqlService {
         debug.error(err);
         if (err.error instanceof ErrorEvent) {
           // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', err.error.message);
+          debug.error('An error occurred:', err.error.message);
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
-          console.error(
+          debug.error(
             `Backend returned code ${err.status}, ` +
             `body was: ${err.error}`);
 
@@ -186,7 +186,6 @@ export class GqlService {
   }
 
   isGETRequest(method = this.method) {
-    console.log(method.toLowerCase() === 'get');
     return method.toLowerCase() === 'get';
   }
 

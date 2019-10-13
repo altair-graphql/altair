@@ -31,8 +31,6 @@ import * as environmentsActions from '../../actions/environments/environments';
 import { environment } from '../../../environments/environment';
 
 import {
-  QueryService,
-  GqlService,
   WindowService,
   DonationService,
   ElectronAppService,

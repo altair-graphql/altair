@@ -18,8 +18,7 @@ import * as layoutActions from '../actions/layout/layout';
 import * as windowActions from '../actions/windows/windows';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as preRequestActions from '../actions/pre-request/pre-request';
-
-import { DbService } from '../services/db.service';
+import * as streamActions from '../actions/stream/stream';
 
 import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
@@ -29,7 +28,6 @@ import { debug } from 'app/utils/logger';
 export class WindowService {
 
   constructor(
-    private db: DbService,
     private store: Store<fromRoot.State>
   ) { }
 
@@ -53,30 +51,17 @@ export class WindowService {
 
         this.store.dispatch(new windowActions.AddWindowAction(newWindow));
 
+        this.setupWindow(newWindow.windowId);
+
         obs.next(newWindow);
       });
     });
   }
 
-  removeWindow(windowId): Subscription {
-    return this.db.getItem('windows').subscribe(data => {
-      data = data || [];
+  removeWindow(windowId) {
+    this.cleanupWindow(windowId);
 
-      const newWindows = data.filter(window => window.windowId !== windowId);
-
-      return this.db.setItem('windows', newWindows).subscribe(() => {
-        this.db.getAllKeys().pipe(
-          // Filter out items that are for the current window via the windowId
-          map(keys => keys.filter(key => key.includes(windowId))))
-          .subscribe(windowKeys => {
-            // Remove all the items related to the current window
-            windowKeys.map(key => this.db.removeItemByExactKey(key));
-
-            // Dispatch the remove window action
-            return observableOf(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
-          });
-      });
-    });
+    return observableOf(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
   }
 
   duplicateWindow(windowId): Subscription {
@@ -260,5 +245,19 @@ export class WindowService {
     getFileStr(files).then((dataStr: string) => {
       this.importStringData(dataStr);
     });
+  }
+
+  /**
+   * Carry out any necessary house cleaning tasks.
+   */
+  private setupWindow(windowId) {
+    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] }));
+    this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
+    this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
+    this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
+  }
+  private cleanupWindow(windowId) {
+    this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
+    this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
   }
 }
