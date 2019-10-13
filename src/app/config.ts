@@ -30,6 +30,7 @@ export default {
     'vi-VN': 'Vietnamese',
   },
   query_history_depth: isElectron ? 50 : 7,
+  defaultTheme: 'matchMedia' in window && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
   themes: ['light', 'dark'],
   isTranslateMode,
   isWebApp: window['__ALTAIR_WEB_APP__'],

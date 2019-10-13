@@ -83,22 +83,6 @@ export function queryReducer(state = initialState, action: query.Action): State 
         responseStatus: action.payload.responseStatus,
         responseStatusText: action.payload.responseStatusText
       });
-    case query.SHOW_URL_ALERT:
-      return Object.assign({}, state, {
-        showUrlAlert: true,
-        urlAlertMessage: action.payload.message,
-        urlAlertSuccess: action.payload.success
-      });
-    case query.HIDE_URL_ALERT:
-      return Object.assign({}, state, { showUrlAlert: false });
-    case query.SHOW_EDITOR_ALERT:
-      return Object.assign({}, state, {
-        showEditorAlert: true,
-        editorAlertMessage: action.payload.message,
-        editorAlertSuccess: action.payload.success
-      });
-    case query.HIDE_EDITOR_ALERT:
-      return Object.assign({}, state, { showEditorAlert: false });
     case query.START_SUBSCRIPTION:
       return Object.assign({}, state, { isSubscribed: true });
     case query.STOP_SUBSCRIPTION:
