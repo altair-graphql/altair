@@ -166,7 +166,7 @@ export class AppComponent implements OnDestroy {
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
-        this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.5' });
+        this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
         // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', {
         //   pluginSource: 'url',
         //   version: '0.0.4',
