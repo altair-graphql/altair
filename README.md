@@ -1,5 +1,5 @@
 [![Build](https://travis-ci.org/imolorhe/altair.svg?branch=master "Travis CI")](https://travis-ci.org/imolorhe/altair)
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
 [![Build status](https://ci.appveyor.com/api/projects/status/qp69kxnlxntsumdj/branch/staging?svg=true)](https://ci.appveyor.com/project/imolorhe/altair/branch/staging)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/altair-gql/localized.svg)](https://crowdin.com/project/altair-gql)
@@ -175,6 +175,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
     <td align="center"><a href="https://github.com/juca-cruz"><img src="https://avatars1.githubusercontent.com/u/5823011?v=4" width="100px;" alt="Juan Cruz"/><br /><sub><b>Juan Cruz</b></sub></a><br /><a href="#translation-juca-cruz" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/victormihaita"><img src="https://avatars0.githubusercontent.com/u/43206741?v=4" width="100px;" alt="Victor Mihaita"/><br /><sub><b>Victor Mihaita</b></sub></a><br /><a href="#translation-victormihaita" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/qonn"><img src="https://avatars1.githubusercontent.com/u/43688724?v=4" width="100px;" alt="Furqan Anas"/><br /><sub><b>Furqan Anas</b></sub></a><br /><a href="https://github.com/imolorhe/altair/commits?author=qonn" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/vladshcherbin"><img src="https://avatars1.githubusercontent.com/u/6711845?v=4" width="100px;" alt="Vlad Shcherbin"/><br /><sub><b>Vlad Shcherbin</b></sub></a><br /><a href="https://github.com/imolorhe/altair/issues?q=author%3Avladshcherbin" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
