@@ -1363,10 +1363,10 @@
     "@types/events" "*"
     "@types/node" "*"
 
-"@types/chrome@^0.0.89":
-  version "0.0.89"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.89.tgz#0d5baef543aaa0715b345b57b86cba6ca708b524"
-  integrity sha512-nWgL4U38SnIuMpG2rKMCGDknfZb193KFY15imqHUVFF4IJAVXvdEJOOgtcX9v2XsAaZiz2UUOInvWk5x1DhENQ==
+"@types/chrome@^0.0.90":
+  version "0.0.90"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.90.tgz#687f8738925be23619f4bf1d66fdf7f66f2d7cbc"
+  integrity sha512-GrfPqHjNucBqWM3vLrJhQw684SGJMl3UBu+7EzYyo4I34HMBY3ImHNitCSdzsI1o8x8U0nRRe3M3FXeYgY/bYw==
   dependencies:
     "@types/filesystem" "*"
 

@@ -132,7 +132,7 @@ To get more help on working with the project, check out the [Angular CLI README]
 
 ### Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute. [[Contribute](.github/CONTRIBUTING.md)].
 <a href="graphs/contributors"><img src="https://opencollective.com/altair/contributors.svg?width=890" /></a>
 
 ## Backers
