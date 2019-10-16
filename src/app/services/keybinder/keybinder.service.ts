@@ -17,6 +17,8 @@ interface KeyboardShortcut {
   description: string;
 }
 
+export const SEND_REQUEST_KEYBINDS = ['Command+Enter', 'Ctrl+Enter']
+
 @Injectable()
 export class KeybinderService {
 
@@ -69,7 +71,7 @@ export class KeybinderService {
     );
 
     this.bindShortcut(
-      ['Command+Enter', 'Ctrl+Enter'],
+      SEND_REQUEST_KEYBINDS,
       () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
       'Send Request'
     );

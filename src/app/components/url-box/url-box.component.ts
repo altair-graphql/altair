@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SEND_REQUEST_KEYBINDS } from '../../services/keybinder/keybinder.service';
 
 @Component({
   selector: 'app-url-box',
@@ -15,7 +16,7 @@ export class UrlBoxComponent {
   @Input() queryOperations = [];
   @Input() streamState = '';
   @Input() currentCollection = null;
-
+  @Input() sendRequestKeybinds = SEND_REQUEST_KEYBINDS;
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();
   @Output() addToCollectionChange = new EventEmitter();

@@ -18,7 +18,7 @@ button{
 .button-tip-label {
     display: block; 
     font-size: 10px;
-    color: darkgreen;
+    color:rgba(var(--rgb-black), .5);
 }
 
 .app-button{

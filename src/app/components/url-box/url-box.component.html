@@ -104,12 +104,11 @@
     [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
     track-id="set_request"
     *ngIf="queryOperations.length < 2"
-    style="line-height: normal;"
   >
     <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
     <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-    <span class="button-tip-label" *ngIf="!isLoading && isMac">[Cmd + Enter]</span>
-    <span class="button-tip-label" *ngIf="!isLoading && !isMac">[Ctrl + Enter]</span>
+    <span class="button-tip-label" *ngIf="!isLoading && isMac">[{{sendRequestKeybinds[0]}}]</span>
+    <span class="button-tip-label" *ngIf="!isLoading && !isMac">[{{sendRequestKeybinds[1]}}]</span>
   </button>
   <button
     *ngIf="queryOperations.length > 1"
