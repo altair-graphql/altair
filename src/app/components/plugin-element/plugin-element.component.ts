@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Input, OnChanges } from '@angular/core';
+import { debug } from 'app/utils/logger';
 
 @Component({
   selector: 'app-plugin-element',
@@ -20,7 +21,7 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
     const elementName = (this.plugin.sidebar_opts && this.plugin.sidebar_opts.element_name) || this.plugin.name;
     this.pluginElement = document.createElement(elementName);
     if (!this.pluginElement) {
-      console.error(`Plugin "${elementName}" does not have a custom element defined!`);
+      debug.error(`Plugin "${elementName}" does not have a custom element defined!`);
       return;
     }
 

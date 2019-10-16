@@ -5,6 +5,8 @@ const fs = require('fs');
 const mime = require('mime-types');
 const windowStateKeeper = require('electron-window-state');
 
+const { getDistDirectory } = require('altair-static');
+
 const { getStore } = require('./store');
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
@@ -71,7 +73,7 @@ const createWindow = () => {
    */
   protocol.registerBufferProtocol('altair', (request, callback) => {
 
-    const requestDirectory = path.resolve(app.getAppPath(), 'dist');
+    const requestDirectory = getDistDirectory();
     const filePath = path.join(requestDirectory, new url.URL(request.url).pathname);
     const indexPath = path.join(requestDirectory, 'index.html');
 
@@ -91,7 +93,7 @@ const createWindow = () => {
       });
     });
   }, (error) => {
-    if (error) console.error('Failed to register protocol')
+    if (error) console.error('Failed to register protocol');
   });
 
   // Load the previous state with fallback to defaults
@@ -172,11 +174,14 @@ const createWindow = () => {
   // Doesn't seem to be called. Might be because of buffer protocol.
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        // Setting CSP
-        'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
-      }
+      responseHeaders: Object.assign(
+        {},
+        details.responseHeaders,
+        {
+          // Setting CSP
+          'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
+        }
+      )
     });
   });
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {

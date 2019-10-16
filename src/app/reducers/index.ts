@@ -83,6 +83,7 @@ export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionRed
   return localStorageSync({
     keys: ['windows', 'windowsMeta', 'settings', 'environments'],
     rehydrate: true,
+    // syncCondition: (state) => console.log(state),
     storageKeySerializer: keySerializer
   })(_reducer);
 }

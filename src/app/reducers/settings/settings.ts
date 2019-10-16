@@ -71,7 +71,7 @@ export interface State {
 }
 
 const initialState: State = {
-  theme: 'light',
+  theme: <SettingsTheme>config.defaultTheme,
   language: <SettingsLanguage>config.default_language,
   addQueryDepthLimit: config.add_query_depth_limit,
   tabSize: config.tab_size,

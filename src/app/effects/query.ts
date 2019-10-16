@@ -10,7 +10,6 @@ import * as validUrl from 'valid-url';
 
 import {
   GqlService,
-  QueryService,
   NotifyService,
   DbService,
   DonationService,
@@ -289,38 +288,6 @@ export class QueryEffects {
       );
 
     @Effect()
-    saveUrlToDb$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(queryActions.SET_URL),
-        map((data: queryActions.Action) => {
-          this.queryService.storeUrl(data.payload.url, data.windowId);
-          return new dbActions.SaveUrlSuccessAction();
-        })
-      );
-
-    @Effect()
-    saveQueryToDb$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(queryActions.SET_QUERY),
-        // Save query after user has stopped typing for 500ms
-        debounce(() => observableTimer(500)),
-        map((data: queryActions.Action) => {
-          this.queryService.storeQuery(data.payload, data.windowId);
-          return new dbActions.SaveQuerySuccessAction();
-        }),
-      );
-
-    @Effect()
-    saveIntrospectionToDb$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(gqlSchemaActions.SET_INTROSPECTION),
-      map((data: queryActions.Action) => {
-        this.queryService.storeIntrospection(data.payload, data.windowId);
-        return new dbActions.SaveIntrospectionSuccessAction();
-      })
-    );
-
-    @Effect()
     getIntrospectionForUrl$: Observable<Action> = this.actions$
       .pipe(
         ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST),
@@ -405,17 +372,6 @@ export class QueryEffects {
               })
             );
         }),
-      );
-
-    @Effect()
-    // Hides the editor set alert after it has been shown
-    showEditorSetAlert$: Observable<queryActions.Action> = this.actions$
-      .pipe(
-        ofType(queryActions.SHOW_EDITOR_ALERT),
-        switchMap((data: queryActions.Action) => {
-          return observableTimer(3000).pipe(
-            switchMap(() => observableOf(new queryActions.HideEditorAlertAction(data.windowId))));
-        })
       );
 
     @Effect()
@@ -808,7 +764,6 @@ export class QueryEffects {
     constructor(
       private actions$: Actions,
       private gqlService: GqlService,
-      private queryService: QueryService,
       private notifyService: NotifyService,
       private dbService: DbService,
       private donationService: DonationService,
@@ -844,13 +799,13 @@ export class QueryEffects {
                   subscriber.next({ response, transformedData });
                   subscriber.complete();
                 }).catch(error => {
-                  console.error(error);
+                  debug.error(error);
                   this.notifyService.error(error.message, 'Pre-request error');
                   subscriber.next(null);
                   subscriber.complete();
                 });
               } catch (err) {
-                console.error(err);
+                debug.error(err);
                 this.notifyService.error(err.message, 'Pre-request error');
                 subscriber.next(null);
                 subscriber.complete();

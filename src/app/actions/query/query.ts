@@ -180,30 +180,6 @@ export class CancelQueryRequestAction implements Action {
   constructor(public windowId: string, public payload?) {}
 }
 
-export class HideUrlAlertAction implements Action {
-  readonly type = HIDE_URL_ALERT;
-
-  constructor(public windowId: string, public payload?) {}
-}
-
-export class ShowUrlAlertAction implements Action {
-  readonly type = SHOW_URL_ALERT;
-
-  constructor(public payload: any, public windowId: string) {}
-}
-
-export class HideEditorAlertAction implements Action {
-  readonly type = HIDE_EDITOR_ALERT;
-
-  constructor(public windowId: string, public payload?) {}
-}
-
-export class ShowEditorAlertAction implements Action {
-  readonly type = SHOW_EDITOR_ALERT;
-
-  constructor(public payload: any, public windowId: string) {}
-}
-
 export class SetQueryOperationsAction implements Action {
   readonly type = SET_QUERY_OPERATIONS;
 
@@ -239,10 +215,6 @@ export type Action =
   | SetResponseStatsAction
   | DownloadResultAction
   | CancelQueryRequestAction
-  | HideUrlAlertAction
-  | ShowUrlAlertAction
-  | HideEditorAlertAction
-  | ShowEditorAlertAction
   | SetHTTPMethodAction
   | SetQueryOperationsAction
   | SetQueryEditorStateAction
