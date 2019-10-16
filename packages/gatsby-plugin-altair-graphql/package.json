@@ -29,5 +29,6 @@
   },
   "dependencies": {
     "altair-express-middleware": "^2.3.5"
-  }
+  },
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }
