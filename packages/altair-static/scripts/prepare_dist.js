@@ -65,6 +65,9 @@ ncp(distSrc, distDestination, function (err) {
 
     fs.writeFileSync(path.join(distDestination, 'index.html'), htmlString);
 
+    // Remove stats.json after writing index.html file (the file is too big and not useful anymore)
+    fs.unlinkSync(path.resolve(distDestination, 'stats.json'));
+
   } catch(err) {
     console.error('stats.json not found', err);
   }
