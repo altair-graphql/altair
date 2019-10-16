@@ -241,6 +241,9 @@ export class GqlService {
     return this.sendRequest(url, requestOpts).pipe(
       map(data => {
         debug.log('introspection', data);
+        if (!data.ok) {
+          throw new Error(`Introspection request failed with: ${data.status}`);
+        }
         return data;
       }),
       catchError((err) => {
