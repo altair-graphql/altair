@@ -9,6 +9,7 @@ import * as fromRoot from '../../reducers';
 import * as dialogsActions from '../../actions/dialogs/dialogs';
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
+import * as windowsMetaActions from '../../actions/windows-meta/windows-meta'
 import { ElectronAppService } from '../electron-app/electron-app.service';
 
 
@@ -72,6 +73,11 @@ export class KeybinderService {
       ['Command+Enter', 'Ctrl+Enter'],
       () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
       'Send Request'
+    );
+    this.bindShortcut(
+      ['Command+,'],
+      () => this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true })),
+      'Show Settings'
     );
   }
 
