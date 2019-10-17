@@ -1,10 +1,11 @@
 {
-  "name": "altair-electron",
+  "name": "altair",
   "version": "2.3.5",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "test": "mocha --full-trace __tests__",
     "build": "electron-builder",
