@@ -68,6 +68,9 @@ ncp(distSrc, distDestination, function (err) {
     // Remove stats.json after writing index.html file (the file is too big and not useful anymore)
     fs.unlinkSync(path.resolve(distDestination, 'stats.json'));
 
+    // Remove README assets
+    deleteFolderRecursive(path.join(distDestination, 'assets/img/readme'));
+
   } catch(err) {
     console.error('stats.json not found', err);
   }
