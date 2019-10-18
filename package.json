@@ -27,7 +27,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-postbuild": "npm run build",
-    "build-electron": "npm run build && lerna bootstrap && lerna run --scope altair-electron build --stream",
+    "build-electron": "npm run build && lerna bootstrap && lerna run --scope altair build --stream",
     "build-ext": "npm run build && ./bin/chrome_ext.sh",
     "postinstall": "npm run generate-settings-schema-validator && opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",

@@ -6,7 +6,8 @@ import {
   Input,
   OnInit,
   ViewContainerRef,
-  OnDestroy
+  OnDestroy,
+  NgZone
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
@@ -100,6 +101,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     private store: Store<fromRoot.State>,
     private vRef: ViewContainerRef,
     private pluginRegistry: PluginRegistryService,
+    private zone: NgZone,
   ) {
   }
 
@@ -209,7 +211,7 @@ export class WindowComponent implements OnInit, OnDestroy {
                 query: state.query.query,
               },
               context: {
-                setQuery: query => this.updateQuery(query),
+                setQuery: query => this.zone.run(() => this.updateQuery(query)),
               }
             };
           });
