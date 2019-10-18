@@ -17,7 +17,7 @@ interface KeyboardShortcut {
   description: string;
 }
 
-export const SEND_REQUEST_KEYBINDS = ['Command+Enter', 'Ctrl+Enter']
+export const SEND_REQUEST_KEYBINDS = ['Command+Enter', 'Ctrl+Enter'];
 
 @Injectable()
 export class KeybinderService {
