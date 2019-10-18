@@ -53,7 +53,7 @@ const createMenu = (actions) => {
         { label: 'Check for Updates...', click: actions.checkForUpdates },
         {
           label: 'Preferences',
-          accelerator: 'cmd+,',
+          accelerator: 'Cmd+,',
           click: actions.showSettings
         },
         { type: "separator" },
