@@ -11,6 +11,7 @@ import * as fromRoot from '../../reducers';
 
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
+import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
 import { debug } from 'app/utils/logger';
 
 @Injectable()
@@ -69,7 +70,9 @@ export class ElectronAppService {
       this.ipc.on('show-docs', () => {
         this.zone.run(() => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)));
       });
-
+      this.ipc.on('show-settings', () => {
+        this.zone.run(() => this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true })));
+      });
       debug.log('Electron app connected.');
 
       this.ipc.send('get-file-opened');

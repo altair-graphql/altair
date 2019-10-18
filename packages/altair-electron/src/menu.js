@@ -51,6 +51,11 @@ const createMenu = (actions) => {
       submenu: [
         { role: "about" },
         { label: 'Check for Updates...', click: actions.checkForUpdates },
+        {
+          label: 'Preferences',
+          accelerator: 'Cmd+,',
+          click: actions.showSettings
+        },
         { type: "separator" },
         { role: "services", submenu: [] },
         { type: "separator" },
