@@ -38,6 +38,9 @@ const actions = {
   showDocs: () => {
     instance.webContents.send('show-docs', true);
   },
+  showSettings: () => {
+    instance.webContents.send('show-settings', true);
+  },
   checkForUpdates,
 };
 
@@ -153,7 +156,7 @@ const createWindow = () => {
     contents.on('new-window', (event, navigationUrl) => {
       // Ask the operating system to open this event's url in the default browser.
       event.preventDefault();
-  
+
       shell.openExternalSync(navigationUrl);
     })
   });
