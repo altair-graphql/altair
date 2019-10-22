@@ -212,7 +212,7 @@ export class GqlService {
   getParamsFromData(data) {
     return Object.keys(data)
       .reduce(
-        (params, key) => params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]),
+        (params, key) => data[key] ? params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]) : params,
         new HttpParams()
       );
   }
