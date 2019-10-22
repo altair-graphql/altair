@@ -43,6 +43,11 @@ interface EffectResponseData {
   action: any;
 }
 
+const extractQuery = (response): string => {
+  const { query } = response.data.query;
+  return query ?  query.trim() : "";
+}
+
 @Injectable()
 export class QueryEffects {
 
@@ -62,7 +67,7 @@ export class QueryEffects {
               return observableEmpty();
           }
 
-          const query = response.data.query.query.trim();
+          const query = extractQuery(response);
           if (!query) {
             return observableEmpty();
           }
@@ -82,7 +87,7 @@ export class QueryEffects {
               switchMap((_returnedData) => {
                 const { response, transformedData } = _returnedData;
 
-                const query = response.data.query.query.trim();
+                const query = extractQuery(response);
                 let url = this.environmentService.hydrate(response.data.query.url);
                 let variables = this.environmentService.hydrate(response.data.variables.variables);
                 let headers = this.environmentService.hydrateHeaders(response.data.headers);
@@ -780,7 +785,7 @@ export class QueryEffects {
           if (!response) {
             return observableEmpty();
           }
-          const query = response.data.query.query.trim();
+          const query = extractQuery(response);
           /**
            * pre request execution context is passed the current headers, environment, variables, query, etc
            * and returns a set of the same that would have potentially been modified during the script execution.
