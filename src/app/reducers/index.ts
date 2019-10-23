@@ -23,6 +23,7 @@ import * as fromEnvironments from './environments';
 import * as fromStream from './stream/stream';
 import * as fromPreRequest from './pre-request/pre-request';
 import { debug } from 'app/utils/logger';
+import performantLocalStorage from 'app/utils/performant-local-storage';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -83,6 +84,7 @@ export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionRed
   return localStorageSync({
     keys: ['windows', 'windowsMeta', 'settings', 'environments'],
     rehydrate: true,
+    storage: performantLocalStorage,
     // syncCondition: (state) => console.log(state),
     storageKeySerializer: keySerializer
   })(_reducer);

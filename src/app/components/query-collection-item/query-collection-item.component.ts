@@ -62,6 +62,7 @@ export class QueryCollectionItemComponent implements OnInit {
   setQueriesSortBy(sortBy) {
     this.sortBy = sortBy;
   }
+  // TODO: Perhaps use a selector, since those are memoized
   sortedCollectionQueries() {
     if (!this.collection.queries) {
       return [];
