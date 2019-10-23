@@ -19,6 +19,9 @@ const app = new Application({
   },
   startTimeout: 20000,
   requireName: 'electronRequire',
+
+  // Uncomment this line to debug
+  // chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
 });
 
 const selectors = {
@@ -68,7 +71,7 @@ describe('Altair electron', function() {
 
     await app.client.pause(500);
   });
-  afterEach(() => app.stop());
+  afterEach(() => app.isRunning() && app.stop());
 
   it('load window successfully', () => {
     return app.browserWindow.isVisible().should.eventually.equal(true);
