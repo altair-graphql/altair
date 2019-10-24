@@ -18,10 +18,10 @@ const { getStore } = require('./store');
 let win = getInstance();
 
 console.log(protocol);
-protocol.registerStandardSchemes(['altair'], { secure: true });
-// protocol.registerSchemesAsPrivileged([
-//   { scheme: 'altair', privileges: { standard: true, secure: true, corsEnabled: true, supportFetchAPI: true } }
-// ]);
+// protocol.registerStandardSchemes(['altair'], { secure: true });
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'altair', privileges: { standard: true, secure: true, corsEnabled: true, supportFetchAPI: true } }
+]);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

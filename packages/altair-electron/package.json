@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "exit 0 && mocha --full-trace __tests__",
+    "test": "mocha --full-trace __tests__",
     "build": "electron-builder",
     "dev": "electron ."
   },
@@ -26,15 +26,12 @@
   "devDependencies": {
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "6.0.0",
+    "electron": "^7.0.0",
     "electron-builder": "^21.2.0",
-    "electron-chromedriver": "^7.0.0",
-    "electron-compile": "^6.4.4",
     "electron-notarize": "^0.1.1",
-    "electron-prebuilt-compile": "^4.0.0",
     "electron-reloader": "^0.3.0",
     "mocha": "^6.2.0",
-    "spectron": "^8.0.0"
+    "spectron": "^9.0.0"
   },
   "repository": {
     "type": "git",
