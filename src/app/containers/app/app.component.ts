@@ -251,6 +251,10 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
   }
 
+  reopenClosedWindow() {
+    this.store.dispatch(new windowActions.ReopenClosedWindowAction());
+  }
+
   importWindow() {
     this.store.dispatch(new windowsActions.ImportWindowAction());
   }
