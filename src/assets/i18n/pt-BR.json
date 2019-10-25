@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Fechar todos à direita",
   "CLOSE_OTHER_WINDOWS_TEXT": "Fechar outros",
   "DUPLICATE_WINDOW_TEXT": "Duplicado",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Importar...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importar do cURL...",
   "EXPORT_WINDOW_TEXT": "Exportar",
