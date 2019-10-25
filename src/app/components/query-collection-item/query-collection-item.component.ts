@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { memoize } from 'app/utils/memoize';
 
+type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 @Component({
   selector: 'app-query-collection-item',
   templateUrl: './query-collection-item.component.html',
@@ -16,7 +18,7 @@ export class QueryCollectionItemComponent implements OnInit {
   @Output() exportCollectionChange = new EventEmitter();
 
 
-  sortBy: 'a-z' | 'z-a' | 'newest' | 'oldest' = 'newest';
+  sortBy: SortByOptions = 'newest';
 
   showContent = true;
 
@@ -62,17 +64,18 @@ export class QueryCollectionItemComponent implements OnInit {
   setQueriesSortBy(sortBy) {
     this.sortBy = sortBy;
   }
-  // TODO: Perhaps use a selector, since those are memoized
-  sortedCollectionQueries() {
-    if (!this.collection.queries) {
+
+  @memoize()
+  sortedCollectionQueries(queries: any[], sortBy: SortByOptions) {
+    if (!queries) {
       return [];
     }
 
-    switch (this.sortBy) {
+    switch (sortBy) {
       case 'a-z':
-        return this.collection.queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase();
-          const bName = b.windowName.toLowerCase();
+        return queries.sort((a, b) => {
+          const aName = a.windowName.toLowerCase() || a.updated_at;
+          const bName = b.windowName.toLowerCase() || b.updated_at;
 
           if (aName > bName) {
             return 1;
@@ -83,9 +86,9 @@ export class QueryCollectionItemComponent implements OnInit {
           return 0;
         });
       case 'z-a':
-        return this.collection.queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase();
-          const bName = b.windowName.toLowerCase();
+        return queries.sort((a, b) => {
+          const aName = a.windowName.toLowerCase() || a.updated_at;
+          const bName = b.windowName.toLowerCase() || b.updated_at;
 
           if (aName > bName) {
             return -1;
@@ -96,7 +99,7 @@ export class QueryCollectionItemComponent implements OnInit {
           return 0;
         });
       case 'newest':
-        return this.collection.queries.sort((a, b) => {
+        return queries.sort((a, b) => {
           const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
           const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
 
@@ -109,7 +112,7 @@ export class QueryCollectionItemComponent implements OnInit {
           return 0;
         });
       case 'oldest':
-        return this.collection.queries.sort((a, b) => {
+        return queries.sort((a, b) => {
           const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
           const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
 
@@ -122,7 +125,7 @@ export class QueryCollectionItemComponent implements OnInit {
           return 0;
         });
       default:
-        return this.collection.queries;
+        return queries;
     }
   }
 

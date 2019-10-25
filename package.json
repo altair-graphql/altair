@@ -83,6 +83,7 @@
     "graphql": "^14.4.2",
     "graphql-query-compress": "^1.2.2",
     "marked": "^0.7.0",
+    "memoizee": "^0.4.14",
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
     "new-github-issue-url": "^0.2.1",

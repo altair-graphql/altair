@@ -9,8 +9,8 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
   switch (sortBy) {
     case 'a-z':
       return collections.sort((a, b) => {
-        const aTitle = a.title.toLowerCase();
-        const bTitle = b.title.toLowerCase();
+        const aTitle = a.title.toLowerCase() || a.updated_at;
+        const bTitle = b.title.toLowerCase() || b.updated_at;
 
         if (aTitle > bTitle) {
           return 1;
@@ -22,8 +22,8 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
       });
     case 'z-a':
       return collections.sort((a, b) => {
-        const aTitle = a.title.toLowerCase();
-        const bTitle = b.title.toLowerCase();
+        const aTitle = a.title.toLowerCase() || a.updated_at;
+        const bTitle = b.title.toLowerCase() || b.updated_at;
 
         if (aTitle > bTitle) {
           return -1;

@@ -22,6 +22,7 @@ import * as fromCollection from './collection/collection';
 import * as fromEnvironments from './environments';
 import * as fromStream from './stream/stream';
 import * as fromPreRequest from './pre-request/pre-request';
+import * as fromLocal from './local/local';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
 
@@ -59,6 +60,7 @@ export interface State {
   donation: fromDonation.State;
   collection: fromCollection.State;
   environments: fromEnvironments.State;
+  local: fromLocal.State;
 }
 
 // Meta reducer to log actions
@@ -103,6 +105,7 @@ export const reducer: ActionReducerMap<State> = {
   donation: fromDonation.donationReducer,
   collection: fromCollection.collectionReducer,
   environments: fromEnvironments.environmentsReducer,
+  local: fromLocal.localReducer,
 };
 
 export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');

@@ -65,7 +65,7 @@
       ></app-query-collection-item>
     </div>
     <div class="query-collections__item-queries">
-      <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries(); trackBy:trackById;">
+      <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries(collection.queries, sortBy); trackBy:trackById;">
         <span
           class="query-collections__item-queries-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"
