@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "右のタブをすべて閉じる",
   "CLOSE_OTHER_WINDOWS_TEXT": "他のタブを閉じる",
   "DUPLICATE_WINDOW_TEXT": "Duplicate",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Import Window...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Import from cURL...",
   "EXPORT_WINDOW_TEXT": "Export Window",
