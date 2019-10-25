@@ -71,7 +71,12 @@ describe('Altair electron', function() {
 
     await app.client.pause(500);
   });
-  afterEach(() => app.isRunning() && app.stop());
+  afterEach(async () => {
+    if (app.isRunning()) {
+      await app.client.pause(1000);
+      return app.stop();
+    }
+  });
 
   it('load window successfully', () => {
     return app.browserWindow.isVisible().should.eventually.equal(true);
