@@ -1,6 +1,6 @@
 import * as memoizee from 'memoizee';
 
-export const memoize = function(): MethodDecorator {
+export function memoize(): MethodDecorator {
   return function(target, key, descriptor: PropertyDescriptor) {
     const oldFn = descriptor.value;
     const newFn = memoizee(oldFn);
