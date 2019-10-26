@@ -72,7 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "오른쪽 창 전부 닫기",
   "CLOSE_OTHER_WINDOWS_TEXT": "나머지 창 전부 닫기",
   "DUPLICATE_WINDOW_TEXT": "복제",
-  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
+  "REOPEN_CLOSED_WINDOW_TEXT": "닫힌 창 다시열기",
   "IMPORT_WINDOW_TEXT": "창 불러오기...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "cURL에서 불러오기...",
   "EXPORT_WINDOW_TEXT": "창 내보내기",
