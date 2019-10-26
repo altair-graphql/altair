@@ -1,7 +1,7 @@
 
-import {of as observableOf,  Subscription ,  Observable ,  Observer } from 'rxjs';
+import {of as observableOf, Subscription, Observable, Observer } from 'rxjs';
 
-import {map, first} from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -19,6 +19,7 @@ import * as windowActions from '../actions/windows/windows';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as preRequestActions from '../actions/pre-request/pre-request';
 import * as streamActions from '../actions/stream/stream';
+import * as localActions from '../actions/local/local';
 
 import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
@@ -61,7 +62,16 @@ export class WindowService {
   removeWindow(windowId) {
     this.cleanupWindow(windowId);
 
-    return observableOf(this.store.dispatch(new windowActions.RemoveWindowAction({ windowId })));
+    return this.store.pipe(
+      first(),
+      tap((data) => {
+        const window = data.windows[windowId];
+        if (window) {
+          this.store.dispatch(new localActions.PushClosedWindowToLocalAction({ window }));
+        }
+        this.store.dispatch(new windowActions.RemoveWindowAction({ windowId }));
+      }),
+    ).subscribe();
   }
 
   duplicateWindow(windowId): Subscription {

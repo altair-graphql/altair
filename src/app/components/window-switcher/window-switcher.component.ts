@@ -29,6 +29,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() duplicateWindowChange = new EventEmitter();
   @Output() windowNameChange = new EventEmitter();
   @Output() repositionWindowChange = new EventEmitter();
+  @Output() reopenClosedWindowChange = new EventEmitter();
 
   @ViewChild(ContextMenuComponent, { static: true }) public windowTabMenu: ContextMenuComponent;
 

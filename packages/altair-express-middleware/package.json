@@ -1,6 +1,6 @@
 {
   "name": "altair-express-middleware",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Express middleware for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -30,12 +30,12 @@
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
-    "altair-static": "^2.3.5",
+    "altair-static": "^2.3.6",
     "express": "^4.16.2"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
     "typescript": "^2.8.1"
   },
-  "gitHead": "eaad78119e8966f659d2115ff28cf30f27f729bf"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }

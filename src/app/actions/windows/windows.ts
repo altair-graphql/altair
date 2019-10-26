@@ -10,6 +10,8 @@ export const EXPORT_WINDOW = 'EXPORT_WINDOW';
 export const IMPORT_WINDOW = 'IMPORT_WINDOW';
 export const IMPORT_WINDOW_FROM_CURL = 'IMPORT_WINDOW_FROM_CURL';
 
+export const REOPEN_CLOSED_WINDOW = 'REOPEN_CLOSED_WINDOW';
+
 export class AddWindowAction implements Action {
   readonly type = ADD_WINDOW;
 
@@ -45,10 +47,16 @@ export class ImportWindowFromCurlAction implements Action {
   constructor(public payload?: { data: string }) { }
 }
 
+export class ReopenClosedWindowAction implements Action {
+  readonly type = REOPEN_CLOSED_WINDOW;
+}
+
 export type Action =
   | AddWindowAction
   | SetWindowsAction
   | RemoveWindowAction
   | ExportWindowAction
   | ImportWindowAction
-  | ImportWindowFromCurlAction;
+  | ImportWindowFromCurlAction
+  | ReopenClosedWindowAction
+  ;

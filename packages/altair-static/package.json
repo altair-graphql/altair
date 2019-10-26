@@ -1,6 +1,6 @@
 {
   "name": "altair-static",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Static package for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -31,5 +31,5 @@
   "devDependencies": {
     "typescript": "^2.8.1"
   },
-  "gitHead": "eaad78119e8966f659d2115ff28cf30f27f729bf"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }

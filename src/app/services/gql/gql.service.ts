@@ -212,7 +212,7 @@ export class GqlService {
   getParamsFromData(data) {
     return Object.keys(data)
       .reduce(
-        (params, key) => params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]),
+        (params, key) => data[key] ? params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]) : params,
         new HttpParams()
       );
   }
@@ -241,6 +241,9 @@ export class GqlService {
     return this.sendRequest(url, requestOpts).pipe(
       map(data => {
         debug.log('introspection', data);
+        if (!data.ok) {
+          throw new Error(`Introspection request failed with: ${data.status}`);
+        }
         return data;
       }),
       catchError((err) => {

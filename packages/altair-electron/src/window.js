@@ -38,6 +38,9 @@ const actions = {
   showDocs: () => {
     instance.webContents.send('show-docs', true);
   },
+  showSettings: () => {
+    instance.webContents.send('show-settings', true);
+  },
   checkForUpdates,
 };
 
@@ -140,20 +143,21 @@ const createWindow = () => {
     slashes: true
   }));
 
-  // Open the DevTools.
-  // instance.webContents.openDevTools();
-
   // Set the touchbar
   instance.setTouchBar(createTouchBar(actions));
 
   // Prevent the app from navigating away from the app
   instance.webContents.on('will-navigate', (e, url) => e.preventDefault());
 
+  // instance.webContents.once('dom-ready', () => {
+  //   instance.webContents.openDevTools();
+  // });
+
   instance.on('web-contents-created', (event, contents) => {
     contents.on('new-window', (event, navigationUrl) => {
       // Ask the operating system to open this event's url in the default browser.
       event.preventDefault();
-  
+
       shell.openExternalSync(navigationUrl);
     })
   });
@@ -179,7 +183,8 @@ const createWindow = () => {
         details.responseHeaders,
         {
           // Setting CSP
-          'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
+          // TODO: Figure out why an error from this breaks devtools
+          // 'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
         }
       )
     });
