@@ -149,9 +149,9 @@ const createWindow = () => {
   // Prevent the app from navigating away from the app
   instance.webContents.on('will-navigate', (e, url) => e.preventDefault());
 
-  instance.webContents.once('dom-ready', () => {
-    instance.webContents.openDevTools();
-  });
+  // instance.webContents.once('dom-ready', () => {
+  //   instance.webContents.openDevTools();
+  // });
 
   instance.on('web-contents-created', (event, contents) => {
     contents.on('new-window', (event, navigationUrl) => {

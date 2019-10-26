@@ -73,7 +73,7 @@ deploy:
     tags: true
     condition: $TRAVIS_OS_NAME = linux
 - provider: script
-  script: sh bin/publish_packages.sh
+  script: git diff && sh bin/publish_packages.sh
   skip_cleanup: true
   on:
     tags: true
