@@ -17,30 +17,30 @@
       </div>
     </div>
   </div>
-</ng-container>
-
-<!--Field arguments-->
-<div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
-  <div class="doc-viewer-section-title">{{ 'DOCS_ARGUMENTS_TEXT' | translate }}</div>
-  <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args; trackBy: argTrackBy">
-    <div class="doc-viewer-item-query-inner">
-      <span class="no-link-link"
-       (click)="goToType(arg.type.inspect())"
-      >
-        {{ arg.name }}
-        <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
-      </span>
-      <span class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-       (click)="goToType(arg.type.inspect())"
-      >
-        {{ arg.type.inspect() }}
-      </span>
-    </div>
-    <div class="doc-viewer-item-query-description" markdown>
-      {{ arg.description }}
+  <!--Field arguments-->
+  <div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
+    <div class="doc-viewer-section-title">{{ 'DOCS_ARGUMENTS_TEXT' | translate }}</div>
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args; trackBy: argTrackBy">
+      <div class="doc-viewer-item-query-inner">
+        <span class="no-link-link"
+         (click)="goToType(arg.type.inspect())"
+        >
+          {{ arg.name }}
+          <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
+        </span>
+        <span class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+         (click)="goToType(arg.type.inspect())"
+        >
+          {{ arg.type.inspect() }}
+        </span>
+      </div>
+      <div class="doc-viewer-item-query-description" markdown>
+        {{ arg.description }}
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+
 <!--Field type-->
 <div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
 <ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
