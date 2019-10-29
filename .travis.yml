@@ -33,14 +33,14 @@ before_script:
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
 - ng lint
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-all; bin/stop_ci_test_server.sh; fi
-- if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi # Test altair itself
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi # Run e2e test
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then bin/start_ci_test_server.sh; yarn test-all; bin/stop_ci_test_server.sh; fi # All other tests e.g. lerna, electron, etc
 after_success:
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then if [ ! -z "$SURGE_TOKEN" ]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi fi
 before_deploy:
+- if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
 deploy:
 - provider: releases
   api_key:
