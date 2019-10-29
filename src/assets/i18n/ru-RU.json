@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Закрыть вкладки справа",
   "CLOSE_OTHER_WINDOWS_TEXT": "Закрыть остальные вкладки",
   "DUPLICATE_WINDOW_TEXT": "Дублировать",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Import Window...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Import from cURL...",
   "EXPORT_WINDOW_TEXT": "Export Window",

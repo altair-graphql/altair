@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "crwdns224:0crwdne224:0",
   "CLOSE_OTHER_WINDOWS_TEXT": "crwdns226:0crwdne226:0",
   "DUPLICATE_WINDOW_TEXT": "crwdns170:0crwdne170:0",
+  "REOPEN_CLOSED_WINDOW_TEXT": "crwdns288:0crwdne288:0",
   "IMPORT_WINDOW_TEXT": "crwdns171:0crwdne171:0",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "crwdns172:0crwdne172:0",
   "EXPORT_WINDOW_TEXT": "crwdns173:0crwdne173:0",

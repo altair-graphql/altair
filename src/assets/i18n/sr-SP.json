@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Close to the Right",
   "CLOSE_OTHER_WINDOWS_TEXT": "Close others",
   "DUPLICATE_WINDOW_TEXT": "Duplirajte",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Увези...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Увези из cURL-а...",
   "EXPORT_WINDOW_TEXT": "Izvezi prozor",

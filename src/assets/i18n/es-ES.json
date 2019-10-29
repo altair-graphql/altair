@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Cerrar las pestañas de la derecha",
   "CLOSE_OTHER_WINDOWS_TEXT": "Cerrar las demás pestañas",
   "DUPLICATE_WINDOW_TEXT": "Duplicar",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Importar...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importar desde cURL...",
   "EXPORT_WINDOW_TEXT": "Exportar",
