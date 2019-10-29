@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "关闭右侧标签页",
   "CLOSE_OTHER_WINDOWS_TEXT": "关闭其他标签页",
   "DUPLICATE_WINDOW_TEXT": "复制",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "导入窗口",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "从 curl 导入",
   "EXPORT_WINDOW_TEXT": "导出窗口",

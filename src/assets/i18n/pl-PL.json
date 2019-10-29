@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Close to the Right",
   "CLOSE_OTHER_WINDOWS_TEXT": "Zamknij pozostałe",
   "DUPLICATE_WINDOW_TEXT": "Zduplikuj",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Okno importowania...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importuj z cURL...",
   "EXPORT_WINDOW_TEXT": "Okno eksportu",

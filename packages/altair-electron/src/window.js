@@ -85,7 +85,7 @@ const createWindow = () => {
         filePath = indexPath;
       }
 
-      fs.readFile(filePath, 'utf8', function (err, data) {
+      fs.readFile(filePath, 'utf8', function(err, data) {
         if (err) {
           return console.log('Error loading file to buffer.', err);
         }

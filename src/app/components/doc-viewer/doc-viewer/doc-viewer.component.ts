@@ -386,7 +386,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     }
 
     // Get all the fields of the field type, if available
-    const innerFields = curType.getFields && curType.getFields();
+    const innerFields = curType && curType.getFields && curType.getFields();
     let innerFieldsData: String = null;
     if (innerFields) {
       innerFieldsData = Object.keys(innerFields).reduce((acc, cur) => {

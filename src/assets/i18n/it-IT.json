@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Chiudi schede a destra",
   "CLOSE_OTHER_WINDOWS_TEXT": "Chiudi altre schede",
   "DUPLICATE_WINDOW_TEXT": "Duplica",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Riapri finestra chiusa",
   "IMPORT_WINDOW_TEXT": "Importa...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importa da cURL...",
   "EXPORT_WINDOW_TEXT": "Esporta...",

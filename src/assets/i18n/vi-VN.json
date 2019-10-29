@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Đóng",
   "CLOSE_OTHER_WINDOWS_TEXT": "Đóng các thẻ khác",
   "DUPLICATE_WINDOW_TEXT": "Tạo bản sao",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Nhập dữ liệu window...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Nhập từ cURL...",
   "EXPORT_WINDOW_TEXT": "Xuât dữ liệu window",

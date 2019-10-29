@@ -72,6 +72,7 @@
   "CLOSE_WINDOWS_TO_THE_RIGHT_TEXT": "Fermer les onglets sur la droite",
   "CLOSE_OTHER_WINDOWS_TEXT": "Fermer les autres onglets",
   "DUPLICATE_WINDOW_TEXT": "Dupliquer",
+  "REOPEN_CLOSED_WINDOW_TEXT": "Reopen closed window",
   "IMPORT_WINDOW_TEXT": "Fenêtre d’importation...",
   "IMPORT_WINDOW_FROM_CURL_TEXT": "Importation à partir de cUrl...",
   "EXPORT_WINDOW_TEXT": "Fenêtre d’exportation",
