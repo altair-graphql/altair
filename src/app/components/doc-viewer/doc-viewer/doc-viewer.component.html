@@ -82,7 +82,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="'field'">
         <app-doc-viewer-field
-         [data]="gqlSchema.getType(docView.parentType).getFields()[docView.name]"
+         [data]="gqlSchema.getType(docView.parentType) && gqlSchema.getType(docView.parentType).getFields()[docView.name]"
          [gqlSchema]="gqlSchema"
          [parentType]="docView.parentType"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
