@@ -26,7 +26,7 @@
   "devDependencies": {
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "^7.0.0",
+    "electron": "6.1.2",
     "electron-builder": "^21.2.0",
     "electron-notarize": "^0.1.1",
     "electron-reloader": "^0.3.0",
