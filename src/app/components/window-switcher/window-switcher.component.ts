@@ -87,7 +87,9 @@ export class WindowSwitcherComponent implements OnInit {
     this.duplicateWindowChange.next(windowId);
   }
 
-  reopenClosedTab() {}
+  reopenClosedTab() {
+    this.reopenClosedWindowChange.emit()
+  }
 
   log(str) {
     debug.log(str);

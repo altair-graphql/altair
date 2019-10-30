@@ -73,7 +73,7 @@ export class WindowsEffects {
         }
 
         windows[lastClosedWindowId] = lastClosedWindow;
-        this.store.dispatch(new windowActions.SetWindowsAction(Object.values(windows)));
+        // this.store.dispatch(new windowActions.SetWindowsAction(Object.values(windows)));
         const newWindowIds = [ ...data.windowIds, lastClosedWindowId ];
         return observableOf(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
       }),
