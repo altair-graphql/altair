@@ -260,7 +260,7 @@ export class WindowService {
   /**
    * Carry out any necessary house cleaning tasks.
    */
-  private setupWindow(windowId) {
+  setupWindow(windowId) {
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] }));
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));

@@ -72,16 +72,15 @@ export function windows(reducer: ActionReducer<any>) {
                 const _windows = action.payload;
 
                 const newWindowsState = {};
-                _windows.forEach(window => {
+                _windows.forEach((window: fromRoot.PerWindowState) => {
                     const windowKey = window.windowId;
-                    const windowTitle = window.title;
+                    // const windowTitle = window.layout.title;
 
                     // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                    _windowState = JSON.parse(JSON.stringify(initWindowState));
-                    _windowState.windowId = windowKey;
-                    _windowState.layout.title = _windowState.layout.title || windowTitle;
+                    // _windowState = JSON.parse(JSON.stringify(initWindowState));
+                    // _windowState.windowId = windowKey;
 
-                    newWindowsState[windowKey] = { ..._windowState };
+                    newWindowsState[windowKey] = { ...window };
                 });
 
                 return newWindowsState;
