@@ -45,7 +45,7 @@ export function windows(reducer: ActionReducer<any>) {
     return function(state = initialState, action: any) {
 
         const _state = Object.assign({}, state);
-        let _windowState = _state[action.windowId];
+        const _windowState = _state[action.windowId];
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
