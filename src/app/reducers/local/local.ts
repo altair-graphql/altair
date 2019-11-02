@@ -2,6 +2,8 @@
 
 import * as local from '../../actions/local/local';
 
+const MAX_CLOSED_WINDOWS_LENGTH = 50;
+
 export interface State {
   closedWindows: any[];
 }
@@ -11,14 +13,17 @@ const initialState: State = {
 };
 
 export function localReducer(state = initialState, action: local.Action): State {
+  const len = state.closedWindows.length;
   switch (action.type) {
     case local.PUSH_CLOSED_WINDOW_TO_LOCAL:
       return {
         ...state,
-        closedWindows: [ ...state.closedWindows, action.payload.window ],
+        closedWindows: len === MAX_CLOSED_WINDOWS_LENGTH ?
+          [ ...state.closedWindows.slice(1), action.payload.window ] :
+          [ ...state.closedWindows, action.payload.window ],
+
       };
     case local.POP_FROM_CLOSED_WINDOWS:
-      const len = state.closedWindows.length;
       return {
         ...state,
         closedWindows: state.closedWindows.filter((_, i) => i < len - 1),
