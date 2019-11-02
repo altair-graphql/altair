@@ -1,9 +1,10 @@
 const { app, protocol } = require('electron');
-const { readFileSync, readFile } = require('fs');
+const { readFile } = require('fs');
 const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('./updates');
 const { createWindow, getInstance } = require('./window');
 const { getStore } = require('./store');
+const { checkMultipleDataVersions } = require('./utils/check-multi-data-versions');
 
 // require('electron-debug')();
 // try {
@@ -31,6 +32,7 @@ app.on('ready', () => {
   if (!isDev) {
     setupAutoUpdates();
   }
+  // checkMultipleDataVersions();
 });
 
 // Quit when all windows are closed.

@@ -1,6 +1,5 @@
 {
   "name": "altair",
-  "productName": "Altair GraphQL Client",
   "version": "2.3.7",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
@@ -116,7 +115,7 @@
     "@types/chrome": "^0.0.90",
     "@types/electron": "^1.6.10",
     "@types/graphql": "^14.2.2",
-    "@types/jasmine": "3.4.1",
+    "@types/jasmine": "3.4.5",
     "@types/mousetrap": "^1.6.3",
     "@types/node": "^12.6.8",
     "ajv-cli": "^3.0.0",

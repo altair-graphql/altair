@@ -418,13 +418,32 @@ export class QueryEffects {
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
+        switchMap(response => {
+          return this.getPrerequesstTransformedData$(response);
+        }),
         switchMap(res => {
+          if (!res) {
+            return observableEmpty();
+          }
+          const { response, transformedData } = res;
           let connectionParams = undefined;
-          const subscriptionUrl = this.environmentService.hydrate(res.data.query.subscriptionUrl);
-          const query = this.environmentService.hydrate(res.data.query.query);
-          const variables = this.environmentService.hydrate(res.data.variables.variables);
+          let subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl);
+          let query = this.environmentService.hydrate(response.data.query.query);
+          let variables = this.environmentService.hydrate(response.data.variables.variables);
           let variablesObj = undefined;
-          let selectedOperation = res.data.query.selectedOperation;
+          let selectedOperation = response.data.query.selectedOperation;
+
+          if (transformedData) {
+            subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl, {
+              activeEnvironment: transformedData.environment
+            });
+            query = this.environmentService.hydrate(response.data.query.query, {
+              activeEnvironment: transformedData.environment
+            });
+            variables = this.environmentService.hydrate(response.data.variables.variables, {
+              activeEnvironment: transformedData.environment
+            });
+          }
 
           const subscriptionErrorHandler = (err, errMsg?) => {
             if (Array.isArray(err)) {
@@ -435,7 +454,7 @@ export class QueryEffects {
               An error occurred in subscription.<br>
               Error: ${errMsg}
             `);
-            this.store.dispatch(new queryActions.StopSubscriptionAction(res.windowId));
+            this.store.dispatch(new queryActions.StopSubscriptionAction(response.windowId));
             return observableEmpty();
           };
 
@@ -451,32 +470,32 @@ export class QueryEffects {
             const operationData = this.gqlService.getSelectedOperationData({
               query,
               selectedOperation,
-              queryCursorIndex: res.data.query.queryEditorState &&
-                res.data.query.queryEditorState.isFocused &&
-                res.data.query.queryEditorState.cursorIndex,
+              queryCursorIndex: response.data.query.queryEditorState &&
+                response.data.query.queryEditorState.isFocused &&
+                response.data.query.queryEditorState.cursorIndex,
               selectIfOneOperation: true,
             });
 
-            this.store.dispatch(new queryActions.SetQueryOperationsAction(res.windowId, { operations: operationData.operations }));
+            this.store.dispatch(new queryActions.SetQueryOperationsAction(response.windowId, { operations: operationData.operations }));
             selectedOperation = operationData.selectedOperation;
           } catch (err) {
-            this.store.dispatch(new queryActions.SetSelectedOperationAction(res.windowId, { selectedOperation: '' }));
+            this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
             this.notifyService.warning(err.message);
             return observableEmpty();
           }
 
           try {
             // Stop any currently active subscription
-            this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+            this.gqlService.closeSubscriptionClient(response.data.query.subscriptionClient);
 
 
             try {
-              const subscriptionConnectionParams = this.environmentService.hydrate(res.data.query.subscriptionConnectionParams);
+              const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams);
 
               connectionParams =
                 subscriptionConnectionParams ? JSON.parse(subscriptionConnectionParams) : undefined;
             } catch (err) {
-              this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(res.windowId));
+              this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
               return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
             }
 
@@ -504,15 +523,15 @@ export class QueryEffects {
                   strData = 'ERROR: Invalid subscription response format.';
                 }
 
-                this.store.dispatch(new queryActions.AddSubscriptionResponseAction(res.windowId, {
+                this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
                   response: strData,
                   responseTime: (new Date()).getTime() // store responseTime in ms
                 }));
 
                 // Send notification in electron app
-                this.notifyService.pushNotify(strData, res.data.layout.title, {
+                this.notifyService.pushNotify(strData, response.data.layout.title, {
                   onclick: () => {
-                    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: res.windowId }));
+                    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: response.windowId }));
                   }
                 });
 
@@ -529,7 +548,7 @@ export class QueryEffects {
               }
             });
 
-            return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient }));
+            return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, { subscriptionClient }));
           } catch (err) {
             debug.error('An error occurred starting the subscription.', err);
             return subscriptionErrorHandler(err);

@@ -1,5 +1,6 @@
 {
   "name": "altair",
+  "productName": "Altair GraphQL Client",
   "version": "2.3.7",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
