@@ -21,6 +21,7 @@ export class WindowSwitcherComponent implements OnInit {
 
   @Input() windows = {};
   @Input() windowIds = [];
+  @Input() closedWindows = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Output() activeWindowChange = new EventEmitter();
