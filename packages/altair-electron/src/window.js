@@ -1,4 +1,4 @@
-const { BrowserWindow, protocol, ipcMain, session, app } = require('electron');
+const { BrowserWindow, protocol, ipcMain, session, app, dialog } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -7,7 +7,7 @@ const windowStateKeeper = require('electron-window-state');
 
 const { getDistDirectory } = require('altair-static');
 
-const { getStore } = require('./store');
+const { getStore, getPersistentStore } = require('./store');
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
 const { checkForUpdates } = require('./updates');
@@ -41,6 +41,45 @@ const actions = {
   },
   showSettings: () => {
     instance.webContents.send('show-settings', true);
+  },
+  importAppData: () => {
+    dialog.showOpenDialog(instance, {
+      title: 'Import application data',
+      message: 'Only import a valid Altair config file',
+      properties: [ 'openFile' ],
+      filters: [
+        { name: 'Altair GraphQL Backup Files', extensions: [ 'agbkp' ] },
+      ],
+    }, ([ filePath ]) => {
+      if (filePath) {
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        try {
+          const fileObj = JSON.parse(fileContent);
+          // Check for the presence of some basic altair data to try to validate the file
+          if (fileObj.altair__debug_current_version) {
+            fs.copyFileSync(filePath, getPersistentStore().path);
+            app.relaunch();
+            app.exit(0);
+          } else {
+            throw new Error('Invalid file content.');
+          }
+        } catch (error) {
+          dialog.showErrorBox('Invalid file', 'The selected file is either invalid or corrupted. Please check the file and try again.');
+        }
+      }
+    });
+  },
+  exportAppData: () => {
+    dialog.showSaveDialog(instance, {
+      title: 'Backup application data',
+      defaultPath: 'altair_backup.agbkp',
+      filters: [
+        { name: 'Altair GraphQL Backup Files', extensions: [ 'agbkp' ] },
+      ],
+    }, (saveFilePath) => {
+      // Save to file
+      fs.copyFileSync(getPersistentStore().path, saveFilePath);
+    });
   },
   checkForUpdates,
 };

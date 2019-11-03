@@ -1,4 +1,6 @@
-class Store {
+const ElectronStore = require('electron-store');
+
+class InMemoryStore {
   constructor() {
     this.data = {};
   }
@@ -15,10 +17,14 @@ class Store {
   }
 }
 
-const store = new Store();
+const store = new InMemoryStore();
 
 const getStore = () => store;
 
+const persistentStore = new ElectronStore();
+const getPersistentStore = () => persistentStore;
+
 module.exports = {
-  getStore
+  getStore,
+  getPersistentStore,
 };
