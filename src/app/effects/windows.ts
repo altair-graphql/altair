@@ -75,9 +75,9 @@ export class WindowsEffects {
         windows[lastClosedWindowId] = lastClosedWindow;
         this.store.dispatch(new windowActions.SetWindowsAction(Object.values(windows)));
         this.windowService.setupWindow(lastClosedWindowId);
-        this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: lastClosedWindowId }));
         const newWindowIds = [ ...data.windowIds, lastClosedWindowId ];
-        return observableOf(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
+        this.store.dispatch(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
+        return observableOf(new windowsMetaActions.SetActiveWindowIdAction({ windowId: lastClosedWindowId }));
       }),
       tap(() => {
         this.store.dispatch(new localActions.PopFromClosedWindowsAction());
