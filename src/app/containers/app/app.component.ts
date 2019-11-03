@@ -58,6 +58,7 @@ export class AppComponent implements OnDestroy {
 
   windowIds = [];
   windows = {};
+  closedWindows = [];
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp = config.isWebApp;
@@ -129,6 +130,7 @@ export class AppComponent implements OnDestroy {
       .subscribe(data => {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
+        this.closedWindows = data.local.closedWindows;
         this.showDonationAlert = data.donation.showAlert;
 
         this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;

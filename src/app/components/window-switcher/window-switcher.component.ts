@@ -21,6 +21,7 @@ export class WindowSwitcherComponent implements OnInit {
 
   @Input() windows = {};
   @Input() windowIds = [];
+  @Input() closedWindows = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Output() activeWindowChange = new EventEmitter();
@@ -85,6 +86,10 @@ export class WindowSwitcherComponent implements OnInit {
 
   duplicateWindow(windowId) {
     this.duplicateWindowChange.next(windowId);
+  }
+
+  reopenClosedTab() {
+    this.reopenClosedWindowChange.emit();
   }
 
   log(str) {
