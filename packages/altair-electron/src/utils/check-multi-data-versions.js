@@ -26,7 +26,7 @@ const checkMultipleDataVersions = (win) => {
         cancelId: 2,
         title: 'Multiple versions found',
         message: 'We found multiple versions of your Altair data',
-        detail: `Due to some misconfiguration that happened in some of the recent versions of Altair, there are several versions of your data. We want to help you keep the right data.\n\nTo do that, check if the current data is correct, and we will clear out the rest.`
+        detail: `Due to some misconfiguration that happened in some of the recent versions of Altair, there are several versions of your data. We want to help you keep the right data.\n\nTo do that, check if the current data is correct, and we will clear out the rest.\n\nTip: You can click the 'Remind me later' and we'll ask again when you restart.`
       }, (response) => {
         switch(response) {
           case 0: // Correct version

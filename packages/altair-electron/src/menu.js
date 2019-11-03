@@ -42,7 +42,20 @@ const createMenu = (actions) => {
         { role: "minimize" },
         { role: "close" }
       ]
-    }
+    },
+    {
+      label: "Data",
+      submenu: [
+        {
+          label: 'Export data...',
+          click: actions.exportAppData,
+        },
+        {
+          label: 'Restore data...',
+          click: actions.importAppData,
+        },
+      ]
+    },
   ];
 
   if (process.platform === "darwin") {
