@@ -1,0 +1,4 @@
+<nz-form-label *ngIf="item.description">{{ item.description }}</nz-form-label>
+<nz-form-control>
+  <input nz-input [placeholder]="item.key || ''" [(ngModel)]="data" [name]="item.key" (ngModelChange)="dataChange.next($event)" />
+</nz-form-control>

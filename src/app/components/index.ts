@@ -32,6 +32,7 @@ import { EnvironmentManagerComponent } from './environment-manager/environment-m
 import { FancyInputComponent } from './fancy-input/fancy-input.component';
 import { PluginElementComponent } from './plugin-element/plugin-element.component';
 import { PreRequestEditorComponent } from './pre-request-editor/pre-request-editor.component';
+import { SchemaFormModule } from './schema-form/schema-form.module';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -67,6 +68,7 @@ const COMPONENTS = [
     DirectivesModule,
     SharedModule,
     ClarityModule,
+    SchemaFormModule,
   ],
   declarations: COMPONENTS,
   exports: [ ...COMPONENTS ]

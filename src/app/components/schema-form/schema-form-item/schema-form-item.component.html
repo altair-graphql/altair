@@ -1,0 +1,43 @@
+<nz-form-item class="ui-form__item">
+  <ng-container [ngSwitch]="item.type">
+    <ng-container *ngSwitchCase="'number'">
+      <nz-form-label>{{ item.description }}</nz-form-label>
+      <nz-form-control>
+        <nz-input-number [(ngModel)]="data" [name]="item.key" (ngModelChange)="onInput($event, item)"></nz-input-number>
+      </nz-form-control>
+    </ng-container>
+    <ng-container *ngSwitchCase="'boolean'">
+      <nz-form-label>{{ item.description }}</nz-form-label>
+      <nz-form-control>
+        <nz-switch [(ngModel)]="data" [name]="item.key" (ngModelChange)="onInput($event, item)"></nz-switch>
+      </nz-form-control>
+    </ng-container>
+    <app-schema-form-item-input
+      *ngSwitchCase="'string'"
+      [item]="item"
+      [(data)]="data"
+      (dataChange)="onInput($event, item)"
+    ></app-schema-form-item-input>
+    <ng-container *ngSwitchCase="'array'">
+      <app-schema-form-item-list
+        [item]="item"
+        [(data)]="data"
+        (dataChange)="onInput($event, item)"
+      ></app-schema-form-item-list>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <ng-container *ngIf="item.ref">
+        <ng-container [ngSwitch]="item.refType">
+          <ng-container *ngSwitchCase="'enum.string'">
+              <nz-form-label>{{ item.description }}</nz-form-label>
+              <nz-form-control>
+                <nz-select [(ngModel)]="data" name="item.key" nzPlaceHolder="Choose" (ngModelChange)="onInput($event, item)">
+                  <nz-option *ngFor="let option of item.ref.enum" [nzValue]="option" [nzLabel]="getOptionLabel(option)"></nz-option>
+                </nz-select>
+              </nz-form-control>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</nz-form-item>

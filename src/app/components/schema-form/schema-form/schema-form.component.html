@@ -1,0 +1,10 @@
+<div class="ui-form-wrapper">
+  <form nz-form>
+    <app-schema-form-item
+      *ngFor="let item of schemaProperties"
+      [item]="item"
+      [(data)]="formData[item.key]"
+      (dataChange)="onInput($event, item)"
+    ></app-schema-form-item>
+  </form>
+</div>

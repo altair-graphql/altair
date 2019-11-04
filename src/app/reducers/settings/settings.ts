@@ -14,23 +14,7 @@ export interface State {
   theme: SettingsTheme;
 
   /**
-   * Specifies the language
-   * Options:
-    'en-US': 'English',
-    'fr-FR': 'French',
-    'es-ES': 'Español',
-    'cs-CZ': 'Czech',
-    'de-DE': 'German',
-    'pt-BR': 'Brazilian',
-    'ru-RU': 'Russian',
-    'zh-CN': 'Chinese Simplified',
-    'ja-JP': 'Japanese',
-    'sr-SP': 'Serbian',
-    'it-IT': 'Italian',
-    'pl-PL': 'Polish',
-    'ko-KR': 'Korean',
-    'ro-RO': 'Romanian',
-    'vi-VN': 'Vietnamese',
+   * Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc
    */
   language: SettingsLanguage;
 
@@ -55,7 +39,7 @@ export interface State {
 
   /**
    * Specifies the base font size
-   * Default size: 24
+   * (Default size - 24)
    */
   'theme.fontsize'?: number;
 
@@ -68,6 +52,11 @@ export interface State {
    * Specifies if the push notifications should be disabled
    */
   disablePushNotification?: boolean;
+
+  /**
+   * Specifies a list of enabled plugins (requires enableExperimental to be true)
+   */
+  'plugin.list'?: string[];
 }
 
 const initialState: State = {

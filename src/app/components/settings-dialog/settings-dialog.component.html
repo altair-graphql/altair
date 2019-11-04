@@ -17,16 +17,28 @@
 
   <ng-template #modalContent>
     <div class="app-dialog-body">
-      <div class="app-dialog-section">
+      <small><a href="#" (click)="$event.preventDefault();$event.stopPropagation();onToggleView();">{{ 'SETTINGS_TOGGLE_ADVANCED_MODE' | translate }}</a></small>
+      <div class="app-dialog-section" *ngIf="showForm">
+        <app-schema-form
+          [schema]="settingsSchema"
+          [data]="localSettings"
+          (dataChange)="onFormDataChange($event)"
+        ></app-schema-form>
+      </div>
+
+      <div class="app-dialog-section" *ngIf="!showForm">
         <ngx-codemirror
           #editor
           class="settings-editor-textarea"
           [options]="jsonEditorConfig"
-          [ngModel]="settings | json"
+          [ngModel]="jsonSettings"
           (ngModelChange)="onSettingsChange($event)"
         ></ngx-codemirror>
         <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
         <small><a target="_blank" href="http://altair.sirmuel.design/docs/features/settings-pane">Click here for available settings options</a></small>
+      </div>
+
+      <div class="app-dialog-section">
         <nz-collapse>
           <nz-collapse-panel
             [nzHeader]="'SETTINGS_KEYBOARD_SHORTCUTS' | translate"
