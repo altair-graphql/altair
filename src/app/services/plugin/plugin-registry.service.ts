@@ -20,7 +20,10 @@ export class PluginRegistryService {
   }
 
   getPlugin(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: any = {}) {
-    debug.log('PLUGIN: ', name, pluginSource);
+    debug.log('PLUGIN: ', name, pluginSource, version);
+    if (!name || this.registry[name]) {
+      return;
+    }
     let pluginBaseUrl = ``;
     switch (pluginSource) {
       case PluginSource.NPM:
@@ -87,6 +90,25 @@ export class PluginRegistryService {
   getPluginContext() {
     // Context is basically an object with the set of allowed functionality
     // Returns context based on type of plugin.
+  }
+
+  /**
+   * Given a plugin string in the format: <plugin-name>@<version>,
+   * it returns the details of the plugin
+   * @param pluginStr
+   */
+  getPluginInfoFromString(pluginStr: string) {
+    const matches = pluginStr.match(/(.[^@]*)(@(.*))?/);
+    if (matches && matches.length) {
+      const [, pluginName, , pluginVersion = 'latest'] = matches;
+      if (pluginName && pluginVersion) {
+        return {
+          name: pluginName,
+          version: pluginVersion,
+        };
+      }
+    }
+    return null;
   }
 
   private emitRegistryUpdate() {
