@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SchemaFormItemInputComponent } from './schema-form-item-input.component';
+import { SharedModule } from 'app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { SchemaFormModule } from '../schema-form.module';
 
 describe('SchemaFormItemInputComponent', () => {
   let component: SchemaFormItemInputComponent;
@@ -8,7 +11,14 @@ describe('SchemaFormItemInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SchemaFormItemInputComponent ]
+      imports: [
+        FormsModule,
+        SharedModule,
+        SchemaFormModule,
+      ],
+      declarations: [
+        // SchemaFormItemInputComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +26,8 @@ describe('SchemaFormItemInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemInputComponent);
     component = fixture.componentInstance;
+    component.data = {};
+    component.item = {};
     fixture.detectChanges();
   });
 

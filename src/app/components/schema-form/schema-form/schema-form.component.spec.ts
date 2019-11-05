@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SchemaFormComponent } from './schema-form.component';
+import { SharedModule } from 'app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { SchemaFormModule } from '../schema-form.module';
 
 describe('SchemaFormComponent', () => {
   let component: SchemaFormComponent;
@@ -8,7 +11,14 @@ describe('SchemaFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SchemaFormComponent ]
+      imports: [
+        FormsModule,
+        SharedModule,
+        SchemaFormModule,
+      ],
+      declarations: [
+        // SchemaFormComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +26,7 @@ describe('SchemaFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormComponent);
     component = fixture.componentInstance;
+    component.data = {};
     fixture.detectChanges();
   });
 
