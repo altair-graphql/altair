@@ -23,7 +23,8 @@ export class PreRequestService {
 
   executeScript(script: string, data: ScriptContextData): Promise<any> {
     const self = this;
-    data = { ...data };
+    // deep cloning
+    data = JSON.parse(JSON.stringify(data));
     const interpreter = new Sval({
       ecmaVer: 10,
       sandBox: true,
