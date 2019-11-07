@@ -47,8 +47,6 @@
     "@angular/cdk": "^8.1.1",
     "@angular/cli": "^8.1.2",
     "@angular/common": "^8.1.2",
-    "@angular/compiler": "^8.1.2",
-    "@angular/compiler-cli": "^8.1.2",
     "@angular/core": "^8.1.2",
     "@angular/forms": "^8.1.2",
     "@angular/http": "^7.2.15",
@@ -113,6 +111,8 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.801.2",
+    "@angular/compiler": "^8.1.2",
+    "@angular/compiler-cli": "^8.1.2",
     "@types/chrome": "^0.0.90",
     "@types/electron": "^1.6.10",
     "@types/graphql": "^14.2.2",

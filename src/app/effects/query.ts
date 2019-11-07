@@ -70,7 +70,7 @@ export class QueryEffects {
           return observableOf(response);
         }),
         switchMap(response => {
-          return this.getPrerequesstTransformedData$(response);
+          return this.getPrerequestTransformedData$(response);
         }),
         switchMap((returnedData) => {
           if (!returnedData) {
@@ -295,7 +295,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
-          return this.getPrerequesstTransformedData$(response);
+          return this.getPrerequestTransformedData$(response);
         }),
         switchMap((res) => {
           if (!res) {
@@ -419,7 +419,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
-          return this.getPrerequesstTransformedData$(response);
+          return this.getPrerequestTransformedData$(response);
         }),
         switchMap(res => {
           if (!res) {
@@ -792,7 +792,7 @@ export class QueryEffects {
     ) {}
 
 
-    getPrerequesstTransformedData$(input: EffectResponseData) {
+    getPrerequestTransformedData$(input: EffectResponseData) {
       return observableOf(input).pipe(
         switchMap(response => {
           if (!response) {
