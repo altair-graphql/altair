@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import Sval from 'sval';
+// import Sval from 'sval';
 import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 
+// let Sval;
 interface ScriptContextData {
   headers;
   variables;
@@ -21,7 +22,8 @@ export class PreRequestService {
     private http: HttpClient,
   ) { }
 
-  executeScript(script: string, data: ScriptContextData): Promise<any> {
+  async executeScript(script: string, data: ScriptContextData): Promise<any> {
+    const Sval = (await import('sval') as any).default;
     const self = this;
     // deep cloning
     data = JSON.parse(JSON.stringify(data));

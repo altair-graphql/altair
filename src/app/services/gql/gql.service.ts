@@ -5,8 +5,8 @@ import {map, catchError, tap} from 'rxjs/operators';
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import * as prettier from 'prettier/standalone';
-import * as prettierGraphql from 'prettier/parser-graphql';
+// import * as prettier from 'prettier/standalone';
+// import * as prettierGraphql from 'prettier/parser-graphql';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 
 
@@ -442,7 +442,9 @@ export class GqlService {
    * Prettifies (formats) a given query
    * @param query
    */
-  prettify(query: string, tabWidth: number = 2) {
+  async prettify(query: string, tabWidth: number = 2) {
+    const prettier = await import('prettier/standalone');
+    const prettierGraphql = await import('prettier/parser-graphql');
     // return print(parse(query));
     return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ], tabWidth });
   }
@@ -451,8 +453,8 @@ export class GqlService {
    * Compresses a given query
    * @param query
    */
-  compress(query: string) {
-    return compress(this.prettify(query));
+  async compress(query: string) {
+    return compress(await this.prettify(query));
   }
 
   /**
@@ -485,7 +487,7 @@ export class GqlService {
    * Return the Schema Definition Language of the provided schema
    * @param schema
    */
-  getSDL(schema): string {
+  async getSDL(schema) {
     if (this.isSchema(schema)) {
       return this.prettify(printSchema(schema));
     }

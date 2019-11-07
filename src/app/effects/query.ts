@@ -257,9 +257,9 @@ export class QueryEffects {
         switchMap((action: gqlSchemaActions.SetSchemaAction) => {
           const schema = action.payload;
           if (schema) {
-            return observableOf(
-              new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl: this.gqlService.getSDL(schema) })
-            );
+            this.gqlService.getSDL(schema).then(sdl => {
+              return this.store.dispatch(new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl }))
+            });
           }
 
           return observableEmpty();
@@ -282,7 +282,7 @@ export class QueryEffects {
               this.notifyService.error('There was a problem loading the schema');
               debug.error('Error while loading schema', err);
             }
-          })
+          });
           return observableEmpty();
         })
       );
@@ -577,17 +577,16 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
-          let prettified = '';
-          try {
-            prettified = this.gqlService.prettify(res.data.query.query, res.settings.tabSize);
-          } catch (err) {
+          this.gqlService.prettify(res.data.query.query, res.settings.tabSize).then(prettified => {
+            if (prettified) {
+              return this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
+            }
+          })
+          .catch((err) => {
             debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');
-          }
+          });
 
-          if (prettified) {
-            return observableOf(new queryActions.SetQueryAction(prettified, res.windowId));
-          }
           return observableEmpty();
         }),
       );
@@ -600,19 +599,19 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          let compressed = '';
-          try {
-            debug.log('We compress..');
-            compressed = this.gqlService.compress(res.data.query.query);
+          debug.log('We compress..');
+          this.gqlService.compress(res.data.query.query).then(compressed => {
             debug.log('Compressed..');
-          } catch (err) {
+
+            if (compressed) {
+              return this.store.dispatch(new queryActions.SetQueryAction(compressed, res.windowId));
+            }
+          })
+          .catch(err => {
             debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');
-          }
+          });
 
-          if (compressed) {
-            return observableOf(new queryActions.SetQueryAction(compressed, res.windowId));
-          }
           return observableEmpty();
         }),
       );
