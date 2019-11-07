@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-// import Sval from 'sval';
 import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 
-// let Sval;
 interface ScriptContextData {
   headers;
   variables;

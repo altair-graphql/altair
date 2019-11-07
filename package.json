@@ -36,7 +36,7 @@
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=78.0.3904.70",
     "snyk-protect": "snyk protect",
-    "analyze": "npx webpack-bundle-analyzer dist/stats.json"
+    "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json"
   },
   "engines": {
     "node": ">= 6.9.1"
