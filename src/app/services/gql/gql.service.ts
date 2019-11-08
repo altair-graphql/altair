@@ -400,6 +400,7 @@ export class GqlService {
   // Check if the selected operation matches any operation, else ask the user to select again
   getSelectedOperationData({ query = '', queryCursorIndex, selectedOperation = '', selectIfOneOperation = false }) {
     const operations = this.getOperations(query);
+    let requestSelectedOperationFromUser = false;
 
     // Need to choose an operation
     if (operations) {
@@ -418,10 +419,7 @@ export class GqlService {
           } else {
             selectedOperation = '';
             // Ask the user to select operation
-            throw new Error(
-              `You have more than one query operations.
-              You need to select the one you want to run from the dropdown.`
-            );
+            requestSelectedOperationFromUser = true;
           }
         }
       } else {
@@ -435,7 +433,7 @@ export class GqlService {
       selectedOperation = '';
     }
 
-    return { selectedOperation, operations };
+    return { selectedOperation, operations, requestSelectedOperationFromUser };
   }
 
   /**

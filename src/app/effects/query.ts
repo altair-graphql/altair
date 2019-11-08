@@ -138,6 +138,13 @@ export class QueryEffects {
                     new queryActions.SetQueryOperationsAction(response.windowId, { operations: operationData.operations })
                   );
                   selectedOperation = operationData.selectedOperation;
+                  if (operationData.requestSelectedOperationFromUser) {
+                    this.notifyService.warning(
+                      `You have more than one query operations.
+                      You need to select the one you want to run from the dropdown.`
+                    );
+                    return observableEmpty();
+                  }
                 } catch (err) {
                   this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
                   this.notifyService.warning(err.message);
