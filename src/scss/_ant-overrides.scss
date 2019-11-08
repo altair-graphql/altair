@@ -40,15 +40,16 @@
   background: var(--theme-off-bg-color);
   color: var(--theme-font-color);
   border-color: var(--theme-border-color);
+
+  > .ant-collapse-item {
+    border-color: var(--theme-border-color);
+
+    > .ant-collapse-header {
+      color: var(--theme-font-color);
+    }
+  }
 }
 
-.ant-collapse > .ant-collapse-item {
-  border-color: var(--theme-border-color);
-}
-
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
-  color: var(--theme-font-color);
-}
 
 .ant-collapse-content {
   background: var(--theme-bg-color);
@@ -59,12 +60,14 @@
 .ant-list {
   color: var(--theme-font-color);
 }
+
 .ant-list-bordered {
   border-color: var(--theme-border-color);
+
+  .ant-list-item {
+    border-color: var(--theme-border-color);
 }
 
-.ant-list-bordered .ant-list-item {
-  border-color: var(--theme-border-color);
 }
 
 .ant-dropdown-menu {
@@ -82,6 +85,74 @@
   }
 }
 
-.ant-dropdown-menu-item-divider, .ant-dropdown-menu-submenu-title-divider {
+.ant-dropdown-menu-item-divider,
+.ant-dropdown-menu-submenu-title-divider {
   background: var(--theme-border-color);
+}
+
+.ant-form-item {
+  color: var(--theme-font-color);
+
+  label {
+    color: var(--theme-font-color);
+  }
+}
+
+.ant-input {
+  background: var(--theme-off-bg-color);
+  border-color: var(--theme-border-color);
+  color: var(--theme-font-color);
+}
+
+.ant-input-number {
+  background: var(--theme-off-bg-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-input-number-handler-wrap {
+  background: var(--theme-off-bg-color);
+  border-color: var(--theme-border-color);
+  color: var(--theme-font-color);
+}
+
+.ant-input-number-handler-up-inner,
+.ant-input-number-handler-down-inner,
+.ant-input-number-handler {
+  color: var(--theme-font-color);
+}
+
+.ant-select-selection {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-select-dropdown {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+}
+
+.ant-select-arrow {
+  color: var(--theme-border-color);
+}
+
+.ant-select-dropdown-menu-item {
+  color: var(--theme-font-color);
+}
+
+.ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
+  background: var(--theme-bg-color);
+}
+
+.ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
+  background: var(--theme-bg-color);
+  color: var(--primary-color);
+}
+
+.ant-tabs {
+  color: var(--theme-font-color);
+}
+
+.ant-tabs-bar {
+  border-color: var(--theme-border-color);
 }

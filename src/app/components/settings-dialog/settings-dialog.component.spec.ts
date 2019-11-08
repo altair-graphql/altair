@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'app/shared/shared.module';
+import { SchemaFormModule } from '../schema-form/schema-form.module';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -28,6 +29,7 @@ describe('SettingsDialogComponent', () => {
         SharedModule,
         ToastrModule.forRoot(),
         TranslateModule.forRoot(),
+        SchemaFormModule,
       ],
       providers: [
         NotifyService,
