@@ -4,6 +4,7 @@ import { debug } from './logger';
 
 const settingsValidator = require('./validate_settings_schema');
 
+export const settingsSchema = settingsValidator.schema;
 export const validateSettings = settings => {
   const data = jsonc(settings);
   const valid = settingsValidator(data);
@@ -76,10 +77,7 @@ function remove(node) {
   }
 }
 
-function getPropertyType(property, schema) {
-  if (property.type) {
-    return property.type;
-  }
+export const getPropertyRef = (property, schema) => {
   if (property.$ref) {
     const refPath: any[] = property.$ref.split('/');
     let curRef = schema;
@@ -91,8 +89,15 @@ function getPropertyType(property, schema) {
       }
     });
 
-    return curRef.type;
+    return curRef;
   }
+};
+
+function getPropertyType(property, schema) {
+  if (property.type) {
+    return property.type;
+  }
+  return getPropertyRef(property, schema).type;
 }
 
 export const getHint = (cm) => {

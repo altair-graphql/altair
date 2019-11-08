@@ -31,6 +31,7 @@ import { DirectivesModule } from './directives';
 import { ComponentModule } from './components';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 import { SmartInputModule } from './components/smart-input/smart-input.module';
+import { SchemaFormModule } from './components/schema-form/schema-form.module';
 
 import { AppComponent } from './containers/app/app.component';
 import { WindowComponent } from './containers/window/window.component';
@@ -108,6 +109,7 @@ const providers = [
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
+    SchemaFormModule,
     SmartInputModule,
     DirectivesModule,
     StoreModule.forRoot(reducerToken, { metaReducers }),
