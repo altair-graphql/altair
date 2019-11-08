@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Нажмите ctrl-space для отображения подсказки",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
   "SETTINGS_RESET_APPLICATION_DATA": "Reset application data (only use this if you know what you are doing).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "Подробнее на GitHub",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
   "REPORT_BUG_TEXT": "Сообщить об ошибке",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Connected to server stream",
   "PRE_REQUEST_EDITOR_HEADER": "Редактор предварительного запроса",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Скрипт, который будет выполнен до отправки запроса",
-  "PRE_REQUEST_ENABLE_TEXT": "Включить скрипт предзапроса"
+  "PRE_REQUEST_ENABLE_TEXT": "Включить скрипт предзапроса",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
