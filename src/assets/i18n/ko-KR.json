@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "ctrl-space를 입력하면 도움말이 뜹니다",
   "SETTINGS_KEYBOARD_SHORTCUTS": "키보드 단축키",
   "SETTINGS_RESET_APPLICATION_DATA": "어플리케이션 데이터 리셋 (무엇을 의미하는지 아는 분만 사용하세요.)",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "GitHub에서 보기",
   "STAR_ON_GITHUB_TEXT": "GitHub으로 이동",
   "REPORT_BUG_TEXT": "버그 제보하기",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "서버 스트림에 접속됨",
   "PRE_REQUEST_EDITOR_HEADER": "리퀘스트 전처리 편집기",
   "PRE_REQUEST_EDITOR_SUBTEXT": "리퀘스트가 보내지기 전에 실행될 스크립트를 작성하세요",
-  "PRE_REQUEST_ENABLE_TEXT": "리퀘스트 전처리 스크립트 유효화"
+  "PRE_REQUEST_ENABLE_TEXT": "리퀘스트 전처리 스크립트 유효화",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }

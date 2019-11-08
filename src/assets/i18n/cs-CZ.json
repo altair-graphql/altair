@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Pro zobrazení nápovědy stiskněte ctrl+mezerník",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Klávesové zkratky",
   "SETTINGS_RESET_APPLICATION_DATA": "Reset application data (only use this if you know what you are doing).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "Zobrazit na GitHubu",
   "STAR_ON_GITHUB_TEXT": "Přidat hvězdičku na GitHubu",
   "REPORT_BUG_TEXT": "Nahlásit chybu",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Connected to server stream",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
