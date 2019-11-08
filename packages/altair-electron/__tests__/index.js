@@ -120,10 +120,43 @@ describe('Altair electron', function() {
     await app.client.pause(100);
     await app.client.keys(`
     { hello }`);
-    await app.client.keys([ 'Control', 'Return' ]);
+    // Trigger the keys again to release them
+    await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
     await app.client.pause(1000);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
     assert.include(result, 'Hello world');
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can send a request with multiple requests and see request dropdown', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+    await app.client.pause(100);
+    await app.client.keys(`
+    query A{ hello }
+    query B{ bye }`);
+    // Trigger the keys again to release them
+    await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
+    await app.client.pause(100);
+    const isRequestDropdownVisible = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send-dropdown`).isVisible();
+    assert.isTrue(isRequestDropdownVisible);
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can add query from doc to query editor', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+    await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
+    await app.client.pause(100);
+    const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
+    assert.isTrue(isDocVisible);
+    await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('span*=Query').click();
+    await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('.doc-viewer-item-query*=hello').$('.doc-viewer-item-query-add-btn').click();
+    await app.client.pause(100);
+    const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`).getText();
+    assert.match(result, /query.*\{.*hello.*\}/s);
     await app.client.closeLastAltairWindow();
   });
 });
