@@ -144,7 +144,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
     "typescript-json-schema": "^0.40.0",
-    "web-ext": "^3.1.1"
+    "web-ext": "^3.2.1"
   },
   "repository": {
     "type": "git",
@@ -154,6 +154,11 @@
     "url": "https://github.com/imolorhe/altair/issues"
   },
   "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
+  },
+  "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"
