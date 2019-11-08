@@ -8710,10 +8710,10 @@ next-tick@1, next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-ng-zorro-antd@8.4.1:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.4.1.tgz#13fe5d39b90b607d8121884d31a6fcc45f3bdc2a"
-  integrity sha512-P/EpGpqRRsx2NmyJyulhH56jNYV2a1e1lf9F2NOp1IIG3J1XKFAxHPCetaGeeeEbXT2voQWshD12iTf2Fb0xAQ==
+ng-zorro-antd@8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-8.5.0.tgz#a1785578578c8dc2d28773c13e025d27dca6e74d"
+  integrity sha512-o3ervclxpeJLdd0Ggqsuwtl72MYMLhavrtIUuHK0RjBgCxjWgngdPeWTeHqCz5KdPrJLgrQ5fBzEgeKNAv8sqQ==
   dependencies:
     "@angular/cdk" "^8.0.0"
     "@ant-design/icons-angular" "^8.0.2"
