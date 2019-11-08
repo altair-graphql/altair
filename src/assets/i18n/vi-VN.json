@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Ấn ctrl-space để hiển thị gợi ý",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Phím tắt",
   "SETTINGS_RESET_APPLICATION_DATA": "Đặt lại dữ liệu ứng dụng (chỉ sử dụng chức năng này nếu bạn biết bạn đang làm gì).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "Xem trong GitHub",
   "STAR_ON_GITHUB_TEXT": "Bình chọn trên GitHub",
   "REPORT_BUG_TEXT": "Báo lỗi",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Đã kết nối đến máy chủ trực tuyến",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
