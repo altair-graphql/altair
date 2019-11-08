@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Drücke CMD/STRG und die Leertaste, um Hinweise anzuzeigen",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Tastenkürzel",
   "SETTINGS_RESET_APPLICATION_DATA": "Anwendungsdaten zurücksetzen (verwende dies nur, wenn du weißt, was du tust).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "Auf GitHub anzeigen",
   "STAR_ON_GITHUB_TEXT": "Auf GitHub anzeigen",
   "REPORT_BUG_TEXT": "Einen Fehler melden",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Mit Server-Stream verbunden",
   "PRE_REQUEST_EDITOR_HEADER": "Anfrage-Skript Editor",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Schreibe ein Skript, das ausgeführt werden soll, bevor die Anfrage gesendet wird",
-  "PRE_REQUEST_ENABLE_TEXT": "Anfrage-Skript aktivieren"
+  "PRE_REQUEST_ENABLE_TEXT": "Anfrage-Skript aktivieren",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
