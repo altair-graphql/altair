@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Apăsaţi ctrl-space pentru a arăta indiciu",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Comenzi Rapide",
   "SETTINGS_RESET_APPLICATION_DATA": "Resetati datele aplicatiei (foloseste doar daca sti ce faci).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "Vezi pe GitHub",
   "STAR_ON_GITHUB_TEXT": "Adauga stea pe GitHub",
   "REPORT_BUG_TEXT": "Raporteaza o eroare",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Conectat la serverul de stream",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
