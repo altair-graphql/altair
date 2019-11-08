@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "按住ctrl-space显示提示",
   "SETTINGS_KEYBOARD_SHORTCUTS": "快捷键",
   "SETTINGS_RESET_APPLICATION_DATA": "重置应用数据(该功能仅用作你知道你在做什么)",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "在GitHub上打开",
   "STAR_ON_GITHUB_TEXT": "在github上star",
   "REPORT_BUG_TEXT": "报告错误",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "已经连接到服务器流",
   "PRE_REQUEST_EDITOR_HEADER": "预请求编辑器",
   "PRE_REQUEST_EDITOR_SUBTEXT": "在请求发送之前写下要执行的脚本",
-  "PRE_REQUEST_ENABLE_TEXT": "启用预请求脚本"
+  "PRE_REQUEST_ENABLE_TEXT": "启用预请求脚本",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }
