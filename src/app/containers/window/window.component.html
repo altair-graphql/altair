@@ -1,6 +1,6 @@
 <app-plugin-element
-  *ngFor="let plugin of plugins; trackBy:pluginTrackBy;"
-  [plugin]="plugin"
+  *ngFor="let pluginData of pluginsData; trackBy:pluginTrackBy;"
+  [pluginData]="pluginData"
 ></app-plugin-element>
 <div class="app-window__content">
   <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading$ | async }">

@@ -45,6 +45,7 @@ import '../../utils/codemirror/graphql-hint';
 import { GqlService, NotifyService } from 'app/services';
 import { debug } from 'app/utils/logger';
 import { onHasCompletion } from 'app/utils/codemirror/graphql-has-completion';
+import { GraphQLSchema } from 'graphql';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -56,11 +57,11 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() query;
-  @Input() gqlSchema = null;
+  @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
 
-  @Input() variables: fromVariables.State = null;
+  @Input() variables: fromVariables.State;
   @Input() showVariableDialog = false;
   @Output() sendRequest = new EventEmitter();
   @Output() queryChange = new EventEmitter<string>();

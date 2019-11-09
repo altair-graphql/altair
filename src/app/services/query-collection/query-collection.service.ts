@@ -1,5 +1,5 @@
 
-import {from as observableFrom,  Observable } from 'rxjs';
+import {from as observableFrom, Observable, empty as observableEmpty, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
@@ -86,7 +86,7 @@ export class QueryCollectionService {
 
   getExportCollectionData(collectionId: number) {
     return observableFrom(
-      this.storage.queryCollections.get({ id: collectionId }).then(collection => {
+      this.storage.queryCollections.get({ id: collectionId }).then((collection: IQueryCollection) => {
         const exportCollectionData: ExportCollectionState = {
           version: 1,
           type: 'collection',
@@ -100,13 +100,14 @@ export class QueryCollectionService {
 
   importCollectionDataFromJson(data: string) {
     if (!data) {
-      throw new Error('String is empty.');
+      return throwError(new Error('String is empty.'));
     }
 
     try {
       return this.importCollectionData(JSON.parse(data));
     } catch (err) {
       debug.log('The file is invalid.', err);
+      return throwError(new Error('String is empty.'));
     }
   }
 
@@ -114,10 +115,10 @@ export class QueryCollectionService {
     try {
       // Verify file's content
       if (!data) {
-        throw new Error('Object is empty.');
+        return throwError(new Error('Object is empty.'));
       }
       if (!data.version || !data.type || data.type !== 'collection') {
-        throw new Error('File is not a valid Altair collection file.');
+        return throwError(new Error('File is not a valid Altair collection file.'));
       }
 
       return this.create({
@@ -128,6 +129,7 @@ export class QueryCollectionService {
       })
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);
+      return throwError(err);
     }
   }
 

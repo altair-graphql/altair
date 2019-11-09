@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { debug } from 'app/utils/logger';
+import { PluginComponentData } from 'app/services/plugin/plugin';
 
 @Component({
   selector: 'app-plugin-element',
@@ -8,17 +9,20 @@ import { debug } from 'app/utils/logger';
 })
 export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() plugin = null;
+  @Input() pluginData: PluginComponentData | undefined;
 
   @ViewChild('pluginElRef', { static: true }) pluginElRef: ElementRef;
-  pluginElement = null;
+  pluginElement: HTMLElement;
 
   constructor() { }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
-    const elementName = (this.plugin.sidebar_opts && this.plugin.sidebar_opts.element_name) || this.plugin.name;
+    if (!this.pluginData) {
+      return;
+    }
+    const elementName = (this.pluginData.sidebar_opts && this.pluginData.sidebar_opts.element_name) || this.pluginData.name;
     this.pluginElement = document.createElement(elementName);
     if (!this.pluginElement) {
       debug.error(`Plugin "${elementName}" does not have a custom element defined!`);
@@ -33,10 +37,10 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
   }
 
   renderElement() {
-    if (this.pluginElement) {
-      this.pluginElement.props = {
-        ...this.plugin.props,
-        ctx: this.plugin.context,
+    if (this.pluginElement && this.pluginData) {
+      this.pluginElement['props'] = {
+        ...this.pluginData.props,
+        ctx: this.pluginData.context,
       };
     }
   }

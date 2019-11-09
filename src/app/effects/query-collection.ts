@@ -1,7 +1,7 @@
 
 import { empty as observableEmpty,  Observable } from 'rxjs';
 
-import { map, withLatestFrom, switchMap, tap } from 'rxjs/operators';
+import { map, withLatestFrom, switchMap, tap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
@@ -78,10 +78,12 @@ export class QueryCollectionEffects {
         this.windowService.getWindowExportData(res.windowId).subscribe(exportData => {
           const query = exportData;
 
-          this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query).subscribe(() => {
-            this.notifyService.success('Updated query in collection.');
-            this.store.dispatch(new collectionActions.LoadCollectionsAction());
-          });
+          if (res.data.layout.collectionId && res.data.layout.windowIdInCollection) {
+            this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query).subscribe(() => {
+              this.notifyService.success('Updated query in collection.');
+              this.store.dispatch(new collectionActions.LoadCollectionsAction());
+            });
+          }
         });
         return observableEmpty();
       }),
@@ -142,7 +144,9 @@ export class QueryCollectionEffects {
       ofType(collectionActions.EXPORT_COLLECTION),
       switchMap((action: collectionActions.ExportCollectionAction) => {
         this.collectionService.getExportCollectionData(action.payload.collectionId).subscribe(exportData => {
-          downloadJson(exportData, exportData.title, { fileType: 'agc' });
+          if (exportData) {
+            downloadJson(exportData, exportData.title, { fileType: 'agc' });
+          }
         });
         return observableEmpty();
       })
@@ -158,6 +162,8 @@ export class QueryCollectionEffects {
             .subscribe(() => {
               this.notifyService.success('Successfully imported collection.');
               this.store.dispatch(new collectionActions.LoadCollectionsAction());
+            }, (error) => {
+              this.notifyService.error(`Something went wrong importing collection. Error: ${error.message}`);
             });
         });
         return observableEmpty();

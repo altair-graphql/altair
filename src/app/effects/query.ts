@@ -391,7 +391,7 @@ export class QueryEffects {
               this.notifyService.info(`
                 This feature is experimental, and still in beta.
                 Click here to submit bugs, improvements, etc.
-              `, null, {
+              `, undefined, {
                 tapToDismiss: true,
                 data: {
                   url: 'https://github.com/imolorhe/altair/issues/new'
@@ -687,7 +687,9 @@ export class QueryEffects {
         switchMap(res => {
           try {
             const namedQuery = this.gqlService.nameQuery(res.data.query.query);
-            return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
+            if (namedQuery) {
+              return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
+            }
           } catch (err) {
             debug.log(err);
             this.notifyService.error('Your query does not appear to be valid. Please check it.');
@@ -738,7 +740,9 @@ export class QueryEffects {
           }
           try {
             // Stop any currently active stream client
-            this.gqlService.closeStreamClient(res.data.stream.client);
+            if (res.data.stream.client) {
+              this.gqlService.closeStreamClient(res.data.stream.client);
+            }
 
             const streamClient = this.gqlService.createStreamClient(streamUrl);
             let backoff = res.action.payload.backoff || 200;
@@ -767,6 +771,7 @@ export class QueryEffects {
             return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient }));
           } catch (err) {
             debug.error('An error occurred starting the stream.', err);
+            return observableEmpty();
             // return subscriptionErrorHandler(err);
           }
         }),
@@ -780,7 +785,9 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          this.gqlService.closeStreamClient(res.data.stream.client);
+          if (res.data.stream.client) {
+            this.gqlService.closeStreamClient(res.data.stream.client);
+          }
           return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient: null }));
         }),
       );

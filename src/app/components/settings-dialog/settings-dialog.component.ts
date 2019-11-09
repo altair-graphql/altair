@@ -16,6 +16,7 @@ import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
 import { registerSettingsLinter, getHint, validateSettings, settingsSchema } from 'app/utils/settings_addons';
 import { NotifyService, KeybinderService, StorageService } from 'app/services';
+import { KeyboardShortcutCategory } from 'app/services/keybinder/keybinder.service';
 
 registerSettingsLinter(Codemirror);
 
@@ -38,7 +39,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   themes = config.themes;
   languages = Object.entries(config.languages);
-  shortcutCategories = [];
+  shortcutCategories: KeyboardShortcutCategory[] = [];
   settingsSchema = settingsSchema;
   showForm = true;
 

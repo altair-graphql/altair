@@ -5,12 +5,11 @@ import config from 'app/config';
 
 export interface FileVariable {
     name: string;
-    data: File;
+    data?: File;
 }
 
 const initialFileVariableState: FileVariable = {
     name: '',
-    data: null,
 };
 export interface State {
     variables: string;

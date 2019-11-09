@@ -8,15 +8,18 @@ import { getFullUrl } from '../../utils';
 
 export interface QueryEditorState {
   isFocused: boolean;
-  cursorIndex: number;
+  // Adding undefined for backward compatibility
+  cursorIndex?: number;
 }
 
 export interface State {
   url: string;
   subscriptionUrl: string;
   query: string;
-  selectedOperation: string;
-  operations: Array<any>;
+  // Adding undefined for backward compatibility
+  selectedOperation: string | undefined;
+  // Adding undefined for backward compatibility
+  operations: any[] | undefined;
   httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
   response: any;
   responseTime: number;
@@ -40,8 +43,8 @@ export const initialState: State = {
   url: getFullUrl(config.initialData.url),
   subscriptionUrl: config.initialData.subscriptionsEndpoint,
   query: config.initialData.query || initialQuery,
-  selectedOperation: null,
-  operations: null,
+  selectedOperation: '',
+  operations: [],
   httpVerb : 'POST',
   response: null,
   responseTime: 0,
@@ -59,7 +62,6 @@ export const initialState: State = {
   subscriptionResponseList: [],
   queryEditorState: {
     isFocused: false,
-    cursorIndex: null,
   },
 };
 

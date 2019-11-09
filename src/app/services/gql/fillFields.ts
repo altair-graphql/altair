@@ -24,10 +24,13 @@ export const parseQuery = (query: string) => {
   }
 };
 
-export const buildSelectionSet = (type: GraphQLType, { maxDepth = 1, currentDepth = 0 } = {}) => {
+export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, currentDepth = 0 } = {}) => {
+  if (!type) {
+    return;
+  }
   const namedType: GraphQLInputObjectType = <GraphQLInputObjectType>getNamedType(type);
 
-  if (!type || isLeafType(type) || !namedType || !namedType.getFields) {
+  if (isLeafType(type) || !namedType || !namedType.getFields) {
     return;
   }
 
@@ -89,7 +92,7 @@ export const withInsertions = (initialQuery: string, insertions) => {
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
 export const fillAllFields = (schema, query: string, cursor, token, { maxDepth = 1 } = {}) => {
-  const insertions = [];
+  const insertions: any[] = [];
   if (!schema) {
     return { insertions, result: query };
   }
