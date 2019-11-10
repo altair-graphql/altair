@@ -41,9 +41,9 @@ export interface State {
 }
 
 export const initialState: State = {
-  url: getFullUrl(config.initialData.url),
-  subscriptionUrl: config.initialData.subscriptionsEndpoint,
-  query: config.initialData.query || initialQuery,
+  url: getFullUrl(config.initialData.url ? '' + config.initialData.url : ''),
+  subscriptionUrl: config.initialData.subscriptionsEndpoint ? '' + config.initialData.subscriptionsEndpoint : '',
+  query: config.initialData.query ? '' + config.initialData.query : initialQuery,
   selectedOperation: '',
   operations: [],
   httpVerb : 'POST',

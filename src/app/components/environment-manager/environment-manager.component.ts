@@ -63,7 +63,7 @@ export class EnvironmentManagerComponent implements OnInit {
   };
 
   selectedEnvironmentId = 'base';
-  selectedEnvironment: fromEnvironments.EnvironmentState | undefined;
+  selectedEnvironment?: fromEnvironments.EnvironmentState;
   editorContent = '{}';
   editorTitle = '';
 

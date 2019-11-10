@@ -17,7 +17,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    variables: config.initialData.variables || '{}',
+    variables: config.initialData.variables ? '' + config.initialData.variables : '{}',
     files: [],
 };
 
