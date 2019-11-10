@@ -633,11 +633,11 @@ export class QueryEffects {
         switchMap(res => {
 
           if (res.data.schema.schema) {
-            const sdl = this.gqlService.getSDL(res.data.schema.schema);
-
-            if (sdl) {
-              downloadData(sdl, 'sdl', { fileType: 'gql' });
-            }
+            this.gqlService.getSDL(res.data.schema.schema).then(sdl => {
+              if (sdl) {
+                downloadData(sdl, 'sdl', { fileType: 'gql' });
+              }
+            })
           }
           return observableEmpty();
         }),

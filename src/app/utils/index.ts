@@ -12,7 +12,7 @@ const fileDialog = require('file-dialog');
  * @param fileName name of downloaded file
  * @param opts configuration options
  */
-export const downloadData = (data, fileName = 'data', opts: any = undefined) => {
+export const downloadData = (data: string, fileName = 'data', opts: any = undefined) => {
   let _opts = {
     mimeType: 'text/plain',
     dataUriAttr: 'text/plain;charset=utf-8',
@@ -53,7 +53,7 @@ export const downloadJson = (obj, fileName = 'response', opts: any = undefined) 
  * Get file data as string
  * @param files FileList object
  */
-export const getFileStr = files => {
+export const getFileStr = (files: FileList) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function (e: any) {
@@ -109,7 +109,7 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
-export const copyToClipboard = str => {
+export const copyToClipboard = (str: string) => {
   const el = document.createElement('textarea');  // Create a <textarea> element
   el.value = str;                                 // Set its value to the string that you want copied
   el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof

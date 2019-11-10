@@ -3,6 +3,7 @@ import { Action, ActionReducer } from '@ngrx/store';
 import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 import { debug } from 'app/utils/logger';
+import { GraphQLSchema } from 'graphql';
 
 export interface State {
     [id: string]: fromRoot.PerWindowState;
@@ -31,6 +32,7 @@ export interface ExportWindowState {
    * ID for window in collection
    */
   windowIdInCollection?: string;
+  gqlSchema?: GraphQLSchema;
 }
 
 /**

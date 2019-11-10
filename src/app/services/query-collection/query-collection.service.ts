@@ -5,6 +5,7 @@ import { StorageService } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
 import { debug } from 'app/utils/logger';
 import { IQueryCollection, ExportCollectionState } from 'app/reducers/collection/collection';
+import { getFileStr } from 'app/utils';
 
 // Handling hierarchical data
 // https://stackoverflow.com/questions/4048151/what-are-the-options-for-storing-hierarchical-data-in-a-relational-database
@@ -107,7 +108,7 @@ export class QueryCollectionService {
       return this.importCollectionData(JSON.parse(data));
     } catch (err) {
       debug.log('The file is invalid.', err);
-      return throwError(new Error('String is empty.'));
+      return throwError(err);
     }
   }
 
@@ -131,6 +132,16 @@ export class QueryCollectionService {
       debug.log('Something went wrong while importing the data.', err);
       return throwError(err);
     }
+  }
+
+  handleImportedFile(files) {
+    return getFileStr(files).then((dataStr: string) => {
+      try {
+        this.importCollectionDataFromJson(dataStr);
+      } catch (error) {
+        debug.log('There was an issue importing the file.', error);
+      }
+    });
   }
 
   getAll() {

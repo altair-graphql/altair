@@ -1,12 +1,13 @@
 import { Action } from '@ngrx/store';
 
 import * as gqlSchema from '../../actions/gql-schema/gql-schema';
+import { GraphQLSchema } from 'graphql';
 
 export interface State {
     // Adding undefined for backward compatibility
     introspection?: object;
     // Adding undefined for backward compatibility
-    schema?: object;
+    schema?: GraphQLSchema;
     sdl: string;
     allowIntrospection: boolean;
 }
