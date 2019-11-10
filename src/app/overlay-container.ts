@@ -8,7 +8,10 @@ export class AppOverlayContainer extends OverlayContainer {
     container.classList.add('cdk-overlay-container');
     container.classList.add('app-overlay-container');
 
-    document.querySelector('.app-wrapper').appendChild(container);
-    this._containerElement = container;
+    const appWrapper = document.querySelector('.app-wrapper');
+    if (appWrapper) {
+      appWrapper.appendChild(container);
+      this._containerElement = container;
+    }
   }
 }

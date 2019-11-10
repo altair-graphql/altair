@@ -17,12 +17,14 @@ const renderType = (type) => {
  * Render a custom UI for CodeMirror's hint which includes additional info
  * about the type and description for the selected context.
  */
-export const onHasCompletion = (cm, data, { onHintInformationRender = null, onClickHintInformation = null } = {}) => {
+export const onHasCompletion = (cm, data, opts: any = {}) => {
   const CodeMirror = require('codemirror');
+  const onHintInformationRender = opts.onHintInformationRender;
+  const onClickHintInformation = opts.onClickHintInformation;
 
-  let information: HTMLElement;
-  let deprecation: HTMLElement;
-  let fillAllFieldsOption: HTMLElement;
+  let information: HTMLElement | null;
+  let deprecation: HTMLElement | null;
+  let fillAllFieldsOption: HTMLElement | null;
 
   // When a hint result is selected, we augment the UI with information.
   CodeMirror.on(data, 'select', (ctx, el) => {
@@ -96,11 +98,15 @@ export const onHasCompletion = (cm, data, { onHintInformationRender = null, onCl
       const reason = ctx.deprecationReason
         ? marked(ctx.deprecationReason)
         : '';
-      deprecation.innerHTML =
-        '<span class="deprecation-label">Deprecated</span>' + reason;
-      deprecation.style.display = 'block';
+      if (deprecation) {
+        deprecation.innerHTML =
+          '<span class="deprecation-label">Deprecated</span>' + reason;
+        deprecation.style.display = 'block';
+      }
     } else {
-      deprecation.style.display = 'none';
+      if (deprecation) {
+        deprecation.style.display = 'none';
+      }
     }
 
     if (onClickHintInformationCb) {

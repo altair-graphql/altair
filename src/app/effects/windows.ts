@@ -117,7 +117,9 @@ export class WindowsEffects {
     .pipe(
       ofType(windowActions.IMPORT_WINDOW_FROM_CURL),
       switchMap((action: windowActions.ImportWindowFromCurlAction) => {
-        this.windowService.importWindowDataFromCurl(action.payload.data);
+        if (action.payload) {
+          this.windowService.importWindowDataFromCurl(action.payload.data);
+        }
         return observableEmpty();
       })
     );

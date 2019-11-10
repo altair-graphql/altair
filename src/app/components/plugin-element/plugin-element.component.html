@@ -1,5 +1,5 @@
 <div
   #pluginElRef
-  [ngClass]="{ 'plugin__hide-content': !plugin.isActive }"
+  [ngClass]="{ 'plugin__hide-content': !pluginData || !pluginData.isActive }"
   class="plugin__holder"
 ></div>

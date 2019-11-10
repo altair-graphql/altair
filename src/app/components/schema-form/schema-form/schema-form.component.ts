@@ -23,8 +23,8 @@ export class SchemaFormComponent implements OnInit, OnChanges {
 
   @Output() dataChange = new EventEmitter();
 
-  schemaProperties = [];
-  formData = null;
+  schemaProperties: any[] = [];
+  formData: object;
 
   constructor() { }
 

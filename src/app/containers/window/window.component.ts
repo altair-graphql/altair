@@ -34,6 +34,7 @@ import * as preRequestActions from '../../actions/pre-request/pre-request';
 
 import { GqlService, NotifyService, PluginRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
+import { PluginComponentData } from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
 
@@ -56,10 +57,10 @@ export class WindowComponent implements OnInit, OnDestroy {
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<string[]>;
-  selectedOperation$: Observable<string>;
+  selectedOperation$: Observable<string | undefined>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
-  currentCollection$: Observable<fromCollection.IQueryCollection>;
+  currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
   preRequest$: Observable<fromPreRequest.State>;
 
   addQueryDepthLimit$: Observable<number>;
@@ -86,14 +87,13 @@ export class WindowComponent implements OnInit, OnDestroy {
   showAddToCollectionDialog = false;
   showPreRequestDialog = true;
 
-  gqlSchema = null;
+  gqlSchema: any = null;
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
 
   historyList: fromHistory.HistoryList = [];
-  plugins = [];
-
+  pluginsData: PluginComponentData[] = [];
 
   constructor(
     private gql: GqlService,
@@ -163,7 +163,7 @@ export class WindowComponent implements OnInit, OnDestroy {
       }
 
       this.apiUrl = data.query.url;
-      this.query = data.query.query;
+      this.query = data.query.query || '';
       this.httpVerb = data.query.httpVerb;
       this.showHeaderDialog = data.dialogs.showHeaderDialog;
       this.showVariableDialog = data.dialogs.showVariableDialog;
@@ -208,7 +208,7 @@ export class WindowComponent implements OnInit, OnDestroy {
               ...plugin,
               props: {
                 sdl: state.schema.sdl,
-                query: state.query.query,
+                query: state.query.query || '',
               },
               context: {
                 setQuery: query => this.zone.run(() => this.updateQuery(query)),
@@ -218,7 +218,7 @@ export class WindowComponent implements OnInit, OnDestroy {
         })
         .pipe(untilDestroyed(this))
         .subscribe(plugins => {
-          this.plugins = plugins;
+          this.pluginsData = plugins;
         });
       }
     });

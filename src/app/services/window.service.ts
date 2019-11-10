@@ -20,16 +20,19 @@ import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as preRequestActions from '../actions/pre-request/pre-request';
 import * as streamActions from '../actions/stream/stream';
 import * as localActions from '../actions/local/local';
+import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 
 import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
 import { debug } from 'app/utils/logger';
+import { GqlService } from './gql/gql.service';
 
 @Injectable()
 export class WindowService {
 
   constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private gqlService: GqlService,
   ) { }
 
   newWindow(opts: { title?, url?, collectionId?, windowIdInCollection? } = {}): Observable<any> {
@@ -82,7 +85,7 @@ export class WindowService {
         const windowData: fromWindows.ExportWindowState = {
           version: 1,
           type: 'window',
-          query: window.query.query,
+          query: window.query.query || '',
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
@@ -90,6 +93,7 @@ export class WindowService {
           windowName: `${window.layout.title} (Copy)`,
           preRequestScript: window.preRequest.script,
           preRequestScriptEnabled: window.preRequest.enabled,
+          gqlSchema: window.schema.schema,
         };
 
           return this.importWindowData(windowData);
@@ -109,7 +113,7 @@ export class WindowService {
         obs.next({
           version: 1,
           type: 'window',
-          query: window.query.query,
+          query: window.query.query || '',
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
@@ -224,6 +228,10 @@ export class WindowService {
           this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(windowId, { script: data.preRequestScript }));
         }
 
+        if (data.gqlSchema) {
+          this.store.dispatch(new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema));
+        }
+
         this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
       });
     } catch (err) {
@@ -236,14 +244,62 @@ export class WindowService {
    * @param dataStr data
    */
   importStringData(dataStr) {
+    const invalidFileError = new Error('Invalid Altair window file.');
     try {
       const parsed = JSON.parse(dataStr);
 
-      if (parsed.type === 'window') {
-        this.importWindowData(parsed);
+      if (parsed.type === 'window' && parsed.version === 1) {
+        return this.importWindowData(parsed);
       }
+      throw invalidFileError;
     } catch (err) {
-      debug.log('There was an issue importing the file.');
+      debug.log('Invalid Altair window file.', err);
+      try {
+        // Check if sdl file
+        const schema = this.gqlService.sdlToSchema(dataStr);
+        if (schema) {
+          // Import only schema
+          return this.importWindowData({
+            version: 1,
+            type: 'window',
+            apiUrl: '',
+            headers: [],
+            preRequestScript: '',
+            preRequestScriptEnabled: false,
+            query: '',
+            subscriptionUrl: '',
+            variables: '{}',
+            windowName: '',
+            gqlSchema: schema,
+          });
+        }
+        throw invalidFileError;
+      } catch (sdlError) {
+        debug.log('Invalid SDL file.', sdlError);
+        try {
+          // Else check if graphql query
+          const operations = this.gqlService.getOperations(dataStr);
+          debug.log(operations);
+          if (operations && operations.length) {
+            // Import only query
+            return this.importWindowData({
+              version: 1,
+              type: 'window',
+              apiUrl: '',
+              headers: [],
+              preRequestScript: '',
+              preRequestScriptEnabled: false,
+              query: dataStr,
+              subscriptionUrl: '',
+              variables: '{}',
+              windowName: '',
+            });
+          }
+          throw invalidFileError;
+        } catch (queryError) {
+          throw queryError;
+        }
+      }
     }
   }
 
@@ -252,8 +308,12 @@ export class WindowService {
    * @param files FilesList object
    */
   handleImportedFile(files) {
-    getFileStr(files).then((dataStr: string) => {
-      this.importStringData(dataStr);
+    return getFileStr(files).then((dataStr: string) => {
+      try {
+        this.importStringData(dataStr);
+      } catch (error) {
+        debug.log('There was an issue importing the file.', error);
+      }
     });
   }
 

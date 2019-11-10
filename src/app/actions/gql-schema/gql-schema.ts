@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { GraphQLSchema } from 'graphql';
 
 export const SET_INTROSPECTION = 'SET_INTROSPECTION';
 export const SET_INTROSPECTION_FROM_DB = 'SET_INTROSPECTION_FROM_DB';
@@ -25,7 +26,7 @@ export class SetIntrospectionFromDbAction implements Action {
 export class SetSchemaAction implements Action {
   readonly type = SET_SCHEMA;
 
-  constructor(public windowId: string, public payload: any) { }
+  constructor(public windowId: string, public payload: GraphQLSchema) { }
 }
 
 export class SetSchemaSDLAction implements Action {

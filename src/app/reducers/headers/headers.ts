@@ -8,7 +8,7 @@ const getInitialHeadersState = () => {
     if (config.initialData.headers) {
         initialHeaders = Object.keys(config.initialData.headers).map(key => ({
             key,
-            value: config.initialData.headers[key]
+            value: config.initialData.headers[key] ? '' + config.initialData.headers[key] : ''
         }));
     }
     initialHeaders = [ ...initialHeaders, { key: '', value: '' } ];

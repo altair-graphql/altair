@@ -26,7 +26,6 @@ describe('SchemaFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormComponent);
     component = fixture.componentInstance;
-    component.data = {};
     fixture.detectChanges();
   });
 

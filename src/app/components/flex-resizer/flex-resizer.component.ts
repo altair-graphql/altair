@@ -33,7 +33,7 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
    * Element to be resized
    */
   resizeElement: Element;
-  resizeContainer: Element;
+  resizeContainer: Element | null;
   draggingMode = false;
   px: number;
   py: number;
@@ -94,14 +94,15 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
     this.originalWidth = this.resizeElement.clientWidth;
     this.originalX = event.clientX;
 
-    this.siblingGrowthFactor = Array.from(this.resizeElement.parentElement.children)
-      .filter(el => this.resizeElement !== el)
-      .reduce((acc, el) => +getComputedStyle(el).getPropertyValue('flex-grow') + acc, 0);
-
+    if (this.resizeElement.parentElement) {
+      this.siblingGrowthFactor = Array.from(this.resizeElement.parentElement.children)
+        .filter(el => this.resizeElement !== el)
+        .reduce((acc, el) => +getComputedStyle(el).getPropertyValue('flex-grow') + acc, 0);
+    }
   }
 
   onResizerMove(event: MouseEvent) {
-    if (!this.draggingMode) {
+    if (!this.draggingMode || !this.resizeContainer) {
       return true;
     }
     event.stopPropagation();
@@ -131,7 +132,7 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
   }
 
   getResizeContainer() {
-    let el = this.resizeElement;
+    let el: Element | null = this.resizeElement;
 
     while (el && !el.hasAttribute('data-resize-container')) {
       el = el.parentElement;

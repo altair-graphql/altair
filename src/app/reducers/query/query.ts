@@ -8,15 +8,19 @@ import { getFullUrl } from '../../utils';
 
 export interface QueryEditorState {
   isFocused: boolean;
-  cursorIndex: number;
+  // Adding undefined for backward compatibility
+  cursorIndex?: number;
 }
 
 export interface State {
   url: string;
   subscriptionUrl: string;
-  query: string;
-  selectedOperation: string;
-  operations: Array<any>;
+  // Adding undefined for backward compatibility
+  query?: string;
+  // Adding undefined for backward compatibility
+  selectedOperation?: string;
+  // Adding undefined for backward compatibility
+  operations?: any[];
   httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
   response: any;
   responseTime: number;
@@ -37,11 +41,11 @@ export interface State {
 }
 
 export const initialState: State = {
-  url: getFullUrl(config.initialData.url),
-  subscriptionUrl: config.initialData.subscriptionsEndpoint,
-  query: config.initialData.query || initialQuery,
-  selectedOperation: null,
-  operations: null,
+  url: getFullUrl(config.initialData.url ? '' + config.initialData.url : ''),
+  subscriptionUrl: config.initialData.subscriptionsEndpoint ? '' + config.initialData.subscriptionsEndpoint : '',
+  query: config.initialData.query ? '' + config.initialData.query : initialQuery,
+  selectedOperation: '',
+  operations: [],
   httpVerb : 'POST',
   response: null,
   responseTime: 0,
@@ -59,7 +63,6 @@ export const initialState: State = {
   subscriptionResponseList: [],
   queryEditorState: {
     isFocused: false,
-    cursorIndex: null,
   },
 };
 
@@ -67,7 +70,7 @@ export function queryReducer(state = initialState, action: query.Action): State 
   switch (action.type) {
     case query.SET_QUERY:
     case query.SET_QUERY_FROM_DB:
-      return Object.assign({}, state, { query: action.payload });
+      return Object.assign({}, state, { query: action.payload || '' });
     case query.SET_URL:
     case query.SET_URL_FROM_DB:
       return Object.assign({}, state, { url: action.payload.url });

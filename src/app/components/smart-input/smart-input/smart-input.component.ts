@@ -39,9 +39,9 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
   }
 
   getBlockInfoFromData(data: BlockEvent) {
-    const curBlockEl = data.cursor.selection.focusNode.parentElement;
-    const lineIndex = +curBlockEl.getAttribute('data-line-index');
-    const blockIndex = +curBlockEl.getAttribute('data-block-index');
+    const curBlockEl = data.cursor.selection && data.cursor.selection.focusNode ? data.cursor.selection.focusNode.parentElement : null;
+    const lineIndex = curBlockEl && curBlockEl.getAttribute('data-line-index') ? +curBlockEl.getAttribute('data-line-index')! : 0;
+    const blockIndex = curBlockEl && curBlockEl.getAttribute('data-block-index') ? +curBlockEl.getAttribute('data-block-index')! : 0;
 
     return { curBlockEl, lineIndex, blockIndex };
   }
@@ -50,7 +50,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     return {
       content: data.content || '',
       isFocused: data.isFocused || false,
-      caretOffset: data.caretOffset || null,
+      caretOffset: data.caretOffset,
       type: data.type || '',
     };
   }
@@ -96,9 +96,9 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     curBlock.isFocused = data.isFocused;
     curBlock.caretOffset = data.cursor.offset + data.value.length;
 
-    if (output.slice(curBlock.caretOffset - VARIABLE_STRUCT.open.length, curBlock.caretOffset) === VARIABLE_STRUCT.open) {
+    if (output.slice(curBlock.caretOffset! - VARIABLE_STRUCT.open.length, curBlock.caretOffset) === VARIABLE_STRUCT.open) {
       // before - variable - after
-      const beforeContent = output.slice(0, curBlock.caretOffset - 2);
+      const beforeContent = output.slice(0, curBlock.caretOffset! - 2);
       const afterContent = output.slice(curBlock.caretOffset);
       const variableContent = [VARIABLE_STRUCT.open, VARIABLE_STRUCT.close].join('');
 
@@ -216,8 +216,10 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
       offset
     );
     range.collapse(true);
-    sel.removeAllRanges();
-    sel.addRange(range);
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
   }
 
   createBlockEvent(payload) {
@@ -279,8 +281,8 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
 
     }
     if (cancel) {
-      event.preventDefault();
-      event.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
     }
     debug.log('key down', e, window.getSelection());
   }
