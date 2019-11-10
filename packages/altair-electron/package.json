@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
@@ -13,7 +13,7 @@
     "dev": "electron ."
   },
   "dependencies": {
-    "altair-static": "^2.3.7",
+    "altair-static": "^2.3.8",
     "electron-debug": "^3.0.1",
     "electron-is-dev": "^1.1.0",
     "electron-log": "^3.0.6",
