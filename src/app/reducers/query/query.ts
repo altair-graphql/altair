@@ -15,11 +15,12 @@ export interface QueryEditorState {
 export interface State {
   url: string;
   subscriptionUrl: string;
-  query: string;
   // Adding undefined for backward compatibility
-  selectedOperation: string | undefined;
+  query?: string;
   // Adding undefined for backward compatibility
-  operations: any[] | undefined;
+  selectedOperation?: string;
+  // Adding undefined for backward compatibility
+  operations?: any[];
   httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
   response: any;
   responseTime: number;
@@ -69,7 +70,7 @@ export function queryReducer(state = initialState, action: query.Action): State 
   switch (action.type) {
     case query.SET_QUERY:
     case query.SET_QUERY_FROM_DB:
-      return Object.assign({}, state, { query: action.payload });
+      return Object.assign({}, state, { query: action.payload || '' });
     case query.SET_URL:
     case query.SET_URL_FROM_DB:
       return Object.assign({}, state, { url: action.payload.url });

@@ -163,7 +163,7 @@ export class WindowComponent implements OnInit, OnDestroy {
       }
 
       this.apiUrl = data.query.url;
-      this.query = data.query.query;
+      this.query = data.query.query || '';
       this.httpVerb = data.query.httpVerb;
       this.showHeaderDialog = data.dialogs.showHeaderDialog;
       this.showVariableDialog = data.dialogs.showVariableDialog;
@@ -208,7 +208,7 @@ export class WindowComponent implements OnInit, OnDestroy {
               ...plugin,
               props: {
                 sdl: state.schema.sdl,
-                query: state.query.query,
+                query: state.query.query || '',
               },
               context: {
                 setQuery: query => this.zone.run(() => this.updateQuery(query)),

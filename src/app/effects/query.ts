@@ -62,7 +62,7 @@ export class QueryEffects {
               return observableEmpty();
           }
 
-          const query = response.data.query.query.trim();
+          const query = (response.data.query.query || '').trim();
           if (!query) {
             return observableEmpty();
           }
@@ -82,7 +82,7 @@ export class QueryEffects {
               switchMap((_returnedData) => {
                 const { response, transformedData } = _returnedData;
 
-                const query = response.data.query.query.trim();
+                const query = (response.data.query.query || '').trim();
                 let url = this.environmentService.hydrate(response.data.query.url);
                 let variables = this.environmentService.hydrate(response.data.variables.variables);
                 let headers = this.environmentService.hydrateHeaders(response.data.headers);
@@ -435,7 +435,7 @@ export class QueryEffects {
           const { response, transformedData } = res;
           let connectionParams = undefined;
           let subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl);
-          let query = this.environmentService.hydrate(response.data.query.query);
+          let query = this.environmentService.hydrate(response.data.query.query || '');
           let variables = this.environmentService.hydrate(response.data.variables.variables);
           let variablesObj = undefined;
           let selectedOperation = response.data.query.selectedOperation;
@@ -444,7 +444,7 @@ export class QueryEffects {
             subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl, {
               activeEnvironment: transformedData.environment
             });
-            query = this.environmentService.hydrate(response.data.query.query, {
+            query = this.environmentService.hydrate(response.data.query.query || '', {
               activeEnvironment: transformedData.environment
             });
             variables = this.environmentService.hydrate(response.data.variables.variables, {
@@ -584,7 +584,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
-          this.gqlService.prettify(res.data.query.query, res.settings.tabSize).then(prettified => {
+          this.gqlService.prettify(res.data.query.query || '', res.settings.tabSize).then(prettified => {
             if (prettified) {
               return this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
             }
@@ -652,7 +652,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           const url = this.environmentService.hydrate(res.data.query.url);
-          const query = this.environmentService.hydrate(res.data.query.query);
+          const query = this.environmentService.hydrate(res.data.query.query || '');
           const variables = this.environmentService.hydrate(res.data.variables.variables);
           try {
             const curlCommand = generateCurl({
@@ -812,7 +812,7 @@ export class QueryEffects {
           if (!response) {
             return observableEmpty();
           }
-          const query = response.data.query.query.trim();
+          const query = (response.data.query.query || '').trim();
           /**
            * pre request execution context is passed the current headers, environment, variables, query, etc
            * and returns a set of the same that would have potentially been modified during the script execution.
