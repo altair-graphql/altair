@@ -1,3 +1,4 @@
+/* global chrome */
 (function () {
   const MAX_EXT_LOAD_COUNT = 30;
   let curTab = {
@@ -13,7 +14,7 @@
       return matches[1];
     }
     return chrome.runtime.id;
-  }
+  };
 
   // Create a new tab for the extension
   function createNewTab() {
@@ -21,7 +22,7 @@
       curTab = {
         id: tab.id,
         url: tab.url
-      }
+      };
 
       // Handle donation logic
       // handleDonation();
