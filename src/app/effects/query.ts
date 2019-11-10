@@ -266,6 +266,9 @@ export class QueryEffects {
           if (schema) {
             this.gqlService.getSDL(schema).then(sdl => {
               return this.store.dispatch(new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl }))
+            })
+            .catch(err => {
+              this.notifyService.error('Could not set schema SDL');
             });
           }
 
@@ -638,6 +641,9 @@ export class QueryEffects {
                 downloadData(sdl, 'sdl', { fileType: 'gql' });
               }
             })
+            .catch(err => {
+              this.notifyService.error('Could not export SDL. Your schema might be invalid.');
+            });
           }
           return observableEmpty();
         }),
