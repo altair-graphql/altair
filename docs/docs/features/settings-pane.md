@@ -40,3 +40,9 @@ Any valid CSS font family combinations can be used here.
 
 ### `disablePushNotification` - Specifies if native push notifications should be disabled
 _Default: false_
+
+### `enableExperimental` - Enable experimental features in Altair. Note: The features might be unstable.
+_Default: false_
+
+### `plugin.list` - Specifies a list of enabled plugins (requires enableExperimental to be true)
+_Default: []_
