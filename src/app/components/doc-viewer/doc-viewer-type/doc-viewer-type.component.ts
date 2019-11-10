@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -17,7 +17,7 @@ import { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
 export class DocViewerTypeComponent implements OnInit {
 
   @Input() data: any = {};
-  @Input() gqlSchema = null;
+  @Input() gqlSchema: GraphQLSchema;
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
@@ -37,9 +37,9 @@ export class DocViewerTypeComponent implements OnInit {
     }
 
     switch (type) {
-      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType().name:
-      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType().name:
-      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType().name:
+      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
+      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType()!.name:
+      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 

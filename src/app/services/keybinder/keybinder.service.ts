@@ -12,7 +12,12 @@ import * as docsActions from '../../actions/docs/docs';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 
 
-interface KeyboardShortcut {
+export interface KeyboardShortcutCategory {
+  title: string;
+  shortcuts: KeyboardShortcut[];
+}
+
+export interface KeyboardShortcut {
   keys: string[];
   description: string;
 }
@@ -75,7 +80,7 @@ export class KeybinderService {
     );
   }
 
-  bindShortcut(keys: string[], callback, description?: string) {
+  bindShortcut(keys: string[], callback, description = '') {
     this.shortcuts.push({
       keys,
       description
@@ -85,7 +90,7 @@ export class KeybinderService {
   }
 
   getShortcuts() {
-    const categories: { title, shortcuts: KeyboardShortcut[] }[] = [
+    const categories: KeyboardShortcutCategory[] = [
       {
         title: 'General',
         shortcuts: this.shortcuts

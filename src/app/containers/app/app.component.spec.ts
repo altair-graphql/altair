@@ -35,6 +35,7 @@ describe('AppComponent', () => {
       services.NotifyService,
       services.StorageService,
       services.PluginRegistryService,
+      services.QueryCollectionService,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},

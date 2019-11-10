@@ -12,11 +12,13 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
         const aTitle = a.title.toLowerCase() || a.updated_at;
         const bTitle = b.title.toLowerCase() || b.updated_at;
 
-        if (aTitle > bTitle) {
-          return 1;
-        }
-        if (aTitle < bTitle) {
-          return -1;
+        if (aTitle && bTitle) {
+          if (aTitle > bTitle) {
+            return 1;
+          }
+          if (aTitle < bTitle) {
+            return -1;
+          }
         }
         return 0;
       });
@@ -25,11 +27,13 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
         const aTitle = a.title.toLowerCase() || a.updated_at;
         const bTitle = b.title.toLowerCase() || b.updated_at;
 
-        if (aTitle > bTitle) {
-          return -1;
-        }
-        if (aTitle < bTitle) {
-          return 1;
+        if (aTitle && bTitle) {
+          if (aTitle > bTitle) {
+            return -1;
+          }
+          if (aTitle < bTitle) {
+            return 1;
+          }
         }
         return 0;
       });
@@ -38,11 +42,13 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
         const aTimeStamp = a.updated_at;
         const bTimeStamp = b.updated_at;
 
-        if (aTimeStamp > bTimeStamp) {
-          return -1;
-        }
-        if (aTimeStamp < bTimeStamp) {
-          return 1;
+        if (aTimeStamp && bTimeStamp) {
+          if (aTimeStamp > bTimeStamp) {
+            return -1;
+          }
+          if (aTimeStamp < bTimeStamp) {
+            return 1;
+          }
         }
         return 0;
       });
@@ -51,11 +57,13 @@ export const selectSortedCollections = createSelector(selectCollections, selectS
         const aTimeStamp = a.updated_at;
         const bTimeStamp = b.updated_at;
 
-        if (aTimeStamp > bTimeStamp) {
-          return 1;
-        }
-        if (aTimeStamp < bTimeStamp) {
-          return -1;
+        if (aTimeStamp && bTimeStamp) {
+          if (aTimeStamp > bTimeStamp) {
+            return 1;
+          }
+          if (aTimeStamp < bTimeStamp) {
+            return -1;
+          }
         }
         return 0;
       });

@@ -14,8 +14,9 @@ import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/display/autorefresh';
-import { registerSettingsLinter, getHint, validateSettings } from 'app/utils/settings_addons';
+import { registerSettingsLinter, getHint, validateSettings, settingsSchema } from 'app/utils/settings_addons';
 import { NotifyService, KeybinderService, StorageService } from 'app/services';
+import { KeyboardShortcutCategory } from 'app/services/keybinder/keybinder.service';
 
 registerSettingsLinter(Codemirror);
 
@@ -38,10 +39,13 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   themes = config.themes;
   languages = Object.entries(config.languages);
-  shortcutCategories = [];
+  shortcutCategories: KeyboardShortcutCategory[] = [];
+  settingsSchema = settingsSchema;
+  showForm = true;
 
   @ViewChild('editor', { static: true }) editor;
   jsonSettings = '';
+  localSettings = null;
 
   jsonEditorConfig = {
     mode: 'application/json',
@@ -77,7 +81,9 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
+    if (changes && changes.settings && changes.settings.currentValue) {
+      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
+    }
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
     if (this.editor && this.editor.codeMirror) {
@@ -90,7 +96,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   onSettingsChange(settingsStr) {
-    this.jsonSettings = settingsStr;
+    this.updateLocalSettings(settingsStr);
   }
 
   saveSettings() {
@@ -100,6 +106,22 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     } else {
       this.notifyService.error('Check that the settings are correct.');
     }
+  }
+
+  onFormDataChange(data) {
+    console.log(data);
+    this.onSettingsChange(JSON.stringify(data, null, 2));
+  }
+
+  updateLocalSettings(settingsStr) {
+    this.jsonSettings = settingsStr;
+    try {
+      this.localSettings = JSON.parse(this.jsonSettings);
+    } catch (error) {}
+  }
+
+  onToggleView() {
+    this.showForm = !this.showForm;
   }
 
   onSelectTheme(theme) {

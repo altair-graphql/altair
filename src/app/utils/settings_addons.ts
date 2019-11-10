@@ -4,6 +4,7 @@ import { debug } from './logger';
 
 const settingsValidator = require('./validate_settings_schema');
 
+export const settingsSchema = settingsValidator.schema;
 export const validateSettings = settings => {
   const data = jsonc(settings);
   const valid = settingsValidator(data);
@@ -13,7 +14,7 @@ export const validateSettings = settings => {
 
 export const registerSettingsLinter = CM => {
   CM.registerHelper('lint', 'json', function(text) {
-    let found = [];
+    let found: any[] = [];
     try {
       if (!validateSettings(text)) {
         found = [
@@ -76,10 +77,7 @@ function remove(node) {
   }
 }
 
-function getPropertyType(property, schema) {
-  if (property.type) {
-    return property.type;
-  }
+export const getPropertyRef = (property, schema) => {
   if (property.$ref) {
     const refPath: any[] = property.$ref.split('/');
     let curRef = schema;
@@ -91,8 +89,15 @@ function getPropertyType(property, schema) {
       }
     });
 
-    return curRef.type;
+    return curRef;
   }
+};
+
+function getPropertyType(property, schema) {
+  if (property.type) {
+    return property.type;
+  }
+  return getPropertyRef(property, schema).type;
 }
 
 export const getHint = (cm) => {
@@ -130,16 +135,20 @@ export const getHint = (cm) => {
     from: Codemirror.Pos(line, start),
     to: Codemirror.Pos(line, token.end)
   };
-  let tooltip = null;
+  let tooltip: HTMLElement;
   Codemirror.on(hintResult, 'close', function() { remove(tooltip); });
   Codemirror.on(hintResult, 'update', function() { remove(tooltip); });
   Codemirror.on(hintResult, 'select', function(cur, node) {
     remove(tooltip);
     const content = cur.description;
     if (content) {
-      tooltip = makeTooltip(node.parentNode.getBoundingClientRect().right + window.pageXOffset,
-                            node.getBoundingClientRect().top + window.pageYOffset, content);
-      tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';
+      tooltip = makeTooltip(
+        node.parentNode.getBoundingClientRect().right + window.pageXOffset,
+        node.getBoundingClientRect().top + window.pageYOffset, content
+      );
+      if (tooltip) {
+        tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';
+      }
     }
   });
 

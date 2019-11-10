@@ -8,7 +8,7 @@ export interface State {
 
 export const initialState: State = {
   enabled: !!config.initialData.preRequestScript,
-  script: config.initialData.preRequestScript || '',
+  script: config.initialData.preRequestScript ? '' + config.initialData.preRequestScript : '',
 };
 
 export function preRequestReducer(state = initialState, action: preRequest.Action): State {

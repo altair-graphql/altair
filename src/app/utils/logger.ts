@@ -5,11 +5,11 @@ const CURRENT_VERSION_KEY = 'altair__debug_current_version';
 const previousVersion = () => localStorage.getItem(PREVIOUS_VERSION_KEY);
 const currentVersion = () => localStorage.getItem(CURRENT_VERSION_KEY);
 
-if (currentVersion() !== environment.version) {
+if (currentVersion() && currentVersion() !== environment.version) {
   // New app version
   // prev = current
   // current = env.version
-  localStorage.setItem(PREVIOUS_VERSION_KEY, currentVersion());
+  localStorage.setItem(PREVIOUS_VERSION_KEY, currentVersion()!);
   localStorage.setItem(CURRENT_VERSION_KEY, environment.version);
 }
 

@@ -12,7 +12,7 @@ const getCurlHeaderString = (header: { key: string, value: string }) => {
   return `-H '${header.key}: ${header.value}'`;
 }
 
-const buildUrl = (url: string, params: object) => {
+const buildUrl = (url: string, params?: object) => {
   const euc = encodeURIComponent;
   if (params) {
     const queryParams = Object.keys(params)

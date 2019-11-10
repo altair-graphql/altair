@@ -1,4 +1,9 @@
-const { BrowserWindow, protocol, ipcMain, session, app } = require('electron');
+const {
+  BrowserWindow,
+  protocol,
+  ipcMain,
+  session,
+} = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -11,6 +16,8 @@ const { getStore } = require('./store');
 const { createMenu } = require('./menu');
 const { createTouchBar } = require('./touchbar');
 const { checkForUpdates } = require('./updates');
+const { checkMultipleDataVersions } = require('./utils/check-multi-data-versions');
+const { importBackupData, exportBackupData } = require('./utils/backup');
 
 /**
  * @type {BrowserWindow}
@@ -40,6 +47,12 @@ const actions = {
   },
   showSettings: () => {
     instance.webContents.send('show-settings', true);
+  },
+  importAppData: () => {
+    return importBackupData(instance);
+  },
+  exportAppData: () => {
+    return exportBackupData(instance);
   },
   checkForUpdates,
 };
@@ -92,7 +105,7 @@ const createWindow = () => {
 
         // Load the data from the file into a buffer and pass it to the callback
         // Using the mime package to get the mime type for the file, based on the file name
-        callback({ mimeType: mime.lookup(filePath), data: new Buffer(data) });
+        callback({ mimeType: mime.lookup(filePath), data: Buffer.from(data) });
       });
     });
   }, (error) => {
@@ -173,6 +186,7 @@ const createWindow = () => {
   instance.on('ready-to-show', () => {
     instance.show();
     instance.focus();
+    checkMultipleDataVersions(instance);
   });
 
   // Doesn't seem to be called. Might be because of buffer protocol.

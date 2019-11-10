@@ -9,11 +9,14 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ElectronService } from 'ngx-electron';
 import { NotifyService } from '../notify/notify.service';
 import { ToastrModule } from 'ngx-toastr';
+import { GqlService } from '../gql/gql.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('KeybinderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientModule,
         ToastrModule.forRoot()
       ],
       providers: [
@@ -23,6 +26,7 @@ describe('KeybinderService', () => {
         ElectronAppService,
         ElectronService,
         NotifyService,
+        GqlService,
         {
           provide: Store, useValue: {
             subscribe: () => { },

@@ -29,7 +29,7 @@ export class ApiService {
         if (res.status >= 200 && res.status < 300) {
             return res;
         } else {
-            const err = new Error(res.statusText);
+            const err = new Error(res.statusText as string);
             err['response'] = res;
             debug.error(err);
             throw err;

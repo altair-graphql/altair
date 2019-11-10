@@ -35,13 +35,15 @@ import {
   DonationService,
   ElectronAppService,
   KeybinderService,
-  PluginRegistryService
+  PluginRegistryService,
+  QueryCollectionService
 } from '../../services';
 
 import config from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PluginInstance } from 'app/services/plugin/plugin';
 
 @Component({
   selector: 'app-root',
@@ -54,10 +56,11 @@ export class AppComponent implements OnDestroy {
   sortedCollections$: Observable<any[]>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
   environments$: Observable<fromEnvironments.State>;
-  activeEnvironment$: Observable<fromEnvironments.EnvironmentState>;
+  activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
 
-  windowIds = [];
+  windowIds: string[] = [];
   windows = {};
+  closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp = config.isWebApp;
@@ -70,7 +73,7 @@ export class AppComponent implements OnDestroy {
 
   appVersion = environment.version;
 
-  installedPlugins = [];
+  installedPlugins: PluginInstance[] = [];
 
   constructor(
     private windowService: WindowService,
@@ -80,6 +83,7 @@ export class AppComponent implements OnDestroy {
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
     private pluginRegistry: PluginRegistryService,
+    private collectionService: QueryCollectionService,
   ) {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
@@ -91,7 +95,7 @@ export class AppComponent implements OnDestroy {
         if (environments.activeSubEnvironment) {
           return environments.subEnvironments.find(subEnvironment => subEnvironment.id === environments.activeSubEnvironment);
         }
-        return null;
+        return;
       })
     );
 
@@ -129,6 +133,7 @@ export class AppComponent implements OnDestroy {
       .subscribe(data => {
         this.windows = data.windows;
         this.windowIds = Object.keys(data.windows);
+        this.closedWindows = data.local.closedWindows;
         this.showDonationAlert = data.donation.showAlert;
 
         this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
@@ -164,7 +169,15 @@ export class AppComponent implements OnDestroy {
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
-        this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
+        if (data.settings['plugin.list']) {
+          data.settings['plugin.list'].forEach(pluginStr => {
+            const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
+            if (pluginInfo) {
+              this.pluginRegistry.getPlugin(pluginInfo.name, { version: pluginInfo.version });
+            }
+          });
+        }
+        // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
         // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', {
         //   pluginSource: 'url',
         //   version: '0.0.4',
@@ -409,10 +422,21 @@ export class AppComponent implements OnDestroy {
     this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
   }
 
-  fileDropped(event) {
+  async fileDropped(event) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
     if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
-      this.windowService.handleImportedFile(dataTransfer.files);
+      try {
+        // Handle window import
+        await this.windowService.handleImportedFile(dataTransfer.files);
+      } catch (error) {
+        debug.log(error);
+        try {
+          // Handle collection import
+          await this.collectionService.handleImportedFile(dataTransfer.files)
+        } catch (collectionError) {
+          debug.log(collectionError);
+        }
+      }
     }
   }
 

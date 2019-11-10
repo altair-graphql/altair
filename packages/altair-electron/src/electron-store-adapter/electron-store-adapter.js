@@ -1,9 +1,9 @@
-const ElectronStore = require('electron-store');
+const { getPersistentStore } = require('../store');
 
 // An interface between localStorage and electron-store
 class ElectronStoreAdapter {
   constructor() {
-    this.store = new ElectronStore();
+    this.store = getPersistentStore();
   }
 
   /**

@@ -3,7 +3,7 @@ import * as stream from '../../actions/stream/stream';
 export interface State {
   url: string;
   type: 'event' | '';
-  client: EventSource;
+  client?: EventSource;
   isConnected: boolean;
   failed: any;
 }
@@ -11,7 +11,6 @@ export interface State {
 export const initialState: State = {
   url: '',
   type: '',
-  client: null,
   isConnected: false,
   failed: null
 };

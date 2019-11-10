@@ -33,7 +33,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
 
   highlightData = {
-    sections: []
+    sections: [] as any[]
   };
 
   private innerValue = '';
@@ -123,7 +123,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
   fixFirefox() {}
   getRanges(val, highlight) {
-    const ranges = [];
+    const ranges: any[] = [];
     let match;
     while (match = highlight.exec(val), match !== null) {
       ranges.push([match.index, match.index + match[0].length]);
@@ -138,7 +138,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // Prevent overlapping ranges
   removeStaggeredRanges(ranges) {
-    const unstaggeredRanges = [];
+    const unstaggeredRanges: any[] = [];
     ranges.forEach((range) => {
       const isStaggered = unstaggeredRanges.some((unstaggeredRange) => {
         const isStartInside = range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
@@ -185,7 +185,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     });
   }
   generateHighlightSections(val: string, boundaries: BoundaryMarker[]) {
-    const sections = [];
+    const sections: any[] = [];
     let lastBoundary = {
       index: 0,
       type: ''

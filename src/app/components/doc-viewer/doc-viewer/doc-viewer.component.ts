@@ -17,6 +17,24 @@ import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { GraphQLType, GraphQLArgs, GraphQLSchema, GraphQLObjectType, GraphQLInterfaceType } from 'graphql';
+
+interface DocumentView {
+  view: string;
+  parentType: string;
+  name: string;
+}
+
+interface DocumentIndexEntry {
+  search: string;
+  name: string;
+  description: string;
+  args: GraphQLArgs,
+  cat: string;
+  type: string;
+  isQuery: Boolean;
+  highlight: string;
+}
 
 @Component({
   selector: 'app-doc-viewer',
@@ -26,12 +44,12 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class DocViewerComponent implements OnChanges, OnDestroy {
 
-  @Input() gqlSchema = null;
+  @Input() gqlSchema: GraphQLSchema
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = config.add_query_depth_limit;
   @Input() tabSize = config.tab_size;
-  @Input() docView = {
+  @Input() docView: DocumentView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
     name: 'Conference' // identifies type/field
@@ -44,8 +62,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   @HostBinding('style.flex-grow') public resizeFactor;
 
-  rootTypes = [];
-  index = [];
+  rootTypes: GraphQLType[] = [];
+  index: DocumentIndexEntry[] = [];
 
   searchInputPlaceholder = 'Search docs...';
 
@@ -53,9 +71,9 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   // should be available
   hasSearchIndex = false;
 
-  docHistory = [];
+  docHistory: DocumentView[] = [];
 
-  searchResult = [];
+  searchResult: DocumentIndexEntry[] = [];
   searchTerm = '';
 
   constructor(
@@ -84,7 +102,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       schema.getQueryType(),
       schema.getMutationType(),
       schema.getSubscriptionType()
-    ].filter(val => !!val);
+    ].filter(Boolean);
 
     try {
       this.generateIndex(schema);
@@ -100,8 +118,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param schema
    */
   generateIndex(schema) {
-    let getFieldsIndices = null;
-    let getTypeIndices = null;
+    let getFieldsIndices;
+    let getTypeIndices;
 
     /**
      * Gets the indices for fields
@@ -111,8 +129,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
      * @param  {array} curIndexStack contains all the currently mapped indices in the stack
      * @return {array}        the indices for the given fields
      */
-    getFieldsIndices = (fields, type, isQuery, curIndexStack) => {
-      let index = [];
+    getFieldsIndices = (fields, type, isQuery: Boolean, curIndexStack) => {
+      let index: DocumentIndexEntry[] = [];
 
       Object.keys(fields).forEach(fieldKey => {
         const field = fields[fieldKey];
@@ -128,7 +146,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
           isQuery,
           highlight: 'field'
         };
-        index = [...index, fieldIndex];
+        index = [ ...index, fieldIndex ];
 
         // For each argument of the field, create an entry in the index for the field,
         // searchable by the argument name
@@ -307,19 +325,23 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param parentType parent type of the current field
    * @param parentFields preceding parent field and type combinations
    */
-  generateQuery(name, parentType): { query: String, meta: any } {
+  generateQuery(name, parentType) {
     let query = '';
     let hasArgs = false;
 
+    if (!this.gqlSchema) {
+      return;
+    }
+
     // Add the root type of the query
     switch (parentType) {
-      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType().name:
+      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
         query += 'query';
         break;
-      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType().name:
+      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType()!.name:
         query += 'mutation';
         break;
-      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType().name:
+      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType()!.name:
         query += 'subscription';
         break;
       default:
@@ -329,10 +351,14 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
     const fieldData = this.generateFieldData(name, parentType, [], 1);
 
+    if (!fieldData) {
+      return;
+    }
+
     // Add the query fields
     query += `{\n${fieldData.query}\n}`;
 
-    const meta = {...fieldData.meta};
+    const meta = { ...fieldData.meta };
 
     // Update hasArgs option
     meta.hasArgs = hasArgs || meta.hasArgs;
@@ -347,17 +373,24 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param parentFields preceding parent field and type combinations
    * @param level current depth level of the current field
    */
-  private generateFieldData(name, parentType, parentFields, level): { query: String, meta: any } {
+  private generateFieldData(name, parentType, parentFields, level: number): { query: string, meta: { hasArgs?: boolean } } {
 
+    if (!name || !parentType || !parentFields) {
+      return { query: '', meta: {} };
+    }
     const tabSize = this.tabSize || 2;
-    const field = this.gqlSchema.getType(parentType).getFields()[name];
+    const parentTypeObject = this.gqlSchema.getType(parentType) as GraphQLObjectType | undefined;
+    const field = parentTypeObject && parentTypeObject.getFields()[name];
 
+    if (!field) {
+      return { query: '', meta: {} };
+    }
     const meta = {
       hasArgs: false
     };
 
     // Start the query with the field name
-    let fieldStr: String = ' '.repeat(level * tabSize) + field.name;
+    let fieldStr: string = ' '.repeat(level * tabSize) + field.name;
 
     // If the field has arguments, add them
     if (field.args && field.args.length) {
@@ -372,7 +405,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
     // Retrieve the current field type
     const curTypeName = this.cleanName(field.type.inspect());
-    const curType = this.gqlSchema.getType(curTypeName);
+    const curType = this.gqlSchema.getType(curTypeName) as GraphQLObjectType | undefined;
 
     // Don't add a field if it has been added in the query already.
     // This happens when there is a recursive field
@@ -387,7 +420,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
     // Get all the fields of the field type, if available
     const innerFields = curType && curType.getFields && curType.getFields();
-    let innerFieldsData: String = null;
+    let innerFieldsData = '';
     if (innerFields) {
       innerFieldsData = Object.keys(innerFields).reduce((acc, cur) => {
         // Don't add a field if it has been added in the query already.
@@ -397,10 +430,14 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
         }
 
         const curInnerFieldData = this.generateFieldData(cur, curTypeName, [...parentFields, { name, type: curTypeName }], level + 1);
+        if (!curInnerFieldData) {
+          return acc;
+        }
+
         const curInnerFieldStr: String = curInnerFieldData.query;
 
         // Set the hasArgs meta if the inner field has args
-        meta.hasArgs = meta.hasArgs || curInnerFieldData.meta.hasArgs;
+        meta.hasArgs = meta.hasArgs || curInnerFieldData.meta.hasArgs || false;
 
         // Don't bother adding the field if there was nothing generated.
         // This should fix the empty line issue in the inserted queries
@@ -426,7 +463,10 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     if (!this.hasSearchIndex) {
       return false;
     }
-    this.addQueryToEditorChange.next(this.generateQuery(name, parentType));
+    const generatedQuery = this.generateQuery(name, parentType);
+    if (generatedQuery) {
+      this.addQueryToEditorChange.next(generatedQuery);
+    }
   }
 
   exportSDL() {

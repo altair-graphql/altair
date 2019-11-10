@@ -1,7 +1,6 @@
 {
   "name": "altair",
-  "productName": "Altair GraphQL Client",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "license": "MIT",
   "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -36,7 +35,8 @@
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=78.0.3904.70",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -47,8 +47,6 @@
     "@angular/cdk": "^8.1.1",
     "@angular/cli": "^8.1.2",
     "@angular/common": "^8.1.2",
-    "@angular/compiler": "^8.1.2",
-    "@angular/compiler-cli": "^8.1.2",
     "@angular/core": "^8.1.2",
     "@angular/forms": "^8.1.2",
     "@angular/http": "^7.2.15",
@@ -87,7 +85,7 @@
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
     "new-github-issue-url": "^0.2.1",
-    "ng-zorro-antd": "8.4.1",
+    "ng-zorro-antd": "8.5.0",
     "ngrx-store-localstorage": "^8.0.0",
     "ngx-contextmenu": "^5.2.0",
     "ngx-cookie-service": "^2.2.0",
@@ -113,10 +111,12 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.801.2",
+    "@angular/compiler": "^8.1.2",
+    "@angular/compiler-cli": "^8.1.2",
     "@types/chrome": "^0.0.90",
     "@types/electron": "^1.6.10",
     "@types/graphql": "^14.2.2",
-    "@types/jasmine": "3.4.1",
+    "@types/jasmine": "3.4.6",
     "@types/mousetrap": "^1.6.3",
     "@types/node": "^12.6.8",
     "ajv-cli": "^3.0.0",
@@ -144,7 +144,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
     "typescript-json-schema": "^0.40.0",
-    "web-ext": "^3.1.1"
+    "web-ext": "^3.2.1"
   },
   "repository": {
     "type": "git",
@@ -154,6 +154,11 @@
     "url": "https://github.com/imolorhe/altair/issues"
   },
   "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
+  },
+  "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"

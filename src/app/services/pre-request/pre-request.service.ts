@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import Sval from 'sval';
 import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
@@ -21,9 +20,11 @@ export class PreRequestService {
     private http: HttpClient,
   ) { }
 
-  executeScript(script: string, data: ScriptContextData): Promise<any> {
+  async executeScript(script: string, data: ScriptContextData): Promise<any> {
+    const Sval = (await import('sval') as any).default;
     const self = this;
-    data = { ...data };
+    // deep cloning
+    data = JSON.parse(JSON.stringify(data));
     const interpreter = new Sval({
       ecmaVer: 10,
       sandBox: true,

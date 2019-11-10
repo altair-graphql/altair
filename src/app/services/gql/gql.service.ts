@@ -5,8 +5,8 @@ import {map, catchError, tap} from 'rxjs/operators';
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import * as prettier from 'prettier/standalone';
-import * as prettierGraphql from 'prettier/parser-graphql';
+// import * as prettier from 'prettier/standalone';
+// import * as prettierGraphql from 'prettier/parser-graphql';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 
 
@@ -90,8 +90,8 @@ export class GqlService {
    */
   _send(query, vars?, selectedOperation?, files?: fromVariables.FileVariable[]) {
     const data = { query, variables: {}, operationName: null };
-    let body = null;
-    let params = null;
+    let body: FormData | string | undefined;
+    let params: HttpParams | undefined;
     const headers = this.headers;
 
     if (selectedOperation) {
@@ -122,7 +122,7 @@ export class GqlService {
         formData.append('operations', JSON.stringify(data));
         formData.append('map', JSON.stringify(fileMap));
         files.forEach((file, i) => {
-          formData.append(`${i}`, file.data);
+          formData.append(`${i}`, file.data || '');
         });
 
         body = formData;
@@ -131,6 +131,9 @@ export class GqlService {
       }
     } else {
       params = this.getParamsFromData(data);
+    }
+    if (!this.api_url) {
+      throw new Error('You need to have a URL for the request!');
     }
     return this.http.request(this.method, this.api_url, {
       // GET method uses params, while the other methods use body
@@ -157,7 +160,7 @@ export class GqlService {
             headers: err.headers,
             status: err.status,
             statusText: err.statusText,
-            url: err.url,
+            url: err.url || undefined,
           }));
         }
         return observableThrowError(err);
@@ -175,7 +178,7 @@ export class GqlService {
   }
 
   sendRequest(url: string, opts: SendRequestOptions) {
-    const files = opts.files && opts.files.length && opts.files.filter(file => file && file.data instanceof File && file.name);
+    const files = opts.files && opts.files.length ? opts.files.filter(file => file && file.data instanceof File && file.name) : undefined;
 
     this.setUrl(url)
       .setHTTPMethod(opts.method)
@@ -189,7 +192,7 @@ export class GqlService {
     return method.toLowerCase() === 'get';
   }
 
-  setHeaders(headers = [], opts = { skipDefaults: false }) {
+  setHeaders(headers: fromHeaders.Header[] = [], opts = { skipDefaults: false }) {
     let newHeaders = new HttpHeaders();
     if (!opts.skipDefaults) {
       newHeaders = new HttpHeaders(this.defaultHeaders);
@@ -263,7 +266,7 @@ export class GqlService {
     return this.introspectionData;
   }
 
-  getIntrospectionSchema(data): GraphQLSchema {
+  getIntrospectionSchema(data): GraphQLSchema | null {
     try {
       if (data && data.__schema) {
         const schema = buildClientSchema(data);
@@ -400,6 +403,7 @@ export class GqlService {
   // Check if the selected operation matches any operation, else ask the user to select again
   getSelectedOperationData({ query = '', queryCursorIndex, selectedOperation = '', selectIfOneOperation = false }) {
     const operations = this.getOperations(query);
+    let requestSelectedOperationFromUser = false;
 
     // Need to choose an operation
     if (operations) {
@@ -418,10 +422,7 @@ export class GqlService {
           } else {
             selectedOperation = '';
             // Ask the user to select operation
-            throw new Error(
-              `You have more than one query operations.
-              You need to select the one you want to run from the dropdown.`
-            );
+            requestSelectedOperationFromUser = true;
           }
         }
       } else {
@@ -435,14 +436,16 @@ export class GqlService {
       selectedOperation = '';
     }
 
-    return { selectedOperation, operations };
+    return { selectedOperation, operations, requestSelectedOperationFromUser };
   }
 
   /**
    * Prettifies (formats) a given query
    * @param query
    */
-  prettify(query: string, tabWidth: number = 2) {
+  async prettify(query: string, tabWidth: number = 2) {
+    const prettier = await import('prettier/standalone');
+    const prettierGraphql = await import('prettier/parser-graphql');
     // return print(parse(query));
     return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ], tabWidth });
   }
@@ -451,8 +454,8 @@ export class GqlService {
    * Compresses a given query
    * @param query
    */
-  compress(query: string) {
-    return compress(this.prettify(query));
+  async compress(query: string) {
+    return compress(await this.prettify(query));
   }
 
   /**
@@ -485,7 +488,7 @@ export class GqlService {
    * Return the Schema Definition Language of the provided schema
    * @param schema
    */
-  getSDL(schema): string {
+  async getSDL(schema) {
     if (this.isSchema(schema)) {
       return this.prettify(printSchema(schema));
     }

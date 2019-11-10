@@ -343,8 +343,8 @@ export function buildClientSchema(
     // is used by GraphiQL which may need to support outdated servers.
     const locations = directiveIntrospection.locations
       ? directiveIntrospection.locations.slice()
-      : [].concat(
-          !directiveIntrospection.onField ? [] : [DirectiveLocation.FIELD],
+      : ([] as any[]).concat(
+          !directiveIntrospection.onField ? [] : [ DirectiveLocation.FIELD ],
           !directiveIntrospection.onOperation
             ? []
             : [

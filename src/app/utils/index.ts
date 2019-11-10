@@ -12,7 +12,7 @@ const fileDialog = require('file-dialog');
  * @param fileName name of downloaded file
  * @param opts configuration options
  */
-export const downloadData = (data, fileName = 'data', opts = undefined) => {
+export const downloadData = (data: string, fileName = 'data', opts: any = undefined) => {
   let _opts = {
     mimeType: 'text/plain',
     dataUriAttr: 'text/plain;charset=utf-8',
@@ -34,7 +34,7 @@ export const downloadData = (data, fileName = 'data', opts = undefined) => {
  * @param obj The object to be downloaded
  * @param fileName The name the file will be called
  */
-export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
+export const downloadJson = (obj, fileName = 'response', opts: any = undefined) => {
   let _opts = {
     mimeType: 'text/json',
     dataUriAttr: 'text/json;charset=utf-8',
@@ -53,7 +53,7 @@ export const downloadJson = (obj, fileName = 'response', opts = undefined) => {
  * Get file data as string
  * @param files FileList object
  */
-export const getFileStr = files => {
+export const getFileStr = (files: FileList) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function (e: any) {
@@ -109,23 +109,24 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
-export const copyToClipboard = str => {
+export const copyToClipboard = (str: string) => {
   const el = document.createElement('textarea');  // Create a <textarea> element
   el.value = str;                                 // Set its value to the string that you want copied
   el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
   el.style.position = 'absolute';
   el.style.left = '-9999px';                      // Move outside the screen to make it invisible
   document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+  const documentSelection = document.getSelection();
   const selected =
-    document.getSelection().rangeCount > 0        // Check if there is any content selected previously
-      ? document.getSelection().getRangeAt(0)     // Store selection if found
+    documentSelection && documentSelection.rangeCount > 0        // Check if there is any content selected previously
+      ? documentSelection.getRangeAt(0)     // Store selection if found
       : false;                                    // Mark as false to know no selection existed before
   el.select();                                    // Select the <textarea> content
   document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
   document.body.removeChild(el);                  // Remove the <textarea> element
-  if (selected) {                                 // If a selection existed before copying
-    document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
-    document.getSelection().addRange(selected);   // Restore the original selection
+  if (selected && documentSelection) {                                 // If a selection existed before copying
+    documentSelection.removeAllRanges();    // Unselect everything on the HTML document
+    documentSelection.addRange(selected);   // Restore the original selection
   }
 };
 

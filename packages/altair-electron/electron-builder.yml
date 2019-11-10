@@ -34,9 +34,18 @@ publish:
   provider: github
   releaseType: release
 fileAssociations:
+  - ext: graphql
+    description: GraphQL File
+    role: Viewer
+  - ext: gql
+    description: GraphQL File
+    role: Viewer
   - ext: agq
     description: Altair GraphQL Query
     role: Viewer
   - ext: agc
     description: Altair GraphQL Collection
+    role: Viewer
+  - ext: agbkp
+    description: Altair GraphQL Backup
     role: Viewer

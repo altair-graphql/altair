@@ -62,8 +62,10 @@ export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChange
         // .childNodes[0]
         .childNodes[0], offset);
     range.collapse(true);
-    sel.removeAllRanges();
-    sel.addRange(range);
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
   }
 
   /**

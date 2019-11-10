@@ -64,6 +64,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Press ctrl-space to show hint",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
   "SETTINGS_RESET_APPLICATION_DATA": "Reset application data (only use this if you know what you are doing).",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
   "VIEW_ON_GITHUB_TEXT": "View on GitHub",
   "STAR_ON_GITHUB_TEXT": "Star on GitHub",
   "REPORT_BUG_TEXT": "Report a bug",
@@ -119,5 +120,7 @@
   "STREAM_CONNECTION_CONNECTED": "Connected to server stream",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
-  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script"
+  "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
+  "SCHEMA_FORM_LIST_ADD": "Add",
+  "SCHEMA_FORM_LIST_REMOVE": "Remove"
 }

@@ -38,13 +38,25 @@ export function windowsMetaReducer(state = initialState, action: windowsMeta.Act
       }
       return state;
     case windowsMeta.SHOW_IMPORT_CURL_DIALOG:
-      return { ...state, showImportCurlDialog: action.payload.value };
+      if (action.payload) {
+        return { ...state, showImportCurlDialog: action.payload.value };
+      }
+      return state;
     case windowsMeta.SHOW_EDIT_COLLECTION_DIALOG:
-      return { ...state, showEditCollectionDialog: action.payload.value };
+      if (action.payload) {
+        return { ...state, showEditCollectionDialog: action.payload.value };
+      }
+      return state;
     case windowsMeta.SHOW_SETTINGS_DIALOG:
-      return { ...state, showSettingsDialog: action.payload.value };
+      if (action.payload) {
+        return { ...state, showSettingsDialog: action.payload.value };
+      }
+      return state;
     case windowsMeta.SHOW_ENVIRONMENT_MANAGER:
-      return { ...state, showEnvironmentManager: action.payload.value };
+      if (action.payload) {
+        return { ...state, showEnvironmentManager: action.payload.value };
+      }
+      return state;
     default:
       return state;
   }

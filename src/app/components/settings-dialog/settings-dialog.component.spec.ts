@@ -7,12 +7,14 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
-import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService } from 'app/services';
+import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService, GqlService } from 'app/services';
 import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'app/shared/shared.module';
+import { SchemaFormModule } from '../schema-form/schema-form.module';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -22,12 +24,14 @@ describe('SettingsDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SettingsDialogComponent ],
       imports: [
+        HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
         SharedModule,
         ToastrModule.forRoot(),
         TranslateModule.forRoot(),
+        SchemaFormModule,
       ],
       providers: [
         NotifyService,
@@ -37,6 +41,7 @@ describe('SettingsDialogComponent', () => {
         ElectronAppService,
         ElectronService,
         StorageService,
+        GqlService,
         {
           provide: Store, useValue: {
             subscribe: () => { },

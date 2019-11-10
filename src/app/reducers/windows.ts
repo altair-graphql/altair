@@ -3,6 +3,7 @@ import { Action, ActionReducer } from '@ngrx/store';
 import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 import { debug } from 'app/utils/logger';
+import { GraphQLSchema } from 'graphql';
 
 export interface State {
     [id: string]: fromRoot.PerWindowState;
@@ -31,6 +32,7 @@ export interface ExportWindowState {
    * ID for window in collection
    */
   windowIdInCollection?: string;
+  gqlSchema?: GraphQLSchema;
 }
 
 /**
@@ -45,7 +47,7 @@ export function windows(reducer: ActionReducer<any>) {
     return function(state = initialState, action: any) {
 
         const _state = Object.assign({}, state);
-        let _windowState = _state[action.windowId];
+        const _windowState = _state[action.windowId];
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
@@ -72,16 +74,15 @@ export function windows(reducer: ActionReducer<any>) {
                 const _windows = action.payload;
 
                 const newWindowsState = {};
-                _windows.forEach(window => {
+                _windows.forEach((window: fromRoot.PerWindowState) => {
                     const windowKey = window.windowId;
-                    const windowTitle = window.title;
+                    // const windowTitle = window.layout.title;
 
                     // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                    _windowState = JSON.parse(JSON.stringify(initWindowState));
-                    _windowState.windowId = windowKey;
-                    _windowState.layout.title = _windowState.layout.title || windowTitle;
+                    // _windowState = JSON.parse(JSON.stringify(initWindowState));
+                    // _windowState.windowId = windowKey;
 
-                    newWindowsState[windowKey] = { ..._windowState };
+                    newWindowsState[windowKey] = { ...window };
                 });
 
                 return newWindowsState;

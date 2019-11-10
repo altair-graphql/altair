@@ -57,9 +57,11 @@ export class EnvironmentService {
     const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
 
     return content.replace(/{{\s*[\w\.]+\s*}}/g, (match) => {
-      const variable = match.match(/[\w\.]+/)[0];
-
-      return activeEnvironment[variable];
+      const matches = match.match(/[\w\.]+/);
+      if (matches) {
+        const variable = matches[0];
+        return activeEnvironment[variable];
+      }
     });
   }
 
