@@ -6,11 +6,14 @@ import { WindowService, DbService, NotifyService } from '..';
 import { NgxElectronModule } from 'ngx-electron';
 import { empty as observableEmpty } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
+import { GqlService } from '../gql/gql.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ElectronAppService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientModule,
         NgxElectronModule,
         ToastrModule.forRoot(),
       ],
@@ -19,6 +22,7 @@ describe('ElectronAppService', () => {
         WindowService,
         DbService,
         NotifyService,
+        GqlService,
         {
           provide: Store, useValue: {
             subscribe: () => { },
