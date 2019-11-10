@@ -1,14 +1,30 @@
 (function () {
   const MAX_EXT_LOAD_COUNT = 30;
-  var curTabId = null;
+  let curTab = {
+    id: null,
+    url: null,
+  };
+
+  const getExtensionId = () => {
+    const matches = chrome.runtime.getURL('x').match(/.*\/\/(.*)\/x$/);
+    if (matches) {
+      // https://stackoverflow.com/a/47060021/3929126
+      // Mozilla uses an internal UUID on every installation to prevent fingerprinting
+      return matches[1];
+    }
+    return chrome.runtime.id;
+  }
 
   // Create a new tab for the extension
   function createNewTab() {
     chrome.tabs.create({ url: 'index.html' }, function (tab) {
-      curTabId = tab.id;
+      curTab = {
+        id: tab.id,
+        url: tab.url
+      }
 
       // Handle donation logic
-      handleDonation();
+      // handleDonation();
     });
   }
 
@@ -61,12 +77,13 @@
 
   // Open the extension tab when the extension icon is clicked
   chrome.browserAction.onClicked.addListener(function (tab) {
-    if (!curTabId) {
+    if (!curTab || !curTab.id) {
       createNewTab();
     } else {
-      chrome.tabs.get(curTabId, function (tab) {
-        if (tab) {
-          focusTab(curTabId);
+      chrome.tabs.get(curTab.id, function (tab) {
+        console.log(chrome.runtime.id, tab.url);
+        if (tab && tab.url && tab.url.includes(getExtensionId())) {
+          focusTab(curTab.id);
         } else {
           createNewTab();
         }
@@ -76,8 +93,8 @@
 
   // When a tab is closed, check if it is the extension tab that was closed, and unset curTabId
   chrome.tabs.onRemoved.addListener(function (tabId) {
-    if (tabId === curTabId) {
-      curTabId = null;
+    if (tabId === curTab.id) {
+      curTab = {};
     }
   });
 
