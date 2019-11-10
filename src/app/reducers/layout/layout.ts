@@ -5,15 +5,13 @@ import * as layout from '../../actions/layout/layout';
 export interface State {
   isLoading: boolean;
   title: string;
-  collectionId: number;
-  windowIdInCollection: string;
+  collectionId?: number;
+  windowIdInCollection?: string;
 }
 
 export const initialState: State = {
   isLoading: false,
   title: 'New window',
-  collectionId: null,
-  windowIdInCollection: null,
 };
 
 export function layoutReducer(state = initialState, action: layout.Action): State {

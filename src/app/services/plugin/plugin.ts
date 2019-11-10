@@ -28,7 +28,7 @@ export interface PluginInstance {
   name: string;
   display_name: string;
   type: PluginType;
-  sidebar_opts: PluginSidebarOptions;
+  sidebar_opts?: PluginSidebarOptions;
   props?: any;
   context?: any;
   isActive: boolean;
@@ -45,9 +45,21 @@ export interface GetPluginOption {
   [key: string]: any;
 }
 
+export interface PluginComponentDataProps {
+  sdl: string;
+  query: string;
+}
+export interface PluginComponentDataContext {
+  setQuery: Function;
+}
+export interface PluginComponentData extends PluginInstance {
+  props: PluginComponentDataProps;
+  context: PluginComponentDataContext;
+}
+
 export class AltairPlugin implements PluginInstance {
   type = PluginType.SIDEBAR;
-  sidebar_opts: PluginSidebarOptions;
+  sidebar_opts: PluginSidebarOptions | undefined;
   isActive = false;
   props;
   context;

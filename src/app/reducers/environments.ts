@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 import * as environmentsAction from '../actions/environments/environments';
 
 export interface EnvironmentState {
-  id: string;
+  // Adding undefined for backward compatibility
+  id?: string;
   title: string;
   variablesJson: string;
 }
@@ -11,11 +12,11 @@ export interface EnvironmentState {
 export interface State {
   base: EnvironmentState;
   subEnvironments: EnvironmentState[];
-  activeSubEnvironment: string;
+  // Adding undefined for backward compatibility
+  activeSubEnvironment?: string;
 }
 
 export const initialEnvironmentState: EnvironmentState = {
-  id: null,
   title: 'Environment',
   variablesJson: '{}'
 };
@@ -23,7 +24,6 @@ export const initialEnvironmentState: EnvironmentState = {
 export const initialState: State = {
   base: { ...initialEnvironmentState },
   subEnvironments: [],
-  activeSubEnvironment: null
 };
 
 export function environmentsReducer(state = initialState, action: environmentsAction.Action): State {

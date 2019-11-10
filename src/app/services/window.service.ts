@@ -82,7 +82,7 @@ export class WindowService {
         const windowData: fromWindows.ExportWindowState = {
           version: 1,
           type: 'window',
-          query: window.query.query,
+          query: window.query.query || '',
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
@@ -109,7 +109,7 @@ export class WindowService {
         obs.next({
           version: 1,
           type: 'window',
-          query: window.query.query,
+          query: window.query.query || '',
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,

@@ -90,8 +90,8 @@ export class GqlService {
    */
   _send(query, vars?, selectedOperation?, files?: fromVariables.FileVariable[]) {
     const data = { query, variables: {}, operationName: null };
-    let body = null;
-    let params = null;
+    let body: FormData | string | undefined;
+    let params: HttpParams | undefined;
     const headers = this.headers;
 
     if (selectedOperation) {
@@ -122,7 +122,7 @@ export class GqlService {
         formData.append('operations', JSON.stringify(data));
         formData.append('map', JSON.stringify(fileMap));
         files.forEach((file, i) => {
-          formData.append(`${i}`, file.data);
+          formData.append(`${i}`, file.data || '');
         });
 
         body = formData;
@@ -131,6 +131,9 @@ export class GqlService {
       }
     } else {
       params = this.getParamsFromData(data);
+    }
+    if (!this.api_url) {
+      throw new Error('You need to have a URL for the request!');
     }
     return this.http.request(this.method, this.api_url, {
       // GET method uses params, while the other methods use body
@@ -157,7 +160,7 @@ export class GqlService {
             headers: err.headers,
             status: err.status,
             statusText: err.statusText,
-            url: err.url,
+            url: err.url || undefined,
           }));
         }
         return observableThrowError(err);
@@ -175,7 +178,7 @@ export class GqlService {
   }
 
   sendRequest(url: string, opts: SendRequestOptions) {
-    const files = opts.files && opts.files.length && opts.files.filter(file => file && file.data instanceof File && file.name);
+    const files = opts.files && opts.files.length ? opts.files.filter(file => file && file.data instanceof File && file.name) : undefined;
 
     this.setUrl(url)
       .setHTTPMethod(opts.method)
@@ -189,7 +192,7 @@ export class GqlService {
     return method.toLowerCase() === 'get';
   }
 
-  setHeaders(headers = [], opts = { skipDefaults: false }) {
+  setHeaders(headers: fromHeaders.Header[] = [], opts = { skipDefaults: false }) {
     let newHeaders = new HttpHeaders();
     if (!opts.skipDefaults) {
       newHeaders = new HttpHeaders(this.defaultHeaders);
@@ -263,7 +266,7 @@ export class GqlService {
     return this.introspectionData;
   }
 
-  getIntrospectionSchema(data): GraphQLSchema {
+  getIntrospectionSchema(data): GraphQLSchema | null {
     try {
       if (data && data.__schema) {
         const schema = buildClientSchema(data);

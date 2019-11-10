@@ -14,7 +14,7 @@ export const validateSettings = settings => {
 
 export const registerSettingsLinter = CM => {
   CM.registerHelper('lint', 'json', function(text) {
-    let found = [];
+    let found: any[] = [];
     try {
       if (!validateSettings(text)) {
         found = [
@@ -135,16 +135,20 @@ export const getHint = (cm) => {
     from: Codemirror.Pos(line, start),
     to: Codemirror.Pos(line, token.end)
   };
-  let tooltip = null;
+  let tooltip: HTMLElement;
   Codemirror.on(hintResult, 'close', function() { remove(tooltip); });
   Codemirror.on(hintResult, 'update', function() { remove(tooltip); });
   Codemirror.on(hintResult, 'select', function(cur, node) {
     remove(tooltip);
     const content = cur.description;
     if (content) {
-      tooltip = makeTooltip(node.parentNode.getBoundingClientRect().right + window.pageXOffset,
-                            node.getBoundingClientRect().top + window.pageYOffset, content);
-      tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';
+      tooltip = makeTooltip(
+        node.parentNode.getBoundingClientRect().right + window.pageXOffset,
+        node.getBoundingClientRect().top + window.pageYOffset, content
+      );
+      if (tooltip) {
+        tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';
+      }
     }
   });
 

@@ -42,6 +42,7 @@ import config from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PluginInstance } from 'app/services/plugin/plugin';
 
 @Component({
   selector: 'app-root',
@@ -54,11 +55,11 @@ export class AppComponent implements OnDestroy {
   sortedCollections$: Observable<any[]>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
   environments$: Observable<fromEnvironments.State>;
-  activeEnvironment$: Observable<fromEnvironments.EnvironmentState>;
+  activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
 
-  windowIds = [];
+  windowIds: string[] = [];
   windows = {};
-  closedWindows = [];
+  closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp = config.isWebApp;
@@ -71,7 +72,7 @@ export class AppComponent implements OnDestroy {
 
   appVersion = environment.version;
 
-  installedPlugins = [];
+  installedPlugins: PluginInstance[] = [];
 
   constructor(
     private windowService: WindowService,
@@ -92,7 +93,7 @@ export class AppComponent implements OnDestroy {
         if (environments.activeSubEnvironment) {
           return environments.subEnvironments.find(subEnvironment => subEnvironment.id === environments.activeSubEnvironment);
         }
-        return null;
+        return;
       })
     );
 

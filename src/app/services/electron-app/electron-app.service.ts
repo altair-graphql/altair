@@ -45,7 +45,7 @@ export class ElectronAppService {
         this.zone.run(() => this.notifyService.warning(`
           Your request has an invalid certificate.
           You should check that your request is coming from a trusted source.
-        `, null, {
+        `, undefined, {
           tapToDismiss: true
         }));
       });
