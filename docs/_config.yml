@@ -46,6 +46,7 @@ releases:
     image: windows_logo.svg
     unique_term: exe
     link:
+    extra: choco install altair-graphql
   -
     name: chrome
     image: chrome_icon.svg
