@@ -13,8 +13,6 @@
     "default_icon": "assets/img/altair_logo_128.png"
   },
   "permissions": [
-      "http://*/",
-      "https://*/",
       "tabs",
       "storage",
       "notifications"
