@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 @Component({
   selector: 'app-schema-form-item',
@@ -19,7 +19,7 @@ export class SchemaFormItemComponent implements OnInit {
   ngOnInit() {
   }
   getOptionLabel(option) {
-    return config.languages[option] || option;
+    return getAltairConfig().languages[option] || option;
   }
   onInput(event, item) {
     // console.log(event, item);

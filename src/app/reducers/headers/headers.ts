@@ -1,14 +1,15 @@
 import { Action } from '@ngrx/store';
 
 import * as headers from '../../actions/headers/headers';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 const getInitialHeadersState = () => {
+    const altairConfig = getAltairConfig();
     let initialHeaders: State = [];
-    if (config.initialData.headers) {
-        initialHeaders = Object.keys(config.initialData.headers).map(key => ({
+    if (altairConfig.initialData.headers) {
+        initialHeaders = Object.keys(altairConfig.initialData.headers).map(key => ({
             key,
-            value: config.initialData.headers[key] ? '' + config.initialData.headers[key] : ''
+            value: altairConfig.initialData.headers[key] ? '' + altairConfig.initialData.headers[key] : ''
         }));
     }
     initialHeaders = [ ...initialHeaders, { key: '', value: '' } ];

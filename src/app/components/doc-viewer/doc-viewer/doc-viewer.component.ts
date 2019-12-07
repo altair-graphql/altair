@@ -12,7 +12,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
-import config from '../../../config';
+import { getAltairConfig } from '../../../config';
 import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -47,8 +47,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   @Input() gqlSchema: GraphQLSchema
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
-  @Input() addQueryDepthLimit = config.add_query_depth_limit;
-  @Input() tabSize = config.tab_size;
+  @Input() addQueryDepthLimit = getAltairConfig().add_query_depth_limit;
+  @Input() tabSize = getAltairConfig().tab_size;
   @Input() docView: DocumentView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views

@@ -9,7 +9,7 @@ import {
 
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 import { debug } from 'app/utils/logger';
 
 @Component({
@@ -39,7 +39,7 @@ export class WindowSwitcherComponent implements OnInit {
   ];
 
   windowNameEditing = null;
-  maxWindowCount = config.max_windows;
+  maxWindowCount = getAltairConfig().max_windows;
 
   sortableOptions = {};
 

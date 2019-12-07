@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewIni
 
 import * as fromSettings from '../../reducers/settings/settings';
 
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -37,8 +37,8 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   @Output() addQueryDepthLimitChange = new EventEmitter();
   @Output() tabSizeChange = new EventEmitter();
 
-  themes = config.themes;
-  languages = Object.entries(config.languages);
+  themes = getAltairConfig().themes;
+  languages = Object.entries(getAltairConfig().languages);
   shortcutCategories: KeyboardShortcutCategory[] = [];
   settingsSchema = settingsSchema;
   showForm = true;

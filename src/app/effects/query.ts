@@ -33,7 +33,6 @@ import * as streamActions from '../actions/stream/stream';
 
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
-import config from '../config';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 

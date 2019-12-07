@@ -39,7 +39,7 @@ import {
   QueryCollectionService
 } from '../../services';
 
-import config from '../../config';
+import { AltairConfig } from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -63,7 +63,7 @@ export class AppComponent implements OnDestroy {
   closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
-  isWebApp = config.isWebApp;
+  isWebApp: boolean;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 
@@ -84,7 +84,9 @@ export class AppComponent implements OnDestroy {
     private keybinder: KeybinderService,
     private pluginRegistry: PluginRegistryService,
     private collectionService: QueryCollectionService,
+    private altairConfig: AltairConfig,
   ) {
+    this.isWebApp = altairConfig.isWebApp;
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
@@ -204,7 +206,7 @@ export class AppComponent implements OnDestroy {
    * Sets the available languages from config
    */
   setAvailableLanguages(): void {
-    const availableLanguages = Object.keys(config.languages);
+    const availableLanguages = Object.keys(this.altairConfig.languages);
     this.translate.addLangs(availableLanguages);
   }
 
@@ -224,7 +226,7 @@ export class AppComponent implements OnDestroy {
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
 
-    return isClientLanguageAvailable && !config.isTranslateMode ? clientLanguage : defaultLanguage;
+    return isClientLanguageAvailable && !this.altairConfig.isTranslateMode ? clientLanguage : defaultLanguage;
   }
 
   newWindow() {
@@ -446,7 +448,7 @@ export class AppComponent implements OnDestroy {
 
   openDonationPage(e) {
     this.donationService.donated();
-    this.externalLink(e, config.donation.url);
+    this.externalLink(e, this.altairConfig.donation.url);
     this.hideDonationAlert();
   }
 

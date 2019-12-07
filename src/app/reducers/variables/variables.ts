@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import * as variables from '../../actions/variables/variables';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 export interface FileVariable {
     name: string;
@@ -17,7 +17,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    variables: config.initialData.variables ? '' + config.initialData.variables : '{}',
+    variables: getAltairConfig().initialData.variables ? '' + getAltairConfig().initialData.variables : '{}',
     files: [],
 };
 

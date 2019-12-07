@@ -25,6 +25,7 @@ import * as fromPreRequest from './pre-request/pre-request';
 import * as fromLocal from './local/local';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
+import { getAltairConfig } from 'app/config';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -79,7 +80,7 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-const altairInstanceStorageNamespace = window['__ALTAIR_INSTANCE_STORAGE_NAMESPACE__'] || 'altair_';
+const altairInstanceStorageNamespace = getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
 export const keySerializer = (key) => `${altairInstanceStorageNamespace}${key}`;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {

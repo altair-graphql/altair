@@ -1,5 +1,5 @@
 import * as preRequest from '../../actions/pre-request/pre-request';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 export interface State {
   enabled: boolean;
@@ -7,8 +7,8 @@ export interface State {
 }
 
 export const initialState: State = {
-  enabled: !!config.initialData.preRequestScript,
-  script: config.initialData.preRequestScript ? '' + config.initialData.preRequestScript : '',
+  enabled: !!getAltairConfig().initialData.preRequestScript,
+  script: getAltairConfig().initialData.preRequestScript ? '' + getAltairConfig().initialData.preRequestScript : '',
 };
 
 export function preRequestReducer(state = initialState, action: preRequest.Action): State {

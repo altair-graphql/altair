@@ -1,7 +1,8 @@
 import * as settings from '../../actions/settings/settings';
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 import { jsonc } from 'app/utils';
 
+const config = getAltairConfig();
 export type SettingsTheme = 'light' | 'dark' | 'dracula';
 export type SettingsLanguage = keyof typeof config.languages;
 
@@ -60,10 +61,10 @@ export interface State {
 }
 
 const initialState: State = {
-  theme: <SettingsTheme>config.defaultTheme,
-  language: <SettingsLanguage>config.default_language,
-  addQueryDepthLimit: config.add_query_depth_limit,
-  tabSize: config.tab_size,
+  theme: <SettingsTheme>getAltairConfig().defaultTheme,
+  language: <SettingsLanguage>getAltairConfig().default_language,
+  addQueryDepthLimit: getAltairConfig().add_query_depth_limit,
+  tabSize: getAltairConfig().tab_size,
 };
 
 export function settingsReducer(state = initialState, action: settings.Action): State {

@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import * as history from '../../actions/history/history';
 
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 
 export interface History {
   query: string;
@@ -26,7 +26,7 @@ export function historyReducer(state = initialState, action: history.Action): St
       const _state = { ...state };
 
       // If the items in the list is more than the allowed limit, remove the last item
-      if (state.list.length >= config.query_history_depth) {
+      if (state.list.length >= getAltairConfig().query_history_depth) {
         // Remove the last item in the list
         _state.list.pop();
       }

@@ -3,7 +3,7 @@ import {combineLatest as observableCombineLatest,  Observable ,  Subscriber } fr
 import { Injectable } from '@angular/core';
 
 import { DbService } from './db.service';
-import config from '../config';
+import { getAltairConfig } from '../config';
 import { uaSeedHash } from '../utils/simple_hash';
 
 @Injectable()
@@ -48,7 +48,7 @@ export class DonationService {
 
     return Observable.create((obs: Subscriber<boolean>) => {
       observableCombineLatest(actionCount$, seed$, curHash$).subscribe(([actionCount, seed, curHash]) => {
-        if (actionCount && actionCount >= config.donation.action_count_threshold) {
+        if (actionCount && actionCount >= getAltairConfig().donation.action_count_threshold) {
           // Reset count
           this.dbService.setItem(this.actionCountKey, 0);
 

@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { initialQuery } from './initialQuery';
 
 import * as query from '../../actions/query/query';
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
 
 export interface QueryEditorState {
@@ -41,9 +41,9 @@ export interface State {
 }
 
 export const initialState: State = {
-  url: getFullUrl(config.initialData.url ? '' + config.initialData.url : ''),
-  subscriptionUrl: config.initialData.subscriptionsEndpoint ? '' + config.initialData.subscriptionsEndpoint : '',
-  query: config.initialData.query ? '' + config.initialData.query : initialQuery,
+  url: getFullUrl(getAltairConfig().initialData.url ? '' + getAltairConfig().initialData.url : ''),
+  subscriptionUrl: getAltairConfig().initialData.subscriptionsEndpoint ? '' + getAltairConfig().initialData.subscriptionsEndpoint : '',
+  query: getAltairConfig().initialData.query ? '' + getAltairConfig().initialData.query : initialQuery,
   selectedOperation: '',
   operations: [],
   httpVerb : 'POST',
