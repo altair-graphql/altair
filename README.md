@@ -47,7 +47,7 @@ There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-gr
 
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
 
-You can also install using cask:
+For mac users, you can also install using cask:
 
 ```
 $ brew cask install altair-graphql-client
@@ -65,6 +65,18 @@ For arch linux users, an AUR package [aur/altair](https://aur.archlinux.org/pack
 $ yay -S altair
 ```
 
+For windows users, you can install using [appget](https://appget.net/packages/i/altair-graphql):
+
+```
+$ appget install altair-graphql
+```
+
+or [chocolatey](https://chocolatey.org/packages/altair-graphql):
+
+```
+$ choco install altair-graphql
+```
+
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
@@ -72,6 +84,8 @@ You can use altair with an express server using [altair-express-middleware](http
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
 ## Features
+
+![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 
 - Headers
 - Variables
@@ -81,7 +95,6 @@ You can use altair with a koa server using [altair-koa-middleware](https://www.n
 - Syntax highlighting
 - Error highlighting
 - Add queries and fragments from documentation
-![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 - Upload files via GraphQL
 - Autocompletion of fields, arguments, types, etc
 - Autofill all fields at cursor
