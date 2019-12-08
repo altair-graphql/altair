@@ -119,6 +119,13 @@
       </div>
     </nz-header>
     <nz-layout>
+      <nz-alert nzBanner [nzMessage]="webappLimitation" *ngIf="isWebApp"></nz-alert>
+      <ng-template #webappLimitation>
+        <span class="alert-text">
+          Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
+        </span>
+        <button class="btn alert-action" (click)="openWebAppLimitationPost($event)" track-id="web_app_disclaimer_learn_more">Learn more</button>
+      </ng-template>
       <nz-sider *ngIf="false" nzWidth="200px" nzTheme="light">
         <ul nz-menu nzMode="inline" class="sider-menu">
           <li nz-submenu nzOpen nzIcon="user" nzTitle="subnav 1">
@@ -324,14 +331,6 @@
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
         </div>
-        <nz-alert nzBanner [nzMessage]="webappLimitation" *ngIf="isWebApp"></nz-alert>
-        <ng-template #webappLimitation>
-          <span class="alert-text">
-            Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
-          </span>
-          <button class="btn alert-action" (click)="openWebAppLimitationPost($event)" track-id="web_app_disclaimer_learn_more">Learn more</button>
-        </ng-template>
-
         <nz-alert nzBanner [nzMessage]="supportDevelopment" *ngIf="showDonationAlert" nzCloseable (nzOnClose)="hideDonationAlert()"></nz-alert>
         <ng-template #supportDevelopment>
           <span class="alert-text">
