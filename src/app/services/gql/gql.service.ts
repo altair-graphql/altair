@@ -256,6 +256,9 @@ export class GqlService {
         return this.sendRequest(url, { ...requestOpts, query: oldIntrospectionQuery })
           .pipe(map(data => {
             debug.log('old introspection', data);
+            if (!data.ok) {
+              throw new Error(`Introspection request failed with: ${data.status}`);
+            }
             return data;
           }));
       }),

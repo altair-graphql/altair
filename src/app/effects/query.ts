@@ -350,6 +350,10 @@ export class QueryEffects {
                 // If the server does not support introspection
                 if (!allowsIntrospection) {
                   this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, response.windowId));
+                  this.notifyService.warning(`
+                    Looks like this server does not support introspection.
+                    Please check with the server administrator.
+                  `);
                 } else {
                   this.notifyService.warning(`
                     Seems like something is broken. Please check that the URL is valid,
