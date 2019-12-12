@@ -2,23 +2,25 @@ import { Action } from '@ngrx/store';
 
 import * as docs from '../../actions/docs/docs';
 
+export interface DocView {
+    /**
+     * type, field, root, search
+     */
+    view: string;
+    /**
+     * used by field views
+     */
+    parentType: string;
+    /**
+     * identifies type/field
+     */
+    name: string;
+}
+
 export interface State {
     showDocs: boolean;
     isLoading: boolean;
-    docView: {
-        /**
-         * type, field, root, search
-         */
-        view: string,
-        /**
-         * used by field views
-         */
-        parentType: string,
-        /**
-         * identifies type/field
-         */
-        name: string
-    };
+    docView: DocView;
 }
 
 export const initialState: State = {

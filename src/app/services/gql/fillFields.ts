@@ -7,9 +7,12 @@ import {
   parse,
   GraphQLType,
   GraphQLInputObjectType,
+  GraphQLSchema,
+  SelectionSetNode,
 } from 'graphql';
 import { debug } from 'app/utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
+import { Token } from 'codemirror';
 
 export const parseQuery = (query: string) => {
   if (!query) {
@@ -24,7 +27,7 @@ export const parseQuery = (query: string) => {
   }
 };
 
-export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, currentDepth = 0 } = {}) => {
+export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, currentDepth = 0 } = {}): SelectionSetNode | undefined => {
   if (!type) {
     return;
   }
@@ -75,7 +78,7 @@ export const getIndentation = (str: string, index: number) => {
   return str.substring(indentStart, indentEnd);
 };
 
-export const withInsertions = (initialQuery: string, insertions) => {
+export const withInsertions = (initialQuery: string, insertions: { index: number, string: string }[]) => {
   if (insertions.length === 0) {
     return initialQuery;
   }
@@ -91,7 +94,7 @@ export const withInsertions = (initialQuery: string, insertions) => {
 
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
-export const fillAllFields = (schema, query: string, cursor, token, { maxDepth = 1 } = {}) => {
+export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, { maxDepth = 1 } = {}) => {
   const insertions: any[] = [];
   if (!schema) {
     return { insertions, result: query };

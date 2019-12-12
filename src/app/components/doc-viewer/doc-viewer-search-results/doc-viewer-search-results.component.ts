@@ -12,6 +12,8 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import { GraphQLArgument } from 'graphql';
+import { DocumentIndexEntry } from '../models';
 
 @Component({
   selector: 'app-doc-viewer-search-results',
@@ -58,7 +60,7 @@ export class DocViewerSearchResultsComponent implements OnInit {
    * @param parentType
    * @param cat
    */
-  goToItem(name, parentType, cat) {
+  goToItem(name: string, parentType: string, cat: string) {
     switch (cat) {
       case 'field':
         this.goToField(name, parentType);
@@ -68,11 +70,11 @@ export class DocViewerSearchResultsComponent implements OnInit {
     }
   }
 
-  goToField(name, parentType) {
+  goToField(name: string, parentType: string) {
     this.goToFieldChange.next({ name, parentType });
   }
 
-  goToType(name) {
+  goToType(name: string) {
     this.goToTypeChange.next({ name });
   }
 
@@ -80,7 +82,7 @@ export class DocViewerSearchResultsComponent implements OnInit {
    * Return a proper name for the given name
    * @param name the name to refine
    */
-  getProperName(name) {
+  getProperName(name: string) {
     if (/mutation/i.test(name)) {
       return 'Mutation';
     }
@@ -96,10 +98,10 @@ export class DocViewerSearchResultsComponent implements OnInit {
     return name;
   }
 
-  resultTrackBy(index, result) {
+  resultTrackBy(index: string, result: DocumentIndexEntry) {
     return `${result.name}.${result.type}.${result.cat}`;
   }
-  resultArgTrackBy(index, arg) {
+  resultArgTrackBy(index: string, arg: GraphQLArgument) {
     return arg.name;
   }
 

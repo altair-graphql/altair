@@ -1,9 +1,10 @@
-import * as toSnakeCase from 'to-snake-case';
+const toSnakeCase = require('to-snake-case'); // TODO: Check that this still works
 import * as FileSaver from 'file-saver';
 import * as commentRegex from 'comment-regex';
 import * as validUrl from 'valid-url';
 import is_electron from './is_electron';
 import { debug } from './logger';
+import { IDictionary } from 'app/interfaces/shared';
 const fileDialog = require('file-dialog');
 
 /**
@@ -34,7 +35,7 @@ export const downloadData = (data: string, fileName = 'data', opts: any = undefi
  * @param obj The object to be downloaded
  * @param fileName The name the file will be called
  */
-export const downloadJson = (obj, fileName = 'response', opts: any = undefined) => {
+export const downloadJson = (obj: any, fileName = 'response', opts: any = undefined) => {
   let _opts = {
     mimeType: 'text/json',
     dataUriAttr: 'text/json;charset=utf-8',
@@ -66,14 +67,14 @@ export const getFileStr = (files: FileList) => {
   });
 };
 
-export const openFile = (...args) => {
-  return fileDialog(...args).then(getFileStr).catch(err => {
+export const openFile = (...args: any[]) => {
+  return fileDialog(...args).then(getFileStr).catch((err: Error) => {
     debug.log('There was an issue while opening the file: ', err);
   });
 }
 
-export const isExtension = !!(window['chrome'] && window['chrome'].runtime && window['chrome'].runtime.id);
-export const isFirefoxExtension = !!(window['chrome'] && window['chrome']['geckoProfiler']);
+export const isExtension = !!((window as any).chrome && (window as any).chrome.runtime && (window as any).chrome.runtime.id);
+export const isFirefoxExtension = !!((window as any).chrome && (window as any).chrome.geckoProfiler);
 
 export const detectEnvironment = () => {
   if (is_electron) {
@@ -170,7 +171,7 @@ export function parseDotNotationKey(key: string) {
  * ```
  */
 export function setByDotNotation<TResult = any>(
-  obj: object,
+  obj: IDictionary,
   path: Array<number | string> | number | string,
   value: TResult,
 ): TResult | undefined {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { debug } from 'app/utils/logger';
-import { PluginComponentData } from 'app/services/plugin/plugin';
+import { PluginComponentData, PluginElement } from 'app/services/plugin/plugin';
 
 @Component({
   selector: 'app-plugin-element',
@@ -12,7 +12,7 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
   @Input() pluginData: PluginComponentData | undefined;
 
   @ViewChild('pluginElRef', { static: true }) pluginElRef: ElementRef;
-  pluginElement: HTMLElement;
+  pluginElement: PluginElement;
 
   constructor() { }
 

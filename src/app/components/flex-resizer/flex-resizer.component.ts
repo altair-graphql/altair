@@ -121,7 +121,7 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
     });
   }
 
-  onMouseUp(event) {
+  onMouseUp(event: MouseEvent) {
     if (!this.draggingMode) {
       return true;
     }

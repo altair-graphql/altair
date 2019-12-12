@@ -17,7 +17,7 @@ export class UpdateVariablesAction implements Action {
 export class AddFileVariableAction implements Action {
     readonly type = ADD_FILE_VARIABLE;
 
-    constructor(public windowId: string, public payload?) {}
+    constructor(public windowId: string, public payload?: any) {}
 }
 
 export class DeleteFileVariableAction implements Action {

@@ -1,6 +1,7 @@
 import isElectron from './utils/is_electron';
+import { IDictionary } from './interfaces/shared';
 
-const isTranslateMode = window['__ALTAIR_TRANSLATE__'];
+const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
 export interface AltairConfigOptions {
 
@@ -36,7 +37,7 @@ export interface AltairConfigOptions {
    *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
    * }
    */
-  initialHeaders?: Object;
+  initialHeaders?: IDictionary;
 
   /**
    * Namespace for storing the data for the altair instance.
@@ -78,13 +79,14 @@ export class AltairConfig {
   defaultTheme = 'matchMedia' in window && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   themes: ['light', 'dark'];
   isTranslateMode = isTranslateMode;
-  isWebApp = window['__ALTAIR_WEB_APP__'];
+  isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {
     url: '',
     subscriptionsEndpoint: '',
     query: '',
     variables: '',
-    headers: '',
+    // Force type of header, since initial value inference is wrong
+    headers: (null as unknown as IDictionary),
     preRequestScript: '',
     instanceStorageNamespace: '',
   };
@@ -97,13 +99,13 @@ export class AltairConfig {
     initialPreRequestScript,
     instanceStorageNamespace,
   }: AltairConfigOptions = {}) {
-    this.initialData.url = window['__ALTAIR_ENDPOINT_URL__'] || endpointURL || '';
-    this.initialData.subscriptionsEndpoint = window['__ALTAIR_SUBSCRIPTIONS_ENDPOINT__'] || subscriptionsEndpoint || '';
-    this.initialData.query = window['__ALTAIR_INITIAL_QUERY__'] || initialQuery || '';
-    this.initialData.variables = window['__ALTAIR_INITIAL_VARIABLES__'] || initialVariables || '';
-    this.initialData.headers = window['__ALTAIR_INITIAL_HEADERS__'] || initialHeaders || '';
-    this.initialData.preRequestScript = window['__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__'] || initialPreRequestScript || '';
-    this.initialData.instanceStorageNamespace = window['__ALTAIR_INSTANCE_STORAGE_NAMESPACE__'] || instanceStorageNamespace || '';
+    this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
+    this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
+    this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
+    this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
+    this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
+    this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
+    this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
   }
 }
 

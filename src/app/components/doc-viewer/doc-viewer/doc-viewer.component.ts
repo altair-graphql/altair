@@ -15,26 +15,17 @@ import { of } from 'rxjs';
 import { getAltairConfig } from '../../../config';
 import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as fromDocs from '../../../reducers/docs/docs';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { GraphQLType, GraphQLArgs, GraphQLSchema, GraphQLObjectType, GraphQLInterfaceType } from 'graphql';
-
-interface DocumentView {
-  view: string;
-  parentType: string;
-  name: string;
-}
-
-interface DocumentIndexEntry {
-  search: string;
-  name: string;
-  description: string;
-  args: GraphQLArgs,
-  cat: string;
-  type: string;
-  isQuery: Boolean;
-  highlight: string;
-}
+import {
+  GraphQLType,
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLArgument,
+  GraphQLFieldMap
+} from 'graphql';
+import { DocumentIndexEntry } from '../models';
 
 @Component({
   selector: 'app-doc-viewer',
@@ -44,25 +35,25 @@ interface DocumentIndexEntry {
 })
 export class DocViewerComponent implements OnChanges, OnDestroy {
 
-  @Input() gqlSchema: GraphQLSchema
+  @Input() gqlSchema: GraphQLSchema;
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = getAltairConfig().add_query_depth_limit;
   @Input() tabSize = getAltairConfig().tab_size;
-  @Input() docView: DocumentView = {
+  @Input() docView: fromDocs.DocView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
     name: 'Conference' // identifies type/field
   };
   @Output() toggleDocsChange = new EventEmitter();
-  @Output() setDocViewChange = new EventEmitter<{ view?, parentType?, name? }>();
+  @Output() setDocViewChange = new EventEmitter<Partial<fromDocs.DocView>>();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
   @Output() loadSchemaChange = new EventEmitter();
 
-  @HostBinding('style.flex-grow') public resizeFactor;
+  @HostBinding('style.flex-grow') public resizeFactor: number;
 
-  rootTypes: GraphQLType[] = [];
+  rootTypes: GraphQLObjectType[] = [];
   index: DocumentIndexEntry[] = [];
 
   searchInputPlaceholder = 'Search docs...';
@@ -71,7 +62,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   // should be available
   hasSearchIndex = false;
 
-  docHistory: DocumentView[] = [];
+  docHistory: fromDocs.DocView[] = [];
 
   searchResult: DocumentIndexEntry[] = [];
   searchTerm = '';
@@ -96,13 +87,13 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     }
   }
 
-  updateDocs(schema) {
+  updateDocs(schema: GraphQLSchema) {
     debug.log(schema);
     this.rootTypes = [
       schema.getQueryType(),
       schema.getMutationType(),
       schema.getSubscriptionType()
-    ].filter(Boolean);
+    ].filter(Boolean) as GraphQLObjectType[];
 
     try {
       this.generateIndex(schema);
@@ -117,32 +108,32 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * Generate the search index from the schema
    * @param schema
    */
-  generateIndex(schema) {
-    let getFieldsIndices;
-    let getTypeIndices;
+  generateIndex(schema: GraphQLSchema) {
+    let getFieldsIndices: (
+      fields: GraphQLFieldMap<any, any>,
+      type: GraphQLType,
+      isQuery: Boolean,
+      curIndexStack: DocumentIndexEntry[]
+    ) => DocumentIndexEntry[];
+    let getTypeIndices: (type: GraphQLObjectType, isRoot: boolean, curIndexStack: DocumentIndexEntry[]) => DocumentIndexEntry[];
 
     /**
      * Gets the indices for fields
-     * @param  {array} fields contains a list of field objects
-     * @param  {object} type the parent type of the fields
-     * @param  {boolean} isQuery specifies if the fields are part of a root level type
-     * @param  {array} curIndexStack contains all the currently mapped indices in the stack
-     * @return {array}        the indices for the given fields
      */
-    getFieldsIndices = (fields, type, isQuery: Boolean, curIndexStack) => {
+    getFieldsIndices = (fields, type, isQuery: boolean, curIndexStack) => {
       let index: DocumentIndexEntry[] = [];
 
-      Object.keys(fields).forEach(fieldKey => {
+      Object.keys(fields).forEach((fieldKey: any) => {
         const field = fields[fieldKey];
 
         // For each field, create an entry in the index
         const fieldIndex = {
           search: field.name,
           name: field.name,
-          description: field.description,
+          description: field.description ? field.description : '',
           args: field.args,
           cat: 'field',
-          type: type.name,
+          type: (type as GraphQLObjectType).name,
           isQuery,
           highlight: 'field'
         };
@@ -162,7 +153,10 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
         // If the field has a type, get indices for the type as well
         if (field.type) {
-          index = [...index, ...getTypeIndices(field.type, false, [...curIndexStack, ...index]).filter(val => !!val)];
+          index = [
+            ...index,
+            ...getTypeIndices((field.type as GraphQLObjectType), false, [...curIndexStack, ...index]).filter(val => !!val),
+          ];
         }
 
       });
@@ -181,7 +175,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       let fields = null;
 
       // If a type does not have a name, don't process it
-      if (!type.name) {
+      if (!(type as GraphQLObjectType).name) {
         return [];
       }
 
@@ -199,14 +193,16 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
           search: type.name,
           name: type.name,
           cat: 'type',
-          description: type.description,
+          description: type.description ? type.description : '',
           isRoot,
           highlight: 'type'
         }
       ];
 
       if (fields) {
-        return [...index, ...getFieldsIndices(fields, type, isRoot, [...curIndexStack, ...index]).filter(val => !!val)];
+        return [
+          ...index,
+          ...getFieldsIndices(fields, type, isRoot, [ ...curIndexStack, ...index ]).filter(val => !!val)];
       }
 
       return index;
@@ -223,25 +219,25 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     const schemaTypeMap = schema.getTypeMap();
     Object.keys(schemaTypeMap).forEach(key => {
       if (!/^__/.test(key)) {
-        this.index = [...this.index, ...getTypeIndices(schemaTypeMap[key], false, this.index)];
+        this.index = [...this.index, ...getTypeIndices(schemaTypeMap[key] as GraphQLObjectType, false, this.index)];
       }
     });
 
     debug.log('Index: ', this.index);
   }
 
-  autocompleteSource = term => of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
-  autocompleteListFormatter = data => {
+  autocompleteSource = (term: string) => of(this.index.filter(item => new RegExp(term, 'i').test(item.search)));
+  autocompleteListFormatter = (data: DocumentIndexEntry) => {
     const html = `
       <div class='doc-viewer-autocomplete-item'>
         ${data.search}
         <span class='doc-viewer-autocomplete-item-field'>${data.cat}</span>
-        <span class='doc-viewer-autocomplete-item-description'>${data.description || ''}</span>
+        <span class='doc-viewer-autocomplete-item-description'>${data.description}</span>
       </div>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   };
 
-  searchInputKeyUp(term, e) {
+  searchInputKeyUp(term: string, e: KeyboardEvent) {
     if (e && e.keyCode !== 13) {
       return;
     }
@@ -252,7 +248,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   /**
    * search through the docs for the provided term
    */
-  searchDocs(term) {
+  searchDocs(term: string | { name: string }) {
     if (typeof term !== 'string') {
       term = term.name;
     }
@@ -262,7 +258,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     }
     this.updateDocHistory();
     this.setDocViewChange.next({ view: 'search' });
-    this.searchResult = this.index.filter(item => new RegExp(term, 'i').test(item.search));
+    this.searchResult = this.index.filter(item => new RegExp(term as string, 'i').test(item.search));
     debug.log(this.searchResult);
   }
 
@@ -270,7 +266,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * Cleans out getType() names to contain only the type name itself
    * @param name
    */
-  cleanName(name) {
+  cleanName(name: string) {
     return name.replace(/[\[\]!]/g, '');
   }
 
@@ -304,7 +300,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * Updates the doc view for a particular type
    * @param name name of type
    */
-  goToType(name) {
+  goToType(name: string) {
     this.updateDocHistory();
     this.setDocViewChange.next({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
   }
@@ -314,7 +310,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param name name of field
    * @param parentType name of parent type of field
    */
-  goToField(name, parentType) {
+  goToField(name: string, parentType: string) {
     this.updateDocHistory();
     this.setDocViewChange.next({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
   }
@@ -325,7 +321,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param parentType parent type of the current field
    * @param parentFields preceding parent field and type combinations
    */
-  generateQuery(name, parentType) {
+  generateQuery(name: string, parentType: string) {
     let query = '';
     let hasArgs = false;
 
@@ -373,7 +369,12 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * @param parentFields preceding parent field and type combinations
    * @param level current depth level of the current field
    */
-  private generateFieldData(name, parentType, parentFields, level: number): { query: string, meta: { hasArgs?: boolean } } {
+  private generateFieldData(
+    name: string,
+    parentType: string,
+    parentFields: { name: string, type: string }[],
+    level: number
+  ): { query: string, meta: { hasArgs?: boolean } } {
 
     if (!name || !parentType || !parentFields) {
       return { query: '', meta: {} };
@@ -459,7 +460,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     return { query: fieldStr, meta };
   }
 
-  addToEditor(name, parentType) {
+  addToEditor(name: string, parentType: string) {
     if (!this.hasSearchIndex) {
       return false;
     }
@@ -473,11 +474,11 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.exportSDLChange.next();
   }
 
-  onResize(resizeFactor) {
+  onResize(resizeFactor: number) {
     this.resizeFactor = resizeFactor;
   }
 
-  rootTypeTrackBy(index, type) {
+  rootTypeTrackBy(index: number, type: GraphQLObjectType) {
     return type.name;
   }
 

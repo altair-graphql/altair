@@ -9,8 +9,8 @@ import { getAltairConfig } from 'app/config';
 })
 export class SchemaFormItemComponent implements OnInit {
 
-  @Input() item;
-  @Input() data;
+  @Input() item: any;
+  @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 
@@ -18,10 +18,10 @@ export class SchemaFormItemComponent implements OnInit {
 
   ngOnInit() {
   }
-  getOptionLabel(option) {
-    return getAltairConfig().languages[option] || option;
+  getOptionLabel(option: string) {
+    return (getAltairConfig().languages as any)[option] || option;
   }
-  onInput(event, item) {
+  onInput(event: Event, item: any) {
     // console.log(event, item);
     this.dataChange.next(this.data);
   }

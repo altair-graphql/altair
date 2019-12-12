@@ -8,6 +8,7 @@ import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 
 import * as fromRoot from '../../reducers';
+import * as fromHeader from '../../reducers/headers/headers';
 
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
@@ -17,10 +18,10 @@ import { debug } from 'app/utils/logger';
 @Injectable()
 export class ElectronAppService {
 
-  windowIds;
+  windowIds: string[];
   activeWindowId = '';
 
-  private ipc: Electron.IpcRenderer = window['ipc'];
+  private ipc: Electron.IpcRenderer = (window as any).ipc;
 
   constructor(
     private electron: ElectronService,
@@ -37,11 +38,11 @@ export class ElectronAppService {
 
   connect() {
     if (this.electron.isElectronApp) {
-      this.ipc.on('file-opened', (evt, content) => {
+      this.ipc.on('file-opened', (evt: any, content: string) => {
         this.zone.run(() => this.windowService.importStringData(content));
       });
 
-      this.ipc.on('certificate-error', (evt, error) => {
+      this.ipc.on('certificate-error', (evt: any, error: Error) => {
         this.zone.run(() => this.notifyService.warning(`
           Your request has an invalid certificate.
           You should check that your request is coming from a trusted source.
@@ -79,7 +80,7 @@ export class ElectronAppService {
     }
   }
 
-  setHeaders(headers) {
+  setHeaders(headers: fromHeader.Header[]) {
     if (this.electron.isElectronApp) {
       this.ipc.sendSync('set-headers-sync', headers);
     }

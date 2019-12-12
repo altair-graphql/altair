@@ -7,8 +7,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SchemaFormItemListComponent implements OnInit {
 
-  @Input() item;
-  @Input() data;
+  @Input() item: any;
+  @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 
@@ -26,14 +26,14 @@ export class SchemaFormItemListComponent implements OnInit {
     this.dataChange.next(this.data);
   }
 
-  removeField(index) {
+  removeField(index: number) {
     if (this.data && Array.isArray(this.data)) {
       this.data = this.data.filter((_, i) => i !== index);
       this.dataChange.next(this.data);
     }
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 

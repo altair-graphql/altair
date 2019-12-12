@@ -11,6 +11,9 @@
     "target": "es5",
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
+    "noImplicitAny": true,
+    // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
+    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],

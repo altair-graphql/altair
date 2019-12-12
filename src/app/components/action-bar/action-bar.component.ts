@@ -14,7 +14,7 @@ import {
 })
 export class ActionBarComponent {
 
-  @Input() showDocs;
+  @Input() showDocs = false;
   @Input() isSubscribed = false;
   @Output() toggleHeaderDialog = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();

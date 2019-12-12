@@ -25,7 +25,7 @@ export class DonationService {
     this.dbService.setItem(this.seedKey, seed);
 
     // Store the seed hash
-    this.dbService.setItem(this.hashKey, uaSeedHash(seed));
+    this.dbService.setItem(this.hashKey, uaSeedHash(seed.toString()));
 
     // Reset the count
     this.dbService.setItem(this.actionCountKey, 0);

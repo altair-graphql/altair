@@ -4,6 +4,7 @@ import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 import { debug } from 'app/utils/logger';
 import { GraphQLSchema } from 'graphql';
+import { IDictionary } from 'app/interfaces/shared';
 
 export interface State {
     [id: string]: fromRoot.PerWindowState;
@@ -73,7 +74,7 @@ export function windows(reducer: ActionReducer<any>) {
             case windowsActions.SET_WINDOWS:
                 const _windows = action.payload;
 
-                const newWindowsState = {};
+                const newWindowsState: IDictionary<fromRoot.PerWindowState> = {};
                 _windows.forEach((window: fromRoot.PerWindowState) => {
                     const windowKey = window.windowId;
                     // const windowTitle = window.layout.title;

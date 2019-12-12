@@ -67,13 +67,13 @@ export interface State {
 // Meta reducer to log actions
 export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   return (state: State, action: Action) => {
-    if (!environment.production || window['__ENABLE_DEBUG_MODE__']) {
+    if (!environment.production || (window as any).__ENABLE_DEBUG_MODE__) {
       debug.log(action.type, action);
     }
-    window['__LAST_ACTION__'] = window['__LAST_ACTION__'] || [];
-    window['__LAST_ACTION__'].push(action.type);
-    if (environment.production && window['__LAST_ACTION__'].length > 10) {
-      window['__LAST_ACTION__'].shift();
+    (window as any).__LAST_ACTION__ = (window as any).__LAST_ACTION__ || [];
+    (window as any).__LAST_ACTION__.push(action.type);
+    if (environment.production && (window as any).__LAST_ACTION__.length > 10) {
+      (window as any).__LAST_ACTION__.shift();
     }
 
     return _reducer(state, action);
@@ -81,7 +81,7 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
 }
 
 const altairInstanceStorageNamespace = getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
-export const keySerializer = (key) => `${altairInstanceStorageNamespace}${key}`;
+export const keySerializer = (key: string) => `${altairInstanceStorageNamespace}${key}`;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({

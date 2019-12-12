@@ -6,7 +6,6 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';"> -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -50,12 +49,10 @@
     </div>
   </app-root>
   <script>
-    // Angular appends the app script to the bottom during development.
+    // Angular appends the app script to the bottom.
     // This ensures the code is run after the assets have been added.
     document.addEventListener('DOMContentLoaded', () => {
-      AltairGraphQL.init({
-        
-      });
+      AltairGraphQL.init();
     });
   </script>
 </body>

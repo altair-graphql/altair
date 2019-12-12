@@ -1,5 +1,5 @@
 
-import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif, Subscriber } from 'rxjs';
 
 import { debounce, tap, catchError, withLatestFrom, switchMap, map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -125,12 +125,11 @@ export class QueryEffects {
                 }
 
                 try {
+                  const queryEditorIsFocused = response.data.query.queryEditorState && response.data.query.queryEditorState.isFocused;
                   const operationData = this.gqlService.getSelectedOperationData({
                     query,
                     selectedOperation,
-                    queryCursorIndex: response.data.query.queryEditorState &&
-                      response.data.query.queryEditorState.isFocused &&
-                      response.data.query.queryEditorState.cursorIndex,
+                    queryCursorIndex: queryEditorIsFocused ? response.data.query.queryEditorState.cursorIndex : undefined,
                   });
 
                   this.store.dispatch(
@@ -340,7 +339,7 @@ export class QueryEffects {
                 let allowsIntrospection = true;
 
                 if (errorObj.errors) {
-                  errorObj.errors.forEach(error => {
+                  errorObj.errors.forEach((error: any) => {
                     if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
                       allowsIntrospection = false;
                     }
@@ -458,7 +457,7 @@ export class QueryEffects {
             });
           }
 
-          const subscriptionErrorHandler = (err, errMsg?) => {
+          const subscriptionErrorHandler = (err: Error | Error[], errMsg?: string) => {
             if (Array.isArray(err)) {
               err = err[0];
             }
@@ -480,12 +479,11 @@ export class QueryEffects {
           }
 
           try {
+            const queryEditorIsFocused = response.data.query.queryEditorState && response.data.query.queryEditorState.isFocused;
             const operationData = this.gqlService.getSelectedOperationData({
               query,
               selectedOperation,
-              queryCursorIndex: response.data.query.queryEditorState &&
-                response.data.query.queryEditorState.isFocused &&
-                response.data.query.queryEditorState.cursorIndex,
+              queryCursorIndex: queryEditorIsFocused ? response.data.query.queryEditorState.cursorIndex : undefined,
               selectIfOneOperation: true,
             });
 
@@ -670,7 +668,7 @@ export class QueryEffects {
               headers: res.data.headers.reduce((acc, cur) => {
                 acc[cur.key] = this.environmentService.hydrate(cur.value);
                 return acc;
-              }, {}),
+              }, {} as any),
               data: {
                 query,
                 variables: JSON.parse(variables)
@@ -753,7 +751,7 @@ export class QueryEffects {
               this.gqlService.closeStreamClient(res.data.stream.client);
             }
 
-            const streamClient = this.gqlService.createStreamClient(streamUrl);
+            const streamClient = this.gqlService.createStreamClient(streamUrl.href);
             let backoff = res.action.payload.backoff || 200;
 
             streamClient.addEventListener('change', () => {
@@ -829,7 +827,7 @@ export class QueryEffects {
            */
           return iif(
             () => response.data.preRequest.enabled,
-            Observable.create((subscriber) => {
+            Observable.create((subscriber: Subscriber<any>) => {
               try {
                 this.preRequestService.executeScript(response.data.preRequest.script, {
                   environment: this.environmentService.getActiveEnvironment(),
@@ -851,7 +849,7 @@ export class QueryEffects {
                 subscriber.next(null);
                 subscriber.complete();
               }
-            }) as Observable<{ response: typeof response, transformedData }>,
+            }) as Observable<{ response: typeof response, transformedData: any }>,
             observableOf({ response, transformedData: null })
           );
         }),

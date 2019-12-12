@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { IQueryCollection } from 'app/reducers/collection/collection';
 
 @Component({
   selector: 'app-query-collections',
@@ -13,8 +14,8 @@ export class QueryCollectionsComponent implements OnInit {
   @Output() loadCollectionsChange = new EventEmitter();
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{ collectionId }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{ collection }> = new EventEmitter();
+  @Output() deleteCollectionChange: EventEmitter<{ collectionId: IQueryCollection['id'] }> = new EventEmitter();
+  @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollection }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
   @Output() importCollectionChange = new EventEmitter();
   @Output() sortCollectionsChange = new EventEmitter();
@@ -27,7 +28,7 @@ export class QueryCollectionsComponent implements OnInit {
     this.loadCollectionsChange.next();
   }
 
-  trackById(index, collection) {
+  trackById(index: number, collection: IQueryCollection) {
     return collection.id;
   }
 

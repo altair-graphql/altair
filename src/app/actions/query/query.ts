@@ -69,7 +69,7 @@ export class SetSubscriptionUrlAction implements Action {
 export class SendIntrospectionQueryRequestAction implements Action {
   readonly type = SEND_INTROSPECTION_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetQueryAction implements Action {
@@ -93,31 +93,31 @@ export class SetQueryResultAction implements Action {
 export class PrettifyQueryAction implements Action {
   readonly type = PRETTIFY_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CompressQueryAction implements Action {
   readonly type = COMPRESS_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CopyAsCurlAction implements Action {
   readonly type = COPY_AS_CURL;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class ConvertToNamedQueryAction implements Action {
   readonly type = CONVERT_TO_NAMED_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SendQueryRequestAction implements Action {
   readonly type = SEND_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetSelectedOperationAction implements Action {
@@ -135,13 +135,13 @@ export class SetResponseStatsAction implements Action {
 export class StartSubscriptionAction implements Action {
   readonly type = START_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?) { }
+  constructor(public windowId: string, public payload?: any) { }
 }
 
 export class StopSubscriptionAction implements Action {
   readonly type = STOP_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?) { }
+  constructor(public windowId: string, public payload?: any) { }
 }
 
 export class SetSubscriptionConnectionParamsAction implements Action {
@@ -171,13 +171,13 @@ export class SetSubscriptionResponseListAction implements Action {
 export class DownloadResultAction implements Action {
   readonly type = DOWNLOAD_RESULT;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CancelQueryRequestAction implements Action {
   readonly type = CANCEL_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetQueryOperationsAction implements Action {

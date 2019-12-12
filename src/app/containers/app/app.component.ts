@@ -147,7 +147,7 @@ export class AppComponent implements OnDestroy {
           // This fixes issues with when windows are removed.
           // Before the effect gets the remove action, the store has already been updated.
           // While this is valid, it causes the component to try to retrieve the invalid window.
-          this.windowIds = data.windowsMeta.windowIds.filter(id => !!this.windows[id]);
+          this.windowIds = data.windowsMeta.windowIds.filter(id => !!(this.windows as any)[id]);
         } else {
           this.store.dispatch(new windowsMetaActions.SetWindowIdsAction( { ids: this.windowIds }));
         }
@@ -244,25 +244,23 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  setActiveWindow(windowId) {
+  setActiveWindow(windowId: string) {
     this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
   }
 
-  removeWindow(windowId) {
+  removeWindow(windowId: string) {
     this.windowService.removeWindow(windowId);
   }
 
-  duplicateWindow(windowId) {
+  duplicateWindow(windowId: string) {
     this.windowService.duplicateWindow(windowId);
   }
 
-  setWindowName(data) {
-    const { windowId, windowName } = data;
+  setWindowName({ windowId = '', windowName = '' }) {
     this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
   }
 
-  repositionWindow(data) {
-    const { currentPosition, newPosition } = data;
+  repositionWindow({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {
     this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
   }
 
@@ -286,27 +284,27 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: false }));
   }
 
-  setSettingsJson(settingsJson) {
+  setSettingsJson(settingsJson: string) {
     this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: settingsJson }));
   }
 
-  setShowImportCurlDialog(value) {
+  setShowImportCurlDialog(value: boolean) {
     this.store.dispatch(new windowsMetaActions.ShowImportCurlDialogAction({ value }));
   }
 
-  onThemeChange(theme) {
+  onThemeChange(theme: fromSettings.SettingsTheme) {
     this.store.dispatch(new settingsActions.SetThemeAction({ value: theme }));
   }
 
-  onLanguageChange(language) {
+  onLanguageChange(language: fromSettings.SettingsLanguage) {
     this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
   }
 
-  onAddQueryDepthLimitChange(depthLimit) {
+  onAddQueryDepthLimitChange(depthLimit: number) {
     this.store.dispatch(new settingsActions.SetAddQueryDepthLimitAction({ value: depthLimit }));
   }
 
-  onTabSizeChange(tabSize) {
+  onTabSizeChange(tabSize: number) {
     this.store.dispatch(new settingsActions.SetTabSizeAction({ value: tabSize }));
   }
 
@@ -330,7 +328,7 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new queryActions.ConvertToNamedQueryAction(this.activeWindowId));
   }
 
-  toggleHeader(isOpen) {
+  toggleHeader(isOpen: boolean) {
     this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
   }
 
@@ -338,40 +336,40 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId));
   }
 
-  toggleSubscriptionUrlDialog(isOpen) {
+  toggleSubscriptionUrlDialog(isOpen: boolean) {
     this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.activeWindowId));
   }
 
-  toggleHistoryDialog(isOpen) {
+  toggleHistoryDialog(isOpen: boolean) {
     this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
   }
 
-  togglePreRequestDialog(isOpen) {
+  togglePreRequestDialog(isOpen: boolean) {
     this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId));
   }
 
-  toggleEnvironmentManager(show) {
+  toggleEnvironmentManager(show: boolean) {
     this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
   }
 
   updateBaseEnvironmentJson(opts: { value: string }) {
     this.store.dispatch(new environmentsActions.UpdateBaseEnvironmentJsonAction(opts));
   }
-  updateSubEnvironmentJson(opts: { id, value }) {
+  updateSubEnvironmentJson(opts: { id: string, value: string }) {
     this.store.dispatch(new environmentsActions.UpdateSubEnvironmentJsonAction(opts));
   }
-  updateSubEnvironmentTitle(opts: { id, value}) {
+  updateSubEnvironmentTitle(opts: { id: string, value: string }) {
     this.store.dispatch(new environmentsActions.UpdateSubEnvironmentTitleAction(opts));
   }
 
   addNewSubEnvironment() {
     this.store.dispatch(new environmentsActions.AddSubEnvironmentAction({ id: uuid() }));
   }
-  deleteSubEnvironment(opts) {
+  deleteSubEnvironment(opts: { id: string }) {
     this.store.dispatch(new environmentsActions.DeleteSubEnvironmentAction(opts));
-    this.selectActiveEnvironment(null);
+    this.selectActiveEnvironment();
   }
-  selectActiveEnvironment(id) {
+  selectActiveEnvironment(id?: string) {
     this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
   }
 
@@ -383,19 +381,23 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new collectionActions.LoadCollectionsAction());
   }
 
-  selectQueryFromCollection({ query, collectionId, windowIdInCollection }) {
+  selectQueryFromCollection({
+    query,
+    collectionId,
+    windowIdInCollection
+  }: { query: fromCollection.IQuery, collectionId: number, windowIdInCollection: string }) {
     this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
   }
 
-  deleteQueryFromCollection({ collectionId, query }) {
+  deleteQueryFromCollection({ collectionId, query }: { collectionId: number, query: fromCollection.IQuery }) {
    this.store.dispatch(new collectionActions.DeleteQueryFromCollectionAction({ collectionId, query }));
   }
 
-  deleteCollection({ collectionId }) {
+  deleteCollection({ collectionId }: { collectionId: number }) {
     this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
   }
 
-  exportCollection({ collectionId }) {
+  exportCollection({ collectionId }: { collectionId: number }) {
     this.store.dispatch(new collectionActions.ExportCollectionAction({ collectionId }));
   }
 
@@ -403,28 +405,28 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new collectionActions.ImportCollectionAction());
   }
 
-  toggleEditCollectionDialog({ collection }) {
+  toggleEditCollectionDialog({ collection }: { collection: fromCollection.IQueryCollection }) {
     this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
   }
 
-  setShowEditCollectionDialog(value) {
+  setShowEditCollectionDialog(value: boolean) {
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
   }
 
-  updateCollection({ collection }) {
+  updateCollection({ collection }: { collection: fromCollection.IQueryCollection & { id: number } }) {
     this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
   }
 
-  sortCollections({ sortBy }) {
+  sortCollections({ sortBy = '' as fromCollection.SortByOptions }) {
     this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
   }
 
-  togglePluginActive(plugin) {
+  togglePluginActive(plugin: PluginInstance) {
     this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
   }
 
-  async fileDropped(event) {
+  async fileDropped(event: any) {
     const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
     if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
       try {
@@ -446,22 +448,22 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new donationActions.HideDonationAlertAction());
   }
 
-  openDonationPage(e) {
+  openDonationPage(e: Event) {
     this.donationService.donated();
     this.externalLink(e, this.altairConfig.donation.url);
     this.hideDonationAlert();
   }
 
-  openWebAppLimitationPost(e) {
+  openWebAppLimitationPost(e: Event) {
     this.externalLink(e, 'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8');
   }
 
-  externalLink(e, url) {
+  externalLink(e: Event, url: string) {
     e.preventDefault();
 
     // If electron app
-    if (window['process'] && window['process'].versions['electron']) {
-      const electron = window['require']('electron');
+    if ((window as any).process && (window as any).process.versions.electron) {
+      const electron = (window as any).require('electron');
       electron.shell.openExternal(url);
     } else {
       const win = window.open(url, '_blank');
@@ -471,7 +473,7 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  trackById(index, item) {
+  trackById(index: number, item: any) {
     return item.id;
   }
 

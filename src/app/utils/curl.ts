@@ -1,18 +1,20 @@
+import { IDictionary } from 'app/interfaces/shared';
+
 const curlup = require('curlup');
-export const parseCurlToObj = (...args) => curlup.parseCurl(...args);
+export const parseCurlToObj = (...args: any[]) => curlup.parseCurl(...args);
 
 interface GenerateCurlOpts {
   url: string;
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE';
   headers?: object;
-  data?: object;
+  data?: { [ key: string]: string; };
 }
 
 const getCurlHeaderString = (header: { key: string, value: string }) => {
   return `-H '${header.key}: ${header.value}'`;
 }
 
-const buildUrl = (url: string, params?: object) => {
+const buildUrl = (url: string, params?: { [key: string]: string }) => {
   const euc = encodeURIComponent;
   if (params) {
     const queryParams = Object.keys(params)
@@ -36,7 +38,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
 
   const method = opts.method || 'POST';
 
-  const headers = { ...defaultHeaders, ...opts.headers };
+  const headers: IDictionary<string> = { ...defaultHeaders, ...opts.headers };
   const headerString = Object.keys(headers)
     .filter(key => !!key)
     .map(key => ({ key, value: headers[key] }))

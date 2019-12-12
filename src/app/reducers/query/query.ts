@@ -12,6 +12,11 @@ export interface QueryEditorState {
   cursorIndex?: number;
 }
 
+export interface SubscriptionResponse {
+  response: string;
+  responseTime: number;
+}
+
 export interface State {
   url: string;
   subscriptionUrl: string;
@@ -35,7 +40,7 @@ export interface State {
   subscriptionClient: any;
   subscriptionConnectionParams: string;
   isSubscribed: boolean;
-  subscriptionResponseList: Array<any>;
+  subscriptionResponseList: SubscriptionResponse[];
 
   queryEditorState: QueryEditorState;
 }

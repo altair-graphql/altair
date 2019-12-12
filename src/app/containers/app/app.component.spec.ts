@@ -21,6 +21,7 @@ import { DirectivesModule } from 'app/directives';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/shared/shared.module';
 import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
+import { AltairConfig } from 'app/config';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -48,7 +49,11 @@ describe('AppComponent', () => {
         first: () => observableEmpty(),
         pipe: () => observableEmpty(),
         dispatch: () => {}
-      } }
+      } },
+      {
+        provide: AltairConfig,
+        useValue: new AltairConfig(),
+      }
   ];
 
     TestBed.configureTestingModule({

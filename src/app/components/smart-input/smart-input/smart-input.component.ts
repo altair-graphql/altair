@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, HostListener, ElementRef } from '@ang
 import { KEYS } from '../keys';
 import { Cursor } from '../models/cursor';
 import { debug } from '../../../utils/logger';
-import { InputState, BlockEvent, BlockState } from '../models';
+import { InputState, BlockEvent, BlockState, BlockOption } from '../models';
 
 
 const VARIABLE_STRUCT = {
@@ -54,10 +54,10 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
       type: data.type || '',
     };
   }
-  getBlock({ lineIndex, blockIndex }) {
+  getBlock({ lineIndex, blockIndex }: BlockOption) {
     return this.state.lines[lineIndex].blocks[blockIndex];
   }
-  updateBlock(data: BlockState, { lineIndex, blockIndex }) {
+  updateBlock(data: BlockState, { lineIndex, blockIndex }: BlockOption) {
     debug.log('updating..', data, lineIndex, blockIndex);
     this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.map((block, i) => {
       if (i === blockIndex) {
@@ -74,13 +74,13 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     });
   }
 
-  replaceBlock(newBlocks: BlockState[], { lineIndex, blockIndex }) {
+  replaceBlock(newBlocks: BlockState[], { lineIndex, blockIndex }: BlockOption) {
     const beforeBlocks = this.state.lines[lineIndex].blocks.slice(0, blockIndex);
     const afterBlocks = this.state.lines[lineIndex].blocks.slice(blockIndex + 1);
     this.state.lines[lineIndex].blocks = [ ...beforeBlocks, ...newBlocks, ...afterBlocks ];
   }
 
-  deleteBlock(data, { lineIndex, blockIndex }) {
+  deleteBlock(data: any, { lineIndex, blockIndex }: BlockOption) {
     this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.filter((block, i) => {
       return i !== blockIndex;
     })
@@ -222,7 +222,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-  createBlockEvent(payload) {
+  createBlockEvent(payload: string) {
     return {
       value: payload,
       cursor: new Cursor(),
@@ -288,7 +288,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('keypress', [ '$event' ])
-  onKeyPress(e) {
+  onKeyPress(e: KeyboardEvent) {
     if (e.metaKey) {
       return;
     }
@@ -299,7 +299,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('paste', [ '$event' ])
-  onPaste(e) {
+  onPaste(e: Event) {
     // const text = e.clipboardData.getData('text/plain');
     // if (typeof text === 'string') {
     //   handler.onPaste(text);
@@ -310,19 +310,19 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('compositionstart', [ '$event' ])
-  onCompositionStart(e) {
+  onCompositionStart(e: Event) {
     e.preventDefault();
     // handler.onTextCompositionStart();
     debug.log('compositionstart', e);
   }
 
   @HostListener('compositionupdate', [ '$event' ])
-  onCompositionUpdate(e) {
+  onCompositionUpdate(e: Event) {
     debug.log('compositionupdate', e);
   }
 
   @HostListener('compositionend', [ '$event' ])
-  onCompositionEnd(e) {
+  onCompositionEnd(e: Event) {
     // handler.onTextCompositionEnd();
     // handler.onInput(event.data);
     e.preventDefault();
@@ -331,18 +331,18 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('input', [ '$event' ])
-  onInput(e) {
+  onInput(e: any) {
     debug.log('input', e.data);
     e.preventDefault();
     e.stopPropagation();
   }
 
   @HostListener('textInput', [ '$event' ])
-  onTextInput(e) {
+  onTextInput(e: Event) {
     debug.log('textInput', e);
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 

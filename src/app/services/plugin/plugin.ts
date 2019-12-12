@@ -78,10 +78,13 @@ export interface GetPluginOption {
 }
 
 export interface PluginComponentDataProps {
+  // SDL representing GraphQL schema for the current window
   sdl: string;
+  // Query for the current window
   query: string;
 }
 export interface PluginComponentDataContext {
+  // Sets the query in the current window
   setQuery: Function;
 }
 export interface PluginComponentData extends PluginInstance {
@@ -89,12 +92,16 @@ export interface PluginComponentData extends PluginInstance {
   context: PluginComponentDataContext;
 }
 
+export interface PluginElement extends HTMLElement {
+  props?: PluginComponentDataProps & { ctx: PluginComponentDataContext };
+}
+
 export class AltairPlugin implements PluginInstance {
   type = PluginType.SIDEBAR;
   sidebar_opts?: PluginSidebarOptions;
   isActive = false;
-  props;
-  context;
+  // props: any;
+  // context: any;
   display_name = '';
   capabilities: PluginCapabilities[] = [ PluginCapabilities['query:read'], PluginCapabilities['query:write'] ];
   constructor(public name: string, public manifest: PluginManifest) {

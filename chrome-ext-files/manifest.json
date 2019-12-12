@@ -17,7 +17,7 @@
       "storage",
       "notifications"
   ],
-  "content_security_policy": "script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' https://cdn.jsdelivr.net; object-src 'self';",
+  "content_security_policy": "script-src 'self' 'unsafe-inline' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net; object-src 'self';",
   "background": {
       "scripts": ["js/background.js"]
   },

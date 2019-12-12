@@ -12,12 +12,14 @@
     *ngFor="let windowId of windowIds; let index = index;"
     [contextMenu]="windowTabMenu"
     [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle, index: index }"
-    (click)="activeWindowChange.next(windowId)"
+    (click)="onClickWindow(windowId)"
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
     
     <div
-      #wTitle class="window-switcher__input"
+      #wTitle
+      class="window-switcher__input"
+      [ngClass]="{ 'window-switcher__input--editing': windowId === windowNameEditing }"
       [attr.contenteditable]="windowId === windowNameEditing"
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"

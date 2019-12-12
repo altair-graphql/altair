@@ -28,7 +28,7 @@ export class StartStreamClientAction implements Action {
 export class StopStreamClientAction implements Action {
   readonly type = STOP_STREAM_CLIENT;
 
-  constructor(public windowId: string, public payload?) { }
+  constructor(public windowId: string, public payload?: any) { }
 }
 
 export class SetStreamFailedAction implements Action {

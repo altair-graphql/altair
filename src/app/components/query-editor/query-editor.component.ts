@@ -10,6 +10,7 @@ import {
   ViewChild,
   HostBinding,
   NgZone,
+  ElementRef,
 } from '@angular/core';
 
 import * as fromVariables from '../../reducers/variables/variables';
@@ -56,7 +57,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() query;
+  @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
@@ -74,9 +75,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
   @Output() showTokenInDocsChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
-  @HostBinding('style.flex-grow') public resizeFactor;
+  @HostBinding('style.flex-grow') public resizeFactor: number;
 
   editorConfig = <any>{
     mode: 'graphql',
@@ -86,19 +87,19 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     tabSize: this.tabSize,
     indentUnit: this.tabSize,
     extraKeys: {
-      'Cmd-Space': (cm) => cm.showHint({ completeSingle: true }),
-      'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true }),
-      'Alt-Space': (cm) => cm.showHint({ completeSingle: true }),
-      'Cmd-/': (cm) => cm.execCommand('toggleComment'),
-      'Ctrl-/': (cm) => cm.execCommand('toggleComment'),
+      'Cmd-Space': (cm: any) => cm.showHint({ completeSingle: true }),
+      'Ctrl-Space': (cm: any) => cm.showHint({ completeSingle: true }),
+      'Alt-Space': (cm: any) => cm.showHint({ completeSingle: true }),
+      'Cmd-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+      'Ctrl-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
 
       'Alt-F': 'findPersistent',
       'Ctrl-F': 'findPersistent',
 
       // show current token parent type in docs
-      'Ctrl-D': cm => this.zone.run(() => this.onShowInDocsByToken(cm)),
+      'Ctrl-D': (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
 
-      'Shift-Ctrl-Enter': cm => this.zone.run(() => this.onFillFields(cm)),
+      'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     autoCloseBrackets: true,
@@ -108,7 +109,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     lint: {},
     hintOptions: {
       completeSingle: false,
-      render: (elt: Element, data, cur) => {
+      render: (elt: Element, data: any, cur: any) => {
         elt.classList.add('query-editor__autocomplete-item');
         elt.innerHTML = `
           <span class="query-editor__autocomplete-item__text">${cur.text}</span>
@@ -118,10 +119,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       }
     },
     info: {
-      onClick: reference => this.zone.run(() => this.onShowInDocsByReference(reference)),
+      onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
     },
     jump: {
-      onClick: reference => this.zone.run(() => this.onShowInDocsByReference(reference)),
+      onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
     }
   };
 
@@ -149,11 +150,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     if (this.editor) {
-      this.editor.codeMirror.on('keyup', (cm, event) => this.onKeyUp(cm, event));
-      this.editor.codeMirror.on('focus', (cm, event) => this.onEditorStateChange(cm, event));
-      this.editor.codeMirror.on('blur', (cm, event) => this.onEditorStateChange(cm, event));
-      this.editor.codeMirror.on('cursorActivity', (cm, event) => this.onEditorStateChange(cm, event));
-      this.editor.codeMirror.on('hasCompletion', (cm, event) => this.onHasCompletion(cm, event));
+      (this.editor.codeMirror as any).on('keyup', (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event));
+      (this.editor.codeMirror as any).on('focus', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
+      (this.editor.codeMirror as any).on('blur', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
+      (this.editor.codeMirror as any).on('cursorActivity', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
+      (this.editor.codeMirror as any).on('hasCompletion', (cm: CodeMirror.Editor, event: Event) => this.onHasCompletion(cm, event));
     }
   }
 
@@ -185,21 +186,21 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    * @param cm
    * @param event
    */
-  onKeyUp(cm, event) {
+  onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
       this.editor.codeMirror.execCommand('autocomplete');
     }
   }
 
-  onEditorStateChange(cm, event) {
-    const cursor = cm.getCursor();
-    const cursorIndex = cm.indexFromPos(cursor);
+  onEditorStateChange(cm: CodeMirror.Editor, event: Event) {
+    const cursor = cm.getDoc().getCursor();
+    const cursorIndex = cm.getDoc().indexFromPos(cursor);
     const isFocused = cm.hasFocus();
     this.queryEditorStateChange.next({ isFocused, cursorIndex });
   }
 
-  onShowInDocsByToken(cm) {
-    const cursor = cm.getCursor();
+  onShowInDocsByToken(cm: CodeMirror.Editor) {
+    const cursor = cm.getDoc().getCursor();
     const token = cm.getTokenAt(cursor);
     const typeInfo = getTypeInfo(this.gqlSchema, token.state);
 
@@ -218,7 +219,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.editor.codeMirror.getInputField().blur();
   }
 
-  onShowInDocsByReference(reference) {
+  onShowInDocsByReference(reference: any) {
     if (reference.field && reference.type) {
       this.showTokenInDocsChange.next({
         view: 'field',
@@ -233,8 +234,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  onFillFields(cm) {
-    const cursor = cm.getCursor();
+  onFillFields(cm: CodeMirror.Editor) {
+    const cursor = cm.getDoc().getCursor();
     const token = cm.getTokenAt(cursor);
     const schema = this.gqlSchema;
     if (!schema) {
@@ -253,13 +254,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
     this.queryChange.next(updatedQuery.result);
     setTimeout(() => {
-      cm.setCursor(cursor);
+      cm.getDoc().setCursor(cursor);
     }, 1);
   }
 
-  onHasCompletion(cm, event) {
+  onHasCompletion(cm: CodeMirror.Editor, event: Event) {
     onHasCompletion(cm, event, {
-      onClickHintInformation: type => {
+      onClickHintInformation: (type: string) => {
         if (this.gqlSchema) {
           const typeDef = this.gqlSchema.getType(type);
           if (typeDef) {
@@ -277,7 +278,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    * Update the editor schema
    * @param schema
    */
-  updateEditorSchema(schema) {
+  updateEditorSchema(schema: GraphQLSchema) {
     if (schema) {
       debug.log('Updating schema...', schema);
       this.editorConfig.lint.schema = schema;
@@ -287,11 +288,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  onResize(resizeFactor) {
+  onResize(resizeFactor: number) {
     this.resizeFactor = resizeFactor;
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 

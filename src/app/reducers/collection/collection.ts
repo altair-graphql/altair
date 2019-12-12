@@ -1,11 +1,20 @@
 import { Action } from '@ngrx/store';
 
 import * as collectionActions from '../../actions/collection/collection';
+import * as fromWindows from '../../reducers/windows';
+
+export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 
 export interface State {
   list: IQueryCollection[];
   activeCollection: any;
-  sortBy: 'a-z' | 'z-a' | 'newest' | 'oldest';
+  sortBy: SortByOptions;
+}
+
+export interface IQuery extends fromWindows.ExportWindowState {
+  id?: number;
+  created_at?: number;
+  updated_at?: number;
 }
 
 export interface IQueryCollection {

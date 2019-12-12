@@ -10,7 +10,7 @@ import { enableDebugTools } from '@angular/platform-browser';
 import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
 
 (window as any).AltairGraphQL = {
-  init(config: AltairConfigOptions) {
+  init(config: AltairConfigOptions = {}) {
     const altairConfig = new AltairConfig(config);
     setAltairConfig(altairConfig);
 

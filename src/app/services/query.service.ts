@@ -18,7 +18,7 @@ export class QueryService {
     private store: Store<fromRoot.State>
   ) { }
 
-  loadUrl(windowId): Subscription {
+  loadUrl(windowId: string): Subscription {
     return this.db.getItem(`${windowId}:url`).subscribe(url => {
       if (url) {
         this.store.dispatch(new queryActions.SetUrlFromDbAction({ url }, windowId));
@@ -26,7 +26,7 @@ export class QueryService {
     });
   }
 
-  loadQuery(windowId): Subscription {
+  loadQuery(windowId: string): Subscription {
     return this.db.getItem(`${windowId}:query`).subscribe(query => {
       if (query) {
         this.store.dispatch(new queryActions.SetQueryFromDbAction(query, windowId));
@@ -34,7 +34,7 @@ export class QueryService {
     });
   }
 
-  loadIntrospection(windowId): Subscription {
+  loadIntrospection(windowId: string): Subscription {
     return this.db.getItem(`${windowId}:introspection`).subscribe(introspectionData => {
       if (introspectionData) {
         this.store.dispatch(new gqlSchemaActions.SetIntrospectionFromDbAction(introspectionData, windowId));
@@ -42,15 +42,15 @@ export class QueryService {
     });
   }
 
-  storeUrl(url, windowId): Observable<any> {
+  storeUrl(url: string, windowId: string): Observable<any> {
     return this.db.setItem(`${windowId}:url`, url);
   }
 
-  storeQuery(query, windowId): Observable<any> {
+  storeQuery(query: string, windowId: string): Observable<any> {
     return this.db.setItem(`${windowId}:query`, query);
   }
 
-  storeIntrospection(introspection, windowId): Observable<any> {
+  storeIntrospection(introspection: any, windowId: string): Observable<any> {
     return this.db.setItem(`${windowId}:introspection`, introspection);
   }
 }

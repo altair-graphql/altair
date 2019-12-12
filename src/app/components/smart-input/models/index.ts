@@ -6,6 +6,11 @@ export interface BlockEvent {
   isFocused: boolean;
 }
 
+export interface BlockOption {
+  lineIndex: number;
+  blockIndex: number;
+}
+
 export interface BlockState {
   content: string;
   isFocused?: boolean;

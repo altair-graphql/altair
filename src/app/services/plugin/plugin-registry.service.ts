@@ -114,7 +114,7 @@ export class PluginRegistryService {
   private emitRegistryUpdate() {
     this.pluginRegistrySubject$.next(this.registry);
   }
-  private injectPluginScript(url) {
+  private injectPluginScript(url: string) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
       const script = document.createElement('script');
@@ -125,7 +125,7 @@ export class PluginRegistryService {
       head.appendChild(script);
     });
   }
-  private injectPluginStylesheet(url) {
+  private injectPluginStylesheet(url: string) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
       const style = document.createElement('link');
@@ -138,13 +138,13 @@ export class PluginRegistryService {
     });
   }
 
-  private getNPMPluginBaseURL(name, { version }) {
+  private getNPMPluginBaseURL(name: string, { version = 'latest' }) {
     const baseUrl = 'https://cdn.jsdelivr.net/npm/';
     const pluginBaseUrl = `${baseUrl}${name}@${version}/`;
     return pluginBaseUrl;
   }
 
-  private getURLPluginBaseURL(name, opts) {
+  private getURLPluginBaseURL(name: string, opts: any) {
     return opts.url;
   }
 

@@ -5,7 +5,8 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  OnChanges
+  OnChanges,
+  ElementRef
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -24,6 +25,7 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
+import { SubscriptionResponse } from 'app/reducers/query/query';
 
 @Component({
   selector: 'app-query-result',
@@ -37,7 +39,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
   @Input() isSubscribed = false;
-  @Input() subscriptionResponses = [];
+  @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
 
@@ -45,7 +47,7 @@ export class QueryResultComponent implements OnChanges {
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   resultEditorConfig = {
     mode: 'graphql-results',
@@ -76,7 +78,7 @@ export class QueryResultComponent implements OnChanges {
     }
   }
 
-  subscriptionResponseTrackBy(index, response) {
+  subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;
   }
 }

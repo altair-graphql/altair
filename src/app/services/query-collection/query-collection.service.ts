@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
 import { debug } from 'app/utils/logger';
-import { IQueryCollection, ExportCollectionState } from 'app/reducers/collection/collection';
+import { IQueryCollection, ExportCollectionState, IQuery } from 'app/reducers/collection/collection';
 import { getFileStr } from 'app/utils';
 
 // Handling hierarchical data
@@ -21,7 +21,7 @@ export class QueryCollectionService {
     return observableFrom(this.storage.queryCollections.add({ ...collection, created_at: now, updated_at: now }));
   }
 
-  addQuery(collectionId: number, query): Observable<any> {
+  addQuery(collectionId: number, query: IQuery): Observable<any> {
     const now = this.storage.now();
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
@@ -32,7 +32,7 @@ export class QueryCollectionService {
     );
   }
 
-  updateQuery(collectionId: number, queryId: string, query): Observable<any> {
+  updateQuery(collectionId: number, queryId: string, query: IQuery): Observable<any> {
     const now = this.storage.now();
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
@@ -48,7 +48,7 @@ export class QueryCollectionService {
     );
   }
 
-  deleteQuery(collectionId: number, query): Observable<any> {
+  deleteQuery(collectionId: number, query: IQuery): Observable<any> {
     return observableFrom(
       this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
         collection.queries = collection.queries.filter(collectionQuery => {
@@ -134,7 +134,7 @@ export class QueryCollectionService {
     }
   }
 
-  handleImportedFile(files) {
+  handleImportedFile(files: FileList) {
     return getFileStr(files).then((dataStr: string) => {
       try {
         this.importCollectionDataFromJson(dataStr);
