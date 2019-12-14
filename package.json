@@ -22,7 +22,7 @@
     "test-single-run": "ng test --watch=false --code-coverage",
     "test-build": "ng lint && npm run build && npm run test-single-run",
     "test-all": "npm run build && lerna bootstrap && lerna run test",
-    "test-all:ci": "start-server-and-test start-test-server http://localhost:5400 test-all",
+    "test-all:ci": "start-server-and-test start-test-server http://localhost:5400/test test-all",
     "start-test-server": "./bin/start_ci_test_server.sh",
     "local-verify": "ng test --single-run && ng lint && ng e2e && yarn build && lerna bootstrap",
     "lint": "ng lint",
