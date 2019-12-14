@@ -102,6 +102,9 @@ const createWindow = () => {
         if (err) {
           return console.log('Error loading file to buffer.', err);
         }
+        if (filePath && filePath.includes('index.html') && data && !data.includes('AltairGraphQL.init')) {
+          data = data.replace('</body>', '<script>AltairGraphQL.init()</script></body>')
+        }
 
         // Load the data from the file into a buffer and pass it to the callback
         // Using the mime package to get the mime type for the file, based on the file name
