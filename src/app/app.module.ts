@@ -21,7 +21,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './shared/shared.module';
 
-import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
+import { metaReducers, reducerToken } from './reducers';
 
 import { QueryEffects } from './effects/query';
 import { WindowsEffects } from './effects/windows';
@@ -76,7 +76,8 @@ const providers = [
   services.EnvironmentService,
   services.PluginRegistryService,
   services.PreRequestService,
-  reducerProvider,
+  // Setting the reducer provider in main.ts now (for proper config initialization)
+  // reducerProvider,
   CookieService,
   {
     provide: HTTP_INTERCEPTORS,

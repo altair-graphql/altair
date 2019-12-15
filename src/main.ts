@@ -8,6 +8,7 @@ import { handleExternalLinks } from 'app/utils/events';
 import { debug } from 'app/utils/logger';
 import { enableDebugTools } from '@angular/platform-browser';
 import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
+import { reducerToken, getReducer } from 'app/reducers';
 
 (window as any).AltairGraphQL = {
   init(config: AltairConfigOptions = {}) {
@@ -20,10 +21,16 @@ import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
 
     platformBrowserDynamic(
       [
+        // Setting reducer provider here (after setting altair config),
+        // so the reducers are initialized with the right config
+        {
+          provide: reducerToken,
+          useValue: getReducer(),
+        },
         {
           provide: AltairConfig,
           useValue: altairConfig,
-        }
+        },
       ]
     ).bootstrapModule(AppModule, {
       preserveWhitespaces: true

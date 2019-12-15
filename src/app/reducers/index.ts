@@ -99,20 +99,22 @@ export const metaReducers: MetaReducer<any>[] = [
   log
 ];
 
-export const reducer: ActionReducerMap<State> = {
-  windows: fromWindows.windows(combineReducers(perWindowReducers)),
-  windowsMeta: fromWindowsMeta.windowsMetaReducer,
-  settings: fromSettings.settingsReducer,
-  donation: fromDonation.donationReducer,
-  collection: fromCollection.collectionReducer,
-  environments: fromEnvironments.environmentsReducer,
-  local: fromLocal.localReducer,
+export const getReducer = (): ActionReducerMap<State> => {
+  return {
+    windows: fromWindows.windows(combineReducers(perWindowReducers)),
+    windowsMeta: fromWindowsMeta.windowsMetaReducer,
+    settings: fromSettings.settingsReducer,
+    donation: fromDonation.donationReducer,
+    collection: fromCollection.collectionReducer,
+    environments: fromEnvironments.environmentsReducer,
+    local: fromLocal.localReducer,
+  }
 };
 
 export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
 
 export const reducerProvider = [
-  { provide: reducerToken, useValue: reducer }
+  { provide: reducerToken, useValue: getReducer() }
 ];
 
 export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];
