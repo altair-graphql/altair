@@ -9,6 +9,7 @@ import { debug } from 'app/utils/logger';
 import { enableDebugTools } from '@angular/platform-browser';
 import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
 import { reducerToken, getReducer } from 'app/reducers';
+import { handleDeprecations } from 'app/utils/deprecated';
 
 (window as any).AltairGraphQL = {
   init(config: AltairConfigOptions = {}) {
@@ -42,5 +43,6 @@ import { reducerToken, getReducer } from 'app/reducers';
     }).catch(err => debug.log('Error bootstrapping application:', err));
 
     handleExternalLinks();
+    handleDeprecations();
   }
 };
