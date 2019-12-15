@@ -16,6 +16,7 @@ createRouteExplorer({
     endpointURL: '/graphql',
     subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
     initialQuery: `{ getData { id name surname } }`,
+    initialPreRequestScript: `console.log('Hello from pre request!')`,
   },
 });
 
