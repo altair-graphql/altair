@@ -33,13 +33,15 @@ export interface ExportCollectionState extends IQueryCollection {
   type: 'collection';
 }
 
-export const initialState: State = {
-  list: [],
-  activeCollection: null,
-  sortBy: 'newest',
+export const getInitialState = (): State => {
+  return {
+    list: [],
+    activeCollection: null,
+    sortBy: 'newest',
+  };
 };
 
-export function collectionReducer(state = initialState, action: collectionActions.Action): State {
+export function collectionReducer(state = getInitialState(), action: collectionActions.Action): State {
   switch (action.type) {
     case collectionActions.SET_COLLECTIONS:
       return { ...state, list: action.payload.collections };

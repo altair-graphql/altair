@@ -12,12 +12,14 @@ export interface State {
     allowIntrospection: boolean;
 }
 
-export const initialState: State = {
-    sdl: '',
-    allowIntrospection: true
+export const getInitialState = (): State => {
+    return {
+        sdl: '',
+        allowIntrospection: true
+    };
 };
 
-export function gqlSchemaReducer(state = initialState, action: gqlSchema.Action): State {
+export function gqlSchemaReducer(state = getInitialState(), action: gqlSchema.Action): State {
     switch (action.type) {
         case gqlSchema.SET_INTROSPECTION:
         case gqlSchema.SET_INTROSPECTION_FROM_DB:

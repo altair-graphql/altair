@@ -8,14 +8,16 @@ export interface State {
   failed: any;
 }
 
-export const initialState: State = {
-  url: '',
-  type: '',
-  isConnected: false,
-  failed: null
+export const getInitialState = (): State => {
+  return {
+    url: '',
+    type: '',
+    isConnected: false,
+    failed: null
+  };
 };
 
-export function streamReducer(state = initialState, action: stream.Action): State {
+export function streamReducer(state = getInitialState(), action: stream.Action): State {
   switch (action.type) {
     case stream.SET_STREAM_SETTING:
       return { ...state, url: action.payload.streamUrl, isConnected: false };

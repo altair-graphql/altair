@@ -13,7 +13,7 @@ import {
 
 import * as fromSettings from '../../reducers/settings/settings';
 
-import { getAltairConfig } from '../../config';
+import { AltairConfig } from '../../config';
 import { debug } from 'app/utils/logger';
 
 // Import the codemirror packages
@@ -49,8 +49,8 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   @Output() addQueryDepthLimitChange = new EventEmitter();
   @Output() tabSizeChange = new EventEmitter();
 
-  themes = getAltairConfig().themes;
-  languages = Object.entries(getAltairConfig().languages);
+  themes = this.altairConfig.themes;
+  languages = Object.entries(this.altairConfig.languages);
   shortcutCategories: KeyboardShortcutCategory[] = [];
   settingsSchema = settingsSchema;
   showForm = true;
@@ -79,6 +79,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     private notifyService: NotifyService,
     private keybinderService: KeybinderService,
     private storageService: StorageService,
+    private altairConfig: AltairConfig,
   ) {}
 
   ngOnInit() {

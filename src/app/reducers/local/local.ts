@@ -8,11 +8,13 @@ export interface State {
   closedWindows: any[];
 }
 
-const initialState: State = {
-  closedWindows: [],
+export const getInitialState = (): State => {
+  return {
+    closedWindows: [],
+  };
 };
 
-export function localReducer(state = initialState, action: local.Action): State {
+export function localReducer(state = getInitialState(), action: local.Action): State {
   const len = state.closedWindows.length;
   switch (action.type) {
     case local.PUSH_CLOSED_WINDOW_TO_LOCAL:

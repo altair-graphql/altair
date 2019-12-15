@@ -45,33 +45,37 @@ export interface State {
   queryEditorState: QueryEditorState;
 }
 
-export const initialState: State = {
-  url: getFullUrl(getAltairConfig().initialData.url ? '' + getAltairConfig().initialData.url : ''),
-  subscriptionUrl: getAltairConfig().initialData.subscriptionsEndpoint ? '' + getAltairConfig().initialData.subscriptionsEndpoint : '',
-  query: getAltairConfig().initialData.query ? '' + getAltairConfig().initialData.query : initialQuery,
-  selectedOperation: '',
-  operations: [],
-  httpVerb : 'POST',
-  response: null,
-  responseTime: 0,
-  responseStatus: 0,
-  responseStatusText: '',
-  showUrlAlert: false,
-  urlAlertMessage: 'URL has been set',
-  urlAlertSuccess: true,
-  showEditorAlert: false,
-  editorAlertMessage: 'Query is set',
-  editorAlertSuccess: true,
-  subscriptionClient: null,
-  subscriptionConnectionParams: '{}',
-  isSubscribed: false,
-  subscriptionResponseList: [],
-  queryEditorState: {
-    isFocused: false,
-  },
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+
+  return {
+    url: getFullUrl(altairConfig.initialData.url ? '' + altairConfig.initialData.url : ''),
+    subscriptionUrl: altairConfig.initialData.subscriptionsEndpoint ? '' + altairConfig.initialData.subscriptionsEndpoint : '',
+    query: altairConfig.initialData.query ? '' + altairConfig.initialData.query : initialQuery,
+    selectedOperation: '',
+    operations: [],
+    httpVerb : 'POST',
+    response: null,
+    responseTime: 0,
+    responseStatus: 0,
+    responseStatusText: '',
+    showUrlAlert: false,
+    urlAlertMessage: 'URL has been set',
+    urlAlertSuccess: true,
+    showEditorAlert: false,
+    editorAlertMessage: 'Query is set',
+    editorAlertSuccess: true,
+    subscriptionClient: null,
+    subscriptionConnectionParams: '{}',
+    isSubscribed: false,
+    subscriptionResponseList: [],
+    queryEditorState: {
+      isFocused: false,
+    },
+  }
 };
 
-export function queryReducer(state = initialState, action: query.Action): State {
+export function queryReducer(state = getInitialState(), action: query.Action): State {
   switch (action.type) {
     case query.SET_QUERY:
     case query.SET_QUERY_FROM_DB:

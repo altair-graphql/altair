@@ -6,12 +6,15 @@ export interface State {
   script: string;
 }
 
-export const initialState: State = {
-  enabled: !!getAltairConfig().initialData.preRequestScript,
-  script: getAltairConfig().initialData.preRequestScript ? '' + getAltairConfig().initialData.preRequestScript : '',
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+  return {
+    enabled: !!altairConfig.initialData.preRequestScript,
+    script: altairConfig.initialData.preRequestScript ? '' + altairConfig.initialData.preRequestScript : '',
+  }
 };
 
-export function preRequestReducer(state = initialState, action: preRequest.Action): State {
+export function preRequestReducer(state = getInitialState(), action: preRequest.Action): State {
   switch (action.type) {
     case preRequest.SET_PREREQUEST_SCRIPT:
       return { ...state, script: action.payload.script };

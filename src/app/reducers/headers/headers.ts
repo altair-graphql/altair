@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import * as headers from '../../actions/headers/headers';
 import { getAltairConfig } from 'app/config';
 
-const getInitialHeadersState = () => {
+export const getInitialHeadersState = () => {
     const altairConfig = getAltairConfig();
     let initialHeaders: State = [];
     if (altairConfig.initialData.headers) {
@@ -26,9 +26,7 @@ export interface State extends Array<Header> {
     [index: number]: Header;
 }
 
-export const initialState: State = getInitialHeadersState();
-
-export function headerReducer(state = initialState, action: headers.Action): State {
+export function headerReducer(state = getInitialHeadersState(), action: headers.Action): State {
     switch (action.type) {
         case headers.ADD_HEADER:
             return [

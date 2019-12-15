@@ -77,7 +77,7 @@ export class AltairConfig {
   };
   query_history_depth = isElectron ? 50 : 7;
   defaultTheme = 'matchMedia' in window && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  themes: ['light', 'dark'];
+  themes: [ 'light', 'dark', 'dracula' ];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {
@@ -118,3 +118,4 @@ export const setAltairConfig = (_config: AltairConfig) => {
 export const getAltairConfig = () => {
   return config;
 };
+(window as any).getAltairConfig = getAltairConfig;

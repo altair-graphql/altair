@@ -1,5 +1,5 @@
 import { createSelector, Store } from '@ngrx/store';
 import { PerWindowState } from '..';
-import { initialState } from './headers';
+import { getInitialHeadersState } from './headers';
 
-export const getHeaders = (state: PerWindowState) => state ? state.headers : { ...initialState };
+export const getHeaders = (state: PerWindowState) => state ? state.headers : { ...getInitialHeadersState() };

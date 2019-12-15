@@ -45,7 +45,7 @@ export class WindowService {
     }>((obs) => {
       return this.store.pipe(first()).subscribe(data => {
 
-        const url = opts.url || fromQuery.initialState.url || (
+        const url = opts.url || fromQuery.getInitialState().url || (
           data.windowsMeta.activeWindowId &&
           data.windows[data.windowsMeta.activeWindowId] &&
           data.windows[data.windowsMeta.activeWindowId].query.url

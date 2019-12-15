@@ -16,17 +16,21 @@ export interface State {
   activeSubEnvironment?: string;
 }
 
-export const initialEnvironmentState: EnvironmentState = {
-  title: 'Environment',
-  variablesJson: '{}'
+export const getInitialEnvironmentState = (): EnvironmentState => {
+  return {
+    title: 'Environment',
+    variablesJson: '{}'
+  };
 };
 
-export const initialState: State = {
-  base: { ...initialEnvironmentState },
-  subEnvironments: [],
+export const getInitialState = (): State => {
+  return {
+    base: { ...getInitialEnvironmentState() },
+    subEnvironments: [],
+  }
 };
 
-export function environmentsReducer(state = initialState, action: environmentsAction.Action): State {
+export function environmentsReducer(state = getInitialState(), action: environmentsAction.Action): State {
   switch (action.type) {
     case environmentsAction.ADD_SUB_ENVIRONMENT:
       return {
@@ -34,7 +38,7 @@ export function environmentsReducer(state = initialState, action: environmentsAc
         subEnvironments: [
           ...state.subEnvironments,
           {
-            ...initialEnvironmentState,
+            ...getInitialEnvironmentState(),
             id: action.payload.id,
             title: `Environment ${state.subEnvironments.length + 1}`
           }

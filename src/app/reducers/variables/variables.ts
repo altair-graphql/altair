@@ -16,12 +16,15 @@ export interface State {
     files: FileVariable[];
 }
 
-export const initialState: State = {
-    variables: getAltairConfig().initialData.variables ? '' + getAltairConfig().initialData.variables : '{}',
-    files: [],
+export const getInitialState = (): State => {
+    const altairConfig = getAltairConfig();
+    return {
+        variables: altairConfig.initialData.variables ? '' + altairConfig.initialData.variables : '{}',
+        files: [],
+    };
 };
 
-export function variableReducer(state = initialState, action: variables.Action): State {
+export function variableReducer(state = getInitialState(), action: variables.Action): State {
     switch (action.type) {
         case variables.UPDATE_VARIABLES:
             return { ...state, variables: action.payload };

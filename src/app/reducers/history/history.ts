@@ -16,11 +16,13 @@ export interface State {
   list: HistoryList;
 }
 
-export const initialState: State = {
-  list: []
+export const getInitialState = (): State => {
+  return {
+    list: [],
+  };
 };
 
-export function historyReducer(state = initialState, action: history.Action): State {
+export function historyReducer(state = getInitialState(), action: history.Action): State {
   switch (action.type) {
     case history.ADD_HISTORY:
       const _state = { ...state };

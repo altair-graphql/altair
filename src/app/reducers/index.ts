@@ -80,8 +80,8 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-const altairInstanceStorageNamespace = getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
-export const keySerializer = (key: string) => `${altairInstanceStorageNamespace}${key}`;
+const getAltairInstanceStorageNamespace = () => getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
+export const keySerializer = (key: string) => `${getAltairInstanceStorageNamespace()}${key}`;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({

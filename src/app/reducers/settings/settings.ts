@@ -60,17 +60,20 @@ export interface State {
   'plugin.list'?: string[];
 }
 
-const initialState: State = {
-  theme: <SettingsTheme>getAltairConfig().defaultTheme,
-  language: <SettingsLanguage>getAltairConfig().default_language,
-  addQueryDepthLimit: getAltairConfig().add_query_depth_limit,
-  tabSize: getAltairConfig().tab_size,
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+  return {
+    theme: <SettingsTheme>altairConfig.defaultTheme,
+    language: <SettingsLanguage>altairConfig.default_language,
+    addQueryDepthLimit: altairConfig.add_query_depth_limit,
+    tabSize: altairConfig.tab_size,
+  };
 };
 
-export function settingsReducer(state = initialState, action: settings.Action): State {
+export function settingsReducer(state = getInitialState(), action: settings.Action): State {
   switch (action.type) {
     case settings.SET_SETTINGS_JSON:
-      const newState = { ...initialState, ...jsonc(action.payload.value) };
+      const newState = { ...getInitialState(), ...jsonc(action.payload.value) };
 
       // Removes old isShown state
       delete newState.isShown;

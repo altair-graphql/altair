@@ -9,16 +9,18 @@ export interface State {
   showPreRequestDialog: boolean;
 }
 
-export const initialState: State = {
-  showHeaderDialog: false,
-  showVariableDialog: false,
-  showSubscriptionUrlDialog: false,
-  showHistoryDialog: false,
-  showAddToCollectionDialog: false,
-  showPreRequestDialog: false,
+export const getInitialState = (): State => {
+  return {
+    showHeaderDialog: false,
+    showVariableDialog: false,
+    showSubscriptionUrlDialog: false,
+    showHistoryDialog: false,
+    showAddToCollectionDialog: false,
+    showPreRequestDialog: false,
+  };
 };
 
-export function dialogReducer(state = initialState, action: dialogs.Action): State {
+export function dialogReducer(state = getInitialState(), action: dialogs.Action): State {
   switch (action.type) {
     case dialogs.TOGGLE_HEADER_DIALOG:
       return Object.assign({}, state, { showHeaderDialog: !state.showHeaderDialog });

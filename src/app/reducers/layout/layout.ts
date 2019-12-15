@@ -9,12 +9,14 @@ export interface State {
   windowIdInCollection?: string;
 }
 
-export const initialState: State = {
-  isLoading: false,
-  title: 'New window',
+export const getInitialState = (): State => {
+  return {
+    isLoading: false,
+    title: 'New window',
+  };
 };
 
-export function layoutReducer(state = initialState, action: layout.Action): State {
+export function layoutReducer(state = getInitialState(), action: layout.Action): State {
   switch (action.type) {
     case layout.START_LOADING:
       return { ...state, isLoading: true };

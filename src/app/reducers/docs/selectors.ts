@@ -1,8 +1,8 @@
 import { createSelector, Store } from '@ngrx/store';
 import { PerWindowState } from '..';
-import { initialState } from './docs';
+import { getInitialState } from './docs';
 
-export const getDocsState = (state: PerWindowState) => state ? state.docs : { ...initialState };
+export const getDocsState = (state: PerWindowState) => state ? state.docs : { ...getInitialState() };
 export const getShowDocs = createSelector(getDocsState, state => state.showDocs);
-export const getDocView = createSelector(getDocsState, state => state.docView || initialState.docView);
+export const getDocView = createSelector(getDocsState, state => state.docView || getInitialState().docView);
 export const getDocsLoading = createSelector(getDocsState, state => state.isLoading);
