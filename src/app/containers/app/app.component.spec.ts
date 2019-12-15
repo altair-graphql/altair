@@ -53,7 +53,7 @@ describe('AppComponent', () => {
       {
         provide: AltairConfig,
         useValue: new AltairConfig(),
-      }
+      },
   ];
 
     TestBed.configureTestingModule({

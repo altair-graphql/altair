@@ -4,6 +4,7 @@ import { SchemaFormItemComponent } from './schema-form-item.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { SchemaFormModule } from '../schema-form.module';
+import { AltairConfig } from 'app/config';
 
 describe('SchemaFormItemComponent', () => {
   let component: SchemaFormItemComponent;
@@ -18,6 +19,12 @@ describe('SchemaFormItemComponent', () => {
       ],
       declarations: [
         // SchemaFormItemComponent,
+      ],
+      providers: [
+        {
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
+        },
       ]
     })
     .compileComponents();
