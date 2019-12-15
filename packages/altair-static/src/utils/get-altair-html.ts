@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { getDistDirectory } from './get-dist';
 
 export default function getAltairHtml() {
-  return readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
+  return readFileSync(resolve(getDistDirectory(), 'index.html'), 'utf8');
 }
