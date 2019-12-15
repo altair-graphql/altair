@@ -30,7 +30,7 @@ createRouteExplorer({
   url: '/altair',
   router,
   opts: {
-    endpoint: '/graphql',
+    endpointURL: '/graphql',
     subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
     initialQuery: `{ getData { id name surname } }`,
   },

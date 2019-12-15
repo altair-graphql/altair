@@ -1,9 +1,10 @@
 'use strict';
 
 import * as send from 'koa-send';
+import * as KoaRouter from 'koa-router';
 import { getDistDirectory, renderAltair, RenderOptions } from 'altair-static';
 
-export const createRouteExplorer = ({ router, url, opts }: { router, url: string, opts: RenderOptions }) => {
+export const createRouteExplorer = ({ router, url, opts }: { router: KoaRouter, url: string, opts: RenderOptions }) => {
   router.get(url, async (ctx, next) => {
 
     ctx.body = renderAltair({ baseURL: ctx.url.replace(/\/?$/, '/'), ...opts });
