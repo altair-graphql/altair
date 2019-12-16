@@ -1,7 +1,7 @@
-import { first, distinctUntilChanged, map, filter, take } from 'rxjs/operators';
+import { first, distinctUntilChanged, map, filter, take, switchMap, timeout, catchError } from 'rxjs/operators';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, forkJoin, of, from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as uuid from 'uuid/v4';
@@ -105,11 +105,38 @@ export class AppComponent implements OnDestroy {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    this.translate.use(applicationLanguage)
-    .pipe(untilDestroyed(this))
-    .subscribe(() => {
-      this.isReady = true;
-    });
+    forkJoin([
+      this.translate.use(applicationLanguage),
+      this.store.pipe(
+        take(1),
+        switchMap(data => {
+          if (data.settings.enableExperimental) {
+            if (data.settings['plugin.list']) {
+              data.settings['plugin.list'].forEach(pluginStr => {
+                const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
+                if (pluginInfo) {
+                  this.pluginRegistry.getPlugin(pluginInfo.name, { version: pluginInfo.version });
+                }
+              });
+            }
+            // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
+            // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', {
+            //   pluginSource: 'url',
+            //   version: '0.0.4',
+            //   url: 'http://localhost:8002/'
+            // });
+          }
+          return from(this.pluginRegistry.pluginsReady());
+        }),
+        // Only wait 5 seconds for plugins to be ready
+        timeout(5000),
+        catchError(error => of('Plugins were not ready on time!')),
+      ),
+    ])
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.isReady = true;
+      });
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
@@ -159,39 +186,17 @@ export class AppComponent implements OnDestroy {
         if (this.windowIds.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
+
+        this.pluginRegistry.installedPlugins()
+          .pipe(
+            untilDestroyed(this),
+          )
+          .subscribe(plugins => this.installedPlugins = Object.values(plugins));
       });
 
     if (!this.windowIds.length) {
       this.newWindow();
     }
-
-    this.store.pipe(
-      take(1),
-      untilDestroyed(this)
-    )
-    .subscribe(data => {
-      if (data.settings.enableExperimental) {
-        if (data.settings['plugin.list']) {
-          data.settings['plugin.list'].forEach(pluginStr => {
-            const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
-            if (pluginInfo) {
-              this.pluginRegistry.getPlugin(pluginInfo.name, { version: pluginInfo.version });
-            }
-          });
-        }
-        // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
-        // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', {
-        //   pluginSource: 'url',
-        //   version: '0.0.4',
-        //   url: 'http://localhost:8002/'
-        // });
-      }
-      this.pluginRegistry.installedPlugins()
-        .pipe(
-          untilDestroyed(this),
-        )
-        .subscribe(plugins => this.installedPlugins = Object.values(plugins));
-    });
   }
 
   /**
