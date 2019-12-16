@@ -14,6 +14,7 @@ export interface QueryEditorState {
 
 export interface SubscriptionResponse {
   response: string;
+  responseObj: any;
   responseTime: number;
 }
 
@@ -41,6 +42,7 @@ export interface State {
   subscriptionConnectionParams: string;
   isSubscribed: boolean;
   subscriptionResponseList: SubscriptionResponse[];
+  autoscrollSubscriptionResponse: boolean;
 
   queryEditorState: QueryEditorState;
 }
@@ -69,6 +71,7 @@ export const getInitialState = (): State => {
     subscriptionConnectionParams: '{}',
     isSubscribed: false,
     subscriptionResponseList: [],
+    autoscrollSubscriptionResponse: false,
     queryEditorState: {
       isFocused: false,
     },
@@ -107,11 +110,14 @@ export function queryReducer(state = getInitialState(), action: query.Action): S
       return Object.assign({}, state, {
         subscriptionResponseList: [...state.subscriptionResponseList, {
           response: action.payload.response,
-          responseTime: action.payload.responseTime
+          responseTime: action.payload.responseTime,
+          responseObj: action.payload.responseObj,
         }]
       });
     case query.SET_SUBSCRIPTION_RESPONSE_LIST:
       return Object.assign({}, state, { subscriptionResponseList: action.payload.list });
+    case query.TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE:
+      return { ...state, autoscrollSubscriptionResponse: !state.autoscrollSubscriptionResponse };
     case query.SET_HTTP_VERB:
       return Object.assign({}, state, { httpVerb: action.payload.httpVerb });
     case query.SET_QUERY_OPERATIONS:

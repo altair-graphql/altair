@@ -33,7 +33,7 @@ import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 import * as preRequestActions from '../../actions/pre-request/pre-request';
 
-import { GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import { PluginComponentData, PluginInstance } from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -66,6 +66,7 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
+  autoscrollSubscriptionResponses$: Observable<boolean>;
 
   collections$: Observable<fromCollection.IQueryCollection[]>;
 
@@ -100,6 +101,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
+    private windowService: WindowService,
     private vRef: ViewContainerRef,
     private pluginRegistry: PluginRegistryService,
     private zone: NgZone,
@@ -125,6 +127,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.responseStatusText$ = this.getWindowState().pipe(select(fromRoot.getResponseStatusText));
     this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
     this.subscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getSubscriptionResponses));
+    this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getAutoscrollSubscriptionResponse));
     this.selectedOperation$ = this.getWindowState().pipe(select(fromRoot.getSelectedOperation));
     this.queryOperations$ = this.getWindowState().pipe(select(fromRoot.getQueryOperations));
     this.streamState$ = this.getWindowState().pipe(
@@ -223,6 +226,8 @@ export class WindowComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    this.windowService.setupWindow(this.windowId);
   }
 
   setApiUrl(url: string) {
@@ -263,6 +268,10 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   clearSubscription() {
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
+  }
+
+  toggleAutoscrollSubscriptionResponses() {
+    this.store.dispatch(new queryActions.ToggleAutoscrollSubscriptionResponseAction(this.windowId));
   }
 
   updateQuery(query: string) {

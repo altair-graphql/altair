@@ -45,6 +45,7 @@
 
   "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Clear",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
 
   "VARIABLES_TEXT": "Variables",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Add, edit and remove variables in your request",

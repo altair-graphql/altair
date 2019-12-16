@@ -536,7 +536,8 @@ export class QueryEffects {
 
                 this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
                   response: strData,
-                  responseTime: (new Date()).getTime() // store responseTime in ms
+                  responseObj: data,
+                  responseTime: (new Date()).getTime(), // store responseTime in ms
                 }));
 
                 // Send notification in electron app

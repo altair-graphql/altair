@@ -29,6 +29,7 @@ export const SET_SUBSCRIPTION_CLIENT = 'SET_SUBSCRIPTION_CLIENT';
 export const SET_SUBSCRIPTION_CONNECTION_PARAMS = 'SET_SUBSCRIPTION_CONNECTION_PARAMS';
 export const ADD_SUBSCRIPTION_RESPONSE = 'ADD_SUBSCRIPTION_RESPONSE';
 export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
+export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
 export const DOWNLOAD_RESULT = 'DOWNLOAD_RESULT';
@@ -159,13 +160,19 @@ export class SetSubscriptionClientAction implements Action {
 export class AddSubscriptionResponseAction implements Action {
   readonly type = ADD_SUBSCRIPTION_RESPONSE;
 
-  constructor(public windowId: string, public payload: { response: string, responseTime: number }) { }
+  constructor(public windowId: string, public payload: { response: string, responseObj?: any, responseTime: number }) { }
 }
 
 export class SetSubscriptionResponseListAction implements Action {
   readonly type = SET_SUBSCRIPTION_RESPONSE_LIST;
 
   constructor(public windowId: string, public payload: { list: Array<any> }) { }
+}
+
+export class ToggleAutoscrollSubscriptionResponseAction implements Action {
+  readonly type = TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE;
+
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class DownloadResultAction implements Action {
@@ -212,6 +219,7 @@ export type Action =
   | SetSubscriptionConnectionParamsAction
   | AddSubscriptionResponseAction
   | SetSubscriptionResponseListAction
+  | ToggleAutoscrollSubscriptionResponseAction
   | SetResponseStatsAction
   | DownloadResultAction
   | CancelQueryRequestAction

@@ -55,11 +55,23 @@
             <button track-id="stop_subscription" class="subscription-button subscription-button--stop" (click)="stopSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}</button>
           </div>
       </div>
-      <div class="subscription-result__list-wrapper">
+      <div
+        #subscriptionResponseList
+        class="subscription-result__list-wrapper"
+      >
         <app-subscription-result-item
           *ngFor="let item of subscriptionResponses; trackBy:subscriptionResponseTrackBy;"
           [data]="item"
         ></app-subscription-result-item>
+      </div>
+      <div class="subscription-result__float-actions">
+        <button
+          class="subscription-result__float-action-button"
+          [ngClass]="{ 'subscription-result__float-action-button--active': autoscrollSubscriptionResponses }"
+          (click)="autoscrollSubscriptionResponsesChange.next()"
+        >
+          {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
+        </button>
       </div>
     </div>
   </div>

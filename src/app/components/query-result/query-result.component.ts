@@ -6,7 +6,8 @@ import {
   ViewChild,
   EventEmitter,
   OnChanges,
-  ElementRef
+  ElementRef,
+  SimpleChanges,
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -42,12 +43,15 @@ export class QueryResultComponent implements OnChanges {
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
+  @Input() autoscrollSubscriptionResponses = false;
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
+  @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
 
   resultEditorConfig = {
     mode: 'graphql-results',
@@ -70,11 +74,18 @@ export class QueryResultComponent implements OnChanges {
 
   constructor() {}
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
     if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
+    }
+    if (changes.subscriptionResponses && changes.subscriptionResponses.currentValue) {
+      setTimeout(() => {
+        if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
+          this.subscriptionResponseList.nativeElement.scrollTop = this.subscriptionResponseList.nativeElement.scrollHeight;
+        }
+      }, 50);
     }
   }
 

@@ -4,7 +4,8 @@ import { Component, ViewEncapsulation, Input } from '@angular/core';
   selector: 'app-subscription-result-item',
   templateUrl: './subscription-result-item.component.html',
   styleUrls: ['./subscription-result-item.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  preserveWhitespaces: false,
 })
 export class SubscriptionResultItemComponent {
 
