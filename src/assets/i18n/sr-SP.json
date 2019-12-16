@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Преузми",
   "SUBSCRIPTIONS_STOP_TEXT": "Заустави",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Очисти",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Променљиве",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Dodaj, izmeni ili obrisi promenljive u zahtevu",
   "HEADERS_TEXT": "Заглавља",
