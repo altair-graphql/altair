@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Scarica",
   "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Cancella",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Variabili",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Aggiungere, modificare e rimuovere variabili dalle vostre richieste",
   "HEADERS_TEXT": "Header",
