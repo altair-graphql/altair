@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Stáhnout",
   "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Vyčistit",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Proměnné",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Přidejte, upravte či odeberte proměnné v požadavku",
   "HEADERS_TEXT": "Hlavičky",

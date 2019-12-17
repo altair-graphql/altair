@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Tải xuống",
   "SUBSCRIPTIONS_STOP_TEXT": "Dừng",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Xóa",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Biến số",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Thêm, sửa và xoá biến trong yêu cầu của bạn",
   "HEADERS_TEXT": "(Tiêu đề) Headers",

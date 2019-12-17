@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Pobierz",
   "SUBSCRIPTIONS_STOP_TEXT": "Zatrzymaj",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Wyczyść",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Zmienne",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Dodaj, edytuj i usuń zmienne w zapytaniu",
   "HEADERS_TEXT": "Nagłówki",

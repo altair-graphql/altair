@@ -42,6 +42,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Descarca",
   "SUBSCRIPTIONS_STOP_TEXT": "Opreste",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Curata",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Variabile",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Adauga, editeaza si elimina variabile in cerere",
   "HEADERS_TEXT": "Antete",
