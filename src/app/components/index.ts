@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../modules/shared/shared.module';
 
 import { PipesModule } from '../pipes';
 import { DirectivesModule } from '../directives';
@@ -67,7 +66,6 @@ const COMPONENTS = [
     PipesModule,
     DirectivesModule,
     SharedModule,
-    ClarityModule,
     SchemaFormModule,
   ],
   declarations: COMPONENTS,

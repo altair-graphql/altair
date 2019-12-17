@@ -8,7 +8,7 @@ import * as services from '../../services';
 
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 
 describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;

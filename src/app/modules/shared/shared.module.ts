@@ -11,7 +11,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { ClarityModule } from '@clr/angular';
+import { IconsModule } from '../icons/icons.module';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { ClarityModule } from '@clr/angular';
     }),
     MarkdownModule.forRoot(),
     NgZorroAntdModule,
-    ClarityModule,
+    IconsModule,
   ],
 
   // DON'T FORGET TO EXPORT MODULE
@@ -44,7 +44,7 @@ import { ClarityModule } from '@clr/angular';
     NgxPopperModule,
     MarkdownModule,
     NgZorroAntdModule,
-    ClarityModule,
+    IconsModule,
   ]
 })
 export class SharedModule {

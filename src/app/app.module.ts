@@ -4,9 +4,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import '@clr/icons';
-import '@clr/icons/shapes/all-shapes';
-
 import { ToastrModule } from 'ngx-toastr';
 
 import { StoreModule } from '@ngrx/store';
@@ -16,10 +13,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { ClarityModule } from '@clr/angular';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 import { metaReducers, reducerToken } from './reducers';
 
@@ -105,7 +101,6 @@ const providers = [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ClarityModule,
     SharedModule.forRoot(),
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
