@@ -11,6 +11,7 @@ export class SubscriptionResultItemComponent {
 
   @Input() data = {
     response: '',
+    responseObj: null,
     responseTime: 0
   };
 

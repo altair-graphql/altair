@@ -1,0 +1,15 @@
+app-icon,
+.app-icon,
+app-icon .app-icon {
+  display: inline-block;
+  margin: 0;
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+  stroke: currentColor; // For feather icons
+}
+
+app-icon .app-icon,
+app-icon .app-icon svg {
+  display: block;
+}

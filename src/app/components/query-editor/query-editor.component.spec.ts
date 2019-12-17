@@ -10,8 +10,7 @@ import { VariablesEditorComponent } from '../variables-editor/variables-editor.c
 import { NotifyService, GqlService } from 'app/services';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { SharedModule } from 'app/shared/shared.module';
-import { ClarityModule } from '@clr/angular';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { Store } from '@ngrx/store';
 import { empty as observableEmpty } from 'rxjs';
 
@@ -28,7 +27,6 @@ describe('QueryEditorComponent', () => {
         CodemirrorModule,
         SharedModule.forRoot(),
         ToastrModule.forRoot(),
-        ClarityModule,
         TranslateModule.forRoot()
       ],
       providers: [

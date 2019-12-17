@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { DialogComponent } from './dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;

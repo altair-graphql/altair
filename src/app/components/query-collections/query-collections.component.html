@@ -9,7 +9,7 @@
           [popperPlacement]="'bottom'"
           (click)="importCollectionChange.next()"
         >
-          <clr-icon shape="import" class="is-solid"></clr-icon>
+          <app-icon name="log-in"></app-icon>
         </button>
         <div class="query-collections__actions--right">
           <button
@@ -68,7 +68,7 @@
       ></app-query-collection-item>
       <div class="query-collections__empty" *ngIf="!(collections?.length)">
         <div class="query-collections__empty-icon">
-          <clr-icon shape="library" size='40'></clr-icon>
+          <app-icon name="sidebar" size="40"></app-icon>
         </div>
         <div class="query-collections__empty-description">
           {{ 'COLLECTIONS_EMPTY_TEXT' | translate }}

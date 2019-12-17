@@ -2,8 +2,8 @@
   <div class="query-collections__item-details-wrapper">
     <div class="query-collections__item-details" (click)="toggleContent()">
       <div class="query-collections__item-title">
-        <span class="query-title-icon" *ngIf="showContent"><clr-icon shape="folder-open"></clr-icon></span>
-        <span class="query-title-icon" *ngIf="!showContent"><clr-icon shape="folder"></clr-icon></span>
+        <span class="query-title-icon" *ngIf="showContent"><app-icon name="folder-minus"></app-icon></span>
+        <span class="query-title-icon" *ngIf="!showContent"><app-icon name="folder-plus"></app-icon></span>
         <span>{{ collection.title }}</span></div>
       <div class="query-collections__item-meta">{{ 'NUMBER_OF_QUERIES' | translate }} {{ getQueryCount(collection) }}</div>
       <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
@@ -17,7 +17,7 @@
           type="button"
           class="query-collections__item-icon__button"
         >
-          <clr-icon shape="ellipsis-horizontal"></clr-icon>
+          <app-icon name="more-horizontal"></app-icon>
         </button>
       </span>
       <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
@@ -70,7 +70,7 @@
           class="query-collections__item-queries-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"
         >
-          <span class="query-title-icon"><clr-icon shape="file"></clr-icon></span>
+          <span class="query-title-icon"><app-icon name="file"></app-icon></span>
           {{ query.windowName }}
           <span
             *ngIf="!query.id"
@@ -78,7 +78,7 @@
             [popper]="deprecatedCollectionQuery"
             [popperPlacement]="'bottom'"
           >
-            <clr-icon shape="exclamation-triangle" class="is-solid"></clr-icon>
+            <app-icon name="alert-triangle"></app-icon>
           </span>
           <popper-content #deprecatedCollectionQuery>
               {{ 'COLLECTIONS_DEPRECATED_QUERY_WARNING' | translate }}
@@ -94,7 +94,7 @@
               [nzDropdownMenu]="collectionQueryItemMenu"
               class="query-collections__item-icon__button"
             >
-              <clr-icon shape="ellipsis-horizontal"></clr-icon>
+              <app-icon name="more-horizontal"></app-icon>
             </button>
           </span>
           <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">

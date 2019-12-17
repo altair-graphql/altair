@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import { DocViewerFieldComponent } from './doc-viewer-field/doc-viewer-field.component';
@@ -15,7 +14,6 @@ import { ComponentModule } from '..';
   imports: [
     CommonModule,
     FormsModule,
-    ClarityModule,
     SharedModule,
     ComponentModule,
   ],

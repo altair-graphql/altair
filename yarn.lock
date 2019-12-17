@@ -394,23 +394,6 @@
     "@cliqz-oss/firefox-client" "0.3.1"
     es6-promise "^2.0.1"
 
-"@clr/angular@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@clr/angular/-/angular-2.0.2.tgz#b86957e1cc71937fafaea78b7f8cfc669de8c302"
-  integrity sha512-Bp/CwSgyduKQ8rJoqVpF2K2PFCXLj1mhVrBETXqOIWnjDd7IuELvRboeqJTMeKl2Bh/jBBWZU+KlWhCs57yp6Q==
-  dependencies:
-    tslib "^1.9.0"
-
-"@clr/icons@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@clr/icons/-/icons-2.0.2.tgz#a3ba26727ea00d8b39ef90eea80c4dd6eb0ff000"
-  integrity sha512-Y+wY+q4xR2IYYqdRqRCoQHq2D6kqBVu+f9n16hM2QsVgz/1hIJJUhw92TyXWvtSGneTOoSIs0V/Ub8g9C1VnUA==
-
-"@clr/ui@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@clr/ui/-/ui-2.0.2.tgz#2f011f68f4f21970c18a4faca7c46870bef43703"
-  integrity sha512-GJcw7A8lWLGj07sXKmNrfulr40jU7ohFRpcyPvuRZyDjXJ/DsIx/qAf1H5stFYUcaJNddJVZ2+KnZP8BPMhi/A==
-
 "@ctrl/ngx-codemirror@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-2.0.0.tgz#a1d1f7a1e02708a73f7215a3659d77c6008adb61"
@@ -2014,6 +1997,14 @@ ajv@^6.9.1:
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+
+angular-feather@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/angular-feather/-/angular-feather-6.0.4.tgz#8fc3febc145d0d4d4d5670831a59b0e754ee671a"
+  integrity sha512-PeqKge3sTkj6Zefi89YCUBTwvJeaBAffCgWTnxls+n+2IdGp9SVaWS/ErhVDmJD7rWe/pZ3DM1OocAIzA/8ZqA==
+  dependencies:
+    feather-icons "4.24.1"
+    tslib "^1.9.0"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -3713,6 +3704,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.5:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 clean-css@4.2.1:
   version "4.2.1"
@@ -5727,6 +5723,14 @@ fd-slicer@~1.1.0:
   resolved "https://registry.yarnpkg.com/fd-slicer/-/fd-slicer-1.1.0.tgz#25c7c89cb1f9077f8891bbe61d8f390eae256f1e"
   dependencies:
     pend "~1.2.0"
+
+feather-icons@4.24.1:
+  version "4.24.1"
+  resolved "https://registry.yarnpkg.com/feather-icons/-/feather-icons-4.24.1.tgz#f31a83c5a2d1c040576aacb7882d8acdfb7f7f09"
+  integrity sha512-CGBzG9L9M2sNWEpLY2HJgacW4q1KzypMqLiCPQRr6t4uDDXqYprWRWKcHEwD/vDDiDnkSS7N4L5BLYwjGGH8pw==
+  dependencies:
+    classnames "^2.2.5"
+    core-js "^3.1.3"
 
 figgy-pudding@^3.1.0, figgy-pudding@^3.4.1, figgy-pudding@^3.5.1:
   version "3.5.1"
