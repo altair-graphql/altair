@@ -97,8 +97,7 @@ export function windows(reducer: ActionReducer<any>) {
                 return Object.assign({}, _state);
             default:
                 if (!_windowState) {
-                    // If the provided windowId is invalid, log the error and just return the state
-                    debug.warn('Invalid window ID provided.');
+                    // Just return state. The action was properly not for a PerWindow reducer
                     return _state;
                 }
 
