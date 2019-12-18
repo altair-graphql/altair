@@ -5749,10 +5749,10 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-file-dialog@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/file-dialog/-/file-dialog-0.0.7.tgz#1cef1a10d25043bb548e2dfa5b00b423ef669f63"
-  integrity sha512-eRo8DZbV7G0ADtaUPvGAb5ZXB+jN1ehVeYanIHDt2wEokjiXTy5kzMvtiPw4nEtt08IxJqqMeeFZNP34XLNjRw==
+file-dialog@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/file-dialog/-/file-dialog-0.0.8.tgz#9137155ffe4abf4e1546aba3ed17e395fbf92aba"
+  integrity sha512-KnYitqNf/rANEhUxWzkINAaMVc7SshejwA5HEd5Wr8lEJQX1Js1LCndectS44SXTnXWK+jbHQYs4R6CaG+7Jkg==
 
 file-entry-cache@^2.0.0:
   version "2.0.0"
