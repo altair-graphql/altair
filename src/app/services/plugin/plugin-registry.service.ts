@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { AltairPlugin, PluginRegistryMap, PluginInstance, PluginSource, PluginManifest, PluginType } from './plugin';
+import { Subject, combineLatest, Observable } from 'rxjs';
+import {
+  AltairPlugin,
+  PluginRegistryMap,
+  PluginInstance,
+  PluginSource,
+  PluginManifest,
+  PluginType,
+  PluginComponentData,
+} from './plugin';
+import { PluginPropsFactory } from './plugin-props-factory';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class PluginRegistryService {
@@ -13,6 +23,7 @@ export class PluginRegistryService {
 
   constructor(
     private http: HttpClient,
+    private pluginPropsFactory: PluginPropsFactory,
   ) {}
 
   add(key: string, pluginInstance: PluginInstance) {
@@ -20,7 +31,7 @@ export class PluginRegistryService {
     this.emitRegistryUpdate();
   }
 
-  getPlugin(name: string, opts: any = {}) {
+  fetchPlugin(name: string, opts: any = {}) {
     if (!name || this.registry[name]) {
       return;
     }
@@ -54,12 +65,35 @@ export class PluginRegistryService {
     this.emitRegistryUpdate();
   }
 
-  getPluginProps() {
-    // Props are the data that would be accessible to the plugin
+  getPlugins(pluginType = PluginType.SIDEBAR) {
+    return this.installedPlugins().pipe(
+      map(pluginMap => {
+        return Object.values(pluginMap)
+          .filter(plugin => plugin.type === pluginType);
+      }),
+    );
   }
-  getPluginContext() {
-    // Context is basically an object with the set of allowed functionality
-    // Returns context based on type of plugin.
+
+  getPluginsWithData(pluginType = PluginType.SIDEBAR, { windowId = '' } = {}): Observable<PluginComponentData[]> {
+    return this.getPlugins(pluginType).pipe(
+      map(plugins => {
+        return plugins
+          .map(plugin => {
+            return this.pluginPropsFactory.getPluginProps(plugin, {
+              windowId,
+            }).pipe(
+              map(pluginProps => {
+                return Object.assign({
+                  props: pluginProps
+                }, plugin);
+              }),
+            )
+          });
+      }),
+      switchMap(pluginsWithData$ => {
+        return combineLatest(...pluginsWithData$);
+      }),
+    );
   }
 
   /**

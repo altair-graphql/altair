@@ -9,7 +9,7 @@ import { PluginComponentData, PluginElement } from 'app/services/plugin/plugin';
 })
 export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() pluginData: PluginComponentData | undefined;
+  @Input() pluginData?: PluginComponentData;
 
   @ViewChild('pluginElRef', { static: true }) pluginElRef: ElementRef;
   pluginElement: PluginElement;
@@ -38,10 +38,7 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
 
   renderElement() {
     if (this.pluginElement && this.pluginData) {
-      this.pluginElement['props'] = {
-        ...this.pluginData.props,
-        ctx: this.pluginData.context,
-      };
+      this.pluginElement.props = this.pluginData.props;
     }
   }
 

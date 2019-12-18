@@ -249,7 +249,7 @@
     
               <div class="side-menu__plugins">
                 <a
-                  *ngFor="let plugin of installedPlugins"
+                  *ngFor="let plugin of sidebarPlugins"
                   class="side-menu-item"
                   (click)="togglePluginActive(plugin)"
                   attr.aria-label="{{ plugin.display_name}}"
