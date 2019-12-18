@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-
+import { getAltairConfig } from 'app/config';
 import * as environmentsAction from '../actions/environments/environments';
 
 export interface EnvironmentState {
@@ -17,16 +17,23 @@ export interface State {
 }
 
 export const getInitialEnvironmentState = (): EnvironmentState => {
+  const { initialData } = getAltairConfig();
   return {
     title: 'Environment',
-    variablesJson: '{}'
+    variablesJson: '{}',
+    ...initialData.environments.base
   };
 };
 
+const getInitialSubEnvironmentState = (): EnvironmentState[] => {
+  const { initialData } = getAltairConfig();
+  return initialData.environments.subEnvironments || [];
+}
+
 export const getInitialState = (): State => {
   return {
-    base: { ...getInitialEnvironmentState() },
-    subEnvironments: [],
+    base: getInitialEnvironmentState(),
+    subEnvironments: getInitialSubEnvironmentState(),
   }
 };
 

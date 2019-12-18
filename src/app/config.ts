@@ -1,10 +1,10 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
+import { State as IInitialEnvironments } from './reducers/environments';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
 export interface AltairConfigOptions {
-
   /**
    * URL to set as the server endpoint
    */
@@ -38,6 +38,24 @@ export interface AltairConfigOptions {
    * }
    */
   initialHeaders?: IDictionary;
+
+  /**
+   * Initial Environments to be added
+   * @example
+   * {
+   *   base: {
+   *     title: 'Environment',
+   *     variablesJson: '{}'
+   *   },
+   *   subEnvironments: [
+   *     {
+   *       title: 'sub-1',
+   *       variablesJson: '{}'
+   *     }
+   *   ]
+   * }
+   */
+  initialEnvironments?: IInitialEnvironments;
 
   /**
    * Namespace for storing the data for the altair instance.
@@ -87,6 +105,7 @@ export class AltairConfig {
     variables: '',
     // Force type of header, since initial value inference is wrong
     headers: (null as unknown as IDictionary),
+    environments: ({} as IInitialEnvironments),
     preRequestScript: '',
     instanceStorageNamespace: '',
   };
@@ -95,6 +114,7 @@ export class AltairConfig {
     subscriptionsEndpoint,
     initialQuery,
     initialHeaders,
+    initialEnvironments,
     initialVariables,
     initialPreRequestScript,
     instanceStorageNamespace,
@@ -104,6 +124,7 @@ export class AltairConfig {
     this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
     this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
     this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
+    this.initialData.environments = (window as any).__ALTAIR_INITIAL_ENVIRONMENTS__ || initialEnvironments || {};
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
   }
