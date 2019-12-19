@@ -1,6 +1,19 @@
 import { Action } from '@ngrx/store';
-
+import * as uuid from 'uuid/v4';
+import { getAltairConfig } from 'app/config';
 import * as environmentsAction from '../actions/environments/environments';
+import { IDictionary } from 'app/interfaces/shared';
+
+interface InitialEnvironmentState {
+  id?: string
+  title?: string,
+  variables?: IDictionary,
+};
+
+export interface IInitialEnvironments {
+  base?: InitialEnvironmentState,
+  subEnvironments?: InitialEnvironmentState[]
+}
 
 export interface EnvironmentState {
   // Adding undefined for backward compatibility
@@ -17,16 +30,30 @@ export interface State {
 }
 
 export const getInitialEnvironmentState = (): EnvironmentState => {
+  const { initialData: { environments } } = getAltairConfig();
+
   return {
-    title: 'Environment',
-    variablesJson: '{}'
+    title: environments.base && environments.base.title || 'Environment',
+    variablesJson: JSON.stringify(environments.base && environments.base.variables || {}),
   };
 };
 
+const getInitialSubEnvironmentState = (): EnvironmentState[] => {
+  const { initialData: { environments } } = getAltairConfig();
+
+  return (environments.subEnvironments || []).map((env, idx) => {
+    return {
+      id: env.id || uuid(),
+      title: env.title || `Environment ${idx + 1}`,
+      variablesJson: JSON.stringify(env.variables || {})
+    }
+  });
+}
+
 export const getInitialState = (): State => {
   return {
-    base: { ...getInitialEnvironmentState() },
-    subEnvironments: [],
+    base: getInitialEnvironmentState(),
+    subEnvironments: getInitialSubEnvironmentState(),
   }
 };
 
