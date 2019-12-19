@@ -30,7 +30,7 @@ export const getInitialEnvironmentState = (): EnvironmentState => {
 const getInitialSubEnvironmentState = (): EnvironmentState[] => {
   const { initialData } = getAltairConfig();
   return (initialData.environments.subEnvironments || []).map(env => {
-    env.id = uuid();
+    env.id = env.id || uuid();
     return env;
   });
 }
