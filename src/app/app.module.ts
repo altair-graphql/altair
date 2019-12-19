@@ -72,6 +72,7 @@ const providers = [
   services.QueryCollectionService,
   services.EnvironmentService,
   services.PluginRegistryService,
+  services.PluginEventService,
   PluginPropsFactory,
   services.PreRequestService,
   // Setting the reducer provider in main.ts now (for proper config initialization)

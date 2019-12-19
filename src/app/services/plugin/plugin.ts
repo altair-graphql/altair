@@ -103,6 +103,8 @@ export interface PluginComponentDataContext {
   getSDL?: (...args: any) => string;
 
   createWindow?: (...args: any) => void;
+
+  on: (...args: any) => void;
 }
 
 export interface PluginComponentData extends PluginInstance {

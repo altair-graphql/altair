@@ -44,6 +44,7 @@ import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PluginInstance, PluginType, PluginComponentData } from 'app/services/plugin/plugin';
+import { PluginEventService } from 'app/services/plugin/plugin-event.service';
 
 @Component({
   selector: 'app-root',
@@ -84,6 +85,7 @@ export class AppComponent implements OnDestroy {
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
     private pluginRegistry: PluginRegistryService,
+    private pluginEvent: PluginEventService,
     private collectionService: QueryCollectionService,
     private altairConfig: AltairConfig,
   ) {
@@ -137,6 +139,7 @@ export class AppComponent implements OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.isReady = true;
+        this.pluginEvent.emit('app-ready', true);
       });
 
     // Update the app translation if the language settings is changed.

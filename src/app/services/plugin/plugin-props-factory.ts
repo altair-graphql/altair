@@ -7,13 +7,13 @@ import * as fromRoot from '../../reducers';
 
 import * as queryActions from '../../actions/query/query';
 import * as variableActions from '../../actions/variables/variables';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { WindowService } from '../window.service';
 import { ExportWindowState } from 'app/reducers/windows';
+import { PluginEventService, PluginEvent } from './plugin-event.service';
 
 interface GetPluginPropsOptions {
   windowId?: string;
-  rootState?: fromRoot.State;
 }
 
 type CreateWindowOptions = Pick<ExportWindowState, 'windowName' | 'apiUrl' | 'query' | 'headers' | 'variables' | 'subscriptionUrl'>
@@ -24,6 +24,7 @@ export class PluginPropsFactory {
     private store: Store<fromRoot.State>,
     private zone: NgZone,
     private windowService: WindowService,
+    private pluginEvent: PluginEventService,
   ) {}
 
   getPluginProps(plugin: PluginInstance, { windowId }: GetPluginPropsOptions = {}): Observable<PluginComponentDataProps> {
@@ -45,6 +46,8 @@ export class PluginPropsFactory {
               getSDL: (_windowId: string) => state.windows[_windowId].schema.sdl,
 
               createWindow: (options: CreateWindowOptions) => this.zone.run(() => this.createWindow(options)),
+
+              on: (ev: PluginEvent, handler: () => Subscription) => this.pluginEvent.on(ev, handler),
             }
           };
         })
@@ -70,6 +73,8 @@ export class PluginPropsFactory {
                 getEndpoint: () => windowState.query.url,
 
                 getSDL: () => windowState.schema.sdl,
+
+                on: (ev: PluginEvent, handler: () => Subscription) => this.pluginEvent.on(ev, handler),
               }
             }
           }),
