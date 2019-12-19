@@ -1,6 +1,6 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
-import { State as IInitialEnvironments } from './reducers/environments';
+import { IInitialEnvironments } from './reducers/environments';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
@@ -45,12 +45,12 @@ export interface AltairConfigOptions {
    * {
    *   base: {
    *     title: 'Environment',
-   *     variablesJson: '{}'
+   *     variables: {}
    *   },
    *   subEnvironments: [
    *     {
    *       title: 'sub-1',
-   *       variablesJson: '{}'
+   *       variables: {}
    *     }
    *   ]
    * }
@@ -124,7 +124,7 @@ export class AltairConfig {
     this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
     this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
     this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
-    this.initialData.environments = (initialEnvironments || {}) as IInitialEnvironments;
+    this.initialData.environments = initialEnvironments || {};
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
   }
