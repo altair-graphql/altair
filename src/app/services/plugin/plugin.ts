@@ -96,6 +96,13 @@ export interface PluginComponentDataContext {
 
   setVariables?: (...args: any) => void;
   getVariables?: (...args: any) => string;
+
+  setEndpoint?: (...args: any) => void;
+  getEndpoint?: (...args: any) => string;
+
+  getSDL?: (...args: any) => string;
+
+  createWindow?: (...args: any) => void;
 }
 
 export interface PluginComponentData extends PluginInstance {

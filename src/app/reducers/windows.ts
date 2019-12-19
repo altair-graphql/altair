@@ -22,8 +22,8 @@ export interface ExportWindowState {
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
-  preRequestScript: string;
-  preRequestScriptEnabled: boolean;
+  preRequestScript?: string;
+  preRequestScriptEnabled?: boolean;
 
   /**
    * ID of the collection this query belongs to
