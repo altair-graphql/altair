@@ -35,7 +35,7 @@ import * as preRequestActions from '../../actions/pre-request/pre-request';
 
 import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
-import { PluginComponentData, PluginInstance } from '../../services/plugin/plugin';
+import { PluginComponentData, PluginInstance, PluginType } from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
 
@@ -201,28 +201,8 @@ export class WindowComponent implements OnInit, OnDestroy {
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
-        combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
-          if (!state) {
-            debug.warn('State is not defined. This shouldnt happen.');
-
-            return [];
-          }
-          return Object.values(plugins).map(plugin => {
-            return {
-              ...plugin,
-              props: {
-                sdl: state.schema.sdl,
-                query: state.query.query || '',
-              },
-              context: {
-                setQuery: (query: string) => this.zone.run(() => this.updateQuery(query)),
-              }
-            };
-          });
-        })
-        .pipe(untilDestroyed(this))
-        .subscribe(plugins => {
-          this.pluginsData = plugins;
+        this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId }).subscribe(pluginsData => {
+          this.pluginsData = pluginsData;
         });
       }
     });

@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/modules/shared/shared.module';
 import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
 import { AltairConfig } from 'app/config';
+import { PluginPropsFactory } from 'app/services/plugin/plugin-props-factory';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -36,6 +37,7 @@ describe('AppComponent', () => {
       services.StorageService,
       services.PluginRegistryService,
       services.QueryCollectionService,
+      PluginPropsFactory,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},

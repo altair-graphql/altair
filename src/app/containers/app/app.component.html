@@ -52,8 +52,40 @@
           nz-menu
           [nzSelectable]="false"
           nzMode="horizontal"
-          class="app-header__menu"
+          class="app-header__menu app-header__menu-item--icon"
         >
+
+          <li
+            *ngFor="let pluginData of headerPluginsData"
+            (click)="togglePluginActive(pluginData)"
+            [nzSelected]="pluginData.isActive"
+            [popper]="pluginData.display_name"
+            [popperPlacement]="'bottom'"
+            nz-menu-item
+          >
+            <app-icon name="archive"></app-icon>
+            <nz-modal
+              [nzVisible]="pluginData.isActive"
+              (nzVisibleChange)="togglePluginActive(pluginData)"
+              [nzTitle]="modalTitle"
+              [nzContent]="modalContent"
+              [nzFooter]="null"
+              (nzOnCancel)="togglePluginActive(pluginData)"
+            >
+              <ng-template #modalTitle>
+                <div class="app-dialog-header">
+                  <div class="app-dialog-title">{{ pluginData.display_name }}</div>
+                </div>
+              </ng-template>
+
+              <ng-template #modalContent>
+                <app-plugin-element
+                  [pluginData]="pluginData"
+                ></app-plugin-element>
+              </ng-template>
+            </nz-modal>
+          </li>
+
           <li
             nz-menu-item
             nz-dropdown
@@ -249,7 +281,7 @@
     
               <div class="side-menu__plugins">
                 <a
-                  *ngFor="let plugin of installedPlugins"
+                  *ngFor="let plugin of sidebarPlugins"
                   class="side-menu-item"
                   (click)="togglePluginActive(plugin)"
                   attr.aria-label="{{ plugin.display_name}}"
