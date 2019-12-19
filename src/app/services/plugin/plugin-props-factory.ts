@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PluginInstance, PluginComponentDataProps, PluginComponentDataContext, isAppLevelPluginType } from './plugin';
+import { PluginInstance, isAppLevelPluginType } from './plugin';
 
 import * as fromRoot from '../../reducers';
 
@@ -15,16 +15,6 @@ interface GetPluginPropsOptions {
 
 @Injectable()
 export class PluginPropsFactory {
-  ctx: PluginComponentDataContext;
-
-  // SDL representing GraphQL schema for the current window
-  sdl?: string;
-
-  // Query for the current window
-  query?: string;
-
-  // Variables for the current window
-  variables?: string;
   constructor(
     private store: Store<fromRoot.State>,
     private zone: NgZone,
