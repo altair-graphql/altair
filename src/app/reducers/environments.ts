@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import * as uuid from 'uuid/v4';
 import { getAltairConfig } from 'app/config';
 import * as environmentsAction from '../actions/environments/environments';
 
@@ -21,13 +22,17 @@ export const getInitialEnvironmentState = (): EnvironmentState => {
   return {
     title: 'Environment',
     variablesJson: '{}',
+    id: uuid(),
     ...initialData.environments.base
   };
 };
 
 const getInitialSubEnvironmentState = (): EnvironmentState[] => {
   const { initialData } = getAltairConfig();
-  return initialData.environments.subEnvironments || [];
+  return (initialData.environments.subEnvironments || []).map(env => {
+    env.id = uuid();
+    return env;
+  });
 }
 
 export const getInitialState = (): State => {

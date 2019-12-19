@@ -124,7 +124,7 @@ export class AltairConfig {
     this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
     this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
     this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
-    this.initialData.environments = (window as any).__ALTAIR_INITIAL_ENVIRONMENTS__ || initialEnvironments || {};
+    this.initialData.environments = (initialEnvironments || {}) as IInitialEnvironments;
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
   }
