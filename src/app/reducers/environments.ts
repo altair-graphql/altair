@@ -22,7 +22,6 @@ export const getInitialEnvironmentState = (): EnvironmentState => {
   return {
     title: 'Environment',
     variablesJson: '{}',
-    id: uuid(),
     ...initialData.environments.base
   };
 };
