@@ -14,6 +14,7 @@ export enum PluginSource {
  * Determines how the plugin would interact with Altair.
  */
 export enum PluginType {
+  HEADER = 'header',
   SIDEBAR = 'sidebar',
 }
 
@@ -61,8 +62,6 @@ export interface PluginInstance {
   type: PluginType;
   capabilities: PluginCapabilities[];
   sidebar_opts?: PluginSidebarOptions;
-  props?: any;
-  context?: any;
   isActive: boolean;
   manifest: PluginManifest;
 }
@@ -78,30 +77,48 @@ export interface GetPluginOption {
 }
 
 export interface PluginComponentDataProps {
+  ctx: PluginComponentDataContext;
+
   // SDL representing GraphQL schema for the current window
-  sdl: string;
+  sdl?: string;
+
   // Query for the current window
-  query: string;
+  query?: string;
+
+  // Variables for the current window
+  variables?: string;
 }
+
 export interface PluginComponentDataContext {
   // Sets the query in the current window
-  setQuery: Function;
+  setQuery?: (...args: any) => void;
+  getQuery?: (...args: any) => string;
+
+  setVariables?: (...args: any) => void;
+  getVariables?: (...args: any) => string;
+
+  setEndpoint?: (...args: any) => void;
+  getEndpoint?: (...args: any) => string;
+
+  getSDL?: (...args: any) => string;
+
+  createWindow?: (...args: any) => void;
+
+  on: (...args: any) => void;
 }
+
 export interface PluginComponentData extends PluginInstance {
   props: PluginComponentDataProps;
-  context: PluginComponentDataContext;
 }
 
 export interface PluginElement extends HTMLElement {
-  props?: PluginComponentDataProps & { ctx: PluginComponentDataContext };
+  props?: PluginComponentDataProps;
 }
 
 export class AltairPlugin implements PluginInstance {
   type = PluginType.SIDEBAR;
   sidebar_opts?: PluginSidebarOptions;
   isActive = false;
-  // props: any;
-  // context: any;
   display_name = '';
   capabilities: PluginCapabilities[] = [ PluginCapabilities['query:read'], PluginCapabilities['query:write'] ];
   constructor(public name: string, public manifest: PluginManifest) {
@@ -110,4 +127,8 @@ export class AltairPlugin implements PluginInstance {
     this.display_name = manifest.display_name || name;
     this.capabilities = Array.from(new Set([ ...(manifest.capabilities || []), ...this.capabilities ]));
   }
+}
+
+export const isAppLevelPluginType = (pluginType: PluginType) => {
+  return [ PluginType.HEADER ].includes(pluginType);
 }

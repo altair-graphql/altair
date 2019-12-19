@@ -1,5 +1,15 @@
-import { resolve } from 'path';
 import getAltairHtml from './utils/get-altair-html';
+
+
+interface InitialEnvironmentState {
+    id?: string
+    title?: string,
+    variables?: Object,
+};
+export interface IInitialEnvironments {
+    base?: InitialEnvironmentState,
+    subEnvironments?: InitialEnvironmentState[]
+  }
 
 export interface RenderOptions {
     /**
@@ -55,6 +65,24 @@ export interface RenderOptions {
      * instanceStorageNamespace: 'altair_dev_'
      */
     instanceStorageNamespace?: string;
+
+  /**
+   * Initial Environments to be added
+   * @example
+   * {
+   *   base: {
+   *     title: 'Environment',
+   *     variables: {}
+   *   },
+   *   subEnvironments: [
+   *     {
+   *       title: 'sub-1',
+   *       variables: {}
+   *     }
+   *   ]
+   * }
+   */
+  initialEnvironments?: IInitialEnvironments;
 }
 
 /**
@@ -68,6 +96,7 @@ export const renderInitialOptions = ({
     initialVariables,
     initialHeaders,
     initialPreRequestScript,
+    initialEnvironments,
     instanceStorageNamespace
 }: RenderOptions = {}) => {
     return `
@@ -78,6 +107,7 @@ export const renderInitialOptions = ({
             ${getObjectPropertyForOption(initialVariables, 'initialVariables')}
             ${getObjectPropertyForOption(initialPreRequestScript, 'initialPreRequestScript')}
             ${getObjectPropertyForOption(initialHeaders, 'initialHeaders')}
+            ${getObjectPropertyForOption(initialEnvironments, 'initialEnvironments')}
             ${getObjectPropertyForOption(instanceStorageNamespace, 'instanceStorageNamespace')}
         };
         AltairGraphQL.init(altairOpts);

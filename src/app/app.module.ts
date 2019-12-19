@@ -40,6 +40,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
+import { PluginPropsFactory } from './services/plugin/plugin-props-factory';
 
 registerLocaleData(en);
 
@@ -71,6 +72,8 @@ const providers = [
   services.QueryCollectionService,
   services.EnvironmentService,
   services.PluginRegistryService,
+  services.PluginEventService,
+  PluginPropsFactory,
   services.PreRequestService,
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,

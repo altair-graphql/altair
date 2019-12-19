@@ -43,7 +43,8 @@ import { AltairConfig } from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { PluginInstance } from 'app/services/plugin/plugin';
+import { PluginInstance, PluginType, PluginComponentData } from 'app/services/plugin/plugin';
+import { PluginEventService } from 'app/services/plugin/plugin-event.service';
 
 @Component({
   selector: 'app-root',
@@ -73,7 +74,8 @@ export class AppComponent implements OnDestroy {
 
   appVersion = environment.version;
 
-  installedPlugins: PluginInstance[] = [];
+  sidebarPlugins: PluginInstance[] = [];
+  headerPluginsData: PluginComponentData[] = [];
 
   constructor(
     private windowService: WindowService,
@@ -83,6 +85,7 @@ export class AppComponent implements OnDestroy {
     private electronApp: ElectronAppService,
     private keybinder: KeybinderService,
     private pluginRegistry: PluginRegistryService,
+    private pluginEvent: PluginEventService,
     private collectionService: QueryCollectionService,
     private altairConfig: AltairConfig,
   ) {
@@ -115,12 +118,12 @@ export class AppComponent implements OnDestroy {
               data.settings['plugin.list'].forEach(pluginStr => {
                 const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
                 if (pluginInfo) {
-                  this.pluginRegistry.getPlugin(pluginInfo.name, { version: pluginInfo.version });
+                  this.pluginRegistry.fetchPlugin(pluginInfo.name, { version: pluginInfo.version });
                 }
               });
             }
-            // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
-            // this.pluginRegistry.getPlugin('altair-graphql-plugin-graphql-explorer', {
+            // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
+            // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
             //   pluginSource: 'url',
             //   version: '0.0.4',
             //   url: 'http://localhost:8002/'
@@ -136,6 +139,7 @@ export class AppComponent implements OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.isReady = true;
+        this.pluginEvent.emit('app-ready', true);
       });
 
     // Update the app translation if the language settings is changed.
@@ -187,11 +191,16 @@ export class AppComponent implements OnDestroy {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
 
-        this.pluginRegistry.installedPlugins()
+        this.pluginRegistry.getPlugins(PluginType.SIDEBAR)
           .pipe(
             untilDestroyed(this),
           )
-          .subscribe(plugins => this.installedPlugins = Object.values(plugins));
+          .subscribe(plugins => this.sidebarPlugins = plugins);
+        this.pluginRegistry.getPluginsWithData(PluginType.HEADER)
+        .pipe(
+          untilDestroyed(this),
+        )
+        .subscribe(plugins => this.headerPluginsData = plugins);
       });
 
     if (!this.windowIds.length) {
