@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import { WindowService } from '../window.service';
 import { ExportWindowState } from 'app/reducers/windows';
 import { PluginEventService, PluginEvent } from './plugin-event.service';
+import is_electron from 'app/utils/is_electron';
 
 interface GetPluginPropsOptions {
   windowId?: string;
@@ -48,6 +49,7 @@ export class PluginPropsFactory {
               createWindow: (options: CreateWindowOptions) => this.zone.run(() => this.createWindow(options)),
 
               on: (ev: PluginEvent, handler: () => Subscription) => this.pluginEvent.on(ev, handler),
+              isElectron: () => is_electron,
             }
           };
         })
@@ -75,6 +77,7 @@ export class PluginPropsFactory {
                 getSDL: () => windowState.schema.sdl,
 
                 on: (ev: PluginEvent, handler: () => Subscription) => this.pluginEvent.on(ev, handler),
+                isElectron: () => is_electron,
               }
             }
           }),
