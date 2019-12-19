@@ -76,7 +76,7 @@
     "curlup": "^1.0.0",
     "dexie": "^2.0.4",
     "express": "^4.17.1",
-    "file-dialog": "^0.0.7",
+    "file-dialog": "^0.0.8",
     "file-saver": "^2.0.2",
     "graphql": "^14.4.2",
     "graphql-query-compress": "^1.2.2",
