@@ -192,6 +192,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
     <td align="center"><a href="https://github.com/vladshcherbin"><img src="https://avatars1.githubusercontent.com/u/6711845?v=4" width="100px;" alt=""/><br /><sub><b>Vlad Shcherbin</b></sub></a><br /><a href="https://github.com/imolorhe/altair/issues?q=author%3Avladshcherbin" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/dies"><img src="https://avatars1.githubusercontent.com/u/80762?v=4" width="100px;" alt=""/><br /><sub><b>Serhiy Dmytryshyn</b></sub></a><br /><a href="#translation-dies" title="Translation">🌍</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/adieuadieu"><img src="https://avatars1.githubusercontent.com/u/438848?v=4" width="100px;" alt=""/><br /><sub><b>Marco Lüthy</b></sub></a><br /><a href="#financial-adieuadieu" title="Financial">💵</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
