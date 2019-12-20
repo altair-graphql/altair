@@ -22,14 +22,14 @@ export enum PluginType {
  * Specifies the capabilities (functionalities) available to the plugin.
  * In the future, this would be used to request the necessary permissions from the user.
  */
-export enum PluginCapabilities {
-  'query:read',
-  'query:write',
-  'header:read',
-  'header:write',
-  'environment:read',
-  'environment:write',
-}
+export type PluginCapabilities =
+  | 'query:read'
+  | 'query:write'
+  | 'header:read'
+  | 'header:write'
+  | 'environment:read'
+  | 'environment:write'
+  ;
 
 export interface PluginSidebarOptions {
   element_name: string;
@@ -120,7 +120,7 @@ export class AltairPlugin implements PluginInstance {
   sidebar_opts?: PluginSidebarOptions;
   isActive = false;
   display_name = '';
-  capabilities: PluginCapabilities[] = [ PluginCapabilities['query:read'], PluginCapabilities['query:write'] ];
+  capabilities: PluginCapabilities[] = [ 'query:read', 'query:write' ];
   constructor(public name: string, public manifest: PluginManifest) {
     this.sidebar_opts = manifest.sidebar_opts;
     this.type = manifest.type;
