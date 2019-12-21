@@ -301,16 +301,16 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
           });
           this.widgets = [];
 
-          definitionsInfo.forEach((definitionInfo) => {
+          definitionsInfo.forEach(({ operationName, operation, location }) => {
             const widgetEl = document.createElement('div');
-            widgetEl.innerHTML = `&#9658; (Run ${definitionInfo.operation}${definitionInfo.operationName ? ` ${definitionInfo.operationName}` : ''})`;
+            widgetEl.innerHTML = `&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`;
             widgetEl.className = 'query-editor__line-widget';
             widgetEl.onclick = () => {
-              this.zone.run(() => this.sendRequest.next({ operationName: definitionInfo.operationName }));
+              this.zone.run(() => this.sendRequest.next({ operationName }));
               debug.log('WIDGET listens');
             };
 
-            this.widgets.push(cm.addLineWidget(definitionInfo.location.startToken.line - 1, widgetEl, {
+            this.widgets.push(cm.addLineWidget(location.startToken.line - 1, widgetEl, {
               above: true,
             }));
           });
