@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convertir la requête nommée",
   "SET_HEADERS_BUTTON": "Configurer Headers",
   "SET_VARIABLES_BUTTON": "Configurer Variables",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Rafraîchir la documentation",
   "SHOW_DOCS_BUTTON": "Afficher la documentation",
   "DOCS_TEXT": "Documentation",
