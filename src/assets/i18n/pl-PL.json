@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "Ustaw nagłówki",
   "SET_VARIABLES_BUTTON": "Ustaw zmienne",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Odśwież dokumentację",
   "SHOW_DOCS_BUTTON": "Pokaż dokumentację",
   "DOCS_TEXT": "Dokumentacja",
