@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Converti in named query",
   "SET_HEADERS_BUTTON": "Inserisci Header",
   "SET_VARIABLES_BUTTON": "Inserisci Variabili",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Ricarica Docs",
   "SHOW_DOCS_BUTTON": "Mostra Docs",
   "DOCS_TEXT": "Docs",
