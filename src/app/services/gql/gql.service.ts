@@ -46,6 +46,7 @@ import {
   generateFragmentRefactorMap,
   addFragmentDefinitionFromRefactorMap,
   refactorArgumentsToVariables,
+  generateRandomNameForString,
 } from './helpers';
 
 
@@ -479,13 +480,12 @@ export class GqlService {
       return;
     }
     const ast = this.parseQuery(query);
-    const constructedName = query.trim().replace(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').substr(0, 20) + (Math.random() * 10).toFixed(0);
     const edited = visit(ast, {
       OperationDefinition(node) {
         debug.log(node);
         const NameKind = node.name || {
           kind: 'Name',
-          value: constructedName
+          value: generateRandomNameForString(query),
         };
         return {
           ...node,

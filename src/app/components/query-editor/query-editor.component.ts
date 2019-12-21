@@ -126,6 +126,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   };
 
+  widgets: CodeMirror.LineWidget[] = [];
+  updateWidgetTimeout: any = null;
+
   constructor(
     private gqlService: GqlService,
     private notifyService: NotifyService,
@@ -155,6 +158,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       (this.editor.codeMirror as any).on('blur', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
       (this.editor.codeMirror as any).on('cursorActivity', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
       (this.editor.codeMirror as any).on('hasCompletion', (cm: CodeMirror.Editor, event: Event) => this.onHasCompletion(cm, event));
+      (this.editor.codeMirror as any).on('change', (cm: CodeMirror.Editor, event: Event) => this.updateWidgets(cm, event));
     }
   }
 
@@ -272,6 +276,48 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     });
+  }
+
+  updateWidgets(cm: CodeMirror.Editor, event: any) {
+    const definitionsInfo: any[] = [];
+    clearTimeout(this.updateWidgetTimeout);
+    this.updateWidgetTimeout = setTimeout(() => {
+      try {
+        const ast = this.gqlService.parseQuery(cm.getValue());
+        ast.definitions.forEach(definition => {
+          if (definition.kind === 'OperationDefinition' && definition.name && definition.name.value) {
+            debug.log('WIDGET', definition);
+            definitionsInfo.push({
+              operation: definition.operation,
+              location: definition.loc,
+              operationName: definition.name.value,
+            });
+          }
+        });
+        cm.operation(() => {
+          this.widgets.forEach(widget => {
+            (cm as any).removeLineWidget(widget);
+            widget.clear();
+          });
+          this.widgets = [];
+
+          definitionsInfo.forEach((definitionInfo) => {
+            const widgetEl = document.createElement('div');
+            widgetEl.innerHTML = `&#9658; (Run ${definitionInfo.operation} ${definitionInfo.operationName})`;
+            widgetEl.className = 'query-editor__line-widget';
+            widgetEl.onclick = () => {
+              this.zone.run(() => this.sendRequest.next({ operationName: definitionInfo.operationName }));
+              debug.log('WIDGET listens');
+            };
+
+            this.widgets.push(cm.addLineWidget(definitionInfo.location.startToken.line - 1, widgetEl, {
+              above: true,
+            }));
+          });
+        });
+      } catch (error) {}
+
+    }, 300);
   }
 
   /**

@@ -48,7 +48,7 @@ interface TypeUsageMapEntry {
 
 type FragmentRefactorMap = IDictionary<string[]>;
 
-const generateNameForString = (value: string) =>
+export const generateRandomNameForString = (value: string) =>
   value.trim().replace(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').substr(0, 20) + (Math.random() * 1000).toFixed(0);
 
 export const getTypeName = (type: GraphQLType) => getNamedType(type).toString();
@@ -327,7 +327,7 @@ export const refactorArgumentsToVariables = (
           if (node.value.kind !== Kind.VARIABLE && fieldDef && fieldDef.args) {
             const foundArg = fieldDef.args.find(arg => arg.name === node.name.value);
             if (foundArg) {
-              const variableName = generateNameForString(foundArg.name);
+              const variableName = generateRandomNameForString(foundArg.name);
               const variableMapEntry = {
                 name: variableName,
                 value: argumentNodeToJS(node, variables),
@@ -383,7 +383,7 @@ export const refactorArgumentsToVariables = (
           // Set operation name if none exists
           const nameKind = node.name || {
             kind: Kind.NAME,
-            value: generateNameForString('refactored'),
+            value: generateRandomNameForString('refactored'),
           };
           newNode.name = nameKind;
           variablesPipeline = [];

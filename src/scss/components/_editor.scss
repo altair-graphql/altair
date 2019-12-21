@@ -24,6 +24,21 @@ app-query-editor {
   resize: none;
 }
 
+.query-editor__line-widget {
+  color: var(--theme-font-color);
+  font-size: fontsize(12);
+  cursor: pointer;
+  display: inline-block;
+  background: var(--theme-off-bg-color);
+  padding: 3px 5px;
+  border-radius: 4px;
+  transition: all .3s ease;
+
+  &:hover {
+    background: var(--theme-border-color);
+  }
+}
+
 .query-editor__autocomplete-item {
   display: flex;
   justify-content: space-between;
