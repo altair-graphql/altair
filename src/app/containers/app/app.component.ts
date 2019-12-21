@@ -342,6 +342,10 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new queryActions.ConvertToNamedQueryAction(this.activeWindowId));
   }
 
+  refactorQuery() {
+    this.store.dispatch(new queryActions.RefactorQueryAction(this.activeWindowId));
+  }
+
   toggleHeader(isOpen: boolean) {
     this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
   }

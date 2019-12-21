@@ -37,7 +37,7 @@
       <app-query-editor
         #queryEditor
         (queryChange)="updateQuery($event)"
-        (sendRequest)="sendRequest()"
+        (sendRequest)="sendRequest($event)"
         (variablesChange)="updateVariables($event)"
         (toggleVariableDialog)="toggleVariableDialog($event)"
         (addFileVariableChange)="addFileVariable()"

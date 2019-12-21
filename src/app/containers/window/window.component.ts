@@ -221,7 +221,10 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
-  sendRequest() {
+  sendRequest(opts: any = {}) {
+    if (opts.operationName) {
+      this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation: opts.operationName }));
+    }
     this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
