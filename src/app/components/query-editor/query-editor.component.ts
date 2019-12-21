@@ -285,12 +285,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       try {
         const ast = this.gqlService.parseQuery(cm.getValue());
         ast.definitions.forEach(definition => {
-          if (definition.kind === 'OperationDefinition' && definition.name && definition.name.value) {
+          if (definition.kind === 'OperationDefinition' && ((definition.name && definition.name.value) || ast.definitions.length === 1)) {
             debug.log('WIDGET', definition);
             definitionsInfo.push({
               operation: definition.operation,
               location: definition.loc,
-              operationName: definition.name.value,
+              operationName: definition.name ? definition.name.value : '',
             });
           }
         });
@@ -303,7 +303,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
           definitionsInfo.forEach((definitionInfo) => {
             const widgetEl = document.createElement('div');
-            widgetEl.innerHTML = `&#9658; (Run ${definitionInfo.operation} ${definitionInfo.operationName})`;
+            widgetEl.innerHTML = `&#9658; (Run ${definitionInfo.operation}${definitionInfo.operationName ? ` ${definitionInfo.operationName}` : ''})`;
             widgetEl.className = 'query-editor__line-widget';
             widgetEl.onclick = () => {
               this.zone.run(() => this.sendRequest.next({ operationName: definitionInfo.operationName }));
