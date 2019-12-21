@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "設定標題",
   "SET_VARIABLES_BUTTON": "設定變數",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Reload Docs",
   "SHOW_DOCS_BUTTON": "Show Docs",
   "DOCS_TEXT": "Docs",

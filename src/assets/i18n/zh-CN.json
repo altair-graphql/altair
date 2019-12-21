@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "转换为具名查询",
   "SET_HEADERS_BUTTON": "设置Headers",
   "SET_VARIABLES_BUTTON": "设置变量",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "重载文档",
   "SHOW_DOCS_BUTTON": "显示文档",
   "DOCS_TEXT": "文档",

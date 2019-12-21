@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "Подеси заглавља",
   "SET_VARIABLES_BUTTON": "Подеси променљиве",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Ucitaj dokument",
   "SHOW_DOCS_BUTTON": "Prikazi dokument",
   "DOCS_TEXT": "Документи",

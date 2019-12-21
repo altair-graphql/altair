@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "이름있는 쿼리로 변환하기",
   "SET_HEADERS_BUTTON": "헤더 설정...",
   "SET_VARIABLES_BUTTON": "변수 설정...",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "문서 새로고침",
   "SHOW_DOCS_BUTTON": "문서 보기",
   "DOCS_TEXT": "문서",

@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Convert to named query",
   "SET_HEADERS_BUTTON": "ヘッダー設定",
   "SET_VARIABLES_BUTTON": "変数設定",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "再読み込み",
   "SHOW_DOCS_BUTTON": "資料表示",
   "DOCS_TEXT": "ドキュメント",
