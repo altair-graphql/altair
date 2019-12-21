@@ -21,6 +21,7 @@ import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
 import * as queryActions from '../actions/query/query';
+import * as variablesActions from '../actions/variables/variables';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
@@ -697,6 +698,39 @@ export class QueryEffects {
             const namedQuery = this.gqlService.nameQuery(res.data.query.query);
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
+            }
+          } catch (err) {
+            debug.log(err);
+            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          }
+
+          return observableEmpty();
+        }),
+      );
+
+    @Effect()
+    refactorQuery$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(queryActions.REFACTOR_QUERY),
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          try {
+            if (res.data.query.query && res.data.schema.schema) {
+              const refactorResult = this.gqlService.refactorQuery(res.data.query.query, res.data.schema.schema);
+              if (refactorResult && refactorResult.query) {
+                try {
+                  this.store.dispatch(new variablesActions.UpdateVariablesAction(JSON.stringify({
+                    ...JSON.parse(res.data.variables.variables),
+                    ...refactorResult.variables,
+                  }, null, 2), res.windowId));
+                } catch (err) {
+                  this.notifyService.warning('Looks like your variables are not formatted properly');
+                  return observableEmpty();
+                }
+                return observableOf(new queryActions.SetQueryAction(refactorResult.query, res.windowId));
+              }
             }
           } catch (err) {
             debug.log(err);

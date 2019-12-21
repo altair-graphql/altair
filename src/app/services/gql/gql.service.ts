@@ -39,8 +39,15 @@ import * as fromVariables from '../../reducers/variables/variables';
 import { fillAllFields } from './fillFields';
 import { setByDotNotation } from 'app/utils';
 import { Token } from 'codemirror';
+import { IDictionary, Omit } from 'app/interfaces/shared';
+import {
+  refactorFieldsWithFragmentSpread,
+  generateTypeUsageEntries,
+  generateFragmentRefactorMap,
+  addFragmentDefinitionFromRefactorMap,
+  refactorArgumentsToVariables,
+} from './helpers';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 interface SendRequestOptions {
   query: string;
@@ -377,17 +384,6 @@ export class GqlService {
       return parsedQuery.definitions
         .filter((def): def is OperationDefinitionNode =>
           !!(def.kind === 'OperationDefinition' && def.name && def.name.value));
-        // TODO: Figure out if this map is required
-        // .map((def: OperationDefinitionNode, i) => {
-        //   if (def.kind === 'OperationDefinition') {
-        //     // Make sure all operations have names
-        //     if (!def.name || !def.name.value) {
-        //       def.name = def.name || {};
-        //       def.name.value = '#' + i.toString();
-        //     }
-        //   }
-        //   return def;
-        // });
     }
 
     return [];
@@ -501,11 +497,31 @@ export class GqlService {
     return print(edited);
   }
 
+  refactorQuery(query: string, schema: GraphQLSchema) {
+
+    if (!query || !schema) {
+      return;
+    }
+    const ast = this.parseQuery(query);
+    const typeUsageEntries = generateTypeUsageEntries(ast, schema);
+
+    const fragmentRefactorMap = generateFragmentRefactorMap(typeUsageEntries);
+    const stripped = refactorFieldsWithFragmentSpread(ast, fragmentRefactorMap, schema);
+    const documentWithFragments = addFragmentDefinitionFromRefactorMap(stripped, fragmentRefactorMap, schema);
+    const argumentRefactorResult = refactorArgumentsToVariables(documentWithFragments, schema);
+
+    // debug.log('REFACTOR', ast, edited, fragmentRefactorMap, print(argumentRefactorResult.document), argumentRefactorResult.variables);
+    return {
+      query: print(argumentRefactorResult.document),
+      variables: argumentRefactorResult.variables,
+    };
+  }
+
   /**
    * Return the Schema Definition Language of the provided schema
    * @param schema
    */
-  async getSDL(schema: any) {
+  async getSDL(schema: GraphQLSchema) {
     if (this.isSchema(schema)) {
       return this.prettify(printSchema(schema));
     }
