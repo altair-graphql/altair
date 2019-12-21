@@ -6,12 +6,14 @@
     "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
+    "skipLibCheck": true,
     "lib": [
       "dom",
       "esnext"
     ],
     "types": [
-      "node"
+      "node",
+      "jest"
     ]
   }
 }

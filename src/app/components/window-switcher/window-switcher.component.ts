@@ -9,7 +9,7 @@ import {
 
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
-import config from '../../config';
+import { AltairConfig } from '../../config';
 import { debug } from 'app/utils/logger';
 
 @Component({
@@ -38,12 +38,14 @@ export class WindowSwitcherComponent implements OnInit {
     { name: 'Edit' }
   ];
 
-  windowNameEditing = null;
-  maxWindowCount = config.max_windows;
+  windowNameEditing = '';
+  maxWindowCount = this.altairConfig.max_windows;
 
   sortableOptions = {};
 
-  constructor() {}
+  constructor(
+    private altairConfig: AltairConfig,
+  ) {}
 
   ngOnInit() {
     this.sortableOptions = {
@@ -53,22 +55,26 @@ export class WindowSwitcherComponent implements OnInit {
     };
   }
 
-  editWindowNameInput(windowId, wTitle) {
+  onClickWindow(windowId: string) {
+    this.activeWindowChange.next(windowId);
+  }
+
+  editWindowNameInput(windowId: string, wTitle: HTMLElement) {
     this.windowNameEditing = windowId;
-    wTitle.setAttribute('contenteditable', true);
+    wTitle.setAttribute('contenteditable', 'contenteditable');
     wTitle.focus();
   }
 
-  saveWindowName(windowId, windowName) {
+  saveWindowName(windowId: string, windowName: string) {
     this.windowNameChange.next({ windowId, windowName });
-    this.windowNameEditing = null;
+    this.windowNameEditing = '';
   }
 
-  moveWindow(currentPosition, newPosition) {
+  moveWindow(currentPosition: number, newPosition: number) {
     this.repositionWindowChange.next(({ currentPosition, newPosition }));
   }
 
-  closeWindow(windowId) {
+  closeWindow(windowId: string) {
     return this.removeWindowChange.next(windowId);
   }
 
@@ -80,11 +86,11 @@ export class WindowSwitcherComponent implements OnInit {
     return this.windowIds.filter((wid, i) => i > curIndex).map(_ => this.closeWindow(_));
   }
 
-  closeOtherWindows(windowId) {
+  closeOtherWindows(windowId: string) {
     return this.windowIds.filter(wid => wid !== windowId).map(_ => this.closeWindow(_));
   }
 
-  duplicateWindow(windowId) {
+  duplicateWindow(windowId: string) {
     this.duplicateWindowChange.next(windowId);
   }
 
@@ -92,7 +98,7 @@ export class WindowSwitcherComponent implements OnInit {
     this.reopenClosedWindowChange.emit();
   }
 
-  log(str) {
+  log(str: any) {
     debug.log(str);
   }
 

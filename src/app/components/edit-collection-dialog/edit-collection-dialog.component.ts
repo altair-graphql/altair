@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { IQueryCollection } from 'app/reducers/collection/collection';
 
 @Component({
   selector: 'app-edit-collection-dialog',
@@ -8,10 +9,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class EditCollectionDialogComponent implements OnInit {
 
   @Input() showEditCollectionDialog = true;
-  @Input() collection = null;
+  @Input() collection: IQueryCollection;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
-  @Output() updateCollectionChange = new EventEmitter<{ collection }>();
+  @Output() updateCollectionChange = new EventEmitter<{ collection: IQueryCollection }>();
 
   constructor() { }
 

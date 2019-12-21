@@ -25,6 +25,7 @@ import * as fromPreRequest from './pre-request/pre-request';
 import * as fromLocal from './local/local';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
+import { getAltairConfig } from 'app/config';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -66,21 +67,21 @@ export interface State {
 // Meta reducer to log actions
 export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   return (state: State, action: Action) => {
-    if (!environment.production || window['__ENABLE_DEBUG_MODE__']) {
+    if (!environment.production || (window as any).__ENABLE_DEBUG_MODE__) {
       debug.log(action.type, action);
     }
-    window['__LAST_ACTION__'] = window['__LAST_ACTION__'] || [];
-    window['__LAST_ACTION__'].push(action.type);
-    if (environment.production && window['__LAST_ACTION__'].length > 10) {
-      window['__LAST_ACTION__'].shift();
+    (window as any).__LAST_ACTION__ = (window as any).__LAST_ACTION__ || [];
+    (window as any).__LAST_ACTION__.push(action.type);
+    if (environment.production && (window as any).__LAST_ACTION__.length > 10) {
+      (window as any).__LAST_ACTION__.shift();
     }
 
     return _reducer(state, action);
   };
 }
 
-const altairInstanceStorageNamespace = window['__ALTAIR_INSTANCE_STORAGE_NAMESPACE__'] || 'altair_';
-export const keySerializer = (key) => `${altairInstanceStorageNamespace}${key}`;
+const getAltairInstanceStorageNamespace = () => getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
+export const keySerializer = (key: string) => `${getAltairInstanceStorageNamespace()}${key}`;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -98,20 +99,22 @@ export const metaReducers: MetaReducer<any>[] = [
   log
 ];
 
-export const reducer: ActionReducerMap<State> = {
-  windows: fromWindows.windows(combineReducers(perWindowReducers)),
-  windowsMeta: fromWindowsMeta.windowsMetaReducer,
-  settings: fromSettings.settingsReducer,
-  donation: fromDonation.donationReducer,
-  collection: fromCollection.collectionReducer,
-  environments: fromEnvironments.environmentsReducer,
-  local: fromLocal.localReducer,
+export const getReducer = (): ActionReducerMap<State> => {
+  return {
+    windows: fromWindows.windows(combineReducers(perWindowReducers)),
+    windowsMeta: fromWindowsMeta.windowsMetaReducer,
+    settings: fromSettings.settingsReducer,
+    donation: fromDonation.donationReducer,
+    collection: fromCollection.collectionReducer,
+    environments: fromEnvironments.environmentsReducer,
+    local: fromLocal.localReducer,
+  }
 };
 
 export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
 
 export const reducerProvider = [
-  { provide: reducerToken, useValue: reducer }
+  { provide: reducerToken, useValue: getReducer() }
 ];
 
 export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];

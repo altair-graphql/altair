@@ -1,7 +1,8 @@
 import * as settings from '../../actions/settings/settings';
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 import { jsonc } from 'app/utils';
 
+const config = getAltairConfig();
 export type SettingsTheme = 'light' | 'dark' | 'dracula';
 export type SettingsLanguage = keyof typeof config.languages;
 
@@ -59,17 +60,20 @@ export interface State {
   'plugin.list'?: string[];
 }
 
-const initialState: State = {
-  theme: <SettingsTheme>config.defaultTheme,
-  language: <SettingsLanguage>config.default_language,
-  addQueryDepthLimit: config.add_query_depth_limit,
-  tabSize: config.tab_size,
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+  return {
+    theme: <SettingsTheme>altairConfig.defaultTheme,
+    language: <SettingsLanguage>altairConfig.default_language,
+    addQueryDepthLimit: altairConfig.add_query_depth_limit,
+    tabSize: altairConfig.tab_size,
+  };
 };
 
-export function settingsReducer(state = initialState, action: settings.Action): State {
+export function settingsReducer(state = getInitialState(), action: settings.Action): State {
   switch (action.type) {
     case settings.SET_SETTINGS_JSON:
-      const newState = { ...initialState, ...jsonc(action.payload.value) };
+      const newState = { ...getInitialState(), ...jsonc(action.payload.value) };
 
       // Removes old isShown state
       delete newState.isShown;

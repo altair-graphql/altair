@@ -3,11 +3,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 
+import * as fromHeader from '../../reducers/headers/headers';
+
 interface ScriptContextData {
-  headers;
-  variables;
-  query;
-  environment;
+  headers: fromHeader.Header[];
+  variables: string;
+  query: string;
+  environment: any;
 }
 
 @Injectable({
@@ -42,7 +44,7 @@ export class PreRequestService {
           getCookie(key: string) {
             return self.cookieService.get(key);
           },
-          request(arg1, arg2, arg3) {
+          request(arg1: any, arg2: any, arg3: any) {
             // https://angular.io/api/common/http/HttpClient#request
             return self.http.request(arg1, arg2, arg3)
               .toPromise()
@@ -60,7 +62,7 @@ export class PreRequestService {
     `);
 
     return interpreter.exports.end
-      .then(res => debug.log('interpreter result:', res))
+      .then((res: any) => debug.log('interpreter result:', res))
       .then(() => data);
   }
 }

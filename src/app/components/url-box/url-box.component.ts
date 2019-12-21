@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { OperationDefinitionNode } from 'graphql';
 
 @Component({
   selector: 'app-url-box',
@@ -33,11 +34,11 @@ export class UrlBoxComponent {
     this.urlChange.emit(this.apiUrl.trim());
   }
 
-  setVerb(verb) {
+  setVerb(verb: string) {
     this.httpVerbChange.emit(verb);
   }
 
-  queryOperationTrackBy(index, operation) {
-    return operation.name.value;
+  queryOperationTrackBy(index: number, operation: OperationDefinitionNode) {
+    return operation.name && operation.name.value;
   }
 }

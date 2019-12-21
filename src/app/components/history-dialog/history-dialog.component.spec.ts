@@ -5,7 +5,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { HistoryDialogComponent } from './history-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 
 describe('HistoryDialogComponent', () => {
   let component: HistoryDialogComponent;

@@ -10,7 +10,7 @@ const fs = require('fs');
 const mime = require('mime-types');
 const windowStateKeeper = require('electron-window-state');
 
-const { getDistDirectory } = require('altair-static');
+const { getDistDirectory, renderAltair } = require('altair-static');
 
 const { getStore } = require('./store');
 const { createMenu } = require('./menu');
@@ -101,6 +101,9 @@ const createWindow = () => {
       fs.readFile(filePath, 'utf8', function(err, data) {
         if (err) {
           return console.log('Error loading file to buffer.', err);
+        }
+        if (filePath && filePath.includes('index.html')) {
+          data = renderAltair();
         }
 
         // Load the data from the file into a buffer and pass it to the callback

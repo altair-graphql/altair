@@ -125,7 +125,26 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "dies",
+      "name": "Serhiy Dmytryshyn",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/80762?v=4",
+      "profile": "https://github.com/dies",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "adieuadieu",
+      "name": "Marco Lüthy",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/438848?v=4",
+      "profile": "https://github.com/adieuadieu",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }

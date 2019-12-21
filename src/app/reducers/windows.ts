@@ -4,6 +4,7 @@ import * as windowsActions from '../actions/windows/windows';
 import * as fromRoot from './';
 import { debug } from 'app/utils/logger';
 import { GraphQLSchema } from 'graphql';
+import { IDictionary } from 'app/interfaces/shared';
 
 export interface State {
     [id: string]: fromRoot.PerWindowState;
@@ -21,8 +22,8 @@ export interface ExportWindowState {
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
-  preRequestScript: string;
-  preRequestScriptEnabled: boolean;
+  preRequestScript?: string;
+  preRequestScriptEnabled?: boolean;
 
   /**
    * ID of the collection this query belongs to
@@ -73,7 +74,7 @@ export function windows(reducer: ActionReducer<any>) {
             case windowsActions.SET_WINDOWS:
                 const _windows = action.payload;
 
-                const newWindowsState = {};
+                const newWindowsState: IDictionary<fromRoot.PerWindowState> = {};
                 _windows.forEach((window: fromRoot.PerWindowState) => {
                     const windowKey = window.windowId;
                     // const windowTitle = window.layout.title;
@@ -96,8 +97,7 @@ export function windows(reducer: ActionReducer<any>) {
                 return Object.assign({}, _state);
             default:
                 if (!_windowState) {
-                    // If the provided windowId is invalid, log the error and just return the state
-                    debug.warn('Invalid window ID provided.');
+                    // Just return state. The action was properly not for a PerWindow reducer
                     return _state;
                 }
 

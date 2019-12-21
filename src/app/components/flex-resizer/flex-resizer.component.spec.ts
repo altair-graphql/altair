@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlexResizerComponent } from './flex-resizer.component';
-import { ClarityModule } from '@clr/angular';
+import { SharedModule } from 'app/modules/shared/shared.module';
 
 describe('FlexResizerComponent', () => {
   let component: FlexResizerComponent;
@@ -11,7 +11,7 @@ describe('FlexResizerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ FlexResizerComponent ],
       imports: [
-        ClarityModule
+        SharedModule,
       ]
     })
     .compileComponents();

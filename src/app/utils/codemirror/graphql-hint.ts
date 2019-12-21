@@ -27,13 +27,13 @@ import { getAutocompleteSuggestions } from 'graphql-language-service-interface';
  *     new list of completion suggestions.
  *
  */
-CodeMirror.registerHelper('hint', 'graphql', (editor, options) => {
+CodeMirror.registerHelper('hint', 'graphql', (editor: CodeMirror.Editor, options: any) => {
   const schema = options.schema;
   if (!schema) {
     return;
   }
 
-  const cur = editor.getCursor();
+  const cur = editor.getDoc().getCursor();
   const token = editor.getTokenAt(cur);
   const rawResults = getAutocompleteSuggestions(
     schema,

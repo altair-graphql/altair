@@ -4,6 +4,11 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as fromEnvironments from '../../reducers/environments';
 import * as fromHeaders from '../../reducers/headers/headers';
+import { IDictionary } from 'app/interfaces/shared';
+
+interface HydrateEnvironmentOptions {
+  activeEnvironment?: IDictionary<string>;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +53,7 @@ export class EnvironmentService {
    * Variables are written with double curly braces .e.g. {{ VARIABLE_ONE }}
    * @param content {string}
    */
-  hydrate(content: string, options: { activeEnvironment? } = {}): string {
+  hydrate(content: string, options: HydrateEnvironmentOptions = {}): string {
 
     if (!content) {
       return content;
@@ -65,7 +70,7 @@ export class EnvironmentService {
     });
   }
 
-  hydrateHeaders(headers: fromHeaders.Header[], options: { activeEnvironment? } = {}): fromHeaders.Header[] {
+  hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {
     const hydratedHeaders = headers.map(header => {
       return {
         key: this.hydrate(header.key, options),

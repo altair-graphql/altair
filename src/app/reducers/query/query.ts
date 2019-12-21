@@ -3,13 +3,19 @@ import { Action } from '@ngrx/store';
 import { initialQuery } from './initialQuery';
 
 import * as query from '../../actions/query/query';
-import config from '../../config';
+import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
 
 export interface QueryEditorState {
   isFocused: boolean;
   // Adding undefined for backward compatibility
   cursorIndex?: number;
+}
+
+export interface SubscriptionResponse {
+  response: string;
+  responseObj: any;
+  responseTime: number;
 }
 
 export interface State {
@@ -35,38 +41,44 @@ export interface State {
   subscriptionClient: any;
   subscriptionConnectionParams: string;
   isSubscribed: boolean;
-  subscriptionResponseList: Array<any>;
+  subscriptionResponseList: SubscriptionResponse[];
+  autoscrollSubscriptionResponse: boolean;
 
   queryEditorState: QueryEditorState;
 }
 
-export const initialState: State = {
-  url: getFullUrl(config.initialData.url ? '' + config.initialData.url : ''),
-  subscriptionUrl: config.initialData.subscriptionsEndpoint ? '' + config.initialData.subscriptionsEndpoint : '',
-  query: config.initialData.query ? '' + config.initialData.query : initialQuery,
-  selectedOperation: '',
-  operations: [],
-  httpVerb : 'POST',
-  response: null,
-  responseTime: 0,
-  responseStatus: 0,
-  responseStatusText: '',
-  showUrlAlert: false,
-  urlAlertMessage: 'URL has been set',
-  urlAlertSuccess: true,
-  showEditorAlert: false,
-  editorAlertMessage: 'Query is set',
-  editorAlertSuccess: true,
-  subscriptionClient: null,
-  subscriptionConnectionParams: '{}',
-  isSubscribed: false,
-  subscriptionResponseList: [],
-  queryEditorState: {
-    isFocused: false,
-  },
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+
+  return {
+    url: getFullUrl(altairConfig.initialData.url ? '' + altairConfig.initialData.url : ''),
+    subscriptionUrl: altairConfig.initialData.subscriptionsEndpoint ? '' + altairConfig.initialData.subscriptionsEndpoint : '',
+    query: altairConfig.initialData.query ? '' + altairConfig.initialData.query : initialQuery,
+    selectedOperation: '',
+    operations: [],
+    httpVerb : 'POST',
+    response: null,
+    responseTime: 0,
+    responseStatus: 0,
+    responseStatusText: '',
+    showUrlAlert: false,
+    urlAlertMessage: 'URL has been set',
+    urlAlertSuccess: true,
+    showEditorAlert: false,
+    editorAlertMessage: 'Query is set',
+    editorAlertSuccess: true,
+    subscriptionClient: null,
+    subscriptionConnectionParams: '{}',
+    isSubscribed: false,
+    subscriptionResponseList: [],
+    autoscrollSubscriptionResponse: false,
+    queryEditorState: {
+      isFocused: false,
+    },
+  }
 };
 
-export function queryReducer(state = initialState, action: query.Action): State {
+export function queryReducer(state = getInitialState(), action: query.Action): State {
   switch (action.type) {
     case query.SET_QUERY:
     case query.SET_QUERY_FROM_DB:
@@ -98,11 +110,14 @@ export function queryReducer(state = initialState, action: query.Action): State 
       return Object.assign({}, state, {
         subscriptionResponseList: [...state.subscriptionResponseList, {
           response: action.payload.response,
-          responseTime: action.payload.responseTime
+          responseTime: action.payload.responseTime,
+          responseObj: action.payload.responseObj,
         }]
       });
     case query.SET_SUBSCRIPTION_RESPONSE_LIST:
       return Object.assign({}, state, { subscriptionResponseList: action.payload.list });
+    case query.TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE:
+      return { ...state, autoscrollSubscriptionResponse: !state.autoscrollSubscriptionResponse };
     case query.SET_HTTP_VERB:
       return Object.assign({}, state, { httpVerb: action.payload.httpVerb });
     case query.SET_QUERY_OPERATIONS:

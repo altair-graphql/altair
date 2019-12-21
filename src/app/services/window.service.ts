@@ -35,11 +35,17 @@ export class WindowService {
     private gqlService: GqlService,
   ) { }
 
-  newWindow(opts: { title?, url?, collectionId?, windowIdInCollection? } = {}): Observable<any> {
-    return Observable.create((obs: Observer<any>) => {
+  newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string } = {}) {
+    return new Observable<{
+      windowId: string;
+      title: string;
+      url: string;
+      collectionId?: number;
+      windowIdInCollection?: string
+    }>((obs) => {
       return this.store.pipe(first()).subscribe(data => {
 
-        const url = opts.url || fromQuery.initialState.url || (
+        const url = opts.url || fromQuery.getInitialState().url || (
           data.windowsMeta.activeWindowId &&
           data.windows[data.windowsMeta.activeWindowId] &&
           data.windows[data.windowsMeta.activeWindowId].query.url
@@ -62,7 +68,7 @@ export class WindowService {
     });
   }
 
-  removeWindow(windowId) {
+  removeWindow(windowId: string) {
     this.cleanupWindow(windowId);
 
     return this.store.pipe(
@@ -77,7 +83,7 @@ export class WindowService {
     ).subscribe();
   }
 
-  duplicateWindow(windowId): Subscription {
+  duplicateWindow(windowId: string) {
     return this.store.pipe(first()).subscribe(data => {
       const window = { ...data.windows[windowId] };
 
@@ -103,7 +109,7 @@ export class WindowService {
     });
   }
 
-  getWindowExportData(windowId): Observable<fromWindows.ExportWindowState> {
+  getWindowExportData(windowId: string): Observable<fromWindows.ExportWindowState> {
     return Observable.create((obs: Observer<fromWindows.ExportWindowState>) => {
       return this.store.pipe(first()).subscribe(data => {
         const window = { ...data.windows[windowId] };
@@ -243,7 +249,7 @@ export class WindowService {
    * Parse data and import as identified type
    * @param dataStr data
    */
-  importStringData(dataStr) {
+  importStringData(dataStr: string) {
     const invalidFileError = new Error('Invalid Altair window file.');
     try {
       const parsed = JSON.parse(dataStr);
@@ -305,9 +311,8 @@ export class WindowService {
 
   /**
    * Handle the imported file
-   * @param files FilesList object
    */
-  handleImportedFile(files) {
+  handleImportedFile(files: FileList) {
     return getFileStr(files).then((dataStr: string) => {
       try {
         this.importStringData(dataStr);
@@ -320,13 +325,13 @@ export class WindowService {
   /**
    * Carry out any necessary house cleaning tasks.
    */
-  setupWindow(windowId) {
+  setupWindow(windowId: string) {
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] }));
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
   }
-  private cleanupWindow(windowId) {
+  private cleanupWindow(windowId: string) {
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
   }

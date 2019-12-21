@@ -1,6 +1,6 @@
 {
   "name": "altair-koa-middleware",
-  "version": "2.3.8",
+  "version": "2.4.0",
   "description": "Koa middleware for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "prepare-dist": "node scripts/prepare_dist.js",
     "declarations": "tsc --declaration",
-    "prepare": "npm run declarations"
+    "prepare": "npm run declarations",
+    "example": "nodemon example/index.ts"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -30,11 +31,17 @@
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
-    "altair-static": "^2.3.8",
+    "altair-static": "^2.4.0",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0"
   },
   "devDependencies": {
+    "@types/koa": "^2.11.0",
+    "@types/koa-router": "^7.0.42",
+    "@types/koa-send": "^4.1.2",
+    "koa": "^2.11.0",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.5.4",
     "typescript": "^2.8.1"
   },
   "funding": {

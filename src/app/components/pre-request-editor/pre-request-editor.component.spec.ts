@@ -4,7 +4,7 @@ import { PreRequestEditorComponent } from './pre-request-editor.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 
 describe('PreRequestEditorComponent', () => {
   let component: PreRequestEditorComponent;

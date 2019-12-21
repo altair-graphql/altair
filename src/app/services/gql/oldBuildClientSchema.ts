@@ -30,6 +30,9 @@ import {
   assertNullableType,
   assertObjectType,
   assertInterfaceType,
+  GraphQLEnumValue,
+  GraphQLObjectTypeConfig,
+  GraphQLField,
 } from 'graphql/type/definition';
 
 import {
@@ -58,6 +61,11 @@ import {
   IntrospectionInputTypeRef,
   IntrospectionOutputTypeRef,
   IntrospectionNamedTypeRef,
+  IntrospectionOutputType,
+  IntrospectionField,
+  IntrospectionEnumValue,
+  IntrospectionInputValue,
+  IntrospectionDirective,
 } from 'graphql/utilities/introspectionQuery';
 
 import { GraphQLSchemaValidationOptions } from 'graphql/type/schema';
@@ -86,7 +94,7 @@ export function buildClientSchema(
   // Converts the list of types into a keyMap based on the type names.
   const typeIntrospectionMap = keyMap(
     schemaIntrospection.types,
-    type => type.name,
+    (type: Exclude<GraphQLType, GraphQLList<any>>) => type.name,
   );
 
   // A cache to use to store the actual GraphQLType definition objects by name.
@@ -94,7 +102,7 @@ export function buildClientSchema(
   // so that this type def cache is within the scope of the closure.
   const typeDefCache = keyMap(
     specifiedScalarTypes.concat(introspectionTypes),
-    type => type.name,
+    (type: Exclude<GraphQLType, GraphQLList<any>>) => type.name,
   );
 
   // Given a type reference in introspection, return the GraphQLType instance.
@@ -265,8 +273,8 @@ export function buildClientSchema(
       description: enumIntrospection.description,
       values: keyValMap(
         enumIntrospection.enumValues,
-        valueIntrospection => valueIntrospection.name,
-        valueIntrospection => ({
+        (valueIntrospection: IntrospectionEnumValue) => valueIntrospection.name,
+        (valueIntrospection: IntrospectionEnumValue) => ({
           description: valueIntrospection.description,
           deprecationReason: valueIntrospection.deprecationReason,
         }),
@@ -290,7 +298,7 @@ export function buildClientSchema(
     });
   }
 
-  function buildFieldDefMap(typeIntrospection) {
+  function buildFieldDefMap(typeIntrospection: IntrospectionType & { fields: ReadonlyArray<IntrospectionField> }) {
     if (!typeIntrospection.fields) {
       throw new Error(
         'Introspection result missing fields: ' +
@@ -299,8 +307,8 @@ export function buildClientSchema(
     }
     return keyValMap(
       typeIntrospection.fields,
-      fieldIntrospection => fieldIntrospection.name,
-      fieldIntrospection => {
+      (fieldIntrospection: IntrospectionField) => fieldIntrospection.name,
+      (fieldIntrospection: IntrospectionField) => {
         if (!fieldIntrospection.args) {
           throw new Error(
             'Introspection result missing field args: ' +
@@ -317,15 +325,15 @@ export function buildClientSchema(
     );
   }
 
-  function buildInputValueDefMap(inputValueIntrospections) {
+  function buildInputValueDefMap(inputValueIntrospections: ReadonlyArray<IntrospectionInputValue>) {
     return keyValMap(
       inputValueIntrospections,
-      inputValue => inputValue.name,
+      (inputValue: IntrospectionInputValue) => inputValue.name,
       buildInputValue,
     );
   }
 
-  function buildInputValue(inputValueIntrospection) {
+  function buildInputValue(inputValueIntrospection: IntrospectionInputValue) {
     const type = getInputType(inputValueIntrospection.type);
     const defaultValue = inputValueIntrospection.defaultValue
       ? valueFromAST(parseValue(inputValueIntrospection.defaultValue), type)
@@ -338,7 +346,7 @@ export function buildClientSchema(
     };
   }
 
-  function buildDirective(directiveIntrospection) {
+  function buildDirective(directiveIntrospection: IntrospectionDirective & { onField: any, onOperation: any, onFragment: any }) {
     // Support deprecated `on****` fields for building `locations`, as this
     // is used by GraphiQL which may need to support outdated servers.
     const locations = directiveIntrospection.locations

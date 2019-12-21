@@ -5,7 +5,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -31,7 +32,7 @@ export class PreRequestEditorComponent implements OnChanges {
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   preRequestEditorConfig = {
     mode: 'javascript',
@@ -45,8 +46,8 @@ export class PreRequestEditorComponent implements OnChanges {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     extraKeys: {
       'Ctrl-Space': 'autocomplete',
-      'Cmd-/': (cm) => cm.execCommand('toggleComment'),
-      'Ctrl-/': (cm) => cm.execCommand('toggleComment'),
+      'Cmd-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+      'Ctrl-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
     },
     hintOptions: {
       completeSingle: false,

@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store, Action } from '@ngrx/store';
-import { ClarityModule } from '@clr/angular';
 import { ToastrModule } from 'ngx-toastr';
 
 import * as services from './../../services';
@@ -75,7 +74,6 @@ describe('WindowComponent', () => {
         HttpClientModule,
         StoreModule.forRoot(reducer, { initialState: <any>mockState }),
         CodemirrorModule,
-        ClarityModule,
         ComponentModule,
         DocViewerModule,
         ToastrModule.forRoot(),

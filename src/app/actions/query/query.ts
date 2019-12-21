@@ -19,6 +19,7 @@ export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
 export const COPY_AS_CURL = 'COPY_AS_CURL';
 export const CONVERT_TO_NAMED_QUERY = 'CONVERT_TO_NAMED_QUERY';
+export const REFACTOR_QUERY = 'REFACTOR_QUERY';
 
 export const SEND_QUERY_REQUEST = 'SEND_QUERY_REQUEST';
 export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
@@ -29,6 +30,7 @@ export const SET_SUBSCRIPTION_CLIENT = 'SET_SUBSCRIPTION_CLIENT';
 export const SET_SUBSCRIPTION_CONNECTION_PARAMS = 'SET_SUBSCRIPTION_CONNECTION_PARAMS';
 export const ADD_SUBSCRIPTION_RESPONSE = 'ADD_SUBSCRIPTION_RESPONSE';
 export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
+export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
 export const DOWNLOAD_RESULT = 'DOWNLOAD_RESULT';
@@ -69,7 +71,7 @@ export class SetSubscriptionUrlAction implements Action {
 export class SendIntrospectionQueryRequestAction implements Action {
   readonly type = SEND_INTROSPECTION_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetQueryAction implements Action {
@@ -93,31 +95,37 @@ export class SetQueryResultAction implements Action {
 export class PrettifyQueryAction implements Action {
   readonly type = PRETTIFY_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CompressQueryAction implements Action {
   readonly type = COMPRESS_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CopyAsCurlAction implements Action {
   readonly type = COPY_AS_CURL;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class ConvertToNamedQueryAction implements Action {
   readonly type = CONVERT_TO_NAMED_QUERY;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
+}
+
+export class RefactorQueryAction implements Action {
+  readonly type = REFACTOR_QUERY;
+
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SendQueryRequestAction implements Action {
   readonly type = SEND_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetSelectedOperationAction implements Action {
@@ -135,13 +143,13 @@ export class SetResponseStatsAction implements Action {
 export class StartSubscriptionAction implements Action {
   readonly type = START_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?) { }
+  constructor(public windowId: string, public payload?: any) { }
 }
 
 export class StopSubscriptionAction implements Action {
   readonly type = STOP_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?) { }
+  constructor(public windowId: string, public payload?: any) { }
 }
 
 export class SetSubscriptionConnectionParamsAction implements Action {
@@ -159,7 +167,7 @@ export class SetSubscriptionClientAction implements Action {
 export class AddSubscriptionResponseAction implements Action {
   readonly type = ADD_SUBSCRIPTION_RESPONSE;
 
-  constructor(public windowId: string, public payload: { response: string, responseTime: number }) { }
+  constructor(public windowId: string, public payload: { response: string, responseObj?: any, responseTime: number }) { }
 }
 
 export class SetSubscriptionResponseListAction implements Action {
@@ -168,16 +176,22 @@ export class SetSubscriptionResponseListAction implements Action {
   constructor(public windowId: string, public payload: { list: Array<any> }) { }
 }
 
+export class ToggleAutoscrollSubscriptionResponseAction implements Action {
+  readonly type = TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE;
+
+  constructor(public windowId: string, public payload?: any) {}
+}
+
 export class DownloadResultAction implements Action {
   readonly type = DOWNLOAD_RESULT;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class CancelQueryRequestAction implements Action {
   readonly type = CANCEL_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?) {}
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetQueryOperationsAction implements Action {
@@ -204,6 +218,7 @@ export type Action =
   | CompressQueryAction
   | CopyAsCurlAction
   | ConvertToNamedQueryAction
+  | RefactorQueryAction
   | SendQueryRequestAction
   | SetSelectedOperationAction
   | StartSubscriptionAction
@@ -212,6 +227,7 @@ export type Action =
   | SetSubscriptionConnectionParamsAction
   | AddSubscriptionResponseAction
   | SetSubscriptionResponseListAction
+  | ToggleAutoscrollSubscriptionResponseAction
   | SetResponseStatsAction
   | DownloadResultAction
   | CancelQueryRequestAction

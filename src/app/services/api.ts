@@ -6,6 +6,7 @@ import { Headers, Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
+import { IDictionary } from 'app/interfaces/shared';
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class ApiService {
             return res;
         } else {
             const err = new Error(res.statusText as string);
-            err['response'] = res;
+            (err as any).response = res;
             debug.error(err);
             throw err;
         }
@@ -43,7 +44,7 @@ export class ApiService {
             );
     }
 
-    post(path: string, body): Observable<any> {
+    post(path: string, body: any): Observable<any> {
         return this.http.post(`${this.api_url}${path}`, JSON.stringify(body), { headers: this.headers })
             .pipe(
                 map(this.checkForError),
@@ -59,12 +60,12 @@ export class ApiService {
             );
     }
 
-    setHeaders(headers) {
+    setHeaders(headers: IDictionary<string>) {
         Object.keys(headers)
             .forEach(header => this.headers.set(header, headers[header]));
     }
 
-    setUrl(url) {
+    setUrl(url: string) {
         this.api_url = url;
     }
 }

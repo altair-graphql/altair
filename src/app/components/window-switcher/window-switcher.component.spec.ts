@@ -4,8 +4,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { WindowSwitcherComponent } from './window-switcher.component';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AltairConfig } from 'app/config';
 
 describe('WindowSwitcherComponent', () => {
   let component: WindowSwitcherComponent;
@@ -20,6 +21,12 @@ describe('WindowSwitcherComponent', () => {
         TranslateModule.forRoot(),
         SortablejsModule.forRoot({}),
         ContextMenuModule.forRoot()
+      ],
+      providers: [
+        {
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
+        },
       ]
     })
     .compileComponents();

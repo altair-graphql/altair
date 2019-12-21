@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import config from 'app/config';
+import { AltairConfig } from 'app/config';
 
 @Component({
   selector: 'app-schema-form-item',
@@ -9,19 +9,21 @@ import config from 'app/config';
 })
 export class SchemaFormItemComponent implements OnInit {
 
-  @Input() item;
-  @Input() data;
+  @Input() item: any;
+  @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private altairConfig: AltairConfig,
+  ) { }
 
   ngOnInit() {
   }
-  getOptionLabel(option) {
-    return config.languages[option] || option;
+  getOptionLabel(option: string) {
+    return (this.altairConfig.languages as any)[option] || option;
   }
-  onInput(event, item) {
+  onInput(event: Event, item: any) {
     // console.log(event, item);
     this.dataChange.next(this.data);
   }

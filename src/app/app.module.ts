@@ -4,9 +4,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import '@clr/icons';
-import '@clr/icons/shapes/all-shapes';
-
 import { ToastrModule } from 'ngx-toastr';
 
 import { StoreModule } from '@ngrx/store';
@@ -16,12 +13,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { ClarityModule } from '@clr/angular';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './modules/shared/shared.module';
 
-import { reducer, metaReducers, reducerToken, reducerProvider } from './reducers';
+import { metaReducers, reducerToken } from './reducers';
 
 import { QueryEffects } from './effects/query';
 import { WindowsEffects } from './effects/windows';
@@ -44,6 +40,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
+import { PluginPropsFactory } from './services/plugin/plugin-props-factory';
 
 registerLocaleData(en);
 
@@ -75,8 +72,11 @@ const providers = [
   services.QueryCollectionService,
   services.EnvironmentService,
   services.PluginRegistryService,
+  services.PluginEventService,
+  PluginPropsFactory,
   services.PreRequestService,
-  reducerProvider,
+  // Setting the reducer provider in main.ts now (for proper config initialization)
+  // reducerProvider,
   CookieService,
   {
     provide: HTTP_INTERCEPTORS,
@@ -104,7 +104,6 @@ const providers = [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ClarityModule,
     SharedModule.forRoot(),
     SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,

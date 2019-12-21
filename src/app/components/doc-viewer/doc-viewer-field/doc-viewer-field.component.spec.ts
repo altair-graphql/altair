@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../../modules/shared/shared.module';
 import { DocViewerFieldComponent } from './doc-viewer-field.component';
 import { DocViewerTypeComponent } from '../doc-viewer-type/doc-viewer-type.component';
 

@@ -11,4 +11,5 @@ export { StorageService } from './storage/storage.service';
 export { QueryCollectionService } from './query-collection/query-collection.service';
 export { EnvironmentService } from './environment/environment.service';
 export { PluginRegistryService } from './plugin/plugin-registry.service';
+export { PluginEventService } from './plugin/plugin-event.service';
 export { PreRequestService } from './pre-request/pre-request.service';

@@ -1,5 +1,5 @@
 
-import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif, Subscriber } from 'rxjs';
 
 import { debounce, tap, catchError, withLatestFrom, switchMap, map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -21,6 +21,7 @@ import * as fromRoot from '../reducers';
 
 import { Action as allActions } from '../actions';
 import * as queryActions from '../actions/query/query';
+import * as variablesActions from '../actions/variables/variables';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
 import * as dbActions from '../actions/db/db';
@@ -33,7 +34,6 @@ import * as streamActions from '../actions/stream/stream';
 
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { uaSeedHash } from '../utils/simple_hash';
-import config from '../config';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 
@@ -126,12 +126,11 @@ export class QueryEffects {
                 }
 
                 try {
+                  const queryEditorIsFocused = response.data.query.queryEditorState && response.data.query.queryEditorState.isFocused;
                   const operationData = this.gqlService.getSelectedOperationData({
                     query,
                     selectedOperation,
-                    queryCursorIndex: response.data.query.queryEditorState &&
-                      response.data.query.queryEditorState.isFocused &&
-                      response.data.query.queryEditorState.cursorIndex,
+                    queryCursorIndex: queryEditorIsFocused ? response.data.query.queryEditorState.cursorIndex : undefined,
                   });
 
                   this.store.dispatch(
@@ -341,7 +340,7 @@ export class QueryEffects {
                 let allowsIntrospection = true;
 
                 if (errorObj.errors) {
-                  errorObj.errors.forEach(error => {
+                  errorObj.errors.forEach((error: any) => {
                     if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
                       allowsIntrospection = false;
                     }
@@ -351,6 +350,10 @@ export class QueryEffects {
                 // If the server does not support introspection
                 if (!allowsIntrospection) {
                   this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, response.windowId));
+                  this.notifyService.warning(`
+                    Looks like this server does not support introspection.
+                    Please check with the server administrator.
+                  `);
                 } else {
                   this.notifyService.warning(`
                     Seems like something is broken. Please check that the URL is valid,
@@ -455,7 +458,7 @@ export class QueryEffects {
             });
           }
 
-          const subscriptionErrorHandler = (err, errMsg?) => {
+          const subscriptionErrorHandler = (err: Error | Error[], errMsg?: string) => {
             if (Array.isArray(err)) {
               err = err[0];
             }
@@ -477,12 +480,11 @@ export class QueryEffects {
           }
 
           try {
+            const queryEditorIsFocused = response.data.query.queryEditorState && response.data.query.queryEditorState.isFocused;
             const operationData = this.gqlService.getSelectedOperationData({
               query,
               selectedOperation,
-              queryCursorIndex: response.data.query.queryEditorState &&
-                response.data.query.queryEditorState.isFocused &&
-                response.data.query.queryEditorState.cursorIndex,
+              queryCursorIndex: queryEditorIsFocused ? response.data.query.queryEditorState.cursorIndex : undefined,
               selectIfOneOperation: true,
             });
 
@@ -535,7 +537,8 @@ export class QueryEffects {
 
                 this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
                   response: strData,
-                  responseTime: (new Date()).getTime() // store responseTime in ms
+                  responseObj: data,
+                  responseTime: (new Date()).getTime(), // store responseTime in ms
                 }));
 
                 // Send notification in electron app
@@ -667,7 +670,7 @@ export class QueryEffects {
               headers: res.data.headers.reduce((acc, cur) => {
                 acc[cur.key] = this.environmentService.hydrate(cur.value);
                 return acc;
-              }, {}),
+              }, {} as any),
               data: {
                 query,
                 variables: JSON.parse(variables)
@@ -695,6 +698,39 @@ export class QueryEffects {
             const namedQuery = this.gqlService.nameQuery(res.data.query.query);
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
+            }
+          } catch (err) {
+            debug.log(err);
+            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          }
+
+          return observableEmpty();
+        }),
+      );
+
+    @Effect()
+    refactorQuery$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(queryActions.REFACTOR_QUERY),
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          try {
+            if (res.data.query.query && res.data.schema.schema) {
+              const refactorResult = this.gqlService.refactorQuery(res.data.query.query, res.data.schema.schema);
+              if (refactorResult && refactorResult.query) {
+                try {
+                  this.store.dispatch(new variablesActions.UpdateVariablesAction(JSON.stringify({
+                    ...JSON.parse(res.data.variables.variables),
+                    ...refactorResult.variables,
+                  }, null, 2), res.windowId));
+                } catch (err) {
+                  this.notifyService.warning('Looks like your variables are not formatted properly');
+                  return observableEmpty();
+                }
+                return observableOf(new queryActions.SetQueryAction(refactorResult.query, res.windowId));
+              }
             }
           } catch (err) {
             debug.log(err);
@@ -750,7 +786,7 @@ export class QueryEffects {
               this.gqlService.closeStreamClient(res.data.stream.client);
             }
 
-            const streamClient = this.gqlService.createStreamClient(streamUrl);
+            const streamClient = this.gqlService.createStreamClient(streamUrl.href);
             let backoff = res.action.payload.backoff || 200;
 
             streamClient.addEventListener('change', () => {
@@ -826,7 +862,7 @@ export class QueryEffects {
            */
           return iif(
             () => response.data.preRequest.enabled,
-            Observable.create((subscriber) => {
+            Observable.create((subscriber: Subscriber<any>) => {
               try {
                 this.preRequestService.executeScript(response.data.preRequest.script, {
                   environment: this.environmentService.getActiveEnvironment(),
@@ -848,7 +884,7 @@ export class QueryEffects {
                 subscriber.next(null);
                 subscriber.complete();
               }
-            }) as Observable<{ response: typeof response, transformedData }>,
+            }) as Observable<{ response: typeof response, transformedData: any }>,
             observableOf({ response, transformedData: null })
           );
         }),

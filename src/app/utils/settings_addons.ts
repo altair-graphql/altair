@@ -1,25 +1,26 @@
 import * as Codemirror from 'codemirror';
 import { jsonc } from '../utils';
 import { debug } from './logger';
+import { ValidateFunction } from 'ajv';
 
-const settingsValidator = require('./validate_settings_schema');
+const settingsValidator = require('./validate_settings_schema') as ValidateFunction;
 
 export const settingsSchema = settingsValidator.schema;
-export const validateSettings = settings => {
+export const validateSettings = (settings: string) => {
   const data = jsonc(settings);
   const valid = settingsValidator(data);
 
   return valid;
 };
 
-export const registerSettingsLinter = CM => {
-  CM.registerHelper('lint', 'json', function(text) {
+export const registerSettingsLinter = (CM: typeof Codemirror) => {
+  CM.registerHelper('lint', 'json', function(text: string) {
     let found: any[] = [];
     try {
-      if (!validateSettings(text)) {
+      if (!validateSettings(text) && settingsValidator.errors) {
         found = [
           ...found,
-          ...settingsValidator.errors.map(error => {
+          ...settingsValidator.errors.map((error: any) => {
             let message = `[${error.keyword}] '${error.dataPath.substring(1)}' ${error.message}`;
 
             if (error.params && error.params['allowedValues']) {
@@ -47,22 +48,21 @@ export const registerSettingsLinter = CM => {
   });
 };
 
-function elt(tagname, cls, ...elts) {
+function elt(tagname: string, cls: string, ...elts: any[]) {
   const e = document.createElement(tagname);
   if (cls) {
     e.className = cls;
   }
-  for (let i = 2; i < arguments.length; ++i) {
-    let _elt = arguments[i];
+  elts.forEach((_elt => {
     if (typeof _elt === 'string') {
       _elt = document.createTextNode(_elt);
     }
     e.appendChild(_elt);
-  }
+  }));
   return e;
 }
 
-function makeTooltip(x, y, content) {
+function makeTooltip(x: number, y: number, content: string) {
   const node = elt('div', 'CodeMirror-Tern-tooltip', content);
   node.style.left = x + 'px';
   node.style.top = y + 'px';
@@ -70,14 +70,14 @@ function makeTooltip(x, y, content) {
   return node;
 }
 
-function remove(node) {
+function remove(node: Node) {
   const p = node && node.parentNode;
   if (p) {
     p.removeChild(node);
   }
 }
 
-export const getPropertyRef = (property, schema) => {
+export const getPropertyRef = (property: any, schema: any) => {
   if (property.$ref) {
     const refPath: any[] = property.$ref.split('/');
     let curRef = schema;
@@ -93,15 +93,15 @@ export const getPropertyRef = (property, schema) => {
   }
 };
 
-function getPropertyType(property, schema) {
+function getPropertyType(property: any, schema: any) {
   if (property.type) {
     return property.type;
   }
   return getPropertyRef(property, schema).type;
 }
 
-export const getHint = (cm) => {
-  const cursor = cm.getCursor();
+export const getHint = (cm: CodeMirror.Editor) => {
+  const cursor = cm.getDoc().getCursor(); // TODO: Check that still works properly
   const token: Codemirror.Token = cm.getTokenAt(cursor);
   const start: number = token.start;
   const end: number = cursor.ch;
@@ -115,17 +115,22 @@ export const getHint = (cm) => {
   if (token.type !== 'string property') {
     return null;
   }
+  if (typeof settingsValidator.schema !== 'object') {
+    return null;
+  }
   if (token.state.lastType === 'string') {
     before = currentWord.substr(0, 1);
     after = currentWord.substr(-1, 1);
   }
-  const fullList = Object.keys(settingsValidator.schema.properties)
+
+  const schemaProperties = (settingsValidator.schema as any).properties;
+  const fullList = Object.keys(schemaProperties)
     .map(item => ({
-      ...settingsValidator.schema.properties[item],
+      ...schemaProperties[item],
       text: `${before}${item}${after}`,
       displayText: item,
-      description: settingsValidator.schema.properties[item].description
-        + '\nType: ' + getPropertyType(settingsValidator.schema.properties[item], settingsValidator.schema)
+      description: schemaProperties[item].description
+        + '\nType: ' + getPropertyType(schemaProperties[item], settingsValidator.schema)
     }));
   const list = fullList
     .filter(item => item.displayText.indexOf(currentWord.replace(new RegExp(`(^${before})|(${after}$)`, 'g'), '')) > -1);
@@ -138,13 +143,14 @@ export const getHint = (cm) => {
   let tooltip: HTMLElement;
   Codemirror.on(hintResult, 'close', function() { remove(tooltip); });
   Codemirror.on(hintResult, 'update', function() { remove(tooltip); });
-  Codemirror.on(hintResult, 'select', function(cur, node) {
+  Codemirror.on(hintResult, 'select', function(cur: any, node: Node) {
     remove(tooltip);
     const content = cur.description;
-    if (content) {
+    if (content && node.parentElement) {
       tooltip = makeTooltip(
-        node.parentNode.getBoundingClientRect().right + window.pageXOffset,
-        node.getBoundingClientRect().top + window.pageYOffset, content
+        node.parentElement.getBoundingClientRect().right + window.pageXOffset,
+        node.parentElement.getBoundingClientRect().top + window.pageYOffset,
+        content,
       );
       if (tooltip) {
         tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';

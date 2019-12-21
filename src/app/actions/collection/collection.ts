@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { IQuery, SortByOptions } from 'app/reducers/collection/collection';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
@@ -36,7 +37,7 @@ export class UpdateQueryInCollectionAction implements Action {
 
 export class DeleteQueryFromCollectionAction implements Action {
   readonly type = DELETE_QUERY_FROM_COLLECTION;
-  constructor(public payload: { collectionId: number, query }) {}
+  constructor(public payload: { collectionId: number, query: IQuery }) {}
 }
 
 export class DeleteCollectionAction implements Action {
@@ -81,7 +82,7 @@ export class ImportCollectionAction implements Action {
 export class SortCollectionsAction implements Action {
   readonly type = SORT_COLLECTIONS;
 
-  constructor(public payload: { sortBy }) {}
+  constructor(public payload: { sortBy: SortByOptions }) {}
 }
 
 export type Action =

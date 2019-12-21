@@ -12,12 +12,14 @@
     *ngFor="let windowId of windowIds; let index = index;"
     [contextMenu]="windowTabMenu"
     [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle, index: index }"
-    (click)="activeWindowChange.next(windowId)"
+    (click)="onClickWindow(windowId)"
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
     
     <div
-      #wTitle class="window-switcher__input"
+      #wTitle
+      class="window-switcher__input"
+      [ngClass]="{ 'window-switcher__input--editing': windowId === windowNameEditing }"
       [attr.contenteditable]="windowId === windowNameEditing"
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
@@ -37,7 +39,7 @@
 <context-menu>
   <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
     <span class="menu-icon">
-      <clr-icon shape="pencil" class="is-solid"></clr-icon>
+      <app-icon name="edit"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'EDIT_WINDOW_TEXT' | translate }}
@@ -45,7 +47,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="duplicateWindow($event.item.windowId)">
     <span class="menu-icon">
-      <clr-icon shape="clone" class="is-solid"></clr-icon>
+      <app-icon name="copy"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
@@ -54,7 +56,7 @@
   <ng-template contextMenuItem divider="true"></ng-template>
   <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
     <span class="menu-icon">
-      <clr-icon shape="circle" class="is-solid"></clr-icon>
+      <app-icon name="x-square"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_WINDOW_TEXT' | translate }}
@@ -62,7 +64,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="closeWindowsToTheRight($event.item.index)">
     <span class="menu-icon">
-      <clr-icon shape="circle" class="is-solid"></clr-icon>
+      <app-icon name="circle"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
@@ -70,7 +72,7 @@
   </ng-template>
   <ng-template contextMenuItem (execute)="closeOtherWindows($event.item.windowId)">
     <span class="menu-icon">
-      <clr-icon shape="circle" class="is-solid"></clr-icon>
+      <app-icon name="circle"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
@@ -78,7 +80,7 @@
   </ng-template>
   <ng-template *ngIf="(closedWindows?.length)" contextMenuItem (execute)="reopenClosedTab()">
     <span class="menu-icon">
-      <clr-icon shape="circle" class="is-solid"></clr-icon>
+      <app-icon name="plus-square"></app-icon>
     </span>
     <span class="menu-text">
       {{ 'REOPEN_CLOSED_WINDOW_TEXT' | translate }}

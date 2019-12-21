@@ -1,8 +1,20 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  AfterViewInit,
+  SimpleChanges,
+  OnChanges,
+  ElementRef,
+} from '@angular/core';
 
 import * as fromSettings from '../../reducers/settings/settings';
 
-import config from '../../config';
+import { AltairConfig } from '../../config';
+import { debug } from 'app/utils/logger';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -37,13 +49,13 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   @Output() addQueryDepthLimitChange = new EventEmitter();
   @Output() tabSizeChange = new EventEmitter();
 
-  themes = config.themes;
-  languages = Object.entries(config.languages);
+  themes = this.altairConfig.themes;
+  languages = Object.entries(this.altairConfig.languages);
   shortcutCategories: KeyboardShortcutCategory[] = [];
   settingsSchema = settingsSchema;
   showForm = true;
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   jsonSettings = '';
   localSettings = null;
 
@@ -59,7 +71,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     theme: 'default settings-editor',
     gutters: ['CodeMirror-lint-markers'],
     extraKeys: {
-      'Ctrl-Space': (cm) => { this.showHint(cm); },
+      'Ctrl-Space': (cm: CodeMirror.Editor) => { this.showHint(cm); },
     }
   };
 
@@ -67,6 +79,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     private notifyService: NotifyService,
     private keybinderService: KeybinderService,
     private storageService: StorageService,
+    private altairConfig: AltairConfig,
   ) {}
 
   ngOnInit() {
@@ -75,7 +88,10 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   ngAfterViewInit() {
     if (this.editor) {
-      this.editor.codeMirror.on('keyup', (cm, event) => /^[a-zA-Z0-9_@(]$/.test(event.key) && this.showHint(cm));
+      this.editor.codeMirror.on(
+        'keyup',
+        (cm: CodeMirror.Editor, event: KeyboardEvent) => /^[a-zA-Z0-9_@(]$/.test(event.key) && this.showHint(cm)
+      );
       this.editor.codeMirror.refresh();
     }
   }
@@ -91,11 +107,11 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     }
   }
 
-  showHint(cm) {
+  showHint(cm: any) {
     cm.showHint({ hint: getHint, completeSingle: false });
   }
 
-  onSettingsChange(settingsStr) {
+  onSettingsChange(settingsStr: string) {
     this.updateLocalSettings(settingsStr);
   }
 
@@ -108,12 +124,12 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     }
   }
 
-  onFormDataChange(data) {
-    console.log(data);
+  onFormDataChange(data: any) {
+    debug.log(data);
     this.onSettingsChange(JSON.stringify(data, null, 2));
   }
 
-  updateLocalSettings(settingsStr) {
+  updateLocalSettings(settingsStr: string) {
     this.jsonSettings = settingsStr;
     try {
       this.localSettings = JSON.parse(this.jsonSettings);
@@ -124,15 +140,15 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     this.showForm = !this.showForm;
   }
 
-  onSelectTheme(theme) {
+  onSelectTheme(theme: string) {
     return this.themeChange.next(theme);
   }
 
-  onSelectLanguage(language) {
+  onSelectLanguage(language: string) {
     return this.languageChange.next(language);
   }
 
-  onChangeAddQueryDepthLimit(depthLimit) {
+  onChangeAddQueryDepthLimit(depthLimit: number) {
     return this.addQueryDepthLimitChange.next(depthLimit);
   }
 
@@ -140,7 +156,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     return this.tabSizeChange.next(tabSize);
   }
 
-  onResetApplicationData(e) {
+  onResetApplicationData(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     if (confirm(`
@@ -163,7 +179,7 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     return false;
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 }

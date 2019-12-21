@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { memoize } from 'app/utils/memoize';
+import { IQueryCollection, IQuery } from 'app/reducers/collection/collection';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 @Component({
@@ -12,9 +13,9 @@ export class QueryCollectionItemComponent implements OnInit {
   @Input() collection: any = {};
 
   @Output() selectQueryChange = new EventEmitter();
-  @Output() deleteQueryChange: EventEmitter<{ collectionId, query }> = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{ collectionId }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{ collection }> = new EventEmitter();
+  @Output() deleteQueryChange: EventEmitter<{ collectionId: number, query: IQuery }> = new EventEmitter();
+  @Output() deleteCollectionChange: EventEmitter<{ collectionId: number }> = new EventEmitter();
+  @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollection }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
 
 
@@ -27,7 +28,7 @@ export class QueryCollectionItemComponent implements OnInit {
   ngOnInit() {
   }
 
-  getQueryCount(collection) {
+  getQueryCount(collection: IQueryCollection) {
     return collection.queries && collection.queries.length;
   }
 
@@ -35,7 +36,7 @@ export class QueryCollectionItemComponent implements OnInit {
     this.showContent = !this.showContent;
   }
 
-  deleteQuery(query) {
+  deleteQuery(query: IQuery) {
     if (confirm('Are you sure you want to delete this query from the collection?')) {
       this.deleteQueryChange.next({
         query,
@@ -61,7 +62,7 @@ export class QueryCollectionItemComponent implements OnInit {
       collectionId: this.collection.id
     });
   }
-  setQueriesSortBy(sortBy) {
+  setQueriesSortBy(sortBy: SortByOptions) {
     this.sortBy = sortBy;
   }
 
@@ -129,7 +130,7 @@ export class QueryCollectionItemComponent implements OnInit {
     }
   }
 
-  trackById(index, collection) {
+  trackById(index: number, collection: IQueryCollection) {
     return collection.id;
   }
 

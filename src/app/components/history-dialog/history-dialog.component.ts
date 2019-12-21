@@ -17,7 +17,7 @@ export class HistoryDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  restoreHistory(index) {
+  restoreHistory(index: number) {
     this.restoreHistoryChange.next(index);
     this.toggleDialogChange.next();
   }
@@ -26,7 +26,7 @@ export class HistoryDialogComponent implements OnInit {
     this.clearHistoryChange.next();
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 }

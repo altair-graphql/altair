@@ -14,7 +14,7 @@ export class DbService {
    * Used to get the application-specific key
    * @param key The unique key for the data
    */
-  private getItemName(key) {
+  private getItemName(key: string) {
     return `${this.storagePrefix}${this.servicePrefix}${key}`;
   }
 
@@ -22,7 +22,7 @@ export class DbService {
    * Gets the item with the exact name specified
    * @param key
    */
-  getItemByExactKey(key): Observable<any> {
+  getItemByExactKey(key: string): Observable<any> {
     const dbValue = localStorage.getItem(key);
 
     return Observable.create((observer: Subscriber<any>) => {
@@ -44,7 +44,7 @@ export class DbService {
    * The key is retrieved with the application-specific key
    * @param key
    */
-  getItem(key): Observable<any> {
+  getItem(key: string): Observable<any> {
     return this.getItemByExactKey(this.getItemName(key));
   }
 
@@ -53,7 +53,7 @@ export class DbService {
    * @param key
    * @param value
    */
-  setItem(key, value): Observable<any> {
+  setItem(key: string, value: any): Observable<any> {
     const dbValue = {
       value: null
     };
@@ -64,24 +64,24 @@ export class DbService {
 
     localStorage.setItem(this.getItemName(key), JSON.stringify(dbValue));
 
-    return Observable.create(obs => obs.next(null));
+    return new Observable(obs => obs.next(null));
   }
 
   /**
    * Removes an item with the specified exact key
    * @param key
    */
-  removeItemByExactKey(key): Observable<any> {
+  removeItemByExactKey(key: string): Observable<any> {
     localStorage.removeItem(key);
 
-    return Observable.create(obs => obs.next(null));
+    return new Observable(obs => obs.next(null));
   }
 
   /**
    * Removes an item with the specified application key
    * @param key
    */
-  removeItem(key) {
+  removeItem(key: string) {
     return this.removeItemByExactKey(this.getItemName(key));
   }
 

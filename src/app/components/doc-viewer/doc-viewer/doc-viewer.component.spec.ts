@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerComponent } from './doc-viewer.component';
 import { DocViewerModule } from '../doc-viewer.module';
+import { AltairConfig } from 'app/config';
 
 describe('DocViewerComponent', () => {
   let component: DocViewerComponent;
@@ -14,6 +15,12 @@ describe('DocViewerComponent', () => {
         TranslateModule.forRoot(),
         // Just import DocViewerModule since it contains all doc viewer component and dependencies
         DocViewerModule
+      ],
+      providers: [
+        {
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
+        },
       ]
     })
     .compileComponents();

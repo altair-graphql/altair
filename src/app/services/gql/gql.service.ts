@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 
 // import * as prettier from 'prettier/standalone';
 // import * as prettierGraphql from 'prettier/parser-graphql';
-import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
+// import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 
 
 import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from 'subscriptions-transport-ws';
@@ -23,6 +23,8 @@ import {
   validateSchema,
   visit,
   DocumentNode,
+  GraphQLType,
+  OperationDefinitionNode,
 } from 'graphql';
 import compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
@@ -36,8 +38,17 @@ import * as fromHeaders from '../../reducers/headers/headers';
 import * as fromVariables from '../../reducers/variables/variables';
 import { fillAllFields } from './fillFields';
 import { setByDotNotation } from 'app/utils';
+import { Token } from 'codemirror';
+import { IDictionary, Omit } from 'app/interfaces/shared';
+import {
+  refactorFieldsWithFragmentSpread,
+  generateTypeUsageEntries,
+  generateFragmentRefactorMap,
+  addFragmentDefinitionFromRefactorMap,
+  refactorArgumentsToVariables,
+  generateRandomNameForString,
+} from './helpers';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 interface SendRequestOptions {
   query: string;
@@ -77,7 +88,7 @@ export class GqlService {
     if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
-      const err = new Error(res.statusText);
+      const err: any = new Error(res.statusText);
       err['response'] = res;
       throw err;
     }
@@ -88,8 +99,8 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send(query, vars?, selectedOperation?, files?: fromVariables.FileVariable[]) {
-    const data = { query, variables: {}, operationName: null };
+  _send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[]) {
+    const data = { query, variables: {}, operationName: '' };
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
     const headers = this.headers;
@@ -112,7 +123,7 @@ export class GqlService {
     if (!this.isGETRequest()) {
       if (files && files.length) {
         // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
-        const fileMap = {};
+        const fileMap: any = {};
         data.variables = data.variables || {};
         files.forEach((file, i) => {
           setByDotNotation(data.variables, file.name, null);
@@ -173,7 +184,7 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  send(query, vars?, selectedOperation?, files?) {
+  send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[]) {
     return this._send(query, vars, selectedOperation, files).pipe(map(res => res.body));
   }
 
@@ -212,7 +223,7 @@ export class GqlService {
     return this;
   }
 
-  getParamsFromData(data) {
+  getParamsFromData(data: { [key: string]: any }) {
     return Object.keys(data)
       .reduce(
         (params, key) => data[key] ? params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]) : params,
@@ -224,17 +235,17 @@ export class GqlService {
     return this.api_url;
   }
 
-  setUrl(url) {
+  setUrl(url: string) {
     this.api_url = url;
     return this;
   }
 
-  setHTTPMethod(httpVerb) {
+  setHTTPMethod(httpVerb: string) {
     this.method = httpVerb;
     return this;
   }
 
-  getIntrospectionRequest(url, opts: IntrospectionRequestOptions): Observable<any> {
+  getIntrospectionRequest(url: string, opts: IntrospectionRequestOptions): Observable<any> {
     const requestOpts = {
       query: getIntrospectionQuery(),
       headers: opts.headers,
@@ -256,6 +267,9 @@ export class GqlService {
         return this.sendRequest(url, { ...requestOpts, query: oldIntrospectionQuery })
           .pipe(map(data => {
             debug.log('old introspection', data);
+            if (!data.ok) {
+              throw new Error(`Introspection request failed with: ${data.status}`);
+            }
             return data;
           }));
       }),
@@ -266,7 +280,7 @@ export class GqlService {
     return this.introspectionData;
   }
 
-  getIntrospectionSchema(data): GraphQLSchema | null {
+  getIntrospectionSchema(data: any): GraphQLSchema | null {
     try {
       if (data && data.__schema) {
         const schema = buildClientSchema(data);
@@ -299,14 +313,14 @@ export class GqlService {
     }
   }
 
-  getActualTypeName(type) {
+  getActualTypeName(type: GraphQLType) {
     if (type) {
       return type.inspect().replace(/[\[\]!]/g, '');
     }
     return '';
   }
 
-  fillAllFields(schema, query: string, cursor, token, opts) {
+  fillAllFields(schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, opts: any) {
     return fillAllFields(schema, query, cursor, token, opts);
   }
 
@@ -327,7 +341,7 @@ export class GqlService {
    * Check if the schema is a valid GraphQL schema
    * @param schema The schema object instance
    */
-  isSchema(schema) {
+  isSchema(schema: any) {
     return schema instanceof GraphQLSchema;
   }
 
@@ -335,7 +349,7 @@ export class GqlService {
    * Checks if a query contains a subscription operation
    * @param query
    */
-  isSubscriptionQuery(query) {
+  isSubscriptionQuery(query: string) {
 
     const parsedQuery = this.parseQuery(query);
 
@@ -348,14 +362,14 @@ export class GqlService {
     }, false);
   }
 
-  createSubscriptionClient(subscriptionUrl, opts?: SubscriptionClientOptions): SubscriptionClient {
+  createSubscriptionClient(subscriptionUrl: string, opts?: SubscriptionClientOptions): SubscriptionClient {
     return new SubscriptionClient(subscriptionUrl, {
       reconnect: true,
       ...opts
     });
   }
 
-  closeSubscriptionClient(subscriptionClient) {
+  closeSubscriptionClient(subscriptionClient: SubscriptionClient) {
     if (subscriptionClient) {
 
       if (subscriptionClient.close) {
@@ -364,20 +378,13 @@ export class GqlService {
     }
   }
 
-  getOperations(query: string): any[] {
+  getOperations(query: string) {
     const parsedQuery = this.parseQuery(query);
 
     if (parsedQuery.definitions) {
       return parsedQuery.definitions
-        .filter(def => def.kind === 'OperationDefinition')
-        .map((def, i) => {
-          // Make sure all operations have names
-          if (!def['name'] || !def['name'].value) {
-            def['name'] = def['name'] || {};
-            def['name'].value = '#' + i.toString();
-          }
-          return def;
-        });
+        .filter((def): def is OperationDefinitionNode =>
+          !!(def.kind === 'OperationDefinition' && def.name && def.name.value));
     }
 
     return [];
@@ -385,7 +392,7 @@ export class GqlService {
 
   getOperationAtIndex(query: string, index: number) {
     return this.getOperations(query).find(operation => {
-      return operation.loc.start <= index && operation.loc.end >= index;
+      return Boolean(operation.loc && operation.loc.start <= index && operation.loc.end >= index);
     });
   }
 
@@ -393,7 +400,7 @@ export class GqlService {
     const operation = this.getOperationAtIndex(query, index);
 
     if (operation) {
-      return operation.name && operation.name.value;
+      return (operation.name && operation.name.value) ? operation.name.value : '';
     }
     return '';
   }
@@ -401,14 +408,21 @@ export class GqlService {
   // Check if there are more than one operations in the query
   // If check if there is already a selected operation
   // Check if the selected operation matches any operation, else ask the user to select again
-  getSelectedOperationData({ query = '', queryCursorIndex, selectedOperation = '', selectIfOneOperation = false }) {
+  getSelectedOperationData({
+    query = '',
+    queryCursorIndex,
+    selectedOperation = '',
+    selectIfOneOperation = false
+  }: { query: string, queryCursorIndex?: number, selectedOperation?: string, selectIfOneOperation?: boolean }) {
     const operations = this.getOperations(query);
     let requestSelectedOperationFromUser = false;
 
     // Need to choose an operation
     if (operations) {
       // def.name.Kind = 'Name' is not set when the name is anonymous (#0, #1, etc.. set by the graphql parse() method)
-      const availableOperationNames = operations.map(def => def.name && def.name.kind === 'Name' && def.name.value).filter(Boolean);
+      const availableOperationNames = operations
+        .map(def => def.name && def.name.kind === 'Name' && def.name.value)
+        .filter(Boolean) as string[];
 
       if (availableOperationNames.length > 1) {
         let operationNameAtCursorIndex = '';
@@ -466,13 +480,12 @@ export class GqlService {
       return;
     }
     const ast = this.parseQuery(query);
-    const constructedName = query.trim().replace(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').substr(0, 20) + (Math.random() * 10).toFixed(0);
     const edited = visit(ast, {
       OperationDefinition(node) {
         debug.log(node);
         const NameKind = node.name || {
           kind: 'Name',
-          value: constructedName
+          value: generateRandomNameForString(query),
         };
         return {
           ...node,
@@ -484,11 +497,31 @@ export class GqlService {
     return print(edited);
   }
 
+  refactorQuery(query: string, schema: GraphQLSchema) {
+
+    if (!query || !schema) {
+      return;
+    }
+    const ast = this.parseQuery(query);
+    const typeUsageEntries = generateTypeUsageEntries(ast, schema);
+
+    const fragmentRefactorMap = generateFragmentRefactorMap(typeUsageEntries);
+    const stripped = refactorFieldsWithFragmentSpread(ast, fragmentRefactorMap, schema);
+    const documentWithFragments = addFragmentDefinitionFromRefactorMap(stripped, fragmentRefactorMap, schema);
+    const argumentRefactorResult = refactorArgumentsToVariables(documentWithFragments, schema);
+
+    // debug.log('REFACTOR', ast, edited, fragmentRefactorMap, print(argumentRefactorResult.document), argumentRefactorResult.variables);
+    return {
+      query: print(argumentRefactorResult.document),
+      variables: argumentRefactorResult.variables,
+    };
+  }
+
   /**
    * Return the Schema Definition Language of the provided schema
    * @param schema
    */
-  async getSDL(schema) {
+  async getSDL(schema: GraphQLSchema) {
     if (this.isSchema(schema)) {
       return this.prettify(printSchema(schema));
     }
@@ -499,11 +532,11 @@ export class GqlService {
     return buildSchema(sdl);
   }
 
-  validateSchema(schema) {
+  validateSchema(schema: GraphQLSchema) {
     return validateSchema(schema);
   }
 
-  createStreamClient(streamUrl): EventSource {
+  createStreamClient(streamUrl: string): EventSource {
     const eventSource = new EventSource(streamUrl);
     return eventSource;
   }

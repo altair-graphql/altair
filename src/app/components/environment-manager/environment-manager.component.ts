@@ -7,9 +7,9 @@ import * as Codemirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
-window['jsonlint'] = window['jsonlint'] || {
+(window as any).jsonlint = (window as any).jsonlint || {
   parser: {
-    parse: function(str) {
+    parse: function(str: string) {
       try {
         return JSON.parse(str);
       } catch (err) {
@@ -75,7 +75,7 @@ export class EnvironmentManagerComponent implements OnInit {
     }
   }
 
-  onEditorChange(content) {
+  onEditorChange(content: string) {
     try {
       JSON.parse(content);
 
@@ -89,11 +89,11 @@ export class EnvironmentManagerComponent implements OnInit {
     }
   }
 
-  onTitleChange(content) {
+  onTitleChange(content: string) {
     this.subEnvironmentTitleChange.next({ id: this.selectedEnvironmentId, value: content });
   }
 
-  selectEnvironment(id) {
+  selectEnvironment(id: string) {
     this.selectedEnvironmentId = id;
 
     if (this.selectedEnvironmentId === 'base') {
@@ -119,7 +119,7 @@ export class EnvironmentManagerComponent implements OnInit {
     }
   }
 
-  trackById(index, item) {
+  trackById(index: number, item: any) {
     return item.id;
   }
 

@@ -6,11 +6,13 @@ export interface State {
   showAlert: boolean;
 }
 
-export const initialState: State = {
-  showAlert: false
+export const getInitialState = (): State => {
+  return {
+    showAlert: false
+  };
 };
 
-export function donationReducer(state = initialState, action: donation.Action): State {
+export function donationReducer(state = getInitialState(), action: donation.Action): State {
   switch (action.type) {
     case donation.SHOW_DONATION_ALERT:
       return { ...state, showAlert: true };

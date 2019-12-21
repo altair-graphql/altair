@@ -4,10 +4,10 @@ import { KeysPipe } from './keys/keys.pipe';
 
 @NgModule({
     declarations: [
-        KeysPipe
+        KeysPipe,
     ],
     exports: [
-        KeysPipe
+        KeysPipe,
     ]
 })
 export class PipesModule {}

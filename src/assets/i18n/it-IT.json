@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Converti in named query",
   "SET_HEADERS_BUTTON": "Inserisci Header",
   "SET_VARIABLES_BUTTON": "Inserisci Variabili",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Ricarica Docs",
   "SHOW_DOCS_BUTTON": "Mostra Docs",
   "DOCS_TEXT": "Docs",
@@ -42,6 +43,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Scarica",
   "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Cancella",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
   "VARIABLES_TEXT": "Variabili",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Aggiungere, modificare e rimuovere variabili dalle vostre richieste",
   "HEADERS_TEXT": "Header",
@@ -64,7 +66,7 @@
   "SETTINGS_SHOW_EDITOR_HINT": "Premere ctrl-space per i suggerimenti",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
   "SETTINGS_RESET_APPLICATION_DATA": "Reset dei dati applicativi (da usare solo se si sa cosa si sta facendo).",
-  "SETTINGS_TOGGLE_ADVANCED_MODE": "Toggle advanced mode",
+  "SETTINGS_TOGGLE_ADVANCED_MODE": "Attiva/Disattiva modalità avanzata",
   "VIEW_ON_GITHUB_TEXT": "Vedi su GitHub",
   "STAR_ON_GITHUB_TEXT": "Vota su Github",
   "REPORT_BUG_TEXT": "Segnala un bug",
@@ -121,6 +123,6 @@
   "PRE_REQUEST_EDITOR_HEADER": "Editor di Pre-request",
   "PRE_REQUEST_EDITOR_SUBTEXT": "Scrivi uno script da eseguire prima che la richiesta sia inviata",
   "PRE_REQUEST_ENABLE_TEXT": "Abilita script pre-request",
-  "SCHEMA_FORM_LIST_ADD": "Add",
-  "SCHEMA_FORM_LIST_REMOVE": "Remove"
+  "SCHEMA_FORM_LIST_ADD": "Aggiungi alla lista",
+  "SCHEMA_FORM_LIST_REMOVE": "Rimuovi"
 }

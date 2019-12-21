@@ -6,16 +6,16 @@
  * @param fn
  * @example on('click', '.el', fn);
  */
-export const on = (eventName, elSelector, fn) => {
+export const on = (eventName: string, elSelector: string, fn: Function) => {
   document.body.addEventListener(eventName, function(e) {
-    if (e.target && e.target.matches(elSelector)) {
+    if (e.target && (e.target as Element).matches(elSelector)) {
       fn.apply(e.target, [e]);
     }
   });
 };
 
 export const handleExternalLinks = () => {
-  on('click', 'a', function(e) {
+  on('click', 'a', function(e: Event) {
     const url = (this.href || '');
 
     if (!url.replace(/#.*$/, '')) {
@@ -25,8 +25,8 @@ export const handleExternalLinks = () => {
     e.preventDefault();
 
     // If electron app
-    if (window['process'] && window['process'].versions['electron']) {
-      const electron = window['require']('electron');
+    if ((window as any).process && (window as any).process.versions['electron']) {
+      const electron = (window as any).require('electron');
       electron.shell.openExternal(url);
     } else {
       const win = window.open(url, '_blank');

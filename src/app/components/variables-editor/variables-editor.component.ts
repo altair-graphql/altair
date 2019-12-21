@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef } from '@angular/core';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -21,7 +21,7 @@ export class VariablesEditorComponent implements OnChanges {
   @Input() variables = '';
   @Output() variablesChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   variableEditorConfig = {
     mode: 'javascript',

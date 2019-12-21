@@ -42,7 +42,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
     }
   }
 
-  updateSchemaProperties(schema) {
+  updateSchemaProperties(schema: any) {
     this.schemaProperties = Object.entries(schema.properties)
       .map(([ key, pty ]: any) => ({ ...pty, key }))
       .sort((a, b) => (a.key > b.key) ? 1 : -1)
@@ -60,7 +60,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
     // console.log('DATA:', this.data);
   }
 
-  onInput(event, item) {
+  onInput(event: Event, item: any) {
     // console.log(event, item);
     this.dataChange.next(this.formData);
   }

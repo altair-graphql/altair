@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as services from '../../services';
 import { SetVariableDialogComponent } from './set-variable-dialog.component';
 import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SetVariableDialogComponent', () => {

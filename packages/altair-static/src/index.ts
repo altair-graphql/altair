@@ -1,5 +1,15 @@
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import getAltairHtml from './utils/get-altair-html';
+
+
+interface InitialEnvironmentState {
+    id?: string
+    title?: string,
+    variables?: Object,
+};
+export interface IInitialEnvironments {
+    base?: InitialEnvironmentState,
+    subEnvironments?: InitialEnvironmentState[]
+  }
 
 export interface RenderOptions {
     /**
@@ -55,6 +65,24 @@ export interface RenderOptions {
      * instanceStorageNamespace: 'altair_dev_'
      */
     instanceStorageNamespace?: string;
+
+  /**
+   * Initial Environments to be added
+   * @example
+   * {
+   *   base: {
+   *     title: 'Environment',
+   *     variables: {}
+   *   },
+   *   subEnvironments: [
+   *     {
+   *       title: 'sub-1',
+   *       variables: {}
+   *     }
+   *   ]
+   * }
+   */
+  initialEnvironments?: IInitialEnvironments;
 }
 
 /**
@@ -68,35 +96,22 @@ export const renderInitialOptions = ({
     initialVariables,
     initialHeaders,
     initialPreRequestScript,
+    initialEnvironments,
     instanceStorageNamespace
 }: RenderOptions = {}) => {
-    let result = '';
-    if (endpointURL) {
-        result += `window.__ALTAIR_ENDPOINT_URL__ = \`${endpointURL}\`;`;
-    }
-    if (subscriptionsEndpoint) {
-        result += `window.__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ = \`${subscriptionsEndpoint}\`;`;
-    }
-    if (initialQuery) {
-        result += `window.__ALTAIR_INITIAL_QUERY__ = \`${initialQuery}\`;`;
-    }
-
-    if (initialVariables) {
-        result += `window.__ALTAIR_INITIAL_VARIABLES__ = \`${initialVariables}\`;`;
-    }
-
-    if (initialPreRequestScript) {
-        result += `window.__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ = \`${initialPreRequestScript}\`;`;
-    }
-
-    if (initialHeaders) {
-        result += `window.__ALTAIR_INITIAL_HEADERS__ = ${JSON.stringify(initialHeaders)};`;
-    }
-
-    if (instanceStorageNamespace) {
-        result += `window.__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ = \`${instanceStorageNamespace}\`;`;
-    }
-    return result;
+    return `
+        const altairOpts = {
+            ${getObjectPropertyForOption(endpointURL, 'endpointURL')}
+            ${getObjectPropertyForOption(subscriptionsEndpoint, 'subscriptionsEndpoint')}
+            ${getObjectPropertyForOption(initialQuery, 'initialQuery')}
+            ${getObjectPropertyForOption(initialVariables, 'initialVariables')}
+            ${getObjectPropertyForOption(initialPreRequestScript, 'initialPreRequestScript')}
+            ${getObjectPropertyForOption(initialHeaders, 'initialHeaders')}
+            ${getObjectPropertyForOption(initialEnvironments, 'initialEnvironments')}
+            ${getObjectPropertyForOption(instanceStorageNamespace, 'instanceStorageNamespace')}
+        };
+        AltairGraphQL.init(altairOpts);
+    `;
 }
 
 /**
@@ -104,24 +119,32 @@ export const renderInitialOptions = ({
  * @param renderOptions
  */
 export const renderAltair = (options: RenderOptions = {}) => {
-    const altairHtml = readFileSync(resolve(__dirname, 'dist/index.html'), 'utf8');
+    const altairHtml = getAltairHtml();
     const initialOptions = renderInitialOptions(options);
     const baseURL = options.baseURL || './';
-    if (!initialOptions) {
-        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}">`);
-    }
     if (options.serveInitialOptionsInSeperateRequest) {
-        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}"><script src="initial_options.js"></script>`);
+        return altairHtml
+            .replace(/<base.*>/, `<base href="${baseURL}">`)
+            .replace('</body>', `<script src="initial_options.js"></script></body>`);
     } else {
-        return altairHtml.replace(/<base.*>/, `<base href="${baseURL}"><script>${initialOptions}</script>`);
+        return altairHtml
+            .replace(/<base.*>/, `<base href="${baseURL}">`)
+            .replace('</body>', `<script>${initialOptions}</script></body>`);
     }
 };
 
+function getObjectPropertyForOption(option: any, propertyName: string) {
+    if (option) {
+        let optionString = option;
+        switch (typeof option) {
+            case 'object':
+                optionString = JSON.stringify(option);
+        }
+        return `${propertyName}: \`${optionString}\`,`;
+    }
+    return '';
+}
 
-
-/**
- * Returns the path to Altair assets, for resolving the assets when rendering Altair
- */
-export const getDistDirectory = () => resolve(__dirname, 'dist');
+export { getDistDirectory } from './utils/get-dist';
 
 export default renderAltair;

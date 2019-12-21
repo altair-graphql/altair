@@ -11,16 +11,18 @@ export interface State {
   showEnvironmentManager: boolean;
 }
 
-const initialState: State = {
-  activeWindowId: '',
-  windowIds: [],
-  showImportCurlDialog: false,
-  showEditCollectionDialog: false,
-  showSettingsDialog: false,
-  showEnvironmentManager: false,
+export const getInitialState = (): State => {
+  return {
+    activeWindowId: '',
+    windowIds: [],
+    showImportCurlDialog: false,
+    showEditCollectionDialog: false,
+    showSettingsDialog: false,
+    showEnvironmentManager: false,
+  };
 };
 
-export function windowsMetaReducer(state = initialState, action: windowsMeta.Action): State {
+export function windowsMetaReducer(state = getInitialState(), action: windowsMeta.Action): State {
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
       return { ...state, activeWindowId: action.payload.windowId };

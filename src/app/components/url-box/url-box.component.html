@@ -26,20 +26,20 @@
   <div class="url-box__input-container">
     <div class="url-box__input-prepend" *ngIf="streamState">
       <div class="url-box__connection-indicator">
-        <clr-icon
+        <app-icon
           *ngIf="streamState == 'uncertain'"
-          shape="exclamation-circle"
-          class="is-solid connection-indicator--uncertain"
+          name="alert-circle"
+          class="connection-indicator--uncertain"
           [popper]="'STREAM_CONNECTION_TRYING' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
-        ></clr-icon>
-        <clr-icon
+        ></app-icon>
+        <app-icon
           *ngIf="streamState == 'connected'"
-          shape="circle"
-          class="is-solid connection-indicator--connected"
+          name="check-circle"
+          class="connection-indicator--connected"
           [popper]="'STREAM_CONNECTION_CONNECTED' | translate"
           [popperStyles]="{ 'white-space': 'nowrap' }"
-        ></clr-icon>
+        ></app-icon>
       </div>
     </div>
     <app-fancy-input
@@ -58,7 +58,7 @@
         [nzDropdownMenu]="urlBoxActionMenu"
         class="url-box__input-btn"
       >
-        <clr-icon shape="floppy"></clr-icon>
+        <app-icon name="save"></app-icon>
       </button>
       <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
         <ul nz-menu>
@@ -91,7 +91,7 @@
         [popper]="'RELOAD_DOCS_BUTTON' | translate"
         [popperPlacement]="'bottom'"
       >
-        <clr-icon shape="refresh"></clr-icon>
+        <app-icon name="refresh-ccw"></app-icon>
       </button>
       <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.next()" [ngClass]="{'url-box__input-btn--active': showDocs}" track-id="show_docs">
         {{ 'DOCS_TEXT' | translate }}
@@ -121,7 +121,7 @@
     <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
     <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
     <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
-    <clr-icon shape="caret down"></clr-icon>
+    <app-icon name="chevron-down"></app-icon>
   </button>
   <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
     <ul nz-menu>

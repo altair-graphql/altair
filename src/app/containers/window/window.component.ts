@@ -18,6 +18,7 @@ import * as fromVariable from '../../reducers/variables/variables';
 import * as fromQuery from '../../reducers/query/query';
 import * as fromCollection from '../../reducers/collection/collection';
 import * as fromPreRequest from '../../reducers/pre-request/pre-request';
+import * as fromDocs from '../../reducers/docs/docs';
 
 import * as queryActions from '../../actions/query/query';
 import * as headerActions from '../../actions/headers/headers';
@@ -32,9 +33,9 @@ import * as collectionActions from '../../actions/collection/collection';
 import * as streamActions from '../../actions/stream/stream';
 import * as preRequestActions from '../../actions/pre-request/pre-request';
 
-import { GqlService, NotifyService, PluginRegistryService } from '../../services';
+import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
-import { PluginComponentData } from '../../services/plugin/plugin';
+import { PluginComponentData, PluginInstance, PluginType } from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
 
@@ -56,7 +57,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   responseTime$: Observable<number>;
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
-  subscriptionResponses$: Observable<string[]>;
+  subscriptionResponses$: Observable<fromQuery.SubscriptionResponse[]>;
   selectedOperation$: Observable<string | undefined>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
@@ -65,6 +66,7 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
+  autoscrollSubscriptionResponses$: Observable<boolean>;
 
   collections$: Observable<fromCollection.IQueryCollection[]>;
 
@@ -99,6 +101,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
+    private windowService: WindowService,
     private vRef: ViewContainerRef,
     private pluginRegistry: PluginRegistryService,
     private zone: NgZone,
@@ -124,6 +127,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.responseStatusText$ = this.getWindowState().pipe(select(fromRoot.getResponseStatusText));
     this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
     this.subscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getSubscriptionResponses));
+    this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getAutoscrollSubscriptionResponse));
     this.selectedOperation$ = this.getWindowState().pipe(select(fromRoot.getSelectedOperation));
     this.queryOperations$ = this.getWindowState().pipe(select(fromRoot.getQueryOperations));
     this.streamState$ = this.getWindowState().pipe(
@@ -197,45 +201,30 @@ export class WindowComponent implements OnInit, OnDestroy {
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
-        combineLatest(this.pluginRegistry.installedPlugins(), this.getWindowState(), (plugins, state) => {
-          if (!state) {
-            debug.warn('State is not defined. This shouldnt happen.');
-
-            return [];
-          }
-          return Object.values(plugins).map(plugin => {
-            return {
-              ...plugin,
-              props: {
-                sdl: state.schema.sdl,
-                query: state.query.query || '',
-              },
-              context: {
-                setQuery: query => this.zone.run(() => this.updateQuery(query)),
-              }
-            };
-          });
-        })
-        .pipe(untilDestroyed(this))
-        .subscribe(plugins => {
-          this.pluginsData = plugins;
+        this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId }).subscribe(pluginsData => {
+          this.pluginsData = pluginsData;
         });
       }
     });
+
+    this.windowService.setupWindow(this.windowId);
   }
 
-  setApiUrl(url) {
+  setApiUrl(url: string) {
     if (url !== this.apiUrl) {
       this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
       this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
     }
   }
 
-  setApiMethod(httpVerb) {
+  setApiMethod(httpVerb: string) {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
-  sendRequest() {
+  sendRequest(opts: any = {}) {
+    if (opts.operationName) {
+      this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation: opts.operationName }));
+    }
     this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
   }
 
@@ -243,7 +232,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
   }
 
-  selectOperation(selectedOperation) {
+  selectOperation(selectedOperation: string) {
     this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation }));
     this.sendRequest();
   }
@@ -264,7 +253,11 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(this.windowId, { list: [] }));
   }
 
-  updateQuery(query) {
+  toggleAutoscrollSubscriptionResponses() {
+    this.store.dispatch(new queryActions.ToggleAutoscrollSubscriptionResponseAction(this.windowId));
+  }
+
+  updateQuery(query: string) {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
@@ -280,34 +273,34 @@ export class WindowComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleSubscriptionUrlDialog(isOpen) {
+  toggleSubscriptionUrlDialog(isOpen: boolean) {
     if (this.showSubscriptionUrlDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId));
     }
   }
 
-  toggleHistoryDialog(isOpen) {
+  toggleHistoryDialog(isOpen: boolean) {
     if (this.showHistoryDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.windowId));
     }
   }
 
-  toggleAddToCollectionDialog(isOpen) {
+  toggleAddToCollectionDialog(isOpen: boolean) {
     if (this.showAddToCollectionDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.ToggleAddToCollectionDialogAction(this.windowId));
     }
   }
 
-  togglePreRequestDialog(isOpen) {
+  togglePreRequestDialog(isOpen: boolean) {
     if (this.showPreRequestDialog !== isOpen) {
       this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.windowId));
     }
   }
 
-  setDocView(docView) {
+  setDocView(docView: fromDocs.DocView) {
     this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
   }
-  onShowTokenInDocs(docView) {
+  onShowTokenInDocs(docView: fromDocs.DocView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
       take(1),
@@ -330,48 +323,48 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new headerActions.AddHeaderAction(this.windowId));
   }
 
-  headerKeyChange(val, i) {
+  headerKeyChange(val: string, i: number) {
     this.store.dispatch(new headerActions.EditHeaderKeyAction({ val, i }, this.windowId));
   }
-  headerValueChange(val, i) {
+  headerValueChange(val: string, i: number) {
     this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }, this.windowId));
   }
 
-  removeHeader(i) {
+  removeHeader(i: number) {
     this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
   }
 
-  updateVariables(variables) {
+  updateVariables(variables: string) {
     this.store.dispatch(new variableActions.UpdateVariablesAction(variables, this.windowId));
   }
 
   addFileVariable() {
     this.store.dispatch(new variableActions.AddFileVariableAction(this.windowId));
   }
-  updateFileVariableName({ index, name }) {
+  updateFileVariableName({ index, name }: { index: number, name: string }) {
     this.store.dispatch(new variableActions.UpdateFileVariableNameAction(this.windowId, { index, name }));
   }
 
-  updateFileVariableData({ index, fileData }) {
+  updateFileVariableData({ index, fileData }: { index: number, fileData: File }) {
     this.store.dispatch(new variableActions.UpdateFileVariableDataAction(this.windowId, { index, fileData }));
   }
 
-  deleteFileVariable({ index }) {
+  deleteFileVariable({ index }: { index: number }) {
     this.store.dispatch(new variableActions.DeleteFileVariableAction(this.windowId, { index }));
   }
 
-  updateSubscriptionUrl(url) {
+  updateSubscriptionUrl(url: string) {
     this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: url }, this.windowId));
   }
-  updateSubscriptionConnectionParams(connectionParams) {
+  updateSubscriptionConnectionParams(connectionParams: string) {
     this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
   }
 
-  updatePreRequestScript(script) {
+  updatePreRequestScript(script: string) {
     this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(this.windowId, { script }));
   }
 
-  updatePreRequestEnabled(enabled) {
+  updatePreRequestEnabled(enabled: boolean) {
     this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(this.windowId, { enabled }));
   }
 
@@ -390,7 +383,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
   // Set the value of the item in the specified index of the history list
-  restoreHistory(index) {
+  restoreHistory(index: number) {
     if (this.historyList[index]) {
       this.store.dispatch(new queryActions.SetQueryAction(this.historyList[index].query, this.windowId));
     }
@@ -412,7 +405,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.onCloseAddToCollectionDialog();
   }
 
-  saveQueryToCollection(collectionId) {
+  saveQueryToCollection(collectionId: number) {
     this.store.dispatch(new collectionActions.SaveQueryToCollectionAction({
       windowId: this.windowId,
       collectionId,
@@ -448,7 +441,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
 
-  trackByFn(index) {
+  trackByFn(index: number) {
     return index;
   }
 
@@ -456,11 +449,11 @@ export class WindowComponent implements OnInit, OnDestroy {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 
-  trackById(index, item) {
+  trackById(index: number, item: any) {
     return item.id;
   }
 
-  pluginTrackBy(index, plugin) {
+  pluginTrackBy(index: number, plugin: PluginInstance) {
     return plugin.name;
   }
 

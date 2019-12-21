@@ -1,10 +1,11 @@
 import { Directive, OnChanges, SimpleChanges, Input, ElementRef } from '@angular/core';
+import { IDictionary } from 'app/interfaces/shared';
 
 @Directive({
   selector: '[appSetCssVariables]'
 })
 export class SetCssVariablesDirective implements OnChanges {
-  @Input() appSetCssVariables = {};
+  @Input() appSetCssVariables: IDictionary = {};
 
   constructor(private element: ElementRef) {}
 

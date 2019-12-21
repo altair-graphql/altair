@@ -47,7 +47,7 @@ There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-gr
 
 There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
 
-You can also install using cask:
+For mac users, you can also install using cask:
 
 ```
 $ brew cask install altair-graphql-client
@@ -65,6 +65,18 @@ For arch linux users, an AUR package [aur/altair](https://aur.archlinux.org/pack
 $ yay -S altair
 ```
 
+For windows users, you can install using [appget](https://appget.net/packages/i/altair-graphql):
+
+```
+$ appget install altair-graphql
+```
+
+or [chocolatey](https://chocolatey.org/packages/altair-graphql):
+
+```
+$ choco install altair-graphql
+```
+
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
@@ -72,6 +84,8 @@ You can use altair with an express server using [altair-express-middleware](http
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
 ## Features
+
+![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 
 - Headers
 - Variables
@@ -81,7 +95,6 @@ You can use altair with a koa server using [altair-koa-middleware](https://www.n
 - Syntax highlighting
 - Error highlighting
 - Add queries and fragments from documentation
-![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
 - Upload files via GraphQL
 - Autocompletion of fields, arguments, types, etc
 - Autofill all fields at cursor
@@ -158,27 +171,34 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/DaniloCaruso"><img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt="Danilo Caruso"/><br /><sub><b>Danilo Caruso</b></sub></a><br /><a href="#translation-DaniloCaruso" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/IgorSzymanski"><img src="https://avatars0.githubusercontent.com/u/12682069?v=4" width="100px;" alt="Igor Szymanski"/><br /><sub><b>Igor Szymanski</b></sub></a><br /><a href="#translation-IgorSzymanski" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/kporten"><img src="https://avatars2.githubusercontent.com/u/1839345?v=4" width="100px;" alt="Kevin Porten"/><br /><sub><b>Kevin Porten</b></sub></a><br /><a href="#translation-kporten" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://0xabcdef.com/"><img src="https://avatars0.githubusercontent.com/u/690661?v=4" width="100px;" alt="JongChan Choi"/><br /><sub><b>JongChan Choi</b></sub></a><br /><a href="#translation-disjukr" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://twitter.com/alexey_rodionov"><img src="https://avatars1.githubusercontent.com/u/7892779?v=4" width="100px;" alt="Alexey Rodionov"/><br /><sub><b>Alexey Rodionov</b></sub></a><br /><a href="https://github.com/imolorhe/altair/commits?author=FluorescentHallucinogen" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/kurisutofu"><img src="https://avatars0.githubusercontent.com/u/742894?v=4" width="100px;" alt="kurisutofu"/><br /><sub><b>kurisutofu</b></sub></a><br /><a href="#translation-kurisutofu" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/Claercio"><img src="https://avatars1.githubusercontent.com/u/5834593?v=4" width="100px;" alt="Claércio Santos"/><br /><sub><b>Claércio Santos</b></sub></a><br /><a href="#translation-Claercio" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/DaniloCaruso"><img src="https://avatars1.githubusercontent.com/u/4080177?v=4" width="100px;" alt=""/><br /><sub><b>Danilo Caruso</b></sub></a><br /><a href="#translation-DaniloCaruso" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/IgorSzymanski"><img src="https://avatars0.githubusercontent.com/u/12682069?v=4" width="100px;" alt=""/><br /><sub><b>Igor Szymanski</b></sub></a><br /><a href="#translation-IgorSzymanski" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/kporten"><img src="https://avatars2.githubusercontent.com/u/1839345?v=4" width="100px;" alt=""/><br /><sub><b>Kevin Porten</b></sub></a><br /><a href="#translation-kporten" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://0xabcdef.com/"><img src="https://avatars0.githubusercontent.com/u/690661?v=4" width="100px;" alt=""/><br /><sub><b>JongChan Choi</b></sub></a><br /><a href="#translation-disjukr" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://twitter.com/alexey_rodionov"><img src="https://avatars1.githubusercontent.com/u/7892779?v=4" width="100px;" alt=""/><br /><sub><b>Alexey Rodionov</b></sub></a><br /><a href="https://github.com/imolorhe/altair/commits?author=FluorescentHallucinogen" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/kurisutofu"><img src="https://avatars0.githubusercontent.com/u/742894?v=4" width="100px;" alt=""/><br /><sub><b>kurisutofu</b></sub></a><br /><a href="#translation-kurisutofu" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/Claercio"><img src="https://avatars1.githubusercontent.com/u/5834593?v=4" width="100px;" alt=""/><br /><sub><b>Claércio Santos</b></sub></a><br /><a href="#translation-Claercio" title="Translation">🌍</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://janjaromirhorak.cz/"><img src="https://avatars3.githubusercontent.com/u/16863691?v=4" width="100px;" alt="jenda"/><br /><sub><b>jenda</b></sub></a><br /><a href="#translation-janjaromirhorak" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/pcharbon70"><img src="https://avatars2.githubusercontent.com/u/20699793?v=4" width="100px;" alt="pcharbon70"/><br /><sub><b>pcharbon70</b></sub></a><br /><a href="#translation-pcharbon70" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/juca-cruz"><img src="https://avatars1.githubusercontent.com/u/5823011?v=4" width="100px;" alt="Juan Cruz"/><br /><sub><b>Juan Cruz</b></sub></a><br /><a href="#translation-juca-cruz" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/victormihaita"><img src="https://avatars0.githubusercontent.com/u/43206741?v=4" width="100px;" alt="Victor Mihaita"/><br /><sub><b>Victor Mihaita</b></sub></a><br /><a href="#translation-victormihaita" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/qonn"><img src="https://avatars1.githubusercontent.com/u/43688724?v=4" width="100px;" alt="Furqan Anas"/><br /><sub><b>Furqan Anas</b></sub></a><br /><a href="https://github.com/imolorhe/altair/commits?author=qonn" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/vladshcherbin"><img src="https://avatars1.githubusercontent.com/u/6711845?v=4" width="100px;" alt="Vlad Shcherbin"/><br /><sub><b>Vlad Shcherbin</b></sub></a><br /><a href="https://github.com/imolorhe/altair/issues?q=author%3Avladshcherbin" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://janjaromirhorak.cz/"><img src="https://avatars3.githubusercontent.com/u/16863691?v=4" width="100px;" alt=""/><br /><sub><b>jenda</b></sub></a><br /><a href="#translation-janjaromirhorak" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/pcharbon70"><img src="https://avatars2.githubusercontent.com/u/20699793?v=4" width="100px;" alt=""/><br /><sub><b>pcharbon70</b></sub></a><br /><a href="#translation-pcharbon70" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/juca-cruz"><img src="https://avatars1.githubusercontent.com/u/5823011?v=4" width="100px;" alt=""/><br /><sub><b>Juan Cruz</b></sub></a><br /><a href="#translation-juca-cruz" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/victormihaita"><img src="https://avatars0.githubusercontent.com/u/43206741?v=4" width="100px;" alt=""/><br /><sub><b>Victor Mihaita</b></sub></a><br /><a href="#translation-victormihaita" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/qonn"><img src="https://avatars1.githubusercontent.com/u/43688724?v=4" width="100px;" alt=""/><br /><sub><b>Furqan Anas</b></sub></a><br /><a href="https://github.com/imolorhe/altair/commits?author=qonn" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/vladshcherbin"><img src="https://avatars1.githubusercontent.com/u/6711845?v=4" width="100px;" alt=""/><br /><sub><b>Vlad Shcherbin</b></sub></a><br /><a href="https://github.com/imolorhe/altair/issues?q=author%3Avladshcherbin" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/dies"><img src="https://avatars1.githubusercontent.com/u/80762?v=4" width="100px;" alt=""/><br /><sub><b>Serhiy Dmytryshyn</b></sub></a><br /><a href="#translation-dies" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/adieuadieu"><img src="https://avatars1.githubusercontent.com/u/438848?v=4" width="100px;" alt=""/><br /><sub><b>Marco Lüthy</b></sub></a><br /><a href="#financial-adieuadieu" title="Financial">💵</a></td>
   </tr>
 </table>
 
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

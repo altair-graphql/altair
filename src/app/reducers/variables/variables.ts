@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import * as variables from '../../actions/variables/variables';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 export interface FileVariable {
     name: string;
@@ -16,12 +16,15 @@ export interface State {
     files: FileVariable[];
 }
 
-export const initialState: State = {
-    variables: config.initialData.variables ? '' + config.initialData.variables : '{}',
-    files: [],
+export const getInitialState = (): State => {
+    const altairConfig = getAltairConfig();
+    return {
+        variables: altairConfig.initialData.variables ? '' + altairConfig.initialData.variables : '{}',
+        files: [],
+    };
 };
 
-export function variableReducer(state = initialState, action: variables.Action): State {
+export function variableReducer(state = getInitialState(), action: variables.Action): State {
     switch (action.type) {
         case variables.UPDATE_VARIABLES:
             return { ...state, variables: action.payload };

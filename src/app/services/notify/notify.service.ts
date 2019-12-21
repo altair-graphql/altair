@@ -3,13 +3,14 @@ import { ToastrService, ActiveToast, ToastrConfig } from 'ngx-toastr';
 import { isExtension } from '../../utils';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
+import { IDictionary } from 'app/interfaces/shared';
 
 type NotifyOptions = Partial<ToastrConfig & { data: any }>;
-
+type NotifyType = 'success' | 'error' | 'warning' | 'info';
 @Injectable()
 export class NotifyService {
 
-  extensionNotifications = {};
+  extensionNotifications: IDictionary = {};
 
   constructor(
     private toastr: ToastrService,
@@ -18,19 +19,19 @@ export class NotifyService {
     this.manageExtensionNotifications();
   }
 
-  success(message, title = 'Altair', opts: NotifyOptions = {}) {
+  success(message: string, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('success', message, title, opts);
   }
-  error(message, title = 'Altair', opts: NotifyOptions = {}) {
+  error(message: string, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('error', message, title, opts);
   }
-  warning(message, title = 'Altair', opts: NotifyOptions = {}) {
+  warning(message: string, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('warning', message, title, opts);
   }
-  info(message, title = 'Altair', opts: NotifyOptions = {}) {
+  info(message: string, title = 'Altair', opts: NotifyOptions = {}) {
     return this.exec('info', message, title, opts);
   }
-  exec(type, message, title, opts: NotifyOptions = {}): ActiveToast<any> {
+  exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}): ActiveToast<any> {
     const toast: ActiveToast<any> = this.toastr[type](message, title, opts);
     if (opts.data && opts.data.url) {
       toast.onTap.subscribe(_toast => {
@@ -40,7 +41,7 @@ export class NotifyService {
     return toast;
   }
 
-  pushNotify(message, title = 'Altair', opts: any = {}) {
+  pushNotify(message: string, title = 'Altair', opts: any = {}) {
     if (isExtension) {
       return this.extensionPushNotify(message, title, opts);
     } else {
@@ -48,7 +49,7 @@ export class NotifyService {
     }
   }
 
-  electronPushNotify(message, title = 'Altair', opts: any = {}) {
+  electronPushNotify(message: string, title = 'Altair', opts: any = {}) {
     this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
       if (disablePushNotification) {
         return;
@@ -65,18 +66,18 @@ export class NotifyService {
     });
   }
 
-  extensionPushNotify(message, title = 'Altair', opts: any = {}) {
+  extensionPushNotify(message: string, title = 'Altair', opts: any = {}) {
     this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
       if (disablePushNotification) {
         return;
       }
 
-      window['chrome'].notifications.create({
+      (window as any).chrome.notifications.create({
         type: 'basic',
         iconUrl: 'assets/img/logo.png',
         title,
         message
-      }, notifId => {
+      }, (notifId: string) => {
         if (opts) {
           this.extensionNotifications[notifId] = {};
 
@@ -94,14 +95,14 @@ export class NotifyService {
     }
 
     // Handle click events
-    window['chrome'].notifications.onClicked.addListener(notifId => {
+    (window as any).chrome.notifications.onClicked.addListener((notifId: string) => {
       if (this.extensionNotifications[notifId] && this.extensionNotifications[notifId].onclick) {
         this.extensionNotifications[notifId].onclick();
       }
     });
 
     // Handle closed notifications
-    window['chrome'].notifications.onClosed.addListener(notifId => {
+    (window as any).chrome.notifications.onClosed.addListener((notifId: string) => {
       if (this.extensionNotifications[notifId]) {
         delete this.extensionNotifications[notifId];
       }

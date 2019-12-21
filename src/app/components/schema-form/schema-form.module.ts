@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 
-import { SharedModule } from '../../shared/shared.module';
-import { ComponentModule } from '..';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 import { SchemaFormComponent } from './schema-form/schema-form.component';
 import { SchemaFormItemComponent } from './schema-form-item/schema-form-item.component';

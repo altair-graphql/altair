@@ -42,7 +42,7 @@ export class UpdateSubEnvironmentTitleAction implements Action {
 export class SelectActiveSubEnvironmentAction implements Action {
   readonly type = SELECT_ACTIVE_SUB_ENVIRONMENT;
 
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { id?: string }) {}
 }
 
 export type Action =

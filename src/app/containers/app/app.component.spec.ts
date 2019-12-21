@@ -10,7 +10,6 @@ import { empty as observableEmpty } from 'rxjs';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { ClarityModule } from '@clr/angular';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
 import { ComponentModule } from './../../components';
@@ -19,8 +18,10 @@ import { AppComponent } from './app.component';
 import { WindowComponent } from '../window/window.component';
 import { DirectivesModule } from 'app/directives';
 import { ToastrModule } from 'ngx-toastr';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
+import { AltairConfig } from 'app/config';
+import { PluginPropsFactory } from 'app/services/plugin/plugin-props-factory';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -36,6 +37,7 @@ describe('AppComponent', () => {
       services.StorageService,
       services.PluginRegistryService,
       services.QueryCollectionService,
+      PluginPropsFactory,
       { provide: services.QueryService, useValue: {
         loadQuery: () => {},
         loadUrl: () => {},
@@ -48,7 +50,11 @@ describe('AppComponent', () => {
         first: () => observableEmpty(),
         pipe: () => observableEmpty(),
         dispatch: () => {}
-      } }
+      } },
+      {
+        provide: AltairConfig,
+        useValue: new AltairConfig(),
+      },
   ];
 
     TestBed.configureTestingModule({
@@ -62,7 +68,6 @@ describe('AppComponent', () => {
         HttpClientModule,
         StoreModule,
         CodemirrorModule,
-        ClarityModule,
         DirectivesModule,
         ToastrModule.forRoot(),
         ComponentModule,

@@ -23,14 +23,14 @@
       <div class="response-stats">
         <div class="left">
           <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
-          <span class="response-time response-stats__item"><clr-icon shape="clock"></clr-icon> {{responseTime}}ms</span>
+          <span class="response-time response-stats__item"><app-icon name="clock"></app-icon> {{responseTime}}ms</span>
         </div>
         <div class="right">
         </div>
       </div>
       <div class="query-result__bottom-actions">
         <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
-          <clr-icon shape="download"></clr-icon>
+          <app-icon name="download"></app-icon>
           {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
         </button>
       </div>
@@ -55,11 +55,23 @@
             <button track-id="stop_subscription" class="subscription-button subscription-button--stop" (click)="stopSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}</button>
           </div>
       </div>
-      <div class="subscription-result__list-wrapper">
+      <div
+        #subscriptionResponseList
+        class="subscription-result__list-wrapper"
+      >
         <app-subscription-result-item
           *ngFor="let item of subscriptionResponses; trackBy:subscriptionResponseTrackBy;"
           [data]="item"
         ></app-subscription-result-item>
+      </div>
+      <div class="subscription-result__float-actions">
+        <button
+          class="subscription-result__float-action-button"
+          [ngClass]="{ 'subscription-result__float-action-button--active': autoscrollSubscriptionResponses }"
+          (click)="autoscrollSubscriptionResponsesChange.next()"
+        >
+          {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
+        </button>
       </div>
     </div>
   </div>

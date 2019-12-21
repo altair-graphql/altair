@@ -1,6 +1,19 @@
 import { Action } from '@ngrx/store';
-
+import * as uuid from 'uuid/v4';
+import { getAltairConfig } from 'app/config';
 import * as environmentsAction from '../actions/environments/environments';
+import { IDictionary } from 'app/interfaces/shared';
+
+interface InitialEnvironmentState {
+  id?: string
+  title?: string,
+  variables?: IDictionary,
+};
+
+export interface IInitialEnvironments {
+  base?: InitialEnvironmentState,
+  subEnvironments?: InitialEnvironmentState[]
+}
 
 export interface EnvironmentState {
   // Adding undefined for backward compatibility
@@ -16,17 +29,35 @@ export interface State {
   activeSubEnvironment?: string;
 }
 
-export const initialEnvironmentState: EnvironmentState = {
-  title: 'Environment',
-  variablesJson: '{}'
+export const getInitialEnvironmentState = (): EnvironmentState => {
+  const { initialData: { environments } } = getAltairConfig();
+
+  return {
+    title: environments.base && environments.base.title || 'Environment',
+    variablesJson: JSON.stringify(environments.base && environments.base.variables || {}),
+  };
 };
 
-export const initialState: State = {
-  base: { ...initialEnvironmentState },
-  subEnvironments: [],
+const getInitialSubEnvironmentState = (): EnvironmentState[] => {
+  const { initialData: { environments } } = getAltairConfig();
+
+  return (environments.subEnvironments || []).map((env, idx) => {
+    return {
+      id: env.id || uuid(),
+      title: env.title || `Environment ${idx + 1}`,
+      variablesJson: JSON.stringify(env.variables || {})
+    }
+  });
+}
+
+export const getInitialState = (): State => {
+  return {
+    base: getInitialEnvironmentState(),
+    subEnvironments: getInitialSubEnvironmentState(),
+  }
 };
 
-export function environmentsReducer(state = initialState, action: environmentsAction.Action): State {
+export function environmentsReducer(state = getInitialState(), action: environmentsAction.Action): State {
   switch (action.type) {
     case environmentsAction.ADD_SUB_ENVIRONMENT:
       return {
@@ -34,7 +65,7 @@ export function environmentsReducer(state = initialState, action: environmentsAc
         subEnvironments: [
           ...state.subEnvironments,
           {
-            ...initialEnvironmentState,
+            ...getInitialEnvironmentState(),
             id: action.payload.id,
             title: `Environment ${state.subEnvironments.length + 1}`
           }

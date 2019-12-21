@@ -1,6 +1,17 @@
 <div class="subscription-result__list-item" [ngClass]="{ 'subscription-result__list-item--expanded': isExpanded }" (click)="toggleExpanded()">
-  <div class="subscription-result__list-item-content">
-    {{ data.response }}
+  <div class="subscription-result__list-item-content"
+  >
+    <ng-container
+      *ngIf="data.responseObj"
+    >
+      {{ data.responseObj | json }}
+    </ng-container>
+    <!-- TODO: After a while, take response out completely -->
+    <ng-container
+      *ngIf="!data.responseObj"
+    >
+      {{ data.response }}
+    </ng-container>
   </div>
   <div class="subscription-result__list-item-time">{{ data.responseTime | date:'mediumTime' }}</div>
 </div>

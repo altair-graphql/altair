@@ -2,36 +2,40 @@ import { Action } from '@ngrx/store';
 
 import * as docs from '../../actions/docs/docs';
 
+export interface DocView {
+    /**
+     * type, field, root, search
+     */
+    view: string;
+    /**
+     * used by field views
+     */
+    parentType: string;
+    /**
+     * identifies type/field
+     */
+    name: string;
+}
+
 export interface State {
     showDocs: boolean;
     isLoading: boolean;
-    docView: {
-        /**
-         * type, field, root, search
-         */
-        view: string,
-        /**
-         * used by field views
-         */
-        parentType: string,
-        /**
-         * identifies type/field
-         */
-        name: string
-    };
+    docView: DocView;
 }
 
-export const initialState: State = {
-    showDocs: false,
-    isLoading: false,
-    docView: {
-        view: 'root',
-        parentType: 'Query',
-        name: ''
-    },
+export const getInitialState = (): State => {
+    return {
+        showDocs: false,
+        isLoading: false,
+        docView: {
+            view: 'root',
+            parentType: 'Query',
+            name: ''
+        },
+    }
 };
 
-export function docsReducer(state = initialState, action: docs.Action): State {
+export function docsReducer(state = getInitialState(), action: docs.Action): State {
     switch (action.type) {
         case docs.TOGGLE_DOCS_VIEW:
             return Object.assign({}, state, { showDocs: !state.showDocs });

@@ -1,14 +1,15 @@
 import { Action } from '@ngrx/store';
 
 import * as headers from '../../actions/headers/headers';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
-const getInitialHeadersState = () => {
+export const getInitialHeadersState = () => {
+    const altairConfig = getAltairConfig();
     let initialHeaders: State = [];
-    if (config.initialData.headers) {
-        initialHeaders = Object.keys(config.initialData.headers).map(key => ({
+    if (altairConfig.initialData.headers) {
+        initialHeaders = Object.keys(altairConfig.initialData.headers).map(key => ({
             key,
-            value: config.initialData.headers[key] ? '' + config.initialData.headers[key] : ''
+            value: altairConfig.initialData.headers[key] ? '' + altairConfig.initialData.headers[key] : ''
         }));
     }
     initialHeaders = [ ...initialHeaders, { key: '', value: '' } ];
@@ -25,9 +26,7 @@ export interface State extends Array<Header> {
     [index: number]: Header;
 }
 
-export const initialState: State = getInitialHeadersState();
-
-export function headerReducer(state = initialState, action: headers.Action): State {
+export function headerReducer(state = getInitialHeadersState(), action: headers.Action): State {
     switch (action.type) {
         case headers.ADD_HEADER:
             return [

@@ -14,6 +14,7 @@ import {
 import { Cursor } from '../models/cursor';
 import { KEYS } from '../keys';
 import { debug } from 'app/utils/logger';
+import { BlockState } from '../models';
 
 @Component({
   selector: 'app-smart-input-block',
@@ -23,7 +24,7 @@ import { debug } from 'app/utils/logger';
 })
 export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() block;
+  @Input() block: BlockState;
 
   @HostBinding('class.special-block') isSpecialBlock = false;
 

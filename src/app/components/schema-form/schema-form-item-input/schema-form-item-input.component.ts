@@ -7,8 +7,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SchemaFormItemInputComponent implements OnInit {
 
-  @Input() item;
-  @Input() data;
+  @Input() item: any;
+  @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 

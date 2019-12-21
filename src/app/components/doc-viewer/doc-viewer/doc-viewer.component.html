@@ -9,11 +9,11 @@
     <div class="doc-viewer-navigation">
       <div class="doc-viewer-navigation--left">
         <div class="doc-viewer-navigation__option" (click)="goBack()" *ngIf="docView.view !== 'root' && docHistory.length" track-id="go_back_docs">
-          <clr-icon shape="arrow" dir="left"></clr-icon>
+          <app-icon name="arrow-left"></app-icon>
           <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
         </div>
         <div class="doc-viewer-navigation__option" (click)="goHome()" *ngIf="docView.view !== 'root'">
-          <clr-icon shape="home"></clr-icon>
+          <app-icon name="home"></app-icon>
         </div>
       </div>
       <div class="doc-viewer-navigation--right">
@@ -23,7 +23,7 @@
           [nzDropdownMenu]="docViewerMenu"
           class="doc-viewer-navigation__option"
         >
-          <clr-icon shape="ellipsis-horizontal"></clr-icon>
+          <app-icon name="more-horizontal"></app-icon>
         </div>
         <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
           <ul nz-menu>
@@ -43,7 +43,7 @@
           </ul>
         </nz-dropdown-menu>
         <div class="doc-viewer-navigation__option" (click)="toggleDocsChange.next()">
-          <clr-icon shape="times"></clr-icon>
+          <app-icon name="x"></app-icon>
         </div>
       </div>
     </div>

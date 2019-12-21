@@ -168,7 +168,7 @@ linters:
 
   Shorthand:
     enabled: true
-    allowed_shorthands: [1, 2, 3]
+    allowed_shorthands: [1, 2, 3, 4]
 
   SingleLinePerProperty:
     enabled: true
@@ -182,7 +182,7 @@ linters:
     style: one_space # or 'no_space', or 'at_least_one_space'
 
   SpaceAfterPropertyColon:
-    enabled: true
+    enabled: false
     style: one_space # or 'no_space', or 'at_least_one_space', or 'aligned'
 
   SpaceAfterPropertyName:

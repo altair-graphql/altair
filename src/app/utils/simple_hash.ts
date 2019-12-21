@@ -1,4 +1,4 @@
-export const hash = (s) => {
+export const hash = (s: string) => {
     /* Simple hash function. */
     let a = 1, c = 0, h, o;
     if (s) {
@@ -15,6 +15,6 @@ export const hash = (s) => {
     return String(a);
 };
 
-export function uaSeedHash(seed) {
+export function uaSeedHash(seed: string) {
   return hash(`${navigator.userAgent}:${seed}`);
 };

@@ -5,7 +5,9 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  OnChanges
+  OnChanges,
+  ElementRef,
+  SimpleChanges,
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -24,6 +26,7 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
+import { SubscriptionResponse } from 'app/reducers/query/query';
 
 @Component({
   selector: 'app-query-result',
@@ -37,15 +40,18 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
   @Input() isSubscribed = false;
-  @Input() subscriptionResponses = [];
+  @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
+  @Input() autoscrollSubscriptionResponses = false;
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
+  @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor;
+  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
 
   resultEditorConfig = {
     mode: 'graphql-results',
@@ -68,15 +74,22 @@ export class QueryResultComponent implements OnChanges {
 
   constructor() {}
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
     if (this.editor && this.editor.codeMirror) {
       this.editor.codeMirror.refresh();
     }
+    if (changes.subscriptionResponses && changes.subscriptionResponses.currentValue) {
+      setTimeout(() => {
+        if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
+          this.subscriptionResponseList.nativeElement.scrollTop = this.subscriptionResponseList.nativeElement.scrollHeight;
+        }
+      }, 50);
+    }
   }
 
-  subscriptionResponseTrackBy(index, response) {
+  subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;
   }
 }

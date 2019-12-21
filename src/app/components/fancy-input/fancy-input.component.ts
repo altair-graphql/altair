@@ -122,7 +122,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     }
   }
   fixFirefox() {}
-  getRanges(val, highlight) {
+  getRanges(val: string, highlight: RegExp) {
     const ranges: any[] = [];
     let match;
     while (match = highlight.exec(val), match !== null) {
@@ -137,9 +137,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   // Prevent overlapping ranges
-  removeStaggeredRanges(ranges) {
+  removeStaggeredRanges(ranges: any) {
     const unstaggeredRanges: any[] = [];
-    ranges.forEach((range) => {
+    ranges.forEach((range: any) => {
       const isStaggered = unstaggeredRanges.some((unstaggeredRange) => {
         const isStartInside = range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
         const isStopInside = range[1] > unstaggeredRange[0] && range[1] < unstaggeredRange[1];
@@ -152,7 +152,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     return unstaggeredRanges;
   }
 
-  getBoundaries(ranges) {
+  getBoundaries(ranges: any[]) {
     const boundaries: BoundaryMarker[] = [];
     ranges.forEach((range) => {
       boundaries.push({
@@ -216,7 +216,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     // highlighter.height = input.height
   }
 
-  trackByIndex(index) {
+  trackByIndex(index: number) {
     return index;
   }
 

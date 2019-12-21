@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPopperModule } from 'ngx-popper';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { QueryCollectionItemComponent } from '../query-collection-item/query-collection-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

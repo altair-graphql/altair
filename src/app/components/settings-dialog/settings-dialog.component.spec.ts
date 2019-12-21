@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { empty as observableEmpty } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -12,9 +11,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'app/modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AltairConfig } from 'app/config';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -49,7 +49,11 @@ describe('SettingsDialogComponent', () => {
             map: () => observableEmpty(),
             dispatch: () => { }
           }
-        }
+        },
+        {
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
+        },
       ]
     })
     .compileComponents();

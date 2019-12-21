@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnChanges, ElementRef } from '@angular/core';
 
 
 // Import the codemirror packages
@@ -42,7 +42,7 @@ export class SubscriptionUrlDialogComponent implements OnChanges {
     jump: {}
   };
 
-  @ViewChild('editor', { static: false }) editor;
+  @ViewChild('editor', { static: false }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   constructor() { }
 
@@ -54,8 +54,10 @@ export class SubscriptionUrlDialogComponent implements OnChanges {
     }
   }
 
-  subscriptionUrlInput(event) {
-    this.subscriptionUrlChange.next(event.target.value);
+  subscriptionUrlInput(event: Event) {
+    if (event.target) {
+      this.subscriptionUrlChange.next((event.target as any).value);
+    }
   }
 
 }

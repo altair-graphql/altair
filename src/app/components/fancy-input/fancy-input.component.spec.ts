@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FancyInputComponent } from './fancy-input.component';
 import { FormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('FancyInputComponent', () => {
@@ -14,7 +13,6 @@ describe('FancyInputComponent', () => {
       declarations: [ FancyInputComponent ],
       imports: [
         FormsModule,
-        ClarityModule,
         TranslateModule.forRoot(),
       ]
     })

@@ -1,17 +1,20 @@
 import * as preRequest from '../../actions/pre-request/pre-request';
-import config from 'app/config';
+import { getAltairConfig } from 'app/config';
 
 export interface State {
   enabled: boolean;
   script: string;
 }
 
-export const initialState: State = {
-  enabled: !!config.initialData.preRequestScript,
-  script: config.initialData.preRequestScript ? '' + config.initialData.preRequestScript : '',
+export const getInitialState = (): State => {
+  const altairConfig = getAltairConfig();
+  return {
+    enabled: !!altairConfig.initialData.preRequestScript,
+    script: altairConfig.initialData.preRequestScript ? '' + altairConfig.initialData.preRequestScript : '',
+  }
 };
 
-export function preRequestReducer(state = initialState, action: preRequest.Action): State {
+export function preRequestReducer(state = getInitialState(), action: preRequest.Action): State {
   switch (action.type) {
     case preRequest.SET_PREREQUEST_SCRIPT:
       return { ...state, script: action.payload.script };

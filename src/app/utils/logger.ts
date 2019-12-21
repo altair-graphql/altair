@@ -15,7 +15,7 @@ if (currentVersion() && currentVersion() !== environment.version) {
 
 Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {
   get() {
-    return window['_ALTAIR__ENABLE_DEBUG_MODE__'];
+    return (window as any)._ALTAIR__ENABLE_DEBUG_MODE__;
   },
   set(value) {
     if (value) {
@@ -25,7 +25,7 @@ Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {
       console.log('Current version:', currentVersion());
       console.groupEnd();
     }
-    window['_ALTAIR__ENABLE_DEBUG_MODE__'] = value;
+    (window as any)._ALTAIR__ENABLE_DEBUG_MODE__ = value;
   }
 });
 
@@ -33,14 +33,14 @@ Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {
  * Only logs in development or when __ENABLE_DEBUG_MODE__ flag is true
  */
 const debug = {
-  log: (...args) => console.log(...args),
-  error: (...args) => console.error(...args),
-  warn: (...args) => console.warn(...args),
+  log: (...args: any[]) => console.log(...args),
+  error: (...args: any[]) => console.error(...args),
+  warn: (...args: any[]) => console.warn(...args),
 };
 
 Object.defineProperty(debug, 'log', {
   get() {
-    if (!environment.production || window['__ENABLE_DEBUG_MODE__']) {
+    if (!environment.production || (window as any).__ENABLE_DEBUG_MODE__) {
       return console.log.bind(console);
     }
 

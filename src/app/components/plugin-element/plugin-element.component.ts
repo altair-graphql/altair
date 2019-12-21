@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { debug } from 'app/utils/logger';
-import { PluginComponentData } from 'app/services/plugin/plugin';
+import { PluginComponentData, PluginElement } from 'app/services/plugin/plugin';
 
 @Component({
   selector: 'app-plugin-element',
@@ -9,10 +9,10 @@ import { PluginComponentData } from 'app/services/plugin/plugin';
 })
 export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() pluginData: PluginComponentData | undefined;
+  @Input() pluginData?: PluginComponentData;
 
   @ViewChild('pluginElRef', { static: true }) pluginElRef: ElementRef;
-  pluginElement: HTMLElement;
+  pluginElement: PluginElement;
 
   constructor() { }
 
@@ -38,10 +38,7 @@ export class PluginElementComponent implements OnInit, AfterViewInit, OnChanges 
 
   renderElement() {
     if (this.pluginElement && this.pluginData) {
-      this.pluginElement['props'] = {
-        ...this.pluginData.props,
-        ctx: this.pluginData.context,
-      };
+      this.pluginElement.props = this.pluginData.props;
     }
   }
 

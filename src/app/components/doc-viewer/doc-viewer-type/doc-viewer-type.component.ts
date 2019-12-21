@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -31,7 +31,7 @@ export class DocViewerTypeComponent implements OnInit {
    * Check if the current type is a root type
    * @param type
    */
-  isRootType(type) {
+  isRootType(type: string) {
     if (!type || !this.gqlSchema) {
       return false;
     }
@@ -46,32 +46,32 @@ export class DocViewerTypeComponent implements OnInit {
     return false;
   }
 
-  goToField(name, parentType) {
+  goToField(name: string, parentType: string) {
     this.goToFieldChange.next({ name, parentType });
   }
 
-  goToType(name) {
+  goToType(name: string) {
     this.goToTypeChange.next({ name });
   }
 
-  addToEditor(name, parentType) {
+  addToEditor(name: string, parentType: string) {
     this.addToEditorChange.next({ name, parentType });
   }
 
   // TODO: Move to service
-  isGraphQLInterface(type) {
+  isGraphQLInterface(type: GraphQLType) {
     return type instanceof GraphQLInterfaceType;
   }
-  isGraphQLObject(type) {
+  isGraphQLObject(type: GraphQLType) {
     return type instanceof GraphQLObjectType;
   }
   /**
    * Returns an array of all the types that implement the provided type (interface)
    * @param type
    */
-  getTypeImplementations(type) {
+  getTypeImplementations(type: GraphQLType) {
     if (this.isGraphQLInterface(type)) {
-      return this.gqlSchema.getPossibleTypes(type) || [];
+      return this.gqlSchema.getPossibleTypes(type as GraphQLAbstractType) || [];
     }
     return [];
   }
@@ -79,14 +79,14 @@ export class DocViewerTypeComponent implements OnInit {
    * Returns an array of all the interfaces implemented by type
    * @param type
    */
-  getTypeImplements(type) {
+  getTypeImplements(type: GraphQLType & { getInterfaces: any }) {
     if (this.isGraphQLObject(type)) {
       return type.getInterfaces() || [];
     }
     return [];
   }
 
-  schemaItemTrackBy(index, schemaItem) {
+  schemaItemTrackBy(index: number, schemaItem: any) {
     return schemaItem.name;
   }
 }

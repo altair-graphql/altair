@@ -12,7 +12,7 @@ import { getDiagnostics } from 'graphql-language-service-interface';
 import { debug } from '../logger';
 
 const SEVERITY = ['error', 'warning', 'information', 'hint'];
-const TYPE = {
+const TYPE: any = {
   'GraphQL: Validation': 'validation',
   'GraphQL: Deprecation': 'deprecation',
   'GraphQL: Syntax': 'syntax',
@@ -32,7 +32,7 @@ const TYPE = {
  *   - schema: GraphQLSchema provides the linter with positionally relevant info
  *
  */
-CodeMirror.registerHelper('lint', 'graphql', (text, options) => {
+CodeMirror.registerHelper('lint', 'graphql', (text: string, options: any) => {
   const schema = options.schema;
   try {
     const rawResults = getDiagnostics(text, schema);
