@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Перетворити на іменований запит",
   "SET_HEADERS_BUTTON": "Заголовки",
   "SET_VARIABLES_BUTTON": "Змінні",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Перезавантажити документацію",
   "SHOW_DOCS_BUTTON": "Показати документацію",
   "DOCS_TEXT": "Документація",
