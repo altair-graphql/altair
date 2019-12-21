@@ -7,6 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "In benannten Query konvertieren",
   "SET_HEADERS_BUTTON": "Header setzen",
   "SET_VARIABLES_BUTTON": "Variablen setzen",
+  "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Schema neu laden",
   "SHOW_DOCS_BUTTON": "Schema anzeigen",
   "DOCS_TEXT": "Schema",
