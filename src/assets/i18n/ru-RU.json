@@ -7,7 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Преобразовать в именованный запрос",
   "SET_HEADERS_BUTTON": "Установить заголовки",
   "SET_VARIABLES_BUTTON": "Установить переменные",
-  "REFACTOR_QUERY_BUTTON": "Refactor Query",
+  "REFACTOR_QUERY_BUTTON": "Рефакторинг запроса",
   "RELOAD_DOCS_BUTTON": "Обновить справку",
   "SHOW_DOCS_BUTTON": "Показать справку",
   "DOCS_TEXT": "Справка",
