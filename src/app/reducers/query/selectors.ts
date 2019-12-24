@@ -10,5 +10,5 @@ export const getResponseStatusText = createSelector(getQueryState, state => stat
 export const isSubscribed = createSelector(getQueryState, state => state.isSubscribed);
 export const getSubscriptionResponses = createSelector(getQueryState, state => state.subscriptionResponseList);
 export const getAutoscrollSubscriptionResponse = createSelector(getQueryState, state => state.autoscrollSubscriptionResponse);
-export const getSelectedOperation = createSelector(getQueryState, state => state.selectedOperation);
+export const getSelectedOperation = createSelector(getQueryState, state => state.selectedOperation || null);
 export const getQueryOperations = createSelector(getQueryState, state => state.operations || []);
