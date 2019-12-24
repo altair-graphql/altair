@@ -57,7 +57,12 @@ describe('Altair electron', function() {
       // await app.client.windowByIndex(0);
       // await app.client.keys([ 'Meta', 'w' ]);
       app.browserWindow.focus();
+      const toastComponentElement = await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`);
+      if (toastComponentElement.value) {
+        await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`).click();
+      }
       await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
+      // await app.client.keys([ 'Control', 'W', 'Control' ]);
       await app.client.pause(500);
       const removedElements = await app.client.$$(selectors.windowSwitcherSelector);
       assert.strictEqual(removedElements.length, elements.length - 1, 'Window was not closed.');
