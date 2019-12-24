@@ -130,6 +130,7 @@ export class QueryEffects {
                   const operationData = this.gqlService.getSelectedOperationData({
                     query,
                     selectedOperation,
+                    selectIfOneOperation: true,
                     queryCursorIndex: queryEditorIsFocused ? response.data.query.queryEditorState.cursorIndex : undefined,
                   });
 

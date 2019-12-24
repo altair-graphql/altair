@@ -84,6 +84,7 @@ export class AltairConfig {
     'de-DE': 'German',
     'pt-BR': 'Brazilian',
     'ru-RU': 'Russian',
+    'uk-UA': 'Ukrainian',
     'zh-CN': 'Chinese Simplified',
     'ja-JP': 'Japanese',
     'sr-SP': 'Serbian',

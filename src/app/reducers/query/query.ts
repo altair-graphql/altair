@@ -18,13 +18,15 @@ export interface SubscriptionResponse {
   responseTime: number;
 }
 
+export type SelectedOperation = string | null;
+
 export interface State {
   url: string;
   subscriptionUrl: string;
   // Adding undefined for backward compatibility
   query?: string;
   // Adding undefined for backward compatibility
-  selectedOperation?: string;
+  selectedOperation?: SelectedOperation;
   // Adding undefined for backward compatibility
   operations?: any[];
   httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
@@ -54,7 +56,7 @@ export const getInitialState = (): State => {
     url: getFullUrl(altairConfig.initialData.url ? '' + altairConfig.initialData.url : ''),
     subscriptionUrl: altairConfig.initialData.subscriptionsEndpoint ? '' + altairConfig.initialData.subscriptionsEndpoint : '',
     query: altairConfig.initialData.query ? '' + altairConfig.initialData.query : initialQuery,
-    selectedOperation: '',
+    selectedOperation: null,
     operations: [],
     httpVerb : 'POST',
     response: null,

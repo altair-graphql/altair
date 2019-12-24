@@ -58,7 +58,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   responseStatusText$: Observable<string>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<fromQuery.SubscriptionResponse[]>;
-  selectedOperation$: Observable<string | undefined>;
+  selectedOperation$?: Observable<fromQuery.SelectedOperation>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;

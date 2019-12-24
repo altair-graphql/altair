@@ -11,8 +11,13 @@ import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
 import { reducerToken, getReducer } from 'app/reducers';
 import { handleDeprecations } from 'app/utils/deprecated';
 
+let initialized = false;
+
 (window as any).AltairGraphQL = {
   init(config: AltairConfigOptions = {}) {
+    if (initialized) {
+      return;
+    }
     const altairConfig = new AltairConfig(config);
     setAltairConfig(altairConfig);
 
@@ -44,5 +49,6 @@ import { handleDeprecations } from 'app/utils/deprecated';
 
     handleExternalLinks();
     handleDeprecations();
+    initialized = true;
   }
 };

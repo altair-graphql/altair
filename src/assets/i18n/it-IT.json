@@ -7,7 +7,7 @@
   "CONVERT_TO_NAMED_QUERY_BUTTON": "Converti in named query",
   "SET_HEADERS_BUTTON": "Inserisci Header",
   "SET_VARIABLES_BUTTON": "Inserisci Variabili",
-  "REFACTOR_QUERY_BUTTON": "Refactor Query",
+  "REFACTOR_QUERY_BUTTON": "Rifattorizza Query",
   "RELOAD_DOCS_BUTTON": "Ricarica Docs",
   "SHOW_DOCS_BUTTON": "Mostra Docs",
   "DOCS_TEXT": "Docs",
@@ -43,7 +43,7 @@
   "QUERY_RESULT_DOWNLOAD_RESULT_BUTTON": "Scarica",
   "SUBSCRIPTIONS_STOP_TEXT": "Stop",
   "SUBSCRIPTIONS_CLEAR_TEXT": "Cancella",
-  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Autoscroll",
+  "SUBSCRIPTIONS_AUTOSCROLL_TEXT": "Scorrimento automatico",
   "VARIABLES_TEXT": "Variabili",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Aggiungere, modificare e rimuovere variabili dalle vostre richieste",
   "HEADERS_TEXT": "Header",
@@ -124,5 +124,5 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Scrivi uno script da eseguire prima che la richiesta sia inviata",
   "PRE_REQUEST_ENABLE_TEXT": "Abilita script pre-request",
   "SCHEMA_FORM_LIST_ADD": "Aggiungi alla lista",
-  "SCHEMA_FORM_LIST_REMOVE": "Rimuovi"
+  "SCHEMA_FORM_LIST_REMOVE": "Rimuovi dalla lista"
 }

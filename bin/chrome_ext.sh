@@ -15,6 +15,9 @@ mkdir chrome-extension
 # Copy the files from the dist folder into the chrome-extension directory
 cp -r dist/* chrome-extension
 
+
+sed -i '' "s|</body>|<script src='js/init.js'></script></body>|g" ./chrome-extension/index.html
+
 # Copy the chrome extension specific files into the chrome-extension directory
 cp -r chrome-ext-files/* chrome-extension
 
