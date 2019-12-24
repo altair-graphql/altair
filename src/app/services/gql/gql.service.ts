@@ -48,6 +48,7 @@ import {
   refactorArgumentsToVariables,
   generateRandomNameForString,
 } from './helpers';
+import { SelectedOperation } from 'app/reducers/query/query';
 
 
 interface SendRequestOptions {
@@ -56,7 +57,7 @@ interface SendRequestOptions {
   variables?: string;
   headers?: fromHeaders.Header[];
   files?: fromVariables.FileVariable[];
-  selectedOperation?: string;
+  selectedOperation?: SelectedOperation;
 };
 
 type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
@@ -99,8 +100,8 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[]) {
-    const data = { query, variables: {}, operationName: '' };
+  _send(query: string, vars?: string, selectedOperation?: SelectedOperation, files?: fromVariables.FileVariable[]) {
+    const data = { query, variables: {}, operationName: (null as SelectedOperation) };
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
     const headers = this.headers;
@@ -413,7 +414,8 @@ export class GqlService {
     queryCursorIndex,
     selectedOperation = '',
     selectIfOneOperation = false
-  }: { query: string, queryCursorIndex?: number, selectedOperation?: string, selectIfOneOperation?: boolean }) {
+  }: { query: string, queryCursorIndex?: number, selectedOperation?: SelectedOperation, selectIfOneOperation?: boolean }) {
+    let newSelectedOperation = null;
     const operations = this.getOperations(query);
     let requestSelectedOperationFromUser = false;
 
@@ -430,27 +432,29 @@ export class GqlService {
           operationNameAtCursorIndex = this.getOperationNameAtIndex(query, queryCursorIndex);
         }
 
-        if (!availableOperationNames.includes(selectedOperation)) {
+        if ((selectedOperation && !availableOperationNames.includes(selectedOperation)) || !selectedOperation) {
           if (operationNameAtCursorIndex) {
-            selectedOperation = operationNameAtCursorIndex;
+            newSelectedOperation = operationNameAtCursorIndex;
           } else {
-            selectedOperation = '';
+            newSelectedOperation = null;
             // Ask the user to select operation
             requestSelectedOperationFromUser = true;
           }
+        } else {
+          newSelectedOperation = selectedOperation;
         }
       } else {
         if (selectIfOneOperation) {
-          selectedOperation = availableOperationNames[0];
+          newSelectedOperation = availableOperationNames[0] || null;
         } else {
-          selectedOperation = '';
+          newSelectedOperation = null;
         }
       }
     } else {
-      selectedOperation = '';
+      newSelectedOperation = null;
     }
 
-    return { selectedOperation, operations, requestSelectedOperationFromUser };
+    return { selectedOperation: newSelectedOperation, operations, requestSelectedOperationFromUser };
   }
 
   /**
