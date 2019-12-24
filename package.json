@@ -150,7 +150,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",
     "typescript-json-schema": "^0.41.0",
-    "web-ext": "^3.2.1"
+    "web-ext": "^4.0.0"
   },
   "repository": {
     "type": "git",
