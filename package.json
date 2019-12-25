@@ -139,7 +139,7 @@
     "karma-cli": "^2.0.0",
     "karma-coverage-istanbul-reporter": "^2.0.5",
     "karma-jasmine": "^2.0.1",
-    "karma-jasmine-html-reporter": "1.4.2",
+    "karma-jasmine-html-reporter": "1.5.0",
     "lerna": "^3.16.0",
     "ncp": "^2.0.0",
     "ngrx-store-freeze": "^0.2.0",
