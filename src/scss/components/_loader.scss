@@ -1,40 +1,47 @@
-.window-loader{
-    @include hide-transition;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(var(--rgb-theme-bg), .8);
-    z-index: 50;
-    img{
-        vertical-align: middle;
-    }
+.window-loader {
+  @include hide-transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--rgb-theme-bg), .8);
+  z-index: 50;
+
+  .loader-img {
+    vertical-align: middle;
+  }
 }
-.window-loader--show{
-    @include show-transition;
+
+.window-loader--show {
+  @include show-transition;
 }
+
 .window-loader__content {
-    position: relative;
-    color: transparent;
-    transition-duration: 0.3s;
-    background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
-    background-size: 200% 200%;
-    background-clip: text;
-    animation: bg-gradient 5s ease infinite;
+  position: relative;
+  color: transparent;
+  transition-duration: 0.3s;
+  background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
+  background-size: 200% 200%;
+  background-clip: text;
+  // animation: bg-gradient 5s ease infinite;
+  will-change: background;
 }
+
 @keyframes bg-gradient {
-	0% {
-		background-position: 0% 50%
-	}
-	50% {
-		background-position: 100% 50%
-	}
-	100% {
-		background-position: 0% 50%
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }

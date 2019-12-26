@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef, DoCheck } from '@angular/core';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -8,15 +8,16 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
-import 'codemirror/addon/display/autorefresh';
+// import 'codemirror/addon/display/autorefresh';
 import 'codemirror/mode/javascript/javascript';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 @Component({
   selector: 'app-variables-editor',
   templateUrl: './variables-editor.component.html',
   styleUrls: ['./variables-editor.component.scss']
 })
-export class VariablesEditorComponent implements OnChanges {
+export class VariablesEditorComponent implements OnChanges, DoCheck {
 
   @Input() variables = '';
   @Output() variablesChange = new EventEmitter();
@@ -39,11 +40,12 @@ export class VariablesEditorComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
+  }
+
+  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor && this.editor.codeMirror) {
-      this.editor.codeMirror.refresh();
-    }
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
 }

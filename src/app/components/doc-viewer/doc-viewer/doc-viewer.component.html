@@ -1,7 +1,7 @@
 <div class="app-doc-viewer" *ngIf="allowIntrospection">
   <div class="app-doc-loader" [ngClass]="{ 'show-loader': isLoading }">
       <div class="app-doc-loader-content">
-        <img src="assets/img/logo.svg" alt="" class="anim anim-rotate">
+        <img src="assets/img/logo.svg" alt="" class="anim" [ngClass]="{ 'anim-rotate': isLoading }">
         {{ 'LOADING_INDICATOR_TEXT' | translate }}
       </div>
     </div>

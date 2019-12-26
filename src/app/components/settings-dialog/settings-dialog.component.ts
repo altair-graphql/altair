@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   OnChanges,
   ElementRef,
+  DoCheck,
 } from '@angular/core';
 
 import * as fromSettings from '../../reducers/settings/settings';
@@ -25,10 +26,11 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
-import 'codemirror/addon/display/autorefresh';
+// import 'codemirror/addon/display/autorefresh';
 import { registerSettingsLinter, getHint, validateSettings, settingsSchema } from 'app/utils/settings_addons';
 import { NotifyService, KeybinderService, StorageService } from 'app/services';
 import { KeyboardShortcutCategory } from 'app/services/keybinder/keybinder.service';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 registerSettingsLinter(Codemirror);
 
@@ -37,7 +39,7 @@ registerSettingsLinter(Codemirror);
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss']
 })
-export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges {
+export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
 
   @Input() settings: fromSettings.State;
   @Input() appVersion: string;
@@ -100,11 +102,12 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     if (changes && changes.settings && changes.settings.currentValue) {
       this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
     }
+  }
+
+  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor && this.editor.codeMirror) {
-      this.editor.codeMirror.refresh();
-    }
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
   showHint(cm: any) {

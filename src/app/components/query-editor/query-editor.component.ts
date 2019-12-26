@@ -11,6 +11,7 @@ import {
   HostBinding,
   NgZone,
   ElementRef,
+  DoCheck,
 } from '@angular/core';
 
 import * as fromVariables from '../../reducers/variables/variables';
@@ -27,7 +28,7 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/display/autorefresh';
+// import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/dialog/dialog';
 import 'codemirror/addon/search/search';
 import 'codemirror/addon/search/searchcursor';
@@ -47,6 +48,7 @@ import { GqlService, NotifyService } from 'app/services';
 import { debug } from 'app/utils/logger';
 import { onHasCompletion } from 'app/utils/codemirror/graphql-has-completion';
 import { GraphQLSchema } from 'graphql';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -55,7 +57,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
+export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
 
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
@@ -177,12 +179,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         `, 'Altair', { disableTimeOut: true });
       }
     }
+  }
 
+  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor && this.editor.codeMirror) {
-      this.editor.codeMirror.refresh();
-    }
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
   /**
