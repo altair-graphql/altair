@@ -8,6 +8,7 @@ import {
   OnChanges,
   ElementRef,
   SimpleChanges,
+  DoCheck,
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -18,7 +19,7 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
-import 'codemirror/addon/display/autorefresh';
+// import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/dialog/dialog';
 import 'codemirror/addon/search/search';
 import 'codemirror/addon/search/searchcursor';
@@ -27,13 +28,14 @@ import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
 import { SubscriptionResponse } from 'app/reducers/query/query';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 @Component({
   selector: 'app-query-result',
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss']
 })
-export class QueryResultComponent implements OnChanges {
+export class QueryResultComponent implements OnChanges, DoCheck {
 
   @Input() queryResult = '';
   @Input() responseTime = 0;
@@ -75,11 +77,6 @@ export class QueryResultComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    if (this.editor && this.editor.codeMirror) {
-      this.editor.codeMirror.refresh();
-    }
     if (changes.subscriptionResponses && changes.subscriptionResponses.currentValue) {
       setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
@@ -87,6 +84,12 @@ export class QueryResultComponent implements OnChanges {
         }
       }, 50);
     }
+  }
+
+  ngDoCheck() {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {

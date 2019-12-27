@@ -5,7 +5,7 @@
 <div class="app-window__content">
   <div class="window-loader" [ngClass]="{ 'window-loader--show': isLoading$ | async }">
     <div class="window-loader__content">
-      <img src="assets/img/logo.svg" alt="" class="anim anim-rotate"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
+      <img src="assets/img/logo.svg" alt="" class="loader-img anim" [ngClass]="{ 'anim-rotate': isLoading$ | async }"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
       <div class="window-loader__actions">
         <button class="app-button cancel-request-button" (click)="cancelRequest()" track-id="cancel_request">{{ 'CANCEL_TEXT' | translate }}</button>
       </div>
@@ -134,12 +134,6 @@
         </div>
       </ng-template>
     </nz-modal>
-    <!-- <app-set-variable-dialog
-      [variables]="variables$ | async"
-      [showVariableDialog]="showVariableDialog"
-      (toggleVariableDialog)="toggleVariableDialog($event)"
-      (variablesChange)="updateVariables($event)"
-    ></app-set-variable-dialog> -->
     <app-subscription-url-dialog
       [subscriptionUrl]="subscriptionUrl"
       [subscriptionConnectionParams]="subscriptionConnectionParams"

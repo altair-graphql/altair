@@ -6,7 +6,8 @@ import {
   Input,
   Output,
   ViewChild,
-  ElementRef
+  ElementRef,
+  DoCheck
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -18,15 +19,16 @@ import 'codemirror/addon/fold/foldcode';
 import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
-import 'codemirror/addon/display/autorefresh';
+// import 'codemirror/addon/display/autorefresh';
 import 'codemirror/mode/javascript/javascript';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 @Component({
   selector: 'app-pre-request-editor',
   templateUrl: './pre-request-editor.component.html',
   styles: []
 })
-export class PreRequestEditorComponent implements OnChanges {
+export class PreRequestEditorComponent implements OnChanges, DoCheck {
 
   @Input() preRequest: any = {};
   @Output() preRequestScriptChange = new EventEmitter();
@@ -79,11 +81,12 @@ export class PreRequestEditorComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
+  }
+
+  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    if (this.editor && this.editor.codeMirror) {
-      this.editor.codeMirror.refresh();
-    }
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
 }
