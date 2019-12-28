@@ -1,107 +1,124 @@
 
-button{
-    cursor: pointer;
-    &:focus{
-        outline: 0;
-    }
+button {
+  cursor: pointer;
+
+  &:focus {
+    outline: 0;
+  }
 }
+
 .icon-button {
-    border: 0;
-    border-radius: 4px;
-    background: var(--theme-bg-color);
-    color: var(--theme-font-color);
-    transition: all .3s ease;
-    &:hover {
-        background: var(--theme-off-bg-color);
-    }
-}
-.app-button{
-    font-size: fontsize(14);
-    border: 0;
-    padding: 0 20px;
-    line-height: 40px;
-    height: 40px;
-    background: transparent;
-    color: var(--green-color);
-    vertical-align: middle;
-    cursor: pointer;
-    letter-spacing: normal;
-    text-transform: none;
-    font-weight: normal;
-    border-radius: 4px;
-    transition: all .3s ease;
-    img{
-        vertical-align: middle;
-    }
-    &:hover{
-        background: var(--theme-off-bg-color);
-    }
-    &:focus{
-        outline: 0;
-    }
-    &.full-width {
-        width: 100%;
-    }
-    &.active-grey{
-        background: var(--theme-off-bg-color);
-    }
-    &.active-primary{
-        background: var(--green-color);
-        color: var(--white-color);
-        position: relative;
-        z-index: 1;
+  border: 0;
+  border-radius: 4px;
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  transition: all .3s ease;
 
-        &::before {
-            background-image: linear-gradient(
-                rgba(255,255,255,0.2),
-                rgba(255,255,255,0.2)
-            );
-            content: "";
-            height: 100%;
-            left: 0;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            transition: opacity 0.4s;
-            width: 100%;
-            z-index: -1;
-        }
-        &:hover::before {
-            opacity: 1;
-        }
-    }
-}
-
-.cancel-request-button{
-    height: auto;
-    line-height: 20px;
-    margin: 10px 0;
+  &:hover {
     background: var(--theme-off-bg-color);
-    color: var(--theme-font-color);
+  }
+}
+
+.app-button {
+  font-size: fontsize(14);
+  border: 0;
+  padding: 0 20px;
+  line-height: 40px;
+  height: 40px;
+  background: transparent;
+  color: var(--green-color);
+  vertical-align: middle;
+  cursor: pointer;
+  letter-spacing: normal;
+  text-transform: none;
+  font-weight: normal;
+  border-radius: 4px;
+  transition: all .3s ease;
+
+  img {
+    vertical-align: middle;
+  }
+
+  &:hover {
+    background: var(--theme-off-bg-color);
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &.full-width {
+    width: 100%;
+  }
+
+  &.active-grey {
+    background: var(--theme-off-bg-color);
+  }
+
+  &.active-destructive {
+    background: var(--theme-off-bg-color);
+    color: var(--red-color);
+  }
+
+  &.active-primary {
+    background: var(--green-color);
+    color: var(--white-color);
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      background-image: linear-gradient(
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+      );
+      content: "";
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      transition: opacity 0.4s;
+      width: 100%;
+      z-index: -1;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+}
+
+.cancel-request-button {
+  height: auto;
+  line-height: 20px;
+  margin: 10px 0;
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
 }
 
 .subscription-button {
-    font-size: fontsize(14);
-    border: 0;
-    padding: 0 15px;
-    line-height: 25px;
-    height: 25px;
-    vertical-align: middle;
-    cursor: pointer;
-    border-radius: 4px;
-    background: var(--theme-off-bg-color);
-    color: var(--theme-font-color);
+  font-size: fontsize(14);
+  border: 0;
+  padding: 0 15px;
+  line-height: 25px;
+  height: 25px;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 4px;
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
 }
 
 .subscription-button--stop {
-    background: var(--red-color);
-    color: var(--white-color);
-    transition: all .3s ease;
-    &:hover {
-        // TODO: Figure out how to transition CSS gradients for the button hover effect
-        background-image: linear-gradient(
-            rgba(255,255,255,0.2),
-            rgba(255,255,255,0.2)
-        );
-    }
+  background: var(--red-color);
+  color: var(--white-color);
+  transition: all .3s ease;
+
+  &:hover {
+    // TODO: Figure out how to transition CSS gradients for the button hover effect
+    background-image: linear-gradient(
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.2)
+    );
+  }
 }

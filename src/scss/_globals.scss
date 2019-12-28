@@ -3,6 +3,7 @@
 * {
   box-sizing: border-box;
   outline: none;
+  // cursor: auto;
 }
 
 html {
@@ -18,8 +19,8 @@ body {
 body {
   font-size: fontsize(var(--body-font-size));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 input {
@@ -52,6 +53,7 @@ input[type="url"] {
     content: "";
     display: table;
   }
+
   &::after {
     clear: both;
   }
@@ -100,7 +102,7 @@ input[type="url"] {
     transform: rotate(0deg) translateZ(0);
   }
 
-  100%{
+  100% {
     transform: rotate(359deg) translateZ(0);
   }
 }

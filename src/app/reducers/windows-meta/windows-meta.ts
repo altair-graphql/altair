@@ -9,6 +9,7 @@ export interface State {
   showEditCollectionDialog: boolean;
   showSettingsDialog: boolean;
   showEnvironmentManager: boolean;
+  showPluginManager: boolean;
 }
 
 export const getInitialState = (): State => {
@@ -19,6 +20,7 @@ export const getInitialState = (): State => {
     showEditCollectionDialog: false,
     showSettingsDialog: false,
     showEnvironmentManager: false,
+    showPluginManager: false,
   };
 };
 
@@ -57,6 +59,11 @@ export function windowsMetaReducer(state = getInitialState(), action: windowsMet
     case windowsMeta.SHOW_ENVIRONMENT_MANAGER:
       if (action.payload) {
         return { ...state, showEnvironmentManager: action.payload.value };
+      }
+      return state;
+    case windowsMeta.SHOW_PLUGIN_MANAGER:
+      if (action.payload) {
+        return { ...state, showPluginManager: action.payload.value };
       }
       return state;
     default:

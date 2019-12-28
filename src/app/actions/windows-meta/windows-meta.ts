@@ -8,6 +8,7 @@ export const SHOW_IMPORT_CURL_DIALOG = 'SHOW_IMPORT_CURL_DIALOG';
 export const SHOW_EDIT_COLLECTION_DIALOG = 'SHOW_EDIT_COLLECTION_DIALOG';
 export const SHOW_SETTINGS_DIALOG = 'SHOW_SETTINGS_DIALOG';
 export const SHOW_ENVIRONMENT_MANAGER = 'SHOW_ENVIRONMENT_MANAGER';
+export const SHOW_PLUGIN_MANAGER = 'SHOW_PLUGIN_MANAGER';
 
 export class SetActiveWindowIdAction implements Action {
   readonly type = SET_ACTIVE_WINDOW_ID;
@@ -51,6 +52,12 @@ export class ShowEnvironmentManagerAction implements Action {
   constructor(public payload?: { value: boolean }) { }
 }
 
+export class ShowPluginManagerAction implements Action {
+  readonly type = SHOW_PLUGIN_MANAGER;
+
+  constructor(public payload?: { value: boolean }) { }
+}
+
 export type Action =
   | SetActiveWindowIdAction
   | SetWindowIdsAction
@@ -58,4 +65,6 @@ export type Action =
   | ShowImportCurlDialogAction
   | ShowEditCollectionDialogAction
   | ShowSettingsDialogAction
-  | ShowEnvironmentManagerAction;
+  | ShowEnvironmentManagerAction
+  | ShowPluginManagerAction
+  ;

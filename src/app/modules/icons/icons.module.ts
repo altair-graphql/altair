@@ -30,6 +30,7 @@ import {
   FolderMinus,
   FolderPlus,
   Github,
+  Grid,
   Heart,
   Home,
   Info,
@@ -43,6 +44,7 @@ import {
   LogIn,
   Minimize2,
   PlusSquare,
+  PlusCircle,
   Repeat,
   Sidebar,
   Sun,
@@ -50,6 +52,7 @@ import {
   Tag,
   Watch,
   X,
+  XCircle,
   XSquare,
 } from 'angular-feather/icons';
 
@@ -80,6 +83,7 @@ const icons = {
   FolderMinus,
   FolderPlus,
   Github,
+  Grid,
   Heart,
   Home,
   Info,
@@ -93,6 +97,7 @@ const icons = {
   LogIn,
   Minimize2,
   PlusSquare,
+  PlusCircle,
   Repeat,
   Sidebar,
   Sun,
@@ -100,6 +105,7 @@ const icons = {
   Tag,
   Watch,
   X,
+  XCircle,
   XSquare,
 };
 

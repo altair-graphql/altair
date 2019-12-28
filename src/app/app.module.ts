@@ -24,7 +24,7 @@ import { WindowsEffects } from './effects/windows';
 import { QueryCollectionEffects } from './effects/query-collection';
 
 import { DirectivesModule } from './directives';
-import { ComponentModule } from './components';
+import { ComponentModule } from './components/components.module';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 import { SmartInputModule } from './components/smart-input/smart-input.module';
 import { SchemaFormModule } from './components/schema-form/schema-form.module';

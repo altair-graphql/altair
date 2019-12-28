@@ -32,6 +32,7 @@ import { FancyInputComponent } from './fancy-input/fancy-input.component';
 import { PluginElementComponent } from './plugin-element/plugin-element.component';
 import { PreRequestEditorComponent } from './pre-request-editor/pre-request-editor.component';
 import { SchemaFormModule } from './schema-form/schema-form.module';
+import { PluginManagerComponent } from './plugin-manager/plugin-manager.component';
 
 const COMPONENTS = [
   QueryEditorComponent,
@@ -56,6 +57,7 @@ const COMPONENTS = [
   FancyInputComponent,
   PluginElementComponent,
   PreRequestEditorComponent,
+  PluginManagerComponent,
 ];
 
 @NgModule({

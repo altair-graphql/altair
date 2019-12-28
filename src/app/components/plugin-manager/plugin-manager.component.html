@@ -1,0 +1,94 @@
+<nz-modal
+  [nzVisible]="showPluginManager"
+  (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  [nzWidth]="870"
+  (nzOnCancel)="toggleDialogChange.next($event)"
+>
+  <ng-template #modalTitle>
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'PLUGINS_TEXT' | translate }}</div>
+      {{ 'PLUGINS_SUB_TEXT' | translate }}
+    </div>
+  </ng-template>
+
+  <ng-template #modalContent>
+    <div class="app-dialog-body">
+      <div class="app-dialog-section">
+        <div class="plugin-manager-wrapper">
+          <div class="plugin-manager__list">
+            <div
+            *ngFor="let item of (remotePlugins$ | async);trackBy: trackByName;"
+              class="plugin-manager__list-item"
+              [ngClass]="{ 'plugin-manager__list-item--selected': selectedPluginItem && selectedPluginItem.name === item.name }"
+              (click)="onSelectPlugin(item)"
+            >
+              <div class="plugin-manager__list-item-name">
+                {{ item?.manifest?.display_name || item.name }}
+                <div class="plugin-manager__list-item-version">
+                  {{ item?.manifest?.version || item.version }}
+                </div>
+              </div>
+              <div class="plugin-manager__list-item-description">
+                {{ item?.manifest?.description || item.description }}
+              </div>
+            </div>
+          </div>
+          <div class="plugin-manager__item-details">
+            <ng-container
+              *ngIf="selectedPluginItem"
+            >
+              <div class="plugin-manager__item-details-name">
+                {{ selectedPluginItem?.manifest?.display_name || selectedPluginItem.name }}
+                <div
+                  class="plugin-manager__item-details-unique-name"
+                  [attr.title]="'PLUGIN_UNIQUE_NAME_TEXT' | translate"
+                >
+                  {{ selectedPluginItem.name }}
+                </div>
+              </div>
+              <div class="plugin-manager__item-details-actions">
+                <button
+                  *ngIf="!isPluginInstalled(selectedPluginItem.name)"
+                  class="app-button active-grey"
+                  (click)="onAddPlugin(selectedPluginItem.name)"
+                >
+                  <app-icon name="plus-circle"></app-icon>
+                  {{ 'PLUGIN_ADD_BUTTON' | translate }}
+                </button>
+                <button
+                  *ngIf="isPluginInstalled(selectedPluginItem.name)"
+                  class="app-button active-destructive"
+                  (click)="onRemovePlugin(selectedPluginItem.name)"
+                >
+                  <app-icon name="x-circle"></app-icon>
+                  {{ 'PLUGIN_REMOVE_BUTTON' | translate }}
+                </button>
+                <button
+                  *ngIf="shouldRestart"
+                  class="app-button"
+                  (click)="onRestartApp()"
+                >
+                  {{ 'RESTART_TEXT' | translate }}
+                </button>
+              </div>
+              <div
+                markdown
+                class="plugin-manager__item-details-summary"
+                [data]="selectedPluginItem.summary"
+              ></div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <div class="app-dialog-footer">
+      <button class="app-button active-primary right" (click)="toggleDialogChange.next(false);">{{ 'SAVE_BUTTON' | translate }}</button>
+    </div>
+  </ng-template>
+</nz-modal>
