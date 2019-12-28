@@ -38,6 +38,7 @@ import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 
 interface EffectResponseData {
+  state: fromRoot.State;
   data: fromRoot.PerWindowState;
   windowId: string;
   action: any;
@@ -53,7 +54,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId, action };
+            return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
 
@@ -179,6 +180,7 @@ export class QueryEffects {
                     method: response.data.query.httpVerb,
                     selectedOperation,
                     files: response.data.variables.files,
+                    withCredentials: response.state.settings['request.withCredentials'],
                   })
                   .pipe(
                     map(res => {
@@ -302,7 +304,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
           return this.getPrerequestTransformedData$(response);
@@ -332,7 +334,8 @@ export class QueryEffects {
           return this.gqlService
             .getIntrospectionRequest(url, {
               method: response.data.query.httpVerb,
-              headers
+              headers,
+              withCredentials: response.state.settings['request.withCredentials'],
             })
             .pipe(
               catchError((err: any) => {
@@ -430,7 +433,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.START_SUBSCRIPTION),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
           return this.getPrerequestTransformedData$(response);

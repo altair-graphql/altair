@@ -54,6 +54,7 @@ import { SelectedOperation } from 'app/reducers/query/query';
 interface SendRequestOptions {
   query: string;
   method: string;
+  withCredentials?: boolean;
   variables?: string;
   headers?: fromHeaders.Header[];
   files?: fromVariables.FileVariable[];
@@ -100,7 +101,14 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send(query: string, vars?: string, selectedOperation?: SelectedOperation, files?: fromVariables.FileVariable[]) {
+  _send({
+    query,
+    variables,
+    selectedOperation,
+    files,
+    withCredentials,
+  }: Omit<SendRequestOptions, 'method'>,
+  ) {
     const data = { query, variables: {}, operationName: (null as SelectedOperation) };
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
@@ -111,9 +119,9 @@ export class GqlService {
     }
 
     // If there is a variables option, add it to the data
-    if (vars) {
+    if (variables) {
       try {
-        data.variables = JSON.parse(vars);
+        data.variables = JSON.parse(variables);
       } catch (err) {
         // Notify the user about badly written variables.
         debug.error(err);
@@ -153,6 +161,7 @@ export class GqlService {
       params,
       headers,
       observe: 'response',
+      withCredentials,
     })
     .pipe(
       catchError((err: HttpErrorResponse) => {
@@ -185,8 +194,14 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[]) {
-    return this._send(query, vars, selectedOperation, files).pipe(map(res => res.body));
+  send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[], withCredentials?: boolean) {
+    return this._send({
+      query,
+      variables: vars,
+      selectedOperation,
+      files,
+      withCredentials,
+    }).pipe(map(res => res.body));
   }
 
   sendRequest(url: string, opts: SendRequestOptions) {
@@ -197,7 +212,13 @@ export class GqlService {
       // Skip json default headers for files
       .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(files && files.length) });
 
-    return this._send(opts.query, opts.variables, opts.selectedOperation, files);
+    return this._send({
+      query: opts.query,
+      variables: opts.variables,
+      selectedOperation: opts.selectedOperation,
+      files: opts.files,
+      withCredentials: opts.withCredentials,
+    });
   }
 
   isGETRequest(method = this.method) {
@@ -251,6 +272,7 @@ export class GqlService {
       query: getIntrospectionQuery(),
       headers: opts.headers,
       method: opts.method,
+      withCredentials: opts.withCredentials,
       variables: '{}',
     };
     return this.sendRequest(url, requestOpts).pipe(
