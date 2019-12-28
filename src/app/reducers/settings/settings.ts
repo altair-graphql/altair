@@ -58,6 +58,11 @@ export interface State {
    * Specifies a list of enabled plugins (requires enableExperimental to be true)
    */
   'plugin.list'?: string[];
+
+  /**
+   * Specifies if requests should be sent with credentials (with cookies) or not
+   */
+  'request.withCredentials'?: boolean;
 }
 
 export const getInitialState = (): State => {
