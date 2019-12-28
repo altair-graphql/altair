@@ -18,7 +18,7 @@
   "DONE_BUTTON": "Готово",
   "CLICK_HERE_TEXT": "Натисніть тут",
   "ADD_NEW_WINDOW_TEXT": "+ Додати",
-  "RESTART_TEXT": "Restart",
+  "RESTART_TEXT": "Перезапустити",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Експортувати SDL",
   "DOCS_LOAD_SCHEMA": "Завантажити схему",
@@ -126,9 +126,9 @@
   "PRE_REQUEST_ENABLE_TEXT": "Увімкнути скрипт перед запитом",
   "SCHEMA_FORM_LIST_ADD": "Додати",
   "SCHEMA_FORM_LIST_REMOVE": "Видалити",
-  "PLUGINS_TEXT": "Available Plugins",
-  "PLUGINS_SUB_TEXT": "Browse through available plugins",
-  "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
-  "PLUGIN_ADD_BUTTON": "Add to Altair",
-  "PLUGIN_REMOVE_BUTTON": "Remove"
+  "PLUGINS_TEXT": "Доступні додатки",
+  "PLUGINS_SUB_TEXT": "Переглянути доступні додатки",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Унікальна назва додатку",
+  "PLUGIN_ADD_BUTTON": "Додати до Altair",
+  "PLUGIN_REMOVE_BUTTON": "Видалити"
 }
