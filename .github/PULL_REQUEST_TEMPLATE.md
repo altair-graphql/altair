@@ -4,7 +4,7 @@
 
 ### Checks
 
-- [ ] Ran `yarn run test-build`
+- [ ] Ran `yarn test-build`
 
 ### Changes proposed in this pull request:
 
