@@ -18,6 +18,7 @@
   "DONE_BUTTON": "Fertig",
   "CLICK_HERE_TEXT": "Hier klicken",
   "ADD_NEW_WINDOW_TEXT": "+ Hinzufügen",
+  "RESTART_TEXT": "Neustart",
   "DOCS_GO_BACK_TEXT": "Zurück",
   "DOCS_EXPORT_SDL": "SDL exportieren",
   "DOCS_LOAD_SCHEMA": "Schema laden",
@@ -124,5 +125,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Schreibe ein Skript, das ausgeführt werden soll, bevor die Anfrage gesendet wird",
   "PRE_REQUEST_ENABLE_TEXT": "Anfrage-Skript aktivieren",
   "SCHEMA_FORM_LIST_ADD": "Hinzufügen",
-  "SCHEMA_FORM_LIST_REMOVE": "Entfernen"
+  "SCHEMA_FORM_LIST_REMOVE": "Entfernen",
+  "PLUGINS_TEXT": "Verfügbare Plugins",
+  "PLUGINS_SUB_TEXT": "Verfügbare Plugins durchsuchen",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Eindeutiger Plugin-Name",
+  "PLUGIN_ADD_BUTTON": "Zu Altair hinzufügen",
+  "PLUGIN_REMOVE_BUTTON": "Entfernen"
 }
