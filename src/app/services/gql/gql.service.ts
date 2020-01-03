@@ -169,9 +169,12 @@ export class GqlService {
         if (err.error instanceof ErrorEvent) {
           // A client-side or network error occurred. Handle it accordingly.
           debug.error('An error occurred:', err.error.message);
+        } else if (err.error instanceof ProgressEvent) {
+          debug.error('Progress event error', err.error);
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
+          debug.error(err.error);
           debug.error(
             `Backend returned code ${err.status}, ` +
             `body was: ${err.error}`);
@@ -187,21 +190,6 @@ export class GqlService {
         return observableThrowError(err);
       }),
     );
-  }
-
-  /**
-   * Send graphQL request and return the response
-   * @param query
-   * @param vars
-   */
-  send(query: string, vars?: string, selectedOperation?: string, files?: fromVariables.FileVariable[], withCredentials?: boolean) {
-    return this._send({
-      query,
-      variables: vars,
-      selectedOperation,
-      files,
-      withCredentials,
-    }).pipe(map(res => res.body));
   }
 
   sendRequest(url: string, opts: SendRequestOptions) {

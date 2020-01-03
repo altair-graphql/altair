@@ -192,7 +192,8 @@ export class QueryEffects {
                       return new queryActions.SetQueryResultAction(result, response.windowId);
                     }),
                     catchError((error: any) => {
-                      let output = 'Server Error';
+                      let output = 'Server Error. Check that your server is up and running.' +
+                      ' You can check the console for more details on the network errors.';
 
                       debug.log(error);
                       requestStatusCode = error.status;
