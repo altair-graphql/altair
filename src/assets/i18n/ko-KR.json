@@ -127,7 +127,7 @@
   "SCHEMA_FORM_LIST_ADD": "추가",
   "SCHEMA_FORM_LIST_REMOVE": "제거",
   "PLUGINS_TEXT": "사용 가능한 플러그인",
-  "PLUGINS_SUB_TEXT": "Browse through available plugins",
+  "PLUGINS_SUB_TEXT": "사용 가능한 플러그인 살펴보기",
   "PLUGIN_UNIQUE_NAME_TEXT": "유일한 플러그인 이름",
   "PLUGIN_ADD_BUTTON": "Altair에 추가",
   "PLUGIN_REMOVE_BUTTON": "제거"
