@@ -382,6 +382,7 @@ export class QueryEffects {
 
                 this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, response.windowId));
 
+                this.store.dispatch(new gqlSchemaActions.SetIntrospectionLastUpdatedAtAction(response.windowId, { epoch: Date.now() }));
                 return new gqlSchemaActions.SetIntrospectionAction(introspectionData, response.windowId);
               }),
               catchError((error: any) => {

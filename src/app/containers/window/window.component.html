@@ -77,6 +77,7 @@
         [isLoading]="docsIsLoading$ | async"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
         [tabSize]="tabSize$ | async"
+        [lastUpdatedAt]="schemaLastUpdatedAt$ | async"
         (setDocViewChange)="setDocView($event)"
         (toggleDocsChange)="toggleDocs()"
         (addQueryToEditorChange)="addQueryToEditor($event)"

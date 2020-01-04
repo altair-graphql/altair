@@ -45,6 +45,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     parentType: 'Query', // used by field views
     name: 'Conference' // identifies type/field
   };
+  @Input() lastUpdatedAt: number;
+
   @Output() toggleDocsChange = new EventEmitter();
   @Output() setDocViewChange = new EventEmitter<Partial<fromDocs.DocView>>();
   @Output() addQueryToEditorChange = new EventEmitter();

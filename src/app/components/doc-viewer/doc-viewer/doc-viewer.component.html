@@ -100,6 +100,10 @@
     </div>
   </div>
 </div>
+<div
+  class="doc-viewer__last-updated"
+  *ngIf="gqlSchema && lastUpdatedAt"
+>{{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date:'medium' }}</div>
 <div class="app-doc-notice" *ngIf="!allowIntrospection">
   {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
 </div>
