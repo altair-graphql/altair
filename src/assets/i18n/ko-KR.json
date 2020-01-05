@@ -18,6 +18,7 @@
   "DONE_BUTTON": "확인",
   "CLICK_HERE_TEXT": "여기를 클릭해주세요",
   "ADD_NEW_WINDOW_TEXT": "+ 새 창",
+  "RESTART_TEXT": "다시 시작",
   "DOCS_GO_BACK_TEXT": "돌아가기",
   "DOCS_EXPORT_SDL": "SDL 내보내기",
   "DOCS_LOAD_SCHEMA": "스키마 로드",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementations",
   "DOCS_IMPLEMENTS_TEXT": "Implements",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "나의 친구 에지오, 무엇을 도와드릴까요?",
   "QUERY_RESULT_STATUS_TEXT": "상태",
   "QUERY_RESULT_STATUS_CODE_TEXT": "상태 코드",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "리퀘스트가 보내지기 전에 실행될 스크립트를 작성하세요",
   "PRE_REQUEST_ENABLE_TEXT": "리퀘스트 전처리 스크립트 유효화",
   "SCHEMA_FORM_LIST_ADD": "추가",
-  "SCHEMA_FORM_LIST_REMOVE": "제거"
+  "SCHEMA_FORM_LIST_REMOVE": "제거",
+  "PLUGINS_TEXT": "사용 가능한 플러그인",
+  "PLUGINS_SUB_TEXT": "사용 가능한 플러그인 살펴보기",
+  "PLUGIN_UNIQUE_NAME_TEXT": "유일한 플러그인 이름",
+  "PLUGIN_ADD_BUTTON": "Altair에 추가",
+  "PLUGIN_REMOVE_BUTTON": "제거"
 }

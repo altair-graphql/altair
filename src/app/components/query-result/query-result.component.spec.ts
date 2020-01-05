@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ComponentModule } from '../../components';
+import { ComponentModule } from '../../components/components.module';
 
 import { QueryResultComponent } from './query-result.component';
 

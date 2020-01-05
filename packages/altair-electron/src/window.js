@@ -158,6 +158,7 @@ const createWindow = () => {
     protocol: 'altair:',
     slashes: true
   }));
+  // instance.loadURL('http://localhost:4200/');
 
   // Set the touchbar
   instance.setTouchBar(createTouchBar(actions));

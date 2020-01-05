@@ -18,6 +18,7 @@
   "DONE_BUTTON": "Concluir",
   "CLICK_HERE_TEXT": "Clique aqui",
   "ADD_NEW_WINDOW_TEXT": "Adicionar novo",
+  "RESTART_TEXT": "Restart",
   "DOCS_GO_BACK_TEXT": "Voltar",
   "DOCS_EXPORT_SDL": "Exportar SDL",
   "DOCS_LOAD_SCHEMA": "Carregar esquema",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementações",
   "DOCS_IMPLEMENTS_TEXT": "Implementos",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio, meu amigo, como pode ser de serviço?",
   "QUERY_RESULT_STATUS_TEXT": "STATUS",
   "QUERY_RESULT_STATUS_CODE_TEXT": "CÓDIGO DE STATUS",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Escreva um script a ser executado antes de enviar a solicitação",
   "PRE_REQUEST_ENABLE_TEXT": "Ativar script de pre-request",
   "SCHEMA_FORM_LIST_ADD": "Add",
-  "SCHEMA_FORM_LIST_REMOVE": "Remove"
+  "SCHEMA_FORM_LIST_REMOVE": "Remove",
+  "PLUGINS_TEXT": "Available Plugins",
+  "PLUGINS_SUB_TEXT": "Browse through available plugins",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
+  "PLUGIN_ADD_BUTTON": "Add to Altair",
+  "PLUGIN_REMOVE_BUTTON": "Remove"
 }

@@ -18,6 +18,7 @@
   "DONE_BUTTON": "Готово",
   "CLICK_HERE_TEXT": "Нажмите здесь",
   "ADD_NEW_WINDOW_TEXT": "+ Добавить",
+  "RESTART_TEXT": "Restart",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Экспорт SDL",
   "DOCS_LOAD_SCHEMA": "Загрузить схему",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementations",
   "DOCS_IMPLEMENTS_TEXT": "Implements",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "Привет мой друг, чем могу быть полезным?",
   "QUERY_RESULT_STATUS_TEXT": "STATUS",
   "QUERY_RESULT_STATUS_CODE_TEXT": "STATUS CODE",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Скрипт, который будет выполнен до отправки запроса",
   "PRE_REQUEST_ENABLE_TEXT": "Включить скрипт предзапроса",
   "SCHEMA_FORM_LIST_ADD": "Добавить",
-  "SCHEMA_FORM_LIST_REMOVE": "Удалить"
+  "SCHEMA_FORM_LIST_REMOVE": "Удалить",
+  "PLUGINS_TEXT": "Available Plugins",
+  "PLUGINS_SUB_TEXT": "Browse through available plugins",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
+  "PLUGIN_ADD_BUTTON": "Add to Altair",
+  "PLUGIN_REMOVE_BUTTON": "Remove"
 }

@@ -18,6 +18,7 @@
   "DONE_BUTTON": "Xong",
   "CLICK_HERE_TEXT": "Nhấn vào đây",
   "ADD_NEW_WINDOW_TEXT": "+ Thêm mục",
+  "RESTART_TEXT": "Restart",
   "DOCS_GO_BACK_TEXT": "Quay lại",
   "DOCS_EXPORT_SDL": "Xuất SDL",
   "DOCS_LOAD_SCHEMA": "Tải lược đồ",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Các khai triển",
   "DOCS_IMPLEMENTS_TEXT": "Các khai triển",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "Chúng tôi có thể giúp gì cho bạn?",
   "QUERY_RESULT_STATUS_TEXT": "Trạng thái",
   "QUERY_RESULT_STATUS_CODE_TEXT": "Mã trạng thái",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
   "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
   "SCHEMA_FORM_LIST_ADD": "Add",
-  "SCHEMA_FORM_LIST_REMOVE": "Remove"
+  "SCHEMA_FORM_LIST_REMOVE": "Remove",
+  "PLUGINS_TEXT": "Available Plugins",
+  "PLUGINS_SUB_TEXT": "Browse through available plugins",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
+  "PLUGIN_ADD_BUTTON": "Add to Altair",
+  "PLUGIN_REMOVE_BUTTON": "Remove"
 }

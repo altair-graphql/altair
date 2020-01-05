@@ -370,6 +370,10 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
   }
 
+  togglePluginManager(show: boolean) {
+    this.store.dispatch(new windowsMetaActions.ShowPluginManagerAction({ value: show }));
+  }
+
   updateBaseEnvironmentJson(opts: { value: string }) {
     this.store.dispatch(new environmentsActions.UpdateBaseEnvironmentJsonAction(opts));
   }

@@ -86,7 +86,7 @@ app-doc-viewer {
   background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
   background-size: 200% 200%;
   background-clip: text;
-  animation: bg-gradient 5s ease infinite;
+  // animation: bg-gradient 5s ease infinite;
 }
 
 .doc-viewer-header {
@@ -377,4 +377,19 @@ app-doc-viewer {
   transition: all .3s ease;
   opacity: 0;
   line-height: 1;
+}
+
+.doc-viewer__last-updated {
+  position: absolute;
+  bottom: 0;
+  font-size: fontsize(10);
+  opacity: .5;
+  transition: all .3s ease;
+  font-style: italic;
+  width: 100%;
+  text-align: center;
+
+  &:hover {
+    opacity: 1;
+  }
 }

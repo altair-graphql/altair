@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../modules/shared/shared.module';
 
-import { ComponentModule } from '..';
+import { ComponentModule } from '../components.module';
 
 import { SmartInputComponent } from './smart-input/smart-input.component';
 import { SmartInputBlockComponent } from './smart-input-block/smart-input-block.component';

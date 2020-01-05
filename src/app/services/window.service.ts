@@ -1,7 +1,7 @@
 
 import {of as observableOf, Subscription, Observable, Observer } from 'rxjs';
 
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -330,6 +330,15 @@ export class WindowService {
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
+
+    this.store.pipe(
+      first(),
+      map(data => data.settings['schema.reloadOnStart']),
+    ).subscribe(shouldReloadSchema => {
+      if (shouldReloadSchema) {
+        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+      }
+    });
   }
   private cleanupWindow(windowId: string) {
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));

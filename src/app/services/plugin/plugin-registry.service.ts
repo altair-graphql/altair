@@ -31,6 +31,10 @@ export class PluginRegistryService {
     this.emitRegistryUpdate();
   }
 
+  getRemotePluginList() {
+    return this.http.get('https://altair-plugin-server.sirmuel.workers.dev/list');
+  }
+
   fetchPlugin(name: string, opts: any = {}) {
     if (!name || this.registry[name]) {
       return;

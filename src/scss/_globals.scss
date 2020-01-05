@@ -1,15 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+// You can add global styles to this file, and also import other style files
 
 * {
   box-sizing: border-box;
   outline: none;
+  // cursor: auto;
 }
 
 html {
   font-size: calc(var(--rem-base) * 1px);
 }
 
-html, body{
+html,
+body {
   margin: 0;
   height: 100%;
 }
@@ -17,8 +19,8 @@ html, body{
 body {
   font-size: fontsize(var(--body-font-size));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 input {
@@ -26,12 +28,14 @@ input {
   background: transparent;
 }
 
-input[type="text"], input[type="search"], input[type="url"] {
+input[type="text"],
+input[type="search"],
+input[type="url"] {
   display: block;
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-  &:focus{
+  &:focus {
     outline: 0;
   }
 }
@@ -44,13 +48,14 @@ input[type="text"], input[type="search"], input[type="url"] {
 }
 
 @mixin clearfix() {
-  &:before,
-  &:after {
-      content: "";
-      display: table;
+  &::before,
+  &::after {
+    content: "";
+    display: table;
   }
-  &:after {
-      clear: both;
+
+  &::after {
+    clear: both;
   }
 }
 
@@ -82,6 +87,7 @@ input[type="text"], input[type="search"], input[type="url"] {
 }
 
 .anim {
+  will-change: transform;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
@@ -93,10 +99,11 @@ input[type="text"], input[type="search"], input[type="url"] {
 
 @keyframes anim-rotate {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
-  100%{
-      transform: rotate(359deg);
+
+  100% {
+    transform: rotate(359deg) translateZ(0);
   }
 }
 

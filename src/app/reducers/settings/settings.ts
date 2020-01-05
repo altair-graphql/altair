@@ -58,6 +58,16 @@ export interface State {
    * Specifies a list of enabled plugins (requires enableExperimental to be true)
    */
   'plugin.list'?: string[];
+
+  /**
+   * Specifies if requests should be sent with credentials (with cookies) or not
+   */
+  'request.withCredentials'?: boolean;
+
+  /**
+   * Specifies if the schema should be reloaded when the app starts
+   */
+  'schema.reloadOnStart'?: boolean;
 }
 
 export const getInitialState = (): State => {

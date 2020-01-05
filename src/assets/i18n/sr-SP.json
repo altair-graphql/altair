@@ -18,6 +18,7 @@
   "DONE_BUTTON": "Готово",
   "CLICK_HERE_TEXT": "Кликните овде",
   "ADD_NEW_WINDOW_TEXT": "+ Додај нови",
+  "RESTART_TEXT": "Restart",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Export SDL",
   "DOCS_LOAD_SCHEMA": "Load Schema",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Интерфејс",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementacija",
   "DOCS_IMPLEMENTS_TEXT": "Implementacija",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio prijatelju moj, kako ti mogu biti na usluzi?",
   "QUERY_RESULT_STATUS_TEXT": "Status",
   "QUERY_RESULT_STATUS_CODE_TEXT": "Sifra statusa",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
   "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
   "SCHEMA_FORM_LIST_ADD": "Add",
-  "SCHEMA_FORM_LIST_REMOVE": "Remove"
+  "SCHEMA_FORM_LIST_REMOVE": "Remove",
+  "PLUGINS_TEXT": "Available Plugins",
+  "PLUGINS_SUB_TEXT": "Browse through available plugins",
+  "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
+  "PLUGIN_ADD_BUTTON": "Add to Altair",
+  "PLUGIN_REMOVE_BUTTON": "Remove"
 }

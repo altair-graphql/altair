@@ -18,6 +18,7 @@
   "DONE_BUTTON": "crwdns128:0crwdne128:0",
   "CLICK_HERE_TEXT": "crwdns178:0crwdne178:0",
   "ADD_NEW_WINDOW_TEXT": "crwdns129:0crwdne129:0",
+  "RESTART_TEXT": "crwdns299:0crwdne299:0",
   "DOCS_GO_BACK_TEXT": "crwdns130:0crwdne130:0",
   "DOCS_EXPORT_SDL": "crwdns276:0crwdne276:0",
   "DOCS_LOAD_SCHEMA": "crwdns278:0crwdne278:0",
@@ -36,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "crwdns143:0crwdne143:0",
   "DOCS_IMPLEMENTATIONS_TEXT": "crwdns144:0crwdne144:0",
   "DOCS_IMPLEMENTS_TEXT": "crwdns145:0crwdne145:0",
+  "DOCS_LAST_UPDATED": "crwdns311:0crwdne311:0",
   "QUERY_RESULT_NO_RESULT_TEXT": "crwdns146:0crwdne146:0",
   "QUERY_RESULT_STATUS_TEXT": "crwdns147:0crwdne147:0",
   "QUERY_RESULT_STATUS_CODE_TEXT": "crwdns148:0crwdne148:0",
@@ -124,5 +126,10 @@
   "PRE_REQUEST_EDITOR_SUBTEXT": "crwdns282:0crwdne282:0",
   "PRE_REQUEST_ENABLE_TEXT": "crwdns284:0crwdne284:0",
   "SCHEMA_FORM_LIST_ADD": "crwdns292:0crwdne292:0",
-  "SCHEMA_FORM_LIST_REMOVE": "crwdns294:0crwdne294:0"
+  "SCHEMA_FORM_LIST_REMOVE": "crwdns294:0crwdne294:0",
+  "PLUGINS_TEXT": "crwdns301:0crwdne301:0",
+  "PLUGINS_SUB_TEXT": "crwdns303:0crwdne303:0",
+  "PLUGIN_UNIQUE_NAME_TEXT": "crwdns305:0crwdne305:0",
+  "PLUGIN_ADD_BUTTON": "crwdns307:0crwdne307:0",
+  "PLUGIN_REMOVE_BUTTON": "crwdns309:0crwdne309:0"
 }

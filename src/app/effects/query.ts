@@ -38,6 +38,7 @@ import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 
 interface EffectResponseData {
+  state: fromRoot.State;
   data: fromRoot.PerWindowState;
   windowId: string;
   action: any;
@@ -53,7 +54,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-            return { data: state.windows[action.windowId], windowId: action.windowId, action };
+            return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
 
@@ -179,6 +180,7 @@ export class QueryEffects {
                     method: response.data.query.httpVerb,
                     selectedOperation,
                     files: response.data.variables.files,
+                    withCredentials: response.state.settings['request.withCredentials'],
                   })
                   .pipe(
                     map(res => {
@@ -190,7 +192,8 @@ export class QueryEffects {
                       return new queryActions.SetQueryResultAction(result, response.windowId);
                     }),
                     catchError((error: any) => {
-                      let output = 'Server Error';
+                      let output = 'Server Error. Check that your server is up and running.' +
+                      ' You can check the console for more details on the network errors.';
 
                       debug.log(error);
                       requestStatusCode = error.status;
@@ -302,7 +305,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
           return this.getPrerequestTransformedData$(response);
@@ -332,7 +335,8 @@ export class QueryEffects {
           return this.gqlService
             .getIntrospectionRequest(url, {
               method: response.data.query.httpVerb,
-              headers
+              headers,
+              withCredentials: response.state.settings['request.withCredentials'],
             })
             .pipe(
               catchError((err: any) => {
@@ -378,6 +382,7 @@ export class QueryEffects {
 
                 this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(true, response.windowId));
 
+                this.store.dispatch(new gqlSchemaActions.SetIntrospectionLastUpdatedAtAction(response.windowId, { epoch: Date.now() }));
                 return new gqlSchemaActions.SetIntrospectionAction(introspectionData, response.windowId);
               }),
               catchError((error: any) => {
@@ -430,7 +435,7 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.START_SUBSCRIPTION),
         withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
-          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
           return this.getPrerequestTransformedData$(response);

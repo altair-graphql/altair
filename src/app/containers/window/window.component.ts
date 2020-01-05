@@ -53,6 +53,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   introspection$: Observable<any>;
   allowIntrospection$: Observable<boolean>;
+  schemaLastUpdatedAt$: Observable<number | undefined>;
   responseStatus$: Observable<number>;
   responseTime$: Observable<number>;
   responseStatusText$: Observable<string>;
@@ -122,6 +123,7 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.getWindowState().pipe(select(fromRoot.getIsLoading));
     this.introspection$ = this.getWindowState().pipe(select(fromRoot.getIntrospection));
     this.allowIntrospection$ = this.getWindowState().pipe(select(fromRoot.allowIntrospection));
+    this.schemaLastUpdatedAt$ = this.getWindowState().pipe(select(fromRoot.getSchemaLastUpdatedAt));
     this.responseStatus$ = this.getWindowState().pipe(select(fromRoot.getResponseStatus));
     this.responseTime$ = this.getWindowState().pipe(select(fromRoot.getResponseTime));
     this.responseStatusText$ = this.getWindowState().pipe(select(fromRoot.getResponseStatusText));

@@ -85,9 +85,10 @@ export const keySerializer = (key: string) => `${getAltairInstanceStorageNamespa
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['windows', 'windowsMeta', 'settings', 'environments'],
+    keys: [ 'windows', 'windowsMeta', 'settings', 'environments' ],
     rehydrate: true,
     storage: performantLocalStorage,
+    restoreDates: false,
     // syncCondition: (state) => console.log(state),
     storageKeySerializer: keySerializer
   })(_reducer);

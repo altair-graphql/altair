@@ -6,3 +6,4 @@ export const getSchemaState = (state: PerWindowState) => state ? state.schema : 
 export const getSchema = createSelector(getSchemaState, state => state.schema);
 export const getIntrospection = createSelector(getSchemaState, state => state.introspection);
 export const allowIntrospection = createSelector(getSchemaState, state => state.allowIntrospection);
+export const getSchemaLastUpdatedAt = createSelector(getSchemaState, state => state.lastUpdatedAt);

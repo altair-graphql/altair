@@ -305,6 +305,19 @@
               </div>
     
               <div class="side-menu__main-bottom">
+                <a
+                  *ngIf="(settings$ | async).enableExperimental"
+                  class="side-menu-item"
+                  (click)="togglePluginManager(true)"
+                  attr.aria-label="{{ 'PLUGINS_TEXT' | translate }}"
+                >
+                  <div class="side-menu-item-icon">
+                    <app-icon name="grid"></app-icon>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ 'PLUGINS_TEXT' | translate }}
+                  </div>
+                </a>
                 <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
                   <div class="side-menu-item-icon">
                     <app-icon name="folder"></app-icon>
@@ -347,6 +360,12 @@
             (addSubEnvironmentChange)="addNewSubEnvironment()"
             (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
           ></app-environment-manager>
+          <app-plugin-manager
+            [showPluginManager]="(windowsMeta$ | async)?.showPluginManager"
+            [settings]="settings$ | async"
+            (toggleDialogChange)="togglePluginManager(!!$event)"
+            (settingsJsonChange)="setSettingsJson($event)"
+          ></app-plugin-manager>
           <app-settings-dialog
             [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
             [settings]="settings$ | async"

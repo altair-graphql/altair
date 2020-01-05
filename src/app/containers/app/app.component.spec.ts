@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
-import { ComponentModule } from './../../components';
+import { ComponentModule } from './../../components/components.module';
 
 import { AppComponent } from './app.component';
 import { WindowComponent } from '../window/window.component';
