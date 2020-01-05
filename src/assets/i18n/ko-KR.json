@@ -37,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implementations",
   "DOCS_IMPLEMENTS_TEXT": "Implements",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "나의 친구 에지오, 무엇을 도와드릴까요?",
   "QUERY_RESULT_STATUS_TEXT": "상태",
   "QUERY_RESULT_STATUS_CODE_TEXT": "상태 코드",

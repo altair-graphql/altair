@@ -37,6 +37,7 @@
   "DOCS_INTERFACE_TEXT": "Interface",
   "DOCS_IMPLEMENTATIONS_TEXT": "Implémentation",
   "DOCS_IMPLEMENTS_TEXT": "Réalise",
+  "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio mon ami, comment puis-je vous aider?",
   "QUERY_RESULT_STATUS_TEXT": "STATUT",
   "QUERY_RESULT_STATUS_CODE_TEXT": "CODE STATUS",
