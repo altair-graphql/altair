@@ -33,6 +33,7 @@ app-query-editor {
   padding: 3px 5px;
   border-radius: 4px;
   transition: all .3s ease;
+  user-select: none;
 
   &:hover {
     background: var(--theme-border-color);

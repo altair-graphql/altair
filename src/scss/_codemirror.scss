@@ -25,6 +25,10 @@
   border: 0;
 }
 
+.CodeMirror-linenumber {
+  user-select: none;
+}
+
 .CodeMirror-foldmarker {
   color: var(--theme-font-color);
   text-shadow: none;
