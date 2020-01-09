@@ -204,7 +204,7 @@ export class GqlService {
       query: opts.query,
       variables: opts.variables,
       selectedOperation: opts.selectedOperation,
-      files: opts.files,
+      files,
       withCredentials: opts.withCredentials,
     });
   }
