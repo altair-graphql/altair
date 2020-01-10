@@ -29,6 +29,15 @@ const selectors = {
   visibleWindowSelector: 'app-window:not(.hide)',
 };
 
+const closeAnyOpenToast = async (app) => {
+  const toastElResult = await app.client.$('.toast-close-button');
+  if (toastElResult.value) {
+    await app.client.$('.toast-close-button').click();
+    await app.client.pause(500);
+    await closeAnyOpenToast(app);
+  }
+};
+
 global.before(function() {
   chai.should();
   chai.use(chaiAsPromised);
@@ -48,10 +57,7 @@ describe('Altair electron', function() {
     });
     await app.client.addCommand('closeLastAltairWindow', async() => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
-      const toastElResult = await app.client.$('.toast-close-button');
-      if (toastElResult.value) {
-        await app.client.$('.toast-close-button').click();
-      }
+      await closeAnyOpenToast(app);
 
       // await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2)`).click();
       // await app.client.windowByIndex(0);
