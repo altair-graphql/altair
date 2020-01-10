@@ -101,7 +101,7 @@ export class GqlService {
    * @param query
    * @param vars
    */
-  _send({
+  private _send({
     query,
     variables,
     selectedOperation,

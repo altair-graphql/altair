@@ -146,6 +146,7 @@
     "protractor": "^5.4.2",
     "rxjs-tslint-rules": "^4.24.3",
     "start-server-and-test": "^1.10.6",
+    "ts-mocks": "^2.6.1",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "typescript": "^3.4.5",

@@ -8661,10 +8661,10 @@ karma-coverage-istanbul-reporter@^2.0.5:
     istanbul-api "^2.1.1"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.4.2.tgz#16d100fd701271192d27fd28ddc90b710ad36fff"
-  integrity sha512-7g0gPj8+9JepCNJR9WjDyQ2RkZ375jpdurYQyAYv8PorUCadepl8vrD6LmMqOGcM17cnrynBawQYZHaumgDjBw==
+karma-jasmine-html-reporter@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.5.0.tgz#bbc2aa47ecc3fbd51633d73b84250c7063489e44"
+  integrity sha512-bN4XQf+PRLV7nKQ+a0nxmCPP11sKRbZMnr7TtqLMIL7FXltBBepiEF/+VI4rO0EPaMPb3sozv5dGTC2giXiJAw==
 
 karma-jasmine@^2.0.1:
   version "2.0.1"
@@ -13542,6 +13542,11 @@ trim-off-newlines@^1.0.0:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+
+ts-mocks@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/ts-mocks/-/ts-mocks-2.6.1.tgz#77eba12886a07c2eee52553b8ebdcc4d17fc7104"
+  integrity sha512-WvxV9lrz6YK+QrBfWt+aXsnglwASYobhvMfCNU/V3Ma9iapDEgo45EhVFc05+FKmDHdPVokLeOZRcwKdbIGJBQ==
 
 ts-node@^8.3.0:
   version "8.3.0"
