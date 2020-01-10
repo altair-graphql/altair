@@ -48,10 +48,10 @@ describe('Altair electron', function() {
     });
     await app.client.addCommand('closeLastAltairWindow', async() => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
-      // const toastElResult = await app.client.$('.ngx-toastr');
-      // if (toastElResult.value) {
-      //   await app.client.$('.ngx-toastr').click();
-      // }
+      const toastElResult = await app.client.$('.toast-close-button');
+      if (toastElResult.value) {
+        await app.client.$('.toast-close-button').click();
+      }
 
       // await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2)`).click();
       // await app.client.windowByIndex(0);
