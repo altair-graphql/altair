@@ -40,7 +40,26 @@ Much like Postman for GraphQL, you can easily test and optimize your GraphQL imp
 
 ## Features
 
-Altair provides several features that make developing with GraphQL very efficient and friendly. These features include: setting **headers**, **variables**, creating **environments**, viewing **response stats**, **schema docs**, advanced **schema docs search**, dynamically **adding/generating** queries and/or fragments from schema docs, **file upload** via GraphQL, **autocompletion** of queries, **autofill** all query fields at cursor, **automatic schema refreshing** using *GraphQL Event Stream* protocol, **automatic refactoring** of query, multiple **windows**, multiple **languages**, **importing and exporting** collections of queries, multiple **themes**, **plugin system** for extensibility, and many more features (really there's a lot more!).
+Altair provides several features that make developing with GraphQL very efficient and friendly. These features include:
+
+- setting **headers**
+- setting **variables**
+- creating [**environments**](https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c)
+- viewing **response stats**
+- viewing **schema docs**
+- advanced **schema docs search**
+- dynamically **adding/generating** queries and/or fragments from schema docs
+- [**file upload**](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f) via GraphQL
+- **autocompletion** of queries
+- **autofill** all query fields at cursor
+- [**automatic schema refreshing**](https://sirmuel.design/a-better-graphql-developer-experience-with-x-graphql-event-stream-1256aef96f24) using *GraphQL Event Stream* protocol
+- **automatic refactoring** of query
+- [**prerequest**](https://sirmuel.design/pre-requests-now-available-in-altair-graphql-client-c3b28892059c) scripts
+- multiple **windows**, multiple **languages**
+- **importing and exporting** collections of queries
+- multiple **themes**
+- [**plugin system**](https://sirmuel.design/introducing-plugins-in-altair-still-in-beta-b7adb42b466) for extensibility
+- and many more features (really there's a **lot more!**).
 
 *See more here: https://altair.sirmuel.design/docs/features*
 
@@ -88,6 +107,10 @@ You can use altair with an express server using [altair-express-middleware](http
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
+
+## Community 🙏🏾
+
+You can learn more about how to get help [here](community.md).
 
 ## Contributing
 
