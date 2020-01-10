@@ -29,23 +29,27 @@
 
 <h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
 
-<hr>
-
-[![Donate to Altair](https://opencollective.com/altair/donate/button.png?color=blue)](https://opencollective.com/altair/donate)
-
 </div>
-
-Would you like to help with translations? https://altair-gql-translate.surge.sh/ [Click here](https://crwd.in/altair-gql).
 
 ![set url](src/assets/img/readme/app-shot.png "Altair GraphQL Client")
 
-A graphQL client for making graphQL queries to a graphQL server - similar to Postman but for GraphQL.
+**Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altair.sirmuel.design/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
+It enables you interact with any GraphQL server you are authorized to access from any platform you are on.
 
-Web app: https://altair-gql.sirmuel.design/
+Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.
 
-There's a [chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and a [firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
+## Features
 
-There are apps for [mac, windows and linux users](https://altair.sirmuel.design/) as well.
+Altair provides several features that make developing with GraphQL very efficient and friendly. These features include: setting **headers**, **variables**, creating **environments**, viewing **response stats**, **schema docs**, advanced **schema docs search**, dynamically **adding/generating** queries and/or fragments from schema docs, **file upload** via GraphQL, **autocompletion** of queries, **autofill** all query fields at cursor, **automatic schema refreshing** using *GraphQL Event Stream* protocol, **automatic refactoring** of query, multiple **windows**, multiple **languages**, **importing and exporting** collections of queries, multiple **themes**, **plugin system** for extensibility, and many more features (really there's a lot more!).
+
+*See more here: https://altair.sirmuel.design/docs/features*
+
+### Missing feature?
+
+Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/.github/CONTRIBUTING.md).
+
+## Usage
+
 
 For mac users, you can also install using cask:
 
@@ -83,67 +87,45 @@ You can use altair with an express server using [altair-express-middleware](http
 ### Usage with koa
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
-## Features
+*You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
-![add fragment](src/assets/img/readme/add-fragment.gif "Altair GraphQL Client")
+## Contributing
 
-- Headers
-- Variables
-- Response Stats
-- Documentation (via introspection)
-- Documentation search
-- Syntax highlighting
-- Error highlighting
-- Add queries and fragments from documentation
-- Upload files via GraphQL
-- Autocompletion of fields, arguments, types, etc
-- Autofill all fields at cursor
-- Schema auto refresh
-- Prettify Query
-- Compress Query
-- History of recent queries
-- Multiple Windows
-- GraphQL Subscriptions (with desktop notifications)
-- Import/Export Queries
-- Multiple Languages
-- Light and Dark themes
+Would you like to help with translations? https://altair-gql-translate.surge.sh/ [Click here](https://crwd.in/altair-gql).
 
-See more here: https://altair.sirmuel.design/docs/features
+<div align="center" style="text-align: center;">
+  
+[![Donate to Altair](https://opencollective.com/altair/donate/button.png?color=blue)](https://opencollective.com/altair/donate)
 
-### Missing feature?
+</div>
 
-Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/.github/CONTRIBUTING.md).
+Learn more about contributing to Altair [here](.github/CONTRIBUTING.md) and [here](https://altair.sirmuel.design/docs/contributing.html).
 
-## Development server
+## Development
 
 Run `yarn start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Build
+### Build
 
 Run `yarn build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Generate chrome extension files
+### Generate chrome extension files
 
 Run `yarn build-ext` to build the chrome extension files. The extension files will be stored in the `chrome-extension/` directory.
 
-## Generate electron app
+### Generate electron app
 
 Run `yarn build-electron` to build the electron apps. The apps will be stored in the `electron-builds/` directory.
 
-## Updating docs
+### Updating docs
 
 Run `bundle exec jekyll serve`.
 
-## Running tests
+### Running tests
 
 Run `yarn test` to execute the unit tests via [Karma](https://karma-runner.github.io) and the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-
-## Further help
-
-To get more help on working with the project, check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-### Contributors
+## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](.github/CONTRIBUTING.md)].
 <a href="graphs/contributors"><img src="https://opencollective.com/altair/contributors.svg?width=890" /></a>
@@ -166,7 +148,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_large)
 
-## Contributors
+## More Contributors ❤️
 
 Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
 
