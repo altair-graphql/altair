@@ -106,6 +106,13 @@ You can use altair with an express server using [altair-express-middleware](http
 ### Usage with koa
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
+### Usage with Laravel (PHP)
+You can use altair in a Laravel project using [xkojimedia/laravel-altair-graphql](https://packagist.org/packages/xkojimedia/laravel-altair-graphql):
+
+```console
+$ composer require xkojimedia/laravel-altair-graphql
+```
+
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
 ### Configuration Options
