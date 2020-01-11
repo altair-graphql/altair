@@ -115,7 +115,7 @@ When using a custom instance of Altair, there are [couple of options](https://gi
 - `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint
 - `initialQuery` `string` - Initial query to be added
 - `initialVariables` `string` - Initial variables to be added (in JSON format) e.g. `'{ "var1": "first variable" }'`
-- `initialPreRequestScript` `string` - Initial pre-request script to be added e.g. ``altair.helpers.getEnvironment('api_key')'`
+- `initialPreRequestScript` `string` - Initial pre-request script to be added e.g. `'altair.helpers.getEnvironment("api_key")'`
 - `initialHeaders` `IDictionary` - Initial headers object to be added
 ```js
 {
