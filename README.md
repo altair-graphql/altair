@@ -108,6 +108,37 @@ You can use altair with a koa server using [altair-koa-middleware](https://www.n
 
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
+### Configuration Options
+When using a custom instance of Altair, there are [couple of options](https://github.com/imolorhe/altair/blob/staging/src/app/config.ts#L7) you can use to customize Altair based on your needs:
+
+- `endpointURL` `string` - URL to set as the server endpoint
+- `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint
+- `initialQuery` `string` - Initial query to be added
+- `initialVariables` `string` - Initial variables to be added (in JSON format) e.g. `'{ "var1": "first variable" }'`
+- `initialPreRequestScript` `string` - Initial pre-request script to be added e.g. ``altair.helpers.getEnvironment('api_key')'`
+- `initialHeaders` `IDictionary` - Initial headers object to be added
+```js
+{
+  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+}
+```
+- `initialEnvironments` `IInitialEnvironments` - Initial Environments to be added
+```js
+{
+  base: {
+    title: 'Environment',
+    variables: {}
+  },
+  subEnvironments: [
+    {
+      title: 'sub-1',
+      variables: {}
+    }
+  ]
+}
+```
+- `instanceStorageNamespace` `string` - Namespace for storing the data for the altair instance. Use this when you have multiple altair instances running on the same domain. e.g. `'altair_dev_'`
+
 ## Community 🙏🏾
 
 You can learn more about how to get help [here](community.md).
