@@ -139,6 +139,14 @@ When using a custom instance of Altair, there are [couple of options](https://gi
 ```
 - `instanceStorageNamespace` `string` - Namespace for storing the data for the altair instance. Use this when you have multiple altair instances running on the same domain. e.g. `'altair_dev_'`
 
+Example usage:
+```js
+AltairGraphQL.init({
+  endpointURL: 'https://www.example.com/graphql',
+  initialVariables: '{ "username": "imolorhe" }',
+});
+```
+
 ## Community 🙏🏾
 
 You can learn more about how to get help [here](community.md).
