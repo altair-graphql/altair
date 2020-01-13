@@ -1,6 +1,7 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
 import { IInitialEnvironments } from './reducers/environments';
+import * as fromSettings from './reducers/settings/settings';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
@@ -64,6 +65,11 @@ export interface AltairConfigOptions {
    * instanceStorageNamespace: 'altair_dev_'
    */
   instanceStorageNamespace?: string;
+
+  /**
+   * Initial app settings to use
+   */
+  initialSettings?: Partial<fromSettings.State>;
 }
 
 export class AltairConfig {
@@ -109,6 +115,7 @@ export class AltairConfig {
     environments: ({} as IInitialEnvironments),
     preRequestScript: '',
     instanceStorageNamespace: '',
+    settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
   };
   constructor({
     endpointURL,
@@ -119,6 +126,7 @@ export class AltairConfig {
     initialVariables,
     initialPreRequestScript,
     instanceStorageNamespace,
+    initialSettings,
   }: AltairConfigOptions = {}) {
     this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
@@ -128,6 +136,7 @@ export class AltairConfig {
     this.initialData.environments = initialEnvironments || {};
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
+    this.initialData.settings = initialSettings || undefined;
   }
 }
 

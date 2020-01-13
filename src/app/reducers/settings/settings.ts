@@ -72,11 +72,13 @@ export interface State {
 
 export const getInitialState = (): State => {
   const altairConfig = getAltairConfig();
+  const initialSettings = altairConfig.initialData.settings || {};
   return {
     theme: <SettingsTheme>altairConfig.defaultTheme,
     language: <SettingsLanguage>altairConfig.default_language,
     addQueryDepthLimit: altairConfig.add_query_depth_limit,
     tabSize: altairConfig.tab_size,
+    ...initialSettings,
   };
 };
 

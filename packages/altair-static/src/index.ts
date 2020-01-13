@@ -59,6 +59,24 @@ export interface RenderOptions {
     serveInitialOptionsInSeperateRequest?: boolean;
 
     /**
+     * Initial Environments to be added
+     * @example
+     * {
+     *   base: {
+     *     title: 'Environment',
+     *     variables: {}
+     *   },
+     *   subEnvironments: [
+     *     {
+     *       title: 'sub-1',
+     *       variables: {}
+     *     }
+     *   ]
+     * }
+     */
+    initialEnvironments?: IInitialEnvironments;
+
+    /**
      * Namespace for storing the data for the altair instance.
      * Use this when you have multiple altair instances running on the same domain.
      * @example
@@ -66,23 +84,10 @@ export interface RenderOptions {
      */
     instanceStorageNamespace?: string;
 
-  /**
-   * Initial Environments to be added
-   * @example
-   * {
-   *   base: {
-   *     title: 'Environment',
-   *     variables: {}
-   *   },
-   *   subEnvironments: [
-   *     {
-   *       title: 'sub-1',
-   *       variables: {}
-   *     }
-   *   ]
-   * }
-   */
-  initialEnvironments?: IInitialEnvironments;
+    /**
+     * Initial app settings to use
+     */
+    initialSettings?: any;
 }
 
 /**
