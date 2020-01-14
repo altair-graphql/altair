@@ -43,7 +43,7 @@ test_script:
 # - npm --version
 # - npm run test-build
 - yarn --version
-- yarn test-build
+- yarn lerna run --scope altair-app test --stream
 
 build: off # We do not intend to build using MS Build
 
