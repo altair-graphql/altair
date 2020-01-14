@@ -27,7 +27,6 @@ before_install:
 before_script:
 - yarn global add @angular/cli karma lerna surge
 - yarn
-- yarn build
 - npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
