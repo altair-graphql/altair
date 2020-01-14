@@ -156,7 +156,7 @@ AltairGraphQL.init({
 
 ## Community 🙏🏾
 
-You can learn more about how to get help [here](community.md).
+You can learn more about how to get help [here](.github/community.md).
 
 ## Contributing
 

@@ -39,5 +39,8 @@
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "dependencies": {
+    "altair-app": "^2.4.3"
+  }
 }

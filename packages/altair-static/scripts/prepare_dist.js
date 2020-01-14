@@ -18,7 +18,7 @@ const deleteFolderRecursive = function(path) {
   }
 };
 
-const distSrc = path.join(__dirname, '../../../dist'); // From the main altair dist folder
+const distSrc = path.join(__dirname, '../node_modules/altair-app/dist'); // From the altair-app dist folder
 const distDestination = path.join(__dirname, '../build/dist'); // To altair-static dist folder
 deleteFolderRecursive(distDestination);
 fs.mkdirSync(distDestination, { recursive: true });
