@@ -1,4 +1,4 @@
 jshint:
-  config_file: .jshintrc
+  config_file: .github/.jshintrc
 scss:
-  config_file: .scss-lint.yml
+  config_file: .github/.scss-lint.yml

@@ -13,7 +13,7 @@ rm altair.zip
 mkdir chrome-extension
 
 # Copy the files from the dist folder into the chrome-extension directory
-cp -r dist/* chrome-extension
+cp -r packages/altair-app/dist/* chrome-extension
 
 
 sed -i '' "s|</body>|<script src='js/init.js'></script></body>|g" ./chrome-extension/index.html

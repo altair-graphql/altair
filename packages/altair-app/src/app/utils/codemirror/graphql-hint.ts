@@ -38,8 +38,8 @@ CodeMirror.registerHelper('hint', 'graphql', (editor: CodeMirror.Editor, options
   const rawResults = getAutocompleteSuggestions(
     schema,
     editor.getValue(),
-    cur,
-    token,
+    (cur as any),
+    (token as any),
   );
   /**
    * GraphQL language service responds to the autocompletion request with

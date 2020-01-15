@@ -25,6 +25,8 @@
     "mime-types": "^2.1.24"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "6.1.2",

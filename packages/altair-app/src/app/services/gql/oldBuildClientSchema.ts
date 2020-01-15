@@ -101,7 +101,7 @@ export function buildClientSchema(
   // Initialize to the GraphQL built in scalars. All functions below are inline
   // so that this type def cache is within the scope of the closure.
   const typeDefCache = keyMap(
-    specifiedScalarTypes.concat(introspectionTypes),
+    (specifiedScalarTypes as any).concat(introspectionTypes),
     (type: Exclude<GraphQLType, GraphQLList<any>>) => type.name,
   );
 
