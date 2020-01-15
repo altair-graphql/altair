@@ -21,7 +21,7 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
-[Deploying?](DEPLOY.md)
+[Deploying?](.github/DEPLOY.md)
 
 <div align="center" style="text-align: center;">
 
