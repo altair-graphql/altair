@@ -6,6 +6,8 @@ const path = require('path');
 
 chai.use(chaiAsPromised);
 
+const TEST_TIMEOUT = 60000;
+
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
 
@@ -20,7 +22,7 @@ const app = new Application({
     ELECTRON_ENABLE_STACK_DUMPING: true,
     NODE_ENV: 'test'
   },
-  startTimeout: 20000,
+  startTimeout: TEST_TIMEOUT,
   requireName: 'electronRequire',
 
   // Uncomment this line to debug
@@ -46,9 +48,9 @@ global.before(function() {
   chai.use(chaiAsPromised);
 });
 describe('Altair electron', function() {
-  this.timeout(20000);
+  this.timeout(TEST_TIMEOUT);
   beforeEach(async function() {
-    this.timeout(20000);
+    this.timeout(TEST_TIMEOUT);
     await app.start();
 
     await app.client.addCommand('newAltairWindow', async() => {
