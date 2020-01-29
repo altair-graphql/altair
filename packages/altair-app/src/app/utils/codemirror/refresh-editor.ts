@@ -1,10 +1,11 @@
 export const handleEditorRefresh = (cm: any) => {
   if (cm) {
-    if (cm.display.wrapper.offsetHeight) {
-      if (cm.display.lastWrapHeight !== cm.display.wrapper.clientHeight) {
-        console.log('changes', cm);
-        cm.refresh();
+    setTimeout(() => {
+      if (cm && cm.display.wrapper.offsetHeight) {
+        if (cm.display.lastWrapHeight !== cm.display.wrapper.clientHeight) {
+          cm.refresh();
+        }
       }
-    }
+    }, 50);
   }
 };
