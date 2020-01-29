@@ -19,7 +19,7 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
 - yarn global add @angular/cli karma lerna surge
-- yarn
+- yarn --frozen-lockfile
 - npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
