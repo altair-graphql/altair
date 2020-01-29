@@ -9,8 +9,6 @@ chai.use(chaiAsPromised);
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
 
-console.log(`Electron app path: ${appPath}`);
-
 if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
@@ -28,11 +26,6 @@ const app = new Application({
   // Uncomment this line to debug
   // chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
 });
-
-app.start().then(() => {
-  console.log('Started successfully.');
-}).catch(err => console.error(err))
-.finally(() => app.isRunning() && app.stop());
 
 const selectors = {
   windowSwitcherSelector: '.window-switcher:not(.window-switcher--new-window)',
