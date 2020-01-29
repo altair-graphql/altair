@@ -8,12 +8,9 @@ osx_image: xcode11
 node_js:
 - 10
 addons:
+  chrome: stable
   apt:
-    sources:
-    - google-chrome
     packages:
-    - google-chrome-stable
-    - google-chrome-beta
     - fakeroot
     - rpm
 services:
