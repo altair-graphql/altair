@@ -4,6 +4,8 @@ const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const path = require('path');
 
+chai.use(chaiAsPromised);
+
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
 if (process.platform === 'win32') {
@@ -21,7 +23,7 @@ const app = new Application({
   requireName: 'electronRequire',
 
   // Uncomment this line to debug
-  // chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
+  chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
 });
 
 const selectors = {
