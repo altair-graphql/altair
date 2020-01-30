@@ -26,7 +26,7 @@ const app = new Application({
   requireName: 'electronRequire',
 
   // Uncomment this line to debug
-  // chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
+  chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
 });
 
 const selectors = {

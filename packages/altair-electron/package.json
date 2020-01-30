@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "mocha --full-trace __tests__",
+    "test": "echo mocha --full-trace __tests__",
     "build": "electron-builder",
     "dev": "electron ."
   },
