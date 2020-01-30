@@ -24,7 +24,7 @@ before_script:
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test:ci; fi # All other tests except e2e
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then xvfb-run yarn test:ci; fi # All other tests except e2e
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna run --scope altair-app webdriver-update-ci; yarn lerna run --scope altair-app e2e:ci; fi # Run e2e test
 after_success:
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then if [ ! -z "$SURGE_TOKEN" ]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi fi
