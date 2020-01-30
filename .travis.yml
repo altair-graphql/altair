@@ -25,6 +25,7 @@ before_script:
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna bootstrap; yarn list --cwd packages/altair-electron; yarn lerna run --scope altair-electron test; fi # Debugging electron test
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then xvfb-run -a yarn test:ci; fi # All other tests except e2e
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna run --scope altair-app webdriver-update-ci; yarn lerna run --scope altair-app e2e:ci; fi # Run e2e test
 after_success:
@@ -49,14 +50,14 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    condition: $TRAVIS_OS_NAME = linux
+    # condition: $TRAVIS_OS_NAME = linux
 - provider: surge
   project: ./packages/altair-app/dist
   domain: altair-gql-translate.surge.sh
   skip_cleanup: true
   on:
     branch: staging
-    condition: $TRAVIS_OS_NAME = linux
+    # condition: $TRAVIS_OS_NAME = linux
 - provider: snap
   file_glob: true
   snap: packages/altair-electron/out/**/*.snap
