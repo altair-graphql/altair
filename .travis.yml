@@ -50,14 +50,14 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    # condition: $TRAVIS_OS_NAME = linux
+    condition: $TRAVIS_OS_NAME = linux
 - provider: surge
   project: ./packages/altair-app/dist
   domain: altair-gql-translate.surge.sh
   skip_cleanup: true
   on:
     branch: staging
-    # condition: $TRAVIS_OS_NAME = linux
+    condition: $TRAVIS_OS_NAME = linux
 - provider: snap
   file_glob: true
   snap: packages/altair-electron/out/**/*.snap
