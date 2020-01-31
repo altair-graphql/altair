@@ -59,6 +59,9 @@ class PerformantLocalStorage implements Storage {
       });
     }
 
+    if (!('requestIdleCallback' in window)) {
+      return this.storage.setItem(key, value);
+    }
     return runSetItem();
   }
 

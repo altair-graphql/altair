@@ -38,10 +38,14 @@ import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import { PluginComponentData, PluginInstance, PluginType } from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
+import { fadeInOutAnimationTrigger } from 'app/animations';
 
 @Component({
   selector: 'app-window',
-  templateUrl: './window.component.html'
+  templateUrl: './window.component.html',
+  animations: [
+    fadeInOutAnimationTrigger,
+  ]
 })
 export class WindowComponent implements OnInit, OnDestroy {
   queryResult$: Observable<any>;

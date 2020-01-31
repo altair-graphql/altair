@@ -26,11 +26,15 @@ import {
   GraphQLFieldMap
 } from 'graphql';
 import { DocumentIndexEntry } from '../models';
+import { fadeInOutAnimationTrigger } from 'app/animations';
 
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    fadeInOutAnimationTrigger,
+  ]
   // styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnChanges, OnDestroy {

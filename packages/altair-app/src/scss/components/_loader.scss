@@ -1,5 +1,4 @@
 .window-loader {
-  @include hide-transition;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,10 +14,6 @@
   .loader-img {
     vertical-align: middle;
   }
-}
-
-.window-loader--show {
-  @include show-transition;
 }
 
 .window-loader__content {
