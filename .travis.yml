@@ -1,12 +1,13 @@
 sudo: required
 language: node_js
 cache: yarn
+dist: xenial
 os:
 - linux
 - osx
 osx_image: xcode11
 node_js:
-- 10
+- 12
 addons:
   chrome: stable
 services:
@@ -19,11 +20,12 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
 - yarn global add @angular/cli karma lerna surge
-- yarn
+- yarn --frozen-lockfile
 - npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
+# - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna bootstrap; yarn list --cwd packages/altair-electron; yarn lerna run --scope altair dev --stream; fi # Debugging electron test
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test:ci; fi # All other tests except e2e
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna run --scope altair-app webdriver-update-ci; yarn lerna run --scope altair-app e2e:ci; fi # Run e2e test
 after_success:

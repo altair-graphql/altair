@@ -4,24 +4,29 @@ const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const path = require('path');
 
+chai.use(chaiAsPromised);
+
+const TEST_TIMEOUT = 60000;
+
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
+
 if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
 const app = new Application({
   path: electronPath,
-  args: [appPath],
+  args: [ appPath ],
   env: {
     ELECTRON_ENABLE_LOGGING: true,
     ELECTRON_ENABLE_STACK_DUMPING: true,
     NODE_ENV: 'test'
   },
-  startTimeout: 20000,
+  startTimeout: TEST_TIMEOUT,
   requireName: 'electronRequire',
 
   // Uncomment this line to debug
-  // chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
+  chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
 });
 
 const selectors = {
@@ -43,9 +48,9 @@ global.before(function() {
   chai.use(chaiAsPromised);
 });
 describe('Altair electron', function() {
-  this.timeout(20000);
+  this.timeout(TEST_TIMEOUT);
   beforeEach(async function() {
-    this.timeout(20000);
+    this.timeout(TEST_TIMEOUT);
     await app.start();
 
     await app.client.addCommand('newAltairWindow', async() => {

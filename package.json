@@ -13,7 +13,7 @@
     "client"
   ],
   "scripts": {
-    "test": "lerna bootstrap && lerna run test --stream",
+    "test": "lerna bootstrap -- --frozen-lockfile && lerna run test --stream",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test",
     "start-test-server": "./bin/start_ci_test_server.sh",
     "local-verify": "npm run build-app && lerna bootstrap",
