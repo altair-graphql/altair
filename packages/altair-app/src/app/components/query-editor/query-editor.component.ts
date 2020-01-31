@@ -281,45 +281,47 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   }
 
   updateWidgets(cm: CodeMirror.Editor, event: any) {
-    const definitionsInfo: any[] = [];
-    clearTimeout(this.updateWidgetTimeout);
-    this.updateWidgetTimeout = setTimeout(() => {
-      try {
-        const ast = this.gqlService.parseQuery(cm.getValue());
-        ast.definitions.forEach(definition => {
-          if (definition.kind === 'OperationDefinition' && ((definition.name && definition.name.value) || ast.definitions.length === 1)) {
-            debug.log('WIDGET', definition);
-            definitionsInfo.push({
-              operation: definition.operation,
-              location: definition.loc,
-              operationName: definition.name ? definition.name.value : '',
+    this.zone.runOutsideAngular(() => {
+      const definitionsInfo: any[] = [];
+      clearTimeout(this.updateWidgetTimeout);
+      this.updateWidgetTimeout = setTimeout(() => {
+        try {
+          const ast = this.gqlService.parseQuery(cm.getValue());
+          ast.definitions.forEach(definition => {
+            if (definition.kind === 'OperationDefinition' && ((definition.name && definition.name.value) || ast.definitions.length === 1)) {
+              debug.log('WIDGET', definition);
+              definitionsInfo.push({
+                operation: definition.operation,
+                location: definition.loc,
+                operationName: definition.name ? definition.name.value : '',
+              });
+            }
+          });
+          cm.operation(() => {
+            this.widgets.forEach(widget => {
+              (cm as any).removeLineWidget(widget);
+              widget.clear();
             });
-          }
-        });
-        cm.operation(() => {
-          this.widgets.forEach(widget => {
-            (cm as any).removeLineWidget(widget);
-            widget.clear();
+            this.widgets = [];
+
+            definitionsInfo.forEach(({ operationName, operation, location }) => {
+              const widgetEl = document.createElement('div');
+              widgetEl.innerHTML = `&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`;
+              widgetEl.className = 'query-editor__line-widget';
+              widgetEl.onclick = () => {
+                this.zone.run(() => this.sendRequest.next({ operationName }));
+                debug.log('WIDGET listens');
+              };
+
+              this.widgets.push(cm.addLineWidget(location.startToken.line - 1, widgetEl, {
+                above: true,
+              }));
+            });
           });
-          this.widgets = [];
+        } catch (error) {}
 
-          definitionsInfo.forEach(({ operationName, operation, location }) => {
-            const widgetEl = document.createElement('div');
-            widgetEl.innerHTML = `&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`;
-            widgetEl.className = 'query-editor__line-widget';
-            widgetEl.onclick = () => {
-              this.zone.run(() => this.sendRequest.next({ operationName }));
-              debug.log('WIDGET listens');
-            };
-
-            this.widgets.push(cm.addLineWidget(location.startToken.line - 1, widgetEl, {
-              above: true,
-            }));
-          });
-        });
-      } catch (error) {}
-
-    }, 300);
+      }, 300);
+    });
   }
 
   /**

@@ -271,6 +271,7 @@ export class QueryEffects {
               return this.store.dispatch(new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl }))
             })
             .catch(err => {
+              debug.error(err);
               this.notifyService.error('Could not set schema SDL');
             });
           }
