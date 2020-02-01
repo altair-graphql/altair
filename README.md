@@ -25,13 +25,13 @@
 
 <div align="center" style="text-align: center;">
 
-<img src="src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
+<img src="packages/altair-app/src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
 
 <h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
 
 </div>
 
-![set url](src/assets/img/readme/app-shot.png "Altair GraphQL Client")
+![set url](packages/altair-app/src/assets/img/readme/app-shot.png "Altair GraphQL Client")
 
 **Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altair.sirmuel.design/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 It enables you interact with any GraphQL server you are authorized to access from any platform you are on.
@@ -116,7 +116,7 @@ $ composer require xkojimedia/laravel-altair-graphql
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
 ### Configuration Options
-When using a custom instance of Altair, there are [couple of options](https://github.com/imolorhe/altair/blob/staging/src/app/config.ts#L7) you can use to customize Altair based on your needs:
+When using a custom instance of Altair, there are [couple of options](https://github.com/imolorhe/altair/blob/staging/packages/altair-app/src/app/config.ts#L7) you can use to customize Altair based on your needs:
 
 - `endpointURL` `string` - URL to set as the server endpoint
 - `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint
@@ -153,6 +153,10 @@ AltairGraphQL.init({
   initialVariables: '{ "username": "imolorhe" }',
 });
 ```
+
+## Supported Browsers
+
+Altair has been tested in the latest versions of Google Chrome and Mozilla Firefox. It might not work as expected in other browsers like Safari and Edge.
 
 ## Community 🙏🏾
 
