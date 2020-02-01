@@ -171,6 +171,17 @@ export class QueryEffects {
                 // For electron app, send the instruction to set headers
                 this.electronAppService.setHeaders(headers);
 
+                if (this.gqlService.hasInvalidFileVariable(response.data.variables.files)) {
+                  this.notifyService.warning(`
+                    You have some invalid file variables.<br><br>
+                    You need to provide a file and file name, when uploading files.
+                    Check your files in the variables section.<br><br>
+                    Note: Files don't persist after restarting Altair.
+                  `, 'Altair', {
+                    disableTimeOut: true,
+                  });
+                }
+
                 debug.log('Sending..');
                 return this.gqlService
                   .sendRequest(url, {

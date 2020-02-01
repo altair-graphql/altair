@@ -324,6 +324,10 @@ export class GqlService {
     }
   }
 
+  hasInvalidFileVariable(fileVariables: fromVariables.FileVariable[]) {
+    return fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name);
+  }
+
   getActualTypeName(type: GraphQLType) {
     if (type) {
       return type.inspect().replace(/[\[\]!]/g, '');
