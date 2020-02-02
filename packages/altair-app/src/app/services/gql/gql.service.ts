@@ -325,7 +325,7 @@ export class GqlService {
   }
 
   hasInvalidFileVariable(fileVariables: fromVariables.FileVariable[]) {
-    return fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name);
+    return fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name).length;
   }
 
   getActualTypeName(type: GraphQLType) {
