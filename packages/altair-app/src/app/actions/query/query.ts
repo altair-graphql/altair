@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action as NGRXAction } from '@ngrx/store';
 import { QueryEditorState } from 'app/reducers/query/query';
 
 export const SET_URL = 'SET_URL';
@@ -44,163 +44,163 @@ export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
 
 
-export class SetUrlAction implements Action {
+export class SetUrlAction implements NGRXAction {
   readonly type = SET_URL;
 
   constructor(public payload: { url: string }, public windowId: string) {}
 }
 
-export class SetHTTPMethodAction implements Action {
+export class SetHTTPMethodAction implements NGRXAction {
   readonly type = SET_HTTP_VERB;
 
   constructor(public payload: { httpVerb: string }, public windowId: string) {}
 }
 
-export class SetUrlFromDbAction implements Action {
+export class SetUrlFromDbAction implements NGRXAction {
   readonly type = SET_URL_FROM_DB;
 
   constructor(public payload: { url: string }, public windowId: string) {}
 }
 
-export class SetSubscriptionUrlAction implements Action {
+export class SetSubscriptionUrlAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_URL;
 
   constructor(public payload: { subscriptionUrl: string }, public windowId: string) { }
 }
 
-export class SendIntrospectionQueryRequestAction implements Action {
+export class SendIntrospectionQueryRequestAction implements NGRXAction {
   readonly type = SEND_INTROSPECTION_QUERY_REQUEST;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class SetQueryAction implements Action {
+export class SetQueryAction implements NGRXAction {
   readonly type = SET_QUERY;
 
   constructor(public payload: string, public windowId: string) {}
 }
 
-export class SetQueryFromDbAction implements Action {
+export class SetQueryFromDbAction implements NGRXAction {
   readonly type = SET_QUERY_FROM_DB;
 
   constructor(public payload: string, public windowId: string) {}
 }
 
-export class SetQueryResultAction implements Action {
+export class SetQueryResultAction implements NGRXAction {
   readonly type = SET_QUERY_RESULT;
 
   constructor(public payload: any, public windowId: string) {}
 }
 
-export class PrettifyQueryAction implements Action {
+export class PrettifyQueryAction implements NGRXAction {
   readonly type = PRETTIFY_QUERY;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class CompressQueryAction implements Action {
+export class CompressQueryAction implements NGRXAction {
   readonly type = COMPRESS_QUERY;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class CopyAsCurlAction implements Action {
+export class CopyAsCurlAction implements NGRXAction {
   readonly type = COPY_AS_CURL;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class ConvertToNamedQueryAction implements Action {
+export class ConvertToNamedQueryAction implements NGRXAction {
   readonly type = CONVERT_TO_NAMED_QUERY;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class RefactorQueryAction implements Action {
+export class RefactorQueryAction implements NGRXAction {
   readonly type = REFACTOR_QUERY;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class SendQueryRequestAction implements Action {
+export class SendQueryRequestAction implements NGRXAction {
   readonly type = SEND_QUERY_REQUEST;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class SetSelectedOperationAction implements Action {
+export class SetSelectedOperationAction implements NGRXAction {
   readonly type = SET_SELECTED_OPERATION;
 
   constructor(public windowId: string, public payload: { selectedOperation: string }) {}
 }
 
-export class SetResponseStatsAction implements Action {
+export class SetResponseStatsAction implements NGRXAction {
   readonly type = SET_RESPONSE_STATS;
 
   constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number, responseStatusText: string }) {}
 }
 
-export class StartSubscriptionAction implements Action {
+export class StartSubscriptionAction implements NGRXAction {
   readonly type = START_SUBSCRIPTION;
 
   constructor(public windowId: string, public payload?: any) { }
 }
 
-export class StopSubscriptionAction implements Action {
+export class StopSubscriptionAction implements NGRXAction {
   readonly type = STOP_SUBSCRIPTION;
 
   constructor(public windowId: string, public payload?: any) { }
 }
 
-export class SetSubscriptionConnectionParamsAction implements Action {
+export class SetSubscriptionConnectionParamsAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CONNECTION_PARAMS;
 
   constructor(public windowId: string, public payload: { connectionParams: string }) {}
 }
 
-export class SetSubscriptionClientAction implements Action {
+export class SetSubscriptionClientAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CLIENT;
 
   constructor(public windowId: string, public payload: { subscriptionClient: any }) { }
 }
 
-export class AddSubscriptionResponseAction implements Action {
+export class AddSubscriptionResponseAction implements NGRXAction {
   readonly type = ADD_SUBSCRIPTION_RESPONSE;
 
   constructor(public windowId: string, public payload: { response: string, responseObj?: any, responseTime: number }) { }
 }
 
-export class SetSubscriptionResponseListAction implements Action {
+export class SetSubscriptionResponseListAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_RESPONSE_LIST;
 
   constructor(public windowId: string, public payload: { list: Array<any> }) { }
 }
 
-export class ToggleAutoscrollSubscriptionResponseAction implements Action {
+export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
   readonly type = TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class DownloadResultAction implements Action {
+export class DownloadResultAction implements NGRXAction {
   readonly type = DOWNLOAD_RESULT;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class CancelQueryRequestAction implements Action {
+export class CancelQueryRequestAction implements NGRXAction {
   readonly type = CANCEL_QUERY_REQUEST;
 
   constructor(public windowId: string, public payload?: any) {}
 }
 
-export class SetQueryOperationsAction implements Action {
+export class SetQueryOperationsAction implements NGRXAction {
   readonly type = SET_QUERY_OPERATIONS;
 
   constructor(public windowId: string, public payload: { operations: any[] }) {}
 }
 
-export class SetQueryEditorStateAction implements Action {
+export class SetQueryEditorStateAction implements NGRXAction {
   readonly type = SET_QUERY_EDITOR_STATE;
 
   constructor(public windowId: string, public payload: QueryEditorState) {}

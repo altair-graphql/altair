@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action as NGRXAction } from '@ngrx/store';
 
 export const UPDATE_VARIABLES = 'UPDATE_VARIABLES';
 
@@ -8,31 +8,31 @@ export const DELETE_FILE_VARIABLE = 'DELETE_FILE_VARIABLE';
 export const UPDATE_FILE_VARIABLE_NAME = 'UPDATE_FILE_VARIABLE_NAME';
 export const UPDATE_FILE_VARIABLE_DATA = 'UPDATE_FILE_VARIABLE_DATA';
 
-export class UpdateVariablesAction implements Action {
+export class UpdateVariablesAction implements NGRXAction {
     readonly type = UPDATE_VARIABLES;
 
     constructor(public payload: string, public windowId: string) {}
 }
 
-export class AddFileVariableAction implements Action {
+export class AddFileVariableAction implements NGRXAction {
     readonly type = ADD_FILE_VARIABLE;
 
     constructor(public windowId: string, public payload?: any) {}
 }
 
-export class DeleteFileVariableAction implements Action {
+export class DeleteFileVariableAction implements NGRXAction {
     readonly type = DELETE_FILE_VARIABLE;
 
     constructor(public windowId: string, public payload: { index: number }) {}
 }
 
-export class UpdateFileVariableNameAction implements Action {
+export class UpdateFileVariableNameAction implements NGRXAction {
     readonly type = UPDATE_FILE_VARIABLE_NAME;
 
     constructor(public windowId: string, public payload: { index: number, name: string }) {}
 }
 
-export class UpdateFileVariableDataAction implements Action {
+export class UpdateFileVariableDataAction implements NGRXAction {
     readonly type = UPDATE_FILE_VARIABLE_DATA;
 
     constructor(public windowId: string, public payload: { index: number, fileData: File }) {}
