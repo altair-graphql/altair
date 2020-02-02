@@ -6,7 +6,7 @@ export interface DocumentIndexEntry {
   description: string;
   cat: string;
   highlight: string;
-  args?: GraphQLArgument[],
+  args?: {name: string, description?: string | null}[],
   type?: string;
   isQuery?: Boolean;
 }

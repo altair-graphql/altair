@@ -53,6 +53,13 @@ class PerformantLocalStorage implements Storage {
       // Using requestIdleCallback to set only when the UI is idle
       (window as any).requestIdleCallback((deadline: any) => {
         if (deadline.timeRemaining()) {
+          try {
+            return this.storage.setItem(key, value);
+          } catch (error) {
+            if (['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(error.name)) {
+              // handle quota limit exceeded error
+            }
+          }
           return this.storage.setItem(key, value);
         }
         return runSetItem();
