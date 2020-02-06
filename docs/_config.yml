@@ -16,7 +16,7 @@
 title: Altair GraphQL Client
 short_title: Altair GraphQL
 logo_url: /assets/img/altair.svg
-email: samuelimolo4real@gmail.com
+email: altair@sirmuel.design
 download_link: https://github.com/imolorhe/altair/releases/latest
 description: > # this means to ignore newlines until "baseurl:"
   A beautiful feature-rich GraphQL Client IDE for all platforms. Available for MacOS, Windows, Linux, Chrome, Firefox.
