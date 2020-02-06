@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action as NGRXAction } from '@ngrx/store';
 import { GraphQLSchema } from 'graphql';
 
 export const SET_INTROSPECTION = 'SET_INTROSPECTION';
@@ -12,49 +12,49 @@ export const SET_INTROSPECTION_LAST_UPDATED_AT = 'SET_INTROSPECTION_LAST_UPDATED
 export const EXPORT_SDL = 'EXPORT_SDL';
 export const LOAD_SDL_SCHEMA = 'LOAD_SDL_SCHEMA';
 
-export class SetIntrospectionAction implements Action {
+export class SetIntrospectionAction implements NGRXAction {
   readonly type = SET_INTROSPECTION;
 
   constructor(public payload: any, public windowId: string) { }
 }
 
-export class SetIntrospectionFromDbAction implements Action {
+export class SetIntrospectionFromDbAction implements NGRXAction {
   readonly type = SET_INTROSPECTION_FROM_DB;
 
   constructor(public payload: any, public windowId: string) { }
 }
 
-export class SetSchemaAction implements Action {
+export class SetSchemaAction implements NGRXAction {
   readonly type = SET_SCHEMA;
 
   constructor(public windowId: string, public payload: GraphQLSchema) { }
 }
 
-export class SetSchemaSDLAction implements Action {
+export class SetSchemaSDLAction implements NGRXAction {
   readonly type = SET_SCHEMA_SDL;
 
   constructor(public windowId: string, public payload: { sdl: string }) { }
 }
 
-export class SetAllowIntrospectionAction implements Action {
+export class SetAllowIntrospectionAction implements NGRXAction {
   readonly type = SET_ALLOW_INTROSPECTION;
 
   constructor(public payload: any, public windowId: string) { }
 }
 
-export class SetIntrospectionLastUpdatedAtAction implements Action {
+export class SetIntrospectionLastUpdatedAtAction implements NGRXAction {
   readonly type = SET_INTROSPECTION_LAST_UPDATED_AT;
 
   constructor(public windowId: string, public payload: { epoch: number }) { }
 }
 
-export class ExportSDLAction implements Action {
+export class ExportSDLAction implements NGRXAction {
   readonly type = EXPORT_SDL;
 
   constructor(public windowId: string) { }
 }
 
-export class LoadSDLSchemaAction implements Action {
+export class LoadSDLSchemaAction implements NGRXAction {
   readonly type = LOAD_SDL_SCHEMA;
 
   constructor(public windowId: string) {}

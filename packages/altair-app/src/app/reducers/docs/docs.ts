@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 
 import * as docs from '../../actions/docs/docs';
 

@@ -28,7 +28,8 @@
               "includePaths": [
                 "node_modules"
               ]
-            }
+            },
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -87,7 +88,8 @@
             "assets": [
               "src/assets",
               "src/favicon.ico"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         },
         "lint": {
@@ -95,7 +97,8 @@
           "options": {
             "tsConfig": [
               "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "src/tsconfig.spec.json",
+              "tsconfig.worker.json"
             ],
             "exclude": []
           }
