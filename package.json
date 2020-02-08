@@ -29,10 +29,11 @@
     "node": ">= 6.9.1"
   },
   "devDependencies": {
+    "cwex": "^1.0.0",
     "lerna": "^3.16.0",
     "opencollective": "^1.0.3",
-    "start-server-and-test": "^1.10.6",
     "snyk": "^1.195.0",
+    "start-server-and-test": "^1.10.6",
     "web-ext": "^4.0.0"
   },
   "repository": {
