@@ -29,7 +29,7 @@
     "node": ">= 6.9.1"
   },
   "devDependencies": {
-    "cwex": "^1.0.0",
+    "cwex": "^1.0.1",
     "lerna": "^3.16.0",
     "opencollective": "^1.0.3",
     "snyk": "^1.195.0",
