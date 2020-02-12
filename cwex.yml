@@ -8,26 +8,26 @@ outDir: extension-builds
 beforeCompile: bin/ext-update-index.js
 manifestOptions:
   name: Altair GraphQL Client
-  shortName: Altair
+  short_name: Altair
   description: A beautiful feature-rich GraphQL client for all platforms
   version: 2.4.3
   icons:
     16: assets/img/altair_logo_128.png
     48: assets/img/altair_logo_128.png
     128: assets/img/altair_logo_128.png
-  browserAction:
-    defaultIcon: assets/img/altair_logo_128.png
+  browser_action:
+    default_icon: assets/img/altair_logo_128.png
   permissions:
     - http://*/
     - https://*/
     - tabs
     - storage
     - notifications
-  contentSecurityPolicy: "script-src 'self' 'unsafe-inline' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net; object-src 'self';"
-  backgroundOptions:
+  content_security_policy: "script-src 'self' 'unsafe-inline' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net; object-src 'self';"
+  background_options:
     scripts:
       - js/background.js
-  settingsOptions:
+  options_ui:
     page: options.html
-    openInTab: false
-  offlineEnabled: true
+    open_in_tab: false
+  offline_enabled: true
