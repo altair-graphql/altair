@@ -4,7 +4,7 @@
   "version": "2.4.3",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
-  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "license": "MIT",
   "private": true,
   "scripts": {

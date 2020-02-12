@@ -15,6 +15,7 @@ out/
 *.nex
 src/app/utils/settings.schema.json
 src/app/utils/validate_settings_schema.js
+extension-builds/
 
 dist
 build

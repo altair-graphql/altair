@@ -4,7 +4,7 @@
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
-  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "homepage": "https://imolorhe.github.io/altair/",
   "scripts": {
     "ng": "ng",
