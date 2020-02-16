@@ -23,13 +23,14 @@
     "postinstall": "opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "publish-packages": "lerna bootstrap && npm run lerna-publish",
+    "build-ext2": "cwex build",
     "snyk-protect": "snyk protect"
   },
   "engines": {
     "node": ">= 6.9.1"
   },
   "devDependencies": {
-    "cwex": "^1.0.1",
+    "cwex": "^1.0.2",
     "lerna": "^3.16.0",
     "opencollective": "^1.0.3",
     "snyk": "^1.195.0",

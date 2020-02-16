@@ -2640,10 +2640,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cwex@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/cwex/-/cwex-1.0.1.tgz#7275441c5030f7ccb719bd159d5ce37f79eafc3e"
-  integrity sha512-NHVboA59stMBAM5kOsZ/PdvwlTRCaPy4twuGX0/diCWUrCJULjz0uYn8k+e6fYad9vRfLDYz0M31QsGX3m1Jlg==
+cwex@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cwex/-/cwex-1.0.2.tgz#0a45bbcad8c76ad4030de4053399ce6cae4164b2"
+  integrity sha512-rLVn69HhWAK4pOsGOA34rv6/u95KebvM8JXp1Zp6j9PFHvfKfrUp5xVo1Tzu/z8XT1aRrU09clxMQofQVMxQIQ==
   dependencies:
     archiver "^3.1.1"
     commander "^4.1.1"

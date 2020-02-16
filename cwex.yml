@@ -24,10 +24,13 @@ manifestOptions:
     - storage
     - notifications
   content_security_policy: "script-src 'self' 'unsafe-inline' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net; object-src 'self';"
-  background_options:
+  background:
     scripts:
       - js/background.js
   options_ui:
     page: options.html
     open_in_tab: false
   offline_enabled: true
+  browser_specific_settings:
+    gecko:
+      strict_min_version: '60.0'
