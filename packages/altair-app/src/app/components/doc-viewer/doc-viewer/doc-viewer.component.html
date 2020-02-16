@@ -1,4 +1,8 @@
-<div class="app-doc-viewer" *ngIf="allowIntrospection">
+<div
+  #docViewer
+  *ngIf="allowIntrospection"
+  class="app-doc-viewer"
+>
   <div class="app-doc-loader" *ngIf="isLoading" [@fadeInOutAnimation]>
       <div class="app-doc-loader-content">
         <img src="assets/img/logo.svg" alt="" class="anim" [ngClass]="{ 'anim-rotate': isLoading }">

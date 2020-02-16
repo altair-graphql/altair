@@ -7,7 +7,9 @@ import {
   SimpleChanges,
   HostBinding,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { of, from } from 'rxjs';
@@ -63,6 +65,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   @Output() loadSchemaChange = new EventEmitter();
 
   @HostBinding('style.flex-grow') public resizeFactor: number;
+  @ViewChild('docViewer', { static: false }) docViewerRef: ElementRef;
 
   rootTypes: GraphQLObjectType[] = [];
   index: DocumentIndexEntry[] = [];
@@ -91,6 +94,10 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT')
     .pipe(untilDestroyed(this))
     .subscribe(text => this.searchInputPlaceholder = text);
+
+    this.setDocViewChange.subscribe(() => {
+      this.docViewerRef.nativeElement.scrollTop = 0;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
