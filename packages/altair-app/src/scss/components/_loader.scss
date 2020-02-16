@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(var(--rgb-theme-bg), .8);
+  background: rgba(var(--rgb-theme-bg), .3);
   z-index: 50;
 
   .loader-img {
@@ -17,13 +17,13 @@
 }
 
 .window-loader__content {
-  position: relative;
-  color: transparent;
-  transition-duration: 0.3s;
   background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
   background-size: 200% 200%;
   background-clip: text;
+  color: transparent;
+  position: relative;
   // animation: bg-gradient 5s ease infinite;
+  transition-duration: .3s;
   will-change: background;
 }
 

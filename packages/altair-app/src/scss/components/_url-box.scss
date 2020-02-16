@@ -6,10 +6,12 @@ $url-input-height: 50px;
   width: 100%;
   display: flex;
 }
+
 .url-box__input-container {
   position: relative;
   width: 100%;
 }
+
 .url-box__input {
   height: $url-input-height;
   line-height: $url-input-height;
@@ -26,10 +28,14 @@ $url-input-height: 50px;
   &:hover {
     border-color: var(--theme-off-border-color);
   }
-  &:focus, &:active, &:focus-within {
+
+  &:focus,
+  &:active,
+  &:focus-within {
     border-color: var(--primary-color);
   }
 }
+
 .url-box__input-prepend {
   position: absolute;
   top: 0;
@@ -41,10 +47,12 @@ $url-input-height: 50px;
   padding: 0 10px;
   width: 40px;
   text-align: center;
-  & ~ .url-box__input {
+
+  ~ .url-box__input {
     padding-left: 30px;
   }
 }
+
 .url-box__input-actions {
   position: absolute;
   right: 0;
@@ -53,35 +61,38 @@ $url-input-height: 50px;
   display: flex;
   align-items: center;
 }
+
 .url-box__input-btn {
   background: transparent;
-  border: none;
+  border: 0;
   padding: 0 15px;
   color: var(--theme-font-color);
   transition: all .3s ease;
+
   &--active {
     color: var(--primary-color);
   }
 }
+
 .url-box__button {
   height: $url-input-height;
   white-space: nowrap;
+
   &--send {
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0 4px 4px 0;
   }
 }
 
-.url-box .url-box__button.url-box__button--method {
+.url-box__button--method {
   min-width: 75px;
   padding: 0 0.5rem;
   letter-spacing: normal;
 }
 
 .btn.btn-outline-primary.url-box__button {
-  border-radius: 4px 0px 0px 4px;
+  border-radius: 4px 0 0 4px;
   border: 1px solid var(--theme-border-color);
-  border-right: none;
-  height: 100%;
+  border-right: 0;
   background: var(--theme-bg-color);
   color: var(--green-color);
   height: 50px;
@@ -90,6 +101,7 @@ $url-input-height: 50px;
     border-color: var(--theme-off-border-color);
     background: transparent;
   }
+
   &:active {
     box-shadow: none;
   }
@@ -99,13 +111,16 @@ $url-input-height: 50px;
   display: inline-block;
   opacity: .6;
   transition: all .3s ease;
+
   &:hover {
     opacity: 1;
   }
 }
+
 .connection-indicator--connected {
   color: var(--green-color);
 }
+
 .connection-indicator--uncertain {
   color: var(--orange-color);
 }
