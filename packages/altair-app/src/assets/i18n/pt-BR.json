@@ -10,7 +10,7 @@
   "REFACTOR_QUERY_BUTTON": "Refactor Query",
   "RELOAD_DOCS_BUTTON": "Recarregar Documentos",
   "SHOW_DOCS_BUTTON": "Mostrar Documentos",
-  "DOCS_TEXT": "Documentos",
+  "DOCS_TEXT": "Documentação",
   "LOADING_INDICATOR_TEXT": "Carregando...",
   "CANCEL_TEXT": "Cancelar",
   "SERVER_NO_INTROSPECTION_SUPPORT": "Desculpa. O servidor fornecido não oferece suporte a introspecção.",
