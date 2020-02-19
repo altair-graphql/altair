@@ -53,31 +53,38 @@ const res = await altair.helpers.request('GET', 'https://api.agify.io/?name=mich
 // res => {"name":"michael","age":60,"count":41938}
 ```
 
+## Example Use Cases
+
 ### Persisting data between requests
 
 Since altair pretty much lives in a browser environment, it does support the `LocalStorage` feature. This is useful when you need an authentication token before each request but only requesting the token when your authentication expired.
 
 Assuming you have this header in the `Set Headers window`:
 
-| Key           | Value                |
-| ------------- | -------------------- |
-| Authorization | Bearer {{token_env}} |
+| Key           | Value                  |
+| ------------- | ---------------------- |
+| Authorization | `Bearer {{token_env}}` |
 
-Below is a working example of persisting data between requests (token, token_expiry):
+Below is a working example of pre-request script for persisting data between requests (token, token_expiry):
 
 ```js
 const nowInSeconds = () => Date.now() / 1000;
 const tokenExpiry = localStorage.getItem("token_expiry") || 0;
 
-if (nowInSeconds() >= tokenExpiry) {
+if (nowInSeconds() >= Number(tokenExpiry)) {
+  // If the token expiry time has passed, fetch a new token from your auth server again (take note of the await)
   const res = await altair.helpers.request('POST', 'https://auth.example.com', { /* auth payload */ });
-  // res => {"token":"abcd","expiry":3600}
+  // res => { "token": "abcd", "expiry": 3600 }
   
+  // Store the received token and expiry in localStorage
   localStorage.setItem("token", res.token);
   localStorage.setItem("token_expiry", nowInSeconds() + res.expiry);
 }
 
+// Retrieev the token from localStorage
 const token = localStorage.getItem("token");
 
+// Set the token as the `token_env` environment variable in Altair
 altair.helpers.setEnvironment('token_env', token);
+// You can use the environment variables in Altair after setting it by following this blog post: https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c
 ```

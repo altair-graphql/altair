@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ng build --outputHashing=none --prod --aot --stats-json
+yarn ng build --outputHashing=none --prod --aot --stats-json
 
 # Get new tags from remote
 git fetch --tags
@@ -10,5 +10,5 @@ LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 
 # Checkout latest tag
 # git checkout $LATEST_TAG
-lerna bootstrap
-lerna publish from-git --force-publish=* --no-git-tag-version --no-push --yes
+yarn lerna bootstrap
+yarn lerna publish from-git --force-publish=* --no-git-tag-version --no-push --yes

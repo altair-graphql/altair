@@ -20,9 +20,9 @@
 # Package the electron app
 # ./node_modules/electron-packager/cli.js . Altair --out=electron-builds --overwrite --icon=electron/logo.icns
 
-./node_modules/.bin/lerna bootstrap
+yarn lerna bootstrap
 
-./node_modules/.bin/lerna run --scope altair-electron build
+yarn lerna run --scope altair-electron build
 
 # Snippet:
 # Remove git tags

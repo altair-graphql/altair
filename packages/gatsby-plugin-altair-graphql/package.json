@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-altair-graphql",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "A gatsby plugin for using Altair GraphQL client",
   "main": "gatsby-node.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "altair",
     "graphql"
   ],
-  "author": "Samuel Imolorhe <samuelimolo4real@gmail.com> (https://sirmuel.design/)",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/imolorhe/altair/issues"
@@ -28,7 +28,7 @@
     "typescript": "^3.3.1"
   },
   "dependencies": {
-    "altair-express-middleware": "^2.4.3"
+    "altair-express-middleware": "^2.4.4"
   },
   "funding": {
     "type": "opencollective",

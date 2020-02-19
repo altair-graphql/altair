@@ -28,7 +28,7 @@ install:
 - yarn
 
 before_test:
-- yarn global add @angular/cli@1.6.3
+# - yarn global add @angular/cli@1.6.3
 - yarn global add karma
 # - yarn global add electron-forge
 - yarn
@@ -36,14 +36,15 @@ before_test:
 # - npm install -g karma
 # - npm install -g electron-forge
 # - npm install
-- ng build
+- yarn lerna bootstrap
+- yarn build-app
 
 test_script:
 - node --version
 # - npm --version
 # - npm run test-build
 - yarn --version
-- yarn test-build
+- yarn lerna run --scope altair-app test --stream
 
 build: off # We do not intend to build using MS Build
 

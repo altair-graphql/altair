@@ -1,0 +1,114 @@
+<div
+  #docViewer
+  *ngIf="allowIntrospection"
+  class="app-doc-viewer"
+>
+  <div class="app-doc-loader" *ngIf="isLoading" [@fadeInOutAnimation]>
+      <div class="app-doc-loader-content">
+        <img src="assets/img/logo.svg" alt="" class="anim" [ngClass]="{ 'anim-rotate': isLoading }">
+        {{ 'LOADING_INDICATOR_TEXT' | translate }}
+      </div>
+    </div>
+  <div class="doc-viewer-header">
+    <div class="doc-viewer-navigation">
+      <div class="doc-viewer-navigation--left">
+        <div class="doc-viewer-navigation__option" (click)="goBack()" *ngIf="docView.view !== 'root' && docHistory.length" track-id="go_back_docs">
+          <app-icon name="arrow-left"></app-icon>
+          <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
+        </div>
+        <div class="doc-viewer-navigation__option" (click)="goHome()" *ngIf="docView.view !== 'root'">
+          <app-icon name="home"></app-icon>
+        </div>
+      </div>
+      <div class="doc-viewer-navigation--right">
+        <div
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="docViewerMenu"
+          class="doc-viewer-navigation__option"
+        >
+          <app-icon name="more-horizontal"></app-icon>
+        </div>
+        <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li
+              *ngIf="gqlSchema"
+              nz-menu-item
+              (click)="exportSDL()"
+            >
+              {{ 'DOCS_EXPORT_SDL' | translate }}
+            </li>
+            <li
+              nz-menu-item
+              (click)="loadSchemaChange.next()"
+            >
+              {{ 'DOCS_LOAD_SCHEMA' | translate }}...
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+        <div class="doc-viewer-navigation__option" (click)="toggleDocsChange.next()">
+          <app-icon name="x"></app-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="doc-viewer-search-wrapper">
+    <input
+      class="doc-viewer-search-input"
+      ngui-auto-complete
+      [(ngModel)]="searchTerm"
+      [source]="autocompleteSource"
+      [min-chars]="2"
+      [list-formatter]="autocompleteListFormatter"
+      value-property-name="search"
+      display-property-name="search"
+      [placeholder]="searchInputPlaceholder"
+      (keyup)="searchInputKeyUp(searchTerm, $event)"
+      (valueChanged)="$event && searchDocs($event)"
+    />
+  </div>
+  <div class="doc-viewer-items">
+    <div *ngIf="gqlSchema" [ngSwitch]="docView.view">
+      <ng-container *ngSwitchCase="'root'">
+        <div class="doc-viewer-item" *ngFor="let item of rootTypes; trackBy: rootTypeTrackBy;">
+          <span class="no-link-link" *ngIf="item" (click)="goToType(item.name)">{{ item.name }}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'type'">
+        <app-doc-viewer-type
+         *ngIf="gqlSchema.getType(docView.name)"
+         [data]="gqlSchema.getType(docView.name)"
+         [gqlSchema]="gqlSchema"
+         (goToFieldChange)="goToField($event.name, $event.parentType)"
+         (goToTypeChange)="goToType($event.name)"
+         (addToEditorChange)="addToEditor($event.name, $event.parentType)"
+        ></app-doc-viewer-type>
+      </ng-container>
+      <ng-container *ngSwitchCase="'field'">
+        <app-doc-viewer-field
+         [data]="gqlSchema.getType(docView.parentType) && gqlSchema.getType(docView.parentType).getFields()[docView.name]"
+         [gqlSchema]="gqlSchema"
+         [parentType]="docView.parentType"
+         (goToFieldChange)="goToField($event.name, $event.parentType)"
+         (goToTypeChange)="goToType($event.name)"
+         (addToEditorChange)="addToEditor($event.name, $event.parentType)"
+        ></app-doc-viewer-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'search'">
+        <app-doc-viewer-search-results
+         [results]="searchResult"
+         (goToFieldChange)="goToField($event.name, $event.parentType)"
+         (goToTypeChange)="goToType($event.name)"
+        ></app-doc-viewer-search-results>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div
+  class="doc-viewer__last-updated"
+  *ngIf="gqlSchema && lastUpdatedAt"
+>{{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date:'medium' }}</div>
+<div class="app-doc-notice" *ngIf="!allowIntrospection">
+  {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
+</div>
+<app-flex-resizer (resizeChange)="onResize($event)"></app-flex-resizer>

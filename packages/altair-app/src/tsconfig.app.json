@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "",
+    "types": [],
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "**/*.worker.ts"
+  ],
+  "angularCompilerOptions": {
+    "preserveWhitespaces": true
+  }
+}

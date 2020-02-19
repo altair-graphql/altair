@@ -1,21 +1,15 @@
 sudo: required
 language: node_js
 cache: yarn
+dist: xenial
 os:
 - linux
 - osx
 osx_image: xcode11
 node_js:
-- 10
+- 12
 addons:
-  apt:
-    sources:
-    - google-chrome
-    packages:
-    - google-chrome-stable
-    - google-chrome-beta
-    - fakeroot
-    - rpm
+  chrome: stable
 services:
   - xvfb
 before_install:
@@ -26,21 +20,19 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then google-chrome --version; fi
 before_script:
 - yarn global add @angular/cli karma lerna surge
-- yarn
-- yarn build
+- yarn --frozen-lockfile
 - npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 - yarn config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc
 script:
-- ng lint
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-single-run; fi # Test altair itself
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn webdriver-update-ci; ng e2e --webdriver-update=false; fi # Run e2e test
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test-all:ci; fi # All other tests e.g. lerna, electron, etc
+# - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna bootstrap; yarn list --cwd packages/altair-electron; yarn lerna run --scope altair dev --stream; fi # Debugging electron test
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn test:ci; fi # All other tests except e2e
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn lerna run --scope altair-app webdriver-update-ci; yarn lerna run --scope altair-app e2e:ci; fi # Run e2e test
 after_success:
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then if [ ! -z "$SURGE_TOKEN" ]; then chmod ugo+x bin/surge_deploy.sh; bin/surge_deploy.sh; fi fi
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
-- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build; fi # Need to generate files for deployment
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build-app; fi # Need to generate files for deployment
 deploy:
 - provider: releases
   api_key:
@@ -58,12 +50,14 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
+    condition: $TRAVIS_OS_NAME = linux
 - provider: surge
-  project: ./dist
+  project: ./packages/altair-app/dist
   domain: altair-gql-translate.surge.sh
   skip_cleanup: true
   on:
     branch: staging
+    condition: $TRAVIS_OS_NAME = linux
 - provider: snap
   file_glob: true
   snap: packages/altair-electron/out/**/*.snap

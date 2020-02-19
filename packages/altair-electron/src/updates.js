@@ -109,6 +109,15 @@ const setupAutoUpdates = () => {
 // });
 
 const checkForUpdates = (menuItem) => {
+  if (
+    autoUpdater.app
+    && autoUpdater.app.appUpdateConfigPath
+    && !fs.existsSync(autoUpdater.app.appUpdateConfigPath)
+  ) {
+    // Don't check for updates if update config is not found (auto-update via electron is not supported)
+    return;
+  }
+
   updater = menuItem;
   updater.enabled = false;
   isSilentCheck = false;

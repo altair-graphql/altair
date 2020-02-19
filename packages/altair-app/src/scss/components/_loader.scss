@@ -1,0 +1,42 @@
+.window-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--rgb-theme-bg), .3);
+  z-index: 50;
+
+  .loader-img {
+    vertical-align: middle;
+  }
+}
+
+.window-loader__content {
+  background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
+  background-size: 200% 200%;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  // animation: bg-gradient 5s ease infinite;
+  transition-duration: .3s;
+  will-change: background;
+}
+
+@keyframes bg-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
