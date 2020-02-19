@@ -33,4 +33,4 @@ manifestOptions:
   offline_enabled: true
   browser_specific_settings:
     gecko:
-      strict_min_version: 2.4.4
+      strict_min_version: '60.0'
