@@ -28,7 +28,7 @@ install:
 - yarn
 
 before_test:
-- yarn global add @angular/cli@1.6.3
+# - yarn global add @angular/cli@1.6.3
 - yarn global add karma
 # - yarn global add electron-forge
 - yarn
@@ -36,6 +36,7 @@ before_test:
 # - npm install -g karma
 # - npm install -g electron-forge
 # - npm install
+- yarn lerna bootstrap
 - yarn build-app
 
 test_script:
