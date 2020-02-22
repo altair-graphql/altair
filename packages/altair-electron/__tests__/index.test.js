@@ -107,11 +107,11 @@ describe('Altair electron', function() {
       await app.client.$('nz-modal .app-button.active-primary').click();
       await app.client.pause(300);
       // .ant-modal-close-x
-      const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
-      if (modalCloseElement.value) {
-        await app.client.$(`.ant-modal-close-x`).click();
-        await app.client.pause(300);
-      }
+      // const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
+      // if (modalCloseElement.value) {
+      //   await app.client.$(`.ant-modal-close-x`).click();
+      //   await app.client.pause(300);
+      // }
     });
 
     await app.client.pause(500);
