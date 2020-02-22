@@ -273,13 +273,16 @@ describe('Altair electron', function() {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
+    await app.client.sendRequest();
+    await app.client.pause(500);
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="toggle_variables"]`).click();
     await app.client.$(`${selectors.visibleWindowSelector} app-variables-editor .CodeMirror-scroll`).click();
-    if (process.platform === 'win32') {
-      await app.client.keys(['Control', 'a', 'Control', 'Backspace']);
-    } else {
-      await app.client.keys(['Meta', 'a', 'Meta', 'Backspace']);
-    }
+    await app.client.keys(['Backspace', 'Backspace', 'Backspace']);
+    // if (process.platform === 'win32') {
+    //   await app.client.keys(['Control', 'a', 'Control', 'Backspace']);
+    // } else {
+    //   await app.client.keys(['Meta', 'a', 'Meta', 'Backspace']);
+    // }
     await app.client.keys(`{ "var1": "value1" }`);
     await app.client.sendRequest();
     await app.client.pause(500);
