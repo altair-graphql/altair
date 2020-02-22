@@ -92,10 +92,10 @@ describe('Altair electron', function() {
     });
     await app.client.addCommand('sendRequest', async() => {
       // .ant-modal-wrap
-      const modalWrapElementIsVisible = await app.client.$(`.ant-modal-wrap`).isVisible();
-      if (modalWrapElementIsVisible) {
-        await app.client.$(`.ant-modal-wrap`).click();
-      }
+      // const modalWrapElementIsVisible = await app.client.$(`.ant-modal-wrap`).isVisible();
+      // if (modalWrapElementIsVisible) {
+      //   await app.client.$(`.ant-modal-wrap`).click();
+      // }
       await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
       await app.client.pause(300);
     });
@@ -105,10 +105,12 @@ describe('Altair electron', function() {
       await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
       await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
       await app.client.$('nz-modal .app-button.active-primary').click();
-      // .ant-modal-wrap
-      const modalWrapElementIsVisible = await app.client.$(`.ant-modal-wrap`).isVisible();
-      if (modalWrapElementIsVisible) {
-        await app.client.$(`.ant-modal-wrap`).click();
+      await app.client.pause(300);
+      // .ant-modal-close-x
+      const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
+      if (modalCloseElement.value) {
+        await app.client.$(`.ant-modal-close-x`).click();
+        await app.client.pause(300);
       }
     });
 
