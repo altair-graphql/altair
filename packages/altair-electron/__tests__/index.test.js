@@ -238,7 +238,6 @@ describe('Altair electron', function() {
     await app.client.addHeader('X-auth-token', '<some-random-token>');
     await app.client.sendRequest();
     const logs = await app.client.getMainProcessLogs();
-    assert.strictEqual(logs, []);
     assert.isTrue(logs.includes('Header sent: X-auth-token <some-random-token>'));
     await app.client.closeLastAltairWindow();
   });
@@ -275,12 +274,13 @@ describe('Altair electron', function() {
     const logs = (await app.client.getMainProcessLogs()).filter(log => log.includes('Data sent:'));
     const expectedLog = logs.find(log => {
       try {
-        const data = JSON.parse(log.replace(/Data sent:\s*/, ''));
+        const data = JSON.parse(log.replace('Data sent:', ''));
         return data.variables && data.variables.var1 && data.variables.var1 === 'value1';
       } catch(err) {
         return false;
       }
     });
+    assert.strictEqual(logs, []);
     assert.exists(expectedLog);
     await app.client.closeLastAltairWindow();
   });
