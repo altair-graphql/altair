@@ -91,6 +91,11 @@ describe('Altair electron', function() {
       await app.client.keys(content);
     });
     await app.client.addCommand('sendRequest', async() => {
+      // .ant-modal-wrap
+      const modalWrapElement = await app.client.$(`.ant-modal-wrap`);
+      if (modalWrapElement.value) {
+        await app.client.$(`.ant-modal-wrap`).click();
+      }
       await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
       await app.client.pause(300);
     });
@@ -100,6 +105,11 @@ describe('Altair electron', function() {
       await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
       await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
       await app.client.$('nz-modal .app-button.active-primary').click();
+      // .ant-modal-wrap
+      const modalWrapElement = await app.client.$(`.ant-modal-wrap`);
+      if (modalWrapElement.value) {
+        await app.client.$(`.ant-modal-wrap`).click();
+      }
     });
 
     await app.client.pause(500);
