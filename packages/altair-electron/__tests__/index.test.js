@@ -54,6 +54,7 @@ describe('Altair electron', function() {
     await app.start();
 
     await app.client.addCommand('newAltairWindow', async() => {
+      await app.client.waitUntilWindowLoaded();
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
       await app.client.$('.window-switcher--new-window').click();
       await app.client.pause(500);
@@ -83,6 +84,34 @@ describe('Altair electron', function() {
       await app.client.keys(['Return']);
       await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
       await app.client.pause(1000);
+    });
+    await app.client.addCommand('writeInQueryEditor', async(content) => {
+      await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+      await app.client.pause(100);
+      await app.client.keys(content);
+    });
+    await app.client.addCommand('sendRequest', async() => {
+      // .ant-modal-wrap
+      // const modalWrapElementIsVisible = await app.client.$(`.ant-modal-wrap`).isVisible();
+      // if (modalWrapElementIsVisible) {
+      //   await app.client.$(`.ant-modal-wrap`).click();
+      // }
+      await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
+      await app.client.pause(300);
+    });
+    await app.client.addCommand('addHeader', async(key, val) => {
+      await app.client.$(`.side-menu-item[track-id="show_set_headers"]`).click();
+      await app.client.$('nz-modal [track-id="add_header"]').click();
+      await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
+      await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
+      await app.client.$('nz-modal .app-button.active-primary').click();
+      await app.client.pause(300);
+      // .ant-modal-close-x
+      // const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
+      // if (modalCloseElement.value) {
+      //   await app.client.$(`.ant-modal-close-x`).click();
+      //   await app.client.pause(300);
+      // }
     });
 
     await app.client.pause(500);
@@ -117,9 +146,7 @@ describe('Altair electron', function() {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
-    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
-    await app.client.pause(100);
-    await app.client.keys(`
+    await app.client.writeInQueryEditor(`
     { hello }`);
     await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
     await app.client.pause(1000);
@@ -132,9 +159,7 @@ describe('Altair electron', function() {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
-    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
-    await app.client.pause(100);
-    await app.client.keys(`
+    await app.client.writeInQueryEditor(`
     { hello }`);
     // Trigger the keys again to release them
     await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
@@ -148,9 +173,7 @@ describe('Altair electron', function() {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
-    await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
-    await app.client.pause(100);
-    await app.client.keys(`
+    await app.client.writeInQueryEditor(`
     query A{ hello }
     query B{ bye }`);
     // Trigger the keys again to release them
@@ -158,6 +181,48 @@ describe('Altair electron', function() {
     await app.client.pause(100);
     const isRequestDropdownVisible = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send-dropdown`).isVisible();
     assert.isTrue(isRequestDropdownVisible);
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can change the HTTP method', async() => {
+    await app.client.newAltairWindow();
+    const httpVerb = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
+    assert.include(httpVerb, 'POST');
+    await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
+    await app.client.pause(100);
+    await app.client.$(`.ant-dropdown-menu-item*=GET`).click();
+    assert.include(await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText(), 'GET');
+
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can prettify the query', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.writeInQueryEditor(`
+    { hello }`);
+    await app.client.$(`.side-menu-item app-icon[name="briefcase"]`).click();
+    await app.client.$(`.side-menu-item [track-id="prettify"]`).click();
+    await app.client.pause(300);
+    const result = (await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`).getText()).replace(/\d/g, '');
+    assert.include(result, '{\n\n  hello\n\n}');
+
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can copy the query as cURL', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.writeInQueryEditor(`
+    { hello }`);
+    await app.client.$(`.side-menu-item app-icon[name="briefcase"]`).click();
+    await app.client.$(`.side-menu-item [track-id="copy_as_curl"]`).click();
+    await app.client.pause(100);
+    const clipboardText = await app.electron.clipboard.readText();
+    assert.equal(clipboardText, `curl 'http://localhost:5400/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'Origin: altair://-' --data-binary '{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}' --compressed`);
+
     await app.client.closeLastAltairWindow();
   });
 
@@ -173,6 +238,64 @@ describe('Altair electron', function() {
     await app.client.pause(100);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`).getText();
     assert.match(result, /query.*\{.*hello.*\}/s);
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can send request with header', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.writeInQueryEditor(`
+    { hello }`);
+    await app.client.addHeader('X-auth-token', '<some-random-token>');
+    await app.client.sendRequest();
+    const logs = await app.client.getMainProcessLogs();
+    assert.isTrue(logs.includes('Header sent: X-auth-token <some-random-token>'));
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can override Origin header', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.writeInQueryEditor(`
+    { hello }`);
+    await app.client.addHeader('Origin', 'https://ezio-tester.client');
+    await app.client.sendRequest();
+    const logs = await app.client.getMainProcessLogs();
+    assert.isTrue(logs.includes('Header sent: Origin https://ezio-tester.client'));
+    await app.client.closeLastAltairWindow();
+  });
+
+  it('can send request with query variables', async() => {
+    await app.client.newAltairWindow();
+    await app.client.setTestServerQraphQLUrl();
+
+    await app.client.writeInQueryEditor(`
+    { hello }`);
+    await app.client.$(`${selectors.visibleWindowSelector} [track-id="toggle_variables"]`).click();
+    await app.client.$(`${selectors.visibleWindowSelector} app-variables-editor .CodeMirror-scroll`).click();
+    await app.client.keys(['Backspace', 'Backspace', 'Backspace']);
+    // if (process.platform === 'win32') {
+    //   await app.client.keys(['Control', 'a', 'Control', 'Backspace']);
+    // } else {
+    //   await app.client.keys(['Meta', 'a', 'Meta', 'Backspace']);
+    // }
+    await app.client.keys(`{ "var1": "value1" }`);
+    await app.client.sendRequest();
+    await app.client.pause(500);
+
+    const logs = (await app.client.getMainProcessLogs()).filter(log => log.includes('Data sent:'));
+    const expectedLog = logs.find(log => {
+      try {
+        const data = JSON.parse(log.replace('Data sent:', ''));
+        return data.variables && data.variables.var1 && data.variables.var1 === 'value1';
+      } catch(err) {
+        return false;
+      }
+    });
+    // assert.strictEqual(logs, []);
+    assert.exists(expectedLog);
     await app.client.closeLastAltairWindow();
   });
 });

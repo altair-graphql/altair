@@ -193,6 +193,44 @@ const createWindow = () => {
     checkMultipleDataVersions(instance);
   });
 
+  if (process.env.NODE_ENV/* === 'test'*/) {
+    session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+      console.log('Before request:', details);
+      if (details.uploadData) {
+  
+        details.uploadData.forEach(uploadData => {
+          console.log('Data sent:', uploadData.bytes.toString());
+        });
+      }
+      callback({
+        cancel: false,
+      });
+    });
+  }
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    // Set defaults
+    details.requestHeaders['Origin'] = 'electron://altair';
+
+    // Set the request headers
+    Object.keys(requestHeaders).forEach(key => {
+      details.requestHeaders[key] = requestHeaders[key];
+    });
+    callback({
+      cancel: false,
+      requestHeaders: details.requestHeaders
+    });
+  });
+
+  if (process.env.NODE_ENV/* === 'test'*/) {
+    session.defaultSession.webRequest.onSendHeaders((details) => {
+      if (details.requestHeaders) {
+        Object.keys(details.requestHeaders).forEach(headerKey => {
+          console.log('Header sent:', headerKey, details.requestHeaders[headerKey]);
+        });
+      }
+    });
+  }
+
   // Doesn't seem to be called. Might be because of buffer protocol.
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
@@ -205,19 +243,6 @@ const createWindow = () => {
           // 'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
         }
       )
-    });
-  });
-  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    // Set defaults
-    details.requestHeaders['Origin'] = 'electron://altair';
-
-    // Set the request headers
-    Object.keys(requestHeaders).forEach(key => {
-      details.requestHeaders[key] = requestHeaders[key];
-    });
-    callback({
-      cancel: false,
-      requestHeaders: details.requestHeaders
     });
   });
 
