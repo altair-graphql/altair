@@ -273,8 +273,6 @@ describe('Altair electron', function() {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.sendRequest();
-    await app.client.pause(500);
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="toggle_variables"]`).click();
     await app.client.$(`${selectors.visibleWindowSelector} app-variables-editor .CodeMirror-scroll`).click();
     await app.client.keys(['Backspace', 'Backspace', 'Backspace']);
