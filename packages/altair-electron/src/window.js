@@ -193,7 +193,7 @@ const createWindow = () => {
     checkMultipleDataVersions(instance);
   });
 
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV/* === 'test'*/) {
     session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
       console.log('Before request:', details);
       if (details.uploadData) {
@@ -221,7 +221,7 @@ const createWindow = () => {
     });
   });
 
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV/* === 'test'*/) {
     session.defaultSession.webRequest.onSendHeaders((details) => {
       if (details.requestHeaders) {
         Object.keys(details.requestHeaders).forEach(headerKey => {
