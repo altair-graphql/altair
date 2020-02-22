@@ -292,7 +292,7 @@ describe('Altair electron', function() {
         return false;
       }
     });
-    // assert.strictEqual(logs, []);
+    assert.strictEqual(logs, []);
     assert.exists(expectedLog);
     await app.client.closeLastAltairWindow();
   });
