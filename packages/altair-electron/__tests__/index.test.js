@@ -238,6 +238,7 @@ describe('Altair electron', function() {
     await app.client.addHeader('X-auth-token', '<some-random-token>');
     await app.client.sendRequest();
     const logs = await app.client.getMainProcessLogs();
+    assert.strictEqual(logs, []);
     assert.isTrue(logs.includes('Header sent: X-auth-token <some-random-token>'));
     await app.client.closeLastAltairWindow();
   });
