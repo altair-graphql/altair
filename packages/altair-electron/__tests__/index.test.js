@@ -282,6 +282,7 @@ describe('Altair electron', function() {
     }
     await app.client.keys(`{ "var1": "value1" }`);
     await app.client.sendRequest();
+    await app.client.pause(500);
 
     const logs = (await app.client.getMainProcessLogs()).filter(log => log.includes('Data sent:'));
     const expectedLog = logs.find(log => {
