@@ -4,28 +4,32 @@
     <h3 class="heading">Get Altair <span class="releases--latest-version">{{ site.github.latest_release.tag_name }}</span></h3>
     <div class="wrapper">
       <div class="row">
-        {% for platform in site.releases %}
-          <div class="column-4 platform">
-            {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
-            {% if link %}
-              <a track-category="download_altair" track-label="{{ platform.name }}" href="{{ link }}">
-            {% endif %}
-            <img class="{% unless link %}platform--unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
-            <p class="platform--name">{{ platform.name }}</p>
-            {% unless link %}
-              <p>coming soon</p>
-            {% endunless %}
-            {% if link %}
-              </a>
-            {% endif %}
-            {% if platform.extra %}
-              <div class="platform--extra">{{ platform.extra }}</div>
-            {% endif %}
+        <div class="column-12">
+          <div class="platforms">
+            {% for platform in site.releases %}
+              <div class="platform-item">
+                {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
+                {% if link %}
+                  <a class="platform-item__link" track-category="download_altair" track-label="{{ platform.name }}" href="{{ link }}" target="_blank">
+                {% endif %}
+                <img class="{% unless link %}platform-item__unavailable{% endunless %}" src="{{ '/assets/img/' | append: platform.image | relative_url }}">
+                <p class="platform-item__name">{{ platform.name }}</p>
+                {% unless link %}
+                  <p>coming soon</p>
+                {% endunless %}
+                {% if link %}
+                  </a>
+                {% endif %}
+                {% if platform.extra %}
+                  <div class="platform-item__extra">{{ platform.extra }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
           </div>
-        {% endfor %}
+        </div>
       </div>
 
-      <a href="{{ site.github.releases_url }}" class="btn" target="_blank">See older versions</a>
+      <a href="{{ site.github.releases_url }}" class="button" target="_blank">See older versions</a>
     </div>
   </div>
 </footer>

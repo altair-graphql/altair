@@ -31,6 +31,8 @@ p {
       -ms-font-feature-settings: "liga", "dlig";
        -o-font-feature-settings: "liga", "dlig";
           font-feature-settings: "liga", "dlig";
+
+  font-size: 16px;
 }
 
 a {
@@ -39,4 +41,8 @@ a {
   &:hover{
     text-decoration: underline;
   }
+}
+
+h3 {
+  font-size: 22px;
 }
