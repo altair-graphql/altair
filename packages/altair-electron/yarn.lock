@@ -62,7 +62,7 @@ ajv@^6.1.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-altair-static@^2.4.3:
+altair-static@^2.4.4:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.4.3.tgz#be85df9cc5f0edcfb4e821c63d2a9872860df143"
   integrity sha512-+kj5UHKc0FZDNCxhDVoGoi+rQytMd2YKrif8gHmBL3NitFcVrZC/9Fhh8V1ElBOrCxwANhMFpxqWd9EMQ12PbA==

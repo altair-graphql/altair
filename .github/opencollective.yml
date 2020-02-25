@@ -1,0 +1,10 @@
+collective: altair
+tiers:
+  - tiers: "*"
+    labels: ["backer"]
+    message: "Hey <author> , thanks for supporting us on Open Collective :heart::heart::heart: We'll give a special attention to this issue!"
+invitation: |
+  Hey <author> :wave:,
+
+  Thank you for opening an issue. We will get back to you as soon as we can.
+  Also, check out our [Open Collective](https://opencollective.com/altair) and consider backing us - every little help counts!
