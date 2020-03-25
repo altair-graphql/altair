@@ -10,34 +10,40 @@ app-query-collections {
   padding: 0 5px;
   will-change: width;
   overflow: hidden;
-  // transition: all .3s ease;
+
   &.query-collections-wrapper--close {
     width: 0;
     padding: 0;
     flex-grow: 0;
   }
 }
+
 .query-collections__actions--right {
   float: right;
 }
+
 .query-collections__inner {
   height: 100%;
   overflow: auto;
   background: var(--theme-bg-color);
 }
+
 .query-title-icon {
   display: flex;
   margin-right: 5px;
 }
+
 .query-collections__title {
   text-transform: uppercase;
   font-weight: bold;
   padding: 10px;
 }
+
 .query-collections__actions {
   margin-bottom: 10px;
   padding: 0 10px;
 }
+
 .query-collections__feedback-box {
   position: absolute;
   left: 5px;
@@ -52,33 +58,37 @@ app-query-collections {
   padding: 50px 10px;
   text-align: center;
 }
+
 .query-collections__empty-icon {
   margin-bottom: 10px;
   opacity: .7;
 }
 
-.query-collections__item {
-}
 .query-collections__item-details-wrapper {
   display: flex;
   padding: 5px 10px;
   border-bottom: 1px solid var(--theme-border-color);
   cursor: pointer;
   transition: all .3s ease;
+
   &:hover {
     background: rgba(var(--rgb-theme-font), .05);
+
     .query-collections__item-icon {
       opacity: 1;
     }
   }
 }
+
 .query-collections__item-details {
   flex: 1;
 }
+
 .query-collections__item-right {
   display: flex;
   align-items: center;
 }
+
 .query-collections__item-icon {
   opacity: 0;
   transition: all .3s ease;
@@ -86,7 +96,7 @@ app-query-collections {
 
 .query-collections__item-icon__button {
   background: var(--theme-off-bg-color);
-  border: none;
+  border: 0;
   color: var(--theme-font-color);
 }
 
@@ -95,49 +105,55 @@ app-query-collections {
   align-items: center;
   font-weight: bold;
 }
+
 .query-collections__item-description {
   font-size: fontsize(12);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  // max-height: 50px;
 }
+
 .query-collections__item-meta {
   font-size: fontsize(12);
 }
+
 .query-collections__item-content-wrapper {
   overflow: hidden;
-  max-height: 99em;
+  max-height: 9999em;
   transition: all .3s ease;
 }
+
 .query-collections__item-content--hidden {
   max-height: 0;
   opacity: 0;
 }
+
 .query-collections__item-nested {
   padding-left: 10px;
 }
+
 .query-collections__item-queries-item {
   display: flex;
   padding: 10px;
   cursor: pointer;
   transition: all .3s ease;
+
   &:hover {
     background: rgba(var(--rgb-theme-font), .05);
+
     .query-collections__item-queries-item-icon {
       opacity: 1;
       // transform: translateX(0);
     }
   }
 }
+
 .query-collections__item-queries-item-title {
   display: flex;
   align-items: center;
   flex: 1;
 }
-.query-collections__item-queries-item-right {
-  // float: right;
-}
+
 .query-collections__item-queries-item-icon {
   opacity: 0;
   // transform: translateX(-50%);
