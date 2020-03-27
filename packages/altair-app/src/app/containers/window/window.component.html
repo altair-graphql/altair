@@ -63,11 +63,13 @@
         [subscriptionUrl]="subscriptionUrl"
         [tabSize]="tabSize$ | async"
         [autoscrollSubscriptionResponses]="autoscrollSubscriptionResponses$ | async"
+        [actionButtons]="resultPaneActionButtonRenderOutputs"
 
         (downloadResultChange)="downloadResult()"
         (stopSubscriptionChange)="stopSubscription()"
         (clearSubscriptionChange)="clearSubscription()"
         (autoscrollSubscriptionResponsesChange)="toggleAutoscrollSubscriptionResponses()"
+        (actionButtonClickChange)="onActionButtonClicked($event)"
       ></app-query-result>
       <app-doc-viewer
         [docView]="docView$ | async"

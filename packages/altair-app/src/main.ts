@@ -50,5 +50,6 @@ let initialized = false;
     handleExternalLinks();
     handleDeprecations();
     initialized = true;
-  }
+  },
+  plugins: {},
 };
