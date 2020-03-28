@@ -16,6 +16,7 @@ export enum PluginSource {
 export enum PluginType {
   HEADER = 'header',
   SIDEBAR = 'sidebar',
+  ACTION_BUTTON = 'action_button',
 }
 
 /**
@@ -36,6 +37,15 @@ export interface PluginSidebarOptions {
   icon: string;
 }
 
+export enum PluginTypeActionButtonLocation {
+  RESULT_PANE = 'result_pane',
+}
+
+export interface PluginTypeActionButtonOptions {
+  class_name: string;
+  location: PluginTypeActionButtonLocation;
+}
+
 /**
  * Plugin Manifest Structure
  */
@@ -50,6 +60,7 @@ export interface PluginManifest {
   author?: string;
   type: PluginType;
   sidebar_opts?: PluginSidebarOptions;
+  action_button_opts?: PluginTypeActionButtonOptions;
   scripts: string[];
   styles?: string[];
   // Plugin capabilities
@@ -131,4 +142,17 @@ export class AltairPlugin implements PluginInstance {
 
 export const isAppLevelPluginType = (pluginType: PluginType) => {
   return [ PluginType.HEADER ].includes(pluginType);
+}
+
+export interface ActionPluginRenderOutput {
+  pluginName: string;
+  text: string;
+  instance?: ActionPlugin;
+}
+
+export interface ActionPlugin {
+  new(props: PluginComponentDataProps): ActionPlugin;
+  render(props: PluginComponentDataProps): Promise<ActionPluginRenderOutput>;
+  execute(props: PluginComponentDataProps): Promise<void>;
+  destroy?(): Promise<void>;
 }

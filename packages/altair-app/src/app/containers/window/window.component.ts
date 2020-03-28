@@ -35,10 +35,18 @@ import * as preRequestActions from '../../actions/pre-request/pre-request';
 
 import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
-import { PluginComponentData, PluginInstance, PluginType } from '../../services/plugin/plugin';
+import {
+  PluginComponentData,
+  PluginInstance,
+  PluginType,
+  PluginTypeActionButtonLocation,
+  ActionPlugin,
+  ActionPluginRenderOutput
+} from '../../services/plugin/plugin';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
 import { fadeInOutAnimationTrigger } from 'app/animations';
+import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
 
 @Component({
   selector: 'app-window',
@@ -101,6 +109,8 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   historyList: fromHistory.HistoryList = [];
   pluginsData: PluginComponentData[] = [];
+  resultPaneActionButtonPlugins: { pluginName: string, instance: ActionPlugin, data: PluginComponentData['props']}[] = [];
+  resultPaneActionButtonRenderOutputs: ActionPluginRenderOutput[] = [];
 
   constructor(
     private gql: GqlService,
@@ -210,6 +220,31 @@ export class WindowComponent implements OnInit, OnDestroy {
         this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId }).subscribe(pluginsData => {
           this.pluginsData = pluginsData;
         });
+
+        this.pluginRegistry.getPluginsWithData(PluginType.ACTION_BUTTON, { windowId: this.windowId }).subscribe(async(pluginsData) => {
+          // TODO: Consider moving most of this logic out of the window component
+          // Instantiate the plugin classes
+          this.resultPaneActionButtonPlugins = pluginsData.map(pluginData => {
+            if (
+              pluginData.manifest.action_button_opts &&
+              pluginData.manifest.action_button_opts.location === PluginTypeActionButtonLocation.RESULT_PANE
+            ) {
+              const PluginClass = getActionPluginClass(pluginData);
+              if (PluginClass) {
+                return { pluginName: pluginData.name, instance: new PluginClass(pluginData.props), data: pluginData.props };
+              }
+            }
+          }).filter(Boolean) as any;
+
+          // Render the action button outputs
+          const resultPaneRenderOutputPromises = this.resultPaneActionButtonPlugins.map(async actionButtonPlugin => {
+            const output = await actionButtonPlugin.instance.render(actionButtonPlugin.data);
+            return ({ ...output, instance: actionButtonPlugin.instance, pluginName: actionButtonPlugin.pluginName });
+          });
+
+          this.resultPaneActionButtonRenderOutputs = await Promise.all(resultPaneRenderOutputPromises);
+        });
+        // TODO: Call destroy method on each plugin instance
       }
     });
 
@@ -437,6 +472,14 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   loadSchemaFromSDL() {
     this.store.dispatch(new schemaActions.LoadSDLSchemaAction(this.windowId));
+  }
+
+  onActionButtonClicked(button: ActionPluginRenderOutput) {
+    const abPlugin = this.resultPaneActionButtonPlugins.find(_abPlugin => _abPlugin.pluginName === button.pluginName);
+    if (abPlugin) {
+      // Call execute on plugin instance
+      abPlugin.instance.execute(abPlugin.data);
+    }
   }
 
   /**

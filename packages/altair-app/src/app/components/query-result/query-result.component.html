@@ -33,6 +33,13 @@
           <app-icon name="download"></app-icon>
           {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
         </button>
+        <button
+          *ngFor="let button of actionButtons"
+          class="query-result__download-button"
+          (click)="actionButtonClickChange.next(button)"
+        >
+          {{ button.text }}
+        </button>
       </div>
       <ngx-codemirror
         #editor
