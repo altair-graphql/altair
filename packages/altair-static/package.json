@@ -30,6 +30,7 @@
   "homepage": "https://github.com/imolorhe/altair#readme",
   "devDependencies": {
     "@types/jest": "^24.0.23",
+    "altair-app": "^2.4.5",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
     "typescript": "^2.8.1"
@@ -39,8 +40,5 @@
     "url": "https://opencollective.com/altair",
     "logo": "https://opencollective.com/altair/logo.txt"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
-  "dependencies": {
-    "altair-app": "^2.4.5"
-  }
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }
