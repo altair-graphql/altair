@@ -3,6 +3,7 @@ parent: Integrations
 ---
 
 ## altair-static
+
 npm
 {: .label .label-red }
 
@@ -10,6 +11,7 @@ npm
 
 
 #### Installation
+
 This is a node module and can be installed using npm:
 
 ```

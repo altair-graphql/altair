@@ -3,16 +3,18 @@ parent: Integrations
 ---
 
 ## altair-koa-middleware
+
 npm
 {: .label .label-red }
 Koa
 {: .label .label-purple }
 
-You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware).
+You can use Altair with a Koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware).
 
-This is an koa middleware for mounting an instance of altair GraphQL client.
+This is an koa middleware for mounting an instance of Altair GraphQL client.
 
 #### Installation
+
 This is a node module and can be installed using npm:
 
 ```
@@ -38,7 +40,7 @@ createRouteExplorer({
   url: '/altair',
   router,
   opts: {
-    endpoint: '/graphql',
+    endpointURL: '/graphql',
     subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
     initialQuery: `{ getData { id name surname } }`,
   },
