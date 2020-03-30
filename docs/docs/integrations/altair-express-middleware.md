@@ -3,16 +3,18 @@ parent: Integrations
 ---
 
 ## altair-express-middleware
+
 npm
 {: .label .label-red }
 Express
 {: .label .label-purple }
 
-You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware).
+You can use Altair with an Express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware).
 
-This is an express middleware for mounting an instance of altair GraphQL client.
+This is an Express middleware for mounting an instance of Altair GraphQL client.
 
 #### Installation
+
 This is a node module and can be installed using npm:
 
 ```
@@ -36,12 +38,12 @@ import { schema } from './schema';
 
 const server = express();
 
-// Mount your graphQL server endpoint
+// Mount your GraphQL server endpoint
 server.use('/graphql', bodyParser.json(), graphqlExpress({
   schema
 }));
 
-// Mount your altair GraphQL client
+// Mount your Altair GraphQL client
 server.use('/altair', altairExpress({
   endpointURL: '/graphql',
   subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
