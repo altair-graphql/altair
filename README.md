@@ -176,6 +176,7 @@ Learn more about contributing to Altair [here](.github/CONTRIBUTING.md) and [her
 
 ## Development
 
+Navigate to the `packages/altair-app` directory, run `yarn` to install dependencies.
 Run `yarn start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Build
