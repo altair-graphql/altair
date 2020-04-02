@@ -86,8 +86,48 @@ For customizing your plugin component styles, you should use [Altair CSS variabl
 
 ### Header Plugins
 
-_TODO... if you need this, reach out with an issue on GitHub._
+Header plugins are added as modals in the app, with the button located at the top of the app.
+
+Header plugins are very similar to sidebar plugins. The only difference between header plugins and sidebar plugins is that the type is set to `header`.
 
 ### Action Button Plugins
 
-_TODO... if you need this, reach out with an issue on GitHub._
+Action button plugins allow adding buttons to perform additional functionality within Altair.
+
+
+For an action button plugin, you would need the following in the manifest.json file:
+
+- `type` _(Required)_: This should be set to `action_button`.
+- `action_button_opts` _(Required)_:
+    - `class_name` _(Required)_: Specify the name of the JavaScript class for the plugin
+    - `location` _(Required)_: Specify the location for the button. Available options are `result_pane`
+
+As opposed to the sidebar plugins, action button plugins are simple classes that implement the following interface:
+
+```js
+class ActionButtonPluginName {
+    constructor(props) {}
+
+    // Called to retrieve the render information for the button.
+    // Currently only the text of the button is required.
+    async render(props) {
+        return {
+            text: 'Button text'
+        };
+    }
+
+    // Called when the action button is clicked
+    async execute(props) {
+        alert('This is the action executed when the button clicked');
+    }
+
+    // Perform cleanups in this function
+    async destroy(props) {}
+}
+
+// Add the class to the Altair plugins object
+window.AltairGraphQL.plugins.ActionButtonPluginName = ActionButtonPluginName;
+
+```
+
+For a simple action button, you only need a single script containing your plugin class (as described above), your manifest.json file, and your package.json file (since it's going to be an npm package).
