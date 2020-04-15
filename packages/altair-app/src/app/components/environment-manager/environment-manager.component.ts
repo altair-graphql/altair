@@ -1,6 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  DoCheck,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 import * as fromEnvironments from '../../reducers/environments';
+import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -33,7 +45,7 @@ import 'codemirror/addon/lint/json-lint';
   templateUrl: './environment-manager.component.html',
   styleUrls: ['./environment-manager.component.scss']
 })
-export class EnvironmentManagerComponent implements OnInit {
+export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
   @Input() environments: fromEnvironments.State;
   @Input() showEnvironmentManager = false;
@@ -44,6 +56,7 @@ export class EnvironmentManagerComponent implements OnInit {
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
 
+  @ViewChild('editor', { static: false }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subEnvironmentTitle', { static: false }) subEnvironmentTitleEl: ElementRef;
 
   jsonEditorConfig = {
@@ -72,6 +85,18 @@ export class EnvironmentManagerComponent implements OnInit {
   ngOnInit() {
     if (this.environments) {
       this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+    }
+  }
+
+  ngDoCheck() {
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.showEnvironmentManager && changes.showEnvironmentManager.currentValue) {
+      setTimeout(() => {
+        handleEditorRefresh(this.editor && this.editor.codeMirror, true);
+      }, 300);
     }
   }
 

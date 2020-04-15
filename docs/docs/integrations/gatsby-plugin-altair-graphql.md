@@ -3,6 +3,7 @@ parent: Integrations
 ---
 
 ## gatsby-plugin-altair-graphql
+
 npm
 {: .label .label-red }
 Gatsby
@@ -11,6 +12,7 @@ Gatsby
 [gatsby-plugin-altair-graphql](https://www.npmjs.com/package/gatsby-plugin-altair-graphql) adds an instance of [Altair GraphQL client](https://altair.sirmuel.design/) to [Gatsby](https://www.gatsbyjs.org/), discovered at `/__altair` route.
 
 #### Installation
+
 This is a node module and can be installed using npm:
 
 ```

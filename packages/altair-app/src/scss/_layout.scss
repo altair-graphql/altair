@@ -6,16 +6,19 @@
   background: var(--theme-bg-color);
   cursor: default;
 }
+
 .main-container-inner {
   flex: 1 1 auto;
   min-height: 1px;
   display: flex;
 }
+
 .content-container {
   position: relative;
 }
 
 .app-window__content {
+  position: relative;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -30,11 +33,13 @@
   flex: 1;
   overflow: hidden;
 }
+
 .main-content-row {
   display: flex;
   height: 100%;
   flex-wrap: nowrap;
 }
+
 app-window {
   // width: 100%;
   // height: 100%;

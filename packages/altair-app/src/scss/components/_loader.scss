@@ -5,11 +5,13 @@
   font-weight: 500;
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(var(--rgb-theme-bg), .3);
+  left: 50%;
+  background: rgba(var(--rgb-theme-bg), .8);
   z-index: 50;
+  padding: 10px;
+  transform: translateX(-50%);
+  min-width: 200px;
+  border-radius: 0 0 4px 4px;
 
   .loader-img {
     vertical-align: middle;

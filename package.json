@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "2.4.4",
+  "version": "2.4.6",
   "license": "MIT",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -23,7 +23,7 @@
     "postinstall": "opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "publish-packages": "lerna bootstrap && npm run lerna-publish",
-    "build-ext2": "cwex build",
+    "build-ext2": "npm run build-app && cwex build",
     "snyk-protect": "snyk protect"
   },
   "engines": {
