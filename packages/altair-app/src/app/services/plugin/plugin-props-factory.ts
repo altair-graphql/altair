@@ -63,6 +63,7 @@ export class PluginPropsFactory {
             return {
               sdl: windowState.schema.sdl,
               query: windowState.query.query,
+              queryResponse: windowState.query.response,
               variables: windowState.variables.variables,
               ctx: {
                 setQuery: (query: string) => this.zone.run(() => this.setQuery(windowId, query)),
