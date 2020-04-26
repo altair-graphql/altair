@@ -96,6 +96,9 @@ export interface PluginComponentDataProps {
   // Query for the current window
   query?: string;
 
+  // QueryResponse for the current window
+  queryResponse?: any;
+
   // Variables for the current window
   variables?: string;
 }
