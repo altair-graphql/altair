@@ -29,12 +29,19 @@ let requestHeaders = {};
 
 const actions = {
   createTab: () => {
-    console.log('Create tab.');
     instance.webContents.send('create-tab', true);
   },
   closeTab: () => {
-    console.log('Close tab.');
     instance.webContents.send('close-tab', true);
+  },
+  nextTab: () => {
+    instance.webContents.send('next-tab', true);
+  },
+  previousTab: () => {
+    instance.webContents.send('previous-tab', true);
+  },
+  reopenClosedTab: () => {
+    instance.webContents.send('reopen-closed-tab', true);
   },
   sendRequest: () => {
     instance.webContents.send('send-request', true);

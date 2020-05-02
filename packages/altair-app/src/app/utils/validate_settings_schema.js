@@ -8,7 +8,7 @@ var validate = (function() {
   };
   refVal[1] = refVal1;
   var refVal2 = {
-    "enum": ["dark", "dracula", "light"],
+    "enum": ["dark", "dracula", "light", "system"],
     "type": "string"
   };
   refVal[2] = refVal2;
@@ -326,7 +326,7 @@ validate.schema = {
       "type": "string"
     },
     "SettingsTheme": {
-      "enum": ["dark", "dracula", "light"],
+      "enum": ["dark", "dracula", "light", "system"],
       "type": "string"
     }
   },

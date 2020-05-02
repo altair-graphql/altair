@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { app, dialog } = require('electron');
 
 const { autoUpdater } = require('electron-updater');

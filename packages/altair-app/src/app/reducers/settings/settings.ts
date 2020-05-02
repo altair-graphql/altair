@@ -3,7 +3,7 @@ import { getAltairConfig } from '../../config';
 import { jsonc } from 'app/utils';
 
 const config = getAltairConfig();
-export type SettingsTheme = 'light' | 'dark' | 'dracula';
+export type SettingsTheme = 'light' | 'dark' | 'dracula' | 'system';
 export type SettingsLanguage = keyof typeof config.languages;
 
 export interface State {

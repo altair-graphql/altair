@@ -118,7 +118,7 @@ export class AppComponent implements OnDestroy {
               data.settings['plugin.list'].forEach(pluginStr => {
                 const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
                 if (pluginInfo) {
-                  this.pluginRegistry.fetchPlugin(pluginInfo.name, { version: pluginInfo.version });
+                  this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
                 }
               });
             }
