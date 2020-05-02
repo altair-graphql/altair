@@ -68,6 +68,22 @@ describe('PluginRegistryService', () => {
       });
     });
 
+    it('return extra option if specified', () => {
+      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      expect(service.getPluginInfoFromString('altair-graphql-plugin-plugin-name@0.0.1::[opt]->[1]')).toEqual({
+        name: 'altair-graphql-plugin-plugin-name',
+        version: '0.0.1',
+        pluginSource: PluginSource.NPM,
+        opt: '1',
+      } as any);
+      expect(service.getPluginInfoFromString('url:altair-graphql-plugin-plugin-name@0.0.1::[url]->[http://localhost:8080]')).toEqual({
+        name: 'altair-graphql-plugin-plugin-name',
+        version: '0.0.1',
+        pluginSource: PluginSource.URL,
+        url: 'http://localhost:8080',
+      } as any);
+    });
+
     it('return specified values', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
       expect(service.getPluginInfoFromString('url:altair-graphql-plugin-plugin-name@0.1.1')).toEqual({
