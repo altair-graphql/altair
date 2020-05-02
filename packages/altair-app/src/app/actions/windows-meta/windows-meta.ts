@@ -1,6 +1,8 @@
 import { Action as NGRXAction } from '@ngrx/store';
 
 export const SET_ACTIVE_WINDOW_ID = 'SET_ACTIVE_WINDOW_ID';
+export const SET_NEXT_WINDOW_ACTIVE = 'SET_NEXT_WINDOW_ACTIVE';
+export const SET_PREVIOUS_WINDOW_ACTIVE = 'SET_PREVIOUS_WINDOW_ACTIVE';
 export const SET_WINDOW_IDS = 'SET_WINDOW_IDS';
 export const REPOSITION_WINDOW = 'REPOSITION_WINDOW';
 
@@ -14,6 +16,18 @@ export class SetActiveWindowIdAction implements NGRXAction {
   readonly type = SET_ACTIVE_WINDOW_ID;
 
   constructor(public payload: { windowId: string }) {}
+}
+
+export class SetNextWindowActiveAction implements NGRXAction {
+  readonly type = SET_NEXT_WINDOW_ACTIVE;
+
+  constructor(public payload?: any) {}
+}
+
+export class SetPreviousWindowAction implements NGRXAction {
+  readonly type = SET_PREVIOUS_WINDOW_ACTIVE;
+
+  constructor(public payload?: any) {}
 }
 
 export class SetWindowIdsAction implements NGRXAction {
@@ -60,6 +74,8 @@ export class ShowPluginManagerAction implements NGRXAction {
 
 export type Action =
   | SetActiveWindowIdAction
+  | SetNextWindowActiveAction
+  | SetPreviousWindowAction
   | SetWindowIdsAction
   | RepositionWindowAction
   | ShowImportCurlDialogAction

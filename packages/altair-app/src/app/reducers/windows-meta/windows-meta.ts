@@ -28,6 +28,28 @@ export function windowsMetaReducer(state = getInitialState(), action: windowsMet
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
       return { ...state, activeWindowId: action.payload.windowId };
+    case windowsMeta.SET_NEXT_WINDOW_ACTIVE: {
+      const idx = state.windowIds.findIndex(id => id === state.activeWindowId);
+      let newActiveWindowId = '';
+      if (idx >= state.windowIds.length - 1) {
+        newActiveWindowId = state.windowIds[0];
+      } else {
+        newActiveWindowId = state.windowIds[idx + 1];
+      }
+      return { ...state, activeWindowId: newActiveWindowId };
+    }
+    case windowsMeta.SET_PREVIOUS_WINDOW_ACTIVE: {
+      const idx = state.windowIds.findIndex(id => id === state.activeWindowId);
+      let newActiveWindowId = '';
+      if (idx <= 0) {
+        newActiveWindowId = state.windowIds[state.windowIds.length - 1];
+      } else {
+        newActiveWindowId = state.windowIds[idx - 1];
+      }
+      return { ...state, activeWindowId: newActiveWindowId };
+    }
+    case windowsMeta.SET_ACTIVE_WINDOW_ID:
+      return { ...state, activeWindowId: action.payload.windowId };
     case windowsMeta.SET_WINDOW_IDS:
       return { ...state, windowIds: action.payload.ids };
     case windowsMeta.REPOSITION_WINDOW:

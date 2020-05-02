@@ -15,6 +15,11 @@ const createMenu = (actions) => {
           accelerator: 'CmdOrCtrl+W',
           click: actions.closeTab
         },
+        {
+          label: 'Reopen Closed Tab',
+          accelerator: 'CmdOrCtrl+Shift+T',
+          click: actions.reopenClosedTab
+        },
         { role: "undo" },
         { role: "redo" },
         { type: "separator" },
@@ -29,6 +34,16 @@ const createMenu = (actions) => {
     {
       label: "View",
       submenu: [
+        {
+          label: 'Next Tab',
+          accelerator: 'CmdOrCtrl+Tab',
+          click: actions.nextTab
+        },
+        {
+          label: 'Previous Tab',
+          accelerator: 'CmdOrCtrl+Shift+Tab',
+          click: actions.previousTab
+        },
         { role: "reload" },
         { role: "forcereload" },
         { role: "toggledevtools" },

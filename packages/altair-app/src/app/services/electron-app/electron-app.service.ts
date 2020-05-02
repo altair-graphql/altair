@@ -13,6 +13,7 @@ import * as fromHeader from '../../reducers/headers/headers';
 import * as queryActions from '../../actions/query/query';
 import * as docsActions from '../../actions/docs/docs';
 import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
+import * as windowsActions from '../../actions/windows/windows';
 import { debug } from 'app/utils/logger';
 
 @Injectable()
@@ -60,6 +61,18 @@ export class ElectronAppService {
             this.windowService.removeWindow(this.activeWindowId);
           }
         });
+      });
+
+      this.ipc.on('next-tab', () => {
+        this.zone.run(() => this.store.dispatch(new windowsMetaActions.SetNextWindowActiveAction()));
+      });
+
+      this.ipc.on('previous-tab', () => {
+        this.zone.run(() => this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction()));
+      });
+
+      this.ipc.on('reopen-closed-tab', () => {
+        this.zone.run(() => this.store.dispatch(new windowsActions.ReopenClosedWindowAction()));
       });
 
       this.ipc.on('send-request', () => {
