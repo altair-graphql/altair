@@ -36,12 +36,12 @@ const createMenu = (actions) => {
       submenu: [
         {
           label: 'Next Tab',
-          accelerator: 'CmdOrCtrl+Tab',
+          accelerator: 'Ctrl+Tab',
           click: actions.nextTab
         },
         {
           label: 'Previous Tab',
-          accelerator: 'CmdOrCtrl+Shift+Tab',
+          accelerator: 'Ctrl+Shift+Tab',
           click: actions.previousTab
         },
         { role: "reload" },

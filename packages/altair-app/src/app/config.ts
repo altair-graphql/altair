@@ -101,8 +101,8 @@ export class AltairConfig {
     'vi-VN': 'Vietnamese',
   };
   query_history_depth = isElectron ? 50 : 7;
-  defaultTheme = 'matchMedia' in window && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  themes: [ 'light', 'dark', 'dracula' ];
+  defaultTheme = 'system';
+  themes: [ 'light', 'dark', 'dracula', 'system' ];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {

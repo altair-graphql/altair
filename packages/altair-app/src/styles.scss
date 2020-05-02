@@ -15,7 +15,7 @@
 @import "scss/framework";
 @import "scss/all";
 
-.dark-theme {
+@mixin dark-theme {
   // Reset the imported modules for the new theme.
   // This is required because clarity uses the exports mixin mechanism to prevent loading components multiple times.
   // This prevents being able to include styles for the component in the new theme class.
@@ -53,6 +53,10 @@
   --editor-cursor-color: var(--blue-color);
 }
 
+.dark-theme {
+  @include dark-theme;
+}
+
 .dracula-theme {
   --theme-bg-color: #282a36;
   --theme-off-bg-color: #303240;
@@ -75,4 +79,11 @@
   --editor-property-color: #bd93f9;
   --editor-punctuation-color: #f8f8f2;
   --editor-cursor-color: #f8f8f2;
+}
+
+.system-theme {
+  @media (prefers-color-scheme: dark) {
+    @include dark-theme;
+  }
+  // @media (prefers-color-scheme: light) {}
 }
