@@ -37,29 +37,7 @@ The manifest.json file has the following fields:
 
 #### Developing Plugins Locally
 
-To write a plugin for Altair in local development, you would need to clone the [Altair repository](https://github.com/imolorhe/altair), navigate to the `packages/altair-app` directory, run `yarn` to install dependencies, then `yarn start` to launch the local development server for Altair. You can access the instance of Altair at `http://localhost:4200/`.
-
-Now go to `packages/altair-app/src/app/containers/app/app.component.ts` file and you should see a comment similar to the one below:
-
-```ts
-// this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
-//   pluginSource: 'url',
-//   version: '0.0.4',
-//   url: 'http://localhost:8002/'
-// });
-```
-
-You can uncomment those lines and replace the values according to your local plugin setup. For example, if working on a plugin called `altair-graphql-plugin-some-plugin`, hosted on `http://localhost:8080/`, you would have the following:
-
-```ts
-this.pluginRegistry.fetchPlugin('altair-graphql-plugin-some-plugin', {
-  pluginSource: 'url',
-  version: '0.0.1',
-  url: 'http://localhost:8080/'
-});
-```
-
-After these, ensure you have `enableExperimental` option set to `true` in the settings pane, and restart the Altair app.
+Ensure you have at least version 2.4.7 of Altair installed, and you have `enableExperimental` option set to `true` in the settings pane. In the `plugin.list` in the settings pane, specify your local plugin following this pattern `url:altair-graphql-plugin-some-plugin@0.0.1::[url]->[http://localhost:8080]`. In this example, you are working on a plugin called `altair-graphql-plugin-some-plugin`, hosted on `http://localhost:8080/` (version is optional).
 
 
 ### Sidebar Plugins

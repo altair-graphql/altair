@@ -18,7 +18,7 @@ A settings modal is available in the app to allow you customize all the various 
 The available options are listed here:
 
 ### `theme` - Specifies the theme
-Options include `light`, `dark`, `dracula`.
+Options include `light`, `dark`, `dracula`, `system`.
 
 ### `language` - Specifies the language
 The options are any of the valid language codes according to: [https://support.crowdin.com/api/language-codes/](https://support.crowdin.com/api/language-codes/).
@@ -46,3 +46,11 @@ _Default: false_
 
 ### `plugin.list` - Specifies a list of enabled plugins (requires enableExperimental to be true)
 _Default: []_
+Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version>::[<opt>]->[<opt-value>]`:
+
+- `<plugin-source>` _(Optional)_ specifies the source of the plugin. Options include `npm`, `url`, `github`.
+- `<plugin-name>` **_Required_** specifies the name of the plugin. Plugin names must begin with `altair-graphql-plugin-`.
+- `<version>` _(Optional)_ specifies the version of the plugin.
+- `[<opt>]->[<opt-value>]` _(Optional)_ specifies an extran option for the plugin. This is used when you specify the source as `url`. In that case, you need to specify the URL where the plugin would be sourced from.
+
+Valid plugins in string format include: `altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin@0.3.4`, `url:altair-graphql-plugin-some-plugin@0.3.4::[url]->[http://example.com/some-plugin]`
