@@ -14,6 +14,8 @@ import {
 import { PluginPropsFactory } from './plugin-props-factory';
 import { map, switchMap } from 'rxjs/operators';
 
+const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
+
 @Injectable()
 export class PluginRegistryService {
 
@@ -101,18 +103,22 @@ export class PluginRegistryService {
   }
 
   /**
-   * Given a plugin string in the format: <plugin-name>@<version>,
+   * Given a plugin string in the format: <plugin-source>:<plugin-name>@<version>,
    * it returns the details of the plugin
    * @param pluginStr
    */
   getPluginInfoFromString(pluginStr: string) {
-    const matches = pluginStr.match(/(.[^@]*)(@(.*))?/);
+    const matches = pluginStr.match(/((.*)\:)?(.[^@]*)(@(.*))?/);
     if (matches && matches.length) {
-      const [, pluginName, , pluginVersion = 'latest'] = matches;
+      const [, , pluginSource = PluginSource.NPM, pluginName, , pluginVersion = 'latest'] = matches;
       if (pluginName && pluginVersion) {
+        if (!pluginName.startsWith(PLUGIN_NAME_PREFIX)) {
+          throw new Error(`Plugin name must start with ${PLUGIN_NAME_PREFIX}`);
+        }
         return {
           name: pluginName,
           version: pluginVersion,
+          pluginSource,
         };
       }
     }
