@@ -7262,10 +7262,10 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-8.0.0.tgz#da307a54188347803f68566ff927d20dcb9c810b"
-  integrity sha512-3AHqw1AeXDXU/Hgxlh5fjP/srgGuP8BJR2uQ6ViGLeKwMEQDZuQfwd8zu9+bPZcvIxbAcxjWoGCVJXYEkBlxmg==
+ngrx-store-localstorage@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-9.0.0.tgz#0d3652758065cc037507565bf05e7294aa1bc48c"
+  integrity sha512-F69yiNruZe9jgXcPykfbyKFuM/1JzL+wsBUM+TTfMDXIoaFO7xwuZF9yLG8zbvdglibtJ0OG2M8fy3oadWuV4A==
   dependencies:
     deepmerge "^3.2.0"
 
