@@ -2,9 +2,8 @@
 import { throwError as observableThrowError,  Observable } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
-import { Headers, Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { IDictionary } from 'app/interfaces/shared';
 
@@ -20,10 +19,6 @@ export class ApiService {
 
     constructor(private http: HttpClient) {
 
-    }
-
-    private getJson(res: Response) {
-        return res.json();
     }
 
     private checkForError(res: Response): Response {
