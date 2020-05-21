@@ -119,6 +119,9 @@ const providers = [
       closeButton: true,
       positionClass: 'toast-top-center',
       enableHtml: true,
+      countDuplicates: true,
+      preventDuplicates: true,
+      resetTimeoutOnDuplicate: true,
     }),
     TranslateModule.forRoot({
       loader: {

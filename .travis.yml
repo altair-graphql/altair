@@ -33,6 +33,7 @@ after_success:
 before_deploy:
 - if [ ! -z "$TRAVIS_TAG" ]; then yarn build-electron; fi
 - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then yarn build-app; fi # Need to generate files for deployment
+- if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo apt update; sudo apt install snapd; fi # Workaround for snapd version
 deploy:
 - provider: releases
   api_key:

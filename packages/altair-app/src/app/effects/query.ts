@@ -281,9 +281,10 @@ export class QueryEffects {
             this.gqlService.getSDL(schema).then(sdl => {
               return this.store.dispatch(new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl }))
             })
-            .catch(err => {
-              debug.error(err);
-              this.notifyService.error('Could not set schema SDL');
+            .catch(error => {
+              debug.error(error);
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`Could not set schema SDL. Error: ${errorMessage}`);
             });
           }
 
@@ -303,9 +304,10 @@ export class QueryEffects {
                 this.notifyService.success('Loaded schema successfully');
                 return this.store.dispatch(new gqlSchemaActions.SetSchemaAction(data.windowId, schema));
               }
-            } catch (err) {
-              this.notifyService.error('There was a problem loading the schema');
-              debug.error('Error while loading schema', err);
+            } catch (error) {
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`There was a problem loading the schema. Error: ${errorMessage}`);
+              debug.error('Error while loading schema', error);
             }
           });
           return observableEmpty();
@@ -613,9 +615,10 @@ export class QueryEffects {
               return this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
             }
           })
-          .catch((err) => {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          .catch((error) => {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           });
 
           return observableEmpty();
@@ -638,9 +641,10 @@ export class QueryEffects {
               return this.store.dispatch(new queryActions.SetQueryAction(compressed, res.windowId));
             }
           })
-          .catch(err => {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          .catch(error => {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           });
 
           return observableEmpty();
@@ -662,8 +666,9 @@ export class QueryEffects {
                 downloadData(sdl, 'sdl', { fileType: 'gql' });
               }
             })
-            .catch(err => {
-              this.notifyService.error('Could not export SDL. Your schema might be invalid.');
+            .catch(error => {
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`Could not export SDL. Your schema might be invalid. Error: ${errorMessage}`);
             });
           }
           return observableEmpty();
@@ -717,9 +722,10 @@ export class QueryEffects {
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
             }
-          } catch (err) {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          } catch (error) {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           }
 
           return observableEmpty();
@@ -750,9 +756,10 @@ export class QueryEffects {
                 return observableOf(new queryActions.SetQueryAction(refactorResult.query, res.windowId));
               }
             }
-          } catch (err) {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          } catch (error) {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           }
 
           return observableEmpty();
