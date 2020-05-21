@@ -65,7 +65,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   @Output() loadSchemaChange = new EventEmitter();
 
   @HostBinding('style.flex-grow') public resizeFactor: number;
-  @ViewChild('docViewer', { static: false }) docViewerRef: ElementRef;
+  @ViewChild('docViewer') docViewerRef: ElementRef;
 
   rootTypes: GraphQLObjectType[] = [];
   index: DocumentIndexEntry[] = [];
