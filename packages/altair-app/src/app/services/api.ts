@@ -1,8 +1,8 @@
 
-import { throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { IDictionary } from 'app/interfaces/shared';
@@ -21,7 +21,7 @@ export class ApiService {
 
     }
 
-    private checkForError(res: Response): Response {
+    private checkForError(res: HttpResponse<any>): HttpResponse<any> {
         if (res.status >= 200 && res.status < 300) {
             return res;
         } else {

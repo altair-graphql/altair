@@ -1,8 +1,8 @@
 
 import {throwError as observableThrowError, Observable, of } from 'rxjs';
 
-import {map, catchError, tap} from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // import * as prettier from 'prettier/standalone';
@@ -83,17 +83,6 @@ export class GqlService {
 
     // Set the default headers on initialization
     this.setHeaders();
-  }
-
-  private checkForError(res: HttpResponse<any>): HttpResponse<any> {
-    // debug.log(res);
-    if (res.status >= 200 && res.status < 300) {
-      return res;
-    } else {
-      const err: any = new Error(res.statusText);
-      err['response'] = res;
-      throw err;
-    }
   }
 
   /**
