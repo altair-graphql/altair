@@ -526,6 +526,13 @@ export class GqlService {
     };
   }
 
+  getSDLSync(schema: GraphQLSchema) {
+    if (this.isSchema(schema)) {
+      return printSchema(schema);
+    }
+    return '';
+  }
+
   /**
    * Return the Schema Definition Language of the provided schema
    * @param schema

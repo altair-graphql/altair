@@ -103,8 +103,8 @@ export function windows(reducer: ActionReducer<any>) {
 
                 // Delegate the unknown action to the passed reducer to handle,
                 // passing it the correct window state based on the provided windowId
-                _state[action.windowId] = reducer(_windowState, action);
-                _state[action.windowId].windowId = action.windowId;
+                const reduced = reducer(_windowState, action);
+                _state[action.windowId] = { ...reduced, windowId: action.windowId };
 
                 return _state;
         }
