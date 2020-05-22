@@ -23,7 +23,7 @@
     "compile-settings-schema-validator": "ajv compile -s src/app/utils/settings.schema.json -o src/app/utils/validate_settings_schema.js",
     "generate-settings-schema-validator": "npm run generate-settings-schema && npm run compile-settings-schema-validator",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=80.0.3987.100"
+    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=83.0.4103.61"
   },
   "dependencies": {
     "@angular/animations": "^9.1.9",
