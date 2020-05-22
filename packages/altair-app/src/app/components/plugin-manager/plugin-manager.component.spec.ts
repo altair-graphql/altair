@@ -4,21 +4,24 @@ import { PluginManagerComponent } from './plugin-manager.component';
 import { SharedModule } from 'app/modules/shared/shared.module';
 import { PluginRegistryService } from 'app/services';
 import { HttpClientModule } from '@angular/common/http';
-import { PluginPropsFactory } from 'app/services/plugin/plugin-props-factory';
+import { of } from 'rxjs';
+import { Mock } from 'ts-mocks';
+
+let mockPluginRegistryService: Mock<PluginRegistryService>;
 
 describe('PluginManagerComponent', () => {
   let component: PluginManagerComponent;
   let fixture: ComponentFixture<PluginManagerComponent>;
 
   beforeEach(async(() => {
+    mockPluginRegistryService = new Mock<PluginRegistryService>({
+      getRemotePluginList: () => of({})
+    });
     TestBed.configureTestingModule({
       providers: [
-        PluginRegistryService,
         {
-          provide: PluginPropsFactory,
-          use: {
-            getPluginProps() {},
-          }
+          provide: PluginRegistryService,
+          useFactory: () => mockPluginRegistryService.Object,
         }
       ],
       imports: [
