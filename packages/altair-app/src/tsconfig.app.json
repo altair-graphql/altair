@@ -6,12 +6,14 @@
     "types": [],
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts",
-    "**/*.worker.ts"
-  ],
   "angularCompilerOptions": {
     "preserveWhitespaces": true
-  }
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.d.ts"
+  ]
 }

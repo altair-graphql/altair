@@ -1,7 +1,7 @@
 const toSnakeCase = require('to-snake-case'); // TODO: Check that this still works
 import * as FileSaver from 'file-saver';
-import * as commentRegex from 'comment-regex';
-import * as validUrl from 'valid-url';
+const commentRegex = require('comment-regex');
+const validUrl = require('valid-url');
 import is_electron from './is_electron';
 import { debug } from './logger';
 import { IDictionary } from 'app/interfaces/shared';

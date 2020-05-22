@@ -11,14 +11,6 @@ export class DbService {
   constructor() { }
 
   /**
-   * Used to get the application-specific key
-   * @param key The unique key for the data
-   */
-  private getItemName(key: string) {
-    return `${this.storagePrefix}${this.servicePrefix}${key}`;
-  }
-
-  /**
    * Gets the item with the exact name specified
    * @param key
    */
@@ -94,6 +86,14 @@ export class DbService {
 
     // return Observable.combineLatest(allKeys.map(key => this.getItemByExactKey(key)));
     return observableOf(allKeys);
+  }
+
+  /**
+   * Used to get the application-specific key
+   * @param key The unique key for the data
+   */
+  private getItemName(key: string) {
+    return `${this.storagePrefix}${this.servicePrefix}${key}`;
   }
 
 }

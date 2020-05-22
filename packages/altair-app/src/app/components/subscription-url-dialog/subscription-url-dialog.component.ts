@@ -43,7 +43,7 @@ export class SubscriptionUrlDialogComponent implements OnChanges, DoCheck {
     jump: {}
   };
 
-  @ViewChild('editor', { static: false }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('editor') editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   constructor() { }
 

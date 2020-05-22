@@ -40,7 +40,7 @@ import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror-graphql/info';
 import 'codemirror-graphql/jump';
-import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
+const getTypeInfo = require('codemirror-graphql/utils/getTypeInfo');
 import '../../utils/codemirror/graphql-linter';
 import '../../utils/codemirror/graphql-hint';
 

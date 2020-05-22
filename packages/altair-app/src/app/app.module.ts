@@ -41,6 +41,7 @@ import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
 import { PluginPropsFactory } from './services/plugin/plugin-props-factory';
+import { environment } from 'environments/environment';
 
 registerLocaleData(en);
 
@@ -111,9 +112,17 @@ const providers = [
     SchemaFormModule,
     SmartInputModule,
     DirectivesModule,
-    StoreModule.forRoot(reducerToken, { metaReducers }),
+    StoreModule.forRoot(reducerToken, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
     EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects ]),
-    StoreDevtoolsModule.instrument(),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production,
+    }),
     ToastrModule.forRoot({
       newestOnTop: false,
       closeButton: true,

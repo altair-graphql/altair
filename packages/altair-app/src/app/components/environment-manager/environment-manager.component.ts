@@ -56,8 +56,8 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
 
-  @ViewChild('editor', { static: false }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
-  @ViewChild('subEnvironmentTitle', { static: false }) subEnvironmentTitleEl: ElementRef;
+  @ViewChild('editor') editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
 
   jsonEditorConfig = {
     mode: 'application/json',

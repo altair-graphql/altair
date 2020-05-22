@@ -43,6 +43,16 @@ const closeAnyOpenToast = async (app) => {
   }
 };
 
+const closeAnyOpenBackdrops = async (app) => {
+  const backdropElResult = await app.client.$('.cdk-overlay-backdrop-showing');
+  // const isClickable = await app.client.$('.cdk-overlay-backdrop-showing').isClickable();
+  if (backdropElResult.value) {
+    await app.client.$('.cdk-overlay-backdrop-showing').click();
+    await app.client.pause(500);
+    await closeAnyOpenBackdrops(app);
+  }
+};
+
 global.before(function() {
   chai.should();
   chai.use(chaiAsPromised);
@@ -73,6 +83,7 @@ describe('Altair electron', function() {
       if (toastComponentElement.value) {
         await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`).click();
       }
+      await closeAnyOpenBackdrops(app);
       await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
       // await app.client.keys([ 'Control', 'W', 'Control' ]);
       await app.client.pause(500);
@@ -101,10 +112,11 @@ describe('Altair electron', function() {
     });
     await app.client.addCommand('addHeader', async(key, val) => {
       await app.client.$(`.side-menu-item[track-id="show_set_headers"]`).click();
-      await app.client.$('nz-modal [track-id="add_header"]').click();
+      // await app.client.pause(300);
+      await app.client.$('nz-modal-container [track-id="add_header"]').click();
       await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
       await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
-      await app.client.$('nz-modal .app-button.active-primary').click();
+      await app.client.$('nz-modal-container .app-button.active-primary').click();
       await app.client.pause(300);
       // .ant-modal-close-x
       // const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
@@ -169,7 +181,7 @@ describe('Altair electron', function() {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can send a request with multiple requests and see request dropdown', async() => {
+  it('can send a request with multiple queries and see request dropdown', async() => {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -189,7 +201,7 @@ describe('Altair electron', function() {
     const httpVerb = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
     assert.include(httpVerb, 'POST');
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
-    await app.client.pause(100);
+    await app.client.pause(300);
     await app.client.$(`.ant-dropdown-menu-item*=GET`).click();
     assert.include(await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText(), 'GET');
 

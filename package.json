@@ -35,9 +35,9 @@
     "opencollective": "^1.0.3",
     "snyk": "^1.195.0",
     "start-server-and-test": "^1.10.6",
-    "typedoc": "0.14.2",
+    "typedoc": "^0.17.7",
     "typedoc-plugin-markdown": "^2.2.17",
-    "typescript": "3.4.5",
+    "typescript": "3.8.3",
     "web-ext": "^4.0.0"
   },
   "repository": {

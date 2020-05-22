@@ -37,6 +37,10 @@
             "description": "Specifies how deep the 'Add query' functionality would go",
             "type": "number"
         },
+        "alert.disableWarnings": {
+            "description": "Specifies if warning alerts should be disabled",
+            "type": "boolean"
+        },
         "disablePushNotification": {
             "description": "Specifies if the push notifications should be disabled",
             "type": "boolean"
