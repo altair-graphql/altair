@@ -101,10 +101,11 @@ describe('Altair electron', function() {
     });
     await app.client.addCommand('addHeader', async(key, val) => {
       await app.client.$(`.side-menu-item[track-id="show_set_headers"]`).click();
-      await app.client.$('nz-modal [track-id="add_header"]').click();
+      // await app.client.pause(300);
+      await app.client.$('nz-modal-container [track-id="add_header"]').click();
       await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
       await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
-      await app.client.$('nz-modal .app-button.active-primary').click();
+      await app.client.$('nz-modal-container .app-button.active-primary').click();
       await app.client.pause(300);
       // .ant-modal-close-x
       // const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
@@ -189,7 +190,7 @@ describe('Altair electron', function() {
     const httpVerb = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
     assert.include(httpVerb, 'POST');
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
-    await app.client.pause(100);
+    await app.client.pause(300);
     await app.client.$(`.ant-dropdown-menu-item*=GET`).click();
     assert.include(await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText(), 'GET');
 
