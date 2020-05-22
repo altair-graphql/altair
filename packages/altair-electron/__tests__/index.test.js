@@ -43,6 +43,15 @@ const closeAnyOpenToast = async (app) => {
   }
 };
 
+const closeAnyOpenBackdrops = async (app) => {
+  const backdropElResult = await app.client.$('.cdk-overlay-backdrop-showing');
+  if (backdropElResult.value) {
+    await app.client.$('.cdk-overlay-backdrop-showing').click();
+    await app.client.pause(500);
+    await closeAnyOpenBackdrops(app);
+  }
+};
+
 global.before(function() {
   chai.should();
   chai.use(chaiAsPromised);
@@ -73,6 +82,7 @@ describe('Altair electron', function() {
       if (toastComponentElement.value) {
         await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`).click();
       }
+      await closeAnyOpenBackdrops(app);
       await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
       // await app.client.keys([ 'Control', 'W', 'Control' ]);
       await app.client.pause(500);
@@ -170,7 +180,7 @@ describe('Altair electron', function() {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can send a request with multiple requests and see request dropdown', async() => {
+  it('can send a request with multiple queries and see request dropdown', async() => {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
