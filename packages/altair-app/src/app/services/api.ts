@@ -20,17 +20,6 @@ export class ApiService {
     constructor(private http: HttpClient) {
 
     }
-
-    private checkForError(res: HttpResponse<any>): HttpResponse<any> {
-        if (res.status >= 200 && res.status < 300) {
-            return res;
-        } else {
-            const err = new Error(res.statusText as string);
-            (err as any).response = res;
-            debug.error(err);
-            throw err;
-        }
-    }
     get(path: string): Observable<any> {
         return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
             .pipe(
@@ -62,5 +51,16 @@ export class ApiService {
 
     setUrl(url: string) {
         this.api_url = url;
+    }
+
+    private checkForError(res: HttpResponse<any>): HttpResponse<any> {
+        if (res.status >= 200 && res.status < 300) {
+            return res;
+        } else {
+            const err = new Error(res.statusText as string);
+            (err as any).response = res;
+            debug.error(err);
+            throw err;
+        }
     }
 }

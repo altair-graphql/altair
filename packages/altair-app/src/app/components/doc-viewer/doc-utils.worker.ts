@@ -212,6 +212,14 @@ class DocUtils {
   }
 
   /**
+   * Cleans out getType() names to contain only the type name itself
+   * @param name
+   */
+  cleanName(name: string) {
+    return name.replace(/[\[\]!]/g, '');
+  }
+
+  /**
    * Generate the query for the specified field
    * @param name name of the current field
    * @param parentType parent type of the current field
@@ -308,14 +316,6 @@ class DocUtils {
     }
 
     return { query: fieldStr, meta };
-  }
-
-  /**
-   * Cleans out getType() names to contain only the type name itself
-   * @param name
-   */
-  cleanName(name: string) {
-    return name.replace(/[\[\]!]/g, '');
   }
 }
 
