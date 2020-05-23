@@ -62,7 +62,7 @@ deploy:
 - provider: snap
   file_glob: true
   snap: packages/altair-electron/out/**/*.snap
-  channel: edge
+  channel: stable
   skip_cleanup: true
   on:
     # tags: true
