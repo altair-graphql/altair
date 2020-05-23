@@ -65,7 +65,8 @@ deploy:
   channel: stable
   skip_cleanup: true
   on:
-    tags: true
+    # tags: true
+    branch: staging
     condition: $TRAVIS_OS_NAME = linux
 - provider: script
   script: git diff && sh bin/publish_packages.sh
