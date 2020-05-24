@@ -20,16 +20,20 @@ export class NotifyService {
   }
 
   success(message: string, title = 'Altair', opts: NotifyOptions = {}) {
-    return this.exec('success', message, title, opts);
+    this.exec('success', message, title, opts);
   }
   error(message: string, title = 'Altair', opts: NotifyOptions = {}) {
-    return this.exec('error', message, title, opts);
+    this.exec('error', message, title, opts);
   }
   warning(message: string, title = 'Altair', opts: NotifyOptions = {}) {
-    return this.exec('warning', message, title, opts);
+    this.store.select(state => state.settings['alert.disableWarnings']).toPromise().then(disableWarnings => {
+      if (!disableWarnings) {
+        return this.exec('warning', message, title, opts);
+      }
+    });
   }
   info(message: string, title = 'Altair', opts: NotifyOptions = {}) {
-    return this.exec('info', message, title, opts);
+    this.exec('info', message, title, opts);
   }
   exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}): ActiveToast<any> {
     const toast: ActiveToast<any> = this.toastr[type](message, title, opts);

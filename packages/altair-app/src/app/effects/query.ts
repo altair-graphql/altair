@@ -1,12 +1,12 @@
 
-import {of as observableOf, empty as observableEmpty, timer as observableTimer,  Observable, iif, Subscriber } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber } from 'rxjs';
 
-import { debounce, tap, catchError, withLatestFrom, switchMap, map, take } from 'rxjs/operators';
+import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
-import * as validUrl from 'valid-url';
+const validUrl = require('valid-url');
 
 import {
   GqlService,
@@ -19,12 +19,10 @@ import {
 } from '../services';
 import * as fromRoot from '../reducers';
 
-import { Action as allActions } from '../actions';
 import * as queryActions from '../actions/query/query';
 import * as variablesActions from '../actions/variables/variables';
 import * as layoutActions from '../actions/layout/layout';
 import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
-import * as dbActions from '../actions/db/db';
 import * as docsAction from '../actions/docs/docs';
 import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
 import * as donationAction from '../actions/donation';
@@ -33,7 +31,6 @@ import * as dialogsActions from '../actions/dialogs/dialogs';
 import * as streamActions from '../actions/stream/stream';
 
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
-import { uaSeedHash } from '../utils/simple_hash';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
 
@@ -281,9 +278,10 @@ export class QueryEffects {
             this.gqlService.getSDL(schema).then(sdl => {
               return this.store.dispatch(new gqlSchemaActions.SetSchemaSDLAction(action.windowId, { sdl }))
             })
-            .catch(err => {
-              debug.error(err);
-              this.notifyService.error('Could not set schema SDL');
+            .catch(error => {
+              debug.error(error);
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`Could not set schema SDL. Error: ${errorMessage}`);
             });
           }
 
@@ -303,9 +301,10 @@ export class QueryEffects {
                 this.notifyService.success('Loaded schema successfully');
                 return this.store.dispatch(new gqlSchemaActions.SetSchemaAction(data.windowId, schema));
               }
-            } catch (err) {
-              this.notifyService.error('There was a problem loading the schema');
-              debug.error('Error while loading schema', err);
+            } catch (error) {
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`There was a problem loading the schema. Error: ${errorMessage}`);
+              debug.error('Error while loading schema', error);
             }
           });
           return observableEmpty();
@@ -539,45 +538,6 @@ export class QueryEffects {
                 debug.log('Connected subscription.');
               }
             });
-            const subscriptionClientRequest = subscriptionClient.request({
-              query: query,
-              variables: variablesObj,
-              operationName: selectedOperation || undefined,
-            }).subscribe({
-              next: data => {
-                let strData = '';
-                try {
-                  strData = JSON.stringify(data);
-                } catch (err) {
-                  debug.error('Invalid subscription response format.');
-                  strData = 'ERROR: Invalid subscription response format.';
-                }
-
-                this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
-                  response: strData,
-                  responseObj: data,
-                  responseTime: (new Date()).getTime(), // store responseTime in ms
-                }));
-
-                // Send notification in electron app
-                this.notifyService.pushNotify(strData, response.data.layout.title, {
-                  onclick: () => {
-                    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: response.windowId }));
-                  }
-                });
-
-                debug.log(data);
-              },
-              error: err => {
-                // Stop the subscription if this happens.
-                debug.log('Err', err);
-                return subscriptionErrorHandler(err);
-              },
-              complete: () => {
-                // Not yet sure what needs to be done here.
-                debug.log('Subscription complete.');
-              }
-            });
 
             return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, { subscriptionClient }));
           } catch (err) {
@@ -613,9 +573,10 @@ export class QueryEffects {
               return this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
             }
           })
-          .catch((err) => {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          .catch((error) => {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           });
 
           return observableEmpty();
@@ -638,9 +599,10 @@ export class QueryEffects {
               return this.store.dispatch(new queryActions.SetQueryAction(compressed, res.windowId));
             }
           })
-          .catch(err => {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          .catch(error => {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           });
 
           return observableEmpty();
@@ -662,8 +624,9 @@ export class QueryEffects {
                 downloadData(sdl, 'sdl', { fileType: 'gql' });
               }
             })
-            .catch(err => {
-              this.notifyService.error('Could not export SDL. Your schema might be invalid.');
+            .catch(error => {
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`Could not export SDL. Your schema might be invalid. Error: ${errorMessage}`);
             });
           }
           return observableEmpty();
@@ -717,9 +680,10 @@ export class QueryEffects {
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
             }
-          } catch (err) {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          } catch (error) {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           }
 
           return observableEmpty();
@@ -750,9 +714,10 @@ export class QueryEffects {
                 return observableOf(new queryActions.SetQueryAction(refactorResult.query, res.windowId));
               }
             }
-          } catch (err) {
-            debug.log(err);
-            this.notifyService.error('Your query does not appear to be valid. Please check it.');
+          } catch (error) {
+            debug.log(error);
+            const errorMessage = error.message ? error.message : error.toString();
+            this.notifyService.error(`Your query does not appear to be valid. Please check it. Error: ${errorMessage}`);
           }
 
           return observableEmpty();
@@ -763,7 +728,7 @@ export class QueryEffects {
     showDonationAlert$: Observable<Action> = this.actions$
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST),
-        switchMap((data: queryActions.Action) => {
+        switchMap(() => {
           this.donationService.trackAndCheckIfEligible().subscribe(shouldShow => {
             if (shouldShow) {
               this.store.dispatch(new donationAction.ShowDonationAlertAction());

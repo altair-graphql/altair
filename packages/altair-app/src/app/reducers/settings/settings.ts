@@ -68,6 +68,11 @@ export interface State {
    * Specifies if the schema should be reloaded when the app starts
    */
   'schema.reloadOnStart'?: boolean;
+
+  /**
+   * Specifies if warning alerts should be disabled
+   */
+  'alert.disableWarnings'?: boolean;
 }
 
 export const getInitialState = (): State => {

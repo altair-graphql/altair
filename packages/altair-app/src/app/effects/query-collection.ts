@@ -163,7 +163,8 @@ export class QueryCollectionEffects {
               this.notifyService.success('Successfully imported collection.');
               this.store.dispatch(new collectionActions.LoadCollectionsAction());
             }, (error) => {
-              this.notifyService.error(`Something went wrong importing collection. Error: ${error.message}`);
+              const errorMessage = error.message ? error.message : error.toString();
+              this.notifyService.error(`Something went wrong importing collection. Error: ${errorMessage}`);
             });
         });
         return observableEmpty();

@@ -44,6 +44,9 @@ _Default: false_
 ### `enableExperimental` - Enable experimental features in Altair. Note: The features might be unstable.
 _Default: false_
 
+### `alert.disableWarnings` - Disable warning alerts
+_Default: false_
+
 ### `plugin.list` - Specifies a list of enabled plugins (requires enableExperimental to be true)
 _Default: []_
 Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version>::[<opt>]->[<opt-value>]`:

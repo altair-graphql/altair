@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "2.4.7",
+  "version": "2.4.8",
   "license": "MIT",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
@@ -35,6 +35,9 @@
     "opencollective": "^1.0.3",
     "snyk": "^1.195.0",
     "start-server-and-test": "^1.10.6",
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-markdown": "^2.2.17",
+    "typescript": "3.8.3",
     "web-ext": "^4.0.0"
   },
   "repository": {

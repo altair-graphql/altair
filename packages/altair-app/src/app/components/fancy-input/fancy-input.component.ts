@@ -23,6 +23,19 @@ interface BoundaryMarker {
 })
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
+  // get accessor
+  get value(): any {
+    return this.innerValue;
+};
+
+  // set accessor including call the onchange callback
+  set value(v: any) {
+      if (v !== this.innerValue) {
+          this.innerValue = v;
+          this.onChangeCallback(v);
+      }
+  }
+
   // @Input() value = '';
   @Input() placeholder = '';
   @Output() blur = new EventEmitter();
@@ -37,21 +50,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   };
 
   private innerValue = '';
-  private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
 
-  // get accessor
-  get value(): any {
-    return this.innerValue;
-};
-
-  // set accessor including call the onchange callback
-  set value(v: any) {
-      if (v !== this.innerValue) {
-          this.innerValue = v;
-          this.onChangeCallback(v);
-      }
-  }
+  constructor() { }
 
   // From ControlValueAccessor interface
   writeValue(value: any) {
@@ -69,8 +69,6 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   registerOnTouched(fn: any) {
       this.onTouchedCallback = fn;
   }
-
-  constructor() { }
 
   ngOnInit() {
     if (this.detectBrowser() === 'firefox') {
@@ -219,5 +217,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   trackByIndex(index: number) {
     return index;
   }
+  private onTouchedCallback: () => void = () => {};
+  private onChangeCallback: (_: any) => void = () => {};
 
 }
