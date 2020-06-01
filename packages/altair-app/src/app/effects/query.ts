@@ -538,6 +538,45 @@ export class QueryEffects {
                 debug.log('Connected subscription.');
               }
             });
+            subscriptionClient.request({
+              query: query,
+              variables: variablesObj,
+              operationName: selectedOperation || undefined,
+            }).subscribe({
+              next: data => {
+                let strData = '';
+                try {
+                  strData = JSON.stringify(data);
+                } catch (err) {
+                  debug.error('Invalid subscription response format.');
+                  strData = 'ERROR: Invalid subscription response format.';
+                }
+
+                this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
+                  response: strData,
+                  responseObj: data,
+                  responseTime: (new Date()).getTime(), // store responseTime in ms
+                }));
+
+                // Send notification in electron app
+                this.notifyService.pushNotify(strData, response.data.layout.title, {
+                  onclick: () => {
+                    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: response.windowId }));
+                  }
+                });
+
+                debug.log(data);
+              },
+              error: err => {
+                // Stop the subscription if this happens.
+                debug.log('Err', err);
+                return subscriptionErrorHandler(err);
+              },
+              complete: () => {
+                // Not yet sure what needs to be done here.
+                debug.log('Subscription complete.');
+              }
+            });
 
             return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, { subscriptionClient }));
           } catch (err) {
