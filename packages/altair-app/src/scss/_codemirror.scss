@@ -10,7 +10,7 @@
   background: transparent;
   cursor: text;
 
-  pre {
+  pre.CodeMirror-line {
     color: var(--theme-font-color);
     font-family: var(--editor-font-family);
   }
