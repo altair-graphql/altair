@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
-import * as KoaRouter from 'koa-router';
-import { createRouteExplorer } from '../index';
+import * as KoaRouter from '@koa/router';
+import { createRouteExplorer } from '../src/index';
 
 const app = new Koa();
 const router = new KoaRouter();

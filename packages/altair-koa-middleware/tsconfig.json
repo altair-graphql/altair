@@ -1,4 +1,8 @@
 {
+  "exclude": [
+    "example/**",
+    "build/**/*.d.ts"
+  ],
   "compilerOptions": {
     "outDir": "build/",
     "rootDir": "./",
