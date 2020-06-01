@@ -123,7 +123,7 @@
   "STREAM_CONNECTION_TRYING": "Đang cố gắng kết nối với máy chủ...",
   "STREAM_CONNECTION_CONNECTED": "Đã kết nối đến máy chủ trực tuyến",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
-  "PRE_REQUEST_EDITOR_SUBTEXT": "Write a script to be executed before the request is sent",
+  "PRE_REQUEST_EDITOR_SUBTEXT": "Viết một kịch bản sẽ được thực hiện trước khi yêu cầu được gửi",
   "PRE_REQUEST_ENABLE_TEXT": "Enable pre-request script",
   "SCHEMA_FORM_LIST_ADD": "Thêm",
   "SCHEMA_FORM_LIST_REMOVE": "Xóa",
