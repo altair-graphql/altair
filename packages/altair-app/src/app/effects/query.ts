@@ -398,6 +398,7 @@ export class QueryEffects {
               }),
               catchError((error: any) => {
                 debug.error(error);
+                this.notifyService.warning(error.message);
                 return observableEmpty();
               })
             );

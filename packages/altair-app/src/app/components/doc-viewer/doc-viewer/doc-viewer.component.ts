@@ -255,7 +255,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.resizeFactor = resizeFactor;
   }
 
-  rootTypeTrackBy(type: GraphQLObjectType) {
+  rootTypeTrackBy(index: number, type: GraphQLObjectType) {
     return type.name;
   }
 
