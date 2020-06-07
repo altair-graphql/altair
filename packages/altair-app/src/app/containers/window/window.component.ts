@@ -371,6 +371,10 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new headerActions.EditHeaderValueAction({ val, i }, this.windowId));
   }
 
+  headerEnabledChange(val: boolean, i: number) {
+    this.store.dispatch(new headerActions.EditHeaderEnabledAction({ val, i }, this.windowId));
+  }
+
   removeHeader(i: number) {
     this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
   }

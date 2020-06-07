@@ -1,89 +1,111 @@
-.app-dialog{
+.app-dialog {
   background: var(--theme-bg-color);
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 5px 12px 2px rgba(var(--rgb-black), .1);
 }
-.app-dialog-header{
+
+.app-dialog-header {
   margin-bottom: 30px;
   color: var(--theme-font-color);
   font-size: fontsize(14);
 }
-.app-dialog-title{
+
+.app-dialog-title {
   color: $green;
   font-weight: bold;
   font-size: fontsize(14);
   text-transform: uppercase;
   line-height: 1;
 }
-.app-dialog-body{
+
+.app-dialog-body {
   margin-bottom: 10px;
   // max-height: 500px;
   overflow: auto;
 }
+
 .app-dialog-section {
   margin-bottom: 20px;
 }
+
 .app-dialog-footer {
   width: 100%;
 }
 
-.dialog-select, .dialog-input {
+.dialog-select,
+.dialog-input {
   display: block;
   font-size: fontsize(14);
   padding: 5px 0;
   line-height: 1;
-  border: none;
+  border: 0;
   border-bottom: 2px solid var(--theme-border-color);
   transition: all .3s ease;
   min-width: 250px;
   border-radius: 0;
   background: transparent;
   color: var(--theme-font-color);
-  &:focus{
+
+  &:focus {
     border-color: $green;
   }
+
   option {
     color: $black;
   }
 }
+
 .dialog-textarea {
   width: 100%;
   border: 1px solid $green;
   border-radius: 4px;
 }
+
 .dialog-block {
   width: 100%;
   display: block;
 }
+
 .set-header-input-container {
   display: flex;
+  align-items: center;
   flex: 1;
   margin-bottom: 30px;
 }
+
+.set-header-input-container--disabled {
+  opacity: .5;
+}
+
 .set-header-input-column {
   max-width: 50%;
   flex: 1;
   padding: 0 10px;
 }
-.set-header-input, .dialog-input {
+
+.set-header-input,
+.dialog-input {
   font-size: fontsize(14);
   padding: 5px 0;
   // line-height: 1;
-  border: none;
+  border: 0;
   border-bottom: 2px solid var(--theme-border-color);
   transition: all .3s ease;
-  &:focus{
+
+  &:focus {
     border-color: $green;
   }
 }
+
 .header-input-remove-button {
   font-size: fontsize(16);
   background: transparent;
-  border: none;
+  border: 0;
   cursor: pointer;
   transition: all .3s ease;
-  &:hover{
+
+  &:hover {
     color: $red;
   }
 }

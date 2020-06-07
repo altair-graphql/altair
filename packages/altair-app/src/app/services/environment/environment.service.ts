@@ -75,6 +75,7 @@ export class EnvironmentService {
       return {
         key: this.hydrate(header.key, options),
         value: this.hydrate(header.value, options),
+        enabled: header.enabled,
       };
     });
 

@@ -106,7 +106,16 @@
 
       <ng-template #modalContent>
         <div class="app-dialog-body">
-          <div class="set-header-input-container" *ngFor="let header of headers$ | async;trackBy:trackByFn; let i = index">
+          <div
+            class="set-header-input-container"
+            *ngFor="let header of headers$ | async;trackBy:trackByFn; let i = index"
+            [ngClass]="{ 'set-header-input-container--disabled': !header.enabled }"
+          >
+            <label
+              nz-checkbox
+              [ngModel]="header.enabled"
+              (ngModelChange)="headerEnabledChange($event, i)"
+            ></label>
             <div class="set-header-input-column">
               <app-fancy-input
                 class="set-header-input"
