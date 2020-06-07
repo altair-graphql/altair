@@ -63,7 +63,7 @@ deploy:
   file_glob: true
   snap: packages/altair-electron/out/**/*.snap
   channel: stable
-  classic: true
+  # classic: true
   skip_cleanup: true
   on:
     tags: true

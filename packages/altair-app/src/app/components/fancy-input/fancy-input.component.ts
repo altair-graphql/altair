@@ -74,8 +74,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     if (this.detectBrowser() === 'firefox') {
       this.fixFirefox();
     }
-    setTimeout(() => {
+    const handleInputTimeout = setTimeout(() => {
       this.handleInput();
+      clearTimeout(handleInputTimeout);
     }, 1);
   }
 
@@ -94,9 +95,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     this.updateHighlighterScroll();
   }
   handleBlur() {
-    setTimeout(() => {
-      this.updateHighlighterScroll();
-    }, 1);
+    this.updateHighlighterScroll();
 
     // Set touched on blur
     this.onTouchedCallback();
@@ -204,10 +203,11 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   updateHighlighterScroll() {
-    setTimeout(() => {
+    const updateHighlighterScrollTimeout = setTimeout(() => {
       this.fancyInputHighlightsEl.nativeElement.scrollLeft = this.fancyInputEl.nativeElement.scrollLeft;
       this.fancyInputHighlightsEl.nativeElement.scrollTop = this.fancyInputEl.nativeElement.scrollTop;
       this.fancyInputHighlightsEl.nativeElement.height = this.fancyInputEl.nativeElement.height;
+      clearTimeout(updateHighlighterScrollTimeout);
     }, 10);
     // highlighter.scrollLeft = input.scrollLeft
     // highlighter.scrollTop = input.scrollTop

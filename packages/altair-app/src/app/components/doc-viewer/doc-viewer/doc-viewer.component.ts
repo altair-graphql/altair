@@ -12,7 +12,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { of, from } from 'rxjs';
+import { from } from 'rxjs';
 
 import { AltairConfig } from '../../../config';
 import { debug } from 'app/utils/logger';
@@ -21,11 +21,8 @@ import * as fromDocs from '../../../reducers/docs/docs';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import {
-  GraphQLType,
   GraphQLSchema,
   GraphQLObjectType,
-  GraphQLArgument,
-  GraphQLFieldMap
 } from 'graphql';
 import { DocumentIndexEntry } from '../models';
 import { fadeInOutAnimationTrigger } from 'app/animations';
@@ -33,7 +30,14 @@ import * as Comlink from 'comlink';
 import { GqlService } from 'app/services';
 import getRootTypes from 'app/utils/get-root-types';
 
-const DocUtils: any = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
+let DocUtils: any = null;
+try {
+  DocUtils = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
+} catch (error) {
+  debug.error('Could not load doc utilsweb worker');
+  debug.error(error);
+  DocUtils = null;
+}
 
 @Component({
   selector: 'app-doc-viewer',
@@ -237,7 +241,12 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   async getDocUtilsWorker() {
     if (!this.docUtilWorker) {
-      this.docUtilWorker = await new DocUtils();
+      if (DocUtils) {
+        this.docUtilWorker = await new DocUtils();
+      } else {
+        const { DocUtils: ImportedDocUtils } = await import('../doc-utils');
+        this.docUtilWorker = new ImportedDocUtils();
+      }
     }
     return this.docUtilWorker;
   }
@@ -246,7 +255,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.resizeFactor = resizeFactor;
   }
 
-  rootTypeTrackBy(index: number, type: GraphQLObjectType) {
+  rootTypeTrackBy(type: GraphQLObjectType) {
     return type.name;
   }
 

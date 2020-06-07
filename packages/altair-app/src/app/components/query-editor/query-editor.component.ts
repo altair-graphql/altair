@@ -259,8 +259,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
     );
 
     this.queryChange.next(updatedQuery.result);
-    setTimeout(() => {
+    const setCursorTimeout = setTimeout(() => {
       cm.getDoc().setCursor(cursor);
+      clearTimeout(setCursorTimeout);
     }, 1);
   }
 
@@ -318,8 +319,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
               }));
             });
           });
-        } catch (error) {}
+        } catch (error) {
 
+        } finally {
+          clearTimeout(this.updateWidgetTimeout);
+        }
       }, 300);
     });
   }

@@ -826,9 +826,10 @@ export class QueryEffects {
             streamClient.addEventListener('error', (err) => {
               this.store.dispatch(new streamActions.SetStreamFailedAction(res.windowId, { failed: err }));
               // Retry after sometime
-              setTimeout(() => {
+              const backoffTimeout = setTimeout(() => {
                 backoff = Math.min(backoff * 1.7, 30000);
                 this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId, { backoff }));
+                clearTimeout(backoffTimeout);
               }, backoff);
             }, false);
 
