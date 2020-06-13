@@ -94,8 +94,9 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.showEnvironmentManager && changes.showEnvironmentManager.currentValue) {
-      setTimeout(() => {
+      const refreshEditorTimeout = setTimeout(() => {
         handleEditorRefresh(this.editor && this.editor.codeMirror, true);
+        clearTimeout(refreshEditorTimeout);
       }, 300);
     }
   }

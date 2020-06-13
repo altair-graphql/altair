@@ -4,6 +4,7 @@ import { isExtension } from '../../utils';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import { IDictionary } from 'app/interfaces/shared';
+import { first } from 'rxjs/operators';
 
 type NotifyOptions = Partial<ToastrConfig & { data: any }>;
 type NotifyType = 'success' | 'error' | 'warning' | 'info';
@@ -26,7 +27,9 @@ export class NotifyService {
     this.exec('error', message, title, opts);
   }
   warning(message: string, title = 'Altair', opts: NotifyOptions = {}) {
-    this.store.select(state => state.settings['alert.disableWarnings']).toPromise().then(disableWarnings => {
+    this.store.select(state => state.settings['alert.disableWarnings']).pipe(
+      first(),
+    ).subscribe(disableWarnings => {
       if (!disableWarnings) {
         return this.exec('warning', message, title, opts);
       }

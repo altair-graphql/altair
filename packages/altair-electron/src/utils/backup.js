@@ -19,7 +19,11 @@ const importBackupData = (instance) => {
     filters: [
       { name: 'Altair GraphQL Backup Files', extensions: [ 'agbkp' ] },
     ],
-  }, ([ filePath ]) => {
+  }).then(({ canceled, filePaths: [ filePath ] }) => {
+    if (canceled) {
+      return;
+    }
+
     if (filePath) {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       try {
@@ -46,14 +50,20 @@ const exportBackupData = (instance) => {
     filters: [
       { name: 'Altair GraphQL Backup Files', extensions: [ 'agbkp' ] },
     ],
-  }, (saveFilePath) => {
-    // Save to file
-    const localstoreContent = fs.readFileSync(getPersistentStore().path, 'utf8');
-    const backupData = {
-      version: 1,
-      localstore: JSON.parse(localstoreContent),
-    };
-    fs.writeFileSync(saveFilePath, JSON.stringify(backupData));
+  }).then(({ canceled, filePath }) => {
+    if (canceled) {
+      return;
+    }
+
+    if (filePath) {
+      // Save to file
+      const localstoreContent = fs.readFileSync(getPersistentStore().path, 'utf8');
+      const backupData = {
+        version: 1,
+        localstore: JSON.parse(localstoreContent),
+      };
+      fs.writeFileSync(filePath, JSON.stringify(backupData));
+    }
   });
 };
 

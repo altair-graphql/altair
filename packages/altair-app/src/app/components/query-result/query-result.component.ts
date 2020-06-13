@@ -80,10 +80,11 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.subscriptionResponses && changes.subscriptionResponses.currentValue) {
-      setTimeout(() => {
+      const scrollTopTimeout = setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
           this.subscriptionResponseList.nativeElement.scrollTop = this.subscriptionResponseList.nativeElement.scrollHeight;
         }
+        clearTimeout(scrollTopTimeout);
       }, 50);
     }
   }

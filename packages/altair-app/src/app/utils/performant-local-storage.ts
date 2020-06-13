@@ -49,33 +49,33 @@ class PerformantLocalStorage implements Storage {
    */
   // setItem(key: string, value: string): void;
   setItem(key: string, value: string) {
-    const runSetItem = () => {
-      // Using requestIdleCallback to set only when the UI is idle
-      (window as any).requestIdleCallback((deadline: any) => {
-        if (deadline.timeRemaining()) {
-          try {
-            return this.storage.setItem(key, value);
-          } catch (error) {
-            if (['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(error.name)) {
-              // handle quota limit exceeded error
-            }
-          }
-          return this.storage.setItem(key, value);
-        }
-        return runSetItem();
-      });
-    }
-
     if (!('requestIdleCallback' in window)) {
       return this.storage.setItem(key, value);
     }
-    return runSetItem();
+    return this.runSetItem(key, value);
   }
 
   *[Symbol.iterator]() {
     for (const [key, value] of Object.entries(this.storage)) {
       yield [key, value];
     }
+  }
+
+  private runSetItem(key: string, value: any) {
+    // Using requestIdleCallback to set only when the UI is idle
+    (window as any).requestIdleCallback((deadline: any) => {
+      if (deadline.timeRemaining()) {
+        try {
+          return this.storage.setItem(key, value);
+        } catch (error) {
+          if (['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(error.name)) {
+            // handle quota limit exceeded error
+          }
+        }
+        return this.storage.setItem(key, value);
+      }
+      // return runSetItem();
+    });
   }
 }
 

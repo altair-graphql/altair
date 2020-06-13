@@ -116,7 +116,7 @@ export class GqlService {
 
     if (headers && headers.length) {
       headers.forEach(header => {
-        if (!forbiddenHeaders.includes(header.key) && header.key && header.value) {
+        if (!forbiddenHeaders.includes(header.key) && header.enabled && header.key && header.value) {
           newHeaders = newHeaders.set(header.key, header.value);
         }
       });
