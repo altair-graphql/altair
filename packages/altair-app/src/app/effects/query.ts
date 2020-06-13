@@ -137,7 +137,7 @@ export class QueryEffects {
                   );
                   selectedOperation = operationData.selectedOperation;
                   if (operationData.requestSelectedOperationFromUser) {
-                    this.notifyService.warning(
+                    this.notifyService.error(
                       `You have more than one query operations.
                       You need to select the one you want to run from the dropdown.`
                     );
@@ -145,7 +145,7 @@ export class QueryEffects {
                   }
                 } catch (err) {
                   this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-                  this.notifyService.warning(err.message);
+                  this.notifyService.error(err.message);
                   return observableEmpty();
                 }
 
@@ -169,7 +169,7 @@ export class QueryEffects {
                 this.electronAppService.setHeaders(headers);
 
                 if (this.gqlService.hasInvalidFileVariable(response.data.variables.files)) {
-                  this.notifyService.warning(`
+                  this.notifyService.error(`
                     You have some invalid file variables.<br><br>
                     You need to provide a file and file name, when uploading files.
                     Check your files in the variables section.<br><br>
@@ -353,6 +353,7 @@ export class QueryEffects {
               catchError((err: any) => {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
                 const errorObj = err.error || err;
+                const errorMessage = errorObj.message ? errorObj.message : err.message ? err.message : errorObj.toString();
                 let allowsIntrospection = true;
 
                 if (errorObj.errors) {
@@ -366,14 +367,16 @@ export class QueryEffects {
                 // If the server does not support introspection
                 if (!allowsIntrospection) {
                   this.store.dispatch(new gqlSchemaActions.SetAllowIntrospectionAction(false, response.windowId));
-                  this.notifyService.warning(`
+                  this.notifyService.error(`
                     Looks like this server does not support introspection.
                     Please check with the server administrator.
                   `);
                 } else {
-                  this.notifyService.warning(`
+                  this.notifyService.error(`
                     Seems like something is broken. Please check that the URL is valid,
                     and the server is up and running properly.
+                    <br>
+                    ${errorMessage}
                   `);
                 }
                 return observableEmpty();
@@ -398,7 +401,7 @@ export class QueryEffects {
               }),
               catchError((error: any) => {
                 debug.error(error);
-                this.notifyService.warning(error.message);
+                this.notifyService.error(error.message);
                 return observableEmpty();
               })
             );
@@ -510,7 +513,7 @@ export class QueryEffects {
             selectedOperation = operationData.selectedOperation;
           } catch (err) {
             this.store.dispatch(new queryActions.SetSelectedOperationAction(response.windowId, { selectedOperation: '' }));
-            this.notifyService.warning(err.message);
+            this.notifyService.error(err.message);
             return observableEmpty();
           }
 
@@ -748,7 +751,7 @@ export class QueryEffects {
                     ...refactorResult.variables,
                   }, null, 2), res.windowId));
                 } catch (err) {
-                  this.notifyService.warning('Looks like your variables are not formatted properly');
+                  this.notifyService.error('Looks like your variables are not formatted properly');
                   return observableEmpty();
                 }
                 return observableOf(new queryActions.SetQueryAction(refactorResult.query, res.windowId));
