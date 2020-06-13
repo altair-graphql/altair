@@ -25,13 +25,18 @@ export class VariablesEditorComponent implements OnChanges, DoCheck {
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   variableEditorConfig = {
-    mode: 'javascript',
-    json: true,
+    mode: {
+      name: 'javascript',
+      json: true,
+    },
     lineWrapping: true,
     lineNumbers: true,
     foldGutter: true,
     autoRefresh: true,
     dragDrop: false,
+    tabSize: 4,
+    indentUnit: 4,
+    matchBrackets: true,
     autoCloseBrackets: true,
     theme: 'default variable-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
