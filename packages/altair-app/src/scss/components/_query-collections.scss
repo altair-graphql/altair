@@ -121,15 +121,12 @@ app-query-collections {
   overflow: hidden;
   max-height: 9999em;
   transition: all .3s ease;
+  padding-left: 10px;
 }
 
 .query-collections__item-content--hidden {
   max-height: 0;
   opacity: 0;
-}
-
-.query-collections__item-nested {
-  padding-left: 10px;
 }
 
 .query-collections__item-queries-item {
