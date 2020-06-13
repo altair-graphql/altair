@@ -1,7 +1,29 @@
 const { app, Menu } = require('electron');
 
 const createMenu = (actions) => {
+  const isMac = process.platform === 'darwin';
+
   const template = [
+    ...( isMac ? [{
+      label: app.getName(),
+      submenu: [
+        { role: "about" },
+        { label: 'Check for Updates...', click: actions.checkForUpdates },
+        {
+          label: 'Preferences',
+          accelerator: 'Cmd+,',
+          click: actions.showSettings
+        },
+        { type: "separator" },
+        { role: "services", submenu: [] },
+        { type: "separator" },
+        { role: "hide" },
+        { role: "hideothers" },
+        { role: "unhide" },
+        { type: "separator" },
+        { role: "quit" }
+      ]
+    }] : []),
     {
       label: "Edit",
       submenu: [
@@ -28,7 +50,14 @@ const createMenu = (actions) => {
         { role: "paste" },
         { role: "pasteandmatchstyle" },
         { role: "delete" },
-        { role: "selectall" }
+        { role: "selectall" },
+        ...(isMac ? [
+          { type: "separator" },
+          {
+            label: "Speech",
+            submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }]
+          }
+        ] : [])
       ]
     },
     {
@@ -55,7 +84,14 @@ const createMenu = (actions) => {
       role: "window",
       submenu: [
         { role: "minimize" },
-        { role: "close" }
+        { role: "close" },
+        ...(isMac ? [
+          { role: "minimize" },
+          { type: "separator" },
+          { role: "front" }
+        ] : [
+          { role: 'about' },
+        ]),
       ]
     },
     {
@@ -71,46 +107,19 @@ const createMenu = (actions) => {
         },
       ]
     },
-  ];
-
-  if (process.platform === "darwin") {
-    template.unshift({
-      label: app.getName(),
+    {
+      label: 'Help',
       submenu: [
-        { role: "about" },
-        { label: 'Check for Updates...', click: actions.checkForUpdates },
         {
-          label: 'Preferences',
-          accelerator: 'Cmd+,',
-          click: actions.showSettings
-        },
-        { type: "separator" },
-        { role: "services", submenu: [] },
-        { type: "separator" },
-        { role: "hide" },
-        { role: "hideothers" },
-        { role: "unhide" },
-        { type: "separator" },
-        { role: "quit" }
+          label: 'Open documentation',
+          click: async () => {
+            const { shell } = require('electron');
+            await shell.openExternal('https://altair.sirmuel.design/docs/');
+          }
+        }
       ]
-    });
-
-    // Edit menu
-    template[1].submenu.push(
-      { type: "separator" },
-      {
-        label: "Speech",
-        submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }]
-      }
-    );
-
-    // Window menu
-    template[3].submenu = [
-      { role: "minimize" },
-      { type: "separator" },
-      { role: "front" }
-    ];
-  }
+    },
+  ];
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
