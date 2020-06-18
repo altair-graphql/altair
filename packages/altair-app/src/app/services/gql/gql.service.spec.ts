@@ -44,7 +44,7 @@ describe('GqlService', () => {
     expect(service).toBeTruthy();
   }));
 
-  describe('.getSelectedOperationData', () => {
+  describe('.getSelectedOperationData()', () => {
     it(
       'should return selectedOperation as null for single queries, without requesting user selection',
       inject([GqlService], (service: GqlService) => {
@@ -104,7 +104,7 @@ describe('GqlService', () => {
       });
     }));
   });
-  describe('.sendRequest', () => {
+  describe('.sendRequest()', () => {
     it(
       'should call HttpClient with expected parameters',
       inject([GqlService], (service: GqlService) => {

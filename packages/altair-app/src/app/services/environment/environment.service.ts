@@ -7,7 +7,7 @@ import * as fromHeaders from '../../reducers/headers/headers';
 import { IDictionary } from 'app/interfaces/shared';
 
 interface HydrateEnvironmentOptions {
-  activeEnvironment?: IDictionary<string>;
+  activeEnvironment?: IDictionary<any>;
 }
 
 @Injectable({
@@ -86,8 +86,9 @@ export class EnvironmentService {
     if (environmentHeadersMap) {
       const environmentHeaders = Object.keys(environmentHeadersMap).map(key => {
         return {
-          key,
-          value: environmentHeadersMap[key],
+          key: this.hydrate(key, options),
+          value: this.hydrate(environmentHeadersMap[key], options),
+          enabled: true,
         }
       });
 
