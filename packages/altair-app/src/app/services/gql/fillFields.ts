@@ -101,7 +101,7 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
   }
 
   let tokenState = token.state;
-  if (token.state.kind === 'SelectionSet') {
+  if (tokenState.kind === 'SelectionSet') {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
   }

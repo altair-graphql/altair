@@ -6,8 +6,11 @@ import * as fromEnvironments from '../../reducers/environments';
 import * as fromHeaders from '../../reducers/headers/headers';
 import { IDictionary } from 'app/interfaces/shared';
 
+interface IEnvironment extends IDictionary<any> {
+  headers?: IDictionary<string>;
+}
 interface HydrateEnvironmentOptions {
-  activeEnvironment?: IDictionary<any>;
+  activeEnvironment?: IEnvironment;
 }
 
 @Injectable({
@@ -25,7 +28,7 @@ export class EnvironmentService {
     });
   }
 
-  getActiveEnvironment(): any {
+  getActiveEnvironment(): IEnvironment {
     let baseEnvironment = {};
     let subEnvironment = {};
 

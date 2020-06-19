@@ -25,6 +25,7 @@ import {
   DocumentNode,
   GraphQLType,
   OperationDefinitionNode,
+  IntrospectionQuery,
 } from 'graphql';
 import compress from 'graphql-query-compress'; // Somehow this is the way to use this
 
@@ -134,10 +135,6 @@ export class GqlService {
       );
   }
 
-  getUrl() {
-    return this.api_url;
-  }
-
   setUrl(url: string) {
     this.api_url = url;
     return this;
@@ -180,24 +177,19 @@ export class GqlService {
     );
   }
 
-  getIntrospectionData() {
-    return this.introspectionData;
-  }
-
-  getIntrospectionSchema(data: any): GraphQLSchema | null {
-    try {
-      if (data && data.__schema) {
-        const schema = buildClientSchema(data);
-
-        // One type => many fields
-        // One field => One type
-        return schema;
-      }
+  getIntrospectionSchema(introspection?: IntrospectionQuery): GraphQLSchema | null {
+    if (!introspection || !introspection.__schema) {
       return null;
+    }
+
+    try {
+      // One type => many fields
+      // One field => One type
+      return buildClientSchema(introspection);
     } catch (err) {
       debug.log('Trying old buildClientSchema.', err);
       try {
-        const schema = oldBuildClientSchema(data);
+        const schema = oldBuildClientSchema(introspection);
 
         this.notifyService.info(`
           Looks like your server is still using an old version of GraphQL (older than v0.5.0).
@@ -220,14 +212,7 @@ export class GqlService {
   }
 
   hasInvalidFileVariable(fileVariables: fromVariables.FileVariable[]) {
-    return fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name).length;
-  }
-
-  getActualTypeName(type: GraphQLType) {
-    if (type) {
-      return type.inspect().replace(/[\[\]!]/g, '');
-    }
-    return '';
+    return Boolean(fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name).length);
   }
 
   fillAllFields(schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, opts: any) {
