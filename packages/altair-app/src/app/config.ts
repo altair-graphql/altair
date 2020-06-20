@@ -1,7 +1,7 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
-import { IInitialEnvironments } from './reducers/environments';
-import * as fromSettings from './reducers/settings/settings';
+import { IInitialEnvironments } from './store/environments/environments.reducer';
+import * as fromSettings from './store/settings/settings.reducer';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 

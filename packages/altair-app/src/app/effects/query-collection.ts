@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../store';
 
-import * as collectionActions from '../actions/collection/collection';
+import * as collectionActions from '../store/collection/collection.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile } from 'app/utils';
 

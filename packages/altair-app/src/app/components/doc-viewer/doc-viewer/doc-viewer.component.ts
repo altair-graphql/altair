@@ -17,7 +17,7 @@ import { from } from 'rxjs';
 import { AltairConfig } from '../../../config';
 import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as fromDocs from '../../../reducers/docs/docs';
+import * as fromDocs from '../../../store/docs/docs.reducer';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import {

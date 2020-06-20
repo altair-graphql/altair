@@ -27,7 +27,7 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
-import { SubscriptionResponse } from 'app/reducers/query/query';
+import { SubscriptionResponse } from 'app/store/query/query.reducer';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 @Component({

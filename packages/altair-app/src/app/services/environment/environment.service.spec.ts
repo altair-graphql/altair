@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store';
 
 import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';

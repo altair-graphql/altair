@@ -3,7 +3,7 @@ import { Mock } from 'ts-mocks';
 
 import { HttpClient, HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store';
 import { GqlService } from './gql.service';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';

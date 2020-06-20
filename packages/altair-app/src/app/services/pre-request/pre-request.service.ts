@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 
-import * as fromHeader from '../../reducers/headers/headers';
+import * as fromHeader from '../../store/headers/headers.reducer';
 
 interface ScriptContextData {
   headers: fromHeader.Header[];

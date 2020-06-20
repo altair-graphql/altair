@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 
 import { Observable ,  Subscription } from 'rxjs';
 
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../store';
 
-import * as queryActions from '../actions/query/query';
-import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
+import * as queryActions from '../store/query/query.action';
+import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
 
 import { DbService } from '../services/db.service';
 

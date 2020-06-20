@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import * as fromEnvironments from '../../reducers/environments';
+import * as fromEnvironments from '../../store/environments/environments.reducer';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
 // Import the codemirror packages

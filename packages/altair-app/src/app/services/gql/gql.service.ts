@@ -35,8 +35,8 @@ import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
 import { debug } from 'app/utils/logger';
 
-import * as fromHeaders from '../../reducers/headers/headers';
-import * as fromVariables from '../../reducers/variables/variables';
+import * as fromHeaders from '../../store/headers/headers.reducer';
+import * as fromVariables from '../../store/variables/variables.reducer';
 import { fillAllFields } from './fillFields';
 import { setByDotNotation } from 'app/utils';
 import { Token } from 'codemirror';
@@ -49,7 +49,7 @@ import {
   refactorArgumentsToVariables,
   generateRandomNameForString,
 } from './helpers';
-import { SelectedOperation } from 'app/reducers/query/query';
+import { SelectedOperation } from 'app/store/query/query.reducer';
 
 
 interface SendRequestOptions {

@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
-import * as fromRoot from '../reducers';
-import * as fromWindows from '../reducers/windows';
+import * as fromRoot from '../store';
+import * as fromWindows from '../store/windows/windows.reducer';
 
-import * as windowActions from '../actions/windows/windows';
-import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
-import * as localActions from '../actions/local/local';
+import * as windowActions from '../store/windows/windows.action';
+import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import * as localActions from '../store/local/local.action';
 
 import { WindowService } from '../services/window.service';
 

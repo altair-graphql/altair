@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as fromEnvironments from '../../reducers/environments';
-import * as fromHeaders from '../../reducers/headers/headers';
+import * as fromRoot from '../../store';
+import * as fromEnvironments from '../../store/environments/environments.reducer';
+import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from 'app/interfaces/shared';
 
 interface IEnvironment extends IDictionary<any> {

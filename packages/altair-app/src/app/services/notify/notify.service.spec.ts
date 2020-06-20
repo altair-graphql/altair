@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store';
 
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';

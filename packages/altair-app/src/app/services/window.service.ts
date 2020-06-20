@@ -7,20 +7,20 @@ import { Store } from '@ngrx/store';
 
 import * as uuid from 'uuid/v4';
 
-import * as fromRoot from '../reducers';
-import * as fromWindows from '../reducers/windows';
-import * as fromQuery from '../reducers/query/query';
+import * as fromRoot from '../store';
+import * as fromWindows from '../store/windows/windows.reducer';
+import * as fromQuery from '../store/query/query.reducer';
 
-import * as queryActions from '../actions/query/query';
-import * as headerActions from '../actions/headers/headers';
-import * as variableActions from '../actions/variables/variables';
-import * as layoutActions from '../actions/layout/layout';
-import * as windowActions from '../actions/windows/windows';
-import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
-import * as preRequestActions from '../actions/pre-request/pre-request';
-import * as streamActions from '../actions/stream/stream';
-import * as localActions from '../actions/local/local';
-import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
+import * as queryActions from '../store/query/query.action';
+import * as headerActions from '../store/headers/headers.action';
+import * as variableActions from '../store/variables/variables.action';
+import * as layoutActions from '../store/layout/layout.action';
+import * as windowActions from '../store/windows/windows.action';
+import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import * as preRequestActions from '../store/pre-request/pre-request.action';
+import * as streamActions from '../store/stream/stream.action';
+import * as localActions from '../store/local/local.action';
+import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
 
 import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';

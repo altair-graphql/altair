@@ -14,8 +14,8 @@ import {
   DoCheck,
 } from '@angular/core';
 
-import * as fromVariables from '../../reducers/variables/variables';
-import * as fromQuery from '../../reducers/query/query';
+import * as fromVariables from '../../store/variables/variables.reducer';
+import * as fromQuery from '../../store/query/query.reducer';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';

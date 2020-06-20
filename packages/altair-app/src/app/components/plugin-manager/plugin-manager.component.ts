@@ -3,7 +3,7 @@ import { PluginRegistryService } from 'app/services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import * as fromSettings from '../../reducers/settings/settings';
+import * as fromSettings from '../../store/settings/settings.reducer';
 
 @Component({
   selector: 'app-plugin-manager',
