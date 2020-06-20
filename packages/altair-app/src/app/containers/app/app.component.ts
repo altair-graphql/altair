@@ -448,17 +448,16 @@ export class AppComponent implements OnDestroy {
     this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
   }
 
-  async fileDropped(event: any) {
-    const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
-    if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
+  async fileDropped(files: FileList) {
+    if (files && files.length) {
       try {
         // Handle window import
-        await this.windowService.handleImportedFile(dataTransfer.files);
+        await this.windowService.handleImportedFile(files);
       } catch (error) {
         debug.log(error);
         try {
           // Handle collection import
-          await this.collectionService.handleImportedFile(dataTransfer.files)
+          await this.collectionService.handleImportedFile(files)
         } catch (collectionError) {
           debug.log(collectionError);
         }

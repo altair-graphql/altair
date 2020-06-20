@@ -252,7 +252,12 @@ export class WindowService {
   importStringData(dataStr: string) {
     const invalidFileError = new Error('Invalid Altair window file.');
     try {
-      const parsed = JSON.parse(dataStr);
+      let parsed: any = {};
+      try {
+        parsed = JSON.parse(dataStr);
+      } catch (err) {
+        parsed = JSON.parse(decodeURIComponent(dataStr));
+      }
 
       if (parsed.type === 'window' && parsed.version === 1) {
         return this.importWindowData(parsed);

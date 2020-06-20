@@ -5,12 +5,14 @@
     "target": "es5",
     "baseUrl": "",
     "types": [
-      "jasmine",
-      "node"
-    ]
+      "node",
+      "jest"
+    ],
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "allowJs": true
   },
   "files": [
-    "test.ts",
     "polyfills.ts"
   ],
   "include": [

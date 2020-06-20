@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GqlService .fillAllFields() should return query with fields filled 1`] = `
+Object {
+  "insertions": Array [
+    Object {
+      "index": 51,
+      "string": " {
+            id
+            url
+            name
+            region
+            titles
+            seats
+            words
+            overlord
+            swornMembers
+          }",
+    },
+  ],
+  "result": "
+        query {
+          GOTHouses(name: \\"first\\") {
+            id
+            url
+            name
+            region
+            titles
+            seats
+            words
+            overlord
+            swornMembers
+          }
+        }
+      ",
+}
+`;
+
+exports[`GqlService .getIntrospectionSchema() should return schema for introspection data 1`] = `
+GraphQLSchema {
+  "__allowedLegacyNames": Array [],
+  "__validationErrors": undefined,
+  "_directives": Array [
+    "@cacheControl",
+    "@skip",
+    "@include",
+    "@deprecated",
+  ],
+  "_implementations": Object {},
+  "_mutationType": "Mutation",
+  "_possibleTypeMap": Object {},
+  "_queryType": "Query",
+  "_subscriptionType": "Subscription",
+  "_typeMap": Object {
+    "Boolean": "Boolean",
+    "CacheControlScope": "CacheControlScope",
+    "File": "File",
+    "GOTBook": "GOTBook",
+    "GOTCharacter": "GOTCharacter",
+    "GOTHouse": "GOTHouse",
+    "HNUser": "HNUser",
+    "Int": "Int",
+    "Message": "Message",
+    "Mutation": "Mutation",
+    "Query": "Query",
+    "String": "String",
+    "Subscription": "Subscription",
+    "Upload": "Upload",
+    "__Directive": "__Directive",
+    "__DirectiveLocation": "__DirectiveLocation",
+    "__EnumValue": "__EnumValue",
+    "__Field": "__Field",
+    "__InputValue": "__InputValue",
+    "__Schema": "__Schema",
+    "__Type": "__Type",
+    "__TypeKind": "__TypeKind",
+  },
+  "astNode": undefined,
+  "extensionASTNodes": undefined,
+  "extensions": undefined,
+}
+`;
+
+exports[`GqlService .parseQuery() should return GraphQL document 1`] = `
+Object {
+  "definitions": Array [
+    Object {
+      "directives": Array [],
+      "kind": "OperationDefinition",
+      "loc": Object {
+        "end": 42,
+        "start": 9,
+      },
+      "name": undefined,
+      "operation": "query",
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "loc": Object {
+          "end": 42,
+          "start": 15,
+        },
+        "selections": Array [
+          Object {
+            "alias": undefined,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "loc": Object {
+              "end": 32,
+              "start": 27,
+            },
+            "name": Object {
+              "kind": "Name",
+              "loc": Object {
+                "end": 32,
+                "start": 27,
+              },
+              "value": "hello",
+            },
+            "selectionSet": undefined,
+          },
+        ],
+      },
+      "variableDefinitions": Array [],
+    },
+  ],
+  "kind": "Document",
+  "loc": Object {
+    "end": 49,
+    "start": 0,
+  },
+}
+`;
+
+exports[`GqlService .refactorQuery() should return edited query with generated name 1`] = `
+"query refactored2000($name1000: String) {
+  GOTHouses(name: $name1000) {
+    ...GOTHouseFields
+  }
+}
+
+query refactored4000($name3000: String) {
+  GOTHouses(name: $name3000) {
+    ...GOTHouseFields
+  }
+}
+
+fragment GOTHouseFields on GOTHouse {
+  id
+  url
+  name
+  region
+  titles
+  seats
+  words
+}
+"
+`;
+
+exports[`GqlService .refactorQuery() should return edited query with generated name 2`] = `
+Object {
+  "name1000": "first",
+  "name3000": "second",
+}
+`;

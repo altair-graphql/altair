@@ -3,10 +3,10 @@ import * as fromRoot from '../../store';
 
 import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
-import { Mock } from 'ts-mocks';
 import { Subscription } from 'rxjs';
+import { mock } from '../../../testing';
 
-let mockStore: Mock<Store<fromRoot.State>>;
+let mockStore: Store<fromRoot.State>;
 
 const createEnvironmentState = ({
   base = {},
@@ -39,18 +39,17 @@ describe('EnvironmentService', () => {
         baseUrl: 'https://example.api'
       }
     })
-    mockStore = new Mock<Store<fromRoot.State>>({
-      subscribe: createStoreSubscribeFn(environments),
-    });
+    mockStore = mock();
+    mockStore.subscribe = createStoreSubscribeFn(environments);
     TestBed.configureTestingModule({
       providers: [
         EnvironmentService,
         {
           provide: Store,
-          useFactory: () => mockStore.Object,
+          useFactory: () => mockStore,
         },
       ]
-    })
+    });
   });
 
   it('should be created', () => {
@@ -85,7 +84,7 @@ describe('EnvironmentService', () => {
         ],
         activeIndex: 0
       });
-      mockStore.extend({ subscribe: createStoreSubscribeFn(environments) })
+      mockStore.subscribe = createStoreSubscribeFn(environments);
       const service: EnvironmentService = TestBed.get(EnvironmentService);
       const activeEnvironment = service.getActiveEnvironment();
       expect(activeEnvironment).toEqual({

@@ -5,23 +5,22 @@ import { SharedModule } from 'app/modules/shared/shared.module';
 import { PluginRegistryService } from 'app/services';
 import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs';
-import { Mock } from 'ts-mocks';
 
-let mockPluginRegistryService: Mock<PluginRegistryService>;
+let mockPluginRegistryService: PluginRegistryService;
 
 describe('PluginManagerComponent', () => {
   let component: PluginManagerComponent;
   let fixture: ComponentFixture<PluginManagerComponent>;
 
   beforeEach(async(() => {
-    mockPluginRegistryService = new Mock<PluginRegistryService>({
+    mockPluginRegistryService = {
       getRemotePluginList: () => of({})
-    });
+    } as PluginRegistryService;
     TestBed.configureTestingModule({
       providers: [
         {
           provide: PluginRegistryService,
-          useFactory: () => mockPluginRegistryService.Object,
+          useFactory: () => mockPluginRegistryService,
         }
       ],
       imports: [

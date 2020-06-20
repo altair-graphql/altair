@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { expect } from '@jest/globals';
 import { Mock } from 'ts-mocks';
 
-import { HttpClient, HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
 import * as fromRoot from '../../store';
 import { GqlService } from './gql.service';
@@ -13,40 +14,39 @@ import { IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { anyFn } from '../../../testing';
 
-let mockHttpClient: Mock<HttpClient>;
-let mockNotifyService: Mock<NotifyService>;
-let mockStore: Mock<Store<fromRoot.State>>;
+let mockHttpClient: HttpClient;
+let mockNotifyService: NotifyService;
+let mockStore: Store<fromRoot.State>;
 
 describe('GqlService', () => {
   beforeEach(() => {
-    mockHttpClient = new Mock<HttpClient>({
-      request() {
-        return observableEmpty();
-      }
+    mockHttpClient = {} as HttpClient;
+    mockHttpClient.request = jest.fn(() => {
+      return observableEmpty();
     });
-    mockStore = new Mock<Store<fromRoot.State>>({
-      subscribe: Mock.ANY_FUNC,
-    });
-    mockNotifyService = new Mock<NotifyService>({
-      error: Mock.ANY_FUNC,
-      info: Mock.ANY_FUNC,
-    });
+    mockStore = {
+      subscribe: anyFn(),
+    } as Store<fromRoot.State>;
+    mockNotifyService = {
+      error: anyFn(),
+      info: anyFn(),
+    } as NotifyService;
     TestBed.configureTestingModule({
       providers: [
         GqlService,
         {
           provide: HttpClient,
-          useFactory: () => mockHttpClient.Object,
+          useFactory: () => mockHttpClient,
         },
         {
           provide: NotifyService,
-          useFactory: () => mockNotifyService.Object,
+          useFactory: () => mockNotifyService,
         },
         {
           provide: Store,
-          useFactory: () => mockStore.Object,
+          useFactory: () => mockStore,
         }
       ]
     });
@@ -65,7 +65,7 @@ describe('GqlService', () => {
       })).toEqual({
         requestSelectedOperationFromUser: false,
         operations: [
-          jasmine.objectContaining({})
+          expect.anything()
         ],
         selectedOperation: null,
       });
@@ -80,7 +80,7 @@ describe('GqlService', () => {
       })).toEqual({
         requestSelectedOperationFromUser: false,
         operations: [
-          jasmine.objectContaining({})
+          expect.anything()
         ],
         selectedOperation: 'abc',
       });
@@ -94,8 +94,8 @@ describe('GqlService', () => {
       })).toEqual({
         requestSelectedOperationFromUser: true,
         operations: [
-          jasmine.objectContaining({}),
-          jasmine.objectContaining({}),
+          expect.anything(),
+          expect.anything(),
         ],
         selectedOperation: null,
       });
@@ -110,8 +110,8 @@ describe('GqlService', () => {
       })).toEqual({
         requestSelectedOperationFromUser: false,
         operations: [
-          jasmine.objectContaining({}),
-          jasmine.objectContaining({}),
+          expect.anything(),
+          expect.anything(),
         ],
         selectedOperation: 'bcd',
       });
@@ -126,8 +126,8 @@ describe('GqlService', () => {
           method: 'post',
           query: '{}',
         });
-        expect(mockHttpClient.Object.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.Object.request as jasmine.Spy).calls.argsFor(0);
+        expect(mockHttpClient.request).toHaveBeenCalled();
+        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
         expect(httpClientArgs[0]).toBe('post');
         expect(httpClientArgs[1]).toBe('http://test.com');
         const httpConfigArg = httpClientArgs[2];
@@ -153,12 +153,12 @@ describe('GqlService', () => {
             }
           ]
         });
-        expect(mockHttpClient.Object.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.Object.request as jasmine.Spy).calls.argsFor(0);
+        expect(mockHttpClient.request).toHaveBeenCalled();
+        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
         expect(httpClientArgs[0]).toBe('post');
         expect(httpClientArgs[1]).toBe('http://test.com');
         const httpConfigArg = httpClientArgs[2];
-        expect(httpConfigArg.body).toEqual(jasmine.any(FormData));
+        expect(httpConfigArg.body).toEqual(expect.any(FormData));
         expect(httpConfigArg.headers.get('Content-Type')).toBeFalsy();
         expect(JSON.parse(httpConfigArg.body.get('operations'))).toEqual({
           query: '{}',
@@ -183,8 +183,8 @@ describe('GqlService', () => {
             }
           ]
         });
-        expect(mockHttpClient.Object.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.Object.request as jasmine.Spy).calls.argsFor(0);
+        expect(mockHttpClient.request).toHaveBeenCalled();
+        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
         expect(httpClientArgs[0]).toBe('post');
         expect(httpClientArgs[1]).toBe('http://test.com');
         const httpConfigArg = httpClientArgs[2];
@@ -199,27 +199,25 @@ describe('GqlService', () => {
       'should return introspection data',
       inject([GqlService], async(service: GqlService) => {
         let httpClientCallCount = 0;
-        mockHttpClient.extend({
-          request(...args: any) {
-            httpClientCallCount++;
-            switch (httpClientCallCount) {
-              case 1: {
-                const resp = new HttpResponse<any>({
-                  body: {
-                    data: 'introspection data'
-                  }
-                });
-                return of(resp) as any;
-              }
-              default:
-                return of(new HttpResponse<any>({
-                  body: {
-                    data: ''
-                  }
-                })) as any;
+        mockHttpClient.request = (...args: any) => {
+          httpClientCallCount++;
+          switch (httpClientCallCount) {
+            case 1: {
+              const resp = new HttpResponse<any>({
+                body: {
+                  data: 'introspection data'
+                }
+              });
+              return of(resp) as any;
             }
+            default:
+              return of(new HttpResponse<any>({
+                body: {
+                  data: ''
+                }
+              })) as any;
           }
-        });
+        }
       const res = await service.getIntrospectionRequest('http://test.com', {
         method: 'GET'
       }).pipe(first()).toPromise();
@@ -233,33 +231,31 @@ describe('GqlService', () => {
       'should fetch introspection with old introspection query if first call throws error',
       inject([GqlService], async(service: GqlService) => {
         let httpClientCallCount = 0;
-        mockHttpClient.extend({
-          request(...args: any) {
-            httpClientCallCount++
-            switch (httpClientCallCount) {
-              case 1: {
-                const resp = new HttpErrorResponse({
-                  error: 'Some network error'
-                });
-                return of(resp) as any;
-              }
-              case 2: {
-                const resp = new HttpResponse<any>({
-                  body: {
-                    data: 'second introspection data'
-                  }
-                });
-                return of(resp) as any;
-              }
-              default:
-                return of(new HttpResponse<any>({
-                  body: {
-                    data: ''
-                  }
-                })) as any;
+        mockHttpClient.request = (...args: any) => {
+          httpClientCallCount++
+          switch (httpClientCallCount) {
+            case 1: {
+              const resp = new HttpErrorResponse({
+                error: 'Some network error'
+              });
+              return of(resp) as any;
             }
+            case 2: {
+              const resp = new HttpResponse<any>({
+                body: {
+                  data: 'second introspection data'
+                }
+              });
+              return of(resp) as any;
+            }
+            default:
+              return of(new HttpResponse<any>({
+                body: {
+                  data: ''
+                }
+              })) as any;
           }
-        });
+        }
       const res = await service.getIntrospectionRequest('http://test.com', {
         method: 'GET'
       }).pipe(first()).toPromise();
@@ -273,31 +269,29 @@ describe('GqlService', () => {
       'should throw error if second attempt also fails',
       inject([GqlService], async(service: GqlService) => {
         let httpClientCallCount = 0;
-        mockHttpClient.extend({
-          request(...args: any) {
-            httpClientCallCount++
-            switch (httpClientCallCount) {
-              case 1: {
-                const resp = new HttpErrorResponse({
-                  error: 'Some network error'
-                });
-                return of(resp) as any;
-              }
-              case 2: {
-                const resp = new HttpErrorResponse({
-                  error: 'Second network error'
-                });
-                return of(resp) as any;
-              }
-              default:
-                return of(new HttpResponse<any>({
-                  body: {
-                    data: ''
-                  }
-                })) as any;
+        mockHttpClient.request = (...args: any) => {
+          httpClientCallCount++
+          switch (httpClientCallCount) {
+            case 1: {
+              const resp = new HttpErrorResponse({
+                error: 'Some network error'
+              });
+              return of(resp) as any;
             }
+            case 2: {
+              const resp = new HttpErrorResponse({
+                error: 'Second network error'
+              });
+              return of(resp) as any;
+            }
+            default:
+              return of(new HttpResponse<any>({
+                body: {
+                  data: ''
+                }
+              })) as any;
           }
-        });
+        }
 
         try {
           const res = await service.getIntrospectionRequest('http://test.com', {
@@ -378,8 +372,7 @@ describe('GqlService', () => {
 
       const schema = service.getIntrospectionSchema(validIntrospectionData as any);
 
-      // TODO: Need jest snapshot testing here
-      expect(schema).toBeTruthy();
+      expect(schema).toMatchSnapshot();
     }));
     it('should return null if it cannot parse introspection data', inject([GqlService], async(service: GqlService) => {
 
@@ -594,16 +587,7 @@ describe('GqlService', () => {
       };
       const res = service.fillAllFields(schema, query, cursor, token, { maxDepth: 1 });
 
-      // TODO: Need jest snapshot testing here
-      expect(res).toEqual({
-        insertions: [
-          jasmine.objectContaining({
-            index: jasmine.any(Number),
-            string: jasmine.any(String),
-          })
-        ],
-        result: jasmine.any(String)
-      });
+      expect(res).toMatchSnapshot();
     }));
   });
 
@@ -613,12 +597,11 @@ describe('GqlService', () => {
     }));
 
     it('should return GraphQL document', inject([GqlService], (service: GqlService) => {
-      // TODO: Need jest snapshot testing here
       expect(service.parseQuery(`
         query {
           hello
         }
-      `)).toBeTruthy();
+      `)).toMatchSnapshot();
     }));
 
     it('should return empty object if query is invalid', inject([GqlService], (service: GqlService) => {
@@ -671,6 +654,9 @@ describe('GqlService', () => {
 
   describe('.refactorQuery()', () => {
     it('should return edited query with generated name', inject([GqlService], (service: GqlService) => {
+      const _originalRandom = Math.random;
+      let cnt = 1;
+      Math.random = jest.fn(() => cnt++);
       const res = service.refactorQuery(`
         query{
           GOTHouses(name: "first"){
@@ -696,10 +682,10 @@ describe('GqlService', () => {
         }
       `, buildClientSchema(validIntrospectionData as any));
 
-      // TODO: Need jest snapshot testing here
-      expect(res?.query).toContain(`fragment GOTHouseFields on GOTHouse {\n  id\n  url\n  name\n  region\n  titles\n  seats\n  words\n}`);
-      expect(res?.query).toContain(`...GOTHouseFields`);
-      expect(res?.variables).toBeTruthy();
+      expect(res?.query).toMatchSnapshot();
+      expect(res?.variables).toMatchSnapshot();
+
+      Math.random = _originalRandom;
     }));
   });
 
@@ -721,7 +707,7 @@ describe('GqlService', () => {
       const client = service.createStreamClient('http://example.com/stream');
 
       expect(client.url).toBe('http://example.com/stream');
-      expect(client).toEqual(jasmine.any(EventSource));
+      expect(client).toEqual(expect.any(EventSource));
     }));
   });
 

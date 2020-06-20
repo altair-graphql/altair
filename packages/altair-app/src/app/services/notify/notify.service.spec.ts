@@ -5,30 +5,31 @@ import * as fromRoot from '../../store';
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { Mock } from 'ts-mocks';
+import { anyFn, mock } from '../../../testing';
 
-let mockToastrService: Mock<ToastrService>;
-let mockStore: Mock<Store<fromRoot.State>>;
+let mockToastrService: ToastrService;
+let mockStore: Store<fromRoot.State>;
 
 describe('NotifyService', () => {
   beforeEach(() => {
-    mockToastrService = new Mock<ToastrService>({
-      success: Mock.ANY_FUNC,
-      error: Mock.ANY_FUNC,
-      warning: Mock.ANY_FUNC,
-      info: Mock.ANY_FUNC,
+    mockToastrService = mock<ToastrService>({
+      success: anyFn(),
+      error: anyFn(),
+      warning: anyFn(),
+      info: anyFn(),
     });
-    mockStore = new Mock<Store<fromRoot.State>>();
+    mockToastrService = mock();
+    mockStore = mock();
     TestBed.configureTestingModule({
       providers: [
         NotifyService,
         {
           provide: Store,
-          useFactory: () => mockStore.Object,
+          useFactory: () => mockStore,
         },
         {
           provide: ToastrService,
-          useFactory: () => mockToastrService.Object,
+          useFactory: () => mockToastrService,
         },
       ]
     });
@@ -42,7 +43,7 @@ describe('NotifyService', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
       service.success('message', 'title', { data: 'x' });
 
-      expect(mockToastrService.Object.success).toHaveBeenCalledWith(
+      expect(mockToastrService.success).toHaveBeenCalledWith(
         'message',
         'title',
         ({
@@ -62,10 +63,10 @@ describe('NotifyService', () => {
           'alert.disableWarnings': false,
         }
       };
-      mockStore.extend({ select: (predicate: any) => of(predicate(state)) })
+      mockStore.select = (predicate: any) => of(predicate(state));
       service.warning('message', 'title', { data: 'x' });
 
-      expect(mockToastrService.Object.warning).toHaveBeenCalledWith(
+      expect(mockToastrService.warning).toHaveBeenCalledWith(
         'message',
         'title',
         ({
@@ -83,10 +84,10 @@ describe('NotifyService', () => {
           'alert.disableWarnings': true,
         }
       };
-      mockStore.extend({ select: (predicate: any) => of(predicate(state)) })
+      mockStore.select = (predicate: any) => of(predicate(state));
       service.warning('message', 'title', { data: 'x' });
 
-      expect(mockToastrService.Object.warning).not.toHaveBeenCalled();
+      expect(mockToastrService.warning).not.toHaveBeenCalled();
     }));
   });
 
@@ -94,7 +95,7 @@ describe('NotifyService', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
       service.info('message', 'title', { data: 'x' });
 
-      expect(mockToastrService.Object.info).toHaveBeenCalledWith(
+      expect(mockToastrService.info).toHaveBeenCalledWith(
         'message',
         'title',
         ({
@@ -108,7 +109,7 @@ describe('NotifyService', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
       service.error('message', 'title', { data: 'x' });
 
-      expect(mockToastrService.Object.error).toHaveBeenCalledWith(
+      expect(mockToastrService.error).toHaveBeenCalledWith(
         'message',
         'title',
         ({
