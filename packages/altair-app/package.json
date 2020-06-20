@@ -11,7 +11,7 @@
     "start": "ng serve",
     "build": "npm run generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --stats-json",
     "test-single-run": "ng test --watch=false --code-coverage",
-    "test": "jest",
+    "test": "jest && ng lint",
     "test:watch": "jest --watch",
     "prepare": "npm run generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --outputHashing=none --prod --aot --stats-json",
     "test-build": "ng lint && npm run build && npm run test-single-run",

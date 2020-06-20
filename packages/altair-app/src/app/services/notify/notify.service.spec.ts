@@ -18,7 +18,6 @@ describe('NotifyService', () => {
       warning: anyFn(),
       info: anyFn(),
     });
-    mockToastrService = mock();
     mockStore = mock();
     TestBed.configureTestingModule({
       providers: [
