@@ -100,7 +100,7 @@ export class AltairConfig {
     'ro-RO': 'Romanian',
     'vi-VN': 'Vietnamese',
   };
-  query_history_depth = isElectron ? 50 : 7;
+  query_history_depth = isElectron ? 100 : 15;
   defaultTheme = 'system';
   themes: [ 'light', 'dark', 'dracula', 'system' ];
   isTranslateMode = isTranslateMode;
