@@ -93,6 +93,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Назва запиту",
   "CREATE_COLLECTION_BUTTON": "Створити колекцію",
   "NUMBER_OF_QUERIES": "Кількість запитів:",
+  "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_EDIT": "Редагувати",
