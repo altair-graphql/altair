@@ -93,6 +93,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name des Query",
   "CREATE_COLLECTION_BUTTON": "Sammlung erstellen",
   "NUMBER_OF_QUERIES": "Query Anzahl:",
+  "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Löschen",
   "COLLECTIONS_MENU_DELETE": "Löschen",
   "COLLECTIONS_MENU_EDIT": "Bearbeiten",

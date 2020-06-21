@@ -93,6 +93,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Tên truy vấn",
   "CREATE_COLLECTION_BUTTON": "Tạo collection",
   "NUMBER_OF_QUERIES": "Số lượng truy vấn:",
+  "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Xoá",
   "COLLECTIONS_MENU_DELETE": "Xoá",
   "COLLECTIONS_MENU_EDIT": "Chỉnh sửa",

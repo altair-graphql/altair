@@ -93,6 +93,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Název dotazu",
   "CREATE_COLLECTION_BUTTON": "Vytvořit kolekci",
   "NUMBER_OF_QUERIES": "Počet dotazů:",
+  "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Odstranit",
   "COLLECTIONS_MENU_DELETE": "Odstranit",
   "COLLECTIONS_MENU_EDIT": "Upravit",
