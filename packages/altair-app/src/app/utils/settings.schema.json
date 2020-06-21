@@ -1,0 +1,90 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "SettingsLanguage": {
+            "enum": [
+                "cs-CZ",
+                "de-DE",
+                "en-US",
+                "es-ES",
+                "fr-FR",
+                "it-IT",
+                "ja-JP",
+                "ko-KR",
+                "pl-PL",
+                "pt-BR",
+                "ro-RO",
+                "ru-RU",
+                "sr-SP",
+                "uk-UA",
+                "vi-VN",
+                "zh-CN"
+            ],
+            "type": "string"
+        },
+        "SettingsTheme": {
+            "enum": [
+                "dark",
+                "dracula",
+                "light",
+                "system"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "addQueryDepthLimit": {
+            "description": "Specifies how deep the 'Add query' functionality would go",
+            "type": "number"
+        },
+        "alert.disableWarnings": {
+            "description": "Specifies if warning alerts should be disabled",
+            "type": "boolean"
+        },
+        "disablePushNotification": {
+            "description": "Specifies if the push notifications should be disabled",
+            "type": "boolean"
+        },
+        "enableExperimental": {
+            "description": "Enable experimental features in Altair.\nNote: The features might be unstable.",
+            "type": "boolean"
+        },
+        "language": {
+            "$ref": "#/definitions/SettingsLanguage",
+            "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
+        },
+        "plugin.list": {
+            "description": "Specifies a list of enabled plugins (requires enableExperimental to be true)",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "request.withCredentials": {
+            "description": "Specifies if requests should be sent with credentials (with cookies) or not",
+            "type": "boolean"
+        },
+        "schema.reloadOnStart": {
+            "description": "Specifies if the schema should be reloaded when the app starts",
+            "type": "boolean"
+        },
+        "tabSize": {
+            "description": "Specifies the tab size in the editor",
+            "type": "number"
+        },
+        "theme": {
+            "$ref": "#/definitions/SettingsTheme",
+            "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'"
+        },
+        "theme.editorFontFamily": {
+            "description": "Specifies the font family for the editors",
+            "type": "string"
+        },
+        "theme.fontsize": {
+            "description": "Specifies the base font size\n(Default size - 24)",
+            "type": "number"
+        }
+    },
+    "type": "object"
+}
+
