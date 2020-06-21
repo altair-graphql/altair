@@ -1,6 +1,6 @@
 {
   "name": "altair-koa-middleware",
-  "version": "2.4.10",
+  "version": "2.4.11",
   "description": "Koa middleware for altair graphql client",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
     "@koa/router": "^9.0.1",
-    "altair-static": "^2.4.10",
+    "altair-static": "^2.4.11",
     "koa-send": "^5.0.0"
   },
   "devDependencies": {
