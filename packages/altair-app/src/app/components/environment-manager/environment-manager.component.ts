@@ -19,6 +19,7 @@ import * as Codemirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
+import 'codemirror/keymap/sublime';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -69,6 +70,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
     autoRefresh: true,
     dragDrop: false,
     autoCloseBrackets: true,
+    keyMap: 'sublime',
     theme: 'default environments-editor',
     gutters: ['CodeMirror-lint-markers', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     extraKeys: {

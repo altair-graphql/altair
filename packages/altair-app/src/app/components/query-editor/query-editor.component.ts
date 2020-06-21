@@ -35,6 +35,7 @@ import 'codemirror/addon/search/searchcursor';
 import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
+import 'codemirror/keymap/sublime';
 // import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
@@ -104,6 +105,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    keyMap: 'sublime',
     autoCloseBrackets: true,
     matchBrackets: true,
     autoRefresh: true,
