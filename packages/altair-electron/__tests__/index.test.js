@@ -259,11 +259,11 @@ describe('Altair electron', function() {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.addHeader('X-auth-token', '<some-random-token>');
+    await app.client.addHeader('x-auth-token', 'some-random-token');
     await app.client.sendRequest();
     await app.client.pause(500);
     const logs = await app.client.getMainProcessLogs();
-    assert.isTrue(logs.includes('Header sent: X-auth-token <some-random-token>'));
+    assert.isTrue(logs.includes('Header sent: x-auth-token some-random-token'));
     await app.client.closeLastAltairWindow();
   });
 
