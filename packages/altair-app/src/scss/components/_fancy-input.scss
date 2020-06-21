@@ -1,7 +1,8 @@
-app-fancy-input, .fancy-input-container {
-	display: inline-block;
-	position: relative;
-	overflow: hidden !important;
+app-fancy-input,
+.fancy-input-container {
+  display: flex;
+  position: relative;
+  overflow: hidden !important;
   -webkit-text-size-adjust: none !important;
   width: 100%;
 }
