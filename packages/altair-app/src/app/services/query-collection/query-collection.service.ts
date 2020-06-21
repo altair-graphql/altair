@@ -18,6 +18,10 @@ export class QueryCollectionService {
 
   create(collection: IQueryCollection) {
     const now = this.storage.now();
+
+    collection.queries = collection.queries.map((query) => {
+      return { ...query, id: uuid(), created_at: now, updated_at: now }
+    });
     return observableFrom(this.storage.queryCollections.add({ ...collection, created_at: now, updated_at: now }));
   }
 
