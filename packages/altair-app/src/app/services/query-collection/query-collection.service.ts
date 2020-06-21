@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import * as uuid from 'uuid/v4';
 import { debug } from 'app/utils/logger';
-import { IQueryCollection, ExportCollectionState, IQuery } from 'app/reducers/collection/collection';
+import { IQueryCollection, ExportCollectionState, IQuery } from 'app/store/collection/collection.reducer';
 import { getFileStr } from 'app/utils';
 
 // Handling hierarchical data
@@ -18,6 +18,10 @@ export class QueryCollectionService {
 
   create(collection: IQueryCollection) {
     const now = this.storage.now();
+
+    collection.queries = collection.queries.map((query) => {
+      return { ...query, id: uuid(), created_at: now, updated_at: now }
+    });
     return observableFrom(this.storage.queryCollections.add({ ...collection, created_at: now, updated_at: now }));
   }
 

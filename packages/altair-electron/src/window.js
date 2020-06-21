@@ -258,7 +258,7 @@ const createWindow = () => {
     requestHeaders = {};
 
     headers.forEach(header => {
-      if (headersToSet.includes(header.key) && header.key && header.value) {
+      if (headersToSet.includes(header.key) && header.key && header.value && header.enabled) {
         requestHeaders[header.key] = header.value;
       }
     });

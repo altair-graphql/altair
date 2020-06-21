@@ -8,7 +8,7 @@ import { handleExternalLinks } from 'app/utils/events';
 import { debug } from 'app/utils/logger';
 import { enableDebugTools } from '@angular/platform-browser';
 import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
-import { reducerToken, getReducer } from 'app/reducers';
+import { reducerToken, getReducer } from 'app/store';
 import { handleDeprecations } from 'app/utils/deprecated';
 
 let initialized = false;

@@ -17,18 +17,18 @@ import {
   EnvironmentService,
   PreRequestService
 } from '../services';
-import * as fromRoot from '../reducers';
+import * as fromRoot from '../store';
 
-import * as queryActions from '../actions/query/query';
-import * as variablesActions from '../actions/variables/variables';
-import * as layoutActions from '../actions/layout/layout';
-import * as gqlSchemaActions from '../actions/gql-schema/gql-schema';
-import * as docsAction from '../actions/docs/docs';
-import * as windowsMetaActions from '../actions/windows-meta/windows-meta';
-import * as donationAction from '../actions/donation';
-import * as historyActions from '../actions/history/history';
-import * as dialogsActions from '../actions/dialogs/dialogs';
-import * as streamActions from '../actions/stream/stream';
+import * as queryActions from '../store/query/query.action';
+import * as variablesActions from '../store/variables/variables.action';
+import * as layoutActions from '../store/layout/layout.action';
+import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
+import * as docsAction from '../store/docs/docs.action';
+import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import * as donationAction from '../store/donation/donation.action';
+import * as historyActions from '../store/history/history.action';
+import * as dialogsActions from '../store/dialogs/dialogs.action';
+import * as streamActions from '../store/stream/stream.action';
 
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { debug } from '../utils/logger';

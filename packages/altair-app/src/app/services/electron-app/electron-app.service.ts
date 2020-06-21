@@ -7,13 +7,13 @@ import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 
-import * as fromRoot from '../../reducers';
-import * as fromHeader from '../../reducers/headers/headers';
+import * as fromRoot from '../../store';
+import * as fromHeader from '../../store/headers/headers.reducer';
 
-import * as queryActions from '../../actions/query/query';
-import * as docsActions from '../../actions/docs/docs';
-import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
-import * as windowsActions from '../../actions/windows/windows';
+import * as queryActions from '../../store/query/query.action';
+import * as docsActions from '../../store/docs/docs.action';
+import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
+import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from 'app/utils/logger';
 
 @Injectable()

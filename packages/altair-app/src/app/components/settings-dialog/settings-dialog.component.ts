@@ -12,7 +12,7 @@ import {
   DoCheck,
 } from '@angular/core';
 
-import * as fromSettings from '../../reducers/settings/settings';
+import * as fromSettings from '../../store/settings/settings.reducer';
 
 import { AltairConfig } from '../../config';
 import { debug } from 'app/utils/logger';

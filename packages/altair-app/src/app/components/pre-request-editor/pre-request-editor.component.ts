@@ -20,6 +20,7 @@ import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 // import 'codemirror/addon/display/autorefresh';
+import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
@@ -44,6 +45,7 @@ export class PreRequestEditorComponent implements OnChanges, DoCheck {
     autoRefresh: true,
     dragDrop: false,
     autoCloseBrackets: true,
+    keyMap: 'sublime',
     theme: 'default pre-request-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     extraKeys: {

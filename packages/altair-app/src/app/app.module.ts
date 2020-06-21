@@ -17,7 +17,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './modules/shared/shared.module';
 
-import { metaReducers, reducerToken } from './reducers';
+import { metaReducers, reducerToken } from './store';
 
 import { QueryEffects } from './effects/query';
 import { WindowsEffects } from './effects/windows';

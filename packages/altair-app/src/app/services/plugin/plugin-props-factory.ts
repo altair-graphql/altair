@@ -3,13 +3,13 @@ import { Store } from '@ngrx/store';
 import { PluginInstance, isAppLevelPluginType, PluginComponentDataProps } from './plugin';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store';
 
-import * as queryActions from '../../actions/query/query';
-import * as variableActions from '../../actions/variables/variables';
+import * as queryActions from '../../store/query/query.action';
+import * as variableActions from '../../store/variables/variables.action';
 import { Observable, Subscription } from 'rxjs';
 import { WindowService } from '../window.service';
-import { ExportWindowState } from 'app/reducers/windows';
+import { ExportWindowState } from 'app/store/windows/windows.reducer';
 import { PluginEventService, PluginEvent } from './plugin-event.service';
 import is_electron from 'app/utils/is_electron';
 

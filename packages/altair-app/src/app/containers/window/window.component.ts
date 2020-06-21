@@ -11,27 +11,27 @@ import {
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as fromHeader from '../../reducers/headers/headers';
-import * as fromHistory from '../../reducers/history/history';
-import * as fromVariable from '../../reducers/variables/variables';
-import * as fromQuery from '../../reducers/query/query';
-import * as fromCollection from '../../reducers/collection/collection';
-import * as fromPreRequest from '../../reducers/pre-request/pre-request';
-import * as fromDocs from '../../reducers/docs/docs';
+import * as fromRoot from '../../store';
+import * as fromHeader from '../../store/headers/headers.reducer';
+import * as fromHistory from '../../store/history/history.reducer';
+import * as fromVariable from '../../store/variables/variables.reducer';
+import * as fromQuery from '../../store/query/query.reducer';
+import * as fromCollection from '../../store/collection/collection.reducer';
+import * as fromPreRequest from '../../store/pre-request/pre-request.reducer';
+import * as fromDocs from '../../store/docs/docs.reducer';
 
-import * as queryActions from '../../actions/query/query';
-import * as headerActions from '../../actions/headers/headers';
-import * as variableActions from '../../actions/variables/variables';
-import * as dialogsActions from '../../actions/dialogs/dialogs';
-import * as docsActions from '../../actions/docs/docs';
-import * as layoutActions from '../../actions/layout/layout';
-import * as schemaActions from '../../actions/gql-schema/gql-schema';
-import * as historyActions from '../../actions/history/history';
-import * as windowActions from '../../actions/windows/windows';
-import * as collectionActions from '../../actions/collection/collection';
-import * as streamActions from '../../actions/stream/stream';
-import * as preRequestActions from '../../actions/pre-request/pre-request';
+import * as queryActions from '../../store/query/query.action';
+import * as headerActions from '../../store/headers/headers.action';
+import * as variableActions from '../../store/variables/variables.action';
+import * as dialogsActions from '../../store/dialogs/dialogs.action';
+import * as docsActions from '../../store/docs/docs.action';
+import * as layoutActions from '../../store/layout/layout.action';
+import * as schemaActions from '../../store/gql-schema/gql-schema.action';
+import * as historyActions from '../../store/history/history.action';
+import * as windowActions from '../../store/windows/windows.action';
+import * as collectionActions from '../../store/collection/collection.action';
+import * as streamActions from '../../store/stream/stream.action';
+import * as preRequestActions from '../../store/pre-request/pre-request.action';
 
 import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';

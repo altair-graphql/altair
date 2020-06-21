@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ToastrService, ActiveToast, ToastrConfig } from 'ngx-toastr';
 import { isExtension } from '../../utils';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../store';
 import { IDictionary } from 'app/interfaces/shared';
 import { first } from 'rxjs/operators';
 

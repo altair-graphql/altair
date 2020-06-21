@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { memoize } from 'app/utils/memoize';
-import { IQueryCollection, IQuery } from 'app/reducers/collection/collection';
+import { IQueryCollection, IQuery } from 'app/store/collection/collection.reducer';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 @Component({

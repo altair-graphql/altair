@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IQueryCollection } from 'app/reducers/collection/collection';
+import { IQueryCollection } from 'app/store/collection/collection.reducer';
 
 @Component({
   selector: 'app-query-collections',

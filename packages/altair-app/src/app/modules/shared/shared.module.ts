@@ -6,7 +6,6 @@ import { NgxElectronModule } from 'ngx-electron';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
-import { DndModule } from '@beyerleinf/ngx-dnd';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
@@ -22,7 +21,6 @@ import { IconsModule } from '../icons/icons.module';
     NgPipesModule,
     NguiAutoCompleteModule,
     ContextMenuModule.forRoot(),
-    DndModule,
     NgxPopperModule.forRoot({
       applyClass: 'tooltip-content',
       trigger: 'hover'
@@ -39,7 +37,6 @@ import { IconsModule } from '../icons/icons.module';
     SortablejsModule,
     NgPipesModule,
     ContextMenuModule,
-    DndModule,
     NguiAutoCompleteModule,
     NgxPopperModule,
     MarkdownModule,

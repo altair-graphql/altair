@@ -82,13 +82,13 @@
   max-width: 50%;
   flex: 1;
   padding: 0 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .set-header-input,
 .dialog-input {
   font-size: fontsize(14);
-  padding: 5px 0;
-  // line-height: 1;
   border: 0;
   border-bottom: 2px solid var(--theme-border-color);
   transition: all .3s ease;

@@ -9,6 +9,7 @@ import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 // import 'codemirror/addon/display/autorefresh';
+import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 
@@ -38,6 +39,7 @@ export class VariablesEditorComponent implements OnChanges, DoCheck {
     indentUnit: 4,
     matchBrackets: true,
     autoCloseBrackets: true,
+    keyMap: 'sublime',
     theme: 'default variable-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
   };

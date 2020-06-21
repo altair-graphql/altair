@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as fromEnvironments from '../../reducers/environments';
-import * as fromHeaders from '../../reducers/headers/headers';
+import * as fromRoot from '../../store';
+import * as fromEnvironments from '../../store/environments/environments.reducer';
+import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from 'app/interfaces/shared';
 
+interface IEnvironment extends IDictionary<any> {
+  headers?: IDictionary<string>;
+}
 interface HydrateEnvironmentOptions {
-  activeEnvironment?: IDictionary<string>;
+  activeEnvironment?: IEnvironment;
 }
 
 @Injectable({
@@ -25,7 +28,7 @@ export class EnvironmentService {
     });
   }
 
-  getActiveEnvironment(): any {
+  getActiveEnvironment(): IEnvironment {
     let baseEnvironment = {};
     let subEnvironment = {};
 
@@ -86,8 +89,9 @@ export class EnvironmentService {
     if (environmentHeadersMap) {
       const environmentHeaders = Object.keys(environmentHeadersMap).map(key => {
         return {
-          key,
-          value: environmentHeadersMap[key],
+          key: this.hydrate(key, options),
+          value: this.hydrate(environmentHeadersMap[key], options),
+          enabled: true,
         }
       });
 

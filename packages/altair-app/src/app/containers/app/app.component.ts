@@ -6,27 +6,27 @@ import { TranslateService } from '@ngx-translate/core';
 
 import * as uuid from 'uuid/v4';
 
-import * as fromRoot from '../../reducers';
-import * as fromHeader from '../../reducers/headers/headers';
-import * as fromVariable from '../../reducers/variables/variables';
-import * as fromSettings from '../../reducers/settings/settings';
-import * as fromCollection from '../../reducers/collection/collection';
-import * as fromWindowsMeta from '../../reducers/windows-meta/windows-meta';
-import * as fromEnvironments from '../../reducers/environments';
+import * as fromRoot from '../../store';
+import * as fromHeader from '../../store/headers/headers.reducer';
+import * as fromVariable from '../../store/variables/variables.reducer';
+import * as fromSettings from '../../store/settings/settings.reducer';
+import * as fromCollection from '../../store/collection/collection.reducer';
+import * as fromWindowsMeta from '../../store/windows-meta/windows-meta.reducer';
+import * as fromEnvironments from '../../store/environments/environments.reducer';
 
-import * as queryActions from '../../actions/query/query';
-import * as headerActions from '../../actions/headers/headers';
-import * as variableActions from '../../actions/variables/variables';
-import * as dialogsActions from '../../actions/dialogs/dialogs';
-import * as layoutActions from '../../actions/layout/layout';
-import * as docsActions from '../../actions/docs/docs';
-import * as windowsActions from '../../actions/windows/windows';
-import * as windowsMetaActions from '../../actions/windows-meta/windows-meta';
-import * as settingsActions from '../../actions/settings/settings';
-import * as donationActions from '../../actions/donation';
-import * as windowActions from '../../actions/windows/windows';
-import * as collectionActions from '../../actions/collection/collection';
-import * as environmentsActions from '../../actions/environments/environments';
+import * as queryActions from '../../store/query/query.action';
+import * as headerActions from '../../store/headers/headers.action';
+import * as variableActions from '../../store/variables/variables.action';
+import * as dialogsActions from '../../store/dialogs/dialogs.action';
+import * as layoutActions from '../../store/layout/layout.action';
+import * as docsActions from '../../store/docs/docs.action';
+import * as windowsActions from '../../store/windows/windows.action';
+import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
+import * as settingsActions from '../../store/settings/settings.action';
+import * as donationActions from '../../store/donation/donation.action';
+import * as windowActions from '../../store/windows/windows.action';
+import * as collectionActions from '../../store/collection/collection.action';
+import * as environmentsActions from '../../store/environments/environments.action';
 
 import { environment } from '../../../environments/environment';
 
@@ -448,17 +448,16 @@ export class AppComponent implements OnDestroy {
     this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
   }
 
-  async fileDropped(event: any) {
-    const dataTransfer: DataTransfer = event.mouseEvent.dataTransfer;
-    if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
+  async fileDropped(files: FileList) {
+    if (files && files.length) {
       try {
         // Handle window import
-        await this.windowService.handleImportedFile(dataTransfer.files);
+        await this.windowService.handleImportedFile(files);
       } catch (error) {
         debug.log(error);
         try {
           // Handle collection import
-          await this.collectionService.handleImportedFile(dataTransfer.files)
+          await this.collectionService.handleImportedFile(files)
         } catch (collectionError) {
           debug.log(collectionError);
         }
