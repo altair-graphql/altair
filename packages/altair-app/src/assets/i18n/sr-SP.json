@@ -93,6 +93,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Ime upita",
   "CREATE_COLLECTION_BUTTON": "Dodaj kolekciju",
   "NUMBER_OF_QUERIES": "Broj upita:",
+  "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Обриши",
   "COLLECTIONS_MENU_DELETE": "Обриши",
   "COLLECTIONS_MENU_EDIT": "Edit",
