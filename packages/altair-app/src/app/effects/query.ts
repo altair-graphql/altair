@@ -33,7 +33,6 @@ import * as streamActions from '../store/stream/stream.action';
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
-import data from 'app/services/gql/__mock__/valid-introspection-data';
 
 interface EffectResponseData {
   state: fromRoot.State;
