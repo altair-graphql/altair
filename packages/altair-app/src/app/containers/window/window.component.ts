@@ -107,7 +107,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
 
-  historyList: fromHistory.HistoryList = [];
+  historyList: fromHistory.History[] = [];
   pluginsData: PluginComponentData[] = [];
   resultPaneActionButtonPlugins: { pluginName: string, instance: ActionPlugin, data: PluginComponentData['props']}[] = [];
   resultPaneActionButtonRenderOutputs: ActionPluginRenderOutput[] = [];
