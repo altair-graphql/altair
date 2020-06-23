@@ -33,6 +33,7 @@ import * as streamActions from '../store/stream/stream.action';
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
+import data from 'app/services/gql/__mock__/valid-introspection-data';
 
 interface EffectResponseData {
   state: fromRoot.State;
@@ -108,7 +109,14 @@ export class QueryEffects {
 
                 // Store the current query into the history if it does not already exist in the history
                 if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
-                  this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
+                  this.store.dispatch(
+                    new historyActions.AddHistoryAction(
+                      response.windowId, {
+                        query,
+                        limit: response.state.settings.historyDepth
+                      }
+                    )
+                  );
                 }
 
                 // If the query is a subscription, subscribe to the subscription URL and send the query

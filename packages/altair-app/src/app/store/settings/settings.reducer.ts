@@ -73,6 +73,11 @@ export interface State {
    * Specifies if warning alerts should be disabled
    */
   'alert.disableWarnings'?: boolean;
+
+  /**
+   * Specifies the number of items allowed in the history pane
+   */
+  historyDepth?: number;
 }
 
 export const getInitialState = (): State => {
