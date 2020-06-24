@@ -642,7 +642,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           debug.log('We compress..');
-          this.gqlService.compress(res.data.query.query).then(compressed => {
+          this.gqlService.compress(res.data.query.query || '').then(compressed => {
             debug.log('Compressed..');
 
             if (compressed) {
@@ -726,7 +726,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           try {
-            const namedQuery = this.gqlService.nameQuery(res.data.query.query);
+            const namedQuery = this.gqlService.nameQuery(res.data.query.query || '');
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
             }
@@ -878,11 +878,11 @@ export class QueryEffects {
       private electronAppService: ElectronAppService,
       private environmentService: EnvironmentService,
       private preRequestService: PreRequestService,
-      private store: Store<any>
+      private store: Store<fromRoot.State>
     ) {}
 
 
-    getPrerequestTransformedData$(input: EffectResponseData) {
+    private getPrerequestTransformedData$(input: EffectResponseData) {
       return observableOf(input).pipe(
         switchMap(response => {
           if (!response) {
