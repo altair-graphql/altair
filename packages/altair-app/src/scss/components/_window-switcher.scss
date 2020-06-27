@@ -71,6 +71,7 @@ app-window-switcher {
 }
 
 .window-switcher__input {
+  display: inline-block;
   padding-left: 4px;
   padding-right: 4px;
   user-select: none; // Prevent tab title from highlighting on right click

@@ -13,6 +13,7 @@ import * as fromSettings from '../../store/settings/settings.reducer';
 import * as fromCollection from '../../store/collection/collection.reducer';
 import * as fromWindowsMeta from '../../store/windows-meta/windows-meta.reducer';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
+import * as fromWindows from '../../store/windows/windows.reducer';
 
 import * as queryActions from '../../store/query/query.action';
 import * as headerActions from '../../store/headers/headers.action';
@@ -60,7 +61,7 @@ export class AppComponent implements OnDestroy {
   activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
 
   windowIds: string[] = [];
-  windows = {};
+  windows: fromWindows.State = {};
   closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
@@ -408,6 +409,13 @@ export class AppComponent implements OnDestroy {
     collectionId,
     windowIdInCollection
   }: { query: fromCollection.IQuery, collectionId: number, windowIdInCollection: string }) {
+    const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
+      return this.windows[windowId].layout.windowIdInCollection === windowIdInCollection;
+    });
+    if (matchingOpenQueryWindowIds.length) {
+      this.setActiveWindow(matchingOpenQueryWindowIds[0]);
+      return;
+    }
     this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
   }
 

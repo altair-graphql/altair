@@ -156,3 +156,12 @@
 .ant-tabs-bar {
   border-color: var(--theme-border-color);
 }
+
+.ant-tooltip-inner {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+}
+
+.ant-tooltip-arrow::before {
+  background-color: var(--theme-off-bg-color);
+}
