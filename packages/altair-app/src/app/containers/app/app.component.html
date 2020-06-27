@@ -2,7 +2,8 @@
   class="app-wrapper"
   [appSetCssVariables]="{
     '--rem-base': (settings$ | async)['theme.fontsize'],
-    '--editor-font-family': (settings$ | async)['theme.editorFontFamily']
+    '--editor-font-family': (settings$ | async)['theme.editorFontFamily'],
+    '--editor-font-size': (settings$ | async)['theme.editorFontSize']
   }"
   [ngClass]="(settings$ | async).theme + '-theme'"
   appFileDrop

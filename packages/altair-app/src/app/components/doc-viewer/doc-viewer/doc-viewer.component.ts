@@ -30,15 +30,6 @@ import * as Comlink from 'comlink';
 import { GqlService } from 'app/services';
 import getRootTypes from 'app/utils/get-root-types';
 
-let DocUtils: any = null;
-try {
-  DocUtils = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
-} catch (error) {
-  debug.error('Could not load doc utilsweb worker');
-  debug.error(error);
-  DocUtils = null;
-}
-
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
@@ -58,7 +49,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   @Input() docView: fromDocs.DocView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
-    name: 'Conference' // identifies type/field
+    name: 'FieldName' // identifies type/field
   };
   @Input() lastUpdatedAt: number;
 
@@ -96,8 +87,8 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
     // Set translations
     this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT')
-    .pipe(untilDestroyed(this))
-    .subscribe(text => this.searchInputPlaceholder = text);
+      .pipe(untilDestroyed(this))
+      .subscribe(text => this.searchInputPlaceholder = text);
 
     this.setDocViewChange.subscribe(() => {
       this.docViewerRef.nativeElement.scrollTop = 0;
@@ -121,7 +112,6 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       const docUtilWorker = await this.getDocUtilsWorker();
       const sdl = await this.gqlService.getSDL(schema);
       await docUtilWorker.updateSchema(sdl);
-      // this.generateIndex(schema);
       this.index = await this.docUtilWorker.generateSearchIndex();
       debug.log('Worker index:', this.index);
       this.hasSearchIndex = true;
@@ -241,9 +231,12 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   async getDocUtilsWorker() {
     if (!this.docUtilWorker) {
-      if (DocUtils) {
+      try {
+        const DocUtils: any = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
         this.docUtilWorker = await new DocUtils();
-      } else {
+      } catch (error) {
+        debug.error('Could not load doc utilsweb worker');
+        debug.error(error);
         const { DocUtils: ImportedDocUtils } = await import('../doc-utils');
         this.docUtilWorker = new ImportedDocUtils();
       }

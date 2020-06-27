@@ -50,6 +50,11 @@ export interface State {
   'theme.editorFontFamily'?: string;
 
   /**
+   * Specifies the font size for the editors
+   */
+  'theme.editorFontSize'?: number;
+
+  /**
    * Specifies if the push notifications should be disabled
    */
   disablePushNotification?: boolean;

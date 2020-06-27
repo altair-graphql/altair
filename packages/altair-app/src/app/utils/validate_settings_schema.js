@@ -312,15 +312,15 @@ var validate = (function() {
                               var valid1 = errors === errs_1;
                             }
                             if (valid1) {
-                              if (data['theme.fontsize'] === undefined) {
+                              if (data['theme.editorFontSize'] === undefined) {
                                 valid1 = true;
                               } else {
                                 var errs_1 = errors;
-                                if (typeof data['theme.fontsize'] !== "number") {
+                                if (typeof data['theme.editorFontSize'] !== "number") {
                                   validate.errors = [{
                                     keyword: 'type',
-                                    dataPath: (dataPath || '') + '[\'theme.fontsize\']',
-                                    schemaPath: '#/properties/theme.fontsize/type',
+                                    dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
+                                    schemaPath: '#/properties/theme.editorFontSize/type',
                                     params: {
                                       type: 'number'
                                     },
@@ -329,6 +329,26 @@ var validate = (function() {
                                   return false;
                                 }
                                 var valid1 = errors === errs_1;
+                              }
+                              if (valid1) {
+                                if (data['theme.fontsize'] === undefined) {
+                                  valid1 = true;
+                                } else {
+                                  var errs_1 = errors;
+                                  if (typeof data['theme.fontsize'] !== "number") {
+                                    validate.errors = [{
+                                      keyword: 'type',
+                                      dataPath: (dataPath || '') + '[\'theme.fontsize\']',
+                                      schemaPath: '#/properties/theme.fontsize/type',
+                                      params: {
+                                        type: 'number'
+                                      },
+                                      message: 'should be number'
+                                    }];
+                                    return false;
+                                  }
+                                  var valid1 = errors === errs_1;
+                                }
                               }
                             }
                           }
@@ -421,6 +441,10 @@ validate.schema = {
     "theme.editorFontFamily": {
       "description": "Specifies the font family for the editors",
       "type": "string"
+    },
+    "theme.editorFontSize": {
+      "description": "Specifies the font size for the editors",
+      "type": "number"
     },
     "theme.fontsize": {
       "description": "Specifies the base font size\n(Default size - 24)",

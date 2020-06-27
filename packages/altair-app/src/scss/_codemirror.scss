@@ -10,9 +10,11 @@
   background: transparent;
   cursor: text;
 
-  pre.CodeMirror-line {
+  pre.CodeMirror-line,
+  pre.CodeMirror-line-like {
     color: var(--theme-font-color);
     font-family: var(--editor-font-family);
+    font-size: fontsize(var(--editor-font-size));
   }
 }
 
