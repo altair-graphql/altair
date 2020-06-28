@@ -3,7 +3,7 @@ import { getAltairConfig } from '../../config';
 import { jsonc } from 'app/utils';
 
 const config = getAltairConfig();
-export type SettingsTheme = 'light' | 'dark' | 'dracula' | 'system';
+export type SettingsTheme = typeof config.themes[number];
 export type SettingsLanguage = keyof typeof config.languages;
 
 export interface State {
@@ -102,18 +102,7 @@ export function settingsReducer(state = getInitialState(), action: settings.Acti
     case settings.SET_SETTINGS_JSON:
       const newState = { ...getInitialState(), ...jsonc(action.payload.value) };
 
-      // Removes old isShown state
-      delete newState.isShown;
-
       return newState;
-    case settings.SET_THEME:
-      return { ...state, theme: action.payload.value };
-    case settings.SET_LANGUAGE:
-      return { ...state, language: action.payload.value };
-    case settings.SET_ADD_QUERY_DEPTH_LIMIT:
-      return { ...state, addQueryDepthLimit: action.payload.value };
-    case settings.SET_TAB_SIZE_ACTION:
-      return { ...state, tabSize: action.payload.value };
     default:
       return state;
   }

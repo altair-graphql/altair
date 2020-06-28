@@ -307,22 +307,6 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new windowsMetaActions.ShowImportCurlDialogAction({ value }));
   }
 
-  onThemeChange(theme: fromSettings.SettingsTheme) {
-    this.store.dispatch(new settingsActions.SetThemeAction({ value: theme }));
-  }
-
-  onLanguageChange(language: fromSettings.SettingsLanguage) {
-    this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
-  }
-
-  onAddQueryDepthLimitChange(depthLimit: number) {
-    this.store.dispatch(new settingsActions.SetAddQueryDepthLimitAction({ value: depthLimit }));
-  }
-
-  onTabSizeChange(tabSize: number) {
-    this.store.dispatch(new settingsActions.SetTabSizeAction({ value: tabSize }));
-  }
-
   prettifyCode() {
     this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId));
   }
