@@ -106,6 +106,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Mais recente",
   "COLLECTIONS_SORT_BY_OLDEST": "Mais antigo",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Editar Coleção",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Atualizar os detalhes da sua coleção",
   "COLLECTION_TITLE_LABEL": "Título da coleção",
