@@ -40,6 +40,10 @@ export class VariablesEditorComponent implements OnChanges, DoCheck {
     matchBrackets: true,
     autoCloseBrackets: true,
     keyMap: 'sublime',
+    extraKeys: {
+      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
+      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
+    },
     theme: 'default variable-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
   };

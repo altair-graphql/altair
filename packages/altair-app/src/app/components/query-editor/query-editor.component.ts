@@ -103,6 +103,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       'Ctrl-D': (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
 
       'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
+      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
+      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     keyMap: 'sublime',
