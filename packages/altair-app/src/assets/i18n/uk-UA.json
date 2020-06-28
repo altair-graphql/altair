@@ -106,6 +106,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Найновіші",
   "COLLECTIONS_SORT_BY_OLDEST": "Найдавніші",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Цей запит старий і не є сумісним. Будь ласка, видаліть і створіть його знову, щоб запобігти втраті даних.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Змінити колекцію",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Оновлення деталей колекції",
   "COLLECTION_TITLE_LABEL": "Назва колекції",
