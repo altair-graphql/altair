@@ -26,7 +26,7 @@ const app = new Application({
   requireName: 'electronRequire',
 
   // Uncomment this line to debug
-  chromeDriverArgs: [ 'remote-debugging-port=' + Math.floor(Math.random() * (9999 - 9000) + 9000) ]
+  chromeDriverArgs: [ `remote-debugging-port=${Math.floor(Math.random() * (9999 - 9000) + 9000)}` ]
 });
 
 const selectors = {
@@ -34,22 +34,22 @@ const selectors = {
   visibleWindowSelector: 'app-window:not(.hide)',
 };
 
-const closeAnyOpenToast = async (app) => {
-  const toastElResult = await app.client.$('.toast-close-button');
+const closeAnyOpenToast = async (_app) => {
+  const toastElResult = await _app.client.$('.toast-close-button');
   if (toastElResult.value) {
-    await app.client.$('.toast-close-button').click();
-    await app.client.pause(500);
-    await closeAnyOpenToast(app);
+    await _app.client.$('.toast-close-button').click();
+    await _app.client.pause(500);
+    await closeAnyOpenToast(_app);
   }
 };
 
-const closeAnyOpenBackdrops = async (app) => {
-  const backdropElResult = await app.client.$('.cdk-overlay-backdrop-showing');
-  // const isClickable = await app.client.$('.cdk-overlay-backdrop-showing').isClickable();
+const closeAnyOpenBackdrops = async (_app) => {
+  const backdropElResult = await _app.client.$('.cdk-overlay-backdrop-showing');
+  // const isClickable = await _app.client.$('.cdk-overlay-backdrop-showing').isClickable();
   if (backdropElResult.value) {
-    await app.client.$('.cdk-overlay-backdrop-showing').click();
-    await app.client.pause(500);
-    await closeAnyOpenBackdrops(app);
+    await _app.client.$('.cdk-overlay-backdrop-showing').click();
+    await _app.client.pause(500);
+    await closeAnyOpenBackdrops(_app);
   }
 };
 
@@ -111,7 +111,7 @@ describe('Altair electron', function() {
       await app.client.pause(300);
     });
     await app.client.addCommand('addHeader', async(key, val) => {
-      await app.client.$(`.side-menu-item[track-id="show_set_headers"]`).click();
+      await app.client.$('.side-menu-item[track-id="show_set_headers"]').click();
       // await app.client.pause(300);
       await app.client.$('nz-modal-container [track-id="add_header"]').click();
       await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
@@ -202,7 +202,7 @@ describe('Altair electron', function() {
     assert.include(httpVerb, 'POST');
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
     await app.client.pause(300);
-    await app.client.$(`.ant-dropdown-menu-item*=GET`).click();
+    await app.client.$('.ant-dropdown-menu-item*=GET').click();
     assert.include(await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText(), 'GET');
 
     await app.client.closeLastAltairWindow();
@@ -214,10 +214,10 @@ describe('Altair electron', function() {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$(`.side-menu-item app-icon[name="briefcase"]`).click();
-    await app.client.$(`.side-menu-item [track-id="prettify"]`).click();
+    await app.client.$('.side-menu-item app-icon[name="briefcase"]').click();
+    await app.client.$('.side-menu-item [track-id="prettify"]').click();
     await app.client.pause(300);
-    const result = (await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`).getText()).replace(/\d/g, '');
+    const result = (await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`).getText()).replace(/\d/ug, '');
     assert.include(result, '{\n\n  hello\n\n}');
 
     await app.client.closeLastAltairWindow();
@@ -229,11 +229,11 @@ describe('Altair electron', function() {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$(`.side-menu-item app-icon[name="briefcase"]`).click();
-    await app.client.$(`.side-menu-item [track-id="copy_as_curl"]`).click();
+    await app.client.$('.side-menu-item app-icon[name="briefcase"]').click();
+    await app.client.$('.side-menu-item [track-id="copy_as_curl"]').click();
     await app.client.pause(100);
     const clipboardText = await app.electron.clipboard.readText();
-    assert.equal(clipboardText, `curl 'http://localhost:5400/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'Origin: altair://-' --data-binary '{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}' --compressed`);
+    assert.equal(clipboardText, 'curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}\' --compressed');
 
     await app.client.closeLastAltairWindow();
   });
@@ -249,7 +249,7 @@ describe('Altair electron', function() {
     await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('.doc-viewer-item-query*=hello').$('.doc-viewer-item-query-add-btn').click();
     await app.client.pause(100);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`).getText();
-    assert.match(result, /query.*\{.*hello.*\}/s);
+    assert.match(result, /query.*\{.*hello.*\}/us);
     await app.client.closeLastAltairWindow();
   });
 
@@ -295,7 +295,7 @@ describe('Altair electron', function() {
     // } else {
     //   await app.client.keys(['Meta', 'a', 'Meta', 'Backspace']);
     // }
-    await app.client.keys(`{ "var1": "value1" }`);
+    await app.client.keys('{ "var1": "value1" }');
     await app.client.sendRequest();
     await app.client.pause(500);
 
@@ -304,7 +304,7 @@ describe('Altair electron', function() {
       try {
         const data = JSON.parse(log.replace('Data sent:', ''));
         return data.variables && data.variables.var1 && data.variables.var1 === 'value1';
-      } catch(err) {
+      } catch (err) {
         return false;
       }
     });

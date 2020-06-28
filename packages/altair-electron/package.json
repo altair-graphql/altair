@@ -14,11 +14,13 @@
   },
   "dependencies": {
     "altair-static": "^2.4.11",
+    "electron-chromedriver": "6.0.0",
     "electron-debug": "^3.0.1",
-    "electron-is-dev": "^1.1.0",
+    "electron-is-dev": "^1.2.0",
     "electron-log": "^3.0.6",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.0.0",
+    "electron-unhandled": "^3.0.2",
     "electron-updater": "^4.1.2",
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
@@ -33,6 +35,7 @@
     "electron-builder": "^21.2.0",
     "electron-notarize": "^0.1.1",
     "electron-reloader": "^0.3.0",
+    "eslint": "^7.3.1",
     "mocha": "^6.2.0",
     "spectron": "8.0.0"
   },
