@@ -1,20 +1,20 @@
 const fs = require('fs');
-const { app, dialog } = require('electron');
+const { dialog } = require('electron');
 
 const { autoUpdater } = require('electron-updater');
-const log = require("electron-log");
+const log = require('electron-log');
 
-const server = 'https://hazel-server-gufzwmrois.now.sh';
-const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
+// const server = 'https://hazel-server-gufzwmrois.now.sh';
+// const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
 
-const CHECK_UPDATE_INTERVAL = 1000 * 60 * 15; // every 15 mins
+// const CHECK_UPDATE_INTERVAL = 1000 * 60 * 15; // every 15 mins
 
-let updater;
+let updater = null;
 let isSilentCheck = true;
 autoUpdater.autoDownload = false;
 
 autoUpdater.on('error', (error) => {
-  dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString());
+  dialog.showErrorBox('Error: ', !!error === null ? 'unknown' : (error.stack || error).toString());
 });
 
 autoUpdater.on('update-available', () => {
@@ -26,12 +26,9 @@ autoUpdater.on('update-available', () => {
   }, (buttonIndex) => {
     if (buttonIndex === 0) {
       autoUpdater.downloadUpdate();
-    }
-    else {
-      if (updater) {
-        updater.enabled = true;
-        updater = null;
-      }
+    } else if (updater) {
+      updater.enabled = true;
+      updater = null;
     }
   });
 });

@@ -4,6 +4,7 @@ class InMemoryStore {
   constructor() {
     this.data = {};
   }
+
   get(key) {
     return this.data[key];
   }
@@ -13,7 +14,7 @@ class InMemoryStore {
   }
 
   delete(key) {
-    delete this.data[key];
+    return Reflect.deleteProperty(this.data[key]);
   }
 }
 
@@ -27,4 +28,5 @@ const getPersistentStore = () => persistentStore;
 module.exports = {
   getStore,
   getPersistentStore,
+  InMemoryStore,
 };
