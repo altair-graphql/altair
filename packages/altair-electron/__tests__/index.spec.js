@@ -1,12 +1,14 @@
 const Application = require('spectron').Application;
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const assert = chai.assert;
+// const chai = require('chai');
+// const chaiAsPromised = require('chai-as-promised');
+// const assert = chai.assert;
 const path = require('path');
+const { it, describe, expect, beforeEach } = require('@jest/globals');
 
-chai.use(chaiAsPromised);
+// chai.use(chaiAsPromised);
 
 const TEST_TIMEOUT = 60000;
+const TEST_RETRIES = 3;
 
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
@@ -53,14 +55,14 @@ const closeAnyOpenBackdrops = async (_app) => {
   }
 };
 
-global.before(function() {
-  chai.should();
-  chai.use(chaiAsPromised);
-});
-describe('Altair electron', function() {
-  this.timeout(TEST_TIMEOUT);
-  beforeEach(async function() {
-    this.timeout(TEST_TIMEOUT);
+jest.setTimeout(TEST_TIMEOUT);
+jest.retryTimes(TEST_RETRIES);
+// global.before(function() {
+//   chai.should();
+//   chai.use(chaiAsPromised);
+// });
+describe('Altair electron', () => {
+  beforeEach(async () => {
     await app.start();
 
     await app.client.addCommand('newAltairWindow', async() => {
@@ -69,7 +71,8 @@ describe('Altair electron', function() {
       await app.client.$('.window-switcher--new-window').click();
       await app.client.pause(500);
       const addedElements = await app.client.$$(selectors.windowSwitcherSelector);
-      assert.strictEqual(addedElements.length, elements.length + 1, 'New window was not created.');
+      expect(addedElements.length).toBe(elements.length + 1);
+      // assert.strictEqual(, , 'New window was not created.');
     });
     await app.client.addCommand('closeLastAltairWindow', async() => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
@@ -88,7 +91,8 @@ describe('Altair electron', function() {
       // await app.client.keys([ 'Control', 'W', 'Control' ]);
       await app.client.pause(500);
       const removedElements = await app.client.$$(selectors.windowSwitcherSelector);
-      assert.strictEqual(removedElements.length, elements.length - 1, 'Window was not closed.');
+      expect(removedElements.length).toBe(elements.length - 1);
+      // assert.strictEqual(, , 'Window was not closed.');
     });
     await app.client.addCommand('setTestServerQraphQLUrl', async() => {
       await app.client.$(`${selectors.visibleWindowSelector} .url-box__input input`).setValue('http://localhost:5400/graphql');
@@ -136,7 +140,7 @@ describe('Altair electron', function() {
   });
 
   it('load window successfully', () => {
-    return app.browserWindow.isVisible().should.eventually.equal(true);
+    expect(app.browserWindow.isVisible()).resolves.toBe(true);
   });
 
   it('can create window and close window', async() => {
@@ -150,7 +154,8 @@ describe('Altair electron', function() {
     await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
     await app.client.pause(100);
     const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
-    assert.isTrue(isDocVisible);
+    // assert.isTrue(isDocVisible);
+    expect(isDocVisible).toBeTruthy();
     await app.client.closeLastAltairWindow();
   });
 
@@ -163,7 +168,9 @@ describe('Altair electron', function() {
     await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
     await app.client.pause(1000);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
-    assert.include(result, 'Hello world');
+
+    expect(result).toContain('Hello world');
+    // assert.include(result, 'Hello world');
     await app.client.closeLastAltairWindow();
   });
 
@@ -177,7 +184,9 @@ describe('Altair electron', function() {
     await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
     await app.client.pause(1000);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
-    assert.include(result, 'Hello world');
+
+    expect(result).toContain('Hello world');
+    // assert.include(result, 'Hello world');
     await app.client.closeLastAltairWindow();
   });
 
@@ -192,18 +201,19 @@ describe('Altair electron', function() {
     await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
     await app.client.pause(100);
     const isRequestDropdownVisible = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send-dropdown`).isVisible();
-    assert.isTrue(isRequestDropdownVisible);
+    expect(isRequestDropdownVisible).toBe(true);
     await app.client.closeLastAltairWindow();
   });
 
   it('can change the HTTP method', async() => {
     await app.client.newAltairWindow();
     const httpVerb = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
-    assert.include(httpVerb, 'POST');
+    expect(httpVerb).toContain('POST');
     await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
     await app.client.pause(300);
     await app.client.$('.ant-dropdown-menu-item*=GET').click();
-    assert.include(await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText(), 'GET');
+    const httpVerbText = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
+    expect(httpVerbText).toContain('GET');
 
     await app.client.closeLastAltairWindow();
   });
@@ -218,7 +228,7 @@ describe('Altair electron', function() {
     await app.client.$('.side-menu-item [track-id="prettify"]').click();
     await app.client.pause(300);
     const result = (await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`).getText()).replace(/\d/ug, '');
-    assert.include(result, '{\n\n  hello\n\n}');
+    expect(result).toContain('{\n\n  hello\n\n}');
 
     await app.client.closeLastAltairWindow();
   });
@@ -233,7 +243,7 @@ describe('Altair electron', function() {
     await app.client.$('.side-menu-item [track-id="copy_as_curl"]').click();
     await app.client.pause(100);
     const clipboardText = await app.electron.clipboard.readText();
-    assert.equal(clipboardText, 'curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}\' --compressed');
+    expect(clipboardText).toBe('curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}\' --compressed');
 
     await app.client.closeLastAltairWindow();
   });
@@ -244,12 +254,12 @@ describe('Altair electron', function() {
     await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
     await app.client.pause(100);
     const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
-    assert.isTrue(isDocVisible);
+    expect(isDocVisible).toBe(true);
     await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('span*=Query').click();
     await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('.doc-viewer-item-query*=hello').$('.doc-viewer-item-query-add-btn').click();
     await app.client.pause(100);
     const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`).getText();
-    assert.match(result, /query.*\{.*hello.*\}/us);
+    expect(result).toMatch(/query.*\{.*hello.*\}/us);
     await app.client.closeLastAltairWindow();
   });
 
@@ -263,7 +273,7 @@ describe('Altair electron', function() {
     await app.client.sendRequest();
     await app.client.pause(500);
     const logs = await app.client.getMainProcessLogs();
-    assert.isTrue(logs.includes('Header sent: x-auth-token some-random-token'));
+    expect(logs.join('')).toContain('Header sent: x-auth-token some-random-token');
     await app.client.closeLastAltairWindow();
   });
 
@@ -277,7 +287,7 @@ describe('Altair electron', function() {
     await app.client.sendRequest();
     await app.client.pause(500);
     const logs = await app.client.getMainProcessLogs();
-    assert.isTrue(logs.includes('Header sent: Origin https://ezio-tester.client'));
+    expect(logs.join('')).toContain('Header sent: Origin https://ezio-tester.client');
     await app.client.closeLastAltairWindow();
   });
 
@@ -308,8 +318,7 @@ describe('Altair electron', function() {
         return false;
       }
     });
-    // assert.strictEqual(logs, []);
-    assert.exists(expectedLog);
+    expect(expectedLog).toBeTruthy();
     await app.client.closeLastAltairWindow();
   });
 });
