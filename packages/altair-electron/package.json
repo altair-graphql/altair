@@ -37,6 +37,7 @@
     "electron-reloader": "^0.3.0",
     "eslint": "^7.3.1",
     "jest": "^26.1.0",
+    "jest-circus": "^26.1.0",
     "spectron": "8.0.0"
   },
   "repository": {

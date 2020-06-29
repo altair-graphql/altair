@@ -8,6 +8,7 @@ const { it, describe, expect, beforeEach } = require('@jest/globals');
 // chai.use(chaiAsPromised);
 
 const TEST_TIMEOUT = 60000;
+const TEST_RETRIES = 3;
 
 let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
@@ -55,6 +56,7 @@ const closeAnyOpenBackdrops = async (_app) => {
 };
 
 jest.setTimeout(TEST_TIMEOUT);
+jest.retryTimes(TEST_RETRIES);
 // global.before(function() {
 //   chai.should();
 //   chai.use(chaiAsPromised);
