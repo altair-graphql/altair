@@ -5,28 +5,33 @@ class InMemoryStore {
     this.data = {};
   }
 
+  /**
+   * @param {string} key key to search for
+   */
   get(key) {
     return this.data[key];
   }
 
+  /**
+   * @param {string} key key of item
+   * @param {any} val value of item
+   */
   set(key, val) {
     this.data[key] = val;
   }
 
+  /**
+   * @param {string} key key of item
+   */
   delete(key) {
-    return Reflect.deleteProperty(this.data[key]);
+    return Reflect.deleteProperty(this.data, key);
   }
 }
 
-const store = new InMemoryStore();
+class PersistentStore extends ElectronStore {}
 
-const getStore = () => store;
-
-const persistentStore = new ElectronStore();
-const getPersistentStore = () => persistentStore;
 
 module.exports = {
-  getStore,
-  getPersistentStore,
   InMemoryStore,
+  PersistentStore,
 };

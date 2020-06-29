@@ -81,7 +81,7 @@ module.exports = {
         'lines-around-comment': 'off',
         'lines-around-directive': 'error',
         'lines-between-class-members': 'warn',
-        'max-classes-per-file': 'error',
+        'max-classes-per-file': 'off',
         'max-depth': 'error',
         'max-len': 'off',
         'max-lines': 'off',

@@ -8,7 +8,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "yarn test:unit && yarn test:e2e",
+    "test:unit": "jest",
+    "test:e2e": "jest -c jest.config.e2e.js",
     "build": "electron-builder",
     "dev": "electron ."
   },

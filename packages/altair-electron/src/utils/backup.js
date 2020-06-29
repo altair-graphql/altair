@@ -1,6 +1,6 @@
 const { app, dialog } = require('electron');
 const fs = require('fs');
-const { getPersistentStore } = require('../store');
+const { PersistentStore } = require('../store');
 
 /**
  * Backup file structure
@@ -12,6 +12,7 @@ const { getPersistentStore } = require('../store');
  */
 
 const importBackupData = (instance) => {
+  const store = new PersistentStore();
   dialog.showOpenDialog(instance, {
     title: 'Import application data',
     message: 'Only import a valid Altair backup file',
@@ -30,7 +31,7 @@ const importBackupData = (instance) => {
         const fileObj = JSON.parse(fileContent);
         // Check for the presence of some basic altair data to try to validate the file
         if (fileObj.version === 1 && fileObj.localstore && fileObj.localstore.altair__debug_current_version) {
-          fs.writeFileSync(getPersistentStore().path, JSON.stringify(fileObj.localstore));
+          fs.writeFileSync(store.path, JSON.stringify(fileObj.localstore));
           app.relaunch();
           app.exit(0);
         } else {
@@ -44,6 +45,7 @@ const importBackupData = (instance) => {
 };
 
 const exportBackupData = (instance) => {
+  const store = new PersistentStore();
   dialog.showSaveDialog(instance, {
     title: 'Backup application data',
     defaultPath: 'altair_backup.agbkp',
@@ -57,7 +59,7 @@ const exportBackupData = (instance) => {
 
     if (filePath) {
       // Save to file
-      const localstoreContent = fs.readFileSync(getPersistentStore().path, 'utf8');
+      const localstoreContent = fs.readFileSync(store.path, 'utf8');
       const backupData = {
         version: 1,
         localstore: JSON.parse(localstoreContent),
