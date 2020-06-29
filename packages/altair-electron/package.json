@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "mocha --full-trace __tests__",
+    "test": "jest",
     "build": "electron-builder",
     "dev": "electron ."
   },
@@ -27,8 +27,8 @@
     "mime-types": "^2.1.24"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
+    "@jest/globals": "^26.1.0",
+    "@types/jest": "^26.0.3",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "6.1.2",
@@ -36,7 +36,7 @@
     "electron-notarize": "^0.1.1",
     "electron-reloader": "^0.3.0",
     "eslint": "^7.3.1",
-    "mocha": "^6.2.0",
+    "jest": "^26.1.0",
     "spectron": "8.0.0"
   },
   "repository": {
