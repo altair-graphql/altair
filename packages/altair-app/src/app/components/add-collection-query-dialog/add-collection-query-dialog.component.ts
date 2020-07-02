@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import * as fromCollection from '../../store/collection/collection.reducer';
 
 @Component({
   selector: 'app-add-collection-query-dialog',
@@ -10,7 +11,7 @@ export class AddCollectionQueryDialogComponent implements OnInit, OnChanges {
 
   @Input() showDialog = false;
   @Input() windowTitle = '';
-  @Input() collections = [];
+  @Input() collections: fromCollection.IQueryCollection[] = [];
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter();

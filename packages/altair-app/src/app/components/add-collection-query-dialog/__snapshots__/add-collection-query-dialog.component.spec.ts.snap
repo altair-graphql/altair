@@ -1,0 +1,373 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddCollectionQueryDialogComponent should render correctly with [collections] 1`] = `
+<div
+  id="root4"
+>
+  <app-dialog>
+    <div
+      class="add-to-collection-wrapper"
+    >
+      <div
+        class="app-dialog-section"
+      >
+         SAVE_TO_COLLECTION_NAME_OF_QUERY 
+        <input
+          aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
+          class="dialog-input ng-untouched ng-pristine ng-valid"
+          data-test-id="collection-query-name"
+          type="text"
+        />
+      </div>
+      <div
+        class="app-dialog-section"
+      >
+        <nz-form-label
+          class="ant-form-item-label ant-col"
+        >
+          <label>
+            SAVE_TO_COLLECTION_SELECT_COLLECTION
+          </label>
+        </nz-form-label>
+        <nz-form-control
+          class="ant-form-item-control ant-col"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <nz-select
+                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                name="collection"
+                nzplaceholder="Choose"
+              >
+                <nz-select-top-control
+                  cdkoverlayorigin=""
+                  class="ant-select-selector"
+                >
+                  
+                  
+                  
+                  
+                  <nz-select-search
+                    class="ant-select-selection-search"
+                  >
+                    <input
+                      autocomplete="off"
+                      class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
+                      readonly="readonly"
+                      style="opacity: 0;"
+                    />
+                    
+                  </nz-select-search>
+                  
+                  
+                  <nz-select-placeholder
+                    class="ant-select-selection-placeholder"
+                  >
+                    
+                    
+                     Choose 
+                  </nz-select-placeholder>
+                </nz-select-top-control>
+                
+                
+                <nz-select-arrow
+                  class="ant-select-arrow"
+                >
+                  
+                  
+                  
+                  
+                  <i
+                    class="anticon anticon-down"
+                    nz-icon=""
+                    nztype="down"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      data-icon="down"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                      />
+                    </svg>
+                  </i>
+                  
+                  
+                  
+                  
+                </nz-select-arrow>
+                
+              </nz-select>
+            </div>
+            <span
+              class="ant-form-item-children-icon"
+            >
+              
+            </span>
+          </div>
+          
+          
+        </nz-form-control>
+      </div>
+      
+    </div>
+  </app-dialog>
+</div>
+`;
+
+exports[`AddCollectionQueryDialogComponent should render correctly with [showDialog] 1`] = `
+<div
+  id="root0"
+>
+  <app-dialog>
+    <div
+      class="add-to-collection-wrapper"
+    >
+      <div
+        class="app-dialog-section"
+      >
+         SAVE_TO_COLLECTION_NAME_OF_QUERY 
+        <input
+          aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
+          class="dialog-input ng-untouched ng-pristine ng-valid"
+          data-test-id="collection-query-name"
+          type="text"
+        />
+      </div>
+      <div
+        class="app-dialog-section"
+      >
+        <nz-form-label
+          class="ant-form-item-label ant-col"
+        >
+          <label>
+            SAVE_TO_COLLECTION_SELECT_COLLECTION
+          </label>
+        </nz-form-label>
+        <nz-form-control
+          class="ant-form-item-control ant-col"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <nz-select
+                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                name="collection"
+                nzplaceholder="Choose"
+              >
+                <nz-select-top-control
+                  cdkoverlayorigin=""
+                  class="ant-select-selector"
+                >
+                  
+                  
+                  
+                  
+                  <nz-select-search
+                    class="ant-select-selection-search"
+                  >
+                    <input
+                      autocomplete="off"
+                      class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
+                      readonly="readonly"
+                      style="opacity: 0;"
+                    />
+                    
+                  </nz-select-search>
+                  
+                  
+                  <nz-select-placeholder
+                    class="ant-select-selection-placeholder"
+                  >
+                    
+                    
+                     Choose 
+                  </nz-select-placeholder>
+                </nz-select-top-control>
+                
+                
+                <nz-select-arrow
+                  class="ant-select-arrow"
+                >
+                  
+                  
+                  
+                  
+                  <i
+                    class="anticon anticon-down"
+                    nz-icon=""
+                    nztype="down"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      data-icon="down"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                      />
+                    </svg>
+                  </i>
+                  
+                  
+                  
+                  
+                </nz-select-arrow>
+                
+              </nz-select>
+            </div>
+            <span
+              class="ant-form-item-children-icon"
+            >
+              
+            </span>
+          </div>
+          
+          
+        </nz-form-control>
+      </div>
+      
+    </div>
+  </app-dialog>
+</div>
+`;
+
+exports[`AddCollectionQueryDialogComponent should render correctly with [windowTitle] 1`] = `
+<div
+  id="root2"
+>
+  <app-dialog>
+    <div
+      class="add-to-collection-wrapper"
+    >
+      <div
+        class="app-dialog-section"
+      >
+         SAVE_TO_COLLECTION_NAME_OF_QUERY 
+        <input
+          aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
+          class="dialog-input ng-untouched ng-pristine ng-valid"
+          data-test-id="collection-query-name"
+          type="text"
+        />
+      </div>
+      <div
+        class="app-dialog-section"
+      >
+        <nz-form-label
+          class="ant-form-item-label ant-col"
+        >
+          <label>
+            SAVE_TO_COLLECTION_SELECT_COLLECTION
+          </label>
+        </nz-form-label>
+        <nz-form-control
+          class="ant-form-item-control ant-col"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <nz-select
+                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                name="collection"
+                nzplaceholder="Choose"
+              >
+                <nz-select-top-control
+                  cdkoverlayorigin=""
+                  class="ant-select-selector"
+                >
+                  
+                  
+                  
+                  
+                  <nz-select-search
+                    class="ant-select-selection-search"
+                  >
+                    <input
+                      autocomplete="off"
+                      class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
+                      readonly="readonly"
+                      style="opacity: 0;"
+                    />
+                    
+                  </nz-select-search>
+                  
+                  
+                  <nz-select-placeholder
+                    class="ant-select-selection-placeholder"
+                  >
+                    
+                    
+                     Choose 
+                  </nz-select-placeholder>
+                </nz-select-top-control>
+                
+                
+                <nz-select-arrow
+                  class="ant-select-arrow"
+                >
+                  
+                  
+                  
+                  
+                  <i
+                    class="anticon anticon-down"
+                    nz-icon=""
+                    nztype="down"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      data-icon="down"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                      />
+                    </svg>
+                  </i>
+                  
+                  
+                  
+                  
+                </nz-select-arrow>
+                
+              </nz-select>
+            </div>
+            <span
+              class="ant-form-item-children-icon"
+            >
+              
+            </span>
+          </div>
+          
+          
+        </nz-form-control>
+      </div>
+      
+    </div>
+  </app-dialog>
+</div>
+`;
