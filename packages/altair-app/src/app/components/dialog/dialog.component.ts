@@ -11,9 +11,15 @@ export class DialogComponent implements OnInit {
   @Input() subheading = '[DIALOG_SUBHEADING]';
   @Input() showFooter = true;
   @Output() toggleDialog = new EventEmitter();
+  @Output() saveChange = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onClickSave(e: any) {
+    this.toggleDialog.emit(e);
+    this.saveChange.emit(e);
   }
 
 }

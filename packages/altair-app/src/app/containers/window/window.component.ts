@@ -91,10 +91,6 @@ export class WindowComponent implements OnInit, OnDestroy {
   query = '';
   windowTitle = '';
 
-
-  newCollectionTitle = '';
-  newCollectionQueryTitle = '';
-
   showHeaderDialog = false;
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
@@ -207,8 +203,6 @@ export class WindowComponent implements OnInit, OnDestroy {
           this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
         }
       }
-
-      this.newCollectionQueryTitle = data.layout.title;
     });
 
     this.store.pipe(
@@ -438,23 +432,23 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId, {}));
   }
 
-  createCollectionAndSaveQueryToCollection() {
+  createCollectionAndSaveQueryToCollection({ queryName = '', collectionName = '' }) {
     this.store.dispatch(
       new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
-        collectionTitle: this.newCollectionTitle,
+        collectionTitle: collectionName,
         windowId: this.windowId,
-        windowTitle: this.newCollectionQueryTitle
+        windowTitle: queryName,
       })
     );
 
     this.onCloseAddToCollectionDialog();
   }
 
-  saveQueryToCollection(collectionId: number) {
+  saveQueryToCollection({ queryName = '', collectionId = 0 }) {
     this.store.dispatch(new collectionActions.SaveQueryToCollectionAction({
       windowId: this.windowId,
       collectionId,
-      windowTitle: this.newCollectionQueryTitle
+      windowTitle: queryName,
     }));
 
     this.onCloseAddToCollectionDialog();
@@ -465,8 +459,6 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
   onCloseAddToCollectionDialog() {
-    this.newCollectionTitle = '';
-    this.newCollectionQueryTitle = this.windowTitle;
     this.toggleAddToCollectionDialog(false);
   }
 
