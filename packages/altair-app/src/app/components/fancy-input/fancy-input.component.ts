@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debug } from 'app/utils/logger';
+import { VARIABLE_REGEX } from 'app/services/environment/environment.service';
 
 interface BoundaryMarker {
   index: number;
@@ -30,10 +31,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // set accessor including call the onchange callback
   set value(v: any) {
-      if (v !== this.innerValue) {
-          this.innerValue = v;
-          this.onChangeCallback(v);
-      }
+    if (v !== this.innerValue) {
+      this.innerValue = v;
+      this.onChangeCallback(v);
+    }
   }
 
   // @Input() value = '';
@@ -55,9 +56,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // From ControlValueAccessor interface
   writeValue(value: any) {
-      if (value !== this.innerValue) {
-          this.innerValue = value;
-      }
+    if (value !== this.innerValue) {
+        this.innerValue = value;
+    }
   }
 
   // From ControlValueAccessor interface
@@ -82,7 +83,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   handleInput() {
     const val = this.fancyInputEl.nativeElement.value;
-    const ranges = this.getRanges(val, /{{\s*[\w\.]+\s*}}/g);
+    const ranges = this.getRanges(val, VARIABLE_REGEX);
     const unstaggeredRanges = this.removeStaggeredRanges(ranges);
     const boundaries = this.getBoundaries(unstaggeredRanges);
     this.highlightData.sections = this.generateHighlightSections(val, boundaries);
