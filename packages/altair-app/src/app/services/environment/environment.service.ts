@@ -71,7 +71,7 @@ export class EnvironmentService {
         const variable = matches[0];
         return activeEnvironment[variable];
       }
-    });
+    }).replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
   }
 
   hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {
