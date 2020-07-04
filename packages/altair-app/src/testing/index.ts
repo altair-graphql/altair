@@ -17,7 +17,12 @@ export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
 /**
  * Resources
  * ---------
+ *
  * https://medium.com/google-developer-experts/angular-2-testing-guide-a485b6cb1ef0#.o7kcihstz
  * https://www.vincecampanale.com/blog/2018/03/22/testing-custom-events-angular/
  * https://www.concretepage.com/angular/angular-test-input-text#NgModel
+ *
+ * https://gist.github.com/johnpapa/049cc0ee1b3a9a8bf6ce31eddbee508e
+ * https://angular.io/guide/dynamic-component-loader
+ * https://indepth.dev/here-is-what-you-need-to-know-about-dynamic-components-in-angular/#creating-components-on-the-fly
  */
