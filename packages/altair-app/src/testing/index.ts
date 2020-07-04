@@ -12,3 +12,12 @@ export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   (store as any).dispatch = jest.fn();
   return store as Store<T>;
 }
+
+
+/**
+ * Resources
+ * ---------
+ * https://medium.com/google-developer-experts/angular-2-testing-guide-a485b6cb1ef0#.o7kcihstz
+ * https://www.vincecampanale.com/blog/2018/03/22/testing-custom-events-angular/
+ * https://www.concretepage.com/angular/angular-test-input-text#NgModel
+ */

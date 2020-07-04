@@ -5,9 +5,9 @@ import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'app/modules/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { setProps, setValue } from '../../../testing/utils';
 
 describe('AddCollectionQueryDialogComponent', () => {
   let component: AddCollectionQueryDialogComponent;
@@ -15,7 +15,9 @@ describe('AddCollectionQueryDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddCollectionQueryDialogComponent ],
+      declarations: [
+        AddCollectionQueryDialogComponent,
+      ],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
@@ -48,14 +50,14 @@ describe('AddCollectionQueryDialogComponent', () => {
 
   it('should set showDialog on app-dialog with [showDialog]', async() => {
     const appDialog = fixture.debugElement.query(By.css('app-dialog'));
-    component.showDialog = true;
-    fixture.detectChanges();
+    await setProps(fixture, { showDialog: true });
 
-    expect(appDialog.properties.showDialog).toBe(true);
+    expect(appDialog.componentInstance.showDialog).toBe(true);
   });
 
   it('should render correctly with [windowTitle]', async() => {
     component.windowTitle = 'my title';
+    // TODO: Should be fixed by using a test host component
     component.ngOnChanges({
       windowTitle: new SimpleChange(null, component.windowTitle, true)
     });
@@ -77,20 +79,113 @@ describe('AddCollectionQueryDialogComponent', () => {
   });
 
   it('should render correctly with [collections]', async() => {
-    component.collections = [
-      {
-        title: 'query 1',
-        id: 1,
-        queries: [],
-      },
-      {
-        title: 'query 2',
-        id: 2,
-        queries: [],
-      },
-    ];
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await setProps(fixture, {
+      collections: [
+        {
+          title: 'query 1',
+          id: 1,
+          queries: [],
+        },
+        {
+          title: 'query 2',
+          id: 2,
+          queries: [],
+        },
+      ]
+    });
+
     expect(fixture.nativeElement).toMatchSnapshot();
+  });
+
+  it('should render new collection name input when selected collection is -1', async() => {
+    await setProps(fixture, {
+      collections: [
+        {
+          title: 'query 1',
+          id: 1,
+          queries: [],
+        },
+        {
+          title: 'query 2',
+          id: 2,
+          queries: [],
+        },
+      ]
+    });
+
+    const select = fixture.debugElement.query(By.css('nz-select'));
+    await setValue(fixture, select, -1);
+
+    const newCollectionName = fixture.debugElement.query(By.css('[data-test-id="new-collection-name"]'));
+    expect(component.collectionId).toBe(-1);
+    expect(newCollectionName.nativeElement).toBeTruthy();
+  });
+
+  it('should emit createCollectionAndSaveQueryChange event when form is saved with new collection selected', async() => {
+    setProps(fixture, {
+      collections: [
+        {
+          title: 'query 1',
+          id: 1,
+          queries: [],
+        },
+        {
+          title: 'query 2',
+          id: 2,
+          queries: [],
+        },
+      ]
+    });
+
+    const queryNameInput = fixture.debugElement.query(By.css('[data-test-id="collection-query-name"]'));
+    await setValue(fixture, queryNameInput, 'my query name');
+
+    const select = fixture.debugElement.query(By.css('nz-select'));
+    await setValue(fixture, select, -1);
+
+    const newCollectionNameInput = fixture.debugElement.query(By.css('[data-test-id="new-collection-name"]'));
+    await setValue(fixture, newCollectionNameInput, 'my new collection name');
+
+    const appDialog = fixture.debugElement.query(By.css('app-dialog'));
+    const createCollectionAndSaveQueryChangeSpy = jest.spyOn(component.createCollectionAndSaveQueryToCollectionChange, 'emit');
+    appDialog.triggerEventHandler('saveChange', null);
+
+    expect(createCollectionAndSaveQueryChangeSpy).toHaveBeenCalledWith({
+      queryName: 'my query name',
+      collectionName: 'my new collection name',
+    });
+  });
+
+  it('should emit [saveQueryToCollectionChange] event when form is saved with existing collection', async() => {
+    await setProps(fixture, {
+      collections: [
+        {
+          title: 'query 1',
+          id: 1,
+          queries: [],
+        },
+        {
+          title: 'query 2',
+          id: 2,
+          queries: [],
+        },
+      ]
+    });
+
+    const queryNameInput = fixture.debugElement.query(By.css('[data-test-id="collection-query-name"]'));
+    await setValue(fixture, queryNameInput, 'my query name');
+
+    const select = fixture.debugElement.query(By.css('nz-select'));
+    await setValue(fixture, select, 2);
+
+    const appDialog = fixture.debugElement.query(By.css('app-dialog'));
+    // TODO: requires test host component to apply spies automatically
+    const saveQueryToCollectionChangeSpy = jest.spyOn(component.saveQueryToCollectionChange, 'emit');
+    appDialog.triggerEventHandler('saveChange', null);
+
+    expect(saveQueryToCollectionChangeSpy).toHaveBeenCalledWith({
+      queryName: 'my query name',
+      collectionId: 2,
+    });
   });
 });
