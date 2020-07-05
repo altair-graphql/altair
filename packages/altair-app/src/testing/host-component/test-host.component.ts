@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input, ComponentFactoryResolve
 
 @Component({
   selector: 'app-test-host',
-  templateUrl: './test-host.component.html',
+  template: `<p>my test component works</p>`,
 })
 export class TestHostComponent implements OnInit {
 
@@ -15,8 +15,4 @@ export class TestHostComponent implements OnInit {
   ) { }
 
   ngOnInit() {}
-
-  loadComponent() {
-    // Create component
-  }
 }
