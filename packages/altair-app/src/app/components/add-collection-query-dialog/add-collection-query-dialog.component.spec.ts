@@ -42,25 +42,29 @@ describe('AddCollectionQueryDialogComponent', () => {
 
   it('should set showDialog on app-dialog with [showDialog]', async() => {
     const appDialog = wrapper.find('app-dialog');
-    await wrapper.setProps({ showDialog: true });
+    wrapper.setProps({ showDialog: true });
 
     expect(appDialog.componentInstance.showDialog).toBe(true);
   });
 
   it('should render correctly with [windowTitle]', async() => {
     wrapper.setProps({ windowTitle: 'my title' });
+    await wrapper.nextTick();
+
     expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 
   it('should render [windowTitle] in input', async() => {
-    await wrapper.setProps({ windowTitle: 'my title' });
+    wrapper.setProps({ windowTitle: 'my title' });
     const input = wrapper.find('[data-test-id="collection-query-name"]');
+
+    await wrapper.nextTick();
 
     expect(input.component.nativeElement.value).toBe('my title');
   });
 
   it('should render correctly with [collections]', async() => {
-    await wrapper.setProps({
+    wrapper.setProps({
       collections: [
         {
           title: 'query 1',
@@ -75,11 +79,13 @@ describe('AddCollectionQueryDialogComponent', () => {
       ]
     });
 
+    await wrapper.nextTick();
+
     expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 
   it('should render new collection name input when selected collection is -1', async() => {
-    await wrapper.setProps({
+    wrapper.setProps({
       collections: [
         {
           title: 'query 1',
@@ -95,12 +101,14 @@ describe('AddCollectionQueryDialogComponent', () => {
     });
 
     const select = wrapper.find('nz-select');
-    await select.setValue(-1);
+    select.setValue(-1);
+
+    await wrapper.nextTick();
 
     const newCollectionName = wrapper.find('[data-test-id="new-collection-name"]');
 
     expect(wrapper.componentInstance.collectionId).toBe(-1);
-    expect(newCollectionName.component.nativeElement).toBeTruthy();
+    expect(newCollectionName.exists()).toBeTruthy();
   });
 
   it('should emit createCollectionAndSaveQueryChange event when form is saved with new collection selected', async() => {
@@ -120,13 +128,15 @@ describe('AddCollectionQueryDialogComponent', () => {
     });
 
     const queryNameInput = wrapper.find('[data-test-id="collection-query-name"]');
-    await queryNameInput.setValue('my query name');
+    queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
-    await select.setValue(-1);
+    select.setValue(-1);
+
+    await wrapper.nextTick();
 
     const newCollectionNameInput = wrapper.find('[data-test-id="new-collection-name"]');
-    await newCollectionNameInput.setValue('my new collection name');
+    newCollectionNameInput.setValue('my new collection name');
 
     const appDialog = wrapper.find('app-dialog');
     appDialog.emit('saveChange');
@@ -139,7 +149,7 @@ describe('AddCollectionQueryDialogComponent', () => {
   });
 
   it('should emit [saveQueryToCollectionChange] event when form is saved with existing collection', async() => {
-    await wrapper.setProps({
+    wrapper.setProps({
       collections: [
         {
           title: 'query 1',
@@ -155,10 +165,10 @@ describe('AddCollectionQueryDialogComponent', () => {
     });
 
     const queryNameInput = wrapper.find('[data-test-id="collection-query-name"]');
-    await queryNameInput.setValue('my query name');
+    queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
-    await select.setValue(2);
+    select.setValue(2);
 
     const appDialog = wrapper.find('app-dialog');
     appDialog.emit('saveChange');

@@ -92,7 +92,7 @@ export class NgxTestWrapper<C extends any> {
     }
   }
 
-  async setProps(valueObj: any = {}) {
+  setProps(valueObj: any = {}) {
     if (this._isWrapper) {
       const componentInputs = Object.keys(this._testHostFixture.componentInstance.inputs);
       Object.keys(valueObj).forEach(prop => {
@@ -108,7 +108,7 @@ export class NgxTestWrapper<C extends any> {
     return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
   }
 
-  async setValue(value: any = '') {
+  setValue(value: any = '') {
     return setValue(this._testHostFixture, this._mainComponentDebugEl, value);
   }
 

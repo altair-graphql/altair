@@ -17,15 +17,15 @@ async function nextTick<C extends any>(fixture: ComponentFixture<C>) {
   await fixture.whenStable();
 };
 
-export async function setProps<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, valueObj: any = {}) {
+export function setProps<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, valueObj: any = {}) {
   Object.keys(valueObj).forEach(key => {
     debugEl.componentInstance[key] = valueObj[key];
   });
 
-  await nextTick(fixture);
+  // await nextTick(fixture);
 };
 
-export async function setValue<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, value: any = '') {
+export function setValue<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, value: any = '') {
   const nativeElement: HTMLElement = debugEl.nativeElement;
 
   if (isInputElement(nativeElement)) {
@@ -35,7 +35,7 @@ export async function setValue<C extends any>(fixture: ComponentFixture<C>, debu
     debugEl.triggerEventHandler('ngModelChange', value);
   }
 
-  await nextTick(fixture);
+  // await nextTick(fixture);
 };
 
 function getComponentMeta(compType: any) {
