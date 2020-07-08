@@ -9,7 +9,13 @@
   <div class="add-to-collection-wrapper">
     <div class="app-dialog-section">
       {{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}
-      <input type="text" class="dialog-input" [(ngModel)]="newCollectionQueryTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}">
+      <input
+        type="text"
+        class="dialog-input"
+        [(ngModel)]="newCollectionQueryTitle"
+        attr.aria-label="{{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}"
+        data-test-id="collection-query-name"
+      >
     </div>
     <div class="app-dialog-section">
       <nz-form-label>{{ 'SAVE_TO_COLLECTION_SELECT_COLLECTION' | translate }}</nz-form-label>
@@ -25,7 +31,13 @@
       class="app-dialog-section"
     >
       {{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}
-      <input type="text" class="dialog-input" [(ngModel)]="newCollectionTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}">
+      <input
+        type="text"
+        class="dialog-input"
+        [(ngModel)]="newCollectionTitle"
+        attr.aria-label="{{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}"
+        data-test-id="new-collection-name"
+      >
     </div>
   </div>
 </app-dialog>

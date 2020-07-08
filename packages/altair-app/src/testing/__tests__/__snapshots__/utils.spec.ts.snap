@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils buildTestHostComponentTemplate should return expected template string 1`] = `
+"
+    <div class=\\"test-host\\">
+      <my-main-component
+        [disabled]=\\"inputs.disabled\\"
+[input2]=\\"inputs.input2\\"
+[collections]=\\"inputs.collections\\"
+
+        (saveChange)=\\"saveChange($event)\\"
+(dialogChange)=\\"dialogChange($event)\\"
+(modelChange)=\\"modelChange($event)\\"
+      ></my-main-component>
+    </div>
+  "
+`;
