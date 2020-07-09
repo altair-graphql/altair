@@ -135,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Duyệt qua các plugin có sẵn",
   "PLUGIN_UNIQUE_NAME_TEXT": "Tên Plugin duy nhất",
   "PLUGIN_ADD_BUTTON": "Thêm vào Altair",
-  "PLUGIN_REMOVE_BUTTON": "Xóa"
+  "PLUGIN_REMOVE_BUTTON": "Xóa",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }
