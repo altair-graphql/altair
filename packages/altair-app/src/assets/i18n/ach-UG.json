@@ -135,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "crwdns303:0crwdne303:0",
   "PLUGIN_UNIQUE_NAME_TEXT": "crwdns305:0crwdne305:0",
   "PLUGIN_ADD_BUTTON": "crwdns307:0crwdne307:0",
-  "PLUGIN_REMOVE_BUTTON": "crwdns309:0crwdne309:0"
+  "PLUGIN_REMOVE_BUTTON": "crwdns309:0crwdne309:0",
+  "PLUGIN_CREATE_BUTTON": "crwdns586:0crwdne586:0"
 }
