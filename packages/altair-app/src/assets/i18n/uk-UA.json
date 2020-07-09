@@ -135,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Переглянути доступні додатки",
   "PLUGIN_UNIQUE_NAME_TEXT": "Унікальна назва додатку",
   "PLUGIN_ADD_BUTTON": "Додати до Altair",
-  "PLUGIN_REMOVE_BUTTON": "Видалити"
+  "PLUGIN_REMOVE_BUTTON": "Видалити",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }
