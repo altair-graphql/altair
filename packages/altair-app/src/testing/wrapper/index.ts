@@ -36,6 +36,10 @@ export class NgxTestWrapper<C extends any> {
     return this._testHostFixture.debugElement;
   }
 
+  get element() {
+    return this._mainComponentDebugEl.nativeElement;
+  }
+
   exists() {
     return !!this._mainComponentDebugEl;
   }
@@ -92,7 +96,7 @@ export class NgxTestWrapper<C extends any> {
     }
   }
 
-  setProps(valueObj: any = {}) {
+  setProps(valueObj: Partial<C> = {}) {
     if (this._isWrapper) {
       const componentInputs = Object.keys(this._testHostFixture.componentInstance.inputs);
       Object.keys(valueObj).forEach(prop => {
@@ -110,6 +114,20 @@ export class NgxTestWrapper<C extends any> {
 
   setValue(value: any = '') {
     return setValue(this._testHostFixture, this._mainComponentDebugEl, value);
+  }
+
+  text() {
+    if (this.exists()) {
+      return this.component.nativeElement.innerText;
+    }
+    return '';
+  }
+
+  html() {
+    if (this.exists()) {
+      return this.component.nativeElement.innerHTML;
+    }
+    return '';
   }
 
   async nextTick() {

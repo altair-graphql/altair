@@ -10,7 +10,7 @@ type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryCollectionItemComponent implements OnInit {
-  @Input() collection: any = {};
+  @Input() collection: IQueryCollection;
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{ collectionId: number, query: IQuery }> = new EventEmitter();
@@ -40,7 +40,7 @@ export class QueryCollectionItemComponent implements OnInit {
     if (confirm('Are you sure you want to delete this query from the collection?')) {
       this.deleteQueryChange.next({
         query,
-        collectionId: this.collection.id
+        collectionId: this.collection.id!
       });
     }
   }
@@ -48,7 +48,7 @@ export class QueryCollectionItemComponent implements OnInit {
   deleteCollection() {
     if (confirm('Are you sure you want to delete this collection?')) {
       this.deleteCollectionChange.next({
-        collectionId: this.collection.id
+        collectionId: this.collection.id!
       });
     }
   }
@@ -99,7 +99,7 @@ export class QueryCollectionItemComponent implements OnInit {
           }
           return 0;
         });
-      case 'newest':
+      case 'oldest':
         return queries.sort((a, b) => {
           const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
           const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
@@ -112,7 +112,7 @@ export class QueryCollectionItemComponent implements OnInit {
           }
           return 0;
         });
-      case 'oldest':
+      case 'newest':
         return queries.sort((a, b) => {
           const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
           const bTimeStamp = b.updated_at || b.windowName.toLowerCase();

@@ -1,0 +1,599 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryCollectionItemComponent should render collapsed collection correctly 1`] = `
+<app-query-collection-item>
+  <div
+    class="query-collections__item"
+  >
+    <div
+      class="query-collections__item-details-wrapper"
+    >
+      <div
+        class="query-collections__item-details"
+        data-test-id="collection-collapse"
+      >
+        <div
+          class="query-collections__item-title"
+        >
+          
+          
+          <span
+            class="query-title-icon"
+          >
+            <app-icon
+              name="folder-plus"
+            />
+          </span>
+          <span>
+            collection-1
+          </span>
+        </div>
+        <div
+          class="query-collections__item-meta"
+        >
+           3
+        </div>
+      </div>
+      <div
+        class="query-collections__item-right"
+      >
+        <span
+          class="query-collections__item-icon"
+        >
+          <button
+            class="query-collections__item-icon__button"
+            nz-dropdown=""
+            nztrigger="click"
+            type="button"
+          >
+            <app-icon
+              name="more-horizontal"
+            />
+          </button>
+        </span>
+        <nz-dropdown-menu>
+          <ul
+            nz-menu=""
+          >
+            <li
+              data-test-id="delete-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              data-test-id="edit-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              data-test-id="export-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              nz-submenu=""
+            >
+              <ul>
+                <li
+                  data-test-id="sort-queries-a-z"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-z-a"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-newest"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-oldest"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+    <div
+      class="query-collections__item-content-wrapper query-collections__item-content--hidden"
+    >
+      <div
+        class="query-collections__item-nested"
+      >
+        
+      </div>
+      <div
+        class="query-collections__item-queries"
+      >
+        
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Another Query 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Zap Query 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Query 1 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-query-collection-item>
+`;
+
+exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
+<app-query-collection-item>
+  <div
+    class="query-collections__item"
+  >
+    <div
+      class="query-collections__item-details-wrapper"
+    >
+      <div
+        class="query-collections__item-details"
+        data-test-id="collection-collapse"
+      >
+        <div
+          class="query-collections__item-title"
+        >
+          
+          <span
+            class="query-title-icon"
+          >
+            <app-icon
+              name="folder-minus"
+            />
+          </span>
+          
+          <span>
+            collection-1
+          </span>
+        </div>
+        <div
+          class="query-collections__item-meta"
+        >
+           3
+        </div>
+      </div>
+      <div
+        class="query-collections__item-right"
+      >
+        <span
+          class="query-collections__item-icon"
+        >
+          <button
+            class="query-collections__item-icon__button"
+            nz-dropdown=""
+            nztrigger="click"
+            type="button"
+          >
+            <app-icon
+              name="more-horizontal"
+            />
+          </button>
+        </span>
+        <nz-dropdown-menu>
+          <ul
+            nz-menu=""
+          >
+            <li
+              data-test-id="delete-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              data-test-id="edit-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              data-test-id="export-collection"
+              nz-menu-item=""
+            >
+                
+            </li>
+            <li
+              nz-submenu=""
+            >
+              <ul>
+                <li
+                  data-test-id="sort-queries-a-z"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-z-a"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-newest"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+                <li
+                  data-test-id="sort-queries-oldest"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+    <div
+      class="query-collections__item-content-wrapper"
+    >
+      <div
+        class="query-collections__item-nested"
+      >
+        
+      </div>
+      <div
+        class="query-collections__item-queries"
+      >
+        
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Another Query 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Zap Query 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+        <div
+          class="query-collections__item-queries-item"
+        >
+          <span
+            class="query-collections__item-queries-item-title"
+            data-test-id="query-item-title"
+          >
+            <span
+              class="query-title-icon"
+            >
+              <app-icon
+                name="file"
+              />
+            </span>
+             Query 1 
+            
+            <popper-content>
+                
+              <a
+                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                rel="noopener"
+                target="_blank"
+              >
+                
+              </a>
+            </popper-content>
+          </span>
+          <span
+            class="query-collections__item-queries-item-right"
+          >
+            <span
+              class="query-collections__item-queries-item-icon"
+            >
+              <button
+                class="query-collections__item-icon__button"
+                nz-dropdown=""
+                nztrigger="click"
+                type="button"
+              >
+                <app-icon
+                  name="more-horizontal"
+                />
+              </button>
+            </span>
+            <nz-dropdown-menu>
+              <ul
+                nz-menu=""
+              >
+                <li
+                  data-test-id="delete-query"
+                  nz-menu-item=""
+                >
+                    
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-query-collection-item>
+`;

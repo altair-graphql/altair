@@ -8,7 +8,7 @@ import { IQueryCollection } from 'app/store/collection/collection.reducer';
 })
 export class QueryCollectionsComponent implements OnInit {
   @Input() showCollections = true;
-  @Input() collections = [];
+  @Input() collections: IQueryCollection[] = [];
   @Input() sortBy = '';
 
   @Output() loadCollectionsChange = new EventEmitter();

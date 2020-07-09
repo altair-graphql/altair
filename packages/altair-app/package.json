@@ -118,6 +118,7 @@
     "jest-preset-angular": "8.2.1",
     "karma-cli": "^2.0.0",
     "ncp": "^2.0.0",
+    "ng-mocks": "^10.0.0",
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "^5.4.2",
     "rxjs-tslint-rules": "^4.32.0",
