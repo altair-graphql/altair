@@ -763,10 +763,10 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-altair-static@^2.4.8:
-  version "2.4.8"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.4.8.tgz#612ef8dcec557c10ed18cc4a31ca5e84ee6c36ed"
-  integrity sha512-c/9Z+qVcb7EsJIWSE1SDw2xarbGY4Qe5nN0I+J+B0QKXIy3HTX7oAPV1QRc1nN8QdT7ke6BGxWFCKEXmNlg00w==
+altair-static@^2.4.11:
+  version "2.4.11"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.4.11.tgz#f6f48595c8073214d23bad9a48040847e0268a5f"
+  integrity sha512-VyW+a/lnyBbafyu5p3+R2a+su+IFjFqicFdRHDEPr3QYfEa8pEKvUK+M2nLjXKYt4jN8+9Q6kUB+UDDr/TEBRQ==
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -3017,9 +3017,9 @@ lodash.sortby@^4.7.0:
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
 lodash@^4.17.13, lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 lowercase-keys@^1.0.0:
   version "1.0.1"
