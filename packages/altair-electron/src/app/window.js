@@ -151,7 +151,6 @@ class WindowManager {
       });
     }
 
-    // Doesn't seem to be called. Might be because of buffer protocol.
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
       callback({
         responseHeaders: Object.assign(

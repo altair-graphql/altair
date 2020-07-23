@@ -52,6 +52,7 @@
         [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
+        [variableToType]="variableToType"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"
