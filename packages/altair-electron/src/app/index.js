@@ -2,7 +2,6 @@
 const { app, protocol } = require('electron');
 const { readFile } = require('fs');
 const isDev = require('electron-is-dev');
-// const { createWindow, getInstance } = require('../window');
 const { setupAutoUpdates } = require('../updates');
 const { InMemoryStore } = require('../store');
 const WindowManager = require('./window');

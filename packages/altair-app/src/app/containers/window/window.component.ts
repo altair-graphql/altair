@@ -47,6 +47,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { debug } from 'app/utils/logger';
 import { fadeInOutAnimationTrigger } from 'app/animations';
 import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
+import { IDictionary } from 'app/interfaces/shared';
+import collectVariables from 'codemirror-graphql/utils/collectVariables';
 
 @Component({
   selector: 'app-window',
@@ -99,6 +101,8 @@ export class WindowComponent implements OnInit, OnDestroy {
   showPreRequestDialog = true;
 
   gqlSchema: any = null;
+
+  variableToType: IDictionary;
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
@@ -177,9 +181,11 @@ export class WindowComponent implements OnInit, OnDestroy {
       if (!data) {
         return false;
       }
+      const previousQuery = this.query;
 
       this.apiUrl = data.query.url;
-      this.query = data.query.query || '';
+      const query = data.query.query || '';
+      this.query = query;
       this.httpVerb = data.query.httpVerb;
       this.showHeaderDialog = data.dialogs.showHeaderDialog;
       this.showVariableDialog = data.dialogs.showVariableDialog;
@@ -202,6 +208,12 @@ export class WindowComponent implements OnInit, OnDestroy {
         if (schema) {
           this.store.dispatch(new schemaActions.SetSchemaAction(this.windowId, schema));
         }
+      }
+
+      if (previousQuery !== this.query && this.gqlSchema) {
+        try {
+          this.variableToType = collectVariables(this.gqlSchema, this.gql.parseQuery(query));
+        } catch (error) {}
       }
     });
 
