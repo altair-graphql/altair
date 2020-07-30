@@ -30,7 +30,7 @@ app.register(AltairFastify, {
    * All these are the defaults.
    */
   path: '/altair',
-  baseUrl: '/altair/',
+  baseURL: '/altair/',
   endpointURL: '/graphql',
 
   /**
