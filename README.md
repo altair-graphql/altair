@@ -106,6 +106,10 @@ You can use altair with an express server using [altair-express-middleware](http
 ### Usage with koa
 You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
 
+### Usage with Fastify
+
+You can use altair with a Fastify server using [altair-fastify-plugin](https://www.npmjs.com/package/altair-fastify-plugin). Read more about how to use this [here](packages/altair-fastify-plugin/README.md).
+
 ### Usage with Laravel (PHP)
 You can use altair in a Laravel project using [xkojimedia/laravel-altair-graphql](https://packagist.org/packages/xkojimedia/laravel-altair-graphql):
 
