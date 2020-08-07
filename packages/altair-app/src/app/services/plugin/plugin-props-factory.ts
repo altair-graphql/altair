@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PluginInstance, isAppLevelPluginType, PluginComponentDataProps } from './plugin';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import * as fromRoot from '../../store';
 
@@ -32,6 +32,7 @@ export class PluginPropsFactory {
     if (isAppLevelPluginType(plugin.type)) {
       return this.store.pipe(
         distinctUntilChanged(),
+        filter(state => !!state),
         map(state => {
           return {
             ctx: {
@@ -59,6 +60,7 @@ export class PluginPropsFactory {
         return this.store.pipe(
           map(state => state.windows[windowId]),
           distinctUntilChanged(),
+          filter(state => !!state),
           map(windowState => {
             return {
               sdl: windowState.schema.sdl,

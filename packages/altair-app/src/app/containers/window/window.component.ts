@@ -43,13 +43,14 @@ import {
   ActionPlugin,
   ActionPluginRenderOutput
 } from '../../services/plugin/plugin';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debug } from 'app/utils/logger';
 import { fadeInOutAnimationTrigger } from 'app/animations';
 import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
 import { IDictionary } from 'app/interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
@@ -57,7 +58,7 @@ import collectVariables from 'codemirror-graphql/utils/collectVariables';
     fadeInOutAnimationTrigger,
   ]
 })
-export class WindowComponent implements OnInit, OnDestroy {
+export class WindowComponent implements OnInit {
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -513,6 +514,4 @@ export class WindowComponent implements OnInit, OnDestroy {
   pluginTrackBy(index: number, plugin: PluginInstance) {
     return plugin.name;
   }
-
-  ngOnDestroy() {}
 }

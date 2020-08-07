@@ -43,10 +43,11 @@ import {
 import { AltairConfig } from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PluginInstance, PluginType, PluginComponentData } from 'app/services/plugin/plugin';
 import { PluginEventService } from 'app/services/plugin/plugin-event.service';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -109,6 +110,7 @@ export class AppComponent implements OnDestroy {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
+    // TODO: Replace since it is deprecated
     forkJoin([
       this.translate.use(applicationLanguage),
       this.store.pipe(
@@ -192,16 +194,18 @@ export class AppComponent implements OnDestroy {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
 
+        // TODO: Consider removing nested subscribes
         this.pluginRegistry.getPlugins(PluginType.SIDEBAR)
           .pipe(
             untilDestroyed(this),
           )
           .subscribe(plugins => this.sidebarPlugins = plugins);
+          // TODO: Consider removing nested subscribes
         this.pluginRegistry.getPluginsWithData(PluginType.HEADER)
-        .pipe(
-          untilDestroyed(this),
-        )
-        .subscribe(plugins => this.headerPluginsData = plugins);
+          .pipe(
+            untilDestroyed(this),
+          )
+          .subscribe(plugins => this.headerPluginsData = plugins);
       });
 
     if (!this.windowIds.length) {
@@ -212,7 +216,7 @@ export class AppComponent implements OnDestroy {
   /**
    * Sets the default language
    */
-  setDefaultLanguage(): void {
+  setDefaultLanguage() {
     // Set fallback language to default.json
     this.translate.setDefaultLang('default');
   }
@@ -220,7 +224,7 @@ export class AppComponent implements OnDestroy {
   /**
    * Sets the available languages from config
    */
-  setAvailableLanguages(): void {
+  setAvailableLanguages() {
     const availableLanguages = Object.keys(this.altairConfig.languages);
     this.translate.addLangs(availableLanguages);
   }
@@ -229,14 +233,14 @@ export class AppComponent implements OnDestroy {
    * Checks if the specified language is available
    * @param language Language code
    */
-  checkLanguageAvailability(language: string): boolean {
+  checkLanguageAvailability(language: string) {
     return this.translate.getLangs().includes(language);
   }
 
   /**
    * Gets the language to use for the app
    */
-  getAppLanguage(): string {
+  getAppLanguage() {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);

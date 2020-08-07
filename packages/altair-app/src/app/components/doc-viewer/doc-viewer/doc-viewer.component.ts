@@ -19,7 +19,7 @@ import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as fromDocs from '../../../store/docs/docs.reducer';
 
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   GraphQLSchema,
   GraphQLObjectType,
@@ -30,6 +30,7 @@ import * as Comlink from 'comlink';
 import { GqlService } from 'app/services';
 import getRootTypes from 'app/utils/get-root-types';
 
+@UntilDestroy()
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',

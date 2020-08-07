@@ -16,8 +16,9 @@ import {
 import { fromEvent } from 'rxjs';
 import { debug } from 'app/utils/logger';
 import { DOCUMENT } from '@angular/common';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-flex-resizer',
   templateUrl: './flex-resizer.component.html',
