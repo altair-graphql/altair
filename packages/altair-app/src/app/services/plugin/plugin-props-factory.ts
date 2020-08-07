@@ -59,8 +59,8 @@ export class PluginPropsFactory {
       if (windowId) {
         return this.store.pipe(
           map(state => state.windows[windowId]),
-          distinctUntilChanged(),
           filter(state => !!state),
+          distinctUntilChanged(),
           map(windowState => {
             return {
               sdl: windowState.schema.sdl,

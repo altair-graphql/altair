@@ -73,7 +73,7 @@ export class WindowService {
         }
         this.store.dispatch(new windowActions.RemoveWindowAction({ windowId }));
       }),
-    ).subscribe();
+    );
   }
 
   duplicateWindow(windowId: string) {
@@ -245,6 +245,19 @@ export class WindowService {
    */
   importStringData(dataStr: string) {
     const invalidFileError = new Error('Invalid Altair window file.');
+    const emptyWindowData = {
+      version: 1,
+      type: 'window',
+      apiUrl: '',
+      headers: [],
+      preRequestScript: '',
+      preRequestScriptEnabled: false,
+      query: '',
+      subscriptionUrl: '',
+      variables: '{}',
+      windowName: '',
+    };
+
     try {
       let parsed: any = {};
       try {
@@ -265,16 +278,9 @@ export class WindowService {
         if (schema) {
           // Import only schema
           return this.importWindowData({
+            ...emptyWindowData,
             version: 1,
             type: 'window',
-            apiUrl: '',
-            headers: [],
-            preRequestScript: '',
-            preRequestScriptEnabled: false,
-            query: '',
-            subscriptionUrl: '',
-            variables: '{}',
-            windowName: '',
             gqlSchema: schema,
           });
         }
@@ -288,16 +294,10 @@ export class WindowService {
           if (operations && operations.length) {
             // Import only query
             return this.importWindowData({
+              ...emptyWindowData,
               version: 1,
               type: 'window',
-              apiUrl: '',
-              headers: [],
-              preRequestScript: '',
-              preRequestScriptEnabled: false,
               query: dataStr,
-              subscriptionUrl: '',
-              variables: '{}',
-              windowName: '',
             });
           }
           throw invalidFileError;

@@ -148,10 +148,10 @@ export class AppComponent implements OnDestroy {
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
     this.settings$.pipe(
+      untilDestroyed(this),
       map(settings => settings.language),
       filter(x => !!x),
       distinctUntilChanged(),
-      untilDestroyed(this),
     )
     .subscribe(language => {
       this.translate.use(language);
@@ -251,8 +251,8 @@ export class AppComponent implements OnDestroy {
   newWindow() {
     this.windowService.newWindow()
     .pipe(
-      first(),
       untilDestroyed(this),
+      first(),
     )
     .subscribe(({ url, windowId }) => {
       this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
@@ -268,7 +268,9 @@ export class AppComponent implements OnDestroy {
   }
 
   removeWindow(windowId: string) {
-    this.windowService.removeWindow(windowId);
+    this.windowService.removeWindow(windowId)
+      .pipe(untilDestroyed(this))
+      .subscribe();
   }
 
   duplicateWindow(windowId: string) {

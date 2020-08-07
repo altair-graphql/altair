@@ -1,5 +1,5 @@
 
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take, first, filter } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -19,6 +19,7 @@ import * as fromQuery from '../../store/query/query.reducer';
 import * as fromCollection from '../../store/collection/collection.reducer';
 import * as fromPreRequest from '../../store/pre-request/pre-request.reducer';
 import * as fromDocs from '../../store/docs/docs.reducer';
+import * as fromLayout from '../../store/layout/layout.reducer';
 
 import * as queryActions from '../../store/query/query.action';
 import * as headerActions from '../../store/headers/headers.action';
@@ -59,13 +60,13 @@ import collectVariables from 'codemirror-graphql/utils/collectVariables';
   ]
 })
 export class WindowComponent implements OnInit {
+  query$: Observable<fromQuery.State>;
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
   docsIsLoading$: Observable<boolean>;
   headers$: Observable<fromHeader.State>;
   variables$: Observable<fromVariable.State>;
-  isLoading$: Observable<boolean>;
   introspection$: Observable<any>;
   allowIntrospection$: Observable<boolean>;
   schemaLastUpdatedAt$: Observable<number | undefined>;
@@ -79,6 +80,7 @@ export class WindowComponent implements OnInit {
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
   preRequest$: Observable<fromPreRequest.State>;
+  layout$: Observable<fromLayout.State>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -86,13 +88,12 @@ export class WindowComponent implements OnInit {
 
   collections$: Observable<fromCollection.IQueryCollection[]>;
 
+  sidebarPluginsData$: Observable<PluginComponentData[]>;
+
   @Input() windowId: string;
 
   apiUrl = '';
-  httpVerb = '';
-  initialQuery = '';
   query = '';
-  windowTitle = '';
 
   showHeaderDialog = false;
   showVariableDialog = false;
@@ -109,7 +110,6 @@ export class WindowComponent implements OnInit {
   subscriptionConnectionParams = '';
 
   historyList: fromHistory.History[] = [];
-  pluginsData: PluginComponentData[] = [];
   resultPaneActionButtonPlugins: { pluginName: string, instance: ActionPlugin, data: PluginComponentData['props']}[] = [];
   resultPaneActionButtonRenderOutputs: ActionPluginRenderOutput[] = [];
 
@@ -129,13 +129,13 @@ export class WindowComponent implements OnInit {
     this.tabSize$ = this.store.pipe(select(state => state.settings.tabSize));
     this.collections$ = this.store.pipe(select(state => state.collection.list));
 
+    this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
     this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
     this.docsIsLoading$ = this.getWindowState().pipe(select(fromRoot.getDocsLoading));
     this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
     this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
-    this.isLoading$ = this.getWindowState().pipe(select(fromRoot.getIsLoading));
     this.introspection$ = this.getWindowState().pipe(select(fromRoot.getIntrospection));
     this.allowIntrospection$ = this.getWindowState().pipe(select(fromRoot.allowIntrospection));
     this.schemaLastUpdatedAt$ = this.getWindowState().pipe(select(fromRoot.getSchemaLastUpdatedAt));
@@ -147,17 +147,7 @@ export class WindowComponent implements OnInit {
     this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getAutoscrollSubscriptionResponse));
     this.selectedOperation$ = this.getWindowState().pipe(select(fromRoot.getSelectedOperation));
     this.queryOperations$ = this.getWindowState().pipe(select(fromRoot.getQueryOperations));
-    this.streamState$ = this.getWindowState().pipe(
-      map(data => {
-        if (data && data.stream.url) {
-          if (data.stream.isConnected && data.stream.client instanceof EventSource) {
-            return 'connected';
-          }
-          return 'uncertain';
-        }
-        return '';
-      })
-    );
+    this.streamState$ = this.getWindowState().pipe(select(fromRoot.getStreamStateString));
     this.currentCollection$ = this.getWindowState().pipe(
       switchMap(data => {
         if (data && data.layout.collectionId) {
@@ -172,11 +162,12 @@ export class WindowComponent implements OnInit {
       })
     );
     this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
+    this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
     this.store.pipe(
+      untilDestroyed(this),
       map(data => data.windows[this.windowId]),
       distinctUntilChanged(),
-      untilDestroyed(this),
     )
     .subscribe(data => {
       if (!data) {
@@ -187,14 +178,12 @@ export class WindowComponent implements OnInit {
       this.apiUrl = data.query.url;
       const query = data.query.query || '';
       this.query = query;
-      this.httpVerb = data.query.httpVerb;
       this.showHeaderDialog = data.dialogs.showHeaderDialog;
       this.showVariableDialog = data.dialogs.showVariableDialog;
       this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
       this.showHistoryDialog = data.dialogs.showHistoryDialog;
       this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
       this.showPreRequestDialog = data.dialogs.showPreRequestDialog;
-      this.windowTitle = data.layout.title;
 
       this.subscriptionUrl = data.query.subscriptionUrl;
       this.subscriptionConnectionParams = data.query.subscriptionConnectionParams || '';
@@ -218,15 +207,20 @@ export class WindowComponent implements OnInit {
       }
     });
 
+    this.sidebarPluginsData$ = this.store.pipe(
+      first(),
+      filter(data => !!data.settings.enableExperimental),
+      switchMap(() => {
+        return this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId });
+      }),
+    );
+
     this.store.pipe(
-      take(1),
       untilDestroyed(this),
+      take(1),
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
-        this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId }).subscribe(pluginsData => {
-          this.pluginsData = pluginsData;
-        });
 
         this.pluginRegistry.getPluginsWithData(PluginType.ACTION_BUTTON, { windowId: this.windowId }).subscribe(async(pluginsData) => {
           // TODO: Consider moving most of this logic out of the window component
@@ -351,8 +345,8 @@ export class WindowComponent implements OnInit {
   onShowTokenInDocs(docView: fromDocs.DocView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
-      take(1),
       untilDestroyed(this),
+      take(1),
     ).subscribe(docsShown => {
       if (!docsShown) {
         this.toggleDocs();

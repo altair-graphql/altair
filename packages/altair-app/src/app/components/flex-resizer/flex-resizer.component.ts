@@ -3,7 +3,6 @@ import { throttleTime } from 'rxjs/operators';
 import {
   Component,
   OnInit,
-  HostListener,
   ElementRef,
   Output,
   EventEmitter,
@@ -11,12 +10,11 @@ import {
   HostBinding,
   Inject,
   NgZone,
-  OnDestroy,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debug } from 'app/utils/logger';
 import { DOCUMENT } from '@angular/common';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -71,7 +69,7 @@ export class FlexResizerComponent implements OnInit {
 
     this.zone.runOutsideAngular(() => {
       this.documentMouseUp$
-        .subscribe((evt: MouseEvent) => this.onMouseUp(evt));
+        .subscribe((evt: MouseEvent) => this.onMouseUp());
 
         this.documentMouseMove$
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
@@ -105,7 +103,6 @@ export class FlexResizerComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
     this.diffX = event.clientX - this.originalX;
-    const offsetY = event.clientY - this.py;
 
     const newWidth = this.isRight ? this.originalWidth + this.diffX : this.originalWidth - this.diffX;
 
@@ -118,7 +115,7 @@ export class FlexResizerComponent implements OnInit {
     });
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp() {
     if (!this.draggingMode) {
       return true;
     }

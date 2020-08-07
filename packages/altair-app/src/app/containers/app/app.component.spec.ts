@@ -38,11 +38,6 @@ describe('AppComponent', () => {
       services.PluginRegistryService,
       services.QueryCollectionService,
       PluginPropsFactory,
-      { provide: services.QueryService, useValue: {
-        loadQuery: () => {},
-        loadUrl: () => {},
-        loadIntrospection: () => {},
-      } },
       { provide: Store, useValue: {
         subscribe: () => observableEmpty(),
         select: () => observableEmpty(),

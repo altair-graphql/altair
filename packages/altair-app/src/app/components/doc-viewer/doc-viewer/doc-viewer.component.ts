@@ -19,7 +19,7 @@ import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as fromDocs from '../../../store/docs/docs.reducer';
 
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   GraphQLSchema,
   GraphQLObjectType,
@@ -80,7 +80,6 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   docUtilWorker: any;
 
   constructor(
-    private translate: TranslateService,
     private gqlService: GqlService,
     private _sanitizer: DomSanitizer,
     private altairConfig: AltairConfig,
