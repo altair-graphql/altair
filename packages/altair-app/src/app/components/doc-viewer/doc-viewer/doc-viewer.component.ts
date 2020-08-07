@@ -84,17 +84,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     private gqlService: GqlService,
     private _sanitizer: DomSanitizer,
     private altairConfig: AltairConfig,
-  ) {
-
-    // Set translations
-    this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT')
-      .pipe(untilDestroyed(this))
-      .subscribe(text => this.searchInputPlaceholder = text);
-
-    this.setDocViewChange.subscribe(() => {
-      this.docViewerRef.nativeElement.scrollTop = 0;
-    });
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
@@ -141,6 +131,11 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.searchDocs(term);
   }
 
+  setDocView(docView: Partial<fromDocs.DocView> | undefined) {
+    this.setDocViewChange.next(docView);
+    this.docViewerRef.nativeElement.scrollTop = 0;
+  }
+
   /**
    * search through the docs for the provided term
    */
@@ -153,7 +148,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       return false;
     }
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'search' });
+    this.setDocView({ view: 'search' });
     const docUtilWorker = await this.getDocUtilsWorker();
     this.searchResult = await docUtilWorker.searchDocs(term);
     debug.log(this.searchResult);
@@ -172,7 +167,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goBack() {
     if (this.docHistory.length) {
-      this.setDocViewChange.next(this.docHistory.pop());
+      this.setDocView(this.docHistory.pop());
     }
   }
 
@@ -180,7 +175,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * Go back to root view
    */
   goHome() {
-    this.setDocViewChange.next({ view: 'root' });
+    this.setDocView({ view: 'root' });
     this.docHistory = [];
   }
 
@@ -199,7 +194,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goToType(name: string) {
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
+    this.setDocView({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
   }
 
   /**
@@ -209,7 +204,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goToField(name: string, parentType: string) {
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
+    this.setDocView({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
   }
 
   async addToEditor(name: string, parentType: string) {

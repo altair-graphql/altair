@@ -1,7 +1,7 @@
 
 import {of as observableOf, Subscription, Observable, Observer } from 'rxjs';
 
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -36,24 +36,17 @@ export class WindowService {
   ) { }
 
   newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string } = {}) {
-    return new Observable<{
-      windowId: string;
-      title: string;
-      url: string;
-      collectionId?: number;
-      windowIdInCollection?: string
-    }>((obs) => {
-      return this.store.pipe(first()).subscribe(data => {
-
+    return this.store.pipe(
+      first(),
+      map(state => {
         const url = opts.url || fromQuery.getInitialState().url || (
-          data.windowsMeta.activeWindowId &&
-          data.windows[data.windowsMeta.activeWindowId] &&
-          data.windows[data.windowsMeta.activeWindowId].query.url
+          state.windowsMeta.activeWindowId &&
+          state.windows[state.windowsMeta.activeWindowId]?.query.url
         )
 
         const newWindow = {
           windowId: uuid(),
-          title: opts.title || `Window ${Object.keys(data.windows).length + 1}`,
+          title: opts.title || `Window ${Object.keys(state.windows).length + 1}`,
           url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
@@ -63,9 +56,9 @@ export class WindowService {
 
         this.setupWindow(newWindow.windowId);
 
-        obs.next(newWindow);
-      });
-    });
+        return newWindow;
+      }),
+    );
   }
 
   removeWindow(windowId: string) {
@@ -110,13 +103,14 @@ export class WindowService {
   }
 
   getWindowExportData(windowId: string): Observable<fromWindows.ExportWindowState> {
-    return Observable.create((obs: Observer<fromWindows.ExportWindowState>) => {
-      return this.store.pipe(first()).subscribe(data => {
-        const window = { ...data.windows[windowId] };
+    return this.store.pipe(
+      first(),
+      map(state => {
+        const window = { ...state.windows[windowId] };
 
         // TODO: Check that there is data to be exported
 
-        obs.next({
+        return {
           version: 1,
           type: 'window',
           query: window.query.query || '',
@@ -127,9 +121,9 @@ export class WindowService {
           windowName: window.layout.title,
           preRequestScript: window.preRequest.script,
           preRequestScriptEnabled: window.preRequest.enabled,
-        });
-      });
-    });
+        };
+      }),
+    );
   }
 
   importWindowDataFromJson(data: string) {

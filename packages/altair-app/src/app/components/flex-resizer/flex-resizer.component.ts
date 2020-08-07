@@ -24,7 +24,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   templateUrl: './flex-resizer.component.html',
   styleUrls: ['./flex-resizer.component.scss']
 })
-export class FlexResizerComponent implements OnInit, OnDestroy {
+export class FlexResizerComponent implements OnInit {
   @Input() resizeDirection = 'left';
   @Output() resizeChange = new EventEmitter();
 
@@ -71,19 +71,15 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
 
     this.zone.runOutsideAngular(() => {
       this.documentMouseUp$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onMouseUp(evt));
 
         this.documentMouseMove$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
         this.elMouseMove$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
         this.elMouseDown$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
     });
 
@@ -139,8 +135,5 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
       el = el.parentElement;
     }
     return el;
-  }
-
-  ngOnDestroy() {
   }
 }
