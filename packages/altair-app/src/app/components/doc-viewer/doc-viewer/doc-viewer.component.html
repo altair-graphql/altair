@@ -62,7 +62,7 @@
       [list-formatter]="autocompleteListFormatter"
       value-property-name="search"
       display-property-name="search"
-      [placeholder]="searchInputPlaceholder"
+      [placeholder]="'DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT' | translate"
       (keyup)="searchInputKeyUp(searchTerm, $event)"
       (valueChanged)="$event && searchDocs($event)"
     />

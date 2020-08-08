@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HistoryDialogComponent should render correctly 1`] = `
+<app-history-dialog>
+  <nz-modal>
+    
+    
+    
+  </nz-modal>
+</app-history-dialog>
+`;

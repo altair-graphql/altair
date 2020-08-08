@@ -3,7 +3,6 @@ import { throttleTime } from 'rxjs/operators';
 import {
   Component,
   OnInit,
-  HostListener,
   ElementRef,
   Output,
   EventEmitter,
@@ -11,19 +10,19 @@ import {
   HostBinding,
   Inject,
   NgZone,
-  OnDestroy,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debug } from 'app/utils/logger';
 import { DOCUMENT } from '@angular/common';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-flex-resizer',
   templateUrl: './flex-resizer.component.html',
   styleUrls: ['./flex-resizer.component.scss']
 })
-export class FlexResizerComponent implements OnInit, OnDestroy {
+export class FlexResizerComponent implements OnInit {
   @Input() resizeDirection = 'left';
   @Output() resizeChange = new EventEmitter();
 
@@ -70,19 +69,15 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
 
     this.zone.runOutsideAngular(() => {
       this.documentMouseUp$
-        .pipe(untilDestroyed(this))
-        .subscribe((evt: MouseEvent) => this.onMouseUp(evt));
+        .subscribe((evt: MouseEvent) => this.onMouseUp());
 
         this.documentMouseMove$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
         this.elMouseMove$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
         this.elMouseDown$
-        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
     });
 
@@ -108,7 +103,6 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     event.preventDefault();
     this.diffX = event.clientX - this.originalX;
-    const offsetY = event.clientY - this.py;
 
     const newWidth = this.isRight ? this.originalWidth + this.diffX : this.originalWidth - this.diffX;
 
@@ -121,7 +115,7 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
     });
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp() {
     if (!this.draggingMode) {
       return true;
     }
@@ -138,8 +132,5 @@ export class FlexResizerComponent implements OnInit, OnDestroy {
       el = el.parentElement;
     }
     return el;
-  }
-
-  ngOnDestroy() {
   }
 }

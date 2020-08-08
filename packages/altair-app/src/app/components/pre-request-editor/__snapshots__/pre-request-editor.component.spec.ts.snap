@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreRequestEditorComponent should render correctly 1`] = `
+<app-pre-request-editor>
+  <div
+    class="pre-request-editor"
+  >
+    <div
+      class="pre-request-editor__toggle-wrapper"
+    >
+      <label
+        nz-checkbox=""
+      >
+        
+      </label>
+    </div>
+    <ngx-codemirror
+      class="pre-request-textarea mousetrap"
+    />
+    <small>
+      <a
+        href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html"
+        target="_blank"
+      >
+        <app-icon
+          name="info"
+        />
+          
+      </a>
+    </small>
+  </div>
+</app-pre-request-editor>
+`;

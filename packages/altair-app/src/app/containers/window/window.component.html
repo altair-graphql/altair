@@ -1,11 +1,11 @@
 <app-plugin-element
-  *ngFor="let pluginData of pluginsData; trackBy:pluginTrackBy;"
+  *ngFor="let pluginData of (sidebarPluginsData$ | async); trackBy:pluginTrackBy;"
   [pluginData]="pluginData"
 ></app-plugin-element>
 <div class="app-window__content">
-  <div class="window-loader" *ngIf="isLoading$ | async" [@fadeInOutAnimation]>
+  <div class="window-loader" *ngIf="(layout$ | async)?.isLoading" [@fadeInOutAnimation]>
     <div class="window-loader__content">
-      <img src="assets/img/logo.svg" alt="" class="loader-img anim" [ngClass]="{ 'anim-rotate': isLoading$ | async }"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
+      <img src="assets/img/logo.svg" alt="" class="loader-img anim" [ngClass]="{ 'anim-rotate': (layout$ | async)?.isLoading }"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
       <div class="window-loader__actions">
         <button class="app-button cancel-request-button" (click)="cancelRequest()" track-id="cancel_request">{{ 'CANCEL_TEXT' | translate }}</button>
       </div>
@@ -13,9 +13,9 @@
   </div>
   <app-url-box
     [apiUrl]="apiUrl"
-    [httpVerb]="httpVerb"
+    [httpVerb]="(query$ | async)?.httpVerb"
     [isSubscribed]="isSubscribed$ | async"
-    [isLoading]="isLoading$ | async"
+    [isLoading]="(layout$ | async)?.isLoading"
     [showDocs]="showDocs$ | async"
     [selectedOperation]="selectedOperation$ | async"
     [queryOperations]="queryOperations$ | async"
@@ -164,7 +164,7 @@
     ></app-history-dialog>
     <app-add-collection-query-dialog
       [showDialog]="showAddToCollectionDialog"
-      [windowTitle]="windowTitle"
+      [windowTitle]="(layout$ | async)?.title"
       [collections]="collections$ | async"
       (toggleDialogChange)="toggleAddToCollectionDialog($event)"
       (saveQueryToCollectionChange)="saveQueryToCollection($event)"

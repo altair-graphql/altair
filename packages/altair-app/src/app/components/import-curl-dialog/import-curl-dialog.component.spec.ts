@@ -1,40 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, describe, it } from '@jest/globals';
 
 import { ImportCurlDialogComponent } from './import-curl-dialog.component';
 
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { SharedModule } from 'app/modules/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import * as services from '../../services';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing';
+import { MockModule } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ImportCurlDialogComponent', () => {
-  let component: ImportCurlDialogComponent;
-  let fixture: ComponentFixture<ImportCurlDialogComponent>;
+  let wrapper: NgxTestWrapper<ImportCurlDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ImportCurlDialogComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: ImportCurlDialogComponent,
       imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
+        MockModule(SharedModule),
       ],
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ImportCurlDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

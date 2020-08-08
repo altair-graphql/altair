@@ -1,10 +1,11 @@
 
-import {combineLatest as observableCombineLatest,  Observable ,  Subscriber } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { DbService } from './db.service';
 import { AltairConfig } from '../config';
 import { uaSeedHash } from '../utils/simple_hash';
+import { switchMap, map } from 'rxjs/operators';
 
 @Injectable()
 export class DonationService {
@@ -47,26 +48,27 @@ export class DonationService {
     const seed$ = this.dbService.getItem(this.seedKey);
     const curHash$ = this.dbService.getItem(this.hashKey);
 
-    return Observable.create((obs: Subscriber<boolean>) => {
-      observableCombineLatest(actionCount$, seed$, curHash$).subscribe(([actionCount, seed, curHash]) => {
-        if (actionCount && actionCount >= this.altairConfig.donation.action_count_threshold) {
-          // Reset count
-          this.dbService.setItem(this.actionCountKey, 0);
+    return zip(actionCount$, seed$, curHash$)
+      .pipe(
+        map(([ actionCount, seed, curHash ]) => {
+          if (actionCount && actionCount >= this.altairConfig.donation.action_count_threshold) {
+            // Reset count
+            this.dbService.setItem(this.actionCountKey, 0);
 
-          if (seed && uaSeedHash(seed) === curHash) {
-            // User has donated already
-            return obs.next(false);
+            if (seed && uaSeedHash(seed) === curHash) {
+              // User has donated already
+              return false;
+            } else {
+              // User has not donated
+              return true;
+            }
           } else {
-            // User has not donated
-            return obs.next(true);
-          }
-        } else {
-          // Increment count
-          this.dbService.setItem(this.actionCountKey, actionCount + 1);
+            // Increment count
+            this.dbService.setItem(this.actionCountKey, actionCount + 1);
 
-          return obs.next(false);
-        }
-      });
-    });
+            return false;
+          }
+        }),
+      );
   }
 }
