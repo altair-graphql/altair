@@ -10,6 +10,7 @@ export function mock<T>(obj: Partial<T> = {}): T {
 export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   const store = of(obj);
   (store as any).dispatch = jest.fn();
+  (store as any).select = jest.fn(() => of());
   return store as Store<T>;
 }
 

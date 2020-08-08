@@ -39,7 +39,7 @@ export function setValue<C extends any>(fixture: ComponentFixture<C>, debugEl: D
 };
 
 function getComponentMeta(compType: any) {
-  const props = compType.__prop__metadata__;
+  const props = compType.__prop__metadata__ || {};
   const inputs: string[] = [];
   const outputs: string[] = [];
 
@@ -106,7 +106,12 @@ export async function mount(mountOptions: TestMountOptions) {
 
   await TestBed.configureTestingModule(moduleDef).compileComponents();
   const testHostFixture = TestBed.createComponent(TestHostComponent);
-  testHostFixture.detectChanges();
+  try {
+    testHostFixture.detectChanges();
+  } catch(error) {
+    error.message = `There was an error while creating the test component.\n${error.message}`;
+    throw error;
+  }
 
   return new NgxTestWrapper<typeof MainComponent>(testHostFixture, MainComponent);
 };

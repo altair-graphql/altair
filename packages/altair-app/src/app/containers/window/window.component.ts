@@ -216,8 +216,8 @@ export class WindowComponent implements OnInit {
     );
 
     this.store.pipe(
-      untilDestroyed(this),
       take(1),
+      untilDestroyed(this),
     )
     .subscribe(data => {
       if (data.settings.enableExperimental) {
@@ -345,8 +345,8 @@ export class WindowComponent implements OnInit {
   onShowTokenInDocs(docView: fromDocs.DocView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
-      untilDestroyed(this),
       take(1),
+      untilDestroyed(this),
     ).subscribe(docsShown => {
       if (!docsShown) {
         this.toggleDocs();

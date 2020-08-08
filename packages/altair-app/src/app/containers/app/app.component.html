@@ -5,7 +5,7 @@
     '--editor-font-family': (settings$ | async)['theme.editorFontFamily'],
     '--editor-font-size': (settings$ | async)['theme.editorFontSize']
   }"
-  [ngClass]="(settings$ | async).theme + '-theme'"
+  [ngClass]="(settings$ | async)?.theme + '-theme'"
   appFileDrop
   (onFileDropped)="fileDropped($event)"
 >
@@ -25,7 +25,7 @@
     <nz-header class="app-header">
       <div
         class="branding app-header__logo-wrapper"
-        [ngClass]="{ 'app-header__logo-wrapper--experimental': (settings$ | async).enableExperimental }"
+        [ngClass]="{ 'app-header__logo-wrapper--experimental': (settings$ | async)?.enableExperimental }"
       >
         <img
           src="assets/img/logo.svg"
@@ -307,7 +307,7 @@
     
               <div class="side-menu__main-bottom">
                 <a
-                  *ngIf="(settings$ | async).enableExperimental"
+                  *ngIf="(settings$ | async)?.enableExperimental"
                   class="side-menu-item"
                   (click)="togglePluginManager(true)"
                   attr.aria-label="{{ 'PLUGINS_TEXT' | translate }}"
@@ -333,7 +333,7 @@
               <app-query-collections
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
-                [sortBy]="(collection$ | async).sortBy"
+                [sortBy]="(collection$ | async)?.sortBy"
     
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
@@ -381,7 +381,7 @@
             ></app-import-curl-dialog>
             <app-edit-collection-dialog
             [showEditCollectionDialog]="showEditCollectionDialog"
-            [collection]="(collection$ | async).activeCollection"
+            [collection]="(collection$ | async)?.activeCollection"
             (toggleDialogChange)="setShowEditCollectionDialog($event)"
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
