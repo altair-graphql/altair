@@ -1,17 +1,19 @@
 import { expect, describe, it } from '@jest/globals';
 
-import { VariablesEditorComponent } from './variables-editor.component';
+import { UrlBoxComponent } from './url-box.component';
+
 import { SharedModule } from 'app/modules/shared/shared.module';
-import { NgxTestWrapper, mount } from '../../../testing';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-describe('VariablesEditorComponent', () => {
-  let wrapper: NgxTestWrapper<VariablesEditorComponent>;
+describe('UrlBoxComponent', () => {
+  let wrapper: NgxTestWrapper<UrlBoxComponent>;
 
   beforeEach(async() => {
     wrapper = await mount({
-      component: VariablesEditorComponent,
+      component: UrlBoxComponent,
       imports: [
         MockModule(SharedModule),
       ],
@@ -27,6 +29,17 @@ describe('VariablesEditorComponent', () => {
   });
 
   it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
+  });
+
+  it('should render correctly with queryOperations > 1', async() => {
+    wrapper.setProps({
+      queryOperations: [
+        { name: { value: 'operation 1' } },
+        { name: { value: 'operation 2' } },
+      ],
+    });
+    await wrapper.nextTick();
     expect(wrapper.element).toMatchSnapshot();
   });
 });

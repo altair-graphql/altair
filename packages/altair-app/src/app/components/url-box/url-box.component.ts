@@ -12,7 +12,7 @@ export class UrlBoxComponent {
   @Input() isLoading = false;
   @Input() showDocs = false;
   @Input() selectedOperation = '';
-  @Input() queryOperations = [];
+  @Input() queryOperations: any[] = [];
   @Input() streamState = '';
   @Input() currentCollection = null;
 
@@ -27,8 +27,6 @@ export class UrlBoxComponent {
   @Output() updateQueryInCollectionChange = new EventEmitter();
 
   methods = ['POST', 'GET', 'PUT', 'DELETE'];
-
-  constructor() { }
 
   setApiUrl() {
     this.urlChange.emit(this.apiUrl.trim());

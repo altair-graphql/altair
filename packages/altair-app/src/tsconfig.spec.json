@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
     "target": "es5",
-    "baseUrl": "",
+    "baseUrl": "../src",
     "types": [
       "node",
       "jest"

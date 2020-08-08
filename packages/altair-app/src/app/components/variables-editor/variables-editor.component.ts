@@ -63,7 +63,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
   constructor() { }
 
   ngAfterViewInit() {
-    if (this.editor) {
+    if (this.editor?.codeMirror) {
       (this.editor.codeMirror as any).on('keyup', (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event));
     }
   }
