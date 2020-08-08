@@ -108,7 +108,7 @@ export async function mount(mountOptions: TestMountOptions) {
   const testHostFixture = TestBed.createComponent(TestHostComponent);
   try {
     testHostFixture.detectChanges();
-  } catch(error) {
+  } catch (error) {
     error.message = `There was an error while creating the test component.\n${error.message}`;
     throw error;
   }
