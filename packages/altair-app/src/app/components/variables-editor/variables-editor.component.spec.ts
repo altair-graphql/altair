@@ -1,35 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, describe, it } from '@jest/globals';
 
 import { VariablesEditorComponent } from './variables-editor.component';
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/modules/shared/shared.module';
+import { NgxTestWrapper, mount } from '../../../testing';
+import { MockModule } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('VariablesEditorComponent', () => {
-  let component: VariablesEditorComponent;
-  let fixture: ComponentFixture<VariablesEditorComponent>;
+  let wrapper: NgxTestWrapper<VariablesEditorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ VariablesEditorComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: VariablesEditorComponent,
       imports: [
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
+        MockModule(SharedModule),
       ],
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(VariablesEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      schemas: [ NO_ERRORS_SCHEMA ],
+      propsData: {
+        queryOperations: [],
+      }
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

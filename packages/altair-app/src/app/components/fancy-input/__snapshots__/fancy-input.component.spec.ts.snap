@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FancyInputComponent should render the highlights correctly based on the matched variables in text 1`] = `
+<div
+  id="root2"
+>
+  <div
+    class="fancy-input-container"
+  >
+    <div
+      class="fancy-input-backdrop"
+    >
+      <div
+        class="fancy-input-content fancy-input-highlights"
+      >
+        
+        
+        
+        <span>
+          some text 
+        </span>
+        
+        
+        
+        
+        
+        <mark>
+          {{variable1}}
+        </mark>
+        
+        
+        
+        <span>
+           then 
+        </span>
+        
+        
+        
+        
+        
+        <mark>
+          {{variable2}}
+        </mark>
+        
+        
+        
+        <span>
+           is next
+        </span>
+        
+        
+      </div>
+    </div>
+    <input
+      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      placeholder=""
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`FancyInputComponent should set component value when input value changes 1`] = `
+<div
+  id="root1"
+>
+  <div
+    class="fancy-input-container"
+  >
+    <div
+      class="fancy-input-backdrop"
+    >
+      <div
+        class="fancy-input-content fancy-input-highlights"
+      >
+        
+        
+        
+        <span>
+          some text
+        </span>
+        
+        
+      </div>
+    </div>
+    <input
+      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      placeholder=""
+      type="text"
+    />
+  </div>
+</div>
+`;

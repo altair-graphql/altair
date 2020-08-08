@@ -114,6 +114,14 @@ describe('EnvironmentService', () => {
       });
       expect(hydratedContent).toBe('current URL is https://provided.url!');
     });
+
+    it('should render escaped content without hydrating it', () => {
+      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const hydratedContent = service.hydrate(`current URL is \\{{baseUrl}}!`, {
+        activeEnvironment: { baseUrl: 'https://provided.url' }
+      });
+      expect(hydratedContent).toBe(`current URL is {{baseUrl}}!`);
+    });
   });
 
   describe('.hydrateHeaders()', () => {

@@ -49,6 +49,10 @@
             "description": "Enable experimental features in Altair.\nNote: The features might be unstable.",
             "type": "boolean"
         },
+        "historyDepth": {
+            "description": "Specifies the number of items allowed in the history pane",
+            "type": "number"
+        },
         "language": {
             "$ref": "#/definitions/SettingsLanguage",
             "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
@@ -79,6 +83,10 @@
         "theme.editorFontFamily": {
             "description": "Specifies the font family for the editors",
             "type": "string"
+        },
+        "theme.editorFontSize": {
+            "description": "Specifies the font size for the editors",
+            "type": "number"
         },
         "theme.fontsize": {
             "description": "Specifies the base font size\n(Default size - 24)",

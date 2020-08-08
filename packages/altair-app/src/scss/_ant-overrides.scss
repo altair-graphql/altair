@@ -98,6 +98,10 @@
   }
 }
 
+.ant-form-item-label > label {
+  color: var(--theme-font-color);
+}
+
 .ant-input {
   background: var(--theme-off-bg-color);
   border-color: var(--theme-border-color);
@@ -132,6 +136,19 @@
   color: var(--theme-font-color);
 }
 
+.ant-select-item {
+  color: var(--theme-font-color);
+}
+
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: var(--theme-bg-color);
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: var(--theme-border-color);
+  color: var(--theme-font-color);
+}
+
 .ant-select-arrow {
   color: var(--theme-border-color);
 }
@@ -155,4 +172,13 @@
 
 .ant-tabs-bar {
   border-color: var(--theme-border-color);
+}
+
+.ant-tooltip-inner {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+}
+
+.ant-tooltip-arrow::before {
+  background-color: var(--theme-off-bg-color);
 }

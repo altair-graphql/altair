@@ -1,5 +1,5 @@
 
-import {empty as observableEmpty, of as observableOf,  Observable } from 'rxjs';
+import {empty as observableEmpty, of as observableOf,  Observable, zip, of } from 'rxjs';
 
 import {switchMap, withLatestFrom, tap} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -93,9 +93,10 @@ export class WindowsEffects {
         return { data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
       }),
       switchMap(data => {
-        this.windowService.getWindowExportData(data.windowId).subscribe(exportData => {
-          downloadJson(exportData, data.data.layout.title, { fileType: 'agq' });
-        });
+        return zip(of(data), this.windowService.getWindowExportData(data.windowId));
+      }),
+      switchMap(([data, exportData]) => {
+        downloadJson(exportData, data.data.layout.title, { fileType: 'agq' });
         return observableEmpty();
       }),
     );

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DialogComponent should render correctly 1`] = `
+<app-dialog>
+  <nz-modal>
+    
+    
+    
+  </nz-modal>
+</app-dialog>
+`;

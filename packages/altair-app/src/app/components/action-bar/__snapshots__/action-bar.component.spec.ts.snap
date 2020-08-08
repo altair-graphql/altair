@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionBarComponent should render correctly 1`] = `
+<app-action-bar>
+  <div
+    class="action-bar"
+  >
+    <button
+      class="app-button"
+    >
+        
+    </button>
+    <button
+      class="app-button"
+    >
+        
+    </button>
+    <button
+      class="app-button"
+    >
+      
+    </button>
+    <button
+      class="app-button"
+    >
+      
+    </button>
+    <button
+      class="app-button"
+    >
+        
+    </button>
+    <div
+      class="actions-right right"
+    >
+      <button
+        class="app-button"
+      >
+        
+      </button>
+      <button
+        class="app-button"
+      >
+        
+      </button>
+    </div>
+  </div>
+</app-action-bar>
+`;

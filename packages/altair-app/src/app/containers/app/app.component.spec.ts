@@ -1,14 +1,14 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
 import * as services from './../../services';
-import { empty as observableEmpty } from 'rxjs';
+import { empty as observableEmpty, of } from 'rxjs';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
@@ -22,67 +22,84 @@ import { SharedModule } from 'app/modules/shared/shared.module';
 import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
 import { AltairConfig } from 'app/config';
 import { PluginPropsFactory } from 'app/services/plugin/plugin-props-factory';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing/utils';
+import { mockStoreFactory, mock } from '../../../testing';
+import { MockModule } from 'ng-mocks';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  let wrapper: NgxTestWrapper<AppComponent>;
+
+  beforeEach(async() => {
     const providers = [
-      services.ApiService,
-      services.GqlService,
-      services.DbService,
-      services.WindowService,
-      services.DonationService,
-      services.ElectronAppService,
-      services.KeybinderService,
-      services.NotifyService,
-      services.StorageService,
-      services.PluginRegistryService,
-      services.QueryCollectionService,
-      PluginPropsFactory,
-      { provide: services.QueryService, useValue: {
-        loadQuery: () => {},
-        loadUrl: () => {},
-        loadIntrospection: () => {},
-      } },
-      { provide: Store, useValue: {
-        subscribe: () => observableEmpty(),
-        select: () => observableEmpty(),
-        map: () => observableEmpty(),
-        first: () => observableEmpty(),
-        pipe: () => observableEmpty(),
-        dispatch: () => {}
-      } },
+      {
+        provide: services.WindowService,
+        useValue: mock({
+          newWindow: () => of(),
+        }),
+      },
+      {
+        provide: services.DonationService,
+        useValue: mock(),
+      },
+      {
+        provide: services.ElectronAppService,
+        useValue: mock({
+          connect: () => {},
+        }),
+      },
+      {
+        provide: services.KeybinderService,
+        useValue: mock({
+          connect: () => {},
+        }),
+      },
+      {
+        provide: services.PluginRegistryService,
+        useValue: mock(),
+      },
+      {
+        provide: services.PluginEventService,
+        useValue: mock(),
+      },
+      {
+        provide: services.QueryCollectionService,
+        useValue: mock(),
+      },
+      {
+        provide: TranslateService,
+        useValue: mock({
+          use: () => of(),
+          getLangs: () => [],
+          setDefaultLang: () => {},
+          addLangs: () => {},
+          getDefaultLang: () => {},
+          getBrowserLang: () => {},
+        }),
+      },
       {
         provide: AltairConfig,
         useValue: new AltairConfig(),
       },
+      {
+        provide: Store,
+        useValue: mockStoreFactory({
+          settings: {}
+        }),
+      },
   ];
-
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        WindowComponent
-      ],
+    wrapper = await mount({
+      component: AppComponent,
       imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        StoreModule,
-        CodemirrorModule,
-        DirectivesModule,
-        ToastrModule.forRoot(),
-        ComponentModule,
-        DocViewerModule,
-        SmartInputModule,
-        TranslateModule.forRoot(),
-        SharedModule.forRoot(),
+        MockModule(SharedModule),
+        MockModule(TranslateModule),
       ],
-      providers: providers
-    }).compileComponents();
-  }));
+      providers,
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
+  });
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+  it('should create', () => {
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
 });

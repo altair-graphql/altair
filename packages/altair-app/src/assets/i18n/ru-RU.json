@@ -89,8 +89,10 @@
   "SAVE_TO_COLLECTION_BUTTON": "Добавить в коллекцию",
   "SAVE_TO_COLLECTION_HEADER": "Добавить в коллекцию",
   "SAVE_TO_COLLCTION_SUBTEXT": "Выберите коллекцию ниже, чтобы сохранить запрос, или создать новую",
+  "SAVE_TO_COLLECTION_SELECT_COLLECTION": "Choose a collection",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "создать новую коллекцию",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Имя запроса",
+  "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Создать коллекцию",
   "NUMBER_OF_QUERIES": "Количество запросов:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
@@ -106,6 +108,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Новые",
   "COLLECTIONS_SORT_BY_OLDEST": "Старые",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Этот запрос устарел и не совместим. Пожалуйста, удалите и создайте его снова, чтобы предотвратить потерю данных.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Редактировать коллекцию",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Обновить детали коллекции",
   "COLLECTION_TITLE_LABEL": "Заголовок коллекции",
@@ -132,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Browse through available plugins",
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
-  "PLUGIN_REMOVE_BUTTON": "Remove"
+  "PLUGIN_REMOVE_BUTTON": "Remove",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }

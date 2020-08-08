@@ -20,7 +20,7 @@
   <ng-template #modalFooter>
     <ng-container *ngIf="showFooter">
       <div class="app-dialog-footer">
-        <button class="app-button active-primary right" (click)="toggleDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
+        <button class="app-button active-primary right" (click)="onClickSave($event)">{{ 'SAVE_BUTTON' | translate }}</button>
       </div>
     </ng-container>
   </ng-template>

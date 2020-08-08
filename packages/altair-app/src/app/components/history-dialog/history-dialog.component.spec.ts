@@ -1,37 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
+import { expect, describe, it } from '@jest/globals';
 import { HistoryDialogComponent } from './history-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'app/modules/shared/shared.module';
+import { NzModalComponent } from 'ng-zorro-antd';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing/utils';
+import { MockModule, MockComponent } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HistoryDialogComponent', () => {
-  let component: HistoryDialogComponent;
-  let fixture: ComponentFixture<HistoryDialogComponent>;
+  let wrapper: NgxTestWrapper<HistoryDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HistoryDialogComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: HistoryDialogComponent,
       imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HistoryDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+        MockModule(SharedModule),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

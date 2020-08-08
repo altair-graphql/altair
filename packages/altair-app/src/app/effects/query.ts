@@ -1,5 +1,5 @@
 
-import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber, of } from 'rxjs';
 
 import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -108,7 +108,14 @@ export class QueryEffects {
 
                 // Store the current query into the history if it does not already exist in the history
                 if (!response.data.history.list.filter(item => item.query && item.query.trim() === query.trim()).length) {
-                  this.store.dispatch(new historyActions.AddHistoryAction(response.windowId, { query }));
+                  this.store.dispatch(
+                    new historyActions.AddHistoryAction(
+                      response.windowId, {
+                        query,
+                        limit: response.state.settings.historyDepth
+                      }
+                    )
+                  );
                 }
 
                 // If the query is a subscription, subscribe to the subscription URL and send the query
@@ -412,23 +419,22 @@ export class QueryEffects {
     notifyExperimental$: Observable<Action> = this.actions$
       .pipe(
         ofType(layoutActions.NOTIFY_EXPERIMENTAL),
-        switchMap(() => {
-          this.dbService.getItem('exp_add_query_seen').subscribe(val => {
-            if (!val) {
-              this.notifyService.info(`
-                This feature is experimental, and still in beta.
-                Click here to submit bugs, improvements, etc.
-              `, undefined, {
-                tapToDismiss: true,
-                data: {
-                  url: 'https://github.com/imolorhe/altair/issues/new'
-                }
-              });
-              this.dbService.setItem('exp_add_query_seen', true);
-            }
-          });
+        switchMap(() => this.dbService.getItem('exp_add_query_seen')),
+        switchMap(val => {
+          if (!val) {
+            this.notifyService.info(`
+              This feature is experimental, and still in beta.
+              Click here to submit bugs, improvements, etc.
+            `, undefined, {
+              tapToDismiss: true,
+              data: {
+                url: 'https://github.com/imolorhe/altair/issues/new'
+              }
+            });
+            return this.dbService.setItem('exp_add_query_seen', true);
+          }
           return observableEmpty();
-        })
+        }),
       );
 
     @Effect()
@@ -635,7 +641,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           debug.log('We compress..');
-          this.gqlService.compress(res.data.query.query).then(compressed => {
+          this.gqlService.compress(res.data.query.query || '').then(compressed => {
             debug.log('Compressed..');
 
             if (compressed) {
@@ -719,7 +725,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           try {
-            const namedQuery = this.gqlService.nameQuery(res.data.query.query);
+            const namedQuery = this.gqlService.nameQuery(res.data.query.query || '');
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
             }
@@ -772,13 +778,14 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST),
         switchMap(() => {
-          this.donationService.trackAndCheckIfEligible().subscribe(shouldShow => {
-            if (shouldShow) {
-              this.store.dispatch(new donationAction.ShowDonationAlertAction());
-            }
-          });
+          return this.donationService.trackAndCheckIfEligible();
+        }),
+        switchMap(shouldShow => {
+          if (shouldShow) {
+            return of(new donationAction.ShowDonationAlertAction());
+          }
           return observableEmpty();
-        })
+        }),
       );
 
     @Effect()
@@ -871,11 +878,11 @@ export class QueryEffects {
       private electronAppService: ElectronAppService,
       private environmentService: EnvironmentService,
       private preRequestService: PreRequestService,
-      private store: Store<any>
+      private store: Store<fromRoot.State>
     ) {}
 
 
-    getPrerequestTransformedData$(input: EffectResponseData) {
+    private getPrerequestTransformedData$(input: EffectResponseData) {
       return observableOf(input).pipe(
         switchMap(response => {
           if (!response) {

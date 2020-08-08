@@ -15,7 +15,13 @@
     (click)="onClickWindow(windowId)"
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
-    
+    <app-icon
+      *ngIf="windows[windowId].layout.windowIdInCollection"
+      name="folder"
+      nz-tooltip
+      [nzTooltipTitle]="'COLLECTION_OPEN_QUERY_TOOLTIP' | translate"
+      nzTooltipPlacement="bottom"
+    ></app-icon>
     <div
       #wTitle
       class="window-switcher__input"

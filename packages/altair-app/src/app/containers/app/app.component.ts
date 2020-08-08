@@ -13,6 +13,7 @@ import * as fromSettings from '../../store/settings/settings.reducer';
 import * as fromCollection from '../../store/collection/collection.reducer';
 import * as fromWindowsMeta from '../../store/windows-meta/windows-meta.reducer';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
+import * as fromWindows from '../../store/windows/windows.reducer';
 
 import * as queryActions from '../../store/query/query.action';
 import * as headerActions from '../../store/headers/headers.action';
@@ -42,10 +43,11 @@ import {
 import { AltairConfig } from '../../config';
 import isElectron from '../../utils/is_electron';
 import { debug } from 'app/utils/logger';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PluginInstance, PluginType, PluginComponentData } from 'app/services/plugin/plugin';
 import { PluginEventService } from 'app/services/plugin/plugin-event.service';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -60,7 +62,7 @@ export class AppComponent implements OnDestroy {
   activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
 
   windowIds: string[] = [];
-  windows = {};
+  windows: fromWindows.State = {};
   closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
@@ -108,6 +110,7 @@ export class AppComponent implements OnDestroy {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
+    // TODO: Replace since it is deprecated
     forkJoin([
       this.translate.use(applicationLanguage),
       this.store.pipe(
@@ -191,16 +194,18 @@ export class AppComponent implements OnDestroy {
           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
         }
 
+        // TODO: Consider removing nested subscribes
         this.pluginRegistry.getPlugins(PluginType.SIDEBAR)
           .pipe(
             untilDestroyed(this),
           )
           .subscribe(plugins => this.sidebarPlugins = plugins);
+          // TODO: Consider removing nested subscribes
         this.pluginRegistry.getPluginsWithData(PluginType.HEADER)
-        .pipe(
-          untilDestroyed(this),
-        )
-        .subscribe(plugins => this.headerPluginsData = plugins);
+          .pipe(
+            untilDestroyed(this),
+          )
+          .subscribe(plugins => this.headerPluginsData = plugins);
       });
 
     if (!this.windowIds.length) {
@@ -211,7 +216,7 @@ export class AppComponent implements OnDestroy {
   /**
    * Sets the default language
    */
-  setDefaultLanguage(): void {
+  setDefaultLanguage() {
     // Set fallback language to default.json
     this.translate.setDefaultLang('default');
   }
@@ -219,7 +224,7 @@ export class AppComponent implements OnDestroy {
   /**
    * Sets the available languages from config
    */
-  setAvailableLanguages(): void {
+  setAvailableLanguages() {
     const availableLanguages = Object.keys(this.altairConfig.languages);
     this.translate.addLangs(availableLanguages);
   }
@@ -228,14 +233,14 @@ export class AppComponent implements OnDestroy {
    * Checks if the specified language is available
    * @param language Language code
    */
-  checkLanguageAvailability(language: string): boolean {
+  checkLanguageAvailability(language: string) {
     return this.translate.getLangs().includes(language);
   }
 
   /**
    * Gets the language to use for the app
    */
-  getAppLanguage(): string {
+  getAppLanguage() {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
@@ -263,7 +268,9 @@ export class AppComponent implements OnDestroy {
   }
 
   removeWindow(windowId: string) {
-    this.windowService.removeWindow(windowId);
+    this.windowService.removeWindow(windowId)
+      .pipe(untilDestroyed(this))
+      .subscribe();
   }
 
   duplicateWindow(windowId: string) {
@@ -304,22 +311,6 @@ export class AppComponent implements OnDestroy {
 
   setShowImportCurlDialog(value: boolean) {
     this.store.dispatch(new windowsMetaActions.ShowImportCurlDialogAction({ value }));
-  }
-
-  onThemeChange(theme: fromSettings.SettingsTheme) {
-    this.store.dispatch(new settingsActions.SetThemeAction({ value: theme }));
-  }
-
-  onLanguageChange(language: fromSettings.SettingsLanguage) {
-    this.store.dispatch(new settingsActions.SetLanguageAction({ value: language }));
-  }
-
-  onAddQueryDepthLimitChange(depthLimit: number) {
-    this.store.dispatch(new settingsActions.SetAddQueryDepthLimitAction({ value: depthLimit }));
-  }
-
-  onTabSizeChange(tabSize: number) {
-    this.store.dispatch(new settingsActions.SetTabSizeAction({ value: tabSize }));
   }
 
   prettifyCode() {
@@ -408,6 +399,13 @@ export class AppComponent implements OnDestroy {
     collectionId,
     windowIdInCollection
   }: { query: fromCollection.IQuery, collectionId: number, windowIdInCollection: string }) {
+    const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
+      return this.windows[windowId].layout.windowIdInCollection === windowIdInCollection;
+    });
+    if (matchingOpenQueryWindowIds.length) {
+      this.setActiveWindow(matchingOpenQueryWindowIds[0]);
+      return;
+    }
     this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
   }
 

@@ -1,0 +1,47 @@
+{
+  "name": "altair-fastify-plugin",
+  "version": "2.4.12",
+  "description": "Fastify Plugin of Altair GraphQL Client",
+  "keywords": [
+    "graphql",
+    "fastify",
+    "altair",
+    "client",
+    "gql"
+  ],
+  "homepage": "https://github.com/imolorhe/altair#readme",
+  "bugs": {
+    "url": "https://github.com/imolorhe/altair/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imolorhe/altair.git"
+  },
+  "license": "MIT",
+  "author": "PabloSz <pablosaez1995@gmail.com>",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "example"
+  ],
+  "scripts": {
+    "example": "ts-node example/fastifyGQL.ts",
+    "prepare": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "dependencies": {
+    "altair-static": "^2.4.12",
+    "fastify-plugin": "^2.0.1",
+    "fastify-static": "^3.2.0"
+  },
+  "devDependencies": {
+    "fastify": "^3.1.1",
+    "fastify-gql": "^5.1.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "peerDependencies": {
+    "fastify": "^3.1.1"
+  }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 const { readdir } = require('fs');
 const fs = require('fs');
 const { join } = require('path');
@@ -7,13 +8,13 @@ const getDirectoriesInDirectory = (path) => {
     readdir(
       path,
       { withFileTypes: true },
-      (err, dirents) => err ? reject(err) : resolve(dirents.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name)));
+      (err, dirents) => (err ? reject(err) : resolve(dirents.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name))));
   });
 };
 
 const deleteFolderRecursive = function(path) {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach((file, index) => {
+    fs.readdirSync(path).forEach((file) => {
       const curPath = join(path, file);
       if (fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);

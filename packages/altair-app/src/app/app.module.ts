@@ -63,7 +63,6 @@ const providers = [
   services.ApiService,
   services.GqlService,
   services.DbService,
-  services.QueryService,
   services.WindowService,
   services.NotifyService,
   services.DonationService,

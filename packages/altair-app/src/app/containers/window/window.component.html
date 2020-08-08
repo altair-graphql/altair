@@ -1,11 +1,11 @@
 <app-plugin-element
-  *ngFor="let pluginData of pluginsData; trackBy:pluginTrackBy;"
+  *ngFor="let pluginData of (sidebarPluginsData$ | async); trackBy:pluginTrackBy;"
   [pluginData]="pluginData"
 ></app-plugin-element>
 <div class="app-window__content">
-  <div class="window-loader" *ngIf="isLoading$ | async" [@fadeInOutAnimation]>
+  <div class="window-loader" *ngIf="(layout$ | async)?.isLoading" [@fadeInOutAnimation]>
     <div class="window-loader__content">
-      <img src="assets/img/logo.svg" alt="" class="loader-img anim" [ngClass]="{ 'anim-rotate': isLoading$ | async }"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
+      <img src="assets/img/logo.svg" alt="" class="loader-img anim" [ngClass]="{ 'anim-rotate': (layout$ | async)?.isLoading }"> {{ 'LOADING_INDICATOR_TEXT' | translate }}
       <div class="window-loader__actions">
         <button class="app-button cancel-request-button" (click)="cancelRequest()" track-id="cancel_request">{{ 'CANCEL_TEXT' | translate }}</button>
       </div>
@@ -13,9 +13,9 @@
   </div>
   <app-url-box
     [apiUrl]="apiUrl"
-    [httpVerb]="httpVerb"
+    [httpVerb]="(query$ | async)?.httpVerb"
     [isSubscribed]="isSubscribed$ | async"
-    [isLoading]="isLoading$ | async"
+    [isLoading]="(layout$ | async)?.isLoading"
     [showDocs]="showDocs$ | async"
     [selectedOperation]="selectedOperation$ | async"
     [queryOperations]="queryOperations$ | async"
@@ -52,6 +52,7 @@
         [variables]="variables$ | async"
         [showVariableDialog]="showVariableDialog"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
+        [variableToType]="variableToType"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"
@@ -161,35 +162,14 @@
       (restoreHistoryChange)="restoreHistory($event)"
       (clearHistoryChange)="clearHistory()"
     ></app-history-dialog>
-    <app-dialog
+    <app-add-collection-query-dialog
       [showDialog]="showAddToCollectionDialog"
-      [heading]="'SAVE_TO_COLLECTION_HEADER' | translate"
-      [subheading]="'SAVE_TO_COLLCTION_SUBTEXT' | translate"
-      [showFooter]="false"
-
-      (toggleDialog)="toggleAddToCollectionDialog($event)"
-    >
-      <div class="add-to-collection-wrapper">
-        <div class="app-dialog-section">
-          {{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}
-          <input type="text" class="dialog-input" [(ngModel)]="newCollectionQueryTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}">
-        </div>
-        <div class="app-dialog-section">
-          <div class="add-to-collection__list">
-            <div class="add-to-collection__list-item" *ngFor="let collection of (collections$ | async); trackBy:trackById" (click)="saveQueryToCollection(collection.id)">
-              {{ collection.title }}
-            </div>
-          </div>
-        </div>
-        <div class="app-dialog-section">
-          {{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}
-          <input type="text" class="dialog-input" [(ngModel)]="newCollectionTitle" attr.aria-label="{{ 'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate }}">
-          <div class="add-to-collection__actions clearfix">
-            <button class="app-button active-grey right" (click)="createCollectionAndSaveQueryToCollection()">{{ 'CREATE_COLLECTION_BUTTON' | translate }}</button>
-          </div>
-        </div>
-      </div>
-    </app-dialog>
+      [windowTitle]="(layout$ | async)?.title"
+      [collections]="collections$ | async"
+      (toggleDialogChange)="toggleAddToCollectionDialog($event)"
+      (saveQueryToCollectionChange)="saveQueryToCollection($event)"
+      (createCollectionAndSaveQueryToCollectionChange)="createCollectionAndSaveQueryToCollection($event)"
+    ></app-add-collection-query-dialog>
     <app-dialog
       [showDialog]="showPreRequestDialog"
       [heading]="'PRE_REQUEST_EDITOR_HEADER' | translate"

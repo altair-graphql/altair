@@ -89,8 +89,10 @@
   "SAVE_TO_COLLECTION_BUTTON": "Aggiungi alla collection",
   "SAVE_TO_COLLECTION_HEADER": "Aggiunta alla collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Scegli una collection qui sotto per salvare la query, altrimenti creane una nuova",
+  "SAVE_TO_COLLECTION_SELECT_COLLECTION": "Choose a collection",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "crea una nuova collection",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Nome della query",
+  "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Crea collection",
   "NUMBER_OF_QUERIES": "Numero di query:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
@@ -106,6 +108,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Più recente",
   "COLLECTIONS_SORT_BY_OLDEST": "Meno recente",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Questa query risulta osoleta e non compatibile con il sistema. Siete pregati di cancellarla e ricrearla per evitare perdite di dati.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Modifica Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Aggiorna i dettagli della collection",
   "COLLECTION_TITLE_LABEL": "Titolo collection",
@@ -132,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Browse through available plugins",
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
-  "PLUGIN_REMOVE_BUTTON": "Remove"
+  "PLUGIN_REMOVE_BUTTON": "Remove",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }

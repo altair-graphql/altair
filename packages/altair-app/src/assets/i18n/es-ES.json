@@ -89,8 +89,10 @@
   "SAVE_TO_COLLECTION_BUTTON": "Añadir a la colección",
   "SAVE_TO_COLLECTION_HEADER": "Añadir a la colección",
   "SAVE_TO_COLLCTION_SUBTEXT": "Elija una colección a continuación para guardar la consulta, o cree una nueva",
+  "SAVE_TO_COLLECTION_SELECT_COLLECTION": "Choose a collection",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "crea una nueva colección",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Nombre de la consulta",
+  "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Crear colección",
   "NUMBER_OF_QUERIES": "Número de consultas:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
@@ -106,6 +108,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Más reciente",
   "COLLECTIONS_SORT_BY_OLDEST": "Más antiguo",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Esta consulta es antigua y no es compatible. Por favor, elimínela y créela de nuevo para evitar la pérdida de datos.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Editar Colección",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Actualizar la información de su colección",
   "COLLECTION_TITLE_LABEL": "Nombre de la colección",
@@ -132,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Browse through available plugins",
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
-  "PLUGIN_REMOVE_BUTTON": "Remove"
+  "PLUGIN_REMOVE_BUTTON": "Remove",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }

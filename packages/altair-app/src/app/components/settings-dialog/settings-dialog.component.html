@@ -71,34 +71,6 @@
           <small><a href="#" class="settings__reset-link" (click)="onResetApplicationData($event)" track-id="reset_application_data">{{ 'SETTINGS_RESET_APPLICATION_DATA' | translate }}</a></small>
         </div>
       </div>
-
-      <div class="app-dialog-section" *ngIf="false">
-        <label>{{ 'SETTINGS_THEME_TEXT' | translate }}</label>
-        <select class="dialog-select" track-id="change_theme" (change)="onSelectTheme($event.target.value)" attr.aria-label="{{ 'SETTINGS_THEME_TEXT' | translate }}">
-          <option *ngFor="let theme of themes; trackBy:trackByIndex;" value="{{ theme }}" [selected]="theme === settings?.theme">
-            {{ theme | titlecase }}
-          </option>
-        </select>
-      </div>
-
-      <div class="app-dialog-section" *ngIf="false">
-        <label>{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}</label>
-        <select class="dialog-select" track-id="change_language" (change)="onSelectLanguage($event.target.value)" attr.aria-label="{{ 'SETTINGS_LANGUAGE_TEXT' | translate }}">
-          <option *ngFor="let language of languages; trackBy:trackByIndex;" value="{{ language[0] }}" [selected]="language[0] === settings?.language">
-            {{ language[1] | titlecase }}
-          </option>
-        </select>
-      </div>
-
-      <div class="app-dialog-section" *ngIf="false">
-        <label>{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }} <small>(Recommended: 3)</small></label>
-        <input attr.aria-label="{{ 'SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_add_query_depth_limit" [value]="settings?.addQueryDepthLimit" (change)="onChangeAddQueryDepthLimit($event.target.value)" />
-      </div>
-
-      <div class="app-dialog-section" *ngIf="false">
-        <label>{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}</label>
-        <input attr.aria-label="{{ 'SETTINGS_TAB_SIZE_TEXT' | translate }}" type="number" class="dialog-input" track-id="set_tab_size" [value]="settings?.tabSize" (change)="onChangeTabSize($event.target.value)" min="1" max="10" />
-      </div>
     </div>
   </ng-template>
 

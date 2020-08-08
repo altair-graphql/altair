@@ -6,6 +6,7 @@ import * as fromEnvironments from '../../store/environments/environments.reducer
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from 'app/interfaces/shared';
 
+export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
 interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
 }
@@ -64,13 +65,13 @@ export class EnvironmentService {
 
     const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
 
-    return content.replace(/{{\s*[\w\.]+\s*}}/g, (match) => {
+    return content.replace(VARIABLE_REGEX, (match) => {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
         return activeEnvironment[variable];
       }
-    });
+    }).replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
   }
 
   hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {

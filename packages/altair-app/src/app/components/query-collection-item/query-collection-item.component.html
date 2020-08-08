@@ -1,6 +1,10 @@
 <div class="query-collections__item">
   <div class="query-collections__item-details-wrapper">
-    <div class="query-collections__item-details" (click)="toggleContent()">
+    <div
+      class="query-collections__item-details"
+      data-test-id="collection-collapse"
+      (click)="toggleContent()"
+    >
       <div class="query-collections__item-title">
         <span class="query-title-icon" *ngIf="showContent"><app-icon name="folder-minus"></app-icon></span>
         <span class="query-title-icon" *ngIf="!showContent"><app-icon name="folder-plus"></app-icon></span>
@@ -24,28 +28,55 @@
         <ul nz-menu>
           <li
             nz-menu-item
+            data-test-id="delete-collection"
             (click)="deleteCollection()"
           >
             {{ 'COLLECTIONS_MENU_DELETE' | translate }}
           </li>
           <li
             nz-menu-item
+            data-test-id="edit-collection"
             (click)="editCollection()"
           >
             {{ 'COLLECTIONS_MENU_EDIT' | translate }}
           </li>
           <li
             nz-menu-item
+            data-test-id="export-collection"
             (click)="exportCollection()"
           >
             {{ 'COLLECTIONS_MENU_EXPORT' | translate }}
           </li>
           <li nz-submenu [nzTitle]="'COLLECTIONS_SORT_BY' | translate">
             <ul>
-              <li nz-menu-item (click)="setQueriesSortBy('a-z')">{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</li>
-              <li nz-menu-item (click)="setQueriesSortBy('z-a')">{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</li>
-              <li nz-menu-item (click)="setQueriesSortBy('newest')">{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</li>
-              <li nz-menu-item (click)="setQueriesSortBy('oldest')">{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</li>
+              <li
+                nz-menu-item
+                data-test-id="sort-queries-a-z"
+                (click)="setQueriesSortBy('a-z')"
+              >
+                {{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}
+              </li>
+              <li
+                nz-menu-item
+                data-test-id="sort-queries-z-a"
+                (click)="setQueriesSortBy('z-a')"
+              >
+                {{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}
+              </li>
+              <li
+                nz-menu-item
+                data-test-id="sort-queries-newest"
+                (click)="setQueriesSortBy('newest')"
+              >
+                {{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}
+              </li>
+              <li
+                nz-menu-item
+                data-test-id="sort-queries-oldest"
+                (click)="setQueriesSortBy('oldest')"
+              >
+                {{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}
+              </li>
             </ul>
           </li>
         </ul>
@@ -68,6 +99,7 @@
       <div class="query-collections__item-queries-item" *ngFor="let query of sortedCollectionQueries(collection.queries, sortBy); trackBy:trackById;">
         <span
           class="query-collections__item-queries-item-title"
+          data-test-id="query-item-title"
           (click)="selectQueryChange.next({ query: query, collectionId: collection.id, windowIdInCollection: query.id })"
         >
           <span class="query-title-icon"><app-icon name="file"></app-icon></span>
@@ -101,6 +133,7 @@
             <ul nz-menu>
               <li
                 nz-menu-item
+                data-test-id="delete-query"
                 (click)="deleteQuery(query)"
               >
                 {{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}

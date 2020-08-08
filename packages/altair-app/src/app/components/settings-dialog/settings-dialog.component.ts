@@ -46,10 +46,6 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   @Input() showSettingsDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
-  @Output() themeChange = new EventEmitter();
-  @Output() languageChange = new EventEmitter();
-  @Output() addQueryDepthLimitChange = new EventEmitter();
-  @Output() tabSizeChange = new EventEmitter();
 
   themes = this.altairConfig.themes;
   languages = Object.entries(this.altairConfig.languages);
@@ -141,22 +137,6 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
 
   onToggleView() {
     this.showForm = !this.showForm;
-  }
-
-  onSelectTheme(theme: string) {
-    return this.themeChange.next(theme);
-  }
-
-  onSelectLanguage(language: string) {
-    return this.languageChange.next(language);
-  }
-
-  onChangeAddQueryDepthLimit(depthLimit: number) {
-    return this.addQueryDepthLimitChange.next(depthLimit);
-  }
-
-  onChangeTabSize(tabSize: number) {
-    return this.tabSizeChange.next(tabSize);
   }
 
   onResetApplicationData(e: Event) {

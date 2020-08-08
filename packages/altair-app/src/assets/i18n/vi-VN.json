@@ -89,8 +89,10 @@
   "SAVE_TO_COLLECTION_BUTTON": "Thêm vào collection",
   "SAVE_TO_COLLECTION_HEADER": "Thêm vào collection",
   "SAVE_TO_COLLCTION_SUBTEXT": "Chọn một collection dưới đây để lưu truy vấn hoặc tạo một truy vấn mới",
+  "SAVE_TO_COLLECTION_SELECT_COLLECTION": "Choose a collection",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "tạo một collection mới",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Tên truy vấn",
+  "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Tạo collection",
   "NUMBER_OF_QUERIES": "Số lượng truy vấn:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
@@ -106,6 +108,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Mới nhất",
   "COLLECTIONS_SORT_BY_OLDEST": "Cũ nhất",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Truy vấn này đã cũ và không tương thích. Vui lòng xóa và tạo lại để tránh mất dữ liệu.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Chỉnh sửa Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Cập nhật chi tiết collection",
   "COLLECTION_TITLE_LABEL": "Tiêu đề collection",
@@ -132,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Duyệt qua các plugin có sẵn",
   "PLUGIN_UNIQUE_NAME_TEXT": "Tên Plugin duy nhất",
   "PLUGIN_ADD_BUTTON": "Thêm vào Altair",
-  "PLUGIN_REMOVE_BUTTON": "Xóa"
+  "PLUGIN_REMOVE_BUTTON": "Xóa",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }

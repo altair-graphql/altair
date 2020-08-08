@@ -18,14 +18,14 @@ const ElectronStoreAdapter = require('../electron-store-adapter/electron-store-a
 
 const reload = () => {
   getCurrentWindow().reload();
-}
+};
 
 process.once('loaded', () => {
   // Giving access to spectron to run tests successfully
   if (process.env.NODE_ENV === 'test') {
     window.electronRequire = require;
   }
-  
+
   // console.log(allStorage());
   const store = new ElectronStoreAdapter();
   // Check if data is stored in electron store

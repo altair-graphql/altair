@@ -8,12 +8,8 @@ export interface History {
   query: string;
 }
 
-export interface HistoryList extends Array<History> {
-  [index: number]: History;
-}
-
 export interface State {
-  list: HistoryList;
+  list: History[];
 }
 
 export const getInitialState = (): State => {
@@ -26,9 +22,10 @@ export function historyReducer(state = getInitialState(), action: history.Action
   switch (action.type) {
     case history.ADD_HISTORY:
       const _state = { ...state };
+      const limit = (typeof action.payload.limit !== 'undefined' ? action.payload.limit : getAltairConfig().query_history_depth);
 
       // If the items in the list is more than the allowed limit, remove the last item
-      if (state.list.length >= getAltairConfig().query_history_depth) {
+      if (state.list.length >= limit) {
         // Remove the last item in the list
         _state.list.pop();
       }

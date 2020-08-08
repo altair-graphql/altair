@@ -50,6 +50,7 @@ import { debug } from 'app/utils/logger';
 import { onHasCompletion } from 'app/utils/codemirror/graphql-has-completion';
 import { GraphQLSchema } from 'graphql';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
+import { IDictionary } from 'app/interfaces/shared';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -67,6 +68,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
 
   @Input() variables: fromVariables.State;
   @Input() showVariableDialog = false;
+  @Input() variableToType: IDictionary;
+
   @Output() sendRequest = new EventEmitter();
   @Output() queryChange = new EventEmitter<string>();
   @Output() variablesChange = new EventEmitter();
@@ -103,6 +106,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       'Ctrl-D': (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
 
       'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
+      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
+      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     keyMap: 'sublime',

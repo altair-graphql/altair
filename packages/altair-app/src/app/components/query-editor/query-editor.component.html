@@ -13,6 +13,7 @@
     <div class="variables-editor-input-container">
       <app-variables-editor
         [variables]="variables?.variables"
+        [variableToType]="variableToType"
         (variablesChange)="variablesChange.emit($event)"
       ></app-variables-editor>
     </div>

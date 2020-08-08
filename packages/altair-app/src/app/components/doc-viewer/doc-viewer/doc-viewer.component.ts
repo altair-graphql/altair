@@ -11,7 +11,6 @@ import {
   ElementRef,
   ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { from } from 'rxjs';
 
 import { AltairConfig } from '../../../config';
@@ -19,7 +18,7 @@ import { debug } from 'app/utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as fromDocs from '../../../store/docs/docs.reducer';
 
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   GraphQLSchema,
   GraphQLObjectType,
@@ -30,15 +29,7 @@ import * as Comlink from 'comlink';
 import { GqlService } from 'app/services';
 import getRootTypes from 'app/utils/get-root-types';
 
-let DocUtils: any = null;
-try {
-  DocUtils = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
-} catch (error) {
-  debug.error('Could not load doc utilsweb worker');
-  debug.error(error);
-  DocUtils = null;
-}
-
+@UntilDestroy()
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
@@ -48,7 +39,7 @@ try {
   ]
   // styleUrls: ['./doc-viewer.component.scss']
 })
-export class DocViewerComponent implements OnChanges, OnDestroy {
+export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema: GraphQLSchema;
   @Input() allowIntrospection = true;
@@ -58,7 +49,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   @Input() docView: fromDocs.DocView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
-    name: 'Conference' // identifies type/field
+    name: 'FieldName' // identifies type/field
   };
   @Input() lastUpdatedAt: number;
 
@@ -88,21 +79,10 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
   docUtilWorker: any;
 
   constructor(
-    private translate: TranslateService,
     private gqlService: GqlService,
     private _sanitizer: DomSanitizer,
     private altairConfig: AltairConfig,
-  ) {
-
-    // Set translations
-    this.translate.get('DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT')
-    .pipe(untilDestroyed(this))
-    .subscribe(text => this.searchInputPlaceholder = text);
-
-    this.setDocViewChange.subscribe(() => {
-      this.docViewerRef.nativeElement.scrollTop = 0;
-    });
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
@@ -121,7 +101,6 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       const docUtilWorker = await this.getDocUtilsWorker();
       const sdl = await this.gqlService.getSDL(schema);
       await docUtilWorker.updateSchema(sdl);
-      // this.generateIndex(schema);
       this.index = await this.docUtilWorker.generateSearchIndex();
       debug.log('Worker index:', this.index);
       this.hasSearchIndex = true;
@@ -150,6 +129,11 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
     this.searchDocs(term);
   }
 
+  setDocView(docView: Partial<fromDocs.DocView> | undefined) {
+    this.setDocViewChange.next(docView);
+    this.docViewerRef.nativeElement.scrollTop = 0;
+  }
+
   /**
    * search through the docs for the provided term
    */
@@ -162,7 +146,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
       return false;
     }
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'search' });
+    this.setDocView({ view: 'search' });
     const docUtilWorker = await this.getDocUtilsWorker();
     this.searchResult = await docUtilWorker.searchDocs(term);
     debug.log(this.searchResult);
@@ -181,7 +165,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goBack() {
     if (this.docHistory.length) {
-      this.setDocViewChange.next(this.docHistory.pop());
+      this.setDocView(this.docHistory.pop());
     }
   }
 
@@ -189,7 +173,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    * Go back to root view
    */
   goHome() {
-    this.setDocViewChange.next({ view: 'root' });
+    this.setDocView({ view: 'root' });
     this.docHistory = [];
   }
 
@@ -208,7 +192,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goToType(name: string) {
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
+    this.setDocView({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
   }
 
   /**
@@ -218,7 +202,7 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
    */
   goToField(name: string, parentType: string) {
     this.updateDocHistory();
-    this.setDocViewChange.next({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
+    this.setDocView({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
   }
 
   async addToEditor(name: string, parentType: string) {
@@ -241,9 +225,12 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   async getDocUtilsWorker() {
     if (!this.docUtilWorker) {
-      if (DocUtils) {
+      try {
+        const DocUtils: any = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
         this.docUtilWorker = await new DocUtils();
-      } else {
+      } catch (error) {
+        debug.error('Could not load doc utilsweb worker');
+        debug.error(error);
         const { DocUtils: ImportedDocUtils } = await import('../doc-utils');
         this.docUtilWorker = new ImportedDocUtils();
       }
@@ -257,8 +244,5 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   rootTypeTrackBy(index: number, type: GraphQLObjectType) {
     return type.name;
-  }
-
-  ngOnDestroy() {
   }
 }

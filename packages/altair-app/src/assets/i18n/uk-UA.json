@@ -17,7 +17,7 @@
   "SAVE_BUTTON": "Зберегти",
   "DONE_BUTTON": "Готово",
   "CLICK_HERE_TEXT": "Натисніть тут",
-  "ADD_NEW_WINDOW_TEXT": "+ Додати",
+  "ADD_NEW_WINDOW_TEXT": " + Добавити",
   "RESTART_TEXT": "Перезапустити",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Експортувати SDL",
@@ -89,8 +89,10 @@
   "SAVE_TO_COLLECTION_BUTTON": "Додати в колекцію",
   "SAVE_TO_COLLECTION_HEADER": "Додати в колекцію",
   "SAVE_TO_COLLCTION_SUBTEXT": "Оберіть колекцію нижче, щоб зберегти запит або створіть новий",
+  "SAVE_TO_COLLECTION_SELECT_COLLECTION": "Choose a collection",
   "SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL": "створити нову колекцію",
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Назва запиту",
+  "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Створити колекцію",
   "NUMBER_OF_QUERIES": "Кількість запитів:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
@@ -106,6 +108,7 @@
   "COLLECTIONS_SORT_BY_NEWEST": "Найновіші",
   "COLLECTIONS_SORT_BY_OLDEST": "Найдавніші",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Цей запит старий і не є сумісним. Будь ласка, видаліть і створіть його знову, щоб запобігти втраті даних.",
+  "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "EDIT_COLLECTION_TITLE_TEXT": "Змінити колекцію",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Оновлення деталей колекції",
   "COLLECTION_TITLE_LABEL": "Назва колекції",
@@ -132,5 +135,6 @@
   "PLUGINS_SUB_TEXT": "Переглянути доступні додатки",
   "PLUGIN_UNIQUE_NAME_TEXT": "Унікальна назва додатку",
   "PLUGIN_ADD_BUTTON": "Додати до Altair",
-  "PLUGIN_REMOVE_BUTTON": "Видалити"
+  "PLUGIN_REMOVE_BUTTON": "Видалити",
+  "PLUGIN_CREATE_BUTTON": "Create Plugin"
 }
