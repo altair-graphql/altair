@@ -1,38 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
+import { expect, describe, it } from '@jest/globals';
 
 import { DialogComponent } from './dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'app/modules/shared/shared.module';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing/utils';
+import { MockModule } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DialogComponent', () => {
-  let component: DialogComponent;
-  let fixture: ComponentFixture<DialogComponent>;
+  let wrapper: NgxTestWrapper<DialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DialogComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: DialogComponent,
       imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+        MockModule(SharedModule),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

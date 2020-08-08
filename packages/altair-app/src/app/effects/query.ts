@@ -1,5 +1,5 @@
 
-import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber } from 'rxjs';
+import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber, of } from 'rxjs';
 
 import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -419,23 +419,22 @@ export class QueryEffects {
     notifyExperimental$: Observable<Action> = this.actions$
       .pipe(
         ofType(layoutActions.NOTIFY_EXPERIMENTAL),
-        switchMap(() => {
-          this.dbService.getItem('exp_add_query_seen').subscribe(val => {
-            if (!val) {
-              this.notifyService.info(`
-                This feature is experimental, and still in beta.
-                Click here to submit bugs, improvements, etc.
-              `, undefined, {
-                tapToDismiss: true,
-                data: {
-                  url: 'https://github.com/imolorhe/altair/issues/new'
-                }
-              });
-              this.dbService.setItem('exp_add_query_seen', true);
-            }
-          });
+        switchMap(() => this.dbService.getItem('exp_add_query_seen')),
+        switchMap(val => {
+          if (!val) {
+            this.notifyService.info(`
+              This feature is experimental, and still in beta.
+              Click here to submit bugs, improvements, etc.
+            `, undefined, {
+              tapToDismiss: true,
+              data: {
+                url: 'https://github.com/imolorhe/altair/issues/new'
+              }
+            });
+            return this.dbService.setItem('exp_add_query_seen', true);
+          }
           return observableEmpty();
-        })
+        }),
       );
 
     @Effect()
@@ -779,13 +778,14 @@ export class QueryEffects {
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST),
         switchMap(() => {
-          this.donationService.trackAndCheckIfEligible().subscribe(shouldShow => {
-            if (shouldShow) {
-              this.store.dispatch(new donationAction.ShowDonationAlertAction());
-            }
-          });
+          return this.donationService.trackAndCheckIfEligible();
+        }),
+        switchMap(shouldShow => {
+          if (shouldShow) {
+            return of(new donationAction.ShowDonationAlertAction());
+          }
           return observableEmpty();
-        })
+        }),
       );
 
     @Effect()

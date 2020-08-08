@@ -266,6 +266,9 @@ export class GqlService {
 
   closeSubscriptionClient(subscriptionClient: SubscriptionClient) {
     if (subscriptionClient) {
+      if (subscriptionClient.unsubscribeAll) {
+        subscriptionClient.unsubscribeAll();
+      }
 
       if (subscriptionClient.close) {
         subscriptionClient.close();
