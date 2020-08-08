@@ -1,35 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, describe, it } from '@jest/globals';
 
 import { PreRequestEditorComponent } from './pre-request-editor.component';
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/modules/shared/shared.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgxTestWrapper, mount } from '../../../testing';
+import { MockModule } from 'ng-mocks';
 
 describe('PreRequestEditorComponent', () => {
-  let component: PreRequestEditorComponent;
-  let fixture: ComponentFixture<PreRequestEditorComponent>;
+  let wrapper: NgxTestWrapper<PreRequestEditorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PreRequestEditorComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: PreRequestEditorComponent,
       imports: [
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
-      ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PreRequestEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+        MockModule(SharedModule),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+      propsData: {
+        preRequest: {
+          enabled: true,
+          script: '',
+        }
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

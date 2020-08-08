@@ -11,7 +11,6 @@ import {
   ElementRef,
   ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { from } from 'rxjs';
 
 import { AltairConfig } from '../../../config';
@@ -40,7 +39,7 @@ import getRootTypes from 'app/utils/get-root-types';
   ]
   // styleUrls: ['./doc-viewer.component.scss']
 })
-export class DocViewerComponent implements OnChanges, OnDestroy {
+export class DocViewerComponent implements OnChanges {
 
   @Input() gqlSchema: GraphQLSchema;
   @Input() allowIntrospection = true;
@@ -245,8 +244,5 @@ export class DocViewerComponent implements OnChanges, OnDestroy {
 
   rootTypeTrackBy(index: number, type: GraphQLObjectType) {
     return type.name;
-  }
-
-  ngOnDestroy() {
   }
 }

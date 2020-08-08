@@ -14,6 +14,8 @@ export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   return store as Store<T>;
 }
 
+export * from './utils';
+export * from './wrapper';
 
 /**
  * Resources

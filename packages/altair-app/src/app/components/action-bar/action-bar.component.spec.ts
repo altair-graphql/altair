@@ -1,27 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { TranslateModule } from '@ngx-translate/core';
+import { expect } from '@jest/globals';
 import { ActionBarComponent } from './action-bar.component';
+import { NgxTestWrapper } from '../../../testing/wrapper';
+import { mount } from '../../../testing/utils';
+import { SharedModule } from 'app/modules/shared/shared.module';
+import { MockModule } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ActionBarComponent', () => {
-  let component: ActionBarComponent;
-  let fixture: ComponentFixture<ActionBarComponent>;
+  let wrapper: NgxTestWrapper<ActionBarComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ ActionBarComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ActionBarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: ActionBarComponent,
+      imports: [
+        MockModule(SharedModule),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });
