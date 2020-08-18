@@ -8,7 +8,7 @@ class MenuManager {
    */
   constructor(actionManager) {
     this.actionManager = actionManager;
-    this.createMenu();
+    Menu.setApplicationMenu(this.createMenu());
   }
 
   createMenu() {
@@ -19,11 +19,14 @@ class MenuManager {
         label: app.getName(),
         submenu: [
           { role: 'about' },
-          { label: 'Check for Updates...', click: this.actionManager.checkForUpdates },
+          {
+            label: 'Check for Updates...',
+            click: () => this.actionManager.checkForUpdates(),
+          },
           {
             label: 'Preferences',
             accelerator: 'Cmd+,',
-            click: this.actionManager.showSettings
+            click: () => this.actionManager.showSettings(),
           },
           { type: 'separator' },
           { role: 'services', submenu: [] },
@@ -41,17 +44,17 @@ class MenuManager {
           {
             label: 'New Tab',
             accelerator: 'CmdOrCtrl+T',
-            click: this.actionManager.createTab
+            click: () => this.actionManager.createTab(),
           },
           {
             label: 'Close Tab',
             accelerator: 'CmdOrCtrl+W',
-            click: this.actionManager.closeTab
+            click: () => this.actionManager.closeTab(),
           },
           {
             label: 'Reopen Closed Tab',
             accelerator: 'CmdOrCtrl+Shift+T',
-            click: this.actionManager.reopenClosedTab
+            click: () => this.actionManager.reopenClosedTab(),
           },
           { role: 'undo' },
           { role: 'redo' },
@@ -77,12 +80,12 @@ class MenuManager {
           {
             label: 'Next Tab',
             accelerator: 'Ctrl+Tab',
-            click: this.actionManager.nextTab
+            click: () => this.actionManager.nextTab(),
           },
           {
             label: 'Previous Tab',
             accelerator: 'Ctrl+Shift+Tab',
-            click: this.actionManager.previousTab
+            click: () => this.actionManager.previousTab(),
           },
           { role: 'reload' },
           { role: 'forcereload' },
@@ -110,11 +113,11 @@ class MenuManager {
         submenu: [
           {
             label: 'Export data...',
-            click: this.actionManager.exportAppData,
+            click: () => this.actionManager.exportAppData(),
           },
           {
             label: 'Restore data...',
-            click: this.actionManager.importAppData,
+            click: () => this.actionManager.importAppData(),
           },
         ]
       },
@@ -133,8 +136,7 @@ class MenuManager {
     ];
 
     // @ts-ignore
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    return Menu.buildFromTemplate(template);
   }
 }
 
