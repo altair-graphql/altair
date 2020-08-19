@@ -16,17 +16,17 @@ class TouchbarManager {
     const sendRequestButton = new TouchBarButton({
       label: 'Send Request',
       backgroundColor: '#7EBC59',
-      click: this.actionManager.sendRequest,
+      click: () => this.actionManager.sendRequest(),
     });
 
     const reloadDocsButton = new TouchBarButton({
       label: 'Reload Docs',
-      click: this.actionManager.reloadDocs,
+      click: () => this.actionManager.reloadDocs(),
     });
 
     const showDocsButton = new TouchBarButton({
       label: 'Show Docs',
-      click: this.actionManager.showDocs
+      click: () => this.actionManager.showDocs(),
     });
 
     const spacer = new TouchBarSpacer({

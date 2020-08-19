@@ -1,5 +1,8 @@
+import { IDictionary } from 'app/interfaces/shared';
+
 class PerformantLocalStorage implements Storage {
   private storage: Storage;
+  private setItemHandles: IDictionary<number | undefined> = {};
   constructor() {
     this.storage = (window as any).electronLocalStorage || localStorage;
   }
@@ -63,9 +66,15 @@ class PerformantLocalStorage implements Storage {
 
   private runSetItem(key: string, value: any) {
     // Using requestIdleCallback to set only when the UI is idle
-    (window as any).requestIdleCallback((deadline: any) => {
+    if (this.setItemHandles[key]) {
+      // Cancel any previous callbacks
+      (window as any).cancelIdleCallback(this.setItemHandles[key]);
+    }
+    this.setItemHandles[key] = (window as any).requestIdleCallback((deadline: any) => {
       if (deadline.timeRemaining()) {
         try {
+          (window as any).cancelIdleCallback(this.setItemHandles[key]);
+          this.setItemHandles[key] = undefined;
           return this.storage.setItem(key, value);
         } catch (error) {
           if (['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(error.name)) {
