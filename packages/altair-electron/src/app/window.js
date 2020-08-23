@@ -131,6 +131,7 @@ class WindowManager {
       // Set defaults
       details.requestHeaders.Origin = 'electron://altair';
 
+      // console.log('sending headers', details.requestHeaders);
       // Set the request headers
       Object.keys(this.requestHeaders).forEach(key => {
         details.requestHeaders[key] = this.requestHeaders[key];
@@ -152,6 +153,7 @@ class WindowManager {
     }
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      // console.log('received headers..', details.responseHeaders);
       callback({
         responseHeaders: Object.assign(
           {},
@@ -203,27 +205,15 @@ class WindowManager {
       const originalFilePath = path.join(requestDirectory, new url.URL(request.url).pathname);
       const indexPath = path.join(requestDirectory, 'index.html');
 
-      this.getFilePath(originalFilePath).then(filePath => {
-        if (!filePath) {
-          filePath = indexPath;
-        }
-
-        fs.readFile(filePath, 'utf8', function(err, data) {
-          if (err) {
-            return console.log('Error loading file to buffer.', err);
-          }
-          if (filePath && filePath.includes('index.html')) {
-            data = renderAltair();
-          }
-
-          // Load the data from the file into a buffer and pass it to the callback
-          // Using the mime package to get the mime type for the file, based on the file name
-          callback({ mimeType: mime.lookup(filePath) || '', data: Buffer.from(data) });
-        });
+      this.getFileContentData(originalFilePath, indexPath).then(({ mimeType, data }) => {
+        callback({ mimeType, data });
+      }).catch(err => {
+        throw err;
       });
     }, (error) => {
       if (error) {
-        console.error('Failed to register protocol');
+        error.message = `Failed to register protocol. ${error.message}`;
+        console.error(error);
       }
     });
   }
@@ -236,6 +226,10 @@ class WindowManager {
       try {
         if (!filePath) {
           return resolve();
+        }
+
+        if (filePath.endsWith('.map')) {
+          return resolve(filePath);
         }
 
         console.log('checking stat..', filePath);
@@ -257,6 +251,37 @@ class WindowManager {
       } catch (err) {
         reject(err);
       }
+    });
+  }
+
+  /**
+   * @param {string} originalFilePath path to file
+   * @param {string} fallbackPath usually path to index file
+   */
+  getFileContentData(originalFilePath, fallbackPath) {
+    return new Promise((resolve, reject) => {
+      this.getFilePath(originalFilePath).then(filePath => {
+        if (!filePath) {
+          filePath = fallbackPath;
+        }
+        if (filePath && filePath.endsWith('.map')) {
+          return resolve({ mimeType: 'text/plain', data: Buffer.from('{"version": 3, "file": "index.module.js", "sources": [], "sourcesContent": [], "names": [], "mappings":""}') });
+        }
+        fs.readFile(filePath, 'utf8', function (err, data) {
+          if (err) {
+            console.log('Error loading file to buffer.', filePath, err);
+            return reject(err);
+          }
+
+          if (filePath && filePath.includes('index.html')) {
+            data = renderAltair();
+          }
+
+          // Load the data from the file into a buffer and pass it to the callback
+          // Using the mime package to get the mime type for the file, based on the file name
+          return resolve({ mimeType: mime.lookup(filePath) || '', data: Buffer.from(data) });
+        });
+      });
     });
   }
 }
