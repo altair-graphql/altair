@@ -1,57 +1,62 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-
+import { expect, describe, it } from '@jest/globals';
 import { QueryEditorComponent } from './query-editor.component';
-import { FlexResizerComponent } from '../flex-resizer/flex-resizer.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
-import { NotifyService, GqlService } from 'app/services';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/modules/shared/shared.module';
-import { Store } from '@ngrx/store';
-import { empty as observableEmpty } from 'rxjs';
+import { NgxTestWrapper, mount, mock } from '../../../testing';
+import { MockModule } from 'ng-mocks';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { GqlService, NotifyService } from 'app/services';
 
 describe('QueryEditorComponent', () => {
-  let component: QueryEditorComponent;
-  let fixture: ComponentFixture<QueryEditorComponent>;
+  let wrapper: NgxTestWrapper<QueryEditorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ QueryEditorComponent, FlexResizerComponent, VariablesEditorComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: QueryEditorComponent,
       imports: [
-        FormsModule,
-        HttpClientModule,
-        CodemirrorModule,
-        SharedModule.forRoot(),
-        ToastrModule.forRoot(),
-        TranslateModule.forRoot()
+        MockModule(SharedModule),
       ],
       providers: [
-        GqlService,
-        NotifyService,
-        { provide: Store, useValue: {
-          subscribe: () => observableEmpty(),
-          select: () => observableEmpty(),
-          map: () => observableEmpty(),
-          first: () => observableEmpty(),
-          pipe: () => observableEmpty(),
-          dispatch: () => {}
-        } }
-      ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(QueryEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+        {
+          provide: GqlService,
+          useValue: mock(),
+        },
+        {
+          provide: NotifyService,
+          useValue: mock(),
+        },
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+      propsData: {
+        queryOperations: [],
+      }
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
+  });
+
+  it('should pass editor config to codemirror instance as options', () => {
+    expect(wrapper.find('ngx-codemirror').props('options').mode).toBe('graphql');
+  });
+
+  it('should pass tabSize to variable editor component', async () => {
+    wrapper.setProps({
+      tabSize: 2
+    });
+
+    await wrapper.nextTick();
+    expect(wrapper.find('app-variables-editor').props('tabSize')).toBe(2);
+
+    wrapper.setProps({
+      tabSize: 4
+    });
+
+    await wrapper.nextTick();
+    expect(wrapper.find('app-variables-editor').props('tabSize')).toBe(4);
   });
 });
