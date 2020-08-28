@@ -116,12 +116,6 @@ export async function mount(mountOptions: TestMountOptions) {
   return new NgxTestWrapper<typeof MainComponent>(testHostFixture, MainComponent);
 };
 
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-export const ButtonClickEvents = {
-  left:  { button: 0 },
-  right: { button: 2 }
-};
-
 export function buildTestHostComponentTemplate(componentTagName: string, inputs: string[], outputs: string[]) {
   const inputTmpl = inputs.map(input => `[${input}]="inputs.${input}"`).join('\n');
   const outputTmpl = outputs.map(output => `(${output})="${output}($event)"`).join('\n');
@@ -136,6 +130,12 @@ export function buildTestHostComponentTemplate(componentTagName: string, inputs:
   `;
   return template;
 }
+
+/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
+export const ButtonClickEvents = {
+  left:  { button: 0 },
+  right: { button: 2 }
+};
 
 /** Simulate element click. Defaults to mouse left-button click event. */
 export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
