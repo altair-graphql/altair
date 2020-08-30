@@ -124,6 +124,7 @@
   "ADD_FILES_TEXT": "파일 추가",
   "FILE_NAME_PLACEHOLDER": "파일 이름 (쿼리 변수로 사용)",
   "LEARN_MORE_TEXT": "더 알아보기",
+  "FILES_SELECT_FILES": "Select files",
   "STREAM_CONNECTION_TRYING": "서버 스트림에 접속하는 중..",
   "STREAM_CONNECTION_CONNECTED": "서버 스트림에 접속됨",
   "PRE_REQUEST_EDITOR_HEADER": "리퀘스트 전처리 편집기",
