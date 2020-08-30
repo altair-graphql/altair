@@ -124,6 +124,7 @@
   "ADD_FILES_TEXT": "Adăugați fișiere",
   "FILE_NAME_PLACEHOLDER": "Nume de fişier (folosit ca interogare variabilă)",
   "LEARN_MORE_TEXT": "Aflați mai multe",
+  "FILES_SELECT_FILES": "Select files",
   "STREAM_CONNECTION_TRYING": "Încearcă să se conecteze la server de streaming...",
   "STREAM_CONNECTION_CONNECTED": "Conectat la serverul de stream",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-request Editor",
