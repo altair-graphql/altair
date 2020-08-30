@@ -1,0 +1,21 @@
+<div class="variables-file-item">
+  <div class="variables-file-item-name-input-wrapper">
+    <input
+      type="text"
+      class="variables-file-item-name-input"
+      data-tid="file_name"
+      placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
+      [ngModel]="fileVariable?.name"
+      (ngModelChange)="fileVariableNameChange.emit($event)"
+    >
+  </div>
+  <div class="variables-file-item-input-wrapper">
+    <input
+      #fileEl
+      type="file"
+      class="variables-file-item-input"
+      (change)="onSelectFiles()"
+    >
+  </div>
+  <div class="variables-file-item-input-delete" (click)="deleteFileVariableChange.emit()">&#x00D7;</div>
+</div>

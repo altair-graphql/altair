@@ -35,7 +35,7 @@ export class UpdateFileVariableNameAction implements NGRXAction {
 export class UpdateFileVariableDataAction implements NGRXAction {
     readonly type = UPDATE_FILE_VARIABLE_DATA;
 
-    constructor(public windowId: string, public payload: { index: number, fileData: File }) {}
+    constructor(public windowId: string, public payload: { index: number, fileData: File | File[] }) {}
 }
 
 export type Action =

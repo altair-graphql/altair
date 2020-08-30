@@ -27,26 +27,13 @@
       </a>
 
       <div class="variables-files-list">
-        <div class="variables-file-item" *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;">
-          <div class="variables-file-item-name-input-wrapper">
-            <input
-              type="text"
-              class="variables-file-item-name-input"
-              placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
-              [ngModel]="file.name"
-              (ngModelChange)="fileVariableNameChange.next({ index: index, name: $event })"
-            >
-          </div>
-          <div class="variables-file-item-input-wrapper">
-            <input
-              #fileEl
-              type="file"
-              class="variables-file-item-input"
-              (change)="fileVariableDataChange.next({ index: index, fileData: fileEl.files[0] })"
-            >
-          </div>
-          <div class="variables-file-item-input-delete" (click)="deleteFileVariableChange.next({ index: index })">&#x00D7;</div>
-        </div>
+        <app-variable-file-item
+          *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;"
+          [fileVariable]="file"
+          (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
+          (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event })"
+          (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
+        ></app-variable-file-item>
       </div>
     </div>
   </div>

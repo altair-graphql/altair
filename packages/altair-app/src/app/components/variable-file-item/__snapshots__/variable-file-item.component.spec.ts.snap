@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VariableFileItemComponent should render correctly 1`] = `
+<app-variable-file-item>
+  <div
+    class="variables-file-item"
+  >
+    <div
+      class="variables-file-item-name-input-wrapper"
+    >
+      <input
+        class="variables-file-item-name-input"
+        data-tid="file_name"
+        placeholder=""
+        type="text"
+      />
+    </div>
+    <div
+      class="variables-file-item-input-wrapper"
+    >
+      <input
+        class="variables-file-item-input"
+        type="file"
+      />
+    </div>
+    <div
+      class="variables-file-item-input-delete"
+    >
+      ×
+    </div>
+  </div>
+</app-variable-file-item>
+`;

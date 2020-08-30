@@ -5,7 +5,8 @@ import { getAltairConfig } from 'app/config';
 
 export interface FileVariable {
     name: string;
-    data?: File;
+    isMultiple?: boolean;
+    data?: File | File[];
 }
 
 const initialFileVariableState: FileVariable = {

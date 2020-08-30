@@ -720,4 +720,103 @@ describe('GqlService', () => {
       expect(client.close).toHaveBeenCalled();
     }));
   });
+
+  describe('.normalizeFiles()', () => {
+    it('should return a list of graphql multipart file upload compliant file variables', inject([GqlService], (service: GqlService) => {
+      const files = [
+        {
+          name: 'first',
+          data: new File([''], 'first.file'),
+        },
+        {
+          name: 'second',
+          isMultiple: true,
+          data: [ new File([''], 'second1.file'), new File([''], 'second2.file'), {} as File ],
+        },
+        {
+          name: 'third',
+          data: {} as File,
+        },
+        {
+          name: 'fourth.0',
+          data: new File([''], 'fourth.file'),
+        },
+        {
+          name: '',
+          data: new File([''], 'unknown.file'),
+        },
+      ];
+      const result = service.normalizeFiles(files);
+
+      // expect(result).toBe('');
+      expect(result.resolvedFiles.length).toBe(4);
+      expect(result.resolvedFiles).toEqual(expect.arrayContaining([
+        {
+          name: 'first',
+          data: expect.any(File),
+        },
+        {
+          name: 'second.0',
+          data: expect.any(File),
+        },
+        {
+          name: 'second.1',
+          data: expect.any(File),
+        },
+        {
+          name: 'fourth.0',
+          data: expect.any(File),
+        },
+      ]));
+      expect(result.erroneousFiles).toEqual(expect.arrayContaining([
+        {
+          name: 'second.2',
+          data: expect.any(Object),
+        },
+        {
+          name: 'third',
+          data: expect.any(Object),
+        },
+        {
+          name: '',
+          data: expect.any(File),
+        },
+      ]));
+    }));
+    it('should return only the first file data if not multiple and has > 1 data', inject([GqlService], (service: GqlService) => {
+      const files = [
+        {
+          name: 'first',
+          data: new File([''], 'first.file'),
+        },
+        {
+          name: 'second',
+          data: [ new File([''], 'second1.file') ],
+        },
+        {
+          name: 'third',
+          data: [ new File([''], 'third1.file'), new File([''], 'third2.file') ],
+        },
+      ];
+      const result = service.normalizeFiles(files);
+
+      // expect(result).toBe('');
+      expect(result.resolvedFiles.length).toBe(3);
+      expect(result.resolvedFiles).toEqual(expect.arrayContaining([
+        {
+          name: 'first',
+          data: expect.any(File),
+        },
+        {
+          name: 'second',
+          data: expect.any(File),
+        },
+        {
+          name: 'third',
+          data: expect.any(File),
+        },
+      ]));
+      expect(result.erroneousFiles.length).toEqual(0);
+    }));
+  });
 });

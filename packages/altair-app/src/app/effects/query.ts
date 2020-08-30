@@ -184,6 +184,7 @@ export class QueryEffects {
                   `, 'Altair', {
                     disableTimeOut: true,
                   });
+                  return observableEmpty();
                 }
 
                 debug.log('Sending..');
