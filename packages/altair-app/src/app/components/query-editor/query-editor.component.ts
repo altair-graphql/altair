@@ -36,7 +36,7 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror/keymap/sublime';
-// import 'codemirror-graphql/hint';
+// import 'codemirror-graphql/hint'; // We use a custom hint addon instead
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror-graphql/info';
@@ -130,6 +130,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
     },
     info: {
       onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
+      render() { /** Disable rendering of info addon */ }
     },
     jump: {
       onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),

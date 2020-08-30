@@ -10,6 +10,8 @@ You can use binary files as variables to upload them via GraphQL to server (if i
 
 Altair supports uploading both single files and an array of files (by switching the file upload from single to multiple file mode, or using the dot notation in single file mode e.g. for an array named `fileList`, you define the files as `fileList.0`, `fileList.1`, `fileList.2` and so on).
 
+![file variables](https://i.imgur.com/dVqWVoA.png)
+
 You add your files in the variables pane, and the files are added to the request as variables when the request is sent to the server.
 
 _Note: The files don’t persist if you reload Altair, so you would have to select them again._
