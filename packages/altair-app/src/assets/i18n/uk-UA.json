@@ -124,6 +124,7 @@
   "ADD_FILES_TEXT": "Додати файли",
   "FILE_NAME_PLACEHOLDER": "Ім'я файлу (використовується як змінна запиту)",
   "LEARN_MORE_TEXT": "Докладніше",
+  "FILES_SELECT_FILES": "Select files",
   "STREAM_CONNECTION_TRYING": "Trying to connect to server stream...",
   "STREAM_CONNECTION_CONNECTED": "Connected to server stream",
   "PRE_REQUEST_EDITOR_HEADER": "Скрипт перед запитом",
