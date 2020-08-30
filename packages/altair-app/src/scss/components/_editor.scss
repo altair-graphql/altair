@@ -301,19 +301,47 @@ app-query-editor {
 
 .variables-file-item {
   display: flex;
+}
 
-  &.variables-file-item--invalid {
-    color: var(--red-color);
-  }
+.variables-file-item--warning {
+  color: var(--yellow-color);
+}
+
+.variables-file-item--invalid {
+  color: var(--red-color);
 }
 
 .variables-file-item-name-input-wrapper {
   flex: 1;
   padding: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.variables-file-item-switch {
+  font-size: fontsize(10);
+  padding: 3px;
+  display: inline-block;
+  background: var(--theme-off-bg-color);
+  color: var(--theme-off-font-color);
+  border: 1px solid var(--theme-border-color);
+  margin-right: 5px;
+  min-width: 16px;
+  height: 16px;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.variables-file-item-switch--enabled {
+  border: 1px solid var(--primary-color);
 }
 
 .variables-file-item-input-wrapper {
   flex: 1;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 5px;

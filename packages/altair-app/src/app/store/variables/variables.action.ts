@@ -6,6 +6,7 @@ export const ADD_FILE_VARIABLE = 'ADD_FILE_VARIABLE';
 export const DELETE_FILE_VARIABLE = 'DELETE_FILE_VARIABLE';
 
 export const UPDATE_FILE_VARIABLE_NAME = 'UPDATE_FILE_VARIABLE_NAME';
+export const UPDATE_FILE_VARIABLE_IS_MULTIPLE = 'UPDATE_FILE_VARIABLE_IS_MULTIPLE';
 export const UPDATE_FILE_VARIABLE_DATA = 'UPDATE_FILE_VARIABLE_DATA';
 
 export class UpdateVariablesAction implements NGRXAction {
@@ -32,6 +33,12 @@ export class UpdateFileVariableNameAction implements NGRXAction {
     constructor(public windowId: string, public payload: { index: number, name: string }) {}
 }
 
+export class UpdateFileVariableIsMultipleAction implements NGRXAction {
+    readonly type = UPDATE_FILE_VARIABLE_IS_MULTIPLE;
+
+    constructor(public windowId: string, public payload: { index: number, isMultiple: boolean }) {}
+}
+
 export class UpdateFileVariableDataAction implements NGRXAction {
     readonly type = UPDATE_FILE_VARIABLE_DATA;
 
@@ -43,5 +50,6 @@ export type Action =
     | AddFileVariableAction
     | DeleteFileVariableAction
     | UpdateFileVariableNameAction
+    | UpdateFileVariableIsMultipleAction
     | UpdateFileVariableDataAction
     ;
