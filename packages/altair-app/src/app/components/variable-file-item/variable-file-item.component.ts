@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import * as fromVariables from 'app/store/variables/variables.reducer';
+import { truncateText } from 'app/utils';
 
 // TODO: Will have functionality to switch between single and multiple mode
 // TODO: Will have multiple input file support
@@ -12,7 +13,7 @@ import * as fromVariables from 'app/store/variables/variables.reducer';
   styles: [
   ]
 })
-export class VariableFileItemComponent implements OnInit {
+export class VariableFileItemComponent implements OnInit, OnChanges {
 
   @Input() fileVariable: fromVariables.FileVariable;
 
@@ -22,9 +23,28 @@ export class VariableFileItemComponent implements OnInit {
 
   @ViewChild('fileEl', { static: true }) fileEl: ElementRef<HTMLInputElement>;
 
+  validFileData: File[] = [];
+  invalidFileData = false;
+  filesText = '';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.fileVariable?.currentValue?.data?.length) {
+      this.validFileData = changes.fileVariable.currentValue.data.filter((data: any) => data instanceof File);
+      this.invalidFileData = (this.fileVariable?.data as [])?.length > this.validFileData.length;
+      if (this.invalidFileData) {
+        this.filesText = 'Invalid file data. Select the file again.';
+      } else if (this.validFileData.length) {
+        this.filesText = this.validFileData.map(data => data.name).join(',');
+      } else {
+        this.filesText = 'No files selected';
+      }
+      this.filesText = truncateText(this.filesText);
+    }
   }
 
   onSelectFiles() {

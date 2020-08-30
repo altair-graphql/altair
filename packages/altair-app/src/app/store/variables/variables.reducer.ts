@@ -10,7 +10,7 @@ export interface FileVariable {
 }
 
 const initialFileVariableState: FileVariable = {
-    name: '',
+    name: 'file',
 };
 export interface State {
     variables: string;
@@ -52,7 +52,7 @@ export function variableReducer(state = getInitialState(), action: variables.Act
                 ...state,
                 files: state.files.map((file, i) => {
                     if (i === action.payload.index) {
-                        file.name = action.payload.name;
+                        return { ...file, name: action.payload.name };
                     }
                     return file;
                 })
@@ -62,7 +62,7 @@ export function variableReducer(state = getInitialState(), action: variables.Act
                 ...state,
                 files: state.files.map((file, i) => {
                     if (i === action.payload.index) {
-                        file.data = action.payload.fileData;
+                        return { ...file, data: action.payload.fileData };
                     }
                     return file;
                 })

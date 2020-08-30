@@ -301,6 +301,10 @@ app-query-editor {
 
 .variables-file-item {
   display: flex;
+
+  &.variables-file-item--invalid {
+    color: var(--red-color);
+  }
 }
 
 .variables-file-item-name-input-wrapper {
@@ -313,6 +317,9 @@ app-query-editor {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .variables-file-item-name-input {
@@ -328,8 +335,18 @@ app-query-editor {
   }
 }
 
-::-webkit-file-upload-button {
-  border-radius: 4px;
+.variables-file-item-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.variables-file-item-button {
+  height: 30px;
+  line-height: 30px;
 }
 
 .variables-file-item-input-delete {

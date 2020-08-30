@@ -1,4 +1,7 @@
-<div class="variables-file-item">
+<div
+  class="variables-file-item"
+  [ngClass]="{ 'variables-file-item--invalid': invalidFileData }"
+>
   <div class="variables-file-item-name-input-wrapper">
     <input
       type="text"
@@ -16,6 +19,19 @@
       class="variables-file-item-input"
       (change)="onSelectFiles()"
     >
+    <span
+      class="variables-file-item-selected-total"
+      [popper]="filesText"
+    >
+      {{ validFileData.length }} file(s)
+    </span>
+    <button
+      class="app-button variables-file-item-button"
+      (click)="fileEl.click()"
+    >
+      <app-icon name="paperclip"></app-icon>
+      {{ 'FILES_SELECT_FILES' | translate }}
+    </button>
   </div>
   <div class="variables-file-item-input-delete" (click)="deleteFileVariableChange.emit()">&#x00D7;</div>
 </div>

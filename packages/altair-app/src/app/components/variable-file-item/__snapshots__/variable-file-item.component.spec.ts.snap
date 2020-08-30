@@ -22,6 +22,19 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
         class="variables-file-item-input"
         type="file"
       />
+      <span
+        class="variables-file-item-selected-total"
+      >
+         0 file(s) 
+      </span>
+      <button
+        class="app-button variables-file-item-button"
+      >
+        <app-icon
+          name="paperclip"
+        />
+          
+      </button>
     </div>
     <div
       class="variables-file-item-input-delete"
