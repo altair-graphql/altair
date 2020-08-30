@@ -32,6 +32,7 @@
           [fileVariable]="file"
           (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
           (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event })"
+          (fileVariableIsMultipleChange)="fileVariableIsMultipleChange.emit({ index: index, isMultiple: $event })"
           (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
         ></app-variable-file-item>
       </div>

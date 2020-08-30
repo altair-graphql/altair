@@ -31,7 +31,7 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             return { ...state, variables: action.payload };
 
         case variables.ADD_FILE_VARIABLE:
-            // Backward compatibility check:
+            // TODO: Backward compatibility check:
             state.files = state.files || [];
 
             return {
@@ -63,6 +63,16 @@ export function variableReducer(state = getInitialState(), action: variables.Act
                 files: state.files.map((file, i) => {
                     if (i === action.payload.index) {
                         return { ...file, data: action.payload.fileData };
+                    }
+                    return file;
+                })
+            };
+        case variables.UPDATE_FILE_VARIABLE_IS_MULTIPLE:
+            return {
+                ...state,
+                files: state.files.map((file, i) => {
+                    if (i === action.payload.index) {
+                        return { ...file, isMultiple: action.payload.isMultiple };
                     }
                     return file;
                 })

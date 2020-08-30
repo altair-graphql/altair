@@ -391,6 +391,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new variableActions.UpdateFileVariableNameAction(this.windowId, { index, name }));
   }
 
+  updateFileVariableIsMultiple({ index, isMultiple }: { index: number, isMultiple: boolean }) {
+    this.store.dispatch(new variableActions.UpdateFileVariableIsMultipleAction(this.windowId, { index, isMultiple }));
+  }
+
   updateFileVariableData({ index, fileData }: { index: number, fileData: File }) {
     this.store.dispatch(new variableActions.UpdateFileVariableDataAction(this.windowId, { index, fileData }));
   }

@@ -76,6 +76,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() addFileVariableChange = new EventEmitter();
   @Output() fileVariableNameChange = new EventEmitter();
+  @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
   @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
