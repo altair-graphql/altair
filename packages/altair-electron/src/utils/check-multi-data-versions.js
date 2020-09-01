@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { renameSync } = require('fs');
 const { getDirectoriesInDirectory, deleteFolderRecursive } = require('./index');
 
-const userDataParentPath = resolve(app.getPath('userData'), '..');
+const getUserDataParentPath = () => resolve(app.getPath('userData'), '..');
 
 const DIR_2_3_7 = 'altair';
 const DIR_2_3_6 = 'altair-electron';
@@ -15,7 +15,7 @@ const userDataVersions = [
 ];
 
 const checkMultipleDataVersions = (win) => {
-  getDirectoriesInDirectory(userDataParentPath).then((directories) => {
+  getDirectoriesInDirectory(getUserDataParentPath()).then((directories) => {
     const foundVersions = directories.filter(dir => userDataVersions.includes(dir));
 
     if (foundVersions.length > 1) {
@@ -37,7 +37,7 @@ const checkMultipleDataVersions = (win) => {
               .forEach(version => {
                 console.log('removing version', version);
                 // Delete DIR_2_3_6 and DIR_2_3_7
-                deleteFolderRecursive(resolve(userDataParentPath, version));
+                deleteFolderRecursive(resolve(getUserDataParentPath(), version));
               });
             app.relaunch();
             app.exit(0);
@@ -48,9 +48,9 @@ const checkMultipleDataVersions = (win) => {
             if (nextVersion) {
               console.log('next version', nextVersion);
               // Delete DIR_ALL
-              deleteFolderRecursive(resolve(userDataParentPath, DIR_ALL));
+              deleteFolderRecursive(resolve(getUserDataParentPath(), DIR_ALL));
               // Move the next version (DIR_2_3_6 or DIR_2_3_7) to DIR_ALL
-              renameSync(resolve(userDataParentPath, nextVersion), resolve(userDataParentPath, DIR_ALL));
+              renameSync(resolve(getUserDataParentPath(), nextVersion), resolve(getUserDataParentPath(), DIR_ALL));
               app.relaunch();
               app.exit(0);
             }

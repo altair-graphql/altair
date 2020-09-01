@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryEditorComponent should render correctly 1`] = `
+<app-query-editor>
+  <div
+    class="query-editor-container"
+  >
+    <ngx-codemirror
+      class="query-editor__input"
+    />
+  </div>
+  <div
+    class="variables-editor-container"
+  >
+    <div
+      class="variables-editor--title"
+      track-id="toggle_variables"
+    >
+      
+    </div>
+    <div
+      class="variables-editor-inner hide"
+    >
+      <div
+        class="variables-editor-input-container"
+      >
+        <app-variables-editor />
+      </div>
+      <div
+        class="variables-files-container"
+      >
+        <button
+          class="variables-add-files-button"
+          track-id="add_file_variable"
+        >
+          
+        </button>
+        <a
+          href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f"
+          rel="noopener"
+          target="_blank"
+        >
+          <app-icon
+            name="info"
+          />
+            
+        </a>
+        <div
+          class="variables-files-list"
+        >
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-flex-resizer />
+</app-query-editor>
+`;

@@ -87,18 +87,19 @@ export class GqlService {
   }
 
   sendRequest(url: string, opts: SendRequestOptions) {
-    const files = opts.files && opts.files.length ? opts.files.filter(file => file && file.data instanceof File && file.name) : undefined;
+    // Only need resolvedFiles to know if valid files exist at this point
+    const { resolvedFiles } = this.normalizeFiles(opts.files);
 
     this.setUrl(url)
       .setHTTPMethod(opts.method)
       // Skip json default headers for files
-      .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(files && files.length) });
+      .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(resolvedFiles.length) });
 
     return this._send({
       query: opts.query,
       variables: opts.variables,
       selectedOperation: opts.selectedOperation,
-      files,
+      files: opts.files,
       withCredentials: opts.withCredentials,
     });
   }
@@ -212,7 +213,8 @@ export class GqlService {
   }
 
   hasInvalidFileVariable(fileVariables: fromVariables.FileVariable[]) {
-    return Boolean(fileVariables.filter(file => !file || !(file.data instanceof File) || !file.name).length);
+    const { erroneousFiles } =  this.normalizeFiles(fileVariables);
+    return Boolean(erroneousFiles.length);
   }
 
   fillAllFields(schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, opts: any) {
@@ -458,6 +460,70 @@ export class GqlService {
     }
   }
 
+  normalizeFiles(files?: fromVariables.FileVariable[]) {
+    if (!files || !files.length) {
+      return { resolvedFiles: [], erroneousFiles: files || [] };
+    }
+
+    interface ResolvedFileVariable { name: string; data: File; }
+
+    let resolvedFiles: ResolvedFileVariable[] = [];
+    let erroneousFiles: fromVariables.FileVariable[] = [];
+
+    files.forEach(file => {
+      if (!file.name) {
+        erroneousFiles.push(file);
+        return;
+      }
+
+      if (!file.data) {
+        erroneousFiles.push(file);
+        return;
+      }
+
+      // Only file variables specified as multiple are allowed to have an array of data
+      if (file.isMultiple) {
+        if (Array.isArray(file.data)) {
+          file.data.forEach((fileData, i) => {
+            const newFileVariable = {
+              name: `${file.name}.${i}`,
+              data: fileData,
+            };
+
+            const result = this.normalizeFiles([ newFileVariable ]);
+
+            resolvedFiles = resolvedFiles.concat(result.resolvedFiles);
+            erroneousFiles = erroneousFiles.concat(result.erroneousFiles);
+          });
+          return;
+        }
+        erroneousFiles.push(file);
+        return;
+      }
+
+      if (Array.isArray(file.data)) {
+        const newFileVariable = {
+          name: file.name,
+          data: file.data[0],
+        };
+
+        const result = this.normalizeFiles([ newFileVariable ]);
+
+        resolvedFiles = resolvedFiles.concat(result.resolvedFiles);
+        erroneousFiles = erroneousFiles.concat(result.erroneousFiles);
+        return;
+      }
+
+      if (!(file.data instanceof File)) {
+        erroneousFiles.push(file);
+        return;
+      }
+
+      resolvedFiles.push(file as ResolvedFileVariable);
+    });
+
+    return { resolvedFiles, erroneousFiles };
+  }
 
   /**
    * Send request and return the response object
@@ -493,18 +559,19 @@ export class GqlService {
     }
 
     if (!this.isGETRequest()) {
-      if (files && files.length) {
+      const { resolvedFiles } = this.normalizeFiles(files);
+      if (resolvedFiles && resolvedFiles.length) {
         // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
         const fileMap: any = {};
         data.variables = data.variables || {};
-        files.forEach((file, i) => {
+        resolvedFiles.forEach((file, i) => {
           setByDotNotation(data.variables, file.name, null);
           fileMap[i] = [ `variables.${file.name}` ];
         });
         const formData = new FormData();
         formData.append('operations', JSON.stringify(data));
         formData.append('map', JSON.stringify(fileMap));
-        files.forEach((file, i) => {
+        resolvedFiles.forEach((file, i) => {
           formData.append(`${i}`, file.data || '');
         });
 

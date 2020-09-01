@@ -24,6 +24,7 @@ import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dial
 import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog/add-collection-query-dialog.component';
 import { FlexResizerComponent } from './flex-resizer/flex-resizer.component';
 import { VariablesEditorComponent } from './variables-editor/variables-editor.component';
+import { VariableFileItemComponent } from './variable-file-item/variable-file-item.component';
 import { QueryCollectionsComponent } from './query-collections/query-collections.component';
 import { QueryCollectionItemComponent } from './query-collection-item/query-collection-item.component';
 import { DialogComponent } from './dialog/dialog.component';
@@ -51,6 +52,7 @@ const COMPONENTS = [
   AddCollectionQueryDialogComponent,
   FlexResizerComponent,
   VariablesEditorComponent,
+  VariableFileItemComponent,
   QueryCollectionsComponent,
   QueryCollectionItemComponent,
   DialogComponent,

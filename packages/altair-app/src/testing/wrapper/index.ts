@@ -130,6 +130,13 @@ export class NgxTestWrapper<C extends any> {
     return '';
   }
 
+  props(key = '') {
+    if (key) {
+      return this.component.properties[key];
+    }
+    return this.component.properties;
+  }
+
   async nextTick() {
     this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();

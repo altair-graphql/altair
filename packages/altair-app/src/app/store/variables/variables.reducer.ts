@@ -5,11 +5,12 @@ import { getAltairConfig } from 'app/config';
 
 export interface FileVariable {
     name: string;
-    data?: File;
+    isMultiple?: boolean;
+    data?: File | File[];
 }
 
 const initialFileVariableState: FileVariable = {
-    name: '',
+    name: 'file',
 };
 export interface State {
     variables: string;
@@ -30,7 +31,7 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             return { ...state, variables: action.payload };
 
         case variables.ADD_FILE_VARIABLE:
-            // Backward compatibility check:
+            // TODO: Backward compatibility check:
             state.files = state.files || [];
 
             return {
@@ -51,7 +52,7 @@ export function variableReducer(state = getInitialState(), action: variables.Act
                 ...state,
                 files: state.files.map((file, i) => {
                     if (i === action.payload.index) {
-                        file.name = action.payload.name;
+                        return { ...file, name: action.payload.name };
                     }
                     return file;
                 })
@@ -61,7 +62,17 @@ export function variableReducer(state = getInitialState(), action: variables.Act
                 ...state,
                 files: state.files.map((file, i) => {
                     if (i === action.payload.index) {
-                        file.data = action.payload.fileData;
+                        return { ...file, data: action.payload.fileData };
+                    }
+                    return file;
+                })
+            };
+        case variables.UPDATE_FILE_VARIABLE_IS_MULTIPLE:
+            return {
+                ...state,
+                files: state.files.map((file, i) => {
+                    if (i === action.payload.index) {
+                        return { ...file, isMultiple: action.payload.isMultiple };
                     }
                     return file;
                 })

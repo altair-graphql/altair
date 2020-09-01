@@ -28,6 +28,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
 
   @Input() variables = '';
   @Input() variableToType: IDictionary = {};
+  @Input() tabSize = 4;
 
   @Output() variablesChange = new EventEmitter();
 
@@ -40,8 +41,8 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
     foldGutter: true,
     autoRefresh: true,
     dragDrop: false,
-    tabSize: 4,
-    indentUnit: 4,
+    tabSize: this.tabSize,
+    indentUnit: this.tabSize,
     matchBrackets: true,
     autoCloseBrackets: true,
     keyMap: 'sublime',
@@ -69,15 +70,20 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.variableToType && changes.variableToType.currentValue) {
+    if (changes?.variableToType?.currentValue) {
       this.updateVariablesToType(changes.variableToType.currentValue);
+    }
+
+    if (changes?.tabSize?.currentValue) {
+      this.variableEditorConfig.tabSize = this.tabSize;
+      this.variableEditorConfig.indentUnit = this.tabSize;
     }
   }
 
   ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
+    handleEditorRefresh(this.editor?.codeMirror);
   }
 
   onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {

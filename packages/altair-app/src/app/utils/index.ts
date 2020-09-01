@@ -203,3 +203,12 @@ export function setByDotNotation<TResult = any>(
 
   return setByDotNotation(obj[currentPath], path.slice(1), value);
 }
+
+export function truncateText(text: string, maxLength = 70) {
+  let appendEllipsis = false;
+  if (text.length > maxLength) {
+    appendEllipsis = true;
+  }
+
+  return text.substring(0, maxLength) + (appendEllipsis ? '...' : '');
+}

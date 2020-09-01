@@ -81,13 +81,8 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
     }
 
     // Now that the UI has been set up, add info to information.
-    const description = ctx.description
-      ? marked(ctx.description)
-      : ctx.type && ctx.type.description
-        ? marked(ctx.type.description) : 'Self descriptive.';
-    const type = ctx.type
-      ? '<span class="infoType">' + renderType(ctx.type) + '</span>'
-      : '';
+    const description = getDescriptionFromContext(ctx);
+    const type = getTypeFromContext(ctx);
 
     if (information) {
       information.innerHTML =
@@ -123,3 +118,29 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
     }
   });
 };
+function getDescriptionFromContext(ctx: any) {
+  const maxDescriptionLength = 70;
+
+  let description = 'Self descriptive.';
+  let appendEllipsis = false;
+
+  if (ctx.description) {
+    description = ctx.description;
+  }
+  if (ctx.type && ctx.type.description) {
+    description = ctx.type.description;
+  }
+
+  if (description.length > maxDescriptionLength) {
+    appendEllipsis = true;
+  }
+
+  return marked((`${description}`).substring(0, maxDescriptionLength) + (appendEllipsis ? '...' : ''));
+}
+
+function getTypeFromContext(ctx: any) {
+  return ctx.type
+    ? '<span class="infoType">' + renderType(ctx.type) + '</span>'
+    : '';
+}
+

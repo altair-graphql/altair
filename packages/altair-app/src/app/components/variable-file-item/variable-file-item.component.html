@@ -1,0 +1,50 @@
+<div
+  class="variables-file-item"
+  [ngClass]="{
+    'variables-file-item--invalid': invalidFileData,
+    'variables-file-item--warning': showWarning
+  }"
+>
+  <div class="variables-file-item-name-input-wrapper">
+    <span
+      class="variables-file-item-switch"
+      [ngClass]="{ 'variables-file-item-switch--enabled': fileVariable?.isMultiple }"
+      [popper]="'Toggle single/multiple file mode'"
+      (click)="fileVariableIsMultipleChange.emit(!fileVariable?.isMultiple)"
+    >
+      <span *ngIf="!fileVariable?.isMultiple">1</span>
+      <span *ngIf="fileVariable?.isMultiple">*</span>
+    </span>
+    <input
+      type="text"
+      class="variables-file-item-name-input"
+      data-tid="file_name"
+      placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
+      [ngModel]="fileVariable?.name"
+      (ngModelChange)="fileVariableNameChange.emit($event)"
+    >
+  </div>
+  <div class="variables-file-item-input-wrapper">
+    <input
+      #fileEl
+      type="file"
+      class="variables-file-item-input"
+      [attr.multiple]="fileVariable?.isMultiple ? '' : null"
+      (change)="onSelectFiles()"
+    >
+    <span
+      class="variables-file-item-selected-total"
+      [popper]="filesText"
+    >
+      {{ validFileData.length }} file(s)
+    </span>
+    <button
+      class="app-button variables-file-item-button"
+      (click)="fileEl.click()"
+    >
+      <app-icon name="paperclip"></app-icon>
+      {{ 'FILES_SELECT_FILES' | translate }}
+    </button>
+  </div>
+  <div class="variables-file-item-input-delete" (click)="deleteFileVariableChange.emit()">&#x00D7;</div>
+</div>

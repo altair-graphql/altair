@@ -36,7 +36,7 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror/keymap/sublime';
-// import 'codemirror-graphql/hint';
+// import 'codemirror-graphql/hint'; // We use a custom hint addon instead
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror-graphql/info';
@@ -76,6 +76,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() addFileVariableChange = new EventEmitter();
   @Output() fileVariableNameChange = new EventEmitter();
+  @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
   @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
@@ -129,6 +130,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
     },
     info: {
       onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
+      render() { /** Disable rendering of info addon */ }
     },
     jump: {
       onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
@@ -161,7 +163,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   }
 
   ngAfterViewInit() {
-    if (this.editor) {
+    if (this.editor?.codeMirror) {
       (this.editor.codeMirror as any).on('keyup', (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event));
       (this.editor.codeMirror as any).on('focus', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
       (this.editor.codeMirror as any).on('blur', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
@@ -173,7 +175,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
-    if (changes && changes.gqlSchema && changes.gqlSchema.currentValue) {
+    if (changes?.gqlSchema?.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
       // Validate the schema to know if we can work with it
       const validationErrors = this.gqlService.validateSchema(changes.gqlSchema.currentValue);
@@ -185,6 +187,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
           ${errorList}
         `, 'Altair', { disableTimeOut: true });
       }
+    }
+
+    if (changes?.tabSize?.currentValue) {
+      this.editorConfig.tabSize = this.tabSize;
+      this.editorConfig.indentUnit = this.tabSize;
     }
   }
 

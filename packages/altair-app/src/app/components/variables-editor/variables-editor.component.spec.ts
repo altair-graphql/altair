@@ -29,4 +29,24 @@ describe('VariablesEditorComponent', () => {
   it('should render correctly', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
+
+  it('should pass editor config to codemirror instance as options', () => {
+    expect(wrapper.find('ngx-codemirror').props('options').mode).toBe('graphql-variables');
+  });
+
+  it('should update tabSize passed to codemirror when it changes', async () => {
+    wrapper.setProps({
+      tabSize: 2
+    });
+
+    await wrapper.nextTick();
+    expect(wrapper.find('ngx-codemirror').props('options').tabSize).toBe(2);
+
+    wrapper.setProps({
+      tabSize: 4
+    });
+
+    await wrapper.nextTick();
+    expect(wrapper.find('ngx-codemirror').props('options').tabSize).toBe(4);
+  });
 });

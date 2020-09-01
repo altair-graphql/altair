@@ -124,6 +124,7 @@
   "ADD_FILES_TEXT": "添加文件",
   "FILE_NAME_PLACEHOLDER": "文件名(用作变量查询)",
   "LEARN_MORE_TEXT": "了解更多",
+  "FILES_SELECT_FILES": "Select files",
   "STREAM_CONNECTION_TRYING": "尝试连接到服务器流",
   "STREAM_CONNECTION_CONNECTED": "已经连接到服务器流",
   "PRE_REQUEST_EDITOR_HEADER": "预请求编辑器",

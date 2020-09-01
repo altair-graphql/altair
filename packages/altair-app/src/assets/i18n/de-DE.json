@@ -124,6 +124,7 @@
   "ADD_FILES_TEXT": "Dateien hinzufügen",
   "FILE_NAME_PLACEHOLDER": "Dateiname (als Query Variable verwendet)",
   "LEARN_MORE_TEXT": "Weitere Informationen",
+  "FILES_SELECT_FILES": "Select files",
   "STREAM_CONNECTION_TRYING": "Versuche zum Server-Stream zu verbinden...",
   "STREAM_CONNECTION_CONNECTED": "Mit Server-Stream verbunden",
   "PRE_REQUEST_EDITOR_HEADER": "Pre-Request Editor",
