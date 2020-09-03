@@ -49,7 +49,7 @@ export interface RenderOptions {
      *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
      * }
      */
-    initialHeaders?: Object;
+    initialHeaders?: {[key: string]: string};
 
     /**
      * Whether to render the initial options in a seperate javascript file or not.
@@ -86,8 +86,12 @@ export interface RenderOptions {
 
     /**
      * Initial app settings to use
+     * @example
+     * {
+     *   theme: 'dark'
+     * }
      */
-    initialSettings?: any;
+    initialSettings?: {[key: string]: any};
 }
 
 /**
@@ -102,7 +106,8 @@ export const renderInitialOptions = ({
     initialHeaders,
     initialPreRequestScript,
     initialEnvironments,
-    instanceStorageNamespace
+    instanceStorageNamespace,
+    initialSettings
 }: RenderOptions = {}) => {
     return `
         const altairOpts = {
@@ -114,6 +119,7 @@ export const renderInitialOptions = ({
             ${getObjectPropertyForOption(initialHeaders, 'initialHeaders')}
             ${getObjectPropertyForOption(initialEnvironments, 'initialEnvironments')}
             ${getObjectPropertyForOption(instanceStorageNamespace, 'instanceStorageNamespace')}
+            ${getObjectPropertyForOption(initialSettings, 'initialSettings')}
         };
         AltairGraphQL.init(altairOpts);
     `;
@@ -140,12 +146,11 @@ export const renderAltair = (options: RenderOptions = {}) => {
 
 function getObjectPropertyForOption(option: any, propertyName: string) {
     if (option) {
-        let optionString = option;
         switch (typeof option) {
             case 'object':
-                optionString = JSON.stringify(option);
+              return `${propertyName}: ${JSON.stringify(option)},`;
         }
-        return `${propertyName}: \`${optionString}\`,`;
+        return `${propertyName}: \`${option}\`,`;
     }
     return '';
 }
