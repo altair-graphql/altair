@@ -50,6 +50,7 @@ exports[`renderAltair should return expected string 1`] = `
             
             
             
+            
         };
         AltairGraphQL.init(altairOpts);
     </script></body>
@@ -68,9 +69,10 @@ exports[`renderInitialOptions should return expected string 1`] = `
       }\`,
             
             
+            initialHeaders: {\\"X-GraphQL-Token\\":\\"asd7-237s-2bdk-nsdk4\\"},
             
             
-            
+            initialSettings: {\\"theme\\":\\"dark\\"},
         };
         AltairGraphQL.init(altairOpts);
     "
