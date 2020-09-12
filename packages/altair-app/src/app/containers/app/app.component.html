@@ -332,6 +332,7 @@
             (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
             (addSubEnvironmentChange)="addNewSubEnvironment()"
             (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
+            (repositionSubEnvironmentsChange)="repositionSubEnvironments($event)"
           ></app-environment-manager>
           <app-plugin-manager
             [showPluginManager]="(windowsMeta$ | async)?.showPluginManager"

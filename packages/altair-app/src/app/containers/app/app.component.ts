@@ -385,6 +385,9 @@ export class AppComponent implements OnDestroy {
   selectActiveEnvironment(id?: string) {
     this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
   }
+  repositionSubEnvironments({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {
+    this.store.dispatch(new environmentsActions.RepositionSubEnvironmentAction({ currentPosition, newPosition }));
+  }
 
   toggleCollections() {
     this.showCollections = !this.showCollections;

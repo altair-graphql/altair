@@ -56,6 +56,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   @Output() subEnvironmentTitleChange = new EventEmitter();
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
+  @Output() repositionSubEnvironmentsChange = new EventEmitter();
 
   @ViewChild('editor') editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
@@ -73,8 +74,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
     keyMap: 'sublime',
     theme: 'default environments-editor',
     gutters: ['CodeMirror-lint-markers', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    extraKeys: {
-    }
+    extraKeys: {}
   };
 
   selectedEnvironmentId = 'base';
@@ -82,12 +82,19 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   editorContent = '{}';
   editorTitle = '';
 
+  sortableOptions = {};
+
   constructor() { }
 
   ngOnInit() {
     if (this.environments) {
       this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
     }
+    this.sortableOptions = {
+      onUpdate: (event: any) => {
+        this.repositionSubEnvironmentsChange.emit({ currentPosition: event.oldIndex, newPosition: event.newIndex });
+      }
+    };
   }
 
   ngDoCheck() {
