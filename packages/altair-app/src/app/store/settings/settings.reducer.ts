@@ -31,7 +31,7 @@ export interface State {
 
   /**
    * Enable experimental features in Altair.
-   * Note: The features might be unstable.
+   * Note: The features might be unstable
    */
   enableExperimental?: boolean;
 
