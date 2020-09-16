@@ -12,7 +12,7 @@
 }
 
 .app-dialog-title {
-  color: $green;
+  color: var(--primary-color);
   font-weight: bold;
   font-size: fontsize(14);
   text-transform: uppercase;
@@ -48,17 +48,17 @@
   color: var(--theme-font-color);
 
   &:focus {
-    border-color: $green;
+    border-color: var(--primary-color);
   }
 
   option {
-    color: $black;
+    color: var(--black-color);
   }
 }
 
 .dialog-textarea {
   width: 100%;
-  border: 1px solid $green;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
 }
 
@@ -94,7 +94,7 @@
   transition: all .3s ease;
 
   &:focus {
-    border-color: $green;
+    border-color: var(--primary-color);
   }
 }
 
@@ -106,6 +106,6 @@
   transition: all .3s ease;
 
   &:hover {
-    color: $red;
+    color: var(--red-color);
   }
 }

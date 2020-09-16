@@ -30,6 +30,7 @@ export const foundations = {
 };
 
 const theme = deepmerge(foundations, {
+  isSystem: false,
   colors: {
     primary: foundations.colors.green,
     secondary: foundations.colors.blue,
@@ -129,6 +130,10 @@ export const hexToRgbStr = (hex: string) => {
   const { r, g, b } = rgb;
 
   return `${r}, ${g}, ${b}`;
+};
+
+export const mergeThemes = (...customThemes: ICustomTheme[]): ICustomTheme => {
+  return deepmerge.all(customThemes);
 };
 
 export const createTheme = (customTheme: ICustomTheme): ITheme => {

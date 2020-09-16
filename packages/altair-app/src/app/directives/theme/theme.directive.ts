@@ -1,4 +1,4 @@
-import { Directive, HostBinding, Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { css } from 'emotion';
 import { createTheme, ITheme, hexToRgbStr, ICustomTheme } from 'app/services/theme/theme';
@@ -7,31 +7,31 @@ import { ThemeRegistryService } from 'app/services';
 @Directive({
   selector: '[appTheme]'
 })
-export class ThemeDirective implements OnInit {
-
-  className = '';
-
-  @Input() class = ''; // override the standard class attr with a new one.
-  @HostBinding('class')
-  get hostClasses(): string {
-    return [
-      this.class, // include our new one
-      this.getDynamicClassName(),
-    ].join(' ');
-  }
+export class ThemeDirective implements OnInit, OnChanges {
 
   @Input() appTheme: ICustomTheme;
+
+  private className = '';
 
   constructor(
     private themeRegistry: ThemeRegistryService
   ) {}
 
   ngOnInit() {
-    this.className = this.getDynamicClassName();
+    this.addHTMLClass(this.appTheme);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.appTheme?.currentValue) {
+      this.addHTMLClass(changes.appTheme.currentValue);
+    }
   }
 
   getCssString(theme: ITheme) {
     return `
+      --baseline-size: ${theme.type.fontSize.base};
+      --rem-base: ${theme.type.fontSize.remBase};
+      --body-font-size: ${theme.type.fontSize.body};
       --black-color: ${theme.colors.black};
       --dark-grey-color: ${theme.colors.darkGray};
       --grey-color: ${theme.colors.gray};
@@ -101,8 +101,8 @@ export class ThemeDirective implements OnInit {
     `;
   }
 
-  getDynamicClassName() {
-    if (!this.appTheme) {
+  getDynamicClassName(appTheme: ICustomTheme) {
+    if (!appTheme || appTheme.isSystem) {
       return css(`
         ${this.getCssString(createTheme(this.themeRegistry.getTheme('light')!))}
         @media (prefers-color-scheme: dark) {
@@ -111,6 +111,15 @@ export class ThemeDirective implements OnInit {
       `);
     }
 
-    return css(this.getCssString(createTheme(this.appTheme)));
+    return css(this.getCssString(createTheme(appTheme)));
+  }
+
+  addHTMLClass(appTheme: ICustomTheme) {
+    if (this.className) {
+      document.documentElement.classList.remove(this.className);
+    }
+
+    this.className = this.getDynamicClassName(appTheme);
+    document.documentElement.classList.add(this.className);
   }
 }

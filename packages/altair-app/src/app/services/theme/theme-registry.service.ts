@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITheme, ICustomTheme } from './theme';
+import { ITheme, ICustomTheme, mergeThemes } from './theme';
 import light from './defaults/light';
 import dark from './defaults/dark';
 import dracula from './defaults/dracula';
@@ -25,4 +25,7 @@ export class ThemeRegistryService {
     return this.registry.get(name);
   }
   addTheme(name: string, theme: ICustomTheme) {}
+  mergeThemes(...customThemes: ICustomTheme[]) {
+    return mergeThemes(...customThemes);
+  }
 }

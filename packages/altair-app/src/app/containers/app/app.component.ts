@@ -99,7 +99,34 @@ export class AppComponent implements OnDestroy {
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
     this.theme$ = this.settings$.pipe(
       map((settings) => {
-        return this.themeRegistry.getTheme(settings.theme);
+        // Get specified theme
+        // Add deprecated theme options
+        // Warn about deprecated theme options, with alternatives
+        // Add theme config object from settings
+
+        const selectedTheme = this.themeRegistry.getTheme(settings.theme) || { isSystem: true };
+        const deperecatedThemeConfig: ICustomTheme = {
+          type: {
+            fontSize: {
+              ...(settings['theme.fontsize'] && {
+                remBase: settings['theme.fontsize'],
+              }),
+            }
+          },
+          editor: {
+            ...(settings['theme.editorFontSize'] && {
+              fontSize: settings['theme.editorFontSize'],
+            }),
+            ...(settings['theme.editorFontFamily'] && {
+              fontFamily: {
+                default: settings['theme.editorFontFamily'],
+              },
+            }),
+          }
+        };
+        const settingsThemeConfig = settings.themeConfig || {};
+
+        return this.themeRegistry.mergeThemes(selectedTheme, deperecatedThemeConfig, settingsThemeConfig);
       })
     );
     this.collection$ = this.store.select('collection');
