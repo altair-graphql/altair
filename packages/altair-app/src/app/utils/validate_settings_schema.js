@@ -404,7 +404,7 @@ validate.schema = {
       "type": "boolean"
     },
     "enableExperimental": {
-      "description": "Enable experimental features in Altair.\nNote: The features might be unstable.",
+      "description": "Enable experimental features in Altair.\nNote: The features might be unstable",
       "type": "boolean"
     },
     "historyDepth": {
