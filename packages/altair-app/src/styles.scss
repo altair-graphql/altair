@@ -13,22 +13,3 @@
 @import "scss/globals";
 @import "scss/framework";
 @import "scss/all";
-
-@mixin dark-theme {
-  // Reset the imported modules for the new theme.
-  // This is required because clarity uses the exports mixin mechanism to prevent loading components multiple times.
-  // This prevents being able to include styles for the component in the new theme class.
-  // $imported-modules: () !global;
-
-}
-
-.dark-theme {
-  @include dark-theme;
-}
-
-.system-theme {
-  @media (prefers-color-scheme: dark) {
-    @include dark-theme;
-  }
-  // @media (prefers-color-scheme: light) {}
-}

@@ -8,7 +8,7 @@ const theme: ICustomTheme = {
     offFont: '#f8f8f2',
     border: '#40414d',
     offBorder: '#383942',
-    headerBg: '#303240', // var(--theme-off-bg-color);
+    headerBg: '#303240',
   },
   editor: {
     colors: {

@@ -57,9 +57,9 @@ const theme = deepmerge(foundations, {
       comment: foundations.colors.darkGray,
       string: foundations.colors.orange,
       number: foundations.colors.orange,
-      variable: foundations.colors.black, // var(--theme-font-color);
+      variable: foundations.colors.black,
       keyword: foundations.colors.blue,
-      atom: foundations.colors.black, // var(--theme-font-color);
+      atom: foundations.colors.black,
       attribute: foundations.colors.green,
       property: foundations.colors.blue,
       punctuation: foundations.colors.blue,
