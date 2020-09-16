@@ -37,7 +37,8 @@ import {
   ElectronAppService,
   KeybinderService,
   PluginRegistryService,
-  QueryCollectionService
+  QueryCollectionService,
+  ThemeRegistryService
 } from '../../services';
 
 import { AltairConfig } from '../../config';
@@ -46,6 +47,7 @@ import { debug } from 'app/utils/logger';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PluginInstance, PluginType, PluginComponentData } from 'app/services/plugin/plugin';
 import { PluginEventService } from 'app/services/plugin/plugin-event.service';
+import { ICustomTheme } from 'app/services/theme/theme';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -60,6 +62,7 @@ export class AppComponent implements OnDestroy {
   windowsMeta$: Observable<fromWindowsMeta.State>;
   environments$: Observable<fromEnvironments.State>;
   activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
+  theme$: Observable<ICustomTheme | undefined>;
 
   windowIds: string[] = [];
   windows: fromWindows.State = {};
@@ -89,10 +92,16 @@ export class AppComponent implements OnDestroy {
     private pluginRegistry: PluginRegistryService,
     private pluginEvent: PluginEventService,
     private collectionService: QueryCollectionService,
+    private themeRegistry: ThemeRegistryService,
     private altairConfig: AltairConfig,
   ) {
     this.isWebApp = altairConfig.isWebApp;
     this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
+    this.theme$ = this.settings$.pipe(
+      map((settings) => {
+        return this.themeRegistry.getTheme(settings.theme);
+      })
+    );
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
