@@ -32,6 +32,9 @@ export class ThemeDirective implements OnInit, OnChanges {
       --baseline-size: ${theme.type.fontSize.base};
       --rem-base: ${theme.type.fontSize.remBase};
       --body-font-size: ${theme.type.fontSize.body};
+
+      --app-easing: ${theme.easing};
+
       --black-color: ${theme.colors.black};
       --dark-grey-color: ${theme.colors.darkGray};
       --grey-color: ${theme.colors.gray};
