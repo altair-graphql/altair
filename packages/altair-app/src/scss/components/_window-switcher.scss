@@ -61,7 +61,7 @@ app-window-switcher {
 
   &.active {
     // color: $green;
-    border-bottom-color: var(--green-color);
+    border-bottom-color: var(--primary-color);
     // background: $white;
     // box-shadow: 0 0 5px rgba($black, .2);
     // .window-switcher__close{
@@ -103,6 +103,6 @@ app-window-switcher {
 
 .header-nav .nav-link.window-switcher--new-window {
   &:hover {
-    color: var(--green-color);
+    color: var(--primary-color);
   }
 }

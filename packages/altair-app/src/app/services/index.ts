@@ -12,3 +12,4 @@ export { EnvironmentService } from './environment/environment.service';
 export { PluginRegistryService } from './plugin/plugin-registry.service';
 export { PluginEventService } from './plugin/plugin-event.service';
 export { PreRequestService } from './pre-request/pre-request.service';
+export { ThemeRegistryService } from './theme/theme-registry.service';

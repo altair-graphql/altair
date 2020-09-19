@@ -114,7 +114,7 @@ app-query-editor {
   border-radius: 5px;
 
   &.send {
-    background: $green;
+    background: var(--primary-color);
   }
 }
 
@@ -359,7 +359,7 @@ app-query-editor {
   transition: all .3s ease;
 
   &:focus {
-    border-color: $green;
+    border-color: var(--primary-color);
   }
 }
 

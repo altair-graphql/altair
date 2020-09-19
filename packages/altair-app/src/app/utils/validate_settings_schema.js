@@ -449,6 +449,9 @@ validate.schema = {
     "theme.fontsize": {
       "description": "Specifies the base font size\n(Default size - 24)",
       "type": "number"
+    },
+    "themeConfig": {
+      "description": "Theme config object"
     }
   },
   "type": "object"
