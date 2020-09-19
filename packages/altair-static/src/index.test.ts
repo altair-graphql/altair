@@ -10,7 +10,13 @@ describe('renderInitialOptions', () => {
       initialQuery: `query {
         Hello
       }`,
-      endpointURL: 'https://example.com/graphql'
+      endpointURL: 'https://example.com/graphql',
+      initialHeaders: {
+        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+      },
+      initialSettings: {
+        theme: 'dark'
+      }
     });
     expect(result).toMatchSnapshot();
   });

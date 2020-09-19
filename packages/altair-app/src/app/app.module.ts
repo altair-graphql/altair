@@ -75,6 +75,7 @@ const providers = [
   services.PluginEventService,
   PluginPropsFactory,
   services.PreRequestService,
+  services.ThemeRegistryService,
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,
   CookieService,

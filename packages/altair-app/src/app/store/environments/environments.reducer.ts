@@ -99,6 +99,18 @@ export function environmentsReducer(state = getInitialState(), action: environme
     case environmentsAction.SELECT_ACTIVE_SUB_ENVIRONMENT: {
       return { ...state, activeSubEnvironment: action.payload.id };
     }
+    case environmentsAction.REPOSITION_SUB_ENVIRONMENT: {
+      const curPos = action.payload.currentPosition;
+      const newPos = action.payload.newPosition;
+
+      if (curPos > -1 && curPos < state.subEnvironments.length && newPos > -1 && newPos < state.subEnvironments.length) {
+        const arr = [ ...state.subEnvironments ];
+        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]);
+
+        return { ...state, subEnvironments: [ ...arr ] };
+      }
+      return state;
+    }
     default:
       return state;
   }

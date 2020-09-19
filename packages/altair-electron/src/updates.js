@@ -59,7 +59,7 @@ const canUpdate = () => {
   // Don't check for updates if update config is not found (auto-update via electron is not supported)
   return autoUpdater.app
     && autoUpdater.app.appUpdateConfigPath
-    && !fs.existsSync(autoUpdater.app.appUpdateConfigPath);
+    && fs.existsSync(autoUpdater.app.appUpdateConfigPath);
 };
 
 const setupAutoUpdates = () => {

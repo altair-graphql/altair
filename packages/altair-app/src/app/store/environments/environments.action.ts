@@ -8,6 +8,7 @@ export const UPDATE_SUB_ENVIRONMENT_JSON = 'UPDATE_SUB_ENVIRONMENT_JSON';
 export const UPDATE_SUB_ENVIRONMENT_TITLE = 'UPDATE_SUB_ENVIRONMENT_TITLE';
 
 export const SELECT_ACTIVE_SUB_ENVIRONMENT = 'SELECT_ACTIVE_SUB_ENVIRONMENT';
+export const REPOSITION_SUB_ENVIRONMENT = 'REPOSITION_SUB_ENVIRONMENT';
 
 export class AddSubEnvironmentAction implements NGRXAction {
   readonly type = ADD_SUB_ENVIRONMENT;
@@ -45,6 +46,12 @@ export class SelectActiveSubEnvironmentAction implements NGRXAction {
   constructor(public payload: { id?: string }) {}
 }
 
+export class RepositionSubEnvironmentAction implements NGRXAction {
+  readonly type = REPOSITION_SUB_ENVIRONMENT;
+
+  constructor(public payload: { currentPosition: number, newPosition: number }) {}
+}
+
 export type Action =
   | AddSubEnvironmentAction
   | DeleteSubEnvironmentAction
@@ -52,4 +59,5 @@ export type Action =
   | UpdateSubEnvironmentJsonAction
   | UpdateSubEnvironmentTitleAction
   | SelectActiveSubEnvironmentAction
+  | RepositionSubEnvironmentAction
   ;

@@ -28,13 +28,21 @@
             </div>
             <div class="environment-manager__list">
               <div class="environment-manager__list-title">{{ 'SUB_ENVIRONMENTS_HEADER' | translate }}</div>
-              <div
-                class="environment-manager__list-item"
-                *ngFor="let item of environments?.subEnvironments; trackBy: trackById;"
-                (click)="selectEnvironment(item.id)"
-                (dblclick)="setFocusOnEnvironmentTitle()"
-                [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
-              >{{ item.title }}</div>
+              <div class="environment-manager__list-inner"
+                sortablejs
+                [sortablejsOptions]="sortableOptions"
+              >
+                <div
+                  class="environment-manager__list-item"
+                  *ngFor="let item of environments?.subEnvironments; trackBy: trackById;"
+                  (click)="selectEnvironment(item.id)"
+                  (dblclick)="setFocusOnEnvironmentTitle()"
+                  [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
+                >
+                  <app-icon name="more-vertical"></app-icon>
+                  {{ item.title }}
+                </div>
+              </div>
             </div>
             <div class="environment-manager__list-actions">
               <button class="app-button full-width" (click)="addSubEnvironmentChange.next()">{{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}</button>
