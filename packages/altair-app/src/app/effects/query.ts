@@ -15,7 +15,8 @@ import {
   DonationService,
   ElectronAppService,
   EnvironmentService,
-  PreRequestService
+  PreRequestService,
+  SubscriptionFactoryService
 } from '../services';
 import * as fromRoot from '../store';
 
@@ -539,18 +540,22 @@ export class QueryEffects {
               return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
             }
 
-            const subscriptionClient = this.gqlService.createSubscriptionClient(subscriptionUrl, {
+            const SubscriptionProviderClass = this.subscriptionFactoryService.getSubscriptionProvider('websocket');
+            const subscriptionProvider = new SubscriptionProviderClass(
+              subscriptionUrl,
               connectionParams,
-              connectionCallback: error => {
-                if (error) {
-                  debug.log('Subscription connection error', error);
-                  return subscriptionErrorHandler(error);
+              {
+                onConnected: error => {
+                  if (error) {
+                    debug.log('Subscription connection error', error);
+                    return subscriptionErrorHandler(error);
+                  }
+                  debug.log('Connected subscription.');
                 }
-                debug.log('Connected subscription.');
               }
-            });
-            subscriptionClient.request({
-              query: query,
+            );
+            subscriptionProvider.execute({
+              query,
               variables: variablesObj,
               operationName: selectedOperation || undefined,
             }).subscribe({
@@ -589,7 +594,9 @@ export class QueryEffects {
               }
             });
 
-            return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, { subscriptionClient }));
+            return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, {
+              subscriptionClient: subscriptionProvider
+            }));
           } catch (err) {
             debug.error('An error occurred starting the subscription.', err);
             return subscriptionErrorHandler(err);
@@ -605,7 +612,10 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+          if (res.data.query.subscriptionClient) {
+            res.data.query.subscriptionClient.close();
+          }
+
           return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
         }),
       );
@@ -879,6 +889,7 @@ export class QueryEffects {
       private electronAppService: ElectronAppService,
       private environmentService: EnvironmentService,
       private preRequestService: PreRequestService,
+      private subscriptionFactoryService: SubscriptionFactoryService,
       private store: Store<fromRoot.State>
     ) {}
 
