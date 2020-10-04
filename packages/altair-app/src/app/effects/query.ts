@@ -527,7 +527,9 @@ export class QueryEffects {
 
           try {
             // Stop any currently active subscription
-            this.gqlService.closeSubscriptionClient(response.data.query.subscriptionClient);
+            if (response.data.query.subscriptionClient?.close) {
+              response.data.query.subscriptionClient.close();
+            }
 
 
             try {
@@ -612,7 +614,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          if (res.data.query.subscriptionClient) {
+          if (res.data.query.subscriptionClient?.close) {
             res.data.query.subscriptionClient.close();
           }
 
