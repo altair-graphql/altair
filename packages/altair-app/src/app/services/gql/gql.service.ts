@@ -222,15 +222,20 @@ export class GqlService {
   }
 
   parseQuery(query: string) {
+    const emptyDocumentNode: DocumentNode = {
+      definitions: [],
+      kind: 'Document',
+    };
+
     if (!query) {
-      return <DocumentNode>{};
+      return emptyDocumentNode;
     }
     try {
       return parse(query);
     } catch (err) {
       debug.error('Something wrong with your query', err);
 
-      return <DocumentNode>{};
+      return emptyDocumentNode;
     }
   }
 
