@@ -314,7 +314,7 @@ export class AppComponent implements OnDestroy {
   }
 
   setWindowName({ windowId = '', windowName = '' }) {
-    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, { title: windowName }));
+    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, { title: windowName, setByUser: true }));
   }
 
   repositionWindow({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {
