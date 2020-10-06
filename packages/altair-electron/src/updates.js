@@ -94,8 +94,10 @@ const checkForUpdates = (menuItem) => {
     return;
   }
 
-  updater = menuItem;
-  updater.enabled = false;
+  if (menuItem) {
+    updater = menuItem;
+    updater.enabled = false;
+  }
   isSilentCheck = false;
   autoUpdater.checkForUpdates();
 };
