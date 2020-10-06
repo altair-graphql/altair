@@ -54,8 +54,8 @@ class ActionManager {
     return exportBackupData(this.windowInstance);
   }
 
-  checkForUpdates() {
-    return checkForUpdates();
+  checkForUpdates(menuItem) {
+    return checkForUpdates(menuItem);
   }
 }
 
