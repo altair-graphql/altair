@@ -28,7 +28,7 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
       }).subscribe({
         next: (...args) =>  subscriber.next(...args),
         error: (...args) => subscriber.error(...args),
-        complete: (...args) => subscriber.complete(...args),
+        complete: () => subscriber.complete(),
       })
     });
   }
