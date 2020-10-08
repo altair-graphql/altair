@@ -1,9 +1,13 @@
-const Fastify = require('fastify');
-const GQL = require('fastify-gql');
-// const AltairFastify = require("altair-fastify-plugin");
-const AltairFastify = require('../');
+import Fastify from 'fastify';
+import mercurius from 'mercurius';
+// import AltairFastify from "altair-fastify-plugin";
+import AltairFastify from '../dist';
 
-const app = Fastify();
+const app = Fastify({
+  logger: {
+    level: 'info',
+  },
+});
 
 const schema = `
   type Query {
@@ -13,11 +17,11 @@ const schema = `
 
 const resolvers = {
   Query: {
-    add: async (_, { x, y }) => x + y,
+    add: async (_: unknown, { x, y }: { x: number; y: number }) => x + y,
   },
 };
 
-app.register(GQL, {
+app.register(mercurius, {
   schema,
   resolvers,
   graphiql: false,
@@ -37,15 +41,10 @@ app.register(AltairFastify, {
    * Check all the options Altair has
    */
   initialQuery: `
-    query {
-      add(x: 1, y: 2)
-    }
-    `,
-});
-
-app.get('/', async function (req, reply) {
-  const query = '{ add(x: 2, y: 2) }';
-  return reply.graphql(query);
+  query {
+    add(x: 1, y: 2)
+  }
+  `,
 });
 
 app.listen(3000);
