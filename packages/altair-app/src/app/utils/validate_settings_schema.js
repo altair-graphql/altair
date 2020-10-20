@@ -404,7 +404,7 @@ validate.schema = {
       "type": "boolean"
     },
     "enableExperimental": {
-      "description": "Enable experimental features in Altair.\nNote: The features might be unstable.",
+      "description": "Enable experimental features in Altair.\nNote: The features might be unstable",
       "type": "boolean"
     },
     "historyDepth": {
@@ -449,6 +449,9 @@ validate.schema = {
     "theme.fontsize": {
       "description": "Specifies the base font size\n(Default size - 24)",
       "type": "number"
+    },
+    "themeConfig": {
+      "description": "Theme config object"
     }
   },
   "type": "object"

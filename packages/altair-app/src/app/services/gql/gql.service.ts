@@ -259,25 +259,6 @@ export class GqlService {
     }, false);
   }
 
-  createSubscriptionClient(subscriptionUrl: string, opts?: SubscriptionClientOptions): SubscriptionClient {
-    return new SubscriptionClient(subscriptionUrl, {
-      reconnect: true,
-      ...opts
-    });
-  }
-
-  closeSubscriptionClient(subscriptionClient: SubscriptionClient) {
-    if (subscriptionClient) {
-      if (subscriptionClient.unsubscribeAll) {
-        subscriptionClient.unsubscribeAll();
-      }
-
-      if (subscriptionClient.close) {
-        subscriptionClient.close();
-      }
-    }
-  }
-
   getOperations(query: string) {
     const parsedQuery = this.parseQuery(query);
 

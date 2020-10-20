@@ -11,6 +11,8 @@ if (currentVersion() && currentVersion() !== environment.version) {
   // current = env.version
   localStorage.setItem(PREVIOUS_VERSION_KEY, currentVersion()!);
   localStorage.setItem(CURRENT_VERSION_KEY, environment.version);
+} else {
+  localStorage.setItem(CURRENT_VERSION_KEY, currentVersion()!);
 }
 
 Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {

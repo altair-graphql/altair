@@ -1,6 +1,7 @@
 import * as settings from './settings.action';
 import { getAltairConfig } from '../../config';
 import { jsonc } from 'app/utils';
+import { ICustomTheme } from 'app/services/theme';
 
 const config = getAltairConfig();
 export type SettingsTheme = typeof config.themes[number];
@@ -31,12 +32,9 @@ export interface State {
 
   /**
    * Enable experimental features in Altair.
-   * Note: The features might be unstable.
+   * Note: The features might be unstable
    */
   enableExperimental?: boolean;
-
-  // 'theme.foreground': string;
-  // 'theme.header.background': string;
 
   /**
    * Specifies the base font size
@@ -83,6 +81,11 @@ export interface State {
    * Specifies the number of items allowed in the history pane
    */
   historyDepth?: number;
+
+  /**
+   * Theme config object
+   */
+  themeConfig?: ICustomTheme;
 }
 
 export const getInitialState = (): State => {
