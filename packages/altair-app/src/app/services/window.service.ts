@@ -5,7 +5,7 @@ import { first, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 import * as fromRoot from '../store';
 import * as fromWindows from '../store/windows/windows.reducer';

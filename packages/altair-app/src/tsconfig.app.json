@@ -4,7 +4,8 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "",
     "types": [],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true
