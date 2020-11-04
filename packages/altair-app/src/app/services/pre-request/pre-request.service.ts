@@ -23,7 +23,24 @@ interface ScriptContextData {
 interface GlobalHelperContext {
   data: ScriptContextData;
   helpers: ScriptContextHelpers;
+  importModule: (moduleName: string) => any;
 }
+
+interface ModuleImportsMap {
+  [name: string]: { exec: () => Promise<any> };
+};
+
+const ModuleImports: ModuleImportsMap = {
+  atob: {
+    async exec() { return (await import('abab')).atob }
+  },
+  btoa: {
+    async exec() { return (await import('abab')).btoa }
+  },
+  'crypto-js': {
+    async exec() { return (await import('crypto-js')).default }
+  },
+};
 
 @Injectable({
   providedIn: 'root'
@@ -37,15 +54,15 @@ export class PreRequestService {
 
   async executeScript(script: string, data: ScriptContextData): Promise<any> {
     const Sval: typeof import('sval').default = (await import('sval') as any).default;
-    const self = this;
+
     // deep cloning
-    data = JSON.parse(JSON.stringify(data));
+    const clonedMutableData = JSON.parse(JSON.stringify(data));
     const interpreter = new Sval({
       ecmaVer: 10,
       sandBox: true,
     });
     interpreter.import({
-      altair: this.getGlobalContext(data),
+      altair: this.getGlobalContext(clonedMutableData),
     });
     interpreter.run(`
       const program = async() => {
@@ -57,7 +74,7 @@ export class PreRequestService {
 
     return interpreter.exports.end
       .then((res: any) => debug.log('interpreter result:', res))
-      .then(() => data);
+      .then(() => clonedMutableData);
   }
 
   getGlobalContext(data: ScriptContextData): GlobalHelperContext {
@@ -84,7 +101,16 @@ export class PreRequestService {
             return null;
           }
         }
-      }
+      },
+      importModule: (moduleName: string) => this.importModuleHelper(moduleName),
     };
+  }
+
+  async importModuleHelper(moduleName: string) {
+    if (!Object.keys(ModuleImports).includes(moduleName)) {
+      throw new Error(`No pre request module found matching "${moduleName}"`);
+    }
+
+    return ModuleImports[moduleName].exec();
   }
 }

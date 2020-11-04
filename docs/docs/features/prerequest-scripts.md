@@ -88,3 +88,19 @@ const token = localStorage.getItem("token");
 altair.helpers.setEnvironment('token_env', token);
 // You can use the environment variables in Altair after setting it by following this blog post: https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c
 ```
+
+#### altair.importModule
+
+This allows you to import some modules that are made available in the pre request script editor. It *returns a promise* that resolves with the imported module.
+
+```js
+const btoa = await altair.importModules('btoa');
+
+const res = btoa('username:password');
+```
+
+The available modules are:
+
+- [atob](https://www.npmjs.com/package/abab)
+- [btoa](https://www.npmjs.com/package/abab)
+- [crypto-js](https://www.npmjs.com/package/crypto-js)
