@@ -2,7 +2,7 @@
 import {from as observableFrom, Observable, empty as observableEmpty, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { debug } from 'app/utils/logger';
 import { IQueryCollection, ExportCollectionState, IQuery } from 'app/store/collection/collection.reducer';
 import { getFileStr } from 'app/utils';
