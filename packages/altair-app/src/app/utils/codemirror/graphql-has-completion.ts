@@ -1,7 +1,7 @@
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/onHasCompletion.js
 
 import { GraphQLList, GraphQLNonNull, GraphQLType } from 'graphql';
-import * as marked from 'marked';
+import marked from 'marked';
 
 const renderType = (type: GraphQLType): string => {
   if (type instanceof GraphQLNonNull) {

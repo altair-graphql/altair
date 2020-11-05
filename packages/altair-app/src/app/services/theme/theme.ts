@@ -1,4 +1,4 @@
-import * as deepmerge from 'deepmerge';
+import deepmerge from 'deepmerge';
 
 export const foundations = {
   easing: 'ease',

@@ -91,27 +91,23 @@ export class PreRequestEditorComponent implements AfterViewInit, OnChanges, DoCh
   }
 
   private createGlobalScope() {
-    return Object.create(null, {
+    const xy = {
       altair: {
-        value: Object.create(null, {
-          helpers: {
-            value: Object.create(null, {
-              getEnvironment: {
-                value: null
-              },
-              setEnvironment: {
-                value: null
-              },
-              getCookie: {
-                value: null
-              },
-              request: {
-                value: null
-              },
-            }),
-          }
-        })
+        helpers: {
+          getEnvironment: null,
+          setEnvironment: null,
+          getCookie: null,
+          request: null
+        },
+        importModule: null,
       }
-    })
+    };
+
+    return JSON.parse(JSON.stringify(xy), (k, v) => {
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        return Object.assign(Object.create(null), v);
+      }
+      return v;
+   });
   }
 }
