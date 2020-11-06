@@ -25,11 +25,6 @@ ajv@^6.11.0, ajv@^6.12.2:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-altair-static@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.5.1.tgz#a2d9f5d5e2640a5daefcd57a31d878c28c7a67d0"
-  integrity sha512-uhCRbiFH7ihAw3ZNmoTa7x8LFhfwOugf0MskDVDMFbp+94fxlX3V7V091ogIsCBcN7nrBk8nXmjTgCoehj0tlg==
-
 archy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/archy/-/archy-1.0.0.tgz#f9c8c13757cc1dd7bc379ac77b2c62a5c2868c40"

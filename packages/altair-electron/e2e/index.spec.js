@@ -215,7 +215,7 @@ describe('Altair electron', () => {
     await app.client.$('.ant-dropdown-menu-item*=GET').click();
     const httpVerbText = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
     expect(httpVerbText).toContain('GET');
- 
+
     await app.client.closeLastAltairWindow();
   });
 
