@@ -34,6 +34,7 @@ import * as streamActions from '../store/stream/stream.action';
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
+import { OperationDefinitionNode } from 'graphql';
 
 interface EffectResponseData {
   state: fromRoot.State;
@@ -878,6 +879,35 @@ export class QueryEffects {
             this.gqlService.closeStreamClient(res.data.stream.client);
           }
           return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient: null }));
+        }),
+      );
+
+    @Effect()
+    setDynamicWindowTitle$: Observable<layoutActions.SetWindowNameAction> = this.actions$
+      .pipe(
+        ofType(queryActions.SET_QUERY, queryActions.SET_QUERY_FROM_DB),
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, windowIds: state.windowsMeta.windowIds, action };
+        }),
+        switchMap(res => {
+          const query = res.data.query.query;
+          if (!res.data.layout.hasDynamicTitle) {
+            return observableEmpty();
+          }
+          if (query) {
+            const document = this.gqlService.parseQuery(query);
+
+            const currentDefinitionNames = document.definitions
+              .filter((definition): definition is OperationDefinitionNode =>
+                definition.kind === 'OperationDefinition' && Boolean(definition.name?.value))
+              .map(definition => definition.name!.value);
+
+            if (currentDefinitionNames.length) {
+              const dynamicName = currentDefinitionNames[0];
+              return of(new layoutActions.SetWindowNameAction(res.windowId, { title: dynamicName }));
+            }
+          }
+          return of(new layoutActions.SetWindowNameAction(res.windowId, { title: `Window ${res.windowIds.length}` }));
         }),
       );
 

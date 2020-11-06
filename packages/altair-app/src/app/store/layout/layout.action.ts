@@ -20,7 +20,7 @@ export class StopLoadingAction implements NGRXAction {
 export class SetWindowNameAction implements NGRXAction {
   readonly type = SET_WINDOW_NAME;
 
-  constructor(public windowId: string, public payload: string) {}
+  constructor(public windowId: string, public payload: { title: string, setByUser?: boolean }) {}
 }
 
 export class NotifyExperimentalAction implements NGRXAction {

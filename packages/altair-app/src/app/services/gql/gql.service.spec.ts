@@ -593,7 +593,10 @@ describe('GqlService', () => {
 
   describe('.parseQuery()', () => {
     it('should return empty object if empty string', inject([GqlService], (service: GqlService) => {
-      expect(service.parseQuery('')).toEqual({} as any);
+      expect(service.parseQuery('')).toEqual({
+        definitions: [],
+        kind: 'Document',
+      });
     }));
 
     it('should return GraphQL document', inject([GqlService], (service: GqlService) => {
@@ -609,7 +612,10 @@ describe('GqlService', () => {
         query {{
           hello
         }
-      `)).toEqual({} as any);
+      `)).toEqual({
+        definitions: [],
+        kind: 'Document',
+      });
     }));
   });
 
