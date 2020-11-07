@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
 
-
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
@@ -21,10 +20,13 @@ export class SubscriptionUrlDialogComponent implements OnChanges, DoCheck {
 
   @Input() subscriptionUrl = '';
   @Input() subscriptionConnectionParams = '';
+  @Input() selectedSubscriptionProviderId = '';
+  @Input() subscriptionProviders = [];
   @Input() showDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() subscriptionUrlChange = new EventEmitter();
   @Output() subscriptionConnectionParamsChange = new EventEmitter();
+  @Output() subscriptionProviderIdChange = new EventEmitter();
 
   subscriptionConnectionParamsEditorConfig = {
     mode: 'javascript',
@@ -58,8 +60,15 @@ export class SubscriptionUrlDialogComponent implements OnChanges, DoCheck {
 
   subscriptionUrlInput(event: Event) {
     if (event.target) {
-      this.subscriptionUrlChange.next((event.target as any).value);
+      this.subscriptionUrlChange.emit((event.target as any).value);
     }
   }
 
+  updateSubscriptionProviderId(providerId: string) {
+    this.subscriptionProviderIdChange.emit(providerId);
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
+  }
 }

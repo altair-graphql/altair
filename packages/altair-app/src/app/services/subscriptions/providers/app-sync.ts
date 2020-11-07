@@ -1,8 +1,11 @@
 import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
-import { API, graphqlOperation } from 'aws-amplify';
-import ZenObservable from 'zen-observable';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { createAuthLink } from 'aws-appsync-auth-link';
+import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
+import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo/client/core';
+import { parse } from 'graphql';
+
+export const APP_SYNC_PROVIDER_ID = 'app-sync';
 
 export class AppSyncSubscriptionProvider extends SubscriptionProvider {
   subscription?: any;
@@ -18,12 +21,29 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
    */
 
   execute(options: SubscriptionProviderExecuteOptions) {
-    API.configure(this.connectionParams);
+    const url = this.connectionParams.aws_appsync_graphqlEndpoint;
+    const region = this.connectionParams.aws_appsync_region;
+    const auth = {
+      type: this.connectionParams.aws_appsync_authenticationType,
+      apiKey: this.connectionParams.aws_appsync_apiKey,
+    };
 
-    const subscription = API.graphql(graphqlOperation(options.query, options.variables)) as any;
-    console.log('subscription', subscription);
+    const httpLink = createHttpLink({ uri: url });
 
-    // TODO: There is an unhandled promise rejection somewhere caused by executing this. This needs to be figured out before merging
+    const link = ApolloLink.from([
+      createAuthLink({ url, region, auth }),
+      createSubscriptionHandshakeLink(url, httpLink),
+    ]);
+
+    const client = new ApolloClient({
+      link,
+      cache: new InMemoryCache()
+    });
+
+    const subscription = client.subscribe({
+      query: parse(options.query),
+      variables: options.variables
+    })
     return new Observable((subscriber) => {
       // TODO: Figure out proper typing of API.graphql
       this.subscription = subscription.subscribe({

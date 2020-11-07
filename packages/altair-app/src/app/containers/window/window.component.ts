@@ -34,7 +34,7 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 
-import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
+import { GqlService, NotifyService, PluginRegistryService, WindowService, SubscriptionProviderRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
 import {
   PluginComponentData,
@@ -50,6 +50,7 @@ import { fadeInOutAnimationTrigger } from 'app/animations';
 import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
 import { IDictionary } from 'app/interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
+import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/providers/ws';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -108,6 +109,8 @@ export class WindowComponent implements OnInit {
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
+  availableSubscriptionProviders = this.subscriptionProviderRegistry.getAllProviderData();
+  selectedSubscriptionProviderId = '';
 
   historyList: fromHistory.History[] = [];
   resultPaneActionButtonPlugins: { pluginName: string, instance: ActionPlugin, data: PluginComponentData['props']}[] = [];
@@ -120,6 +123,7 @@ export class WindowComponent implements OnInit {
     private windowService: WindowService,
     private vRef: ViewContainerRef,
     private pluginRegistry: PluginRegistryService,
+    private subscriptionProviderRegistry: SubscriptionProviderRegistryService,
     private zone: NgZone,
   ) {
   }
@@ -187,6 +191,7 @@ export class WindowComponent implements OnInit {
 
       this.subscriptionUrl = data.query.subscriptionUrl;
       this.subscriptionConnectionParams = data.query.subscriptionConnectionParams || '';
+      this.selectedSubscriptionProviderId = data.query.subscriptionProviderId || WEBSOCKET_PROVIDER_ID;
       this.historyList = data.history.list;
 
       // Schema needs to be valid instances of GQLSchema.
@@ -408,6 +413,9 @@ export class WindowComponent implements OnInit {
   }
   updateSubscriptionConnectionParams(connectionParams: string) {
     this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
+  }
+  updateSubscriptionProviderId(providerId: string) {
+    this.store.dispatch(new queryActions.SetSubscriptionProviderIdAction(this.windowId, { providerId }));
   }
 
   updatePreRequestScript(script: string) {

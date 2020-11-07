@@ -151,10 +151,13 @@
     <app-subscription-url-dialog
       [subscriptionUrl]="subscriptionUrl"
       [subscriptionConnectionParams]="subscriptionConnectionParams"
+      [subscriptionProviders]="availableSubscriptionProviders"
+      [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
       [showDialog]="showSubscriptionUrlDialog"
       (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
       (subscriptionUrlChange)="updateSubscriptionUrl($event)"
       (subscriptionConnectionParamsChange)="updateSubscriptionConnectionParams($event)"
+      (subscriptionProviderIdChange)="updateSubscriptionProviderId($event)"
     ></app-subscription-url-dialog>
     <app-history-dialog
       [historyList]="historyList"
