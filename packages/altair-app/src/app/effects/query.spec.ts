@@ -12,7 +12,7 @@ import {
   EnvironmentService,
   ElectronAppService,
   PreRequestService,
-  SubscriptionFactoryService,
+  SubscriptionProviderRegistryService,
 } from 'app/services';
 import * as fromRoot from '../store';
 import { ConvertToNamedQueryAction, SetQueryAction } from 'app/store/query/query.action';
@@ -26,7 +26,7 @@ describe('query effects', () => {
   let mockElectronAppService: ElectronAppService;
   let mockEnvironmentService: EnvironmentService;
   let mockPrerequestService: PreRequestService;
-  let mockSubscriptionFactoryService: SubscriptionFactoryService;
+  let mockSubscriptionProviderRegistryService: SubscriptionProviderRegistryService;
   let mockStore: Store<fromRoot.State>;
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('query effects', () => {
     mockElectronAppService = mock();
     mockEnvironmentService = mock();
     mockPrerequestService = mock();
-    mockSubscriptionFactoryService = mock();
+    mockSubscriptionProviderRegistryService = mock();
     mockStore = mockStoreFactory();
   });
   describe('.convertToNamedQuery', () => {
@@ -65,7 +65,7 @@ describe('query effects', () => {
         mockElectronAppService,
         mockEnvironmentService,
         mockPrerequestService,
-        mockSubscriptionFactoryService,
+        mockSubscriptionProviderRegistryService,
         mockStore,
       );
 
