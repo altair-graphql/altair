@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject, forkJoin, of, from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 import * as fromRoot from '../../store';
 import * as fromHeader from '../../store/headers/headers.reducer';
@@ -314,7 +314,7 @@ export class AppComponent implements OnDestroy {
   }
 
   setWindowName({ windowId = '', windowName = '' }) {
-    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, windowName));
+    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, { title: windowName, setByUser: true }));
   }
 
   repositionWindow({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {

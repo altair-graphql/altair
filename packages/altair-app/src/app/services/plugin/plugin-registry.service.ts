@@ -142,7 +142,7 @@ export class PluginRegistryService {
         pluginBaseUrl = this.getURLPluginBaseURL(name, { version, ...remainingOpts });
     }
 
-    const manifestUrl = `${pluginBaseUrl}manifest.json`;
+    const manifestUrl = this.resolveURL(pluginBaseUrl, 'manifest.json');
 
     try {
       // Get manifest file
@@ -155,14 +155,14 @@ export class PluginRegistryService {
           debug.log('PLUGIN styles', manifest.styles);
 
           await Promise.all(manifest.styles.map(style => {
-            return this.injectPluginStylesheet(`${pluginBaseUrl}${style}`);
+            return this.injectPluginStylesheet(this.resolveURL(pluginBaseUrl, style));
           }));
         }
         if (manifest.scripts && manifest.scripts.length) {
           debug.log('PLUGIN scripts', manifest.scripts);
 
           await Promise.all(manifest.scripts.map(script => {
-            return this.injectPluginScript(`${pluginBaseUrl}${script}`);
+            return this.injectPluginScript(this.resolveURL(pluginBaseUrl, script));
           }));
         }
         const pluginInstance = new AltairPlugin(name, manifest);
@@ -213,4 +213,7 @@ export class PluginRegistryService {
     return opts.url;
   }
 
+  private resolveURL(baseURL: string, path: string) {
+    return baseURL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+  }
 }

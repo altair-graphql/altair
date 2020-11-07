@@ -763,11 +763,6 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-altair-static@^2.4.11:
-  version "2.4.11"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.4.11.tgz#f6f48595c8073214d23bad9a48040847e0268a5f"
-  integrity sha512-VyW+a/lnyBbafyu5p3+R2a+su+IFjFqicFdRHDEPr3QYfEa8pEKvUK+M2nLjXKYt4jN8+9Q6kUB+UDDr/TEBRQ==
-
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"

@@ -222,15 +222,20 @@ export class GqlService {
   }
 
   parseQuery(query: string) {
+    const emptyDocumentNode: DocumentNode = {
+      definitions: [],
+      kind: 'Document',
+    };
+
     if (!query) {
-      return <DocumentNode>{};
+      return emptyDocumentNode;
     }
     try {
       return parse(query);
     } catch (err) {
       debug.error('Something wrong with your query', err);
 
-      return <DocumentNode>{};
+      return emptyDocumentNode;
     }
   }
 
@@ -257,25 +262,6 @@ export class GqlService {
     return parsedQuery.definitions.reduce((acc, cur) => {
       return acc || (cur.kind === 'OperationDefinition' && cur.operation === 'subscription');
     }, false);
-  }
-
-  createSubscriptionClient(subscriptionUrl: string, opts?: SubscriptionClientOptions): SubscriptionClient {
-    return new SubscriptionClient(subscriptionUrl, {
-      reconnect: true,
-      ...opts
-    });
-  }
-
-  closeSubscriptionClient(subscriptionClient: SubscriptionClient) {
-    if (subscriptionClient) {
-      if (subscriptionClient.unsubscribeAll) {
-        subscriptionClient.unsubscribeAll();
-      }
-
-      if (subscriptionClient.close) {
-        subscriptionClient.close();
-      }
-    }
   }
 
   getOperations(query: string) {

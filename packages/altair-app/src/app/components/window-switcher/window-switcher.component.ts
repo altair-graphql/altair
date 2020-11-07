@@ -38,7 +38,7 @@ export class WindowSwitcherComponent implements OnInit {
     { name: 'Edit' }
   ];
 
-  windowNameEditing = '';
+  windowIdEditing = '';
   maxWindowCount = this.altairConfig.max_windows;
 
   sortableOptions = {};
@@ -60,14 +60,16 @@ export class WindowSwitcherComponent implements OnInit {
   }
 
   editWindowNameInput(windowId: string, wTitle: HTMLElement) {
-    this.windowNameEditing = windowId;
+    this.windowIdEditing = windowId;
     wTitle.setAttribute('contenteditable', 'contenteditable');
     wTitle.focus();
   }
 
   saveWindowName(windowId: string, windowName: string) {
-    this.windowNameChange.next({ windowId, windowName });
-    this.windowNameEditing = '';
+    if (this.windowIdEditing) {
+      this.windowNameChange.next({ windowId, windowName });
+      this.windowIdEditing = '';
+    }
   }
 
   moveWindow(currentPosition: number, newPosition: number) {

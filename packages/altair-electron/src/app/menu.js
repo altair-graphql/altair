@@ -21,7 +21,7 @@ class MenuManager {
           { role: 'about' },
           {
             label: 'Check for Updates...',
-            click: () => this.actionManager.checkForUpdates(),
+            click: (menuItem) => this.actionManager.checkForUpdates(menuItem),
           },
           {
             label: 'Preferences',

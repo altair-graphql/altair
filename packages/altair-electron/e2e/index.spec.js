@@ -49,7 +49,8 @@ const closeAnyOpenBackdrops = async (_app) => {
   const backdropElResult = await _app.client.$('.cdk-overlay-backdrop-showing');
   // const isClickable = await _app.client.$('.cdk-overlay-backdrop-showing').isClickable();
   if (backdropElResult.value) {
-    await _app.client.$('.cdk-overlay-backdrop-showing').click();
+    // await _app.client.$('.cdk-overlay-backdrop-showing').click();
+    await app.client.keys([ 'Escape' ]);
     await _app.client.pause(500);
     await closeAnyOpenBackdrops(_app);
   }

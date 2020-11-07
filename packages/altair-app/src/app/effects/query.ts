@@ -15,7 +15,8 @@ import {
   DonationService,
   ElectronAppService,
   EnvironmentService,
-  PreRequestService
+  PreRequestService,
+  SubscriptionFactoryService
 } from '../services';
 import * as fromRoot from '../store';
 
@@ -33,6 +34,7 @@ import * as streamActions from '../store/stream/stream.action';
 import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from 'app/utils/curl';
+import { OperationDefinitionNode } from 'graphql';
 
 interface EffectResponseData {
   state: fromRoot.State;
@@ -526,7 +528,9 @@ export class QueryEffects {
 
           try {
             // Stop any currently active subscription
-            this.gqlService.closeSubscriptionClient(response.data.query.subscriptionClient);
+            if (response.data.query.subscriptionClient?.close) {
+              response.data.query.subscriptionClient.close();
+            }
 
 
             try {
@@ -539,18 +543,22 @@ export class QueryEffects {
               return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
             }
 
-            const subscriptionClient = this.gqlService.createSubscriptionClient(subscriptionUrl, {
+            const SubscriptionProviderClass = this.subscriptionFactoryService.getSubscriptionProvider('websocket');
+            const subscriptionProvider = new SubscriptionProviderClass(
+              subscriptionUrl,
               connectionParams,
-              connectionCallback: error => {
-                if (error) {
-                  debug.log('Subscription connection error', error);
-                  return subscriptionErrorHandler(error);
+              {
+                onConnected: error => {
+                  if (error) {
+                    debug.log('Subscription connection error', error);
+                    return subscriptionErrorHandler(error);
+                  }
+                  debug.log('Connected subscription.');
                 }
-                debug.log('Connected subscription.');
               }
-            });
-            subscriptionClient.request({
-              query: query,
+            );
+            subscriptionProvider.execute({
+              query,
               variables: variablesObj,
               operationName: selectedOperation || undefined,
             }).subscribe({
@@ -589,7 +597,9 @@ export class QueryEffects {
               }
             });
 
-            return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, { subscriptionClient }));
+            return observableOf(new queryActions.SetSubscriptionClientAction(response.windowId, {
+              subscriptionClient: subscriptionProvider
+            }));
           } catch (err) {
             debug.error('An error occurred starting the subscription.', err);
             return subscriptionErrorHandler(err);
@@ -605,7 +615,10 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          this.gqlService.closeSubscriptionClient(res.data.query.subscriptionClient);
+          if (res.data.query.subscriptionClient?.close) {
+            res.data.query.subscriptionClient.close();
+          }
+
           return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
         }),
       );
@@ -869,6 +882,35 @@ export class QueryEffects {
         }),
       );
 
+    @Effect()
+    setDynamicWindowTitle$: Observable<layoutActions.SetWindowNameAction> = this.actions$
+      .pipe(
+        ofType(queryActions.SET_QUERY, queryActions.SET_QUERY_FROM_DB),
+        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, windowIds: state.windowsMeta.windowIds, action };
+        }),
+        switchMap(res => {
+          const query = res.data.query.query;
+          if (!res.data.layout.hasDynamicTitle) {
+            return observableEmpty();
+          }
+          if (query) {
+            const document = this.gqlService.parseQuery(query);
+
+            const currentDefinitionNames = document.definitions
+              .filter((definition): definition is OperationDefinitionNode =>
+                definition.kind === 'OperationDefinition' && Boolean(definition.name?.value))
+              .map(definition => definition.name!.value);
+
+            if (currentDefinitionNames.length) {
+              const dynamicName = currentDefinitionNames[0];
+              return of(new layoutActions.SetWindowNameAction(res.windowId, { title: dynamicName }));
+            }
+          }
+          return of(new layoutActions.SetWindowNameAction(res.windowId, { title: `Window ${res.windowIds.length}` }));
+        }),
+      );
+
     // Get the introspection after setting the URL
     constructor(
       private actions$: Actions,
@@ -879,6 +921,7 @@ export class QueryEffects {
       private electronAppService: ElectronAppService,
       private environmentService: EnvironmentService,
       private preRequestService: PreRequestService,
+      private subscriptionFactoryService: SubscriptionFactoryService,
       private store: Store<fromRoot.State>
     ) {}
 

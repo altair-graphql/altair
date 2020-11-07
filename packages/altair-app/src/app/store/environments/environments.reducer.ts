@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { getAltairConfig } from 'app/config';
 import * as environmentsAction from './environments.action';
 import { IDictionary } from 'app/interfaces/shared';

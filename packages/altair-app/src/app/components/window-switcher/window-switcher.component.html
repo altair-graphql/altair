@@ -25,8 +25,8 @@
     <div
       #wTitle
       class="window-switcher__input"
-      [ngClass]="{ 'window-switcher__input--editing': windowId === windowNameEditing }"
-      [attr.contenteditable]="windowId === windowNameEditing"
+      [ngClass]="{ 'window-switcher__input--editing': windowId === windowIdEditing }"
+      [attr.contenteditable]="windowId === windowIdEditing"
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
     >{{ windows[windowId].layout.title }}</div>
