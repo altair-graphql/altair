@@ -94,7 +94,7 @@ altair.helpers.setEnvironment('token_env', token);
 This allows you to import some modules that are made available in the pre request script editor. It *returns a promise* that resolves with the imported module.
 
 ```js
-const btoa = await altair.importModules('btoa');
+const btoa = await altair.importModule('btoa');
 
 const res = btoa('username:password');
 ```
