@@ -25,6 +25,11 @@ ajv@^6.11.0, ajv@^6.12.2:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+altair-static@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-2.5.2.tgz#a81e0fdda9739de30a7ba18674e7b4e4bc68598e"
+  integrity sha512-SADzQXnXE454mAL4bDfNtSndGbm6eAj8iffXiZe1Jp1Ye9nB0hW+G51NbaI02FFD2f6QLvwd2hBwDtB+fXk8rA==
+
 archy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/archy/-/archy-1.0.0.tgz#f9c8c13757cc1dd7bc379ac77b2c62a5c2868c40"
@@ -345,9 +350,9 @@ fastq@^1.6.1:
     reusify "^1.0.4"
 
 find-my-way@^3.0.0, find-my-way@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-3.0.4.tgz#a485973d1a3fdafd989ac9f12fd2d88e83cda268"
-  integrity sha512-Trl/mNAVvTgCpo9ox6yixkwiZUvecKYUQZoAuMCBACsgGqv+FbWe+jE5sBA5+U8LIWrJk/cw8zPV53GPrjTnsw==
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-3.0.5.tgz#f71c5ef1b4865401e1b97ba428121a8f55439eec"
+  integrity sha512-FweGg0cv1sBX8z7WhvBX5B5AECW4Zdh/NiB38Oa0qwSNIyPgRBCl/YjxuZn/rz38E/MMBHeVKJ22i7W3c626Gg==
   dependencies:
     fast-decode-uri-component "^1.0.1"
     safe-regex2 "^2.0.0"
