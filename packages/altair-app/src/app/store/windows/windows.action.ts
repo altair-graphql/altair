@@ -12,10 +12,18 @@ export const IMPORT_WINDOW_FROM_CURL = 'IMPORT_WINDOW_FROM_CURL';
 
 export const REOPEN_CLOSED_WINDOW = 'REOPEN_CLOSED_WINDOW';
 
+interface AddWindowPayload {
+  windowId: string;
+  title: string;
+  url: string;
+  collectionId?: number;
+  windowIdInCollection?: string;
+  fixedTitle?: boolean;
+}
 export class AddWindowAction implements NGRXAction {
   readonly type = ADD_WINDOW;
 
-  constructor(public payload: any) {}
+  constructor(public payload: AddWindowPayload) {}
 }
 export class SetWindowsAction implements NGRXAction {
   readonly type = SET_WINDOWS;
