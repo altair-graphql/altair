@@ -1,5 +1,5 @@
 <div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
-  <div class="query-collections__inner">
+  <div class="query-collections__inner" *ngIf="showCollections">
     <div class="query-collections__title">{{ 'COLLECTIONS_TEXT' | translate }}</div>
     <div class="query-collections__actions clearfix">
         <button
