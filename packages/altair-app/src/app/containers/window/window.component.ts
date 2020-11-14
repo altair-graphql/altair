@@ -86,6 +86,7 @@ export class WindowComponent implements OnInit {
   resultPaneUiActions$: Observable<AltairUiAction[]>;
 
   @Input() windowId: string;
+  @Input() isActive = false;
 
   apiUrl = '';
   query = '';

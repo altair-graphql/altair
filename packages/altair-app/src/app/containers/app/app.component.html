@@ -324,7 +324,11 @@
             </div>
           </div>
           <ng-container *ngFor="let windowId of windowIds">
-            <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+            <app-window
+              [class.hide]="windowId !== activeWindowId"
+              [windowId]="windowId"
+              [isActive]="windowId === activeWindowId"
+            ></app-window>
           </ng-container>
         </nz-content>
         <div class="dialogs">
