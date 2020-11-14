@@ -85,7 +85,7 @@
     "rxjs": "^6.5.5",
     "sortablejs": "^1.10.2",
     "subscriptions-transport-ws": "^0.9.16",
-    "sval": "^0.4.6",
+    "sval": "^0.4.8",
     "to-snake-case": "^1.0.0",
     "tslib": "^1.10.0",
     "uuid": "^3.3.2",
