@@ -27,6 +27,11 @@ import { parseCurlToObj } from '../utils/curl';
 import { debug } from 'app/utils/logger';
 import { GqlService } from './gql/gql.service';
 
+
+interface ImportWindowDataOptions {
+  fixedTitle?: boolean;
+}
+
 @Injectable()
 export class WindowService {
 
@@ -35,7 +40,7 @@ export class WindowService {
     private gqlService: GqlService,
   ) { }
 
-  newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string } = {}) {
+  newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string, fixedTitle?: boolean } = {}) {
     return this.store.pipe(
       first(),
       map(state => {
@@ -50,6 +55,7 @@ export class WindowService {
           url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
+          fixedTitle: opts.fixedTitle,
         };
 
         this.store.dispatch(new windowActions.AddWindowAction(newWindow));
@@ -132,13 +138,13 @@ export class WindowService {
     }
 
     try {
-      return this.importWindowData(JSON.parse(data));
+      return this.importWindowData(JSON.parse(data), { fixedTitle: true });
     } catch (err) {
       try {
         // For a period, the JSON data was URI encoded.
         // Maybe that is the problem with this data.
         debug.log('(Second attempt) Trying to decode JSON data...');
-        return this.importWindowData(JSON.parse(decodeURIComponent(data)));
+        return this.importWindowData(JSON.parse(decodeURIComponent(data)), { fixedTitle: true });
       } catch (err) {}
       debug.log('The file is invalid.', err);
     }
@@ -174,7 +180,7 @@ export class WindowService {
    * Import the window represented by the provided data string
    * @param data window data string
    */
-  importWindowData(data: fromWindows.ExportWindowState) {
+  importWindowData(data: fromWindows.ExportWindowState, options: ImportWindowDataOptions = {}) {
     try {
       // Verify file's content
       if (!data) {
@@ -197,6 +203,7 @@ export class WindowService {
         url: data.apiUrl,
         collectionId: data.collectionId,
         windowIdInCollection: data.windowIdInCollection,
+        fixedTitle: options.fixedTitle,
       }).subscribe(newWindow => {
         const windowId = newWindow.windowId;
 
@@ -259,7 +266,7 @@ export class WindowService {
     };
 
     try {
-      let parsed: any = {};
+      let parsed: fromWindows.ExportWindowState;
       try {
         parsed = JSON.parse(dataStr);
       } catch (err) {
@@ -267,7 +274,7 @@ export class WindowService {
       }
 
       if (parsed.type === 'window' && parsed.version === 1) {
-        return this.importWindowData(parsed);
+        return this.importWindowData(parsed, { fixedTitle: true });
       }
       throw invalidFileError;
     } catch (err) {
