@@ -11377,10 +11377,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-sval@^0.4.6:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/sval/-/sval-0.4.7.tgz#443f2077a9df506ef97b954d27a501de5db4e3ff"
-  integrity sha512-foqgQEyXuimrHHsIYkih+nDdOTOc2f7FD8/tJTYPd/S1ttplsp5bTmmgvxbnK+6tWVXYX5UYEniMgMl0GYB7Ng==
+sval@^0.4.8:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/sval/-/sval-0.4.8.tgz#e7de37bed520f5537fe9e368b871880266c99a12"
+  integrity sha512-YoJztDXNW5tho3xlR4vHVq3Caqk5aqC6Z862ICoFX1bVbWxQ6OPxD7SE1mjfj13oaek5l4whykWNUO1TX0oIhg==
   dependencies:
     acorn "^6.4.1"
 
