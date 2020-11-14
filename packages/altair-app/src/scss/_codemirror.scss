@@ -60,6 +60,11 @@
     background-color: var(--theme-off-bg-color);
   }
 }
+
+.CodeMirror-vscrollbar {
+  width: 10px;
+}
+
 // .CodeMirror-lint-mark-error{
 //     border-bottom: 1px dotted #f00;
 // }
