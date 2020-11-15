@@ -1,17 +1,9 @@
-
 import {throwError as observableThrowError, Observable, of } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
 import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-// import * as prettier from 'prettier/standalone';
-// import * as prettierGraphql from 'prettier/parser-graphql';
-// import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
-
-
-import { SubscriptionClient, ClientOptions as SubscriptionClientOptions } from 'subscriptions-transport-ws';
-// TODO: Use `getIntrospectionQuery` instead of `introspectionQuery` when there is typings for it
 import {
   buildClientSchema,
   buildSchema,
@@ -23,11 +15,10 @@ import {
   validateSchema,
   visit,
   DocumentNode,
-  GraphQLType,
   OperationDefinitionNode,
   IntrospectionQuery,
 } from 'graphql';
-import compress from 'graphql-query-compress'; // Somehow this is the way to use this
+import compress from 'graphql-query-compress';
 
 import { NotifyService } from '../notify/notify.service';
 
@@ -40,7 +31,7 @@ import * as fromVariables from '../../store/variables/variables.reducer';
 import { fillAllFields } from './fillFields';
 import { setByDotNotation } from 'app/utils';
 import { Token } from 'codemirror';
-import { IDictionary, Omit } from 'app/interfaces/shared';
+import { Omit } from 'app/interfaces/shared';
 import {
   refactorFieldsWithFragmentSpread,
   generateTypeUsageEntries,
@@ -147,12 +138,13 @@ export class GqlService {
   }
 
   getIntrospectionRequest(url: string, opts: IntrospectionRequestOptions): Observable<any> {
-    const requestOpts = {
+    const requestOpts: SendRequestOptions = {
       query: getIntrospectionQuery(),
       headers: opts.headers,
       method: opts.method,
       withCredentials: opts.withCredentials,
       variables: '{}',
+      selectedOperation: 'IntrospectionQuery',
     };
     return this.sendRequest(url, requestOpts).pipe(
       map(data => {
