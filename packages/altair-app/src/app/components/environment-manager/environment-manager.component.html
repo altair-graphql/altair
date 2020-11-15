@@ -32,16 +32,18 @@
                 sortablejs
                 [sortablejsOptions]="sortableOptions"
               >
-                <div
-                  class="environment-manager__list-item"
-                  *ngFor="let item of environments?.subEnvironments; trackBy: trackById;"
-                  (click)="selectEnvironment(item.id)"
-                  (dblclick)="setFocusOnEnvironmentTitle()"
-                  [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
-                >
-                  <app-icon name="more-vertical"></app-icon>
-                  {{ item.title }}
-                </div>
+                <ng-container *ngIf="environments?.subEnvironments?.length">
+                  <div
+                    class="environment-manager__list-item"
+                    *ngFor="let item of environments.subEnvironments; trackBy: trackById;"
+                    (click)="selectEnvironment(item.id)"
+                    (dblclick)="setFocusOnEnvironmentTitle()"
+                    [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
+                  >
+                    <app-icon name="more-vertical"></app-icon>
+                    {{ item.title }}
+                  </div>
+                </ng-container>
               </div>
             </div>
             <div class="environment-manager__list-actions">

@@ -3,8 +3,9 @@
 exports[`QueryCollectionsComponent should render passed collections correctly 1`] = `
 <app-query-collections>
   <div
-    class="query-collections-wrapper query-collections-wrapper--close"
+    class="query-collections-wrapper"
   >
+    
     <div
       class="query-collections__inner"
     >
