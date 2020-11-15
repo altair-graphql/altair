@@ -46,19 +46,20 @@ export function windows(reducer: ActionReducer<any>) {
     const initWindowState = reducer(undefined, { type: INIT_WINDOW });
     const initialState: State = {};
 
-    return function(state = initialState, action: any) {
+    return function(state = initialState, action: windowsActions.Action) {
 
         const _state = Object.assign({}, state);
-        const _windowState = _state[action.windowId];
 
         switch (action.type) {
             case windowsActions.ADD_WINDOW:
-                const { windowId, title, url, collectionId, windowIdInCollection } = action.payload;
+                const { windowId, title, url, collectionId, windowIdInCollection, fixedTitle } = action.payload;
 
                 // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
                 _state[windowId] = JSON.parse(JSON.stringify(initWindowState));
 
                 _state[windowId].layout.title = title;
+                _state[windowId].layout.hasDynamicTitle = !fixedTitle;
+                // _state
                 _state[windowId].windowId = windowId;
                 if (url) {
                     _state[windowId].query.url = url;
@@ -97,8 +98,11 @@ export function windows(reducer: ActionReducer<any>) {
 
                 return Object.assign({}, _state);
             default:
+                const _action: any = action;
+                const _windowState = _state[_action.windowId];
+
                 if (!_windowState) {
-                    if (action.type === INIT) {
+                    if (_action.type === INIT) {
                         // Run normalizer at initialization to fix backward compatibility issues
                         // run compatibilty normalizer here
                         return normalize(_state);
@@ -110,7 +114,7 @@ export function windows(reducer: ActionReducer<any>) {
                 // Delegate the unknown action to the passed reducer to handle,
                 // passing it the correct window state based on the provided windowId
                 const reduced = reducer(_windowState, action);
-                _state[action.windowId] = { ...reduced, windowId: action.windowId };
+                _state[_action.windowId] = { ...reduced, windowId: _action.windowId };
 
                 return _state;
         }
