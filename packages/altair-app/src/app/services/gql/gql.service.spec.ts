@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { expect } from '@jest/globals';
 import { Mock } from 'ts-mocks';
 
-import { HttpClient, HttpEventType, HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import * as fromRoot from '../../store';
 import { GqlService } from './gql.service';
@@ -201,6 +201,8 @@ describe('GqlService', () => {
         let httpClientCallCount = 0;
         mockHttpClient.request = (...args: any) => {
           httpClientCallCount++;
+          const [ method, url, options ] = args;
+          expect(options.params.get('operationName')).toEqual('IntrospectionQuery');
           switch (httpClientCallCount) {
             case 1: {
               const resp = new HttpResponse<any>({
