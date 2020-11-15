@@ -56,7 +56,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       
       <app-fancy-input
         class="url-box__input"
-        placholder="Enter URL"
+        placeholder="Enter URL"
         track-id="set_url"
       />
       <div
@@ -186,7 +186,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       
       <app-fancy-input
         class="url-box__input"
-        placholder="Enter URL"
+        placeholder="Enter URL"
         track-id="set_url"
       />
       <div
