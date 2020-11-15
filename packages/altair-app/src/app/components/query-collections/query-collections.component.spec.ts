@@ -29,6 +29,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should render passed collections correctly', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -54,6 +55,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should render passed collections', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -84,6 +86,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "selectQueryChange" from query-collection-item', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -104,6 +107,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "deleteQueryChange" from query-collection-item', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -124,6 +128,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "deleteCollectionChange" from query-collection-item', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -144,6 +149,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "editCollectionChange" from query-collection-item', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -164,6 +170,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "exportCollectionChange" from query-collection-item', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -184,6 +191,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "importCollectionChange" when clicking import collection button', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
@@ -204,6 +212,7 @@ describe('QueryCollectionsComponent', () => {
 
   it('should emit "sortCollectionsChange" when clicking one of the sort options', async() => {
     wrapper.setProps({
+      showCollections: true,
       collections: [
         {
           id: 1,
