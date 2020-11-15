@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getValues">
+  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data?.getValues && data.getValues() && data.getValues()?.length">
     <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
     <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues(); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
@@ -37,7 +37,7 @@
     </div>
   </div>
   
-  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data && data.getTypes">
+  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data?.getTypes && data.getTypes() && data.getTypes()?.length">
     <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
     <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes(); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
@@ -55,7 +55,7 @@
     </div>
   </div>
   
-  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields">
+  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields && (data.getFields() | values)?.length">
     <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
     <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
@@ -65,7 +65,7 @@
         >
           {{ item.name }}
         </span>
-        <ng-container *ngIf="item.args && item.args.length">
+        <ng-container *ngIf="item?.args?.length">
           (
           <span *ngFor="let arg of item.args; trackBy: schemaItemTrackBy; let last = last">
             <span
