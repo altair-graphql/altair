@@ -44,7 +44,7 @@ import { DocumentIndexEntry } from '../models';
 })
 export class DocViewerSearchResultsComponent implements OnInit {
 
-  @Input() results = null;
+  @Input() results = [];
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
