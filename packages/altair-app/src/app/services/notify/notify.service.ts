@@ -57,7 +57,7 @@ export class NotifyService {
   }
 
   electronPushNotify(message: string, title = 'Altair', opts: any = {}) {
-    this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
+    this.store.select(state => state.settings.disablePushNotification).pipe(first()).toPromise().then(disablePushNotification => {
       if (disablePushNotification) {
         return;
       }
@@ -74,7 +74,7 @@ export class NotifyService {
   }
 
   extensionPushNotify(message: string, title = 'Altair', opts: any = {}) {
-    this.store.select(state => state.settings.disablePushNotification).toPromise().then(disablePushNotification => {
+    this.store.select(state => state.settings.disablePushNotification).pipe(first()).toPromise().then(disablePushNotification => {
       if (disablePushNotification) {
         return;
       }

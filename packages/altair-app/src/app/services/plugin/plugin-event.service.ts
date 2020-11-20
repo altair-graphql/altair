@@ -1,49 +1,95 @@
+// Based on: https://github.com/bennadel/JavaScript-Demos/blob/master/demos/message-bus-actions-angular6/app/message-bus.ts
 import { Injectable, ErrorHandler } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { IDictionary } from 'app/interfaces/shared';
+import { Subject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-export type PluginEvent =
-  | 'app-ready'
-  | 'new-window'
-  ;
+interface PluginEventPayloadMap {
+  'app-ready': boolean;
+  'query.change': { windowId: string; data: string; };
+  'sdl.change': { windowId: string; data: string; };
+  'current-window.change': { windowId: string; };
+};
+
+// TODO: Update types
+export type PluginEvent = keyof PluginEventPayloadMap;
+export type PluginEventCallback<T extends PluginEvent> = (payload: PluginEventPayloadMap[T]) => void;
+
+interface PluginEventData {
+  event: PluginEvent;
+  payload: any;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PluginEventService {
+  private eventStream = new Subject<PluginEventData>();
 
-  private subjects: IDictionary<Subject<any>> = {};
+  constructor(
+    private errorHandler: ErrorHandler,
+  ) {}
 
-  emit(eventName: PluginEvent, data: any) {
-    this.getSubject(eventName).next(data);
+  /**
+   * Creates a group for managing multiple subscriptions within single contexts
+   */
+  group() {
+    return new PluginEventGroup(this);
   }
 
-  on(eventName: PluginEvent, handler: (value: any) => void) {
-    return this.getSubject(eventName).subscribe((data) => {
-      if (data !== null) {
-        return handler(data);
-      }
+  /**
+   * Pushes an event data to the stream
+   */
+  emit<E extends PluginEvent>(event: E, payload: PluginEventPayloadMap[E]) {
+    return this.eventStream.next({
+      event,
+      payload,
     });
   }
 
-  unsubscribe() {
-    Object.values(this.subjects).forEach(subject => subject.unsubscribe());
-  }
-
-  private getSubject(eventName: string) {
-    const subjectName = this.createSubjectName(eventName);
-
-    if (!this.subjects[subjectName]) {
-      if (subjectName.endsWith('-ready')) {
-        this.subjects[subjectName] = new BehaviorSubject(null);
-      } else {
-        this.subjects[subjectName] = new Subject();
+  /**
+   * Subscribe to specific event
+   */
+  on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
+    return this.eventStream.pipe(
+      filter(_ => _.event === event),
+    ).subscribe(evtData => {
+      try {
+        callback(evtData.payload);
+      } catch (error) {
+        this.errorHandler.handleError(error);
       }
-    }
-    return this.subjects[subjectName];
+    });
+  }
+}
+
+class PluginEventGroup {
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    private pluginEventService: PluginEventService,
+  ) {}
+
+  emit<E extends PluginEvent>(event: E, payload: PluginEventPayloadMap[E]) {
+    return this.pluginEventService.emit(event, payload);
   }
 
-  private createSubjectName(eventName: string) {
-    return `$ ${eventName}`;
+  on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
+    const subscription = this.pluginEventService.on(event, callback);
+    this.subscriptions.push(subscription);
+
+    return {
+      unsubscribe: () => {
+        this.subscriptions = this.subscriptions.filter(_ => _ !== subscription);
+        return subscription.unsubscribe();
+      },
+    };
+  }
+
+  unsubscribe() {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+
+    this.subscriptions = [];
   }
 }

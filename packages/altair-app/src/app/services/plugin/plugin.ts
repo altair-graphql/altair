@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4';
+import { PluginContextService } from './context/plugin-context.service';
 
 /**
  * Defines the repository of the plugin.
@@ -32,25 +34,11 @@ export type PluginCapabilities =
   | 'environment:write'
   ;
 
-export interface PluginSidebarOptions {
-  element_name: string;
-  icon: string;
-}
-
-export enum PluginTypeActionButtonLocation {
-  RESULT_PANE = 'result_pane',
-}
-
-export interface PluginTypeActionButtonOptions {
-  class_name: string;
-  location: PluginTypeActionButtonLocation;
-}
-
 /**
  * Plugin Manifest Structure
  */
 export interface PluginManifest {
-  // Version of manifest. Should be 1 for now.
+  // Version of manifest. Should be 1 or 2.
   manifest_version: number;
   name: string;
   display_name: string;
@@ -59,103 +47,80 @@ export interface PluginManifest {
   author_email?: string;
   author?: string;
   type: PluginType;
-  sidebar_opts?: PluginSidebarOptions;
-  action_button_opts?: PluginTypeActionButtonOptions;
+  plugin_class?: string;
   scripts: string[];
   styles?: string[];
   // Plugin capabilities
   capabilities?: PluginCapabilities[];
 }
 
-export interface PluginInstance {
+export interface AltairPlugin {
   name: string;
   display_name: string;
   type: PluginType;
   capabilities: PluginCapabilities[];
-  sidebar_opts?: PluginSidebarOptions;
-  isActive: boolean;
+  plugin_class?: string;
   manifest: PluginManifest;
 }
 
-export interface PluginRegistryMap {
-  [s: string]: PluginInstance;
+export const createPlugin = (name: string, manifest: PluginManifest): AltairPlugin => {
+  return {
+    name,
+    manifest,
+    type: PluginType.SIDEBAR || manifest.type,
+    display_name: manifest.display_name || name,
+    plugin_class: manifest.plugin_class,
+    capabilities: Array.from(new Set([ ...(manifest.capabilities || []), ...([ 'query:read', 'query:write' ] as PluginCapabilities[]) ])),
+  };
+};
+
+export type PluginContext = ReturnType<PluginContextService['createContext']>;
+
+/**
+ * We should have plugin instance extend to SidebarPanel, ResultAction, HeaderPanel, UiTheme
+ */
+export interface GenericPluginInstance {
+  initialize(ctx: PluginContext): void;
+  destroy(): void;
 }
 
-export interface GetPluginOption {
-  pluginSource?: PluginSource;
-  version?: string;
-  [key: string]: any;
+export enum AltairPanelLocation {
+  HEADER = 'header',
+  SIDEBAR = 'sidebar',
 }
 
-export interface PluginComponentDataProps {
-  ctx: PluginComponentDataContext;
-
-  // SDL representing GraphQL schema for the current window
-  sdl?: string;
-
-  // Query for the current window
-  query?: string;
-
-  // QueryResponse for the current window
-  queryResponse?: any;
-
-  // Variables for the current window
-  variables?: string;
+export enum AltairUiActionLocation {
+  RESULT_PANE = 'result_pane',
 }
 
-export interface PluginComponentDataContext {
-  // Sets the query in the current window
-  setQuery?: (...args: any) => void;
-  getQuery?: (...args: any) => string;
+/**
+ * Used for dynamic panel elements. Can also be used for angular components in the future.
+ */
+export class AltairPanel {
+  public id = uuid();
+  public isActive = false;
 
-  setVariables?: (...args: any) => void;
-  getVariables?: (...args: any) => string;
+  constructor(
+    public title: string,
+    public element: HTMLElement,
+    public location: AltairPanelLocation,
+  ) {}
 
-  setEndpoint?: (...args: any) => void;
-  getEndpoint?: (...args: any) => string;
-
-  getSDL?: (...args: any) => string;
-
-  createWindow?: (...args: any) => void;
-
-  on: (...args: any) => void;
-}
-
-export interface PluginComponentData extends PluginInstance {
-  props: PluginComponentDataProps;
-}
-
-export interface PluginElement extends HTMLElement {
-  props?: PluginComponentDataProps;
-}
-
-export class AltairPlugin implements PluginInstance {
-  type = PluginType.SIDEBAR;
-  sidebar_opts?: PluginSidebarOptions;
-  isActive = false;
-  display_name = '';
-  capabilities: PluginCapabilities[] = [ 'query:read', 'query:write' ];
-  constructor(public name: string, public manifest: PluginManifest) {
-    this.sidebar_opts = manifest.sidebar_opts;
-    this.type = manifest.type;
-    this.display_name = manifest.display_name || name;
-    this.capabilities = Array.from(new Set([ ...(manifest.capabilities || []), ...this.capabilities ]));
+  destroy() {
+    this.element = null as unknown as HTMLElement;
   }
 }
 
-export const isAppLevelPluginType = (pluginType: PluginType) => {
-  return [ PluginType.HEADER ].includes(pluginType);
-}
+export class AltairUiAction {
+  public id = uuid();
 
-export interface ActionPluginRenderOutput {
-  pluginName: string;
-  text: string;
-  instance?: ActionPlugin;
-}
+  constructor(
+    public title: string,
+    public location: AltairUiActionLocation,
+    public callback: () => void,
+  ) {}
 
-export interface ActionPlugin {
-  new(props: PluginComponentDataProps): ActionPlugin;
-  render(props: PluginComponentDataProps): Promise<ActionPluginRenderOutput>;
-  execute(props: PluginComponentDataProps): Promise<void>;
-  destroy?(): Promise<void>;
+  execute() {
+    this.callback();
+  }
 }

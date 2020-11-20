@@ -21,7 +21,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/modules/shared/shared.module';
 import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
 import { AltairConfig } from 'app/config';
-import { PluginPropsFactory } from 'app/services/plugin/plugin-props-factory';
 import { NgxTestWrapper } from '../../../testing/wrapper';
 import { mount } from '../../../testing/utils';
 import { mockStoreFactory, mock } from '../../../testing';
