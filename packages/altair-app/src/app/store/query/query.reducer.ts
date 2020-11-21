@@ -5,6 +5,7 @@ import { initialQuery } from './initialQuery';
 import * as query from '../../store/query/query.action';
 import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
+import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/providers/ws';
 
 export interface QueryEditorState {
   isFocused: boolean;
@@ -42,6 +43,7 @@ export interface State {
   editorAlertSuccess: boolean;
   subscriptionClient: any;
   subscriptionConnectionParams: string;
+  subscriptionProviderId?: string;
   isSubscribed: boolean;
   subscriptionResponseList: SubscriptionResponse[];
   autoscrollSubscriptionResponse: boolean;
@@ -71,6 +73,7 @@ export const getInitialState = (): State => {
     editorAlertSuccess: true,
     subscriptionClient: null,
     subscriptionConnectionParams: '{}',
+    subscriptionProviderId: WEBSOCKET_PROVIDER_ID,
     isSubscribed: false,
     subscriptionResponseList: [],
     autoscrollSubscriptionResponse: false,
@@ -106,6 +109,8 @@ export function queryReducer(state = getInitialState(), action: query.Action): S
       return Object.assign({}, state, { isSubscribed: false });
     case query.SET_SUBSCRIPTION_CONNECTION_PARAMS:
       return { ...state, subscriptionConnectionParams: action.payload.connectionParams };
+    case query.SET_SUBSCRIPTION_PROVIDER_ID:
+      return { ...state, subscriptionProviderId: action.payload.providerId };
     case query.SET_SUBSCRIPTION_CLIENT:
       return Object.assign({}, state, { subscriptionClient: action.payload.subscriptionClient });
     case query.ADD_SUBSCRIPTION_RESPONSE:

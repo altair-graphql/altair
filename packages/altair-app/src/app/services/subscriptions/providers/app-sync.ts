@@ -13,10 +13,10 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
   /**
   {
     "aws_project_region": "us-west-2",
-    "aws_appsync_graphqlEndpoint": "https://id4nunjlyjcy7pejnt6wevqq3i.appsync-api.us-west-2.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://....appsync-api.us-west-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-west-2",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-jtzcgtgkmjd2hejvokpql7o6tm"
+    "aws_appsync_apiKey": "..."
   }
    */
 
@@ -28,7 +28,6 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
       apiKey: this.connectionParams.aws_appsync_apiKey,
     };
 
-    // TODO: Validate input
     const httpLink = createHttpLink({ uri: url });
 
     const link = ApolloLink.from([
@@ -46,7 +45,6 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
       variables: options.variables
     })
     return new Observable((subscriber) => {
-      // TODO: Figure out proper typing of API.graphql
       this.subscription = subscription.subscribe({
         next: (...args: any[]) =>  subscriber.next(...args),
         error: (...args: any[]) => subscriber.error(...args),

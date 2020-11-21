@@ -43,6 +43,12 @@ describe('WindowComponent', () => {
         provide: services.PluginRegistryService,
         useFactory: () => mock(),
       },
+      {
+        provide: services.SubscriptionProviderRegistryService,
+        useFactory: () => mock<services.SubscriptionProviderRegistryService>({
+          getAllProviderData: jest.fn(),
+        }),
+      },
     ];
     TestBed.configureTestingModule({
       imports: [
