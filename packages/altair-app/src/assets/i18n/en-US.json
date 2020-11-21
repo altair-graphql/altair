@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "History",
   "HISTORY_CLEAR_TEXT": "Clear History",
   "HISTORY_SUB_TEXT": "You can select an item from the history to restore",

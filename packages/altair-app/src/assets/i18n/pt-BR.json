@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "URL de inscrição",
   "SET_SUBSCRIPTION_URL_TEXT": "Digite o URL de assinatura para o seu servidor abaixo",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parâmetros de conexão (em JSON)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "Histórico",
   "HISTORY_CLEAR_TEXT": "Limpar Histórico",
   "HISTORY_SUB_TEXT": "Você pode selecionar um item do histórico para restaurar",
