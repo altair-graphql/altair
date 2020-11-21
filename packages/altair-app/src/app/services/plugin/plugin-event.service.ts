@@ -11,7 +11,6 @@ interface PluginEventPayloadMap {
   'sdl.change': { windowId: string; data: string; };
 };
 
-// TODO: Update types
 export type PluginEvent = keyof PluginEventPayloadMap;
 export type PluginEventCallback<T extends PluginEvent> = (payload: PluginEventPayloadMap[T]) => void;
 

@@ -46,7 +46,7 @@ export interface PluginManifest {
   description: string;
   author_email?: string;
   author?: string;
-  type: PluginType;
+  type?: PluginType;
   plugin_class?: string;
   scripts: string[];
   styles?: string[];
@@ -57,8 +57,8 @@ export interface PluginManifest {
 export interface AltairPlugin {
   name: string;
   display_name: string;
-  type: PluginType;
   capabilities: PluginCapabilities[];
+  type?: PluginType;
   plugin_class?: string;
   manifest: PluginManifest;
 }
@@ -67,7 +67,7 @@ export const createPlugin = (name: string, manifest: PluginManifest): AltairPlug
   return {
     name,
     manifest,
-    type: PluginType.SIDEBAR || manifest.type,
+    type: manifest.type,
     display_name: manifest.display_name || name,
     plugin_class: manifest.plugin_class,
     capabilities: Array.from(new Set([ ...(manifest.capabilities || []), ...([ 'query:read', 'query:write' ] as PluginCapabilities[]) ])),
