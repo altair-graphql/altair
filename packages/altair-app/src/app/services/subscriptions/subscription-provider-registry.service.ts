@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SubscriptionProviderConstructor } from './subscription-provider';
 import { WebsocketSubscriptionProvider, WEBSOCKET_PROVIDER_ID } from './providers/ws';
 import { AppSyncSubscriptionProvider, APP_SYNC_PROVIDER_ID } from './providers/app-sync';
+import { ActionCableSubscriptionProvider, ACTION_CABLE_PROVIDER_ID } from './providers/action-cable';
 
 interface SubscriptionProviderData {
   id: string;
@@ -24,6 +25,12 @@ export class SubscriptionProviderRegistryService {
       id: APP_SYNC_PROVIDER_ID,
       providerClass: AppSyncSubscriptionProvider,
       copyTag: 'SUBSCRIPTION_PROVIDER_APP_SYNC',
+    });
+
+    this.addProviderData({
+      id: ACTION_CABLE_PROVIDER_ID,
+      providerClass: ActionCableSubscriptionProvider,
+      copyTag: 'SUBSCRIPTION_PROVIDER_ACTION_CABLE',
     });
   }
 
