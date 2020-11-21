@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Введите URL-адрес подписки для вашего сервера ниже",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Параметры подключения (в JSON)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "История",
   "HISTORY_CLEAR_TEXT": "Очистить историю",
   "HISTORY_SUB_TEXT": "Вы можете выбрать элемент из истории для восстановления",
