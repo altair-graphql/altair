@@ -2314,6 +2314,11 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd"
   integrity sha512-tLc0wSnatxAQHVHUapaHdz72pi9KUyHjq5KyHjGg9Y8Ifdc79pTh2XvI6I1/chZbnM7QtNKzh66ooDogPZSleA==
 
+actioncable@^5.2.4-4:
+  version "5.2.4-4"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.4-4.tgz#0f74282a18e30443a510de867f704837ceab3332"
+  integrity sha512-qlsr7nTyGwP5mdGSRL3uJsXgbsZ/T/j3cE7QlmcjRKXDuHcm0X0P95/+Ah/cqtx5F3Q2gFYosppGD0uorF8voQ==
+
 adm-zip@^0.4.9:
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.14.tgz#2cf312bcc9f8875df835b0f6040bd89be0a727a9"
