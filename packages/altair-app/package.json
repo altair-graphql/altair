@@ -46,6 +46,7 @@
     "@ngui/auto-complete": "^3.0.0",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@types/actioncable": "^5.2.3",
     "@webcomponents/custom-elements": "^1.4.1",
     "abab": "^2.0.5",
     "actioncable": "^5.2.4-4",
