@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "Link za pretplatu",
   "SET_SUBSCRIPTION_URL_TEXT": "Unesite pretplatnicki link za var server ispod",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "Историја",
   "HISTORY_CLEAR_TEXT": "Очисти Историју",
   "HISTORY_SUB_TEXT": "Изаберите ставку из историје да бисте је вратили",

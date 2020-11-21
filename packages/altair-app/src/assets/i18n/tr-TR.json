@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "Abonelik URL'si",
   "SET_SUBSCRIPTION_URL_TEXT": "Sunucunuzun abonelik URL'sini aşağıya girin",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Bağlantı Parametreleri (JSON'da)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "Tarihçe",
   "HISTORY_CLEAR_TEXT": "Geçmişi Sil",
   "HISTORY_SUB_TEXT": "Geçmişten geri yüklemek için bir öğe seçebilirsiniz",
