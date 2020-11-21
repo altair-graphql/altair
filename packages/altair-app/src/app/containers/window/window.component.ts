@@ -37,7 +37,6 @@ import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
 import { Observable, empty as observableEmpty } from 'rxjs';
 import {
-  AltairPlugin,
   AltairUiAction
 } from '../../services/plugin/plugin';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -461,9 +460,5 @@ export class WindowComponent implements OnInit {
 
   trackById(index: number, item: any) {
     return item.id;
-  }
-
-  pluginTrackBy(index: number, plugin: AltairPlugin) {
-    return plugin.name;
   }
 }

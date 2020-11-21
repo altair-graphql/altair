@@ -471,10 +471,6 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
   }
 
-  togglePluginActive(plugin: AltairPlugin) {
-    // this.pluginRegistry.setPluginActive(plugin.name, !plugin.isActive);
-  }
-
   togglePanelActive(panel: AltairPanel) {
     this.store.dispatch(new localActions.SetPanelActiveAction({ panelId: panel.id, isActive: !panel.isActive }));
   }

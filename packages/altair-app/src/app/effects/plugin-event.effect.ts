@@ -61,6 +61,22 @@ export class PluginEventEffects {
       }),
     );
 
+  @Effect()
+  onSetQueryResult$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(queryActions.SET_QUERY_RESULT),
+      withLatestFrom(this.store, (action: queryActions.SetQueryResultAction, state) => {
+        return { state, data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
+      }),
+      switchMap(data => {
+        this.pluginEventService.emit('query-result.change', {
+          windowId: data.windowId,
+          data: data.action.payload,
+        });
+        return observableEmpty();
+      }),
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromRoot.State>,

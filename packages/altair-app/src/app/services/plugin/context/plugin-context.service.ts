@@ -30,6 +30,7 @@ interface CreateActionOptions {
 interface PluginWindowState extends fromWindows.ExportWindowState {
   windowId: string;
   sdl: string;
+  queryResult: string;
 }
 
 @Injectable({
@@ -142,9 +143,7 @@ export class PluginContextService {
       },
       events: {
         /**
-         * is-active (plugin is active)
-         * is-inactive (plugin is inactive)
-         * app-ready
+         * subscribe to events
          */
         on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
           return eventBus.on(event, callback);
@@ -167,6 +166,7 @@ export class PluginContextService {
     const pluginWindowState: PluginWindowState = {
       version: 1,
       type: 'window',
+      windowId: windowId,
       query: data.query.query || '',
       apiUrl: data.query.url,
       variables: data.variables.variables,
@@ -176,7 +176,7 @@ export class PluginContextService {
       preRequestScript: data.preRequest.script,
       preRequestScriptEnabled: data.preRequest.enabled,
       sdl: data.schema.sdl,
-      windowId: windowId,
+      queryResult: data.query.response,
     };
 
     return pluginWindowState;

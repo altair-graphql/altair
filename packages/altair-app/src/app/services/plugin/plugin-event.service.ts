@@ -5,9 +5,10 @@ import { filter } from 'rxjs/operators';
 
 interface PluginEventPayloadMap {
   'app-ready': boolean;
-  'query.change': { windowId: string; data: string; };
-  'sdl.change': { windowId: string; data: string; };
   'current-window.change': { windowId: string; };
+  'query.change': { windowId: string; data: string; };
+  'query-result.change': { windowId: string; data: string; };
+  'sdl.change': { windowId: string; data: string; };
 };
 
 // TODO: Update types
