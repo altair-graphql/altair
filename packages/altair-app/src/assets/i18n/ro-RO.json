@@ -54,6 +54,8 @@
   "SUBSCRIPTION_URL_TEXT": "URL-ul de abonament",
   "SET_SUBSCRIPTION_URL_TEXT": "Introduceţi URL-ul de abonament pentru serverul de mai jos",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametrii de conexiune (în JSON)",
+  "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
+  "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "HISTORY_TEXT": "Istoric",
   "HISTORY_CLEAR_TEXT": "Șterge istoric",
   "HISTORY_SUB_TEXT": "Aveţi posibilitatea să selectaţi un element din istoric pentru a restabili",
