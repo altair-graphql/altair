@@ -28,6 +28,7 @@ export const START_SUBSCRIPTION = 'START_SUBSCRIPTION';
 export const STOP_SUBSCRIPTION = 'STOP_SUBSCRIPTION';
 export const SET_SUBSCRIPTION_CLIENT = 'SET_SUBSCRIPTION_CLIENT';
 export const SET_SUBSCRIPTION_CONNECTION_PARAMS = 'SET_SUBSCRIPTION_CONNECTION_PARAMS';
+export const SET_SUBSCRIPTION_PROVIDER_ID = 'SET_SUBSCRIPTION_PROVIDER_ID';
 export const ADD_SUBSCRIPTION_RESPONSE = 'ADD_SUBSCRIPTION_RESPONSE';
 export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
 export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
@@ -158,6 +159,12 @@ export class SetSubscriptionConnectionParamsAction implements NGRXAction {
   constructor(public windowId: string, public payload: { connectionParams: string }) {}
 }
 
+export class SetSubscriptionProviderIdAction implements NGRXAction {
+  readonly type = SET_SUBSCRIPTION_PROVIDER_ID;
+
+  constructor(public windowId: string, public payload: { providerId: string }) {}
+}
+
 export class SetSubscriptionClientAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CLIENT;
 
@@ -225,6 +232,7 @@ export type Action =
   | StopSubscriptionAction
   | SetSubscriptionClientAction
   | SetSubscriptionConnectionParamsAction
+  | SetSubscriptionProviderIdAction
   | AddSubscriptionResponseAction
   | SetSubscriptionResponseListAction
   | ToggleAutoscrollSubscriptionResponseAction

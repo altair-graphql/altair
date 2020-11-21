@@ -69,3 +69,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 // Custom elements polyfill - required by clarity icons
 import '@webcomponents/custom-elements';
+
+(window as any).global = window;
