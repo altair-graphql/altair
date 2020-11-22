@@ -5,8 +5,6 @@ import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo/client/core';
 import { parse } from 'graphql';
 
-export const APP_SYNC_PROVIDER_ID = 'app-sync';
-
 export class AppSyncSubscriptionProvider extends SubscriptionProvider {
   subscription?: any;
 

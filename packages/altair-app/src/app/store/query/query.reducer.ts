@@ -5,7 +5,7 @@ import { initialQuery } from './initialQuery';
 import * as query from '../../store/query/query.action';
 import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
-import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/providers/ws';
+import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/subscription-provider-registry.service';
 
 export interface QueryEditorState {
   isFocused: boolean;
