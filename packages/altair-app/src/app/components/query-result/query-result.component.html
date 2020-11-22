@@ -34,11 +34,11 @@
           {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
         </button>
         <button
-          *ngFor="let button of actionButtons"
+          *ngFor="let uiAction of uiActions"
           class="query-result__download-button"
-          (click)="actionButtonClickChange.next(button)"
+          (click)="uiActionExecuteChange.next(uiAction)"
         >
-          {{ button.text }}
+          {{ uiAction.title }}
         </button>
       </div>
       <ngx-codemirror

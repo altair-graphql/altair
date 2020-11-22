@@ -129,3 +129,4 @@ export * from './gql-schema/selectors';
 export * from './collection/selectors';
 export * from './pre-request/selectors';
 export * from './stream/selectors';
+export * from './local/selectors';

@@ -1,105 +1,64 @@
 import { Injectable } from '@angular/core';
 import { debug } from 'app/utils/logger';
 import { HttpClient } from '@angular/common/http';
-import { Subject, combineLatest, Observable } from 'rxjs';
 import {
   AltairPlugin,
-  PluginRegistryMap,
-  PluginInstance,
   PluginSource,
   PluginManifest,
-  PluginType,
-  PluginComponentData,
+  createPlugin,
 } from './plugin';
-import { PluginPropsFactory } from './plugin-props-factory';
-import { map, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from '../../store';
+import * as localActions from '../../store/local/local.action';
+import { PluginContextService } from './context/plugin-context.service';
+import { PluginStateEntry } from 'app/store/local/local.reducer';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
 @Injectable()
 export class PluginRegistryService {
-
-  private registry: PluginRegistryMap = {};
-  private pluginRegistrySubject$ = new Subject<PluginRegistryMap>();
   private fetchedPlugins: Promise<any>[] = [];
 
   constructor(
     private http: HttpClient,
-    private pluginPropsFactory: PluginPropsFactory,
+    private pluginContextService: PluginContextService,
+    private store: Store<fromRoot.State>,
   ) {}
 
-  add(key: string, pluginInstance: PluginInstance) {
-    this.registry[key] = pluginInstance;
-    this.emitRegistryUpdate();
+  add(name: string, plugin: AltairPlugin) {
+    const context = this.pluginContextService.createContext(name, plugin);
+    const PluginClass = this.getPluginClass(plugin);
+    const pluginStateEntry: PluginStateEntry = {
+      name,
+      context,
+      instance: PluginClass ? new PluginClass() : undefined,
+      plugin,
+    };
+
+    if (pluginStateEntry.instance) {
+      pluginStateEntry.instance.initialize(context);
+    }
+    this.store.dispatch(new localActions.AddInstalledPluginEntryAction(pluginStateEntry));
   }
 
   getRemotePluginList() {
-    return this.http.get('https://altair-plugin-server.sirmuel.workers.dev/list');
+    return this.http.get('https://altair-plugin-server.sirmuel.workers.dev/list?v=2');
   }
 
   fetchPlugin(name: string, opts: any = {}) {
-    if (!name || this.registry[name]) {
+    if (!name) {
       return;
     }
 
+    // TODO: Check if plugin with name already exists
     this.fetchedPlugins.push(
       this.fetchPluginAssets(name, opts)
     );
   }
 
   installedPlugins() {
-    return this.pluginRegistrySubject$;
-  }
-
-  setPluginActive(name: string, active: boolean) {
-    const pluginInstance = this.registry[name];
-    if (!pluginInstance) {
-      debug.error(`"${name}" plugin not found in registry!`);
-      return;
-    }
-
-    // If plugin is a sidebar plugin and we want to set the plugin active,
-    // disable other sidebar plugins first
-    if (active && pluginInstance.type === PluginType.SIDEBAR) {
-      Object.values(this.registry).forEach(plugin => {
-        if (plugin.name !== name && plugin.type === PluginType.SIDEBAR) {
-          plugin.isActive = false;
-        }
-      });
-    }
-    pluginInstance.isActive = active;
-    this.emitRegistryUpdate();
-  }
-
-  getPlugins(pluginType = PluginType.SIDEBAR) {
-    return this.installedPlugins().pipe(
-      map(pluginMap => {
-        return Object.values(pluginMap)
-          .filter(plugin => plugin.type === pluginType);
-      }),
-    );
-  }
-
-  getPluginsWithData(pluginType = PluginType.SIDEBAR, { windowId = '' } = {}): Observable<PluginComponentData[]> {
-    return this.getPlugins(pluginType).pipe(
-      map(plugins => {
-        return plugins
-          .map(plugin => {
-            return this.pluginPropsFactory.getPluginProps(plugin, {
-              windowId,
-            }).pipe(
-              map(pluginProps => {
-                return Object.assign({
-                  props: pluginProps
-                }, plugin);
-              }),
-            )
-          });
-      }),
-      switchMap(pluginsWithData$ => {
-        return combineLatest(...pluginsWithData$);
-      }),
-    );
+    return this.store.select(state => state.local.installedPlugins);
   }
 
   /**
@@ -165,20 +124,17 @@ export class PluginRegistryService {
             return this.injectPluginScript(this.resolveURL(pluginBaseUrl, script));
           }));
         }
-        const pluginInstance = new AltairPlugin(name, manifest);
-        this.add(name, pluginInstance);
+        const plugin = createPlugin(name, manifest);
+        this.add(name, plugin);
         debug.log('PLUGIN', 'plugin scripts and styles injected and loaded.');
 
-        return pluginInstance;
+        return plugin;
       }
     } catch (error) {
       debug.error('Error fetching plugin assets', error);
     }
   }
 
-  private emitRegistryUpdate() {
-    this.pluginRegistrySubject$.next(this.registry);
-  }
   private injectPluginScript(url: string) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
@@ -215,5 +171,12 @@ export class PluginRegistryService {
 
   private resolveURL(baseURL: string, path: string) {
     return baseURL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+  }
+
+  private getPluginClass(plugin: AltairPlugin) {
+    if (plugin.plugin_class) {
+      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as any;
+    }
+    return;
   }
 }

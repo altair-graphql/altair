@@ -14,3 +14,4 @@ export { PluginEventService } from './plugin/plugin-event.service';
 export { PreRequestService } from './pre-request/pre-request.service';
 export { ThemeRegistryService } from './theme/theme-registry.service';
 export { SubscriptionProviderRegistryService } from './subscriptions/subscription-provider-registry.service';
+export { PluginContextService } from './plugin/context/plugin-context.service';

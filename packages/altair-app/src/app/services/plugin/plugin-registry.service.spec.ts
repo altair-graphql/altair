@@ -2,21 +2,21 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClient } from '@angular/common/http';
 import { PluginRegistryService } from './plugin-registry.service';
-import { PluginPropsFactory } from './plugin-props-factory';
 import { Store } from '@ngrx/store';
 import { PluginSource } from './plugin';
 import * as fromRoot from '../../store';
 import { mock } from '../../../testing';
+import { PluginContextService } from './context/plugin-context.service';
 
 let mockHttpClient: HttpClient;
-let mockPluginPropsFactory: PluginPropsFactory;
+let mockPluginContextService: PluginContextService;
 let mockStore: Store<fromRoot.State>;
 
 describe('PluginRegistryService', () => {
   beforeEach(() => {
     mockHttpClient = mock();
-    mockPluginPropsFactory = mock();
     mockStore = mock();
+    mockPluginContextService = mock();
 
     TestBed.configureTestingModule({
       providers: [
@@ -25,12 +25,12 @@ describe('PluginRegistryService', () => {
           provide: HttpClient,
           useFactory: () => mockHttpClient,
         },
-        {
-          provide: PluginPropsFactory,
-          useFactory: () => mockPluginPropsFactory,
-        },
         { provide: Store,
           useFactory: () => mockStore,
+        },
+        {
+          provide: PluginContextService,
+          useFactory: () => mockPluginContextService,
         },
       ]
     });
