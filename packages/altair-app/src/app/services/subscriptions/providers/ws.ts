@@ -2,8 +2,6 @@ import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../sub
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { Observable } from 'rxjs';
 
-export const WEBSOCKET_PROVIDER_ID = 'websocket';
-
 export class WebsocketSubscriptionProvider extends SubscriptionProvider {
   client?: SubscriptionClient;
 

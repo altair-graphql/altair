@@ -50,7 +50,7 @@ import { fadeInOutAnimationTrigger } from 'app/animations';
 import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
 import { IDictionary } from 'app/interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
-import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/providers/ws';
+import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/subscription-provider-registry.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

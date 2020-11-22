@@ -2,7 +2,6 @@ import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../sub
 import { Observable } from 'rxjs';
 import ActionCable from 'actioncable';
 
-export const ACTION_CABLE_PROVIDER_ID = 'action-cable';
 
 export class ActionCableSubscriptionProvider extends SubscriptionProvider {
   subscription?: any;
