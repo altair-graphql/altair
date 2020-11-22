@@ -580,20 +580,20 @@ export class QueryEffects {
                         debug.error('Invalid subscription response format.');
                         strData = 'ERROR: Invalid subscription response format.';
                       }
-  
+
                       this.store.dispatch(new queryActions.AddSubscriptionResponseAction(response.windowId, {
                         response: strData,
                         responseObj: data,
                         responseTime: (new Date()).getTime(), // store responseTime in ms
                       }));
-  
+
                       // Send notification in electron app
                       this.notifyService.pushNotify(strData, response.data.layout.title, {
                         onclick: () => {
                           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: response.windowId }));
                         }
                       });
-  
+
                       debug.log(data);
                     },
                     error: err => {

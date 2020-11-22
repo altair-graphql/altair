@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
-import { QueryEffects } from './query';
+import { QueryEffects } from './query.effect';
 import { mock, mockStoreFactory } from '../../testing';
 import {
   GqlService,

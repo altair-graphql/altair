@@ -46,13 +46,13 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
   @Input() autoscrollSubscriptionResponses = false;
-  @Input() actionButtons = [];
+  @Input() uiActions = [];
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
-  @Output() actionButtonClickChange = new EventEmitter();
+  @Output() uiActionExecuteChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
