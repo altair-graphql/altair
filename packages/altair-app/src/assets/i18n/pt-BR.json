@@ -56,6 +56,7 @@
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parâmetros de conexão (em JSON)",
   "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
+  "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
   "HISTORY_TEXT": "Histórico",
   "HISTORY_CLEAR_TEXT": "Limpar Histórico",
   "HISTORY_SUB_TEXT": "Você pode selecionar um item do histórico para restaurar",
