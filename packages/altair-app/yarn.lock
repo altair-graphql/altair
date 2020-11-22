@@ -1790,6 +1790,11 @@
     multimatch "^4.0.0"
     typescript "~3.9.7"
 
+"@types/actioncable@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@types/actioncable/-/actioncable-5.2.3.tgz#215689835399a1be6e7271a2a9d8c8d476c0fd6a"
+  integrity sha512-RxPohXyK0PmC+xAnIrdrd/+0Rp5Pc3e0gMIw+Rc4EorbXApS+i8D00dDC6RxDCXNrmQaIBwiu5iCE7JurC38kA==
+
 "@types/babel__core@^7.1.7":
   version "7.1.8"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.8.tgz#057f725aca3641f49fc11c7a87a9de5ec588a5d7"
@@ -2313,6 +2318,11 @@ acorn@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd"
   integrity sha512-tLc0wSnatxAQHVHUapaHdz72pi9KUyHjq5KyHjGg9Y8Ifdc79pTh2XvI6I1/chZbnM7QtNKzh66ooDogPZSleA==
+
+actioncable@^5.2.4-4:
+  version "5.2.4-4"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.4-4.tgz#0f74282a18e30443a510de867f704837ceab3332"
+  integrity sha512-qlsr7nTyGwP5mdGSRL3uJsXgbsZ/T/j3cE7QlmcjRKXDuHcm0X0P95/+Ah/cqtx5F3Q2gFYosppGD0uorF8voQ==
 
 adm-zip@^0.4.9:
   version "0.4.14"
