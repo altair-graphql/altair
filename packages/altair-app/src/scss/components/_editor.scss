@@ -45,6 +45,10 @@ app-query-editor {
   justify-content: space-between;
 }
 
+.query-editor__autocomplete-item__text {
+  color: var(--theme-off-font-color);
+}
+
 .query-editor__autocomplete-item__type {
   color: var(--orange-color);
 }

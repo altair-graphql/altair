@@ -122,7 +122,9 @@
   max-width: 300px;
   line-height: 1.4;
   font-size: fontsize(14);
-
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  
   p {
     line-height: inherit;
     color: inherit;
@@ -130,6 +132,7 @@
     font-weight: inherit;
     letter-spacing: inherit;
     margin: 0;
+    color: var(--theme-font-color);
   }
 }
 

@@ -9,8 +9,28 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import {
+  NzFormModule,
+  NzSelectModule,
+  NzModalModule,
+  NzDropDownModule,
+  NzSwitchModule,
+  NzListModule,
+  NzRadioModule,
+  NzAlertModule,
+} from 'ng-zorro-antd';
 import { IconsModule } from '../icons/icons.module';
+
+const AntdComponentModules = [
+  NzFormModule,
+  NzSelectModule,
+  NzModalModule,
+  NzDropDownModule,
+  NzSwitchModule,
+  NzListModule,
+  NzRadioModule,
+  NzAlertModule,
+];
 
 @NgModule({
   imports: [
@@ -26,8 +46,8 @@ import { IconsModule } from '../icons/icons.module';
       trigger: 'hover'
     }),
     MarkdownModule.forRoot(),
-    NgZorroAntdModule,
     IconsModule,
+    ...AntdComponentModules,
   ],
 
   // DON'T FORGET TO EXPORT MODULE
@@ -40,8 +60,8 @@ import { IconsModule } from '../icons/icons.module';
     NguiAutoCompleteModule,
     NgxPopperModule,
     MarkdownModule,
-    NgZorroAntdModule,
     IconsModule,
+    ...AntdComponentModules,
   ]
 })
 export class SharedModule {
