@@ -56,6 +56,7 @@
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Tham số kết nối (JSON)",
   "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
+  "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
   "HISTORY_TEXT": "Lịch sử",
   "HISTORY_CLEAR_TEXT": "Xóa lịch sử",
   "HISTORY_SUB_TEXT": "Bạn có thể chọn một mục từ lịch sử để khôi phục",
