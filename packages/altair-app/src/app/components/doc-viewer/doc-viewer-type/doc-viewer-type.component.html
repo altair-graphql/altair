@@ -11,7 +11,7 @@
         *ngIf="data.description"
         class="doc-viewer-item-query-description"
         markdown
-        [data]="data.description">
+        [data]="data.description || ''">
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@
         *ngIf="item.description"
         class="doc-viewer-item-query-description"
         markdown
-        [data]="item.description"
+        [data]="item.description || ''"
       >
       </div>
     </div>
@@ -49,7 +49,7 @@
         *ngIf="item.description"
         class="doc-viewer-item-query-description"
         markdown
-        [data]="item.description"
+        [data]="item.description || ''"
       >
       </div>
     </div>
@@ -96,14 +96,14 @@
           {{ 'DOCS_DEPRECATED_TEXT' | translate }}:
         <span
           markdown
-          [data]="item.deprecationReason"
+          [data]="item.deprecationReason || ''"
         >
         </span>
       </div>
       <div
         class="doc-viewer-item-query-description"
         markdown
-        [data]="item.description"
+        [data]="item.description || ''"
       >
       </div>
       <button class="doc-viewer-item-query-add-btn"
@@ -125,7 +125,7 @@
       <div
         class="doc-viewer-item-query-description"
         markdown
-        [data]="item.description"
+        [data]="item.description || ''"
       >
       </div>
     </div>
@@ -142,7 +142,7 @@
       <div
         class="doc-viewer-item-query-description"
         markdown
-        [data]="item.description"
+        [data]="item.description || ''"
       >
       </div>
     </div>

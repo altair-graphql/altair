@@ -8,7 +8,7 @@ files:
 afterSign: scripts/notarize.js
 mac:
   category: public.app-category.developer-tools
-  icon: resources/icon.png
+  icon: resources/mac_icon.icns
   artifactName: ${name}_${version}_${arch}_mac.${ext}
   hardenedRuntime: true
   entitlements: resources/entitlements.mac.plist

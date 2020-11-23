@@ -10,26 +10,23 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
 import {
-  NzFormModule,
-  NzSelectModule,
-  NzModalModule,
-  NzDropDownModule,
-  NzSwitchModule,
-  NzListModule,
-  NzRadioModule,
-  NzAlertModule,
+  NgZorroAntdModule,
 } from 'ng-zorro-antd';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
-  NzFormModule,
-  NzSelectModule,
-  NzModalModule,
-  NzDropDownModule,
-  NzSwitchModule,
-  NzListModule,
-  NzRadioModule,
-  NzAlertModule,
+  // NzFormModule,
+  // NzSelectModule,
+  // NzModalModule,
+  // NzDropDownModule,
+  // NzSwitchModule,
+  // NzListModule,
+  // NzRadioModule,
+  // NzAlertModule,
+  // NzLayoutModule,
+  // NzMenuModule,
+  // NzCollapseModule,
+  NgZorroAntdModule,
 ];
 
 @NgModule({

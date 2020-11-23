@@ -8,7 +8,7 @@
       <div
         class="doc-viewer-item-query-description"
         markdown
-        [data]="data.description"
+        [data]="data.description || ''"
       >
       </div>
       <div class="doc-viewer-item-query-inner">
@@ -40,7 +40,7 @@
       <div
         class="doc-viewer-item-query-description"
         markdown
-        [data]="arg.description"
+        [data]="arg.description || ''"
       >
       </div>
     </div>
