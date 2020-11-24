@@ -1,4 +1,11 @@
+import loglevel from 'loglevel';
+import prefix from 'loglevel-plugin-prefix';
 import { environment } from 'environments/environment';
+
+prefix.reg(loglevel);
+if (!environment.production) {
+  loglevel.setLevel('TRACE');
+}
 
 const PREVIOUS_VERSION_KEY = 'altair__debug_previous_version';
 const CURRENT_VERSION_KEY = 'altair__debug_current_version';
@@ -26,6 +33,7 @@ Object.defineProperty(window, '__ENABLE_DEBUG_MODE__', {
       console.log('Previous version:', previousVersion());
       console.log('Current version:', currentVersion());
       console.groupEnd();
+      loglevel.setLevel('TRACE');
     }
     (window as any)._ALTAIR__ENABLE_DEBUG_MODE__ = value;
   }
@@ -50,4 +58,4 @@ Object.defineProperty(debug, 'log', {
   }
 });
 
-export { debug };
+export { loglevel as debug };

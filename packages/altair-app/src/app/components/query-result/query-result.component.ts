@@ -46,13 +46,13 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
   @Input() autoscrollSubscriptionResponses = false;
-  @Input() actionButtons = [];
+  @Input() uiActions = [];
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
-  @Output() actionButtonClickChange = new EventEmitter();
+  @Output() uiActionExecuteChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
@@ -79,7 +79,7 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.subscriptionResponses && changes.subscriptionResponses.currentValue) {
+    if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
           this.subscriptionResponseList.nativeElement.scrollTop = this.subscriptionResponseList.nativeElement.scrollHeight;
@@ -87,12 +87,16 @@ export class QueryResultComponent implements OnChanges, DoCheck {
         clearTimeout(scrollTopTimeout);
       }, 50);
     }
+
+    if (changes?.queryResult?.currentValue) {
+      setTimeout(() => handleEditorRefresh(this.editor?.codeMirror, true), 10);
+    }
   }
 
   ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
+    handleEditorRefresh(this.editor?.codeMirror);
   }
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {

@@ -61,8 +61,7 @@ export class WindowSwitcherComponent implements OnInit {
 
   editWindowNameInput(windowId: string, wTitle: HTMLElement) {
     this.windowIdEditing = windowId;
-    wTitle.setAttribute('contenteditable', 'contenteditable');
-    wTitle.focus();
+    setTimeout(() => wTitle.focus(), 0);
   }
 
   saveWindowName(windowId: string, windowName: string) {

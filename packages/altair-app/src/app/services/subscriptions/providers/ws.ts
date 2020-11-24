@@ -1,6 +1,6 @@
 import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export class WebsocketSubscriptionProvider extends SubscriptionProvider {
   client?: SubscriptionClient;
@@ -28,7 +28,7 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
       }).subscribe({
         next: (...args) =>  subscriber.next(...args),
         error: (...args) => subscriber.error(...args),
-        complete: (...args) => subscriber.complete(...args),
+        complete: () => subscriber.complete(),
       })
     });
   }

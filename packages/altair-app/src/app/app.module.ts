@@ -19,9 +19,10 @@ import { SharedModule } from './modules/shared/shared.module';
 
 import { metaReducers, reducerToken } from './store';
 
-import { QueryEffects } from './effects/query';
-import { WindowsEffects } from './effects/windows';
-import { QueryCollectionEffects } from './effects/query-collection';
+import { QueryEffects } from './effects/query.effect';
+import { WindowsEffects } from './effects/windows.effect';
+import { QueryCollectionEffects } from './effects/query-collection.effect';
+import { PluginEventEffects } from './effects/plugin-event.effect';
 
 import { DirectivesModule } from './directives';
 import { ComponentModule } from './components/components.module';
@@ -40,7 +41,6 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
-import { PluginPropsFactory } from './services/plugin/plugin-props-factory';
 import { environment } from 'environments/environment';
 
 registerLocaleData(en);
@@ -73,10 +73,10 @@ const providers = [
   services.EnvironmentService,
   services.PluginRegistryService,
   services.PluginEventService,
-  PluginPropsFactory,
   services.PreRequestService,
   services.ThemeRegistryService,
-  services.SubscriptionFactoryService,
+  services.SubscriptionProviderRegistryService,
+  services.PluginContextService,
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,
   CookieService,
@@ -120,7 +120,7 @@ const providers = [
         strictActionImmutability: false,
       },
     }),
-    EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects ]),
+    EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects, PluginEventEffects ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,
     }),

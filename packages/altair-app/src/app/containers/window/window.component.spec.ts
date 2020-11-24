@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as services from './../../services';
 import { WindowComponent } from './window.component';
-import { mock, anyFn } from '../../../testing';
+import { mock, anyFn, mockStoreFactory } from '../../../testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import * as fromRoot from '../../store';
@@ -23,7 +23,7 @@ describe('WindowComponent', () => {
     const providers = [
       {
         provide: Store,
-        useFactory: () => mockStore,
+        useValue: mockStoreFactory({}),
       },
       {
         provide: services.GqlService,
@@ -42,6 +42,12 @@ describe('WindowComponent', () => {
       {
         provide: services.PluginRegistryService,
         useFactory: () => mock(),
+      },
+      {
+        provide: services.SubscriptionProviderRegistryService,
+        useFactory: () => mock<services.SubscriptionProviderRegistryService>({
+          getAllProviderData: jest.fn(),
+        }),
       },
     ];
     TestBed.configureTestingModule({

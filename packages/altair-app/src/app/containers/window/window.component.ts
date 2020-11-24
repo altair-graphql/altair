@@ -1,5 +1,5 @@
 
-import { distinctUntilChanged, map, switchMap, take, first, filter } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -34,22 +34,17 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 
-import { GqlService, NotifyService, PluginRegistryService, WindowService } from '../../services';
-import { Observable, empty as observableEmpty, combineLatest } from 'rxjs';
+import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
+import { Observable, empty as observableEmpty } from 'rxjs';
 import {
-  PluginComponentData,
-  PluginInstance,
-  PluginType,
-  PluginTypeActionButtonLocation,
-  ActionPlugin,
-  ActionPluginRenderOutput
+  AltairUiAction
 } from '../../services/plugin/plugin';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debug } from 'app/utils/logger';
 import { fadeInOutAnimationTrigger } from 'app/animations';
-import { getActionPluginClass } from 'app/services/plugin/plugin-utils';
 import { IDictionary } from 'app/interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
+import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/subscription-provider-registry.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -88,7 +83,7 @@ export class WindowComponent implements OnInit {
 
   collections$: Observable<fromCollection.IQueryCollection[]>;
 
-  sidebarPluginsData$: Observable<PluginComponentData[]>;
+  resultPaneUiActions$: Observable<AltairUiAction[]>;
 
   @Input() windowId: string;
 
@@ -108,19 +103,17 @@ export class WindowComponent implements OnInit {
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
+  availableSubscriptionProviders = this.subscriptionProviderRegistry.getAllProviderData();
+  selectedSubscriptionProviderId = '';
 
   historyList: fromHistory.History[] = [];
-  resultPaneActionButtonPlugins: { pluginName: string, instance: ActionPlugin, data: PluginComponentData['props']}[] = [];
-  resultPaneActionButtonRenderOutputs: ActionPluginRenderOutput[] = [];
 
   constructor(
     private gql: GqlService,
     private notifyService: NotifyService,
     private store: Store<fromRoot.State>,
     private windowService: WindowService,
-    private vRef: ViewContainerRef,
-    private pluginRegistry: PluginRegistryService,
-    private zone: NgZone,
+    private subscriptionProviderRegistry: SubscriptionProviderRegistryService,
   ) {
   }
 
@@ -164,6 +157,8 @@ export class WindowComponent implements OnInit {
     this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
     this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
+    this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
+
     this.store.pipe(
       untilDestroyed(this),
       map(data => data.windows[this.windowId]),
@@ -187,6 +182,7 @@ export class WindowComponent implements OnInit {
 
       this.subscriptionUrl = data.query.subscriptionUrl;
       this.subscriptionConnectionParams = data.query.subscriptionConnectionParams || '';
+      this.selectedSubscriptionProviderId = data.query.subscriptionProviderId || WEBSOCKET_PROVIDER_ID;
       this.historyList = data.history.list;
 
       // Schema needs to be valid instances of GQLSchema.
@@ -204,48 +200,6 @@ export class WindowComponent implements OnInit {
         try {
           this.variableToType = collectVariables(this.gqlSchema, this.gql.parseQuery(query));
         } catch (error) {}
-      }
-    });
-
-    this.sidebarPluginsData$ = this.store.pipe(
-      first(),
-      filter(data => !!data.settings.enableExperimental),
-      switchMap(() => {
-        return this.pluginRegistry.getPluginsWithData(PluginType.SIDEBAR, { windowId: this.windowId });
-      }),
-    );
-
-    this.store.pipe(
-      take(1),
-      untilDestroyed(this),
-    )
-    .subscribe(data => {
-      if (data.settings.enableExperimental) {
-
-        this.pluginRegistry.getPluginsWithData(PluginType.ACTION_BUTTON, { windowId: this.windowId }).subscribe(async(pluginsData) => {
-          // TODO: Consider moving most of this logic out of the window component
-          // Instantiate the plugin classes
-          this.resultPaneActionButtonPlugins = pluginsData.map(pluginData => {
-            if (
-              pluginData.manifest.action_button_opts &&
-              pluginData.manifest.action_button_opts.location === PluginTypeActionButtonLocation.RESULT_PANE
-            ) {
-              const PluginClass = getActionPluginClass(pluginData);
-              if (PluginClass) {
-                return { pluginName: pluginData.name, instance: new PluginClass(pluginData.props), data: pluginData.props };
-              }
-            }
-          }).filter(Boolean) as any;
-
-          // Render the action button outputs
-          const resultPaneRenderOutputPromises = this.resultPaneActionButtonPlugins.map(async actionButtonPlugin => {
-            const output = await actionButtonPlugin.instance.render(actionButtonPlugin.data);
-            return ({ ...output, instance: actionButtonPlugin.instance, pluginName: actionButtonPlugin.pluginName });
-          });
-
-          this.resultPaneActionButtonRenderOutputs = await Promise.all(resultPaneRenderOutputPromises);
-        });
-        // TODO: Call destroy method on each plugin instance
       }
     });
 
@@ -409,6 +363,9 @@ export class WindowComponent implements OnInit {
   updateSubscriptionConnectionParams(connectionParams: string) {
     this.store.dispatch(new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, { connectionParams }));
   }
+  updateSubscriptionProviderId(providerId: string) {
+    this.store.dispatch(new queryActions.SetSubscriptionProviderIdAction(this.windowId, { providerId }));
+  }
 
   updatePreRequestScript(script: string) {
     this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(this.windowId, { script }));
@@ -481,12 +438,8 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new schemaActions.LoadSDLSchemaAction(this.windowId));
   }
 
-  onActionButtonClicked(button: ActionPluginRenderOutput) {
-    const abPlugin = this.resultPaneActionButtonPlugins.find(_abPlugin => _abPlugin.pluginName === button.pluginName);
-    if (abPlugin) {
-      // Call execute on plugin instance
-      abPlugin.instance.execute(abPlugin.data);
-    }
+  onExecuteUiAction(uiAction: AltairUiAction) {
+    uiAction.execute();
   }
 
   /**
@@ -507,9 +460,5 @@ export class WindowComponent implements OnInit {
 
   trackById(index: number, item: any) {
     return item.id;
-  }
-
-  pluginTrackBy(index: number, plugin: PluginInstance) {
-    return plugin.name;
   }
 }
