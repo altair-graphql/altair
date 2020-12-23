@@ -72,7 +72,7 @@ Is there a feature that is missing? You can let us know by creating a [new issue
 For mac users, you can also install using cask:
 
 ```
-$ brew cask install altair-graphql-client
+$ brew install --cask altair-graphql-client
 ```
 
 For linux users, you can also install using [snap](https://snapcraft.io/altair):
