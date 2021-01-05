@@ -56,6 +56,10 @@ releases:
     image: firefox_logo.svg
     link: https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/
   -
+    name: edge
+    image: edge_icon.svg
+    link: https://microsoftedge.microsoft.com/addons/detail/altair-graphql-client/kpggioiimijgcalmnfnalgglgooonopa
+  -
     name: web
     image: webapp_icon.svg
     link: https://altair-gql.sirmuel.design/
