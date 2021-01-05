@@ -1,4 +1,3 @@
-
 import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber, of, from } from 'rxjs';
 
 import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
@@ -234,6 +233,10 @@ export class QueryEffects {
                         responseStatusText: requestStatusText
                       }));
                       this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
+                    }),
+                    catchError((error: any) => {
+                      debug.error('Error sending the request', error);
+                      return observableEmpty();
                     }),
                   );
               }),
