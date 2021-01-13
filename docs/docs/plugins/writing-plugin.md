@@ -68,6 +68,10 @@ The plugin context contains things like:
 
 - `ctx.events.on(evt, callback)` - listens for events within Altair to perform an action within the plugin.
 
+- `ctx.theme.add(themeName, theme)` - adds the provided theme to Altair's theme registry which can later be used.
+
+- `ctx.theme.enable(themeName)` - enables the specified theme.
+
 ...and several more functionalities.
 <!-- TODO: Add the full plugin context schema -->
 
