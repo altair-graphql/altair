@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debug } from 'app/utils/logger';
-import { VARIABLE_REGEX } from 'app/services/environment/environment.service';
-
+// import { VARIABLE_REGEX } from 'app/services/environment/environment.service';
+// TODO: Duplicating for now after changing to use lookahead in environment service variable regex
+const VARIABLE_REGEX = /{{\s*[\w\.]+\s*}}/g;
 interface BoundaryMarker {
   index: number;
   type: 'start' | 'stop';
