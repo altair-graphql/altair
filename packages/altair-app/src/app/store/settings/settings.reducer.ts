@@ -58,7 +58,7 @@ export interface State {
   disablePushNotification?: boolean;
 
   /**
-   * Specifies a list of enabled plugins (requires enableExperimental to be true)
+   * Specifies a list of enabled plugins
    */
   'plugin.list'?: string[];
 
