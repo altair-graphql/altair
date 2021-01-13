@@ -6,7 +6,10 @@ import * as fromEnvironments from '../../store/environments/environments.reducer
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from 'app/interfaces/shared';
 
-export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
+// Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
+// So have to go with an alternative approach using lookahead instead
+// export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
+export const VARIABLE_REGEX = /(^{{\s*[\w\.]+\s*}})|((?!\\)(.){{\s*[\w\.]+\s*}})/g;
 interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
 }
@@ -66,11 +69,13 @@ export class EnvironmentService {
     const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
 
     return content.replace(VARIABLE_REGEX, (match) => {
+      const prefix = match.replace(/{{.*/, '');
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
-        return activeEnvironment[variable];
+        return prefix + activeEnvironment[variable];
       }
+      return match;
     }).replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
   }
 
