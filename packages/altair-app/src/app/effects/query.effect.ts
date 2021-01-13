@@ -858,7 +858,7 @@ export class QueryEffects {
             if (res.data.stream.client) {
               this.gqlService.closeStreamClient(res.data.stream.client);
             }
-            let backoffTimeout: NodeJS.Timeout;
+            let backoffTimeout = 0;
 
             const streamClient = this.gqlService.createStreamClient(streamUrl.href);
             let backoff = res.action.payload.backoff || 200;
@@ -880,7 +880,7 @@ export class QueryEffects {
             streamClient.addEventListener('error', (err) => {
               this.store.dispatch(new streamActions.SetStreamFailedAction(res.windowId, { failed: err }));
               // Retry after sometime
-              backoffTimeout = setTimeout(() => {
+              backoffTimeout = window.setTimeout(() => {
                 backoff = Math.min(backoff * 1.7, 30000);
                 this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId, { backoff }));
                 clearTimeout(backoffTimeout);
