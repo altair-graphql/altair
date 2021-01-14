@@ -23,7 +23,8 @@ export class SchemaFormItemInputComponent implements OnInit {
   getAutocompleteOptions(item: any) {
     switch (item?.key) {
       case 'theme':
-        return this.themeRegistry.getAllThemes();
+        // TODO: Move system to theme registry
+        return [ 'system', ...this.themeRegistry.getAllThemes() ];
       default:
         return [];
     }
