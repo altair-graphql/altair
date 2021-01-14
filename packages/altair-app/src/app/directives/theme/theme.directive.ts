@@ -107,9 +107,9 @@ export class ThemeDirective implements OnInit, OnChanges {
   getDynamicClassName(appTheme: ICustomTheme) {
     if (!appTheme || appTheme.isSystem) {
       return css(`
-        ${this.getCssString(createTheme(this.themeRegistry.getTheme('light')!))}
+        ${this.getCssString(createTheme(this.themeRegistry.getTheme('light')!, appTheme))}
         @media (prefers-color-scheme: dark) {
-          ${this.getCssString(createTheme(this.themeRegistry.getTheme('dark')!))}
+          ${this.getCssString(createTheme(this.themeRegistry.getTheme('dark')!, appTheme))}
         }
       `);
     }
