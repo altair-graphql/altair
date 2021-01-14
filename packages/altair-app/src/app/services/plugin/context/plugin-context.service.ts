@@ -10,11 +10,14 @@ import * as fromWindows from 'app/store/windows/windows.reducer';
 import * as queryActions from 'app/store/query/query.action';
 import * as variablesActions from 'app/store/variables/variables.action';
 import * as localActions from 'app/store/local/local.action';
+import * as settingsActions from 'app/store/settings/settings.action';
 
 import is_electron from 'app/utils/is_electron';
 import { PluginEventService, PluginEvent, PluginEventCallback } from '../plugin-event.service';
 import { AltairPanelLocation, AltairPanel, AltairPlugin, AltairUiAction, AltairUiActionLocation } from '../plugin';
 import { first } from 'rxjs/operators';
+import { ICustomTheme } from 'app/services/theme';
+import { ThemeRegistryService } from 'app/services/theme/theme-registry.service';
 
 interface CreatePanelOptions {
   title?: string;
@@ -41,6 +44,7 @@ export class PluginContextService {
     private store: Store<fromRoot.State>,
     private windowService: WindowService,
     private pluginEventService: PluginEventService,
+    private themeRegistryService: ThemeRegistryService,
   ) {}
 
   createContext(pluginName: string, plugin: AltairPlugin) {
@@ -155,6 +159,17 @@ export class PluginContextService {
         off() {
           log('unsubscribing from all events');
           return eventBus.unsubscribe();
+        },
+      },
+      theme: {
+        add(name: string, theme: ICustomTheme) {
+          return self.themeRegistryService.addTheme(name, theme);
+        },
+        async enable(name: string) {
+          const settings = { ...await self.store.select('settings').pipe(first()).toPromise() };
+
+          settings.theme = name as any;
+          self.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
         },
       },
     };
