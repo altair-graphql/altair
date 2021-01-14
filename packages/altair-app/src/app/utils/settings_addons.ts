@@ -2,8 +2,14 @@ import * as Codemirror from 'codemirror';
 import { jsonc } from '../utils';
 import { debug } from './logger';
 import { ValidateFunction } from 'ajv';
+import { JSONSchema6 } from 'json-schema';
 
 const settingsValidator = require('./validate_settings_schema') as ValidateFunction;
+
+export interface SchemaFormProperty extends JSONSchema6 {
+  ref?: any; // TODO:
+  refType?: string;
+}
 
 export const settingsSchema = settingsValidator.schema;
 export const validateSettings = (settings: string) => {
@@ -77,19 +83,21 @@ function remove(node: Node) {
   }
 }
 
-export const getPropertyRef = (property: any, schema: any) => {
+export const getPropertyRef = (property: SchemaFormProperty, schema: JSONSchema6) => {
   if (property.$ref) {
-    const refPath: any[] = property.$ref.split('/');
-    let curRef = schema;
+    const refPath = property.$ref.split('/');
+    let curRef: any = schema;
     refPath.forEach(path => {
       if (path === '#') {
         curRef = schema;
       } else {
-        curRef = curRef[path];
+        if (curRef) {
+          curRef = curRef[path] as JSONSchema6 | undefined;
+        }
       }
     });
 
-    return curRef;
+    return curRef as JSONSchema6 | undefined;
   }
 };
 
@@ -97,7 +105,7 @@ function getPropertyType(property: any, schema: any) {
   if (property.type) {
     return property.type;
   }
-  return getPropertyRef(property, schema).type;
+  return getPropertyRef(property, schema)?.type;
 }
 
 export const getHint = (cm: CodeMirror.Editor) => {

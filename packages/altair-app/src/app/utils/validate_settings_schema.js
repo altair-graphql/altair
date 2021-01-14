@@ -7,11 +7,6 @@ var validate = (function() {
     "type": "string"
   };
   refVal[1] = refVal1;
-  var refVal2 = {
-    "enum": ["dark", "dracula", "light", "system"],
-    "type": "string"
-  };
-  refVal[2] = refVal2;
   return function validate(data, dataPath, parentData, parentDataProperty, rootData) {
     'use strict';
     var vErrors = null;
@@ -252,17 +247,15 @@ var validate = (function() {
                           var valid1 = errors === errs_1;
                         }
                         if (valid1) {
-                          var data1 = data.theme;
-                          if (data1 === undefined) {
+                          if (data.theme === undefined) {
                             valid1 = true;
                           } else {
                             var errs_1 = errors;
-                            var errs_2 = errors;
-                            if (typeof data1 !== "string") {
+                            if (typeof data.theme !== "string") {
                               validate.errors = [{
                                 keyword: 'type',
                                 dataPath: (dataPath || '') + '.theme',
-                                schemaPath: '#/definitions/SettingsTheme/type',
+                                schemaPath: '#/properties/theme/type',
                                 params: {
                                   type: 'string'
                                 },
@@ -270,26 +263,6 @@ var validate = (function() {
                               }];
                               return false;
                             }
-                            var schema2 = refVal2.enum;
-                            var valid2;
-                            valid2 = false;
-                            for (var i2 = 0; i2 < schema2.length; i2++)
-                              if (equal(data1, schema2[i2])) {
-                                valid2 = true;
-                                break;
-                              } if (!valid2) {
-                              validate.errors = [{
-                                keyword: 'enum',
-                                dataPath: (dataPath || '') + '.theme',
-                                schemaPath: '#/definitions/SettingsTheme/enum',
-                                params: {
-                                  allowedValues: schema2
-                                },
-                                message: 'should be equal to one of the allowed values'
-                              }];
-                              return false;
-                            }
-                            var valid2 = errors === errs_2;
                             var valid1 = errors === errs_1;
                           }
                           if (valid1) {
@@ -384,10 +357,6 @@ validate.schema = {
     "SettingsLanguage": {
       "enum": ["cs-CZ", "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "ja-JP", "ko-KR", "pl-PL", "pt-BR", "ro-RO", "ru-RU", "sr-SP", "uk-UA", "vi-VN", "zh-CN"],
       "type": "string"
-    },
-    "SettingsTheme": {
-      "enum": ["dark", "dracula", "light", "system"],
-      "type": "string"
     }
   },
   "properties": {
@@ -416,7 +385,7 @@ validate.schema = {
       "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
     },
     "plugin.list": {
-      "description": "Specifies a list of enabled plugins (requires enableExperimental to be true)",
+      "description": "Specifies a list of enabled plugins",
       "items": {
         "type": "string"
       },
@@ -435,8 +404,8 @@ validate.schema = {
       "type": "number"
     },
     "theme": {
-      "$ref": "#/definitions/SettingsTheme",
-      "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'"
+      "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'",
+      "type": "string"
     },
     "theme.editorFontFamily": {
       "description": "Specifies the font family for the editors",

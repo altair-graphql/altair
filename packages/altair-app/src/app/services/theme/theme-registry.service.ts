@@ -33,4 +33,8 @@ export class ThemeRegistryService {
   mergeThemes(...customThemes: ICustomTheme[]) {
     return mergeThemes(...customThemes);
   }
+
+  getAllThemes() {
+    return Array.from(this.registry.keys());
+  }
 }
