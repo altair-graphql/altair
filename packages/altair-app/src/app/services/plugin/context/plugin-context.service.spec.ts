@@ -7,6 +7,7 @@ import { mockStoreFactory, mock } from '../../../../testing';
 import { WindowService } from 'app/services/window.service';
 import { PluginEventService } from '../plugin-event.service';
 import { AltairPlugin, PluginType } from '../plugin';
+import { NotifyService } from 'app/services/notify/notify.service';
 
 describe('PluginContextService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -17,6 +18,10 @@ describe('PluginContextService', () => {
       },
       {
         provide: WindowService,
+        useFactory: () => mock(),
+      },
+      {
+        provide: NotifyService,
         useFactory: () => mock(),
       },
       {

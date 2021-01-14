@@ -26,7 +26,7 @@ export class PluginRegistryService {
     private store: Store<fromRoot.State>,
   ) {}
 
-  add(name: string, plugin: AltairPlugin) {
+  async add(name: string, plugin: AltairPlugin) {
     const context = this.pluginContextService.createContext(name, plugin);
     const PluginClass = this.getPluginClass(plugin);
     const pluginStateEntry: PluginStateEntry = {
@@ -125,7 +125,7 @@ export class PluginRegistryService {
           }));
         }
         const plugin = createPlugin(name, manifest);
-        this.add(name, plugin);
+        await this.add(name, plugin);
         debug.log('PLUGIN', 'plugin scripts and styles injected and loaded.');
 
         return plugin;

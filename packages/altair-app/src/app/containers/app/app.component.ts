@@ -171,8 +171,8 @@ export class AppComponent implements OnDestroy {
           // });
           return from(this.pluginRegistry.pluginsReady());
         }),
-        // Only wait 5 seconds for plugins to be ready
-        timeout(5000),
+        // Only wait 7 seconds for plugins to be ready
+        timeout(7000),
         catchError(error => of('Plugins were not ready on time!')),
       ),
     ])

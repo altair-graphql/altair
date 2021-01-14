@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ThemeRegistryService } from 'app/services';
 
 @Component({
   selector: 'app-schema-form-item-input',
@@ -12,9 +13,20 @@ export class SchemaFormItemInputComponent implements OnInit {
 
   @Output() dataChange = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private themeRegistry: ThemeRegistryService,
+  ) { }
 
   ngOnInit() {
+  }
+
+  getAutocompleteOptions(item: any) {
+    switch (item?.key) {
+      case 'theme':
+        return this.themeRegistry.getAllThemes();
+      default:
+        return [];
+    }
   }
 
 }

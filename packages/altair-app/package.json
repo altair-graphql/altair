@@ -115,6 +115,7 @@
     "@types/graphql": "^14.5.0",
     "@types/jasmine": "3.5.0",
     "@types/jest": "26.0.0",
+    "@types/json-schema": "^7.0.6",
     "@types/memoizee": "^0.4.3",
     "@types/mousetrap": "^1.6.3",
     "@types/node": "^12.11.1",

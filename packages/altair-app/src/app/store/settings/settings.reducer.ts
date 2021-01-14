@@ -4,7 +4,6 @@ import { jsonc } from 'app/utils';
 import { ICustomTheme } from 'app/services/theme';
 
 const config = getAltairConfig();
-export type SettingsTheme = typeof config.themes[number];
 export type SettingsLanguage = keyof typeof config.languages;
 
 export interface State {
@@ -13,7 +12,7 @@ export interface State {
    * Specifies the theme
    * Options: 'light', 'dark', 'dracula'
    */
-  theme: SettingsTheme;
+  theme: string;
 
   /**
    * Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc
@@ -92,7 +91,7 @@ export const getInitialState = (): State => {
   const altairConfig = getAltairConfig();
   const initialSettings = altairConfig.initialData.settings || {};
   return {
-    theme: <SettingsTheme>altairConfig.defaultTheme,
+    theme: altairConfig.defaultTheme,
     language: <SettingsLanguage>altairConfig.default_language,
     addQueryDepthLimit: altairConfig.add_query_depth_limit,
     tabSize: altairConfig.tab_size,
