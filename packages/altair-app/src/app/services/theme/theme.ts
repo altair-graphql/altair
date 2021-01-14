@@ -136,6 +136,6 @@ export const mergeThemes = (...customThemes: ICustomTheme[]): ICustomTheme => {
   return deepmerge.all(customThemes);
 };
 
-export const createTheme = (customTheme: ICustomTheme): ITheme => {
-  return deepmerge(theme, customTheme) as ITheme;
+export const createTheme = (customTheme: ICustomTheme, extraTheme: ICustomTheme = {}): ITheme => {
+  return deepmerge.all([ theme, customTheme, extraTheme ]) as ITheme;
 };
