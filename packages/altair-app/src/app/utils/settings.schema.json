@@ -21,15 +21,6 @@
                 "zh-CN"
             ],
             "type": "string"
-        },
-        "SettingsTheme": {
-            "enum": [
-                "dark",
-                "dracula",
-                "light",
-                "system"
-            ],
-            "type": "string"
         }
     },
     "properties": {
@@ -58,7 +49,7 @@
             "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
         },
         "plugin.list": {
-            "description": "Specifies a list of enabled plugins (requires enableExperimental to be true)",
+            "description": "Specifies a list of enabled plugins",
             "items": {
                 "type": "string"
             },
@@ -77,8 +68,8 @@
             "type": "number"
         },
         "theme": {
-            "$ref": "#/definitions/SettingsTheme",
-            "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'"
+            "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'",
+            "type": "string"
         },
         "theme.editorFontFamily": {
             "description": "Specifies the font family for the editors",

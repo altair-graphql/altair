@@ -1,4 +1,3 @@
-
 import {of as observableOf, empty as observableEmpty, Observable, iif, Subscriber, of, from } from 'rxjs';
 
 import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
@@ -235,6 +234,10 @@ export class QueryEffects {
                       }));
                       this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                     }),
+                    catchError((error: any) => {
+                      debug.error('Error sending the request', error);
+                      return observableEmpty();
+                    }),
                   );
               }),
               catchError((error: any) => {
@@ -397,11 +400,18 @@ export class QueryEffects {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
                 const introspectionData = introspectionResponse.body && introspectionResponse.body.data;
                 const streamUrl = introspectionResponse.headers
-                  && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/graphql/stream'; // For development.
-                this.store.dispatch(new streamActions.SetStreamSettingAction(response.windowId, { streamUrl }));
-                if (streamUrl) {
-                  this.store.dispatch(new streamActions.StartStreamClientAction(response.windowId));
+                  && introspectionResponse.headers.get('X-GraphQL-Event-Stream'); // || '/stream'; // For development.
+
+                // Check if new stream url is different from previous before setting it
+                if (res.response.data.stream.url !== streamUrl || !res.response.data.stream.client) {
+                  this.store.dispatch(new streamActions.SetStreamSettingAction(response.windowId, { streamUrl }));
+                  if (streamUrl) {
+                    this.store.dispatch(new streamActions.StartStreamClientAction(response.windowId));
+                  } else {
+                    this.store.dispatch(new streamActions.StopStreamClientAction(response.windowId));
+                  }
                 }
+
                 if (!introspectionData) {
                   return new gqlSchemaActions.SetIntrospectionAction(introspectionData, response.windowId);
                 }
@@ -848,11 +858,13 @@ export class QueryEffects {
             if (res.data.stream.client) {
               this.gqlService.closeStreamClient(res.data.stream.client);
             }
+            let backoffTimeout = 0;
 
             const streamClient = this.gqlService.createStreamClient(streamUrl.href);
             let backoff = res.action.payload.backoff || 200;
 
-            streamClient.addEventListener('change', () => {
+            streamClient.addEventListener('message', () => {
+              clearTimeout(backoffTimeout);
               this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(res.windowId));
             }, false);
 
@@ -862,12 +874,13 @@ export class QueryEffects {
               this.store.dispatch(new streamActions.SetStreamConnectedAction(res.windowId, { connected: true }));
               // Reset backoff
               backoff = 200;
+              clearTimeout(backoffTimeout);
             }, false);
 
             streamClient.addEventListener('error', (err) => {
               this.store.dispatch(new streamActions.SetStreamFailedAction(res.windowId, { failed: err }));
               // Retry after sometime
-              const backoffTimeout = setTimeout(() => {
+              backoffTimeout = window.setTimeout(() => {
                 backoff = Math.min(backoff * 1.7, 30000);
                 this.store.dispatch(new streamActions.StartStreamClientAction(res.windowId, { backoff }));
                 clearTimeout(backoffTimeout);

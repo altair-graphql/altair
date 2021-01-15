@@ -274,7 +274,6 @@
     
               <div class="side-menu__main-bottom">
                 <a
-                  *ngIf="(settings$ | async)?.enableExperimental"
                   class="side-menu-item"
                   (click)="togglePluginManager(true)"
                   attr.aria-label="{{ 'PLUGINS_TEXT' | translate }}"

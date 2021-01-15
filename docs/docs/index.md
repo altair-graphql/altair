@@ -29,7 +29,7 @@ There are several options to choose from for you to use Altair, depending on you
 For MacOS users, you can also install Altair using [cask](https://github.com/Homebrew/homebrew-cask):
 
 ```
-$ brew cask install altair-graphql-client
+$ brew install --cask altair-graphql-client
 ```
 
 For linux users, you can also install Altair using [snap](https://snapcraft.io/altair):

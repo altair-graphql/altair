@@ -24,8 +24,17 @@ export class ThemeRegistryService {
   getTheme(name: string) {
     return this.registry.get(name);
   }
-  addTheme(name: string, theme: ICustomTheme) {}
+  addTheme(name: string, theme: ICustomTheme) {
+    if (this.registry.has(name)) {
+      throw new Error(`"${name}" theme already exists`);
+    }
+    this.registry.set(name, theme);
+  }
   mergeThemes(...customThemes: ICustomTheme[]) {
     return mergeThemes(...customThemes);
+  }
+
+  getAllThemes() {
+    return Array.from(this.registry.keys());
   }
 }

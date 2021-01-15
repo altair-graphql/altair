@@ -20,9 +20,32 @@ export class SchemaFormItemComponent implements OnInit {
 
   ngOnInit() {
   }
-  getOptionLabel(option: string) {
-    return (this.altairConfig.languages as any)[option] || option;
+
+  getOptionLabel(item: any, option: string) {
+    switch (item?.key) {
+      case 'language':
+        return (this.altairConfig.languages as any)[option] || option;
+    }
   }
+  getSelectOptions(item: any): { label: string, value: string }[] {
+    switch (item?.key) {
+      case 'language':
+        return item.ref.enum.map((content: string) => {
+          return {
+            label: (this.altairConfig.languages as any)[content] || content,
+            value: content,
+          };
+        });
+      default:
+        return item.ref.enum.map((content: string) => {
+          return {
+            label: content,
+            value: content,
+          };
+        });
+    }
+  }
+
   onInput(event: Event, item: any) {
     // console.log(event, item);
     this.dataChange.next(this.data);

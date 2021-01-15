@@ -32,7 +32,7 @@
               <nz-form-label>{{ item.description }}</nz-form-label>
               <nz-form-control>
                 <nz-select [(ngModel)]="data" name="item.key" nzPlaceHolder="Choose" (ngModelChange)="onInput($event, item)">
-                  <nz-option *ngFor="let option of item.ref.enum" [nzValue]="option" [nzLabel]="getOptionLabel(option)"></nz-option>
+                  <nz-option *ngFor="let option of getSelectOptions(item)" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
                 </nz-select>
               </nz-form-control>
           </ng-container>
