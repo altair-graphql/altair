@@ -34,7 +34,7 @@ releases:
     image: osx_logo.svg
     unique_term: dmg
     link: https://github.com/imolorhe/altair/releases/latest
-    extra: brew cask install altair-graphql-client
+    extra: brew install --cask altair-graphql-client
   -
     name: linux
     image: linux_logo.svg
