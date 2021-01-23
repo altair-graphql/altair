@@ -1,5 +1,5 @@
 import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
