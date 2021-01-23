@@ -21,7 +21,7 @@ This supports the MQTT-based subscription protocol used in [AWS AppSync](https:/
 The connection parameters are in JSON format as following
 
     {
-      "aws_project_region": "<AWS_REGION>", //AWS Region
+      "aws_project_region": "<AWS_REGION>", //AWS Region abbreviation
       "aws_appsync_graphQlEndpoint": "https://******", //The value you can copy from AWS AppSync Endpoint, please use the HTTPS value
       "aws_appsync_region": "<AWS_REGION>", //AWS Region abbreviation
       "aws_appsync_authenicationType": "<AWS_APPYSYNC_Authenication_TYPE>", //API_KEY, OPENID_CONNECT or AMAZON_COGNITO_USER_POOLS (IAM is not supported)
