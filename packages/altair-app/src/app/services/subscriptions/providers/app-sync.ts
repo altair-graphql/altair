@@ -24,8 +24,8 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
     const region = this.connectionParams.aws_appsync_region;
     const auth = {
       type: this.connectionParams.aws_appsync_authenticationType,
-      ...this.connectionParams.aws_appsync_apiKey ? {apiKey: this.connectionParams.aws_appsync_apiKey} : {},
-      ...this.connectionParams.aws_appsync_jwtToken ? { jwtToken: this.connectionParams.aws_appsync_jwtToken } : {},
+      apiKey: this.connectionParams.aws_appsync_apiKey,
+      jwtToken: this.connectionParams.aws_appsync_jwtToken,
     };
 
     const link = ApolloLink.from([
