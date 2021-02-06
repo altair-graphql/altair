@@ -1,8 +1,8 @@
 import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
-import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo/client/core';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { parse } from 'graphql';
 
 export class AppSyncSubscriptionProvider extends SubscriptionProvider {
@@ -15,6 +15,7 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
     "aws_appsync_region": "us-west-2",
     "aws_appsync_authenticationType": "API_KEY",
     "aws_appsync_apiKey": "..."
+    "aws_appsync_jwtToken" "..."
   }
    */
 
@@ -24,13 +25,12 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
     const auth = {
       type: this.connectionParams.aws_appsync_authenticationType,
       apiKey: this.connectionParams.aws_appsync_apiKey,
+      jwtToken: this.connectionParams.aws_appsync_jwtToken,
     };
-
-    const httpLink = createHttpLink({ uri: url });
 
     const link = ApolloLink.from([
       createAuthLink({ url, region, auth }),
-      createSubscriptionHandshakeLink(url, httpLink),
+      createSubscriptionHandshakeLink({ url, region, auth }),
     ]);
 
     const client = new ApolloClient({
