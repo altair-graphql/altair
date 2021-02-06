@@ -1,8 +1,11 @@
+// https://webdriver.io/docs/api.html
+// https://webdriver.io/docs/sync-vs-async.html#common-issues-in-async-mode
 const Application = require('spectron').Application;
 // const chai = require('chai');
 // const chaiAsPromised = require('chai-as-promised');
 // const assert = chai.assert;
 const path = require('path');
+const electron = require('electron');
 const { it, describe, expect, beforeEach } = require('@jest/globals');
 
 // chai.use(chaiAsPromised);
@@ -10,25 +13,27 @@ const { it, describe, expect, beforeEach } = require('@jest/globals');
 const TEST_TIMEOUT = 60000;
 const TEST_RETRIES = 3;
 
-let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
+// let electronPath = path.join(__dirname, '../node_modules', '.bin', 'electron');
 const appPath = path.join(__dirname, '../');
 
-if (process.platform === 'win32') {
-  electronPath += '.cmd';
-}
+// if (process.platform === 'win32') {
+//   electronPath += '.cmd';
+// }
 const app = new Application({
-  path: electronPath,
+  path: electron,
   args: [ appPath ],
   env: {
+    // SPECTRON: true,
     ELECTRON_ENABLE_LOGGING: true,
     ELECTRON_ENABLE_STACK_DUMPING: true,
     NODE_ENV: 'test'
   },
   startTimeout: TEST_TIMEOUT,
   requireName: 'electronRequire',
+  // chromeDriverArgs: [ '--disable-extensions' ],
 
   // Uncomment this line to debug
-  chromeDriverArgs: [ `remote-debugging-port=${Math.floor(Math.random() * (9999 - 9000) + 9000)}` ]
+  // chromeDriverArgs: [ `remote-debugging-port=${Math.floor(Math.random() * (9999 - 9000) + 9000)}` ]
 });
 
 const selectors = {
@@ -39,7 +44,7 @@ const selectors = {
 const closeAnyOpenToast = async (_app) => {
   const toastElResult = await _app.client.$('.toast-close-button');
   if (toastElResult.value) {
-    await _app.client.$('.toast-close-button').click();
+    (await _app.client.$('.toast-close-button')).click();
     await _app.client.pause(500);
     await closeAnyOpenToast(_app);
   }
@@ -64,12 +69,18 @@ jest.retryTimes(TEST_RETRIES);
 // });
 describe('Altair electron', () => {
   beforeEach(async () => {
-    await app.start();
+    try {
+      await app.start();
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
 
     await app.client.addCommand('newAltairWindow', async() => {
       await app.client.waitUntilWindowLoaded();
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
-      await app.client.$('.window-switcher--new-window').click();
+      const $newWindowElement = await app.client.$('.window-switcher--new-window');
+      $newWindowElement.click();
       await app.client.pause(500);
       const addedElements = await app.client.$$(selectors.windowSwitcherSelector);
       expect(addedElements.length).toBe(elements.length + 1);
@@ -79,16 +90,16 @@ describe('Altair electron', () => {
       const elements = await app.client.$$(selectors.windowSwitcherSelector);
       await closeAnyOpenToast(app);
 
-      // await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2)`).click();
+      // await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2)`)).click();
       // await app.client.windowByIndex(0);
       // await app.client.keys([ 'Meta', 'w' ]);
       app.browserWindow.focus();
       const toastComponentElement = await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`);
       if (toastComponentElement.value) {
-        await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`).click();
+        (await app.client.$(`${selectors.visibleWindowSelector} [toast-component]`)).click();
       }
       await closeAnyOpenBackdrops(app);
-      await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`).click();
+      (await app.client.$(`${selectors.windowSwitcherSelector}:nth-last-child(2) .window-switcher__close`)).click();
       // await app.client.keys([ 'Control', 'W', 'Control' ]);
       await app.client.pause(500);
       const removedElements = await app.client.$$(selectors.windowSwitcherSelector);
@@ -96,13 +107,16 @@ describe('Altair electron', () => {
       // assert.strictEqual(, , 'Window was not closed.');
     });
     await app.client.addCommand('setTestServerQraphQLUrl', async() => {
-      await app.client.$(`${selectors.visibleWindowSelector} .url-box__input input`).setValue('http://localhost:5400/graphql');
+      const urlboxInput = await app.client.$(`${selectors.visibleWindowSelector} .url-box__input input`);
+      urlboxInput.setValue('http://localhost:5400/graphql');
       await app.client.keys(['Return']);
-      await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+      const codemirrorEditor = await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`);
+      codemirrorEditor.click();
       await app.client.pause(1000);
     });
     await app.client.addCommand('writeInQueryEditor', async(content) => {
-      await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`).click();
+      const codemirrorEditor = await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-scroll`);
+      codemirrorEditor.click();
       await app.client.pause(100);
       await app.client.keys(content);
     });
@@ -112,21 +126,27 @@ describe('Altair electron', () => {
       // if (modalWrapElementIsVisible) {
       //   await app.client.$(`.ant-modal-wrap`).click();
       // }
-      await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
+      const urlbuttonSend = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`);
+      urlbuttonSend.click();
       await app.client.pause(300);
     });
     await app.client.addCommand('addHeader', async(key, val) => {
-      await app.client.$('.side-menu-item[track-id="show_set_headers"]').click();
+      const showHeaderElement = await app.client.$('.side-menu-item[track-id="show_set_headers"]');
+      showHeaderElement.click();
       // await app.client.pause(300);
-      await app.client.$('nz-modal-container [track-id="add_header"]').click();
-      await app.client.$('input[placeholder="Header key"]:empty').setValue(key);
-      await app.client.$('input[placeholder="Header value"]:empty').setValue(val);
-      await app.client.$('nz-modal-container .app-button.active-primary').click();
+      const addHeaderElement = await app.client.$('nz-modal-container [track-id="add_header"]');
+      addHeaderElement.click();
+      const emptyHeaderKey = await app.client.$('input[placeholder="Header key"]:empty');
+      emptyHeaderKey.setValue(key);
+      const emptyHeaderValue = await app.client.$('input[placeholder="Header value"]:empty');
+      emptyHeaderValue.setValue(val);
+      const saveHeaderModal = await app.client.$('nz-modal-container .app-button.active-primary');
+      saveHeaderModal.click();
       await app.client.pause(300);
       // .ant-modal-close-x
       // const modalCloseElement = await app.client.$(`.ant-modal-close-x`);
       // if (modalCloseElement.value) {
-      //   await app.client.$(`.ant-modal-close-x`).click();
+      //   await app.client.$(`.ant-modal-close-x`)).click();
       //   await app.client.pause(300);
       // }
     });
@@ -152,9 +172,11 @@ describe('Altair electron', () => {
   it('can set URL and see docs loaded automatically', async() => {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
-    await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
+    const showDocs = await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`);
+    showDocs.click();
     await app.client.pause(100);
-    const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
+    const docViewer = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`);
+    const isDocVisible = await docViewer.isDisplayedInViewport();
     // assert.isTrue(isDocVisible);
     expect(isDocVisible).toBeTruthy();
     await app.client.closeLastAltairWindow();
@@ -166,9 +188,11 @@ describe('Altair electron', () => {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`).click();
+    const sendRequestButton = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send`);
+    sendRequestButton.click();
     await app.client.pause(1000);
-    const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
+    const queryResult = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`);
+    const result = await queryResult.getText();
 
     expect(result).toContain('Hello world');
     // assert.include(result, 'Hello world');
@@ -184,7 +208,8 @@ describe('Altair electron', () => {
     // Trigger the keys again to release them
     await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
     await app.client.pause(1000);
-    const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`).getText();
+    const queryResult = await app.client.$(`${selectors.visibleWindowSelector} app-query-result .app-result .CodeMirror`);
+    const result = await queryResult.getText();
 
     expect(result).toContain('Hello world');
     // assert.include(result, 'Hello world');
@@ -201,19 +226,24 @@ describe('Altair electron', () => {
     // Trigger the keys again to release them
     await app.client.keys([ 'Control', 'Return', 'Return', 'Control' ]);
     await app.client.pause(100);
-    const isRequestDropdownVisible = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send-dropdown`).isVisible();
+    const sendRequestDropdown = await app.client.$(`${selectors.visibleWindowSelector} .url-box__button--send-dropdown`);
+    const isRequestDropdownVisible = await sendRequestDropdown.isDisplayedInViewport();
     expect(isRequestDropdownVisible).toBe(true);
     await app.client.closeLastAltairWindow();
   });
 
   it('can change the HTTP method', async() => {
     await app.client.newAltairWindow();
-    const httpVerb = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
+    const httpVerbDropdown = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`);
+    const httpVerb = await httpVerbDropdown.getText();
     expect(httpVerb).toContain('POST');
-    await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).click();
+    const httpVerbDropdown2 = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`);
+    await httpVerbDropdown2.click();
     await app.client.pause(300);
-    await app.client.$('.ant-dropdown-menu-item*=GET').click();
-    const httpVerbText = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`).getText();
+    const httpVerbGet = await app.client.$('.ant-dropdown-menu-item*=GET');
+    await httpVerbGet.click();
+    const httpVerbDropdown3 = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`);
+    const httpVerbText = await httpVerbDropdown3.getText();
     expect(httpVerbText).toContain('GET');
 
     await app.client.closeLastAltairWindow();
@@ -225,11 +255,14 @@ describe('Altair electron', () => {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$('.side-menu-item app-icon[name="briefcase"]').click();
-    await app.client.$('.side-menu-item [track-id="prettify"]').click();
+    const toolsMenuItem = await app.client.$('.side-menu-item app-icon[name="briefcase"]');
+    await toolsMenuItem.click();
+    const prettifyMenuItem = await app.client.$('.side-menu-item [track-id="prettify"]');
+    await prettifyMenuItem.click();
     await app.client.pause(300);
-    const result = (await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`).getText()).replace(/\d/ug, '');
-    expect(result).toContain('{\n\n  hello\n\n}');
+    const codemirrorEditor = await app.client.$(`${selectors.visibleWindowSelector} .query-editor__input .CodeMirror-code`);
+    const result = await codemirrorEditor.getText();
+    expect(result.replace(/\d/ug, '')).toContain('{\n\n  hello\n\n}');
 
     await app.client.closeLastAltairWindow();
   });
@@ -240,8 +273,10 @@ describe('Altair electron', () => {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$('.side-menu-item app-icon[name="briefcase"]').click();
-    await app.client.$('.side-menu-item [track-id="copy_as_curl"]').click();
+    const toolsMenuItem = await app.client.$('.side-menu-item app-icon[name="briefcase"]');
+    await toolsMenuItem.click();
+    const copyAsCurlMenuItem = await app.client.$('.side-menu-item [track-id="copy_as_curl"]');
+    await copyAsCurlMenuItem.click();
     await app.client.pause(100);
     const clipboardText = await app.electron.clipboard.readText();
     expect(clipboardText).toBe('curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}\' --compressed');
@@ -252,14 +287,21 @@ describe('Altair electron', () => {
   it('can add query from doc to query editor', async() => {
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
-    await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`).click();
+    const showDocsButton = await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`);
+    showDocsButton.click();
     await app.client.pause(100);
-    const isDocVisible = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).isVisible();
+    const docViewer = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`);
+    const isDocVisible = await docViewer.isDisplayedInViewport();
     expect(isDocVisible).toBe(true);
-    await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('span*=Query').click();
-    await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`).$('.doc-viewer-item-query*=hello').$('.doc-viewer-item-query-add-btn').click();
+    // const docViewer2 = await app.client.$(`${selectors.visibleWindowSelector} .app-doc-viewer`);
+    const QueryDoc = await docViewer.$('span*=Query');
+    await QueryDoc.click();
+    const helloQuery = await docViewer.$('.doc-viewer-item-query*=hello');
+    const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
+    await addHelloQuery.click();
     await app.client.pause(100);
-    const result = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`).getText();
+    const codemirrorEditor = await app.client.$(`${selectors.visibleWindowSelector} app-query-editor .query-editor__input .CodeMirror`);
+    const result = await codemirrorEditor.getText();
     expect(result).toMatch(/query.*\{.*hello.*\}/us);
     await app.client.closeLastAltairWindow();
   });
@@ -298,8 +340,10 @@ describe('Altair electron', () => {
 
     await app.client.writeInQueryEditor(`
     { hello }`);
-    await app.client.$(`${selectors.visibleWindowSelector} [track-id="toggle_variables"]`).click();
-    await app.client.$(`${selectors.visibleWindowSelector} app-variables-editor .CodeMirror-scroll`).click();
+    const toggleVariables = await app.client.$(`${selectors.visibleWindowSelector} [track-id="toggle_variables"]`);
+    await toggleVariables.click();
+    const codemirrorEditor = await app.client.$(`${selectors.visibleWindowSelector} app-variables-editor .CodeMirror-scroll`);
+    await codemirrorEditor.click();
     await app.client.keys(['Backspace', 'Backspace', 'Backspace']);
     // if (process.platform === 'win32') {
     //   await app.client.keys(['Control', 'a', 'Control', 'Backspace']);
