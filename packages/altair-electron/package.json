@@ -33,7 +33,7 @@
     "@types/jest": "^26.0.3",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "6.1.2",
+    "electron": "9.4.0",
     "electron-builder": "^21.2.0",
     "electron-notarize": "^0.1.1",
     "electron-reloader": "^0.3.0",
