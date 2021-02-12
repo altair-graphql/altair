@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 import { GraphQLSchema } from 'graphql/type/schema';
 import { DocumentIndexEntry } from './models';
 import { buildSchema } from 'graphql/utilities';
@@ -149,12 +150,18 @@ export class DocUtils {
   /**
    * search through the docs for the provided term
    */
-  searchDocs(term: string) {
+  searchDocs(term: string): DocumentIndexEntry[] {
     if (!this.searchIndex.length) {
-      return false;
+      return [];
     }
+    const fuse = new Fuse(this.searchIndex, {
+      keys: [ 'search' ],
+      threshold: .4,
+    });
 
-    return this.searchIndex.filter(item => new RegExp(term as string, 'i').test(item.search));
+    return fuse.search(term).map(res => res.item);
+
+    // return this.searchIndex.filter(item => new RegExp(term as string, 'i').test(item.search));
   }
 
 

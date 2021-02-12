@@ -70,6 +70,7 @@
     "express": "^4.17.1",
     "file-dialog": "^0.0.8",
     "file-saver": "^2.0.2",
+    "fuse.js": "^6.4.6",
     "graphql": "^14.4.2",
     "graphql-query-compress": "^1.2.2",
     "loglevel": "^1.7.0",
