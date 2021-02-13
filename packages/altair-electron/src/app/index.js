@@ -82,7 +82,7 @@ class ElectronApp {
         e.preventDefault();
 
         const { shell } = require('electron');
-        shell.openExternalSync(navigationUrl);
+        shell.openExternal(navigationUrl);
       });
     });
   }

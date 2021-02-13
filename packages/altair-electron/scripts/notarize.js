@@ -10,7 +10,7 @@ exports.default = async function notarizing(context) {
   const appName = context.packager.appInfo.productFilename;
 
   console.log('Notarizing application');
-  return await notarize({
+  await notarize({
     appBundleId: 'com.xkoji.altair',
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLEID,
