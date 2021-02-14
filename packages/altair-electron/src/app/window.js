@@ -205,26 +205,22 @@ class WindowManager {
 
   registerProtocol() {
 
-    try {
-      /**
-       * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
-       */
-      protocol.registerBufferProtocol('altair', (request, callback) => {
+    /**
+     * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
+     */
+    protocol.registerBufferProtocol('altair', (request, callback) => {
 
-        const requestDirectory = getDistDirectory();
-        const originalFilePath = path.join(requestDirectory, new url.URL(request.url).pathname);
-        const indexPath = path.join(requestDirectory, 'index.html');
+      const requestDirectory = getDistDirectory();
+      const originalFilePath = path.join(requestDirectory, new url.URL(request.url).pathname);
+      const indexPath = path.join(requestDirectory, 'index.html');
 
-        this.getFileContentData(originalFilePath, indexPath).then(({ mimeType, data }) => {
-          callback({ mimeType, data });
-        }).catch(err => {
-          throw err;
-        });
+      this.getFileContentData(originalFilePath, indexPath).then(({ mimeType, data }) => {
+        callback({ mimeType, data });
+      }).catch(error => {
+        error.message = `Failed to register protocol. ${error.message}`;
+        console.error(error);
       });
-    } catch (error) {
-      error.message = `Failed to register protocol. ${error.message}`;
-      console.error(error);
-    }
+    });
   }
 
   /**
