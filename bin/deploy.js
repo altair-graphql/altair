@@ -47,9 +47,10 @@ async function main() {
     }
     
     log('Making sure local repo is up to date...');
-    await syncRepo();
+    // TODO: checkout staging
+    // await syncRepo();
     log('Running tests...');
-    await runTests();
+    // await runTests();
     log('Updating version in files...');
     await updateVersion(newVersion);
     log('Building browser extensions...');
