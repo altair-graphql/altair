@@ -107,7 +107,12 @@ async function main() {
 }
 main();
 
-const exec = async(...args) => execa(...args).stdout.pipe(process.stdout);
+const exec = async(...args) => {
+  const subprocess = execa(...args);
+  subprocess.stdout.pipe(process.stdout);
+
+  await subprocess;
+};
 
 const syncRepo = async() => {
   return exec('sh', ['-c', `until git pull --rebase && git push; do echo '\''Retrying...'\''; done`]);
