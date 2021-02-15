@@ -136,6 +136,7 @@ class WindowManager {
       // Set defaults
       details.requestHeaders.Origin = 'electron://altair';
 
+      // console.log(this.requestHeaders);
       // console.log('sending headers', details.requestHeaders);
       // Set the request headers
       Object.keys(this.requestHeaders).forEach(key => {
