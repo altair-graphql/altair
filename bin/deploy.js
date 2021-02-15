@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+// @ts-check
 /**
  * Deploy helper based on the deploy script
  */
@@ -19,7 +19,7 @@ function createLogger() {
 
 async function main() {
   try {
-    log = createLogger();
+    const log = createLogger();
     const { haveCheckedDocs, newVersion } = await inquirer.prompt([
       {
         type: 'confirm',
@@ -69,7 +69,7 @@ async function main() {
     log('Syncing with remote...');
     await syncRepo();
     log('Creating release tag...');
-    await createReleaseTag(version);
+    await createReleaseTag(newVersion);
     log('Pushing release tag...');
     await pushReleaseTag();
     log('Running release command for release notes...');
@@ -109,6 +109,7 @@ async function main() {
 main();
 
 const exec = async(...args) => {
+  // @ts-ignore
   const subprocess = execa(...args);
   subprocess.stdout.pipe(process.stdout);
 
