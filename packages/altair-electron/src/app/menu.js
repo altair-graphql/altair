@@ -15,7 +15,7 @@ class MenuManager {
     const isMac = process.platform === 'darwin';
 
     const template = [
-      ...( isMac ? [{
+      {
         label: app.getName(),
         submenu: [
           { role: 'about' },
@@ -28,16 +28,18 @@ class MenuManager {
             accelerator: 'Cmd+,',
             click: () => this.actionManager.showSettings(),
           },
-          { type: 'separator' },
-          { role: 'services', submenu: [] },
-          { type: 'separator' },
-          { role: 'hide' },
-          { role: 'hideothers' },
-          { role: 'unhide' },
+          ...(isMac ? [
+            { type: 'separator' },
+            { role: 'services', submenu: [] },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideothers' },
+            { role: 'unhide' },
+          ] : []),
           { type: 'separator' },
           { role: 'quit' }
         ]
-      }] : []),
+      },
       {
         label: 'Edit',
         submenu: [

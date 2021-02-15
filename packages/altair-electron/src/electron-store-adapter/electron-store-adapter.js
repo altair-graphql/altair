@@ -1,9 +1,15 @@
-const { PersistentStore } = require('../store');
+const { EVENTS } = require('./constants');
 
 // An interface between localStorage and electron-store
+// Used in renderer process
+// Should use ipc to communicate with main process
 class ElectronStoreAdapter {
-  constructor() {
-    this.store = new PersistentStore();
+  constructor(ipc) {
+    this.ipc = ipc;
+  }
+
+  get store() {
+    return this.ipc.sendSync(EVENTS.GET_STORE_OBJECT);
   }
 
   /**
@@ -11,7 +17,7 @@ class ElectronStoreAdapter {
    */
   // readonly length: number;
   get length() {
-    return this.store.size;
+    return this.ipc.sendSync(EVENTS.LENGTH);
   }
 
   /**
@@ -19,7 +25,7 @@ class ElectronStoreAdapter {
    */
   // clear(): void;
   clear() {
-    return this.store.clear();
+    return this.ipc.sendSync(EVENTS.CLEAR);
   }
 
   /**
@@ -27,7 +33,7 @@ class ElectronStoreAdapter {
    */
   // getItem(key: string): string | null;
   getItem(key) {
-    return this.store.get(key);
+    return this.ipc.sendSync(EVENTS.GET_ITEM, key);
   }
 
   /**
@@ -35,8 +41,7 @@ class ElectronStoreAdapter {
    */
   // key(index: number): string | null;
   key(index) {
-    const key = Object.keys(this.store.store)[index];
-    return key || null;
+    return this.ipc.sendSync(EVENTS.KEY_BY_INDEX, index);
   }
 
   /**
@@ -44,7 +49,7 @@ class ElectronStoreAdapter {
    */
   // removeItem(key: string): void;
   removeItem(key) {
-    return this.store.delete(key);
+    return this.ipc.sendSync(EVENTS.REMOVE_ITEM, key);
   }
 
   /**
@@ -54,7 +59,7 @@ class ElectronStoreAdapter {
    */
   // setItem(key: string, value: string): void;
   setItem(key, value) {
-    return this.store.set(key, value);
+    return this.ipc.sendSync(EVENTS.SET_ITEM, key, value);
   }
 
   *[Symbol.iterator]() {

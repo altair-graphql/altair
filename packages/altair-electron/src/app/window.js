@@ -14,6 +14,7 @@ const windowStateKeeper = require('electron-window-state');
 const { getDistDirectory, renderAltair } = require('altair-static');
 
 const { checkMultipleDataVersions } = require('../utils/check-multi-data-versions');
+const { initMainProcessStoreEvents } = require('../electron-store-adapter/main-store-events');
 
 const MenuManager = require('./menu');
 const ActionManager = require('./actions');
@@ -63,6 +64,7 @@ class WindowManager {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
         contextIsolation: false,
+        enableRemoteModule: process.env.NODE_ENV === 'test', // remote required for spectron tests to work
         preload: path.join(__dirname, '../preload', 'index.js'),
       },
       // titleBarStyle: 'hidden-inset'
@@ -78,6 +80,7 @@ class WindowManager {
     this.menuManager = new MenuManager(this.actionManager);
     // Set the touchbar
     this.touchbarManager = new TouchbarManager(this.actionManager);
+    this.instance.setTouchBar(this.touchbarManager.createTouchBar());
 
     // and load the index.html of the app.
     this.instance.loadURL(url.format({
@@ -91,6 +94,8 @@ class WindowManager {
   }
 
   manageEvents() {
+
+    initMainProcessStoreEvents();
 
     // Prevent the app from navigating away from the app
     this.instance.webContents.on('will-navigate', e => e.preventDefault());
@@ -131,6 +136,7 @@ class WindowManager {
       // Set defaults
       details.requestHeaders.Origin = 'electron://altair';
 
+      // console.log(this.requestHeaders);
       // console.log('sending headers', details.requestHeaders);
       // Set the request headers
       Object.keys(this.requestHeaders).forEach(key => {
@@ -192,6 +198,10 @@ class WindowManager {
       this.instance.webContents.send('file-opened', openedFileContent);
       this.electronApp.store.delete('file-opened');
     });
+
+    ipcMain.handle('reload-window', (e) => {
+      e.sender.reload();
+    });
   }
 
   registerProtocol() {
@@ -207,14 +217,10 @@ class WindowManager {
 
       this.getFileContentData(originalFilePath, indexPath).then(({ mimeType, data }) => {
         callback({ mimeType, data });
-      }).catch(err => {
-        throw err;
-      });
-    }, (error) => {
-      if (error) {
+      }).catch(error => {
         error.message = `Failed to register protocol. ${error.message}`;
         console.error(error);
-      }
+      });
     });
   }
 
@@ -222,6 +228,7 @@ class WindowManager {
    * @param {string} filePath path to file
    */
   getFilePath(filePath) {
+    console.log('file..', filePath);
     return new Promise((resolve, reject) => {
       try {
         if (!filePath) {
@@ -232,7 +239,7 @@ class WindowManager {
           return resolve(filePath);
         }
 
-        console.log('checking stat..', filePath);
+        // console.log('checking stat..', filePath);
         fs.stat(filePath, (err, stats) => {
           if (err) {
             console.log('with error', err);

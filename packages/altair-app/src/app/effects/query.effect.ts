@@ -487,6 +487,7 @@ export class QueryEffects {
           let variables = this.environmentService.hydrate(response.data.variables.variables);
           let variablesObj: IDictionary = {};
           let selectedOperation = response.data.query.selectedOperation;
+          let headers = this.environmentService.hydrateHeaders(response.data.headers);
 
           if (transformedData) {
             subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl, {
@@ -498,7 +499,13 @@ export class QueryEffects {
             variables = this.environmentService.hydrate(response.data.variables.variables, {
               activeEnvironment: transformedData.environment
             });
+            headers = this.environmentService.hydrateHeaders(response.data.headers, {
+              activeEnvironment: transformedData.environment
+            });
           }
+
+          // For electron app, send the instruction to set headers
+          this.electronAppService.setHeaders(headers);
 
           const subscriptionErrorHandler = (err: Error | Error[], errMsg?: string) => {
             if (Array.isArray(err)) {

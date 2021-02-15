@@ -11,14 +11,20 @@
 // The loaded page will not be able to access this, it is only available
 // in this context
 // window.bar = 'bar'
-
-window.ipc = require('electron').ipcRenderer;
-const { getCurrentWindow } = require('electron').remote;
+const ipc = require('electron').ipcRenderer;
+window.ipc = ipc;
 const ElectronStoreAdapter = require('../electron-store-adapter/electron-store-adapter');
 
-const reload = () => {
-  getCurrentWindow().reload();
+const reload = async() => {
+  await ipc.invoke('reload-window');
 };
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('installing devtron', require('devtron'));
+  require('devtron').install();
+  // eslint-disable-next-line no-underscore-dangle
+  window.__devtron = { require, process };
+}
 
 process.once('loaded', () => {
   // Giving access to spectron to run tests successfully
@@ -27,12 +33,12 @@ process.once('loaded', () => {
   }
 
   // console.log(allStorage());
-  const store = new ElectronStoreAdapter();
+  const store = new ElectronStoreAdapter(ipc);
   // Check if data is stored in electron store
   if (!store.length) {
     // Else, copy content of localstorage into electron store and reload.
-    Object.keys(localStorage).forEach(key => {
-      store.setItem(key, localStorage.getItem(key));
+    Object.keys(window.localStorage).forEach(key => {
+      store.setItem(key, window.localStorage.getItem(key));
     });
     return reload();
   }
