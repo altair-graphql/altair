@@ -35,7 +35,7 @@ process.once('loaded', () => {
   // console.log(allStorage());
   const store = new ElectronStoreAdapter(ipc);
   // Check if data is stored in electron store
-  if (!store.length) {
+  if (!store.length && window.localStorage.length) {
     // Else, copy content of localstorage into electron store and reload.
     Object.keys(window.localStorage).forEach(key => {
       store.setItem(key, window.localStorage.getItem(key));

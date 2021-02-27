@@ -23,6 +23,7 @@ app-window-switcher {
   background-size: 100px 100%, 100px 100%, var(--shadow-weight) var(--shadow-height), var(--shadow-weight) var(--shadow-height);
   background-attachment: local, local, scroll, scroll;
 
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     width: 0;

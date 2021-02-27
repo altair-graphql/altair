@@ -38,6 +38,15 @@
 
 .CodeMirror-dialog {
   background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+
+  input {
+    display: inline-block;
+  }
+}
+
+.CodeMirror-dialog-top {
+  border-color: var(--theme-border-color);
 }
 
 .CodeMirror-jump-token {
