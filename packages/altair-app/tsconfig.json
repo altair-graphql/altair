@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2018",
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
@@ -22,6 +22,6 @@
       "dom",
       "esnext"
     ],
-    "module": "esnext"
+    "module": "es2020"
   }
 }
