@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
@@ -14,7 +14,7 @@ describe('SetVariableDialogComponent', () => {
   let component: SetVariableDialogComponent;
   let fixture: ComponentFixture<SetVariableDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SetVariableDialogComponent, VariablesEditorComponent ],
       imports: [

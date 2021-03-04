@@ -40,7 +40,7 @@
     "start-server-and-test": "^1.10.6",
     "typedoc": "^0.17.7",
     "typedoc-plugin-markdown": "^2.2.17",
-    "typescript": "3.8.3",
+    "typescript": "^4.2.2",
     "web-ext": "^5.0.0"
   },
   "repository": {

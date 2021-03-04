@@ -44,28 +44,28 @@ export class NgxTestWrapper<C extends any> {
     return !!this._mainComponentDebugEl;
   }
 
-  find(selector: string) {
+  find<SC extends any = unknown>(selector: string) {
     const comp = this._mainComponentDebugEl.query(By.css(selector));
 
-    return new NgxTestWrapper(this._testHostFixture, comp);
+    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
   }
 
-  findComponent(type: Type<any>) {
+  findComponent<SC extends any = unknown>(type: Type<any>) {
     const comp = this._mainComponentDebugEl.query(By.directive(type));
 
     if (comp) {
-      return new NgxTestWrapper(this._testHostFixture, comp);
+      return new NgxTestWrapper<SC>(this._testHostFixture, comp);
     }
   }
 
-  findAll(selector: string) {
+  findAll<SC extends any = unknown>(selector: string) {
     return this._mainComponentDebugEl.queryAll(By.css(selector))
-      .map(comp => new NgxTestWrapper(this._testHostFixture, comp));
+      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp));
   }
 
-  findAllComponents(type: Type<any>) {
+  findAllComponents<SC extends any = unknown>(type: Type<any>) {
     return this._mainComponentDebugEl.queryAll(By.directive(type))
-      .map(comp => new NgxTestWrapper(this._testHostFixture, comp));
+      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp));
   }
 
   emit(eventName: string, eventObj: any = null) {
@@ -104,7 +104,7 @@ export class NgxTestWrapper<C extends any> {
           // For component inputs (@input), we set the data on the test host itself, which would pass the value as input.
           // This is to properly trigger the full input lifecycle of the component.
           // Setting the input directly on the component instance would not do that.
-          this._testHostFixture.componentInstance.inputs[prop] = valueObj[prop];
+          this._testHostFixture.componentInstance.inputs[prop] = (valueObj as any)[prop];
         }
       });
       return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);

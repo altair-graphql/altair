@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SchemaFormItemInputComponent } from './schema-form-item-input.component';
 import { SharedModule } from 'app/modules/shared/shared.module';
@@ -9,7 +9,7 @@ describe('SchemaFormItemInputComponent', () => {
   let component: SchemaFormItemInputComponent;
   let fixture: ComponentFixture<SchemaFormItemInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
