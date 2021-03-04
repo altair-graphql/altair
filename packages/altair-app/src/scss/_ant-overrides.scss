@@ -113,6 +113,12 @@
   border-color: var(--theme-border-color);
 }
 
+.ant-input-number:hover,
+.ant-input-number:focus,
+.ant-input-number-focused {
+  border-color: var(--primary-color);
+}
+
 .ant-input-number-handler-wrap {
   background: var(--theme-off-bg-color);
   border-color: var(--theme-border-color);
@@ -169,6 +175,15 @@
 .ant-radio-wrapper {
   color: var(--theme-font-color);
 }
+.ant-radio-checked .ant-radio-inner {
+  border-color: var(--primary-color);
+}
+.ant-radio-checked::after {
+  border-color: var(--primary-color);
+}
+.ant-radio-inner::after {
+  background-color: var(--primary-color);
+}
 
 .ant-tabs {
   color: var(--theme-font-color);
@@ -188,6 +203,14 @@
 }
 
 
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,
 .ant-menu-horizontal > .ant-menu-item:hover,
 .ant-menu-horizontal > .ant-menu-submenu:hover,
 .ant-menu-horizontal > .ant-menu-item-active,
@@ -205,9 +228,21 @@
 .ant-menu-horizontal > .ant-menu-submenu-selected {
   color: var(--primary-color);
   border-color: var(--primary-color);
+  transition: all .3s ease;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner,
+.ant-checkbox-checked::after {
+  border-color: var(--primary-color);
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
+}
+
+.ant-switch-checked {
+  background-color: var(--primary-color);
 }

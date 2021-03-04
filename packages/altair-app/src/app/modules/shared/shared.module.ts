@@ -22,13 +22,17 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
   NzButtonModule,
   NzInputModule,
+  NzInputNumberModule,
   NzAutocompleteModule,
+  NzCheckboxModule,
   NzFormModule,
   NzSelectModule,
   NzModalModule,
