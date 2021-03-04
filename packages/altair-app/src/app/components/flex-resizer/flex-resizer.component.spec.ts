@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FlexResizerComponent } from './flex-resizer.component';
 import { SharedModule } from 'app/modules/shared/shared.module';
@@ -7,7 +7,7 @@ describe('FlexResizerComponent', () => {
   let component: FlexResizerComponent;
   let fixture: ComponentFixture<FlexResizerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FlexResizerComponent ],
       imports: [

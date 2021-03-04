@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PluginManagerComponent } from './plugin-manager.component';
 import { SharedModule } from 'app/modules/shared/shared.module';
@@ -12,7 +12,7 @@ describe('PluginManagerComponent', () => {
   let component: PluginManagerComponent;
   let fixture: ComponentFixture<PluginManagerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockPluginRegistryService = {
       getRemotePluginList: () => of({})
     } as PluginRegistryService;

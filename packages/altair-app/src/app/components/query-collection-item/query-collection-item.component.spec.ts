@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { QueryCollectionItemComponent } from './query-collection-item.component';
 import { FormsModule } from '@angular/forms';

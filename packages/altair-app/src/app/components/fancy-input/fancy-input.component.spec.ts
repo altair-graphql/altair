@@ -1,5 +1,5 @@
 import { expect, it, beforeEach, describe } from '@jest/globals';
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
 
 import { FancyInputComponent } from './fancy-input.component';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ describe('FancyInputComponent', () => {
   let component: FancyInputComponent;
   let fixture: ComponentFixture<FancyInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FancyInputComponent ],
       imports: [
