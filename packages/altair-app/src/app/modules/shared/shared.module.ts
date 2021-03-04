@@ -25,6 +25,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
@@ -44,6 +45,7 @@ const AntdComponentModules = [
   NzLayoutModule,
   NzMenuModule,
   NzCollapseModule,
+  NzToolTipModule,
   // NgZorroAntdModule,
 ];
 
