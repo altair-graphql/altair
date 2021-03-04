@@ -9,24 +9,38 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
-import {
-  NgZorroAntdModule,
-} from 'ng-zorro-antd';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
-  // NzFormModule,
-  // NzSelectModule,
-  // NzModalModule,
-  // NzDropDownModule,
-  // NzSwitchModule,
-  // NzListModule,
-  // NzRadioModule,
-  // NzAlertModule,
-  // NzLayoutModule,
-  // NzMenuModule,
-  // NzCollapseModule,
-  NgZorroAntdModule,
+  NzButtonModule,
+  NzInputModule,
+  NzAutocompleteModule,
+  NzFormModule,
+  NzSelectModule,
+  NzModalModule,
+  NzDropDownModule,
+  NzSwitchModule,
+  NzListModule,
+  NzRadioModule,
+  NzAlertModule,
+  NzLayoutModule,
+  NzMenuModule,
+  NzCollapseModule,
+  // NgZorroAntdModule,
 ];
 
 @NgModule({

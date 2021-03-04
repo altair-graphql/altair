@@ -80,7 +80,7 @@
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
     "new-github-issue-url": "^0.2.1",
-    "ng-zorro-antd": "9.1.2",
+    "ng-zorro-antd": "11.2.0",
     "ngrx-store-localstorage": "^9.0.0",
     "ngx-contextmenu": "^5.4.0",
     "ngx-cookie-service": "^2.2.0",
