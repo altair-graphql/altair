@@ -7,6 +7,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
   >
     <ngx-codemirror
       class="query-editor__input"
+      ngdefaultcontrol=""
     />
   </div>
   <div
