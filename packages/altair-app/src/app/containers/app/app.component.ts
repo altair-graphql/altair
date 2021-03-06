@@ -433,7 +433,7 @@ export class AppComponent implements OnDestroy {
       this.setActiveWindow(matchingOpenQueryWindowIds[0]);
       return;
     }
-    this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection });
+    this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection }, { fixedTitle: true });
   }
 
   deleteQueryFromCollection({ collectionId, query }: { collectionId: number, query: fromCollection.IQuery }) {
