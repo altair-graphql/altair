@@ -18,7 +18,7 @@ export function preRequestReducer(state = getInitialState(), action: preRequest.
   switch (action.type) {
     case preRequest.SET_PREREQUEST_SCRIPT:
       return { ...state, script: action.payload.script };
-    case preRequest.SET_PREREQIEST_ENABLED:
+    case preRequest.SET_PREREQUEST_ENABLED:
       return { ...state, enabled: action.payload.enabled };
     default:
       return state;

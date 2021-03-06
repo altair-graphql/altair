@@ -26,6 +26,8 @@ export interface ExportWindowState {
   subscriptionUrl: string;
   preRequestScript?: string;
   preRequestScriptEnabled?: boolean;
+  postRequestScript?: string;
+  postRequestScriptEnabled?: boolean;
 
   /**
    * ID of the collection this query belongs to

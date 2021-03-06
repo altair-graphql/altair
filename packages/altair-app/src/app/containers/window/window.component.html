@@ -43,6 +43,10 @@
         (deleteFileVariableChange)="deleteFileVariable($event)"
         (queryEditorStateChange)="setQueryEditorState($event)"
         (showTokenInDocsChange)="onShowTokenInDocs($event)"
+        (preRequestScriptChange)="updatePreRequestScript($event)"
+        (preRequestEnabledChange)="updatePreRequestEnabled($event)"
+        (postRequestScriptChange)="updatePostRequestScript($event)"
+        (postRequestEnabledChange)="updatePostRequestEnabled($event)"
         [query]="query"
         [gqlSchema]="gqlSchema"
         [tabSize]="tabSize$ | async"
@@ -50,6 +54,8 @@
         [showVariableDialog]="showVariableDialog"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
         [variableToType]="variableToType"
+        [preRequest]="preRequest$ | async"
+        [postRequest]="postRequest$ | async"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"

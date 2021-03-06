@@ -1,0 +1,23 @@
+<div class="post-request-editor">
+  <div class="post-request-editor__toggle-wrapper spacer--small">
+    <label
+      nz-checkbox
+      [ngModel]="postRequest?.enabled"
+      (ngModelChange)="postRequestEnabledChange.next($event)"
+    >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label>
+  </div>
+  <ngx-codemirror
+    #editor
+    class="post-request-textarea mousetrap"
+    [options]="postRequestEditorConfig"
+    [ngModel]="postRequest?.script"
+    (ngModelChange)="postRequestScriptChange.emit($event)"
+  ></ngx-codemirror>
+  
+  <small>
+    <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank">
+      <app-icon name="info"></app-icon>
+      {{ 'LEARN_MORE_TEXT' | translate }}
+    </a>
+  </small>
+</div>

@@ -31,7 +31,7 @@ import * as fromVariables from '../../store/variables/variables.reducer';
 import { fillAllFields } from './fillFields';
 import { setByDotNotation } from 'app/utils';
 import { Token } from 'codemirror';
-import { Omit } from 'app/interfaces/shared';
+import { IDictionary, Omit } from 'app/interfaces/shared';
 import {
   refactorFieldsWithFragmentSpread,
   generateTypeUsageEntries,
@@ -52,6 +52,14 @@ interface SendRequestOptions {
   files?: fromVariables.FileVariable[];
   selectedOperation?: SelectedOperation;
 };
+
+export interface SendRequestResponse {
+  response: HttpResponse<any>;
+  meta: {
+      responseTime: number;
+      headers: IDictionary;
+  };
+}
 
 type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
 
@@ -77,7 +85,7 @@ export class GqlService {
     this.setHeaders();
   }
 
-  sendRequest(url: string, opts: SendRequestOptions) {
+  sendRequest(url: string, opts: SendRequestOptions): Observable<SendRequestResponse> {
     // Only need resolvedFiles to know if valid files exist at this point
     const { resolvedFiles } = this.normalizeFiles(opts.files);
 
@@ -86,13 +94,27 @@ export class GqlService {
       // Skip json default headers for files
       .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(resolvedFiles.length) });
 
+    const requestStartTime = new Date().getTime();
     return this._send({
       query: opts.query,
       variables: opts.variables,
       selectedOperation: opts.selectedOperation,
       files: opts.files,
       withCredentials: opts.withCredentials,
-    });
+    }).pipe(
+      map((response) => {
+        const requestEndTime = new Date().getTime();
+        const requestElapsedTime = requestEndTime - requestStartTime;
+
+        return {
+          response,
+          meta: {
+            responseTime: requestElapsedTime,
+            headers: response.headers.keys().reduce((acc, key) => ({ ...acc, [key]: response.headers.get(key)}), {}),
+          }
+        };
+      }),
+    );
   }
 
   isGETRequest(method = this.method) {
@@ -137,7 +159,7 @@ export class GqlService {
     return this;
   }
 
-  getIntrospectionRequest(url: string, opts: IntrospectionRequestOptions): Observable<any> {
+  getIntrospectionRequest(url: string, opts: IntrospectionRequestOptions) {
     const requestOpts: SendRequestOptions = {
       query: getIntrospectionQuery(),
       headers: opts.headers,
@@ -149,8 +171,8 @@ export class GqlService {
     return this.sendRequest(url, requestOpts).pipe(
       map(data => {
         debug.log('introspection', data);
-        if (!data.ok) {
-          throw new Error(`Introspection request failed with: ${data.status}`);
+        if (!data.response.ok) {
+          throw new Error(`Introspection request failed with: ${data.response.status}`);
         }
         return data;
       }),
@@ -161,8 +183,8 @@ export class GqlService {
         return this.sendRequest(url, { ...requestOpts, query: oldIntrospectionQuery })
           .pipe(map(data => {
             debug.log('old introspection', data);
-            if (!data.ok) {
-              throw new Error(`Introspection request failed with: ${data.status}`);
+            if (!data.response.ok) {
+              throw new Error(`Introspection request failed with: ${data.response.status}`);
             }
             return data;
           }));

@@ -32,6 +32,11 @@ export interface AltairConfigOptions {
   initialPreRequestScript?: string;
 
   /**
+   * Initial post-request script to be added
+   */
+  initialPostRequestScript?: string;
+
+  /**
    * Initial headers object to be added
    * @example
    * {
@@ -114,6 +119,7 @@ export class AltairConfig {
     headers: (null as unknown as IDictionary),
     environments: ({} as IInitialEnvironments),
     preRequestScript: '',
+    postRequestScript: '',
     instanceStorageNamespace: '',
     settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
   };
@@ -125,6 +131,7 @@ export class AltairConfig {
     initialEnvironments,
     initialVariables,
     initialPreRequestScript,
+    initialPostRequestScript = '',
     instanceStorageNamespace,
     initialSettings,
   }: AltairConfigOptions = {}) {
@@ -135,6 +142,7 @@ export class AltairConfig {
     this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
     this.initialData.environments = initialEnvironments || {};
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
+    this.initialData.postRequestScript = initialPostRequestScript;
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
     this.initialData.settings = initialSettings || undefined;
   }

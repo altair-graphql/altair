@@ -246,3 +246,20 @@
 .ant-switch-checked {
   background-color: var(--primary-color);
 }
+
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+  border-color: var(--theme-border-color);
+}
+
+.ant-tabs-tab:hover,
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--primary-color);
+  font-weight: normal;
+}
+
+.ant-tabs-ink-bar {
+  background-color: var(--primary-color);
+}
