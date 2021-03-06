@@ -27,7 +27,7 @@ const createEnvironmentState = ({
 
 const createStoreSubscribeFn = (environments: any) => {
   return (fn: any) => {
-    fn({ environments });
+    typeof fn === 'function' ? fn({ environments }) : fn.next({ environments });
     return new Subscription();
   }
 };

@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PreRequestEditorComponent should render correctly 1`] = `
-<app-pre-request-editor>
+exports[`PostRequestEditorComponent should render correctly 1`] = `
+<app-post-request-editor>
   <div
-    class="pre-request-editor"
+    class="post-request-editor"
   >
     <div
-      class="pre-request-editor__toggle-wrapper"
+      class="post-request-editor__toggle-wrapper spacer--small"
     >
       <label
         nz-checkbox=""
@@ -15,7 +15,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       </label>
     </div>
     <ngx-codemirror
-      class="pre-request-textarea mousetrap"
+      class="post-request-textarea mousetrap"
     />
     <small>
       <a
@@ -29,5 +29,5 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       </a>
     </small>
   </div>
-</app-pre-request-editor>
+</app-post-request-editor>
 `;

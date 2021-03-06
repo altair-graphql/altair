@@ -224,7 +224,7 @@ describe('GqlService', () => {
         method: 'GET'
       }).pipe(first()).toPromise();
 
-      expect(res.body).toEqual({
+      expect(res.response.body).toEqual({
         data: 'introspection data'
       });
     }));
@@ -262,7 +262,7 @@ describe('GqlService', () => {
         method: 'GET'
       }).pipe(first()).toPromise();
 
-      expect(res.body).toEqual({
+      expect(res.response.body).toEqual({
         data: 'second introspection data'
       });
     }));

@@ -3,13 +3,33 @@ import { TestBed, inject } from '@angular/core/testing';
 import { PreRequestService } from './pre-request.service';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
+import { NotifyService } from '../notify/notify.service';
+import { Store } from '@ngrx/store';
+import { anyFn, mock, mockStoreFactory } from '../../../testing';
+
+
+const mockNotifyService = mock({
+  error: anyFn(),
+  info: anyFn(),
+});
 
 describe('PreRequestService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       HttpClientModule,
     ],
-    providers: [ CookieService, PreRequestService ]
+    providers: [
+      CookieService,
+      PreRequestService,
+      {
+        provide: NotifyService,
+        useFactory: () => mockNotifyService,
+      },
+      {
+        provide: Store,
+        useFactory: () => mockStoreFactory(),
+      }
+    ]
   }));
 
   it('should be created', inject([PreRequestService], (service: PreRequestService) => {
