@@ -417,8 +417,7 @@ export class QueryEffects {
                 }
 
                 const introspectionData = postRequestTransformData.data.response.body?.data;
-                const streamUrl = postRequestTransformData.data.response.headers
-                  && postRequestTransformData.data.response.headers.get('X-GraphQL-Event-Stream'); // || '/stream'; // For development.
+                const streamUrl = postRequestTransformData.data.response.headers?.get('X-GraphQL-Event-Stream'); // || '/stream'; // For dev
 
                 // Check if new stream url is different from previous before setting it
                 if (res.response.data.stream.url !== streamUrl || !res.response.data.stream.client) {
@@ -1042,7 +1041,7 @@ export class QueryEffects {
 
   private handlePostRequestTransforms$(requestType: RequestType, data: SendRequestResponse, requestData: EffectResponseData) {
     if (!requestData.data.postRequest.enabled) {
-      return of(null);
+      return of({ transformedData: null, data });
     }
     return from(this.preRequestService.executeScript(requestData.data.postRequest.script, {
       environment: this.environmentService.getActiveEnvironment(),

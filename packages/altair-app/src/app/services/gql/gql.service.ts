@@ -170,7 +170,7 @@ export class GqlService {
     };
     return this.sendRequest(url, requestOpts).pipe(
       map(data => {
-        debug.log('introspection', data);
+        debug.log('introspection', data.response);
         if (!data.response.ok) {
           throw new Error(`Introspection request failed with: ${data.response.status}`);
         }
