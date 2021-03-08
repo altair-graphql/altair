@@ -1,5 +1,5 @@
 <div class="pre-request-editor">
-  <div class="pre-request-editor__toggle-wrapper">
+  <div class="pre-request-editor__toggle-wrapper spacer--small">
     <label
       nz-checkbox
       [ngModel]="preRequest.enabled"
@@ -15,7 +15,7 @@
   ></ngx-codemirror>
   
   <small>
-    <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank">
+    <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank" aria-label="learn more">
       <app-icon name="info"></app-icon>
       {{ 'LEARN_MORE_TEXT' | translate }}
     </a>

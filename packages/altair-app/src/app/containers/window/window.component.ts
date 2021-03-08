@@ -18,6 +18,7 @@ import * as fromVariable from '../../store/variables/variables.reducer';
 import * as fromQuery from '../../store/query/query.reducer';
 import * as fromCollection from '../../store/collection/collection.reducer';
 import * as fromPreRequest from '../../store/pre-request/pre-request.reducer';
+import * as fromPostRequest from '../../store/post-request/post-request.reducer';
 import * as fromDocs from '../../store/docs/docs.reducer';
 import * as fromLayout from '../../store/layout/layout.reducer';
 
@@ -33,9 +34,10 @@ import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
+import * as postRequestActions from '../../store/post-request/post-request.action';
 
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
-import { Observable, empty as observableEmpty } from 'rxjs';
+import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
 import {
   AltairUiAction
 } from '../../services/plugin/plugin';
@@ -75,6 +77,7 @@ export class WindowComponent implements OnInit {
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
   preRequest$: Observable<fromPreRequest.State>;
+  postRequest$: Observable<fromPostRequest.State>;
   layout$: Observable<fromLayout.State>;
 
   addQueryDepthLimit$: Observable<number>;
@@ -151,10 +154,11 @@ export class WindowComponent implements OnInit {
           );
         }
 
-        return observableEmpty();
+        return EMPTY;
       })
     );
     this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
+    this.postRequest$ = this.getWindowState().pipe(select(fromRoot.getPostRequest));
     this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
     this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
@@ -301,10 +305,12 @@ export class WindowComponent implements OnInit {
     this.showDocs$.pipe(
       take(1),
       untilDestroyed(this),
-    ).subscribe(docsShown => {
-      if (!docsShown) {
-        this.toggleDocs();
-      }
+    ).subscribe({
+      next: docsShown => {
+        if (!docsShown) {
+          this.toggleDocs();
+        }
+      },
     });
   }
   toggleDocs() {
@@ -373,6 +379,14 @@ export class WindowComponent implements OnInit {
 
   updatePreRequestEnabled(enabled: boolean) {
     this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(this.windowId, { enabled }));
+  }
+
+  updatePostRequestScript(script: string) {
+    this.store.dispatch(new postRequestActions.SetPostRequestScriptAction(this.windowId, { script }));
+  }
+
+  updatePostRequestEnabled(enabled: boolean) {
+    this.store.dispatch(new postRequestActions.SetPostRequestEnabledAction(this.windowId, { enabled }));
   }
 
   addQueryToEditor(queryData: { query: String, meta: any }) {

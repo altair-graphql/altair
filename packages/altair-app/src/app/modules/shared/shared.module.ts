@@ -26,6 +26,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
@@ -35,6 +36,7 @@ const AntdComponentModules = [
   NzAutocompleteModule,
   NzCheckboxModule,
   NzFormModule,
+  NzTabsModule,
   NzSelectModule,
   NzModalModule,
   NzDropDownModule,
@@ -56,9 +58,9 @@ const AntdComponentModules = [
     NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
-    NguiAutoCompleteModule,
+    NguiAutoCompleteModule, // use antd
     ContextMenuModule.forRoot(),
-    NgxPopperModule.forRoot({
+    NgxPopperModule.forRoot({ // use antd
       applyClass: 'tooltip-content',
       trigger: 'hover'
     }),

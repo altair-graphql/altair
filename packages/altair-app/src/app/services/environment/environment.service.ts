@@ -27,8 +27,10 @@ export class EnvironmentService {
   constructor(
     private store: Store<fromRoot.State>
   ) {
-    this.store.subscribe(data => {
-      this.environmentsState = data.environments;
+    this.store.subscribe({
+      next: data => {
+        this.environmentsState = data.environments;
+      },
     });
   }
 

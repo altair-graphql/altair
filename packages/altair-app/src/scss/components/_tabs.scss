@@ -1,0 +1,23 @@
+.main-view-tabs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .ant-tabs-tab {
+    padding: 12px 8px;
+  }
+
+  .ant-tabs-content {
+    display: flex;
+    flex: 1;
+  }
+
+  .ant-tabs-tabpane {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ant-tabs-content-holder {
+    display: flex;
+  }
+}

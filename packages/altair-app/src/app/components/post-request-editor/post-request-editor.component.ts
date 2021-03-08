@@ -27,19 +27,19 @@ import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
 @Component({
-  selector: 'app-pre-request-editor',
-  templateUrl: './pre-request-editor.component.html',
+  selector: 'app-post-request-editor',
+  templateUrl: './post-request-editor.component.html',
   styles: []
 })
-export class PreRequestEditorComponent implements AfterViewInit, OnChanges, DoCheck {
+export class PostRequestEditorComponent implements AfterViewInit, OnChanges, DoCheck {
 
-  @Input() preRequest: any = {};
-  @Output() preRequestScriptChange = new EventEmitter();
-  @Output() preRequestEnabledChange = new EventEmitter();
+  @Input() postRequest: any = {};
+  @Output() postRequestScriptChange = new EventEmitter();
+  @Output() postRequestEnabledChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
-  preRequestEditorConfig = {
+  postRequestEditorConfig = {
     mode: 'javascript',
     lineWrapping: true,
     lineNumbers: true,
@@ -99,6 +99,13 @@ export class PreRequestEditorComponent implements AfterViewInit, OnChanges, DoCh
           request: null
         },
         importModule: null,
+        response: {
+          requestType: null,
+          responseTime: null,
+          statusCode: null,
+          body: null,
+          headers: null,
+        },
       }
     };
 

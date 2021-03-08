@@ -22,6 +22,7 @@ import * as fromCollection from './collection/collection.reducer';
 import * as fromEnvironments from './environments/environments.reducer';
 import * as fromStream from './stream/stream.reducer';
 import * as fromPreRequest from './pre-request/pre-request.reducer';
+import * as fromPostRequest from './post-request/post-request.reducer';
 import * as fromLocal from './local/local.reducer';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
@@ -38,6 +39,7 @@ export interface PerWindowState {
   history: fromHistory.State;
   stream: fromStream.State;
   preRequest: fromPreRequest.State;
+  postRequest: fromPostRequest.State;
   windowId: string; // Used by the window reducer
 }
 
@@ -52,6 +54,7 @@ const perWindowReducers = {
   history: fromHistory.historyReducer,
   stream: fromStream.streamReducer,
   preRequest: fromPreRequest.preRequestReducer,
+  postRequest: fromPostRequest.postRequestReducer,
 };
 
 export interface State {
@@ -128,5 +131,6 @@ export * from './layout/selectors';
 export * from './gql-schema/selectors';
 export * from './collection/selectors';
 export * from './pre-request/selectors';
+export * from './post-request/selectors';
 export * from './stream/selectors';
 export * from './local/selectors';

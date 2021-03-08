@@ -108,6 +108,9 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
         clearTimeout(refreshEditorTimeout);
       }, 300);
     }
+    if (changes.environments && changes.environments.currentValue) {
+      this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+    }
   }
 
   onEditorChange(content: string) {

@@ -2,17 +2,19 @@
 parent: Features
 ---
 
-## Pre request scripts
+## Pre and post request scripts
 
 Ever wanted to use dynamic data in your request headers, URLs, before sending the request? Pre request scripts enables you do that. With pre request scripts, you can set environment variables from your cookies or create any combination of values for your environment variables. This comes in handy for environments where things like CSRF tokens are used to verify the requests sent to the server.
 
-### Available API for Pre request scripts
+You might want to perform some extra logic with the response from a request. For example, setting an environment variable from a response header, or from the result of a query. Post request scripts enables you do just that.
 
-Pre request scripts support all JavaScript syntax supported in the latest [ecmascript 2019 (ES10) specification](https://tc39.es/ecma262/) (except **with** and **label** statements, but those are discouraged anyway). These include things like `[].flat()`, `[].flatMap()`, `Object.fromEntries()`, etc.
+### Available API for request scripts
 
-There is also a global object `altair` available within the context of the pre request script containing helper methods for interacting with altair.
+Request scripts support all JavaScript syntax supported in the latest [ecmascript 2019 (ES10) specification](https://tc39.es/ecma262/) (except **with** and **label** statements, but those are discouraged anyway). These include things like `[].flat()`, `[].flatMap()`, `Object.fromEntries()`, etc.
 
-#### altair.data
+There is also a global object `altair` available within the context of the request script containing helper methods for interacting with altair.
+
+### altair.data
 
 This contains data used to process your GraphQL request.
 
@@ -24,7 +26,7 @@ This contains data used to process your GraphQL request.
 
 **altair.data.environment** - The formatted environment object containing the serialized set of environment data before your request is sent.
 
-#### altair.helpers
+### altair.helpers
 
 This contains a number of helper methods for carrying out basic tasks, like interacting with altair, making network requests, etc.
 
@@ -34,7 +36,7 @@ This contains a number of helper methods for carrying out basic tasks, like inte
 altair.helpers.getEnvironment('api_key')
 ```
 
-**altair.helpers.setEnvironment(key: string, val: any)** - Sets the environment variable for the specified key, overriding the environment variable for the current request.
+**altair.helpers.setEnvironment(key: string, val: any, activeEnvironment?: boolean)** - Sets the environment variable for the specified key, overriding the environment variable for the current request. You can also pass an extra boolean parameter to indicate if the environment variable should also be set in the currently active environment.
 
 ```js
 altair.helpers.setEnvironment('api_key', 'a482djksd289xxxxxxxxx');
@@ -77,11 +79,15 @@ if (nowInSeconds() >= Number(tokenExpiry)) {
   // res => { "token": "abcd", "expiry": 3600 }
   
   // Store the received token and expiry in localStorage
+  // Alternatively you can set this in the active environment
+  // altair.helpers.setEnvironment("token", res.token);
+  // altair.helpers.setEnvironment("token_expiry", nowInSeconds() + res.expiry);
   localStorage.setItem("token", res.token);
   localStorage.setItem("token_expiry", nowInSeconds() + res.expiry);
 }
 
-// Retrieev the token from localStorage
+// Retrieve the token from localStorage
+// const token = altair.helpers.getEnvironment("token");
 const token = localStorage.getItem("token");
 
 // Set the token as the `token_env` environment variable in Altair
@@ -89,7 +95,22 @@ altair.helpers.setEnvironment('token_env', token);
 // You can use the environment variables in Altair after setting it by following this blog post: https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c
 ```
 
-#### altair.importModule
+
+### altair.response (Available in post request script)
+
+This contains response from your GraphQL request. **Note: This is only available in post request scripts.**
+
+**altair.response.headers** - The response headers sent from the server. **Note: Due to some limitations on response headers in the browser, it is advisable to use the desktop apps if you need to use the response headers**
+
+**altair.response.statusCode** - The status code of the response.
+
+**altair.response.requestType** - Indicates the type of request being sent. Values are `query`, `introspection` or `subscription`.
+
+**altair.response.responseTime** - The total time of the request
+
+**altair.response.body** - The response body
+
+### altair.importModule
 
 This allows you to import some modules that are made available in the pre request script editor. It *returns a promise* that resolves with the imported module.
 
