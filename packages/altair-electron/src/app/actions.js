@@ -1,6 +1,7 @@
 // @ts-check
 const { importBackupData, exportBackupData } = require('../utils/backup');
 const { checkForUpdates } = require('../updates');
+const { BrowserWindow } = require('electron');
 
 class ActionManager {
   /**
@@ -56,6 +57,25 @@ class ActionManager {
 
   checkForUpdates(menuItem) {
     return checkForUpdates(menuItem);
+  }
+
+  showPreferences() {
+    const prefWindow = new BrowserWindow({
+      width: 600,
+      height: 600,
+      minWidth: 500,
+      minHeight: 200,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+      }
+      // acceptFirstMouse: true,
+      // titleBarStyle: 'hidden',
+    });
+
+    // and load the index.html of the app.
+    prefWindow.loadURL(`file://${__dirname}/../settings/renderer/index.html`);
+    // return preferences.show();
   }
 }
 

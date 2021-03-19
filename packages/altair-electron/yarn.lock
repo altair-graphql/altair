@@ -285,7 +285,7 @@
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
 
-"@electron/get@^1.0.1", "@electron/get@^1.12.2":
+"@electron/get@^1.0.1":
   version "1.12.3"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.12.3.tgz#fa2723385c4b565a34c4c82f46087aa2a5fbf6d0"
   integrity sha512-NFwSnVZQK7dhOYF1NQCt+HGqgL1aNdj0LUSx75uCqnZJqyiWCVdAMFV4b4/kC8HjUJAnsvdSEmjEt4G2qNQ9+Q==
@@ -301,6 +301,27 @@
   optionalDependencies:
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
+
+"@electron/get@^1.12.4":
+  version "1.12.4"
+  resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.12.4.tgz#a5971113fc1bf8fa12a8789dc20152a7359f06ab"
+  integrity sha512-6nr9DbJPUR9Xujw6zD3y+rS95TyItEVM0NVjt1EehY2vUWfIgPiIPVHxCvaTS0xr2B+DRxovYVKbuOWqC35kjg==
+  dependencies:
+    debug "^4.1.1"
+    env-paths "^2.2.0"
+    fs-extra "^8.1.0"
+    got "^9.6.0"
+    progress "^2.0.3"
+    semver "^6.2.0"
+    sumchecker "^3.0.1"
+  optionalDependencies:
+    global-agent "^2.0.2"
+    global-tunnel-ng "^2.7.1"
+
+"@electron/remote@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@electron/remote/-/remote-1.0.4.tgz#f1c8cf3560bab762b462bfae9991919cced8bc33"
+  integrity sha512-kguDJRhL3ZynHrkbX8Tr7xoAzGsNgh4eqXkycXb6cgXbOgehGqkBVe+MnjSVMXz3QJykerGKPy28gqcM7AFGYw==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -644,10 +665,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.14.tgz#24a0b5959f16ac141aeb0c5b3cd7a15b7c64cbce"
   integrity sha512-syUgf67ZQpaJj01/tRTknkMNoBBLWJOBODF0Zm4NrXmiSuxjymFrxnTu1QVYRubhVkRcZLYZG8STTwJRdVm/WQ==
 
-"@types/node@^12.0.12":
-  version "12.19.16"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.19.16.tgz#15753af35cbef636182d8d8ca55b37c8583cecb3"
-  integrity sha512-7xHmXm/QJ7cbK2laF+YYD7gb5MggHIIQwqyjin3bpEGiSuvScMQ5JZZXPvRipi1MwckTQbJZROMns/JxdnIL1Q==
+"@types/node@^14.6.2":
+  version "14.14.35"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.35.tgz#42c953a4e2b18ab931f72477e7012172f4ffa313"
+  integrity sha512-Lt+wj8NVPx0zUmUwumiVXapmaLUcAk3yPuHCFVXras9k5VT9TdhJqKqGVUQCD60OTMCl0qxJ57OiTL0Mic3Iag==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1983,12 +2004,12 @@ electron-builder@^22.9.1:
     update-notifier "^4.1.1"
     yargs "^16.0.3"
 
-electron-chromedriver@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-11.0.0.tgz#49b034ed0ad12c12e3522862c7bb46875a0d85e1"
-  integrity sha512-ayMJPBbB4puU0SqYbcD9XvF3/7GWIhqKE1n5lG2/GQPRnrZkNoPIilsrS0rQcD50Xhl69KowatDqLhUznZWtbA==
+electron-chromedriver@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-12.0.0.tgz#55bdc451b938b384642d613a05eadacb1fe476ee"
+  integrity sha512-zOs98o9+20Er8Q44z06h90VldwrJaoRCieW3Q8WkdDjA3cMRU5mlmm1kGDhPLMeYNuhq6e39aGMVH/IBFD97HQ==
   dependencies:
-    "@electron/get" "^1.12.2"
+    "@electron/get" "^1.12.4"
     extract-zip "^2.0.0"
 
 electron-debug@^3.0.1:
@@ -2115,13 +2136,13 @@ electron-window-state@^5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@^11.2.2:
-  version "11.2.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-11.2.2.tgz#c2e53eb56bd21ae1dc01bc781f2f6bcbe0c18033"
-  integrity sha512-+OitkBrnCFwOF5LXAeNnfIJDKhdBm77jboc16WCIpDsCyT+JpGsKK4y6o30nRZq3zC+wZggUm5w6Ujw5n76CGg==
+electron@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-12.0.1.tgz#11afa81dae858cc7cd79107c2f789e8a7f93a31b"
+  integrity sha512-4bTfLSTmuFkMxq3RMyjd8DxuzbxI1Bde879XDrBA4kFWbKhZ3hfXqHXQz3129eCmcLre5odcNsWq7/xzyJilMA==
   dependencies:
     "@electron/get" "^1.0.1"
-    "@types/node" "^12.0.12"
+    "@types/node" "^14.6.2"
     extract-zip "^1.0.3"
 
 emoji-regex@^7.0.1:
@@ -2760,6 +2781,23 @@ got@^11.0.2:
   version "11.8.1"
   resolved "https://registry.yarnpkg.com/got/-/got-11.8.1.tgz#df04adfaf2e782babb3daabc79139feec2f7e85d"
   integrity sha512-9aYdZL+6nHmvJwHALLwKSUZ0hMwGaJGYv3hoPLPgnT8BoBXm1SjnZeky+91tfwJaDzun2s4RsBRy48IEYv2q2Q==
+  dependencies:
+    "@sindresorhus/is" "^4.0.0"
+    "@szmarczak/http-timer" "^4.0.5"
+    "@types/cacheable-request" "^6.0.1"
+    "@types/responselike" "^1.0.0"
+    cacheable-lookup "^5.0.3"
+    cacheable-request "^7.0.1"
+    decompress-response "^6.0.0"
+    http2-wrapper "^1.0.0-beta.5.2"
+    lowercase-keys "^2.0.0"
+    p-cancelable "^2.0.0"
+    responselike "^2.0.0"
+
+got@^11.8.0:
+  version "11.8.2"
+  resolved "https://registry.yarnpkg.com/got/-/got-11.8.2.tgz#7abb3959ea28c31f3576f1576c1effce23f33599"
+  integrity sha512-D0QywKgIe30ODs+fm8wMZiAcZjypcCodPNuMz5H9Mny7RJ+IjJ10BdmGW7OM7fHXP+O7r6ZwapQ/YQmMSvB0UQ==
   dependencies:
     "@sindresorhus/is" "^4.0.0"
     "@szmarczak/http-timer" "^4.0.5"
@@ -5262,14 +5300,15 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.5.tgz#3694b5804567a458d3c8045842a6358632f62654"
   integrity sha512-J+FWzZoynJEXGphVIS+XEh3kFSjZX/1i9gFBaWQcB+/tmpe2qUsSBABpcxqxnAxFdiUFEgAX1bjYGQvIZmoz9Q==
 
-spectron@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/spectron/-/spectron-13.0.0.tgz#16bdfcf9a2b26cb5ee6c3e29b4f08101e339aa4d"
-  integrity sha512-7RPa6Fp8gqL4V0DubobnqIRFHIijkpjg6MFHcJlxoerWyvLJd+cQvOh756XpB1Z/U3DyA9jPcS+HE2PvYRP5+A==
+spectron@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/spectron/-/spectron-14.0.0.tgz#c8160e38c30dcda39734f3e8e809162dc0805d14"
+  integrity sha512-88GM7D1eLiTxjByjtY7lxU7CJcQ92kX1x0WfnADaIXqqYRLbI1KlIWxXz1Xm5UxuMJh5N847K0NONG49mvZtuw==
   dependencies:
+    "@electron/remote" "^1.0.4"
     dev-null "^0.1.1"
-    electron-chromedriver "^11.0.0"
-    request "^2.88.2"
+    electron-chromedriver "^12.0.0"
+    got "^11.8.0"
     split "^1.0.1"
     webdriverio "^6.9.1"
 
