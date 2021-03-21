@@ -1,10 +1,11 @@
 // @ts-check
-const { app, protocol } = require('electron');
+const { app, protocol, session } = require('electron');
 const { readFile } = require('fs');
 const isDev = require('electron-is-dev');
 const { setupAutoUpdates } = require('../updates');
 const { InMemoryStore } = require('../store');
 const WindowManager = require('./window');
+const settingsStore = require('../settings/main/store');
 
 class ElectronApp {
 
@@ -28,7 +29,45 @@ class ElectronApp {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
-    app.on('ready', () => {
+    app.on('ready', async () => {
+
+      /**
+       * @type any
+       */
+      const settings = settingsStore.get('settings');
+      console.log(settings);
+      if (settings) {
+        /**
+         * @type Electron.Config
+         */
+        const proxyConfig = {
+          mode: 'direct',
+        };
+
+        switch (settings.proxy_setting) {
+          case 'none':
+            proxyConfig.mode = 'direct';
+            break;
+          case 'autodetect':
+            proxyConfig.mode = 'auto_detect';
+            break;
+          case 'system':
+            proxyConfig.mode = 'system';
+            break;
+          case 'pac':
+            proxyConfig.mode = 'pac_script';
+            proxyConfig.pacScript = settings.pac_address;
+            break;
+          case 'proxy_server':
+            proxyConfig.mode = 'fixed_servers';
+            proxyConfig.proxyRules = `${settings.proxy_host}:${settings.proxy_port}`;
+            break;
+          default:
+        }
+        await session.defaultSession.setProxy(proxyConfig);
+        const proxy = await session.defaultSession.resolveProxy('http://localhost');
+        console.log(proxy, proxyConfig);
+      }
       this.windowManager.createWindow();
       if (!isDev) {
         setupAutoUpdates();

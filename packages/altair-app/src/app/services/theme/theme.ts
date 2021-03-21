@@ -50,7 +50,7 @@ const theme = deepmerge(foundations, {
   },
   editor: {
     fontFamily: {
-      default: 'inherit',
+      default: 'JetBrains Mono',
     },
     fontSize: foundations.type.fontSize.body,
     colors: {
