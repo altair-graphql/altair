@@ -41,12 +41,12 @@ export interface State {
   'theme.fontsize'?: number;
 
   /**
-   * Font Family
+   * Editor Font Family
    */
   'theme.editorFontFamily'?: string;
 
   /**
-   * Font Size
+   * Editor Font Size
    */
   'theme.editorFontSize'?: number;
 
