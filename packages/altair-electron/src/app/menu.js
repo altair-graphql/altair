@@ -28,6 +28,10 @@ class MenuManager {
             accelerator: 'Cmd+,',
             click: () => this.actionManager.showSettings(),
           },
+          {
+            label: 'Desktop settings...',
+            click: () => this.actionManager.showPreferences(),
+          },
           ...(isMac ? [
             { type: 'separator' },
             { role: 'services', submenu: [] },
