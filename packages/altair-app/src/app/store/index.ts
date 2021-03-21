@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { compose } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
+import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
@@ -27,6 +27,9 @@ import * as fromLocal from './local/local.reducer';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
 import { getAltairConfig } from 'app/config';
+import { TODO } from 'app/interfaces/shared';
+import { AppInitAction } from './action';
+import { asyncStorageSync } from './async-storage-sync';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -85,20 +88,28 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
 
 const getAltairInstanceStorageNamespace = () => getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
 export const keySerializer = (key: string) => `${getAltairInstanceStorageNamespace()}${key}`;
+export const storageKeys = [ 'windows', 'windowsMeta', 'settings', 'environments' ];
+
+export const localStorageSyncConfig = {
+  keys: storageKeys,
+  rehydrate: true,
+  storage: performantLocalStorage,
+  restoreDates: false,
+  // syncCondition: (state) => console.log(state),
+  storageKeySerializer: keySerializer
+} as const;
 
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({
-    keys: [ 'windows', 'windowsMeta', 'settings', 'environments' ],
-    rehydrate: true,
-    storage: performantLocalStorage,
-    restoreDates: false,
-    // syncCondition: (state) => console.log(state),
-    storageKeySerializer: keySerializer
-  })(_reducer);
+  return localStorageSync(localStorageSyncConfig)(_reducer);
+}
+
+export function asyncStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
 export const metaReducers: MetaReducer<any>[] = [
-  localStorageSyncReducer,
+  // localStorageSyncReducer,
+  asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log
 ];
