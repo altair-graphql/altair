@@ -54,6 +54,7 @@
   "SUBSCRIPTION_URL_TEXT": "訂閱網址",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
+  "SUBSCRIPTION_TYPE_TITLE": "Subscription type",
   "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
