@@ -9,75 +9,74 @@ export type SettingsLanguage = keyof typeof config.languages;
 export interface State {
 
   /**
-   * Specifies the theme
-   * Options: 'light', 'dark', 'dracula'
+   * Theme
    */
   theme: string;
 
   /**
-   * Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc
+   * Set language
    */
   language: SettingsLanguage;
 
   /**
-   * Specifies how deep the 'Add query' functionality would go
+   * 'Add query' functionality depth
    */
   addQueryDepthLimit: number;
 
   /**
-   * Specifies the tab size in the editor
+   * Editor tab size
    */
   tabSize: number;
 
   /**
-   * Enable experimental features in Altair.
-   * Note: The features might be unstable
+   * Enable experimental features.
+   * Note: Might be unstable
    */
   enableExperimental?: boolean;
 
   /**
-   * Specifies the base font size
-   * (Default size - 24)
+   * Base Font Size
+   * (Default - 24)
    */
   'theme.fontsize'?: number;
 
   /**
-   * Specifies the font family for the editors
+   * Editor Font Family
    */
   'theme.editorFontFamily'?: string;
 
   /**
-   * Specifies the font size for the editors
+   * Editor Font Size
    */
   'theme.editorFontSize'?: number;
 
   /**
-   * Specifies if the push notifications should be disabled
+   * Disable push notifications
    */
   disablePushNotification?: boolean;
 
   /**
-   * Specifies a list of enabled plugins
+   * Enabled plugins
    */
   'plugin.list'?: string[];
 
   /**
-   * Specifies if requests should be sent with credentials (with cookies) or not
+   * Send requests with credentials (cookies)
    */
   'request.withCredentials'?: boolean;
 
   /**
-   * Specifies if the schema should be reloaded when the app starts
+   * Reload schema on app start
    */
   'schema.reloadOnStart'?: boolean;
 
   /**
-   * Specifies if warning alerts should be disabled
+   * Disable warning alerts
    */
   'alert.disableWarnings'?: boolean;
 
   /**
-   * Specifies the number of items allowed in the history pane
+   * Number of items allowed in history pane
    */
   historyDepth?: number;
 
