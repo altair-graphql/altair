@@ -54,6 +54,7 @@
   "SUBSCRIPTION_URL_TEXT": "Url di Sottoscrizione",
   "SET_SUBSCRIPTION_URL_TEXT": "Immettere di seguito l'URL di sottoscrizione per il server",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametri di connessione (in JSON)",
+  "SUBSCRIPTION_TYPE_TITLE": "Subscription type",
   "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
