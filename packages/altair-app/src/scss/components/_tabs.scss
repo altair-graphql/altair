@@ -3,8 +3,20 @@
   display: flex;
   flex-direction: column;
 
+  & > .ant-tabs-nav .ant-tabs-tab,
   .ant-tabs-tab {
-    padding: 12px 8px;
+    padding: 0;
+  }
+
+  .ant-tabs-tab-btn {
+    padding: 5px 8px;
+    font-size: fontsize(14);
+  }
+
+  .ant-tabs-tab:hover,
+  .ant-tabs-tab-active .ant-tabs-tab-btn {
+    background: var(--theme-off-bg-color);
+    border-radius: 4px;
   }
 
   .ant-tabs-content {
@@ -19,5 +31,20 @@
 
   .ant-tabs-content-holder {
     display: flex;
+  }
+
+  & > .ant-tabs-nav::before,
+  & > div > .ant-tabs-nav::before {
+    border-color: transparent;
+  }
+
+  .ant-tabs-ink-bar {
+    background: transparent;
+  }
+
+  & > .ant-tabs-nav,
+  & > div > .ant-tabs-nav {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 }

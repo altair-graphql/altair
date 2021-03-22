@@ -2,12 +2,12 @@ import { INIT } from '@ngrx/store';
 import { LocalStorageConfig, rehydrateApplicationState } from 'ngrx-store-localstorage';
 import { ActionWithPayload, AppInitAction, APP_INIT_ACTION } from './action';
 import deepmerge from 'deepmerge';
-import { StorageService } from 'app/services';
+import { StorageService } from 'app/services/storage/storage.service';
 import { IDictionary } from 'app/interfaces/shared';
 import { Transaction } from 'dexie';
 import { debounce } from 'lodash-es';
 import { debug } from 'app/utils/logger';
-import { localStorageSyncConfig } from '.';
+import { localStorageSyncConfig } from './local-storage-sync-config';
 
 const normalizeToKeyValue = (state: any, keys: string[]) => {
   const normalized: IDictionary = {};

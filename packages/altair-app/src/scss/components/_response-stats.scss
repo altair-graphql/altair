@@ -10,9 +10,9 @@
 
 .response-stats__item {
   display: inline-block;
-  padding: 0 10px;
-  border-radius: 4px;
-  margin-right: 10px;
+  padding: 0 5px;
+  border-radius: 2px;
+  margin-right: 5px;
 
   &[data-status-code^="1"] {
     background: var(--orange-color);
