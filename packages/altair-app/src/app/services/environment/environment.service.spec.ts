@@ -115,6 +115,14 @@ describe('EnvironmentService', () => {
       expect(hydratedContent).toBe('current URL is https://provided.url!');
     });
 
+    it('should strip content if matching environment variable not exists', () => {
+      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const hydratedContent = service.hydrate('current URL is {{baseUrl}}!', {
+        activeEnvironment: {}
+      });
+      expect(hydratedContent).toBe('current URL is !');
+    });
+
     it('should render escaped content without hydrating it', () => {
       const service: EnvironmentService = TestBed.get(EnvironmentService);
       const hydratedContent = service.hydrate(`current URL is \\{{baseUrl}}!`, {

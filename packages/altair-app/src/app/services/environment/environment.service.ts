@@ -75,10 +75,13 @@ export class EnvironmentService {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
-        return prefix + activeEnvironment[variable];
+        return prefix + (activeEnvironment[variable] || '');
       }
-      return match;
-    }).replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
+
+      return match || '';
+    })
+    // keep escaped strings
+    .replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
   }
 
   hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {
