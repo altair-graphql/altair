@@ -18,15 +18,21 @@
       <div class="app-dialog-section">
         <input type="url" class="dialog-input" [value]="subscriptionUrl" (input)="subscriptionUrlInput($event)" placeholder="ws://example.com/subscriptions" />
       </div>
-      <div class="subscription-provider__list">
-        <nz-radio-group [ngModel]="selectedSubscriptionProviderId" (ngModelChange)="updateSubscriptionProviderId($event)">
-          <label
+      <div class="subscription-params-section">
+        <div class="subscription-params-title">{{ 'SUBSCRIPTION_TYPE_TITLE' | translate }}</div>
+        <nz-select
+          class="dialog-select"
+          [ngModel]="selectedSubscriptionProviderId"
+          (ngModelChange)="updateSubscriptionProviderId($event)"
+        >
+          <nz-option
             *ngFor="let provider of subscriptionProviders; trackBy:trackById"
-            nz-radio
             [nzValue]="provider.id"
-          >{{ provider.copyTag | translate }}</label>
-        </nz-radio-group>
+            [nzLabel]="provider.copyTag | translate"
+          ></nz-option>
+        </nz-select>
       </div>
+
       <div class="subscription-params-section">
         <div class="subscription-params-title">{{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}</div>
         <div class="subscription-params-editor-wrapper">

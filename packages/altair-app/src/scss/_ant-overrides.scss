@@ -172,6 +172,16 @@
   color: var(--primary-color);
 }
 
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background: var(--theme-bg-color);
+  border-color: var(--theme-border-color);
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: var(--primary-color);
+}
+
 .ant-radio-wrapper {
   color: var(--theme-font-color);
 }
