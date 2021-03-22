@@ -24,6 +24,7 @@ export interface ExportWindowState {
   headers: Array<{key: string, value: string}>;
   variables: string;
   subscriptionUrl: string;
+  subscriptionConnectionParams?: string;
   preRequestScript?: string;
   preRequestScriptEnabled?: boolean;
   postRequestScript?: string;
