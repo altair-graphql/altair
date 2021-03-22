@@ -54,6 +54,7 @@
   "SUBSCRIPTION_URL_TEXT": "Đăng ký socket URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Nhập URL socket đăng ký cho máy chủ của bạn dưới đây",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Tham số kết nối (JSON)",
+  "SUBSCRIPTION_TYPE_TITLE": "Subscription type",
   "SUBSCRIPTION_PROVIDER_WEBSOCKET": "Websocket",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
