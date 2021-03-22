@@ -84,6 +84,11 @@ export interface State {
    * Theme config object
    */
   themeConfig?: ICustomTheme;
+
+  /**
+   * Hides extensions object
+   */
+  'response.hideExtensions'?: boolean;
 }
 
 export const getInitialState = (): State => {

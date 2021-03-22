@@ -215,7 +215,13 @@ export class QueryEffects {
                       return res.data;
                     }),
                     map(result => {
-                      this.store.dispatch(new queryActions.SetQueryResultAction(result?.response.body, response.windowId));
+                      const responseBody = { ...result?.response.body };
+
+                      if (response.state.settings['response.hideExtensions']) {
+                        Reflect.deleteProperty(responseBody, 'extensions');
+                      }
+
+                      this.store.dispatch(new queryActions.SetQueryResultAction(responseBody, response.windowId));
                       return result;
                     }),
                     catchError((error) => {
