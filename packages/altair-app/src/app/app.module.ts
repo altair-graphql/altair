@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, APP_INITIALIZER, ApplicationInitStatus } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -17,7 +17,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './modules/shared/shared.module';
 
-import { metaReducers, reducerToken } from './store';
+import { metaReducers, reducerToken, State } from './store';
 
 import { QueryEffects } from './effects/query.effect';
 import { WindowsEffects } from './effects/windows.effect';
@@ -42,6 +42,8 @@ import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
 import { environment } from 'environments/environment';
+import { AppInitAction } from './store/action';
+import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 
 registerLocaleData(en);
 
@@ -56,6 +58,11 @@ export function mapValuesToArray(obj: any): Array<any> {
         return obj[key];
     });
 };
+
+export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
+  // bootstrap() returns a Promise
+  return () => reducer.bootstrap();
+}
 
 const servicesArray: Array<any> = mapValuesToArray(services);
 
@@ -80,6 +87,7 @@ const providers = [
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,
   CookieService,
+  ReducerBootstrapper,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HTTPErrorInterceptor,
@@ -93,7 +101,13 @@ const providers = [
     provide: OverlayContainer,
     useClass: AppOverlayContainer,
     // useFactory: () => new AppOverlayContainer()
-  }
+  },
+  {
+    provide: APP_INITIALIZER,
+    deps: [ReducerBootstrapper],
+    multi: true,
+    useFactory: reducerBootstrapFactory
+  },
 ];
 
 @NgModule({
@@ -119,6 +133,7 @@ const providers = [
         strictStateImmutability: false,
         strictActionImmutability: false,
       },
+      // initialState: {},
     }),
     EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects, PluginEventEffects ]),
     StoreDevtoolsModule.instrument({
@@ -147,4 +162,12 @@ const providers = [
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    applicationInitStatus: ApplicationInitStatus,
+    store: Store<State>,
+    reducerBootstrapper: ReducerBootstrapper,
+  ) {
+    applicationInitStatus.donePromise.then(() => store.dispatch(new AppInitAction({ initialState: reducerBootstrapper.initialState })));
+  }
+}

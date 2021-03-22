@@ -39,7 +39,7 @@ let initialized = false;
         },
       ]
     ).bootstrapModule(AppModule, {
-      preserveWhitespaces: true
+      preserveWhitespaces: true,
     }).then(moduleRef => {
       const applicationRef = moduleRef.injector.get(ApplicationRef);
       const componentRef = applicationRef.components[0];
