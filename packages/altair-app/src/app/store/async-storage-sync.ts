@@ -1,24 +1,26 @@
 import { INIT } from '@ngrx/store';
-import { LocalStorageConfig, rehydrateApplicationState } from 'ngrx-store-localstorage';
-import { ActionWithPayload, AppInitAction, APP_INIT_ACTION } from './action';
+import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import deepmerge from 'deepmerge';
-import { StorageService } from 'app/services/storage/storage.service';
-import { IDictionary } from 'app/interfaces/shared';
 import { Transaction } from 'dexie';
 import { debounce } from 'lodash-es';
+import { LocalStorageConfig, rehydrateApplicationState } from 'ngrx-store-localstorage';
+import { ActionWithPayload, AppInitAction, APP_INIT_ACTION } from './action';
+import { StorageService } from 'app/services/storage/storage.service';
+import { IDictionary } from 'app/interfaces/shared';
 import { debug } from 'app/utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
+import { getAltairConfig } from 'app/config';
 
-const normalizeToKeyValue = (state: any, keys: string[]) => {
+const normalizeToKeyValue = (state: any, keys: string[], storageNamespace: string) => {
   const normalized: IDictionary = {};
   keys.forEach(key => {
     if (key === 'windows' && state[key]) {
       // handle specially
       Object.keys(state[key]).forEach(windowId => {
-        normalized[`${key}::${windowId}`] = state[key][windowId];
+        normalized[`[${storageNamespace}]::${key}::${windowId}`] = state[key][windowId];
       });
     } else {
-      normalized[key] = state[key];
+      normalized[`[${storageNamespace}]::${key}`] = state[key];
     }
   });
 
@@ -34,10 +36,10 @@ interface SyncOperation {
 let syncTransaction: Transaction | null = null;
 let syncOperations: SyncOperation[] = [];
 // { operation: 'put', key, value };
-const getSyncOperations = (oldState: any, newState: any, keys: string[]) => {
+const getSyncOperations = (oldState: any, newState: any, keys: string[], storageNamespace: string) => {
   const ops: SyncOperation[] = [];
-  const normalizedOldState = normalizeToKeyValue(oldState, keys);
-  const normalizedNewState = normalizeToKeyValue(newState, keys);
+  const normalizedOldState = normalizeToKeyValue(oldState, keys, storageNamespace);
+  const normalizedNewState = normalizeToKeyValue(newState, keys, storageNamespace);
 
   // Get old keys from old state and remove any undefined in new state (especially window state)
   const removedKeys = Object.keys(normalizedOldState).filter(key => !Object.keys(normalizedNewState).includes(key));
@@ -63,8 +65,8 @@ const getSyncOperations = (oldState: any, newState: any, keys: string[]) => {
   return ops;
 };
 
-const updateSyncOperations = (oldState: any, newState: any, keys: string[]) => {
-  const newOps = getSyncOperations(oldState, newState, keys);
+const updateSyncOperations = (oldState: any, newState: any, keys: string[], storageNamespace: string) => {
+  const newOps = getSyncOperations(oldState, newState, keys, storageNamespace);
   syncOperations = syncOperations.filter(op => !newOps.find(no => no.key === op.key)).concat(newOps);
 };
 
@@ -124,6 +126,7 @@ export const defaultMergeReducer = (state: any, rehydratedState: any, action: an
 export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
   const asyncStorage = new StorageService();
   let stateList = await asyncStorage.appState.toArray();
+  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
   const reducedState: IDictionary = {
     windows: {},
   };
@@ -139,8 +142,8 @@ export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
       localStorageSyncConfig.storageKeySerializer,
       localStorageSyncConfig.restoreDates,
     );
-    updateSyncOperations({}, hydratedState, localStorageSyncConfig.keys);
     debug.log('pulling state from localStorage since async storage is empty..');
+    updateSyncOperations({}, hydratedState, localStorageSyncConfig.keys, storageNamespace);
     await syncStateUpdate();
 
     stateList = await asyncStorage.appState.toArray();
@@ -151,11 +154,15 @@ export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
   }
 
   stateList.forEach((curStateItem) => {
-    if (curStateItem.key.includes('windows::')) {
+    if (!curStateItem.key.startsWith(`[${storageNamespace}]::`)) {
+      return;
+    }
+    const key = curStateItem.key.replace(`[${storageNamespace}]::`, '');
+    if (key.includes('windows::')) {
       // Handle reducing window state
-      reducedState.windows[curStateItem.key.replace('windows::', '')] = JSON.parse(curStateItem.value);
+      reducedState.windows[key.replace('windows::', '')] = JSON.parse(curStateItem.value);
     } else {
-      reducedState[curStateItem.key] = JSON.parse(curStateItem.value);
+      reducedState[key] = JSON.parse(curStateItem.value);
     }
   });
 
@@ -163,6 +170,8 @@ export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
 };
 
 export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => {
+  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
+
   return function (state: any, action: ActionWithPayload) {
     let nextState: any;
 
@@ -183,10 +192,11 @@ export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => 
 
     nextState = reducer(nextState, action);
 
-    if (![INIT, APP_INIT_ACTION].includes(action.type)) {
+    if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
       // update storage
       // Queue update changes before debouncing
-      updateSyncOperations(state, nextState, opts.keys);
+      debug.log('debouncing update..');
+      updateSyncOperations(state, nextState, opts.keys, storageNamespace);
       debouncedSyncStateUpdate();
     }
 

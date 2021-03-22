@@ -120,7 +120,7 @@ export class AltairConfig {
     environments: ({} as IInitialEnvironments),
     preRequestScript: '',
     postRequestScript: '',
-    instanceStorageNamespace: '',
+    instanceStorageNamespace: 'altair_',
     settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
   };
   constructor({
@@ -143,7 +143,7 @@ export class AltairConfig {
     this.initialData.environments = initialEnvironments || {};
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.postRequestScript = initialPostRequestScript;
-    this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || '';
+    this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || 'altair_';
     this.initialData.settings = initialSettings || undefined;
   }
 }
