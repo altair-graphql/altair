@@ -7,6 +7,11 @@ exports[`FancyInputComponent should render the highlights correctly based on the
   <div
     class="fancy-input-container"
   >
+    <input
+      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      placeholder=""
+      type="text"
+    />
     <div
       class="fancy-input-backdrop"
     >
@@ -24,9 +29,14 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
         
         
-        <mark>
-          {{variable1}}
-        </mark>
+        <app-fancy-input-marker>
+          <mark
+            class="fancy-input-marker__invalid"
+          >
+            {{variable1}}
+          </mark>
+          
+        </app-fancy-input-marker>
         
         
         
@@ -38,9 +48,14 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
         
         
-        <mark>
-          {{variable2}}
-        </mark>
+        <app-fancy-input-marker>
+          <mark
+            class="fancy-input-marker__invalid"
+          >
+            {{variable2}}
+          </mark>
+          
+        </app-fancy-input-marker>
         
         
         
@@ -51,11 +66,6 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
       </div>
     </div>
-    <input
-      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
-      placeholder=""
-      type="text"
-    />
   </div>
 </div>
 `;
@@ -67,6 +77,11 @@ exports[`FancyInputComponent should set component value when input value changes
   <div
     class="fancy-input-container"
   >
+    <input
+      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      placeholder=""
+      type="text"
+    />
     <div
       class="fancy-input-backdrop"
     >
@@ -83,11 +98,6 @@ exports[`FancyInputComponent should set component value when input value changes
         
       </div>
     </div>
-    <input
-      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
-      placeholder=""
-      type="text"
-    />
   </div>
 </div>
 `;
