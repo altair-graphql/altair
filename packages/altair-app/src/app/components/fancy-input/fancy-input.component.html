@@ -17,11 +17,12 @@
         <span
           *ngIf="!section.type"
         >{{ section.content }}</span>
-        <mark
+        <app-fancy-input-marker
           *ngIf="section.type === 'mark'"
-          nz-tooltip
-          nzTooltipTitle="Variable"
-        >{{ section.content }}</mark>
+          [section]="section"
+          [activeEnvironment]="activeEnvironment"
+          (click)="fancyInputEl.focus()"
+        ></app-fancy-input-marker>
       </ng-container>
     </div>
   </div>
