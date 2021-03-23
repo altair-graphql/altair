@@ -25,62 +25,66 @@
     },
     "properties": {
         "addQueryDepthLimit": {
-            "description": "Specifies how deep the 'Add query' functionality would go",
+            "description": "'Add query' functionality depth",
             "type": "number"
         },
         "alert.disableWarnings": {
-            "description": "Specifies if warning alerts should be disabled",
+            "description": "Disable warning alerts",
             "type": "boolean"
         },
         "disablePushNotification": {
-            "description": "Specifies if the push notifications should be disabled",
+            "description": "Disable push notifications",
             "type": "boolean"
         },
         "enableExperimental": {
-            "description": "Enable experimental features in Altair.\nNote: The features might be unstable",
+            "description": "Enable experimental features.\nNote: Might be unstable",
             "type": "boolean"
         },
         "historyDepth": {
-            "description": "Specifies the number of items allowed in the history pane",
+            "description": "Number of items allowed in history pane",
             "type": "number"
         },
         "language": {
             "$ref": "#/definitions/SettingsLanguage",
-            "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
+            "description": "Set language"
         },
         "plugin.list": {
-            "description": "Specifies a list of enabled plugins",
+            "description": "Enabled plugins",
             "items": {
                 "type": "string"
             },
             "type": "array"
         },
         "request.withCredentials": {
-            "description": "Specifies if requests should be sent with credentials (with cookies) or not",
+            "description": "Send requests with credentials (cookies)",
+            "type": "boolean"
+        },
+        "response.hideExtensions": {
+            "description": "Hides extensions object",
             "type": "boolean"
         },
         "schema.reloadOnStart": {
-            "description": "Specifies if the schema should be reloaded when the app starts",
+            "description": "Reload schema on app start",
             "type": "boolean"
         },
         "tabSize": {
-            "description": "Specifies the tab size in the editor",
+            "description": "Editor tab size",
             "type": "number"
         },
         "theme": {
-            "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'",
+            "description": "Theme",
             "type": "string"
         },
         "theme.editorFontFamily": {
-            "description": "Specifies the font family for the editors",
+            "description": "Editor Font Family",
             "type": "string"
         },
         "theme.editorFontSize": {
-            "description": "Specifies the font size for the editors",
+            "description": "Editor Font Size",
             "type": "number"
         },
         "theme.fontsize": {
-            "description": "Specifies the base font size\n(Default size - 24)",
+            "description": "Base Font Size\n(Default - 24)",
             "type": "number"
         },
         "themeConfig": {

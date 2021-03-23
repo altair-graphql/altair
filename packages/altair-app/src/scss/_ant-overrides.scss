@@ -273,3 +273,30 @@
 .ant-tabs-ink-bar {
   background-color: var(--primary-color);
 }
+.ant-table.ant-table-small,
+.ant-table {
+  background-color: var(--theme-bg-color);
+  color: var(--theme-font-color);
+  opacity: .8;
+  font-size: fontsize(12);
+}
+
+.ant-table-thead > tr > th,
+.ant-table-small .ant-table-thead > tr > th {
+  background-color: var(--theme-bg-color);
+  border-color: var(--theme-border-color);
+  color: var(--theme-font-color);
+  font-size: fontsize(12);
+}
+
+.ant-table-thead > tr > th {
+  text-transform: uppercase;
+}
+
+.ant-table-tbody > tr > td {
+  border-color: var(--theme-border-color);
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: var(--theme-off-bg-color);
+}

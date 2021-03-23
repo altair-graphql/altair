@@ -282,13 +282,15 @@ class WindowManager {
         if (filePath && filePath.endsWith('.map')) {
           return resolve({ mimeType: 'text/plain', data: Buffer.from('{"version": 3, "file": "index.module.js", "sources": [], "sourcesContent": [], "names": [], "mappings":""}') });
         }
-        fs.readFile(filePath, 'utf8', function (err, data) {
+        // some files are binary files, eg. font, so don't encode utf8
+        fs.readFile(filePath, function (err, data) {
           if (err) {
             console.log('Error loading file to buffer.', filePath, err);
             return reject(err);
           }
 
           if (filePath && filePath.includes('index.html')) {
+            // @ts-ignore
             data = renderAltair();
           }
 

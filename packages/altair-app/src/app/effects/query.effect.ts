@@ -215,13 +215,16 @@ export class QueryEffects {
                       return res.data;
                     }),
                     map(result => {
-                      const responseBody = { ...result?.response.body };
+                      const responseBody = result?.response.body ? { ...result?.response.body } : result?.response.body;
 
-                      if (response.state.settings['response.hideExtensions']) {
+                      if (responseBody && response.state.settings['response.hideExtensions']) {
                         Reflect.deleteProperty(responseBody, 'extensions');
                       }
 
                       this.store.dispatch(new queryActions.SetQueryResultAction(responseBody, response.windowId));
+                      this.store.dispatch(
+                        new queryActions.SetQueryResultResponseHeadersAction(response.windowId, { headers: result?.meta.headers })
+                      );
                       return result;
                     }),
                     catchError((error) => {

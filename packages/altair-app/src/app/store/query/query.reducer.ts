@@ -1,11 +1,10 @@
-import { Action } from '@ngrx/store';
-
 import { initialQuery } from './initialQuery';
 
 import * as query from '../../store/query/query.action';
 import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
 import { WEBSOCKET_PROVIDER_ID } from 'app/services/subscriptions/subscription-provider-registry.service';
+import { IDictionary } from 'app/interfaces/shared';
 
 export interface QueryEditorState {
   isFocused: boolean;
@@ -35,6 +34,7 @@ export interface State {
   responseTime: number;
   responseStatus: number;
   responseStatusText: string;
+  responseHeaders?: IDictionary;
   showUrlAlert: boolean;
   urlAlertMessage: string;
   urlAlertSuccess: boolean;
@@ -65,6 +65,7 @@ export const getInitialState = (): State => {
     responseTime: 0,
     responseStatus: 0,
     responseStatusText: '',
+    responseHeaders: {},
     showUrlAlert: false,
     urlAlertMessage: 'URL has been set',
     urlAlertSuccess: true,
@@ -95,6 +96,8 @@ export function queryReducer(state = getInitialState(), action: query.Action): S
       return Object.assign({}, state, { subscriptionUrl: action.payload.subscriptionUrl });
     case query.SET_QUERY_RESULT:
       return Object.assign({}, state, { response: action.payload });
+    case query.SET_QUERY_RESULT_RESPONSE_HEADERS:
+      return { ...state, responseHeaders: action.payload.headers };
     case query.SET_SELECTED_OPERATION:
       return Object.assign({}, state, { selectedOperation: action.payload.selectedOperation });
     case query.SET_RESPONSE_STATS:

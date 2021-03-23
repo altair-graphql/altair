@@ -1,85 +1,144 @@
-<div class="query-result-container">
-  <div class="query-result__normal-container" [ngClass]="{ 'hide': isSubscribed }">
-    <div class="query-result__none" *ngIf="!queryResult">
-      <div class="query-result__none-inner">
-        <div class="query-result__none-subtext">
-          {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
-        </div>
-        <div class="query-result__none-art">
-          <div class="left">
-            <div class="query-result__none-art-button send"></div>
-            <div class="query-result__none-art-button"></div>
-            <div class="query-result__none-art-button"></div>
-            <div class="query-result__none-art-button"></div>
-          </div>
-          <div class="right">
-            <div class="query-result__none-art-button"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--We want it to be hidden in the DOM, not removed so we use hidden-->
-    <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
-      <div class="response-stats">
-        <div class="left">
-          <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
-          <span class="response-time response-stats__item"><app-icon name="clock"></app-icon> {{responseTime}}ms</span>
-        </div>
-        <div class="right">
-        </div>
-      </div>
-      <div class="query-result__bottom-actions">
-        <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
-          <app-icon name="download"></app-icon>
-          {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
-        </button>
-        <button
-          *ngFor="let uiAction of uiActions"
-          class="query-result__download-button"
-          (click)="uiActionExecuteChange.next(uiAction)"
-        >
-          {{ uiAction.title }}
-        </button>
-      </div>
-      <ngx-codemirror
-        #editor
-        class="app-query-result-textarea"
-        [options]="resultEditorConfig"
-        [ngModel]="queryResult | json"
-      ></ngx-codemirror>
-    </div>
-  </div>
-  <div class="query-result__subscription-container" [ngClass]="{ 'hide': !isSubscribed }">
-    <div class="subscription-result">
-      <div class="subscription-result__actions">
-          <div class="subscription-result__actions-left">
-            <div class="subscription-result__actions-url">
-              {{ subscriptionUrl }}
+<nz-tabset
+  class="main-view-tabs"
+  [nzAnimated]="false"
+  nzSize="small"
+  nzTabBarGutter="16"
+  [(nzSelectedIndex)]="selectedIndex"
+>
+  <nz-tab
+    [nzTitle]="'QUERY_RESULT_TAB' | translate"
+    [nzDisabled]="isSubscribed"
+  >
+    <div class="query-result-container">
+      <div class="query-result__normal-container">
+        <div class="query-result__none" *ngIf="!queryResult">
+          <div class="query-result__none-inner">
+            <div class="query-result__none-subtext">
+              {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
+            </div>
+            <div class="query-result__none-art">
+              <div class="left">
+                <div class="query-result__none-art-button send"></div>
+                <div class="query-result__none-art-button"></div>
+                <div class="query-result__none-art-button"></div>
+                <div class="query-result__none-art-button"></div>
+              </div>
+              <div class="right">
+                <div class="query-result__none-art-button"></div>
+              </div>
             </div>
           </div>
-          <div class="subscription-result__actions-right">
-            <button track-id="clear_subscription" class="subscription-button" (click)="clearSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_CLEAR_TEXT' | translate }}</button>
-            <button track-id="stop_subscription" class="subscription-button subscription-button--stop" (click)="stopSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}</button>
+        </div>
+        <!--We want it to be hidden in the DOM, not removed so we use hidden-->
+        <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
+          <div class="response-stats">
+            <div class="left">
+              <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
+              <span class="response-time response-stats__item"><app-icon name="clock"></app-icon> {{responseTime}}ms</span>
+            </div>
+            <div class="right">
+            </div>
           </div>
-      </div>
-      <div
-        #subscriptionResponseList
-        class="subscription-result__list-wrapper"
-      >
-        <app-subscription-result-item
-          *ngFor="let item of subscriptionResponses; trackBy:subscriptionResponseTrackBy;"
-          [data]="item"
-        ></app-subscription-result-item>
-      </div>
-      <div class="subscription-result__float-actions">
-        <button
-          class="subscription-result__float-action-button"
-          [ngClass]="{ 'subscription-result__float-action-button--active': autoscrollSubscriptionResponses }"
-          (click)="autoscrollSubscriptionResponsesChange.next()"
-        >
-          {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
-        </button>
+          <div class="query-result__bottom-actions">
+            <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
+              <app-icon name="download"></app-icon>
+              {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
+            </button>
+            <button
+              *ngFor="let uiAction of uiActions"
+              class="query-result__download-button"
+              (click)="uiActionExecuteChange.next(uiAction)"
+            >
+              {{ uiAction.title }}
+            </button>
+          </div>
+          <ngx-codemirror
+            #editor
+            class="app-query-result-textarea"
+            [options]="resultEditorConfig"
+            [ngModel]="queryResult | json"
+          ></ngx-codemirror>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </nz-tab>
+  <nz-tab
+    [nzTitle]="'SUBSCRIPTION_RESULT_TAB' | translate"
+    [nzDisabled]="!isSubscribed && !subscriptionResponses?.length"
+  >
+    <div class="query-result-container">
+      <div class="query-result__subscription-container">
+        <div class="subscription-result">
+          <div class="subscription-result__actions">
+              <div class="subscription-result__actions-left">
+                <div class="subscription-result__actions-url">
+                  {{ subscriptionUrl }}
+                </div>
+              </div>
+              <div
+                *ngIf="isSubscribed"
+                class="subscription-result__actions-right"
+              >
+                <button track-id="clear_subscription" class="subscription-button" (click)="clearSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_CLEAR_TEXT' | translate }}</button>
+                <button track-id="stop_subscription" class="subscription-button subscription-button--stop" (click)="stopSubscriptionChange.next()">{{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}</button>
+              </div>
+          </div>
+          <div
+            #subscriptionResponseList
+            class="subscription-result__list-wrapper"
+          >
+            <app-subscription-result-item
+              *ngFor="let item of subscriptionResponses; trackBy:subscriptionResponseTrackBy;"
+              [data]="item"
+            ></app-subscription-result-item>
+          </div>
+          <div class="subscription-result__float-actions">
+            <button
+              *ngIf="isSubscribed"
+              class="subscription-result__float-action-button"
+              [ngClass]="{ 'subscription-result__float-action-button--active': autoscrollSubscriptionResponses }"
+              (click)="autoscrollSubscriptionResponsesChange.next()"
+            >
+              {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab
+    [nzTitle]="'RESPONSE_HEADERS_TAB' | translate"
+  >
+    <div class="query-result-container">
+      <div class="response-headers__container">
+        <nz-table
+          #smallTable
+          nzSize="small"
+          nzNoResult=""
+          [nzShowPagination]="false"
+          [nzTemplateMode]="true"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let headerKey of (responseHeaders | keys)">
+              <td>{{ headerKey }}</td>
+              <td>{{ responseHeaders[headerKey] }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <div
+          *ngIf="!isElectron"
+          class="response-headers__notice"
+        >
+          {{ 'RESPONSE_HEADERS_MORE_IN_APPS' | translate }}
+        </div>
+      </div>
+    </div>
+  </nz-tab>
+</nz-tabset>
+

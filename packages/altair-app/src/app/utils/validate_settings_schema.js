@@ -209,15 +209,15 @@ var validate = (function() {
                       var valid1 = errors === errs_1;
                     }
                     if (valid1) {
-                      if (data['schema.reloadOnStart'] === undefined) {
+                      if (data['response.hideExtensions'] === undefined) {
                         valid1 = true;
                       } else {
                         var errs_1 = errors;
-                        if (typeof data['schema.reloadOnStart'] !== "boolean") {
+                        if (typeof data['response.hideExtensions'] !== "boolean") {
                           validate.errors = [{
                             keyword: 'type',
-                            dataPath: (dataPath || '') + '[\'schema.reloadOnStart\']',
-                            schemaPath: '#/properties/schema.reloadOnStart/type',
+                            dataPath: (dataPath || '') + '[\'response.hideExtensions\']',
+                            schemaPath: '#/properties/response.hideExtensions/type',
                             params: {
                               type: 'boolean'
                             },
@@ -228,53 +228,53 @@ var validate = (function() {
                         var valid1 = errors === errs_1;
                       }
                       if (valid1) {
-                        if (data.tabSize === undefined) {
+                        if (data['schema.reloadOnStart'] === undefined) {
                           valid1 = true;
                         } else {
                           var errs_1 = errors;
-                          if (typeof data.tabSize !== "number") {
+                          if (typeof data['schema.reloadOnStart'] !== "boolean") {
                             validate.errors = [{
                               keyword: 'type',
-                              dataPath: (dataPath || '') + '.tabSize',
-                              schemaPath: '#/properties/tabSize/type',
+                              dataPath: (dataPath || '') + '[\'schema.reloadOnStart\']',
+                              schemaPath: '#/properties/schema.reloadOnStart/type',
                               params: {
-                                type: 'number'
+                                type: 'boolean'
                               },
-                              message: 'should be number'
+                              message: 'should be boolean'
                             }];
                             return false;
                           }
                           var valid1 = errors === errs_1;
                         }
                         if (valid1) {
-                          if (data.theme === undefined) {
+                          if (data.tabSize === undefined) {
                             valid1 = true;
                           } else {
                             var errs_1 = errors;
-                            if (typeof data.theme !== "string") {
+                            if (typeof data.tabSize !== "number") {
                               validate.errors = [{
                                 keyword: 'type',
-                                dataPath: (dataPath || '') + '.theme',
-                                schemaPath: '#/properties/theme/type',
+                                dataPath: (dataPath || '') + '.tabSize',
+                                schemaPath: '#/properties/tabSize/type',
                                 params: {
-                                  type: 'string'
+                                  type: 'number'
                                 },
-                                message: 'should be string'
+                                message: 'should be number'
                               }];
                               return false;
                             }
                             var valid1 = errors === errs_1;
                           }
                           if (valid1) {
-                            if (data['theme.editorFontFamily'] === undefined) {
+                            if (data.theme === undefined) {
                               valid1 = true;
                             } else {
                               var errs_1 = errors;
-                              if (typeof data['theme.editorFontFamily'] !== "string") {
+                              if (typeof data.theme !== "string") {
                                 validate.errors = [{
                                   keyword: 'type',
-                                  dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
-                                  schemaPath: '#/properties/theme.editorFontFamily/type',
+                                  dataPath: (dataPath || '') + '.theme',
+                                  schemaPath: '#/properties/theme/type',
                                   params: {
                                     type: 'string'
                                   },
@@ -285,34 +285,34 @@ var validate = (function() {
                               var valid1 = errors === errs_1;
                             }
                             if (valid1) {
-                              if (data['theme.editorFontSize'] === undefined) {
+                              if (data['theme.editorFontFamily'] === undefined) {
                                 valid1 = true;
                               } else {
                                 var errs_1 = errors;
-                                if (typeof data['theme.editorFontSize'] !== "number") {
+                                if (typeof data['theme.editorFontFamily'] !== "string") {
                                   validate.errors = [{
                                     keyword: 'type',
-                                    dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
-                                    schemaPath: '#/properties/theme.editorFontSize/type',
+                                    dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
+                                    schemaPath: '#/properties/theme.editorFontFamily/type',
                                     params: {
-                                      type: 'number'
+                                      type: 'string'
                                     },
-                                    message: 'should be number'
+                                    message: 'should be string'
                                   }];
                                   return false;
                                 }
                                 var valid1 = errors === errs_1;
                               }
                               if (valid1) {
-                                if (data['theme.fontsize'] === undefined) {
+                                if (data['theme.editorFontSize'] === undefined) {
                                   valid1 = true;
                                 } else {
                                   var errs_1 = errors;
-                                  if (typeof data['theme.fontsize'] !== "number") {
+                                  if (typeof data['theme.editorFontSize'] !== "number") {
                                     validate.errors = [{
                                       keyword: 'type',
-                                      dataPath: (dataPath || '') + '[\'theme.fontsize\']',
-                                      schemaPath: '#/properties/theme.fontsize/type',
+                                      dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
+                                      schemaPath: '#/properties/theme.editorFontSize/type',
                                       params: {
                                         type: 'number'
                                       },
@@ -321,6 +321,26 @@ var validate = (function() {
                                     return false;
                                   }
                                   var valid1 = errors === errs_1;
+                                }
+                                if (valid1) {
+                                  if (data['theme.fontsize'] === undefined) {
+                                    valid1 = true;
+                                  } else {
+                                    var errs_1 = errors;
+                                    if (typeof data['theme.fontsize'] !== "number") {
+                                      validate.errors = [{
+                                        keyword: 'type',
+                                        dataPath: (dataPath || '') + '[\'theme.fontsize\']',
+                                        schemaPath: '#/properties/theme.fontsize/type',
+                                        params: {
+                                          type: 'number'
+                                        },
+                                        message: 'should be number'
+                                      }];
+                                      return false;
+                                    }
+                                    var valid1 = errors === errs_1;
+                                  }
                                 }
                               }
                             }
@@ -361,62 +381,66 @@ validate.schema = {
   },
   "properties": {
     "addQueryDepthLimit": {
-      "description": "Specifies how deep the 'Add query' functionality would go",
+      "description": "'Add query' functionality depth",
       "type": "number"
     },
     "alert.disableWarnings": {
-      "description": "Specifies if warning alerts should be disabled",
+      "description": "Disable warning alerts",
       "type": "boolean"
     },
     "disablePushNotification": {
-      "description": "Specifies if the push notifications should be disabled",
+      "description": "Disable push notifications",
       "type": "boolean"
     },
     "enableExperimental": {
-      "description": "Enable experimental features in Altair.\nNote: The features might be unstable",
+      "description": "Enable experimental features.\nNote: Might be unstable",
       "type": "boolean"
     },
     "historyDepth": {
-      "description": "Specifies the number of items allowed in the history pane",
+      "description": "Number of items allowed in history pane",
       "type": "number"
     },
     "language": {
       "$ref": "#/definitions/SettingsLanguage",
-      "description": "Specifies the language e.g. 'en-US', 'fr-FR', 'ru-RU', etc"
+      "description": "Set language"
     },
     "plugin.list": {
-      "description": "Specifies a list of enabled plugins",
+      "description": "Enabled plugins",
       "items": {
         "type": "string"
       },
       "type": "array"
     },
     "request.withCredentials": {
-      "description": "Specifies if requests should be sent with credentials (with cookies) or not",
+      "description": "Send requests with credentials (cookies)",
+      "type": "boolean"
+    },
+    "response.hideExtensions": {
+      "description": "Hides extensions object",
       "type": "boolean"
     },
     "schema.reloadOnStart": {
-      "description": "Specifies if the schema should be reloaded when the app starts",
+      "description": "Reload schema on app start",
       "type": "boolean"
     },
     "tabSize": {
-      "description": "Specifies the tab size in the editor",
+      "description": "Editor tab size",
       "type": "number"
     },
     "theme": {
-      "description": "Specifies the theme\nOptions: 'light', 'dark', 'dracula'",
+      "description": "Theme",
       "type": "string"
     },
     "theme.editorFontFamily": {
-      "description": "Specifies the font family for the editors",
+      "description": "Editor Font Family",
       "type": "string"
     },
     "theme.editorFontSize": {
-      "description": "Specifies the font size for the editors",
+      "description": "Editor Font Size",
       "type": "number"
     },
     "theme.fontsize": {
-      "description": "Specifies the base font size\n(Default size - 24)",
+      "description": "Base Font Size\n(Default - 24)",
       "type": "number"
     },
     "themeConfig": {
