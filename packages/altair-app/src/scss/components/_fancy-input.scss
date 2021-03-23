@@ -16,6 +16,7 @@ app-fancy-input,
 	padding-right: 99px !important;
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
+	pointer-events: none;
 }
 
 .fancy-input-highlights {
@@ -52,9 +53,12 @@ app-fancy-input,
 
 .fancy-input-content mark {
   // background: var(--cerise-color);
-  background: rgba(var(--rgb-cerise), .5);
-  // color: var(--green-color);
+  // background: rgba(var(--rgb-cerise), .5);
+  color: var(--primary-color);
+	background: transparent;
   border-radius: 4px;
 	padding: 0 !important;
+	// TODO: When we introduce popover for mark, uncomment the pointer events
+	// pointer-events: all;
 	// color: var(--white-color);
 }

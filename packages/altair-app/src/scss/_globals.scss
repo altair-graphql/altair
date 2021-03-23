@@ -42,7 +42,7 @@ input[type="url"] {
 
 ::selection {
   color: var(--theme-bg-color);
-  background: var(--primary-color);
+  background: var(--theme-font-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
