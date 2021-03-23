@@ -70,6 +70,7 @@ export class WindowComponent implements OnInit {
   responseStatus$: Observable<number>;
   responseTime$: Observable<number>;
   responseStatusText$: Observable<string>;
+  responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<fromQuery.SubscriptionResponse[]>;
   selectedOperation$?: Observable<fromQuery.SelectedOperation>;
@@ -138,6 +139,7 @@ export class WindowComponent implements OnInit {
     this.responseStatus$ = this.getWindowState().pipe(select(fromRoot.getResponseStatus));
     this.responseTime$ = this.getWindowState().pipe(select(fromRoot.getResponseTime));
     this.responseStatusText$ = this.getWindowState().pipe(select(fromRoot.getResponseStatusText));
+    this.responseHeaders$ = this.getWindowState().pipe(select(fromRoot.getResponseHeaders));
     this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
     this.subscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getSubscriptionResponses));
     this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(select(fromRoot.getAutoscrollSubscriptionResponse));

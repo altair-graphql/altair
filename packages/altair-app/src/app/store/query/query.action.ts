@@ -1,4 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { IDictionary } from 'app/interfaces/shared';
 import { QueryEditorState } from './query.reducer';
 
 export const SET_URL = 'SET_URL';
@@ -15,6 +16,7 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
 
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
+export const SET_QUERY_RESULT_RESPONSE_HEADERS = 'SET_QUERY_RESULT_RESPONSE_HEADERS';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
 export const COPY_AS_CURL = 'COPY_AS_CURL';
@@ -91,6 +93,12 @@ export class SetQueryResultAction implements NGRXAction {
   readonly type = SET_QUERY_RESULT;
 
   constructor(public payload: any, public windowId: string) {}
+}
+
+export class SetQueryResultResponseHeadersAction implements NGRXAction {
+  readonly type = SET_QUERY_RESULT_RESPONSE_HEADERS;
+
+  constructor(public windowId: string, public payload: { headers?: IDictionary }) {}
 }
 
 export class PrettifyQueryAction implements NGRXAction {
@@ -221,6 +229,7 @@ export type Action =
   | SetQueryAction
   | SetQueryFromDbAction
   | SetQueryResultAction
+  | SetQueryResultResponseHeadersAction
   | PrettifyQueryAction
   | CompressQueryAction
   | CopyAsCurlAction

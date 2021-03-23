@@ -27,6 +27,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
@@ -48,6 +49,7 @@ const AntdComponentModules = [
   NzMenuModule,
   NzCollapseModule,
   NzToolTipModule,
+  NzTableModule,
   // NgZorroAntdModule,
 ];
 

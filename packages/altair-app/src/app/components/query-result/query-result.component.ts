@@ -29,6 +29,7 @@ import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
 import { SubscriptionResponse } from 'app/store/query/query.reducer';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
+import isElectron from '../../utils/is_electron';
 
 @Component({
   selector: 'app-query-result',
@@ -41,6 +42,7 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
+  @Input() responseHeaders = {};
   @Input() isSubscribed = false;
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() subscriptionUrl = '';
@@ -56,6 +58,10 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
+
+  isElectron = isElectron;
+
+  selectedIndex = 0;
 
   resultEditorConfig = {
     mode: 'graphql-results',
@@ -90,6 +96,18 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
     if (changes?.queryResult?.currentValue) {
       setTimeout(() => handleEditorRefresh(this.editor?.codeMirror, true), 10);
+    }
+
+    if (changes?.isSubscribed) {
+      if (changes.isSubscribed.currentValue) {
+        // select subscription result tab is subscribed
+        this.selectedIndex = 1;
+      } else {
+        // if unsubscribed and no subscription result yet, select initial tab instead
+        if (!this.subscriptionResponses.length) {
+          this.selectedIndex = 0;
+        }
+      }
     }
   }
 

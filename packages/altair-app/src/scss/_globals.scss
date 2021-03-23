@@ -40,6 +40,11 @@ input[type="url"] {
   }
 }
 
+::selection {
+  color: var(--theme-bg-color);
+  background: var(--primary-color);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

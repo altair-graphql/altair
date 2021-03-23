@@ -13,7 +13,7 @@
     font-size: fontsize(14);
   }
 
-  .ant-tabs-tab:hover,
+  .ant-tabs-tab:not(.ant-tabs-tab-disabled):hover,
   .ant-tabs-tab-active .ant-tabs-tab-btn {
     background: var(--theme-off-bg-color);
     border-radius: 4px;
@@ -46,5 +46,10 @@
   & > div > .ant-tabs-nav {
     margin-top: 8px;
     margin-bottom: 8px;
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-disabled {
+    color: var(--theme-font-color);
+    opacity: .3;
   }
 }
