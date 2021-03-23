@@ -53,13 +53,13 @@ describe('EnvironmentService', () => {
   });
 
   it('should be created', () => {
-    const service: EnvironmentService = TestBed.get(EnvironmentService);
+    const service: EnvironmentService = TestBed.inject(EnvironmentService);
     expect(service).toBeTruthy();
   });
 
   describe('.getActiveEnvironment()', () => {
     it('should return base environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const activeEnvironment = service.getActiveEnvironment();
       expect(activeEnvironment).toEqual({
         baseUrl: 'https://example.api'
@@ -85,7 +85,7 @@ describe('EnvironmentService', () => {
         activeIndex: 0
       });
       mockStore.subscribe = createStoreSubscribeFn(environments);
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const activeEnvironment = service.getActiveEnvironment();
       expect(activeEnvironment).toEqual({
         baseUrl: 'https://environment-1.api',
@@ -97,18 +97,18 @@ describe('EnvironmentService', () => {
 
   describe('.hydrate()', () => {
     it('should returns empty if content is empty string', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrate('');
       expect(hydratedContent).toBe('');
     });
     it('should hydrate content with active environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrate('current URL is {{baseUrl}}!');
       expect(hydratedContent).toBe('current URL is https://example.api!');
     });
 
     it('should hydrate content with provided environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrate('current URL is {{baseUrl}}!', {
         activeEnvironment: { baseUrl: 'https://provided.url' }
       });
@@ -116,15 +116,37 @@ describe('EnvironmentService', () => {
     });
 
     it('should strip content if matching environment variable not exists', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrate('current URL is {{baseUrl}}!', {
         activeEnvironment: {}
       });
       expect(hydratedContent).toBe('current URL is !');
     });
 
+    it('should hydrate multiple variables with random character between', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate('putting both together gives .{{first}}.{{second}}!', {
+        activeEnvironment: {
+          first: '1',
+          second: '2',
+        }
+      });
+      expect(hydratedContent).toBe('putting both together gives .1.2!');
+    });
+
+    it('should hydrate multiple variables next to each other properly', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate('putting both together gives: {{first}}{{second}}!', {
+        activeEnvironment: {
+          first: '1',
+          second: '2',
+        }
+      });
+      expect(hydratedContent).toBe('putting both together gives: 12!');
+    });
+
     it('should render escaped content without hydrating it', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrate(`current URL is \\{{baseUrl}}!`, {
         activeEnvironment: { baseUrl: 'https://provided.url' }
       });
@@ -134,7 +156,7 @@ describe('EnvironmentService', () => {
 
   describe('.hydrateHeaders()', () => {
     it('should hydrate headers with active environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrateHeaders([
         {
           key: 'x-api-url',
@@ -152,7 +174,7 @@ describe('EnvironmentService', () => {
     });
 
     it('should hydrate headers with provided environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrateHeaders([
         {
           key: 'x-api-url',
@@ -172,7 +194,7 @@ describe('EnvironmentService', () => {
     });
 
     it('should merge headers with headers payload in active environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrateHeaders([
         {
           key: 'x-api-url',
@@ -202,7 +224,7 @@ describe('EnvironmentService', () => {
     });
 
     it('should merge headers and hydrate headers payload in active environment', () => {
-      const service: EnvironmentService = TestBed.get(EnvironmentService);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
       const hydratedContent = service.hydrateHeaders([
         {
           key: 'x-api-url',
