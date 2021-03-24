@@ -4,8 +4,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, APP_INITIALIZER, Applic
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ToastrModule } from 'ngx-toastr';
-
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -138,15 +136,6 @@ const providers = [
     EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects, PluginEventEffects ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,
-    }),
-    ToastrModule.forRoot({
-      newestOnTop: false,
-      closeButton: true,
-      positionClass: 'toast-top-center',
-      enableHtml: true,
-      countDuplicates: true,
-      preventDuplicates: true,
-      resetTimeoutOnDuplicate: true,
     }),
     TranslateModule.forRoot({
       loader: {

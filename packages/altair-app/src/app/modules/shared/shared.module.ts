@@ -9,6 +9,8 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
+import { HotToastModule } from '@ngneat/hot-toast';
+
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -28,6 +30,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTableModule } from 'ng-zorro-antd/table';
+
 import { IconsModule } from '../icons/icons.module';
 
 const AntdComponentModules = [
@@ -68,6 +71,23 @@ const AntdComponentModules = [
     }),
     MarkdownModule.forRoot(),
     IconsModule,
+    // ToastrModule.forRoot({
+    //   newestOnTop: false,
+    //   closeButton: true,
+    //   positionClass: 'toast-top-center',
+    //   enableHtml: true,
+    //   countDuplicates: true,
+    //   preventDuplicates: true,
+    //   resetTimeoutOnDuplicate: true,
+    // }),
+    HotToastModule.forRoot({
+      position: 'top-center',
+      reverseOrder: true,
+      dismissible: true,
+      closeStyle: {
+        backgroundImage: `none`,
+      },
+    }),
     ...AntdComponentModules,
   ],
 
@@ -82,6 +102,7 @@ const AntdComponentModules = [
     NgxPopperModule,
     MarkdownModule,
     IconsModule,
+    HotToastModule,
     ...AntdComponentModules,
   ]
 })

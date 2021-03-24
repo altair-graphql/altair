@@ -43,3 +43,17 @@ nz-alert {
   border: currentColor 1px solid;
   border-radius: 4px;
 }
+
+:root {
+  --hot-toast-color: var(--theme-font-color);
+  --hot-toast-bg: var(--theme-bg-color);
+}
+
+.hot-toast-close-btn {
+  &:before {
+    content: '\00D7';
+    font-size: 1em;
+    line-height: 1;
+    color: var(--theme-font-color);
+  }
+}

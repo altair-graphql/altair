@@ -5,7 +5,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { WindowService, DbService, NotifyService } from '..';
 import { NgxElectronModule } from 'ngx-electron';
 import { empty as observableEmpty } from 'rxjs';
-import { ToastrModule } from 'ngx-toastr';
 import { GqlService } from '../gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -15,7 +14,6 @@ describe('ElectronAppService', () => {
       imports: [
         HttpClientModule,
         NgxElectronModule,
-        ToastrModule.forRoot(),
       ],
       providers: [
         ElectronAppService,

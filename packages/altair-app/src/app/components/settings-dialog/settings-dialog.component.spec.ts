@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
 import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService, GqlService } from 'app/services';
-import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +28,6 @@ describe('SettingsDialogComponent', () => {
         FormsModule,
         CodemirrorModule,
         SharedModule,
-        ToastrModule.forRoot(),
         TranslateModule.forRoot(),
         SchemaFormModule,
       ],

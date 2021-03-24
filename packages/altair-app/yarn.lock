@@ -2031,6 +2031,20 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
+"@ngneat/hot-toast@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ngneat/hot-toast/-/hot-toast-2.0.1.tgz#1b3763a0bf63a8cd0f378d54238ba385524d8eb5"
+  integrity sha512-XTw9jP6jFEstxMKRjD2T79wcJgGu26MuH/vMWZbTV6tmfngCbgNc0Pxjy0b7ntN2eFgoeQdYapvjQlfvoohBgg==
+  dependencies:
+    tslib "^2.0.0"
+
+"@ngneat/overview@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ngneat/overview/-/overview-1.0.0.tgz#554710ddf129aafd47d6e17ccca91e55736dd1d5"
+  integrity sha512-rWR1hwMMrHCwaLNkyRCkRUkh3gB3bN/5+EBfq5Y3I4e4OYvqNdGwF1X0x62iWE5Aof96dxKnyX4UdDnje49hiw==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngneat/until-destroy@^8.0.1":
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@ngneat/until-destroy/-/until-destroy-8.0.1.tgz#136172063578ac951a822a83ff4d80c1e676feda"
