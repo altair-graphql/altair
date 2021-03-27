@@ -4,6 +4,7 @@ const {
   protocol,
   ipcMain,
   session,
+  app,
 } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -15,6 +16,7 @@ const { getDistDirectory, renderAltair } = require('altair-static');
 
 const { checkMultipleDataVersions } = require('../utils/check-multi-data-versions');
 const { initMainProcessStoreEvents } = require('../electron-store-adapter/main-store-events');
+const { initSettingsStoreEvents } = require('../settings/main/events');
 
 const MenuManager = require('./menu');
 const ActionManager = require('./actions');
@@ -96,6 +98,7 @@ class WindowManager {
   manageEvents() {
 
     initMainProcessStoreEvents();
+    initSettingsStoreEvents();
 
     // Prevent the app from navigating away from the app
     this.instance.webContents.on('will-navigate', e => e.preventDefault());
@@ -171,6 +174,11 @@ class WindowManager {
           }
         )
       });
+    });
+
+    ipcMain.on('restart-app', () => {
+      app.relaunch();
+      app.exit();
     });
 
     // Get 'set headers' instruction from app
@@ -274,13 +282,15 @@ class WindowManager {
         if (filePath && filePath.endsWith('.map')) {
           return resolve({ mimeType: 'text/plain', data: Buffer.from('{"version": 3, "file": "index.module.js", "sources": [], "sourcesContent": [], "names": [], "mappings":""}') });
         }
-        fs.readFile(filePath, 'utf8', function (err, data) {
+        // some files are binary files, eg. font, so don't encode utf8
+        fs.readFile(filePath, function (err, data) {
           if (err) {
             console.log('Error loading file to buffer.', filePath, err);
             return reject(err);
           }
 
           if (filePath && filePath.includes('index.html')) {
+            // @ts-ignore
             data = renderAltair();
           }
 

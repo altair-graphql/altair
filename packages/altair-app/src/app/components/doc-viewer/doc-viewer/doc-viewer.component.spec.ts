@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerComponent } from './doc-viewer.component';
@@ -13,7 +13,7 @@ describe('DocViewerComponent', () => {
   let component: DocViewerComponent;
   let fixture: ComponentFixture<DocViewerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockGqlService = new Mock();
     TestBed.configureTestingModule({
       imports: [

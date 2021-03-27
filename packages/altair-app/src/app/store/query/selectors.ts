@@ -7,6 +7,7 @@ export const getQueryResult = createSelector(getQueryState, state => state.respo
 export const getResponseStatus = createSelector(getQueryState, state => state.responseStatus);
 export const getResponseTime = createSelector(getQueryState, state => state.responseTime);
 export const getResponseStatusText = createSelector(getQueryState, state => state.responseStatusText);
+export const getResponseHeaders = createSelector(getQueryState, state => state.responseHeaders);
 export const isSubscribed = createSelector(getQueryState, state => state.isSubscribed);
 export const getSubscriptionResponses = createSelector(getQueryState, state => state.subscriptionResponseList);
 export const getAutoscrollSubscriptionResponse = createSelector(getQueryState, state => state.autoscrollSubscriptionResponse);

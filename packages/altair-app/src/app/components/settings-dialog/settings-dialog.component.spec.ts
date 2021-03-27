@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { empty as observableEmpty } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
 import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService, GqlService } from 'app/services';
-import { ToastrModule } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +19,7 @@ describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
   let fixture: ComponentFixture<SettingsDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SettingsDialogComponent ],
       imports: [
@@ -29,7 +28,6 @@ describe('SettingsDialogComponent', () => {
         FormsModule,
         CodemirrorModule,
         SharedModule,
-        ToastrModule.forRoot(),
         TranslateModule.forRoot(),
         SchemaFormModule,
       ],

@@ -1,11 +1,13 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, ExpectedConditions } from 'protractor';
 
 export class AltairPage {
   constructor() {
     browser.waitForAngularEnabled(false);
   }
-  navigateTo() {
-    return browser.get('/');
+  async navigateTo() {
+    await browser.get('/');
+    const EC = ExpectedConditions;
+    await browser.wait(ExpectedConditions.elementToBeClickable(element(by.css('app-window'))), 5000);
   }
 
   getParagraphText() {

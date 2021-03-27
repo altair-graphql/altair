@@ -77,7 +77,7 @@ describe('QueryCollectionsComponent', () => {
 
     await wrapper.nextTick();
 
-    const collectionItems = wrapper.findAll('app-query-collection-item');
+    const collectionItems = wrapper.findAll<QueryCollectionItemComponent>('app-query-collection-item');
     expect(collectionItems.length).toBe(3);
     expect(collectionItems[0].componentInstance.collection).toEqual({ id: 1, title: 'Collection 1', queries: [] });
     expect(collectionItems[1].componentInstance.collection).toEqual({ id: 2, title: 'Collection 2', queries: [] });

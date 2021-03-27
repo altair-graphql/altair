@@ -5,6 +5,7 @@ import { IQueryCollection } from 'app/store/collection/collection.reducer';
 @Injectable()
 export class StorageService extends Dexie {
   queryCollections: Dexie.Table<IQueryCollection, number>;
+  appState: Dexie.Table<{ key: string, value: any }, string>;
 
   constructor() {
     super('AltairDB');
@@ -12,8 +13,9 @@ export class StorageService extends Dexie {
   }
 
   schema() {
-    this.version(1).stores({
-      queryCollections: '++id, title'
+    this.version(2).stores({
+      queryCollections: '++id, title',
+      appState: 'key',
     });
   }
 

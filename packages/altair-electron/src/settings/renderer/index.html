@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Settings</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/photon.min.css">
+    <link rel="stylesheet" href="./css/settings.css">
+
+    <!-- Javascript -->
+    <script src="./app.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="window">
+
+      <!-- .toolbar-header sits at the top of your app -->
+      <!-- <header class="toolbar toolbar-header">
+        <h1 class="title">Photon</h1>
+      </header> -->
+
+      <!-- Your app's content goes inside .window-content -->
+      <div class="window-content">
+        <div class="pane-group">
+          <div class="pane pane-sm sidebar">
+            <nav class="nav-group">
+              <span class="nav-group-item active">
+                <span class="icon icon-signal"></span>
+                Network
+              </span>
+            </nav>
+          </div>
+
+          <div class="pane">
+            <div class="padded-more">
+
+              <form class="js-network-form">
+                <h4>Configure proxy</h4>
+                <div class="form-group">
+                  <div class="radio">
+                    <label>
+                      <input class="js-input" type="radio" name="proxy_setting" value="none">
+                      No proxy
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input class="js-input" type="radio" name="proxy_setting" value="autodetect">
+                      Auto-detect proxy settings
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input class="js-input" type="radio" name="proxy_setting" value="system">
+                      Use system proxy settings
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input class="js-input" type="radio" name="proxy_setting" value="pac">
+                      Use automatic configuration script
+                    </label>
+                    <div class="nested">
+                      <div class="form-group">
+                        <input type="text" class="js-input form-control" placeholder="Address URL" name="pac_address">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input class="js-input" type="radio" name="proxy_setting" value="proxy_server">
+                      Use proxy server for connections
+                    </label>
+                    <div class="nested">
+                      <div class="form-group">
+                        <input type="text" class="js-input form-control" placeholder="Host" name="proxy_host">
+                      </div>
+                      <div class="form-group">
+                        <input type="number" class="js-input form-control" placeholder="Port" name="proxy_port">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-form btn-primary">Save and Restart</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

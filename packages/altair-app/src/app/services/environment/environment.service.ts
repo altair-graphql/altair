@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import uuid from 'uuid/v4';
 
 import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
@@ -27,8 +28,10 @@ export class EnvironmentService {
   constructor(
     private store: Store<fromRoot.State>
   ) {
-    this.store.subscribe(data => {
-      this.environmentsState = data.environments;
+    this.store.subscribe({
+      next: data => {
+        this.environmentsState = data.environments;
+      },
     });
   }
 
@@ -68,15 +71,31 @@ export class EnvironmentService {
 
     const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
 
-    return content.replace(VARIABLE_REGEX, (match) => {
-      const prefix = match.replace(/{{.*/, '');
+    const escaped: IDictionary = {};
+    // Keep escaped variable regex aside, replacing with non-variable values
+    content = content.replace(/\\{{\s*[\w\.]+\s*}}/g, (match) => {
+      const escapedId = uuid();
+      // remove the escape character when hydrating
+      escaped[escapedId] = match.replace(/^\\/, '');
+      return `[[${escapedId}]]`;
+    });
+
+    // Replace variable regex
+    content = content.replace(/{{\s*[\w\.]+\s*}}/g, (match) => {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
-        return prefix + activeEnvironment[variable];
+        return activeEnvironment[variable] || '';
       }
       return match;
-    }).replace(/\\({{\s*[\w\.]+\s*}})/g, '$1');
+    });
+
+    // Replace escaped variable values back
+    Object.keys(escaped).forEach(escapedId => {
+      content = content.split(`[[${escapedId}]]`).join(escaped[escapedId]);
+    });
+
+    return content;
   }
 
   hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {

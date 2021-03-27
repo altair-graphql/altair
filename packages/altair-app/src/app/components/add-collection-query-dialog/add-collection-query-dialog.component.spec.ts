@@ -7,6 +7,7 @@ import { SharedModule } from 'app/modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mount } from '../../../testing/utils';
 import { NgxTestWrapper } from 'testing/wrapper';
+import { DialogComponent } from '../dialog/dialog.component';
 
 describe('AddCollectionQueryDialogComponent', () => {
   let wrapper: NgxTestWrapper<AddCollectionQueryDialogComponent>;
@@ -41,7 +42,7 @@ describe('AddCollectionQueryDialogComponent', () => {
   });
 
   it('should set showDialog on app-dialog with [showDialog]', async() => {
-    const appDialog = wrapper.find('app-dialog');
+    const appDialog = wrapper.find<DialogComponent>('app-dialog');
     wrapper.setProps({ showDialog: true });
 
     expect(appDialog.componentInstance.showDialog).toBe(true);

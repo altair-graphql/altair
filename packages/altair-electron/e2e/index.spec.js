@@ -279,7 +279,7 @@ describe('Altair electron', () => {
     await copyAsCurlMenuItem.click();
     await app.client.pause(100);
     const clipboardText = await app.electron.clipboard.readText();
-    expect(clipboardText).toBe('curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"\\n  # Welcome to Altair GraphQL Client.\\n  # You can send your request using CmdOrCtrl + Enter.\\n\\n  # Enter your graphQL query here.\\n\\n      { hello }","variables":{}}\' --compressed');
+    expect(clipboardText).toBe('curl \'http://localhost:5400/graphql\' -H \'Accept-Encoding: gzip, deflate, br\' -H \'Content-Type: application/json\' -H \'Accept: application/json\' -H \'Connection: keep-alive\' -H \'Origin: altair://-\' --data-binary \'{"query":"# Welcome to Altair GraphQL Client.\\n# You can send your request using CmdOrCtrl + Enter.\\n\\n# Enter your graphQL query here.\\n\\n    { hello }","variables":{}}\' --compressed');
 
     await app.client.closeLastAltairWindow();
   });

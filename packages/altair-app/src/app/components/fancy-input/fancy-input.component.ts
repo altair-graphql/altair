@@ -1,13 +1,23 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { EnvironmentService } from 'app/services';
 import { debug } from 'app/utils/logger';
+import { distinct, distinctUntilChanged, map } from 'rxjs/operators';
+
+import * as fromRoot from '../../store';
 // import { VARIABLE_REGEX } from 'app/services/environment/environment.service';
 // TODO: Duplicating for now after changing to use lookahead in environment service variable regex
-const VARIABLE_REGEX = /{{\s*[\w\.]+\s*}}/g;
+export const VARIABLE_REGEX = /{{\s*([\w\.]+)\s*}}/g;
 interface BoundaryMarker {
   index: number;
   type: 'start' | 'stop';
   className?: string;
+}
+
+export interface HighlightSection {
+  content: string;
+  type?: string;
 }
 
 @Component({
@@ -48,12 +58,27 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
 
   highlightData = {
-    sections: [] as any[]
+    sections: [] as HighlightSection[]
   };
 
   private innerValue = '';
 
-  constructor() { }
+  private activeEnvironment = {};
+
+  constructor(
+    private store: Store<fromRoot.State>,
+    private environmentService: EnvironmentService,
+  ) {
+    store.pipe(
+      map(data => data.environments),
+      distinctUntilChanged(),
+    ).subscribe({
+      next: (data) => {
+        // get active environment
+        this.activeEnvironment = environmentService.getActiveEnvironment();
+      },
+    });
+  }
 
   // From ControlValueAccessor interface
   writeValue(value: any) {
@@ -184,7 +209,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     });
   }
   generateHighlightSections(val: string, boundaries: BoundaryMarker[]) {
-    const sections: any[] = [];
+    const sections: HighlightSection[] = [];
     let lastBoundary = {
       index: 0,
       type: ''
@@ -193,7 +218,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     boundaries.forEach(boundary => {
       sections.push({
         content: val.substring(lastBoundary.index, boundary.index),
-        type: lastBoundary.type === 'start' && boundary.type === 'stop' && 'mark'
+        type: lastBoundary.type === 'start' && boundary.type === 'stop' ? 'mark' : undefined,
       });
       lastBoundary = boundary;
     });

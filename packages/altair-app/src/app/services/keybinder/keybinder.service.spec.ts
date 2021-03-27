@@ -8,7 +8,6 @@ import { DbService } from '../db.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ElectronService } from 'ngx-electron';
 import { NotifyService } from '../notify/notify.service';
-import { ToastrModule } from 'ngx-toastr';
 import { GqlService } from '../gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,7 +16,6 @@ describe('KeybinderService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        ToastrModule.forRoot()
       ],
       providers: [
         KeybinderService,

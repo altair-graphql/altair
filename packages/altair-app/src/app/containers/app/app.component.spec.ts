@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -9,17 +9,10 @@ import * as services from './../../services';
 import { empty as observableEmpty, of } from 'rxjs';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import { DocViewerModule } from './../../components/doc-viewer/doc-viewer.module';
-import { ComponentModule } from './../../components/components.module';
 
 import { AppComponent } from './app.component';
-import { WindowComponent } from '../window/window.component';
-import { DirectivesModule } from 'app/directives';
-import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from 'app/modules/shared/shared.module';
-import { SmartInputModule } from 'app/components/smart-input/smart-input.module';
 import { AltairConfig } from 'app/config';
 import { NgxTestWrapper } from '../../../testing/wrapper';
 import { mount } from '../../../testing/utils';

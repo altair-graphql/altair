@@ -1,6 +1,5 @@
 import { InjectionToken } from '@angular/core';
 import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { compose } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { storeFreeze } from 'ngrx-store-freeze';
 
@@ -22,10 +21,15 @@ import * as fromCollection from './collection/collection.reducer';
 import * as fromEnvironments from './environments/environments.reducer';
 import * as fromStream from './stream/stream.reducer';
 import * as fromPreRequest from './pre-request/pre-request.reducer';
+import * as fromPostRequest from './post-request/post-request.reducer';
 import * as fromLocal from './local/local.reducer';
 import { debug } from 'app/utils/logger';
 import performantLocalStorage from 'app/utils/performant-local-storage';
 import { getAltairConfig } from 'app/config';
+import { TODO } from 'app/interfaces/shared';
+import { AppInitAction } from './action';
+import { asyncStorageSync } from './async-storage-sync';
+import { localStorageSyncConfig } from './local-storage-sync-config';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -38,6 +42,7 @@ export interface PerWindowState {
   history: fromHistory.State;
   stream: fromStream.State;
   preRequest: fromPreRequest.State;
+  postRequest: fromPostRequest.State;
   windowId: string; // Used by the window reducer
 }
 
@@ -52,6 +57,7 @@ const perWindowReducers = {
   history: fromHistory.historyReducer,
   stream: fromStream.streamReducer,
   preRequest: fromPreRequest.preRequestReducer,
+  postRequest: fromPostRequest.postRequestReducer,
 };
 
 export interface State {
@@ -80,22 +86,17 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-const getAltairInstanceStorageNamespace = () => getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
-export const keySerializer = (key: string) => `${getAltairInstanceStorageNamespace()}${key}`;
-
 export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({
-    keys: [ 'windows', 'windowsMeta', 'settings', 'environments' ],
-    rehydrate: true,
-    storage: performantLocalStorage,
-    restoreDates: false,
-    // syncCondition: (state) => console.log(state),
-    storageKeySerializer: keySerializer
-  })(_reducer);
+  return localStorageSync(localStorageSyncConfig)(_reducer);
+}
+
+export function asyncStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
+  return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
 export const metaReducers: MetaReducer<any>[] = [
-  localStorageSyncReducer,
+  // localStorageSyncReducer,
+  asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log
 ];
@@ -128,5 +129,6 @@ export * from './layout/selectors';
 export * from './gql-schema/selectors';
 export * from './collection/selectors';
 export * from './pre-request/selectors';
+export * from './post-request/selectors';
 export * from './stream/selectors';
 export * from './local/selectors';

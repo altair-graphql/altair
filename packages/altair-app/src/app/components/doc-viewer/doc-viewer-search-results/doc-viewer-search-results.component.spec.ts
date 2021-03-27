@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results.component';
@@ -7,7 +7,7 @@ describe('DocViewerSearchResultsComponent', () => {
   let component: DocViewerSearchResultsComponent;
   let fixture: ComponentFixture<DocViewerSearchResultsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DocViewerSearchResultsComponent ],
       imports: [

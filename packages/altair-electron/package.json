@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
@@ -15,7 +15,7 @@
     "dev": "electron ."
   },
   "dependencies": {
-    "altair-static": "^3.2.2",
+    "altair-static": "^4.0.0",
     "electron-debug": "^3.0.1",
     "electron-is-dev": "^1.2.0",
     "electron-log": "^3.0.6",
@@ -25,21 +25,21 @@
     "electron-updater": "^4.3.5",
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
-    "mime-types": "^2.1.24"
+    "mime-types": "^2.1.29"
   },
   "devDependencies": {
     "@jest/globals": "^26.1.0",
     "@types/jest": "^26.0.3",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "^11.2.2",
+    "electron": "^12.0.1",
     "electron-builder": "^22.9.1",
     "electron-notarize": "^1.0.0",
     "electron-reloader": "^0.3.0",
     "eslint": "^7.3.1",
     "jest": "^26.1.0",
     "jest-circus": "^26.1.0",
-    "spectron": "^13.0.0"
+    "spectron": "^14.0.0"
   },
   "repository": {
     "type": "git",

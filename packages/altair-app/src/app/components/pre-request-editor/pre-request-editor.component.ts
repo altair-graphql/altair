@@ -23,7 +23,6 @@ import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from 'app/utils/codemirror/refresh-editor';
-import { PreRequestService } from 'app/services';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
@@ -49,7 +48,7 @@ export class PreRequestEditorComponent implements AfterViewInit, OnChanges, DoCh
     dragDrop: false,
     autoCloseBrackets: true,
     keyMap: 'sublime',
-    theme: 'default pre-request-editor mousetrap',
+    theme: 'default request-script-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     extraKeys: {
       'Ctrl-Space': 'autocomplete',

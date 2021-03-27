@@ -70,6 +70,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @Input() showVariableDialog = false;
   @Input() variableToType: IDictionary;
 
+  @Input() preRequest: any = {};
+  @Output() preRequestScriptChange = new EventEmitter();
+  @Output() preRequestEnabledChange = new EventEmitter();
+
+  @Input() postRequest: any = {};
+  @Output() postRequestScriptChange = new EventEmitter();
+  @Output() postRequestEnabledChange = new EventEmitter();
+
   @Output() sendRequest = new EventEmitter();
   @Output() queryChange = new EventEmitter<string>();
   @Output() variablesChange = new EventEmitter();
@@ -85,6 +93,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
 
   @HostBinding('style.flex-grow') public resizeFactor: number;
+
+  selectedIndex = 0;
 
   editorConfig = <any>{
     mode: 'graphql',
@@ -192,6 +202,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
     if (changes?.tabSize?.currentValue) {
       this.editorConfig.tabSize = this.tabSize;
       this.editorConfig.indentUnit = this.tabSize;
+    }
+
+    if (changes?.query?.currentValue) {
+      // Set current tab to Query if query is updated
+      this.selectedIndex = 0;
     }
   }
 

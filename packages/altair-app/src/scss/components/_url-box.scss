@@ -1,8 +1,8 @@
-$url-input-height: 50px;
+$url-input-height: 45px;
 
 .url-box {
   // max-width: 900px;
-  margin: 0 auto 10px;
+  margin: 0 auto 5px;
   width: 100%;
   display: flex;
 }
@@ -95,7 +95,7 @@ $url-input-height: 50px;
   border-right: 0;
   background: var(--theme-bg-color);
   color: var(--primary-color);
-  height: 50px;
+  height: $url-input-height;
 
   &:hover {
     border-color: var(--theme-off-border-color);

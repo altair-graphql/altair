@@ -94,6 +94,7 @@ export class WindowService {
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
+          subscriptionConnectionParams: window.query.subscriptionConnectionParams,
           headers: window.headers,
           windowName: `${window.layout.title} (Copy)`,
           preRequestScript: window.preRequest.script,
@@ -123,6 +124,7 @@ export class WindowService {
           apiUrl: window.query.url,
           variables: window.variables.variables,
           subscriptionUrl: window.query.subscriptionUrl,
+          subscriptionConnectionParams: window.query.subscriptionConnectionParams,
           headers: window.headers,
           windowName: window.layout.title,
           preRequestScript: window.preRequest.script,
@@ -164,6 +166,7 @@ export class WindowService {
         apiUrl: curlObj.url,
         variables: curlObj.body ? JSON.stringify(JSON.parse(curlObj.body).variables) : '',
         subscriptionUrl: '',
+        subscriptionConnectionParams: '',
         headers: curlObj.headers ? Object.keys(curlObj.headers).map(key => ({ key, value: curlObj.headers[key] })) : [],
         windowName: `cURL-${Date.now()}`,
         preRequestScript: '',
@@ -228,6 +231,12 @@ export class WindowService {
           this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
         }
 
+        if (data.subscriptionConnectionParams) {
+          this.store.dispatch(
+            new queryActions.SetSubscriptionConnectionParamsAction(windowId, { connectionParams: data.subscriptionConnectionParams })
+          );
+        }
+
         if (data.preRequestScriptEnabled) {
           this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(windowId, { enabled: data.preRequestScriptEnabled }));
         }
@@ -252,7 +261,7 @@ export class WindowService {
    */
   importStringData(dataStr: string) {
     const invalidFileError = new Error('Invalid Altair window file.');
-    const emptyWindowData = {
+    const emptyWindowData: fromWindows.ExportWindowState = {
       version: 1,
       type: 'window',
       apiUrl: '',
@@ -261,6 +270,7 @@ export class WindowService {
       preRequestScriptEnabled: false,
       query: '',
       subscriptionUrl: '',
+      subscriptionConnectionParams: '',
       variables: '{}',
       windowName: '',
     };

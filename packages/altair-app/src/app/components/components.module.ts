@@ -31,7 +31,9 @@ import { DialogComponent } from './dialog/dialog.component';
 import { EditCollectionDialogComponent } from './edit-collection-dialog/edit-collection-dialog.component';
 import { EnvironmentManagerComponent } from './environment-manager/environment-manager.component';
 import { FancyInputComponent } from './fancy-input/fancy-input.component';
+import { FancyInputMarkerComponent } from './fancy-input-marker/fancy-input-marker.component';
 import { PreRequestEditorComponent } from './pre-request-editor/pre-request-editor.component';
+import { PostRequestEditorComponent } from './post-request-editor/post-request-editor.component';
 import { SchemaFormModule } from './schema-form/schema-form.module';
 import { PluginManagerComponent } from './plugin-manager/plugin-manager.component';
 import { ElementWrapperComponent } from './element-wrapper/element-wrapper.component';
@@ -59,7 +61,9 @@ const COMPONENTS = [
   EditCollectionDialogComponent,
   EnvironmentManagerComponent,
   FancyInputComponent,
+  FancyInputMarkerComponent,
   PreRequestEditorComponent,
+  PostRequestEditorComponent,
   PluginManagerComponent,
   ElementWrapperComponent,
 ];

@@ -8,7 +8,7 @@ describe('altair App', () => {
   });
 
   it('should have at lease one window', async () => {
-    page.navigateTo();
+    await page.navigateTo();
     expect(await page.getWindows().isDisplayed()).toBe(true);
   });
 });

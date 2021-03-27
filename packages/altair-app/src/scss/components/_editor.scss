@@ -249,6 +249,17 @@ app-query-editor {
   color: var(--theme-off-font-color);
 }
 
+.response-headers__container {
+  padding: 10px;
+}
+
+.response-headers__notice {
+  text-align: center;
+  margin: 10px;
+  font-size: fontsize(13);
+  opacity: .7;
+}
+
 .variables-editor-container {
   display: flex;
   flex-direction: column;

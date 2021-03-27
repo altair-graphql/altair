@@ -1,42 +1,67 @@
-<div class="query-editor-container">
-  <ngx-codemirror
-    #editor
-    class="query-editor__input"
-    [(ngModel)]="query"
-    (ngModelChange)="queryChange.emit($event)"
-    [options]="editorConfig"
-  ></ngx-codemirror>
-</div>
-<div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
-  <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
-  <div class="variables-editor-inner" [ngClass]="{ 'hide': !showVariableDialog }">
-    <div class="variables-editor-input-container">
-      <app-variables-editor
-        [variables]="variables?.variables"
-        [variableToType]="variableToType"
-        [tabSize]="tabSize"
-        (variablesChange)="variablesChange.emit($event)"
-      ></app-variables-editor>
+<nz-tabset
+  class="main-view-tabs"
+  [nzAnimated]="false"
+  nzSize="small"
+  nzTabBarGutter="16"
+  [(nzSelectedIndex)]="selectedIndex"
+>
+  <nz-tab [nzTitle]="'QUERY_TAB' | translate">
+    <div class="query-editor-container">
+      <ngx-codemirror
+        #editor
+        class="query-editor__input"
+        [ngModel]="query"
+        (ngModelChange)="queryChange.emit($event)"
+        ngDefaultControl
+        [options]="editorConfig"
+      ></ngx-codemirror>
     </div>
-    <div class="variables-files-container">
-      <button class="variables-add-files-button" track-id="add_file_variable" (click)="addFileVariableChange.next()">{{ 'ADD_FILES_TEXT' | translate }}</button>
+    <div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
+      <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
+      <div class="variables-editor-inner" [ngClass]="{ 'hide': !showVariableDialog }">
+        <div class="variables-editor-input-container">
+          <app-variables-editor
+            [variables]="variables?.variables"
+            [variableToType]="variableToType"
+            [tabSize]="tabSize"
+            (variablesChange)="variablesChange.emit($event)"
+          ></app-variables-editor>
+        </div>
+        <div class="variables-files-container">
+          <button class="variables-add-files-button" track-id="add_file_variable" (click)="addFileVariableChange.next()">{{ 'ADD_FILES_TEXT' | translate }}</button>
 
-      <a href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f" target="_blank" rel="noopener">
-        <app-icon name="info"></app-icon>
-        {{ 'LEARN_MORE_TEXT' | translate }}
-      </a>
+          <a href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f" target="_blank" rel="noopener">
+            <app-icon name="info"></app-icon>
+            {{ 'LEARN_MORE_TEXT' | translate }}
+          </a>
 
-      <div class="variables-files-list">
-        <app-variable-file-item
-          *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;"
-          [fileVariable]="file"
-          (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
-          (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event })"
-          (fileVariableIsMultipleChange)="fileVariableIsMultipleChange.emit({ index: index, isMultiple: $event })"
-          (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
-        ></app-variable-file-item>
+          <div class="variables-files-list">
+            <app-variable-file-item
+              *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;"
+              [fileVariable]="file"
+              (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
+              (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event })"
+              (fileVariableIsMultipleChange)="fileVariableIsMultipleChange.emit({ index: index, isMultiple: $event })"
+              (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
+            ></app-variable-file-item>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </nz-tab>
+  <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
+    <app-pre-request-editor
+      [preRequest]="preRequest"
+      (preRequestScriptChange)="preRequestScriptChange.emit($event)"
+      (preRequestEnabledChange)="preRequestEnabledChange.emit($event)"
+    ></app-pre-request-editor>
+  </nz-tab>
+  <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
+    <app-post-request-editor
+      [postRequest]="postRequest"
+      (postRequestScriptChange)="postRequestScriptChange.emit($event)"
+      (postRequestEnabledChange)="postRequestEnabledChange.emit($event)"
+    ></app-post-request-editor>
+  </nz-tab>
+</nz-tabset>
 <app-flex-resizer [resizeDirection]="'right'" (resizeChange)="onResize($event)"></app-flex-resizer>

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ describe('EditCollectionDialogComponent', () => {
   let component: EditCollectionDialogComponent;
   let fixture: ComponentFixture<EditCollectionDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EditCollectionDialogComponent ],
       imports: [

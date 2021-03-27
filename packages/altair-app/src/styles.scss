@@ -1,5 +1,7 @@
 @import "scss/functions";
 
+@import "~@fontsource/jetbrains-mono/index.css";
+
 @import "~codemirror/lib/codemirror.css";
 @import "~codemirror/addon/fold/foldgutter.css";
 @import "~codemirror/addon/hint/show-hint.css";
@@ -7,8 +9,6 @@
 @import "~codemirror/addon/dialog/dialog.css";
 @import "~codemirror/addon/search/matchesonscrollbar.css";
 @import "~codemirror/addon/tern/tern.css";
-
-@import "~ngx-toastr/toastr.css";
 
 @import "scss/globals";
 @import "scss/framework";

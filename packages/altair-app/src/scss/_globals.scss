@@ -40,6 +40,11 @@ input[type="url"] {
   }
 }
 
+::selection {
+  color: var(--theme-bg-color);
+  background: var(--theme-font-color);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -95,6 +100,18 @@ input[type="url"] {
 
 .anim-rotate {
   animation-name: anim-rotate;
+}
+
+.spacer--small {
+  margin-bottom: 4px;
+}
+
+.spacer {
+  margin-bottom: 16px;
+}
+
+.spacer--large {
+  margin-bottom: 32px;
 }
 
 @keyframes anim-rotate {

@@ -11,3 +11,8 @@ app-plugin-element {
 .plugin__hide-content {
   display: none !important;
 }
+
+.element__wrapper {
+  overflow: auto;
+  height: 100%;
+}

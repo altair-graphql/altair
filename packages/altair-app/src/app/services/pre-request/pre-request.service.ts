@@ -4,8 +4,20 @@ import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 
 import * as fromHeader from '../../store/headers/headers.reducer';
+import * as fromRoot from '../../store';
 import { IDictionary } from 'app/interfaces/shared';
+import { Store } from '@ngrx/store';
+import * as environmentsActions from '../../store/environments/environments.action';
+import { getActiveSubEnvironmentState } from 'app/store/environments/selectors';
+import { NotifyService } from '../notify/notify.service';
+import { first } from 'rxjs/operators';
+import { SendRequestResponse } from '../gql/gql.service';
 
+export enum RequestType {
+  INTROSPECTION = 'introspection',
+  QUERY = 'query',
+  SUBSCRIPTION = 'subscription',
+}
 interface ScriptContextHelpers {
   getEnvironment: (key: string) => any;
   setEnvironment: (key: string, value: any) => void;
@@ -18,12 +30,23 @@ interface ScriptContextData {
   variables: string;
   query: string;
   environment: IDictionary;
+  response?: SendRequestResponse;
+  requestType?: RequestType;
+  __toSetActiveEnvironment?: IDictionary;
 }
 
+interface ScriptContextResponse {
+  requestType: RequestType;
+  responseTime: number;
+  statusCode: number;
+  body: any;
+  headers: IDictionary;
+}
 interface GlobalHelperContext {
   data: ScriptContextData;
   helpers: ScriptContextHelpers;
   importModule: (moduleName: string) => any;
+  response?: ScriptContextResponse;
 }
 
 interface ModuleImportsMap {
@@ -50,13 +73,15 @@ export class PreRequestService {
   constructor(
     private cookieService: CookieService,
     private http: HttpClient,
+    private store: Store<fromRoot.State>,
+    private notifyService: NotifyService,
   ) { }
 
-  async executeScript(script: string, data: ScriptContextData): Promise<any> {
+  async executeScript(script: string, data: ScriptContextData): Promise<ScriptContextData> {
     const Sval: typeof import('sval').default = (await import('sval') as any).default;
 
     // deep cloning
-    const clonedMutableData = JSON.parse(JSON.stringify(data));
+    const clonedMutableData: ScriptContextData = JSON.parse(JSON.stringify(data));
     const interpreter = new Sval({
       ecmaVer: 10,
       sandBox: true,
@@ -72,9 +97,30 @@ export class PreRequestService {
       exports.end = program();
     `);
 
-    return interpreter.exports.end
-      .then((res: any) => debug.log('interpreter result:', res))
-      .then(() => clonedMutableData);
+    const res = await interpreter.exports.end;
+    debug.log('interpreter result:', res);
+    if (clonedMutableData.__toSetActiveEnvironment) {
+      const activeEnvState = await this.store.select(getActiveSubEnvironmentState).pipe(first()).toPromise();
+
+      if (activeEnvState) {
+        try {
+          const envVariables = { ...JSON.parse(activeEnvState.variablesJson), ...clonedMutableData.__toSetActiveEnvironment };
+          this.store.dispatch(new environmentsActions.UpdateSubEnvironmentJsonAction({
+            id: activeEnvState.id!,
+            value: JSON.stringify(envVariables, null, 2),
+          }));
+          this.notifyService.info(
+            `Updated active environment variables: ${Object.keys(clonedMutableData.__toSetActiveEnvironment).join(', ')}.`,
+            'Request script',
+          );
+        } catch (error) {
+          this.notifyService.error(`Could not update active environment variables. ${error.message}`, 'Request script');
+        }
+      } else {
+        this.notifyService.warning('No active environment selected. Cannot update environment variables', 'Request script');
+      }
+    }
+    return clonedMutableData;
   }
 
   getGlobalContext(data: ScriptContextData): GlobalHelperContext {
@@ -86,8 +132,12 @@ export class PreRequestService {
         getEnvironment: (key: string) => {
           return data.environment[key];
         },
-        setEnvironment: (key: string, val: any) => {
+        setEnvironment: (key: string, val: any, activeEnvironment = false) => {
           data.environment[key] = val;
+          if (activeEnvironment) {
+            data.__toSetActiveEnvironment = data.__toSetActiveEnvironment || {};
+            data.__toSetActiveEnvironment[key] = val;
+          }
         },
         getCookie: (key: string) => {
           return self.cookieService.get(key);
@@ -103,6 +153,7 @@ export class PreRequestService {
         }
       },
       importModule: (moduleName: string) => this.importModuleHelper(moduleName),
+      response: this.buildContextResponse(data),
     };
   }
 
@@ -112,5 +163,19 @@ export class PreRequestService {
     }
 
     return ModuleImports[moduleName].exec();
+  }
+
+  private buildContextResponse(data: ScriptContextData): ScriptContextResponse | undefined {
+    if (data.response) {
+      return {
+        body: data.response.response.body,
+        requestType: data.requestType || RequestType.QUERY,
+        responseTime: data.response.meta.responseTime,
+        statusCode: data.response.response.status,
+        headers: data.response.meta.headers,
+      }
+    }
+
+    return;
   }
 }

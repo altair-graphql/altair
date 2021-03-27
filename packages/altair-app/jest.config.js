@@ -16,9 +16,12 @@ module.exports = {
     '@src/(.*)':'<rootDir>/src/src/$1',
     '@state/(.*)':'<rootDir>/src/app/state/$1'
   },
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!lodash-es)'
+  ],
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/src/tsconfig.spec.json',
+      tsconfig: '<rootDir>/src/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.html$',
       astTransformers: [
         'jest-preset-angular/build/InlineFilesTransformer',
