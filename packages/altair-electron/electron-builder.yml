@@ -20,7 +20,11 @@ linux:
   artifactName: ${name}_${version}_${arch}_linux.${ext}
   icon: resources/icons
 snap:
-  publish: github
+  publish:
+    - provider: github
+      releaseType: release
+    - provider: snapStore
+      channels: stable
 win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
 electronCompile: false
