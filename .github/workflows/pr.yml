@@ -10,7 +10,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
         node-version: [12.x]
     runs-on: ${{ matrix.os }}
     steps:

@@ -42,6 +42,7 @@ jobs:
         skip_build: true
         mac_certs: ${{ secrets.mac_certs }}
         mac_certs_password: ${{ secrets.mac_certs_password }}
+        args: '--publish always'
       env:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
