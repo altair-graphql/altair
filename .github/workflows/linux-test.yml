@@ -5,11 +5,12 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 15.x]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: [12.x]
+
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -20,4 +21,12 @@ jobs:
     - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
     - run: yarn build:ci
-    - run: yarn test:ci
+    - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test:ci
+    - run: yarn lerna run --scope altair-app webdriver-update-ci;
+    - name: Run headless e2e test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn lerna run --scope altair-app e2e:ci
