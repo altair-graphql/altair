@@ -42,6 +42,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
+    - run: yarn
     - run: yarn build-app
     - name: Deploy to surge.sh
       uses: dswistowski/surge-sh-action@v1
