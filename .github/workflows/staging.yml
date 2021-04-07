@@ -1,11 +1,9 @@
 name: Staging
 
-# TODO: change
 on:
   push:
     branches:
-      - master
-  pull_request:
+      - staging
 
 jobs:
   translate:
