@@ -1,0 +1,27 @@
+name: PR
+
+# TODO: change
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: yarn --frozen-lockfile
+    - run: yarn build:ci
+    - name: Deploy to translate surge.sh
+      uses: dswistowski/surge-sh-action@v1
+      with:
+        domain: altair-gql-translate.surge.sh
+        project: ./packages/altair-app/dist
+        login: ${{ secrets.surge_login }}
+        token: ${{ secrets.surge_token }}

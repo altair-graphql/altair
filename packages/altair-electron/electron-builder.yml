@@ -5,7 +5,7 @@ directories:
   output: out
 files:
   - '**/*'
-afterSign: scripts/notarize.js
+afterSign: electron-builder-notarize # scripts/notarize.js
 mac:
   category: public.app-category.developer-tools
   icon: resources/mac_icon.icns

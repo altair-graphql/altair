@@ -22,4 +22,31 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
-    - run: yarn build-electron
+    - run: yarn lerna bootstrap
+    - name: Install Snapcraft
+      uses: samuelmeuli/action-snapcraft@v1
+      if: startsWith(matrix.os, 'ubuntu')
+      with:
+        snapcraft_token: ${{ secrets.snap_store_login }}
+    - name: Prepare for app notarization
+      if: startsWith(matrix.os, 'macos')
+      # Import Apple API key for app notarization on macOS
+      run: |
+        mkdir -p ~/private_keys/
+        echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+    - name: Build/release Electron app
+      uses: samuelmeuli/action-electron-builder@v1
+      with:
+        github_token: ${{ secrets.github_token }}
+        package_root: packages/altair-electron/
+        skip_build: true
+        mac_certs: ${{ secrets.mac_certs }}
+        mac_certs_password: ${{ secrets.mac_certs_password }}
+      env:
+        # macOS notarization API key
+        API_KEY_ID: ${{ secrets.apple_api_key_id }}
+        API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+
+        # If the commit is tagged with a version (e.g. "v1.0.0"),
+        # release the app after building
+        # release: ${{ startsWith(github.ref, 'refs/tags/v') }} # TODO:

@@ -863,10 +863,10 @@ ajv@^7.0.3:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-altair-static@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-3.2.2.tgz#940ded3e96064f43637d661a27eeaaa35c7db186"
-  integrity sha512-D+JxxDqAr1GmxtRLVePsoedtyWV6EfUXFN1jXht1vryE5KJ9Hqnfg7b8ZTbHHWdtC9psCuTDlJcR6/7XXpRpGQ==
+altair-static@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.0.0.tgz#ac894fb165a71a6b8d5765dcd094a43630268805"
+  integrity sha512-2t8NDg65380Cs6tYEhq/EtkSDQanjen6WUjZs3v/X8uBL8dLjM0AypPaHDsMfP40NI0UeQpVYHKh7n1KqtHSJw==
 
 ansi-align@^3.0.0:
   version "3.0.0"
@@ -1984,6 +1984,15 @@ ejs@^3.1.5:
   dependencies:
     jake "^10.6.1"
 
+electron-builder-notarize@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/electron-builder-notarize/-/electron-builder-notarize-1.2.0.tgz#6db86173601513bcb667074f80322f8622e24ff9"
+  integrity sha512-mSU5CSjydNlO5oFSOimJvzKQ4m/whUUBoE3i2xSAOF7+T2ZIzSfsGCT1SJvqsiHYf2xvTb2RpFoHWE6Oc9Cvgg==
+  dependencies:
+    electron-notarize "^0.2.0"
+    js-yaml "^3.14.0"
+    read-pkg-up "^7.0.0"
+
 electron-builder@^22.9.1:
   version "22.9.1"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-22.9.1.tgz#a2962db6f2757bc01d02489f38fafe0809f68f60"
@@ -2049,6 +2058,14 @@ electron-log@^3.0.6:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-3.0.8.tgz#ea672dc40b560143ed5d887eff1ff1904fe9ef71"
   integrity sha512-B9+eJ8z3UbDnWEz+G33SIJvEDeKLznHEV4sCu6bR31KuOdp3dYN046QBWbLNsvKU+lzFI6eOi+xNCpNHZvatiw==
+
+electron-notarize@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/electron-notarize/-/electron-notarize-0.2.1.tgz#759e8006decae19134f82996ed910db26d9192cc"
+  integrity sha512-oZ6/NhKeXmEKNROiFmRNfytqu3cxqC95sjooG7kBXQVEUSQkZnbiAhxVh5jXngL881G197pbwpeVPJyM7Ikmxw==
+  dependencies:
+    debug "^4.1.1"
+    fs-extra "^8.1.0"
 
 electron-notarize@^1.0.0:
   version "1.0.0"
@@ -4782,7 +4799,7 @@ read-config-file@6.0.0:
     json5 "^2.1.2"
     lazy-val "^1.0.4"
 
-read-pkg-up@^7.0.1:
+read-pkg-up@^7.0.0, read-pkg-up@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.1.tgz#f3a6135758459733ae2b95638056e1854e7ef507"
   integrity sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==
