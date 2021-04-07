@@ -62,5 +62,8 @@
     "logo": "https://opencollective.com/altair/logo.txt"
   },
   "snyk": true,
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@changesets/cli": "^2.15.0"
+  }
 }
