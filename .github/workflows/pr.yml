@@ -1,4 +1,4 @@
-name: Linux test
+name: PR
 
 on:
   push:
