@@ -44,6 +44,9 @@
     "typescript": "^4.2.2",
     "web-ext": "^5.0.0"
   },
+  "resolutions": {
+    "y18n": "4.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/imolorhe/altair.git"
