@@ -39,7 +39,7 @@ import {
   KeybinderService,
   PluginRegistryService,
   QueryCollectionService,
-  ThemeRegistryService
+  ThemeRegistryService,
 } from '../../services';
 
 import { AltairConfig } from '../../config';

@@ -15,6 +15,7 @@ import * as docsActions from '../../store/docs/docs.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from 'app/utils/logger';
+import { BackupService } from '../backup/backup.service';
 
 @Injectable()
 export class ElectronAppService {
@@ -29,6 +30,7 @@ export class ElectronAppService {
     private store: Store<fromRoot.State>,
     private windowService: WindowService,
     private notifyService: NotifyService,
+    private backupService: BackupService,
     private zone: NgZone,
   ) {
     this.store.subscribe(data => {
@@ -48,6 +50,14 @@ export class ElectronAppService {
           Your request has an invalid certificate.
           You should check that your request is coming from a trusted source.
         `));
+      });
+
+      this.ipc.on('import-app-data', () => {
+        this.zone.run(() => this.backupService.importBackupData());
+      });
+
+      this.ipc.on('export-app-data', () => {
+        this.zone.run(() => this.backupService.exportBackupData());
       });
 
       this.ipc.on('create-tab', () => {

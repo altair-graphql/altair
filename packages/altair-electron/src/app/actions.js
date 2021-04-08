@@ -48,11 +48,11 @@ class ActionManager {
   }
 
   importAppData() {
-    return importBackupData(this.windowInstance);
+    this.windowInstance.webContents.send('import-app-data', true);
   }
 
   exportAppData() {
-    return exportBackupData(this.windowInstance);
+    this.windowInstance.webContents.send('export-app-data', true);
   }
 
   checkForUpdates(menuItem) {

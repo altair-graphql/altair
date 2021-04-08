@@ -7,6 +7,6 @@ export class ReducerBootstrapper {
   initialState: TODO;
 
   async bootstrap() {
-    this.initialState = await getAppStateFromStorage(true);
+    this.initialState = await getAppStateFromStorage({ updateFromLocalStorage: true });
   }
 }

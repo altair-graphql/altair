@@ -9477,11 +9477,6 @@ ngx-take-until-destroy@^5.4.0:
   dependencies:
     tslib "^1.9.0"
 
-ngx-toastr@^12.0.1:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-12.0.1.tgz#288c8ef505f1216aa4952cd2a8c6fa7c57a54ccc"
-  integrity sha512-PABtbn2dyHweVSbo/py1W3veXzcmZO7uVItfTW9AykSSeAUju3gOCgauAw89km0aJ9EBcPOieaoI+9tAR7Pfug==
-
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
