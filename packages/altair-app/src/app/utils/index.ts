@@ -1,11 +1,11 @@
 const toSnakeCase = require('to-snake-case'); // TODO: Check that this still works
-import * as FileSaver from 'file-saver';
+import FileSaver from 'file-saver';
 const commentRegex = require('comment-regex');
 const validUrl = require('valid-url');
 import is_electron from './is_electron';
 import { debug } from './logger';
 import { IDictionary } from 'app/interfaces/shared';
-const fileDialog = require('file-dialog');
+import fileDialog from 'file-dialog';
 
 /**
  * Download the specified data with the provided options
@@ -13,20 +13,18 @@ const fileDialog = require('file-dialog');
  * @param fileName name of downloaded file
  * @param opts configuration options
  */
-export const downloadData = (data: string, fileName = 'data', opts: any = undefined) => {
-  let _opts = {
-    mimeType: 'text/plain',
-    dataUriAttr: 'text/plain;charset=utf-8',
-    fileType: 'txt'
-  };
+export const downloadData = (
+  data: string,
+  fileName = 'data',
+  {
+    mimeType = 'text/plain',
+    dataUriAttr = 'text/plain;charset=utf-8',
+    fileType = 'txt'
+  } = {}) => {
 
-  if (opts) {
-    _opts = { ..._opts, ...opts };
-  }
-
-  const dataStr = `data:${_opts.dataUriAttr},${data}`;
-  const fileNameWithExt = `${toSnakeCase(fileName)}.${_opts.fileType}`;
-  const fileBlob = new Blob([data], {type: _opts.dataUriAttr});
+  const dataStr = `data:${dataUriAttr},${data}`;
+  const fileNameWithExt = `${toSnakeCase(fileName)}.${fileType}`;
+  const fileBlob = new Blob([data], {type: dataUriAttr});
   FileSaver.saveAs(fileBlob, fileNameWithExt);
 };
 
@@ -55,7 +53,7 @@ export const downloadJson = (obj: any, fileName = 'response', opts: any = undefi
  * @param files FileList object
  */
 export const getFileStr = (files: FileList) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function (e: any) {
       const contents: string = e.target.result;
@@ -66,11 +64,17 @@ export const getFileStr = (files: FileList) => {
     fileReader.readAsText(files[0]);
   });
 };
-
-export const openFile = (...args: any[]) => {
-  return fileDialog(...args).then(getFileStr).catch((err: Error) => {
+interface FileDialogOptions {
+  readonly multiple?: boolean;
+  readonly accept?: string|ReadonlyArray<string>;
+}
+export const openFile = async (opts: FileDialogOptions = {}) => {
+  try {
+    const files = await fileDialog(opts);
+    return getFileStr(files);
+  } catch (err) {
     debug.log('There was an issue while opening the file: ', err);
-  });
+  }
 }
 
 export const isExtension = !!((window as any).chrome && (window as any).chrome.runtime && (window as any).chrome.runtime.id);

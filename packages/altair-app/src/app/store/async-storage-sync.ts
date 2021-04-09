@@ -123,7 +123,11 @@ export const defaultMergeReducer = (state: any, rehydratedState: any, action: an
   return state;
 };
 
-export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
+export const getAppStateFromStorage = async({
+  updateFromLocalStorage = false,
+  forceUpdateFromProvidedData = false,
+  storage = undefined as unknown as Storage,
+}) => {
   const asyncStorage = new StorageService();
   let stateList = await asyncStorage.appState.toArray();
   const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
@@ -131,14 +135,14 @@ export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
     windows: {},
   };
 
-  if (!stateList.length) {
+  if (forceUpdateFromProvidedData || !stateList.length) {
     if (!updateFromLocalStorage) {
       return;
     }
     // migrate the data from localStorage into async storage
     const hydratedState = rehydrateApplicationState(
       localStorageSyncConfig.keys,
-      localStorageSyncConfig.storage,
+      storage || localStorageSyncConfig.storage,
       localStorageSyncConfig.storageKeySerializer,
       localStorageSyncConfig.restoreDates,
     );
@@ -167,6 +171,25 @@ export const getAppStateFromStorage = async(updateFromLocalStorage = false) => {
   });
 
   return reducedState;
+};
+
+export const importIndexedRecords = (records: { key: string, value: any }[]) => {
+  const asyncStorage = new StorageService();
+  return asyncStorage.transaction('rw', asyncStorage.appState, async() => {
+
+    const ops: Promise<any>[] = [];
+
+    records.forEach(record => {
+      ops.push(
+        asyncStorage.appState.put({
+          key: record.key,
+          value: record.value,
+        })
+      );
+    });
+
+    return Promise.all(ops);
+  });
 };
 
 export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => {
