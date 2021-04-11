@@ -36,6 +36,7 @@
     "execa": "^5.0.0",
     "inquirer": "^7.3.3",
     "lerna": "^3.16.0",
+    "ng-packagr": "^11.2.4",
     "opencollective": "^1.0.3",
     "snyk": "^1.195.0",
     "start-server-and-test": "^1.10.6",
