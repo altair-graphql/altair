@@ -3,6 +3,7 @@ import { ITheme, ICustomTheme, mergeThemes } from './theme';
 import light from './defaults/light';
 import dark from './defaults/dark';
 import dracula from './defaults/dracula';
+import deep_blue from './defaults/deep_blue';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class ThemeRegistryService {
     this.registry.set('light', light);
     this.registry.set('dark', dark);
     this.registry.set('dracula', dracula);
+    this.registry.set('deep_blue', deep_blue);
   }
 
   getTheme(name: string) {
