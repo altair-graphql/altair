@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockModule } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
+import { AltairModule } from './modules/altair/altair.module';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -8,7 +10,10 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppComponent ]
+      declarations: [ AppComponent ],
+      imports: [
+        MockModule(AltairModule),
+      ],
     })
     .compileComponents();
   });

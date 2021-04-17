@@ -3,7 +3,7 @@ import { Action, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 import { QueryEffects } from './query.effect';
-import { mock, mockStoreFactory } from '../../testing';
+import { mock, mockStoreFactory } from '../../../../testing';
 import {
   GqlService,
   NotifyService,
@@ -13,9 +13,9 @@ import {
   ElectronAppService,
   PreRequestService,
   SubscriptionProviderRegistryService,
-} from '../../services';
+} from '../services';
 import * as fromRoot from '../store';
-import { ConvertToNamedQueryAction, SetQueryAction } from '../../store/query/query.action';
+import { ConvertToNamedQueryAction, SetQueryAction } from '../store/query/query.action';
 
 describe('query effects', () => {
   let actions$: Observable<Action>;

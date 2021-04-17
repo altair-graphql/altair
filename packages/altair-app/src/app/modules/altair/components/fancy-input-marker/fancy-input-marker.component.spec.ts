@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { MockModule } from 'ng-mocks';
-import { mockStoreFactory } from '../../../testing';
+import { mockStoreFactory } from '../../../../../testing';
 
 import { FancyInputMarkerComponent } from './fancy-input-marker.component';
 

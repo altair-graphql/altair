@@ -14,7 +14,7 @@ import { IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
-import { anyFn } from '../../../testing';
+import { anyFn } from '../../../../../testing';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;

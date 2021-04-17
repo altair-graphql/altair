@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ElementWrapperComponent } from './element-wrapper.component';
-import { NgxTestWrapper, mount } from '../../../testing';
+import { NgxTestWrapper, mount } from '../../../../../testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 

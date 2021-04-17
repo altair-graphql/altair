@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
-import { anyFn, mock, mockStoreFactory } from '../../../testing';
+import { anyFn, mock, mockStoreFactory } from '../../../../../testing';
 
 
 const mockNotifyService = mock({

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SchemaFormItemInputComponent } from './schema-form-item-input.component';
-import { SharedModule } from '../../modules/shared/shared.module';
+import { SharedModule } from '../../../modules/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { SchemaFormModule } from '../schema-form.module';
 

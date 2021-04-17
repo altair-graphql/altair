@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { ActionBarComponent } from './action-bar.component';
-import { NgxTestWrapper } from '../../../testing/wrapper';
-import { mount } from '../../../testing/utils';
+import { NgxTestWrapper } from '../../../../../testing/wrapper';
+import { mount } from '../../../../../testing/utils';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

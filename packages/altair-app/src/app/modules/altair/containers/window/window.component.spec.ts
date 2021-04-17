@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as services from './../../services';
 import { WindowComponent } from './window.component';
-import { mock, anyFn, mockStoreFactory } from '../../../testing';
+import { mock, anyFn, mockStoreFactory } from '../../../../../testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import * as fromRoot from '../../store';

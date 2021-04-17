@@ -5,7 +5,7 @@ import { PluginRegistryService } from './plugin-registry.service';
 import { Store } from '@ngrx/store';
 import { PluginSource } from './plugin';
 import * as fromRoot from '../../store';
-import { mock } from '../../../testing';
+import { mock } from '../../../../../testing';
 import { PluginContextService } from './context/plugin-context.service';
 
 let mockHttpClient: HttpClient;

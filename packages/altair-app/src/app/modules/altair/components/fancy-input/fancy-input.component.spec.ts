@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { MockModule } from 'ng-mocks';
 import { Store } from '@ngrx/store';
-import { mock, mockStoreFactory } from '../../../testing';
+import { mock, mockStoreFactory } from '../../../../../testing';
 import { FancyInputMarkerComponent } from '../fancy-input-marker/fancy-input-marker.component';
 import { EnvironmentService } from '../../services';
 

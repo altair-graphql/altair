@@ -1,7 +1,7 @@
 import { expect, describe, it } from '@jest/globals';
 import { QueryEditorComponent } from './query-editor.component';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { NgxTestWrapper, mount, mock } from '../../../testing';
+import { NgxTestWrapper, mount, mock } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GqlService, NotifyService } from '../../services';

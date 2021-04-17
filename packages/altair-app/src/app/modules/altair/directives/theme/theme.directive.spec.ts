@@ -1,5 +1,5 @@
 import { ThemeDirective } from './theme.directive';
-import { mock } from '../../../testing';
+import { mock } from '../../../../../testing';
 
 describe('ThemeDirective', () => {
   it('should create an instance', () => {

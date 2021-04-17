@@ -3,7 +3,7 @@ import { expect, describe, it } from '@jest/globals';
 import { PostRequestEditorComponent } from './post-request-editor.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { NgxTestWrapper, mount } from '../../../testing';
+import { NgxTestWrapper, mount } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 
 describe('PostRequestEditorComponent', () => {

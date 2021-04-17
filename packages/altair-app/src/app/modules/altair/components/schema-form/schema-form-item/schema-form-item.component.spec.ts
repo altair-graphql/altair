@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SchemaFormItemComponent } from './schema-form-item.component';
-import { SharedModule } from '../../modules/shared/shared.module';
+import { SharedModule } from '../../../modules/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { SchemaFormModule } from '../schema-form.module';
-import { AltairConfig } from '../../config';
+import { AltairConfig } from '../../../config';
 
 describe('SchemaFormItemComponent', () => {
   let component: SchemaFormItemComponent;

@@ -4,7 +4,7 @@ import * as fromRoot from '../../store';
 import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { mock } from '../../../testing';
+import { mock } from '../../../../../testing';
 
 let mockStore: Store<fromRoot.State>;
 

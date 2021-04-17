@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { VariableFileItemComponent } from './variable-file-item.component';
-import { NgxTestWrapper, mount } from '../../../testing';
+import { NgxTestWrapper, mount } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { mount } from '../../../testing/utils';
+import { mount } from '../../../../../testing/utils';
 import { NgxTestWrapper } from 'testing/wrapper';
 import { DialogComponent } from '../dialog/dialog.component';
 

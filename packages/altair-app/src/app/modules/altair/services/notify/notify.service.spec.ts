@@ -5,7 +5,7 @@ import * as fromRoot from '../../store';
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { anyFn, mock } from '../../../testing';
+import { anyFn, mock } from '../../../../../testing';
 
 let mockHotToastService: HotToastService;
 let mockStore: Store<fromRoot.State>;

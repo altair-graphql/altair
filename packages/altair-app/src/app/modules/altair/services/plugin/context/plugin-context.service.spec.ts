@@ -3,11 +3,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { PluginContextService } from './plugin-context.service';
 import { Store } from '@ngrx/store';
-import { mockStoreFactory, mock } from '../../../../testing';
-import { WindowService } from '../../services/window.service';
+import { mockStoreFactory, mock } from '../../../../../../testing';
+import { WindowService } from '../../../services/window.service';
 import { PluginEventService } from '../plugin-event.service';
 import { AltairPlugin, PluginType } from '../plugin';
-import { NotifyService } from '../../services/notify/notify.service';
+import { NotifyService } from '../../../services/notify/notify.service';
 
 describe('PluginContextService', () => {
   beforeEach(() => TestBed.configureTestingModule({
