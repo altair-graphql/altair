@@ -45,20 +45,24 @@ export interface PerWindowState {
   postRequest: fromPostRequest.State;
   windowId: string; // Used by the window reducer
 }
+const getPerWindowReducer = () => {
+  const perWindowReducers = {
+    layout: fromLayout.layoutReducer,
+    query: fromQuery.queryReducer,
+    headers: fromHeaders.headerReducer,
+    variables: fromVariables.variableReducer,
+    dialogs: fromDialogs.dialogReducer,
+    schema: fromGqlSchema.gqlSchemaReducer,
+    docs: fromDocs.docsReducer,
+    history: fromHistory.historyReducer,
+    stream: fromStream.streamReducer,
+    preRequest: fromPreRequest.preRequestReducer,
+    postRequest: fromPostRequest.postRequestReducer,
+  };
 
-const perWindowReducers = {
-  layout: fromLayout.layoutReducer,
-  query: fromQuery.queryReducer,
-  headers: fromHeaders.headerReducer,
-  variables: fromVariables.variableReducer,
-  dialogs: fromDialogs.dialogReducer,
-  schema: fromGqlSchema.gqlSchemaReducer,
-  docs: fromDocs.docsReducer,
-  history: fromHistory.historyReducer,
-  stream: fromStream.streamReducer,
-  preRequest: fromPreRequest.preRequestReducer,
-  postRequest: fromPostRequest.postRequestReducer,
+  return perWindowReducers;
 };
+
 
 export interface State {
   windows: fromWindows.State;
@@ -103,7 +107,7 @@ export const metaReducers: MetaReducer<any>[] = [
 
 export const getReducer = (): ActionReducerMap<State> => {
   return {
-    windows: fromWindows.windows(combineReducers(perWindowReducers)),
+    windows: fromWindows.windows(combineReducers(getPerWindowReducer())),
     windowsMeta: fromWindowsMeta.windowsMetaReducer,
     settings: fromSettings.settingsReducer,
     donation: fromDonation.donationReducer,

@@ -52,7 +52,7 @@ import { ICustomTheme } from '../../services/theme/theme';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-  selector: 'altair-root',
+  selector: 'app-altair',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnDestroy {

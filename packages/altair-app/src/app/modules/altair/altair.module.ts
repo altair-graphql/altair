@@ -42,7 +42,6 @@ import { AppOverlayContainer } from './overlay-container';
 import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
-import { AltairConfig } from './config';
 
 registerLocaleData(en);
 
@@ -152,7 +151,9 @@ const providers = [
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
-  exports: []
+  exports: [
+    AppComponent,
+  ]
 })
 export class AltairModule {
   constructor(
@@ -163,7 +164,8 @@ export class AltairModule {
     applicationInitStatus.donePromise.then(() => store.dispatch(new AppInitAction({ initialState: reducerBootstrapper.initialState })));
   }
 
-  static forRoot(altairConfig: Partial<AltairConfig> = {}): ModuleWithProviders<AltairModule> {
+  static forRoot(): ModuleWithProviders<AltairModule> {
+
     return {
       ngModule: AltairModule,
       providers: [
@@ -172,10 +174,6 @@ export class AltairModule {
         {
           provide: reducerToken,
           useValue: getReducer(),
-        },
-        {
-          provide: AltairConfig,
-          useValue: altairConfig,
         },
       ],
     };

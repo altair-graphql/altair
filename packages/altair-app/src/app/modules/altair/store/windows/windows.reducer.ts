@@ -46,7 +46,7 @@ export interface ExportWindowState {
  * @param reducer
  */
 export function windows(reducer: ActionReducer<any>) {
-    const initWindowState = reducer(undefined, { type: INIT_WINDOW });
+    const getInitWindowState = () => reducer(undefined, { type: INIT_WINDOW });
     const initialState: State = {};
 
     return function(state = initialState, action: windowsActions.Action) {
@@ -58,7 +58,7 @@ export function windows(reducer: ActionReducer<any>) {
                 const { windowId, title, url, collectionId, windowIdInCollection, fixedTitle } = action.payload;
 
                 // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                _state[windowId] = JSON.parse(JSON.stringify(initWindowState));
+                _state[windowId] = JSON.parse(JSON.stringify(getInitWindowState()));
 
                 _state[windowId].layout.title = title;
                 _state[windowId].layout.hasDynamicTitle = !fixedTitle;
