@@ -1,6 +1,6 @@
 {
   "name": "altair-app",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
