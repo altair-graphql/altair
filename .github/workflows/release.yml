@@ -5,6 +5,8 @@ on:
     tags:
     - '**'
 
+# TODO: Handle npm package release
+# TODO: Handle browser extension release
 jobs:
   electron:
     strategy:
