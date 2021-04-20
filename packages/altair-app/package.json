@@ -76,6 +76,7 @@
     "fuse.js": "^6.4.6",
     "graphql": "^14.4.2",
     "graphql-query-compress": "^1.2.2",
+    "graphql-ws": "^4.4.1",
     "lodash-es": "^4.17.21",
     "loglevel": "^1.7.0",
     "loglevel-plugin-prefix": "^0.8.4",
