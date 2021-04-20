@@ -12,7 +12,7 @@ Altair supports a number of subscription implementations:
 
 ### Websocket
 
-This supports the [GraphQL over websocket](https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md) protocol, which is the more common specification used for GraphQL subscriptions.
+This supports both the the original [subscriptions-transport-ws protocol](https://github.com/apollographql/subscriptions-transport-ws/blob/master/PROTOCOL.md) as well as the new [graphql-ws protocol](https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md), which are the more common specifications used for GraphQL subscriptions.
 
 ### AWS AppSync
 

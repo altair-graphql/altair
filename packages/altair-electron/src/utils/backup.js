@@ -1,3 +1,4 @@
+// TODO: To be deleted!
 const { app, dialog } = require('electron');
 const fs = require('fs');
 const { PersistentStore } = require('../store');

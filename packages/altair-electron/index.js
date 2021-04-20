@@ -3,4 +3,4 @@ const ElectronApp = require('./src/app');
 
 const app = new ElectronApp();
 app.start();
-unhandled();
+unhandled({ showDialog: false });

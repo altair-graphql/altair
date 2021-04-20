@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
@@ -34,6 +34,7 @@
     "dotenv": "^8.1.0",
     "electron": "^12.0.1",
     "electron-builder": "^22.9.1",
+    "electron-builder-notarize": "^1.2.0",
     "electron-notarize": "^1.0.0",
     "electron-reloader": "^0.3.0",
     "eslint": "^7.3.1",

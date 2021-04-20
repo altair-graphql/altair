@@ -2,6 +2,8 @@
 const { importBackupData, exportBackupData } = require('../utils/backup');
 const { checkForUpdates } = require('../updates');
 const { BrowserWindow } = require('electron');
+const url = require('url');
+const path = require('path');
 
 class ActionManager {
   /**
@@ -48,11 +50,11 @@ class ActionManager {
   }
 
   importAppData() {
-    return importBackupData(this.windowInstance);
+    this.windowInstance.webContents.send('import-app-data', true);
   }
 
   exportAppData() {
-    return exportBackupData(this.windowInstance);
+    this.windowInstance.webContents.send('export-app-data', true);
   }
 
   checkForUpdates(menuItem) {
@@ -74,8 +76,11 @@ class ActionManager {
     });
 
     // and load the index.html of the app.
-    prefWindow.loadURL(`file://${__dirname}/../settings/renderer/index.html`);
-    // return preferences.show();
+    return prefWindow.loadURL(url.format({
+      pathname: path.resolve(__dirname, '../settings/renderer/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
   }
 }
 
