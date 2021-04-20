@@ -22,7 +22,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
-    - run: yarn lerna bootstrap
+    - uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn lerna bootstrap
     - name: Install Snapcraft
       uses: samuelmeuli/action-snapcraft@v1
       if: startsWith(matrix.os, 'ubuntu')
