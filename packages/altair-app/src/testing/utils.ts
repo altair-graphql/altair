@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { Component } from '@angular/core';
 import { TestBed, TestModuleMetadata, ComponentFixture } from '@angular/core/testing';
+import { IDictionary } from 'app/modules/altair/interfaces/shared';
 import { NgxTestWrapper } from './wrapper';
-import { IDictionary } from 'app/interfaces/shared';
 
 const isInputElement = (el: HTMLElement): el is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
   return (

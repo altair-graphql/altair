@@ -1,24 +1,23 @@
 import { enableProdMode, ApplicationRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableDebugTools } from '@angular/platform-browser';
 
-import { AppModule } from './app/app.module';
+import { AppModule } from 'app/app.module';
 import { environment } from './environments/environment';
 
-import { handleExternalLinks } from 'app/utils/events';
-import { debug } from 'app/utils/logger';
-import { enableDebugTools } from '@angular/platform-browser';
-import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/config';
-import { reducerToken, getReducer } from 'app/store';
-import { handleDeprecations } from 'app/utils/deprecated';
+import { handleExternalLinks } from 'app/modules/altair/utils/events';
+import { handleDeprecations } from 'app/modules/altair/utils/deprecated';
+import { debug } from 'app/modules/altair/utils/logger';
+import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/modules/altair/config';
 
 let initialized = false;
 
 (window as any).AltairGraphQL = {
-  init(config: AltairConfigOptions = {}) {
+  init(configOptions: AltairConfigOptions = {}) {
     if (initialized) {
       return;
     }
-    const altairConfig = new AltairConfig(config);
+    const altairConfig = new AltairConfig(configOptions);
     setAltairConfig(altairConfig);
 
     if (environment.production) {
@@ -27,12 +26,6 @@ let initialized = false;
 
     platformBrowserDynamic(
       [
-        // Setting reducer provider here (after setting altair config),
-        // so the reducers are initialized with the right config
-        {
-          provide: reducerToken,
-          useValue: getReducer(),
-        },
         {
           provide: AltairConfig,
           useValue: altairConfig,

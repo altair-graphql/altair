@@ -2,7 +2,7 @@ import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Type } from '@angular/core';
 import { setProps, setValue, BaseTestHostComponent } from '../utils';
-import { IDictionary } from 'app/interfaces/shared';
+import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
 export class NgxTestWrapper<C extends any> {
   private _mainComponentDebugEl: DebugElement;
