@@ -8,8 +8,10 @@ interface SubscriptionProviderData {
 }
 
 export const WEBSOCKET_PROVIDER_ID = 'websocket';
+export const GRAPHQL_WS_PROVIDER_ID = 'graphql-ws';
 export const APP_SYNC_PROVIDER_ID = 'app-sync';
 export const ACTION_CABLE_PROVIDER_ID = 'action-cable';
+
 @Injectable()
 export class SubscriptionProviderRegistryService {
   private list: SubscriptionProviderData[] = [];
@@ -19,6 +21,12 @@ export class SubscriptionProviderRegistryService {
       id: WEBSOCKET_PROVIDER_ID,
       getProviderClass: async() => (await import('./providers/ws')).WebsocketSubscriptionProvider,
       copyTag: 'SUBSCRIPTION_PROVIDER_WEBSOCKET',
+    });
+
+    this.addProviderData({
+      id: GRAPHQL_WS_PROVIDER_ID,
+      getProviderClass: async() => (await import('./providers/graphql-ws')).GraphQLWsSubscriptionProvider,
+      copyTag: 'SUBSCRIPTION_PROVIDER_GRAPHQL_WS',
     });
 
     this.addProviderData({
