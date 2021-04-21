@@ -74,7 +74,7 @@ export const getInitialState = (): State => {
     editorAlertSuccess: true,
     subscriptionClient: null,
     subscriptionConnectionParams: '{}',
-    subscriptionProviderId: WEBSOCKET_PROVIDER_ID,
+    subscriptionProviderId: altairConfig.initialData.initialSubscriptionsProvider || WEBSOCKET_PROVIDER_ID,
     isSubscribed: false,
     subscriptionResponseList: [],
     autoscrollSubscriptionResponse: false,
