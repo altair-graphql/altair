@@ -39,14 +39,16 @@ jobs:
         mkdir -p ~/private_keys/
         echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
     - name: Build/release Electron app
-      uses: samuelmeuli/action-electron-builder@v1
+      uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
       with:
         github_token: ${{ secrets.github_token }}
         package_root: packages/altair-electron/
         skip_build: true
+        skip_install: true
         mac_certs: ${{ secrets.mac_certs }}
         mac_certs_password: ${{ secrets.mac_certs_password }}
         args: '--publish always'
+        max_attempts: 3
       env:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
