@@ -2,7 +2,7 @@ import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
 import { IInitialEnvironments } from './store/environments/environments.reducer';
 import * as fromSettings from './store/settings/settings.reducer';
-import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from "./services/subscriptions/subscription-provider-registry.service";
+import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './services/subscriptions/subscription-provider-registry.service';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
