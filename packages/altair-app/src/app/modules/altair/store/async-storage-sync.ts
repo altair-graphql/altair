@@ -18,6 +18,7 @@ const normalizeToKeyValue = (state: any, keys: string[], storageNamespace: strin
       // handle specially
       Object.keys(state[key]).forEach(windowId => {
         normalized[`[${storageNamespace}]::${key}::${windowId}`] = state[key][windowId];
+        normalized[`[${storageNamespace}]::${key}::${windowId}::schema`] = state[key][windowId].schema;
       });
     } else {
       normalized[`[${storageNamespace}]::${key}`] = state[key];
@@ -54,10 +55,14 @@ const getSyncOperations = (oldState: any, newState: any, keys: string[], storage
   Object.keys(normalizedNewState).map(key => {
     // Add operation only if value is changed
     if (normalizedNewState[key] !== normalizedOldState[key]) {
+      let valueToStore = normalizedNewState[key];
+      if (key.includes('windows::') && !key.endsWith('::schema')) {
+        valueToStore = {...valueToStore, schema: undefined};
+      }
       ops.push({
         operation: 'put',
         key,
-        value: JSON.stringify(normalizedNewState[key]),
+        value: JSON.stringify(valueToStore),
       });
     }
   });
@@ -157,6 +162,7 @@ export const getAppStateFromStorage = async({
     // TODO: Clean from localStorage
   }
 
+  const schemas: IDictionary = {};
   stateList.forEach((curStateItem) => {
     if (!curStateItem.key.startsWith(`[${storageNamespace}]::`)) {
       return;
@@ -164,7 +170,21 @@ export const getAppStateFromStorage = async({
     const key = curStateItem.key.replace(`[${storageNamespace}]::`, '');
     if (key.includes('windows::')) {
       // Handle reducing window state
-      reducedState.windows[key.replace('windows::', '')] = JSON.parse(curStateItem.value);
+      if (key.endsWith('::schema')) {
+        const windowId = key.replace('windows::', '').replace('::schema', '');
+        const schema = JSON.parse(curStateItem.value);
+        if (windowId in reducedState.windows) {
+          reducedState.windows[windowId].schema = schema;
+        } else {
+          schemas[windowId] = JSON.parse(curStateItem.value);
+        }
+      } else {
+        const windowId = key.replace('windows::', '');
+        reducedState.windows[windowId] = JSON.parse(curStateItem.value);
+        if (windowId in schemas) {
+          reducedState.windows[windowId].schema = schemas[windowId];
+        }
+      }
     } else {
       reducedState[key] = JSON.parse(curStateItem.value);
     }
