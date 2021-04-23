@@ -10,15 +10,20 @@ import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 import { getAltairConfig } from '../config';
+import type { State } from './index';
 
-const normalizeToKeyValue = (state: any, keys: string[], storageNamespace: string) => {
+type StateKey = keyof State;
+
+const normalizeToKeyValue = (state: Partial<State>, keys: StateKey[], storageNamespace: string) => {
   const normalized: IDictionary = {};
-  keys.forEach(key => {
+
+  keys.forEach((key: StateKey) => {
     if (key === 'windows' && state[key]) {
+      const windowState = state[key]!;
       // handle specially
-      Object.keys(state[key]).forEach(windowId => {
-        normalized[`[${storageNamespace}]::${key}::${windowId}`] = state[key][windowId];
-        normalized[`[${storageNamespace}]::${key}::${windowId}::schema`] = state[key][windowId].schema;
+      Object.keys(windowState).forEach(windowId => {
+        normalized[`[${storageNamespace}]::${key}::${windowId}`] = windowState[windowId];
+        normalized[`[${storageNamespace}]::${key}::${windowId}::schema`] = windowState[windowId].schema;
       });
     } else {
       normalized[`[${storageNamespace}]::${key}`] = state[key];
@@ -36,8 +41,7 @@ interface SyncOperation {
 
 let syncTransaction: Transaction | null = null;
 let syncOperations: SyncOperation[] = [];
-// { operation: 'put', key, value };
-const getSyncOperations = (oldState: any, newState: any, keys: string[], storageNamespace: string) => {
+const getSyncOperations = (oldState: Partial<State>, newState: Partial<State>, keys: StateKey[], storageNamespace: string) => {
   const ops: SyncOperation[] = [];
   const normalizedOldState = normalizeToKeyValue(oldState, keys, storageNamespace);
   const normalizedNewState = normalizeToKeyValue(newState, keys, storageNamespace);
@@ -70,7 +74,7 @@ const getSyncOperations = (oldState: any, newState: any, keys: string[], storage
   return ops;
 };
 
-const updateSyncOperations = (oldState: any, newState: any, keys: string[], storageNamespace: string) => {
+const updateSyncOperations = (oldState: Partial<State>, newState: Partial<State>, keys: StateKey[], storageNamespace: string) => {
   const newOps = getSyncOperations(oldState, newState, keys, storageNamespace);
   syncOperations = syncOperations.filter(op => !newOps.find(no => no.key === op.key)).concat(newOps);
 };
@@ -136,7 +140,7 @@ export const getAppStateFromStorage = async({
   const asyncStorage = new StorageService();
   let stateList = await asyncStorage.appState.toArray();
   const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
-  const reducedState: IDictionary = {
+  const reducedState: Partial<State> & { windows: State['windows'] } = {
     windows: {},
   };
 
@@ -152,7 +156,7 @@ export const getAppStateFromStorage = async({
       localStorageSyncConfig.restoreDates,
     );
     debug.log('pulling state from localStorage since async storage is empty..');
-    updateSyncOperations({}, hydratedState, localStorageSyncConfig.keys, storageNamespace);
+    updateSyncOperations({}, hydratedState, localStorageSyncConfig.keys as StateKey[], storageNamespace);
     await syncStateUpdate();
 
     stateList = await asyncStorage.appState.toArray();
@@ -167,9 +171,10 @@ export const getAppStateFromStorage = async({
     if (!curStateItem.key.startsWith(`[${storageNamespace}]::`)) {
       return;
     }
-    const key = curStateItem.key.replace(`[${storageNamespace}]::`, '');
+    const key = curStateItem.key.replace(`[${storageNamespace}]::`, '') as StateKey;
+    // Handle reducing window state
     if (key.includes('windows::')) {
-      // Handle reducing window state
+      // Handle reducing schema state
       if (key.endsWith('::schema')) {
         const windowId = key.replace('windows::', '').replace('::schema', '');
         const schema = JSON.parse(curStateItem.value);
@@ -179,6 +184,7 @@ export const getAppStateFromStorage = async({
           schemas[windowId] = JSON.parse(curStateItem.value);
         }
       } else {
+        // handle backward-compatible case, before schema was removed from stored window state
         const windowId = key.replace('windows::', '');
         reducedState.windows[windowId] = JSON.parse(curStateItem.value);
         if (windowId in schemas) {
@@ -190,7 +196,7 @@ export const getAppStateFromStorage = async({
     }
   });
 
-  return reducedState;
+  return reducedState as State;
 };
 
 export const importIndexedRecords = (records: { key: string, value: any }[]) => {
