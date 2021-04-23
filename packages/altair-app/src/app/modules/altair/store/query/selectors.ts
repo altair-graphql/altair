@@ -1,5 +1,5 @@
 import { createSelector, Store } from '@ngrx/store';
-import { PerWindowState } from '..';
+import { PerWindowState } from '../state.interfaces';
 import { getInitialState } from './query.reducer';
 
 export const getQueryState = (state: PerWindowState) => state ? state.query : { ...getInitialState() };

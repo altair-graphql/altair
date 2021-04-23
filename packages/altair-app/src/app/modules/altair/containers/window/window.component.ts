@@ -47,6 +47,7 @@ import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription-provider-registry.service';
+import { PerWindowState, RootState } from '../../store/state.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -115,7 +116,7 @@ export class WindowComponent implements OnInit {
   constructor(
     private gql: GqlService,
     private notifyService: NotifyService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private subscriptionProviderRegistry: SubscriptionProviderRegistryService,
   ) {
@@ -470,7 +471,7 @@ export class WindowComponent implements OnInit {
     return index;
   }
 
-  getWindowState(): Observable<fromRoot.PerWindowState> {
+  getWindowState(): Observable<PerWindowState> {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 

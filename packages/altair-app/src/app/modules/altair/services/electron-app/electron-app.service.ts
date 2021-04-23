@@ -16,6 +16,7 @@ import * as windowsMetaActions from '../../store/windows-meta/windows-meta.actio
 import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from '../../utils/logger';
 import { BackupService } from '../backup/backup.service';
+import { RootState } from '../../store/state.interfaces';
 
 @Injectable()
 export class ElectronAppService {
@@ -27,7 +28,7 @@ export class ElectronAppService {
 
   constructor(
     private electron: ElectronService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private notifyService: NotifyService,
     private backupService: BackupService,

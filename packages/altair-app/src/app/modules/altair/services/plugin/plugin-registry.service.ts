@@ -9,10 +9,10 @@ import {
 } from './plugin';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../store';
 import * as localActions from '../../store/local/local.action';
 import { PluginContextService } from './context/plugin-context.service';
 import { PluginStateEntry } from '../../store/local/local.reducer';
+import { RootState } from '../../store/state.interfaces';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -23,7 +23,7 @@ export class PluginRegistryService {
   constructor(
     private http: HttpClient,
     private pluginContextService: PluginContextService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
   ) {}
 
   async add(name: string, plugin: AltairPlugin) {
@@ -141,8 +141,8 @@ export class PluginRegistryService {
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = url;
-      script.onload = () => resolve();
-      script.onerror = (err) => reject(err);
+      script.onload = () => resolve(null);
+      script.onerror = (err: any) => reject(err);
       head.appendChild(script);
     });
   }
@@ -153,8 +153,8 @@ export class PluginRegistryService {
       style.type = 'text/css';
       style.rel = 'stylesheet';
       style.href = url;
-      style.onload = () => resolve();
-      style.onerror = (err) => reject(err);
+      style.onload = () => resolve(null);
+      style.onerror = (err: any) => reject(err);
       head.appendChild(style);
     });
   }

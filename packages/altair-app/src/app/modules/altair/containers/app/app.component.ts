@@ -49,6 +49,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AltairPlugin, AltairPanel } from '../../services/plugin/plugin';
 import { PluginEventService } from '../../services/plugin/plugin-event.service';
 import { ICustomTheme } from '../../services/theme/theme';
+import { RootState } from '../../store/state.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -85,7 +86,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private windowService: WindowService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private translate: TranslateService,
     private donationService: DonationService,
     private electronApp: ElectronAppService,

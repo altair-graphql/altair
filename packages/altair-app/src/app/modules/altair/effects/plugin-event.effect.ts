@@ -10,6 +10,7 @@ import * as queryActions from '../store/query/query.action';
 import * as schemaActions from '../store/gql-schema/gql-schema.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { PluginEventService } from '../services';
+import { RootState } from '../store/state.interfaces';
 
 @Injectable()
 export class PluginEventEffects {
@@ -86,7 +87,7 @@ export class PluginEventEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private pluginEventService: PluginEventService,
   ) {}
 }

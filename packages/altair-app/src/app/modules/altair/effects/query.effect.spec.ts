@@ -16,6 +16,7 @@ import {
 } from '../services';
 import * as fromRoot from '../store';
 import { ConvertToNamedQueryAction, SetQueryAction } from '../store/query/query.action';
+import { RootState } from '../store/state.interfaces';
 
 describe('query effects', () => {
   let actions$: Observable<Action>;
@@ -27,7 +28,7 @@ describe('query effects', () => {
   let mockEnvironmentService: EnvironmentService;
   let mockPrerequestService: PreRequestService;
   let mockSubscriptionProviderRegistryService: SubscriptionProviderRegistryService;
-  let mockStore: Store<fromRoot.State>;
+  let mockStore: Store<RootState>;
 
   beforeEach(() => {
     actions$ = of({ type: 'Action One' });
@@ -47,7 +48,7 @@ describe('query effects', () => {
       mockGqlService = mock({
         nameQuery() { return 'query named {}' }
       } as any);
-      mockStore = mockStoreFactory<fromRoot.State>({
+      mockStore = mockStoreFactory<RootState>({
         windows: {
           'window1': {
             query: {

@@ -5,7 +5,6 @@ import { debug } from '../../../utils/logger';
 import { WindowService } from '../../../services/window.service';
 
 import * as fromRoot from '../../../store';
-import * as fromWindows from '../../../store/windows/windows.reducer';
 
 import * as queryActions from '../../../store/query/query.action';
 import * as variablesActions from '../../../store/variables/variables.action';
@@ -19,6 +18,7 @@ import { first } from 'rxjs/operators';
 import { ICustomTheme } from '../../../services/theme';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
+import { ExportWindowState, RootState } from 'app/modules/altair/store/state.interfaces';
 
 interface CreatePanelOptions {
   title?: string;
@@ -31,7 +31,7 @@ interface CreateActionOptions {
   execute: (data: PluginWindowState) => void;
 }
 
-interface PluginWindowState extends fromWindows.ExportWindowState {
+interface PluginWindowState extends ExportWindowState {
   windowId: string;
   sdl: string;
   queryResult: string;
@@ -42,7 +42,7 @@ interface PluginWindowState extends fromWindows.ExportWindowState {
 })
 export class PluginContextService {
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private pluginEventService: PluginEventService,
     private themeRegistryService: ThemeRegistryService,
@@ -126,7 +126,7 @@ export class PluginContextService {
         isElectron() {
           return is_electron;
         },
-        createWindow(data: fromWindows.ExportWindowState) {
+        createWindow(data: ExportWindowState) {
           log('creating window');
           return self.windowService.importWindowData(data);
         },

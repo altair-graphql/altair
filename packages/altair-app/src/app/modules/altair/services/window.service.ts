@@ -26,6 +26,7 @@ import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
 import { debug } from '../utils/logger';
 import { GqlService } from './gql/gql.service';
+import { ExportWindowState, RootState } from '../store/state.interfaces';
 
 
 interface ImportWindowDataOptions {
@@ -36,7 +37,7 @@ interface ImportWindowDataOptions {
 export class WindowService {
 
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private gqlService: GqlService,
   ) { }
 
@@ -87,7 +88,7 @@ export class WindowService {
       const window = { ...data.windows[windowId] };
 
       if (window) {
-        const windowData: fromWindows.ExportWindowState = {
+        const windowData: ExportWindowState = {
           version: 1,
           type: 'window',
           query: window.query.query || '',
@@ -109,7 +110,7 @@ export class WindowService {
     });
   }
 
-  getWindowExportData(windowId: string): Observable<fromWindows.ExportWindowState> {
+  getWindowExportData(windowId: string): Observable<ExportWindowState> {
     return this.store.pipe(
       first(),
       map(state => {
@@ -159,7 +160,7 @@ export class WindowService {
 
     try {
       const curlObj = parseCurlToObj(curlStr);
-      const windowData: fromWindows.ExportWindowState = {
+      const windowData: ExportWindowState = {
         version: 1,
         type: 'window',
         query: curlObj.body ? JSON.parse(curlObj.body).query : '',
@@ -183,7 +184,7 @@ export class WindowService {
    * Import the window represented by the provided data string
    * @param data window data string
    */
-  importWindowData(data: fromWindows.ExportWindowState, options: ImportWindowDataOptions = {}) {
+  importWindowData(data: ExportWindowState, options: ImportWindowDataOptions = {}) {
     try {
       // Verify file's content
       if (!data) {
@@ -261,7 +262,7 @@ export class WindowService {
    */
   importStringData(dataStr: string) {
     const invalidFileError = new Error('Invalid Altair window file.');
-    const emptyWindowData: fromWindows.ExportWindowState = {
+    const emptyWindowData: ExportWindowState = {
       version: 1,
       type: 'window',
       apiUrl: '',
@@ -276,7 +277,7 @@ export class WindowService {
     };
 
     try {
-      let parsed: fromWindows.ExportWindowState;
+      let parsed: ExportWindowState;
       try {
         parsed = JSON.parse(dataStr);
       } catch (err) {

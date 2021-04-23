@@ -5,8 +5,9 @@ import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { mock } from '../../../../../testing';
+import { RootState } from '../../store/state.interfaces';
 
-let mockStore: Store<fromRoot.State>;
+let mockStore: Store<RootState>;
 
 const createEnvironmentState = ({
   base = {},

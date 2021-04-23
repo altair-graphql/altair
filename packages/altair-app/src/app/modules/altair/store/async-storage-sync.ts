@@ -10,11 +10,11 @@ import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 import { getAltairConfig } from '../config';
-import type { State } from './index';
+import { RootState } from './state.interfaces';
 
-type StateKey = keyof State;
+type StateKey = keyof RootState;
 
-const normalizeToKeyValue = (state: Partial<State>, keys: StateKey[], storageNamespace: string) => {
+const normalizeToKeyValue = (state: Partial<RootState>, keys: StateKey[], storageNamespace: string) => {
   const normalized: IDictionary = {};
 
   keys.forEach((key: StateKey) => {
@@ -41,7 +41,7 @@ interface SyncOperation {
 
 let syncTransaction: Transaction | null = null;
 let syncOperations: SyncOperation[] = [];
-const getSyncOperations = (oldState: Partial<State>, newState: Partial<State>, keys: StateKey[], storageNamespace: string) => {
+const getSyncOperations = (oldState: Partial<RootState>, newState: Partial<RootState>, keys: StateKey[], storageNamespace: string) => {
   const ops: SyncOperation[] = [];
   const normalizedOldState = normalizeToKeyValue(oldState, keys, storageNamespace);
   const normalizedNewState = normalizeToKeyValue(newState, keys, storageNamespace);
@@ -74,7 +74,7 @@ const getSyncOperations = (oldState: Partial<State>, newState: Partial<State>, k
   return ops;
 };
 
-const updateSyncOperations = (oldState: Partial<State>, newState: Partial<State>, keys: StateKey[], storageNamespace: string) => {
+const updateSyncOperations = (oldState: Partial<RootState>, newState: Partial<RootState>, keys: StateKey[], storageNamespace: string) => {
   const newOps = getSyncOperations(oldState, newState, keys, storageNamespace);
   syncOperations = syncOperations.filter(op => !newOps.find(no => no.key === op.key)).concat(newOps);
 };
@@ -140,7 +140,7 @@ export const getAppStateFromStorage = async({
   const asyncStorage = new StorageService();
   let stateList = await asyncStorage.appState.toArray();
   const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
-  const reducedState: Partial<State> & { windows: State['windows'] } = {
+  const reducedState: Partial<RootState> & { windows: RootState['windows'] } = {
     windows: {},
   };
 
@@ -196,7 +196,7 @@ export const getAppStateFromStorage = async({
     }
   });
 
-  return reducedState as State;
+  return reducedState as RootState;
 };
 
 export const importIndexedRecords = (records: { key: string, value: any }[]) => {

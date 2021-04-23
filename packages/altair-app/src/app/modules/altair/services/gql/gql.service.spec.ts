@@ -15,10 +15,11 @@ import { IntrospectionQuery, buildClientSchema } from 'graphql';
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
 import { anyFn } from '../../../../../testing';
+import { RootState } from '../../store/state.interfaces';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
-let mockStore: Store<fromRoot.State>;
+let mockStore: Store<RootState>;
 
 describe('GqlService', () => {
   beforeEach(() => {
@@ -28,7 +29,7 @@ describe('GqlService', () => {
     });
     mockStore = {
       subscribe: anyFn(),
-    } as Store<fromRoot.State>;
+    } as Store<RootState>;
     mockNotifyService = {
       error: anyFn(),
       info: anyFn(),

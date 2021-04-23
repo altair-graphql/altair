@@ -1,10 +1,9 @@
 import { InjectionToken } from '@angular/core';
 import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
-import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../../../environments/environment';
 
+import { RootState } from './state.interfaces';
 import * as fromLayout from './layout/layout.reducer';
 import * as fromQuery from './query/query.reducer';
 import * as fromHeaders from './headers/headers.reducer';
@@ -24,27 +23,9 @@ import * as fromPreRequest from './pre-request/pre-request.reducer';
 import * as fromPostRequest from './post-request/post-request.reducer';
 import * as fromLocal from './local/local.reducer';
 import { debug } from '../utils/logger';
-import performantLocalStorage from '../utils/performant-local-storage';
-import { getAltairConfig } from '../config';
-import { TODO } from '../interfaces/shared';
-import { AppInitAction } from './action';
 import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 
-export interface PerWindowState {
-  layout: fromLayout.State;
-  query: fromQuery.State;
-  headers: fromHeaders.State;
-  variables: fromVariables.State;
-  dialogs: fromDialogs.State;
-  schema: fromGqlSchema.State;
-  docs: fromDocs.State;
-  history: fromHistory.State;
-  stream: fromStream.State;
-  preRequest: fromPreRequest.State;
-  postRequest: fromPostRequest.State;
-  windowId: string; // Used by the window reducer
-}
 const getPerWindowReducer = () => {
   const perWindowReducers = {
     layout: fromLayout.layoutReducer,
@@ -58,25 +39,15 @@ const getPerWindowReducer = () => {
     stream: fromStream.streamReducer,
     preRequest: fromPreRequest.preRequestReducer,
     postRequest: fromPostRequest.postRequestReducer,
+    windowId: (_: string) => _,
   };
 
   return perWindowReducers;
 };
 
-
-export interface State {
-  windows: fromWindows.State;
-  windowsMeta: fromWindowsMeta.State;
-  settings: fromSettings.State;
-  donation: fromDonation.State;
-  collection: fromCollection.State;
-  environments: fromEnvironments.State;
-  local: fromLocal.State;
-}
-
 // Meta reducer to log actions
 export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return (state: State, action: Action) => {
+  return (state: RootState, action: Action) => {
     if (!environment.production || (window as any).__ENABLE_DEBUG_MODE__) {
       debug.log(action.type, action);
     }
@@ -90,22 +61,17 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-export function localStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync(localStorageSyncConfig)(_reducer);
-}
-
 export function asyncStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
   return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
 export const metaReducers: MetaReducer<any>[] = [
-  // localStorageSyncReducer,
   asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log
 ];
 
-export const getReducer = (): ActionReducerMap<State> => {
+export const getReducer = (): ActionReducerMap<RootState> => {
   return {
     windows: fromWindows.windows(combineReducers(getPerWindowReducer())),
     windowsMeta: fromWindowsMeta.windowsMetaReducer,
@@ -117,13 +83,13 @@ export const getReducer = (): ActionReducerMap<State> => {
   }
 };
 
-export const reducerToken = new InjectionToken<ActionReducerMap<State>>('Registered Reducers');
+export const reducerToken = new InjectionToken<ActionReducerMap<RootState>>('Registered Reducers');
 
 export const reducerProvider = [
   { provide: reducerToken, useValue: getReducer() }
 ];
 
-export const selectWindowState = (windowId: string) => (state: State) => state.windows[windowId];
+export const selectWindowState = (windowId: string) => (state: RootState) => state.windows[windowId];
 
 export * from './query/selectors';
 export * from './docs/selectors';

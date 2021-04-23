@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
+import { RootState } from '../state.interfaces';
 import { State } from './collection.reducer';
-import { State as RootState } from '..';
 
 export const selectCollectionState = (state: RootState) => state.collection;
 export const selectCollections = createSelector(selectCollectionState, collectionState => collectionState.list || []);

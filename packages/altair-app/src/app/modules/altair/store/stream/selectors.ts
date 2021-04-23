@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { PerWindowState } from '..';
+import { PerWindowState } from '../state.interfaces';
 import { getInitialState } from './stream.reducer';
 
 export const getStreamState = (state: PerWindowState) => state ? state.stream : { ...getInitialState() };

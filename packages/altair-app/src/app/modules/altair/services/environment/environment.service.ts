@@ -6,6 +6,7 @@ import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from '../../interfaces/shared';
+import { RootState } from '../../store/state.interfaces';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -26,7 +27,7 @@ export class EnvironmentService {
   environmentsState: fromEnvironments.State;
 
   constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<RootState>
   ) {
     this.store.subscribe({
       next: data => {

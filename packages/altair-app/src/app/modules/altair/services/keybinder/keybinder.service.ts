@@ -10,6 +10,7 @@ import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as queryActions from '../../store/query/query.action';
 import * as docsActions from '../../store/docs/docs.action';
 import { ElectronAppService } from '../electron-app/electron-app.service';
+import { RootState } from '../../store/state.interfaces';
 
 
 export interface KeyboardShortcutCategory {
@@ -31,7 +32,7 @@ export class KeybinderService {
   private shortcuts: KeyboardShortcut[] = [];
 
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private electronService: ElectronAppService,
     private zone: NgZone,

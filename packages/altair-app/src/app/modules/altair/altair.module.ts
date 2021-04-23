@@ -15,7 +15,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from './modules/shared/shared.module';
 
-import { getReducer, metaReducers, reducerToken, State } from './store';
+import { getReducer, metaReducers, reducerToken } from './store';
 
 import { QueryEffects } from './effects/query.effect';
 import { WindowsEffects } from './effects/windows.effect';
@@ -42,6 +42,7 @@ import { AppOverlayContainer } from './overlay-container';
 import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
+import { RootState } from './store/state.interfaces';
 
 registerLocaleData(en);
 
@@ -158,7 +159,7 @@ const providers = [
 export class AltairModule {
   constructor(
     applicationInitStatus: ApplicationInitStatus,
-    store: Store<State>,
+    store: Store<RootState>,
     reducerBootstrapper: ReducerBootstrapper,
   ) {
     applicationInitStatus.donePromise.then(() => store.dispatch(new AppInitAction({ initialState: reducerBootstrapper.initialState })));
