@@ -92,6 +92,14 @@ export interface RenderOptions {
      * }
      */
     initialSettings?: {[key: string]: any};
+
+    /**
+     * Initial subscription provider
+     *
+     * @default "websocket"
+     */
+    initialSubscriptionsProvider?:
+      "websocket" | "graphql-ws" | "app-sync" | "action-cable"
 }
 
 /**
@@ -107,7 +115,8 @@ export const renderInitialOptions = ({
     initialPreRequestScript,
     initialEnvironments,
     instanceStorageNamespace,
-    initialSettings
+    initialSettings,
+    initialSubscriptionsProvider
 }: RenderOptions = {}) => {
     return `
         const altairOpts = {
@@ -120,6 +129,7 @@ export const renderInitialOptions = ({
             ${getObjectPropertyForOption(initialEnvironments, 'initialEnvironments')}
             ${getObjectPropertyForOption(instanceStorageNamespace, 'instanceStorageNamespace')}
             ${getObjectPropertyForOption(initialSettings, 'initialSettings')}
+            ${getObjectPropertyForOption(initialSubscriptionsProvider, 'initialSubscriptionsProvider')}
         };
         AltairGraphQL.init(altairOpts);
     `;
