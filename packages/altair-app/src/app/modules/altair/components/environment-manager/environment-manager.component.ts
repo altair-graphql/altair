@@ -88,7 +88,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
   ngOnInit() {
     if (this.environments) {
-      this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+      this.selectEnvironment(this.environments.activeSubEnvironment);
     }
     this.sortableOptions = {
       onUpdate: (event: any) => {
@@ -109,7 +109,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
       }, 300);
     }
     if (changes.environments && changes.environments.currentValue) {
-      this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+      this.selectEnvironment(this.selectedEnvironmentId);
     }
   }
 
@@ -131,8 +131,8 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
     this.subEnvironmentTitleChange.next({ id: this.selectedEnvironmentId, value: content });
   }
 
-  selectEnvironment(id: string) {
-    this.selectedEnvironmentId = id;
+  selectEnvironment(id?: string) {
+    this.selectedEnvironmentId = id || 'base';
 
     if (this.selectedEnvironmentId === 'base') {
       this.selectedEnvironment = this.environments.base;
@@ -153,7 +153,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   onDeleteSubEnvironment() {
     if (confirm('Are you sure you want to delete this environment?')) {
       this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId });
-      this.selectEnvironment('base');
+      this.selectEnvironment();
     }
   }
 
