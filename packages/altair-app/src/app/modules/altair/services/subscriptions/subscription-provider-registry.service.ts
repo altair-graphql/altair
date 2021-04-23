@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SubscriptionProviderConstructor } from './subscription-provider';
 
-interface SubscriptionProviderData {
+export interface SubscriptionProviderData {
   id: string;
   getProviderClass: () => Promise<SubscriptionProviderConstructor>;
   copyTag?: string;

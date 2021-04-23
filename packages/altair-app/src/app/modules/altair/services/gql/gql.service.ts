@@ -61,6 +61,7 @@ export interface SendRequestResponse {
   };
 }
 
+interface ResolvedFileVariable { name: string; data: File; }
 type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
 
 @Injectable()
@@ -465,7 +466,6 @@ export class GqlService {
       return { resolvedFiles: [], erroneousFiles: files || [] };
     }
 
-    interface ResolvedFileVariable { name: string; data: File; }
 
     let resolvedFiles: ResolvedFileVariable[] = [];
     let erroneousFiles: fromVariables.FileVariable[] = [];

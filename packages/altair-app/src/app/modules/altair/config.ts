@@ -115,7 +115,7 @@ export class AltairConfig {
   };
   query_history_depth = isElectron ? 100 : 15;
   defaultTheme = 'system';
-  themes: [ 'light', 'dark', 'dracula', 'system' ];
+  themes = [ 'light', 'dark', 'dracula', 'system' ];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {
