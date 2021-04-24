@@ -38,6 +38,9 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
                 'instanceStorageNamespace',
                 'initialSettings',
                 'initialSubscriptionsProvider',
+                'initialSubscriptionsPayload',
+                'preserveState',
+                'initialHttpMethod',
             ])
         });
     `;
