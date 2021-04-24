@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OperationDefinitionNode } from 'graphql';
+import { HTTP_VERBS } from '../../store/query/query.interfaces';
 
 @Component({
   selector: 'app-url-box',
@@ -26,7 +27,7 @@ export class UrlBoxComponent {
   @Output() exportWindowChange = new EventEmitter();
   @Output() updateQueryInCollectionChange = new EventEmitter();
 
-  methods = ['POST', 'GET', 'PUT', 'DELETE'];
+  methods = HTTP_VERBS;
 
   setApiUrl() {
     this.urlChange.emit(this.apiUrl.trim());

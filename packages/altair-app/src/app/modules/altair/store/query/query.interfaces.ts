@@ -23,7 +23,7 @@ export interface QueryState {
   selectedOperation?: SelectedOperation;
   // Adding undefined for backward compatibility
   operations?: any[];
-  httpVerb: 'POST' | 'GET' | 'PUT' | 'DELETE';
+  httpVerb: HttpVerb;
   response: any;
   responseTime: number;
   responseStatus: number;
@@ -44,3 +44,6 @@ export interface QueryState {
 
   queryEditorState: QueryEditorState;
 }
+
+export const HTTP_VERBS = ['POST', 'GET', 'PUT', 'DELETE'] as const;
+export type HttpVerb = typeof HTTP_VERBS[number];
