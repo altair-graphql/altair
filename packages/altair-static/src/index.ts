@@ -3,6 +3,7 @@ import type { SubscriptionProviderIds } from 'altair-exported-types/dist/app/mod
 import type { AltairConfigOptions } from 'altair-exported-types/dist/app/modules/altair/config';
 import { SettingsState } from 'altair-exported-types/dist/app/modules/altair/store/settings/settings.interfaces';
 import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.interfaces';
+import { IDictionary } from 'altair-exported-types/dist/app/modules/altair/interfaces/shared';
 
 export interface RenderOptions {
     /**
@@ -92,6 +93,11 @@ export interface RenderOptions {
      * @default "websocket"
      */
     initialSubscriptionsProvider?: SubscriptionProviderIds;
+
+    /**
+     * Initial subscriptions connection params
+     */
+    initialSubscriptionsPayload?: IDictionary;
 }
 
 /**
