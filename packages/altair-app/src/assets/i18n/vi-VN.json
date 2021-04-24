@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "(Tiêu đề) Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Thêm, sửa và xoá tiêu đề (headers) trong yêu cầu của bạn",
   "ADD_HEADER_TEXT": "Thêm tiêu đề (headers)",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Đăng ký socket URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Nhập URL socket đăng ký cho máy chủ của bạn dưới đây",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Tham số kết nối (JSON)",
