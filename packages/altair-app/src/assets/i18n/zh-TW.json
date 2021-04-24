@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "標頭",
   "SET_HEADERS_DIALOG_SUBTEXT": "在你的請求中新增、修改及移除標頭",
   "ADD_HEADER_TEXT": "新增標題",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Subscription 網址",
   "SET_SUBSCRIPTION_URL_TEXT": "請輸入你的伺服器的 subscription 網址",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
