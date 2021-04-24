@@ -1,46 +1,47 @@
 'use strict';
+var equal = require('ajv/lib/compile/equal');
 var validate = (function() {
   var refVal = [];
   var refVal1 = {
-    "properties": {
-      "closed": {
-        "type": "boolean"
-      },
-      "complete": {
-        "type": "object"
-      },
-      "error": {
-        "type": "object"
-      },
-      "next": {
-        "type": "object"
-      }
-    },
-    "type": "object"
+    "enum": ["cs-CZ", "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "ja-JP", "ko-KR", "pl-PL", "pt-BR", "ro-RO", "ru-RU", "sr-SP", "uk-UA", "vi-VN", "zh-CN"],
+    "type": "string"
   };
   refVal[1] = refVal1;
-  var refVal2 = {
-    "type": "object"
-  };
-  refVal[2] = refVal2;
-  var refVal3 = (function() {
-    return function validate(data, dataPath, parentData, parentDataProperty, rootData) {
-      'use strict';
-      var vErrors = null;
-      var errors = 0;
-      if (rootData === undefined) rootData = data;
-      if ((data && typeof data === "object" && !Array.isArray(data))) {
-        var errs__0 = errors;
-        var valid1 = true;
-        if (data._isScalar === undefined) {
+  return function validate(data, dataPath, parentData, parentDataProperty, rootData) {
+    'use strict';
+    var vErrors = null;
+    var errors = 0;
+    if ((data && typeof data === "object" && !Array.isArray(data))) {
+      var errs__0 = errors;
+      var valid1 = true;
+      if (data.addQueryDepthLimit === undefined) {
+        valid1 = true;
+      } else {
+        var errs_1 = errors;
+        if (typeof data.addQueryDepthLimit !== "number") {
+          validate.errors = [{
+            keyword: 'type',
+            dataPath: (dataPath || '') + '.addQueryDepthLimit',
+            schemaPath: '#/properties/addQueryDepthLimit/type',
+            params: {
+              type: 'number'
+            },
+            message: 'should be number'
+          }];
+          return false;
+        }
+        var valid1 = errors === errs_1;
+      }
+      if (valid1) {
+        if (data['alert.disableWarnings'] === undefined) {
           valid1 = true;
         } else {
           var errs_1 = errors;
-          if (typeof data._isScalar !== "boolean") {
+          if (typeof data['alert.disableWarnings'] !== "boolean") {
             validate.errors = [{
               keyword: 'type',
-              dataPath: (dataPath || '') + '._isScalar',
-              schemaPath: '#/properties/_isScalar/type',
+              dataPath: (dataPath || '') + '[\'alert.disableWarnings\']',
+              schemaPath: '#/properties/alert.disableWarnings/type',
               params: {
                 type: 'boolean'
               },
@@ -51,112 +52,15 @@ var validate = (function() {
           var valid1 = errors === errs_1;
         }
         if (valid1) {
-          var data1 = data.operator;
-          if (data1 === undefined) {
+          if (data.disablePushNotification === undefined) {
             valid1 = true;
           } else {
             var errs_1 = errors;
-            var errs_2 = errors;
-            if ((!data1 || typeof data1 !== "object" || Array.isArray(data1))) {
+            if (typeof data.disablePushNotification !== "boolean") {
               validate.errors = [{
                 keyword: 'type',
-                dataPath: (dataPath || '') + '.operator',
-                schemaPath: '#/definitions/Operator<any,any>/type',
-                params: {
-                  type: 'object'
-                },
-                message: 'should be object'
-              }];
-              return false;
-            }
-            var valid2 = errors === errs_2;
-            var valid1 = errors === errs_1;
-          }
-          if (valid1) {
-            if (data.source === undefined) {
-              valid1 = true;
-            } else {
-              var errs_1 = errors;
-              if (!refVal[3](data.source, (dataPath || '') + '.source', data, 'source', rootData)) {
-                if (vErrors === null) vErrors = refVal[3].errors;
-                else vErrors = vErrors.concat(refVal[3].errors);
-                errors = vErrors.length;
-              }
-              var valid1 = errors === errs_1;
-            }
-          }
-        }
-      } else {
-        validate.errors = [{
-          keyword: 'type',
-          dataPath: (dataPath || '') + "",
-          schemaPath: '#/type',
-          params: {
-            type: 'object'
-          },
-          message: 'should be object'
-        }];
-        return false;
-      }
-      validate.errors = vErrors;
-      return errors === 0;
-    };
-  })();
-  refVal3.schema = {
-    "description": "A representation of any set of values over any amount of time. This is the most basic building block\nof RxJS.",
-    "properties": {
-      "_isScalar": {
-        "description": "Internal implementation detail, do not use directly.",
-        "type": "boolean"
-      },
-      "operator": {
-        "$ref": "#/definitions/Operator<any,any>"
-      },
-      "source": {
-        "$ref": "#/definitions/Observable<any>"
-      }
-    },
-    "type": "object"
-  };
-  refVal3.errors = null;
-  refVal[3] = refVal3;
-  return function validate(data, dataPath, parentData, parentDataProperty, rootData) {
-    'use strict';
-    var vErrors = null;
-    var errors = 0;
-    if (rootData === undefined) rootData = data;
-    if ((data && typeof data === "object" && !Array.isArray(data))) {
-      var errs__0 = errors;
-      var valid1 = true;
-      if (data._isScalar === undefined) {
-        valid1 = true;
-      } else {
-        var errs_1 = errors;
-        if (typeof data._isScalar !== "boolean") {
-          validate.errors = [{
-            keyword: 'type',
-            dataPath: (dataPath || '') + '._isScalar',
-            schemaPath: '#/properties/_isScalar/type',
-            params: {
-              type: 'boolean'
-            },
-            message: 'should be boolean'
-          }];
-          return false;
-        }
-        var valid1 = errors === errs_1;
-      }
-      if (valid1) {
-        if (valid1) {
-          if (data.closed === undefined) {
-            valid1 = true;
-          } else {
-            var errs_1 = errors;
-            if (typeof data.closed !== "boolean") {
-              validate.errors = [{
-                keyword: 'type',
-                dataPath: (dataPath || '') + '.closed',
-                schemaPath: '#/properties/closed/type',
+                dataPath: (dataPath || '') + '.disablePushNotification',
+                schemaPath: '#/properties/disablePushNotification/type',
                 params: {
                   type: 'boolean'
                 },
@@ -167,15 +71,15 @@ var validate = (function() {
             var valid1 = errors === errs_1;
           }
           if (valid1) {
-            if (data.hasError === undefined) {
+            if (data.enableExperimental === undefined) {
               valid1 = true;
             } else {
               var errs_1 = errors;
-              if (typeof data.hasError !== "boolean") {
+              if (typeof data.enableExperimental !== "boolean") {
                 validate.errors = [{
                   keyword: 'type',
-                  dataPath: (dataPath || '') + '.hasError',
-                  schemaPath: '#/properties/hasError/type',
+                  dataPath: (dataPath || '') + '.enableExperimental',
+                  schemaPath: '#/properties/enableExperimental/type',
                   params: {
                     type: 'boolean'
                   },
@@ -186,49 +90,153 @@ var validate = (function() {
               var valid1 = errors === errs_1;
             }
             if (valid1) {
-              if (data.isStopped === undefined) {
+              if (data.historyDepth === undefined) {
                 valid1 = true;
               } else {
                 var errs_1 = errors;
-                if (typeof data.isStopped !== "boolean") {
+                if (typeof data.historyDepth !== "number") {
                   validate.errors = [{
                     keyword: 'type',
-                    dataPath: (dataPath || '') + '.isStopped',
-                    schemaPath: '#/properties/isStopped/type',
+                    dataPath: (dataPath || '') + '.historyDepth',
+                    schemaPath: '#/properties/historyDepth/type',
                     params: {
-                      type: 'boolean'
+                      type: 'number'
                     },
-                    message: 'should be boolean'
+                    message: 'should be number'
                   }];
                   return false;
                 }
                 var valid1 = errors === errs_1;
               }
               if (valid1) {
-                var data1 = data.observers;
+                var data1 = data.language;
                 if (data1 === undefined) {
                   valid1 = true;
                 } else {
                   var errs_1 = errors;
-                  if (Array.isArray(data1)) {
-                    var errs__1 = errors;
-                    var valid1;
-                    for (var i1 = 0; i1 < data1.length; i1++) {
-                      var data2 = data1[i1];
-                      var errs_2 = errors;
-                      var errs_3 = errors;
-                      if ((data2 && typeof data2 === "object" && !Array.isArray(data2))) {
-                        var errs__3 = errors;
-                        var valid4 = true;
-                        if (data2.closed === undefined) {
-                          valid4 = true;
+                  var errs_2 = errors;
+                  if (typeof data1 !== "string") {
+                    validate.errors = [{
+                      keyword: 'type',
+                      dataPath: (dataPath || '') + '.language',
+                      schemaPath: '#/definitions/SettingsLanguage/type',
+                      params: {
+                        type: 'string'
+                      },
+                      message: 'should be string'
+                    }];
+                    return false;
+                  }
+                  var schema2 = refVal1.enum;
+                  var valid2;
+                  valid2 = false;
+                  for (var i2 = 0; i2 < schema2.length; i2++)
+                    if (equal(data1, schema2[i2])) {
+                      valid2 = true;
+                      break;
+                    } if (!valid2) {
+                    validate.errors = [{
+                      keyword: 'enum',
+                      dataPath: (dataPath || '') + '.language',
+                      schemaPath: '#/definitions/SettingsLanguage/enum',
+                      params: {
+                        allowedValues: schema2
+                      },
+                      message: 'should be equal to one of the allowed values'
+                    }];
+                    return false;
+                  }
+                  var valid2 = errors === errs_2;
+                  var valid1 = errors === errs_1;
+                }
+                if (valid1) {
+                  var data1 = data['plugin.list'];
+                  if (data1 === undefined) {
+                    valid1 = true;
+                  } else {
+                    var errs_1 = errors;
+                    if (Array.isArray(data1)) {
+                      var errs__1 = errors;
+                      var valid1;
+                      for (var i1 = 0; i1 < data1.length; i1++) {
+                        var errs_2 = errors;
+                        if (typeof data1[i1] !== "string") {
+                          validate.errors = [{
+                            keyword: 'type',
+                            dataPath: (dataPath || '') + '[\'plugin.list\'][' + i1 + ']',
+                            schemaPath: '#/properties/plugin.list/items/type',
+                            params: {
+                              type: 'string'
+                            },
+                            message: 'should be string'
+                          }];
+                          return false;
+                        }
+                        var valid2 = errors === errs_2;
+                        if (!valid2) break;
+                      }
+                    } else {
+                      validate.errors = [{
+                        keyword: 'type',
+                        dataPath: (dataPath || '') + '[\'plugin.list\']',
+                        schemaPath: '#/properties/plugin.list/type',
+                        params: {
+                          type: 'array'
+                        },
+                        message: 'should be array'
+                      }];
+                      return false;
+                    }
+                    var valid1 = errors === errs_1;
+                  }
+                  if (valid1) {
+                    if (data['request.withCredentials'] === undefined) {
+                      valid1 = true;
+                    } else {
+                      var errs_1 = errors;
+                      if (typeof data['request.withCredentials'] !== "boolean") {
+                        validate.errors = [{
+                          keyword: 'type',
+                          dataPath: (dataPath || '') + '[\'request.withCredentials\']',
+                          schemaPath: '#/properties/request.withCredentials/type',
+                          params: {
+                            type: 'boolean'
+                          },
+                          message: 'should be boolean'
+                        }];
+                        return false;
+                      }
+                      var valid1 = errors === errs_1;
+                    }
+                    if (valid1) {
+                      if (data['response.hideExtensions'] === undefined) {
+                        valid1 = true;
+                      } else {
+                        var errs_1 = errors;
+                        if (typeof data['response.hideExtensions'] !== "boolean") {
+                          validate.errors = [{
+                            keyword: 'type',
+                            dataPath: (dataPath || '') + '[\'response.hideExtensions\']',
+                            schemaPath: '#/properties/response.hideExtensions/type',
+                            params: {
+                              type: 'boolean'
+                            },
+                            message: 'should be boolean'
+                          }];
+                          return false;
+                        }
+                        var valid1 = errors === errs_1;
+                      }
+                      if (valid1) {
+                        if (data['schema.reloadOnStart'] === undefined) {
+                          valid1 = true;
                         } else {
-                          var errs_4 = errors;
-                          if (typeof data2.closed !== "boolean") {
+                          var errs_1 = errors;
+                          if (typeof data['schema.reloadOnStart'] !== "boolean") {
                             validate.errors = [{
                               keyword: 'type',
-                              dataPath: (dataPath || '') + '.observers[' + i1 + '].closed',
-                              schemaPath: '#/definitions/Observer<any>/properties/closed/type',
+                              dataPath: (dataPath || '') + '[\'schema.reloadOnStart\']',
+                              schemaPath: '#/properties/schema.reloadOnStart/type',
                               params: {
                                 type: 'boolean'
                               },
@@ -236,137 +244,109 @@ var validate = (function() {
                             }];
                             return false;
                           }
-                          var valid4 = errors === errs_4;
+                          var valid1 = errors === errs_1;
                         }
-                        if (valid4) {
-                          var data3 = data2.complete;
-                          if (data3 === undefined) {
-                            valid4 = true;
+                        if (valid1) {
+                          if (data.tabSize === undefined) {
+                            valid1 = true;
                           } else {
-                            var errs_4 = errors;
-                            if ((!data3 || typeof data3 !== "object" || Array.isArray(data3))) {
+                            var errs_1 = errors;
+                            if (typeof data.tabSize !== "number") {
                               validate.errors = [{
                                 keyword: 'type',
-                                dataPath: (dataPath || '') + '.observers[' + i1 + '].complete',
-                                schemaPath: '#/definitions/Observer<any>/properties/complete/type',
+                                dataPath: (dataPath || '') + '.tabSize',
+                                schemaPath: '#/properties/tabSize/type',
                                 params: {
-                                  type: 'object'
+                                  type: 'number'
                                 },
-                                message: 'should be object'
+                                message: 'should be number'
                               }];
                               return false;
                             }
-                            var valid4 = errors === errs_4;
+                            var valid1 = errors === errs_1;
                           }
-                          if (valid4) {
-                            var data3 = data2.error;
-                            if (data3 === undefined) {
-                              valid4 = true;
+                          if (valid1) {
+                            if (data.theme === undefined) {
+                              valid1 = true;
                             } else {
-                              var errs_4 = errors;
-                              if ((!data3 || typeof data3 !== "object" || Array.isArray(data3))) {
+                              var errs_1 = errors;
+                              if (typeof data.theme !== "string") {
                                 validate.errors = [{
                                   keyword: 'type',
-                                  dataPath: (dataPath || '') + '.observers[' + i1 + '].error',
-                                  schemaPath: '#/definitions/Observer<any>/properties/error/type',
+                                  dataPath: (dataPath || '') + '.theme',
+                                  schemaPath: '#/properties/theme/type',
                                   params: {
-                                    type: 'object'
+                                    type: 'string'
                                   },
-                                  message: 'should be object'
+                                  message: 'should be string'
                                 }];
                                 return false;
                               }
-                              var valid4 = errors === errs_4;
+                              var valid1 = errors === errs_1;
                             }
-                            if (valid4) {
-                              var data3 = data2.next;
-                              if (data3 === undefined) {
-                                valid4 = true;
+                            if (valid1) {
+                              if (data['theme.editorFontFamily'] === undefined) {
+                                valid1 = true;
                               } else {
-                                var errs_4 = errors;
-                                if ((!data3 || typeof data3 !== "object" || Array.isArray(data3))) {
+                                var errs_1 = errors;
+                                if (typeof data['theme.editorFontFamily'] !== "string") {
                                   validate.errors = [{
                                     keyword: 'type',
-                                    dataPath: (dataPath || '') + '.observers[' + i1 + '].next',
-                                    schemaPath: '#/definitions/Observer<any>/properties/next/type',
+                                    dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
+                                    schemaPath: '#/properties/theme.editorFontFamily/type',
                                     params: {
-                                      type: 'object'
+                                      type: 'string'
                                     },
-                                    message: 'should be object'
+                                    message: 'should be string'
                                   }];
                                   return false;
                                 }
-                                var valid4 = errors === errs_4;
+                                var valid1 = errors === errs_1;
+                              }
+                              if (valid1) {
+                                if (data['theme.editorFontSize'] === undefined) {
+                                  valid1 = true;
+                                } else {
+                                  var errs_1 = errors;
+                                  if (typeof data['theme.editorFontSize'] !== "number") {
+                                    validate.errors = [{
+                                      keyword: 'type',
+                                      dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
+                                      schemaPath: '#/properties/theme.editorFontSize/type',
+                                      params: {
+                                        type: 'number'
+                                      },
+                                      message: 'should be number'
+                                    }];
+                                    return false;
+                                  }
+                                  var valid1 = errors === errs_1;
+                                }
+                                if (valid1) {
+                                  if (data['theme.fontsize'] === undefined) {
+                                    valid1 = true;
+                                  } else {
+                                    var errs_1 = errors;
+                                    if (typeof data['theme.fontsize'] !== "number") {
+                                      validate.errors = [{
+                                        keyword: 'type',
+                                        dataPath: (dataPath || '') + '[\'theme.fontsize\']',
+                                        schemaPath: '#/properties/theme.fontsize/type',
+                                        params: {
+                                          type: 'number'
+                                        },
+                                        message: 'should be number'
+                                      }];
+                                      return false;
+                                    }
+                                    var valid1 = errors === errs_1;
+                                  }
+                                }
                               }
                             }
                           }
                         }
-                      } else {
-                        validate.errors = [{
-                          keyword: 'type',
-                          dataPath: (dataPath || '') + '.observers[' + i1 + ']',
-                          schemaPath: '#/definitions/Observer<any>/type',
-                          params: {
-                            type: 'object'
-                          },
-                          message: 'should be object'
-                        }];
-                        return false;
                       }
-                      var valid3 = errors === errs_3;
-                      var valid2 = errors === errs_2;
-                      if (!valid2) break;
-                    }
-                  } else {
-                    validate.errors = [{
-                      keyword: 'type',
-                      dataPath: (dataPath || '') + '.observers',
-                      schemaPath: '#/properties/observers/type',
-                      params: {
-                        type: 'array'
-                      },
-                      message: 'should be array'
-                    }];
-                    return false;
-                  }
-                  var valid1 = errors === errs_1;
-                }
-                if (valid1) {
-                  var data1 = data.operator;
-                  if (data1 === undefined) {
-                    valid1 = true;
-                  } else {
-                    var errs_1 = errors;
-                    var errs_2 = errors;
-                    if ((!data1 || typeof data1 !== "object" || Array.isArray(data1))) {
-                      validate.errors = [{
-                        keyword: 'type',
-                        dataPath: (dataPath || '') + '.operator',
-                        schemaPath: '#/definitions/Operator<any,any>/type',
-                        params: {
-                          type: 'object'
-                        },
-                        message: 'should be object'
-                      }];
-                      return false;
-                    }
-                    var valid2 = errors === errs_2;
-                    var valid1 = errors === errs_1;
-                  }
-                  if (valid1) {
-                    if (data.source === undefined) {
-                      valid1 = true;
-                    } else {
-                      var errs_1 = errors;
-                      if (!refVal3(data.source, (dataPath || '') + '.source', data, 'source', rootData)) {
-                        if (vErrors === null) vErrors = refVal3.errors;
-                        else vErrors = vErrors.concat(refVal3.errors);
-                        errors = vErrors.length;
-                      }
-                      var valid1 = errors === errs_1;
-                    }
-                    if (valid1) {
-                      if (valid1) {}
                     }
                   }
                 }
@@ -394,73 +374,78 @@ var validate = (function() {
 validate.schema = {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Observable<any>": {
-      "description": "A representation of any set of values over any amount of time. This is the most basic building block\nof RxJS.",
-      "properties": {
-        "_isScalar": {
-          "description": "Internal implementation detail, do not use directly.",
-          "type": "boolean"
-        },
-        "operator": {
-          "$ref": "#/definitions/Operator<any,any>"
-        },
-        "source": {
-          "$ref": "#/definitions/Observable<any>"
-        }
-      },
-      "type": "object"
-    },
-    "Observer<any>": {
-      "properties": {
-        "closed": {
-          "type": "boolean"
-        },
-        "complete": {
-          "type": "object"
-        },
-        "error": {
-          "type": "object"
-        },
-        "next": {
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "Operator<any,any>": {
-      "type": "object"
+    "SettingsLanguage": {
+      "enum": ["cs-CZ", "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "ja-JP", "ko-KR", "pl-PL", "pt-BR", "ro-RO", "ru-RU", "sr-SP", "uk-UA", "vi-VN", "zh-CN"],
+      "type": "string"
     }
   },
   "properties": {
-    "_isScalar": {
-      "description": "Internal implementation detail, do not use directly.",
+    "addQueryDepthLimit": {
+      "description": "'Add query' functionality depth",
+      "type": "number"
+    },
+    "alert.disableWarnings": {
+      "description": "Disable warning alerts",
       "type": "boolean"
     },
-    "_value": {},
-    "closed": {
+    "disablePushNotification": {
+      "description": "Disable push notifications",
       "type": "boolean"
     },
-    "hasError": {
+    "enableExperimental": {
+      "description": "Enable experimental features.\nNote: Might be unstable",
       "type": "boolean"
     },
-    "isStopped": {
-      "type": "boolean"
+    "historyDepth": {
+      "description": "Number of items allowed in history pane",
+      "type": "number"
     },
-    "observers": {
+    "language": {
+      "$ref": "#/definitions/SettingsLanguage",
+      "description": "Set language"
+    },
+    "plugin.list": {
+      "description": "Enabled plugins",
       "items": {
-        "$ref": "#/definitions/Observer<any>"
+        "type": "string"
       },
       "type": "array"
     },
-    "operator": {
-      "$ref": "#/definitions/Operator<any,any>"
+    "request.withCredentials": {
+      "description": "Send requests with credentials (cookies)",
+      "type": "boolean"
     },
-    "source": {
-      "$ref": "#/definitions/Observable<any>"
+    "response.hideExtensions": {
+      "description": "Hides extensions object",
+      "type": "boolean"
     },
-    "stateSubscription": {},
-    "thrownError": {},
-    "value": {}
+    "schema.reloadOnStart": {
+      "description": "Reload schema on app start",
+      "type": "boolean"
+    },
+    "tabSize": {
+      "description": "Editor tab size",
+      "type": "number"
+    },
+    "theme": {
+      "description": "Theme",
+      "type": "string"
+    },
+    "theme.editorFontFamily": {
+      "description": "Editor Font Family",
+      "type": "string"
+    },
+    "theme.editorFontSize": {
+      "description": "Editor Font Size",
+      "type": "number"
+    },
+    "theme.fontsize": {
+      "description": "Base Font Size\n(Default - 24)",
+      "type": "number"
+    },
+    "themeConfig": {
+      "description": "Theme config object"
+    }
   },
   "type": "object"
 };

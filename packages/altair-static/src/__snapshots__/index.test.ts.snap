@@ -39,21 +39,13 @@ exports[`renderAltair should return expected string 1`] = `
   <script rel=\\"preload\\" as=\\"script\\" type=\\"text/javascript\\" src=\\"[% POLYFILLS_SCRIPT %]\\"></script>
   <script rel=\\"preload\\" as=\\"script\\" type=\\"text/javascript\\" src=\\"[% MAIN_SCRIPT %]\\"></script>
 <script>
-        const altairOpts = {
-            endpointURL: \`https://example.com/graphql\`,
-            
-            initialQuery: \`query {
+        AltairGraphQL.init({
+initialQuery: \`query {
         Hello
       }\`,
-            initialVariables: \`{ variable: 1 }\`,
-            
-            
-            
-            
-            
-            
-        };
-        AltairGraphQL.init(altairOpts);
+endpointURL: \`https://example.com/graphql\`,
+initialVariables: \`{ variable: 1 }\`,
+});
     </script></body>
 
 </html>
@@ -62,20 +54,13 @@ exports[`renderAltair should return expected string 1`] = `
 
 exports[`renderInitialOptions should return expected string 1`] = `
 "
-        const altairOpts = {
-            endpointURL: \`https://example.com/graphql\`,
-            
-            initialQuery: \`query {
+        AltairGraphQL.init({
+initialQuery: \`query {
         Hello
       }\`,
-            
-            
-            initialHeaders: {\\"X-GraphQL-Token\\":\\"asd7-237s-2bdk-nsdk4\\"},
-            
-            
-            initialSettings: {\\"theme\\":\\"dark\\"},
-            
-        };
-        AltairGraphQL.init(altairOpts);
+endpointURL: \`https://example.com/graphql\`,
+initialHeaders: {\\"X-GraphQL-Token\\":\\"asd7-237s-2bdk-nsdk4\\"},
+initialSettings: {\\"theme\\":\\"dark\\"},
+});
     "
 `;

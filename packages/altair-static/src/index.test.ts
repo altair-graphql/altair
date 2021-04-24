@@ -18,6 +18,24 @@ describe('renderInitialOptions', () => {
         theme: 'dark'
       }
     });
+    const resultObj = Function(`
+      let __options;
+      const AltairGraphQL = { init: (options) => { __options = options; } };
+      ${result}
+      return __options;`)();
+    expect(resultObj).toEqual({
+      initialQuery: `query {
+        Hello
+      }`,
+      endpointURL: 'https://example.com/graphql',
+      initialHeaders: {
+        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+      },
+      initialSettings: {
+        theme: 'dark'
+      }
+    });
+
     expect(result).toMatchSnapshot();
   });
 });
