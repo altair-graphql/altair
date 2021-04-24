@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Заголовки",
   "SET_HEADERS_DIALOG_SUBTEXT": "Додавання, видалення та редагування заголовків у запиті",
   "ADD_HEADER_TEXT": "Додати заголовок",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Адреса підписки",
   "SET_SUBSCRIPTION_URL_TEXT": "Введіть URL підписки сервера нижче",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Параметри підключення (у форматі JSON)",

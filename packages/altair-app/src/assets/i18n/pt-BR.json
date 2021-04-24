@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Cabeçalhos",
   "SET_HEADERS_DIALOG_SUBTEXT": "Adicionar, editar e remover variáveis em sua requisição",
   "ADD_HEADER_TEXT": "Adicionar cabeçalho",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "URL de inscrição",
   "SET_SUBSCRIPTION_URL_TEXT": "Digite o URL de assinatura para o seu servidor abaixo",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parâmetros de conexão (em JSON)",

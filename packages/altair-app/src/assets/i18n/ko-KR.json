@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "헤더 설정",
   "SET_HEADERS_DIALOG_SUBTEXT": "리퀘스트에 담을 헤더를 추가, 편집, 삭제합니다",
   "ADD_HEADER_TEXT": "헤더 추가",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "섭스크립션 URL",
   "SET_SUBSCRIPTION_URL_TEXT": "밑 칸에 서버의 섭스크립션 URL을 입력하세요",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "커넥션 파라메터 (JSON)",

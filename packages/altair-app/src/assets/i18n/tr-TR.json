@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Başlıklar",
   "SET_HEADERS_DIALOG_SUBTEXT": "İstediğiniz başlığı ekleyin, düzenleyin ve kaldırın",
   "ADD_HEADER_TEXT": "Başlık Ekle",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Abonelik URL'si",
   "SET_SUBSCRIPTION_URL_TEXT": "Sunucunuzun abonelik URL'sini aşağıya girin",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Bağlantı Parametreleri (JSON'da)",

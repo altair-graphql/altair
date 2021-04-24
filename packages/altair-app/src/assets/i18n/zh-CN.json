@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "添加、编辑或移除请求中的Headers",
   "ADD_HEADER_TEXT": "添加Header",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "订阅地址",
   "SET_SUBSCRIPTION_URL_TEXT": "输入您服务的订阅地址",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "连接参数(JSON格式)",

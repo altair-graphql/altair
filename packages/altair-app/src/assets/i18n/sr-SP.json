@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Заглавља",
   "SET_HEADERS_DIALOG_SUBTEXT": "Dodaj, izmeni ili obrisi zaglavlja u zahtevu",
   "ADD_HEADER_TEXT": "Dodaj zaglavlje",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Link za pretplatu",
   "SET_SUBSCRIPTION_URL_TEXT": "Unesite pretplatnicki link za var server ispod",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",

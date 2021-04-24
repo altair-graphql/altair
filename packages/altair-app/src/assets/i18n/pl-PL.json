@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Nagłówki",
   "SET_HEADERS_DIALOG_SUBTEXT": "Dodaj, edytuj i usuń nagłówki w zapytaniu",
   "ADD_HEADER_TEXT": "Dodaj nagłówek",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Adres URL subskrypcji",
   "SET_SUBSCRIPTION_URL_TEXT": "Wprowadź adres URL serwera subskrypcji",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametry połączenia (w formacie JSON)",

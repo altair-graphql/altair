@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Antete",
   "SET_HEADERS_DIALOG_SUBTEXT": "Adauga, editeaza si elimina variabile in cerere",
   "ADD_HEADER_TEXT": "Adaugă antet",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "URL-ul de abonament",
   "SET_SUBSCRIPTION_URL_TEXT": "Introduceţi URL-ul de abonament pentru serverul de mai jos",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametrii de conexiune (în JSON)",
