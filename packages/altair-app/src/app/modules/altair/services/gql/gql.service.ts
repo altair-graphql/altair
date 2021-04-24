@@ -40,7 +40,7 @@ import {
   refactorArgumentsToVariables,
   generateRandomNameForString,
 } from './helpers';
-import { SelectedOperation } from '../../store/query/query.reducer';
+import { SelectedOperation } from '../../store/query/query.interfaces';
 
 
 interface SendRequestOptions {

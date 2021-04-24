@@ -15,7 +15,6 @@ import {
 } from '@angular/core';
 
 import * as fromVariables from '../../store/variables/variables.reducer';
-import * as fromQuery from '../../store/query/query.reducer';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -51,6 +50,7 @@ import { onHasCompletion } from '../../utils/codemirror/graphql-has-completion';
 import { GraphQLSchema } from 'graphql';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
+import { QueryEditorState } from '../../store/query/query.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -87,7 +87,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
-  @Output() queryEditorStateChange = new EventEmitter<fromQuery.QueryEditorState>();
+  @Output() queryEditorStateChange = new EventEmitter<QueryEditorState>();
   @Output() showTokenInDocsChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };

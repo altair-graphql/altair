@@ -66,7 +66,7 @@ const getSyncOperations = (oldState: Partial<RootState>, newState: Partial<RootS
       ops.push({
         operation: 'put',
         key,
-        value: JSON.stringify(valueToStore),
+        value: serializeValue(valueToStore),
       });
     }
   });
@@ -177,22 +177,22 @@ export const getAppStateFromStorage = async({
       // Handle reducing schema state
       if (key.endsWith('::schema')) {
         const windowId = key.replace('windows::', '').replace('::schema', '');
-        const schema = JSON.parse(curStateItem.value);
+        const schema = parseValue(curStateItem.value);
         if (windowId in reducedState.windows) {
           reducedState.windows[windowId].schema = schema;
         } else {
-          schemas[windowId] = JSON.parse(curStateItem.value);
+          schemas[windowId] = parseValue(curStateItem.value);
         }
       } else {
         // handle backward-compatible case, before schema was removed from stored window state
         const windowId = key.replace('windows::', '');
-        reducedState.windows[windowId] = JSON.parse(curStateItem.value);
+        reducedState.windows[windowId] = parseValue(curStateItem.value);
         if (windowId in schemas) {
           reducedState.windows[windowId].schema = schemas[windowId];
         }
       }
     } else {
-      reducedState[key] = JSON.parse(curStateItem.value);
+      reducedState[key] = parseValue(curStateItem.value);
     }
   });
 
@@ -257,3 +257,23 @@ export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => 
 //   updateSyncOperations(oldState, newState, keys);
 //   debouncedSyncStateUpdate();
 // };
+
+const parseValue = (value: any) => {
+  // store value was historically JSON stringified. Now it is no longer stringified.
+  // So we need to handle the backward compatibility
+  if (typeof value === 'string') {
+    try {
+      return JSON.parse(value);
+    } catch (error) {
+      return value;
+    }
+  }
+  return value;
+};
+
+const serializeValue = (value: any) => {
+  // For now we will store the state stringified,
+  // until we remove the GraphQLSchema from the state before storing
+  // since it isn't a valid value for structured cloning (it is a class instance)
+  return JSON.stringify(value);
+};
