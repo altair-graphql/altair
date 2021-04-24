@@ -1,94 +1,76 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "SettingsLanguage": {
-            "enum": [
-                "cs-CZ",
-                "de-DE",
-                "en-US",
-                "es-ES",
-                "fr-FR",
-                "it-IT",
-                "ja-JP",
-                "ko-KR",
-                "pl-PL",
-                "pt-BR",
-                "ro-RO",
-                "ru-RU",
-                "sr-SP",
-                "uk-UA",
-                "vi-VN",
-                "zh-CN"
-            ],
-            "type": "string"
+        "Observable<any>": {
+            "description": "A representation of any set of values over any amount of time. This is the most basic building block\nof RxJS.",
+            "properties": {
+                "_isScalar": {
+                    "description": "Internal implementation detail, do not use directly.",
+                    "type": "boolean"
+                },
+                "operator": {
+                    "$ref": "#/definitions/Operator<any,any>"
+                },
+                "source": {
+                    "$ref": "#/definitions/Observable<any>"
+                }
+            },
+            "type": "object"
+        },
+        "Observer<any>": {
+            "properties": {
+                "closed": {
+                    "type": "boolean"
+                },
+                "complete": {
+                    "type": "object"
+                },
+                "error": {
+                    "type": "object"
+                },
+                "next": {
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "Operator<any,any>": {
+            "type": "object"
         }
     },
     "properties": {
-        "addQueryDepthLimit": {
-            "description": "'Add query' functionality depth",
-            "type": "number"
-        },
-        "alert.disableWarnings": {
-            "description": "Disable warning alerts",
+        "_isScalar": {
+            "description": "Internal implementation detail, do not use directly.",
             "type": "boolean"
         },
-        "disablePushNotification": {
-            "description": "Disable push notifications",
+        "_value": {
+        },
+        "closed": {
             "type": "boolean"
         },
-        "enableExperimental": {
-            "description": "Enable experimental features.\nNote: Might be unstable",
+        "hasError": {
             "type": "boolean"
         },
-        "historyDepth": {
-            "description": "Number of items allowed in history pane",
-            "type": "number"
+        "isStopped": {
+            "type": "boolean"
         },
-        "language": {
-            "$ref": "#/definitions/SettingsLanguage",
-            "description": "Set language"
-        },
-        "plugin.list": {
-            "description": "Enabled plugins",
+        "observers": {
             "items": {
-                "type": "string"
+                "$ref": "#/definitions/Observer<any>"
             },
             "type": "array"
         },
-        "request.withCredentials": {
-            "description": "Send requests with credentials (cookies)",
-            "type": "boolean"
+        "operator": {
+            "$ref": "#/definitions/Operator<any,any>"
         },
-        "response.hideExtensions": {
-            "description": "Hides extensions object",
-            "type": "boolean"
+        "source": {
+            "$ref": "#/definitions/Observable<any>"
         },
-        "schema.reloadOnStart": {
-            "description": "Reload schema on app start",
-            "type": "boolean"
+        "stateSubscription": {
         },
-        "tabSize": {
-            "description": "Editor tab size",
-            "type": "number"
+        "thrownError": {
         },
-        "theme": {
-            "description": "Theme",
-            "type": "string"
-        },
-        "theme.editorFontFamily": {
-            "description": "Editor Font Family",
-            "type": "string"
-        },
-        "theme.editorFontSize": {
-            "description": "Editor Font Size",
-            "type": "number"
-        },
-        "theme.fontsize": {
-            "description": "Base Font Size\n(Default - 24)",
-            "type": "number"
-        },
-        "themeConfig": {
-            "description": "Theme config object"
+        "value": {
         }
     },
     "type": "object"

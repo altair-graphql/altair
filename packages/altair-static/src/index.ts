@@ -1,15 +1,8 @@
 import getAltairHtml from './utils/get-altair-html';
-
-
-interface InitialEnvironmentState {
-    id?: string
-    title?: string,
-    variables?: Object,
-};
-export interface IInitialEnvironments {
-    base?: InitialEnvironmentState,
-    subEnvironments?: InitialEnvironmentState[]
-  }
+import type { SubscriptionProviderIds } from 'altair-exported-types/dist/app/modules/altair/services/subscriptions/subscription-provider-registry.service';
+import type { AltairConfigOptions } from 'altair-exported-types/dist/app/modules/altair/config';
+import { SettingsState } from 'altair-exported-types/dist/app/modules/altair/store/settings/settings.interfaces';
+import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.interfaces';
 
 export interface RenderOptions {
     /**
@@ -49,7 +42,7 @@ export interface RenderOptions {
      *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
      * }
      */
-    initialHeaders?: {[key: string]: string};
+    initialHeaders?: Record<string, string>;
 
     /**
      * Whether to render the initial options in a seperate javascript file or not.
@@ -91,15 +84,14 @@ export interface RenderOptions {
      *   theme: 'dark'
      * }
      */
-    initialSettings?: {[key: string]: any};
+    initialSettings?: Partial<SettingsState>;
 
     /**
      * Initial subscription provider
      *
      * @default "websocket"
      */
-    initialSubscriptionsProvider?:
-      "websocket" | "graphql-ws" | "app-sync" | "action-cable"
+    initialSubscriptionsProvider?: SubscriptionProviderIds;
 }
 
 /**
@@ -154,7 +146,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
     }
 };
 
-function getObjectPropertyForOption(option: any, propertyName: string) {
+function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfigOptions) {
     if (option) {
         switch (typeof option) {
             case 'object':

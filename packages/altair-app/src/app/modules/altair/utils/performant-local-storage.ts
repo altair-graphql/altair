@@ -1,6 +1,6 @@
 import { IDictionary } from '../interfaces/shared';
 
-class PerformantLocalStorage implements Storage {
+export class PerformantLocalStorage implements Storage {
   private storage: Storage;
   private setItemHandles: IDictionary<number | undefined> = {};
   constructor() {

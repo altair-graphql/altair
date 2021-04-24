@@ -20,6 +20,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/keymap/sublime';
+import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -48,7 +49,7 @@ import 'codemirror/keymap/sublime';
 })
 export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
-  @Input() environments: fromEnvironments.State;
+  @Input() environments: EnvironmentsState;
   @Input() showEnvironmentManager = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
@@ -78,7 +79,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   };
 
   selectedEnvironmentId = 'base';
-  selectedEnvironment?: fromEnvironments.EnvironmentState;
+  selectedEnvironment?: EnvironmentState;
   editorContent = '{}';
   editorTitle = '';
 

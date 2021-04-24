@@ -8,15 +8,15 @@ import * as fromDocs from './docs/docs.reducer';
 import * as fromWindows from './windows/windows.reducer';
 import * as fromHistory from './history/history.reducer';
 import * as fromWindowsMeta from './windows-meta/windows-meta.reducer';
-import * as fromSettings from './settings/settings.reducer';
 import * as fromDonation from './donation/donation.reducer';
 import * as fromCollection from './collection/collection.reducer';
-import * as fromEnvironments from './environments/environments.reducer';
 import * as fromStream from './stream/stream.reducer';
 import * as fromPreRequest from './pre-request/pre-request.reducer';
 import * as fromPostRequest from './post-request/post-request.reducer';
 import * as fromLocal from './local/local.reducer';
 import { GraphQLSchema } from 'graphql';
+import { SettingsState } from './settings/settings.interfaces';
+import { EnvironmentsState } from './environments/environments.interfaces';
 
 export interface PerWindowState {
   layout: fromLayout.State;
@@ -36,10 +36,10 @@ export interface PerWindowState {
 export interface RootState {
   windows: fromWindows.State;
   windowsMeta: fromWindowsMeta.State;
-  settings: fromSettings.State;
+  settings: SettingsState;
   donation: fromDonation.State;
   collection: fromCollection.State;
-  environments: fromEnvironments.State;
+  environments: EnvironmentsState;
   local: fromLocal.State;
 }
 
