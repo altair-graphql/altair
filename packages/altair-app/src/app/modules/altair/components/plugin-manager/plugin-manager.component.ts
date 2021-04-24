@@ -3,7 +3,7 @@ import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import * as fromSettings from '../../store/settings/settings.reducer';
+import { SettingsState } from '../../store/settings/settings.interfaces';
 
 @Component({
   selector: 'app-plugin-manager',
@@ -13,7 +13,7 @@ import * as fromSettings from '../../store/settings/settings.reducer';
 export class PluginManagerComponent implements OnInit {
 
   @Input() showPluginManager = false;
-  @Input() settings: fromSettings.State;
+  @Input() settings: SettingsState;
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
@@ -59,7 +59,7 @@ export class PluginManagerComponent implements OnInit {
   }
 
   onAddPlugin(pluginName: string) {
-    const settings: fromSettings.State = JSON.parse(JSON.stringify(this.settings));
+    const settings: SettingsState = JSON.parse(JSON.stringify(this.settings));
     settings['plugin.list'] = settings['plugin.list'] || [];
     settings['plugin.list'].push(pluginName);
 
@@ -67,7 +67,7 @@ export class PluginManagerComponent implements OnInit {
     this.shouldRestart = true;
   }
   onRemovePlugin(pluginName: string) {
-    const settings: fromSettings.State = JSON.parse(JSON.stringify(this.settings));
+    const settings: SettingsState = JSON.parse(JSON.stringify(this.settings));
     settings['plugin.list'] = (settings['plugin.list'] || []).filter(pluginStr => {
       const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
       if (pluginInfo) {

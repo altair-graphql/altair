@@ -1,8 +1,8 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
-import { IInitialEnvironments } from './store/environments/environments.reducer';
-import * as fromSettings from './store/settings/settings.reducer';
 import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './services/subscriptions/subscription-provider-registry.service';
+import { SettingsState } from './store/settings/settings.interfaces';
+import { IInitialEnvironments } from './store/environments/environments.interfaces';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
@@ -75,7 +75,7 @@ export interface AltairConfigOptions {
   /**
    * Initial app settings to use
    */
-  initialSettings?: Partial<fromSettings.State>;
+  initialSettings?: Partial<SettingsState>;
 
   /**
    * Initial subscriptions provider

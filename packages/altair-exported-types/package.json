@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "tsc --emitDeclarationOnly",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "devDependencies": {

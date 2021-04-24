@@ -1,8 +1,8 @@
 import getAltairHtml from './utils/get-altair-html';
-import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.reducer';
-import { State as SettingsState } from 'altair-exported-types/dist/app/modules/altair/store/settings/settings.reducer';
-import { SubscriptionProviderIds } from 'altair-exported-types/dist/app/modules/altair/services/subscriptions/subscription-provider-registry.service';
-import { AltairConfigOptions } from 'altair-exported-types/dist/app/modules/altair/config';
+import type { SubscriptionProviderIds } from 'altair-exported-types/dist/app/modules/altair/services/subscriptions/subscription-provider-registry.service';
+import type { AltairConfigOptions } from 'altair-exported-types/dist/app/modules/altair/config';
+import { SettingsState } from 'altair-exported-types/dist/app/modules/altair/store/settings/settings.interfaces';
+import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.interfaces';
 
 export interface RenderOptions {
     /**

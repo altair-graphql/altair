@@ -7,6 +7,7 @@ import * as fromEnvironments from '../../store/environments/environments.reducer
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from '../../interfaces/shared';
 import { RootState } from '../../store/state.interfaces';
+import { EnvironmentsState } from '../../store/environments/environments.interfaces';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -24,7 +25,7 @@ interface HydrateEnvironmentOptions {
 })
 export class EnvironmentService {
 
-  environmentsState: fromEnvironments.State;
+  environmentsState: EnvironmentsState;
 
   constructor(
     private store: Store<RootState>
