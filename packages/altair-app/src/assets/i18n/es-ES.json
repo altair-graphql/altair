@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Encabezado",
   "SET_HEADERS_DIALOG_SUBTEXT": "Agrega, edita y elimina encabezados en tu solicitud",
   "ADD_HEADER_TEXT": "Añadir cabecera",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "URL de suscripción",
   "SET_SUBSCRIPTION_URL_TEXT": "Ingrese la URL de suscripción para su servidor a continuación",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parámetros de conexión (en JSON)",
