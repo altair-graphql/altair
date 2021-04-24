@@ -15,7 +15,7 @@ export const getInitialState = (): QueryState => {
     query: initialData.query ? '' + initialData.query : initialQuery,
     selectedOperation: null,
     operations: [],
-    httpVerb : 'POST',
+    httpVerb : initialData.initialHttpMethod || 'POST',
     response: null,
     responseTime: 0,
     responseStatus: 0,

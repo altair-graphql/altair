@@ -5,45 +5,11 @@ import { SettingsState } from 'altair-exported-types/dist/app/modules/altair/sto
 import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.interfaces';
 import { IDictionary } from 'altair-exported-types/dist/app/modules/altair/interfaces/shared';
 
-export interface RenderOptions {
+export interface RenderOptions extends AltairConfigOptions {
     /**
      * URL to be used as a base for relative URLs
      */
     baseURL?: string;
-
-    /**
-     * URL to set as the server endpoint
-     */
-    endpointURL?: string;
-
-    /**
-     * URL to set as the subscription endpoint
-     */
-    subscriptionsEndpoint?: string;
-
-    /**
-     * Initial query to be added
-     */
-    initialQuery?: string;
-
-    /**
-     * Initial variables to be added
-     */
-    initialVariables?: string;
-
-    /**
-     * Initial pre-request script to be added
-     */
-    initialPreRequestScript?: string;
-
-    /**
-     * Initial headers object to be added
-     * @example
-     * {
-     *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
-     * }
-     */
-    initialHeaders?: Record<string, string>;
 
     /**
      * Whether to render the initial options in a seperate javascript file or not.
@@ -51,85 +17,29 @@ export interface RenderOptions {
      * @default false
      */
     serveInitialOptionsInSeperateRequest?: boolean;
-
-    /**
-     * Initial Environments to be added
-     * @example
-     * {
-     *   base: {
-     *     title: 'Environment',
-     *     variables: {}
-     *   },
-     *   subEnvironments: [
-     *     {
-     *       title: 'sub-1',
-     *       variables: {}
-     *     }
-     *   ]
-     * }
-     */
-    initialEnvironments?: IInitialEnvironments;
-
-    /**
-     * Namespace for storing the data for the altair instance.
-     * Use this when you have multiple altair instances running on the same domain.
-     * @example
-     * instanceStorageNamespace: 'altair_dev_'
-     */
-    instanceStorageNamespace?: string;
-
-    /**
-     * Initial app settings to use
-     * @example
-     * {
-     *   theme: 'dark'
-     * }
-     */
-    initialSettings?: Partial<SettingsState>;
-
-    /**
-     * Initial subscription provider
-     *
-     * @default "websocket"
-     */
-    initialSubscriptionsProvider?: SubscriptionProviderIds;
-
-    /**
-     * Initial subscriptions connection params
-     */
-    initialSubscriptionsPayload?: IDictionary;
 }
 
 /**
  * Render Altair Initial options as a string using the provided renderOptions
  * @param renderOptions
  */
-export const renderInitialOptions = ({
-    endpointURL,
-    subscriptionsEndpoint,
-    initialQuery,
-    initialVariables,
-    initialHeaders,
-    initialPreRequestScript,
-    initialEnvironments,
-    instanceStorageNamespace,
-    initialSettings,
-    initialSubscriptionsProvider
-}: RenderOptions = {}) => {
+export const renderInitialOptions = (options: RenderOptions = {}) => {
     return `
-        const altairOpts = {
-            ${getObjectPropertyForOption(endpointURL, 'endpointURL')}
-            ${getObjectPropertyForOption(subscriptionsEndpoint, 'subscriptionsEndpoint')}
-            ${getObjectPropertyForOption(initialQuery, 'initialQuery')}
-            ${getObjectPropertyForOption(initialVariables, 'initialVariables')}
-            ${getObjectPropertyForOption(initialPreRequestScript, 'initialPreRequestScript')}
-            ${getObjectPropertyForOption(initialHeaders, 'initialHeaders')}
-            ${getObjectPropertyForOption(initialEnvironments, 'initialEnvironments')}
-            ${getObjectPropertyForOption(instanceStorageNamespace, 'instanceStorageNamespace')}
-            ${getObjectPropertyForOption(initialSettings, 'initialSettings')}
-            ${getObjectPropertyForOption(initialSubscriptionsProvider, 'initialSubscriptionsProvider')}
-        };
-        AltairGraphQL.init(altairOpts);
+        AltairGraphQL.init(${
+            getRenderedAltairOpts(options, [
+                'endpointURL',
+                'subscriptionsEndpoint',
+                'initialQuery',
+                'initialVariables',
+                'initialPreRequestScript',
+                'initialPostRequestScript',
+                'initialHeaders',
+                'initialEnvironments',
+                'instanceStorageNamespace',
+                'initialSettings',
+                'initialSubscriptionsProvider',
+            ])
+        });
     `;
 }
 
@@ -152,6 +62,13 @@ export const renderAltair = (options: RenderOptions = {}) => {
     }
 };
 
+const getRenderedAltairOpts = (renderOptions: RenderOptions, keys: (keyof AltairConfigOptions)[]) => {
+    const optProps = Object.keys(renderOptions)
+        .filter((key: any): key is keyof AltairConfigOptions => keys.includes(key))
+        .map(key => getObjectPropertyForOption(renderOptions[key], key));
+
+    return [ '{', ...optProps, '}'].join('\n');
+};
 function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfigOptions) {
     if (option) {
         switch (typeof option) {
