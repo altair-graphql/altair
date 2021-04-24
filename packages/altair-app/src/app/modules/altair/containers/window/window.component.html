@@ -141,6 +141,13 @@
             </div>
             <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
           </div>
+          <div
+            *ngIf="!isElectron"
+            class="headers__notice"
+          >
+            {{ 'HEADERS_FORBIDDEN_NOTICE' | translate }}
+            <a href='https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8' target="_blank">Learn more</a>
+          </div>
         </div>
       </ng-template>
 

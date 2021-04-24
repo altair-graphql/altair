@@ -61,6 +61,7 @@
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
   "ADD_HEADER_TEXT": "Add header",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
 
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",

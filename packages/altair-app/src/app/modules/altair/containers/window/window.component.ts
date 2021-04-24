@@ -35,6 +35,7 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
+import isElectron from '../../utils/is_electron';
 
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
 import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
@@ -92,6 +93,7 @@ export class WindowComponent implements OnInit {
 
   @Input() windowId: string;
 
+  isElectron = isElectron;
   apiUrl = '';
   query = '';
 
