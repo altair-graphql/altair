@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "Header",
   "SET_HEADERS_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Header-Angaben in deiner Anfrage",
   "ADD_HEADER_TEXT": "Header hinzufügen",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Gib unten die Subscription URL für deinen Server ein",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Verbindungsparameter (in JSON)",
