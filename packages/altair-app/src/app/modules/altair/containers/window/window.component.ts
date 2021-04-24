@@ -49,6 +49,7 @@ import { IDictionary } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription-provider-registry.service';
 import { PerWindowState, RootState } from '../../store/state.interfaces';
+import { QueryEditorState, QueryState, SelectedOperation, SubscriptionResponse } from '../../store/query/query.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -59,7 +60,7 @@ import { PerWindowState, RootState } from '../../store/state.interfaces';
   ]
 })
 export class WindowComponent implements OnInit {
-  query$: Observable<fromQuery.State>;
+  query$: Observable<QueryState>;
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -74,8 +75,8 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
-  subscriptionResponses$: Observable<fromQuery.SubscriptionResponse[]>;
-  selectedOperation$?: Observable<fromQuery.SelectedOperation>;
+  subscriptionResponses$: Observable<SubscriptionResponse[]>;
+  selectedOperation$?: Observable<SelectedOperation>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
@@ -242,7 +243,7 @@ export class WindowComponent implements OnInit {
     this.sendRequest();
   }
 
-  setQueryEditorState(queryEditorState: fromQuery.QueryEditorState) {
+  setQueryEditorState(queryEditorState: QueryEditorState) {
     this.store.dispatch(new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState));
   }
 

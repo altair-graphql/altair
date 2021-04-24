@@ -83,6 +83,8 @@ export interface AltairConfigOptions {
    * @default "websocket"
    */
   initialSubscriptionsProvider?: SubscriptionProviderIds;
+
+  initialSubscriptionsPayload?: IDictionary;
 }
 
 export class AltairConfig {
@@ -130,7 +132,8 @@ export class AltairConfig {
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
     settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
-    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider']
+    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    initialSubscriptionsPayload: {} as IDictionary,
   };
   constructor({
     endpointURL,
@@ -143,7 +146,8 @@ export class AltairConfig {
     initialPostRequestScript = '',
     instanceStorageNamespace,
     initialSettings,
-    initialSubscriptionsProvider
+    initialSubscriptionsProvider = WEBSOCKET_PROVIDER_ID,
+    initialSubscriptionsPayload = {},
   }: AltairConfigOptions = {}) {
     this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
@@ -154,8 +158,9 @@ export class AltairConfig {
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.postRequestScript = initialPostRequestScript;
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || 'altair_';
-    this.initialData.settings = initialSettings || undefined;
-    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider || WEBSOCKET_PROVIDER_ID;
+    this.initialData.settings = initialSettings;
+    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
+    this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
   }
 }
 

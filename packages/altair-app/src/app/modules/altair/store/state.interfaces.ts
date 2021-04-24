@@ -1,5 +1,4 @@
 import * as fromLayout from './layout/layout.reducer';
-import * as fromQuery from './query/query.reducer';
 import * as fromHeaders from './headers/headers.reducer';
 import * as fromVariables from './variables/variables.reducer';
 import * as fromDialogs from './dialogs/dialogs.reducer';
@@ -17,10 +16,11 @@ import * as fromLocal from './local/local.reducer';
 import { GraphQLSchema } from 'graphql';
 import { SettingsState } from './settings/settings.interfaces';
 import { EnvironmentsState } from './environments/environments.interfaces';
+import { QueryState } from './query/query.interfaces';
 
 export interface PerWindowState {
   layout: fromLayout.State;
-  query: fromQuery.State;
+  query: QueryState;
   headers: fromHeaders.State;
   variables: fromVariables.State;
   dialogs: fromDialogs.State;

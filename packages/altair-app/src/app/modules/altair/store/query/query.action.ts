@@ -1,6 +1,6 @@
 import { Action as NGRXAction } from '@ngrx/store';
 import { IDictionary } from '../../interfaces/shared';
-import { QueryEditorState } from './query.reducer';
+import { QueryEditorState } from './query.interfaces';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
