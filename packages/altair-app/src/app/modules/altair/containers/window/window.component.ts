@@ -37,7 +37,7 @@ import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import isElectron from '../../utils/is_electron';
 
-import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
+import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService, ElectronAppService } from '../../services';
 import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
 import {
   AltairUiAction

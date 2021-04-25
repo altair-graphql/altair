@@ -13,7 +13,7 @@ const { PersistentStore } = require('../store');
  */
 
 const importBackupData = (instance) => {
-  const store = new PersistentStore();
+  // const store = new PersistentStore();
   dialog.showOpenDialog(instance, {
     title: 'Import application data',
     message: 'Only import a valid Altair backup file',
@@ -29,15 +29,16 @@ const importBackupData = (instance) => {
     if (filePath) {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       try {
-        const fileObj = JSON.parse(fileContent);
+        instance.webContents.send('import-app-data', fileContent);
+        // const fileObj = JSON.parse(fileContent);
         // Check for the presence of some basic altair data to try to validate the file
-        if (fileObj.version === 1 && fileObj.localstore && fileObj.localstore.altair__debug_current_version) {
-          fs.writeFileSync(store.path, JSON.stringify(fileObj.localstore));
-          app.relaunch();
-          app.exit(0);
-        } else {
-          throw new Error('Invalid file content.');
-        }
+        // if (fileObj.version === 1 && fileObj.localstore && fileObj.localstore.altair__debug_current_version) {
+        //   fs.writeFileSync(store.path, JSON.stringify(fileObj.localstore));
+        //   app.relaunch();
+        //   app.exit(0);
+        // } else {
+        //   throw new Error('Invalid file content.');
+        // }
       } catch (error) {
         dialog.showErrorBox('Invalid file', 'The selected file is either invalid or corrupted. Please check the file and try again.');
       }
