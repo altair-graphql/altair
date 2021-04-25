@@ -96,6 +96,13 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
     if (changes?.queryResult?.currentValue) {
       setTimeout(() => handleEditorRefresh(this.editor?.codeMirror, true), 10);
+      this.resultEditorConfig.tabSize = this.tabSize;
+      this.resultEditorConfig.indentUnit = this.tabSize;
+    }
+
+    if (changes?.tabSize?.currentValue) {
+      this.resultEditorConfig.tabSize = this.tabSize;
+      this.resultEditorConfig.indentUnit = this.tabSize;
     }
 
     if (changes?.isSubscribed) {
