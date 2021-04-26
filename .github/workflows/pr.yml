@@ -26,7 +26,6 @@ jobs:
           node_modules
           */*/node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-    - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
     - uses: nick-invision/retry@v2
       with:
@@ -42,7 +41,6 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: yarn lerna run --scope altair-app e2e:ci
-  
   # https://github.com/marketplace/actions/deployment-action
   deploy-surge:
     runs-on: ubuntu-latest
