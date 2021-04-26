@@ -11,9 +11,9 @@ Altair comes with the ability to be extended via plugins. These allow you custom
 
 Plugins can be added by adding them to the `plugin.list` options in the settings. Alternatively, you can discover available plugins to use from the plugin manager and add the plugin from there (which does the same thing).
 
-![](https://i.imgur.com/H0eqhvy.png)
+![plugin manager icon](https://i.imgur.com/H0eqhvy.png)
 
-![](https://i.imgur.com/8zTpbTq.png)
+![plugin manager](https://i.imgur.com/8zTpbTq.png)
 
 Adding plugins to the settings uses the following format:
 
