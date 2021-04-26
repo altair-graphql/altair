@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import uuid from 'uuid/v4';
+import { get } from 'object-path';
 
 import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
@@ -87,7 +88,12 @@ export class EnvironmentService {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
-        return activeEnvironment[variable] || '';
+        if (activeEnvironment[variable]) {
+          return activeEnvironment[variable];
+        }
+
+        // retrieve value given object path
+        return get(activeEnvironment, variable) || '';
       }
       return match;
     });
