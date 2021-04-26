@@ -42,7 +42,21 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: yarn lerna run --scope altair-app e2e:ci
-  
+  npm-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Authenticate with Registry
+      run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: yarn --frozen-lockfile
+    - uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn build:ci
+    - run: npm whoami
   # https://github.com/marketplace/actions/deployment-action
   deploy-surge:
     runs-on: ubuntu-latest
