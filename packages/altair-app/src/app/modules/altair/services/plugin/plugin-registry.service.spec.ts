@@ -44,7 +44,7 @@ describe('PluginRegistryService', () => {
   describe('.getPluginInfoFromString()', () => {
     it('return null for empty string', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('')).toBeNull();
+      expect(service.getPluginInfoFromString('')).toBeUndefined();
     });
 
     it('should throw error if plugin name does not follow specification', () => {
@@ -67,6 +67,16 @@ describe('PluginRegistryService', () => {
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
         pluginSource: PluginSource.NPM,
+      });
+    });
+
+    it('retrieve plugin info for github plugin', () => {
+      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      expect(service.getPluginInfoFromString('github:altair-graphql-plugin-plugin-name::[repo]->[imolorhe/altair]')).toEqual({
+        name: 'altair-graphql-plugin-plugin-name',
+        pluginSource: PluginSource.GITHUB,
+        version: 'latest',
+        repo: 'imolorhe/altair',
       });
     });
 
