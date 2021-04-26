@@ -98,7 +98,7 @@
             </span>
           </li>
           <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
-            <ul nz-menu>
+            <ul nz-menu class="environments-dropdown__list">
               <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
                 <li
                   nz-menu-item
