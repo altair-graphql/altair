@@ -16,6 +16,12 @@ import { RootState } from '../../store/state.interfaces';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
+interface PluginInfo extends Record<string, string> {
+  name: string;
+  version: string;
+  pluginSource: PluginSource;
+}
+
 @Injectable()
 export class PluginRegistryService {
   private fetchedPlugins: Promise<any>[] = [];
@@ -46,7 +52,7 @@ export class PluginRegistryService {
     return this.http.get('https://altair-plugin-server.sirmuel.workers.dev/list?v=2');
   }
 
-  fetchPlugin(name: string, opts: any = {}) {
+  fetchPlugin(name: string, opts: PluginInfo) {
     if (!name) {
       return;
     }
@@ -66,7 +72,7 @@ export class PluginRegistryService {
    * it returns the details of the plugin
    * @param pluginStr
    */
-  getPluginInfoFromString(pluginStr: string) {
+  getPluginInfoFromString(pluginStr: string): PluginInfo | undefined {
     const matches = pluginStr.match(/(([A-Za-z_]*)\:)?(.[A-Za-z0-9\-]*)(@([^#\:\[\]]*))?(\:\:\[(.*)\]->\[(.*)\])?/);
     if (matches && matches.length) {
       const [, , pluginSource = PluginSource.NPM, pluginName, , pluginVersion = 'latest', , opt, optVal ] = matches;
@@ -77,29 +83,25 @@ export class PluginRegistryService {
         return {
           name: pluginName,
           version: pluginVersion,
-          pluginSource,
+          pluginSource: pluginSource as PluginSource,
           ...opt && optVal && { [opt]: optVal },
         };
       }
     }
-    return null;
   }
 
   pluginsReady() {
     return Promise.all(this.fetchedPlugins);
   }
 
-  private async fetchPluginAssets(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: any = {}) {
+  private async fetchPluginAssets(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: PluginInfo) {
     debug.log('PLUGIN: ', name, pluginSource, version);
 
-    let pluginBaseUrl = ``;
-    switch (pluginSource) {
-      case PluginSource.NPM:
-        pluginBaseUrl = this.getNPMPluginBaseURL(name, { version });
-        break;
-      case PluginSource.URL:
-        pluginBaseUrl = this.getURLPluginBaseURL(name, { version, ...remainingOpts });
-    }
+    const pluginBaseUrl = this.getPluginBaseURL({
+      pluginSource,
+      version,
+      ...remainingOpts,
+    });
 
     const manifestUrl = this.resolveURL(pluginBaseUrl, 'manifest.json');
 
@@ -159,9 +161,27 @@ export class PluginRegistryService {
     });
   }
 
+  private getPluginBaseURL(pluginInfo: PluginInfo) {
+    switch (pluginInfo.pluginSource) {
+      case PluginSource.NPM:
+        return this.getNPMPluginBaseURL(pluginInfo.name, { version: pluginInfo.version });
+        case PluginSource.GITHUB:
+        return this.getGithubPluginBaseURL(pluginInfo.name, pluginInfo);
+      case PluginSource.URL:
+        return this.getURLPluginBaseURL(pluginInfo.name, pluginInfo);
+    }
+  }
+
   private getNPMPluginBaseURL(name: string, { version = 'latest' }) {
     const baseUrl = 'https://cdn.jsdelivr.net/npm/';
     const pluginBaseUrl = `${baseUrl}${name}@${version}/`;
+    return pluginBaseUrl;
+  }
+
+  private getGithubPluginBaseURL(name: string, pluginInfo: PluginInfo) {
+    const baseUrl = 'https://cdn.jsdelivr.net/gh/';
+    const versionSuffix = pluginInfo.version === 'latest' ? '' : `@${pluginInfo.version}`;
+    const pluginBaseUrl = `${baseUrl}${pluginInfo.repo}${versionSuffix}/`;
     return pluginBaseUrl;
   }
 
