@@ -26,7 +26,6 @@ jobs:
           node_modules
           */*/node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-    - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
     - uses: nick-invision/retry@v2
       with:
