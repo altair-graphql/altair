@@ -6,8 +6,18 @@ on:
     - '**'
 
 # TODO: Handle npm package release
+# https://github.com/apollo-elements/apollo-elements/blob/6e1bb2ab51a60cebbaed2c8aca86b2e8b2ec9336/.github/workflows/main.yml#L25
 # TODO: Handle browser extension release
 jobs:
+  release-draft:
+    name: Release draft
+    runs-on: ubuntu-latest
+    steps:
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.github_token }}
+        prerelease: false
+        draft: true
   electron:
     strategy:
       matrix:
@@ -20,7 +30,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn global add @angular/cli karma lerna surge
     - run: yarn --frozen-lockfile
     - uses: nick-invision/retry@v2
       with:
@@ -53,3 +62,19 @@ jobs:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
         API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+  npm-publish:
+    runs-on: ubuntu-latest
+    needs: electron
+    steps:
+    - uses: actions/checkout@v2
+    - name: Authenticate with Registry
+      run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: yarn --frozen-lockfile
+    - uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn build:ci
+    - run: yarn lerna publish from-git --force-publish=* --no-git-tag-version --no-push --yes
