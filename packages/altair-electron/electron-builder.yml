@@ -7,9 +7,18 @@ files:
   - '**/*'
 afterSign: electron-builder-notarize # scripts/notarize.js
 mac:
+  artifactName: ${name}_${version}_${arch}_${os}.${ext}
   category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+       - x64
+       - arm64
   icon: resources/mac_icon.icns
-  artifactName: ${name}_${version}_${arch}_mac.${ext}
   hardenedRuntime: true
   entitlements: resources/entitlements.mac.plist
   entitlementsInherit: resources/entitlements.mac.plist
@@ -33,7 +42,7 @@ protocols:
   schemes:
     - altair
   role: Viewer
-artifactName: ${name}_${version}_${arch}.${ext}
+artifactName: ${name}_${version}_${arch}_${os}.${ext}
 publish:
   provider: github
   releaseType: release
