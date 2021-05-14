@@ -72,8 +72,8 @@ async function main() {
     await createReleaseTag(newVersion);
     log('Pushing release tag...');
     await pushReleaseTag();
-    log('Running release command for release notes...');
-    await startReleaseNotes();
+    // log('Running release command for release notes...');
+    // await startReleaseNotes();
     log('Create a staging to master PR');
     log('Now wait till all the CI builds are completed, and the binaries have been published in Github release');
     await inquirer.prompt([
