@@ -108,10 +108,10 @@ async function main() {
 }
 main();
 
-const exec = async(...args) => {
+const exec = async(file, arguments = [], options = {}) => {
   // @ts-ignore
-  const subprocess = execa(...args);
-  subprocess.stdout.pipe(process.stdout);
+  const subprocess = execa(file, arguments, { stdio: 'inherit', ...options });
+  // subprocess.stdout.pipe(process.stdout);
 
   await subprocess;
 };
