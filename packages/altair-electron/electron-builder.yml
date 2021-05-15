@@ -4,7 +4,7 @@ directories:
   buildResources: resources
   output: out
 files:
-  - '**/*'
+  - "**/*"
 afterSign: electron-builder-notarize # scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}
@@ -16,8 +16,8 @@ mac:
         - arm64
     - target: zip
       arch:
-       - x64
-       - arm64
+        - x64
+        - arm64
   icon: resources/mac_icon.icns
   hardenedRuntime: true
   entitlements: resources/entitlements.mac.plist
@@ -28,6 +28,9 @@ dmg:
 linux:
   artifactName: ${name}_${version}_${arch}_linux.${ext}
   icon: resources/icons
+  target:
+    - "AppImage"
+    - "deb"
 snap:
   publish:
     - provider: github
