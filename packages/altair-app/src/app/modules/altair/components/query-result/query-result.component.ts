@@ -27,9 +27,9 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
-import { SubscriptionResponse } from '../../store/query/query.reducer';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import isElectron from '../../utils/is_electron';
+import { SubscriptionResponse } from '../../store/query/query.interfaces';
 
 @Component({
   selector: 'app-query-result',
@@ -96,6 +96,13 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
     if (changes?.queryResult?.currentValue) {
       setTimeout(() => handleEditorRefresh(this.editor?.codeMirror, true), 10);
+      this.resultEditorConfig.tabSize = this.tabSize;
+      this.resultEditorConfig.indentUnit = this.tabSize;
+    }
+
+    if (changes?.tabSize?.currentValue) {
+      this.resultEditorConfig.tabSize = this.tabSize;
+      this.resultEditorConfig.indentUnit = this.tabSize;
     }
 
     if (changes?.isSubscribed) {

@@ -11,6 +11,10 @@
 .environment-manager__list-title {
   font-weight: bold;
 }
+.environment-manager__list-inner {
+  max-height: 40vh;
+  overflow: auto;
+}
 .environment-manager__list-actions {
   padding: 0 10px;
 }

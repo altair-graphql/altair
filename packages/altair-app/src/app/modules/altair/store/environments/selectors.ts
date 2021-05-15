@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import * as fromRoot from '..';
+import { RootState } from '../state.interfaces';
 import { getInitialState } from './environments.reducer';
 
-export const getEnvironments = (state: fromRoot.State) => state ? state.environments : { ...getInitialState() };
+export const getEnvironments = (state: RootState) => state ? state.environments : { ...getInitialState() };
 export const getActiveSubEnvironmentState = createSelector(getEnvironments, (state) => {
   if (state.activeSubEnvironment) {
     const activeSubEnvState = state.subEnvironments.find(env => {

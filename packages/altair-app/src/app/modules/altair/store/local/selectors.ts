@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import * as fromRoot from '../';
 import { AltairPanelLocation, AltairUiActionLocation } from '../../services/plugin/plugin';
+import { RootState } from '../state.interfaces';
 
-export const getLocalState = (state: fromRoot.State) => state.local;
+export const getLocalState = (state: RootState) => state.local;
 export const getPanels = createSelector(getLocalState, local => local.panels);
 export const getSidebarPanels = createSelector(getPanels, panels => panels.filter(_ => _.location === AltairPanelLocation.SIDEBAR));
 export const getHeaderPanels = createSelector(getPanels, panels => panels.filter(_ => _.location === AltairPanelLocation.HEADER));

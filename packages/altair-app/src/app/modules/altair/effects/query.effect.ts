@@ -38,10 +38,11 @@ import { WEBSOCKET_PROVIDER_ID } from '../services/subscriptions/subscription-pr
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType } from '../services/pre-request/pre-request.service';
+import { PerWindowState, RootState } from '../store/state.interfaces';
 
 interface EffectResponseData {
-  state: fromRoot.State;
-  data: fromRoot.PerWindowState;
+  state: RootState;
+  data: PerWindowState;
   windowId: string;
   action: any;
 }
@@ -55,7 +56,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
             return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
@@ -350,7 +351,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
@@ -500,7 +501,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.START_SUBSCRIPTION),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
@@ -692,7 +693,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.PRETTIFY_QUERY),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
@@ -743,7 +744,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(gqlSchemaActions.EXPORT_SDL),
-        withLatestFrom(this.store, (action: gqlSchemaActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: gqlSchemaActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
@@ -768,7 +769,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.COPY_AS_CURL),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
@@ -827,7 +828,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.REFACTOR_QUERY),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
@@ -878,7 +879,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(streamActions.START_STREAM_CLIENT),
-        withLatestFrom(this.store, (action: streamActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: streamActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
@@ -947,7 +948,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(streamActions.STOP_STREAM_CLIENT),
-        withLatestFrom(this.store, (action: streamActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: streamActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
@@ -963,7 +964,7 @@ export class QueryEffects {
     return this.actions$
       .pipe(
         ofType(queryActions.SET_QUERY, queryActions.SET_QUERY_FROM_DB),
-        withLatestFrom(this.store, (action: queryActions.Action, state: fromRoot.State) => {
+        withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, windowIds: state.windowsMeta.windowIds, action };
         }),
         switchMap(res => {
@@ -1000,7 +1001,7 @@ export class QueryEffects {
     private environmentService: EnvironmentService,
     private preRequestService: PreRequestService,
     private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
-    private store: Store<fromRoot.State>
+    private store: Store<RootState>
   ) {}
 
 

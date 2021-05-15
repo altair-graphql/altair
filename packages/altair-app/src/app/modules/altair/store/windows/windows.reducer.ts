@@ -1,51 +1,20 @@
 import { Action, ActionReducer, INIT } from '@ngrx/store';
 
 import * as windowsActions from './windows.action';
-import * as fromRoot from '../';
-import { debug } from '../../utils/logger';
-import { GraphQLSchema } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
 import { INIT_WINDOW } from '../action';
 import { normalize } from '../compatibility-normalizer';
+import { PerWindowState } from '../state.interfaces';
 
 export interface State {
-    [id: string]: fromRoot.PerWindowState;
-}
-
-/**
- * Data structure for exported windows
- */
-export interface ExportWindowState {
-  version: 1;
-  type: 'window';
-  windowName: string;
-  apiUrl: string;
-  query: string;
-  headers: Array<{key: string, value: string}>;
-  variables: string;
-  subscriptionUrl: string;
-  subscriptionConnectionParams?: string;
-  preRequestScript?: string;
-  preRequestScriptEnabled?: boolean;
-  postRequestScript?: string;
-  postRequestScriptEnabled?: boolean;
-
-  /**
-   * ID of the collection this query belongs to
-   */
-  collectionId?: number;
-  /**
-   * ID for window in collection
-   */
-  windowIdInCollection?: string;
-  gqlSchema?: GraphQLSchema;
+    [id: string]: PerWindowState;
 }
 
 /**
  * Metareducer to add new window and pass the correct window state to the main reducer
  * @param reducer
  */
-export function windows(reducer: ActionReducer<any>) {
+export function windows(reducer: ActionReducer<PerWindowState>) {
     const getInitWindowState = () => reducer(undefined, { type: INIT_WINDOW });
     const initialState: State = {};
 
@@ -79,8 +48,8 @@ export function windows(reducer: ActionReducer<any>) {
             case windowsActions.SET_WINDOWS:
                 const _windows = action.payload;
 
-                const newWindowsState: IDictionary<fromRoot.PerWindowState> = {};
-                _windows.forEach((window: fromRoot.PerWindowState) => {
+                const newWindowsState: IDictionary<PerWindowState> = {};
+                _windows.forEach((window: PerWindowState) => {
                     const windowKey = window.windowId;
                     // const windowTitle = window.layout.title;
 

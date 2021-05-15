@@ -16,6 +16,7 @@ import * as localActions from '../store/local/local.action';
 import { WindowService } from '../services/window.service';
 
 import { downloadJson, openFile } from '../utils';
+import { RootState } from '../store/state.interfaces';
 
 @Injectable()
 export class WindowsEffects {
@@ -133,7 +134,7 @@ export class WindowsEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService
   ) {}
 }

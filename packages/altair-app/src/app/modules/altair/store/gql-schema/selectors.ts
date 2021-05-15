@@ -1,5 +1,5 @@
 import { createSelector, Store } from '@ngrx/store';
-import { PerWindowState } from '..';
+import { PerWindowState } from '../state.interfaces';
 import { getInitialState } from './gql-schema.reducer';
 
 export const getSchemaState = (state: PerWindowState) => state ? state.schema : { ...getInitialState() };

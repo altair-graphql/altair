@@ -12,6 +12,7 @@ import { getActiveSubEnvironmentState } from '../../store/environments/selectors
 import { NotifyService } from '../notify/notify.service';
 import { first } from 'rxjs/operators';
 import { SendRequestResponse } from '../gql/gql.service';
+import { RootState } from '../../store/state.interfaces';
 
 export enum RequestType {
   INTROSPECTION = 'introspection',
@@ -73,7 +74,7 @@ export class PreRequestService {
   constructor(
     private cookieService: CookieService,
     private http: HttpClient,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private notifyService: NotifyService,
   ) { }
 

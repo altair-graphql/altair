@@ -5,7 +5,7 @@ import { EnvironmentService } from '../../services';
 import { debug } from '../../utils/logger';
 import { distinct, distinctUntilChanged, map } from 'rxjs/operators';
 
-import * as fromRoot from '../../store';
+import { RootState } from '../../store/state.interfaces';
 // import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 // TODO: Duplicating for now after changing to use lookahead in environment service variable regex
 export const VARIABLE_REGEX = /{{\s*([\w\.]+)\s*}}/g;
@@ -66,7 +66,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   private activeEnvironment = {};
 
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private environmentService: EnvironmentService,
   ) {
     store.pipe(

@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
-import { TODO } from '../interfaces/shared';
+import { AltairConfig } from '../config';
 import { getAppStateFromStorage } from './async-storage-sync';
+import { RootState } from './state.interfaces';
 
 @Injectable()
 export class ReducerBootstrapper {
-  initialState: TODO;
+  initialState: RootState | undefined;
+
+  constructor(
+    private altairConfig: AltairConfig,
+  ) {}
 
   async bootstrap() {
-    this.initialState = await getAppStateFromStorage({ updateFromLocalStorage: true });
+    if (this.altairConfig.initialData.preserveState) {
+      this.initialState = await getAppStateFromStorage({ updateFromLocalStorage: true });
+    }
   }
 }

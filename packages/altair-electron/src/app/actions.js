@@ -50,7 +50,7 @@ class ActionManager {
   }
 
   importAppData() {
-    this.windowInstance.webContents.send('import-app-data', true);
+    importBackupData(this.windowInstance);
   }
 
   exportAppData() {

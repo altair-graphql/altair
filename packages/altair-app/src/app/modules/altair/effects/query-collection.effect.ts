@@ -11,6 +11,7 @@ import * as fromRoot from '../store';
 import * as collectionActions from '../store/collection/collection.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile } from '../utils';
+import { RootState } from '../store/state.interfaces';
 
 
 @Injectable()
@@ -174,7 +175,7 @@ export class QueryCollectionEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private collectionService: QueryCollectionService,
     private windowService: WindowService,
     private notifyService: NotifyService,

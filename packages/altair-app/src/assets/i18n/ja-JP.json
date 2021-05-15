@@ -55,6 +55,7 @@
   "HEADERS_TEXT": "ヘッダー",
   "SET_HEADERS_DIALOG_SUBTEXT": "ヘッダーにある変数の追加、変更、削除",
   "ADD_HEADER_TEXT": "ヘッダ追加",
+  "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
   "SUBSCRIPTION_URL_TEXT": "サブスクリプション用URL",
   "SET_SUBSCRIPTION_URL_TEXT": "サーバーのサブスクリプション用URLを入力してください。",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "接続パラメーター（JSON)",

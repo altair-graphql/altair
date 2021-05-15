@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import * as collectionActions from '../../store/collection/collection.action';
-import * as fromWindows from '../../store/windows/windows.reducer';
+import { ExportWindowState } from '../state.interfaces';
 
 export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 
@@ -11,7 +11,7 @@ export interface State {
   sortBy: SortByOptions;
 }
 
-export interface IQuery extends fromWindows.ExportWindowState {
+export interface IQuery extends ExportWindowState {
   id?: number;
   created_at?: number;
   updated_at?: number;

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { IDictionary } from '../../interfaces/shared';
 import { first } from 'rxjs/operators';
+import { RootState } from '../../store/state.interfaces';
 
 interface NotifyOptions {
   data?: {
@@ -21,7 +22,7 @@ export class NotifyService {
 
   constructor(
     private toast: HotToastService,
-    private store: Store<fromRoot.State>
+    private store: Store<RootState>
   ) {
     this.manageExtensionNotifications();
   }

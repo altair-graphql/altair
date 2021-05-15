@@ -7,17 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import uuid from 'uuid/v4';
 
 import * as fromRoot from '../../store';
-import * as fromHeader from '../../store/headers/headers.reducer';
-import * as fromVariable from '../../store/variables/variables.reducer';
-import * as fromSettings from '../../store/settings/settings.reducer';
 import * as fromCollection from '../../store/collection/collection.reducer';
 import * as fromWindowsMeta from '../../store/windows-meta/windows-meta.reducer';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
 import * as fromWindows from '../../store/windows/windows.reducer';
 
 import * as queryActions from '../../store/query/query.action';
-import * as headerActions from '../../store/headers/headers.action';
-import * as variableActions from '../../store/variables/variables.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as layoutActions from '../../store/layout/layout.action';
 import * as docsActions from '../../store/docs/docs.action';
@@ -49,6 +44,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AltairPlugin, AltairPanel } from '../../services/plugin/plugin';
 import { PluginEventService } from '../../services/plugin/plugin-event.service';
 import { ICustomTheme } from '../../services/theme/theme';
+import { RootState } from '../../store/state.interfaces';
+import { SettingsState } from '../../store/settings/settings.interfaces';
+import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -57,12 +55,12 @@ import { ICustomTheme } from '../../services/theme/theme';
 })
 export class AppComponent implements OnDestroy {
   windowIds$: Observable<any[]>;
-  settings$: Observable<fromSettings.State>;
+  settings$: Observable<SettingsState>;
   collection$: Observable<fromCollection.State>;
   sortedCollections$: Observable<any[]>;
   windowsMeta$: Observable<fromWindowsMeta.State>;
-  environments$: Observable<fromEnvironments.State>;
-  activeEnvironment$: Observable<fromEnvironments.EnvironmentState | undefined>;
+  environments$: Observable<EnvironmentsState>;
+  activeEnvironment$: Observable<EnvironmentState | undefined>;
   theme$: Observable<ICustomTheme | undefined>;
 
   windowIds: string[] = [];
@@ -85,7 +83,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private windowService: WindowService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private translate: TranslateService,
     private donationService: DonationService,
     private electronApp: ElectronAppService,

@@ -20,6 +20,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/keymap/sublime';
+import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -48,7 +49,7 @@ import 'codemirror/keymap/sublime';
 })
 export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
-  @Input() environments: fromEnvironments.State;
+  @Input() environments: EnvironmentsState;
   @Input() showEnvironmentManager = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
@@ -78,7 +79,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   };
 
   selectedEnvironmentId = 'base';
-  selectedEnvironment?: fromEnvironments.EnvironmentState;
+  selectedEnvironment?: EnvironmentState;
   editorContent = '{}';
   editorTitle = '';
 
@@ -88,7 +89,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
 
   ngOnInit() {
     if (this.environments) {
-      this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+      this.selectEnvironment(this.environments.activeSubEnvironment);
     }
     this.sortableOptions = {
       onUpdate: (event: any) => {
@@ -109,7 +110,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
       }, 300);
     }
     if (changes.environments && changes.environments.currentValue) {
-      this.selectEnvironment(this.environments.activeSubEnvironment || 'base');
+      this.selectEnvironment(this.selectedEnvironmentId);
     }
   }
 
@@ -131,8 +132,8 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
     this.subEnvironmentTitleChange.next({ id: this.selectedEnvironmentId, value: content });
   }
 
-  selectEnvironment(id: string) {
-    this.selectedEnvironmentId = id;
+  selectEnvironment(id?: string) {
+    this.selectedEnvironmentId = id || 'base';
 
     if (this.selectedEnvironmentId === 'base') {
       this.selectedEnvironment = this.environments.base;
@@ -153,7 +154,7 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
   onDeleteSubEnvironment() {
     if (confirm('Are you sure you want to delete this environment?')) {
       this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId });
-      this.selectEnvironment('base');
+      this.selectEnvironment();
     }
   }
 

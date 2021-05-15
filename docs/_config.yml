@@ -36,6 +36,10 @@ releases:
     link: https://github.com/imolorhe/altair/releases/latest
     extra: brew install --cask altair-graphql-client
   -
+    name: macOS M1
+    image: osx_logo.svg
+    unique_term: _arm64_mac.dmg
+  -
     name: linux
     image: linux_logo.svg
     unique_term: AppImage

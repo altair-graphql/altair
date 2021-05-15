@@ -8,9 +8,9 @@ import { WindowComponent } from './window.component';
 import { mock, anyFn, mockStoreFactory } from '../../../../../testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import * as fromRoot from '../../store';
+import { RootState } from '../../store/state.interfaces';
 
-let mockStore: Store<fromRoot.State>;
+let mockStore: Store<RootState>;
 
 describe('WindowComponent', () => {
   let component: WindowComponent;
@@ -19,7 +19,7 @@ describe('WindowComponent', () => {
   beforeEach(waitForAsync(() => {
 
     const store = of();
-    mockStore = mock<Store<fromRoot.State>>(store as any);
+    mockStore = mock<Store<RootState>>(store as any);
     const providers = [
       {
         provide: Store,

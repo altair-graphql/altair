@@ -12,8 +12,6 @@ import {
   DoCheck,
 } from '@angular/core';
 
-import * as fromSettings from '../../store/settings/settings.reducer';
-
 import { AltairConfig } from '../../config';
 import { debug } from '../../utils/logger';
 
@@ -31,6 +29,7 @@ import { registerSettingsLinter, getHint, validateSettings, settingsSchema } fro
 import { NotifyService, KeybinderService, StorageService } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
+import { SettingsState } from '../../store/settings/settings.interfaces';
 
 registerSettingsLinter(Codemirror);
 
@@ -41,7 +40,7 @@ registerSettingsLinter(Codemirror);
 })
 export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
 
-  @Input() settings: fromSettings.State;
+  @Input() settings: SettingsState;
   @Input() appVersion: string;
   @Input() showSettingsDialog = false;
   @Output() toggleDialogChange = new EventEmitter();

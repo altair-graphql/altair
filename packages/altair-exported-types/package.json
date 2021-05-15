@@ -1,0 +1,17 @@
+{
+  "name": "altair-exported-types",
+  "version": "4.0.3",
+  "description": "Contains types exported from the app",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prepare": "tsc --emitDeclarationOnly",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "devDependencies": {
+    "altair-app": "^4.0.3",
+    "jest": "^26.6.3",
+    "typescript": "4.0.7"
+  }
+}

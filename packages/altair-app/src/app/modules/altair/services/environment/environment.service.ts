@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import uuid from 'uuid/v4';
+import { get } from 'object-path';
 
 import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from '../../interfaces/shared';
+import { RootState } from '../../store/state.interfaces';
+import { EnvironmentsState } from '../../store/environments/environments.interfaces';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -23,10 +26,10 @@ interface HydrateEnvironmentOptions {
 })
 export class EnvironmentService {
 
-  environmentsState: fromEnvironments.State;
+  environmentsState: EnvironmentsState;
 
   constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<RootState>
   ) {
     this.store.subscribe({
       next: data => {
@@ -85,7 +88,12 @@ export class EnvironmentService {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
-        return activeEnvironment[variable] || '';
+        if (activeEnvironment[variable]) {
+          return activeEnvironment[variable];
+        }
+
+        // retrieve value given object path
+        return get(activeEnvironment, variable) || '';
       }
       return match;
     });

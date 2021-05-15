@@ -5,8 +5,9 @@ import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { mock } from '../../../../../testing';
+import { RootState } from '../../store/state.interfaces';
 
-let mockStore: Store<fromRoot.State>;
+let mockStore: Store<RootState>;
 
 const createEnvironmentState = ({
   base = {},
@@ -121,6 +122,18 @@ describe('EnvironmentService', () => {
         activeEnvironment: {}
       });
       expect(hydratedContent).toBe('current URL is !');
+    });
+
+    it('should hydrate content with nested environment variable', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate('current URL is {{meta.url}}!', {
+        activeEnvironment: {
+          meta: {
+            url: 'sirmuel.design',
+          },
+        }
+      });
+      expect(hydratedContent).toBe('current URL is sirmuel.design!');
     });
 
     it('should hydrate multiple variables with random character between', () => {

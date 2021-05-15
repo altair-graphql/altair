@@ -1,14 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HotToastService } from '@ngneat/hot-toast';
-import * as fromRoot from '../../store';
 
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { anyFn, mock } from '../../../../../testing';
+import { RootState } from '../../store/state.interfaces';
 
 let mockHotToastService: HotToastService;
-let mockStore: Store<fromRoot.State>;
+let mockStore: Store<RootState>;
 
 describe('NotifyService', () => {
   beforeEach(() => {

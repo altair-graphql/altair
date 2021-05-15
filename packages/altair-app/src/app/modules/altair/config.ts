@@ -1,7 +1,9 @@
 import isElectron from './utils/is_electron';
 import { IDictionary } from './interfaces/shared';
-import { IInitialEnvironments } from './store/environments/environments.reducer';
-import * as fromSettings from './store/settings/settings.reducer';
+import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './services/subscriptions/subscription-provider-registry.service';
+import { SettingsState } from './store/settings/settings.interfaces';
+import { IInitialEnvironments } from './store/environments/environments.interfaces';
+import { HttpVerb } from './store/query/query.interfaces';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
@@ -74,7 +76,31 @@ export interface AltairConfigOptions {
   /**
    * Initial app settings to use
    */
-  initialSettings?: Partial<fromSettings.State>;
+  initialSettings?: Partial<SettingsState>;
+
+  /**
+   * Initial subscriptions provider
+   *
+   * @default "websocket"
+   */
+  initialSubscriptionsProvider?: SubscriptionProviderIds;
+
+  /**
+   * Initial subscriptions connection params
+   */
+  initialSubscriptionsPayload?: IDictionary;
+
+  /**
+   * Indicates if the state should be preserved for subsequent app loads
+   *
+   * @default true
+   */
+  preserveState?: boolean;
+
+  /**
+   * HTTP method to use for making requests
+   */
+  initialHttpMethod?: HttpVerb;
 }
 
 export class AltairConfig {
@@ -107,7 +133,7 @@ export class AltairConfig {
   };
   query_history_depth = isElectron ? 100 : 15;
   defaultTheme = 'system';
-  themes: [ 'light', 'dark', 'dracula', 'system' ];
+  themes = [ 'light', 'dark', 'dracula', 'system' ];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {
@@ -122,6 +148,10 @@ export class AltairConfig {
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
     settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
+    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    initialSubscriptionsPayload: {} as IDictionary,
+    initialHttpMethod: 'POST' as HttpVerb,
+    preserveState: true,
   };
   constructor({
     endpointURL,
@@ -134,6 +164,10 @@ export class AltairConfig {
     initialPostRequestScript = '',
     instanceStorageNamespace,
     initialSettings,
+    initialSubscriptionsProvider = WEBSOCKET_PROVIDER_ID,
+    initialSubscriptionsPayload = {},
+    initialHttpMethod = 'POST',
+    preserveState = true,
   }: AltairConfigOptions = {}) {
     this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
@@ -144,7 +178,11 @@ export class AltairConfig {
     this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
     this.initialData.postRequestScript = initialPostRequestScript;
     this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || 'altair_';
-    this.initialData.settings = initialSettings || undefined;
+    this.initialData.settings = initialSettings;
+    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
+    this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
+    this.initialData.initialHttpMethod = initialHttpMethod;
+    this.initialData.preserveState = preserveState;
   }
 }
 

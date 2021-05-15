@@ -15,9 +15,15 @@ import * as docsActions from '../../store/docs/docs.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from '../../utils/logger';
-import { BackupService } from '../backup/backup.service';
+import { RootState } from '../../store/state.interfaces';
+import { ObjectLocalStorage } from '../../utils/object-local-storage';
+import { getAppStateFromStorage, importIndexedRecords } from '../../store/async-storage-sync';
+import { StorageService } from '../storage/storage.service';
+import { downloadData } from '../../utils';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ElectronAppService {
 
   windowIds: string[];
@@ -27,10 +33,9 @@ export class ElectronAppService {
 
   constructor(
     private electron: ElectronService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private notifyService: NotifyService,
-    private backupService: BackupService,
     private zone: NgZone,
   ) {
     this.store.subscribe(data => {
@@ -52,12 +57,12 @@ export class ElectronAppService {
         `));
       });
 
-      this.ipc.on('import-app-data', () => {
-        this.zone.run(() => this.backupService.importBackupData());
+      this.ipc.on('import-app-data', (evt: any, content: string) => {
+        this.zone.run(() => this.importBackupData(content));
       });
 
       this.ipc.on('export-app-data', () => {
-        this.zone.run(() => this.backupService.exportBackupData());
+        this.zone.run(() => this.exportBackupData());
       });
 
       this.ipc.on('create-tab', () => {
@@ -110,4 +115,70 @@ export class ElectronAppService {
   isElectronApp() {
     return this.electron.isElectronApp;
   }
+
+  restartApp() {
+    if (this.electron.isElectronApp) {
+      this.ipc.send('restart-app');
+    }
+  }
+
+  /**
+   * Backup file structure
+   * -----------
+   * {
+   *  version: 1,
+   *  localstore: <localstorage data>
+   * }
+   * {
+   *  version: 2,
+   *  indexedrecords: <indexed key-value pair list>
+   * }
+   */
+
+  async importBackupData(fileContent: string) {
+    // get JSON
+    // check version 1 of file
+
+    if (!fileContent) {
+      // notify invalid file
+      return this.notifyService.error('Invalid file');
+    }
+    const fileObj = JSON.parse(fileContent);
+    if (fileObj.version === 1 && fileObj.localstore) {
+      const localStorage = new ObjectLocalStorage(fileObj.localstore);
+      // set the data to store
+      await getAppStateFromStorage({
+        updateFromLocalStorage: true,
+        forceUpdateFromProvidedData: true,
+        storage: localStorage,
+      });
+      // reload the app
+      this.restartApp();
+      return location.reload();
+    }
+
+    if (fileObj.version === 2 && fileObj.indexedrecords) {
+      // Set indexedDb data
+      await importIndexedRecords(fileObj.indexedrecords);
+      // reload the app
+      this.restartApp();
+      return location.reload();
+    }
+
+    // notify invlaid file content
+    return this.notifyService.error('Invalid file content.');
+  };
+
+  async exportBackupData () {
+    // get store data, in indexedrecords format
+    // create data following schema
+    // save stringified to file with agbkp extension
+    const asyncStorage = new StorageService();
+    const stateList = await asyncStorage.appState.toArray();
+    const backupData = {
+      version: 2,
+      indexedrecords: stateList,
+    };
+    downloadData(JSON.stringify(backupData), 'altair_backup', { fileType: 'agbkp' });
+  };
 }

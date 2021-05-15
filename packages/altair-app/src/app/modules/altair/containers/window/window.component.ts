@@ -35,8 +35,9 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
+import isElectron from '../../utils/is_electron';
 
-import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService } from '../../services';
+import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService, ElectronAppService } from '../../services';
 import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
 import {
   AltairUiAction
@@ -47,6 +48,8 @@ import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription-provider-registry.service';
+import { PerWindowState, RootState } from '../../store/state.interfaces';
+import { QueryEditorState, QueryState, SelectedOperation, SubscriptionResponse } from '../../store/query/query.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -57,7 +60,7 @@ import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription
   ]
 })
 export class WindowComponent implements OnInit {
-  query$: Observable<fromQuery.State>;
+  query$: Observable<QueryState>;
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -72,8 +75,8 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
-  subscriptionResponses$: Observable<fromQuery.SubscriptionResponse[]>;
-  selectedOperation$?: Observable<fromQuery.SelectedOperation>;
+  subscriptionResponses$: Observable<SubscriptionResponse[]>;
+  selectedOperation$?: Observable<SelectedOperation>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
@@ -91,6 +94,7 @@ export class WindowComponent implements OnInit {
 
   @Input() windowId: string;
 
+  isElectron = isElectron;
   apiUrl = '';
   query = '';
 
@@ -115,7 +119,7 @@ export class WindowComponent implements OnInit {
   constructor(
     private gql: GqlService,
     private notifyService: NotifyService,
-    private store: Store<fromRoot.State>,
+    private store: Store<RootState>,
     private windowService: WindowService,
     private subscriptionProviderRegistry: SubscriptionProviderRegistryService,
   ) {
@@ -239,7 +243,7 @@ export class WindowComponent implements OnInit {
     this.sendRequest();
   }
 
-  setQueryEditorState(queryEditorState: fromQuery.QueryEditorState) {
+  setQueryEditorState(queryEditorState: QueryEditorState) {
     this.store.dispatch(new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState));
   }
 
@@ -470,7 +474,7 @@ export class WindowComponent implements OnInit {
     return index;
   }
 
-  getWindowState(): Observable<fromRoot.PerWindowState> {
+  getWindowState(): Observable<PerWindowState> {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 
