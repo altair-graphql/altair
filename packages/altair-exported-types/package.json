@@ -4,7 +4,6 @@
   "description": "Contains types exported from the app",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "prepare": "tsc --emitDeclarationOnly",
     "test": "echo \"Error: no test specified\" && exit 0"

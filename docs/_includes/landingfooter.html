@@ -8,7 +8,7 @@
           <div class="platforms">
             {% for platform in site.releases %}
               <div class="platform-item">
-                {% assign link = site.github.latest_release.assets | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
+                {% assign link = site.github.latest_release.assets  | sort: 'name' | reverse | where_exp: 'item', 'item.size > 1000000' | where_exp: "item", 'item.name contains platform.unique_term' | first | map: 'browser_download_url' | default: platform.link %}
                 {% if link %}
                   <a class="platform-item__link" track-category="download_altair" track-label="{{ platform.name }}" href="{{ link }}" target="_blank">
                 {% endif %}
