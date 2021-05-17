@@ -29,8 +29,11 @@ linux:
   artifactName: ${name}_${version}_${arch}_linux.${ext}
   icon: resources/icons
   target:
-    - "AppImage"
-    - "deb"
+    - AppImage
+    - deb
+    - snap
+appImage:
+  category: Development
 snap:
   publish:
     - provider: github
