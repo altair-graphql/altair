@@ -5,19 +5,27 @@ on:
     tags:
     - '**'
 
-# TODO: Handle npm package release
-# https://github.com/apollo-elements/apollo-elements/blob/6e1bb2ab51a60cebbaed2c8aca86b2e8b2ec9336/.github/workflows/main.yml#L25
 # TODO: Handle browser extension release
 jobs:
-  release-draft:
-    name: Release draft
+  prepare-release:
+    name: Prepare release
     runs-on: ubuntu-latest
     steps:
-    - uses: marvinpinto/action-automatic-releases@latest
-      with:
-        repo_token: ${{ secrets.github_token }}
-        prerelease: false
-        draft: true
+      - id: release-draft
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.github_token }}
+          prerelease: false
+          draft: true
+      - id: staging-pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: staging
+          base: master
+          title: Staging to master
+    outputs:
+      release-tag: ${{ steps.release-draft.outputs.automatic_releases_tag }}
+      staging-pr-id: ${{ steps.staging-pr.outputs.pull-request-number }}
   electron:
     strategy:
       matrix:
@@ -78,3 +86,18 @@ jobs:
         max_attempts: 3
         command: yarn build:ci
     - run: yarn lerna publish from-git --force-publish=* --no-git-tag-version --no-push --yes
+  publish-release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    needs: [prepare-release, electron]
+    steps:
+      - uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ needs.prepare-release.outputs.release-tag }}
+      - uses: peter-evans/enable-pull-request-automerge@v1
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
+  # TODO: Publish browser extensions (chrome, mozilla, edge)
