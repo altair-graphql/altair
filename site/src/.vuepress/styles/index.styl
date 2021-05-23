@@ -1,0 +1,55 @@
+/**
+ * Custom Styles here.
+ *
+ * ref：https://v1.vuepress.vuejs.org/config/#index-styl
+ */
+
+img
+  max-width: 100%;
+  height: auto;
+.column
+  max-width: 1040px
+  width: 100%
+  float left
+  padding 16px
+.wrapper
+  max-width: 1020px
+  margin 0 auto
+  &:before, &:after
+    content: ' '
+    display: table
+  &:after
+    clear: both
+.clear-floats
+  clear: both
+
+.button
+  display: inline-block;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  background: rgba($primary-color, .25);
+  color: $primary-color;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: all .3s ease;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 20px;
+
+  &:hover
+    text-decoration: none;
+    border-color: $primary-color;
+    box-shadow: 10px 10px 0 rgba($primary-color, .25);
+    // box-shadow: 0 0 15px rgba(255, 255, 255, .5);
+
+  &--primary
+    color: white;
+    background: $primary-color;
+
+  &--dark
+    background: $dark
+    &:hover
+      color: white
+
+  & ~ .button
+    margin-left: 10px;

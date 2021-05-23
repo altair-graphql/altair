@@ -101,3 +101,6 @@ jobs:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
   # TODO: Publish browser extensions (chrome, mozilla, edge)
+  # https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md
+  # https://github.com/marketplace/actions/chrome-extension-upload-action
+  # https://github.com/fregante/web-ext-submit
