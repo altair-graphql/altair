@@ -1,0 +1,11 @@
+{
+  "name": "vuepress-github-metadata",
+  "version": "1.0.0",
+  "description": "Adds github metadata to $page",
+  "main": "index.js",
+  "author": "Samuel Imolorhe",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^18.5.3"
+  }
+}
