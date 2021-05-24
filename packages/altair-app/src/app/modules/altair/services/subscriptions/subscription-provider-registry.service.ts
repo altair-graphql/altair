@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { SubscriptionProviderConstructor } from './subscription-provider';
 
 export interface SubscriptionProviderData {
@@ -24,6 +25,7 @@ export type SubscriptionProviderIds = typeof SUBSCRIPTION_PROVIDER_IDS[keyof typ
 @Injectable()
 export class SubscriptionProviderRegistryService {
   private list: SubscriptionProviderData[] = [];
+  private list$ = new BehaviorSubject(this.list);
 
   constructor() {
     this.addProviderData({
@@ -53,6 +55,7 @@ export class SubscriptionProviderRegistryService {
 
   addProviderData(providerData: SubscriptionProviderData) {
     this.list.push(providerData);
+    this.list$.next(this.list);
   }
 
   getProviderData(providerId: string) {
@@ -66,5 +69,9 @@ export class SubscriptionProviderRegistryService {
 
   getAllProviderData() {
     return this.list;
+  }
+
+  getAllProviderData$() {
+    return this.list$;
   }
 }

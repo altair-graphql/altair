@@ -161,7 +161,7 @@
     <app-subscription-url-dialog
       [subscriptionUrl]="subscriptionUrl"
       [subscriptionConnectionParams]="subscriptionConnectionParams"
-      [subscriptionProviders]="availableSubscriptionProviders"
+      [subscriptionProviders]="availableSubscriptionProviders$ | async"
       [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
       [showDialog]="showSubscriptionUrlDialog"
       (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"

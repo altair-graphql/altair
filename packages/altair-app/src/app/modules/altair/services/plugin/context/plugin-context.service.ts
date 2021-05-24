@@ -19,6 +19,7 @@ import { ICustomTheme } from '../../../services/theme';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { ExportWindowState, RootState } from 'app/modules/altair/store/state.interfaces';
+import { SubscriptionProviderData, SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 
 interface CreatePanelOptions {
   title?: string;
@@ -46,6 +47,7 @@ export class PluginContextService {
     private windowService: WindowService,
     private pluginEventService: PluginEventService,
     private themeRegistryService: ThemeRegistryService,
+    private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
     private notifyService: NotifyService,
   ) {}
 
@@ -142,6 +144,10 @@ export class PluginContextService {
           log('setting endpoint');
           self.store.dispatch(new queryActions.SetUrlAction({ url }, windowId));
           self.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+        },
+        addSubscriptionProvider(providerData: SubscriptionProviderData) {
+          log(`adding subscription provider: ${providerData.id}`);
+          self.subscriptionProviderRegistryService.addProviderData(providerData);
         },
         executeCommand() {
           // TODO: To be implemented...

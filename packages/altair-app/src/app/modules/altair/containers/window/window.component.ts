@@ -111,7 +111,7 @@ export class WindowComponent implements OnInit {
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
-  availableSubscriptionProviders = this.subscriptionProviderRegistry.getAllProviderData();
+  availableSubscriptionProviders$ = this.subscriptionProviderRegistry.getAllProviderData$();
   selectedSubscriptionProviderId = '';
 
   historyList: fromHistory.History[] = [];
