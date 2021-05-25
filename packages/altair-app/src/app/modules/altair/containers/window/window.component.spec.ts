@@ -47,6 +47,7 @@ describe('WindowComponent', () => {
         provide: services.SubscriptionProviderRegistryService,
         useFactory: () => mock<services.SubscriptionProviderRegistryService>({
           getAllProviderData: jest.fn(),
+          getAllProviderData$: jest.fn(),
         }),
       },
     ];
