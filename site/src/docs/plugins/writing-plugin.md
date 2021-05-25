@@ -67,6 +67,11 @@ The plugin context contains things like:
 
 - `ctx.app.getWindowState(windowId)` - resolves with the state of the specified window.
 
+- `context.app.addSubscriptionProvider(providerData)` - adds a provider for subscriptions. `providerData` is an object with the following properties:
+    - `id` _string_ - Unique identifier for the provider
+    - `getProviderClass()` _Promise_ - Function that returns a promise that resolves with the provider class (NOT an instance of the class)
+    - `copyTag` _string_ - The text to be shown for this provider in the Altair UI
+
 - `ctx.events.on(evt, callback)` - listens for events within Altair to perform an action within the plugin.
 
 - `ctx.theme.add(themeName, theme)` - adds the provided theme to Altair's theme registry which can later be used.

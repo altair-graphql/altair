@@ -8,6 +8,7 @@ import { WindowService } from '../../../services/window.service';
 import { PluginEventService } from '../plugin-event.service';
 import { AltairPlugin, PluginType } from '../plugin';
 import { NotifyService } from '../../../services/notify/notify.service';
+import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 
 describe('PluginContextService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -29,7 +30,11 @@ describe('PluginContextService', () => {
         useFactory: () => mock<PluginEventService>({
           group: () => ({} as unknown as any),
         }),
-      }
+      },
+      {
+        provide: SubscriptionProviderRegistryService,
+        useFactory: () => mock(),
+      },
     ]
   }));
 
