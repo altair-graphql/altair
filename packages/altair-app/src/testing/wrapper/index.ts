@@ -10,7 +10,7 @@ export class NgxTestWrapper<C extends any> {
 
   constructor(
     private _testHostFixture: ComponentFixture<BaseTestHostComponent>,
-    private _mainComponent: any,
+    private _mainComponent?: any,
   ) {
     if (_mainComponent instanceof DebugElement) {
       this._mainComponentDebugEl = _mainComponent;
@@ -41,30 +41,30 @@ export class NgxTestWrapper<C extends any> {
   }
 
   exists() {
-    return !!this._mainComponentDebugEl;
+    return !!this._mainComponentDebugEl.nativeNode;
   }
 
   find<SC extends any = unknown>(selector: string) {
     const comp = this._mainComponentDebugEl.query(By.css(selector));
 
-    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
+    return new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement());
   }
 
   findComponent<SC extends any = unknown>(type: Type<any>) {
     const comp = this._mainComponentDebugEl.query(By.directive(type));
 
-    if (comp) {
-      return new NgxTestWrapper<SC>(this._testHostFixture, comp);
-    }
+    return new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement());
   }
 
   findAll<SC extends any = unknown>(selector: string) {
     return this._mainComponentDebugEl.queryAll(By.css(selector))
-      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp));
+      .filter(Boolean)
+      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement()));
   }
 
   findAllComponents<SC extends any = unknown>(type: Type<any>) {
     return this._mainComponentDebugEl.queryAll(By.directive(type))
+      .filter(Boolean)
       .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp));
   }
 
@@ -104,6 +104,7 @@ export class NgxTestWrapper<C extends any> {
           // For component inputs (@input), we set the data on the test host itself, which would pass the value as input.
           // This is to properly trigger the full input lifecycle of the component.
           // Setting the input directly on the component instance would not do that.
+          // TODO: Only set inputs where valueObj property is defined?
           this._testHostFixture.componentInstance.inputs[prop] = (valueObj as any)[prop];
         }
       });
@@ -131,6 +132,7 @@ export class NgxTestWrapper<C extends any> {
   }
 
   props(key = '') {
+    this.assertExists();
     if (key) {
       return this.component.properties[key];
     }
@@ -140,5 +142,11 @@ export class NgxTestWrapper<C extends any> {
   async nextTick() {
     this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();
+  }
+
+  private assertExists() {
+    if (!this.exists()) {
+      throw new Error(`component does not exists.`);
+    }
   }
 }

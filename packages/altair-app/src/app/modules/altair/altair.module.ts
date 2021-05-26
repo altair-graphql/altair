@@ -43,6 +43,7 @@ import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 import { RootState } from './store/state.interfaces';
+import { LocalEffects } from './effects/local.effect';
 
 registerLocaleData(en);
 
@@ -134,7 +135,13 @@ const providers = [
       },
       // initialState: {},
     }),
-    EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects, PluginEventEffects ]),
+    EffectsModule.forRoot([
+      QueryEffects,
+      WindowsEffects,
+      QueryCollectionEffects,
+      PluginEventEffects,
+      LocalEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,
     }),

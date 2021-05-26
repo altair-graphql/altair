@@ -46,14 +46,15 @@ describe('QueryEditorComponent', () => {
 
   it('should pass tabSize to variable editor component', async () => {
     wrapper.setProps({
-      tabSize: 2
+      tabSize: 2,
+      showVariableDialog: true,
     });
 
     await wrapper.nextTick();
     expect(wrapper.find('app-variables-editor').props('tabSize')).toBe(2);
 
     wrapper.setProps({
-      tabSize: 4
+      tabSize: 4,
     });
 
     await wrapper.nextTick();
