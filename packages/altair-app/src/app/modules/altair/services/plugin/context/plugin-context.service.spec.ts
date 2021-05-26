@@ -39,12 +39,12 @@ describe('PluginContextService', () => {
   }));
 
   it('should be created', () => {
-    const service: PluginContextService = TestBed.get(PluginContextService);
+    const service: PluginContextService = TestBed.inject(PluginContextService);
     expect(service).toBeTruthy();
   });
 
   it('should create context for specified plugin', () => {
-    const service: PluginContextService = TestBed.get(PluginContextService);
+    const service: PluginContextService = TestBed.inject(PluginContextService);
     const testPlugin: AltairPlugin = {
       name: 'Test',
       display_name: 'Test plugin',
@@ -60,5 +60,6 @@ describe('PluginContextService', () => {
     };
     const ctx = service.createContext('test-plugin', testPlugin);
     expect(ctx).toBeTruthy();
+    expect(ctx.app).toBeTruthy();
   });
 });

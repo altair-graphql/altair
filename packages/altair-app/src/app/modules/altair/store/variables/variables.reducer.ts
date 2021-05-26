@@ -2,16 +2,19 @@ import { Action } from '@ngrx/store';
 
 import * as variables from './variables.action';
 import { getAltairConfig } from '../../config';
+import uuid from 'uuid/v4';
 
 export interface FileVariable {
+    id?: string; // optional for backward compatibility
     name: string;
     isMultiple?: boolean;
-    data?: File | File[];
+    data?: File | File[]; // TODO: Remove File (maintaining for backward compatibility)
 }
 
-const initialFileVariableState: FileVariable = {
+const initialFileVariableState = () => ({
+    id: uuid(),
     name: 'file',
-};
+});
 export interface State {
     variables: string;
     files: FileVariable[];
@@ -35,16 +38,18 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             state.files = state.files || [];
 
             return {
-                ...state, files: [
+                ...state,
+                files: [
                     ...state.files,
                     {
-                        ...initialFileVariableState
+                        ...initialFileVariableState()
                     }
                 ]
             };
         case variables.DELETE_FILE_VARIABLE:
             return {
                 ...state,
+                // TODO: Update to use id instead of index (keep backward compatibility)
                 files: state.files.filter((val, i) => i !== action.payload.index)
             };
         case variables.UPDATE_FILE_VARIABLE_NAME:
@@ -61,8 +66,13 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             return {
                 ...state,
                 files: state.files.map((file, i) => {
+                    // TODO: Update to use id instead of index (keep backward compatibility)
                     if (i === action.payload.index) {
-                        return { ...file, data: action.payload.fileData };
+                        return {
+                            ...file,
+                            id: file.id || initialFileVariableState().id,
+                            data: action.payload.fileData,
+                        };
                     }
                     return file;
                 })
