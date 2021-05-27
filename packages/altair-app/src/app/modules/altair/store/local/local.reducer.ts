@@ -2,7 +2,7 @@
 
 import * as local from './local.action';
 import { IDictionary } from '../../interfaces/shared';
-import { AltairPlugin, GenericPluginInstance, AltairPanel, AltairUiAction } from '../../services/plugin/plugin';
+import { AltairPlugin, PluginClassInstance, AltairPanel, AltairUiAction } from '../../services/plugin/plugin';
 
 const MAX_CLOSED_WINDOWS_LENGTH = 50;
 
@@ -11,7 +11,7 @@ export interface PluginStateEntry {
   context: any;
   plugin: AltairPlugin;
   isActive?: boolean;
-  instance?: GenericPluginInstance;
+  instance?: PluginClassInstance;
 }
 
 export interface State {

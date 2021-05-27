@@ -6,6 +6,7 @@ import {
   PluginSource,
   PluginManifest,
   createPlugin,
+  PluginClass,
 } from './plugin';
 import { Store } from '@ngrx/store';
 
@@ -34,11 +35,11 @@ export class PluginRegistryService {
 
   async add(name: string, plugin: AltairPlugin) {
     const context = this.pluginContextService.createContext(name, plugin);
-    const PluginClass = this.getPluginClass(plugin);
+    const RetrievedPluginClass = this.getPluginClass(plugin);
     const pluginStateEntry: PluginStateEntry = {
       name,
       context,
-      instance: PluginClass ? new PluginClass() : undefined,
+      instance: RetrievedPluginClass ? new RetrievedPluginClass() : undefined,
       plugin,
     };
 
@@ -195,7 +196,7 @@ export class PluginRegistryService {
 
   private getPluginClass(plugin: AltairPlugin) {
     if (plugin.plugin_class) {
-      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as any;
+      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as PluginClass;
     }
     return;
   }
