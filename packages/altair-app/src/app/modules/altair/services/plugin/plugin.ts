@@ -89,6 +89,7 @@ export interface PluginClassInstance {
 export enum AltairPanelLocation {
   HEADER = 'header',
   SIDEBAR = 'sidebar',
+  RESULT_PANE_BOTTOM = 'result_pane_bottom',
 }
 
 export enum AltairUiActionLocation {

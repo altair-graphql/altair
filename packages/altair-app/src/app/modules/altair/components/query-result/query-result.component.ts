@@ -30,6 +30,7 @@ import 'codemirror-graphql/results/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import isElectron from '../../utils/is_electron';
 import { SubscriptionResponse } from '../../store/query/query.interfaces';
+import { AltairPanel } from '../../services/plugin/plugin';
 
 @Component({
   selector: 'app-query-result',
@@ -48,13 +49,17 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
   @Input() autoscrollSubscriptionResponses = false;
+  @Input() windowId = '';
+  @Input() activeWindowId = '';
   @Input() uiActions = [];
+  @Input() bottomPanels = [];
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
   @Output() uiActionExecuteChange = new EventEmitter();
+  @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
@@ -126,5 +131,13 @@ export class QueryResultComponent implements OnChanges, DoCheck {
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;
+  }
+
+  togglePanelActive(panel: AltairPanel) {
+    this.bottomPanelActiveToggle.emit(panel);
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
   }
 }

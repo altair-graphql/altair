@@ -88,12 +88,13 @@ export function localReducer(state = getInitialState(), action: local.Action): S
       };
     };
     case local.SET_PANEL_ACTIVE: {
+      const curPanel = state.panels.find(panel => panel.id === action.payload.panelId);
       return {
         ...state,
         panels: state.panels.map(panel => {
           if (panel.id === action.payload.panelId) {
             panel.isActive = action.payload.isActive;
-          } else {
+          } else if (panel.location === curPanel?.location) {
             panel.isActive = false;
           }
           return panel;
