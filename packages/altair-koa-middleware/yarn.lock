@@ -763,6 +763,18 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+altair-exported-types@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/altair-exported-types/-/altair-exported-types-4.0.4.tgz#74d8777409777de1602349f27149be50afca7bc8"
+  integrity sha512-yTu0hfWDLAHEQpYTuMgX2FwZZNIB56rpiy2Gz1rfbUXT8fR+deyCmM6+U0gd+2yXBt9bY04lLKVHNYT7vcr2Pg==
+
+altair-static@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.0.4.tgz#286287d698c90c09c77fdc6a6e315acb0c1e79ee"
+  integrity sha512-XhIISszbDgIu3izSPP6aGd5sRSVA+gTV1Y3slSH7zDpgVBqfeJ26BxoNDPmeel7tMKCaHmLC/xaMun9fTbiUkg==
+  dependencies:
+    altair-exported-types "^4.0.4"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -4659,9 +4671,9 @@ write-file-atomic@^3.0.0:
     typedarray-to-buffer "^3.1.5"
 
 ws@^7.2.3:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.0.tgz#4b2f7f219b3d3737bc1a2fbf145d825b94d38ffd"
-  integrity sha512-iFtXzngZVXPGgpTlP1rBqsUK82p9tKqsWRPg5L56egiljujJT3vGAYnHANvFxBieXrTFavhzhxW52jnaWV+w2w==
+  version "7.4.6"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
+  integrity sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==
 
 xdg-basedir@^3.0.0:
   version "3.0.0"
