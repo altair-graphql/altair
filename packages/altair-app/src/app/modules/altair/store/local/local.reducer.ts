@@ -2,7 +2,7 @@
 
 import * as local from './local.action';
 import { IDictionary } from '../../interfaces/shared';
-import { AltairPlugin, GenericPluginInstance, AltairPanel, AltairUiAction } from '../../services/plugin/plugin';
+import { AltairPlugin, PluginClassInstance, AltairPanel, AltairUiAction } from '../../services/plugin/plugin';
 
 const MAX_CLOSED_WINDOWS_LENGTH = 50;
 
@@ -11,7 +11,7 @@ export interface PluginStateEntry {
   context: any;
   plugin: AltairPlugin;
   isActive?: boolean;
-  instance?: GenericPluginInstance;
+  instance?: PluginClassInstance;
 }
 
 export interface State {
@@ -88,12 +88,13 @@ export function localReducer(state = getInitialState(), action: local.Action): S
       };
     };
     case local.SET_PANEL_ACTIVE: {
+      const curPanel = state.panels.find(panel => panel.id === action.payload.panelId);
       return {
         ...state,
         panels: state.panels.map(panel => {
           if (panel.id === action.payload.panelId) {
             panel.isActive = action.payload.isActive;
-          } else {
+          } else if (panel.location === curPanel?.location) {
             panel.isActive = false;
           }
           return panel;

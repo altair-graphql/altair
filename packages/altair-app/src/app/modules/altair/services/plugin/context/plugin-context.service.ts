@@ -18,21 +18,21 @@ import { first } from 'rxjs/operators';
 import { ICustomTheme } from '../../../services/theme';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
-import { ExportWindowState, RootState } from 'app/modules/altair/store/state.interfaces';
+import { ExportWindowState, RootState } from '../../../store/state.interfaces';
 import { SubscriptionProviderData, SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 
-interface CreatePanelOptions {
+export interface CreatePanelOptions {
   title?: string;
   location?: AltairPanelLocation;
 }
 
-interface CreateActionOptions {
+export interface CreateActionOptions {
   title: string;
-  location: AltairUiActionLocation;
+  location?: AltairUiActionLocation;
   execute: (data: PluginWindowState) => void;
 }
 
-interface PluginWindowState extends ExportWindowState {
+export interface PluginWindowState extends ExportWindowState {
   windowId: string;
   sdl: string;
   queryResult: string;

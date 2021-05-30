@@ -68,13 +68,17 @@
         [subscriptionUrl]="subscriptionUrl"
         [tabSize]="tabSize$ | async"
         [autoscrollSubscriptionResponses]="autoscrollSubscriptionResponses$ | async"
+        [windowId]="windowId"
+        [activeWindowId]="activeWindowId$ | async"
         [uiActions]="resultPaneUiActions$ | async"
+        [bottomPanels]="resultPaneBottomPanels$ | async"
 
         (downloadResultChange)="downloadResult()"
         (stopSubscriptionChange)="stopSubscription()"
         (clearSubscriptionChange)="clearSubscription()"
         (autoscrollSubscriptionResponsesChange)="toggleAutoscrollSubscriptionResponses()"
         (uiActionExecuteChange)="onExecuteUiAction($event)"
+        (bottomPanelActiveToggle)="togglePanelActive($event)"
       ></app-query-result>
       <app-doc-viewer
         [docView]="docView$ | async"

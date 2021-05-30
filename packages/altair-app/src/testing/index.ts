@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 type AnyFunction = (...args: any[]) => any;
 export const anyFn = () => jest.fn() as AnyFunction;
@@ -10,7 +11,7 @@ export function mock<T>(obj: Partial<T> = {}): T {
 export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   const store = of(obj);
   (store as any).dispatch = jest.fn();
-  (store as any).select = jest.fn(() => of());
+  (store as any).select = (...args: any[]) => Store.prototype.select.apply(store, args);
   return store as Store<T>;
 }
 

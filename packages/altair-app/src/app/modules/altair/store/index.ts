@@ -26,7 +26,7 @@ import { debug } from '../utils/logger';
 import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 
-const getPerWindowReducer = () => {
+export const getPerWindowReducer = () => {
   const perWindowReducers = {
     layout: fromLayout.layoutReducer,
     query: fromQuery.queryReducer,

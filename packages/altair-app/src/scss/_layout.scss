@@ -38,6 +38,7 @@
   display: flex;
   height: 100%;
   flex-wrap: nowrap;
+  gap: 0.5rem;
 }
 
 app-window {
@@ -46,6 +47,7 @@ app-window {
   flex: 1 1 auto;
   display: flex;
   min-height: 1px;
+  min-width: 0;
 }
 
 app-query-editor {
@@ -60,5 +62,4 @@ app-query-result {
 app-doc-viewer {
   @include main-content-col;
   padding: 0;
-  padding-left: 0.5rem;
 }
