@@ -106,7 +106,26 @@ jobs:
     needs: [publish-release]
     steps:
       - run: bin/deploy_docs.sh
-  # TODO: Publish browser extensions (chrome, mozilla, edge)
-  # https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md
-  # https://github.com/marketplace/actions/chrome-extension-upload-action
+  chrome-extension-upload:
+    name: Publish webextension
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Build extensions
+      run: |
+        yarn
+        yarn build-ext2
+    - name: Upload & release
+      uses: mnao305/chrome-extension-upload@1.1.1
+      with:
+        file-path: extension-builds/chrome-build/chrome.zip
+        extension-id: flnheeellpciglgpaodhkhmapeljopja
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+  # TODO: Publish browser extensions (mozilla, edge)
   # https://github.com/fregante/web-ext-submit
