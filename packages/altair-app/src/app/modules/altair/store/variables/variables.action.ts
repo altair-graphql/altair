@@ -42,7 +42,7 @@ export class UpdateFileVariableIsMultipleAction implements NGRXAction {
 export class UpdateFileVariableDataAction implements NGRXAction {
     readonly type = UPDATE_FILE_VARIABLE_DATA;
 
-    constructor(public windowId: string, public payload: { index: number, fileData: File | File[] }) {}
+    constructor(public windowId: string, public payload: { index: number, fileData: File[], fromCache?: boolean }) {}
 }
 
 export type Action =

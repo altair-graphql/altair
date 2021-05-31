@@ -1,6 +1,6 @@
 {
   "name": "altair-app",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
@@ -59,7 +59,7 @@
     "apollo-link-http": "^1.5.17",
     "aws-appsync-auth-link": "^3.0.2",
     "aws-appsync-subscription-link": "^3.0.3",
-    "codemirror": "^5.48.0",
+    "codemirror": "^5.61.0",
     "codemirror-graphql": "^0.11.1",
     "comlink": "^4.2.0",
     "comment-regex": "^1.0.1",

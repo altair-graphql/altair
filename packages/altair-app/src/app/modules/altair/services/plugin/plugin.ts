@@ -76,10 +76,12 @@ export const createPlugin = (name: string, manifest: PluginManifest): AltairPlug
 
 export type PluginContext = ReturnType<PluginContextService['createContext']>;
 
+export type PluginClass = new() => PluginClassInstance;
+
 /**
  * We should have plugin instance extend to SidebarPanel, ResultAction, HeaderPanel, UiTheme
  */
-export interface GenericPluginInstance {
+export interface PluginClassInstance {
   initialize(ctx: PluginContext): void;
   destroy(): void;
 }
@@ -87,6 +89,7 @@ export interface GenericPluginInstance {
 export enum AltairPanelLocation {
   HEADER = 'header',
   SIDEBAR = 'sidebar',
+  RESULT_PANE_BOTTOM = 'result_pane_bottom',
 }
 
 export enum AltairUiActionLocation {

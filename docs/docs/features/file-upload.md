@@ -13,5 +13,3 @@ Altair supports uploading both single files and an array of files (by switching 
 ![file variables](https://i.imgur.com/dVqWVoA.png)
 
 You add your files in the variables pane, and the files are added to the request as variables when the request is sent to the server.
-
-_Note: The files don’t persist if you reload Altair, so you would have to select them again._

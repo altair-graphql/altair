@@ -1,5 +1,5 @@
 <nz-tabset
-  class="main-view-tabs"
+  class="main-view-tabs query-result__tabs"
   [nzAnimated]="false"
   nzSize="small"
   nzTabBarGutter="16"
@@ -141,4 +141,32 @@
     </div>
   </nz-tab>
 </nz-tabset>
-
+<div class="query-result__bottom-pane">
+  <nav class="query-result__bottom-pane__title-wrapper">
+    <div
+      *ngFor="let panel of bottomPanels; trackBy:trackById"
+      (click)="togglePanelActive(panel)"
+      attr.aria-label="{{ panel.title}}"
+      [ngClass]="{ 'query-result__bottom-pane__title--active': panel.isActive }"
+      class="query-result__bottom-pane__title"
+    >
+      {{ panel.title }}
+    </div>
+  </nav>
+  <div class="query-result__bottom-pane__panels">
+    <ng-container
+      *ngFor="let panel of bottomPanels; trackBy:trackById"
+    >
+      <div
+        *ngIf="panel.isActive"
+        class="query-result__bottom-pane__panel"
+      >
+        <app-element-wrapper
+          [element]="panel.element"
+          [windowId]="windowId"
+          [activeWindowId]="activeWindowId"
+        ></app-element-wrapper>
+      </div>
+    </ng-container>
+  </div>
+</div>

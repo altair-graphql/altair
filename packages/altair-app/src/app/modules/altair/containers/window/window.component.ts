@@ -35,11 +35,13 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
+import * as localActions from '../../store/local/local.action';
 import isElectron from '../../utils/is_electron';
 
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService, ElectronAppService } from '../../services';
 import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
 import {
+  AltairPanel,
   AltairUiAction
 } from '../../services/plugin/plugin';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -83,6 +85,7 @@ export class WindowComponent implements OnInit {
   preRequest$: Observable<fromPreRequest.State>;
   postRequest$: Observable<fromPostRequest.State>;
   layout$: Observable<fromLayout.State>;
+  activeWindowId$: Observable<string>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -91,6 +94,7 @@ export class WindowComponent implements OnInit {
   collections$: Observable<fromCollection.IQueryCollection[]>;
 
   resultPaneUiActions$: Observable<AltairUiAction[]>;
+  resultPaneBottomPanels$: Observable<AltairPanel[]>;
 
   @Input() windowId: string;
 
@@ -111,7 +115,7 @@ export class WindowComponent implements OnInit {
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
-  availableSubscriptionProviders = this.subscriptionProviderRegistry.getAllProviderData();
+  availableSubscriptionProviders$ = this.subscriptionProviderRegistry.getAllProviderData$();
   selectedSubscriptionProviderId = '';
 
   historyList: fromHistory.History[] = [];
@@ -129,6 +133,7 @@ export class WindowComponent implements OnInit {
     this.addQueryDepthLimit$ = this.store.pipe(select(state => state.settings.addQueryDepthLimit));
     this.tabSize$ = this.store.pipe(select(state => state.settings.tabSize));
     this.collections$ = this.store.pipe(select(state => state.collection.list));
+    this.activeWindowId$ = this.store.pipe(select(state => state.windowsMeta.activeWindowId));
 
     this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
     this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
@@ -168,6 +173,7 @@ export class WindowComponent implements OnInit {
     this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
     this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
+    this.resultPaneBottomPanels$ = this.store.select(fromRoot.getResultPaneBottomPanels);
 
     this.store.pipe(
       untilDestroyed(this),
@@ -303,6 +309,10 @@ export class WindowComponent implements OnInit {
     }
   }
 
+  togglePanelActive(panel: AltairPanel) {
+    this.store.dispatch(new localActions.SetPanelActiveAction({ panelId: panel.id, isActive: !panel.isActive }));
+  }
+
   setDocView(docView: fromDocs.DocView) {
     this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
   }
@@ -361,8 +371,8 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new variableActions.UpdateFileVariableIsMultipleAction(this.windowId, { index, isMultiple }));
   }
 
-  updateFileVariableData({ index, fileData }: { index: number, fileData: File }) {
-    this.store.dispatch(new variableActions.UpdateFileVariableDataAction(this.windowId, { index, fileData }));
+  updateFileVariableData({ index, fileData, fromCache }: { index: number, fileData: File[], fromCache?: boolean }) {
+    this.store.dispatch(new variableActions.UpdateFileVariableDataAction(this.windowId, { index, fileData, fromCache }));
   }
 
   deleteFileVariable({ index }: { index: number }) {
