@@ -3,13 +3,14 @@
 # abort on errors
 set -e
 
-cd site
+yarn build-docs
+# cd site
 
 # build
-yarn build
+# yarn build
 
 # navigate into the build output directory
-cd src/.vuepress/dist
+cd site/src/.vuepress/dist
 
 # if you are deploying to a custom domain
 echo 'altair.sirmuel.design' > CNAME

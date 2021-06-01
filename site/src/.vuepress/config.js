@@ -61,10 +61,6 @@ module.exports = {
         link: '/docs/',
       },
       {
-        text: 'GitHub',
-        link: 'https://github.com/imolorhe/altair'
-      },
-      {
         text: 'Twitter',
         link: 'https://twitter.com/AltairGraphQL'
       },
