@@ -9,7 +9,7 @@ $url-input-height: 45px;
 
 .url-box__input-container {
   position: relative;
-  width: 100%;
+  flex: 1 0 auto;
 }
 
 .url-box__input {
@@ -80,6 +80,7 @@ $url-input-height: 45px;
 
   &--send {
     border-radius: 0 4px 4px 0;
+    min-width: 120px;
   }
 }
 
