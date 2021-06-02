@@ -32,3 +32,5 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn build-docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

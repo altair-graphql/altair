@@ -16,7 +16,7 @@ module.exports = (options = {}, context) => ({
 
 const getGithubMetadata = async ({ owner = '', repo = '' }) => {
   
-  let githubToken = '';
+  let githubToken = process.env.GITHUB_TOKEN || '';
   try {
     githubToken = fs.readFileSync(path.resolve(__dirname, './github-token'), 'utf-8');
   } catch (error) {
