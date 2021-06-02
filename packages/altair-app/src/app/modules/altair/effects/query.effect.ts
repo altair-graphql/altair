@@ -246,6 +246,8 @@ export class QueryEffects {
                       this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
                         responseStatus: requestStatusCode,
                         responseTime: res ? res.meta.responseTime : 0,
+                        requestStartTime: res ? res.meta.requestStartTime : 0,
+                        requestEndTime: res ? res.meta.requestEndTime : 0,
                         responseStatusText: requestStatusText
                       }));
                       this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));

@@ -36,6 +36,10 @@ export interface PluginWindowState extends ExportWindowState {
   windowId: string;
   sdl: string;
   queryResult: string;
+  requestStartTime: number;
+  requestEndTime: number;
+  responseTime: number;
+  responseStatus: number;
 }
 
 @Injectable({
@@ -201,6 +205,10 @@ export class PluginContextService {
       preRequestScriptEnabled: data.preRequest.enabled,
       sdl: data.schema.sdl,
       queryResult: data.query.response,
+      requestStartTime: data.query.requestStartTime,
+      requestEndTime: data.query.requestEndTime,
+      responseTime: data.query.responseTime,
+      responseStatus: data.query.responseStatus,
     };
 
     return pluginWindowState;

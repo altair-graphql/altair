@@ -25,6 +25,8 @@ export interface QueryState {
   operations?: any[];
   httpVerb: HttpVerb;
   response: any;
+  requestStartTime: number;
+  requestEndTime: number;
   responseTime: number;
   responseStatus: number;
   responseStatusText: string;

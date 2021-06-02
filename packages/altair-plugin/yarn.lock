@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.41.tgz#d0b939d94c1d7bd53d04824af45f1139b8c45615"
   integrity sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==
 
-altair-exported-types@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/altair-exported-types/-/altair-exported-types-4.0.4.tgz#74d8777409777de1602349f27149be50afca7bc8"
-  integrity sha512-yTu0hfWDLAHEQpYTuMgX2FwZZNIB56rpiy2Gz1rfbUXT8fR+deyCmM6+U0gd+2yXBt9bY04lLKVHNYT7vcr2Pg==
+altair-exported-types@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/altair-exported-types/-/altair-exported-types-4.0.5.tgz#73a23cfa0c70f50ed9104ca483123f1e8f8521a3"
+  integrity sha512-vB+DGuejDCRqcLzEhF1z/o2S1WfmTtWmEZRW4bc+vfQEjTl5vWPXSrwaB83Ex+0JPQCRoxqMGuumMIzR1IfRyQ==
 
 arg@^4.1.0:
   version "4.1.2"
