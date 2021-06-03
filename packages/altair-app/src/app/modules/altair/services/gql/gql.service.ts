@@ -56,6 +56,8 @@ interface SendRequestOptions {
 export interface SendRequestResponse {
   response: HttpResponse<any>;
   meta: {
+      requestStartTime: number;
+      requestEndTime: number;
       responseTime: number;
       headers: IDictionary;
   };
@@ -110,6 +112,8 @@ export class GqlService {
         return {
           response,
           meta: {
+            requestStartTime,
+            requestEndTime,
             responseTime: requestElapsedTime,
             headers: response.headers.keys().reduce((acc, key) => ({ ...acc, [key]: response.headers.get(key)}), {}),
           }

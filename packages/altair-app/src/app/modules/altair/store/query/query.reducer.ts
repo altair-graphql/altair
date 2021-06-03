@@ -18,6 +18,8 @@ export const getInitialState = (): QueryState => {
     httpVerb : initialData.initialHttpMethod || 'POST',
     response: null,
     responseTime: 0,
+    requestStartTime: 0,
+    requestEndTime: 0,
     responseStatus: 0,
     responseStatusText: '',
     responseHeaders: {},
@@ -57,6 +59,8 @@ export function queryReducer(state = getInitialState(), action: query.Action): Q
       return Object.assign({}, state, { selectedOperation: action.payload.selectedOperation });
     case query.SET_RESPONSE_STATS:
       return Object.assign({}, state, {
+        requestStartTime: action.payload.requestStartTime,
+        requestEndTime: action.payload.requestEndTime,
         responseTime: action.payload.responseTime,
         responseStatus: action.payload.responseStatus,
         responseStatusText: action.payload.responseStatusText

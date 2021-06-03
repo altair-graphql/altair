@@ -50,20 +50,22 @@ import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import { resolveSidebarItems, initGAEventTracking } from '../util'
 
-window.cookieconsent.initialise({
-  palette: {
-    popup: {
-      background: "#efefef",
-      text: "#404040"
-    },
-    button: {
-      background: "#8ec760",
-      text: "#ffffff"
+if (typeof window !== 'undefined') {
+  window.cookieconsent.initialise({
+    palette: {
+      popup: {
+        background: "#efefef",
+        text: "#404040"
+      },
+      button: {
+        background: "#8ec760",
+        text: "#ffffff"
+      }
     }
-  }
-});
+  });
 
-initGAEventTracking();
+  initGAEventTracking();
+}
 
 export default {
   name: 'Layout',

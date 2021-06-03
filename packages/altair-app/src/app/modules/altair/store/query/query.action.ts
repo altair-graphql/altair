@@ -146,7 +146,15 @@ export class SetSelectedOperationAction implements NGRXAction {
 export class SetResponseStatsAction implements NGRXAction {
   readonly type = SET_RESPONSE_STATS;
 
-  constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number, responseStatusText: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: {
+      requestStartTime: number,
+      requestEndTime: number,
+      responseTime: number,
+      responseStatus: number,
+      responseStatusText: string
+    }) {}
 }
 
 export class StartSubscriptionAction implements NGRXAction {

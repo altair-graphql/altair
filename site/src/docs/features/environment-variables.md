@@ -24,7 +24,7 @@ You can also access nested environment variables using the object dot notation.
 }
 ```
 
-Given the environment payload above, you can use the `env` variable by using `{{meta.env}}`.
+Given the environment payload above, you can use the `env` variable by using <code v-pre>{{meta.env}}</code>.
 
 Now you can easily test your GraphQL implementations across all your environments by just changing the environment you’re currently working with (instead of having to go to all the tabs to change the URLs and tokens 🤢).
 
