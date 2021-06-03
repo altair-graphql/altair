@@ -13,7 +13,7 @@ export class ActionCableSubscriptionProvider extends SubscriptionProvider {
     return new Observable((subscriber) => {
       this.subscription = cable.subscriptions.create(Object.assign({}, {
         channel: this.connectionParams.channel || 'GraphqlChannel',
-        channelId: Math.round(Date.now() + Math.random() * 100000).toString(16)
+        channelId: Math.round(Date.now() + Math.random() * 100000).toString(16),
       }, {}), {
         connected: function() {
           this.perform('execute', options)
@@ -27,7 +27,7 @@ export class ActionCableSubscriptionProvider extends SubscriptionProvider {
             subscriber.complete()
           }
         }
-      })
+      });
     });
   }
 

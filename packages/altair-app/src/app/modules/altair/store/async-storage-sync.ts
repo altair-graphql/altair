@@ -393,8 +393,30 @@ const parseValue = (value: any) => {
 };
 
 const serializeValue = (value: any) => {
+  // Remove any item that cannot be serialized with circular references
+  const stringify = function(value: any) {
+    let cache: any[] = [];
+
+    const output = JSON.stringify(value, function(key, value) {
+
+        if (typeof value === 'object' && value !== null) {
+            if (cache.indexOf(value) !== -1) {
+                // Circular reference found, discard key
+                return;
+            }
+            // Store value in our collection
+            cache.push(value);
+        }
+
+        return value;
+    });
+
+    cache = []; // Enable garbage collection
+
+    return output;
+}
   // For now we will store the state stringified,
   // until we remove the GraphQLSchema from the state before storing
   // since it isn't a valid value for structured cloning (it is a class instance)
-  return JSON.stringify(value);
+  return stringify(value);
 };

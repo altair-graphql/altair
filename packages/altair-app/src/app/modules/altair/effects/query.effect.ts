@@ -35,6 +35,7 @@ import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
 import { WEBSOCKET_PROVIDER_ID } from '../services/subscriptions/subscription-provider-registry.service';
+import { SubscriptionProvider } from '../services/subscriptions/subscription-provider';
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType } from '../services/pre-request/pre-request.service';
@@ -603,20 +604,22 @@ export class QueryEffects {
             return from(getProviderClass()).pipe(
               switchMap(SubscriptionProviderClass => {
 
-                const subscriptionProvider = new SubscriptionProviderClass(
-                  subscriptionUrl,
-                  connectionParams,
-                  {
-                    onConnected: error => {
-                      if (error) {
-                        debug.log('Subscription connection error', error);
-                        return subscriptionErrorHandler(error);
-                      }
-                      debug.log('Connected subscription.');
-                    }
-                  }
-                );
+                let subscriptionProvider: SubscriptionProvider;
                 try {
+                  subscriptionProvider = new SubscriptionProviderClass(
+                    subscriptionUrl,
+                    connectionParams,
+                    {
+                      onConnected: error => {
+                        if (error) {
+                          debug.log('Subscription connection error', error);
+                          return subscriptionErrorHandler(error);
+                        }
+                        debug.log('Connected subscription.');
+                      }
+                    }
+                  );
+
                   subscriptionProvider.execute({
                     query,
                     variables: variablesObj,
