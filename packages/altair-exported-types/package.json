@@ -1,6 +1,6 @@
 {
   "name": "altair-exported-types",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "Contains types exported from the app",
   "main": "index.js",
   "license": "MIT",
