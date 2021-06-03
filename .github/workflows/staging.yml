@@ -23,14 +23,3 @@ jobs:
         project: ./packages/altair-app/dist
         login: ${{ secrets.surge_login }}
         token: ${{ secrets.surge_token }}
-  build-docs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - run: yarn build-docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
