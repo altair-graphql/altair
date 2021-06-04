@@ -51,8 +51,11 @@ module.exports = {
   themeConfig: {
     repo: 'imolorhe/altair',
     editLinks: false,
-    docsDir: 'site',
-    editLinkText: '',
+    docsDir: 'site/src', // defaults to false, set to true to enable
+    editLinks: true,
+    // custom text for edit link. Defaults to "Edit this page"
+    editLinkText: 'Help us improve this page!',
+    docsBranch: 'staging',
     lastUpdated: true,
     smoothScroll: true,
     nav: [
