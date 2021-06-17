@@ -16,6 +16,7 @@
     // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     "declaration": true,                   /* Generates corresponding '.d.ts' file. */
     "declarationMap": false,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    "emitDeclarationOnly": true,
     "sourceMap": false,                     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./dist",                        /* Redirect output structure to the directory. */
