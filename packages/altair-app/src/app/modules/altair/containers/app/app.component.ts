@@ -37,16 +37,19 @@ import {
   ThemeRegistryService,
 } from '../../services';
 
-import { AltairConfig } from '../../config';
-import isElectron from '../../utils/is_electron';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from '../../utils/logger';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AltairPlugin, AltairPanel } from '../../services/plugin/plugin';
 import { PluginEventService } from '../../services/plugin/plugin-event.service';
-import { ICustomTheme } from '../../services/theme/theme';
-import { RootState } from '../../store/state.interfaces';
-import { SettingsState } from '../../store/settings/settings.interfaces';
-import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { CollectionState, IQuery, IQueryCollection, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
+import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { ICustomTheme } from 'altair-graphql-core/build/theme';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { AltairConfig } from 'altair-graphql-core/build/config';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -56,15 +59,15 @@ import { EnvironmentsState, EnvironmentState } from '../../store/environments/en
 export class AppComponent implements OnDestroy {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
-  collection$: Observable<fromCollection.State>;
+  collection$: Observable<CollectionState>;
   sortedCollections$: Observable<any[]>;
-  windowsMeta$: Observable<fromWindowsMeta.State>;
+  windowsMeta$: Observable<WindowsMetaState>;
   environments$: Observable<EnvironmentsState>;
   activeEnvironment$: Observable<EnvironmentState | undefined>;
   theme$: Observable<ICustomTheme | undefined>;
 
   windowIds: string[] = [];
-  windows: fromWindows.State = {};
+  windows: WindowState = {};
   closedWindows: any[] = [];
   activeWindowId = '';
   isElectron = isElectron;
@@ -423,7 +426,7 @@ export class AppComponent implements OnDestroy {
     query,
     collectionId,
     windowIdInCollection
-  }: { query: fromCollection.IQuery, collectionId: number, windowIdInCollection: string }) {
+  }: { query: IQuery, collectionId: number, windowIdInCollection: string }) {
     const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
       return this.windows[windowId].layout.windowIdInCollection === windowIdInCollection;
     });
@@ -434,7 +437,7 @@ export class AppComponent implements OnDestroy {
     this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection }, { fixedTitle: true });
   }
 
-  deleteQueryFromCollection({ collectionId, query }: { collectionId: number, query: fromCollection.IQuery }) {
+  deleteQueryFromCollection({ collectionId, query }: { collectionId: number, query: IQuery }) {
    this.store.dispatch(new collectionActions.DeleteQueryFromCollectionAction({ collectionId, query }));
   }
 
@@ -450,7 +453,7 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new collectionActions.ImportCollectionAction());
   }
 
-  toggleEditCollectionDialog({ collection }: { collection: fromCollection.IQueryCollection }) {
+  toggleEditCollectionDialog({ collection }: { collection: IQueryCollection }) {
     this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
   }
@@ -459,11 +462,11 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
   }
 
-  updateCollection({ collection }: { collection: fromCollection.IQueryCollection & { id: number } }) {
+  updateCollection({ collection }: { collection: IQueryCollection & { id: number } }) {
     this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
   }
 
-  sortCollections({ sortBy = '' as fromCollection.SortByOptions }) {
+  sortCollections({ sortBy = '' as SortByOptions }) {
     this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
   }
 

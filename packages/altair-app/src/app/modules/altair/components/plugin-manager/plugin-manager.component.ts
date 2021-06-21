@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
-import { SettingsState } from '../../store/settings/settings.interfaces';
 
 @Component({
   selector: 'app-plugin-manager',

@@ -50,7 +50,8 @@ import { onHasCompletion } from '../../utils/codemirror/graphql-has-completion';
 import { GraphQLSchema } from 'graphql';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
-import { QueryEditorState } from '../../store/query/query.interfaces';
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -66,7 +67,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
 
-  @Input() variables: fromVariables.State;
+  @Input() variables: VariableState;
   @Input() showVariableDialog = false;
   @Input() variableToType: IDictionary;
 

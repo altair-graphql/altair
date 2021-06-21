@@ -1,6 +1,207 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "RecursivePartial<{base:number;remBase:number;body:number;}>": {
+            "properties": {
+                "base": {
+                    "type": "number"
+                },
+                "body": {
+                    "type": "number"
+                },
+                "remBase": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{black:string;darkGray:string;gray:string;lightGray:string;white:string;green:string;blue:string;cerise:string;red:string;orange:string;yellow:string;lightRed:string;darkPurple:string;}&{primary:string;secondary:string;bg:string;offBg:string;font:string;offFont:string;border:string;offBorder:string;headerBg:string;}>": {
+            "properties": {
+                "bg": {
+                    "type": "string"
+                },
+                "black": {
+                    "type": "string"
+                },
+                "blue": {
+                    "type": "string"
+                },
+                "border": {
+                    "type": "string"
+                },
+                "cerise": {
+                    "type": "string"
+                },
+                "darkGray": {
+                    "type": "string"
+                },
+                "darkPurple": {
+                    "type": "string"
+                },
+                "font": {
+                    "type": "string"
+                },
+                "gray": {
+                    "type": "string"
+                },
+                "green": {
+                    "type": "string"
+                },
+                "headerBg": {
+                    "type": "string"
+                },
+                "lightGray": {
+                    "type": "string"
+                },
+                "lightRed": {
+                    "type": "string"
+                },
+                "offBg": {
+                    "type": "string"
+                },
+                "offBorder": {
+                    "type": "string"
+                },
+                "offFont": {
+                    "type": "string"
+                },
+                "orange": {
+                    "type": "string"
+                },
+                "primary": {
+                    "type": "string"
+                },
+                "red": {
+                    "type": "string"
+                },
+                "secondary": {
+                    "type": "string"
+                },
+                "white": {
+                    "type": "string"
+                },
+                "yellow": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{color:string;opacity:number;}>": {
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "opacity": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;}>": {
+            "properties": {
+                "atom": {
+                    "type": "string"
+                },
+                "attribute": {
+                    "type": "string"
+                },
+                "builtin": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "cursor": {
+                    "type": "string"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "keyword": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "property": {
+                    "type": "string"
+                },
+                "punctuation": {
+                    "type": "string"
+                },
+                "string": {
+                    "type": "string"
+                },
+                "variable": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{default:string;}>": {
+            "properties": {
+                "default": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{default:string;}>_1": {
+            "properties": {
+                "default": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{easing:string;colors:{black:string;darkGray:string;gray:string;lightGray:string;white:string;green:string;blue:string;cerise:string;red:string;orange:string;yellow:string;lightRed:string;darkPurple:string;};type:{fontSize:{base:number;remBase:number;body:number;};fontFamily:{default:string;};};}&{isSystem:boolean;colors:{primary:string;secondary:string;bg:string;offBg:string;font:string;offFont:string;border:string;offBorder:string;headerBg:string;};shadow:{color:string;opacity:number;};editor:{fontFamily:{default:string;};fontSize:number;colors:{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;};};}>": {
+            "properties": {
+                "colors": {
+                    "$ref": "#/definitions/RecursivePartial<{black:string;darkGray:string;gray:string;lightGray:string;white:string;green:string;blue:string;cerise:string;red:string;orange:string;yellow:string;lightRed:string;darkPurple:string;}&{primary:string;secondary:string;bg:string;offBg:string;font:string;offFont:string;border:string;offBorder:string;headerBg:string;}>"
+                },
+                "easing": {
+                    "type": "string"
+                },
+                "editor": {
+                    "$ref": "#/definitions/RecursivePartial<{fontFamily:{default:string;};fontSize:number;colors:{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;};}>"
+                },
+                "isSystem": {
+                    "type": "boolean"
+                },
+                "shadow": {
+                    "$ref": "#/definitions/RecursivePartial<{color:string;opacity:number;}>"
+                },
+                "type": {
+                    "$ref": "#/definitions/RecursivePartial<{fontSize:{base:number;remBase:number;body:number;};fontFamily:{default:string;};}>"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{fontFamily:{default:string;};fontSize:number;colors:{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;};}>": {
+            "properties": {
+                "colors": {
+                    "$ref": "#/definitions/RecursivePartial<{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;}>"
+                },
+                "fontFamily": {
+                    "$ref": "#/definitions/RecursivePartial<{default:string;}>_1"
+                },
+                "fontSize": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "RecursivePartial<{fontSize:{base:number;remBase:number;body:number;};fontFamily:{default:string;};}>": {
+            "properties": {
+                "fontFamily": {
+                    "$ref": "#/definitions/RecursivePartial<{default:string;}>"
+                },
+                "fontSize": {
+                    "$ref": "#/definitions/RecursivePartial<{base:number;remBase:number;body:number;}>"
+                }
+            },
+            "type": "object"
+        },
         "SettingsLanguage": {
             "enum": [
                 "cs-CZ",
@@ -88,6 +289,7 @@
             "type": "number"
         },
         "themeConfig": {
+            "$ref": "#/definitions/RecursivePartial<{easing:string;colors:{black:string;darkGray:string;gray:string;lightGray:string;white:string;green:string;blue:string;cerise:string;red:string;orange:string;yellow:string;lightRed:string;darkPurple:string;};type:{fontSize:{base:number;remBase:number;body:number;};fontFamily:{default:string;};};}&{isSystem:boolean;colors:{primary:string;secondary:string;bg:string;offBg:string;font:string;offFont:string;border:string;offBorder:string;headerBg:string;};shadow:{color:string;opacity:number;};editor:{fontFamily:{default:string;};fontSize:number;colors:{comment:string;string:string;number:string;variable:string;keyword:string;atom:string;attribute:string;property:string;punctuation:string;definition:string;builtin:string;cursor:string;};};}>",
             "description": "Theme config object"
         }
     },

@@ -6,10 +6,10 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
-import { AltairConfig } from '../../config';
 import { debug } from '../../utils/logger';
 
 @Component({

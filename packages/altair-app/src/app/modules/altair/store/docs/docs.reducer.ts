@@ -1,28 +1,9 @@
 
+import { DocsState } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import * as docs from '../../store/docs/docs.action';
 
-export interface DocView {
-    /**
-     * type, field, root, search
-     */
-    view: string;
-    /**
-     * used by field views
-     */
-    parentType: string;
-    /**
-     * identifies type/field
-     */
-    name: string;
-}
 
-export interface State {
-    showDocs: boolean;
-    isLoading: boolean;
-    docView: DocView;
-}
-
-export const getInitialState = (): State => {
+export const getInitialState = (): DocsState => {
     return {
         showDocs: false,
         isLoading: false,
@@ -34,7 +15,7 @@ export const getInitialState = (): State => {
     }
 };
 
-export function docsReducer(state = getInitialState(), action: docs.Action): State {
+export function docsReducer(state = getInitialState(), action: docs.Action): DocsState {
     switch (action.type) {
         case docs.TOGGLE_DOCS_VIEW:
             return Object.assign({}, state, { showDocs: !state.showDocs });

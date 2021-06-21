@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/imolorhe/altair#readme",
   "dependencies": {
-    "altair-exported-types": "^4.0.6"
+    "altair-graphql-core": "^4.0.6"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",

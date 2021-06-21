@@ -9,9 +9,9 @@ import { StorageService } from '../services/storage/storage.service';
 import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
-import { getAltairConfig } from '../config';
-import { RootState } from './state.interfaces';
 import { set } from 'object-path';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 type StateKey = keyof RootState;
 

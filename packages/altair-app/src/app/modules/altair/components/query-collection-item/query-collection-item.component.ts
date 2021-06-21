@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { IQuery, IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { memoize } from '../../utils/memoize';
-import { IQueryCollection, IQuery } from '../../store/collection/collection.reducer';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 @Component({

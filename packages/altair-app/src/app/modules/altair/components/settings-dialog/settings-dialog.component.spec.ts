@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AltairConfig } from '../../config';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;

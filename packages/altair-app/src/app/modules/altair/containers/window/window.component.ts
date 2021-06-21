@@ -12,46 +12,41 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
-import * as fromHeader from '../../store/headers/headers.reducer';
-import * as fromHistory from '../../store/history/history.reducer';
-import * as fromVariable from '../../store/variables/variables.reducer';
-import * as fromQuery from '../../store/query/query.reducer';
-import * as fromCollection from '../../store/collection/collection.reducer';
-import * as fromPreRequest from '../../store/pre-request/pre-request.reducer';
-import * as fromPostRequest from '../../store/post-request/post-request.reducer';
-import * as fromDocs from '../../store/docs/docs.reducer';
-import * as fromLayout from '../../store/layout/layout.reducer';
 
 import * as queryActions from '../../store/query/query.action';
 import * as headerActions from '../../store/headers/headers.action';
 import * as variableActions from '../../store/variables/variables.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as docsActions from '../../store/docs/docs.action';
-import * as layoutActions from '../../store/layout/layout.action';
 import * as schemaActions from '../../store/gql-schema/gql-schema.action';
 import * as historyActions from '../../store/history/history.action';
 import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
-import * as streamActions from '../../store/stream/stream.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
-import isElectron from '../../utils/is_electron';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
 
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService, ElectronAppService } from '../../services';
-import { Observable, empty as observableEmpty, EMPTY } from 'rxjs';
-import {
-  AltairPanel,
-  AltairUiAction
-} from '../../services/plugin/plugin';
+import { Observable, EMPTY } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debug } from '../../utils/logger';
 import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
-import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription-provider-registry.service';
-import { PerWindowState, RootState } from '../../store/state.interfaces';
-import { QueryEditorState, QueryState, SelectedOperation, SubscriptionResponse } from '../../store/query/query.interfaces';
+import { QueryEditorState, QueryState, SelectedOperation, SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
+import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
+import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
+import { AltairPanel, AltairUiAction } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -67,8 +62,8 @@ export class WindowComponent implements OnInit {
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
   docsIsLoading$: Observable<boolean>;
-  headers$: Observable<fromHeader.State>;
-  variables$: Observable<fromVariable.State>;
+  headers$: Observable<HeaderState>;
+  variables$: Observable<VariableState>;
   introspection$: Observable<any>;
   allowIntrospection$: Observable<boolean>;
   schemaLastUpdatedAt$: Observable<number | undefined>;
@@ -81,17 +76,17 @@ export class WindowComponent implements OnInit {
   selectedOperation$?: Observable<SelectedOperation>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
-  currentCollection$: Observable<fromCollection.IQueryCollection | undefined>;
-  preRequest$: Observable<fromPreRequest.State>;
-  postRequest$: Observable<fromPostRequest.State>;
-  layout$: Observable<fromLayout.State>;
+  currentCollection$: Observable<IQueryCollection | undefined>;
+  preRequest$: Observable<PrerequestState>;
+  postRequest$: Observable<PostrequestState>;
+  layout$: Observable<LayoutState>;
   activeWindowId$: Observable<string>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
   autoscrollSubscriptionResponses$: Observable<boolean>;
 
-  collections$: Observable<fromCollection.IQueryCollection[]>;
+  collections$: Observable<IQueryCollection[]>;
 
   resultPaneUiActions$: Observable<AltairUiAction[]>;
   resultPaneBottomPanels$: Observable<AltairPanel[]>;
@@ -118,7 +113,7 @@ export class WindowComponent implements OnInit {
   availableSubscriptionProviders$ = this.subscriptionProviderRegistry.getAllProviderData$();
   selectedSubscriptionProviderId = '';
 
-  historyList: fromHistory.History[] = [];
+  historyList: History[] = [];
 
   constructor(
     private gql: GqlService,
@@ -313,10 +308,10 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new localActions.SetPanelActiveAction({ panelId: panel.id, isActive: !panel.isActive }));
   }
 
-  setDocView(docView: fromDocs.DocView) {
+  setDocView(docView: DocView) {
     this.store.dispatch(new docsActions.SetDocViewAction(this.windowId, { docView }))
   }
-  onShowTokenInDocs(docView: fromDocs.DocView) {
+  onShowTokenInDocs(docView: DocView) {
     this.setDocView(docView);
     this.showDocs$.pipe(
       take(1),

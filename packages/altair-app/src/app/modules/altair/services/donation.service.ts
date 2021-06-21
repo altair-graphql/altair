@@ -3,9 +3,9 @@ import { Observable, zip } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { DbService } from './db.service';
-import { AltairConfig } from '../config';
 import { uaSeedHash } from '../utils/simple_hash';
 import { switchMap, map } from 'rxjs/operators';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Injectable()
 export class DonationService {

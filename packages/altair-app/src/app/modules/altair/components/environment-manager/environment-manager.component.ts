@@ -20,7 +20,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/keymap/sublime';
-import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
+import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {

@@ -13,11 +13,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { AltairConfig } from '../../config';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { mockStoreFactory, mock } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 describe('AppComponent', () => {
   let wrapper: NgxTestWrapper<AppComponent>;

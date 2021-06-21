@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { PluginRegistryService } from './plugin-registry.service';
 import { Store } from '@ngrx/store';
-import { PluginSource } from './plugin';
 import { mock } from '../../../../../testing';
 import { PluginContextService } from './context/plugin-context.service';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 
 let mockHttpClient: HttpClient;
 let mockPluginContextService: PluginContextService;

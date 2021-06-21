@@ -4,7 +4,7 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper, mount } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AltairConfig } from '../../config';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 describe('WindowSwitcherComponent', () => {
   let wrapper: NgxTestWrapper<WindowSwitcherComponent>;

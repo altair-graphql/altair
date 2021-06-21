@@ -1,4 +1,4 @@
-import { IDictionary } from '../../interfaces/shared';
+import { IDictionary } from '../shared';
 
 interface InitialEnvironmentState {
   id?: string

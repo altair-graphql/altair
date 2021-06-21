@@ -8,7 +8,7 @@ import { environment } from './environments/environment';
 import { handleExternalLinks } from 'app/modules/altair/utils/events';
 import { handleDeprecations } from 'app/modules/altair/utils/deprecated';
 import { debug } from 'app/modules/altair/utils/logger';
-import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'app/modules/altair/config';
+import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'altair-graphql-core/build/config';
 
 let initialized = false;
 

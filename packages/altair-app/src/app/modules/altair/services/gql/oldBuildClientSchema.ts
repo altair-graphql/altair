@@ -61,7 +61,8 @@ import {
   IntrospectionEnumValue,
   IntrospectionInputValue,
   IntrospectionDirective,
-} from 'graphql/utilities/introspectionQuery';
+  GraphQLSchemaConfig,
+} from 'graphql';
 
 import { GraphQLSchemaValidationOptions } from 'graphql/type/schema';
 
@@ -81,7 +82,7 @@ type Options = GraphQLSchemaValidationOptions;
  */
 export function buildClientSchema(
   introspection: IntrospectionQuery,
-  options?: Options,
+  options?: Options & { allowedLegacyNames: boolean },
 ): GraphQLSchema {
   // Get the schema from the introspection result.
   const schemaIntrospection = introspection.__schema;
@@ -411,5 +412,5 @@ export function buildClientSchema(
     directives,
     assumeValid: options && options.assumeValid,
     allowedLegacyNames: options && options.allowedLegacyNames,
-  });
+  } as unknown as GraphQLSchemaConfig);
 }

@@ -1,9 +1,10 @@
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import * as headers from './headers.action';
-import { getAltairConfig } from '../../config';
 
 export const getInitialHeadersState = () => {
     const altairConfig = getAltairConfig();
-    let initialHeaders: State = [];
+    let initialHeaders: HeaderState = [];
     if (altairConfig.initialData.headers) {
         initialHeaders = Object.keys(altairConfig.initialData.headers).map(key => ({
             key,
@@ -15,15 +16,9 @@ export const getInitialHeadersState = () => {
 
     return initialHeaders;
 };
-export interface Header {
-    key: string;
-    value: string;
-    enabled?: boolean;
-}
 
-export type State = Header[];
 
-export function headerReducer(state = getInitialHeadersState(), action: headers.Action): State {
+export function headerReducer(state = getInitialHeadersState(), action: headers.Action): HeaderState {
     switch (action.type) {
         case headers.ADD_HEADER:
             return [

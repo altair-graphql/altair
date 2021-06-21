@@ -21,6 +21,7 @@ import { QueryEffects } from './effects/query.effect';
 import { WindowsEffects } from './effects/windows.effect';
 import { QueryCollectionEffects } from './effects/query-collection.effect';
 import { PluginEventEffects } from './effects/plugin-event.effect';
+import { LocalEffects } from './effects/local.effect';
 
 import { DirectivesModule } from './directives';
 import { ComponentModule } from './components/components.module';
@@ -42,8 +43,7 @@ import { AppOverlayContainer } from './overlay-container';
 import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
-import { RootState } from './store/state.interfaces';
-import { LocalEffects } from './effects/local.effect';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 registerLocaleData(en);
 

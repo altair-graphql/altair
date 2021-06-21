@@ -1,26 +1,16 @@
 import { Action } from '@ngrx/store';
 
 import * as variables from './variables.action';
-import { getAltairConfig } from '../../config';
-import uuid from 'uuid/v4';
-
-export interface FileVariable {
-    id?: string; // optional for backward compatibility
-    name: string;
-    isMultiple?: boolean;
-    data?: File | File[]; // TODO: Remove File (maintaining for backward compatibility)
-}
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import uuid from 'uuid';
 
 const initialFileVariableState = () => ({
     id: uuid(),
     name: 'file',
 });
-export interface State {
-    variables: string;
-    files: FileVariable[];
-}
 
-export const getInitialState = (): State => {
+export const getInitialState = (): VariableState => {
     const altairConfig = getAltairConfig();
     return {
         variables: altairConfig.initialData.variables ? '' + altairConfig.initialData.variables : '{}',
@@ -28,7 +18,7 @@ export const getInitialState = (): State => {
     };
 };
 
-export function variableReducer(state = getInitialState(), action: variables.Action): State {
+export function variableReducer(state = getInitialState(), action: variables.Action): VariableState {
     switch (action.type) {
         case variables.UPDATE_VARIABLES:
             return { ...state, variables: action.payload };

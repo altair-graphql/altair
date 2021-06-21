@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IQueryCollection } from '../../store/collection/collection.reducer';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
   selector: 'app-query-collections',

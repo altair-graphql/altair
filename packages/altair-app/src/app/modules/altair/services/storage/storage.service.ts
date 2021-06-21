@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import Dexie from 'dexie';
-import { IQueryCollection } from '../../store/collection/collection.reducer';
 
 interface ISelectedFile {
   id: string;

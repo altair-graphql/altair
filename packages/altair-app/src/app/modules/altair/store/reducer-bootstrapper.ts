@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AltairConfig } from '../config';
+import { AltairConfig } from 'altair-graphql-core/build/config';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { StorageService } from '../services';
 import { getAppStateFromStorage } from './async-storage-sync';
-import { RootState } from './state.interfaces';
 
 @Injectable()
 export class ReducerBootstrapper {

@@ -1,5 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { IQuery, SortByOptions } from '../../store/collection/collection.reducer';
+import { IQuery, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';

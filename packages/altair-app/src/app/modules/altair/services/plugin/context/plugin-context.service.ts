@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CreateActionOptions, CreatePanelOptions, PluginContextGenerator, PluginWindowState } from 'altair-graphql-core/build/plugin/context/context.interface';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import { PluginEvent, PluginEventCallback } from 'altair-graphql-core/build/plugin/event/event.interfaces';
+import { ICustomTheme } from 'altair-graphql-core/build/theme';
+import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
+import { SubscriptionProviderData } from 'altair-graphql-core/build/subscriptions';
+import { AltairPanel, AltairPanelLocation, AltairPlugin, AltairUiAction, AltairUiActionLocation } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../../utils/logger';
 
 import { WindowService } from '../../../services/window.service';
@@ -11,41 +19,16 @@ import * as variablesActions from '../../../store/variables/variables.action';
 import * as localActions from '../../../store/local/local.action';
 import * as settingsActions from '../../../store/settings/settings.action';
 
-import is_electron from '../../../utils/is_electron';
-import { PluginEventService, PluginEvent, PluginEventCallback } from '../plugin-event.service';
-import { AltairPanelLocation, AltairPanel, AltairPlugin, AltairUiAction, AltairUiActionLocation } from '../plugin';
+import { PluginEventService } from '../plugin-event.service';
 import { first } from 'rxjs/operators';
-import { ICustomTheme } from '../../../services/theme';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
-import { ExportWindowState, RootState } from '../../../store/state.interfaces';
-import { SubscriptionProviderData, SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
-
-export interface CreatePanelOptions {
-  title?: string;
-  location?: AltairPanelLocation;
-}
-
-export interface CreateActionOptions {
-  title: string;
-  location?: AltairUiActionLocation;
-  execute: (data: PluginWindowState) => void;
-}
-
-export interface PluginWindowState extends ExportWindowState {
-  windowId: string;
-  sdl: string;
-  queryResult: string;
-  requestStartTime: number;
-  requestEndTime: number;
-  responseTime: number;
-  responseStatus: number;
-}
+import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PluginContextService {
+export class PluginContextService implements PluginContextGenerator {
   constructor(
     private store: Store<RootState>,
     private windowService: WindowService,
@@ -130,7 +113,7 @@ export class PluginContextService {
           }
         },
         isElectron() {
-          return is_electron;
+          return isElectron;
         },
         createWindow(data: ExportWindowState) {
           log('creating window');

@@ -34,12 +34,13 @@ import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils'
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
-import { WEBSOCKET_PROVIDER_ID } from '../services/subscriptions/subscription-provider-registry.service';
-import { SubscriptionProvider } from '../services/subscriptions/subscription-provider';
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType } from '../services/pre-request/pre-request.service';
-import { PerWindowState, RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 
 interface EffectResponseData {
   state: RootState;
