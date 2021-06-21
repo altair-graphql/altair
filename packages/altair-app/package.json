@@ -19,9 +19,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e:ci": "ng e2e --webdriver-update=false",
-    "generate-settings-schema": "typescript-json-schema --ignoreErrors node_modules/altair-graphql-core/build/types/state/settings.interfaces.d.ts SettingsState > src/app/modules/altair/utils/settings.schema.json",
-    "compile-settings-schema-validator": "ajv compile -s src/app/modules/altair/utils/settings.schema.json -o src/app/modules/altair/utils/validate_settings_schema.js",
-    "generate-settings-schema-validator": "yarn generate-settings-schema && yarn compile-settings-schema-validator",
+    "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --prod --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=89.0.4389.72"
