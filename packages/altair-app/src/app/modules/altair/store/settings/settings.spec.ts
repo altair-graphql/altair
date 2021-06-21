@@ -8,7 +8,7 @@ let mockAltairConfig = {
   add_query_depth_limit: 1,
   tab_size: 1,
 };
-jest.mock('../../config', () => {
+jest.mock('altair-graphql-core/build/config', () => {
   return {
     getAltairConfig() {
       return mockAltairConfig;
