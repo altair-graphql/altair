@@ -1,5 +1,5 @@
-import uuid from 'uuid/v4';
-import { PluginContextService } from './context/plugin-context.service';
+import { v4 as uuid } from 'uuid';
+import { PluginContext } from './context/context.interface';
 
 /**
  * Defines the repository of the plugin.
@@ -73,8 +73,6 @@ export const createPlugin = (name: string, manifest: PluginManifest): AltairPlug
     capabilities: Array.from(new Set([ ...(manifest.capabilities || []), ...([ 'query:read', 'query:write' ] as PluginCapabilities[]) ])),
   };
 };
-
-export type PluginContext = ReturnType<PluginContextService['createContext']>;
 
 export type PluginClass = new() => PluginClassInstance;
 

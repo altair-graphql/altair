@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { createTheme, hexToRgbStr, ICustomTheme, ITheme } from 'altair-graphql-core/build/theme';
 
 import { css } from 'emotion';
-import { createTheme, ITheme, hexToRgbStr, ICustomTheme } from '../../services/theme/theme';
 import { ThemeRegistryService } from '../../services';
 
 @Directive({

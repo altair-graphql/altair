@@ -1,5 +1,5 @@
-import { IDictionary } from '../../interfaces/shared';
 import { Observable } from 'rxjs';
+import { IDictionary } from '../types/shared';
 
 export interface SubscriptionProviderExtraOptions {
   onConnected?: (error: any, data: any) => void;

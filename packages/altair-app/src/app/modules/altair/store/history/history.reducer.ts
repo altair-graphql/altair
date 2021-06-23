@@ -1,24 +1,16 @@
 import { Action } from '@ngrx/store';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
 
 import * as history from './history.action';
 
-import { getAltairConfig } from '../../config';
-
-export interface History {
-  query: string;
-}
-
-export interface State {
-  list: History[];
-}
-
-export const getInitialState = (): State => {
+export const getInitialState = (): HistoryState => {
   return {
     list: [],
   };
 };
 
-export function historyReducer(state = getInitialState(), action: history.Action): State {
+export function historyReducer(state = getInitialState(), action: history.Action): HistoryState {
   switch (action.type) {
     case history.ADD_HISTORY:
       const _state = { ...state };

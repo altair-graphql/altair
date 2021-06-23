@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { AltairConfig } from '../../../config';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Component({
   selector: 'app-schema-form-item',

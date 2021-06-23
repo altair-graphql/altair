@@ -38,7 +38,6 @@ Object {
 
 exports[`GqlService .getIntrospectionSchema() should return schema for introspection data 1`] = `
 GraphQLSchema {
-  "__allowedLegacyNames": Array [],
   "__validationErrors": undefined,
   "_directives": Array [
     "@cacheControl",
@@ -46,10 +45,10 @@ GraphQLSchema {
     "@include",
     "@deprecated",
   ],
-  "_implementations": Object {},
+  "_implementationsMap": Object {},
   "_mutationType": "Mutation",
-  "_possibleTypeMap": Object {},
   "_queryType": "Query",
+  "_subTypeMap": Object {},
   "_subscriptionType": "Subscription",
   "_typeMap": Object {
     "Boolean": "Boolean",
@@ -76,6 +75,7 @@ GraphQLSchema {
     "__TypeKind": "__TypeKind",
   },
   "astNode": undefined,
+  "description": undefined,
   "extensionASTNodes": undefined,
   "extensions": undefined,
 }

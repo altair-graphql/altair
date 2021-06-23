@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
 import * as fromVariables from '../../store/variables/variables.reducer';
 import { truncateText } from '../../utils';
@@ -11,7 +12,7 @@ import { truncateText } from '../../utils';
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
 
-  @Input() fileVariable: fromVariables.FileVariable;
+  @Input() fileVariable: FileVariable;
 
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter<{ files: File[], fromCache?: boolean }>();
@@ -57,9 +58,9 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
     return this.fileVariableDataChange.emit({ files: Array.from(files) });
   }
 
-  isValidFileData(fileVariable: fromVariables.FileVariable) {}
+  isValidFileData(fileVariable: FileVariable) {}
 
-  updateLocalState(fileVariable: fromVariables.FileVariable) {
+  updateLocalState(fileVariable: FileVariable) {
     this.validFileData = Array.isArray(fileVariable.data) ? fileVariable.data.filter((data: any) => data instanceof File) : [];
     this.invalidFileData = (this.fileVariable?.data as [])?.length > this.validFileData.length;
     this.showWarning = Boolean(!this.fileVariable?.isMultiple && (this.fileVariable.data as [])?.length > 1);

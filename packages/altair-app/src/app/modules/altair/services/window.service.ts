@@ -1,20 +1,17 @@
 
-import {of as observableOf, Subscription, Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { first, tap, map, switchMap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import uuid from 'uuid/v4';
 
-import * as fromRoot from '../store';
-import * as fromWindows from '../store/windows/windows.reducer';
 import * as fromQuery from '../store/query/query.reducer';
 
 import * as queryActions from '../store/query/query.action';
 import * as headerActions from '../store/headers/headers.action';
 import * as variableActions from '../store/variables/variables.action';
-import * as layoutActions from '../store/layout/layout.action';
 import * as windowActions from '../store/windows/windows.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as preRequestActions from '../store/pre-request/pre-request.action';
@@ -26,7 +23,8 @@ import { getFileStr } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
 import { debug } from '../utils/logger';
 import { GqlService } from './gql/gql.service';
-import { ExportWindowState, RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 
 interface ImportWindowDataOptions {

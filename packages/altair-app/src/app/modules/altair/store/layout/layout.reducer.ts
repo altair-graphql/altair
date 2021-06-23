@@ -1,16 +1,9 @@
 import { Action } from '@ngrx/store';
+import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
 
 import * as layout from '../../store/layout/layout.action';
 
-export interface State {
-  isLoading: boolean;
-  title: string;
-  collectionId?: number;
-  windowIdInCollection?: string;
-  hasDynamicTitle?: boolean;
-}
-
-export const getInitialState = (): State => {
+export const getInitialState = (): LayoutState => {
   return {
     isLoading: false,
     title: 'New window',
@@ -18,7 +11,7 @@ export const getInitialState = (): State => {
   };
 };
 
-export function layoutReducer(state = getInitialState(), action: layout.Action): State {
+export function layoutReducer(state = getInitialState(), action: layout.Action): LayoutState {
   switch (action.type) {
     case layout.START_LOADING:
       return { ...state, isLoading: true };

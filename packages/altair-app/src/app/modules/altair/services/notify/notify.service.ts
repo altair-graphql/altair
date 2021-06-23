@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { IDictionary } from '../../interfaces/shared';
 import { first } from 'rxjs/operators';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 interface NotifyOptions {
   data?: {

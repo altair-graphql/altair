@@ -1,15 +1,8 @@
+import { DialogState } from 'altair-graphql-core/build/types/state/dialog.interfaces';
 import * as dialogs from '../../store/dialogs/dialogs.action';
 
-export interface State {
-  showHeaderDialog: boolean;
-  showVariableDialog: boolean;
-  showSubscriptionUrlDialog: boolean;
-  showHistoryDialog: boolean;
-  showAddToCollectionDialog: boolean;
-  showPreRequestDialog: boolean;
-}
 
-export const getInitialState = (): State => {
+export const getInitialState = (): DialogState => {
   return {
     showHeaderDialog: false,
     showVariableDialog: false,
@@ -20,7 +13,7 @@ export const getInitialState = (): State => {
   };
 };
 
-export function dialogReducer(state = getInitialState(), action: dialogs.Action): State {
+export function dialogReducer(state = getInitialState(), action: dialogs.Action): DialogState {
   switch (action.type) {
     case dialogs.TOGGLE_HEADER_DIALOG:
       return Object.assign({}, state, { showHeaderDialog: !state.showHeaderDialog });

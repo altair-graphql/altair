@@ -1,5 +1,5 @@
 import { getAltairConfig } from '../../config';
-import { ICustomTheme } from '../../services/theme';
+import { ICustomTheme } from '../../theme';
 
 const config = getAltairConfig();
 export type SettingsLanguage = keyof typeof config.languages;

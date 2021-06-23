@@ -18,7 +18,7 @@ export class ActionCableSubscriptionProvider extends SubscriptionProvider {
         connected: function() {
           this.perform('execute', options)
         },
-        received: function(payload) {
+        received: function(payload: any) {
           if (payload.result.data || payload.result.errors) {
             subscriber.next(payload.result)
           }

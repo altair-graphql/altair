@@ -8,7 +8,7 @@ import { WindowComponent } from './window.component';
 import { mock, anyFn, mockStoreFactory } from '../../../../../testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 let mockStore: Store<RootState>;
 

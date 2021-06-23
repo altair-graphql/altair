@@ -11,7 +11,7 @@ import * as fromRoot from '../store';
 import * as collectionActions from '../store/collection/collection.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile } from '../utils';
-import { RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 
 @Injectable()

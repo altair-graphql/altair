@@ -9,10 +9,10 @@ import { getInitWindowState } from '../../../store/windows/windows.reducer';
 import * as windowsMetaReducer from '../../../store/windows-meta/windows-meta.reducer';
 import { WindowService } from '../../../services/window.service';
 import { PluginEventService } from '../plugin-event.service';
-import { AltairPlugin, PluginType } from '../plugin';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
-import { RootState } from 'app/modules/altair/store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { AltairPlugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 
 const createContext = () => {
   const service: PluginContextService = TestBed.inject(PluginContextService);

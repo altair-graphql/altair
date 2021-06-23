@@ -1,9 +1,9 @@
+import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './subscriptions';
+import { IDictionary } from './types/shared';
+import { IInitialEnvironments } from './types/state/environments.interfaces';
+import { HttpVerb } from './types/state/query.interfaces';
+import { SettingsState } from './types/state/settings.interfaces';
 import isElectron from './utils/is_electron';
-import { IDictionary } from './interfaces/shared';
-import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './services/subscriptions/subscription-provider-registry.service';
-import { SettingsState } from './store/settings/settings.interfaces';
-import { IInitialEnvironments } from './store/environments/environments.interfaces';
-import { HttpVerb } from './store/query/query.interfaces';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 

@@ -2,7 +2,7 @@ const toSnakeCase = require('to-snake-case'); // TODO: Check that this still wor
 import FileSaver from 'file-saver';
 const commentRegex = require('comment-regex');
 const validUrl = require('valid-url');
-import is_electron from './is_electron';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
@@ -81,7 +81,7 @@ export const isExtension = !!((window as any).chrome && (window as any).chrome.r
 export const isFirefoxExtension = !!((window as any).chrome && (window as any).chrome.geckoProfiler);
 
 export const detectEnvironment = () => {
-  if (is_electron) {
+  if (isElectron) {
     return 'electron';
   }
 

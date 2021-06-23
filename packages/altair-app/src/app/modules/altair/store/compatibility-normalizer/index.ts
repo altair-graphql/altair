@@ -1,6 +1,6 @@
-import * as fromWindows from '../windows/windows.reducer';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
-export function normalize(state: fromWindows.State) {
+export function normalize(state: WindowState) {
   return Object.keys(state).map(windowId => {
     const windowState = state[windowId];
 
@@ -18,5 +18,5 @@ export function normalize(state: fromWindows.State) {
     newState[windowState.windowId] = windowState;
 
     return newState;
-  }, {} as fromWindows.State);
+  }, {} as WindowState);
 }

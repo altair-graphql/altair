@@ -9,9 +9,9 @@ import { StorageService } from '../services/storage/storage.service';
 import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
-import { getAltairConfig } from '../config';
-import { RootState } from './state.interfaces';
 import { set } from 'object-path';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 type StateKey = keyof RootState;
 
@@ -201,14 +201,14 @@ const syncStateUpdate = async() => {
       syncTransaction.abort();
       syncTransaction = null;
     }
-  
+
     debug.log('updating state...');
     return await asyncStorage.transaction('rw', asyncStorage.appState, async(trans) => {
       // Store transaction handles for cancellation later
       syncTransaction = trans;
-  
+
       const ops: Promise<any>[] = [];
-  
+
       syncOperations.forEach(op => {
         switch (op.operation) {
           case 'put':
@@ -226,13 +226,13 @@ const syncStateUpdate = async() => {
             break;
         }
       });
-  
+
       // flush the sync operations list
       syncOperations = [];
-  
+
       return Promise.all(ops);
     });
-  } catch(error) {
+  } catch (error) {
     console.error(new Error('Cannot sync state update :('));
     console.error(error);
   }
@@ -365,9 +365,9 @@ export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => 
           nextState = defaultMergeReducer(nextState, (action as AppInitAction).payload.initialState, action);
         }
       }
-  
+
       nextState = reducer(nextState, action);
-  
+
       if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
         // update storage
         // Queue update changes before debouncing
@@ -404,21 +404,21 @@ const parseValue = (value: any) => {
 
 const serializeValue = (value: any) => {
   // Remove any item that cannot be serialized with circular references
-  const stringify = function(value: any) {
+  const stringify = function(data: any) {
     let cache: any[] = [];
 
-    const output = JSON.stringify(value, function(key, value) {
+    const output = JSON.stringify(data, function(k, v) {
 
-        if (typeof value === 'object' && value !== null) {
-            if (cache.indexOf(value) !== -1) {
+        if (typeof v === 'object' && v !== null) {
+            if (cache.indexOf(v) !== -1) {
                 // Circular reference found, discard key
                 return;
             }
             // Store value in our collection
-            cache.push(value);
+            cache.push(v);
         }
 
-        return value;
+        return v;
     });
 
     cache = []; // Enable garbage collection

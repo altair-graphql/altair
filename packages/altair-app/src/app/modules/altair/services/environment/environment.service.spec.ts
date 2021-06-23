@@ -5,7 +5,7 @@ import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { mock } from '../../../../../testing';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 let mockStore: Store<RootState>;
 

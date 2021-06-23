@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { EnvironmentService } from '../../services';
 import { debug } from '../../utils/logger';
 import { distinct, distinctUntilChanged, map } from 'rxjs/operators';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
-import { RootState } from '../../store/state.interfaces';
 // import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 // TODO: Duplicating for now after changing to use lookahead in environment service variable regex
 export const VARIABLE_REGEX = /{{\s*([\w\.]+)\s*}}/g;

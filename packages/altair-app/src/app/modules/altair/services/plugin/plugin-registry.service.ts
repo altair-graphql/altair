@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
-import {
-  AltairPlugin,
-  PluginSource,
-  PluginManifest,
-  createPlugin,
-  PluginClass,
-} from './plugin';
 import { Store } from '@ngrx/store';
 
 import * as localActions from '../../store/local/local.action';
 import { PluginContextService } from './context/plugin-context.service';
-import { PluginStateEntry } from '../../store/local/local.reducer';
-import { RootState } from '../../store/state.interfaces';
+import { AltairPlugin, createPlugin, PluginClass, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 

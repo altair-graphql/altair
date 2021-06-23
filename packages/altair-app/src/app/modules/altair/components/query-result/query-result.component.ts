@@ -28,9 +28,9 @@ import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
-import isElectron from '../../utils/is_electron';
-import { SubscriptionResponse } from '../../store/query/query.interfaces';
-import { AltairPanel } from '../../services/plugin/plugin';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 
 @Component({
   selector: 'app-query-result',

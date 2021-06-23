@@ -1,10 +1,10 @@
 
 import {from as observableFrom, Observable, empty as observableEmpty, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { StorageService } from '../storage/storage.service';
 import uuid from 'uuid/v4';
+import { ExportCollectionState, IQuery, IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { StorageService } from '../storage/storage.service';
 import { debug } from '../../utils/logger';
-import { IQueryCollection, ExportCollectionState, IQuery } from '../../store/collection/collection.reducer';
 import { getFileStr } from '../../utils';
 
 // Handling hierarchical data

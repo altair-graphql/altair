@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { EMPTY, from } from 'rxjs';
 import { switchMap, withLatestFrom, } from 'rxjs/operators';
 import { StorageService } from '../services';
-import { RootState } from '../store/state.interfaces';
 
 import * as variablesActions from '../store/variables/variables.action';
 import * as windowActions from '../store/windows/windows.action';

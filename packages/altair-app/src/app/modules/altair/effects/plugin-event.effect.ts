@@ -10,7 +10,7 @@ import * as queryActions from '../store/query/query.action';
 import * as schemaActions from '../store/gql-schema/gql-schema.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { PluginEventService } from '../services';
-import { RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 @Injectable()
 export class PluginEventEffects {
