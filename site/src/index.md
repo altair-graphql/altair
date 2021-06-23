@@ -42,7 +42,7 @@ downloads:
   - name: macOS
     image: /assets/img/osx_logo.svg
     pattern: \.\d+_mac.dmg$
-    link: https://github.com/imolorhe/altair/releases/latest
+    link: https://github.com/altair-graphql/altair/releases/latest
     extra: brew install --cask altair-graphql-client
   - name: macOS M1
     image: /assets/img/osx_logo.svg

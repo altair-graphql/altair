@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imolorhe/altair.git"
+    "url": "git+https://github.com/altair-graphql/altair.git"
   },
   "keywords": [
     "altair",
@@ -26,9 +26,9 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/imolorhe/altair/issues"
+    "url": "https://github.com/altair-graphql/altair/issues"
   },
-  "homepage": "https://github.com/imolorhe/altair#readme",
+  "homepage": "https://github.com/altair-graphql/altair#readme",
   "dependencies": {
     "@koa/router": "^9.0.1",
     "altair-static": "^4.0.6",
