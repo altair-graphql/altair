@@ -2,7 +2,9 @@ import { SubscriptionProviderData } from '../../subscriptions';
 import { ICustomTheme } from '../../theme';
 import { ExportWindowState } from '../../types/state/window.interfaces';
 import { PluginEvent, PluginEventCallback } from '../event/event.interfaces';
-import { AltairPanel, AltairPanelLocation, AltairPlugin, AltairUiAction, AltairUiActionLocation } from '../plugin.interfaces';
+import { AltairPanel, AltairPanelLocation } from '../panel';
+import { AltairPlugin } from '../plugin.interfaces';
+import { AltairUiAction, AltairUiActionLocation } from '../ui-action';
 
 export interface CreatePanelOptions {
   title?: string;

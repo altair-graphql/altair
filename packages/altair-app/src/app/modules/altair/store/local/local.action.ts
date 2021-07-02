@@ -1,5 +1,6 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { AltairPanel, AltairUiAction } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 
 export const PUSH_CLOSED_WINDOW_TO_LOCAL = 'PUSH_CLOSED_WINDOW_TO_LOCAL';

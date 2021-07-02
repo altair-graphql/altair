@@ -1,5 +1,5 @@
-import { PluginClass } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { PluginConstructor } from "../../altair-core/build/plugin/base";
 
-export const registerPluginClass = (pluginClassName: string, pluginClass: PluginClass) => {
+export const registerPluginClass = (pluginClassName: string, pluginClass: PluginConstructor) => {
   (window as any)['AltairGraphQL'].plugins[pluginClassName] = pluginClass
 };

@@ -46,10 +46,10 @@ import { CollectionState, IQuery, IQueryCollection, SortByOptions } from 'altair
 import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
 import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { ICustomTheme } from 'altair-graphql-core/build/theme';
-import { AltairPanel } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

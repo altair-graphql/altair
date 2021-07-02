@@ -6,7 +6,7 @@ import { PluginEvent, PluginEventCallback } from 'altair-graphql-core/build/plug
 import { ICustomTheme } from 'altair-graphql-core/build/theme';
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { SubscriptionProviderData } from 'altair-graphql-core/build/subscriptions';
-import { AltairPanel, AltairPanelLocation, AltairPlugin, AltairUiAction, AltairUiActionLocation } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { AltairPlugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../../utils/logger';
 
@@ -24,6 +24,8 @@ import { first } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
+import { AltairPanel, AltairPanelLocation } from 'altair-graphql-core/build/plugin/panel';
+import { AltairUiAction, AltairUiActionLocation } from 'altair-graphql-core/build/plugin/ui-action';
 
 @Injectable({
   providedIn: 'root'
