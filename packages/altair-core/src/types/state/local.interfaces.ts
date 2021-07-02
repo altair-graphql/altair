@@ -1,4 +1,7 @@
-import { AltairPanel, AltairPlugin, AltairUiAction, PluginClassInstance } from '../../plugin/plugin.interfaces';
+import { PluginBase } from '../../plugin/base';
+import { AltairPanel } from '../../plugin/panel';
+import { AltairPlugin } from '../../plugin/plugin.interfaces';
+import { AltairUiAction } from '../../plugin/ui-action';
 import { IDictionary } from '../shared';
 
 export interface PluginStateEntry {
@@ -6,7 +9,7 @@ export interface PluginStateEntry {
   context: any;
   plugin: AltairPlugin;
   isActive?: boolean;
-  instance?: PluginClassInstance;
+  instance?: PluginBase;
 }
 
 export interface LocalState {

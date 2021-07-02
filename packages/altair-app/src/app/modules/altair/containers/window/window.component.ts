@@ -41,12 +41,13 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
-import { AltairPanel, AltairUiAction } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

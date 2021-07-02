@@ -1,6 +1,3 @@
-import { v4 as uuid } from 'uuid';
-import { PluginContext } from './context/context.interface';
-
 /**
  * Defines the repository of the plugin.
  * Used to know where to get the plugin from.
@@ -73,55 +70,3 @@ export const createPlugin = (name: string, manifest: PluginManifest): AltairPlug
     capabilities: Array.from(new Set([ ...(manifest.capabilities || []), ...([ 'query:read', 'query:write' ] as PluginCapabilities[]) ])),
   };
 };
-
-export type PluginClass = new() => PluginClassInstance;
-
-/**
- * We should have plugin instance extend to SidebarPanel, ResultAction, HeaderPanel, UiTheme
- */
-export interface PluginClassInstance {
-  initialize(ctx: PluginContext): void;
-  destroy(): void;
-}
-
-export enum AltairPanelLocation {
-  HEADER = 'header',
-  SIDEBAR = 'sidebar',
-  RESULT_PANE_BOTTOM = 'result_pane_bottom',
-}
-
-export enum AltairUiActionLocation {
-  RESULT_PANE = 'result_pane',
-}
-
-/**
- * Used for dynamic panel elements. Can also be used for angular components in the future.
- */
-export class AltairPanel {
-  public id = uuid();
-  public isActive = false;
-
-  constructor(
-    public title: string,
-    public element: HTMLElement,
-    public location: AltairPanelLocation,
-  ) {}
-
-  destroy() {
-    this.element = null as unknown as HTMLElement;
-  }
-}
-
-export class AltairUiAction {
-  public id = uuid();
-
-  constructor(
-    public title: string,
-    public location: AltairUiActionLocation,
-    public callback: () => void,
-  ) {}
-
-  execute() {
-    this.callback();
-  }
-}

@@ -30,7 +30,7 @@ import 'codemirror-graphql/results/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
-import { AltairPanel } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 
 @Component({
   selector: 'app-query-result',

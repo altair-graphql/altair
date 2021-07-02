@@ -5,9 +5,10 @@ import { Store } from '@ngrx/store';
 
 import * as localActions from '../../store/local/local.action';
 import { PluginContextService } from './context/plugin-context.service';
-import { AltairPlugin, createPlugin, PluginClass, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { AltairPlugin, createPlugin, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
+import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -190,7 +191,7 @@ export class PluginRegistryService {
 
   private getPluginClass(plugin: AltairPlugin) {
     if (plugin.plugin_class) {
-      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as PluginClass;
+      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as PluginConstructor;
     }
     return;
   }
