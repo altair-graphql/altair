@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "license": "MIT",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "homepage": "https://imolorhe.github.io/altair/",
+  "homepage": "https://altair-graphql.github.io/altair/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

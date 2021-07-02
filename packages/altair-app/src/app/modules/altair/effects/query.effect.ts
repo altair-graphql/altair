@@ -476,7 +476,7 @@ export class QueryEffects {
               Click here to submit bugs, improvements, etc.
             `, undefined, {
               data: {
-                url: 'https://github.com/imolorhe/altair/issues/new'
+                url: 'https://github.com/altair-graphql/altair/issues/new'
               }
             });
             return this.dbService.setItem('exp_add_query_seen', true);

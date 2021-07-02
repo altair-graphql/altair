@@ -45,10 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imolorhe/altair.git"
+    "url": "git+https://github.com/altair-graphql/altair.git"
   },
   "bugs": {
-    "url": "https://github.com/imolorhe/altair/issues"
+    "url": "https://github.com/altair-graphql/altair/issues"
   },
   "collective": {
     "type": "opencollective",

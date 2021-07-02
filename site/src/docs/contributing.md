@@ -13,7 +13,7 @@ There are several ways to contribute to Altair.
 
 ## Write code 👨🏾‍💻
 
-There are always issues that are open and need some attention. You could fork the [project](https://github.com/imolorhe/altair), create the solution and create a PR! Pull Requests from members of the community are always welcome.
+There are always issues that are open and need some attention. You could fork the [project](https://github.com/altair-graphql/altair), create the solution and create a PR! Pull Requests from members of the community are always welcome.
 
 Sometimes it can be intimidating to pick up issues. An easy way to get started would be looking for issues with the `good-first-issue` or `first-timers-only` labels. Those are usually simple tasks that wouldn't require much effort.
 
@@ -31,7 +31,7 @@ As more features get added regularly, the documentation of the project gets stal
 
 The documentation might not be descriptive enough. You can add more content to make it more descriptive. You could add images and video links as well to further improve the documentation.
 
-The content of this site is stored on the [repo](https://github.com/imolorhe/altair/tree/staging/docs/docs) as well, so you can easily update the content and create a PR with your changes to be merged.
+The content of this site is stored on the [repo](https://github.com/altair-graphql/altair/tree/staging/docs/docs) as well, so you can easily update the content and create a PR with your changes to be merged.
 
 ## Donate 💰
 
