@@ -27,7 +27,7 @@ const theme: ICustomTheme = {
       punctuation: foundations.colors.blue,
       cursor: foundations.colors.blue,
     }
-  }
+  },
 };
 
 export default theme;
