@@ -76,7 +76,7 @@ export interface PluginContext {
   };
   theme: {
     add(name: string, theme: ICustomTheme): void;
-    enable(name: string): Promise<void>;
+    enable(name: string, darkMode?: boolean): Promise<void>;
   };
 }
 
