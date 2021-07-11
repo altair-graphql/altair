@@ -284,6 +284,10 @@ export const getAppStateFromStorage = async({
     // TODO: Clean from localStorage
   }
 
+  if (!stateList.length) {
+    return;
+  }
+
   const schemas: IDictionary = {};
   // sort stateList by key path parts count
   // i.e. 'windows::1234' should be read before 'window::1234::schema
@@ -319,6 +323,10 @@ export const getAppStateFromStorage = async({
       //   reducedState[key] = parseValue(curStateItem.value);
       // }
     });
+
+    if (!Object.keys(reducedState).length) {
+      return;
+    }
 
     // console.log('reduced', reducedState);
     // throw new Error('..');
