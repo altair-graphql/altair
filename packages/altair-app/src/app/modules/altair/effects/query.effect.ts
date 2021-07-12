@@ -782,6 +782,12 @@ export class QueryEffects {
           const url = this.environmentService.hydrate(res.data.query.url);
           const query = this.environmentService.hydrate(res.data.query.query || '');
           const variables = this.environmentService.hydrate(res.data.variables.variables);
+          const { resolvedFiles } = this.gqlService.normalizeFiles(res.data.variables.files);
+          if (resolvedFiles.length) {
+            this.notifyService.error('This is not currently available with file variables');
+            return EMPTY;
+          }
+
           try {
             const curlCommand = generateCurl({
               url,
