@@ -12,6 +12,11 @@ export interface SettingsState {
   theme: string;
 
   /**
+   * Theme for dark mode
+   */
+  'theme.dark'?: string;
+
+  /**
    * Set language
    */
   language: SettingsLanguage;
@@ -82,6 +87,11 @@ export interface SettingsState {
    * Theme config object
    */
   themeConfig?: ICustomTheme;
+
+  /**
+   * Theme config object for dark mode
+   */
+  'themeConfig.dark'?: ICustomTheme;
 
   /**
    * Hides extensions object

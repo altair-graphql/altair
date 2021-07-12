@@ -1,6 +1,7 @@
 <div
   class="app-wrapper"
   [appTheme]="theme$ | async"
+  [appDarkTheme]="themeDark$ | async"
   appFileDrop
   (onFileDropped)="fileDropped($event)"
 >

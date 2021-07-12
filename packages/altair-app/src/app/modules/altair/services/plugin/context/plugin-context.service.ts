@@ -162,10 +162,14 @@ export class PluginContextService implements PluginContextGenerator {
         add(name: string, theme: ICustomTheme) {
           return self.themeRegistryService.addTheme(`plugin:${name}`, theme);
         },
-        async enable(name: string) {
+        async enable(name: string, darkMode = false) {
           const settings = { ...await self.store.select('settings').pipe(first()).toPromise() };
 
-          settings.theme = `plugin:${name}` as any;
+          if (darkMode) {
+            settings.theme = `plugin:${name}` as any;
+          } else {
+            settings.theme = `plugin:${name}` as any;
+          }
           self.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
           self.notifyService.info(`Plugin "${pluginName}" has enabled the "${name}" theme`);
         },
