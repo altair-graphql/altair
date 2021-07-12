@@ -62,8 +62,9 @@
                   (ngModelChange)="onTitleChange($event)">
               </div>
               <div class="environment-manager__editor-meta-actions">
-                <button class="app-button icon-button" (click)="onDeleteSubEnvironment()">
+                <button class="app-button icon-button active-destructive" (click)="onDeleteSubEnvironment()">
                   <app-icon name="trash-2"></app-icon>
+                  {{ 'DELETE_TEXT' | translate }}
                 </button>
               </div>
             </div>
