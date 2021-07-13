@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
-import { getAltairConfig } from '../../config';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import * as environmentsAction from './environments.action';
-import { EnvironmentsState, EnvironmentState } from './environments.interfaces';
 
 export const getInitialEnvironmentState = (): EnvironmentState => {
   const { initialData: { environments } } = getAltairConfig();

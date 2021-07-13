@@ -49,10 +49,13 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: 'imolorhe/altair',
+    repo: 'altair-graphql/altair',
     editLinks: false,
-    docsDir: 'site',
-    editLinkText: '',
+    docsDir: 'site/src', // defaults to false, set to true to enable
+    editLinks: true,
+    // custom text for edit link. Defaults to "Edit this page"
+    editLinkText: 'Help us improve this page!',
+    docsBranch: 'staging',
     lastUpdated: true,
     smoothScroll: true,
     nav: [
@@ -100,7 +103,7 @@ module.exports = {
     [
       require('./plugins/github-metadata'),
       {
-        owner: 'imolorhe',
+        owner: 'altair-graphql',
         repo: 'altair',
       }
     ],

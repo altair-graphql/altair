@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerComponent } from './doc-viewer.component';
 import { DocViewerModule } from '../doc-viewer.module';
-import { AltairConfig } from '../../../config';
 import { Mock } from 'ts-mocks';
 import { GqlService } from '../../../services';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 let mockGqlService: Mock<GqlService>;
 

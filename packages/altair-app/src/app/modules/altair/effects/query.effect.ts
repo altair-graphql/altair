@@ -34,12 +34,13 @@ import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils'
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
-import { WEBSOCKET_PROVIDER_ID } from '../services/subscriptions/subscription-provider-registry.service';
-import { SubscriptionProvider } from '../services/subscriptions/subscription-provider';
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType } from '../services/pre-request/pre-request.service';
-import { PerWindowState, RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 
 interface EffectResponseData {
   state: RootState;
@@ -475,7 +476,7 @@ export class QueryEffects {
               Click here to submit bugs, improvements, etc.
             `, undefined, {
               data: {
-                url: 'https://github.com/imolorhe/altair/issues/new'
+                url: 'https://github.com/altair-graphql/altair/issues/new'
               }
             });
             return this.dbService.setItem('exp_add_query_seen', true);
@@ -781,6 +782,12 @@ export class QueryEffects {
           const url = this.environmentService.hydrate(res.data.query.url);
           const query = this.environmentService.hydrate(res.data.query.query || '');
           const variables = this.environmentService.hydrate(res.data.variables.variables);
+          const { resolvedFiles } = this.gqlService.normalizeFiles(res.data.variables.files);
+          if (resolvedFiles.length) {
+            this.notifyService.error('This is not currently available with file variables');
+            return EMPTY;
+          }
+
           try {
             const curlCommand = generateCurl({
               url,

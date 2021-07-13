@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
-import { HTTP_VERBS } from '../../store/query/query.interfaces';
 
 @Component({
   selector: 'app-url-box',

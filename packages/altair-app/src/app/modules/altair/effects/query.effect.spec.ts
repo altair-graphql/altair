@@ -16,7 +16,7 @@ import {
 } from '../services';
 import * as fromRoot from '../store';
 import { ConvertToNamedQueryAction, SetQueryAction } from '../store/query/query.action';
-import { RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 describe('query effects', () => {
   let actions$: Observable<Action>;

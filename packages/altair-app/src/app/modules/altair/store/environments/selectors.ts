@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { RootState } from '../state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { getInitialState } from './environments.reducer';
 
 export const getEnvironments = (state: RootState) => state ? state.environments : { ...getInitialState() };

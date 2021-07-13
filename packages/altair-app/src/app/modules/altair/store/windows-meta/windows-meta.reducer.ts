@@ -1,18 +1,10 @@
 import { Action } from '@ngrx/store';
+import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
 
 import * as windowsMeta from './windows-meta.action';
 
-export interface State {
-  activeWindowId: string;
-  windowIds: Array<string>;
-  showImportCurlDialog: boolean;
-  showEditCollectionDialog: boolean;
-  showSettingsDialog: boolean;
-  showEnvironmentManager: boolean;
-  showPluginManager: boolean;
-}
 
-export const getInitialState = (): State => {
+export const getInitialState = (): WindowsMetaState => {
   return {
     activeWindowId: '',
     windowIds: [],
@@ -24,7 +16,7 @@ export const getInitialState = (): State => {
   };
 };
 
-export function windowsMetaReducer(state = getInitialState(), action: windowsMeta.Action): State {
+export function windowsMetaReducer(state = getInitialState(), action: windowsMeta.Action): WindowsMetaState {
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
       return { ...state, activeWindowId: action.payload.windowId };

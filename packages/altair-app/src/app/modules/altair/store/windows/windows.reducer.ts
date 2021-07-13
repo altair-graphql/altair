@@ -4,11 +4,9 @@ import * as windowsActions from './windows.action';
 import { IDictionary } from '../../interfaces/shared';
 import { INIT_WINDOW } from '../action';
 import { normalize } from '../compatibility-normalizer';
-import { PerWindowState } from '../state.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
-export interface State {
-    [id: string]: PerWindowState;
-}
 
 export const getInitWindowState = (perWindowReducer: ActionReducer<PerWindowState>) => perWindowReducer(undefined, { type: INIT_WINDOW });
 
@@ -17,7 +15,7 @@ export const getInitWindowState = (perWindowReducer: ActionReducer<PerWindowStat
  * @param reducer
  */
 export function windows(reducer: ActionReducer<PerWindowState>) {
-    const initialState: State = {};
+    const initialState: WindowState = {};
 
     return function(state = initialState, action: windowsActions.Action) {
 

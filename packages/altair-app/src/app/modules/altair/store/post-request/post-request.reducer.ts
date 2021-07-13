@@ -1,12 +1,9 @@
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import * as postRequest from '../post-request/post-request.action';
-import { getAltairConfig } from '../../config';
 
-export interface State {
-  enabled: boolean;
-  script: string;
-}
 
-export const getInitialState = (): State => {
+export const getInitialState = (): PostrequestState => {
   const altairConfig = getAltairConfig();
   return {
     enabled: !!altairConfig.initialData.postRequestScript,
@@ -14,7 +11,7 @@ export const getInitialState = (): State => {
   }
 };
 
-export function postRequestReducer(state = getInitialState(), action: postRequest.Action): State {
+export function postRequestReducer(state = getInitialState(), action: postRequest.Action): PostrequestState {
   switch (action.type) {
     case postRequest.SET_POSTREQUEST_SCRIPT:
       return { ...state, script: action.payload.script };

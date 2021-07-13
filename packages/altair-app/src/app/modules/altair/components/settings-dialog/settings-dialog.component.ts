@@ -12,7 +12,6 @@ import {
   DoCheck,
 } from '@angular/core';
 
-import { AltairConfig } from '../../config';
 import { debug } from '../../utils/logger';
 
 // Import the codemirror packages
@@ -29,7 +28,8 @@ import { registerSettingsLinter, getHint, validateSettings, settingsSchema } fro
 import { NotifyService, KeybinderService, StorageService } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
-import { SettingsState } from '../../store/settings/settings.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 registerSettingsLinter(Codemirror);
 

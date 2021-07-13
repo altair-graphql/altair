@@ -1,10 +1,5 @@
-import type { PluginClass, PluginClassInstance, PluginContext } from 'altair-exported-types/dist/app/modules/altair/services/plugin/plugin';
-export * from 'altair-exported-types/dist/app/modules/altair/services/subscriptions/subscription-provider';
-export type {
-  PluginClassInstance,
-  PluginContext,
-};
+import { PluginConstructor } from "../../altair-core/build/plugin/base";
 
-export const registerPluginClass = (pluginClassName: string, pluginClass: PluginClass) => {
+export const registerPluginClass = (pluginClassName: string, pluginClass: PluginConstructor) => {
   (window as any)['AltairGraphQL'].plugins[pluginClassName] = pluginClass
 };

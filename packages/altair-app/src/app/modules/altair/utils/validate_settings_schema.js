@@ -285,15 +285,15 @@ var validate = (function() {
                               var valid1 = errors === errs_1;
                             }
                             if (valid1) {
-                              if (data['theme.editorFontFamily'] === undefined) {
+                              if (data['theme.dark'] === undefined) {
                                 valid1 = true;
                               } else {
                                 var errs_1 = errors;
-                                if (typeof data['theme.editorFontFamily'] !== "string") {
+                                if (typeof data['theme.dark'] !== "string") {
                                   validate.errors = [{
                                     keyword: 'type',
-                                    dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
-                                    schemaPath: '#/properties/theme.editorFontFamily/type',
+                                    dataPath: (dataPath || '') + '[\'theme.dark\']',
+                                    schemaPath: '#/properties/theme.dark/type',
                                     params: {
                                       type: 'string'
                                     },
@@ -304,34 +304,34 @@ var validate = (function() {
                                 var valid1 = errors === errs_1;
                               }
                               if (valid1) {
-                                if (data['theme.editorFontSize'] === undefined) {
+                                if (data['theme.editorFontFamily'] === undefined) {
                                   valid1 = true;
                                 } else {
                                   var errs_1 = errors;
-                                  if (typeof data['theme.editorFontSize'] !== "number") {
+                                  if (typeof data['theme.editorFontFamily'] !== "string") {
                                     validate.errors = [{
                                       keyword: 'type',
-                                      dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
-                                      schemaPath: '#/properties/theme.editorFontSize/type',
+                                      dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
+                                      schemaPath: '#/properties/theme.editorFontFamily/type',
                                       params: {
-                                        type: 'number'
+                                        type: 'string'
                                       },
-                                      message: 'should be number'
+                                      message: 'should be string'
                                     }];
                                     return false;
                                   }
                                   var valid1 = errors === errs_1;
                                 }
                                 if (valid1) {
-                                  if (data['theme.fontsize'] === undefined) {
+                                  if (data['theme.editorFontSize'] === undefined) {
                                     valid1 = true;
                                   } else {
                                     var errs_1 = errors;
-                                    if (typeof data['theme.fontsize'] !== "number") {
+                                    if (typeof data['theme.editorFontSize'] !== "number") {
                                       validate.errors = [{
                                         keyword: 'type',
-                                        dataPath: (dataPath || '') + '[\'theme.fontsize\']',
-                                        schemaPath: '#/properties/theme.fontsize/type',
+                                        dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
+                                        schemaPath: '#/properties/theme.editorFontSize/type',
                                         params: {
                                           type: 'number'
                                         },
@@ -340,6 +340,27 @@ var validate = (function() {
                                       return false;
                                     }
                                     var valid1 = errors === errs_1;
+                                  }
+                                  if (valid1) {
+                                    if (data['theme.fontsize'] === undefined) {
+                                      valid1 = true;
+                                    } else {
+                                      var errs_1 = errors;
+                                      if (typeof data['theme.fontsize'] !== "number") {
+                                        validate.errors = [{
+                                          keyword: 'type',
+                                          dataPath: (dataPath || '') + '[\'theme.fontsize\']',
+                                          schemaPath: '#/properties/theme.fontsize/type',
+                                          params: {
+                                            type: 'number'
+                                          },
+                                          message: 'should be number'
+                                        }];
+                                        return false;
+                                      }
+                                      var valid1 = errors === errs_1;
+                                    }
+                                    if (valid1) {}
                                   }
                                 }
                               }
@@ -431,6 +452,10 @@ validate.schema = {
       "description": "Theme",
       "type": "string"
     },
+    "theme.dark": {
+      "description": "Theme for dark mode",
+      "type": "string"
+    },
     "theme.editorFontFamily": {
       "description": "Editor Font Family",
       "type": "string"
@@ -445,6 +470,9 @@ validate.schema = {
     },
     "themeConfig": {
       "description": "Theme config object"
+    },
+    "themeConfig.dark": {
+      "description": "Theme config object for dark mode"
     }
   },
   "type": "object"

@@ -12,7 +12,8 @@ import { getActiveSubEnvironmentState } from '../../store/environments/selectors
 import { NotifyService } from '../notify/notify.service';
 import { first } from 'rxjs/operators';
 import { SendRequestResponse } from '../gql/gql.service';
-import { RootState } from '../../store/state.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 export enum RequestType {
   INTROSPECTION = 'introspection',
@@ -27,7 +28,7 @@ interface ScriptContextHelpers {
 }
 
 interface ScriptContextData {
-  headers: fromHeader.Header[];
+  headers: HeaderState;
   variables: string;
   query: string;
   environment: IDictionary;

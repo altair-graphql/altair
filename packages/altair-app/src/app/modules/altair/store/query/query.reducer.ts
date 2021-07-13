@@ -1,10 +1,10 @@
 import { initialQuery } from './initialQuery';
 
 import * as query from '../../store/query/query.action';
-import { getAltairConfig } from '../../config';
 import { getFullUrl } from '../../utils';
-import { WEBSOCKET_PROVIDER_ID } from '../../services/subscriptions/subscription-provider-registry.service';
-import { QueryState } from './query.interfaces';
+import { QueryState } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 
 export const getInitialState = (): QueryState => {
   const { initialData } = getAltairConfig();

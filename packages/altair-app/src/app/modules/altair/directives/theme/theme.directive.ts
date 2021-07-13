@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { createTheme, hexToRgbStr, ICustomTheme, ITheme } from 'altair-graphql-core/build/theme';
 
 import { css } from 'emotion';
-import { createTheme, ITheme, hexToRgbStr, ICustomTheme } from '../../services/theme/theme';
 import { ThemeRegistryService } from '../../services';
 
 @Directive({
@@ -10,6 +10,7 @@ import { ThemeRegistryService } from '../../services';
 export class ThemeDirective implements OnInit, OnChanges {
 
   @Input() appTheme: ICustomTheme;
+  @Input() appDarkTheme: ICustomTheme;
 
   private className = '';
 
@@ -22,8 +23,8 @@ export class ThemeDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.appTheme?.currentValue) {
-      this.addHTMLClass(changes.appTheme.currentValue);
+    if (changes?.appTheme?.currentValue || changes?.appDarkTheme?.currentValue) {
+      this.addHTMLClass(changes.appTheme.currentValue, changes.appDarkTheme.currentValue);
     }
   }
 
@@ -104,7 +105,16 @@ export class ThemeDirective implements OnInit, OnChanges {
     `;
   }
 
-  getDynamicClassName(appTheme: ICustomTheme) {
+  getDynamicClassName(appTheme: ICustomTheme, appDarkTheme?: ICustomTheme) {
+    if (appTheme && appDarkTheme) {
+      return css(`
+        ${this.getCssString(createTheme(appTheme))}
+        @media (prefers-color-scheme: dark) {
+          ${this.getCssString(createTheme(appDarkTheme))}
+        }
+      `);
+    }
+
     if (!appTheme || appTheme.isSystem) {
       return css(`
         ${this.getCssString(createTheme(this.themeRegistry.getTheme('light')!, appTheme))}
@@ -117,12 +127,12 @@ export class ThemeDirective implements OnInit, OnChanges {
     return css(this.getCssString(createTheme(appTheme)));
   }
 
-  addHTMLClass(appTheme: ICustomTheme) {
+  addHTMLClass(appTheme: ICustomTheme, appDarkTheme?: ICustomTheme) {
     if (this.className) {
       document.documentElement.classList.remove(this.className);
     }
 
-    this.className = this.getDynamicClassName(appTheme);
+    this.className = this.getDynamicClassName(appTheme, appDarkTheme);
     document.documentElement.classList.add(this.className);
   }
 }

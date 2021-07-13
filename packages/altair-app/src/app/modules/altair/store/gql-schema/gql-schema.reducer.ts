@@ -1,26 +1,17 @@
 import { Action } from '@ngrx/store';
+import { GQLSchemaState } from 'altair-graphql-core/build/types/state/gql-schema.interfaces';
 
 import * as gqlSchema from './gql-schema.action';
-import { GraphQLSchema, IntrospectionQuery } from 'graphql';
 
-export interface State {
-  // Adding undefined for backward compatibility
-  introspection?: IntrospectionQuery;
-  // Adding undefined for backward compatibility
-  schema?: GraphQLSchema;
-  sdl: string;
-  allowIntrospection: boolean;
-  lastUpdatedAt?: number;
-}
 
-export const getInitialState = (): State => {
+export const getInitialState = (): GQLSchemaState => {
   return {
     sdl: '',
     allowIntrospection: true
   };
 };
 
-export function gqlSchemaReducer(state = getInitialState(), action: gqlSchema.Action): State {
+export function gqlSchemaReducer(state = getInitialState(), action: gqlSchema.Action): GQLSchemaState {
   switch (action.type) {
     case gqlSchema.SET_INTROSPECTION:
     case gqlSchema.SET_INTROSPECTION_FROM_DB:

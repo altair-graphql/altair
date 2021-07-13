@@ -1,9 +1,5 @@
 import getAltairHtml from './utils/get-altair-html';
-import type { SubscriptionProviderIds } from 'altair-exported-types/dist/app/modules/altair/services/subscriptions/subscription-provider-registry.service';
-import type { AltairConfigOptions } from 'altair-exported-types/dist/app/modules/altair/config';
-import { SettingsState } from 'altair-exported-types/dist/app/modules/altair/store/settings/settings.interfaces';
-import { IInitialEnvironments } from 'altair-exported-types/dist/app/modules/altair/store/environments/environments.interfaces';
-import { IDictionary } from 'altair-exported-types/dist/app/modules/altair/interfaces/shared';
+import { AltairConfigOptions } from 'altair-graphql-core/build/config';
 
 export interface RenderOptions extends AltairConfigOptions {
     /**

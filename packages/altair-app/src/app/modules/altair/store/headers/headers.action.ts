@@ -1,6 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-
-import * as fromHeaders from './headers.reducer';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 
 export const ADD_HEADER = 'ADD_HEADER';
 export const REMOVE_HEADER = 'REMOVE_HEADER';
@@ -42,7 +41,7 @@ export class EditHeaderEnabledAction implements NGRXAction {
 export class SetHeadersAction implements NGRXAction {
   readonly type = SET_HEADERS;
 
-  constructor(public payload: { headers: Array<fromHeaders.Header> }, public windowId: string) { }
+  constructor(public payload: { headers: HeaderState }, public windowId: string) { }
 }
 
 export type Action =

@@ -15,7 +15,7 @@ import { IntrospectionQuery, buildClientSchema } from 'graphql';
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
 import { anyFn } from '../../../../../testing';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;

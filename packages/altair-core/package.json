@@ -1,0 +1,63 @@
+{
+  "name": "altair-graphql-core",
+  "version": "4.0.7",
+  "description": "Several of the core logic for altair graphql client",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "declarations": "tsc --declaration",
+    "prepare": "npm run declarations"
+  },
+  "engines": {
+    "node": ">= 6.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altair-graphql/altair.git"
+  },
+  "keywords": [
+    "altair",
+    "graphql"
+  ],
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/altair-graphql/altair/issues"
+  },
+  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "devDependencies": {
+    "@types/actioncable": "^5.2.5",
+    "@types/node": "^14.14.41",
+    "@types/uuid": "^8.3.0",
+    "ajv": "^8.6.0",
+    "ajv-cli": "^5.0.0",
+    "react": "^17.0.2",
+    "ts-node": "^8.5.4",
+    "typescript": "4.0.7",
+    "typescript-json-schema": "^0.50.1"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.20",
+    "actioncable": "^5.2.6",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-link": "^1.2.14",
+    "apollo-link-http": "^1.5.17",
+    "aws-appsync-auth-link": "^3.0.2",
+    "aws-appsync-subscription-link": "^3.0.3",
+    "deepmerge": "^4.2.2",
+    "graphql": "15.0.0",
+    "graphql-ws": "^5.1.2",
+    "loglevel": "^1.7.1",
+    "loglevel-plugin-prefix": "^0.8.4",
+    "rxjs": "^7.1.0",
+    "subscriptions-transport-ws": "^0.9.19",
+    "util": "^0.12.4",
+    "uuid": "^8.3.2"
+  }
+}

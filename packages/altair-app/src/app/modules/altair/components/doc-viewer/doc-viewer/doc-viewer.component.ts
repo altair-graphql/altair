@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { from } from 'rxjs';
 
-import { AltairConfig } from '../../../config';
 import { debug } from '../../../utils/logger';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as fromDocs from '../../../store/docs/docs.reducer';
@@ -28,6 +27,8 @@ import { fadeInOutAnimationTrigger } from '../../../animations';
 import * as Comlink from 'comlink';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
+import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @UntilDestroy()
 @Component({
@@ -46,7 +47,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = this.altairConfig.add_query_depth_limit;
   @Input() tabSize = this.altairConfig.tab_size;
-  @Input() docView: fromDocs.DocView = {
+  @Input() docView: DocView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
     name: 'FieldName' // identifies type/field
@@ -54,7 +55,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() lastUpdatedAt: number;
 
   @Output() toggleDocsChange = new EventEmitter();
-  @Output() setDocViewChange = new EventEmitter<Partial<fromDocs.DocView>>();
+  @Output() setDocViewChange = new EventEmitter<Partial<DocView>>();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
   @Output() loadSchemaChange = new EventEmitter();
@@ -71,7 +72,7 @@ export class DocViewerComponent implements OnChanges {
   // should be available
   hasSearchIndex = false;
 
-  docHistory: fromDocs.DocView[] = [];
+  docHistory: DocView[] = [];
 
   searchResult: DocumentIndexEntry[] = [];
   searchTerm = '';
@@ -129,7 +130,7 @@ export class DocViewerComponent implements OnChanges {
     this.searchDocs(term);
   }
 
-  setDocView(docView: Partial<fromDocs.DocView> | undefined) {
+  setDocView(docView: Partial<DocView> | undefined) {
     this.setDocViewChange.next(docView);
     this.docViewerRef.nativeElement.scrollTop = 0;
   }

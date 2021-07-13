@@ -1,11 +1,11 @@
 {
   "name": "altair-app",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "homepage": "https://imolorhe.github.io/altair/",
+  "homepage": "https://altair-graphql.github.io/altair/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -19,12 +19,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e:ci": "ng e2e --webdriver-update=false",
-    "generate-settings-schema": "typescript-json-schema --ignoreErrors src/app/modules/altair/store/settings/settings.interfaces.ts SettingsState > src/app/modules/altair/utils/settings.schema.json",
-    "compile-settings-schema-validator": "ajv compile -s src/app/modules/altair/utils/settings.schema.json -o src/app/modules/altair/utils/validate_settings_schema.js",
-    "generate-settings-schema-validator": "yarn generate-settings-schema && yarn compile-settings-schema-validator",
+    "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --prod --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=89.0.4389.72"
+    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=91.0.4472.101"
   },
   "dependencies": {
     "@angular/animations": "^11.2.4",
@@ -53,6 +51,7 @@
     "@webcomponents/custom-elements": "^1.4.1",
     "abab": "^2.0.5",
     "actioncable": "^5.2.4-4",
+    "altair-graphql-core": "^4.0.7",
     "angular-feather": "^6.0.10",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-link": "^1.2.14",
@@ -60,7 +59,7 @@
     "aws-appsync-auth-link": "^3.0.2",
     "aws-appsync-subscription-link": "^3.0.3",
     "codemirror": "^5.61.0",
-    "codemirror-graphql": "^0.11.1",
+    "codemirror-graphql": "^1.0.2",
     "comlink": "^4.2.0",
     "comment-regex": "^1.0.1",
     "cookie-parser": "^1.4.4",
@@ -74,7 +73,7 @@
     "file-dialog": "^0.0.8",
     "file-saver": "^2.0.2",
     "fuse.js": "^6.4.6",
-    "graphql": "^14.4.2",
+    "graphql": "15.0.0",
     "graphql-query-compress": "^1.2.2",
     "graphql-ws": "^4.4.1",
     "lodash-es": "^4.17.21",
@@ -157,7 +156,7 @@
     "ts-node": "^8.3.0",
     "tslint": "~6.1.0",
     "typescript": "4.0.7",
-    "typescript-json-schema": "^0.42.0"
+    "typescript-json-schema": "^0.50.1"
   },
   "private": true
 }

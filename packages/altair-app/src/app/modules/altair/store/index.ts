@@ -3,7 +3,6 @@ import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer }
 
 import { environment } from '../../../../environments/environment';
 
-import { RootState } from './state.interfaces';
 import * as fromLayout from './layout/layout.reducer';
 import * as fromQuery from './query/query.reducer';
 import * as fromHeaders from './headers/headers.reducer';
@@ -25,6 +24,7 @@ import * as fromLocal from './local/local.reducer';
 import { debug } from '../utils/logger';
 import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 export const getPerWindowReducer = () => {
   const perWindowReducers = {

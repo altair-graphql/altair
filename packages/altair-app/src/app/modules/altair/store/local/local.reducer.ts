@@ -1,27 +1,11 @@
 // This would contain arbitrary data that should be stored in memory and not persisted
 
 import * as local from './local.action';
-import { IDictionary } from '../../interfaces/shared';
-import { AltairPlugin, PluginClassInstance, AltairPanel, AltairUiAction } from '../../services/plugin/plugin';
+import { LocalState } from 'altair-graphql-core/build/types/state/local.interfaces';
 
 const MAX_CLOSED_WINDOWS_LENGTH = 50;
 
-export interface PluginStateEntry {
-  name: string;
-  context: any;
-  plugin: AltairPlugin;
-  isActive?: boolean;
-  instance?: PluginClassInstance;
-}
-
-export interface State {
-  closedWindows: any[];
-  installedPlugins: IDictionary<PluginStateEntry>;
-  panels: AltairPanel[];
-  uiActions: AltairUiAction[];
-}
-
-export const getInitialState = (): State => {
+export const getInitialState = (): LocalState => {
   return {
     closedWindows: [],
     installedPlugins: {},
@@ -30,7 +14,7 @@ export const getInitialState = (): State => {
   };
 };
 
-export function localReducer(state = getInitialState(), action: local.Action): State {
+export function localReducer(state = getInitialState(), action: local.Action): LocalState {
   const len = state.closedWindows.length;
   switch (action.type) {
     case local.PUSH_CLOSED_WINDOW_TO_LOCAL:
