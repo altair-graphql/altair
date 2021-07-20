@@ -100,6 +100,14 @@ async function main() {
         default: true,
       },
     ]);
+    await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'checkDocsUpdated',
+        message: 'Check that docs have been updated',
+        default: true,
+      },
+    ]);
     log('C\'est fini! 🎉');
     
   } catch (error) {
