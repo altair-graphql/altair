@@ -94,6 +94,7 @@
     "ngx-popper": "^7.0.0",
     "ngx-sortablejs": "^11.1.0",
     "ngx-take-until-destroy": "^5.4.0",
+    "ngx-toastr": "^14.1.0",
     "object-path": "^0.11.5",
     "popper.js": "^1.15.0",
     "prettier": "^1.18.2",

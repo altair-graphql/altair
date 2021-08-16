@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
+import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
 import { isExtension } from '../../utils';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
@@ -7,21 +8,15 @@ import { IDictionary } from '../../interfaces/shared';
 import { first } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
-interface NotifyOptions {
-  data?: {
-    url?: string,
-  },
-  disableTimeOut?: boolean;
-};
-
-type NotifyType = 'success' | 'error' | 'warning' | 'show';
+type NotifyOptions = Partial<IndividualConfig & { data: any }>;
+type NotifyType = 'success' | 'error' | 'warning' | 'info';
 @Injectable()
 export class NotifyService {
 
   extensionNotifications: IDictionary = {};
 
   constructor(
-    private toast: HotToastService,
+    private toast: ToastrService,
     private store: Store<RootState>
   ) {
     this.manageExtensionNotifications();
@@ -43,22 +38,29 @@ export class NotifyService {
     });
   }
   info(message: string, title = '', opts: NotifyOptions = {}) {
-    this.exec('show', message, title, opts);
+    this.exec('info', message, title, opts);
   }
   exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}) {
-    let toastContent = message;
-
-    if (title) {
-      toastContent = `<div><b>${title}</b></div>${toastContent}`;
+    const toast: ActiveToast<any> = this.toast[type](message, title, opts);
+    if (opts.data && opts.data.url) {
+      toast.onTap.subscribe(_toast => {
+        window.open(opts.data.url, '_blank');
+      })
     }
+    return toast;
+    // let toastContent = message;
 
-    if (opts.data?.url) {
-      toastContent = `${toastContent}<a href="${opts.data.url}" target="_blank">Link</a>`;
-    }
-    return this.toast[type](message, {
-      id: message,
-      autoClose: !opts.disableTimeOut,
-    })
+    // if (title) {
+    //   toastContent = `<div><b>${title}</b></div>${toastContent}`;
+    // }
+
+    // if (opts.data?.url) {
+    //   toastContent = `${toastContent}<a href="${opts.data.url}" target="_blank">Link</a>`;
+    // }
+    // return this.toast[type](message, {
+    //   id: message,
+    //   autoClose: !opts.disableTimeOut,
+    // })
     // const toast: ActiveToast<any> = this.toastr[type](message, title, opts);
     // if (opts.data && opts.data.url) {
     //   toast.onTap.subscribe(_toast => {

@@ -7,6 +7,7 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ToastrModule } from 'ngx-toastr';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -151,6 +152,15 @@ const providers = [
         useFactory: createTranslateLoader,
         deps: [ HttpClient ]
       }
+    }),
+    ToastrModule.forRoot({
+      newestOnTop: false,
+      closeButton: true,
+      positionClass: 'toast-top-center',
+      enableHtml: true,
+      countDuplicates: true,
+      preventDuplicates: true,
+      resetTimeoutOnDuplicate: true,
     }),
   ],
   providers: providers,
