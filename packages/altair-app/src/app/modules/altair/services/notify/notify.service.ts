@@ -61,13 +61,6 @@ export class NotifyService {
     //   id: message,
     //   autoClose: !opts.disableTimeOut,
     // })
-    // const toast: ActiveToast<any> = this.toastr[type](message, title, opts);
-    // if (opts.data && opts.data.url) {
-    //   toast.onTap.subscribe(_toast => {
-    //     window.open(opts.data.url, '_blank');
-    //   })
-    // }
-    // return toast;
   }
 
   pushNotify(message: string, title = 'Altair', opts: any = {}) {

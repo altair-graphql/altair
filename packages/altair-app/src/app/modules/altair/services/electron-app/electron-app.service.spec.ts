@@ -7,6 +7,7 @@ import { NgxElectronModule } from 'ngx-electron';
 import { empty as observableEmpty } from 'rxjs';
 import { GqlService } from '../gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MockProvider } from 'ng-mocks';
 
 describe('ElectronAppService', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('ElectronAppService', () => {
         ElectronAppService,
         WindowService,
         DbService,
-        NotifyService,
+        MockProvider(NotifyService),
         GqlService,
         {
           provide: Store, useValue: {
