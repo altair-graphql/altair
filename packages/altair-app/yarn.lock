@@ -9684,6 +9684,13 @@ ngx-take-until-destroy@^5.4.0:
   dependencies:
     tslib "^1.9.0"
 
+ngx-toastr@^14.1.0:
+  version "14.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-14.1.0.tgz#b2607e358b04481b710d8f5a88179ba233ac4851"
+  integrity sha512-bDdgM7cJXGvJCEU+aggsZ58Fc4x87oH0mjsjGAPQHqJ4K6gYCWaB79i1RxVBPmoXmTGooNJeeCsSZYLoHIo2Bg==
+  dependencies:
+    tslib "^2.2.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -13183,7 +13190,7 @@ tslib@^2.0.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
   integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
-tslib@^2.1.0, tslib@^2.3.0:
+tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
