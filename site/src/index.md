@@ -30,7 +30,7 @@ features:
 - title: Extensive plugin system
   details: extend the core functionality provided with plugins that can do much more
 featuresFooterText: View all features
-featuresFooterLink: /guide/features
+featuresFooterLink: /docs/features/
 contributions:
   opencollective:
     url: https://opencollective.com/altair

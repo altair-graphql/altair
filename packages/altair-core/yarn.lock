@@ -475,10 +475,10 @@ graphql-ws@^5.1.2:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.1.2.tgz#56577f6f4ede50eb052c352354fa1534e5eef65a"
   integrity sha512-p8uFjmRxCmy1+zE3PkFga/4J/tO7wTBInhT0jzNQ0cgXxI6kdwzZexSR2IYOwAL8qlSkeGkdpMMKQUsF7wHdxQ==
 
-graphql@15.0.0:
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.0.0.tgz#042a5eb5e2506a2e2111ce41eb446a8e570b8be9"
-  integrity sha512-ZyVO1xIF9F+4cxfkdhOJINM+51B06Friuv4M66W7HzUOeFd+vNzUn4vtswYINPi6sysjf1M2Ri/rwZALqgwbaQ==
+graphql@^15.5.1:
+  version "15.5.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.1.tgz#f2f84415d8985e7b84731e7f3536f8bb9d383aad"
+  integrity sha512-FeTRX67T3LoE3LWAxxOlW2K3Bz+rMYAC18rRguK4wgXaTZMiJwSUwDmPFo3UadAKbzirKIg5Qy+sNJXbpPRnQw==
 
 has-bigints@^1.0.1:
   version "1.0.1"

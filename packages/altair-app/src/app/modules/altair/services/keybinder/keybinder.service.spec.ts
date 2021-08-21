@@ -10,6 +10,7 @@ import { ElectronService } from 'ngx-electron';
 import { NotifyService } from '../notify/notify.service';
 import { GqlService } from '../gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MockProvider } from 'ng-mocks';
 
 describe('KeybinderService', () => {
   beforeEach(() => {
@@ -23,7 +24,7 @@ describe('KeybinderService', () => {
         DbService,
         ElectronAppService,
         ElectronService,
-        NotifyService,
+        MockProvider(NotifyService),
         GqlService,
         {
           provide: Store, useValue: {
