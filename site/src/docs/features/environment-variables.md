@@ -10,7 +10,7 @@ Environment variables (URLs, authentication tokens, some other headers, etc) can
 
 The environment variables can be defined in Environments (found in the top right corner in the header). An environment is simply a list of variables that can be used within the interface of the app. After an environment is created, you need to select it from the list of environments for it to be active.
 
-After defining your environment variables, you can use them using the double curly braces syntax `{{env_var}}`. In the screenshot below, the swapi variable is used in the URL bar using `{{swapi}}`.
+After defining your environment variables, you can use them using the double curly braces syntax <code v-pre>{{env_var}}</code>. In the screenshot below, the swapi variable is used in the URL bar using <code v-pre>{{swapi}}</code>.
 
 ![altair](https://miro.medium.com/max/5760/1*4FkypN32B8E1K9mJHoKaWA.png)
 
