@@ -23,12 +23,12 @@ The manifest.json file has the following fields:
 - `version` _(Required)_: This is the version of your plugin. It should be the same version you would have in your `package.json` file (except you have a good reason why they should be different).
 - `description` _(Required)_: This is the description of what your plugin is about. It would be used to describe your plugin.
 - `scripts` _(Required)_: An array containing the list of scripts (relative to the plugin root directory) that need to be loaded for the plugin to function.
+- `plugin_class` _(Required)_: This specifies the class name of the plugin, for discovery (more details about the plugin class below).
 - `author`: The name of the plugin author.
 - `author_email`: The email of the author.
 - `styles`: An array containing the list of styles (relative to the plugin root directory) that need to be loaded for the plugin to function.
 - `capabilities`: Specifies the capabilities (functionalities) available to the plugin. In the future, this would be used to request the necessary permissions from the user.
 - `type`: This specifies the type of plugin. This determines how the plugin would interact with Altair. For now there is just the typical plugin type (registered plugin class). In the future, this would include other plugins like themes.
-- `plugin_class`: This specifies the class name of the plugin, for discovery (more details about the plugin class below).
 
 #### Developing Plugins Locally
 
@@ -76,7 +76,7 @@ The plugin context contains things like:
 
 - `ctx.theme.add(themeName, theme)` - adds the provided theme to Altair's theme registry which can later be used.
 
-- `ctx.theme.enable(themeName)` - enables the specified theme.
+- `ctx.theme.enable(themeName, isDarkMode=false)` - enables the specified theme.
 
 ...and several more functionalities.
 <!-- TODO: Add the full plugin context schema -->
