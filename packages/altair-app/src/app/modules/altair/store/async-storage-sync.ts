@@ -380,7 +380,7 @@ export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => 
         // update storage
         // Queue update changes before debouncing
         debug.log('debouncing update..');
-        updateSyncOperations(state, nextState, opts.keys, storageNamespace);
+        updateSyncOperations(state, nextState, opts.keys as StateKey[], storageNamespace);
         debouncedSyncStateUpdate();
       }
     } catch (error) {

@@ -157,12 +157,12 @@
   dependencies:
     tslib "^2.2.0"
 
-"@angular/cdk@^11.0.2", "@angular/cdk@^11.2.3":
-  version "11.2.3"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.2.3.tgz#e4e0cba88a0db469bfd6e52d1c964461358215da"
-  integrity sha512-QehBMt36nNfXZ8nBGJLLUQlexzQv6rohQmEYXULHarAC3Ily8DnB9wDGJ4emlKyGz1MIVYR0tZP39RmQp0hH+g==
+"@angular/cdk@^12.1.0", "@angular/cdk@^12.2.6":
+  version "12.2.6"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.2.6.tgz#12aca217e30d96625b38ab83c0ca445f074ba41b"
+  integrity sha512-93H08rrsxJfY3ZvHINkFmCR4C0R0vFog4+uZ6PuW1YAZGClGVfivzjvMRN5hwqbANLV5xWzgsipMc2x0gIzcpg==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.2.0"
   optionalDependencies:
     parse5 "^5.0.0"
 
@@ -235,13 +235,6 @@
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-9.0.0.tgz#227dc53e1ac81824f998c6e76000b7efc522641e"
   integrity sha512-6Pxgsrf0qF9iFFqmIcWmjJGkkCaCm6V5QNnxMy2KloO3SDq6QuMVRbN9RtC8Urmo25LP+eZ6ZgYqFYpdD8Hd9w==
 
-"@angular/core@^11.0.2":
-  version "11.2.4"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-11.2.4.tgz#f655f05ebb245ff83c49f563193a8496afc9a36a"
-  integrity sha512-MU2DxGJOMLS6rqrakzEKJ2s+CYamM5ETBInqx4uTBJYsek3byF9gbjM6221lv8tal5dMAibigB0UuhXr23rhcQ==
-  dependencies:
-    tslib "^2.0.0"
-
 "@angular/core@^12.2.6":
   version "12.2.6"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-12.2.6.tgz#061279fc7843ccab2a61460a13978d45daa25bfc"
@@ -293,10 +286,10 @@
   dependencies:
     "@ctrl/tinycolor" "^3.3.1"
 
-"@ant-design/icons-angular@^11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@ant-design/icons-angular/-/icons-angular-11.0.1.tgz#8ff3131f3d9b4b25fd28c64c4a9bdfe36da54942"
-  integrity sha512-WwxVx/aToxTjWmB5+O+3rOjSYdF8FC/Yd/8jF1ZGQMtLWAzP8/foQmKvPAktTUsh0/Ijhtur7LrHN2VuUedMcA==
+"@ant-design/icons-angular@^12.0.3":
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/@ant-design/icons-angular/-/icons-angular-12.0.3.tgz#3e99aa99ceebb978384a2926d06da19c043fc4bd"
+  integrity sha512-Jl/O7fQiFGsFHuesOp7Oo/TKTPSlWAqMa2DBQdgQbNzv2c3v1ijQWd54ymDC6ftIHMsKD30nJ6bekCiqdbfZuA==
   dependencies:
     "@ant-design/colors" "^5.0.0"
     tslib "^2.0.0"
@@ -2353,31 +2346,29 @@
     ts-morph "^7.1.2"
     tslib "^2.0.0"
 
-"@ngrx/effects@^11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-11.0.1.tgz#54d272e7bca411eaad5de144c67876beaba99b5f"
-  integrity sha512-FJa0WVr0PcPgFXCv8i//RDAVV26pl0ieOLH3yDnZN0BH6/cDeUcKtWsWv+IAiJ63dFm9VedgNgwVo0I7CP9G+g==
+"@ngrx/effects@^12.4.0":
+  version "12.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-12.4.0.tgz#b96a5cd397ee00e4d52e476ba13f4be2affb90f1"
+  integrity sha512-9N6c+Oj3Rghoi4JnVxqgZ581BYNCLxHK20CVX3WiiEkMXL1cyYNuXVB9+hQHJ6OSME0Jo5YoXzjsIrzFsnMZCw==
   dependencies:
     tslib "^2.0.0"
 
-"@ngrx/schematics@^11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/schematics/-/schematics-11.0.1.tgz#c88dc3b09887284863191c8a77beac410d7d5c8e"
-  integrity sha512-hbqYqQ9/svZZouQwqn1xpyA0I+s1TXaOi07gUgheyRzRIpjXQJT7ZIHvU5Vb4iwZKLwSalfRY/rwQHs3zByV4w==
-  dependencies:
-    "@angular/core" "^11.0.2"
+"@ngrx/schematics@^12.4.0":
+  version "12.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/schematics/-/schematics-12.4.0.tgz#52985318669f20871419fd41f299178dda8eda43"
+  integrity sha512-+dkQQSZTCzt85gPhAtYByBYzYwvw/uO2RsFuPaLM5ZThbfK1JMtoaWegiIOd1lu/mvtYelc9EskLLyXSuEYBHQ==
 
-"@ngrx/store-devtools@^11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-11.0.1.tgz#64b332f64e73538e7facb9d9d7e5f66c7ff1b834"
-  integrity sha512-ez4GW08lqJonvLVtlWM/4MJY/oHFFItMtreOtE/US+yAPuDZTnhmfjX9hqk3ySkX+drPjOfeqQ+vTYCkbmgwrw==
+"@ngrx/store-devtools@^12.4.0":
+  version "12.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-12.4.0.tgz#dc07ab468c6943d5e4a84a3d4321d14026e8112c"
+  integrity sha512-mzT/R2gD4WaTgo1CJzRCiBeJrAcDphjqWDfIrB0Ny+Bd7OGVUsbf1jIN9dRJAA9iDXJewDiLUjKIAn/emnwg9Q==
   dependencies:
     tslib "^2.0.0"
 
-"@ngrx/store@^11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-11.0.1.tgz#fd229b704bb9847ddd2c299cf26eb19017aa7f9a"
-  integrity sha512-ULk+z7fXg1S0mbSXatHplvg8Rqj9Hglo6pVugaDgLdFR3DD5Wpl0cefvLBscaeZF9DGrLBoPZVlFq/LACRr6tA==
+"@ngrx/store@^12.4.0":
+  version "12.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-12.4.0.tgz#5c3fb2d6fcc600db6914e955deff01a5bb9f934b"
+  integrity sha512-+kC2Ro2BmsxghHQhq4u+9HGE4BPy739werimspuqz37yUG1G3CdxMp0wuoD2M5371spUTFsXOtjKzpifOYbWbg==
   dependencies:
     tslib "^2.0.0"
 
@@ -5764,11 +5755,6 @@ deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
-
-deepmerge@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
-  integrity sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
 
 deepmerge@^4.2.2:
   version "4.2.2"
@@ -9589,21 +9575,20 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-mocks@^11.9.0:
-  version "11.9.0"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-11.9.0.tgz#d9378cf11bc672f743e70305d33ce374faf0db98"
-  integrity sha512-MHruTbJDxktrl5rIgo9fVsJa6hcSrSvejZ7vv6RfmUWNtRgDeH6f781c1k3GjCiKjUNiRRTaOM7bcNzVu/AS6g==
+ng-mocks@^12.5.0:
+  version "12.5.0"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-12.5.0.tgz#4a63c33d6f61cdf2b0a55b418bc40d2031a83812"
+  integrity sha512-Kl4R8zabnPVA1fKO4C3eCckb8TSCKrAmz228X869JKKlsN8mJ8TsTJmDewt0oYV1EBqY3EtBLl3pgrTW2Jl0DQ==
 
-ng-zorro-antd@11.2.0:
-  version "11.2.0"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-11.2.0.tgz#bb13058d0ae59541ccfc20a91504694434f31693"
-  integrity sha512-5ovAC7A790wlK2syOw8Q4PjE2rNpzTXpouitLopKwlYoOcMsSY79qv6WTixxNAtcmIrPuPPYuX8BKBelg1gaAQ==
+ng-zorro-antd@12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-12.0.1.tgz#7f06e2f538f02aefc17ff307e9e19045997f066f"
+  integrity sha512-3TDqKlLD3bYuBVF4cncfyGfWWHmEmN+I2Kr6RbLfIfyNHZL3VJbtKM9rWaXD3PTrPnGoSYnOwHbOCWvSN9kocw==
   dependencies:
-    "@angular/cdk" "^11.0.2"
-    "@ant-design/icons-angular" "^11.0.1"
+    "@angular/cdk" "^12.1.0"
+    "@ant-design/icons-angular" "^12.0.3"
     date-fns "^2.10.0"
-    resize-observer-polyfill "^1.5.1"
-    tslib "^2.0.0"
+    tslib "^2.2.0"
 
 ngrx-store-freeze@^0.2.0:
   version "0.2.4"
@@ -9612,19 +9597,20 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-9.0.0.tgz#0d3652758065cc037507565bf05e7294aa1bc48c"
-  integrity sha512-F69yiNruZe9jgXcPykfbyKFuM/1JzL+wsBUM+TTfMDXIoaFO7xwuZF9yLG8zbvdglibtJ0OG2M8fy3oadWuV4A==
+ngrx-store-localstorage@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-12.0.1.tgz#282683b135011cc643e19ad883f2fb424fc81559"
+  integrity sha512-KvdzokQC5CAne2JgVnVSb6I9U0aG1QLnbgD+bVPgKJVNICROiQsLf0MOf1gDV+vI0FBaWtWhsyoaIh5QCyqdUg==
   dependencies:
-    deepmerge "^3.2.0"
+    deepmerge "^4.2.2"
+    tslib "^2.1.0"
 
-ngx-contextmenu@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-5.4.0.tgz#d8cbc3f426826aa4e481987a93e3ccf7f467489a"
-  integrity sha512-iHUCs1n/n4e1aE22KrntUWO133bJrxzxSoODfZmJTpsAujHkKU+2HtJsE73MbSdiIKAj2+i98B6g5Pwvkc5ZTw==
+ngx-contextmenu@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-6.0.0.tgz#d06235eff42a0808c5b61df00aaadd1d19fa601c"
+  integrity sha512-y/v++xVNccz5C1NydtL5sHVZwACsKTgXbmZ76CPierv/nPAstr6rrTX37Zlwal3OnbN5XGTSKRcXZSuWUC5Z1Q==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.1.0"
 
 ngx-cookie-service@^2.2.0:
   version "2.4.0"
@@ -11642,11 +11628,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
-
-resize-observer-polyfill@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
-  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
