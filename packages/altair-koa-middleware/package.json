@@ -20,7 +20,7 @@
   "keywords": [
     "altair",
     "graphql",
-    "express",
+    "koa",
     "middleware"
   ],
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
@@ -30,23 +30,23 @@
   },
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "dependencies": {
-    "@koa/router": "^9.0.1",
+    "@koa/router": "^10.1.1",
     "altair-static": "^4.0.9",
-    "koa-send": "^5.0.0"
+    "koa-send": "^5.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.3",
-    "@types/koa": "^2.11.0",
-    "@types/koa-send": "^4.1.2",
-    "@types/koa__router": "^8.0.2",
-    "@types/supertest": "^2.0.9",
-    "jest": "^26.0.1",
-    "koa": "^2.11.0",
-    "nodemon": "^2.0.2",
-    "supertest": "^4.0.2",
-    "ts-jest": "^26.1.0",
-    "ts-node": "^8.5.4",
-    "typescript": "4.0.7"
+    "@types/jest": "^27.0.1",
+    "@types/koa": "^2.13.4",
+    "@types/koa-send": "^4.1.3",
+    "@types/koa__router": "^8.0.8",
+    "@types/supertest": "^2.0.11",
+    "jest": "^27.1.1",
+    "koa": "^2.13.1",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "4.4.3"
   },
   "funding": {
     "type": "opencollective",
