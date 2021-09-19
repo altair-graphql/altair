@@ -3,7 +3,7 @@
   [appTheme]="theme$ | async"
   [appDarkTheme]="themeDark$ | async"
   appFileDrop
-  (onFileDropped)="fileDropped($event)"
+  (fileDroppedChange)="fileDropped($event)"
 >
 <nz-layout class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
@@ -93,7 +93,7 @@
               <app-icon name="eye"></app-icon>
               <span>{{ (activeEnvironment$ | async)?.title }}</span>
             </span>
-            <span *ngIf="!(activeEnvironment$ | async)">
+            <span *ngIf="(activeEnvironment$ | async) === undefined">
               <app-icon name="eye-off"></app-icon>
               <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
             </span>

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnChanges,
   EventEmitter,
   Input,
   Output,
@@ -31,7 +30,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
   templateUrl: './post-request-editor.component.html',
   styles: []
 })
-export class PostRequestEditorComponent implements AfterViewInit, OnChanges, DoCheck {
+export class PostRequestEditorComponent implements AfterViewInit, DoCheck {
 
   @Input() postRequest: any = {};
   @Output() postRequestScriptChange = new EventEmitter();
@@ -69,8 +68,7 @@ export class PostRequestEditorComponent implements AfterViewInit, OnChanges, DoC
     }
   }
 
-  ngOnChanges() {
-  }
+  
 
   ngDoCheck() {
     // Refresh the query result editor view when there are any changes

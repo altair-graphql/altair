@@ -50,8 +50,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // @Input() value = '';
   @Input() placeholder = '';
-  @Output() blur = new EventEmitter();
-  @Output() submit = new EventEmitter();
+  @Output() blurChange = new EventEmitter();
+  @Output() submitChange = new EventEmitter();
 
   @ViewChild('fancyInputEl', { static: true }) fancyInputEl: ElementRef;
   @ViewChild('fancyInputHighlightsEl',  { static: true }) fancyInputHighlightsEl: ElementRef;
@@ -126,10 +126,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
     // Set touched on blur
     this.onTouchedCallback();
-    this.blur.next(this.innerValue);
+    this.blurChange.next(this.innerValue);
   }
   handleSubmit() {
-    this.submit.next(this.innerValue);
+    this.submitChange.next(this.innerValue);
   }
   blockContainerScroll() {}
   detectBrowser() {

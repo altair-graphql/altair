@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { SettingsState } from 'altair-graphql-core/build/types/state/settings.in
   templateUrl: './plugin-manager.component.html',
   styles: []
 })
-export class PluginManagerComponent implements OnInit {
+export class PluginManagerComponent  {
 
   @Input() showPluginManager = false;
   @Input() settings: SettingsState;
@@ -38,8 +38,7 @@ export class PluginManagerComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-  }
+  
 
   onSelectPlugin(pluginItem: any) {
     this.selectedPluginItem = pluginItem;

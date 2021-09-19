@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-history-dialog',
   templateUrl: './history-dialog.component.html'
 })
-export class HistoryDialogComponent implements OnInit {
+export class HistoryDialogComponent  {
 
   @Input() historyList = [];
   @Input() showDialog = false;
@@ -14,8 +14,7 @@ export class HistoryDialogComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   restoreHistory(index: number) {
     this.restoreHistoryChange.next(index);

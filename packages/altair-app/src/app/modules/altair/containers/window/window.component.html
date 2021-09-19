@@ -84,7 +84,7 @@
         [docView]="docView$ | async"
         [gqlSchema]="gqlSchema"
         [allowIntrospection]="allowIntrospection$ | async"
-        [ngClass]="{'hide-doc': !(showDocs$ | async)}"
+        [ngClass]="{'hide-doc': (showDocs$ | async) !== true}"
         [isLoading]="docsIsLoading$ | async"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
         [tabSize]="tabSize$ | async"
@@ -131,7 +131,7 @@
                 placeholder="Header key"
                 [ngModel]="header.key"
                 (ngModelChange)="headerKeyChange($event, i)"
-                (submit)="toggleHeader()"
+                (submitChange)="toggleHeader()"
               ></app-fancy-input>
             </div>
             <div class="set-header-input-column">
@@ -140,7 +140,7 @@
                 placeholder="Header value"
                 [ngModel]="header.value"
                 (ngModelChange)="headerValueChange($event, i)"
-                (submit)="toggleHeader()"
+                (submitChange)="toggleHeader()"
               ></app-fancy-input>
             </div>
             <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>

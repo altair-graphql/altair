@@ -5,7 +5,7 @@ import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@ang
 })
 export class FileDropDirective {
 
-  @Output() onFileDropped = new EventEmitter<any>();
+  @Output() fileDroppedChange = new EventEmitter<any>();
 
   // Dragover listener
   @HostListener('dragover', ['$event']) onDragOver(evt: DragEvent) {
@@ -25,7 +25,7 @@ export class FileDropDirective {
     evt.stopPropagation();
     const files = evt.dataTransfer?.files;
     if (files && files.length > 0) {
-      this.onFileDropped.emit(files);
+      this.fileDroppedChange.emit(files);
     }
   }
 }

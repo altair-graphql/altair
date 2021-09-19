@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -14,7 +13,7 @@ import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, Gr
   styleUrls: ['./doc-viewer-type.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocViewerTypeComponent implements OnInit {
+export class DocViewerTypeComponent  {
 
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
@@ -24,8 +23,7 @@ export class DocViewerTypeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   /**
    * Check if the current type is a root type

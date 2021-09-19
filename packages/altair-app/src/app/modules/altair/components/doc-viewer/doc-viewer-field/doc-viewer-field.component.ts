@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -14,7 +13,7 @@ import { GraphQLSchema, GraphQLType, GraphQLArgs, GraphQLArgument } from 'graphq
   styleUrls: ['./doc-viewer-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocViewerFieldComponent implements OnInit {
+export class DocViewerFieldComponent  {
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
   @Input() parentType = '';
@@ -24,8 +23,7 @@ export class DocViewerFieldComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   cleanName(name: string) {
     return name.replace(/[\[\]!]/g, '');
