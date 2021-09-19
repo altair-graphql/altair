@@ -3,10 +3,10 @@
 exports[`PreRequestEditorComponent should render correctly 1`] = `
 <app-pre-request-editor>
   <div
-    class="pre-request-editor"
+    class="request-script-editor"
   >
     <div
-      class="pre-request-editor__toggle-wrapper spacer--small"
+      class="request-script-editor__toggle-wrapper spacer--small"
     >
       <label
         nz-checkbox=""
@@ -15,7 +15,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       </label>
     </div>
     <ngx-codemirror
-      class="pre-request-textarea mousetrap"
+      class="request-script-textarea pre-request-textarea mousetrap"
     />
     <small>
       <a
