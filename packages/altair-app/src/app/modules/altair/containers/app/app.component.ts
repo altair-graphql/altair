@@ -1,5 +1,5 @@
 import { first, distinctUntilChanged, map, filter, take, switchMap, timeout, catchError } from 'rxjs/operators';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, forkJoin, of, from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -56,7 +56,7 @@ import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
   selector: 'app-altair',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent  {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
@@ -556,6 +556,4 @@ export class AppComponent implements OnDestroy {
   trackById(index: number, item: any) {
     return item.id;
   }
-
-  ngOnDestroy() {}
 }

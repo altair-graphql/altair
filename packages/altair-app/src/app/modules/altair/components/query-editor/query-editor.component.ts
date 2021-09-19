@@ -11,7 +11,6 @@ import {
   HostBinding,
   NgZone,
   ElementRef,
-  DoCheck,
 } from '@angular/core';
 
 import * as fromVariables from '../../store/variables/variables.reducer';
@@ -60,7 +59,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
@@ -185,6 +184,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
     // If there is a new schema, update the editor schema
     if (changes?.gqlSchema?.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
@@ -209,12 +211,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       // Set current tab to Query if query is updated
       this.selectedIndex = 0;
     }
-  }
-
-  ngDoCheck() {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
   }
 
   /**

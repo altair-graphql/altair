@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, HostListener, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, HostListener, ElementRef } from '@angular/core';
 import { KEYS } from '../keys';
 import { Cursor } from '../models/cursor';
 import { debug } from '../../../utils/logger';
@@ -16,7 +16,7 @@ const VARIABLE_STRUCT = {
   styleUrls: ['./smart-input.component.scss'],
   preserveWhitespaces: false,
 })
-export class SmartInputComponent implements OnInit, AfterViewInit {
+export class SmartInputComponent implements  AfterViewInit {
   state: InputState = {
     lines: [
       {
@@ -35,8 +35,7 @@ export class SmartInputComponent implements OnInit, AfterViewInit {
     this.element.nativeElement.contentEditable = true;
   }
 
-  ngOnInit() {
-  }
+  
 
   getBlockInfoFromData(data: BlockEvent) {
     const curBlockEl = data.cursor.selection && data.cursor.selection.focusNode ? data.cursor.selection.focusNode.parentElement : null;

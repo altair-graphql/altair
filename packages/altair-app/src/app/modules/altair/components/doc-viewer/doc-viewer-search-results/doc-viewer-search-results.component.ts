@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -42,7 +41,7 @@ import { DocumentIndexEntry } from '../models';
     ])
   ]
 })
-export class DocViewerSearchResultsComponent implements OnInit {
+export class DocViewerSearchResultsComponent  {
 
   @Input() results = [];
 
@@ -51,8 +50,7 @@ export class DocViewerSearchResultsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   /**
    * Go to an item based on the category

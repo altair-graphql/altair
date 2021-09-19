@@ -8,7 +8,6 @@ import {
   OnChanges,
   ElementRef,
   SimpleChanges,
-  DoCheck,
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -37,7 +36,7 @@ import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss']
 })
-export class QueryResultComponent implements OnChanges, DoCheck {
+export class QueryResultComponent implements OnChanges {
 
   @Input() queryResult = '';
   @Input() responseTime = 0;
@@ -90,6 +89,9 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
@@ -122,12 +124,7 @@ export class QueryResultComponent implements OnChanges, DoCheck {
       }
     }
   }
-
-  ngDoCheck() {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor?.codeMirror);
-  }
+  
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;
