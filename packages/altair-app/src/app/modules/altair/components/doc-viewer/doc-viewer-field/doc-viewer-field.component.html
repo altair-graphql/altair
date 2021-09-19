@@ -29,7 +29,7 @@
          (click)="goToType(arg.type.inspect())"
         >
           {{ arg.name }}
-          <span class="doc-viewer-item-value" *ngIf="arg.defaultValue && arg.defaultValue.toString">= {{ arg.defaultValue }}</span>
+          <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)">= {{ getDefaultValue(arg) }}</span>
         </span>
         <span class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
          (click)="goToType(arg.type.inspect())"

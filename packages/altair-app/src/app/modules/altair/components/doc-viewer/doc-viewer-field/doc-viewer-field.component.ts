@@ -66,4 +66,10 @@ export class DocViewerFieldComponent implements OnInit {
     return arg.name;
   }
 
+  getDefaultValue(arg: GraphQLArgument) {
+    if (typeof arg.defaultValue !== 'undefined') {
+      return JSON.stringify(arg.defaultValue);
+    }
+    return;
+  }
 }
