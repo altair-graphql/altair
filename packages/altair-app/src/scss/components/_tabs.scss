@@ -31,6 +31,7 @@
 
   .ant-tabs-content-holder {
     display: flex;
+    flex: 1;
   }
 
   & > .ant-tabs-nav::before,
