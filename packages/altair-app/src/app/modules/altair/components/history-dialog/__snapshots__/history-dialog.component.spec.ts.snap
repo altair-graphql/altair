@@ -8,6 +8,7 @@ exports[`HistoryDialogComponent should render correctly 1`] = `
     
     
     
+    
   </nz-modal>
 </app-history-dialog>
 `;
