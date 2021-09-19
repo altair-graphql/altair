@@ -14,6 +14,7 @@ import { first } from 'rxjs/operators';
 import { SendRequestResponse } from '../gql/gql.service';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { RequestScriptError } from './errors';
 
 export enum RequestType {
   INTROSPECTION = 'introspection',
@@ -99,8 +100,12 @@ export class PreRequestService {
       exports.end = program();
     `);
 
-    const res = await interpreter.exports.end;
-    debug.log('interpreter result:', res);
+    try {
+      const res = await interpreter.exports.end;
+      debug.log('interpreter result:', res);
+    } catch (error) {
+      throw new RequestScriptError(error);
+    }
     if (clonedMutableData.__toSetActiveEnvironment) {
       const activeEnvState = await this.store.select(getActiveSubEnvironmentState).pipe(first()).toPromise();
 
