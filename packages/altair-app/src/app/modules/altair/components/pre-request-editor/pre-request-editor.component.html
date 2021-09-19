@@ -1,5 +1,5 @@
-<div class="pre-request-editor">
-  <div class="pre-request-editor__toggle-wrapper spacer--small">
+<div class="request-script-editor">
+  <div class="request-script-editor__toggle-wrapper spacer--small">
     <label
       nz-checkbox
       [ngModel]="preRequest.enabled"
@@ -8,7 +8,7 @@
   </div>
   <ngx-codemirror
     #editor
-    class="pre-request-textarea mousetrap"
+    class="request-script-textarea pre-request-textarea mousetrap"
     [options]="preRequestEditorConfig"
     [ngModel]="preRequest.script"
     (ngModelChange)="preRequestScriptChange.emit($event)"
