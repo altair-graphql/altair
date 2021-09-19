@@ -22,7 +22,7 @@
     "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --prod --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=91.0.4472.101"
+    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=93.0.4577.63"
   },
   "dependencies": {
     "@angular/animations": "^11.2.4",
@@ -97,7 +97,7 @@
     "ngx-toastr": "^14.1.0",
     "object-path": "^0.11.5",
     "popper.js": "^1.15.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.4.1",
     "rxjs": "^6.6.6",
     "sortablejs": "^1.10.2",
     "subscriptions-transport-ws": "^0.9.16",
