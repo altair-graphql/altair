@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        node-version: [12.x]
+        node-version: [14.x]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,7 @@ jobs:
           */*/node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
     - run: yarn --frozen-lockfile
+    - uses: browser-actions/setup-chrome@latest
     - uses: nick-invision/retry@v2
       with:
         timeout_minutes: 15
