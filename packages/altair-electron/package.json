@@ -35,6 +35,7 @@
     "electron": "^14.0.1",
     "electron-builder": "^22.11.7",
     "electron-builder-notarize": "^1.2.0",
+    "electron-chromedriver": "^14.0.0",
     "electron-notarize": "^1.1.1",
     "electron-reloader": "^1.2.1",
     "eslint": "^7.3.1",
