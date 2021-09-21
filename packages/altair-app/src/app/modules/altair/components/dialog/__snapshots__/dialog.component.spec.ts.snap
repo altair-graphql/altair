@@ -8,6 +8,7 @@ exports[`DialogComponent should render correctly 1`] = `
     
     
     
+    
   </nz-modal>
 </app-dialog>
 `;

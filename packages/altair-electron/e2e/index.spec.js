@@ -1,11 +1,12 @@
 // https://webdriver.io/docs/api.html
 // https://webdriver.io/docs/sync-vs-async.html#common-issues-in-async-mode
+const { _electron: electron } = require('playwright');
 const Application = require('spectron').Application;
 // const chai = require('chai');
 // const chaiAsPromised = require('chai-as-promised');
 // const assert = chai.assert;
 const path = require('path');
-const electron = require('electron');
+// const electron = require('electron');
 const { it, describe, expect, beforeEach } = require('@jest/globals');
 
 // chai.use(chaiAsPromised);

@@ -3,10 +3,10 @@
 exports[`PostRequestEditorComponent should render correctly 1`] = `
 <app-post-request-editor>
   <div
-    class="post-request-editor"
+    class="request-script-editor"
   >
     <div
-      class="post-request-editor__toggle-wrapper spacer--small"
+      class="request-script-editor__toggle-wrapper spacer--small"
     >
       <label
         nz-checkbox=""
@@ -15,7 +15,7 @@ exports[`PostRequestEditorComponent should render correctly 1`] = `
       </label>
     </div>
     <ngx-codemirror
-      class="post-request-textarea mousetrap"
+      class="request-script-textarea post-request-textarea mousetrap"
     />
     <small>
       <a

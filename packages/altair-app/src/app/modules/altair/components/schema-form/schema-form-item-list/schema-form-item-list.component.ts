@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-schema-form-item-list',
   templateUrl: './schema-form-item-list.component.html',
   styles: []
 })
-export class SchemaFormItemListComponent implements OnInit {
+export class SchemaFormItemListComponent  {
 
   @Input() item: any;
   @Input() data: any;
@@ -14,8 +14,7 @@ export class SchemaFormItemListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   addField() {
     if (!this.data || !Array.isArray(this.data)) {

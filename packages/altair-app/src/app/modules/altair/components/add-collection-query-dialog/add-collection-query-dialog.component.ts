@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
@@ -7,7 +7,7 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
   styles: [
   ]
 })
-export class AddCollectionQueryDialogComponent implements OnInit, OnChanges {
+export class AddCollectionQueryDialogComponent implements OnChanges {
 
   @Input() showDialog = false;
   @Input() windowTitle = '';
@@ -27,9 +27,6 @@ export class AddCollectionQueryDialogComponent implements OnInit, OnChanges {
       this.windowTitle = changes.windowTitle.currentValue;
       this.reset();
     }
-  }
-
-  ngOnInit(): void {
   }
 
   createCollectionAndSaveQueryToCollection() {

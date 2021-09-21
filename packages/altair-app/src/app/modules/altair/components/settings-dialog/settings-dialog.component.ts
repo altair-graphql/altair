@@ -9,7 +9,6 @@ import {
   SimpleChanges,
   OnChanges,
   ElementRef,
-  DoCheck,
 } from '@angular/core';
 
 import { debug } from '../../utils/logger';
@@ -38,7 +37,7 @@ registerSettingsLinter(Codemirror);
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss']
 })
-export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() settings: SettingsState;
   @Input() appVersion: string;
@@ -94,15 +93,12 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.settings && changes.settings.currentValue) {
-      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
-    }
-  }
-
-  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
     handleEditorRefresh(this.editor && this.editor.codeMirror);
+    if (changes && changes.settings && changes.settings.currentValue) {
+      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
+    }
   }
 
   showHint(cm: any) {

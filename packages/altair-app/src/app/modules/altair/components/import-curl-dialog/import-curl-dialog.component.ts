@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-import-curl-dialog',
   templateUrl: './import-curl-dialog.component.html',
   styleUrls: ['./import-curl-dialog.component.scss']
 })
-export class ImportCurlDialogComponent implements OnInit {
+export class ImportCurlDialogComponent  {
 
   @Input() showImportCurlDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
@@ -15,8 +15,7 @@ export class ImportCurlDialogComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   importInput() {
     this.toggleDialogChange.next(false);

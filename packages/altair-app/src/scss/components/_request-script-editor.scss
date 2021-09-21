@@ -1,0 +1,15 @@
+app-pre-request-editor,
+app-post-request-editor {
+  height: 100%;
+}
+
+.request-script-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.request-script-textarea {
+  flex: 1;
+  min-height: 0;
+}

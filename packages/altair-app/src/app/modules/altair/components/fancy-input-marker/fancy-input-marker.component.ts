@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IDictionary } from '../../interfaces/shared';
 import { EnvironmentService, VARIABLE_REGEX } from '../../services/environment/environment.service';
 import { HighlightSection } from '../fancy-input/fancy-input.component';
@@ -11,7 +11,7 @@ import { HighlightSection } from '../fancy-input/fancy-input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
 })
-export class FancyInputMarkerComponent implements OnInit, OnChanges {
+export class FancyInputMarkerComponent implements  OnChanges {
 
   @Input() section: HighlightSection = { content: '' };
   @Input() activeEnvironment: IDictionary = {};
@@ -22,8 +22,7 @@ export class FancyInputMarkerComponent implements OnInit, OnChanges {
     private environmentService: EnvironmentService,
   ) { }
 
-  ngOnInit(): void {
-  }
+  
 
   ngOnChanges(changes: SimpleChanges) {
     this.resolvedValue = this.environmentService.hydrate(this.section.content);

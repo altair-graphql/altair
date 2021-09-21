@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef, DoCheck, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef, SimpleChanges, AfterViewInit } from '@angular/core';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -24,7 +24,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_\"\']$/;
   templateUrl: './variables-editor.component.html',
   styleUrls: ['./variables-editor.component.scss']
 })
-export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoCheck {
+export class VariablesEditorComponent implements AfterViewInit, OnChanges {
 
   @Input() variables = '';
   @Input() variableToType: IDictionary = {};
@@ -70,6 +70,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.variableToType?.currentValue) {
       this.updateVariablesToType(changes.variableToType.currentValue);
     }
@@ -80,11 +83,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges, DoChe
     }
   }
 
-  ngDoCheck() {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor?.codeMirror);
-  }
+  
 
   onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {

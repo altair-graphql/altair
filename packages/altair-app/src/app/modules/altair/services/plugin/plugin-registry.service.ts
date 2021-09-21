@@ -38,9 +38,11 @@ export class PluginRegistryService {
       plugin,
     };
 
-    if (pluginStateEntry.instance) {
-      pluginStateEntry.instance.initialize(context);
+    if (!pluginStateEntry.instance) {
+      throw new Error(`Could not create the plugin instance for plugin: ${name}. Check that plugin_class is set correctly in manifest.`);
     }
+
+    pluginStateEntry.instance.initialize(context);
     this.store.dispatch(new localActions.AddInstalledPluginEntryAction(pluginStateEntry));
   }
 

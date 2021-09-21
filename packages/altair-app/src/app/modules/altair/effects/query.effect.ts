@@ -41,6 +41,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
+import { RequestScriptError } from '../services/pre-request/errors';
 
 interface EffectResponseData {
   state: RootState;
@@ -240,6 +241,12 @@ export class QueryEffects {
 
                       if (error.status) {
                         output = error.error;
+                      }
+                      if (error.message) {
+                        output = error.message;
+                      }
+                      if (error instanceof RequestScriptError) {
+                        output = `${error.name}: ${error.message}`;
                       }
                       this.store.dispatch(new queryActions.SetQueryResultAction(output, response.windowId));
                       return of(null);
