@@ -3484,10 +3484,10 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-altair-graphql-core@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.0.9.tgz#c52fd7238bae91114f94c693646182bdf042c47e"
-  integrity sha512-nL6hCHRanErWaVFVJsVkDmFg1z6iegqywX0W2naovnH7LUHzNFk79lFODMLDtliKqvXa+oQQt+K97emOBpeTVQ==
+altair-graphql-core@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.0.10.tgz#3c44e19f25e8699796bf87df3318a97032586688"
+  integrity sha512-pU9mWCh7NFF7nPqVVf9AmR5Gw8sd1EbgetfHzLUNc3VouvsVrUi26otV42dewWPQ+PaLWCBhL0js8mhKAFbn9w==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
@@ -13322,9 +13322,9 @@ tmp@^0.0.33:
     os-tmpdir "~1.0.2"
 
 tmpl@1.0.x:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
-  integrity sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
+  integrity sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==
 
 to-fast-properties@^1.0.3:
   version "1.0.3"
