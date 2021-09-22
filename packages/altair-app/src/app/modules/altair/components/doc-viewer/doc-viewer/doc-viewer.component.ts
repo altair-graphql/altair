@@ -208,6 +208,7 @@ export class DocViewerComponent implements OnChanges {
 
   async addToEditor(name: string, parentType: string) {
     if (!this.hasSearchIndex) {
+      debug.log('No search index, so cannot add to editor')
       return false;
     }
     const docUtilsWorker = await this.getDocUtilsWorker();
@@ -227,7 +228,7 @@ export class DocViewerComponent implements OnChanges {
   async getDocUtilsWorker() {
     if (!this.docUtilWorker) {
       try {
-        const DocUtils: any = Comlink.wrap(new Worker('../doc-utils.worker', { type: 'module' }));
+        const DocUtils: any = Comlink.wrap(new Worker(new URL('../doc-utils.worker', import.meta.url), { type: 'module' }));
         this.docUtilWorker = await new DocUtils();
       } catch (error) {
         debug.error('Could not load doc utilsweb worker');
