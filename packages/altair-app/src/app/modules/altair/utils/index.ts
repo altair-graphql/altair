@@ -67,7 +67,7 @@ export const getFileStr = (files: FileList) => {
 
 export const getFilesStr = (files: FileList) => {
   return Promise.all(
-    Array(files.length).map(
+    Array.from(Array(files.length).keys()).map(
       (_, index) =>
         new Promise<string>((resolve, reject) => {
           const fileReader = new FileReader();
