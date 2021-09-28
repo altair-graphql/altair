@@ -482,8 +482,8 @@ export class AppComponent  {
     this.store.dispatch(new collectionActions.ExportCollectionAction({ collectionId }));
   }
 
-  importCollection() {
-    this.store.dispatch(new collectionActions.ImportCollectionAction());
+  importCollections() {
+    this.store.dispatch(new collectionActions.ImportCollectionsAction());
   }
 
   toggleEditCollectionDialog({ collection }: { collection: IQueryCollection }) {
