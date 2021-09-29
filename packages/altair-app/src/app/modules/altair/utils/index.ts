@@ -64,24 +64,6 @@ export const getFileStr = (files: FileList) => {
     fileReader.readAsText(files[0]);
   });
 };
-
-export const getFilesStr = (files: FileList) => {
-  return Promise.all(
-    Array.from(Array(files.length).keys()).map(
-      (_, index) =>
-        new Promise<string>((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.onload = function (e: any) {
-            const contents: string = e.target.result;
-
-            // Resolve file content
-            resolve(contents);
-          };
-          fileReader.readAsText(files[index]);
-        })
-    )
-  );
-};
 interface FileDialogOptions {
   readonly multiple?: boolean;
   readonly accept?: string|ReadonlyArray<string>;
@@ -94,12 +76,29 @@ export const openFile = async (opts: FileDialogOptions = {}) => {
     debug.log('There was an issue while opening the file: ', err);
   }
 };
+
+export const getFileContent = async (file: File) => {
+  return new Promise<string>((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = function (e: any) {
+      const contents: string = e.target.result;
+
+      // Resolve file content
+      resolve(contents);
+    };
+    fileReader.readAsText(file);
+  })
+}
+
 export const openFiles = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog({ ...opts, multiple: true });
-    return getFilesStr(files);
+
+    return Promise.all(Array.from(Array(files.length).map((_, i) => getFileContent(files[i]))));
   } catch (err) {
     debug.log('There was an issue while opening the files: ', err);
+
+    return Promise.all([]);
   }
 };
 

@@ -162,12 +162,11 @@ export class QueryCollectionEffects {
       switchMap(() => {
         return from(openFiles({ accept: ".agc" }));
       }),
-      pipe(filter<string[]>((e) => e !== undefined)),
-      switchMap((data: string[]) =>
-        data.map((elem) =>
+      tap((data) => {
+        data.forEach((elem) =>
           this.collectionService.importCollectionDataFromJson(elem)
         )
-      ),
+      }),
       tap(() =>
         this.notifyService.success("Successfully imported collection.")
       ),
