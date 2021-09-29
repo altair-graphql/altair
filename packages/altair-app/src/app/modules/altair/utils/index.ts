@@ -78,6 +78,7 @@ export const openFile = async (opts: FileDialogOptions = {}) => {
 };
 
 export const getFileContent = async (file: File) => {
+  console.log(file);
   return new Promise<string>((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function (e: any) {
@@ -94,7 +95,7 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog({ ...opts, multiple: true });
 
-    return Promise.all(Array.from(Array(files.length).map((_, i) => getFileContent(files[i]))));
+    return Promise.all(Array.from(Array(files.length)).map((_, i) => getFileContent(files[i])));
   } catch (err) {
     debug.log('There was an issue while opening the files: ', err);
 
