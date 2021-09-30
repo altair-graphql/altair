@@ -78,7 +78,6 @@ export const openFile = async (opts: FileDialogOptions = {}) => {
 };
 
 export const getFileContent = async (file: File) => {
-  console.log(file);
   return new Promise<string>((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function (e: any) {
