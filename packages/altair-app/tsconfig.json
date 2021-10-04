@@ -20,6 +20,7 @@
     "lib": [
       "es2016",
       "dom",
+      "dom.iterable",
       "esnext"
     ],
     "module": "es2020"

@@ -94,7 +94,7 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog({ ...opts, multiple: true });
 
-    return Promise.all(Array.from(Array(files.length)).map((_, i) => getFileContent(files[i])));
+    return Promise.all([...files].map((file) => getFileContent(file)));
   } catch (err) {
     debug.log('There was an issue while opening the files: ', err);
 
