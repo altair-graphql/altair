@@ -33,7 +33,7 @@
   "dependencies": {
     "altair-static": "^4.0.11",
     "fastify-plugin": "^2.3.4",
-    "fastify-static": "^3.2.1"
+    "fastify-static": "^4.2.4"
   },
   "devDependencies": {
     "fastify": "^3.5.1",
