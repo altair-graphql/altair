@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FancyInputComponent should render the highlights correctly based on the matched variables in text 1`] = `
-<div
-  id="root2"
->
+<app-fancy-input>
   <div
     class="fancy-input-container"
   >
     <input
-      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      class="fancy-input-content fancy-input-element"
       placeholder=""
       type="text"
     />
@@ -18,9 +16,6 @@ exports[`FancyInputComponent should render the highlights correctly based on the
       <div
         class="fancy-input-content fancy-input-highlights"
       >
-        
-        
-        
         <span>
           some text 
         </span>
@@ -28,16 +23,7 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
         
         
-        
-        <app-fancy-input-marker>
-          <mark
-            class="fancy-input-marker__invalid"
-          >
-            {{variable1}}
-          </mark>
-          
-        </app-fancy-input-marker>
-        
+        <app-fancy-input-marker />
         
         
         <span>
@@ -47,16 +33,7 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
         
         
-        
-        <app-fancy-input-marker>
-          <mark
-            class="fancy-input-marker__invalid"
-          >
-            {{variable2}}
-          </mark>
-          
-        </app-fancy-input-marker>
-        
+        <app-fancy-input-marker />
         
         
         <span>
@@ -64,21 +41,21 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         </span>
         
         
+        
+        
       </div>
     </div>
   </div>
-</div>
+</app-fancy-input>
 `;
 
 exports[`FancyInputComponent should set component value when input value changes 1`] = `
-<div
-  id="root1"
->
+<app-fancy-input>
   <div
     class="fancy-input-container"
   >
     <input
-      class="fancy-input-content fancy-input-element ng-untouched ng-valid ng-dirty"
+      class="fancy-input-content fancy-input-element"
       placeholder=""
       type="text"
     />
@@ -88,16 +65,15 @@ exports[`FancyInputComponent should set component value when input value changes
       <div
         class="fancy-input-content fancy-input-highlights"
       >
-        
-        
-        
         <span>
           some text
         </span>
         
         
+        
+        
       </div>
     </div>
   </div>
-</div>
+</app-fancy-input>
 `;

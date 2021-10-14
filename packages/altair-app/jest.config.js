@@ -3,7 +3,7 @@ module.exports = {
   collectCoverage: true,
   roots: [ 'src' ],
   transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest'
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular'
   },
   setupFilesAfterEnv: [
     '<rootDir>/src/setup-jest.ts'
@@ -16,17 +16,20 @@ module.exports = {
     '@src/(.*)':'<rootDir>/src/src/$1',
     '@state/(.*)':'<rootDir>/src/app/state/$1'
   },
+  modulePaths: [
+    '<rootDir>/src/',
+  ],
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!lodash-es)'
   ],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/src/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.html$',
-      astTransformers: [
-        'jest-preset-angular/build/InlineFilesTransformer',
-        'jest-preset-angular/build/StripStylesTransformer'
-      ]
+      // stringifyContentPathRegex: '\\.html$',
+      // astTransformers: [
+      //   'jest-preset-angular/build/InlineFilesTransformer',
+      //   'jest-preset-angular/build/StripStylesTransformer'
+      // ]
     }
   }
 };

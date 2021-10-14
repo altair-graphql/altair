@@ -36,10 +36,16 @@ export class NgxTestWrapper<C extends any> {
     return this._testHostFixture.debugElement;
   }
 
+  /**
+   * The native DOM element of the component
+   */
   get element() {
     return this._mainComponentDebugEl.nativeElement;
   }
 
+  /**
+   * Specifies if the element exists
+   */
   exists() {
     return !!this._mainComponentDebugEl.nativeNode;
   }
@@ -117,6 +123,9 @@ export class NgxTestWrapper<C extends any> {
     return setValue(this._testHostFixture, this._mainComponentDebugEl, value);
   }
 
+  /**
+   * the inner text of the component element
+   */
   text() {
     if (this.exists()) {
       return this.component.nativeElement.innerText;
@@ -124,6 +133,9 @@ export class NgxTestWrapper<C extends any> {
     return '';
   }
 
+  /**
+   * the inner HTML of the component element
+   */
   html() {
     if (this.exists()) {
       return this.component.nativeElement.innerHTML;
@@ -140,8 +152,8 @@ export class NgxTestWrapper<C extends any> {
   }
 
   async nextTick() {
-    this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();
+    this._testHostFixture.detectChanges();
   }
 
   private assertExists() {

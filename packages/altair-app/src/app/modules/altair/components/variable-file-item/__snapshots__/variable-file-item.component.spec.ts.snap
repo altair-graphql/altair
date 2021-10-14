@@ -11,12 +11,13 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       <span
         class="variables-file-item-switch"
       >
-        
         <span>
           1
         </span>
         
+        
       </span>
+      
       <input
         class="variables-file-item-name-input"
         data-tid="file_name"
@@ -36,6 +37,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       >
          0 file(s) 
       </span>
+      
       <button
         class="app-button variables-file-item-button"
       >

@@ -29,14 +29,17 @@ exports[`QueryEditorComponent should render correctly 1`] = `
       </div>
       
     </nz-tab>
+    
     <nz-tab>
       <app-pre-request-editor />
       
     </nz-tab>
+    
     <nz-tab>
       <app-post-request-editor />
       
     </nz-tab>
+    
   </nz-tabset>
   <app-flex-resizer />
 </app-query-editor>
