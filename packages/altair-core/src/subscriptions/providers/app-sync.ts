@@ -6,7 +6,7 @@ import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { parse } from 'graphql';
 
 export class AppSyncSubscriptionProvider extends SubscriptionProvider {
-  subscription?: any;
+  subscription?: ZenObservable.Subscription;
 
   /**
   {
@@ -52,6 +52,8 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
   }
 
   close() {
-    this.subscription?.unsubscribe();
+    if (this.subscription?.closed) {
+      this.subscription?.unsubscribe();
+    }
   }
 }

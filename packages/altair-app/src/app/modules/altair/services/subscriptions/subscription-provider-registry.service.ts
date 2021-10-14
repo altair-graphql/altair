@@ -56,6 +56,7 @@ export class SubscriptionProviderRegistryService {
   }
 
   getAllProviderData$() {
-    return this.list$;
+    // return a new observable each time to separate the subscriptions
+    return this.list$.asObservable();
   }
 }
