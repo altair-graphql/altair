@@ -3484,10 +3484,10 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-altair-graphql-core@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.0.9.tgz#c52fd7238bae91114f94c693646182bdf042c47e"
-  integrity sha512-nL6hCHRanErWaVFVJsVkDmFg1z6iegqywX0W2naovnH7LUHzNFk79lFODMLDtliKqvXa+oQQt+K97emOBpeTVQ==
+altair-graphql-core@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.0.11.tgz#1b8466f498a8ff65c80a2d80438b676e4bff8321"
+  integrity sha512-X40N49vEDft8Y/sETzGdzYl4uirfv/kQFxkOy2AFZdP32gYelxWKLdx+qDZMxPY3n92f3y5+X+Zm928gxXxI3w==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
