@@ -1,4 +1,4 @@
-name: PR - testing
+name: PR - e2e testing
 
 on:
   push:
@@ -34,27 +34,13 @@ jobs:
         timeout_minutes: 15
         max_attempts: 3
         command: yarn build:ci
-    - name: Run headless test
+    - name: Update webdriver (with retries)
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn lerna run --scope altair-app webdriver-update-ci
+    - name: Run headless e2e test
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: yarn test:ci
-  # https://github.com/marketplace/actions/deployment-action
-  # deploy-surge:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     SURGE_URL: ${{ github.sha }}-${{ github.repository_owner }}-altair.surge.sh
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: 12
-  #   - run: yarn --frozen-lockfile
-  #   - run: yarn build:ci
-  #   - name: Deploy to surge.sh
-  #     uses: dswistowski/surge-sh-action@v1
-  #     with:
-  #       domain: '${{ env.SURGE_URL }}'
-  #       project: './packages/altair-app/dist'
-  #       login: ${{ secrets.surge_login }}
-  #       token: ${{ secrets.surge_token }}
+        run: yarn lerna run --scope altair-app e2e:ci
