@@ -29,7 +29,7 @@
     "snyk-protect": "snyk protect"
   },
   "engines": {
-    "node": ">= 6.9.1"
+    "node": ">= 12"
   },
   "devDependencies": {
     "chalk": "^4.1.0",
