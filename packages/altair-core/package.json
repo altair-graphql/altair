@@ -10,7 +10,7 @@
     "prepare": "npm run declarations"
   },
   "engines": {
-    "node": ">= 6.9.1"
+    "node": ">= 12"
   },
   "repository": {
     "type": "git",
