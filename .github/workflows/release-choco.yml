@@ -40,8 +40,8 @@ jobs:
     - name: chocolatey ...
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
-        args: install chocolatey\altair-graphql.4.0.11.nupkg
+        args: install altair-graphql.4.0.11.nupkg
     - name: chocolatey push
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
-        args: push chocolatey\altair-graphql.4.0.11.nupkg -s https://push.chocolatey.org/ -k="'123-123123-123'"
+        args: push altair-graphql.4.0.11.nupkg -s https://push.chocolatey.org/ -k="'123-123123-123'"
