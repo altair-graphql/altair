@@ -17,11 +17,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn --frozen-lockfile
-    - uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 15
-        max_attempts: 3
-        command: yarn lerna bootstrap
+    # - uses: nick-invision/retry@v2
+    #   with:
+    #     timeout_minutes: 15
+    #     max_attempts: 3
+    #     command: yarn lerna bootstrap
     - name: Build/release Electron app
       uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
       with:
@@ -35,8 +35,12 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
         args: pack chocolatey\altair-graphql.nuspec
+    - run: dir
+    - name: chocolatey ...
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: install chocolatey\altair-graphql.4.0.11.nupkg
     - name: chocolatey push
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
-        args: push chocolatey\*.nupkg
-
+        args: push altair-graphql.4.0.11.nupkg
