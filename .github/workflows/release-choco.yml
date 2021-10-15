@@ -7,7 +7,7 @@ jobs:
   electron:
     strategy:
       matrix:
-        os: windows-latest
+        os: [windows-latest]
         node-version: [14.x]
     runs-on: ${{ matrix.os }}
     steps:
