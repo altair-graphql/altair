@@ -38,8 +38,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <authors>Samuel Imolorhe</authors>
     <!-- projectUrl is required for the community feed -->
     <projectUrl>https://github.com/altair-graphql/altair</projectUrl>
-    <!-- TODO: update when site is deployed with logo -->
-    <iconUrl>https://altair.sirmuel.design/favicon.ico</iconUrl>
+    <iconUrl>https://altair.sirmuel.design/assets/img/altair_logo_128.png</iconUrl>
     <!-- <copyright>Year Software Vendor</copyright> -->
     <!-- If there is a license Url available, it is required for the community feed -->
     <licenseUrl>https://github.com/altair-graphql/altair/blob/staging/.github/LICENSE</licenseUrl>
@@ -76,6 +75,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
   <files>
     <!-- this section controls what actually gets packaged into the Chocolatey package -->
     <file src="tools\**" target="tools" />
+    <file src="legal\**" target="legal" />
     <file src="..\packages\altair-electron\out\**" target="bins" />
     <!--Building from Linux? You may need this instead: <file src="tools/**" target="tools" />-->
   </files>
