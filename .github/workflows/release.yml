@@ -71,6 +71,30 @@ jobs:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
         API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+
+    # chocolatey
+    - name: Read VERSION file
+      id: getversion
+      run: echo "::set-output name=version::$(cat VERSION)"
+    - name: Add mask
+      run: |
+        echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+    - name: chocolatey pack
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: pack chocolatey\altair-graphql.nuspec
+    - name: chocolatey install (test choco packaging)
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: install altair-graphql.${{ steps.getversion.outputs.version }}.nupkg
+    - name: chocolatey push
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
+
   npm-publish:
     runs-on: ubuntu-latest
     needs: electron
