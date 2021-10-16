@@ -41,8 +41,8 @@ jobs:
       with:
         args: install altair-graphql.4.0.11.nupkg
     - name: Add mask
-        run: |
-          echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+      run: |
+        echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
     - name: chocolatey push
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
