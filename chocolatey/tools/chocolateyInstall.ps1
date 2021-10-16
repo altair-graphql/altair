@@ -3,7 +3,7 @@ $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 # TODO: Update urls
 # $url        = 'https://github.com/imolorhe/altair/releases/download/v2.4.3/altair_4.0.11_x64_win.exe'
 # $url64      = 'https://github.com/imolorhe/altair/releases/download/v2.4.3/altair_4.0.11_x64_win.exe'
-$fileLocation = Join-Path $toolsDir '..\..\packages\altair-electron\out\altair_4.0.11_x64_win.exe'
+$fileLocation = Join-Path $toolsDir '..\bins\altair_4.0.11_x64_win.exe'
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
   unzipLocation = $toolsDir

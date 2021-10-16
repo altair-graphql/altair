@@ -36,7 +36,9 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
         args: pack chocolatey\altair-graphql.nuspec
-    - run: dir
+    - run: dir C:\ProgramData\chocolatey\lib\altair-graphql
+    - run: dir C:\ProgramData\chocolatey\lib\altair-graphql\tools
+    - run: dir C:\ProgramData\chocolatey\lib\altair-graphql\bins
     - name: chocolatey ...
       uses: crazy-max/ghaction-chocolatey@v1.6.0
       with:
