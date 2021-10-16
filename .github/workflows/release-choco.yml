@@ -1,0 +1,56 @@
+name: Choco release - TEST
+
+on:
+  pull_request:
+
+jobs:
+  electron:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        node-version: [14.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn --frozen-lockfile
+    - run: yarn --cwd packages/altair-electron
+    # - uses: nick-invision/retry@v2
+    #   with:
+    #     timeout_minutes: 15
+    #     max_attempts: 3
+    #     command: yarn lerna bootstrap
+    - name: Build/release Electron app
+      uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
+      with:
+        github_token: ${{ secrets.github_token }}
+        package_root: packages/altair-electron/
+        skip_build: true
+        skip_install: true
+        args: '--publish never'
+        max_attempts: 3
+    # chocolatey
+    - name: Read VERSION file
+      id: getversion
+      run: echo "::set-output name=version::$(cat VERSION)"
+    - name: Add mask
+      run: |
+        echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+    - name: chocolatey pack
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: pack chocolatey\altair-graphql.nuspec
+    - name: chocolatey install (test choco packaging)
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: install altair-graphql.${{ steps.getversion.outputs.version }}.nupkg
+    - name: chocolatey push
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
