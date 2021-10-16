@@ -18,15 +18,15 @@ jobs:
           repo_token: ${{ secrets.github_token }}
           prerelease: false
           draft: true
-      - id: staging-pr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: staging
-          base: master
-          title: Staging to master
+      # - id: staging-pr
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     branch: staging
+      #     base: master
+      #     title: Staging to master
     outputs:
       release-tag: ${{ steps.release-draft.outputs.automatic_releases_tag }}
-      staging-pr-id: ${{ steps.staging-pr.outputs.pull-request-number }}
+      # staging-pr-id: ${{ steps.staging-pr.outputs.pull-request-number }}
   electron:
     strategy:
       matrix:
@@ -121,10 +121,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.prepare-release.outputs.release-tag }}
-      - uses: peter-evans/enable-pull-request-automerge@v1
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
+      # - uses: peter-evans/enable-pull-request-automerge@v1
+      #   with:
+      #     token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      #     pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
