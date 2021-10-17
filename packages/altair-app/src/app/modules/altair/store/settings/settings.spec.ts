@@ -39,6 +39,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      'editor.shortcuts': {},
     });
   });
 
@@ -62,6 +63,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      'editor.shortcuts': {},
     });
   });
 
@@ -74,6 +76,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      'editor.shortcuts': {},
     });
   });
 
@@ -92,6 +95,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      'editor.shortcuts': {},
     });
   });
 
