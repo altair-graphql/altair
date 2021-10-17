@@ -44,13 +44,6 @@
               <app-icon name="trash-2"></app-icon>
               {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
             </button>
-            <button
-              *ngFor="let uiAction of uiActions"
-              class="query-result__clear-button"
-              (click)="uiActionExecuteChange.next(uiAction)"
-            >
-              {{ uiAction.title }}
-            </button>
           </div>
           <div class="query-result__bottom-actions">
             <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
