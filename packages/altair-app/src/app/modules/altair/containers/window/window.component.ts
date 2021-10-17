@@ -92,6 +92,8 @@ export class WindowComponent implements OnInit {
   resultPaneUiActions$: Observable<AltairUiAction[]>;
   resultPaneBottomPanels$: Observable<AltairPanel[]>;
 
+  editorShortcutMapping$: Observable<IDictionary>;
+
   @Input() windowId: string;
 
   isElectron = isElectron;
@@ -170,6 +172,8 @@ export class WindowComponent implements OnInit {
 
     this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
     this.resultPaneBottomPanels$ = this.store.select(fromRoot.getResultPaneBottomPanels);
+
+    this.editorShortcutMapping$ = this.store.select((state) => state.settings['editor.shortcuts'] ?? {})
 
     this.store.pipe(
       untilDestroyed(this),

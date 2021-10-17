@@ -11,6 +11,7 @@ export const getInitialState = (): SettingsState => {
     language: <SettingsLanguage>altairConfig.default_language,
     addQueryDepthLimit: altairConfig.add_query_depth_limit,
     tabSize: altairConfig.tab_size,
+    "editor.shortcuts": {},
     ...initialSettings,
   };
 };

@@ -1,5 +1,6 @@
 import { getAltairConfig } from '../../config';
 import { ICustomTheme } from '../../theme';
+import { IDictionary } from '../shared';
 
 const config = getAltairConfig();
 export type SettingsLanguage = keyof typeof config.languages;
@@ -97,4 +98,9 @@ export interface SettingsState {
    * Hides extensions object
    */
   'response.hideExtensions'?: boolean;
+
+  /**
+   * Contains shortcut to action mapping
+   */
+  'editor.shortcuts'?: Record<string, string>;
 }

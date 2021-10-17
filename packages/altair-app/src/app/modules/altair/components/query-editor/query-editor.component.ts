@@ -70,6 +70,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() showVariableDialog = false;
   @Input() variableToType: IDictionary;
 
+  @Input() shortcutMapping: IDictionary = {};
+
   @Input() preRequest: any = {};
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
@@ -96,6 +98,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   selectedIndex = 0;
 
+  actionToFn: Record<string, string | Function> = {
+    showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
+    toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+    showFinder: 'findPersistent',
+    showInDocs: (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
+    fillAllFields: (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
+    noOp: (cm: CodeMirror.Editor) => {},
+  };
+
   editorConfig = <any>{
     mode: 'graphql',
     lineWrapping: true,
@@ -104,21 +115,21 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     tabSize: this.tabSize,
     indentUnit: this.tabSize,
     extraKeys: {
-      'Cmd-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Ctrl-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Alt-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Cmd-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
-      'Ctrl-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+      'Cmd-Space': this.getShortcutFn('showAutocomplete'),
+      'Ctrl-Space': this.getShortcutFn('showAutocomplete'),
+      'Alt-Space': this.getShortcutFn('showAutocomplete'),
+      'Cmd-/': this.getShortcutFn('toggleComment'),
+      'Ctrl-/': this.getShortcutFn('toggleComment'),
 
-      'Alt-F': 'findPersistent',
-      'Ctrl-F': 'findPersistent',
+      'Alt-F': this.getShortcutFn('showFinder'),
+      'Ctrl-F': this.getShortcutFn('showFinder'),
 
       // show current token parent type in docs
-      'Ctrl-D': (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
+      'Ctrl-D': this.getShortcutFn('showInDocs'),
 
-      'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
-      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
-      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
+      'Shift-Ctrl-Enter': this.getShortcutFn('fillAllFields'),
+      'Ctrl-Enter': this.getShortcutFn('noOp'),
+      'Cmd-Enter': this.getShortcutFn('noOp'),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     keyMap: 'sublime',
@@ -210,6 +221,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.query?.currentValue) {
       // Set current tab to Query if query is updated
       this.selectedIndex = 0;
+    }
+
+    if (changes?.shortcutMapping?.currentValue) {
+      // Update the editor shortcuts based on the provided shortcuts
+      this.updateEditorShortcuts(changes.shortcutMapping.currentValue);
     }
   }
 
@@ -315,12 +331,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         try {
           const ast = this.gqlService.parseQuery(cm.getValue());
           ast.definitions.forEach(definition => {
-            if (definition.kind === 'OperationDefinition' && ((definition.name && definition.name.value) || ast.definitions.length === 1)) {
+            if (definition.kind === 'OperationDefinition' && (definition.name?.value || ast.definitions.length === 1)) {
               debug.log('WIDGET', definition);
               definitionsInfo.push({
                 operation: definition.operation,
                 location: definition.loc,
-                operationName: definition.name ? definition.name.value : '',
+                operationName: definition.name?.value ?? '',
               });
             }
           });
@@ -346,7 +362,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             });
           });
         } catch (error) {
-
+          console.error(error);
         } finally {
           clearTimeout(this.updateWidgetTimeout);
         }
@@ -366,6 +382,16 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
+  }
+
+  getShortcutFn(actionName: string) {
+    return this.actionToFn[actionName];
+  }
+
+  updateEditorShortcuts(extraKeys: Record<string, string>) {
+    const normalized = Object.keys(extraKeys).reduce((acc, cur) => ({ ...acc, [cur]: this.getShortcutFn(extraKeys[cur])}), {});
+
+    this.editorConfig.extraKeys = { ...this.editorConfig.extraKeys, ...normalized };
   }
 
   onResize(resizeFactor: number) {
