@@ -74,6 +74,7 @@
         [uiActions]="resultPaneUiActions$ | async"
         [bottomPanels]="resultPaneBottomPanels$ | async"
 
+        (clearResultChange)="clearResult()"
         (downloadResultChange)="downloadResult()"
         (stopSubscriptionChange)="stopSubscription()"
         (clearSubscriptionChange)="clearSubscription()"

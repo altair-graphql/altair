@@ -415,6 +415,10 @@ export class WindowComponent implements OnInit {
     }
   }
 
+  clearResult() {
+    this.store.dispatch(new queryActions.ClearResultAction(this.windowId));
+  }
+
   downloadResult() {
     this.store.dispatch(new queryActions.DownloadResultAction(this.windowId));
   }
