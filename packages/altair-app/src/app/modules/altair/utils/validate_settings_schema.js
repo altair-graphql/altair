@@ -445,7 +445,7 @@ validate.schema = {
     },
     "editor.shortcuts": {
       "$ref": "#/definitions/Record<string,string>",
-      "description": "Contains shortcut to action napping"
+      "description": "Contains shortcut to action mapping"
     },
     "enableExperimental": {
       "description": "Enable experimental features.\nNote: Might be unstable",
