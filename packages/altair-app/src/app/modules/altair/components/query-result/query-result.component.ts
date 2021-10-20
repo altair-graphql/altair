@@ -54,6 +54,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() bottomPanels = [];
 
   @Output() downloadResultChange = new EventEmitter();
+  @Output() clearResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();

@@ -39,6 +39,12 @@
             <div class="right">
             </div>
           </div>
+          <div class="query-result__top-actions">
+            <button track-id="clear_result" class="query-result__clear-button" (click)="clearResultChange.next()">
+              <app-icon name="trash-2"></app-icon>
+              {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
+            </button>
+          </div>
           <div class="query-result__bottom-actions">
             <button track-id="download_result" class="query-result__download-button" (click)="downloadResultChange.next()">
               <app-icon name="download"></app-icon>

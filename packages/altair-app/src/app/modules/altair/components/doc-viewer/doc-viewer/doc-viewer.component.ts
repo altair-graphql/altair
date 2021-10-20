@@ -29,6 +29,7 @@ import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { getDocUtilsWorkerAsyncClass } from './worker-helper';
 
 @UntilDestroy()
 @Component({
@@ -228,7 +229,7 @@ export class DocViewerComponent implements OnChanges {
   async getDocUtilsWorker() {
     if (!this.docUtilWorker) {
       try {
-        const DocUtils: any = Comlink.wrap(new Worker(new URL('../doc-utils.worker', import.meta.url), { type: 'module' }));
+        const DocUtils: any = getDocUtilsWorkerAsyncClass();
         this.docUtilWorker = await new DocUtils();
       } catch (error) {
         debug.error('Could not load doc utilsweb worker');

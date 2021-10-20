@@ -493,6 +493,24 @@ export class QueryEffects {
       );
   }, { dispatch: false })
 
+  clearResult$ = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(queryActions.CLEAR_RESULT),
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          this.store.dispatch(new queryActions.SetQueryResultAction('', res.windowId));
+          this.store.dispatch(
+            new queryActions.SetQueryResultResponseHeadersAction(res.windowId, { })
+          );
+
+          return EMPTY;
+        }),
+      );
+  }, { dispatch: false })
+
   downloadResult$ = createEffect(() => {
     return this.actions$
       .pipe(

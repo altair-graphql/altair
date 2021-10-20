@@ -5,7 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType, GraphQLArgument } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -86,5 +86,12 @@ export class DocViewerTypeComponent  {
 
   schemaItemTrackBy(index: number, schemaItem: any) {
     return schemaItem.name;
+  }
+
+  getDefaultValue(arg: GraphQLArgument) {
+    if (typeof arg.defaultValue !== 'undefined') {
+      return JSON.stringify(arg.defaultValue);
+    }
+    return;
   }
 }

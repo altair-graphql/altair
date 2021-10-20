@@ -131,6 +131,29 @@ app-query-result {
   }
 }
 
+.query-result__top-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+}
+
+.query-result__clear-button {
+  background: var(--theme-off-bg-color);
+  color: var(--primary-color);
+  opacity: .5;
+  transition: all .3s ease;
+  border: 1px solid var(--primary-color);
+  text-transform: uppercase;
+  font-size: fontsize(12);
+  padding: 3px 10px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .query-result__bottom-actions {
   position: absolute;
   bottom: 10px;

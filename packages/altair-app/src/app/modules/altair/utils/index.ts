@@ -75,7 +75,32 @@ export const openFile = async (opts: FileDialogOptions = {}) => {
   } catch (err) {
     debug.log('There was an issue while opening the file: ', err);
   }
+};
+
+export const getFileContent = async (file: File) => {
+  return new Promise<string>((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = function (e: any) {
+      const contents: string = e.target.result;
+
+      // Resolve file content
+      resolve(contents);
+    };
+    fileReader.readAsText(file);
+  })
 }
+
+export const openFiles = async (opts: FileDialogOptions = {}) => {
+  try {
+    const files = await fileDialog({ ...opts, multiple: true });
+
+    return Promise.all([...files].map((file) => getFileContent(file)));
+  } catch (err) {
+    debug.log('There was an issue while opening the files: ', err);
+
+    return Promise.all([]);
+  }
+};
 
 export const isExtension = !!((window as any).chrome && (window as any).chrome.runtime && (window as any).chrome.runtime.id);
 export const isFirefoxExtension = !!((window as any).chrome && (window as any).chrome.geckoProfiler);

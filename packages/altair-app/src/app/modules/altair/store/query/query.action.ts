@@ -36,6 +36,7 @@ export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
 export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
+export const CLEAR_RESULT = 'CLEAR_RESULT';
 export const DOWNLOAD_RESULT = 'DOWNLOAD_RESULT';
 
 export const HIDE_URL_ALERT = 'HIDE_URL_ALERT';
@@ -205,6 +206,12 @@ export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
   constructor(public windowId: string, public payload?: any) {}
 }
 
+export class ClearResultAction implements NGRXAction {
+  readonly type = CLEAR_RESULT;
+
+  constructor(public windowId: string, public payload?: any) {}
+}
+
 export class DownloadResultAction implements NGRXAction {
   readonly type = DOWNLOAD_RESULT;
 
@@ -254,6 +261,7 @@ export type Action =
   | SetSubscriptionResponseListAction
   | ToggleAutoscrollSubscriptionResponseAction
   | SetResponseStatsAction
+  | ClearResultAction
   | DownloadResultAction
   | CancelQueryRequestAction
   | SetHTTPMethodAction

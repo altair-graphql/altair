@@ -27,6 +27,10 @@
 **Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altair.sirmuel.design/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 It enables you interact with any GraphQL server you are authorized to access from any platform you are on.
 
+
+_-- the GraphQL IDE that does not require running a web server_
+
+
 ## Features
 
 Altair provides several features that make developing with GraphQL very efficient and friendly. These features include:

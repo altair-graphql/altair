@@ -1,6 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "Record<string,string>": {
+            "type": "object"
+        },
         "SettingsLanguage": {
             "enum": [
                 "cs-CZ",
@@ -35,6 +38,10 @@
         "disablePushNotification": {
             "description": "Disable push notifications",
             "type": "boolean"
+        },
+        "editor.shortcuts": {
+            "$ref": "#/definitions/Record<string,string>",
+            "description": "Contains shortcut to action mapping"
         },
         "enableExperimental": {
             "description": "Enable experimental features.\nNote: Might be unstable",
