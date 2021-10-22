@@ -122,7 +122,7 @@ class MenuManager {
             click: () => this.actionManager.exportAppData(),
           },
           {
-            label: 'Restore data...',
+            label: 'Import data...',
             click: () => this.actionManager.importAppData(),
           },
         ]
