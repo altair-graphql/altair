@@ -129,6 +129,21 @@
             nz-menu-item
             nz-dropdown
             nzTrigger="click"
+            [nzDropdownMenu]="dataMenu"
+            class="app-header__menu-item app-header__menu-item--icon"
+          >
+            <app-icon name="hard-drive"></app-icon>
+          </li>
+          <nz-dropdown-menu #dataMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="exportData()">{{ 'EXPORT_DATA_WINDOW_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="importData()">{{ 'IMPORT_DATA_WINDOW_TEXT' | translate }}</li>
+            </ul>
+          </nz-dropdown-menu>
+          <li
+            nz-menu-item
+            nz-dropdown
+            nzTrigger="click"
             [nzDropdownMenu]="settingsMenu"
             class="app-header__menu-item app-header__menu-item--icon"
           >
