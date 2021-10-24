@@ -67,7 +67,7 @@ export default {
         return '';
       }
 
-      return this.latestRelease.assets.find(asset => new RegExp(item.pattern).test(asset.name))?.browser_download_url ?? item.link ?? '';
+      return item.pattern ? this.latestRelease.assets.find(asset => new RegExp(item.pattern).test(asset.name))?.browser_download_url ?? item.link ?? '' : item.link ?? '';
     }
   }
 }

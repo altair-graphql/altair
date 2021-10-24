@@ -11,7 +11,6 @@ import {
   HostBinding,
   NgZone,
   ElementRef,
-  DoCheck,
 } from '@angular/core';
 
 import * as fromVariables from '../../store/variables/variables.reducer';
@@ -50,7 +49,8 @@ import { onHasCompletion } from '../../utils/codemirror/graphql-has-completion';
 import { GraphQLSchema } from 'graphql';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
-import { QueryEditorState } from '../../store/query/query.interfaces';
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -59,16 +59,18 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   templateUrl: './query-editor.component.html',
   styleUrls: ['./query-editor.component.scss']
 })
-export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
 
-  @Input() variables: fromVariables.State;
+  @Input() variables: VariableState;
   @Input() showVariableDialog = false;
   @Input() variableToType: IDictionary;
+
+  @Input() shortcutMapping: IDictionary = {};
 
   @Input() preRequest: any = {};
   @Output() preRequestScriptChange = new EventEmitter();
@@ -96,6 +98,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
 
   selectedIndex = 0;
 
+  actionToFn: Record<string, string | Function> = {
+    showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
+    toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+    showFinder: 'findPersistent',
+    showInDocs: (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
+    fillAllFields: (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
+    noOp: (cm: CodeMirror.Editor) => {},
+  };
+
   editorConfig = <any>{
     mode: 'graphql',
     lineWrapping: true,
@@ -104,21 +115,21 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
     tabSize: this.tabSize,
     indentUnit: this.tabSize,
     extraKeys: {
-      'Cmd-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Ctrl-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Alt-Space': (cm: any) => cm.showHint({ completeSingle: true }),
-      'Cmd-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
-      'Ctrl-/': (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
+      'Cmd-Space': this.getShortcutFn('showAutocomplete'),
+      'Ctrl-Space': this.getShortcutFn('showAutocomplete'),
+      'Alt-Space': this.getShortcutFn('showAutocomplete'),
+      'Cmd-/': this.getShortcutFn('toggleComment'),
+      'Ctrl-/': this.getShortcutFn('toggleComment'),
 
-      'Alt-F': 'findPersistent',
-      'Ctrl-F': 'findPersistent',
+      'Alt-F': this.getShortcutFn('showFinder'),
+      'Ctrl-F': this.getShortcutFn('showFinder'),
 
       // show current token parent type in docs
-      'Ctrl-D': (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
+      'Ctrl-D': this.getShortcutFn('showInDocs'),
 
-      'Shift-Ctrl-Enter': (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
-      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
-      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
+      'Shift-Ctrl-Enter': this.getShortcutFn('fillAllFields'),
+      'Ctrl-Enter': this.getShortcutFn('noOp'),
+      'Cmd-Enter': this.getShortcutFn('noOp'),
     },
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     keyMap: 'sublime',
@@ -184,6 +195,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
     // If there is a new schema, update the editor schema
     if (changes?.gqlSchema?.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
@@ -208,12 +222,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       // Set current tab to Query if query is updated
       this.selectedIndex = 0;
     }
-  }
 
-  ngDoCheck() {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
+    if (changes?.shortcutMapping?.currentValue) {
+      // Update the editor shortcuts based on the provided shortcuts
+      this.updateEditorShortcuts(changes.shortcutMapping.currentValue);
+    }
   }
 
   /**
@@ -318,12 +331,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
         try {
           const ast = this.gqlService.parseQuery(cm.getValue());
           ast.definitions.forEach(definition => {
-            if (definition.kind === 'OperationDefinition' && ((definition.name && definition.name.value) || ast.definitions.length === 1)) {
+            if (definition.kind === 'OperationDefinition' && (definition.name?.value || ast.definitions.length === 1)) {
               debug.log('WIDGET', definition);
               definitionsInfo.push({
                 operation: definition.operation,
                 location: definition.loc,
-                operationName: definition.name ? definition.name.value : '',
+                operationName: definition.name?.value ?? '',
               });
             }
           });
@@ -349,7 +362,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
             });
           });
         } catch (error) {
-
+          console.error(error);
         } finally {
           clearTimeout(this.updateWidgetTimeout);
         }
@@ -369,6 +382,16 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges, D
       this.editorConfig.info.schema = schema;
       this.editorConfig.jump.schema = schema;
     }
+  }
+
+  getShortcutFn(actionName: string) {
+    return this.actionToFn[actionName];
+  }
+
+  updateEditorShortcuts(extraKeys: Record<string, string>) {
+    const normalized = Object.keys(extraKeys).reduce((acc, cur) => ({ ...acc, [cur]: this.getShortcutFn(extraKeys[cur])}), {});
+
+    this.editorConfig.extraKeys = { ...this.editorConfig.extraKeys, ...normalized };
   }
 
   onResize(resizeFactor: number) {

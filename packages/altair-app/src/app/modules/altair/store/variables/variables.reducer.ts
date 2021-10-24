@@ -1,23 +1,16 @@
 import { Action } from '@ngrx/store';
 
 import * as variables from './variables.action';
-import { getAltairConfig } from '../../config';
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
+import uuid from 'uuid';
 
-export interface FileVariable {
-    name: string;
-    isMultiple?: boolean;
-    data?: File | File[];
-}
-
-const initialFileVariableState: FileVariable = {
+const initialFileVariableState = () => ({
+    id: uuid(),
     name: 'file',
-};
-export interface State {
-    variables: string;
-    files: FileVariable[];
-}
+});
 
-export const getInitialState = (): State => {
+export const getInitialState = (): VariableState => {
     const altairConfig = getAltairConfig();
     return {
         variables: altairConfig.initialData.variables ? '' + altairConfig.initialData.variables : '{}',
@@ -25,7 +18,7 @@ export const getInitialState = (): State => {
     };
 };
 
-export function variableReducer(state = getInitialState(), action: variables.Action): State {
+export function variableReducer(state = getInitialState(), action: variables.Action): VariableState {
     switch (action.type) {
         case variables.UPDATE_VARIABLES:
             return { ...state, variables: action.payload };
@@ -35,16 +28,18 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             state.files = state.files || [];
 
             return {
-                ...state, files: [
+                ...state,
+                files: [
                     ...state.files,
                     {
-                        ...initialFileVariableState
+                        ...initialFileVariableState()
                     }
                 ]
             };
         case variables.DELETE_FILE_VARIABLE:
             return {
                 ...state,
+                // TODO: Update to use id instead of index (keep backward compatibility)
                 files: state.files.filter((val, i) => i !== action.payload.index)
             };
         case variables.UPDATE_FILE_VARIABLE_NAME:
@@ -61,8 +56,13 @@ export function variableReducer(state = getInitialState(), action: variables.Act
             return {
                 ...state,
                 files: state.files.map((file, i) => {
+                    // TODO: Update to use id instead of index (keep backward compatibility)
                     if (i === action.payload.index) {
-                        return { ...file, data: action.payload.fileData };
+                        return {
+                            ...file,
+                            id: file.id || initialFileVariableState().id,
+                            data: action.payload.fileData,
+                        };
                     }
                     return file;
                 })

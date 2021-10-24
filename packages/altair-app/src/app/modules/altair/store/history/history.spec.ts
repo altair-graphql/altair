@@ -1,8 +1,8 @@
-import { historyReducer, State } from './history.reducer';
+import { historyReducer } from './history.reducer';
 import { AddHistoryAction, ADD_HISTORY, CLEAR_HISTORY, ClearHistoryAction } from './history.action';
-import { getAltairConfig } from '../../config';
+import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
 
-jest.mock('../../config', () => {
+jest.mock('altair-graphql-core/build/config', () => {
   return {
     getAltairConfig() {
       return {
@@ -13,7 +13,7 @@ jest.mock('../../config', () => {
 });
 describe('history', () => {
   it('should return the state for unknown action', () => {
-    const state: State = {
+    const state: HistoryState = {
       list: [
         {
           query: 'query {}'
@@ -45,7 +45,7 @@ describe('history', () => {
   });
 
   it(`should remove the last history item if default limit is reached for [${ADD_HISTORY}] action`, () => {
-    const state: State = {
+    const state: HistoryState = {
       list: [
         {
           query: 'query B{}'
@@ -71,7 +71,7 @@ describe('history', () => {
   });
 
   it(`should add history item if specified limit is not reached for [${ADD_HISTORY}] action`, () => {
-    const state: State = {
+    const state: HistoryState = {
       list: [
         {
           query: 'query C{}'
@@ -106,7 +106,7 @@ describe('history', () => {
   });
 
   it(`should remove the last history item if specified limit is reached for [${ADD_HISTORY}] action`, () => {
-    const state: State = {
+    const state: HistoryState = {
       list: [
         {
           query: 'query D{}'
@@ -144,7 +144,7 @@ describe('history', () => {
   });
 
   it(`should clear history items for [${CLEAR_HISTORY}] action`, () => {
-    const state: State = {
+    const state: HistoryState = {
       list: [
         {
           query: 'query D{}'

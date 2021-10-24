@@ -1,0 +1,46 @@
+name: PR - e2e testing
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        node-version: [14.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: restore lerna
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+    - run: yarn --frozen-lockfile
+    - uses: browser-actions/setup-chrome@latest
+    - name: Build apps (with retries)
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn build:ci
+    - name: Update webdriver (with retries)
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        command: yarn lerna run --scope altair-app webdriver-update-ci
+    - name: Run headless e2e test
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: yarn lerna run --scope altair-app e2e:ci

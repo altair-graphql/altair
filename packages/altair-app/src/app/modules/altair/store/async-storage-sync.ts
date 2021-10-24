@@ -9,9 +9,9 @@ import { StorageService } from '../services/storage/storage.service';
 import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 import { localStorageSyncConfig } from './local-storage-sync-config';
-import { getAltairConfig } from '../config';
-import { RootState } from './state.interfaces';
 import { set } from 'object-path';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 type StateKey = keyof RootState;
 
@@ -194,43 +194,48 @@ const updateSyncOperations = (oldState: Partial<RootState>, newState: Partial<Ro
   syncOperations = syncOperations.filter(op => !newOps.find(no => no.key === op.key)).concat(newOps);
 };
 
-const syncStateUpdate = () => {
-  const asyncStorage = new StorageService();
-  if (syncTransaction) {
-    syncTransaction.abort();
-    syncTransaction = null;
-  }
+const syncStateUpdate = async() => {
+  try {
+    const asyncStorage = new StorageService();
+    if (syncTransaction) {
+      syncTransaction.abort();
+      syncTransaction = null;
+    }
 
-  debug.log('updating state...');
-  return asyncStorage.transaction('rw', asyncStorage.appState, async(trans) => {
-    // Store transaction handles for cancellation later
-    syncTransaction = trans;
+    debug.log('updating state...');
+    return await asyncStorage.transaction('rw', asyncStorage.appState, async(trans) => {
+      // Store transaction handles for cancellation later
+      syncTransaction = trans;
 
-    const ops: Promise<any>[] = [];
+      const ops: Promise<any>[] = [];
 
-    syncOperations.forEach(op => {
-      switch (op.operation) {
-        case 'put':
-          ops.push(
-            asyncStorage.appState.put({
-              key: op.key,
-              value: op.value,
-            })
-          );
-          break;
-        case 'delete':
-          ops.push(
-            asyncStorage.appState.delete(op.key)
-          );
-          break;
-      }
+      syncOperations.forEach(op => {
+        switch (op.operation) {
+          case 'put':
+            ops.push(
+              asyncStorage.appState.put({
+                key: op.key,
+                value: op.value,
+              })
+            );
+            break;
+          case 'delete':
+            ops.push(
+              asyncStorage.appState.delete(op.key)
+            );
+            break;
+        }
+      });
+
+      // flush the sync operations list
+      syncOperations = [];
+
+      return Promise.all(ops);
     });
-
-    // flush the sync operations list
-    syncOperations = [];
-
-    return Promise.all(ops);
-  });
+  } catch (error) {
+    console.error(new Error('Cannot sync state update :('));
+    console.error(error);
+  }
 };
 const debouncedSyncStateUpdate = debounce(syncStateUpdate, 1000);
 
@@ -279,6 +284,10 @@ export const getAppStateFromStorage = async({
     // TODO: Clean from localStorage
   }
 
+  if (!stateList.length) {
+    return;
+  }
+
   const schemas: IDictionary = {};
   // sort stateList by key path parts count
   // i.e. 'windows::1234' should be read before 'window::1234::schema
@@ -315,6 +324,10 @@ export const getAppStateFromStorage = async({
       // }
     });
 
+    if (!Object.keys(reducedState).length) {
+      return;
+    }
+
     // console.log('reduced', reducedState);
     // throw new Error('..');
   return reducedState as RootState;
@@ -345,29 +358,34 @@ export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => 
   return function (state: any, action: ActionWithPayload) {
     let nextState: any;
 
-    // If state arrives undefined, we need to let it through the supplied reducer
-    // in order to get a complete state as defined by user
-    if (action.type === INIT && !state) {
-        nextState = reducer(state, action);
-    } else {
-        nextState = { ...state };
-    }
-    // Merge the store state with the rehydrated state using
-    // either a user-defined reducer or the default.
-    if (action.type === APP_INIT_ACTION) {
-      if (action.payload?.initialState) {
-        nextState = defaultMergeReducer(nextState, (action as AppInitAction).payload.initialState, action);
+    try {
+      // If state arrives undefined, we need to let it through the supplied reducer
+      // in order to get a complete state as defined by user
+      if (action.type === INIT && !state) {
+          nextState = reducer(state, action);
+      } else {
+          nextState = { ...state };
       }
-    }
+      // Merge the store state with the rehydrated state using
+      // either a user-defined reducer or the default.
+      if (action.type === APP_INIT_ACTION) {
+        if (action.payload?.initialState) {
+          nextState = defaultMergeReducer(nextState, (action as AppInitAction).payload.initialState, action);
+        }
+      }
 
-    nextState = reducer(nextState, action);
+      nextState = reducer(nextState, action);
 
-    if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
-      // update storage
-      // Queue update changes before debouncing
-      debug.log('debouncing update..');
-      updateSyncOperations(state, nextState, opts.keys, storageNamespace);
-      debouncedSyncStateUpdate();
+      if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
+        // update storage
+        // Queue update changes before debouncing
+        debug.log('debouncing update..');
+        updateSyncOperations(state, nextState, opts.keys as StateKey[], storageNamespace);
+        debouncedSyncStateUpdate();
+      }
+    } catch (error) {
+      console.error(new Error('Encountered an error while reducing state in async-storage-sync meta-reducer! :('));
+      console.error(error);
     }
 
     return nextState;
@@ -393,8 +411,31 @@ const parseValue = (value: any) => {
 };
 
 const serializeValue = (value: any) => {
+  // Remove any item that cannot be serialized with circular references
+  const stringify = function(data: any) {
+    let cache: any[] = [];
+
+    const output = JSON.stringify(data, function(k, v) {
+
+        if (typeof v === 'object' && v !== null) {
+            if (cache.indexOf(v) !== -1) {
+                // Circular reference found, discard key
+                return;
+            }
+            // Store value in our collection
+            cache.push(v);
+        }
+
+        return v;
+    });
+
+    cache = []; // Enable garbage collection
+
+    return output;
+}
   // For now we will store the state stringified,
   // until we remove the GraphQLSchema from the state before storing
   // since it isn't a valid value for structured cloning (it is a class instance)
   return JSON.stringify(value);
+  return stringify(value);
 };

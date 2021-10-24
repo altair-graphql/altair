@@ -7,19 +7,17 @@ import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 
-import * as fromRoot from '../../store';
-import * as fromHeader from '../../store/headers/headers.reducer';
-
 import * as queryActions from '../../store/query/query.action';
 import * as docsActions from '../../store/docs/docs.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from '../../utils/logger';
-import { RootState } from '../../store/state.interfaces';
 import { ObjectLocalStorage } from '../../utils/object-local-storage';
 import { getAppStateFromStorage, importIndexedRecords } from '../../store/async-storage-sync';
 import { StorageService } from '../storage/storage.service';
 import { downloadData } from '../../utils';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -106,7 +104,7 @@ export class ElectronAppService {
     }
   }
 
-  setHeaders(headers: fromHeader.Header[]) {
+  setHeaders(headers: HeaderState) {
     if (this.electron.isElectronApp) {
       this.ipc.sendSync('set-headers-sync', headers);
     }

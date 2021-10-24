@@ -13,7 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AltairConfig } from '../../config';
+import { AltairConfig } from 'altair-graphql-core/build/config';
+import { MockProviders } from 'ng-mocks';
 
 describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
@@ -32,7 +33,7 @@ describe('SettingsDialogComponent', () => {
         SchemaFormModule,
       ],
       providers: [
-        NotifyService,
+        MockProviders(NotifyService),
         KeybinderService,
         WindowService,
         DbService,

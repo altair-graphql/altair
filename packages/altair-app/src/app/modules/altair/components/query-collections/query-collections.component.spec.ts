@@ -189,7 +189,7 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('exportCollectionChange')).toBeTruthy();
   });
 
-  it('should emit "importCollectionChange" when clicking import collection button', async() => {
+  it('should emit "importCollectionsChange" when clicking import collection button', async() => {
     wrapper.setProps({
       showCollections: true,
       collections: [
@@ -203,11 +203,11 @@ describe('QueryCollectionsComponent', () => {
 
     await wrapper.nextTick();
 
-    const importCollectionButton = wrapper.find('[data-test-id="import-collection"]');
+    const importCollectionsButton = wrapper.find('[data-test-id="import-collection"]');
 
-    importCollectionButton.emit('click');
+    importCollectionsButton.emit('click');
 
-    expect(wrapper.emitted('importCollectionChange')).toBeTruthy();
+    expect(wrapper.emitted('importCollectionsChange')).toBeTruthy();
   });
 
   it('should emit "sortCollectionsChange" when clicking one of the sort options', async() => {

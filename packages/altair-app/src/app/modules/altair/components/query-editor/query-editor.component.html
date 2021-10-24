@@ -18,7 +18,7 @@
     </div>
     <div class="variables-editor-container" [ngClass]="{ 'show-variables': showVariableDialog }">
       <div class="variables-editor--title" track-id="toggle_variables" (click)="toggleVariableDialog.next($event)">{{ 'VARIABLES_TEXT' | translate }}</div>
-      <div class="variables-editor-inner" [ngClass]="{ 'hide': !showVariableDialog }">
+      <div class="variables-editor-inner" *ngIf="showVariableDialog" [ngClass]="{ 'hide': !showVariableDialog }">
         <div class="variables-editor-input-container">
           <app-variables-editor
             [variables]="variables?.variables"
@@ -40,7 +40,7 @@
               *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;"
               [fileVariable]="file"
               (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
-              (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event })"
+              (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event.files, fromCache: $event.fromCache })"
               (fileVariableIsMultipleChange)="fileVariableIsMultipleChange.emit({ index: index, isMultiple: $event })"
               (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
             ></app-variable-file-item>

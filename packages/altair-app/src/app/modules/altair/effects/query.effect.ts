@@ -34,11 +34,14 @@ import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils'
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
-import { WEBSOCKET_PROVIDER_ID } from '../services/subscriptions/subscription-provider-registry.service';
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType } from '../services/pre-request/pre-request.service';
-import { PerWindowState, RootState } from '../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
+import { RequestScriptError } from '../services/pre-request/errors';
 
 interface EffectResponseData {
   state: RootState;
@@ -239,6 +242,12 @@ export class QueryEffects {
                       if (error.status) {
                         output = error.error;
                       }
+                      if (error.message) {
+                        output = error.message;
+                      }
+                      if (error instanceof RequestScriptError) {
+                        output = `${error.name}: ${error.message}`;
+                      }
                       this.store.dispatch(new queryActions.SetQueryResultAction(output, response.windowId));
                       return of(null);
                     }),
@@ -246,6 +255,8 @@ export class QueryEffects {
                       this.store.dispatch(new queryActions.SetResponseStatsAction(response.windowId, {
                         responseStatus: requestStatusCode,
                         responseTime: res ? res.meta.responseTime : 0,
+                        requestStartTime: res ? res.meta.requestStartTime : 0,
+                        requestEndTime: res ? res.meta.requestEndTime : 0,
                         responseStatusText: requestStatusText
                       }));
                       this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
@@ -472,11 +483,29 @@ export class QueryEffects {
               Click here to submit bugs, improvements, etc.
             `, undefined, {
               data: {
-                url: 'https://github.com/imolorhe/altair/issues/new'
+                url: 'https://github.com/altair-graphql/altair/issues/new'
               }
             });
             return this.dbService.setItem('exp_add_query_seen', true);
           }
+          return EMPTY;
+        }),
+      );
+  }, { dispatch: false })
+
+  clearResult$ = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(queryActions.CLEAR_RESULT),
+        withLatestFrom(this.store, (action: queryActions.Action, state) => {
+          return { data: state.windows[action.windowId], windowId: action.windowId, action };
+        }),
+        switchMap(res => {
+          this.store.dispatch(new queryActions.SetQueryResultAction('', res.windowId));
+          this.store.dispatch(
+            new queryActions.SetQueryResultResponseHeadersAction(res.windowId, { })
+          );
+
           return EMPTY;
         }),
       );
@@ -601,20 +630,22 @@ export class QueryEffects {
             return from(getProviderClass()).pipe(
               switchMap(SubscriptionProviderClass => {
 
-                const subscriptionProvider = new SubscriptionProviderClass(
-                  subscriptionUrl,
-                  connectionParams,
-                  {
-                    onConnected: error => {
-                      if (error) {
-                        debug.log('Subscription connection error', error);
-                        return subscriptionErrorHandler(error);
-                      }
-                      debug.log('Connected subscription.');
-                    }
-                  }
-                );
+                let subscriptionProvider: SubscriptionProvider;
                 try {
+                  subscriptionProvider = new SubscriptionProviderClass(
+                    subscriptionUrl,
+                    connectionParams,
+                    {
+                      onConnected: error => {
+                        if (error) {
+                          debug.log('Subscription connection error', error);
+                          return subscriptionErrorHandler(error);
+                        }
+                        debug.log('Connected subscription.');
+                      }
+                    }
+                  );
+
                   subscriptionProvider.execute({
                     query,
                     variables: variablesObj,
@@ -776,6 +807,12 @@ export class QueryEffects {
           const url = this.environmentService.hydrate(res.data.query.url);
           const query = this.environmentService.hydrate(res.data.query.query || '');
           const variables = this.environmentService.hydrate(res.data.variables.variables);
+          const { resolvedFiles } = this.gqlService.normalizeFiles(res.data.variables.files);
+          if (resolvedFiles.length) {
+            this.notifyService.error('This is not currently available with file variables');
+            return EMPTY;
+          }
+
           try {
             const curlCommand = generateCurl({
               url,

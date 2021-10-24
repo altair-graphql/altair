@@ -11,26 +11,27 @@ jobs:
     name: Prepare release
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - id: release-draft
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
           prerelease: false
           draft: true
-      - id: staging-pr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: staging
-          base: master
-          title: Staging to master
+      # - id: staging-pr
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     branch: staging
+      #     base: master
+      #     title: Staging to master
     outputs:
       release-tag: ${{ steps.release-draft.outputs.automatic_releases_tag }}
-      staging-pr-id: ${{ steps.staging-pr.outputs.pull-request-number }}
+      # staging-pr-id: ${{ steps.staging-pr.outputs.pull-request-number }}
   electron:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [12.x]
+        node-version: [14.x]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -70,6 +71,30 @@ jobs:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
         API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+
+    # chocolatey
+    - name: Read VERSION file
+      id: getversion
+      run: echo "::set-output name=version::$(cat VERSION)"
+    - name: Add mask
+      run: |
+        echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+    - name: chocolatey pack
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: pack chocolatey\altair-graphql.nuspec
+    - name: chocolatey install (test choco packaging)
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: install altair-graphql.${{ steps.getversion.outputs.version }}.nupkg
+    - name: chocolatey push
+      if: startsWith(matrix.os, 'windows')
+      uses: crazy-max/ghaction-chocolatey@v1.6.0
+      with:
+        args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
+
   npm-publish:
     runs-on: ubuntu-latest
     needs: electron
@@ -96,17 +121,44 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.prepare-release.outputs.release-tag }}
-      - uses: peter-evans/enable-pull-request-automerge@v1
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
+      # - uses: peter-evans/enable-pull-request-automerge@v1
+      #   with:
+      #     token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      #     pull-request-number: ${{ needs.prepare-release.outputs.staging-pr-id }}
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
     needs: [publish-release]
     steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
       - run: bin/deploy_docs.sh
-  # TODO: Publish browser extensions (chrome, mozilla, edge)
-  # https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md
-  # https://github.com/marketplace/actions/chrome-extension-upload-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  chrome-extension-upload:
+    name: Publish webextension
+    runs-on: ubuntu-latest
+    needs: [deploy-docs]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Build extensions
+      run: |
+        yarn
+        yarn lerna bootstrap
+        yarn build-ext2
+    - name: Upload & release
+      uses: mnao305/chrome-extension-upload@1.1.1
+      with:
+        file-path: extension-builds/chrome-build/chrome.zip
+        extension-id: flnheeellpciglgpaodhkhmapeljopja
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+  # TODO: Publish browser extensions (mozilla, edge)
   # https://github.com/fregante/web-ext-submit

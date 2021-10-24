@@ -9,10 +9,8 @@ import {
   SimpleChanges,
   OnChanges,
   ElementRef,
-  DoCheck,
 } from '@angular/core';
 
-import { AltairConfig } from '../../config';
 import { debug } from '../../utils/logger';
 
 // Import the codemirror packages
@@ -29,7 +27,8 @@ import { registerSettingsLinter, getHint, validateSettings, settingsSchema } fro
 import { NotifyService, KeybinderService, StorageService } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
-import { SettingsState } from '../../store/settings/settings.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 registerSettingsLinter(Codemirror);
 
@@ -38,7 +37,7 @@ registerSettingsLinter(Codemirror);
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss']
 })
-export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() settings: SettingsState;
   @Input() appVersion: string;
@@ -94,15 +93,12 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.settings && changes.settings.currentValue) {
-      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
-    }
-  }
-
-  ngDoCheck() {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
     handleEditorRefresh(this.editor && this.editor.codeMirror);
+    if (changes && changes.settings && changes.settings.currentValue) {
+      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
+    }
   }
 
   showHint(cm: any) {

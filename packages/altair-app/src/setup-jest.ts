@@ -1,4 +1,7 @@
 import 'jest-preset-angular/setup-jest';
+jest.mock('./app/modules/altair/components/doc-viewer/doc-viewer/worker-helper', () => ({
+  getDocUtilsWorkerAsyncClass: () => {},
+}))
 
 /* global mocks for jsdom */
 const mock = () => {

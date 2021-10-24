@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, DoCheck } from '@angular/core';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -16,7 +16,7 @@ import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
   selector: 'app-subscription-url-dialog',
   templateUrl: './subscription-url-dialog.component.html'
 })
-export class SubscriptionUrlDialogComponent implements OnChanges, DoCheck {
+export class SubscriptionUrlDialogComponent implements  DoCheck {
 
   @Input() subscriptionUrl = '';
   @Input() subscriptionConnectionParams = '';
@@ -49,8 +49,7 @@ export class SubscriptionUrlDialogComponent implements OnChanges, DoCheck {
 
   constructor() { }
 
-  ngOnChanges() {
-  }
+  
 
   ngDoCheck() {
     // Refresh the query result editor view when there are any changes

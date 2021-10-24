@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "build/",
+    "rootDir": "./src",
+    "declaration": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ],
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  }
+}

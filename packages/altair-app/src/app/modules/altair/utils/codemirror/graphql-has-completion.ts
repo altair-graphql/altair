@@ -10,7 +10,7 @@ const renderType = (type: GraphQLType): string => {
   if (type instanceof GraphQLList) {
     return `[${renderType(type.ofType)}]`;
   }
-  return `<a class="typeName">${type.name}</a>`;
+  return `<a class="typeName">${marked(type.name)}</a>`;
 };
 
 /**

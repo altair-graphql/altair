@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
-import {
-  AltairPlugin,
-  PluginSource,
-  PluginManifest,
-  createPlugin,
-} from './plugin';
 import { Store } from '@ngrx/store';
 
 import * as localActions from '../../store/local/local.action';
 import { PluginContextService } from './context/plugin-context.service';
-import { PluginStateEntry } from '../../store/local/local.reducer';
-import { RootState } from '../../store/state.interfaces';
+import { AltairPlugin, createPlugin, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
+import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -34,17 +30,19 @@ export class PluginRegistryService {
 
   async add(name: string, plugin: AltairPlugin) {
     const context = this.pluginContextService.createContext(name, plugin);
-    const PluginClass = this.getPluginClass(plugin);
+    const RetrievedPluginClass = this.getPluginClass(plugin);
     const pluginStateEntry: PluginStateEntry = {
       name,
       context,
-      instance: PluginClass ? new PluginClass() : undefined,
+      instance: RetrievedPluginClass ? new RetrievedPluginClass() : undefined,
       plugin,
     };
 
-    if (pluginStateEntry.instance) {
-      pluginStateEntry.instance.initialize(context);
+    if (!pluginStateEntry.instance) {
+      throw new Error(`Could not create the plugin instance for plugin: ${name}. Check that plugin_class is set correctly in manifest.`);
     }
+
+    pluginStateEntry.instance.initialize(context);
     this.store.dispatch(new localActions.AddInstalledPluginEntryAction(pluginStateEntry));
   }
 
@@ -195,7 +193,7 @@ export class PluginRegistryService {
 
   private getPluginClass(plugin: AltairPlugin) {
     if (plugin.plugin_class) {
-      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as any;
+      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as PluginConstructor;
     }
     return;
   }

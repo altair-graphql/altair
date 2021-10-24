@@ -1,21 +1,21 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "4.0.4",
+  "version": "4.1.0",
   "description": "Electron wrapper for Altair",
   "main": "index.js",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "yarn test:unit && yarn test:e2e",
+    "test": "yarn test:unit",
     "test:unit": "jest",
     "test:e2e": "jest -c jest.config.e2e.js --runInBand",
     "build": "electron-builder",
     "dev": "electron ."
   },
   "dependencies": {
-    "altair-static": "^4.0.4",
+    "altair-static": "^4.1.0",
     "electron-debug": "^3.0.1",
     "electron-is-dev": "^1.2.0",
     "electron-log": "^3.0.6",
@@ -32,23 +32,26 @@
     "@types/jest": "^26.0.3",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "^12.0.1",
-    "electron-builder": "^22.10.5",
+    "electron": "^14.0.1",
+    "electron-builder": "^22.11.7",
     "electron-builder-notarize": "^1.2.0",
-    "electron-notarize": "^1.0.0",
-    "electron-reloader": "^0.3.0",
+    "electron-chromedriver": "^14.0.0",
+    "electron-notarize": "^1.1.1",
+    "electron-reloader": "^1.2.1",
     "eslint": "^7.3.1",
     "jest": "^26.1.0",
     "jest-circus": "^26.1.0",
-    "spectron": "^14.0.0",
-    "typescript": "4.0.7"
+    "playwright": "^1.14.1",
+    "spectron": "^15.0.0",
+    "typescript": "^4.4.3",
+    "webdriverio": "^7.12.5"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imolorhe/altair.git"
+    "url": "git+https://github.com/altair-graphql/altair.git"
   },
   "bugs": {
-    "url": "https://github.com/imolorhe/altair/issues"
+    "url": "https://github.com/altair-graphql/altair/issues"
   },
   "collective": {
     "type": "opencollective",

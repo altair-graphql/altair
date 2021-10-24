@@ -1,8 +1,9 @@
 <div
   class="app-wrapper"
   [appTheme]="theme$ | async"
+  [appDarkTheme]="themeDark$ | async"
   appFileDrop
-  (onFileDropped)="fileDropped($event)"
+  (fileDroppedChange)="fileDropped($event)"
 >
 <nz-layout class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
@@ -92,7 +93,7 @@
               <app-icon name="eye"></app-icon>
               <span>{{ (activeEnvironment$ | async)?.title }}</span>
             </span>
-            <span *ngIf="!(activeEnvironment$ | async)">
+            <span *ngIf="(activeEnvironment$ | async) === undefined">
               <app-icon name="eye-off"></app-icon>
               <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
             </span>
@@ -138,8 +139,8 @@
               <li nz-menu-item (click)="importWindow()">{{ 'IMPORT_WINDOW_TEXT' | translate }}</li>
               <li nz-menu-item (click)="setShowImportCurlDialog(true)">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</li>
               <li nz-menu-item (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="externalLink($event, 'https://github.com/imolorhe/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="externalLink($event, 'https://github.com/imolorhe/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
             </ul>
           </nz-dropdown-menu>
         </ul>
@@ -307,7 +308,7 @@
                 (deleteCollectionChange)="deleteCollection($event)"
                 (editCollectionChange)="toggleEditCollectionDialog($event)"
                 (exportCollectionChange)="exportCollection($event)"
-                (importCollectionChange)="importCollection()"
+                (importCollectionsChange)="importCollections()"
                 (sortCollectionsChange)="sortCollections($event)"
               ></app-query-collections>
             </div>

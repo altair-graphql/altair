@@ -1,6 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "Record<string,string>": {
+            "type": "object"
+        },
         "SettingsLanguage": {
             "enum": [
                 "cs-CZ",
@@ -35,6 +38,10 @@
         "disablePushNotification": {
             "description": "Disable push notifications",
             "type": "boolean"
+        },
+        "editor.shortcuts": {
+            "$ref": "#/definitions/Record<string,string>",
+            "description": "Contains shortcut to action mapping"
         },
         "enableExperimental": {
             "description": "Enable experimental features.\nNote: Might be unstable",
@@ -75,6 +82,10 @@
             "description": "Theme",
             "type": "string"
         },
+        "theme.dark": {
+            "description": "Theme for dark mode",
+            "type": "string"
+        },
         "theme.editorFontFamily": {
             "description": "Editor Font Family",
             "type": "string"
@@ -89,6 +100,9 @@
         },
         "themeConfig": {
             "description": "Theme config object"
+        },
+        "themeConfig.dark": {
+            "description": "Theme config object for dark mode"
         }
     },
     "type": "object"

@@ -1,18 +1,8 @@
 // Based on: https://github.com/bennadel/JavaScript-Demos/blob/master/demos/message-bus-actions-angular6/app/message-bus.ts
 import { Injectable, ErrorHandler } from '@angular/core';
+import { PluginEvent, PluginEventCallback, PluginEventPayloadMap } from 'altair-graphql-core/build/plugin/event/event.interfaces';
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-interface PluginEventPayloadMap {
-  'app-ready': boolean;
-  'current-window.change': { windowId: string; };
-  'query.change': { windowId: string; data: string; };
-  'query-result.change': { windowId: string; data: string; };
-  'sdl.change': { windowId: string; data: string; };
-};
-
-export type PluginEvent = keyof PluginEventPayloadMap;
-export type PluginEventCallback<T extends PluginEvent> = (payload: PluginEventPayloadMap[T]) => void;
 
 interface PluginEventData {
   event: PluginEvent;
@@ -80,7 +70,9 @@ class PluginEventGroup {
     return {
       unsubscribe: () => {
         this.subscriptions = this.subscriptions.filter(_ => _ !== subscription);
-        return subscription.unsubscribe();
+        if (!subscription.closed) {
+          return subscription.unsubscribe();
+        }
       },
     };
   }

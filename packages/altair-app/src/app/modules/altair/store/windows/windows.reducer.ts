@@ -4,19 +4,18 @@ import * as windowsActions from './windows.action';
 import { IDictionary } from '../../interfaces/shared';
 import { INIT_WINDOW } from '../action';
 import { normalize } from '../compatibility-normalizer';
-import { PerWindowState } from '../state.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
-export interface State {
-    [id: string]: PerWindowState;
-}
+
+export const getInitWindowState = (perWindowReducer: ActionReducer<PerWindowState>) => perWindowReducer(undefined, { type: INIT_WINDOW });
 
 /**
  * Metareducer to add new window and pass the correct window state to the main reducer
  * @param reducer
  */
 export function windows(reducer: ActionReducer<PerWindowState>) {
-    const getInitWindowState = () => reducer(undefined, { type: INIT_WINDOW });
-    const initialState: State = {};
+    const initialState: WindowState = {};
 
     return function(state = initialState, action: windowsActions.Action) {
 
@@ -27,7 +26,7 @@ export function windows(reducer: ActionReducer<PerWindowState>) {
                 const { windowId, title, url, collectionId, windowIdInCollection, fixedTitle } = action.payload;
 
                 // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                _state[windowId] = JSON.parse(JSON.stringify(getInitWindowState()));
+                _state[windowId] = JSON.parse(JSON.stringify(getInitWindowState(reducer)));
 
                 _state[windowId].layout.title = title;
                 _state[windowId].layout.hasDynamicTitle = !fixedTitle;

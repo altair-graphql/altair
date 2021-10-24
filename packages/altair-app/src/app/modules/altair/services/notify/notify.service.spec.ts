@@ -1,22 +1,23 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HotToastService } from '@ngneat/hot-toast';
+import { ToastrService } from 'ngx-toastr';
 
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { anyFn, mock } from '../../../../../testing';
-import { RootState } from '../../store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
-let mockHotToastService: HotToastService;
+let mockToastService: ToastrService;
 let mockStore: Store<RootState>;
 
 describe('NotifyService', () => {
   beforeEach(() => {
-    mockHotToastService = mock<HotToastService>({
+    mockToastService = mock<ToastrService>({
       success: anyFn(),
       error: anyFn(),
       warning: anyFn(),
-      show: anyFn(),
+      info: anyFn(),
     });
     mockStore = mock();
     TestBed.configureTestingModule({
@@ -27,8 +28,8 @@ describe('NotifyService', () => {
           useFactory: () => mockStore,
         },
         {
-          provide: HotToastService,
-          useFactory: () => mockHotToastService,
+          provide: ToastrService,
+          useFactory: () => mockToastService,
         },
       ]
     });
@@ -40,14 +41,14 @@ describe('NotifyService', () => {
 
   describe('.success', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.success('message', 'title', { data: {} });
+      service.success('message', 'title', { data: 'x' });
 
-      expect(mockHotToastService.success).toHaveBeenCalledWith(
+      expect(mockToastService.success).toHaveBeenCalledWith(
         'message',
-        {
-          autoClose: true,
-          id: 'message',
-        }
+        'title',
+        ({
+          data: 'x'
+        }) as any
       );
     }));
   });
@@ -63,14 +64,14 @@ describe('NotifyService', () => {
         }
       };
       mockStore.select = (predicate: any) => of(predicate(state));
-      service.warning('message', 'title', { data: {} });
+      service.warning('message', 'title', { data: 'x' });
 
-      expect(mockHotToastService.warning).toHaveBeenCalledWith(
+      expect(mockToastService.warning).toHaveBeenCalledWith(
         'message',
-        {
-          autoClose: true,
-          id: 'message',
-        }
+        'title',
+        ({
+          data: 'x'
+        }) as any
       );
     }));
 
@@ -84,36 +85,36 @@ describe('NotifyService', () => {
         }
       };
       mockStore.select = (predicate: any) => of(predicate(state));
-      service.warning('message', 'title', { data: {} });
+      service.warning('message', 'title', { data: 'x' });
 
-      expect(mockHotToastService.warning).not.toHaveBeenCalled();
+      expect(mockToastService.warning).not.toHaveBeenCalled();
     }));
   });
 
   describe('.info', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.info('message', 'title', { data: {} });
+      service.info('message', 'title', { data: 'x' });
 
-      expect(mockHotToastService.show).toHaveBeenCalledWith(
+      expect(mockToastService.info).toHaveBeenCalledWith(
         'message',
-        {
-          autoClose: true,
-          id: 'message',
-        }
+        'title',
+        ({
+          data: 'x'
+        }) as any
       );
     }));
   });
 
   describe('.error', () => {
     it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.error('message', 'title', { data: {} });
+      service.error('message', 'title', { data: 'x' });
 
-      expect(mockHotToastService.error).toHaveBeenCalledWith(
+      expect(mockToastService.error).toHaveBeenCalledWith(
         'message',
-        {
-          autoClose: true,
-          id: 'message',
-        }
+        'title',
+        ({
+          data: 'x'
+        }) as any
       );
     }));
   });

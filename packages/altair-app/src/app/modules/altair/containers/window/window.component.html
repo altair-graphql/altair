@@ -56,6 +56,7 @@
         [variableToType]="variableToType"
         [preRequest]="preRequest$ | async"
         [postRequest]="postRequest$ | async"
+        [shortcutMapping]="editorShortcutMapping$ | async"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"
@@ -68,19 +69,24 @@
         [subscriptionUrl]="subscriptionUrl"
         [tabSize]="tabSize$ | async"
         [autoscrollSubscriptionResponses]="autoscrollSubscriptionResponses$ | async"
+        [windowId]="windowId"
+        [activeWindowId]="activeWindowId$ | async"
         [uiActions]="resultPaneUiActions$ | async"
+        [bottomPanels]="resultPaneBottomPanels$ | async"
 
+        (clearResultChange)="clearResult()"
         (downloadResultChange)="downloadResult()"
         (stopSubscriptionChange)="stopSubscription()"
         (clearSubscriptionChange)="clearSubscription()"
         (autoscrollSubscriptionResponsesChange)="toggleAutoscrollSubscriptionResponses()"
         (uiActionExecuteChange)="onExecuteUiAction($event)"
+        (bottomPanelActiveToggle)="togglePanelActive($event)"
       ></app-query-result>
       <app-doc-viewer
         [docView]="docView$ | async"
         [gqlSchema]="gqlSchema"
         [allowIntrospection]="allowIntrospection$ | async"
-        [ngClass]="{'hide-doc': !(showDocs$ | async)}"
+        [ngClass]="{'hide-doc': (showDocs$ | async) !== true}"
         [isLoading]="docsIsLoading$ | async"
         [addQueryDepthLimit] = "addQueryDepthLimit$ | async"
         [tabSize]="tabSize$ | async"
@@ -127,7 +133,7 @@
                 placeholder="Header key"
                 [ngModel]="header.key"
                 (ngModelChange)="headerKeyChange($event, i)"
-                (submit)="toggleHeader()"
+                (submitChange)="toggleHeader()"
               ></app-fancy-input>
             </div>
             <div class="set-header-input-column">
@@ -136,7 +142,7 @@
                 placeholder="Header value"
                 [ngModel]="header.value"
                 (ngModelChange)="headerValueChange($event, i)"
-                (submit)="toggleHeader()"
+                (submitChange)="toggleHeader()"
               ></app-fancy-input>
             </div>
             <button class="header-input-remove-button" (click)="removeHeader(i)">&times;</button>
@@ -161,7 +167,7 @@
     <app-subscription-url-dialog
       [subscriptionUrl]="subscriptionUrl"
       [subscriptionConnectionParams]="subscriptionConnectionParams"
-      [subscriptionProviders]="availableSubscriptionProviders"
+      [subscriptionProviders]="availableSubscriptionProviders$ | async"
       [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
       [showDialog]="showSubscriptionUrlDialog"
       (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"

@@ -1,12 +1,11 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType, GraphQLArgument } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -14,7 +13,7 @@ import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, Gr
   styleUrls: ['./doc-viewer-type.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocViewerTypeComponent implements OnInit {
+export class DocViewerTypeComponent  {
 
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
@@ -24,8 +23,7 @@ export class DocViewerTypeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   /**
    * Check if the current type is a root type
@@ -88,5 +86,12 @@ export class DocViewerTypeComponent implements OnInit {
 
   schemaItemTrackBy(index: number, schemaItem: any) {
     return schemaItem.name;
+  }
+
+  getDefaultValue(arg: GraphQLArgument) {
+    if (typeof arg.defaultValue !== 'undefined') {
+      return JSON.stringify(arg.defaultValue);
+    }
+    return;
   }
 }

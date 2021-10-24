@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { AltairConfig } from '../../../config';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Component({
   selector: 'app-schema-form-item',
@@ -7,7 +7,7 @@ import { AltairConfig } from '../../../config';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SchemaFormItemComponent implements OnInit {
+export class SchemaFormItemComponent  {
 
   @Input() item: any;
   @Input() data: any;
@@ -18,8 +18,7 @@ export class SchemaFormItemComponent implements OnInit {
     private altairConfig: AltairConfig,
   ) { }
 
-  ngOnInit() {
-  }
+  
 
   getOptionLabel(item: any, option: string) {
     switch (item?.key) {

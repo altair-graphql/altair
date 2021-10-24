@@ -5,8 +5,8 @@
 [![Mozilla Add-on](https://img.shields.io/amo/v/altair-graphql-client.svg)](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/)
 [![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)](https://www.npmjs.com/package/altair-express-middleware)
 [![Altair GraphQL Client](https://snapcraft.io/altair/badge.svg)](https://snapcraft.io/altair)
-[![GitHub release](https://img.shields.io/github/release/imolorhe/altair.svg)](https://github.com/imolorhe/altair/releases)
-[![Github All Releases](https://img.shields.io/github/downloads/imolorhe/altair/total.svg)](https://github.com/imolorhe/altair/releases)
+[![GitHub release](https://img.shields.io/github/release/altair-graphql/altair.svg)](https://github.com/altair-graphql/altair/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/altair-graphql/altair/total.svg)](https://github.com/altair-graphql/altair/releases)
 
 [![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
 
@@ -26,6 +26,10 @@
 
 **Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altair.sirmuel.design/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 It enables you interact with any GraphQL server you are authorized to access from any platform you are on.
+
+
+_-- the GraphQL IDE that does not require running a web server_
+
 
 ## Features
 
@@ -54,7 +58,7 @@ Altair provides several features that make developing with GraphQL very efficien
 
 ### Missing feature?
 
-Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/imolorhe/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/imolorhe/altair/blob/staging/.github/CONTRIBUTING.md).
+Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/altair-graphql/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/altair-graphql/altair/blob/staging/.github/CONTRIBUTING.md).
 
 ## Sponsors
 Thanks to all our sponsors for sponsoring this project! Do you use Altair GraphQL client at your company? Consider supporting this project as a major sponsor (primary, gold, silver or bronze) on [open collective](https://opencollective.com/altair/contribute).
@@ -122,7 +126,7 @@ $ composer require xkojimedia/laravel-altair-graphql
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
 ### Configuration Options
-When using a custom instance of Altair, there are [couple of options](https://github.com/imolorhe/altair/blob/staging/packages/altair-app/src/app/modules/altair/config.ts#L9) you can use to customize Altair based on your needs:
+When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/staging/packages/altair-app/src/app/modules/altair/config.ts#L9) you can use to customize Altair based on your needs:
 
 - `endpointURL` `string` - URL to set as the server endpoint
 - `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { IQuery, IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { memoize } from '../../utils/memoize';
-import { IQueryCollection, IQuery } from '../../store/collection/collection.reducer';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 @Component({
@@ -9,7 +9,7 @@ type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
   styleUrls: ['./query-collection-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueryCollectionItemComponent implements OnInit {
+export class QueryCollectionItemComponent  {
   @Input() collection: IQueryCollection;
 
   @Output() selectQueryChange = new EventEmitter();
@@ -25,8 +25,7 @@ export class QueryCollectionItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   getQueryCount(collection: IQueryCollection) {
     return collection.queries && collection.queries.length;

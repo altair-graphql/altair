@@ -14,7 +14,7 @@ export default ({
   // ...apply enhancements for the site.
   // Temporary hack to fix unknown custom element error
   // https://github.com/vuejs/vuepress/issues/1173#issuecomment-470534176
-  for (const [name, component] of Object.entries(pageComponents)) {
-    Vue.component(name, component)
-  }
+  // for (const [name, component] of Object.entries(pageComponents)) {
+  //   Vue.component(name, component)
+  // }
 }

@@ -1,6 +1,6 @@
 {
   "name": "altair-fastify-plugin",
-  "version": "4.0.4",
+  "version": "4.1.0",
   "description": "Fastify Plugin of Altair GraphQL Client",
   "keywords": [
     "graphql",
@@ -9,13 +9,13 @@
     "client",
     "gql"
   ],
-  "homepage": "https://github.com/imolorhe/altair#readme",
+  "homepage": "https://github.com/altair-graphql/altair#readme",
   "bugs": {
-    "url": "https://github.com/imolorhe/altair/issues"
+    "url": "https://github.com/altair-graphql/altair/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imolorhe/altair.git"
+    "url": "git+https://github.com/altair-graphql/altair.git"
   },
   "license": "MIT",
   "author": "PabloSz <pablosaez1995@gmail.com>",
@@ -31,7 +31,7 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "altair-static": "^4.0.4",
+    "altair-static": "^4.1.0",
     "fastify-plugin": "^2.3.4",
     "fastify-static": "^3.2.1"
   },

@@ -1,39 +1,9 @@
 import { Action } from '@ngrx/store';
+import { CollectionState } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 import * as collectionActions from '../../store/collection/collection.action';
-import { ExportWindowState } from '../state.interfaces';
 
-export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
-
-export interface State {
-  list: IQueryCollection[];
-  activeCollection: any;
-  sortBy: SortByOptions;
-}
-
-export interface IQuery extends ExportWindowState {
-  id?: number;
-  created_at?: number;
-  updated_at?: number;
-}
-
-export interface IQueryCollection {
-  id?: number;
-  title: string;
-  description?: string;
-  queries: any[];
-  collections?: IQueryCollection[];
-
-  created_at?: number;
-  updated_at?: number;
-}
-
-export interface ExportCollectionState extends IQueryCollection {
-  version: 1;
-  type: 'collection';
-}
-
-export const getInitialState = (): State => {
+export const getInitialState = (): CollectionState => {
   return {
     list: [],
     activeCollection: null,
@@ -41,7 +11,7 @@ export const getInitialState = (): State => {
   };
 };
 
-export function collectionReducer(state = getInitialState(), action: collectionActions.Action): State {
+export function collectionReducer(state = getInitialState(), action: collectionActions.Action): CollectionState {
   switch (action.type) {
     case collectionActions.SET_COLLECTIONS:
       return { ...state, list: action.payload.collections };

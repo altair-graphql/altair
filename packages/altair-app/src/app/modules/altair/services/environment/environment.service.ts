@@ -7,8 +7,9 @@ import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from '../../interfaces/shared';
-import { RootState } from '../../store/state.interfaces';
-import { EnvironmentsState } from '../../store/environments/environments.interfaces';
+import { EnvironmentsState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -106,7 +107,7 @@ export class EnvironmentService {
     return content;
   }
 
-  hydrateHeaders(headers: fromHeaders.Header[], options: HydrateEnvironmentOptions = {}): fromHeaders.Header[] {
+  hydrateHeaders(headers: HeaderState, options: HydrateEnvironmentOptions = {}): HeaderState {
     const hydratedHeaders = headers.map(header => {
       return {
         key: this.hydrate(header.key, options),

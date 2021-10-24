@@ -7,6 +7,7 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ToastrModule } from 'ngx-toastr';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -21,6 +22,7 @@ import { QueryEffects } from './effects/query.effect';
 import { WindowsEffects } from './effects/windows.effect';
 import { QueryCollectionEffects } from './effects/query-collection.effect';
 import { PluginEventEffects } from './effects/plugin-event.effect';
+import { LocalEffects } from './effects/local.effect';
 
 import { DirectivesModule } from './directives';
 import { ComponentModule } from './components/components.module';
@@ -42,7 +44,7 @@ import { AppOverlayContainer } from './overlay-container';
 import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
-import { RootState } from './store/state.interfaces';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 registerLocaleData(en);
 
@@ -134,7 +136,13 @@ const providers = [
       },
       // initialState: {},
     }),
-    EffectsModule.forRoot([ QueryEffects, WindowsEffects, QueryCollectionEffects, PluginEventEffects ]),
+    EffectsModule.forRoot([
+      QueryEffects,
+      WindowsEffects,
+      QueryCollectionEffects,
+      PluginEventEffects,
+      LocalEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,
     }),
@@ -144,6 +152,15 @@ const providers = [
         useFactory: createTranslateLoader,
         deps: [ HttpClient ]
       }
+    }),
+    ToastrModule.forRoot({
+      newestOnTop: false,
+      closeButton: true,
+      positionClass: 'toast-top-center',
+      enableHtml: true,
+      countDuplicates: true,
+      preventDuplicates: true,
+      resetTimeoutOnDuplicate: true,
     }),
   ],
   providers: providers,

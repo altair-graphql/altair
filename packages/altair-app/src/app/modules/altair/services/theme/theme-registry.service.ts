@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITheme, ICustomTheme, mergeThemes } from './theme';
-import light from './defaults/light';
-import dark from './defaults/dark';
-import dracula from './defaults/dracula';
+import { dark, dracula, ICustomTheme, light, mergeThemes } from 'altair-graphql-core/build/theme';
 
 @Injectable({
   providedIn: 'root'

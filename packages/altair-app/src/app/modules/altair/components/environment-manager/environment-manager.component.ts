@@ -6,7 +6,6 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  DoCheck,
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
@@ -20,7 +19,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/keymap/sublime';
-import { EnvironmentsState, EnvironmentState } from '../../store/environments/environments.interfaces';
+import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -47,7 +46,7 @@ import { EnvironmentsState, EnvironmentState } from '../../store/environments/en
   templateUrl: './environment-manager.component.html',
   styleUrls: ['./environment-manager.component.scss']
 })
-export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
+export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   @Input() environments: EnvironmentsState;
   @Input() showEnvironmentManager = false;
@@ -97,12 +96,9 @@ export class EnvironmentManagerComponent implements OnInit, DoCheck, OnChanges {
       }
     };
   }
-
-  ngDoCheck() {
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
-  }
-
+  
   ngOnChanges(changes: SimpleChanges) {
+    handleEditorRefresh(this.editor && this.editor.codeMirror);
     if (changes.showEnvironmentManager && changes.showEnvironmentManager.currentValue) {
       const refreshEditorTimeout = setTimeout(() => {
         handleEditorRefresh(this.editor && this.editor.codeMirror, true);

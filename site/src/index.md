@@ -30,7 +30,7 @@ features:
 - title: Extensive plugin system
   details: extend the core functionality provided with plugins that can do much more
 featuresFooterText: View all features
-featuresFooterLink: /guide/features
+featuresFooterLink: /docs/features/
 contributions:
   opencollective:
     url: https://opencollective.com/altair
@@ -41,8 +41,8 @@ downloads:
   list:
   - name: macOS
     image: /assets/img/osx_logo.svg
-    pattern: \.\d+_mac.dmg$
-    link: https://github.com/imolorhe/altair/releases/latest
+    pattern: _x64_mac.dmg$
+    link: https://github.com/altair-graphql/altair/releases/latest
     extra: brew install --cask altair-graphql-client
   - name: macOS M1
     image: /assets/img/osx_logo.svg

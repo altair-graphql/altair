@@ -1,5 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { IQuery, SortByOptions } from '../../store/collection/collection.reducer';
+import { IQuery, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
@@ -12,7 +12,7 @@ export const LOAD_COLLECTIONS = 'LOAD_COLLECTIONS';
 export const SET_ACTIVE_COLLECTION = 'SET_ACTIVE_COLLECTION';
 export const UPDATE_COLLECTION = 'UPDATE_COLLECTION';
 
-export const IMPORT_COLLECTION = 'IMPORT_COLLECTION';
+export const IMPORT_COLLECTIONS = 'IMPORT_COLLECTIONS';
 export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
 
 export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
@@ -75,8 +75,8 @@ export class ExportCollectionAction implements NGRXAction {
   constructor(public payload: { collectionId: number }) {}
 }
 
-export class ImportCollectionAction implements NGRXAction {
-  readonly type = IMPORT_COLLECTION;
+export class ImportCollectionsAction implements NGRXAction {
+  readonly type = IMPORT_COLLECTIONS;
 }
 
 export class SortCollectionsAction implements NGRXAction {
@@ -96,6 +96,6 @@ export type Action =
   | UpdateCollectionAction
   | LoadCollectionsAction
   | ExportCollectionAction
-  | ImportCollectionAction
+  | ImportCollectionsAction
   | SortCollectionsAction
   ;

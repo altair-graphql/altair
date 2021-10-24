@@ -8,7 +8,6 @@ import {
   OnChanges,
   ElementRef,
   SimpleChanges,
-  DoCheck,
 } from '@angular/core';
 
 // Import the codemirror packages
@@ -28,15 +27,16 @@ import 'codemirror/addon/search/jump-to-line';
 import 'codemirror/addon/scroll/annotatescrollbar';
 import 'codemirror-graphql/results/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
-import isElectron from '../../utils/is_electron';
-import { SubscriptionResponse } from '../../store/query/query.interfaces';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 
 @Component({
   selector: 'app-query-result',
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss']
 })
-export class QueryResultComponent implements OnChanges, DoCheck {
+export class QueryResultComponent implements OnChanges {
 
   @Input() queryResult = '';
   @Input() responseTime = 0;
@@ -48,13 +48,18 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
   @Input() autoscrollSubscriptionResponses = false;
+  @Input() windowId = '';
+  @Input() activeWindowId = '';
   @Input() uiActions = [];
+  @Input() bottomPanels = [];
 
   @Output() downloadResultChange = new EventEmitter();
+  @Output() clearResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
   @Output() uiActionExecuteChange = new EventEmitter();
+  @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
@@ -85,6 +90,9 @@ export class QueryResultComponent implements OnChanges, DoCheck {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    // Refresh the query result editor view when there are any changes
+    // to fix any broken UI issues in it
+    handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
@@ -117,14 +125,17 @@ export class QueryResultComponent implements OnChanges, DoCheck {
       }
     }
   }
-
-  ngDoCheck() {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor?.codeMirror);
-  }
+  
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;
+  }
+
+  togglePanelActive(panel: AltairPanel) {
+    this.bottomPanelActiveToggle.emit(panel);
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
   }
 }

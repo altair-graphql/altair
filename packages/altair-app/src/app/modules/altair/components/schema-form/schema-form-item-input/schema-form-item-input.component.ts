@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ThemeRegistryService } from '../../../services';
 
 @Component({
@@ -6,7 +6,7 @@ import { ThemeRegistryService } from '../../../services';
   templateUrl: './schema-form-item-input.component.html',
   styles: []
 })
-export class SchemaFormItemInputComponent implements OnInit {
+export class SchemaFormItemInputComponent  {
 
   @Input() item: any;
   @Input() data: any;
@@ -17,12 +17,12 @@ export class SchemaFormItemInputComponent implements OnInit {
     private themeRegistry: ThemeRegistryService,
   ) { }
 
-  ngOnInit() {
-  }
+  
 
   getAutocompleteOptions(item: any) {
     switch (item?.key) {
       case 'theme':
+      case 'theme.dark':
         // TODO: Move system to theme registry
         return [ 'system', ...this.themeRegistry.getAllThemes() ];
       default:

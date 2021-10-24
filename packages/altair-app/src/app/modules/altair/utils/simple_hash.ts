@@ -4,7 +4,7 @@ export const hash = (s: string) => {
     if (s) {
         a = 0;
         /*jshint plusplus:false bitwise:false*/
-        /*tslint:disable */
+        /* eslint-disable */
         for (h = s.length - 1; h >= 0; h--) {
             o = s.charCodeAt(h);
             a = (a << 6&268435455) + o + (o << 14);

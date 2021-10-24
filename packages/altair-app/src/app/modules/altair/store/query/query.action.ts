@@ -1,6 +1,6 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { IDictionary } from '../../interfaces/shared';
-import { QueryEditorState } from './query.interfaces';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
@@ -36,6 +36,7 @@ export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
 export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
+export const CLEAR_RESULT = 'CLEAR_RESULT';
 export const DOWNLOAD_RESULT = 'DOWNLOAD_RESULT';
 
 export const HIDE_URL_ALERT = 'HIDE_URL_ALERT';
@@ -146,7 +147,15 @@ export class SetSelectedOperationAction implements NGRXAction {
 export class SetResponseStatsAction implements NGRXAction {
   readonly type = SET_RESPONSE_STATS;
 
-  constructor(public windowId: string, public payload: { responseTime: number, responseStatus: number, responseStatusText: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: {
+      requestStartTime: number,
+      requestEndTime: number,
+      responseTime: number,
+      responseStatus: number,
+      responseStatusText: string
+    }) {}
 }
 
 export class StartSubscriptionAction implements NGRXAction {
@@ -193,6 +202,12 @@ export class SetSubscriptionResponseListAction implements NGRXAction {
 
 export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
   readonly type = TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE;
+
+  constructor(public windowId: string, public payload?: any) {}
+}
+
+export class ClearResultAction implements NGRXAction {
+  readonly type = CLEAR_RESULT;
 
   constructor(public windowId: string, public payload?: any) {}
 }
@@ -246,6 +261,7 @@ export type Action =
   | SetSubscriptionResponseListAction
   | ToggleAutoscrollSubscriptionResponseAction
   | SetResponseStatsAction
+  | ClearResultAction
   | DownloadResultAction
   | CancelQueryRequestAction
   | SetHTTPMethodAction

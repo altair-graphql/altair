@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IQueryCollection } from '../../store/collection/collection.reducer';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
   selector: 'app-edit-collection-dialog',
   templateUrl: './edit-collection-dialog.component.html',
   styleUrls: ['./edit-collection-dialog.component.scss']
 })
-export class EditCollectionDialogComponent implements OnInit {
+export class EditCollectionDialogComponent  {
 
   @Input() showEditCollectionDialog = true;
   @Input() collection: IQueryCollection;
@@ -16,8 +16,7 @@ export class EditCollectionDialogComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
   updateCollection() {
     this.toggleDialogChange.next(false);
