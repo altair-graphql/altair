@@ -128,6 +128,8 @@ export class WindowService {
           windowName: window.layout.title,
           preRequestScript: window.preRequest.script,
           preRequestScriptEnabled: window.preRequest.enabled,
+          postRequestScript: window.postRequest.script,
+          postRequestScriptEnabled: window.postRequest.enabled,
         };
       }),
     );
