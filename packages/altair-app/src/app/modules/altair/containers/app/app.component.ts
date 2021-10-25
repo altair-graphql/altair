@@ -348,14 +348,12 @@ export class AppComponent  {
     this.store.dispatch(new windowActions.ReopenClosedWindowAction());
   }
 
-  exportData() {
-    this.electronApp.exportBackupData();
+  exportBackupData() {
+    this.store.dispatch(new windowsMetaActions.ExportBackupDataAction());
   }
 
-  importData() {
-    openFile({ accept: '.agbkp' }).then((fileContent: string) => {
-      this.electronApp.importBackupData(fileContent);
-    });
+  importBackupData() {
+    this.store.dispatch(new windowsMetaActions.ImportBackupDataAction());
   }
 
   importWindow() {
