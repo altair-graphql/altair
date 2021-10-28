@@ -21,7 +21,6 @@ export class WindowsMetaEffects {
       .pipe(
         ofType(windowsMetaActions.EXPORT_BACKUP_DATA),
         switchMap(() => {
-          console.log('exportBackupData');
           this.electronAppService.exportBackupData();
           return EMPTY;
         })
@@ -33,7 +32,6 @@ export class WindowsMetaEffects {
       .pipe(
         ofType(windowsMetaActions.IMPORT_BACKUP_DATA),
         switchMap(() => {
-          console.log('importBackupData');
           openFile({ accept: '.agbkp' }).then((fileContent: string) => {
             this.electronAppService.importBackupData(fileContent);
           });
