@@ -1,25 +1,30 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { expect, describe, it } from '@jest/globals';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockModule } from 'ng-mocks';
+import { mount, NgxTestWrapper } from '../../../../../testing';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  let wrapper: NgxTestWrapper<HeaderComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: HeaderComponent,
+      imports: [
+        MockModule(SharedModule),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });
