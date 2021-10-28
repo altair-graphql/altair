@@ -118,11 +118,11 @@ class MenuManager {
         label: 'Data',
         submenu: [
           {
-            label: 'Export data...',
+            label: 'Export backup data...',
             click: () => this.actionManager.exportAppData(),
           },
           {
-            label: 'Restore data...',
+            label: 'Import backup data...',
             click: () => this.actionManager.importAppData(),
           },
         ]

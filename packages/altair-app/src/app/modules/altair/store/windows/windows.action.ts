@@ -1,7 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
 
-import * as fromWindows from './windows.reducer';
-
 export const ADD_WINDOW = 'ADD_WINDOW';
 export const SET_WINDOWS = 'SET_WINDOWS';
 export const REMOVE_WINDOW = 'REMOVE_WINDOW';
