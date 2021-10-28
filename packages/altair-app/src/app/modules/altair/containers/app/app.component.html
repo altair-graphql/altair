@@ -18,136 +18,32 @@
         </div>
       </div>
     </div>
-    <nz-header class="app-header">
-      <div
-        class="branding app-header__logo-wrapper"
-        [ngClass]="{ 'app-header__logo-wrapper--experimental': (settings$ | async)?.enableExperimental }"
-      >
-        <img
-          src="assets/img/logo.svg"
-          alt="logo"
-          class="header-logo"
-        >
-      </div>
-
-      <app-window-switcher
-        [windows]="windows"
-        [windowIds] = "windowIds"
-        [activeWindowId]="activeWindowId"
-        [closedWindows]="closedWindows"
-        [isElectron]="isElectron"
-        (newWindowChange)="newWindow()"
-        (activeWindowChange)="setActiveWindow($event)"
-        (removeWindowChange)="removeWindow($event)"
-        (duplicateWindowChange)="duplicateWindow($event)"
-        (windowNameChange)="setWindowName($event)"
-        (repositionWindowChange)="repositionWindow($event)"
-        (reopenClosedWindowChange)="reopenClosedWindow()"
-      ></app-window-switcher>
-      <div class="header-actions">
-        <ul
-          nz-menu
-          [nzSelectable]="false"
-          nzMode="horizontal"
-          class="app-header__menu app-header__menu-item--icon"
-        >
-
-          <li
-            *ngFor="let panel of (headerPanels$ | async); trackBy:trackById"
-            (click)="togglePanelActive(panel)"
-            [nzSelected]="panel.isActive"
-            [popper]="panel.title"
-            [popperPlacement]="'bottom'"
-            nz-menu-item
-          >
-            <app-icon name="cpu"></app-icon>
-            <nz-modal
-              [nzVisible]="panel.isActive"
-              (nzVisibleChange)="togglePanelActive(panel)"
-              [nzTitle]="modalTitle"
-              [nzContent]="modalContent"
-              [nzFooter]="null"
-              (nzOnCancel)="togglePanelActive(panel)"
-            >
-              <ng-template #modalTitle>
-                <div class="app-dialog-header">
-                  <div class="app-dialog-title">{{ panel.title }}</div>
-                </div>
-              </ng-template>
-
-              <ng-template #modalContent>
-                <app-element-wrapper
-                  [element]="panel.element"
-                ></app-element-wrapper>
-              </ng-template>
-            </nz-modal>
-          </li>
-
-          <li
-            nz-menu-item
-            nz-dropdown
-            nzTrigger="click"
-            [nzDropdownMenu]="environmentsMenu"
-          >
-            <span *ngIf="(activeEnvironment$ | async)">
-              <app-icon name="eye"></app-icon>
-              <span>{{ (activeEnvironment$ | async)?.title }}</span>
-            </span>
-            <span *ngIf="(activeEnvironment$ | async) === undefined">
-              <app-icon name="eye-off"></app-icon>
-              <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
-            </span>
-          </li>
-          <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
-            <ul nz-menu class="environments-dropdown__list">
-              <ng-container *ngIf="(environments$ | async)?.subEnvironments.length">
-                <li
-                  nz-menu-item
-                  (click)="selectActiveEnvironment(environment.id)"
-                  *ngFor="let environment of (environments$ | async).subEnvironments; trackBy:trackById;"
-                  [ngClass]="{ 'active': environment.id === (activeEnvironment$ | async) }"
-                >
-                  {{ environment.title }}
-                </li>
-                <li
-                  nz-menu-item
-                  (click)="selectActiveEnvironment(null)"
-                >
-                  {{ 'NO_ENVIRONMENT_TEXT' | translate }}
-                </li>
-                <li nz-menu-divider></li>
-              </ng-container>
-              <li
-                nz-menu-item
-                (click)="toggleEnvironmentManager(true)"
-              >
-                {{ 'ENVIRONMENTS_BUTTON' | translate }}...
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-          <li
-            nz-menu-item
-            nz-dropdown
-            nzTrigger="click"
-            [nzDropdownMenu]="settingsMenu"
-            class="app-header__menu-item app-header__menu-item--icon"
-          >
-            <app-icon name="settings"></app-icon>
-          </li>
-          <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item (click)="importWindow()">{{ 'IMPORT_WINDOW_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="setShowImportCurlDialog(true)">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="exportBackupData()">{{ 'EXPORT_BACKUP_DATA_TEXT' | translate }}</li>
-              <li nz-menu-item (click)="importBackupData()">{{ 'IMPORT_BACKUP_DATA_TEXT' | translate }}</li>
-            </ul>
-          </nz-dropdown-menu>
-        </ul>
-      </div>
-    </nz-header>
+    <app-header
+      [experimentalEnabled]="(settings$ | async)?.enableExperimental"
+      [windows]="windows"
+      [windowIds] = "windowIds"
+      [activeWindowId]="activeWindowId"
+      [closedWindows]="closedWindows"
+      [isElectron]="isElectron"
+      [headerPanels]="headerPanels$ | async"
+      [activeEnvironment]="activeEnvironment$ | async"
+      [environments]="environments$ | async"
+      (newWindowChange)="newWindow()"
+      (activeWindowChange)="setActiveWindow($event)"
+      (removeWindowChange)="removeWindow($event)"
+      (duplicateWindowChange)="duplicateWindow($event)"
+      (windowNameChange)="setWindowName($event)"
+      (repositionWindowChange)="repositionWindow($event)"
+      (reopenClosedWindowChange)="reopenClosedWindow()"
+      (togglePanelActiveChange)="togglePanelActive($event)"
+      (selectActiveEnvironmentChange)="selectActiveEnvironment($event)"
+      (toggleEnvironmentManagerChange)="toggleEnvironmentManager($event)"
+      (importWindowChange)="importWindow()"
+      (showImportCurlDialogChange)="setShowImportCurlDialog($event)"
+      (showSettingsDialogChange)="showSettingsDialog()"
+      (exportBackupDataChange)="exportBackupData()"
+      (importBackupDataChange)="importBackupData()"
+    ></app-header>
     <nz-layout>
       <nz-alert nzBanner [nzMessage]="webappLimitation" *ngIf="isWebApp"></nz-alert>
       <ng-template #webappLimitation>

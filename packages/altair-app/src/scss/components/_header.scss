@@ -1,66 +1,72 @@
-.app-header {
+app-header {
+  --header-height: 50px;
   display: flex;
-  box-shadow: 0 0px 5px 2px rgba(var(--rgb-black), 0.1);
   background: var(--header-bg-color);
   border-bottom: 1px solid var(--theme-border-color);
-  z-index: 1;
-
-  .branding {
-    position: relative;
-    display: flex;
-    flex: 0 0 auto;
-    padding: 0;
-    justify-content: center;
-    width: 50px;
-    height: 60px;
-    float: left;
-  }
-
-  .header-actions {
-    flex: 0 0 auto;
-  }
-
-  .nav-link {
-    background: transparent;
-    color: var(--theme-font-color);
-    // border: none;
-  }
 }
 
-.app-header__menu {
-  background: transparent;
-  color: var(--theme-font-color);
-  line-height: 60px;
-  border: none;
-  white-space: nowrap;
+.header__logo-wrapper {
+  position: relative;
+  width: var(--header-height);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.app-header__menu-item--icon {
-  .anticon {
-    margin: 0;
-  }
-}
-
-.header-logo {
-  width: 30px;
-}
-.app-header__logo-wrapper--experimental {
+.header__logo-wrapper--experimental {
   mix-blend-mode: luminosity;
 
   &:before {
-    content: '🔥Dev🔥';
+    content: '< Dev >';
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--header-bg-color);
     color: var(--theme-font-color);
+    border: 1px solid var(--theme-border-color);
+    border-radius: 4px;
     text-transform: uppercase;
-    font-size: 9px;
+    font-size: 8px;
     display: block;
-    width: 100%;
     text-align: center;
     font-weight: bold;
-    line-height: 2;
+    white-space: nowrap;
   }
+}
+
+.header__logo {
+  width: 24px;
+}
+
+.header__menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  gap: 8px;
+}
+
+.header__menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .3s ease;
+
+  &:hover {
+    background: rgba(var(--rgb-theme-font), .05);
+  }
+}
+
+.header__actions {
+  padding: 0 8px;
 }
 
 .header__environemnt-link {

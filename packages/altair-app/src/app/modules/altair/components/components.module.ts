@@ -9,6 +9,7 @@ import { SharedModule } from '../modules/shared/shared.module';
 import { PipesModule } from '../pipes';
 import { DirectivesModule } from '../directives';
 
+import { HeaderComponent } from './header/header.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryResultComponent } from './query-result/query-result.component';
 import { ActionBarComponent } from './action-bar/action-bar.component';
@@ -39,6 +40,7 @@ import { PluginManagerComponent } from './plugin-manager/plugin-manager.componen
 import { ElementWrapperComponent } from './element-wrapper/element-wrapper.component';
 
 const COMPONENTS = [
+  HeaderComponent,
   QueryEditorComponent,
   QueryResultComponent,
   ActionBarComponent,
