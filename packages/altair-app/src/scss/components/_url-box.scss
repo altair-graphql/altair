@@ -1,30 +1,21 @@
-$url-input-height: 45px;
+$url-box-height: 45px;
+
+app-url-box {
+  --url-box-height: 45px;
+  padding: 8px;
+  padding-bottom: 0;
+}
 
 .url-box {
   // max-width: 900px;
-  margin: 0 auto 5px;
+  // margin: 0 auto 5px;
+  height: var(--url-box-height);
+  background-color: var(--theme-off-bg-color);
+  // border-block-end: 1px solid var(--theme-border-color);
   width: 100%;
   display: flex;
-}
-
-.url-box__input-container {
-  position: relative;
-  flex: 1 0 auto;
-}
-
-.url-box__input {
-  height: $url-input-height;
-  line-height: $url-input-height;
-  font-size: fontsize(14);
   border: 1px solid var(--theme-border-color);
-  box-shadow: 0 4px 30px rgba(var(--rgb-black), .05);
-  padding: 0 15px;
-  transition: all .3s ease;
-  background-color: var(--theme-off-bg-color);
-  width: 100%;
-  display: block;
-  padding-right: 150px;
-
+  border-radius: 4px;
   &:hover {
     border-color: var(--theme-off-border-color);
   }
@@ -36,77 +27,131 @@ $url-input-height: 45px;
   }
 }
 
+.url-box__input-container {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.url-box__input {
+  flex: 1;
+  height: calc(var(--url-box-height) - 16px);
+  line-height: calc(var(--url-box-height) - 16px);
+  font-size: fontsize(12);
+  box-shadow: 0 4px 30px rgba(var(--rgb-black), .05);
+  padding: 0 8px;
+  transition: all .3s ease;
+  background-color: var(--theme-off-bg-color);
+  width: 100%;
+  display: block;
+  // padding-right: 150px;
+
+}
+
 .url-box__input-prepend {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // bottom: 0;
+  // z-index: 1;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  width: 40px;
+  padding: 0 4px;
+  // width: 40px;
   text-align: center;
 
-  ~ .url-box__input {
-    padding-left: 30px;
-  }
+  // ~ .url-box__input {
+  //   padding-left: 30px;
+  // }
 }
 
 .url-box__input-actions {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  // position: absolute;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
   display: flex;
   align-items: center;
-}
-
-.url-box__input-btn {
-  background: transparent;
-  border: 0;
-  padding: 0 15px;
-  color: var(--theme-font-color);
-  transition: all .3s ease;
-
-  &--active {
-    color: var(--primary-color);
-  }
+  gap: 8px;
+  padding: 0 8px;
 }
 
 .url-box__button {
-  height: $url-input-height;
+  background: transparent;
+  color: var(--theme-font-color);
+  font-size: fontsize(12);
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 8px;
   white-space: nowrap;
+  transition: all .3s ease;
 
   &--send {
     border-radius: 0 4px 4px 0;
     min-width: 120px;
   }
+
+  &--active {
+    color: var(--primary-color);
+  }
+
+  &:hover {
+    background: rgba(var(--rgb-primary), .15);
+    color: var(--primary-color);
+  }
+}
+
+.url-box__method-wrapper {
+  display: flex;
+  padding: 8px;
 }
 
 .url-box__button--method {
   min-width: 75px;
-  padding: 0 0.5rem;
-  letter-spacing: normal;
-}
-
-.btn.btn-outline-primary.url-box__button {
-  border-radius: 4px 0 0 4px;
-  border: 1px solid var(--theme-border-color);
-  border-right: 0;
-  background: var(--theme-bg-color);
+  background: rgba(var(--rgb-primary), .15);
   color: var(--primary-color);
-  height: $url-input-height;
+  font-size: fontsize(12);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: 700;
+  opacity: .9;
 
   &:hover {
-    border-color: var(--theme-off-border-color);
-    background: transparent;
-  }
-
-  &:active {
-    box-shadow: none;
+    border-color: var(--primary-color);
+    opacity: 1;
   }
 }
+
+.send-request__wrapper {
+  display: flex;
+}
+
+.send-request__button {
+  border-radius: 0 4px 4px 0;
+  height: 100%;
+}
+
+// .btn.btn-outline-primary.url-box__button {
+//   border-radius: 4px 0 0 4px;
+//   border: 1px solid var(--theme-border-color);
+//   border-right: 0;
+//   background: var(--theme-bg-color);
+//   color: var(--primary-color);
+//   // height: var(--url-box-height);
+
+//   &:hover {
+//     border-color: var(--theme-off-border-color);
+//     background: transparent;
+//   }
+
+//   &:active {
+//     box-shadow: none;
+//   }
+// }
 
 .url-box__connection-indicator {
   display: inline-block;

@@ -315,10 +315,28 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+convert-css-color-name-to-hex@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/convert-css-color-name-to-hex/-/convert-css-color-name-to-hex-0.1.1.tgz#38ac4d27ca470593fd663b18a072a308926a35a2"
+  integrity sha1-OKxNJ8pHBZP9ZjsYoHKjCJJqNaI=
+  dependencies:
+    css-color-names "0.0.3"
+    is-css-color-name "^0.1.1"
+
 create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+css-color-names@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.2.tgz#fba18e8cff86579572d749c146c47ee83f0ea955"
+  integrity sha1-+6GOjP+GV5Vy10nBRsR+6D8OqVU=
+
+css-color-names@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.3.tgz#de0cef16f4d8aa8222a320d5b6d7e9bbada7b9f6"
+  integrity sha1-3gzvFvTYqoIioyDVttfpu62nufY=
 
 debug@2.6.9:
   version "2.6.9"
@@ -550,6 +568,13 @@ is-callable@^1.1.4, is-callable@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.3.tgz#8b1e0500b73a1d76c70487636f368e519de8db8e"
   integrity sha512-J1DcMe8UYTBSrKezuIUTUwjXsho29693unXM2YhJUTR2txK/eG47bvNa/wipPFmZFgr/N6f1GA66dv0mEyTIyQ==
+
+is-css-color-name@^0.1.1:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/is-css-color-name/-/is-css-color-name-0.1.3.tgz#ea3b51bc901d8a243d32c9b7873d0680dbbef7f1"
+  integrity sha1-6jtRvJAdiiQ9Msm3hz0GgNu+9/E=
+  dependencies:
+    css-color-names "0.0.2"
 
 is-date-object@^1.0.1:
   version "1.0.4"

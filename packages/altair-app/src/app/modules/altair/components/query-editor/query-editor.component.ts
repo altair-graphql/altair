@@ -61,6 +61,7 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
+  @Input() activeWindowId = null;
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
@@ -226,6 +227,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.shortcutMapping?.currentValue) {
       // Update the editor shortcuts based on the provided shortcuts
       this.updateEditorShortcuts(changes.shortcutMapping.currentValue);
+    }
+
+    if (changes?.activeWindowId?.currentValue) {
+      handleEditorRefresh(this.editor && this.editor.codeMirror);
     }
   }
 

@@ -10,7 +10,7 @@
 
   .ant-tabs-tab-btn {
     padding: 5px 8px;
-    font-size: fontsize(14);
+    font-size: fontsize(13);
   }
 
   .ant-tabs-tab:not(.ant-tabs-tab-disabled):hover,
@@ -45,8 +45,11 @@
 
   & > .ant-tabs-nav,
   & > div > .ant-tabs-nav {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    // margin-top: 8px;
+    // margin-bottom: 8px;
+    margin: 0;
+    padding: 8px;
+    border-block-end: 1px solid var(--theme-border-color);
   }
 
   .ant-tabs-tab.ant-tabs-tab-disabled {

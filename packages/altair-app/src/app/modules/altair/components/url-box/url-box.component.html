@@ -1,28 +1,31 @@
 <div class="url-box">
-  <button
-    type="button"
-    nz-dropdown
-    nzTrigger="click"
-    [nzDropdownMenu]="httpVerbMenu"
-    class="url-box__button btn btn-outline-primary url-box__button--method"
-    [value]="httpVerb"
-    track-id="http_verb"
-  >
-    {{ httpVerb }}
-    &#9660;
-  </button>
-  <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
-    <ul nz-menu>
-      <li
-        nz-menu-item
-        *ngFor="let method of methods"
-        [value]="method"
-        (click)="setVerb(method)"
-      >
-        {{method}}
-      </li>
-    </ul>
-  </nz-dropdown-menu>
+  <div class="url-box__method-wrapper">
+    <button
+      type="button"
+      nz-dropdown
+      nzTrigger="click"
+      [nzDropdownMenu]="httpVerbMenu"
+      class="url-box__button url-box__button--method"
+      [value]="httpVerb"
+      track-id="http_verb"
+    >
+      {{ httpVerb }}
+      <!-- &#9660; -->
+    </button>
+    
+    <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          *ngFor="let method of methods"
+          [value]="method"
+          (click)="setVerb(method)"
+        >
+          {{method}}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
   <div class="url-box__input-container">
     <div class="url-box__input-prepend" *ngIf="streamState">
       <div class="url-box__connection-indicator">
@@ -50,88 +53,90 @@
       (submitChange)="setApiUrl()"
       [(ngModel)]="apiUrl"
     ></app-fancy-input>
-    <div class="url-box__input-actions">
-      <button
-        type="button"
-        nz-dropdown
-        nzTrigger="click"
-        [nzDropdownMenu]="urlBoxActionMenu"
-        class="url-box__input-btn"
-      >
-        <app-icon name="save"></app-icon>
-      </button>
-      <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
-        <ul nz-menu>
-          <li
-            *ngIf="currentCollection"
-            nz-menu-item
-            (click)="updateQueryInCollectionChange.emit()"
-          >
-            {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})
-          </li>
-          <li
-            nz-menu-item
-            (click)="addToCollectionChange.emit()"
-          >
-            {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
-          </li>
-          <li
-            nz-menu-item
-            (click)="exportWindowChange.emit()"
-          >
-            {{ 'EXPORT_WINDOW_TEXT' | translate }}
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-      <button
-        type="button"
-        class="url-box__input-btn"
-        (click)="reloadDocsChange.emit()"
-        track-id="reload_docs"
-        [popper]="'RELOAD_DOCS_BUTTON' | translate"
-        [popperPlacement]="'bottom'"
-      >
-        <app-icon name="refresh-ccw"></app-icon>
-      </button>
-      <button type="button" class="url-box__input-btn" (click)="toggleDocsChange.emit()" [ngClass]="{'url-box__input-btn--active': showDocs}" track-id="show_docs">
-        {{ 'DOCS_TEXT' | translate }}
-      </button>
-    </div>
   </div>
-  <button
-    class="app-button url-box__button url-box__button--send active-primary"
-    (click)="!isSubscribed && this.sendRequest.emit()"
-    [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
-    track-id="set_request"
-    *ngIf="queryOperations.length < 2"
-  >
-    <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-    <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-  </button>
-  <button
-    *ngIf="queryOperations.length > 1"
-    class="btn app-button url-box__button url-box__button--send url-box__button--send-dropdown active-primary"
-    [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
-    track-id="send_request"
-    nz-dropdown
-    nzTrigger="click"
-    nzPlacement="bottomRight"
-    [nzDropdownMenu]="queryOperationsMenu"
-  >
-    <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-    <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-    <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
-    <app-icon name="chevron-down"></app-icon>
-  </button>
-  <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
-    <ul nz-menu>
-      <li
-        nz-menu-item
-        *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;"
-        (click)="selectedOperationChange.emit(operation.name.value)"
-      >
-        {{ operation.name.value }}
-      </li>
-    </ul>
-  </nz-dropdown-menu>
+  <div class="url-box__input-actions">
+    <button
+      type="button"
+      nz-dropdown
+      nzTrigger="click"
+      [nzDropdownMenu]="urlBoxActionMenu"
+      class="url-box__button"
+    >
+      <app-icon name="save"></app-icon>
+    </button>
+    <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          *ngIf="currentCollection"
+          nz-menu-item
+          (click)="updateQueryInCollectionChange.emit()"
+        >
+          {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})
+        </li>
+        <li
+          nz-menu-item
+          (click)="addToCollectionChange.emit()"
+        >
+          {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
+        </li>
+        <li
+          nz-menu-item
+          (click)="exportWindowChange.emit()"
+        >
+          {{ 'EXPORT_WINDOW_TEXT' | translate }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="url-box__button"
+      (click)="reloadDocsChange.emit()"
+      track-id="reload_docs"
+      [popper]="'RELOAD_DOCS_BUTTON' | translate"
+      [popperPlacement]="'bottom'"
+    >
+      <app-icon name="refresh-ccw"></app-icon>
+    </button>
+    <button type="button" class="url-box__button" (click)="toggleDocsChange.emit()" [ngClass]="{'url-box__button--active': showDocs}" track-id="show_docs">
+      {{ 'DOCS_TEXT' | translate }}
+    </button>
+  </div>
+  <div class="send-request__wrapper">
+    <button
+      class="app-button active-primary send-request__button"
+      (click)="!isSubscribed && this.sendRequest.emit()"
+      [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
+      track-id="set_request"
+      *ngIf="queryOperations.length < 2"
+    >
+      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+    </button>
+    <button
+      *ngIf="queryOperations.length > 1"
+      class="app-button active-primary send-request__button"
+      [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
+      track-id="send_request"
+      nz-dropdown
+      nzTrigger="click"
+      nzPlacement="bottomRight"
+      [nzDropdownMenu]="queryOperationsMenu"
+    >
+      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+      <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
+      <app-icon name="chevron-down"></app-icon>
+    </button>
+    <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;"
+          (click)="selectedOperationChange.emit(operation.name.value)"
+        >
+          {{ operation.name.value }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
 </div>
