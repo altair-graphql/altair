@@ -141,6 +141,8 @@
               <li nz-menu-item (click)="showSettingsDialog()">{{ 'SETTINGS_TEXT' | translate }}</li>
               <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
               <li nz-menu-item (click)="externalLink($event, 'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="exportBackupData()">{{ 'EXPORT_BACKUP_DATA_TEXT' | translate }}</li>
+              <li nz-menu-item (click)="importBackupData()">{{ 'IMPORT_BACKUP_DATA_TEXT' | translate }}</li>
             </ul>
           </nz-dropdown-menu>
         </ul>

@@ -6,9 +6,6 @@ import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 
-import * as fromRoot from '../store';
-import * as fromWindows from '../store/windows/windows.reducer';
-
 import * as windowActions from '../store/windows/windows.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as localActions from '../store/local/local.action';

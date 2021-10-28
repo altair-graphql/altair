@@ -12,6 +12,9 @@ export const SHOW_SETTINGS_DIALOG = 'SHOW_SETTINGS_DIALOG';
 export const SHOW_ENVIRONMENT_MANAGER = 'SHOW_ENVIRONMENT_MANAGER';
 export const SHOW_PLUGIN_MANAGER = 'SHOW_PLUGIN_MANAGER';
 
+export const EXPORT_BACKUP_DATA = 'EXPORT_BACKUP_DATA';
+export const IMPORT_BACKUP_DATA = 'IMPORT_BACKUP_DATA';
+
 export class SetActiveWindowIdAction implements NGRXAction {
   readonly type = SET_ACTIVE_WINDOW_ID;
 
@@ -72,6 +75,18 @@ export class ShowPluginManagerAction implements NGRXAction {
   constructor(public payload?: { value: boolean }) { }
 }
 
+export class ExportBackupDataAction implements NGRXAction {
+  readonly type = EXPORT_BACKUP_DATA;
+
+  constructor(public payload?: any) {}
+}
+
+export class ImportBackupDataAction implements NGRXAction {
+  readonly type = IMPORT_BACKUP_DATA;
+
+  constructor(public payload?: any) {}
+}
+
 export type Action =
   | SetActiveWindowIdAction
   | SetNextWindowActiveAction
@@ -83,4 +98,6 @@ export type Action =
   | ShowSettingsDialogAction
   | ShowEnvironmentManagerAction
   | ShowPluginManagerAction
+  | ExportBackupDataAction
+  | ImportBackupDataAction
   ;

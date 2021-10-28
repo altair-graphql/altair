@@ -50,6 +50,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { openFile } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -345,6 +346,14 @@ export class AppComponent  {
 
   reopenClosedWindow() {
     this.store.dispatch(new windowActions.ReopenClosedWindowAction());
+  }
+
+  exportBackupData() {
+    this.store.dispatch(new windowsMetaActions.ExportBackupDataAction());
+  }
+
+  importBackupData() {
+    this.store.dispatch(new windowsMetaActions.ImportBackupDataAction());
   }
 
   importWindow() {
