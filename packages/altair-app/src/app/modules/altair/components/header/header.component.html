@@ -1,0 +1,122 @@
+<div
+  class="header__logo-wrapper"
+  [ngClass]="{ 'header__logo-wrapper--experimental': experimentalEnabled }"
+>
+  <img
+    src="assets/img/logo.svg"
+    alt="logo"
+    class="header__logo"
+  >
+</div>
+
+<app-window-switcher
+  [windows]="windows"
+  [windowIds] = "windowIds"
+  [activeWindowId]="activeWindowId"
+  [closedWindows]="closedWindows"
+  [isElectron]="isElectron"
+  (newWindowChange)="newWindowChange.emit($event)"
+  (activeWindowChange)="activeWindowChange.emit($event)"
+  (removeWindowChange)="removeWindowChange.emit($event)"
+  (duplicateWindowChange)="duplicateWindowChange.emit($event)"
+  (windowNameChange)="windowNameChange.emit($event)"
+  (repositionWindowChange)="repositionWindowChange.emit($event)"
+  (reopenClosedWindowChange)="reopenClosedWindowChange.emit($event)"
+></app-window-switcher>
+
+<div class="header__actions">
+  <ul class="header__menu">
+    <li
+      *ngFor="let panel of headerPanels trackBy:trackById"
+      (click)="togglePanelActiveChange.emit(panel)"
+      [popper]="panel.title"
+      [popperPlacement]="'bottom'"
+      class="header__menu-item"
+      [ngClass]="{ 'header__menu-item--active': panel.isActive }"
+    >
+      <app-icon name="cpu"></app-icon>
+      <nz-modal
+        [nzVisible]="panel.isActive"
+        (nzVisibleChange)="togglePanelActiveChange.emit(panel)"
+        [nzTitle]="modalTitle"
+        [nzContent]="modalContent"
+        [nzFooter]="null"
+        (nzOnCancel)="togglePanelActiveChange.emit(panel)"
+      >
+        <ng-template #modalTitle>
+          <div class="app-dialog-header">
+            <div class="app-dialog-title">{{ panel.title }}</div>
+          </div>
+        </ng-template>
+
+        <ng-template #modalContent>
+          <app-element-wrapper
+            [element]="panel.element"
+          ></app-element-wrapper>
+        </ng-template>
+      </nz-modal>
+    </li>
+
+    <li
+      nz-dropdown
+      nzTrigger="click"
+      [nzDropdownMenu]="environmentsMenu"
+      class="header__menu-item"
+    >
+      <span *ngIf="activeEnvironment">
+        <app-icon name="eye"></app-icon>
+        <span>{{ activeEnvironment?.title }}</span>
+      </span>
+      <span *ngIf="activeEnvironment === undefined">
+        <app-icon name="eye-off"></app-icon>
+        <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
+      </span>
+    </li>
+    <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
+      <ul nz-menu class="environments-dropdown__list">
+        <ng-container *ngIf="environments?.subEnvironments.length">
+          <li
+            nz-menu-item
+            (click)="selectActiveEnvironmentChange.emit(environment.id)"
+            *ngFor="let environment of environments.subEnvironments; trackBy:trackById;"
+            [ngClass]="{ 'active': environment.id === activeEnvironment }"
+          >
+            {{ environment.title }}
+          </li>
+          <li
+            nz-menu-item
+            (click)="selectActiveEnvironmentChange.emit(undefined)"
+          >
+            {{ 'NO_ENVIRONMENT_TEXT' | translate }}
+          </li>
+          <li nz-menu-divider></li>
+        </ng-container>
+        <li
+          nz-menu-item
+          (click)="toggleEnvironmentManagerChange.emit(true)"
+        >
+          {{ 'ENVIRONMENTS_BUTTON' | translate }}...
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <li
+      nz-dropdown
+      nzTrigger="click"
+      [nzDropdownMenu]="settingsMenu"
+      class="header__menu-item"
+    >
+      <app-icon name="settings"></app-icon>
+    </li>
+    <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item (click)="importWindowChange.emit()">{{ 'IMPORT_WINDOW_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="showImportCurlDialogChange.emit(true)">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="showSettingsDialogChange.emit()">{{ 'SETTINGS_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="openLink($event, 'https://github.com/altair-graphql/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="openLink($event, 'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="exportBackupDataChange.emit()">{{ 'EXPORT_BACKUP_DATA_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="importBackupDataChange.emit()">{{ 'IMPORT_BACKUP_DATA_TEXT' | translate }}</li>
+      </ul>
+    </nz-dropdown-menu>
+  </ul>
+</div>

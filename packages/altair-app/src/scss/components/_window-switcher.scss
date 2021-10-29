@@ -3,7 +3,10 @@
 }
 
 app-window-switcher {
+  display: flex;
+  align-items: center;
   flex: 1 1 auto;
+  padding: 8px 0;
   overflow: auto;
 
   --shadow-height: 100%;
@@ -40,75 +43,54 @@ app-window-switcher {
   }
 }
 
-.header .header-nav .nav-link.nav-text {
-  padding: .5rem 1rem;
-  line-height: 1.5rem;
+.window-switcher__list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  gap: 8px;
 }
 
-.window-switcher {
-  top: 0;
-  height: 60px;
+.window-switcher__item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  gap: 4px;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all .3s ease;
 
   &:hover {
-    // color: $green;
-    border-bottom-color: var(--theme-border-color);
+    background: rgba(var(--rgb-theme-font), .05);
 
     .window-switcher__close {
       opacity: 1;
     }
   }
-
-  &.active {
-    // color: $green;
-    border-bottom-color: var(--primary-color);
-    // background: $white;
-    // box-shadow: 0 0 5px rgba($black, .2);
-    // .window-switcher__close{
-    //   opacity: 1;
-    // }
-  }
 }
 
-.window-switcher__input {
-  display: inline-block;
-  padding-left: 4px;
-  padding-right: 4px;
-  user-select: none; // Prevent tab title from highlighting on right click
-  height: 30px;
-  vertical-align: middle;
-  line-height: 30px;
-
-  &--editing,
-  &:focus {
-    box-shadow: 0 0 0px 2px var(--secondary-color);
-    border-radius: 3px;
-    cursor: text;
-    color: var(--theme-font-color);
-  }
+.window-switcher__item--active {
+  background: rgba(var(--rgb-theme-font), .05);
+  color: var(--primary-color);
 }
 
 .window-switcher__close {
-  position: absolute;
-  top: 50%;
-  margin-top: -5px;
-  right: 0;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  text-align: center;
-  opacity: 0;
-  transition: all .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  aspect-ratio: 1;
   line-height: 1;
+  transition: all .3s ease;
+  border-radius: 4px;
+  opacity: 0.3;
 
   &:hover {
+    background: rgba(var(--rgb-theme-font), .15);
     color: var(--red-color);
-  }
-}
-
-.header-nav .nav-link.window-switcher--new-window {
-  &:hover {
-    color: var(--primary-color);
   }
 }

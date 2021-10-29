@@ -47,6 +47,7 @@
         (preRequestEnabledChange)="updatePreRequestEnabled($event)"
         (postRequestScriptChange)="updatePostRequestScript($event)"
         (postRequestEnabledChange)="updatePostRequestEnabled($event)"
+        [activeWindowId]="activeWindowId$ | async"
         [query]="query"
         [gqlSchema]="gqlSchema"
         [tabSize]="tabSize$ | async"

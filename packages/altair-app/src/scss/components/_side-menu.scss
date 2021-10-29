@@ -1,4 +1,5 @@
 .app-side-menu {
+  --side-menu-width: 50px;
   background: var(--theme-bg-color);
   flex: 0 0 auto;
   order: -1;
@@ -10,9 +11,10 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  width: 60px;
-  min-width: 60px;
+  width: var(--side-menu-width);
+  min-width: var(--side-menu-width);
   padding-top: 15px;
+  border-inline-end: 1px solid var(--theme-border-color);
 }
 
 .side-menu__main-bottom {
@@ -22,10 +24,12 @@
 .side-menu__extra {}
 
 .side-menu-item {
-  display: block;
   position: relative;
-  height: 50px;
-  line-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--side-menu-width);
+  aspect-ratio: 1;
   text-align: center;
   cursor: pointer;
   color: var(--theme-font-color);
@@ -38,6 +42,7 @@
 
     .side-menu-item-icon {
       color: var(--primary-color);
+      background: rgba(var(--rgb-primary), .15);
     }
 
     .side-menu-item-label {
@@ -58,20 +63,26 @@
 
 .side-menu-item-icon {
   transition: all .3s ease;
+  padding: 8px;
+  display: flex;
+  border-radius: 4px;
 }
 
 .side-menu-item-label {
   position: absolute;
-  top: 0;
-  left: 45px;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-inline-start: 4px;
   z-index: 10;
   background: var(--theme-bg-color);
   max-width: 0;
-  padding: 0 5px;
+  padding: 5px;
   opacity: 0;
   white-space: nowrap;
   overflow: hidden;
   transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
 .side-menu-divider {
