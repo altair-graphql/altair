@@ -165,6 +165,12 @@ export const getFullUrl = (url: string) => {
     return url;
   }
 
+  // regex to test if given string is an environment variable
+  const regex = /^{{[a-zA-Z._]+}}$/gm;
+  if (regex.test(url)) {
+    return url;
+  }
+
   if (!validUrl.isUri(url)) {
     if (url.trim() === '*') {
       return location.href;
