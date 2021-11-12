@@ -50,18 +50,18 @@ describe('utils', () => {
     });
 
     describe('.getFullUrl', () => {
-        it('should not change the value', () => {
+        it('should not change the value when including env variable', () => {
             const envVariable = '{{endpointUrl}}';
             const result = getFullUrl(envVariable);
             expect(result).toBe(envVariable);
         });
-        it('should not change the value', () => {
-            const url = 'https://test.com/grapqhl';
+        it('should not change the value for a valid absolute url', () => {
+            const url = 'https://test.com/graphql';
             const result = getFullUrl(url);
             expect(result).toBe(url);
         });
         it('should prepend text with origin location', () => {
-            const endpoint = 'grapqhl';
+            const endpoint = 'graphql';
             const result = getFullUrl(endpoint);
             expect(result).toBe(location.origin + "/" + endpoint);
         });
