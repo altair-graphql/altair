@@ -1,4 +1,4 @@
-import { setByDotNotation, truncateText } from '.';
+import { getFullUrl, setByDotNotation, truncateText } from '.';
 
 describe('utils', () => {
 
@@ -48,4 +48,22 @@ describe('utils', () => {
             expect(result).toBe('Lorem Ipsum is simply dummy text.');
         });
     });
+
+    describe('.getFullUrl', () => {
+        it('should not change the value', () => {
+            const envVariable = '{{endpointUrl}}';
+            const result = getFullUrl(envVariable);
+            expect(result).toBe(envVariable);
+        });
+        it('should not change the value', () => {
+            const url = 'https://test.com/grapqhl';
+            const result = getFullUrl(url);
+            expect(result).toBe(url);
+        });
+        it('should prepend text with origin location', () => {
+            const endpoint = 'grapqhl';
+            const result = getFullUrl(endpoint);
+            expect(result).toBe(location.origin + "/" + endpoint);
+        });
+    })
 })
