@@ -6,6 +6,7 @@ import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
+import { VARIABLE_REGEX } from '../services/environment/environment.service';
 
 /**
  * Download the specified data with the provided options
@@ -166,8 +167,7 @@ export const getFullUrl = (url: string) => {
   }
 
   // regex to test if given string is an environment variable
-  const regex = /^{{[a-zA-Z._]+}}$/gm;
-  if (regex.test(url)) {
+  if (VARIABLE_REGEX.test(url)) {
     return url;
   }
 
