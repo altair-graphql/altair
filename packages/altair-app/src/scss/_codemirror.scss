@@ -15,6 +15,7 @@
     color: var(--theme-font-color);
     font-family: var(--editor-font-family);
     font-size: fontsize(var(--editor-font-size));
+    line-height: 1.5;
   }
 }
 
@@ -23,12 +24,14 @@
 }
 
 .CodeMirror-gutters {
-  background: transparent;
+  background: rgba(var(--rgb-theme-off-bg), .5);
   border: 0;
 }
 
 .CodeMirror-linenumber {
   user-select: none;
+  color: var(--theme-font-color);
+  opacity: .6;
 }
 
 .CodeMirror-foldmarker {
@@ -125,7 +128,8 @@
   display: flex;
   flex-direction: column;
   font-family: inherit;
-  box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
+  // box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
+  box-shadow: rgba(var(--rgb-black), 0.1) 0px 10px 15px -3px, rgba(var(--rgb-black), 0.05) 0px 4px 6px -2px;
   z-index: 1050;
   min-width: 175px;
   max-width: 300px;

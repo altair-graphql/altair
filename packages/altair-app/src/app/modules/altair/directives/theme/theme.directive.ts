@@ -82,6 +82,7 @@ export class ThemeDirective implements OnInit, OnChanges {
 
       --rgb-primary: ${hexToRgbStr(theme.colors.primary)};
       --rgb-secondary: ${hexToRgbStr(theme.colors.secondary)};
+      --rgb-secondaryx: ${hexToRgbStr(theme.colors.secondary)};
 
       --rgb-theme-bg: ${hexToRgbStr(theme.colors.bg)};
       --rgb-theme-off-bg: ${hexToRgbStr(theme.colors.offBg)};

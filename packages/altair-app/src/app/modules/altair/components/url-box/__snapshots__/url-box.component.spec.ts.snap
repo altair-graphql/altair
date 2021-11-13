@@ -5,51 +5,55 @@ exports[`UrlBoxComponent should render correctly 1`] = `
   <div
     class="url-box"
   >
-    <button
-      class="url-box__button btn btn-outline-primary url-box__button--method"
-      nz-dropdown=""
-      nztrigger="click"
-      track-id="http_verb"
-      type="button"
-      value="undefined"
+    <div
+      class="url-box__method-wrapper"
     >
-        ▼ 
-    </button>
-    <nz-dropdown-menu>
-      <ul
-        nz-menu=""
+      <button
+        class="url-box__button url-box__button--method"
+        nz-dropdown=""
+        nztrigger="click"
+        track-id="http_verb"
+        type="button"
+        value="undefined"
       >
-        
-        <li
-          nz-menu-item=""
-          value="0"
+          
+      </button>
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
         >
-           POST 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           GET 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           PUT 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           DELETE 
-        </li>
-        
-      </ul>
-    </nz-dropdown-menu>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             POST 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             GET 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             PUT 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             DELETE 
+          </li>
+          
+        </ul>
+      </nz-dropdown-menu>
+    </div>
     <div
       class="url-box__input-container"
     >
@@ -59,73 +63,77 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         placeholder="Enter URL"
         track-id="set_url"
       />
-      <div
-        class="url-box__input-actions"
-      >
-        <button
-          class="url-box__input-btn"
-          nz-dropdown=""
-          nztrigger="click"
-          type="button"
-        >
-          <app-icon
-            name="save"
-          />
-        </button>
-        <nz-dropdown-menu>
-          <ul
-            nz-menu=""
-          >
-            
-            <li
-              nz-menu-item=""
-            >
-                
-            </li>
-            <li
-              nz-menu-item=""
-            >
-                
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-        <button
-          class="url-box__input-btn"
-          track-id="reload_docs"
-          type="button"
-        >
-          <app-icon
-            name="refresh-ccw"
-          />
-        </button>
-        <button
-          class="url-box__input-btn"
-          track-id="show_docs"
-          type="button"
-        >
-            
-        </button>
-      </div>
     </div>
-    
-    <button
-      class="app-button url-box__button url-box__button--send active-primary"
-      track-id="set_request"
+    <div
+      class="url-box__input-actions"
+    >
+      <button
+        class="url-box__button"
+        nz-dropdown=""
+        nztrigger="click"
+        type="button"
+      >
+        <app-icon
+          name="save"
+        />
+      </button>
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
+        >
+          
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <button
+        class="url-box__button"
+        track-id="reload_docs"
+        type="button"
+      >
+        <app-icon
+          name="refresh-ccw"
+        />
+      </button>
+      <button
+        class="url-box__button"
+        track-id="show_docs"
+        type="button"
+      >
+          
+      </button>
+    </div>
+    <div
+      class="send-request__wrapper"
     >
       
-      
-      <span>
-        
-      </span>
-    </button>
-    
-    <nz-dropdown-menu>
-      <ul
-        nz-menu=""
+      <button
+        class="app-button active-primary send-request__button"
+        track-id="set_request"
       >
         
-      </ul>
-    </nz-dropdown-menu>
+        
+        <span>
+          
+        </span>
+      </button>
+      
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
+        >
+          
+        </ul>
+      </nz-dropdown-menu>
+    </div>
   </div>
 </app-url-box>
 `;
@@ -135,51 +143,55 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
   <div
     class="url-box"
   >
-    <button
-      class="url-box__button btn btn-outline-primary url-box__button--method"
-      nz-dropdown=""
-      nztrigger="click"
-      track-id="http_verb"
-      type="button"
-      value="undefined"
+    <div
+      class="url-box__method-wrapper"
     >
-        ▼ 
-    </button>
-    <nz-dropdown-menu>
-      <ul
-        nz-menu=""
+      <button
+        class="url-box__button url-box__button--method"
+        nz-dropdown=""
+        nztrigger="click"
+        track-id="http_verb"
+        type="button"
+        value="undefined"
       >
-        
-        <li
-          nz-menu-item=""
-          value="0"
+          
+      </button>
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
         >
-           POST 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           GET 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           PUT 
-        </li>
-        
-        <li
-          nz-menu-item=""
-          value="0"
-        >
-           DELETE 
-        </li>
-        
-      </ul>
-    </nz-dropdown-menu>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             POST 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             GET 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             PUT 
+          </li>
+          
+          <li
+            nz-menu-item=""
+            value="0"
+          >
+             DELETE 
+          </li>
+          
+        </ul>
+      </nz-dropdown-menu>
+    </div>
     <div
       class="url-box__input-container"
     >
@@ -189,93 +201,97 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         placeholder="Enter URL"
         track-id="set_url"
       />
-      <div
-        class="url-box__input-actions"
-      >
-        <button
-          class="url-box__input-btn"
-          nz-dropdown=""
-          nztrigger="click"
-          type="button"
-        >
-          <app-icon
-            name="save"
-          />
-        </button>
-        <nz-dropdown-menu>
-          <ul
-            nz-menu=""
-          >
-            
-            <li
-              nz-menu-item=""
-            >
-                
-            </li>
-            <li
-              nz-menu-item=""
-            >
-                
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-        <button
-          class="url-box__input-btn"
-          track-id="reload_docs"
-          type="button"
-        >
-          <app-icon
-            name="refresh-ccw"
-          />
-        </button>
-        <button
-          class="url-box__input-btn"
-          track-id="show_docs"
-          type="button"
-        >
-            
-        </button>
-      </div>
     </div>
-    
-    
-    <button
-      class="btn app-button url-box__button url-box__button--send url-box__button--send-dropdown active-primary"
-      nz-dropdown=""
-      nzplacement="bottomRight"
-      nztrigger="click"
-      track-id="send_request"
+    <div
+      class="url-box__input-actions"
+    >
+      <button
+        class="url-box__button"
+        nz-dropdown=""
+        nztrigger="click"
+        type="button"
+      >
+        <app-icon
+          name="save"
+        />
+      </button>
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
+        >
+          
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <button
+        class="url-box__button"
+        track-id="reload_docs"
+        type="button"
+      >
+        <app-icon
+          name="refresh-ccw"
+        />
+      </button>
+      <button
+        class="url-box__button"
+        track-id="show_docs"
+        type="button"
+      >
+          
+      </button>
+    </div>
+    <div
+      class="send-request__wrapper"
     >
       
       
-      <span>
-        
-      </span>
-      
-      <app-icon
-        name="chevron-down"
-      />
-    </button>
-    
-    <nz-dropdown-menu>
-      <ul
-        nz-menu=""
+      <button
+        class="app-button active-primary send-request__button"
+        nz-dropdown=""
+        nzplacement="bottomRight"
+        nztrigger="click"
+        track-id="send_request"
       >
         
-        <li
-          nz-menu-item=""
-        >
-           operation 1 
-        </li>
         
-        <li
-          nz-menu-item=""
-        >
-           operation 2 
-        </li>
+        <span>
+          
+        </span>
         
-      </ul>
-    </nz-dropdown-menu>
+        <app-icon
+          name="chevron-down"
+        />
+      </button>
+      
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
+        >
+          
+          <li
+            nz-menu-item=""
+          >
+             operation 1 
+          </li>
+          
+          <li
+            nz-menu-item=""
+          >
+             operation 2 
+          </li>
+          
+        </ul>
+      </nz-dropdown-menu>
+    </div>
   </div>
 </app-url-box>
 `;

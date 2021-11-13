@@ -20,6 +20,7 @@ import { getReducer, metaReducers, reducerToken } from './store';
 
 import { QueryEffects } from './effects/query.effect';
 import { WindowsEffects } from './effects/windows.effect';
+import { WindowsMetaEffects } from './effects/windows-meta.effect';
 import { QueryCollectionEffects } from './effects/query-collection.effect';
 import { PluginEventEffects } from './effects/plugin-event.effect';
 import { LocalEffects } from './effects/local.effect';
@@ -139,6 +140,7 @@ const providers = [
     EffectsModule.forRoot([
       QueryEffects,
       WindowsEffects,
+      WindowsMetaEffects,
       QueryCollectionEffects,
       PluginEventEffects,
       LocalEffects,

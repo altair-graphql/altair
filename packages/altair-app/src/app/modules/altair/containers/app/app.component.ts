@@ -50,6 +50,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { externalLink, openFile } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -347,6 +348,14 @@ export class AppComponent  {
     this.store.dispatch(new windowActions.ReopenClosedWindowAction());
   }
 
+  exportBackupData() {
+    this.store.dispatch(new windowsMetaActions.ExportBackupDataAction());
+  }
+
+  importBackupData() {
+    this.store.dispatch(new windowsMetaActions.ImportBackupDataAction());
+  }
+
   importWindow() {
     this.store.dispatch(new windowsActions.ImportWindowAction());
   }
@@ -530,27 +539,12 @@ export class AppComponent  {
 
   openDonationPage(e: Event) {
     this.donationService.donated();
-    this.externalLink(e, this.altairConfig.donation.url);
+    externalLink(e, this.altairConfig.donation.url);
     this.hideDonationAlert();
   }
 
   openWebAppLimitationPost(e: Event) {
-    this.externalLink(e, 'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8');
-  }
-
-  externalLink(e: Event, url: string) {
-    e.preventDefault();
-
-    // If electron app
-    if ((window as any).process && (window as any).process.versions.electron) {
-      const electron = (window as any).require('electron');
-      electron.shell.openExternal(url);
-    } else {
-      const win = window.open(url, '_blank');
-      if (win) {
-        win.focus();
-      }
-    }
+    externalLink(e, 'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8');
   }
 
   trackById(index: number, item: any) {

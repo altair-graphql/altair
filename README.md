@@ -58,7 +58,7 @@ Altair provides several features that make developing with GraphQL very efficien
 
 ### Missing feature?
 
-Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/altair-graphql/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/altair-graphql/altair/blob/staging/.github/CONTRIBUTING.md).
+Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/altair-graphql/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/altair-graphql/altair/blob/master/.github/CONTRIBUTING.md).
 
 ## Sponsors
 Thanks to all our sponsors for sponsoring this project! Do you use Altair GraphQL client at your company? Consider supporting this project as a major sponsor (primary, gold, silver or bronze) on [open collective](https://opencollective.com/altair/contribute).
@@ -126,7 +126,7 @@ $ composer require xkojimedia/laravel-altair-graphql
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
 ### Configuration Options
-When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/staging/packages/altair-app/src/app/modules/altair/config.ts#L9) you can use to customize Altair based on your needs:
+When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/master/packages/altair-app/src/app/modules/altair/config.ts#L9) you can use to customize Altair based on your needs:
 
 - `endpointURL` `string` - URL to set as the server endpoint
 - `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint

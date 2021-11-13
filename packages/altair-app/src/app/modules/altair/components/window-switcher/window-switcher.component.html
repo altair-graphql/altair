@@ -1,14 +1,11 @@
 <ul
-  nz-menu
-  nzMode="horizontal"
   sortablejs
   [sortablejsOptions]="sortableOptions"
-  class="app-header__menu header-nav window-switcher__container"
+  class="window-switcher__list"
 >
   <li
-    nz-menu-item
-    [nzSelected]="windowId === activeWindowId"
-    class="nav-link nav-text window-switcher"
+    class="window-switcher__item"
+    [ngClass]="{ 'window-switcher__item--active': windowId === activeWindowId}"
     *ngFor="let windowId of windowIds; let index = index;"
     [contextMenu]="windowTabMenu"
     [contextMenuSubject]="{ windowId: windowId, wTitle: wTitle, index: index }"
@@ -33,15 +30,14 @@
     <div track-id="close_window_tab" class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="closeWindow(windowId)">&#x00D7;</div>
   </li>
   <li
-    nz-menu-item
-    [nzSelected]="false"
-    class="nav-link nav-text window-switcher window-switcher--new-window"
+    class="window-switcher__item"
     (click)="newWindowChange.next($event)"
     *ngIf="windowIds.length < maxWindowCount"
   >
     {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
   </li>
 </ul>
+
 <context-menu>
   <ng-template contextMenuItem (execute)="editWindowNameInput($event.item.windowId, $event.item.wTitle)">
     <span class="menu-icon">

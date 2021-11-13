@@ -4,6 +4,7 @@ app-doc-viewer {
   transition: all .5s var(--app-easing);
   line-height: 1.2;
   border-radius: 4px;
+  border-inline-start: 1px solid var(--theme-border-color);
 
   &.hide-doc {
     flex-grow: 0 !important;

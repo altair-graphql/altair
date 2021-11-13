@@ -1,9 +1,9 @@
-name: Staging
+name: Master
 
 on:
   push:
     branches:
-      - staging
+      - master
 
 jobs:
   translate:

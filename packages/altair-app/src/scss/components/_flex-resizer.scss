@@ -6,28 +6,28 @@ Constraints:
 */
 
 app-flex-resizer {
+  --resizer-width: 6px;
   display: flex;
   align-items: center;
   position: absolute;
-  left: -8px;
+  left: 0;
   top: 50%;
-  transform: translateY(-50%);
-  background: var(--theme-off-border-color);
-  width: 16px;
-  height: 50px;
-  border-radius: 16px;
-  border: 1px solid var(--theme-border-color);
+  transform: translate(-50%, -50%);
+  background: var(--theme-font-color);
+  width: var(--resizer-width);
+  height: 60px;
+  border-radius: 4px;
   transition: all .3s ease;
-  opacity: .6;
+  opacity: .5;
   cursor: col-resize;
-  z-index: 1;
+  z-index: 5;
 
   &.is-right {
-    right: -8px;
+    right: calc(var(--resizer-width) * -1);
     left: auto;
   }
 
   &:hover {
-    background: var(--theme-border-color);
+    opacity: .7;
   }
 }

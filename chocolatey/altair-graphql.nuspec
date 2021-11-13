@@ -41,10 +41,10 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <iconUrl>https://altair.sirmuel.design/assets/img/altair_logo_128.png</iconUrl>
     <!-- <copyright>Year Software Vendor</copyright> -->
     <!-- If there is a license Url available, it is required for the community feed -->
-    <licenseUrl>https://github.com/altair-graphql/altair/blob/staging/.github/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/altair-graphql/altair/blob/master/.github/LICENSE</licenseUrl>
     <!-- <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
     <projectSourceUrl>https://github.com/imolorhe/altair</projectSourceUrl>
-    <docsUrl>https://github.com/altair-graphql/altair/blob/staging/chocolatey/README.md</docsUrl>
+    <docsUrl>https://github.com/altair-graphql/altair/blob/master/chocolatey/README.md</docsUrl>
     <!--<mailingListUrl></mailingListUrl>-->
     <bugTrackerUrl>https://github.com/altair-graphql/altair/issues</bugTrackerUrl>
     <tags>altair-graphql graphql graphql-client altair opensource graphql-editor graphql-ide graphiql graphql-subscriptions</tags>

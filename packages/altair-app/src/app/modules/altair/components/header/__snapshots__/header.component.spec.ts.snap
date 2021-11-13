@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderComponent should render correctly 1`] = `
+<app-header>
+  <div
+    class="header__logo-wrapper"
+  >
+    <img
+      alt="logo"
+      class="header__logo"
+      src="assets/img/logo.svg"
+    />
+  </div>
+  <app-window-switcher />
+  <div
+    class="header__actions"
+  >
+    <ul
+      class="header__menu"
+    >
+      
+      <li
+        class="header__menu-item"
+        nz-dropdown=""
+        nztrigger="click"
+      >
+        
+        
+        <span>
+          <app-icon
+            name="eye-off"
+          />
+          <span>
+            
+          </span>
+        </span>
+      </li>
+      <nz-dropdown-menu>
+        <ul
+          class="environments-dropdown__list"
+          nz-menu=""
+        >
+          
+          <li
+            nz-menu-item=""
+          >
+             ... 
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <li
+        class="header__menu-item"
+        nz-dropdown=""
+        nztrigger="click"
+      >
+        <app-icon
+          name="settings"
+        />
+      </li>
+      <nz-dropdown-menu>
+        <ul
+          nz-menu=""
+        >
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+          <li
+            nz-menu-item=""
+          >
+            
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </ul>
+  </div>
+</app-header>
+`;

@@ -6,6 +6,7 @@ import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
+import { VARIABLE_REGEX } from '../services/environment/environment.service';
 
 /**
  * Download the specified data with the provided options
@@ -165,6 +166,11 @@ export const getFullUrl = (url: string) => {
     return url;
   }
 
+  // regex to test if given string is an environment variable
+  if (VARIABLE_REGEX.test(url)) {
+    return url;
+  }
+
   if (!validUrl.isUri(url)) {
     if (url.trim() === '*') {
       return location.href;
@@ -240,4 +246,19 @@ export function truncateText(text: string, maxLength = 70) {
   }
 
   return text.substring(0, maxLength) + (appendEllipsis ? '...' : '');
+}
+
+export const externalLink = (e: Event, url: string) => {
+  e.preventDefault();
+
+  // If electron app
+  if ((window as any).process && (window as any).process.versions.electron) {
+    const electron = (window as any).require('electron');
+    electron.shell.openExternal(url);
+  } else {
+    const win = window.open(url, '_blank');
+    if (win) {
+      win.focus();
+    }
+  }
 }
