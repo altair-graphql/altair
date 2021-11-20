@@ -608,9 +608,12 @@ export class QueryEffects {
           try {
             // Stop any currently active subscription
             if (response.data.query.subscriptionClient?.close) {
-              response.data.query.subscriptionClient.close();
+              try {
+                response.data.query.subscriptionClient.close();
+              } catch (err) {
+                debug.log('error closing subscription client', err);
+              }
             }
-
 
             try {
               const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams);
@@ -712,10 +715,14 @@ export class QueryEffects {
         }),
         switchMap(res => {
           if (res.data.query.subscriptionClient?.close) {
-            res.data.query.subscriptionClient.close();
+            try {
+              res.data.query.subscriptionClient.close();
+            } catch (err) {
+              debug.log('error closing subscription client', err);
+            }
           }
 
-          return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: null }));
+          return observableOf(new queryActions.SetSubscriptionClientAction(res.windowId, { subscriptionClient: undefined }));
         }),
       );
   })

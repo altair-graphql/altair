@@ -29,7 +29,7 @@ export const getInitialState = (): QueryState => {
     showEditorAlert: false,
     editorAlertMessage: 'Query is set',
     editorAlertSuccess: true,
-    subscriptionClient: null,
+    subscriptionClient: undefined,
     subscriptionConnectionParams: initialData.initialSubscriptionsPayload ? JSON.stringify(initialData.initialSubscriptionsPayload) : '{}',
     subscriptionProviderId: initialData.initialSubscriptionsProvider || WEBSOCKET_PROVIDER_ID,
     isSubscribed: false,
