@@ -13,20 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: release-draft
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.github_token }}
+          token: ${{ secrets.github_token }}
           prerelease: false
           draft: true
-      # - id: master-pr
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     branch: master
-      #     base: master
-      #     title: master to master
     outputs:
-      release-tag: ${{ steps.release-draft.outputs.automatic_releases_tag }}
-      # master-pr-id: ${{ steps.master-pr.outputs.pull-request-number }}
+      release-tag: ${{ steps.release-draft.outputs.id }}
   electron:
     strategy:
       matrix:
@@ -121,10 +114,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.prepare-release.outputs.release-tag }}
-      # - uses: peter-evans/enable-pull-request-automerge@v1
-      #   with:
-      #     token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      #     pull-request-number: ${{ needs.prepare-release.outputs.master-pr-id }}
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
