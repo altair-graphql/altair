@@ -1,4 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { IDictionary } from '../../interfaces/shared';
 
@@ -185,7 +186,7 @@ export class SetSubscriptionProviderIdAction implements NGRXAction {
 export class SetSubscriptionClientAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CLIENT;
 
-  constructor(public windowId: string, public payload: { subscriptionClient: any }) { }
+  constructor(public windowId: string, public payload: { subscriptionClient?: SubscriptionProvider }) { }
 }
 
 export class AddSubscriptionResponseAction implements NGRXAction {

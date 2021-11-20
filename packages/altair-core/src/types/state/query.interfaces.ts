@@ -1,3 +1,4 @@
+import { SubscriptionProvider } from '../../subscriptions/subscription-provider';
 import { IDictionary } from '../shared';
 
 export interface QueryEditorState {
@@ -37,7 +38,7 @@ export interface QueryState {
   showEditorAlert: boolean;
   editorAlertMessage: string;
   editorAlertSuccess: boolean;
-  subscriptionClient: any;
+  subscriptionClient?: SubscriptionProvider;
   subscriptionConnectionParams: string;
   subscriptionProviderId?: string;
   isSubscribed: boolean;
