@@ -140,6 +140,10 @@ export class AppComponent  {
         // Warn about deprecated theme options, with alternatives
         // Add theme config object from settings
 
+        if (!settings['theme.dark']) {
+          return;
+        }
+
         const selectedTheme = settings['theme.dark'] && this.themeRegistry.getTheme(settings['theme.dark']) || { isSystem: true };
         const deperecatedThemeConfig: ICustomTheme = {
           type: {

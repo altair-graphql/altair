@@ -19,7 +19,7 @@ export class ThemeDirective implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.addHTMLClass(this.appTheme);
+    this.addHTMLClass(this.appTheme, this.appDarkTheme);
   }
 
   ngOnChanges(changes: SimpleChanges) {
