@@ -124,13 +124,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+      - name: Setup git
+        run: |
+          git config --global user.name "Samuel"
+          git config --global user.email "samuel@sirmuel.design"
       - run: bin/deploy_docs.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
   chrome-extension-upload:
     name: Publish webextension
     runs-on: ubuntu-latest
-    needs: [deploy-docs]
+    needs: [publish-release]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
