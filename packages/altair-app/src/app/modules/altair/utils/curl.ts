@@ -1,3 +1,4 @@
+import { mapToKeyValueList } from '.';
 import { IDictionary } from '../interfaces/shared';
 
 const curlup = require('curlup');
@@ -39,9 +40,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
   const method = opts.method || 'POST';
 
   const headers: IDictionary<string> = { ...defaultHeaders, ...opts.headers };
-  const headerString = Object.keys(headers)
-    .filter(key => !!key)
-    .map(key => ({ key, value: headers[key] }))
+  const headerString = mapToKeyValueList(headers)
     .map(getCurlHeaderString)
     .join(' ');
 

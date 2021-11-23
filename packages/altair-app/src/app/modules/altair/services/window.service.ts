@@ -19,7 +19,7 @@ import * as streamActions from '../store/stream/stream.action';
 import * as localActions from '../store/local/local.action';
 import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
 
-import { getFileStr } from '../utils';
+import { getFileStr, mapToKeyValueList } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
 import { debug } from '../utils/logger';
 import { GqlService } from './gql/gql.service';
@@ -168,7 +168,7 @@ export class WindowService {
         variables: curlObj.body ? JSON.stringify(JSON.parse(curlObj.body).variables) : '',
         subscriptionUrl: '',
         subscriptionConnectionParams: '',
-        headers: curlObj.headers ? Object.keys(curlObj.headers).map(key => ({ key, value: curlObj.headers[key] })) : [],
+        headers: curlObj.headers ? mapToKeyValueList(curlObj.headers) : [],
         windowName: `cURL-${Date.now()}`,
         preRequestScript: '',
         preRequestScriptEnabled: false,
@@ -236,6 +236,10 @@ export class WindowService {
           this.store.dispatch(
             new queryActions.SetSubscriptionConnectionParamsAction(windowId, { connectionParams: data.subscriptionConnectionParams })
           );
+        }
+
+        if (data.subscriptionProvider) {
+          this.store.dispatch(new queryActions.SetSubscriptionProviderIdAction(windowId, { providerId: data.subscriptionProvider }));
         }
 
         if (data.preRequestScriptEnabled) {

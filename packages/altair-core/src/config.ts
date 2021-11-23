@@ -7,45 +7,71 @@ import isElectron from './utils/is_electron';
 
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
-export interface AltairConfigOptions {
+export interface AltairWindowOptions {
+
+  /**
+   * Initial name of the window
+   */
+  initialName?: string;
+
   /**
    * URL to set as the server endpoint
    */
-  endpointURL?: string;
+   endpointURL?: string;
 
   /**
-   * URL to set as the subscription endpoint
-   */
+  * URL to set as the subscription endpoint
+  */
   subscriptionsEndpoint?: string;
 
   /**
-   * Initial query to be added
-   */
+  * Initial query to be added
+  */
   initialQuery?: string;
 
   /**
-   * Initial variables to be added
-   */
+  * Initial variables to be added
+  */
   initialVariables?: string;
 
   /**
-   * Initial pre-request script to be added
-   */
+  * Initial pre-request script to be added
+  */
   initialPreRequestScript?: string;
 
   /**
-   * Initial post-request script to be added
-   */
+  * Initial post-request script to be added
+  */
   initialPostRequestScript?: string;
 
   /**
-   * Initial headers object to be added
-   * @example
-   * {
-   *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
-   * }
-   */
+  * Initial headers object to be added
+  * @example
+  * {
+  *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+  * }
+  */
   initialHeaders?: IDictionary;
+
+  /**
+   * Initial subscriptions provider
+   *
+   * @default "websocket"
+   */
+  initialSubscriptionsProvider?: SubscriptionProviderIds;
+
+  /**
+   * Initial subscriptions connection params
+   */
+  initialSubscriptionsPayload?: IDictionary;
+
+  /**
+   * HTTP method to use for making requests
+   */
+  initialHttpMethod?: HttpVerb;
+}
+
+export interface AltairConfigOptions extends AltairWindowOptions {
 
   /**
    * Initial Environments to be added
@@ -79,18 +105,6 @@ export interface AltairConfigOptions {
   initialSettings?: Partial<SettingsState>;
 
   /**
-   * Initial subscriptions provider
-   *
-   * @default "websocket"
-   */
-  initialSubscriptionsProvider?: SubscriptionProviderIds;
-
-  /**
-   * Initial subscriptions connection params
-   */
-  initialSubscriptionsPayload?: IDictionary;
-
-  /**
    * Indicates if the state should be preserved for subsequent app loads
    *
    * @default true
@@ -98,9 +112,9 @@ export interface AltairConfigOptions {
   preserveState?: boolean;
 
   /**
-   * HTTP method to use for making requests
+   * List of options for windows to be loaded
    */
-  initialHttpMethod?: HttpVerb;
+  initialWindows?: AltairWindowOptions[];
 }
 
 export class AltairConfig {
@@ -152,6 +166,7 @@ export class AltairConfig {
     initialSubscriptionsPayload: {} as IDictionary,
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
+    windows: [] as AltairWindowOptions[],
   };
   constructor({
     endpointURL,
@@ -168,6 +183,7 @@ export class AltairConfig {
     initialSubscriptionsPayload = {},
     initialHttpMethod = 'POST',
     preserveState = true,
+    initialWindows = [],
   }: AltairConfigOptions = {}) {
     this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
@@ -183,6 +199,7 @@ export class AltairConfig {
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
     this.initialData.initialHttpMethod = initialHttpMethod;
     this.initialData.preserveState = preserveState;
+    this.initialData.windows = initialWindows;
   }
 }
 
