@@ -16,7 +16,7 @@ const { getDistDirectory, renderAltair } = require('altair-static');
 
 const { checkMultipleDataVersions } = require('../utils/check-multi-data-versions');
 const { initMainProcessStoreEvents } = require('../electron-store-adapter/main-store-events');
-const { initSettingsStoreEvents } = require('../settings/main/events');
+const { initSettingsStoreEvents, initUpdateAvailableEvent } = require('../settings/main/events');
 
 const MenuManager = require('./menu');
 const ActionManager = require('./actions');
@@ -99,7 +99,7 @@ class WindowManager {
 
     initMainProcessStoreEvents();
     initSettingsStoreEvents();
-
+    initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
     this.instance.webContents.on('will-navigate', e => e.preventDefault());
 
