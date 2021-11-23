@@ -17,22 +17,6 @@ autoUpdater.on('error', (error) => {
   dialog.showErrorBox('Error: ', !!error === null ? 'unknown' : (error.stack || error).toString());
 });
 
-autoUpdater.on('update-available', () => {
-  dialog.showMessageBox({
-    type: 'info',
-    title: 'Found Updates',
-    message: 'Found updates, do you want update now?',
-    buttons: ['Sure', 'No']
-  }).then(({ response }) => {
-    if (response === 0) {
-      autoUpdater.downloadUpdate();
-    } else if (updater) {
-      updater.enabled = true;
-      updater = null;
-    }
-  });
-});
-
 autoUpdater.on('update-not-available', () => {
   if (!isSilentCheck) {
     dialog.showMessageBox({
@@ -102,7 +86,15 @@ const checkForUpdates = (menuItem) => {
   autoUpdater.checkForUpdates();
 };
 
+const update = () => {
+  autoUpdater.on('update-available', () => {
+    autoUpdater.downloadUpdate();
+  });
+};
+
+
 module.exports = {
   setupAutoUpdates,
-  checkForUpdates
+  checkForUpdates,
+  update
 };

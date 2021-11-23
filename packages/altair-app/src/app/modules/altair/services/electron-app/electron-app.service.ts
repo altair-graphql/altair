@@ -101,6 +101,16 @@ export class ElectronAppService {
       debug.log('Electron app connected.');
 
       this.ipc.send('get-file-opened');
+
+      this.store.select((state: any) => state.settings['alert.disableAutoUpdate']).pipe(
+        first(),
+      ).subscribe((disableAutoUpdate: boolean) => {
+        if (!disableAutoUpdate) {
+          this.ipc.on('update-available', () => {
+            this.notifyService.info('Found new updates!, go to Update to get the latest version', 'Update Found!')
+          });
+        }
+      });
     }
   }
 
