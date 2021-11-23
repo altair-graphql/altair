@@ -10,6 +10,18 @@ app.use('/altair', altairExpress({
   initialQuery: `{ getData { id name surname } }`,
   // serveInitialOptionsInSeperateRequest: true,
   initialPreRequestScript: `console.log('Hello from pre request!')`,
+  initialWindows: [
+    {
+      initialQuery: '{ myFirst }',
+      endpointURL: '/test1',
+      initialName: 'name me',
+    },
+    {
+      initialQuery: '{ mySecond }',
+      endpointURL: '/test2',
+    },
+  ],
+  preserveState: false,
 }));
 app.get('/', (req, res) => res.send('Hello world'));
 

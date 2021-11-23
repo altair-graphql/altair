@@ -9,11 +9,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --stats-json",
+    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --aot --stats-json",
     "test-single-run": "ng test --watch=false --code-coverage",
     "test": "jest && ng lint",
     "test:watch": "jest --watch",
-    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --outputHashing=none --prod --aot --stats-json",
+    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --outputHashing=none --aot --stats-json",
     "test-build": "ng lint && yarn build && yarn test-single-run",
     "postinstall": "yarn generate-settings-schema-validator",
     "lint": "ng lint",
@@ -21,7 +21,7 @@
     "e2e:ci": "ng e2e --webdriver-update=false",
     "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "analyze:prod": "ng build --prod --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
+    "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=95.0.4638.69"
   },
   "dependencies": {

@@ -239,6 +239,10 @@ export function setByDotNotation<TResult = any>(
   return setByDotNotation(obj[currentPath], path.slice(1), value);
 }
 
+export const mapToKeyValueList = (obj: Record<string, string>) => {
+  return Object.keys(obj).filter(key => !!key).map(key => ({ key, value: obj[key] }))
+};
+
 export function truncateText(text: string, maxLength = 70) {
   let appendEllipsis = false;
   if (text.length > maxLength) {

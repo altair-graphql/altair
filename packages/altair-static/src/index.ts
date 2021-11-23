@@ -37,6 +37,7 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
                 'initialSubscriptionsPayload',
                 'preserveState',
                 'initialHttpMethod',
+                'initialWindows',
             ])
         });
     `;
@@ -69,10 +70,12 @@ const getRenderedAltairOpts = (renderOptions: RenderOptions, keys: (keyof Altair
     return [ '{', ...optProps, '}'].join('\n');
 };
 function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfigOptions) {
-    if (option) {
+    if (typeof option !== 'undefined') {
         switch (typeof option) {
             case 'object':
-              return `${propertyName}: ${JSON.stringify(option)},`;
+                return `${propertyName}: ${JSON.stringify(option)},`;
+            case 'boolean':
+                return `${propertyName}: ${option}`
         }
         return `${propertyName}: \`${option}\`,`;
     }

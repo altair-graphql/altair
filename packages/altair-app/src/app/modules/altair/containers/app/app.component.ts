@@ -50,7 +50,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import { externalLink, openFile } from '../../utils';
+import { externalLink, mapToKeyValueList, openFile } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -272,7 +272,30 @@ export class AppComponent  {
       });
 
     if (!this.windowIds.length) {
-      this.newWindow();
+      if (altairConfig.initialData.windows.length) {
+        altairConfig.initialData.windows.forEach(windowOption => {
+          windowService.importWindowData({
+            version: 1,
+            windowName: windowOption.initialName || '',
+            type: 'window',
+            apiUrl: windowOption.endpointURL || '',
+            headers: windowOption.initialHeaders ? mapToKeyValueList(windowOption.initialHeaders) : [],
+            query: windowOption.initialQuery || '',
+            subscriptionUrl: windowOption.subscriptionsEndpoint || '',
+            variables: windowOption.initialVariables || '',
+            postRequestScript: windowOption.initialPostRequestScript,
+            postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
+            preRequestScript: windowOption.initialPreRequestScript,
+            preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
+            subscriptionConnectionParams: windowOption.initialSubscriptionsPayload ? JSON.stringify(windowOption.initialSubscriptionsPayload) : '',
+            subscriptionProvider: windowOption.initialSubscriptionsProvider,
+          }, {
+            fixedTitle: true,
+          })
+        })
+      } else {
+        this.newWindow();
+      }
     }
   }
 

@@ -3,6 +3,16 @@ import { resolve } from 'path';
 import { renderAltair, renderInitialOptions } from './index';
 import * as getAltairHtml from './utils/get-altair-html';
 
+const translateRenderedStrToObj = (result) => {
+  const resultObj = Function(`
+  let __options;
+  const AltairGraphQL = { init: (options) => { __options = options; } };
+  ${result}
+  return __options;`)();
+
+  return resultObj;
+};
+
 describe('renderInitialOptions', () => {
   it('should return expected string', () => {
     const result = renderInitialOptions({
@@ -18,12 +28,8 @@ describe('renderInitialOptions', () => {
         theme: 'dark'
       }
     });
-    const resultObj = Function(`
-      let __options;
-      const AltairGraphQL = { init: (options) => { __options = options; } };
-      ${result}
-      return __options;`)();
-    expect(resultObj).toEqual({
+    
+    expect(translateRenderedStrToObj(result)).toEqual({
       initialQuery: `query {
         Hello
       }`,
@@ -37,6 +43,15 @@ describe('renderInitialOptions', () => {
     });
 
     expect(result).toMatchSnapshot();
+  });
+  it('should render boolean values correctly', () => {
+    const result = renderInitialOptions({
+      preserveState: false,
+    });
+
+    expect(translateRenderedStrToObj(result)).toEqual({
+      preserveState: false,
+    })
   });
 });
 
