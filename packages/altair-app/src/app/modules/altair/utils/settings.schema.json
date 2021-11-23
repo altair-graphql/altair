@@ -31,7 +31,7 @@
             "description": "'Add query' functionality depth",
             "type": "number"
         },
-        "alert.disableAutoUpdate": {
+        "alert.disableUpdateNotification": {
             "description": "Disable update notification",
             "type": "boolean"
         },

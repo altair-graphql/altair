@@ -37,15 +37,15 @@ var validate = (function() {
         var valid1 = errors === errs_1;
       }
       if (valid1) {
-        if (data['alert.disableAutoUpdate'] === undefined) {
+        if (data['alert.disableUpdateNotification'] === undefined) {
           valid1 = true;
         } else {
           var errs_1 = errors;
-          if (typeof data['alert.disableAutoUpdate'] !== "boolean") {
+          if (typeof data['alert.disableUpdateNotification'] !== "boolean") {
             validate.errors = [{
               keyword: 'type',
-              dataPath: (dataPath || '') + '[\'alert.disableAutoUpdate\']',
-              schemaPath: '#/properties/alert.disableAutoUpdate/type',
+              dataPath: (dataPath || '') + '[\'alert.disableUpdateNotification\']',
+              schemaPath: '#/properties/alert.disableUpdateNotification/type',
               params: {
                 type: 'boolean'
               },
@@ -455,8 +455,8 @@ validate.schema = {
       "description": "'Add query' functionality depth",
       "type": "number"
     },
-    "alert.disableAutoUpdate": {
-      "description": "Disable auto update",
+    "alert.disableUpdateNotification": {
+      "description": "Disable update notification",
       "type": "boolean"
     },
     "alert.disableWarnings": {

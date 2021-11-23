@@ -102,10 +102,10 @@ export class ElectronAppService {
 
       this.ipc.send('get-file-opened');
 
-      this.store.select((state: any) => state.settings['alert.disableAutoUpdate']).pipe(
+      this.store.select((state: any) => state.settings['alert.disableUpdateNotification']).pipe(
         first(),
-      ).subscribe((disableAutoUpdate: boolean) => {
-        if (!disableAutoUpdate) {
+      ).subscribe((disableUpdateNotification: boolean) => {
+        if (!disableUpdateNotification) {
           this.ipc.on('update-available', () => {
             this.notifyService.info('Found new updates!, go to Update to get the latest version', 'Update Found!')
           });
