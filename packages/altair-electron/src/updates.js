@@ -87,9 +87,7 @@ const checkForUpdates = (menuItem) => {
 };
 
 const update = () => {
-  autoUpdater.on('update-available', () => {
-    autoUpdater.downloadUpdate();
-  });
+  autoUpdater.downloadUpdate();
 };
 
 

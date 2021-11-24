@@ -1,6 +1,6 @@
 // @ts-check
-const { importBackupData, exportBackupData } = require('../utils/backup');
-const { checkForUpdates, update } = require('../updates');
+const { importBackupData } = require('../utils/backup');
+const { checkForUpdates } = require('../updates');
 const { BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
@@ -59,10 +59,6 @@ class ActionManager {
 
   checkForUpdates(menuItem) {
     return checkForUpdates(menuItem);
-  }
-
-  update() {
-    return update();
   }
 
   showPreferences() {

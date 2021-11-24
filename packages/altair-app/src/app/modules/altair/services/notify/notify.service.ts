@@ -45,6 +45,7 @@ export class NotifyService {
     if (opts.data && opts.data.url) {
       toast.onTap.subscribe(_toast => {
         window.open(opts.data.url, '_blank');
+        if (opts.data.action) opts.data.action()
       })
     }
     return toast;
