@@ -24,10 +24,6 @@ class MenuManager {
             click: (menuItem) => this.actionManager.checkForUpdates(menuItem),
           },
           {
-            label: 'Update',
-            click: () => this.actionManager.update()
-          },
-          {
             label: 'Preferences',
             accelerator: 'Cmd+,',
             click: () => this.actionManager.showSettings(),

@@ -86,15 +86,7 @@ const checkForUpdates = (menuItem) => {
   autoUpdater.checkForUpdates();
 };
 
-const update = () => {
-  autoUpdater.on('update-available', () => {
-    autoUpdater.downloadUpdate();
-  });
-};
-
-
 module.exports = {
   setupAutoUpdates,
   checkForUpdates,
-  update
 };

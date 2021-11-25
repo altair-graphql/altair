@@ -18,6 +18,9 @@ const initUpdateAvailableEvent = (ipc) => {
   autoUpdater.on('update-available', () => {
     ipc.send('update-available');
   });
+  ipcMain.on('update', () => {
+    autoUpdater.downloadUpdate();
+  });
 };
 
 module.exports = {

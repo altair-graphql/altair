@@ -42,10 +42,17 @@ export class NotifyService {
   }
   exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
-    if (opts.data && opts.data.url) {
+    if (opts.data && opts.data.action) {
       toast.onTap.subscribe(_toast => {
-        window.open(opts.data.url, '_blank');
+        opts.data.action();
       })
+    }
+    if (opts.data && opts.data.url) {
+      if (opts.data.url) {
+        toast.onTap.subscribe(_toast => {
+          window.open(opts.data.url, '_blank');
+        })
+      }
     }
     return toast;
     // let toastContent = message;

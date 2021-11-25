@@ -106,12 +106,24 @@ export class ElectronAppService {
         .pipe(first())
         .subscribe((disableUpdateNotification: boolean) => {
           if (!disableUpdateNotification) {
-            this.ipc.on('update-available', () => {
-              this.notifyService.info('Found new updates!, go to Update to get the latest version', 'Update Found!')
-            });
+            this.initUpdateAvailableHandler();
           }
         });
     }
+  }
+
+  private initUpdateAvailableHandler() {
+    const opts = {
+      disableTimeOut: true,
+      data: {
+        action: () => {
+          this.ipc.send('update')
+        }
+      }
+    }
+    this.ipc.on('update-available', () => {
+      this.notifyService.info('Click here to download the latest version!', 'Update Found!', opts)
+    });
   }
 
   setHeaders(headers: HeaderState) {
