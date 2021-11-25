@@ -117,7 +117,7 @@ export class ElectronAppService {
       disableTimeOut: true,
       data: {
         action: () => {
-          this.ipc.sendSync('update')
+          this.ipc.send('update')
         }
       }
     }

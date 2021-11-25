@@ -61,10 +61,6 @@ class ActionManager {
     return checkForUpdates(menuItem);
   }
 
-  update() {
-    return update();
-  }
-
   showPreferences() {
     const prefWindow = new BrowserWindow({
       width: 600,

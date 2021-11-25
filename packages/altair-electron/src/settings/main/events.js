@@ -2,7 +2,7 @@ const { ipcMain } = require('electron');
 const settingsStore = require('./store');
 const { SETTINGS_STORE_EVENTS } = require('../constants');
 const { autoUpdater } = require('electron-updater');
-const { update } = require('../../updates');
+
 const initSettingsStoreEvents = () => {
 
   ipcMain.on(SETTINGS_STORE_EVENTS.GET_SETTINGS_DATA, (e) => {
@@ -15,11 +15,11 @@ const initSettingsStoreEvents = () => {
 };
 
 const initUpdateAvailableEvent = (ipc) => {
-  autoUpdater.on('update-not-available', () => {
+  autoUpdater.on('update-available', () => {
     ipc.send('update-available');
   });
   ipcMain.on('update', () => {
-    update();
+    autoUpdater.downloadUpdate();
   });
 };
 
