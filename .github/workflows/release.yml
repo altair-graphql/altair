@@ -18,6 +18,7 @@ jobs:
           token: ${{ secrets.github_token }}
           prerelease: false
           draft: true
+          generate_release_notes: true
     outputs:
       release-tag: ${{ steps.release-draft.outputs.id }}
   electron:
