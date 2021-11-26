@@ -22,7 +22,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^7.0.1",
     "electron-unhandled": "^3.0.2",
-    "electron-updater": "^4.3.5",
+    "electron-updater": "^4.6.1",
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
     "mime-types": "^2.1.29"
