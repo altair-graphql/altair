@@ -36,15 +36,15 @@
     "cwex": "^1.0.2",
     "execa": "^5.0.0",
     "inquirer": "^7.3.3",
-    "lerna": "^3.16.0",
-    "ng-packagr": "^11.2.4",
+    "lerna": "^4.0.0",
+    "ng-packagr": "^13.0.8",
     "opencollective": "^1.0.3",
-    "snyk": "^1.195.0",
+    "snyk": "^1.774.0",
     "start-server-and-test": "^1.10.6",
-    "typedoc": "^0.17.7",
-    "typedoc-plugin-markdown": "^2.2.17",
+    "typedoc": "^0.22.10",
+    "typedoc-plugin-markdown": "^3.11.7",
     "typescript": "^4.2.2",
-    "web-ext": "^5.0.0"
+    "web-ext": "^6.5.0"
   },
   "resolutions": {
     "y18n": "4.0.1"
@@ -69,6 +69,6 @@
   "snyk": true,
   "private": true,
   "dependencies": {
-    "@changesets/cli": "^2.16.0"
+    "@changesets/cli": "^2.18.1"
   }
 }
