@@ -616,7 +616,9 @@ export class QueryEffects {
             }
 
             try {
-              const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams);
+              const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams, {
+                activeEnvironment: transformedData.environment
+              });
 
               connectionParams =
                 subscriptionConnectionParams ? JSON.parse(subscriptionConnectionParams) : {};
