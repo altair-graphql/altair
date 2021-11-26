@@ -75,6 +75,11 @@ export interface SettingsState {
   'schema.reloadOnStart'?: boolean;
 
   /**
+   * Disable update notification
+   */
+  'alert.disableUpdateNotification'?: boolean;
+
+  /**
    * Disable warning alerts
    */
   'alert.disableWarnings'?: boolean;

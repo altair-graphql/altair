@@ -101,7 +101,29 @@ export class ElectronAppService {
       debug.log('Electron app connected.');
 
       this.ipc.send('get-file-opened');
+
+      this.store.select((state: any) => state.settings['alert.disableUpdateNotification'])
+        .pipe(first())
+        .subscribe((disableUpdateNotification: boolean) => {
+          if (!disableUpdateNotification) {
+            this.initUpdateAvailableHandler();
+          }
+        });
     }
+  }
+
+  private initUpdateAvailableHandler() {
+    const opts = {
+      disableTimeOut: true,
+      data: {
+        action: () => {
+          this.ipc.send('update')
+        }
+      }
+    }
+    this.ipc.on('update-available', () => {
+      this.notifyService.info('Click here to download the latest version!', 'Update Found!', opts)
+    });
   }
 
   setHeaders(headers: HeaderState) {

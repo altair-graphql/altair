@@ -1,5 +1,5 @@
 // @ts-check
-const { importBackupData, exportBackupData } = require('../utils/backup');
+const { importBackupData } = require('../utils/backup');
 const { checkForUpdates } = require('../updates');
 const { BrowserWindow } = require('electron');
 const url = require('url');
