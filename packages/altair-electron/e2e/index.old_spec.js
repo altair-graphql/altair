@@ -161,16 +161,16 @@ describe('Altair electron', () => {
     }
   });
 
-  it('load window successfully', () => {
+  it('load window successfully', () => { // Done
     expect(app.browserWindow.isVisible()).resolves.toBe(true);
   });
 
-  it('can create window and close window', async() => {
+  it('can create window and close window', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.closeLastAltairWindow();
   });
 
-  it('can set URL and see docs loaded automatically', async() => {
+  it('can set URL and see docs loaded automatically', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
     const showDocs = await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`);
@@ -183,7 +183,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can send a request and receive response from server', async() => {
+  it('can send a request and receive response from server', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -200,7 +200,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can send a request with keyboard shortcuts', async() => {
+  it('can send a request with keyboard shortcuts', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -217,7 +217,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can send a request with multiple queries and see request dropdown', async() => {
+  it('can send a request with multiple queries and see request dropdown', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -233,7 +233,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can change the HTTP method', async() => {
+  it('can change the HTTP method', async() => { // Done
     await app.client.newAltairWindow();
     const httpVerbDropdown = await app.client.$(`${selectors.visibleWindowSelector} [track-id="http_verb"]`);
     const httpVerb = await httpVerbDropdown.getText();
@@ -250,7 +250,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can prettify the query', async() => {
+  it('can prettify the query', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -268,7 +268,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can copy the query as cURL', async() => {
+  it('can copy the query as cURL', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
 
@@ -285,7 +285,7 @@ describe('Altair electron', () => {
     await app.client.closeLastAltairWindow();
   });
 
-  it('can add query from doc to query editor', async() => {
+  it('can add query from doc to query editor', async() => { // Done
     await app.client.newAltairWindow();
     await app.client.setTestServerQraphQLUrl();
     const showDocsButton = await app.client.$(`${selectors.visibleWindowSelector} .url-box__input-btn[track-id="show_docs"]`);
