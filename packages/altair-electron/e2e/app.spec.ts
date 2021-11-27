@@ -201,7 +201,7 @@ test('can copy the query as cURL', async () => {
   await helpers.closeLastAltairWindow(window);
 });
 
-test.only('can add query from doc to query editor', async () => {
+test('can add query from doc to query editor', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
   const docViewer = await helpers.showDocs(window);
