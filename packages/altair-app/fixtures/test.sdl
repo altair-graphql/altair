@@ -1,0 +1,206 @@
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+type Query {
+  hello: String
+
+  bye: Boolean
+
+  GOTCharacters(
+    name: String
+    gender: String
+    culture: String
+    born: String
+    died: String
+    isAlive: Boolean
+  ): [GOTCharacter]
+
+  GOTBooks(name: String = "my-book"): [GOTBook]
+
+  GOTHouses(name: String): [GOTHouse]
+
+  HNUser(username: String): HNUser
+
+  files(filetype: FileType = PDF): [File]
+
+  withBoolean(isValid: Boolean): GOTBook
+  withInt(count: Int): GOTBook
+  withString(name: String!): GOTBook
+  withEnum(name: FileType): GOTBook
+  withStringList(list: [String]): GOTBook
+  withNumberList(list: [Int]): GOTBook
+  withGOTCharacter(character: GOTCharacterInput): GOTHouse
+  withGOTCharacterList(list: [GOTCharacterInput]): GOTBook
+  withMultipleListArguments(list: [GOTCharacterInput], list2: [Boolean], character: GOTCharacterInput): GOTBook
+}
+
+enum FileType {
+  JPG
+  PNG
+  GIF
+  PDF
+}
+
+type GOTCharacterInput {
+  id: Int!
+
+  book: GOTBookInput!
+
+  spouse: GOTCharacterInput
+
+  allegiances: [String]
+}
+
+type GOTBookInput {
+  id: Int!
+
+  url: String
+
+  name: String
+
+  authors: [String]
+
+  characters: [GOTCharacterInput]
+
+  released: String
+}
+
+"""
+ID as MongoDB ObjectId
+
+## Test Heading
+**bold**
+- list1
+- list2
+"""
+type GOTCharacter {
+  id: Int!
+
+  book: GOTBook!
+
+  url: String
+
+  name: String
+
+  gender: String
+
+  culture: String
+
+  born: String
+
+  died: String
+
+  titles: [String]
+
+  aliases: [String]
+
+  father: GOTCharacter
+
+  mother: GOTCharacter
+
+  spouse: GOTCharacter
+
+  allegiances: [String]
+
+  books: [String]
+
+  playedBy: [String]
+}
+
+"""
+A Game of Thrones Book
+
+### Real books
+
+- First item
+- Second item
+- Third item
+- Fourth item
+"""
+type GOTBook {
+  id: Int!
+
+  url: String
+
+  name: String
+
+  authors: [String]
+
+  characters: [GOTCharacter]
+
+  released: String
+}
+
+type GOTHouse {
+  id: Int!
+
+  url: String
+
+  name: String
+
+  region: String
+
+  titles: [String]
+
+  seats: [String]
+
+  words: String
+
+  overlord: GOTHouse
+
+  swornMembers: [GOTCharacter]
+}
+
+type HNUser {
+  id: String
+
+  karma: Int
+
+  bio: String
+}
+
+"""
+File **files** `file?`
+"""
+type File {
+  filename: String!
+
+  mimetype: String!
+
+  encoding: String!
+
+  filepath: String!
+}
+
+type Mutation {
+  addMessage(content: String): Message
+
+  singleUpload(file: Upload!): File
+
+  multipleUploads(files: [Upload!]!): [File]
+}
+
+type Message {
+  id: Int!
+
+  content: String
+
+  author: String
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
+type Subscription {
+  messageAdded: Message
+}
+
+enum CacheControlScope {
+  PUBLIC
+
+  PRIVATE
+}

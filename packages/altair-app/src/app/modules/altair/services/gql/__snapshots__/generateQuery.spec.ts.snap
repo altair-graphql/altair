@@ -1,0 +1,1010 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateQuery fragment generates expected fragment 1`] = `
+"fragment ____ on GOTHouse {
+  overlord {
+    id
+    url
+    name
+    region
+    titles
+    seats
+    words
+    overlord
+    swornMembers
+  }
+}
+"
+`;
+
+exports[`generateQuery fragment generates expected fragment with specified max depth 1`] = `
+"fragment ____ on GOTHouse {
+  overlord {
+    id
+    url
+    name
+    region
+    titles
+    seats
+    words
+    overlord {
+      id
+      url
+      name
+      region
+      titles
+      seats
+      words
+      overlord {
+        id
+        url
+        name
+        region
+        titles
+        seats
+        words
+        overlord {
+          id
+          url
+          name
+          region
+          titles
+          seats
+          words
+          overlord
+          swornMembers
+        }
+        swornMembers {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+      }
+      swornMembers {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+    }
+    swornMembers {
+      id
+      book {
+        id
+        url
+        name
+        authors
+        characters {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        released
+      }
+      url
+      name
+      gender
+      culture
+      born
+      died
+      titles
+      aliases
+      father {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      mother {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      spouse {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      allegiances
+      books
+      playedBy
+    }
+  }
+}
+"
+`;
+
+exports[`generateQuery fragment generates expected fragment with specified tab size 1`] = `
+"fragment ____ on GOTHouse {
+     overlord {
+          id
+          url
+          name
+          region
+          titles
+          seats
+          words
+          overlord
+          swornMembers
+     }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query 1`] = `
+"{
+  GOTHouses(name: \\"string\\") {
+    id
+    url
+    name
+    region
+    titles
+    seats
+    words
+    overlord
+    swornMembers
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with boolean argument 1`] = `
+"{
+  withBoolean(isValid: true) {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with default enum argument 1`] = `
+"{
+  files(filetype: PDF) {
+    filename
+    mimetype
+    encoding
+    filepath
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with default string argument 1`] = `
+"{
+  GOTBooks(name: \\"my-book\\") {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with enum argument 1`] = `
+"{
+  withEnum(name: JPG) {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with int argument 1`] = `
+"{
+  withInt(count: 1) {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with list argument 1`] = `
+"{
+  withStringList(list: [\\"string\\"]) {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with multiple complex arguments 1`] = `
+"{
+  withMultipleListArguments(
+    list: [{ id: 1 }]
+    list2: [true]
+    character: { id: 1, book: { id: 1 } }
+  ) {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with object argument 1`] = `
+"{
+  withGOTCharacter(character: { id: 1, book: { id: 1 } }) {
+    id
+    url
+    name
+    region
+    titles
+    seats
+    words
+    overlord
+    swornMembers
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with specified max depth 1`] = `
+"{
+  GOTHouses(name: \\"string\\") {
+    id
+    url
+    name
+    region
+    titles
+    seats
+    words
+    overlord {
+      id
+      url
+      name
+      region
+      titles
+      seats
+      words
+      overlord {
+        id
+        url
+        name
+        region
+        titles
+        seats
+        words
+        overlord {
+          id
+          url
+          name
+          region
+          titles
+          seats
+          words
+          overlord
+          swornMembers
+        }
+        swornMembers {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+      }
+      swornMembers {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+    }
+    swornMembers {
+      id
+      book {
+        id
+        url
+        name
+        authors
+        characters {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        released
+      }
+      url
+      name
+      gender
+      culture
+      born
+      died
+      titles
+      aliases
+      father {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      mother {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      spouse {
+        id
+        book {
+          id
+          url
+          name
+          authors
+          characters
+          released
+        }
+        url
+        name
+        gender
+        culture
+        born
+        died
+        titles
+        aliases
+        father {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        mother {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        spouse {
+          id
+          book
+          url
+          name
+          gender
+          culture
+          born
+          died
+          titles
+          aliases
+          father
+          mother
+          spouse
+          allegiances
+          books
+          playedBy
+        }
+        allegiances
+        books
+        playedBy
+      }
+      allegiances
+      books
+      playedBy
+    }
+  }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with specified tab size 1`] = `
+"{
+     GOTHouses(name: \\"string\\") {
+          id
+          url
+          name
+          region
+          titles
+          seats
+          words
+          overlord
+          swornMembers
+     }
+}
+"
+`;
+
+exports[`generateQuery query generates expected query with string argument 1`] = `
+"{
+  withString(name: \\"string\\") {
+    id
+    url
+    name
+    authors
+    characters
+    released
+  }
+}
+"
+`;

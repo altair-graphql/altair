@@ -2,17 +2,14 @@ import {
   visit,
   print,
   TypeInfo,
-  getNamedType,
-  isLeafType,
   parse,
-  GraphQLType,
-  GraphQLInputObjectType,
   GraphQLSchema,
-  SelectionSetNode,
+  Kind,
 } from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import { Token } from 'codemirror';
+import { buildSelectionSet } from './generateQuery';
 
 export const parseQuery = (query: string) => {
   if (!query) {
@@ -25,39 +22,6 @@ export const parseQuery = (query: string) => {
 
     return null;
   }
-};
-
-export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, currentDepth = 0 } = {}): SelectionSetNode | undefined => {
-  if (!type) {
-    return;
-  }
-  const namedType: GraphQLInputObjectType = <GraphQLInputObjectType>getNamedType(type);
-
-  if (isLeafType(type) || !namedType || !namedType.getFields) {
-    return;
-  }
-
-  if (currentDepth >= maxDepth) {
-    return;
-  }
-
-  const fields = namedType && namedType.getFields();
-  return {
-    kind: 'SelectionSet',
-    selections: Object.keys(fields).map(field => {
-      const fieldDef = fields[field];
-      const fieldType = fieldDef ? fieldDef.type : null;
-
-      return {
-        kind: 'Field',
-        name: {
-          kind: 'Name',
-          value: field
-        },
-        selectionSet: buildSelectionSet(fieldType, { maxDepth, currentDepth: currentDepth + 1 })
-      };
-    })
-  };
 };
 
 export const getIndentation = (str: string, index: number) => {
@@ -101,7 +65,7 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
   }
 
   let tokenState = token.state;
-  if (tokenState.kind === 'SelectionSet') {
+  if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
   }
@@ -122,7 +86,7 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
     },
     enter(node) {
       typeInfo.enter(node);
-      if (node.kind === 'Field') {
+      if (node.kind === Kind.FIELD) {
         // const fieldType = typeInfo.getType();
         if (
           1
@@ -136,7 +100,7 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
           && (tokenState.wasSelectionSet || node.loc.startToken.line - 1 === cursor.line)
         ) {
           debug.log(node, typeInfo, typeInfo.getType(), cursor, token, maxDepth);
-          const selectionSet = buildSelectionSet(fieldType, { maxDepth });
+          const { selectionSet } = buildSelectionSet(fieldType, { maxDepth });
           const indent = getIndentation(query, node.loc.start);
           if (selectionSet) {
             insertions.push({

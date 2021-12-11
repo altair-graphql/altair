@@ -14,6 +14,7 @@
     "noImplicitAny": true,
     // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -22,7 +23,7 @@
       "es2016",
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
     ],
     "module": "es2020"
   }
