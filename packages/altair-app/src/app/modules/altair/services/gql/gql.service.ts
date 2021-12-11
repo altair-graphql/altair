@@ -43,6 +43,7 @@ import {
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { prettify } from './prettifier';
 
 
 interface SendRequestOptions {
@@ -368,10 +369,7 @@ export class GqlService {
    * @param query
    */
   async prettify(query: string, tabWidth: number = 2) {
-    const prettier = await import('prettier/standalone');
-    const prettierGraphql = await import('prettier/parser-graphql');
-    // return print(parse(query));
-    return prettier.format(query, { parser: 'graphql', plugins: [ prettierGraphql ], tabWidth });
+    return prettify(query, tabWidth);
   }
 
   /**

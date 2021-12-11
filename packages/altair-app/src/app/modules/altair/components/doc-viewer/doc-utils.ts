@@ -4,6 +4,7 @@ import { DocumentIndexEntry } from './models';
 import { buildSchema } from 'graphql/utilities';
 import getRootTypes from '../../utils/get-root-types';
 import { GraphQLObjectType, GraphQLFieldMap, GraphQLType } from 'graphql';
+import { generateQuery } from '../../services/gql/generateQuery';
 
 export class DocUtils {
   schema?: GraphQLSchema;
@@ -210,6 +211,18 @@ export class DocUtils {
     meta.hasArgs = hasArgs || meta.hasArgs;
 
     return { query, meta };
+  }
+
+  async generateQueryV2(field: string, parentType: string, opts: { tabSize: number, addQueryDepthLimit: number }) {
+    if (!this.schema) {
+      return;
+    }
+    const res = await generateQuery(this.schema, field, parentType, { maxDepth: opts.addQueryDepthLimit, tabSize: opts.tabSize });
+
+    return {
+      query: res.generated,
+      meta: res.metas.find(_ => _.hasArgs) || {},
+    };
   }
 
   /**

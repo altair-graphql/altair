@@ -213,7 +213,7 @@ export class DocViewerComponent implements OnChanges {
       return false;
     }
     const docUtilsWorker = await this.getDocUtilsWorker();
-    const generatedQuery = await docUtilsWorker.generateQuery(name, parentType, {
+    const generatedQuery = await docUtilsWorker.generateQueryV2(name, parentType, {
       tabSize: this.tabSize,
       addQueryDepthLimit: this.addQueryDepthLimit,
     });
