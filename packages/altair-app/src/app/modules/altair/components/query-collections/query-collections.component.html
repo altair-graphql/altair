@@ -59,8 +59,8 @@
     </div>
     <div class="query-collections__items-wrapper">
       <app-query-collection-item
-        *ngFor="let collection of collections; trackBy:trackById;"
-        [collection]="collection"
+        *ngFor="let collectionTree of collectionTrees; trackBy:trackById;"
+        [collectionTree]="collectionTree"
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"

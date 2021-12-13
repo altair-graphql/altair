@@ -20,8 +20,8 @@ export class StorageService extends Dexie {
   }
 
   schema() {
-    this.version(3).stores({
-      queryCollections: '++id, title',
+    this.version(4).stores({
+      queryCollections: '++id, title, parentPath',
       appState: 'key',
       selectedFiles: 'id, windowId',
     });

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { IQuery, IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { IQuery, IQueryCollection, IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { memoize } from '../../utils/memoize';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
@@ -10,12 +10,12 @@ type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryCollectionItemComponent  {
-  @Input() collection: IQueryCollection;
+  @Input() collectionTree: IQueryCollectionTree;
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{ collectionId: number, query: IQuery }> = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{ collectionId: number }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollection }> = new EventEmitter();
+  @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
 
 
@@ -25,9 +25,7 @@ export class QueryCollectionItemComponent  {
 
   constructor() { }
 
-  
-
-  getQueryCount(collection: IQueryCollection) {
+  getQueryCount(collection: IQueryCollectionTree) {
     return collection.queries && collection.queries.length;
   }
 
@@ -39,7 +37,7 @@ export class QueryCollectionItemComponent  {
     if (confirm('Are you sure you want to delete this query from the collection?')) {
       this.deleteQueryChange.next({
         query,
-        collectionId: this.collection.id!
+        collectionId: this.collectionTree.id
       });
     }
   }
@@ -47,18 +45,18 @@ export class QueryCollectionItemComponent  {
   deleteCollection() {
     if (confirm('Are you sure you want to delete this collection?')) {
       this.deleteCollectionChange.next({
-        collectionId: this.collection.id!
+        collectionId: this.collectionTree.id
       });
     }
   }
 
   editCollection() {
-    this.editCollectionChange.next({ collection: this.collection });
+    this.editCollectionChange.next({ collection: this.collectionTree });
   }
 
   exportCollection() {
     this.exportCollectionChange.next({
-      collectionId: this.collection.id
+      collectionId: this.collectionTree.id
     });
   }
   setQueriesSortBy(sortBy: SortByOptions) {

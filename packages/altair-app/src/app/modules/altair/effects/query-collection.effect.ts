@@ -38,7 +38,7 @@ export class QueryCollectionEffects {
           return this.collectionService.create({
             title: res.action.payload.collectionTitle,
             queries: [ query ]
-          });
+          }, res.action.payload.parentCollectionId);
         }),
         tap(() => this.notifyService.success('Created collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),

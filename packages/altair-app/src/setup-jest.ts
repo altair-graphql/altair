@@ -1,4 +1,5 @@
 import 'jest-preset-angular/setup-jest';
+import 'fake-indexeddb/auto';
 jest.mock('./app/modules/altair/components/doc-viewer/doc-viewer/worker-helper', () => ({
   getDocUtilsWorkerAsyncClass: () => {},
 }))

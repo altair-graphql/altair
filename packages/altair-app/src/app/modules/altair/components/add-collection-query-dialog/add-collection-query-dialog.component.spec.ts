@@ -8,6 +8,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mount } from '../../../../../testing/utils';
 import { NgxTestWrapper } from 'testing/wrapper';
 import { DialogComponent } from '../dialog/dialog.component';
+import { QueryCollectionService, StorageService } from '../../services';
+import { mock } from '../../../../../testing';
 
 describe('AddCollectionQueryDialogComponent', () => {
   let wrapper: NgxTestWrapper<AddCollectionQueryDialogComponent>;
@@ -17,6 +19,10 @@ describe('AddCollectionQueryDialogComponent', () => {
       component: AddCollectionQueryDialogComponent,
       declarations: [
         AddCollectionQueryDialogComponent,
+      ],
+      providers: [
+        QueryCollectionService,
+        StorageService,
       ],
       imports: [
         BrowserAnimationsModule,
@@ -146,6 +152,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     expect(wrapper.emitted('createCollectionAndSaveQueryToCollectionChange')![0][0]).toEqual({
       queryName: 'my query name',
       collectionName: 'my new collection name',
+      parentCollectionId: 0,
     });
   });
 

@@ -1,7 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Type } from '@angular/core';
-import { setProps, setValue, BaseTestHostComponent } from '../utils';
+import { setProps, setValue, BaseTestHostComponent, flushPromises } from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
 export class NgxTestWrapper<C extends any> {
@@ -142,6 +142,7 @@ export class NgxTestWrapper<C extends any> {
   async nextTick() {
     this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();
+    await flushPromises();
   }
 
   private assertExists() {

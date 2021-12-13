@@ -4,6 +4,8 @@ import { TestBed, TestModuleMetadata, ComponentFixture } from '@angular/core/tes
 import { IDictionary } from 'app/modules/altair/interfaces/shared';
 import { NgxTestWrapper } from './wrapper';
 
+export const flushPromises = () => new Promise(setImmediate);
+
 const isInputElement = (el: HTMLElement): el is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
   return (
     el instanceof HTMLInputElement

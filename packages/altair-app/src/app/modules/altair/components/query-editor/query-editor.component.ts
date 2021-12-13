@@ -334,7 +334,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       clearTimeout(this.updateWidgetTimeout);
       this.updateWidgetTimeout = setTimeout(() => {
         try {
-          const ast = this.gqlService.parseQuery(cm.getValue());
+          const ast = this.gqlService.parseQueryOrEmptyDocument(cm.getValue());
           ast.definitions.forEach(definition => {
             if (definition.kind === 'OperationDefinition' && (definition.name?.value || ast.definitions.length === 1)) {
               debug.log('WIDGET', definition);
