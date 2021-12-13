@@ -596,7 +596,7 @@ describe('GqlService', () => {
 
   describe('.parseQuery()', () => {
     it('should return empty object if empty string', inject([GqlService], (service: GqlService) => {
-      expect(service.parseQuery('')).toEqual({
+      expect(service.parseQueryOrEmptyDocument('')).toEqual({
         definitions: [],
         kind: 'Document',
       });
@@ -611,7 +611,7 @@ describe('GqlService', () => {
     }));
 
     it('should return empty object if query is invalid', inject([GqlService], (service: GqlService) => {
-      expect(service.parseQuery(`
+      expect(service.parseQueryOrEmptyDocument(`
         query {{
           hello
         }
