@@ -243,22 +243,34 @@ export class GqlService {
     return fillAllFields(schema, query, cursor, token, opts);
   }
 
+  /**
+   * 
+   * @param query parses a query string
+   * @throws {GraphQLError}
+   */
   parseQuery(query: string) {
-    const emptyDocumentNode: DocumentNode = {
+    return parse(query);
+  }
+
+  parseQueryOrEmptyDocument(query: string) {
+    if (!query) {
+      return this.getEmptyDocumentNode();
+    }
+
+    try {
+      return this.parseQuery(query);
+    } catch (err) {
+      debug.log('Could not parse query', err);
+
+      return this.getEmptyDocumentNode();
+    }
+  }
+
+  getEmptyDocumentNode(): DocumentNode {
+    return {
       definitions: [],
       kind: 'Document',
     };
-
-    if (!query) {
-      return emptyDocumentNode;
-    }
-    try {
-      return parse(query);
-    } catch (err) {
-      debug.error('Something wrong with your query', err);
-
-      return emptyDocumentNode;
-    }
   }
 
   /**
@@ -275,7 +287,7 @@ export class GqlService {
    */
   isSubscriptionQuery(query: string) {
 
-    const parsedQuery = this.parseQuery(query);
+    const parsedQuery = this.parseQueryOrEmptyDocument(query);
 
     if (!parsedQuery.definitions) {
       return false;
@@ -287,7 +299,7 @@ export class GqlService {
   }
 
   getOperations(query: string) {
-    const parsedQuery = this.parseQuery(query);
+    const parsedQuery = this.parseQueryOrEmptyDocument(query);
 
     if (parsedQuery.definitions) {
       return parsedQuery.definitions
@@ -387,7 +399,7 @@ export class GqlService {
     if (!query) {
       return;
     }
-    const ast = this.parseQuery(query);
+    const ast = this.parseQueryOrEmptyDocument(query);
     const edited = visit(ast, {
       OperationDefinition(node) {
         debug.log(node);
@@ -410,7 +422,7 @@ export class GqlService {
     if (!query || !schema) {
       return;
     }
-    const ast = this.parseQuery(query);
+    const ast = this.parseQueryOrEmptyDocument(query);
     const typeUsageEntries = generateTypeUsageEntries(ast, schema);
 
     const fragmentRefactorMap = generateFragmentRefactorMap(typeUsageEntries);

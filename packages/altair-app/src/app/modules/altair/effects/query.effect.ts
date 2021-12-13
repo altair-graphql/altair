@@ -1019,7 +1019,7 @@ export class QueryEffects {
             return EMPTY;
           }
           if (query) {
-            const document = this.gqlService.parseQuery(query);
+            const document = this.gqlService.parseQueryOrEmptyDocument(query);
 
             const currentDefinitionNames = document.definitions
               .filter((definition): definition is OperationDefinitionNode =>

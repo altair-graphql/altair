@@ -143,6 +143,12 @@
   background: var(--theme-off-bg-color);
   color: var(--theme-font-color);
 }
+.ant-select-tree .ant-select-tree-node-content-wrapper:hover {
+  background: rgba(var(--rgb-primary), .15);
+}
+.ant-select-tree .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected {
+  background: rgba(var(--rgb-primary), .15);
+}
 
 .ant-select-selection {
   background: var(--theme-off-bg-color);
