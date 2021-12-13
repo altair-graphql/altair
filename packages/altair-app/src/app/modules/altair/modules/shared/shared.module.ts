@@ -30,6 +30,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
 import { IconsModule } from '../icons/icons.module';
 
@@ -53,6 +54,7 @@ const AntdComponentModules = [
   NzCollapseModule,
   NzToolTipModule,
   NzTableModule,
+  NzTreeSelectModule,
   // NgZorroAntdModule,
 ];
 

@@ -17,6 +17,7 @@ describe('QueryCollectionItemComponent', () => {
   const collectionData = {
     id: 1,
     title: 'collection-1',
+    collections: [],
     queries: [
       {
         id: 'query1',
@@ -44,7 +45,7 @@ describe('QueryCollectionItemComponent', () => {
       ],
       schemas: [ NO_ERRORS_SCHEMA ],
       propsData: {
-        collection: collectionData
+        collectionTree: collectionData
       }
     });
   });

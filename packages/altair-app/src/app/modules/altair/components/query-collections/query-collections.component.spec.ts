@@ -4,10 +4,12 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
+import { mock } from '../../../../../testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { describe, expect } from '@jest/globals';
 import { MockModule, MockComponent } from 'ng-mocks';
 import { QueryCollectionItemComponent } from '../query-collection-item/query-collection-item.component';
+import { QueryCollectionService, StorageService } from '../../services';
 
 describe('QueryCollectionsComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionsComponent>;
@@ -18,6 +20,10 @@ describe('QueryCollectionsComponent', () => {
       declarations: [ MockComponent(QueryCollectionItemComponent) ],
       imports: [
         MockModule(SharedModule),
+      ],
+      providers: [
+        QueryCollectionService,
+        StorageService,
       ],
       schemas: [ NO_ERRORS_SCHEMA ],
     });
@@ -79,9 +85,9 @@ describe('QueryCollectionsComponent', () => {
 
     const collectionItems = wrapper.findAll<QueryCollectionItemComponent>('app-query-collection-item');
     expect(collectionItems.length).toBe(3);
-    expect(collectionItems[0].componentInstance.collection).toEqual({ id: 1, title: 'Collection 1', queries: [] });
-    expect(collectionItems[1].componentInstance.collection).toEqual({ id: 2, title: 'Collection 2', queries: [] });
-    expect(collectionItems[2].componentInstance.collection).toEqual({ id: 3, title: 'Collection 3', queries: [] });
+    expect(collectionItems[0].componentInstance.collectionTree).toEqual({ id: 1, title: 'Collection 1', queries: [], collections: [] });
+    expect(collectionItems[1].componentInstance.collectionTree).toEqual({ id: 2, title: 'Collection 2', queries: [], collections: [] });
+    expect(collectionItems[2].componentInstance.collectionTree).toEqual({ id: 3, title: 'Collection 3', queries: [], collections: [] });
   });
 
   it('should emit "selectQueryChange" from query-collection-item', async() => {

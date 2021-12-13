@@ -131,6 +131,19 @@
   color: var(--theme-font-color);
 }
 
+.ant-select {
+  color: var(--theme-font-color);
+  width: 100%;
+}
+.ant-select-clear {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+}
+.ant-select-tree {
+  background: var(--theme-off-bg-color);
+  color: var(--theme-font-color);
+}
+
 .ant-select-selection {
   background: var(--theme-off-bg-color);
   color: var(--theme-font-color);

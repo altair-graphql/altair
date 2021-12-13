@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { IQueryCollection, IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { QueryCollectionService } from '../../services';
 
 @Component({
   selector: 'app-query-collections',
   templateUrl: './query-collections.component.html',
   styleUrls: ['./query-collections.component.scss']
 })
-export class QueryCollectionsComponent implements OnInit {
+export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;
   @Input() collections: IQueryCollection[] = [];
   @Input() sortBy = '';
@@ -20,12 +21,24 @@ export class QueryCollectionsComponent implements OnInit {
   @Output() importCollectionsChange = new EventEmitter();
   @Output() sortCollectionsChange = new EventEmitter();
 
+  collectionTrees: IQueryCollectionTree[] = [];
+
   constructor(
+    private collectionService: QueryCollectionService,
   ) {
   }
 
   ngOnInit() {
     this.loadCollectionsChange.next();
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.collections?.currentValue) {
+      this.setCollectionTrees(changes.collections.currentValue);
+    }
+  }
+  
+  setCollectionTrees(collections: IQueryCollection[]) {
+    this.collectionTrees = this.collectionService.getCollectionTrees(collections);
   }
 
   trackById(index: number, collection: IQueryCollection) {

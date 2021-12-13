@@ -17,15 +17,25 @@ export interface IQuery extends ExportWindowState {
 export interface IQueryCollection {
   id?: number;
   title: string;
-  description?: string;
   queries: any[];
-  collections?: IQueryCollection[];
+  description?: string;
+
+  /**
+   * path of the collection in the collection tree
+   * e.g. '/123/456'
+   */
+  parentPath?: string;
 
   created_at?: number;
   updated_at?: number;
 }
 
-export interface ExportCollectionState extends IQueryCollection {
+export interface IQueryCollectionTree extends IQueryCollection {
+  id: number;
+  collections: IQueryCollectionTree[];
+}
+
+export interface ExportCollectionState extends IQueryCollectionTree {
   version: 1;
   type: 'collection';
 }

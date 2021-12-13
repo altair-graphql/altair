@@ -20,7 +20,7 @@ export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
 export class CreateCollectionAndSaveQueryToCollectionAction implements NGRXAction {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
 
-  constructor(public payload: { collectionTitle: string, windowId: string, windowTitle?: string }) {}
+  constructor(public payload: { collectionTitle: string, windowId: string, windowTitle?: string, parentCollectionId?: number }) {}
 }
 
 export class SaveQueryToCollectionAction implements NGRXAction {

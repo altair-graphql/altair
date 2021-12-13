@@ -26,18 +26,36 @@
         </nz-select>
       </nz-form-control>
     </div>
-    <div
+    <ng-container
       *ngIf="collectionId === -1"
-      class="app-dialog-section"
     >
-      {{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}
-      <input
-        type="text"
-        class="dialog-input"
-        [(ngModel)]="newCollectionTitle"
-        attr.aria-label="{{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}"
-        data-test-id="new-collection-name"
-      >
-    </div>
+      <div class="app-dialog-section">
+        {{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}
+        <input
+          type="text"
+          class="dialog-input"
+          [(ngModel)]="newCollectionTitle"
+          placeholder="Collection name"
+          attr.aria-label="{{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}"
+          data-test-id="new-collection-name"
+        >
+      </div>
+      <div class="app-dialog-section">
+        <nz-form-label>
+          <!-- {{ 'SAVE_TO_COLLECTION_SELECT_COLLECTION' | translate }} -->
+          Save collection to
+        </nz-form-label>
+        <nz-form-control>
+          <nz-tree-select
+            [nzNodes]="collectionNodes"
+            [nzNotFoundContent]="'No collections found'"
+            nzShowSearch
+            nzPlaceHolder="Select collection"
+            [(ngModel)]="newCollectionParentCollectionId"
+            (ngModelChange)="newCollectionParentCollectionIdChange.emit($event)"
+          ></nz-tree-select>
+        </nz-form-control>
+      </div>
+    </ng-container>
   </div>
 </app-dialog>

@@ -434,12 +434,13 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId, {}));
   }
 
-  createCollectionAndSaveQueryToCollection({ queryName = '', collectionName = '' }) {
+  createCollectionAndSaveQueryToCollection({ queryName = '', collectionName = '', parentCollectionId = 0 }) {
     this.store.dispatch(
       new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
-        collectionTitle: collectionName,
         windowId: this.windowId,
         windowTitle: queryName,
+        collectionTitle: collectionName,
+        parentCollectionId: parentCollectionId || undefined,
       })
     );
 
