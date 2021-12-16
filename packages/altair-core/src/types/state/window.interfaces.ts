@@ -6,7 +6,6 @@ export interface WindowState {
   [id: string]: PerWindowState;
 }
 
-
 /**
  * Data structure for exported windows
  */
@@ -30,6 +29,7 @@ export interface WindowState {
    * ID of the collection this query belongs to
    */
   collectionId?: number;
+
   /**
    * ID for window in collection
    */

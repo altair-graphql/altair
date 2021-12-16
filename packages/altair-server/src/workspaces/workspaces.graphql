@@ -1,0 +1,24 @@
+type Workspace {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateWorkspaceInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateWorkspaceInput {
+  id: Int!
+}
+
+type Query {
+  workspaces: [Workspace]!
+  workspace(id: Int!): Workspace
+}
+
+type Mutation {
+  createWorkspace(createWorkspaceInput: CreateWorkspaceInput!): Workspace!
+  updateWorkspace(updateWorkspaceInput: UpdateWorkspaceInput!): Workspace!
+  removeWorkspace(id: Int!): Workspace
+}
