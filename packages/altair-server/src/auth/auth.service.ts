@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/types';
 import { UsersService } from 'src/users/users.service';
-import { JwtPayload } from './types';
+import { JwtPayload, RequestUser } from './types';
+import { compare, hash } from 'bcrypt';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { hashConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -11,23 +13,29 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string) {
-    const user = await this.userService.findOne(username);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findOne(email);
 
-    if (user?.password === password) {
-      const { password, ...result } = user;
-
-      return result;
+    if (!user) {
+      return;
     }
 
-    return undefined;
+    if (await compare(password, user.passwordHash)) {
+      return user;
+    }
   }
 
-  async login(user: User) {
-    const payload: JwtPayload = { username: user.username, sub: user.id };
+  async login(user: RequestUser) {
+    const payload: JwtPayload = { username: user.email, sub: user.id };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
+  }
+
+  async registerUser(dto: RegisterUserDto) {
+    const saltRounds = hashConstants.saltRounds;
+    const passwordHash = await hash(dto.password, saltRounds);
+    return this.userService.create({ ...dto, passwordHash, saltRounds });
   }
 }

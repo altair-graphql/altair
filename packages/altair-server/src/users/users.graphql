@@ -14,7 +14,3 @@ input CreateUserInput {
 type Query {
   getUserById(id: String!): User
 }
-
-type Mutation {
-  createUser(input: CreateUserInput!): User
-}

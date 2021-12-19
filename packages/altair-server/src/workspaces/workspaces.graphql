@@ -1,15 +1,15 @@
 type Workspace {
-  # Example field (placeholder)
-  exampleField: Int
+  id: String
+  name: String
 }
 
 input CreateWorkspaceInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
 }
 
 input UpdateWorkspaceInput {
-  id: Int!
+  id: String!
+  name: String
 }
 
 type Query {
@@ -20,5 +20,5 @@ type Query {
 type Mutation {
   createWorkspace(createWorkspaceInput: CreateWorkspaceInput!): Workspace!
   updateWorkspace(updateWorkspaceInput: UpdateWorkspaceInput!): Workspace!
-  removeWorkspace(id: Int!): Workspace
+  removeWorkspace(id: String!): Workspace
 }

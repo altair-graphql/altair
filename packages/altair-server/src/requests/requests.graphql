@@ -1,0 +1,43 @@
+type Request {
+  name: String
+  url: String
+  query: String
+  headers: [Header]
+  variables: String
+  collectionId: String
+  ownerId: String
+}
+
+type Header {
+  key: String!
+  value: String!
+}
+input HeaderInput {
+  key: String!
+  value: String!
+}
+
+input CreateRequestInput {
+  name: String
+  url: String
+  query: String
+  headers: [HeaderInput]
+  variables: String
+  collectionId: String
+  ownerId: String
+}
+
+input UpdateRequestInput {
+  id: Int!
+}
+
+type Query {
+  requests: [Request]!
+  request(id: Int!): Request
+}
+
+type Mutation {
+  createRequest(createRequestInput: CreateRequestInput!): Request!
+  updateRequest(updateRequestInput: UpdateRequestInput!): Request!
+  removeRequest(id: Int!): Request
+}

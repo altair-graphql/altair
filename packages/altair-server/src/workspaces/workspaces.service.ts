@@ -1,22 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWorkspaceInput } from './dto/create-workspace.input';
-import { UpdateWorkspaceInput } from './dto/update-workspace.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateWorkspaceDto } from './dto/create-workspace.dto';
+import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { Workspace, WorkspaceDocument } from './entities/workspace.entity';
 
 @Injectable()
 export class WorkspacesService {
-  create(createWorkspaceInput: CreateWorkspaceInput) {
-    return 'This action adds a new workspace';
+  constructor(
+    @InjectModel(Workspace.name)
+    private WorkspaceModel: Model<WorkspaceDocument>,
+  ) {}
+
+  create(createWorkspaceDto: CreateWorkspaceDto) {
+    if (!createWorkspaceDto) {
+      throw new Error('No workspace data provided!');
+    }
+    if (!createWorkspaceDto.ownerId) {
+      throw new Error('Owner must be specified!');
+    }
+
+    const createdWorkspace = new this.WorkspaceModel(createWorkspaceDto);
+
+    return createdWorkspace.save();
   }
 
-  findAll() {
-    return `This action returns all workspaces`;
+  findByOwnerId(ownerId: string) {
+    return this.WorkspaceModel.find({ ownerId });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} workspace`;
   }
 
-  update(id: number, updateWorkspaceInput: UpdateWorkspaceInput) {
+  update(id: number, updateWorkspaceInput: UpdateWorkspaceDto) {
     return `This action updates a #${id} workspace`;
   }
 

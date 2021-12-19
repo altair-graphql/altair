@@ -1,7 +1,3 @@
-import { Maybe } from 'src/types/types';
+import { User } from '../entities/user.entity';
 
-export class CreateUserDto {
-  firstName: string;
-  lastName?: Maybe<string>;
-  email: string;
-}
+export type CreateUserDto = Partial<User>;

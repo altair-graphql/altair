@@ -6,15 +6,6 @@ import { User, UserDocument } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      id: 1,
-      username: 'imolorhe',
-      email: 'imolorhe@altair.io',
-      password: 'pass',
-    },
-  ];
-
   constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -26,8 +17,8 @@ export class UsersService {
     return createdUser.save();
   }
 
-  async findOne(username: string) {
-    return this.users.find((u) => u.username === username);
+  async findOne(email: string) {
+    return this.UserModel.findOne({ email }).exec();
   }
 
   async findAll() {
