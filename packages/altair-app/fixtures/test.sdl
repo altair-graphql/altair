@@ -43,7 +43,7 @@ enum FileType {
   PDF
 }
 
-type GOTCharacterInput {
+input GOTCharacterInput {
   id: Int!
 
   book: GOTBookInput!
@@ -53,7 +53,7 @@ type GOTCharacterInput {
   allegiances: [String]
 }
 
-type GOTBookInput {
+input GOTBookInput {
   id: Int!
 
   url: String

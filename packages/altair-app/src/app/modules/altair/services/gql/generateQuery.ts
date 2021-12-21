@@ -14,6 +14,7 @@ import {
   GraphQLSchema,
   GraphQLString,
   GraphQLType,
+  isInputObjectType,
   isLeafType,
   isListType,
   isNonNullType,
@@ -200,7 +201,7 @@ const maybeBuildDefaultArgumentValueNode = (type: GraphQLInputType, defaultValue
   }
 
   // handle complex objects
-  if (isObjectType(type)) {
+  if (isObjectType(type) || isInputObjectType(type)) {
     if (currentDepth >= maxDepth) {
       return;
     }
