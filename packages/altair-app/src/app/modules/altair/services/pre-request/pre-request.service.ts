@@ -28,7 +28,7 @@ interface ScriptContextHelpers {
   request: (arg1: any, arg2: any, arg3: any) => Promise<ArrayBuffer | null>;
 }
 
-interface ScriptContextData {
+export interface ScriptContextData {
   headers: HeaderState;
   variables: string;
   query: string;

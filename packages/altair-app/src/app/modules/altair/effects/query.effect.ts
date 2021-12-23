@@ -36,7 +36,7 @@ import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
-import { RequestType } from '../services/pre-request/pre-request.service';
+import { RequestType, ScriptContextData } from '../services/pre-request/pre-request.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
@@ -617,7 +617,7 @@ export class QueryEffects {
 
             try {
               const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams, {
-                activeEnvironment: transformedData.environment
+                activeEnvironment: transformedData?.environment
               });
 
               connectionParams =
@@ -1065,7 +1065,7 @@ export class QueryEffects {
          */
         return iif(
           () => response.data.preRequest.enabled,
-          new Observable((subscriber: Subscriber<any>) => {
+          new Observable((subscriber: Subscriber<{ response: typeof response; transformedData: ScriptContextData | undefined }>) => {
             try {
               this.preRequestService.executeScript(response.data.preRequest.script, {
                 environment: this.environmentService.getActiveEnvironment(),
@@ -1078,17 +1078,17 @@ export class QueryEffects {
               }).catch(error => {
                 debug.error(error);
                 this.notifyService.error(error.message, 'Pre-request error');
-                subscriber.next(null);
+                subscriber.next(undefined);
                 subscriber.complete();
               });
             } catch (err) {
               debug.error(err);
               this.notifyService.error(err.message, 'Pre-request error');
-              subscriber.next(null);
+              subscriber.next(undefined);
               subscriber.complete();
             }
-          }) as Observable<{ response: typeof response, transformedData: any }>,
-          observableOf({ response, transformedData: null })
+          }),
+          observableOf({ response, transformedData: undefined })
         );
       }),
     );
