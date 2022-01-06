@@ -13,4 +13,9 @@ input CreateUserInput {
 
 type Query {
   getUserById(id: String!): User
+  profile: User
+}
+
+type Mutation {
+  getOrCreateUser: User
 }

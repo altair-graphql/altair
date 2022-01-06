@@ -1,0 +1,11 @@
+schema: http://localhost:3000/graphql
+documents: ./src/app/modules/altair/services/api/queries.graphql
+generates:
+  src/app/modules/altair/services/api/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular
+config:
+  sdkClass: true
+  serviceName: APIClient

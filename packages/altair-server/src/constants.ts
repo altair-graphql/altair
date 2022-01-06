@@ -1,3 +1,10 @@
+export enum EntityPrefix {
+  USER = 'usr',
+  WORKSPACE = 'wrk',
+  REQUEST = 'req',
+  REQUEST_COLLECTION = 'rec',
+}
+
 export const constants = {
   database: {
     url: process.env.MONGODB_URL || 'localhost',

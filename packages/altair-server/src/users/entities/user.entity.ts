@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { Workspace } from 'src/workspaces/entities/workspace.entity';
 
 export type UserDocument = User & Document;
 
@@ -17,10 +18,10 @@ export class User {
   email: string;
 
   @Prop()
-  passwordHash: string;
+  auth0Id: string;
 
-  @Prop()
-  saltRounds: number;
+  @Prop({ type: Types.ObjectId, ref: 'Workspace' })
+  privateWorkspace: Workspace;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

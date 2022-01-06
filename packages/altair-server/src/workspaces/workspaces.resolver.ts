@@ -19,7 +19,7 @@ export class WorkspacesResolver {
   ) {
     return this.workspacesService.create({
       ...createWorkspaceInput,
-      ownerId: user.id,
+      owner: user.id,
     });
   }
 

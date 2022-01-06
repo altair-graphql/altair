@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UsersService } from 'src/users/users.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { Request, RequestDocument } from './entities/request.entity';
@@ -9,14 +10,21 @@ import { Request, RequestDocument } from './entities/request.entity';
 export class RequestsService {
   constructor(
     @InjectModel(Request.name) private RequestModel: Model<RequestDocument>,
+    private usersService: UsersService,
   ) {}
 
-  create(createRequestDto: CreateRequestDto) {
+  async create(createRequestDto: CreateRequestDto) {
     if (!createRequestDto) {
       throw new Error('request collection data not provided!');
     }
-    if (!createRequestDto.ownerId) {
+    if (!createRequestDto.owner) {
       throw new Error('owner must be specified!');
+    }
+
+    if (!createRequestDto.workspace) {
+      // Retrieve and use the user's workspace
+      const user = await this.usersService.findOne(createRequestDto.owner);
+      createRequestDto.workspace = user.privateWorkspace.id;
     }
 
     const createdRequestCollection = new this.RequestModel(createRequestDto);

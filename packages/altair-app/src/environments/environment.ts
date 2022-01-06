@@ -6,5 +6,12 @@ import pkg from '../../package.json';
 
 export const environment = {
   production: false,
-  version: pkg.version
+  version: pkg.version,
+  // TODO:
+  auth0: {
+    apiUrl: 'http://localhost:3000/graphql',
+    audience: 'https://api.altairgraphql.io',
+    domain: 'https://altairgraphql.us.auth0.com',
+    client_id: 'ZGuDZpt3ELc6XEGCYQcj2vOWV3fWIyLn',
+  },
 };

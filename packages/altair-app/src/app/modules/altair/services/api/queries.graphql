@@ -1,0 +1,15 @@
+query Profile {
+  profile {
+    email
+    firstName
+    lastName
+  }
+}
+
+mutation getOrCreateUser {
+  getOrCreateUser {
+    email
+    firstName
+    lastName
+  }
+}

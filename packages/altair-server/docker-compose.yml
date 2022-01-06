@@ -19,6 +19,8 @@ services:
       MONGODB_URL: mongodb
       MONGODB_USERNAME: ${MONGODB_ROOT_USERNAME}
       MONGODB_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    env_file:
+      - .env
     depends_on:
       - mongodb
 
@@ -52,7 +54,7 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_ADMIN_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_ADMIN_PASSWORD}
     volumes:
-      - mongodb-data
+      - mongodb-data:/data/db
     networks:
       - server-network
     healthcheck:

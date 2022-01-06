@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/graphql';
-import { Request } from '../entities/request.entity';
-
-export class CreateRequestDto extends PartialType(Request) {}
+export class CreateRequestDto {
+  name: string;
+  url?: string;
+  query: string;
+  headers?: { key: string; value: string }[];
+  variables?: any;
+  workspace?: string;
+  owner: string;
+}

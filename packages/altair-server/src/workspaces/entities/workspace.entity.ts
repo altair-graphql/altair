@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { User } from 'src/users/entities/user.entity';
 
 export type WorkspaceDocument = Workspace & Document;
 @Schema({ timestamps: true })
@@ -7,10 +8,10 @@ export class Workspace {
   id: string;
 
   @Prop()
-  ownerId: string; // owned by account (user, team, organization)
-
-  @Prop()
   name: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  owner: User; // owned by account (user, team, organization)
 
   // contains query collections
   // collections:

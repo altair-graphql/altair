@@ -9,7 +9,6 @@ import { UsersModule } from './users/users.module';
 import { graphqlModuleConfig } from './gql-module-options';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { RequestsModule } from './requests/requests.module';
-import { RequestCollectionsModule } from './request-collections/request-collections.module';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { RequestCollectionsModule } from './request-collections/request-collecti
     UsersModule,
     WorkspacesModule,
     RequestsModule,
-    RequestCollectionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

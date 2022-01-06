@@ -1,8 +1,0 @@
-type LoginResponse {
-  accessToken: String
-}
-
-type Mutation {
-  login(username: String!, password: String!): LoginResponse
-  registerUser(input: CreateUserInput!, password: String!): User
-}

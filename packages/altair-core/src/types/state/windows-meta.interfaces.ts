@@ -7,4 +7,5 @@ export interface WindowsMetaState {
   showSettingsDialog: boolean;
   showEnvironmentManager: boolean;
   showPluginManager: boolean;
+  showAccountDialog: boolean;
 }

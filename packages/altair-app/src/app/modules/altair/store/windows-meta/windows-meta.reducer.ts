@@ -13,6 +13,7 @@ export const getInitialState = (): WindowsMetaState => {
     showSettingsDialog: false,
     showEnvironmentManager: false,
     showPluginManager: false,
+    showAccountDialog: false,
   };
 };
 
@@ -78,6 +79,11 @@ export function windowsMetaReducer(state = getInitialState(), action: windowsMet
     case windowsMeta.SHOW_PLUGIN_MANAGER:
       if (action.payload) {
         return { ...state, showPluginManager: action.payload.value };
+      }
+      return state;
+    case windowsMeta.SHOW_ACCOUNT_DIALOG:
+      if (action.payload) {
+        return { ...state, showAccountDialog: action.payload.value };
       }
       return state;
     default:

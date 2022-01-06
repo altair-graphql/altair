@@ -1,4 +1,4 @@
-export { ApiService } from './api';
+export { ApiService } from './api/api.service';
 export { GqlService } from './gql/gql.service';
 export { DbService } from './db.service';
 export { WindowService } from './window.service';

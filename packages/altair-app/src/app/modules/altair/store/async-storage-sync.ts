@@ -198,6 +198,7 @@ const syncStateUpdate = async() => {
   try {
     const asyncStorage = new StorageService();
     if (syncTransaction) {
+      debug.log('Deliberately aborting any current transaction');
       syncTransaction.abort();
       syncTransaction = null;
     }
@@ -233,8 +234,10 @@ const syncStateUpdate = async() => {
       return Promise.all(ops);
     });
   } catch (error) {
-    console.error(new Error('Cannot sync state update :('));
-    console.error(error);
+    if (error.name !== 'AbortError') {
+      console.error(new Error('Cannot sync state update :('));
+      console.error(error);
+    }
   }
 };
 const debouncedSyncStateUpdate = debounce(syncStateUpdate, 1000);

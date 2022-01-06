@@ -1,11 +1,11 @@
 type Request {
+  ownerId: String!
   name: String
   url: String
   query: String
   headers: [Header]
   variables: String
   collectionId: String
-  ownerId: String
 }
 
 type Header {
@@ -18,13 +18,12 @@ input HeaderInput {
 }
 
 input CreateRequestInput {
-  name: String
+  name: String!
   url: String
-  query: String
+  query: String!
   headers: [HeaderInput]
   variables: String
-  collectionId: String
-  ownerId: String
+  workspace: String
 }
 
 input UpdateRequestInput {

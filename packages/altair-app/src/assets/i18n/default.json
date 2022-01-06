@@ -177,5 +177,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
   "PLUGIN_REMOVE_BUTTON": "Remove",
-  "PLUGIN_CREATE_BUTTON": "Create Plugin"
+  "PLUGIN_CREATE_BUTTON": "Create Plugin",
+
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register"
 }

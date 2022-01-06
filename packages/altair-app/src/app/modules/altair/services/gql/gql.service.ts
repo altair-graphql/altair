@@ -59,10 +59,10 @@ interface SendRequestOptions {
 export interface SendRequestResponse {
   response: HttpResponse<any>;
   meta: {
-      requestStartTime: number;
-      requestEndTime: number;
-      responseTime: number;
-      headers: IDictionary;
+    requestStartTime: number;
+    requestEndTime: number;
+    responseTime: number;
+    headers: IDictionary;
   };
 }
 

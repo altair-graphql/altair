@@ -74,3 +74,14 @@ Nest is [MIT licensed](LICENSE).
 
 docker-compose up --build -V
 
+auth0 as idP
+Create Application (Single Page Application)
+Create API
+Set authentication as RS256
+Create Rule to add email to access token when calling API - https://community.auth0.com/t/can-i-add-email-address-to-the-access-token-when-calling-an-api/70163
+
+Handle syncing of auth0 and own storage at login and account deletion
+
+User registers on application in auth0
+User makes request to altair-server with access token
+If user does not exist in altair-server db, user is created

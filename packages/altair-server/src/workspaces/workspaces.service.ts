@@ -16,7 +16,7 @@ export class WorkspacesService {
     if (!createWorkspaceDto) {
       throw new Error('No workspace data provided!');
     }
-    if (!createWorkspaceDto.ownerId) {
+    if (!createWorkspaceDto.owner) {
       throw new Error('Owner must be specified!');
     }
 

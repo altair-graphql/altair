@@ -108,6 +108,14 @@
   color: var(--theme-font-color);
 }
 
+.ant-input:focus, .ant-input-focused, .ant-input:hover {
+  border-color: var(--primary-color);
+}
+
+.ant-form-item-has-error .ant-input:not(.ant-input-disabled), .ant-form-item-has-error .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled), .ant-form-item-has-error .ant-input:not(.ant-input-disabled):hover, .ant-form-item-has-error .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  background-color: var(--theme-off-bg-color);
+}
+
 .ant-input-number {
   background: var(--theme-off-bg-color);
   border-color: var(--theme-border-color);

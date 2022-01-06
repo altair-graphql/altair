@@ -31,6 +31,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import { IconsModule } from '../icons/icons.module';
 
@@ -41,6 +42,7 @@ const AntdComponentModules = [
   NzAutocompleteModule,
   NzCheckboxModule,
   NzFormModule,
+  NzGridModule,
   NzTabsModule,
   NzSelectModule,
   NzModalModule,

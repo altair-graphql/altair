@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
 import { WorkspacesResolver } from './workspaces.resolver';
 import { Workspace, WorkspaceSchema } from './entities/workspace.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 
+@Global()
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -11,5 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     ]),
   ],
   providers: [WorkspacesResolver, WorkspacesService],
+  exports: [WorkspacesService],
 })
 export class WorkspacesModule {}

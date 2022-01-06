@@ -176,6 +176,21 @@
                     {{ 'COLLECTIONS_TEXT' | translate }}
                   </div>
                 </a>
+                <a
+                  class="side-menu-item"
+                  (click)="setShowAccountDialog(true)"
+                  attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
+                  track-id="show_collections"
+                  [ngClass]="{ 'side-menu-item--active': (account$ | async).loggedIn }"
+                >
+                  <div class="side-menu-item-icon">
+                    <app-icon name="user" *ngIf="!(account$ | async).loggedIn"></app-icon>
+                    <app-icon name="user-check" *ngIf="(account$ | async).loggedIn"></app-icon>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ 'ACCOUNT_TITLE' | translate }}
+                  </div>
+                </a>
               </div>
             </div>
             <div class="side-menu__extra">
@@ -245,6 +260,11 @@
             (toggleDialogChange)="setShowEditCollectionDialog($event)"
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
+            <app-account-dialog
+            [showDialog]="(windowsMeta$ | async).showAccountDialog"
+            (toggleDialogChange)="setShowAccountDialog($event)"
+            (handleLoginChange)="accountLogin()"
+          ></app-account-dialog>
         </div>
         <nz-alert nzBanner [nzMessage]="supportDevelopment" *ngIf="showDonationAlert" nzCloseable (nzOnClose)="hideDonationAlert()"></nz-alert>
         <ng-template #supportDevelopment>
