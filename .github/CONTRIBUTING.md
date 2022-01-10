@@ -17,7 +17,7 @@ For all contributions, please respect the following guidelines:
 - Do not commit changes to files that are irrelevant to your feature or bugfix (eg: `.gitignore`).
 - Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
 
-Working on your first Pull Request? You can learn how from this free series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github).
+Working on your first Pull Request? You can learn how from this free series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github){:target="_blank" rel="noopener"}.
 
 At this point, you're ready to make your changes! Feel free to ask for help; everyone is a beginner at first 😄.
 
