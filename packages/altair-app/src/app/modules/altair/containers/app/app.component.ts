@@ -77,6 +77,7 @@ export class AppComponent  {
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp: boolean;
+  serverReady = environment.serverReady;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 

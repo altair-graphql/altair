@@ -23,7 +23,6 @@ input CreateRequestInput {
   query: String!
   headers: [HeaderInput]
   variables: String
-  workspace: String
 }
 
 input UpdateRequestInput {

@@ -32,7 +32,7 @@ export interface IQueryCollection {
 
 export interface IQueryCollectionTree extends IQueryCollection {
   id: number;
-  collections: IQueryCollectionTree[];
+  collections?: IQueryCollectionTree[];
 }
 
 export interface ExportCollectionState extends IQueryCollectionTree {

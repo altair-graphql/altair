@@ -7,7 +7,7 @@ import pkg from '../../package.json';
 export const environment = {
   production: false,
   version: pkg.version,
-  // TODO:
+  serverReady: false,
   auth0: {
     apiUrl: 'http://localhost:3000/graphql',
     audience: 'https://api.altairgraphql.io',

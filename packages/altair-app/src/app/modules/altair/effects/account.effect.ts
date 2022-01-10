@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { environment } from 'environments/environment';
 import { EMPTY, from, of, zip } from 'rxjs';
 import { catchError, first, map, repeat, switchMap, withLatestFrom, } from 'rxjs/operators';
 import { ApiService, NotifyService, StorageService } from '../services';
@@ -17,6 +18,9 @@ export class AccountEffects {
     return this.actions$.pipe(
       ofType(APP_INIT_ACTION),
       switchMap(() => {
+        if (!environment.serverReady) {
+          return EMPTY;
+        }
         return from(this.apiService.getToken()).pipe(
           first(),
         );

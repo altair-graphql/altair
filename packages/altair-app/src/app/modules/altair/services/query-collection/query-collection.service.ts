@@ -264,7 +264,7 @@ export class QueryCollectionService {
       }
 
       const parentCollection = collectionMap.get(+parentCollectionId);
-      parentCollection?.collections.push(collectionTree);
+      parentCollection?.collections?.push(collectionTree);
     });
 
     return roots;
@@ -277,14 +277,14 @@ export class QueryCollectionService {
   getCollectionListFromTree(tree: IQueryCollectionTree, parentPath = ''): IQueryCollection[] {
     // remove collections and keep the rest as collection
     const { collections, ...rootCollection } = tree;
-    const subcollections = collections.map(ct => this.getCollectionListFromTree(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${tree.id}`));
+    const subcollections = collections?.map(ct => this.getCollectionListFromTree(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${tree.id}`));
 
     return [
       {
         ...rootCollection,
         parentPath, // set the parent path
       },
-      ...subcollections.flat(),
+      ...(subcollections || []).flat(),
     ];
   }
 

@@ -79,6 +79,7 @@ Create Application (Single Page Application)
 Create API
 Set authentication as RS256
 Create Rule to add email to access token when calling API - https://community.auth0.com/t/can-i-add-email-address-to-the-access-token-when-calling-an-api/70163
+https://github.com/auth0/rules/blob/master/src/rules/add-email-to-access-token.js
 
 Handle syncing of auth0 and own storage at login and account deletion
 
