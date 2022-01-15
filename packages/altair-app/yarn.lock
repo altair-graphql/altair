@@ -3484,10 +3484,10 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-altair-graphql-core@^4.3.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.2.1.tgz#647556ba4ad664d3840263da10d7bf509ea95625"
-  integrity sha512-wjdt3ctXmAOg5XaMnJdNKvu4eSSv0UZ3QJjExQ5jlObqVEhbsZzw/kCmrUR+aS9IfSVrKh8BqiIIByjuQiEqMQ==
+altair-graphql-core@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.3.1.tgz#6ffddad23a1a8a17a3911aeed3e1bbf21f8e68c1"
+  integrity sha512-0t6Pm3B80V+AhOf2n9JjsYxFJkETzbTtmviDp/HNVEZlMqLu+6Bn3LRErKFapkpqqQ19LMGLkVus5pN0Tze2eg==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
@@ -9571,15 +9571,15 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-marked@^0.8.0:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.8.2.tgz#4faad28d26ede351a7a1aaa5fec67915c869e355"
-  integrity sha512-EGwzEeCcLniFX51DhTpmTom+dSA/MG/OBUDjnWtHbEnjAH180VzUeAw+oE4+Zv+CoYBWyRlYOTR0N8SO9R1PVw==
-
 marked@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/marked/-/marked-2.0.1.tgz#5e7ed7009bfa5c95182e4eb696f85e948cefcee3"
   integrity sha512-5+/fKgMv2hARmMW7DOpykr2iLhl0NgjyELk5yn92iE7z8Se1IS9n3UsFm86hFXIkvMBmVxki8+ckcpjBeyo/hw==
+
+marked@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.10.tgz#423e295385cc0c3a70fa495e0df68b007b879423"
+  integrity sha512-+QvuFj0nGgO970fySghXGmuw+Fd0gD2x3+MqCWLIPf5oxdv1Ka6b2q+z9RP01P/IaKPMEramy+7cNy/Lw8c3hw==
 
 matcher@^2.1.0:
   version "2.1.0"
