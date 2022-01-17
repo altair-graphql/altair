@@ -2,13 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersService } from 'src/users/users.service';
 import { auth0Constants } from '../constants';
 import { JwtPayload, RequestUser } from '../types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private usersService: UsersService) {
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -39,11 +38,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       name: payload['https://altairgraphql.io/name'],
     };
 
-    const user = await this.usersService.findByEmail(reqUser.email);
+    // const user = await this.usersService.findByEmail(reqUser.email);
 
-    if (user) {
-      reqUser.id = user.id;
-    }
+    // if (user) {
+    //   reqUser.id = user.id;
+    // }
 
     return reqUser;
   }

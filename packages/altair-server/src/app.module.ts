@@ -5,11 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { constants } from './constants';
-import { UsersModule } from './users/users.module';
 import { graphqlModuleConfig } from './gql-module-options';
-import { WorkspacesModule } from './workspaces/workspaces.module';
-import { RequestsModule } from './requests/requests.module';
-import { RequestCollectionsModule } from './request-collections/request-collections.module';
 
 @Module({
   imports: [
@@ -23,10 +19,6 @@ import { RequestCollectionsModule } from './request-collections/request-collecti
     }),
     GraphQLModule.forRoot(graphqlModuleConfig),
     AuthModule,
-    UsersModule,
-    WorkspacesModule,
-    RequestsModule,
-    RequestCollectionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

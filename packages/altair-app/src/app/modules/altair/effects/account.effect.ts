@@ -21,26 +21,22 @@ export class AccountEffects {
         if (!environment.serverReady) {
           return EMPTY;
         }
-        return from(this.apiService.getToken()).pipe(
+        return of(this.apiService.getSession()).pipe(
           first(),
         );
       }),
-      switchMap((accessToken) => {
-        return this.apiService.apiClient.getOrCreateUser().pipe(
-          map(result => {
-            const data = result.data?.getOrCreateUser;
-            if (result.errors?.length || !data) {
-              return EMPTY;
-            }
+      switchMap((session) => {
+        if (!session) {
+          return EMPTY;
+        }
+        
+        this.store.dispatch(new accountActions.AccountIsLoggedInAction({
+          email: session.user?.email || '',
+          firstName: session.user?.user_metadata.full_name || session.user?.email || '',
+          lastName: '',
+        }));
 
-            this.store.dispatch(new accountActions.AccountIsLoggedInAction({
-              accessToken,
-              email: data.email,
-              firstName: data.firstName,
-              lastName: data.lastName || '',
-            }));
-          }),
-        );
+        return EMPTY;
       }),
     );
   }, { dispatch: false });
@@ -52,31 +48,21 @@ export class AccountEffects {
         return { state, action };
       }),
       switchMap(({ action }) => {
-        return this.apiService.accountLoginWithAuth0().pipe(
+        return this.apiService.accountLoginWithSupabase().pipe(
           first(),
         );
       }),
-      switchMap(token => {
-        if (!token) {
-          this.notifyService.error('Sorry, we could not log you in. Please check that your username and password are correct');
+      switchMap((data) => {
+        if (!data.session?.user) {
+          this.notifyService.error('Sorry, we could not log you in. Please check that your credentials are correct.');
           return EMPTY;
         }
 
-        return zip(of(token), this.apiService.apiClient.getOrCreateUser());
-      }),
-      switchMap(([ accessToken, profileResult ]) => {
-        const data = profileResult.data?.getOrCreateUser;
-        if (profileResult.errors?.length || !data) {
-          this.notifyService.error('Sorry, we could not log you in. Please check that your username and password are correct');
-          return EMPTY;
-        }
-
-        this.notifyService.success(`You're logged in. Welcome back, ${data.firstName}`);
+        this.notifyService.success(`You're logged in. Welcome back, ${data.session.user.email}`);
         this.store.dispatch(new accountActions.AccountIsLoggedInAction({
-          accessToken,
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName || '',
+          email: data.session.user.email || '',
+          firstName: data.session.user.user_metadata.full_name || data.session.user.email || '',
+          lastName: '',
         }));
         this.store.dispatch(new windowsMetaActions.ShowAccountDialogAction({ value: false }));
 
