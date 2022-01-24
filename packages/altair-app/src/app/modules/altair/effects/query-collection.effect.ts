@@ -1,7 +1,7 @@
 
 import { EMPTY, Observable, of, zip, forkJoin, from, pipe } from 'rxjs';
 
-import { map, withLatestFrom, switchMap, tap, catchError, filter } from 'rxjs/operators';
+import { map, withLatestFrom, switchMap, tap, catchError, filter, repeat } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
@@ -42,6 +42,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Created collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -63,6 +68,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Added query to collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -85,6 +95,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Updated query in collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -95,6 +110,11 @@ export class QueryCollectionEffects {
         ofType(collectionActions.LOAD_COLLECTIONS),
         switchMap(action => this.collectionService.getAll()),
         map(collections => new collectionActions.SetCollectionsAction({ collections })),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -108,6 +128,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -121,6 +146,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Updated collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -134,6 +164,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -151,6 +186,11 @@ export class QueryCollectionEffects {
           }
           return EMPTY;
         }),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   }, { dispatch: false });
 
@@ -177,10 +217,10 @@ export class QueryCollectionEffects {
           `Something went wrong importing collection. Error: ${errorMessage}`
         );
         return EMPTY;
-      })
+      }),
+      repeat(),
     );
   });
-
 
   constructor(
     private actions$: Actions,

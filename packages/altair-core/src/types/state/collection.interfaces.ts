@@ -9,15 +9,17 @@ export interface CollectionState {
 }
 
 export interface IQuery extends ExportWindowState {
-  id?: number;
+  id?: string;
+  serverId?: number;
   created_at?: number;
   updated_at?: number;
 }
 
 export interface IQueryCollection {
   id?: number;
+  serverId?: number;
   title: string;
-  queries: any[];
+  queries: IQuery[];
   description?: string;
 
   /**

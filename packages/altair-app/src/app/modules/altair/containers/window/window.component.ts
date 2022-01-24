@@ -25,6 +25,7 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
+import * as layoutActions from '../../store/layout/layout.action';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 
 import { GqlService, NotifyService, WindowService, SubscriptionProviderRegistryService, ElectronAppService } from '../../services';
@@ -219,6 +220,31 @@ export class WindowComponent implements OnInit {
       }
     });
 
+    // Validate that query is ACTUALLY in an existing collection
+    this.getWindowState().pipe(
+      switchMap(data => {
+        if (data.layout.collectionId && data.layout.windowIdInCollection) {
+          return this.collections$.pipe(
+            map(collections => {
+              const collection = collections.find(collection => collection.id === data.layout.collectionId);
+
+              if (collection) {
+                const query = collection.queries.find(q => q.id === data.layout.windowIdInCollection);
+                return !!query;
+              }
+
+              return false;
+            }),
+          );
+        }
+
+        return EMPTY;
+      }),
+    ).subscribe(isValidCollectionQuery => {
+      if (!isValidCollectionQuery) {
+        this.store.dispatch(new layoutActions.SetWindowIdInCollectionAction(this.windowId, {}));
+      }
+    });
     this.windowService.setupWindow(this.windowId);
   }
 
