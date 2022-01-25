@@ -23,10 +23,12 @@ export class PluginEventEffects {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(data => {
-          this.pluginEventService.emit('query.change', {
-            windowId: data.windowId,
-            data: data.data.query.query || '',
-          });
+          if (data.data) {
+            this.pluginEventService.emit('query.change', {
+              windowId: data.windowId,
+              data: data.data.query.query || '',
+            });
+          }
           return EMPTY;
         }),
       )
@@ -41,10 +43,12 @@ export class PluginEventEffects {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(data => {
-          this.pluginEventService.emit('sdl.change', {
-            windowId: data.windowId,
-            data: data.data.schema.sdl,
-          });
+          if (data.data) {
+            this.pluginEventService.emit('sdl.change', {
+              windowId: data.windowId,
+              data: data.data.schema.sdl,
+            });
+          }
           return EMPTY;
         }),
       )

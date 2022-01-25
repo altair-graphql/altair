@@ -26,22 +26,24 @@ export function windows(reducer: ActionReducer<PerWindowState>) {
                 const { windowId, title, url, collectionId, windowIdInCollection, fixedTitle } = action.payload;
 
                 // Using JSON.parse and JSON.stringify instead of Object.assign for deep cloning
-                _state[windowId] = JSON.parse(JSON.stringify(getInitWindowState(reducer)));
+                const newWindow = <PerWindowState>JSON.parse(JSON.stringify(getInitWindowState(reducer)));
 
-                _state[windowId].layout.title = title;
-                _state[windowId].layout.hasDynamicTitle = !fixedTitle;
+                newWindow.layout.title = title;
+                newWindow.layout.hasDynamicTitle = !fixedTitle;
                 // _state
-                _state[windowId].windowId = windowId;
+                newWindow.windowId = windowId;
                 if (url) {
-                    _state[windowId].query.url = url;
+                    newWindow.query.url = url;
                 }
 
                 if (collectionId) {
-                    _state[windowId].layout.collectionId = collectionId;
+                    newWindow.layout.collectionId = collectionId;
                 }
                 if (windowIdInCollection) {
-                    _state[windowId].layout.windowIdInCollection = windowIdInCollection;
+                    newWindow.layout.windowIdInCollection = windowIdInCollection;
                 }
+
+                _state[windowId] = newWindow;
 
                 return _state;
             case windowsActions.SET_WINDOWS:

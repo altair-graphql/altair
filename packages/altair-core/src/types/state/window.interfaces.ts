@@ -3,7 +3,7 @@ import { SubscriptionProviderIds } from '../../subscriptions';
 import { PerWindowState } from './per-window.interfaces';
 
 export interface WindowState {
-  [id: string]: PerWindowState;
+  [id: string]: PerWindowState | undefined;
 }
 
 /**

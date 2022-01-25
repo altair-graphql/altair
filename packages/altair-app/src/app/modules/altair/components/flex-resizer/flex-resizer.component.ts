@@ -14,7 +14,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { debug } from '../../utils/logger';
 import { DOCUMENT } from '@angular/common';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -69,15 +69,19 @@ export class FlexResizerComponent implements OnInit {
 
     this.zone.runOutsideAngular(() => {
       this.documentMouseUp$
+        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onMouseUp());
 
-        this.documentMouseMove$
+      this.documentMouseMove$
+        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
-        this.elMouseMove$
+      this.elMouseMove$
+        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
 
-        this.elMouseDown$
+      this.elMouseDown$
+        .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
     });
 

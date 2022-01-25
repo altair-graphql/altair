@@ -45,7 +45,7 @@ export class WindowService {
       map(state => {
         const url = opts.url || fromQuery.getInitialState().url || (
           state.windowsMeta.activeWindowId &&
-          state.windows[state.windowsMeta.activeWindowId]?.query.url
+          state.windows[state.windowsMeta.activeWindowId]?.query.url || ''
         )
 
         const newWindow = {
@@ -83,53 +83,57 @@ export class WindowService {
 
   duplicateWindow(windowId: string) {
     return this.store.pipe(first()).subscribe(data => {
-      const window = { ...data.windows[windowId] };
-
-      if (window) {
-        const windowData: ExportWindowState = {
-          version: 1,
-          type: 'window',
-          query: window.query.query || '',
-          apiUrl: window.query.url,
-          variables: window.variables.variables,
-          subscriptionUrl: window.query.subscriptionUrl,
-          subscriptionConnectionParams: window.query.subscriptionConnectionParams,
-          headers: window.headers,
-          windowName: `${window.layout.title} (Copy)`,
-          preRequestScript: window.preRequest.script,
-          preRequestScriptEnabled: window.preRequest.enabled,
-          gqlSchema: window.schema.schema,
-        };
-
-          return this.importWindowData(windowData);
-      } else {
-        // Todo: throw/flash descriptive message
+      const window = data.windows[windowId];
+      if (!window) {
+        return;
       }
+      const clonedWindow = { ...window };
+
+      const windowData: ExportWindowState = {
+        version: 1,
+        type: 'window',
+        query: clonedWindow.query.query || '',
+        apiUrl: clonedWindow.query.url,
+        variables: clonedWindow.variables.variables,
+        subscriptionUrl: clonedWindow.query.subscriptionUrl,
+        subscriptionConnectionParams: clonedWindow.query.subscriptionConnectionParams,
+        headers: clonedWindow.headers,
+        windowName: `${clonedWindow.layout.title} (Copy)`,
+        preRequestScript: clonedWindow.preRequest.script,
+        preRequestScriptEnabled: clonedWindow.preRequest.enabled,
+        gqlSchema: clonedWindow.schema.schema,
+      };
+
+      return this.importWindowData(windowData);
     });
   }
 
-  getWindowExportData(windowId: string): Observable<ExportWindowState> {
+  getWindowExportData(windowId: string) {
     return this.store.pipe(
       first(),
       map(state => {
-        const window = { ...state.windows[windowId] };
+        const window = state.windows[windowId];
+        if (!window) {
+          return;
+        }
+        const clonedWindow = { ...window };
 
         // TODO: Check that there is data to be exported
 
         return {
-          version: 1,
-          type: 'window',
-          query: window.query.query || '',
-          apiUrl: window.query.url,
-          variables: window.variables.variables,
-          subscriptionUrl: window.query.subscriptionUrl,
-          subscriptionConnectionParams: window.query.subscriptionConnectionParams,
-          headers: window.headers,
-          windowName: window.layout.title,
-          preRequestScript: window.preRequest.script,
-          preRequestScriptEnabled: window.preRequest.enabled,
-          postRequestScript: window.postRequest.script,
-          postRequestScriptEnabled: window.postRequest.enabled,
+          version: 1 as const,
+          type: 'window' as const,
+          query: clonedWindow.query.query || '',
+          apiUrl: clonedWindow.query.url,
+          variables: clonedWindow.variables.variables,
+          subscriptionUrl: clonedWindow.query.subscriptionUrl,
+          subscriptionConnectionParams: clonedWindow.query.subscriptionConnectionParams,
+          headers: clonedWindow.headers,
+          windowName: clonedWindow.layout.title,
+          preRequestScript: clonedWindow.preRequest.script,
+          preRequestScriptEnabled: clonedWindow.preRequest.enabled,
+          postRequestScript: clonedWindow.postRequest.script,
+          postRequestScriptEnabled: clonedWindow.postRequest.enabled,
         };
       }),
     );

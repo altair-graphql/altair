@@ -97,7 +97,7 @@ export class WindowsEffects {
           return zip(of(data), this.windowService.getWindowExportData(data.windowId));
         }),
         switchMap(([data, exportData]) => {
-          downloadJson(exportData, data.data.layout.title, { fileType: 'agq' });
+          downloadJson(exportData, data.data?.layout.title, { fileType: 'agq' });
           return EMPTY;
         }),
       )

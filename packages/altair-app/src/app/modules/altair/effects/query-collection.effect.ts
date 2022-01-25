@@ -31,6 +31,9 @@ export class QueryCollectionEffects {
           // Create collection
           // Then save query to collection
           const query = exportData;
+          if (!query) {
+            return EMPTY;
+          }
           if (res.action.payload.windowTitle) {
             query.windowName = res.action.payload.windowTitle;
           }
@@ -61,6 +64,10 @@ export class QueryCollectionEffects {
         switchMap(res => forkJoin([ of(res), this.windowService.getWindowExportData(res.windowId) ])),
         switchMap(([ res, exportData ]) => {
           const query = exportData;
+          if (!query) {
+            return EMPTY;
+          }
+
           if (res.action.payload.windowTitle) {
             query.windowName = res.action.payload.windowTitle;
           }
@@ -88,7 +95,7 @@ export class QueryCollectionEffects {
         switchMap(([ res, exportData ]) => {
           const query = exportData;
 
-          if (res.data.layout.collectionId && res.data.layout.windowIdInCollection) {
+          if (res.data?.layout.collectionId && res.data?.layout.windowIdInCollection && query) {
             return this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query);
           }
           return EMPTY;

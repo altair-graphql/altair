@@ -229,10 +229,10 @@ export class AppComponent  {
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
     this.settings$.pipe(
+      untilDestroyed(this),
       map(settings => settings.language),
       filter(x => !!x),
       distinctUntilChanged(),
-      untilDestroyed(this),
     )
     .subscribe(language => {
       this.translate.use(language);
@@ -502,7 +502,7 @@ export class AppComponent  {
     windowIdInCollection
   }: { query: IQuery, collectionId: number, windowIdInCollection: string }) {
     const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
-      return this.windows[windowId].layout.windowIdInCollection === windowIdInCollection;
+      return this.windows[windowId]?.layout.windowIdInCollection === windowIdInCollection;
     });
     if (matchingOpenQueryWindowIds.length) {
       this.setActiveWindow(matchingOpenQueryWindowIds[0]);

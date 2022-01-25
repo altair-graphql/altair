@@ -222,8 +222,9 @@ export class WindowComponent implements OnInit {
 
     // Validate that query is ACTUALLY in an existing collection
     this.getWindowState().pipe(
+      untilDestroyed(this),
       switchMap(data => {
-        if (data.layout.collectionId && data.layout.windowIdInCollection) {
+        if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
           return this.collections$.pipe(
             map(collections => {
               const collection = collections.find(collection => collection.id === data.layout.collectionId);
@@ -515,7 +516,7 @@ export class WindowComponent implements OnInit {
     return index;
   }
 
-  getWindowState(): Observable<PerWindowState> {
+  getWindowState() {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 

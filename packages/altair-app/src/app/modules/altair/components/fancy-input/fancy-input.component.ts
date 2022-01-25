@@ -5,6 +5,7 @@ import { EnvironmentService } from '../../services';
 import { debug } from '../../utils/logger';
 import { distinct, distinctUntilChanged, map } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 // import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 // TODO: Duplicating for now after changing to use lookahead in environment service variable regex
@@ -20,6 +21,7 @@ export interface HighlightSection {
   type?: string;
 }
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-fancy-input',
   templateUrl: './fancy-input.component.html',
@@ -72,6 +74,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     store.pipe(
       map(data => data.environments),
       distinctUntilChanged(),
+      untilDestroyed(this)
     ).subscribe({
       next: (data) => {
         // get active environment

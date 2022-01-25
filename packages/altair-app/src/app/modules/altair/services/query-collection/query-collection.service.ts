@@ -225,6 +225,7 @@ export class QueryCollectionService {
   }
 
   async deleteQuery(collectionId: CollectionID, query: IQuery) {
+    const localQuery = await this.getLocalQuery(collectionId, query.id!);
     await this.deleteLocalQuery(collectionId, query);
 
     if (!this.canApplyRemote()) {
@@ -238,7 +239,6 @@ export class QueryCollectionService {
       return;
     }
 
-    const localQuery = await this.getLocalQuery(collectionId, query.id);
     if (!localQuery?.serverId) {
       debug.log('Query does not have server id. Skipping remote check.');
       return;
