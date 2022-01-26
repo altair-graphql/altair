@@ -527,6 +527,14 @@ export class AppComponent  {
     this.store.dispatch(new collectionActions.ImportCollectionsAction());
   }
 
+  syncCollections() {
+    this.store.dispatch(new collectionActions.SyncRemoteCollectionsToLocalAction());
+  }
+
+  syncLocalCollectionToRemote({ collection }: { collection: IQueryCollection }) {
+    this.store.dispatch(new collectionActions.SyncLocalCollectionToRemoteAction({ collection }));
+  }
+
   toggleEditCollectionDialog({ collection }: { collection: IQueryCollection }) {
     this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));

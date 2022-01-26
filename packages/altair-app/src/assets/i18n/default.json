@@ -128,6 +128,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Delete",
   "COLLECTIONS_MENU_DELETE": "Delete",
   "COLLECTIONS_MENU_EDIT": "Edit",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Export",
   "COLLECTIONS_IMPORT_TEXT": "Import",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Update window in collection",
@@ -138,6 +139,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Oldest",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
 
   "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",

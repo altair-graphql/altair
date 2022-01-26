@@ -83,6 +83,16 @@ https://github.com/auth0/rules/blob/master/src/rules/add-email-to-access-token.j
 
 Handle syncing of auth0 and own storage at login and account deletion
 
+
+TODO
+====
+- = add option to sync local collection to remote
+- = sync remote to local on startup
+- = add refresh button to sync remote to local
+- add operation log to track local actions not yet synced to remote
+- add free plan config to db
+- add request limit to RLS policies
+
 User registers on application in auth0
 User makes request to altair-server with access token
 If user does not exist in altair-server db, user is created

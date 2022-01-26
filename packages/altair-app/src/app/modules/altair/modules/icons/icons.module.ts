@@ -58,6 +58,7 @@ import {
   X,
   XCircle,
   XSquare,
+  Zap,
 } from 'angular-feather/icons';
 
 const icons = {
@@ -115,6 +116,7 @@ const icons = {
   X,
   XCircle,
   XSquare,
+  Zap,
 };
 
 @NgModule({

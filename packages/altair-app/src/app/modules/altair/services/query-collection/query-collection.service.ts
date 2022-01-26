@@ -7,6 +7,7 @@ import { StorageService } from '../storage/storage.service';
 import { debug } from '../../utils/logger';
 import { getFileStr } from '../../utils';
 import { supabase } from '../api/supabase';
+import { TODO } from 'altair-graphql-core/build/types/shared';
 
 type CollectionID = number;
 type QueryID = string;
@@ -25,8 +26,7 @@ export class QueryCollectionService {
   async create(collection: IQueryCollection, parentCollectionId?: CollectionID) {
     const newCollectionId = await this.createLocalCollection(collection, parentCollectionId);
 
-    // Remote
-    await this.createRemoteCollection(newCollectionId, collection);
+    // Remote - don't add to remote yet, until user explicitly syncs
 
     return newCollectionId;
   }
@@ -35,7 +35,7 @@ export class QueryCollectionService {
     return !!supabase.auth.user();
   }
 
-  private async createRemoteCollection(localCollectionId: CollectionID, collection: IQueryCollection) {
+  async createRemoteCollection(localCollectionId: CollectionID, collection: IQueryCollection) {
     if (!this.canApplyRemote()) {
       // not logged in
       return;
@@ -127,14 +127,11 @@ export class QueryCollectionService {
       // not logged in
       return;
     }
-    if (!localCollection.serverId) {
-      // collection is not in remote, so just add collection and all its queries to remote
-      return this.createRemoteCollection(collectionId, localCollection);
+    
+    if (localCollection.serverId) {
+      // only add query to remote if already synced
+      await this.addRemoteQuery(collectionId, [ query ]);
     }
-
-    await this.addRemoteQuery(collectionId, [ query ]);
-
-    return res;
   }
 
   private async addRemoteQuery(collectionId: CollectionID, queries: IQuery[]) {
@@ -160,7 +157,6 @@ export class QueryCollectionService {
     return this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
       const uQuery = { ...query, id: uuid(), created_at: now, updated_at: now };
       collection.queries.push(uQuery);
-      collection.updated_at = now;
     });
   }
 
@@ -169,6 +165,11 @@ export class QueryCollectionService {
 
     if (!this.canApplyRemote()) {
       // not logged in
+      return;
+    }
+    const localCollection = await this.mustGetLocalCollection(collectionId);
+    // only update remote if already synced
+    if (!localCollection.serverId) {
       return;
     }
     const localQuery = await this.getLocalQuery(collectionId, queryId);
@@ -220,16 +221,21 @@ export class QueryCollectionService {
         return collectionQuery;
       });
 
-      collection.updated_at = now;
+      // collection.updated_at = now;
     })
   }
 
   async deleteQuery(collectionId: CollectionID, query: IQuery) {
+    const localCollection = await this.mustGetLocalCollection(collectionId);
     const localQuery = await this.getLocalQuery(collectionId, query.id!);
     await this.deleteLocalQuery(collectionId, query);
 
     if (!this.canApplyRemote()) {
       // not logged in
+      return;
+    }
+    if (!localCollection.serverId) {
+      // only update remote if collection is synced
       return;
     }
     // delete query remote
@@ -272,7 +278,7 @@ export class QueryCollectionService {
         return true;
       });
 
-      collection.updated_at = this.storage.now();
+      // collection.updated_at = this.storage.now();
     });
   }
 
@@ -311,17 +317,26 @@ export class QueryCollectionService {
     const res = await this.updateLocalCollection(collectionId, modifiedCollection);
 
     const localCollection = await this.mustGetLocalCollection(collectionId);
-    const parentCollection = await this.getParentCollection(localCollection);
 
     if (!localCollection.serverId) {
-      return this.createRemoteCollection(collectionId, localCollection);
+      // only update if synced
+      return;
     }
 
     // update collection remote
+    await this.updateRemoteCollection(collectionId);
+
+    return res;
+  }
+
+  async updateRemoteCollection(collectionId: CollectionID) {
     if (!this.canApplyRemote()) {
       // not logged in
       return;
     }
+    const localCollection = await this.mustGetLocalCollection(collectionId);
+    const parentCollection = await this.getParentCollection(localCollection);
+
     const { data: requestCollections, error: collectionInsertError } = await supabase.from('request_collections')
       .update({
         collection_name: localCollection.title,
@@ -336,7 +351,7 @@ export class QueryCollectionService {
       throw new Error('Could not add collection to remote');
     }
 
-    return res;
+    return requestCollections;
   }
 
   private updateLocalCollection(collectionId: CollectionID, modifiedCollection: IQueryCollection) {
@@ -404,8 +419,74 @@ export class QueryCollectionService {
     }
   }
 
-  getAll() {
+  async getAll() {
     return this.storage.queryCollections.toArray();
+  }
+
+  async syncRemoteToLocal() {
+    const timestampDiffOffset = 2 * 60 * 1000;
+    if (!this.canApplyRemote()) {
+      // not logged in
+      return;
+    }
+    // https://learnsql.com/blog/do-it-in-sql-recursive-tree-traversal/
+    // https://supabase.com/blog/2020/11/18/postgresql-views
+    const { data: serverCollections } = await supabase
+      .from('request_collections')
+      .select('*, requests(*)');
+
+    if (!serverCollections?.length) {
+      return;
+    }
+
+    const localCollections = await this.getAll();
+
+    for (const serverCollection of serverCollections) {
+      const matchedCollection = localCollections.find(collection => collection.serverId === serverCollection.id);
+      if (matchedCollection) {
+        const serverDate = new Date(serverCollection.updated_at);
+        const localDate = new Date(matchedCollection.updated_at!);
+        if (serverDate.getTime() > (localDate.getTime() + timestampDiffOffset)) {
+          serverCollection.requests.forEach((request: TODO) => {
+            // update collection queries
+            matchedCollection.queries = matchedCollection.queries.map(query => {
+              if (query.serverId === request.id) {
+                const serverRequestDate = new Date(request.updated_at);
+                const localRequestDate = new Date(query.updated_at!);
+                if (serverRequestDate.getTime() > (localRequestDate.getTime() + timestampDiffOffset)) {
+                  // server content is newer
+                  return {
+                    ...request.content,
+                    serverId: request.id,
+                  };
+                }
+              }
+              return query;
+            });
+
+            // TODO: Handle parentPath
+            // matchedCollection.parentPath
+
+            matchedCollection.title = serverCollection.collection_name;
+          });
+          // server content is newer
+          if (matchedCollection.id) {
+            await this.updateLocalCollection(matchedCollection.id, matchedCollection);
+          }
+        }
+      } else {
+        // add collection to local
+        const queries = serverCollection.requests.map((request: TODO) => ({ ...request.content, serverId: request.id }));
+        const localCollection: IQueryCollection = {
+          title: serverCollection.collection_name,
+          queries,
+          serverId: serverCollection.id,
+          // parentPath // TODO: Handle parentPath
+        };
+
+        await this.createLocalCollection(localCollection);
+      }
+    };
   }
 
   /**

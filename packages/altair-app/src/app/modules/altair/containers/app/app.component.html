@@ -199,15 +199,18 @@
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
                 [sortBy]="(collection$ | async)?.sortBy"
+                [loggedIn]="(account$ | async).loggedIn"
     
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
                 (deleteQueryChange)="deleteQueryFromCollection($event)"
                 (deleteCollectionChange)="deleteCollection($event)"
                 (editCollectionChange)="toggleEditCollectionDialog($event)"
+                (syncCollectionChange)="syncLocalCollectionToRemote($event)"
                 (exportCollectionChange)="exportCollection($event)"
                 (importCollectionsChange)="importCollections()"
                 (sortCollectionsChange)="sortCollections($event)"
+                (syncCollectionsChange)="syncCollections()"
               ></app-query-collections>
             </div>
             <div class="sidebar__panels">

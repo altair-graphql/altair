@@ -9,6 +9,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromRoot from '../store';
 
 import * as collectionActions from '../store/collection/collection.action';
+import * as accountActions from '../store/account/account.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -201,8 +202,6 @@ export class QueryCollectionEffects {
       )
   }, { dispatch: false });
 
-
-
   importCollections$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(collectionActions.IMPORT_COLLECTIONS),
@@ -228,6 +227,53 @@ export class QueryCollectionEffects {
       repeat(),
     );
   });
+
+  syncRemoteToLocalOnLoggedIn$: Observable<Action> = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(accountActions.ACCOUNT_IS_LOGGED_IN, collectionActions.SYNC_REMOTE_COLLECTIONS_TO_LOCAL),
+      switchMap(() => {
+        return from(this.collectionService.syncRemoteToLocal());
+      }),
+      tap(() =>
+        this.notifyService.success("Successfully downloaded remote collections.")
+      ),
+      map(() => new collectionActions.LoadCollectionsAction()),
+      catchError((error) => {
+        const errorMessage = error.message ? error.message : error.toString();
+        this.notifyService.error(
+          `Something went wrong syncing remote collections. Error: ${errorMessage}`
+        );
+        return EMPTY;
+      }),
+      repeat(),
+    );
+  });
+
+  syncLocalCollectionToRemote$: Observable<Action> = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(collectionActions.SYNC_LOCAL_COLLECTION_TO_REMOTE),
+        switchMap((action: collectionActions.SyncLocalCollectionToRemoteAction) => {
+          const collection = action.payload.collection;
+
+          if (collection.id) {
+            if (collection.serverId) {
+              return this.collectionService.updateRemoteCollection(collection.id);
+            }
+            return this.collectionService.createRemoteCollection(collection.id, collection);
+          }
+          return EMPTY;
+        }),
+        tap(() => this.notifyService.success('Synced collection to remote.')),
+        map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
+      )
+  });
+
 
   constructor(
     private actions$: Actions,

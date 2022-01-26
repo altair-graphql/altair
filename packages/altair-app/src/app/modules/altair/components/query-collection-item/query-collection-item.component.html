@@ -12,6 +12,12 @@
       <div class="query-collections__item-meta">{{ 'COLLECTIONS_NUMBER_OF_REQUESTS' | translate }} {{ getQueryCount(collectionTree) }}</div>
       <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
     </div>
+    <span
+      *ngIf="loggedIn && collectionTree.serverId"
+      class="query-collections__item-synced-icon"
+    >
+      <app-icon name="zap"></app-icon>
+    </span>
     <div class="query-collections__item-right">
       <span class="query-collections__item-icon">
         <button
@@ -27,11 +33,12 @@
       <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
         <ul nz-menu>
           <li
+            *ngIf="loggedIn"
             nz-menu-item
-            data-test-id="delete-collection"
-            (click)="deleteCollection()"
+            data-test-id="sync-collection"
+            (click)="syncCollection()"
           >
-            {{ 'COLLECTIONS_MENU_DELETE' | translate }}
+            {{ 'COLLECTIONS_MENU_SYNC' | translate }}
           </li>
           <li
             nz-menu-item
@@ -39,6 +46,13 @@
             (click)="editCollection()"
           >
             {{ 'COLLECTIONS_MENU_EDIT' | translate }}
+          </li>
+          <li
+            nz-menu-item
+            data-test-id="delete-collection"
+            (click)="deleteCollection()"
+          >
+            {{ 'COLLECTIONS_MENU_DELETE' | translate }}
           </li>
           <li
             nz-menu-item
@@ -88,6 +102,7 @@
       <app-query-collection-item
         *ngFor="let subcollectionTree of collectionTree.collections; trackBy:trackById;"
         [collectionTree]="subcollectionTree"
+        [loggedIn]="loggedIn"
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
@@ -116,6 +131,12 @@
               {{ 'COLLECTIONS_DEPRECATED_QUERY_WARNING' | translate }}
               <a target="_blank" href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries" rel="noopener">{{ 'LEARN_MORE_TEXT' | translate }}</a>
           </popper-content>
+        </span>
+        <span
+          *ngIf="loggedIn && query.serverId"
+          class="query-collections__item-queries-item-synced-icon"
+        >
+          <app-icon name="zap"></app-icon>
         </span>
         <span class="query-collections__item-queries-item-right">
           <span class="query-collections__item-queries-item-icon">

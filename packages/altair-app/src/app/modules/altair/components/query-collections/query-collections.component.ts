@@ -11,14 +11,17 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;
   @Input() collections: IQueryCollection[] = [];
   @Input() sortBy = '';
+  @Input() loggedIn = false;
 
   @Output() loadCollectionsChange = new EventEmitter();
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{ collectionId: IQueryCollection['id'] }> = new EventEmitter();
   @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollection }> = new EventEmitter();
+  @Output() syncCollectionChange: EventEmitter<{ collection: IQueryCollection }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
   @Output() importCollectionsChange = new EventEmitter();
+  @Output() syncCollectionsChange = new EventEmitter();
   @Output() sortCollectionsChange = new EventEmitter();
 
   collectionTrees: IQueryCollectionTree[] = [];

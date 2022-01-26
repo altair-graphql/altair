@@ -12,6 +12,17 @@
         >
           <app-icon name="log-in"></app-icon>
         </button>
+        <button
+          *ngIf="loggedIn"
+          type="button"
+          class="icon-button"
+          data-test-id="sync-collection"
+          [popper]="'COLLECTION_SYNC_TEXT' | translate"
+          [popperPlacement]="'bottom'"
+          (click)="syncCollectionsChange.next()"
+        >
+          <app-icon name="refresh-ccw"></app-icon>
+        </button>
         <div class="query-collections__actions--right">
           <button
             nz-dropdown
@@ -61,11 +72,13 @@
       <app-query-collection-item
         *ngFor="let collectionTree of collectionTrees; trackBy:trackById;"
         [collectionTree]="collectionTree"
+        [loggedIn]="loggedIn"
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
         (editCollectionChange)="editCollectionChange.next($event)"
         (exportCollectionChange)="exportCollectionChange.next($event)"
+        (syncCollectionChange)="syncCollectionChange.next($event)"
       ></app-query-collection-item>
       <div class="query-collections__empty" *ngIf="!(collections?.length)">
         <div class="query-collections__empty-icon">
