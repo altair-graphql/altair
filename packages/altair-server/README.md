@@ -92,6 +92,15 @@ TODO
 - add operation log to track local actions not yet synced to remote
 - add free plan config to db
 - add request limit to RLS policies
+- add plan config table, with enum as the unique id. Add enum to product metadata in stripe
+- create hosted 0auth final page
+- implement serverless nestjs to host create-checkout-sessino, create-portal-link, webhooks, oauth page
+- on user created, create subscription
+- check user has subscription active before enabling features
+
+https://docs.nestjs.com/faq/serverless
+https://github.com/vercel/nextjs-subscription-payments/blob/main/README.md
+
 
 User registers on application in auth0
 User makes request to altair-server with access token
