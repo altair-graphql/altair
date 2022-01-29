@@ -14,10 +14,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
-import { APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink } from '@apollo/client/core';
-import { setContext } from '@apollo/client/link/context';
 
 import { SharedModule } from './modules/shared/shared.module';
 
@@ -52,7 +48,6 @@ import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AccountEffects } from './effects/account.effect';
-import { auth0 } from './services/api/auth0';
 
 registerLocaleData(en);
 
@@ -72,32 +67,6 @@ export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
   // bootstrap() returns a Promise
   return () => reducer.bootstrap();
 }
-
-const createApollo = (httpLink: HttpLink) => {
-  const auth = setContext(async (operation, context) => {
-    const token = await auth0.getTokenSilently();
-
-    if (token === null) {
-      return {};
-    } else {
-      return {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      };
-    }
-  });
-
-  return {
-    cache: new InMemoryCache(),
-    link: ApolloLink.from([
-      auth,
-      httpLink.create({
-        uri: environment.auth0.apiUrl,
-      }),
-    ]),
-  };
-};
 
 const providers = [
   services.ApiService,
@@ -140,11 +109,6 @@ const providers = [
     deps: [ReducerBootstrapper],
     multi: true,
     useFactory: reducerBootstrapFactory
-  },
-  {
-    provide: APOLLO_OPTIONS,
-    useFactory: createApollo,
-    deps: [HttpLink],
   },
 ];
 
