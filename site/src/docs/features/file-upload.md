@@ -2,7 +2,11 @@
 parent: Features
 ---
 
-# File Upload
+# Variables and File Upload
+
+Altair provides convenient support for setting GraphQL query variables. These allow you create dynamic queries based on [provided input](https://graphql.org/graphql-js/passing-arguments/).
+
+## File Upload
 
 Originally written about [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/).
 
