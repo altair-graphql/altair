@@ -1,25 +1,28 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, expect, it } from '@jest/globals';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { mount, NgxTestWrapper } from '../../../../../testing';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 import { AccountDialogComponent } from './account-dialog.component';
 
 describe('AccountDialogComponent', () => {
-  let component: AccountDialogComponent;
-  let fixture: ComponentFixture<AccountDialogComponent>;
+  let wrapper: NgxTestWrapper<AccountDialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AccountDialogComponent ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AccountDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: AccountDialogComponent,
+      declarations: [
+        AccountDialogComponent,
+      ],
+      providers: [],
+      imports: [
+        SharedModule,
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 });

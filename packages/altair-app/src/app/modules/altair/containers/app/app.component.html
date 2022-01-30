@@ -177,7 +177,7 @@
                   </div>
                 </a>
                 <a
-                  *ngIf="serverReady"
+                  *ngIf="(settings$ | async)?.enableExperimental && serverReady"
                   class="side-menu-item"
                   (click)="setShowAccountDialog(true)"
                   attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"

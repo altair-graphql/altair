@@ -91,7 +91,7 @@ describe('PluginContextService', () => {
       it('should return window state for the given window id', async () => {
         const ctx = createContext();
         const windowState = await ctx.app.getWindowState('abc-123');
-        expect(windowState.windowId).toEqual('abc-123');
+        expect(windowState!.windowId).toEqual('abc-123');
       });
     });
 
@@ -99,7 +99,7 @@ describe('PluginContextService', () => {
       it('should return window state for the currently active window', async () => {
         const ctx = createContext();
         const windowState = await ctx.app.getCurrentWindowState();
-        expect(windowState.windowId).toEqual('def-456');
+        expect(windowState!.windowId).toEqual('def-456');
       });
     });
 

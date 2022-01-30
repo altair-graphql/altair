@@ -76,7 +76,9 @@ describe('AppComponent', () => {
       {
         provide: Store,
         useValue: mockStoreFactory({
-          settings: {}
+          settings: {},
+          account: {},
+          windowsMeta: {},
         }),
       },
   ];

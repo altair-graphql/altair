@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountDialogComponent should create 1`] = `
+<app-account-dialog>
+  <nz-modal />
+</app-account-dialog>
+`;

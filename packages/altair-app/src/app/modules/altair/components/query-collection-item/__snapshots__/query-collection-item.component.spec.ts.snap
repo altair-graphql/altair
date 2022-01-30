@@ -34,6 +34,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
            3
         </div>
       </div>
+      
       <div
         class="query-collections__item-right"
       >
@@ -55,14 +56,15 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
           <ul
             nz-menu=""
           >
+            
             <li
-              data-test-id="delete-collection"
+              data-test-id="edit-collection"
               nz-menu-item=""
             >
                 
             </li>
             <li
-              data-test-id="edit-collection"
+              data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
@@ -146,6 +148,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -204,6 +207,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -262,6 +266,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -333,6 +338,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
            3
         </div>
       </div>
+      
       <div
         class="query-collections__item-right"
       >
@@ -354,14 +360,15 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
           <ul
             nz-menu=""
           >
+            
             <li
-              data-test-id="delete-collection"
+              data-test-id="edit-collection"
               nz-menu-item=""
             >
                 
             </li>
             <li
-              data-test-id="edit-collection"
+              data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
@@ -445,6 +452,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -503,6 +511,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -561,6 +570,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               </a>
             </popper-content>
           </span>
+          
           <span
             class="query-collections__item-queries-item-right"
           >
