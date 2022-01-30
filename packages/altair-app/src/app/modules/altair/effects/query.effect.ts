@@ -34,7 +34,7 @@ import { downloadJson, downloadData, copyToClipboard, openFile } from '../utils'
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
-import { IDictionary } from '../interfaces/shared';
+import { IDictionary, UnknownError } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
 import { RequestType, ScriptContextData } from '../services/pre-request/pre-request.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -47,7 +47,7 @@ interface EffectResponseData {
   state: RootState;
   data?: PerWindowState;
   windowId: string;
-  action: any;
+  action: queryActions.Action;
 }
 
 @Injectable()
@@ -265,13 +265,13 @@ export class QueryEffects {
                       }));
                       this.store.dispatch(new layoutActions.StopLoadingAction(response.windowId));
                     }),
-                    catchError((error: any) => {
+                    catchError((error: UnknownError) => {
                       debug.error('Error sending the request', error);
                       return EMPTY;
                     }),
                   );
               }),
-              catchError((error: any) => {
+              catchError((error: UnknownError) => {
                 debug.error('Error sending the request', error);
                 return EMPTY;
               }),
@@ -408,14 +408,14 @@ export class QueryEffects {
               switchMap((introspectionResponse) => {
                 return this.handlePostRequestTransforms$(RequestType.INTROSPECTION, introspectionResponse, response);
               }),
-              catchError((err: any) => {
+              catchError((err: UnknownError) => {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
                 const errorObj = err.error || err;
                 const errorMessage = errorObj.message ? errorObj.message : err.message ? err.message : errorObj.toString();
                 let allowsIntrospection = true;
 
                 if (errorObj.errors) {
-                  errorObj.errors.forEach((error: any) => {
+                  errorObj.errors.forEach((error: UnknownError) => {
                     if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
                       allowsIntrospection = false;
                     }
@@ -469,7 +469,7 @@ export class QueryEffects {
 
                 return EMPTY;
               }),
-              catchError((error: any) => {
+              catchError((error: UnknownError) => {
                 debug.error(error);
                 this.notifyService.error(error.message);
                 return EMPTY;

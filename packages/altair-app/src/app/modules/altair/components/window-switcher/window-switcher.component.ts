@@ -99,7 +99,7 @@ export class WindowSwitcherComponent implements OnInit {
     this.reopenClosedWindowChange.emit();
   }
 
-  log(str: any) {
+  log(str: string) {
     debug.log(str);
   }
 

@@ -30,6 +30,7 @@ import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { TrackByIdItem } from '../../interfaces/shared';
 
 @Component({
   selector: 'app-query-result',
@@ -135,7 +136,7 @@ export class QueryResultComponent implements OnChanges {
     this.bottomPanelActiveToggle.emit(panel);
   }
 
-  trackById(index: number, item: any) {
+  trackById(index: number, item: TrackByIdItem) {
     return item.id;
   }
 }

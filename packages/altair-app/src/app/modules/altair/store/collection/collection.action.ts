@@ -51,19 +51,19 @@ export class DeleteCollectionAction implements NGRXAction {
 export class SetCollectionsAction implements NGRXAction {
   readonly type = SET_COLLECTIONS;
 
-  constructor(public payload: { collections: any[] }) {}
+  constructor(public payload: { collections: IQueryCollection[] }) {}
 }
 
 export class SetActiveCollectionAction implements NGRXAction {
   readonly type = SET_ACTIVE_COLLECTION;
 
-  constructor(public payload: { collection: any }) {}
+  constructor(public payload: { collection: IQueryCollection }) {}
 }
 
 export class UpdateCollectionAction implements NGRXAction {
   readonly type = UPDATE_COLLECTION;
 
-  constructor(public payload: { collectionId: number, collection: any }) {}
+  constructor(public payload: { collectionId: number, collection: IQueryCollection }) {}
 }
 
 export class LoadCollectionsAction implements NGRXAction {

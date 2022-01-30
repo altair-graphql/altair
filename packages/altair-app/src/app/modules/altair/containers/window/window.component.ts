@@ -33,7 +33,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debug } from '../../utils/logger';
 import { fadeInOutAnimationTrigger } from '../../animations';
-import { IDictionary } from '../../interfaces/shared';
+import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import { QueryEditorState, QueryState, SelectedOperation, SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
@@ -49,6 +49,7 @@ import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { GraphQLSchema } from 'graphql';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -108,7 +109,7 @@ export class WindowComponent implements OnInit {
   showAddToCollectionDialog = false;
   showPreRequestDialog = true;
 
-  gqlSchema: any = null;
+  gqlSchema: GraphQLSchema | undefined;
 
   variableToType: IDictionary;
 
@@ -260,7 +261,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId));
   }
 
-  sendRequest(opts: any = {}) {
+  sendRequest(opts: { operationName?: string } = {}) {
     if (opts.operationName) {
       this.store.dispatch(new queryActions.SetSelectedOperationAction(this.windowId, { selectedOperation: opts.operationName }));
     }
@@ -432,7 +433,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new postRequestActions.SetPostRequestEnabledAction(this.windowId, { enabled }));
   }
 
-  addQueryToEditor(queryData: { query: String, meta: any }) {
+  addQueryToEditor(queryData: { query: string, meta: { hasArgs: boolean; } }) {
     // Add the query to what is already in the editor
     this.store.dispatch(new queryActions.SetQueryAction(`${this.query}\n${queryData.query}`, this.windowId));
 
@@ -520,7 +521,7 @@ export class WindowComponent implements OnInit {
     return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
   }
 
-  trackById(index: number, item: any) {
+  trackById(index: number, item: TrackByIdItem) {
     return item.id;
   }
 }

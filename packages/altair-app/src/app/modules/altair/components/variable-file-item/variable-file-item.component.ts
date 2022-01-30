@@ -61,7 +61,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   isValidFileData(fileVariable: FileVariable) {}
 
   updateLocalState(fileVariable: FileVariable) {
-    this.validFileData = Array.isArray(fileVariable.data) ? fileVariable.data.filter((data: any) => data instanceof File) : [];
+    this.validFileData = Array.isArray(fileVariable.data) ? fileVariable.data.filter((data) => data instanceof File) : [];
     this.invalidFileData = (this.fileVariable?.data as [])?.length > this.validFileData.length;
     this.showWarning = Boolean(!this.fileVariable?.isMultiple && (this.fileVariable.data as [])?.length > 1);
 

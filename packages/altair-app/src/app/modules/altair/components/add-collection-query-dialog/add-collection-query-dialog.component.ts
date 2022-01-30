@@ -73,7 +73,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
     this.collectionId = null;
   }
 
-  trackById(index: number, item: any) {
+  trackById(index: number, item: { id: string }) {
     return item.id;
   }
 

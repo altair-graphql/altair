@@ -57,11 +57,6 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-export function mapValuesToArray(obj: any): Array<any> {
-    return Object.keys(obj).map(function(key) {
-        return obj[key];
-    });
-};
 
 export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
   // bootstrap() returns a Promise

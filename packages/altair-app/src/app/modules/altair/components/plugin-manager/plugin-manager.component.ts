@@ -82,7 +82,7 @@ export class PluginManagerComponent  {
     location.reload();
   }
 
-  trackByName(index: number, item: any) {
+  trackByName(index: number, item: { name: string }) {
     return item.name;
   }
 }

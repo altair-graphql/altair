@@ -42,7 +42,7 @@ export class HeaderComponent  {
     externalLink(e, url);
   }
 
-  trackById(index: number, item: any) {
+  trackById(index: number, item: { id: string; }) {
     return item.id;
   }
 

@@ -13,6 +13,7 @@ import * as accountActions from '../store/account/account.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { UnknownError } from '../interfaces/shared';
 
 
 @Injectable()
@@ -46,7 +47,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Created collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -76,7 +77,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Added query to collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -103,7 +104,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Updated query in collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -118,7 +119,7 @@ export class QueryCollectionEffects {
         ofType(collectionActions.LOAD_COLLECTIONS),
         switchMap(action => this.collectionService.getAll()),
         map(collections => new collectionActions.SetCollectionsAction({ collections })),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -136,7 +137,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -154,7 +155,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Updated collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -172,7 +173,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -194,7 +195,7 @@ export class QueryCollectionEffects {
           }
           return EMPTY;
         }),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),
@@ -266,7 +267,7 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Synced collection to remote.')),
         map(() => new collectionActions.LoadCollectionsAction()),
-        catchError((err: any) => {
+        catchError((err: UnknownError) => {
           this.notifyService.error(err.message || err);
           return EMPTY;
         }),

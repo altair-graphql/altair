@@ -64,7 +64,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
 
 const getRenderedAltairOpts = (renderOptions: RenderOptions, keys: (keyof AltairConfigOptions)[]) => {
     const optProps = Object.keys(renderOptions)
-        .filter((key: any): key is keyof AltairConfigOptions => keys.includes(key))
+        .filter((key:keyof AltairConfigOptions): key is keyof AltairConfigOptions => keys.includes(key))
         .map(key => getObjectPropertyForOption(renderOptions[key], key));
 
     return [ '{', ...optProps, '}'].join('\n');
