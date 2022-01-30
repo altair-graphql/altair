@@ -1,5 +1,5 @@
 
-create type product_config_identifier as enum ('noproduct')
+create type product_config_identifier as enum ('noproduct');
 
 create table product_configs (
   id product_config_identifier unique,
