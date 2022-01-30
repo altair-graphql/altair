@@ -74,34 +74,17 @@ Nest is [MIT licensed](LICENSE).
 
 docker-compose up --build -V
 
-auth0 as idP
-Create Application (Single Page Application)
-Create API
-Set authentication as RS256
-Create Rule to add email to access token when calling API - https://community.auth0.com/t/can-i-add-email-address-to-the-access-token-when-calling-an-api/70163
-https://github.com/auth0/rules/blob/master/src/rules/add-email-to-access-token.js
-
-Handle syncing of auth0 and own storage at login and account deletion
-
-
 TODO
 ====
-- = add option to sync local collection to remote
-- = sync remote to local on startup
-- = add refresh button to sync remote to local
-- add operation log to track local actions not yet synced to remote
-- add free plan config to db
-- add request limit to RLS policies
-- add plan config table, with enum as the unique id. Add enum to product metadata in stripe
-- create hosted 0auth final page
-- implement serverless nestjs to host create-checkout-sessino, create-portal-link, webhooks, oauth page
-- on user created, create subscription
-- check user has subscription active before enabling features
+- [x] add option to sync local collection to remote
+- [x] sync remote to local on startup
+- [x] add refresh button to sync remote to local
+- [x] add free plan config to db
+- [x] add request limit to RLS policies
+- [] add operation log to track local actions not yet synced to remote
+- [] add plan config table, with enum as the unique id. Add enum to product metadata in stripe
+- [] create hosted oauth final page
+- [] implement serverless nestjs to host create-checkout-sessino, create-portal-link, webhooks, oauth page
 
 https://docs.nestjs.com/faq/serverless
 https://github.com/vercel/nextjs-subscription-payments/blob/main/README.md
-
-
-User registers on application in auth0
-User makes request to altair-server with access token
-If user does not exist in altair-server db, user is created
