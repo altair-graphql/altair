@@ -102,7 +102,7 @@ export class ElectronAppService {
 
       this.ipc.send('get-file-opened');
 
-      this.store.select((state: any) => state.settings['alert.disableUpdateNotification'])
+      this.store.select((state: RootState) => state.settings['alert.disableUpdateNotification'])
         .pipe(first())
         .subscribe((disableUpdateNotification: boolean) => {
           if (!disableUpdateNotification) {

@@ -22,6 +22,7 @@ import 'codemirror/addon/fold/indent-fold';
 import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
+import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
@@ -32,7 +33,10 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 })
 export class PreRequestEditorComponent implements AfterViewInit, DoCheck {
 
-  @Input() preRequest: any = {};
+  @Input() preRequest: PrerequestState = {
+    enabled: false,
+    script: '',
+  };
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 

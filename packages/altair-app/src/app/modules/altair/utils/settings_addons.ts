@@ -3,6 +3,7 @@ import { jsonc } from '../utils';
 import { debug } from './logger';
 import { ValidateFunction } from 'ajv';
 import { JSONSchema6 } from 'json-schema';
+import { UnknownError } from '../interfaces/shared';
 
 const settingsValidator = require('./validate_settings_schema') as ValidateFunction;
 
@@ -26,7 +27,7 @@ export const registerSettingsLinter = (CM: typeof Codemirror) => {
       if (!validateSettings(text) && settingsValidator.errors) {
         found = [
           ...found,
-          ...settingsValidator.errors.map((error: any) => {
+          ...settingsValidator.errors.map((error: UnknownError) => {
             let message = `[${error.keyword}] '${error.dataPath.substring(1)}' ${error.message}`;
 
             if (error.params && error.params['allowedValues']) {

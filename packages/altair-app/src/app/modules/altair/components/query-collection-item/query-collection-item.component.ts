@@ -70,7 +70,7 @@ export class QueryCollectionItemComponent  {
   }
 
   @memoize()
-  sortedCollectionQueries(queries: any[], sortBy: SortByOptions) {
+  sortedCollectionQueries(queries: IQuery[], sortBy: SortByOptions) {
     if (!queries) {
       return [];
     }
@@ -78,8 +78,8 @@ export class QueryCollectionItemComponent  {
     switch (sortBy) {
       case 'a-z':
         return queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase() || a.updated_at;
-          const bName = b.windowName.toLowerCase() || b.updated_at;
+          const aName = a.windowName.toLowerCase() || a.updated_at || '';
+          const bName = b.windowName.toLowerCase() || b.updated_at || '';
 
           if (aName > bName) {
             return 1;
@@ -91,8 +91,8 @@ export class QueryCollectionItemComponent  {
         });
       case 'z-a':
         return queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase() || a.updated_at;
-          const bName = b.windowName.toLowerCase() || b.updated_at;
+          const aName = a.windowName.toLowerCase() || a.updated_at || '';
+          const bName = b.windowName.toLowerCase() || b.updated_at || '';
 
           if (aName > bName) {
             return -1;

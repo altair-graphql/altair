@@ -63,7 +63,7 @@ export class DocUtils {
   ): DocumentIndexEntry[] {
     let index: DocumentIndexEntry[] = [];
 
-    Object.keys(fields).forEach((fieldKey: any) => {
+    Object.keys(fields).forEach((fieldKey) => {
       const field = fields[fieldKey];
 
       // For each field, create an entry in the index
@@ -172,7 +172,7 @@ export class DocUtils {
    * @param parentType parent type of the current field
    * @param parentFields preceding parent field and type combinations
    */
-  generateQuery(name: string, parentType: string, opts: any) {
+  generateQuery(name: string, parentType: string, opts: { tabSize?: number, addQueryDepthLimit?: number }) {
     let query = '';
     let hasArgs = false;
 
