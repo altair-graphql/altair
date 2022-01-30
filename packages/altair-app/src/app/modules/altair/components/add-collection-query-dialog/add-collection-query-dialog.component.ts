@@ -86,7 +86,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
     return {
       title: collectionTree.title,
       key: `${collectionTree.id}`,
-      children: collectionTree.collections.map(ct => this.collectionTreeToNzTreeNode(ct)),
+      children: collectionTree.collections?.map(ct => this.collectionTreeToNzTreeNode(ct)),
     };
   }
 }

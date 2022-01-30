@@ -1,3 +1,4 @@
+import { AccountState } from './account.interfaces';
 import { CollectionState } from './collection.interfaces';
 import { DonationState } from './donation.interfaces';
 import { EnvironmentsState } from './environments.interfaces';
@@ -14,4 +15,5 @@ export interface RootState {
   collection: CollectionState;
   environments: EnvironmentsState;
   local: LocalState;
+  account: AccountState;
 }

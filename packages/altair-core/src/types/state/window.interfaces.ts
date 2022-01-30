@@ -3,9 +3,8 @@ import { SubscriptionProviderIds } from '../../subscriptions';
 import { PerWindowState } from './per-window.interfaces';
 
 export interface WindowState {
-  [id: string]: PerWindowState;
+  [id: string]: PerWindowState | undefined;
 }
-
 
 /**
  * Data structure for exported windows
@@ -30,6 +29,7 @@ export interface WindowState {
    * ID of the collection this query belongs to
    */
   collectionId?: number;
+
   /**
    * ID for window in collection
    */

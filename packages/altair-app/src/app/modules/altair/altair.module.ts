@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, APP_INITIALIZER, ApplicationInitStatus, ModuleWithProviders } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
+
 import { SharedModule } from './modules/shared/shared.module';
 
 import { getReducer, metaReducers, reducerToken } from './store';
@@ -46,6 +47,7 @@ import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { AccountEffects } from './effects/account.effect';
 
 registerLocaleData(en);
 
@@ -65,8 +67,6 @@ export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
   // bootstrap() returns a Promise
   return () => reducer.bootstrap();
 }
-
-const servicesArray: Array<any> = mapValuesToArray(services);
 
 const providers = [
   services.ApiService,
@@ -121,6 +121,7 @@ const providers = [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     SharedModule.forRoot(),
     SortablejsModule.forRoot({ animation: 150 }),
@@ -144,6 +145,7 @@ const providers = [
       QueryCollectionEffects,
       PluginEventEffects,
       LocalEffects,
+      AccountEffects,
     ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,

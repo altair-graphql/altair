@@ -20,6 +20,9 @@ export class LocalEffects {
       }),
       switchMap(({ data, action, windowId }) => {
         const idx = action.payload.index;
+        if (!data) {
+          return EMPTY;
+        }
         const fileVariable = data.variables.files[idx];
         if (!action.payload.fromCache) {
           if (fileVariable.id && Array.isArray(fileVariable.data)) {

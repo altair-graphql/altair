@@ -36,8 +36,8 @@ export interface PluginContext {
      * Since it is a method, the state can be generated when called.
      * So we can ensure uniqueness of the state, as well as avoid passing values by references.
      */
-    getWindowState(windowId: string): Promise<PluginWindowState>;
-    getCurrentWindowState(): Promise<PluginWindowState>;
+    getWindowState(windowId: string): Promise<PluginWindowState | undefined>;
+    getCurrentWindowState(): Promise<PluginWindowState | undefined>;
     /**
      * panel has two locations: sidebar, header
      *

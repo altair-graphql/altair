@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
@@ -38,6 +38,7 @@ import { PostRequestEditorComponent } from './post-request-editor/post-request-e
 import { SchemaFormModule } from './schema-form/schema-form.module';
 import { PluginManagerComponent } from './plugin-manager/plugin-manager.component';
 import { ElementWrapperComponent } from './element-wrapper/element-wrapper.component';
+import { AccountDialogComponent } from './account-dialog/account-dialog.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -68,12 +69,14 @@ const COMPONENTS = [
   PostRequestEditorComponent,
   PluginManagerComponent,
   ElementWrapperComponent,
+  AccountDialogComponent,
 ];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     CodemirrorModule,
     PipesModule,
     DirectivesModule,

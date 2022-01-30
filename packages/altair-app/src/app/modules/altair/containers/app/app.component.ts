@@ -24,6 +24,7 @@ import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as environmentsActions from '../../store/environments/environments.action';
 import * as localActions from '../../store/local/local.action';
+import * as accountActions from '../../store/account/account.action';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -51,6 +52,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { externalLink, mapToKeyValueList, openFile } from '../../utils';
+import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -67,6 +69,7 @@ export class AppComponent  {
   activeEnvironment$: Observable<EnvironmentState | undefined>;
   theme$: Observable<ICustomTheme | undefined>;
   themeDark$: Observable<ICustomTheme | undefined>;
+  account$: Observable<AccountState>;
 
   windowIds: string[] = [];
   windows: WindowState = {};
@@ -74,6 +77,7 @@ export class AppComponent  {
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp: boolean;
+  serverReady = environment.serverReady;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 
@@ -172,6 +176,7 @@ export class AppComponent  {
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
+    this.account$ = this.store.select('account');
     this.sortedCollections$ = this.store.select(fromRoot.selectSortedCollections);
     this.activeEnvironment$ = this.environments$.pipe(
       map(environments => {
@@ -224,10 +229,10 @@ export class AppComponent  {
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
     this.settings$.pipe(
+      untilDestroyed(this),
       map(settings => settings.language),
       filter(x => !!x),
       distinctUntilChanged(),
-      untilDestroyed(this),
     )
     .subscribe(language => {
       this.translate.use(language);
@@ -497,7 +502,7 @@ export class AppComponent  {
     windowIdInCollection
   }: { query: IQuery, collectionId: number, windowIdInCollection: string }) {
     const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
-      return this.windows[windowId].layout.windowIdInCollection === windowIdInCollection;
+      return this.windows[windowId]?.layout.windowIdInCollection === windowIdInCollection;
     });
     if (matchingOpenQueryWindowIds.length) {
       this.setActiveWindow(matchingOpenQueryWindowIds[0]);
@@ -522,6 +527,14 @@ export class AppComponent  {
     this.store.dispatch(new collectionActions.ImportCollectionsAction());
   }
 
+  syncCollections() {
+    this.store.dispatch(new collectionActions.SyncRemoteCollectionsToLocalAction());
+  }
+
+  syncLocalCollectionToRemote({ collection }: { collection: IQueryCollection }) {
+    this.store.dispatch(new collectionActions.SyncLocalCollectionToRemoteAction({ collection }));
+  }
+
   toggleEditCollectionDialog({ collection }: { collection: IQueryCollection }) {
     this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
@@ -529,6 +542,14 @@ export class AppComponent  {
 
   setShowEditCollectionDialog(value: boolean) {
     this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
+  }
+
+  setShowAccountDialog(value: boolean) {
+    this.store.dispatch(new windowsMetaActions.ShowAccountDialogAction({ value }));
+  }
+
+  accountLogin() {
+    this.store.dispatch(new accountActions.LoginAccountAction());
   }
 
   updateCollection({ collection }: { collection: IQueryCollection & { id: number } }) {

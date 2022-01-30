@@ -66,6 +66,7 @@ app-query-collections {
 
 .query-collections__item-details-wrapper {
   display: flex;
+  align-items: center;
   padding: 5px 10px;
   border-bottom: 1px solid var(--theme-border-color);
   cursor: pointer;

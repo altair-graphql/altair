@@ -26,6 +26,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             name="log-in"
           />
         </button>
+        
         <div
           class="query-collections__actions--right"
         >

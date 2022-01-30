@@ -1,0 +1,29 @@
+<nz-modal
+  [nzVisible]="showDialog"
+  (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="toggleDialogChange.next($event)"
+>
+  <ng-template #modalTitle>
+    <div class="app-dialog-header">
+      <div class="app-dialog-title">{{ 'ACCOUNT_TITLE' | translate }}</div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalContent>
+    <div class="app-dialog-body">
+      <button
+        class="app-button active-primary"
+        (click)="submitLogin()"
+      >{{ 'LOGIN_TAB' | translate }} / {{ 'REGISTER_TAB' | translate }}</button>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <div class="app-dialog-footer">
+      <!-- <button class="app-button active-primary right" track-id="" (click)="updateCollection()">{{ 'SAVE_BUTTON' | translate }}</button> -->
+    </div>
+  </ng-template>
+</nz-modal>

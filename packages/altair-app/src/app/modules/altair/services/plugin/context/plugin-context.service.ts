@@ -101,7 +101,9 @@ export class PluginContextService implements PluginContextGenerator {
           log(`Creating ui action<${title}>`);
           const uiAction = new AltairUiAction(title, location, async() => {
             const state = await self.getCurrentWindowState();
-            execute(state);
+            if (state) {
+              execute(state);
+            }
           });
 
           self.store.dispatch(new localActions.AddUiActionAction(uiAction));
@@ -181,6 +183,10 @@ export class PluginContextService implements PluginContextGenerator {
 
   private async getWindowState(windowId: string) {
     const data = await this.store.select(fromRoot.selectWindowState(windowId)).pipe(first()).toPromise();
+
+    if (!data) {
+      return;
+    }
 
     const pluginWindowState: PluginWindowState = {
       version: 1,

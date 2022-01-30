@@ -45,7 +45,7 @@ import { RequestScriptError } from '../services/pre-request/errors';
 
 interface EffectResponseData {
   state: RootState;
-  data: PerWindowState;
+  data?: PerWindowState;
   windowId: string;
   action: any;
 }
@@ -69,7 +69,7 @@ export class QueryEffects {
               return EMPTY;
           }
 
-          const query = (response.data.query.query || '').trim();
+          const query = (response.data?.query.query || '').trim();
           if (!query) {
             return EMPTY;
           }
@@ -88,6 +88,10 @@ export class QueryEffects {
             .pipe(
               switchMap((_returnedData) => {
                 const { response, transformedData } = _returnedData;
+
+                if (!response.data) {
+                  return EMPTY;
+                }
 
                 const query = (response.data.query.query || '').trim();
                 let url = this.environmentService.hydrate(response.data.query.url);
@@ -373,6 +377,10 @@ export class QueryEffects {
             return EMPTY;
           }
           const { response, transformedData } = res;
+          if (!response.data) {
+            return EMPTY;
+          }
+
           let url = this.environmentService.hydrate(response.data.query.url);
           let headers = this.environmentService.hydrateHeaders(response.data.headers);
 
@@ -441,7 +449,7 @@ export class QueryEffects {
                 const streamUrl = postRequestTransformData.data.response.headers?.get('X-GraphQL-Event-Stream'); // || '/stream'; // For dev
 
                 // Check if new stream url is different from previous before setting it
-                if (res.response.data.stream.url !== streamUrl || !res.response.data.stream.client) {
+                if (res.response.data?.stream.url !== streamUrl || !res.response.data.stream.client) {
                   this.store.dispatch(new streamActions.SetStreamSettingAction(response.windowId, { streamUrl: streamUrl || '' }));
                   if (streamUrl) {
                     this.store.dispatch(new streamActions.StartStreamClientAction(response.windowId));
@@ -519,7 +527,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          downloadJson(res.data.query.response, res.data.layout.title);
+          downloadJson(res.data?.query.response, res.data?.layout.title);
 
           return EMPTY;
         }),
@@ -541,6 +549,9 @@ export class QueryEffects {
             return EMPTY;
           }
           const { response, transformedData } = res;
+          if (!response.data) {
+            return EMPTY;
+          }
           let connectionParams: IDictionary = {};
           let subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl);
           let query = this.environmentService.hydrate(response.data.query.query || '');
@@ -672,7 +683,7 @@ export class QueryEffects {
                       }));
 
                       // Send notification in electron app
-                      this.notifyService.pushNotify(strData, response.data.layout.title, {
+                      this.notifyService.pushNotify(strData, response.data?.layout.title, {
                         onclick: () => {
                           this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: response.windowId }));
                         }
@@ -716,7 +727,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          if (res.data.query.subscriptionClient?.close) {
+          if (res.data?.query.subscriptionClient?.close) {
             try {
               res.data.query.subscriptionClient.close();
             } catch (err) {
@@ -737,7 +748,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action, settings: state.settings };
         }),
         switchMap(res => {
-          this.gqlService.prettify(res.data.query.query || '', res.settings.tabSize).then(prettified => {
+          this.gqlService.prettify(res.data?.query.query || '', res.settings.tabSize).then(prettified => {
             if (prettified) {
               return this.store.dispatch(new queryActions.SetQueryAction(prettified, res.windowId));
             }
@@ -762,7 +773,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           debug.log('We compress..');
-          this.gqlService.compress(res.data.query.query || '').then(compressed => {
+          this.gqlService.compress(res.data?.query.query || '').then(compressed => {
             debug.log('Compressed..');
 
             if (compressed) {
@@ -789,7 +800,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
 
-          if (res.data.schema.schema) {
+          if (res.data?.schema.schema) {
             this.gqlService.getSDL(res.data.schema.schema).then(sdl => {
               if (sdl) {
                 downloadData(sdl, 'sdl', { fileType: 'gql' });
@@ -813,6 +824,10 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
+          if (!res.data) {
+            return EMPTY;
+          }
+
           const url = this.environmentService.hydrate(res.data.query.url);
           const query = this.environmentService.hydrate(res.data.query.query || '');
           const variables = this.environmentService.hydrate(res.data.variables.variables);
@@ -855,7 +870,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
           try {
-            const namedQuery = this.gqlService.nameQuery(res.data.query.query || '');
+            const namedQuery = this.gqlService.nameQuery(res.data?.query.query || '');
             if (namedQuery) {
               return observableOf(new queryActions.SetQueryAction(namedQuery, res.windowId));
             }
@@ -879,6 +894,9 @@ export class QueryEffects {
         }),
         switchMap(res => {
           try {
+            if (!res.data) {
+              return EMPTY;
+            }
             if (res.data.query.query && res.data.schema.schema) {
               const refactorResult = this.gqlService.refactorQuery(res.data.query.query, res.data.schema.schema);
               if (refactorResult && refactorResult.query) {
@@ -930,7 +948,7 @@ export class QueryEffects {
         }),
         switchMap(res => {
 
-          if (!res.data.stream.url) {
+          if (!res.data?.stream.url) {
             return EMPTY;
           }
           const endpoint = new URL(this.environmentService.hydrate(res.data.query.url));
@@ -998,7 +1016,7 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(res => {
-          if (res.data.stream.client) {
+          if (res.data?.stream.client) {
             this.gqlService.closeStreamClient(res.data.stream.client);
           }
           return observableOf(new streamActions.SetStreamClientAction(res.windowId, { streamClient: null }));
@@ -1014,8 +1032,8 @@ export class QueryEffects {
           return { data: state.windows[action.windowId], windowId: action.windowId, windowIds: state.windowsMeta.windowIds, action };
         }),
         switchMap(res => {
-          const query = res.data.query.query;
-          if (!res.data.layout.hasDynamicTitle) {
+          const query = res.data?.query.query;
+          if (!res.data?.layout.hasDynamicTitle) {
             return EMPTY;
           }
           if (query) {
@@ -1054,9 +1072,10 @@ export class QueryEffects {
   private getPrerequestTransformedData$(input: EffectResponseData) {
     return observableOf(input).pipe(
       switchMap(response => {
-        if (!response) {
+        if (!response.data) {
           return EMPTY;
         }
+        const data = response.data;
         const query = (response.data.query.query || '').trim();
         /**
          * pre request execution context is passed the current headers, environment, variables, query, etc
@@ -1064,14 +1083,14 @@ export class QueryEffects {
          * The returned data is used instead of the original set of data
          */
         return iif(
-          () => response.data.preRequest.enabled,
+          () => data.preRequest.enabled || false,
           new Observable((subscriber: Subscriber<{ response: typeof response; transformedData: ScriptContextData | undefined }>) => {
             try {
-              this.preRequestService.executeScript(response.data.preRequest.script, {
+              this.preRequestService.executeScript(data.preRequest.script, {
                 environment: this.environmentService.getActiveEnvironment(),
-                headers: response.data.headers,
+                headers: data.headers,
                 query,
-                variables: response.data.variables.variables,
+                variables: data.variables.variables,
               }).then(transformedData => {
                 subscriber.next({ response, transformedData });
                 subscriber.complete();
@@ -1095,7 +1114,7 @@ export class QueryEffects {
   }
 
   private handlePostRequestTransforms$(requestType: RequestType, data: SendRequestResponse, requestData: EffectResponseData) {
-    if (!requestData.data.postRequest.enabled) {
+    if (!requestData.data?.postRequest.enabled) {
       return of({ transformedData: null, data });
     }
     return from(this.preRequestService.executeScript(requestData.data.postRequest.script, {

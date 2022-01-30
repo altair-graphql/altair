@@ -1,5 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { IQuery, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { IQuery, IQueryCollection, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
@@ -16,6 +16,9 @@ export const IMPORT_COLLECTIONS = 'IMPORT_COLLECTIONS';
 export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
 
 export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
+
+export const SYNC_REMOTE_COLLECTIONS_TO_LOCAL = 'SYNC_REMOTE_COLLECTIONS_TO_LOCAL';
+export const SYNC_LOCAL_COLLECTION_TO_REMOTE = 'SYNC_LOCAL_COLLECTION_TO_REMOTE';
 
 export class CreateCollectionAndSaveQueryToCollectionAction implements NGRXAction {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
@@ -85,6 +88,18 @@ export class SortCollectionsAction implements NGRXAction {
   constructor(public payload: { sortBy: SortByOptions }) {}
 }
 
+export class SyncRemoteCollectionsToLocalAction implements NGRXAction {
+  readonly type = SYNC_REMOTE_COLLECTIONS_TO_LOCAL;
+
+  constructor() {}
+}
+
+export class SyncLocalCollectionToRemoteAction implements NGRXAction {
+  readonly type = SYNC_LOCAL_COLLECTION_TO_REMOTE;
+
+  constructor(public payload: { collection: IQueryCollection }) {}
+}
+
 export type Action =
   | CreateCollectionAndSaveQueryToCollectionAction
   | SaveQueryToCollectionAction
@@ -98,4 +113,6 @@ export type Action =
   | ExportCollectionAction
   | ImportCollectionsAction
   | SortCollectionsAction
+  | SyncRemoteCollectionsToLocalAction
+  | SyncLocalCollectionToRemoteAction
   ;

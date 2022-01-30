@@ -21,6 +21,7 @@ import * as fromStream from './stream/stream.reducer';
 import * as fromPreRequest from './pre-request/pre-request.reducer';
 import * as fromPostRequest from './post-request/post-request.reducer';
 import * as fromLocal from './local/local.reducer';
+import * as fromAccount from './account/account.reducer';
 import { debug } from '../utils/logger';
 import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
@@ -80,6 +81,7 @@ export const getReducer = (): ActionReducerMap<RootState> => {
     collection: fromCollection.collectionReducer,
     environments: fromEnvironments.environmentsReducer,
     local: fromLocal.localReducer,
+    account: fromAccount.accountReducer,
   }
 };
 

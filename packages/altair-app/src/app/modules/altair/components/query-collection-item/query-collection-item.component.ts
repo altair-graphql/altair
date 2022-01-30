@@ -11,11 +11,13 @@ type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
 })
 export class QueryCollectionItemComponent  {
   @Input() collectionTree: IQueryCollectionTree;
+  @Input() loggedIn = false;
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{ collectionId: number, query: IQuery }> = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{ collectionId: number }> = new EventEmitter();
   @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
+  @Output() syncCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
 
 
@@ -52,6 +54,10 @@ export class QueryCollectionItemComponent  {
 
   editCollection() {
     this.editCollectionChange.next({ collection: this.collectionTree });
+  }
+  
+  syncCollection() {
+    this.syncCollectionChange.next({ collection: this.collectionTree });
   }
 
   exportCollection() {

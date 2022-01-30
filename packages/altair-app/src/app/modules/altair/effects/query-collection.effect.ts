@@ -1,7 +1,7 @@
 
 import { EMPTY, Observable, of, zip, forkJoin, from, pipe } from 'rxjs';
 
-import { map, withLatestFrom, switchMap, tap, catchError, filter } from 'rxjs/operators';
+import { map, withLatestFrom, switchMap, tap, catchError, filter, repeat } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
@@ -9,6 +9,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromRoot from '../store';
 
 import * as collectionActions from '../store/collection/collection.action';
+import * as accountActions from '../store/account/account.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -31,6 +32,9 @@ export class QueryCollectionEffects {
           // Create collection
           // Then save query to collection
           const query = exportData;
+          if (!query) {
+            return EMPTY;
+          }
           if (res.action.payload.windowTitle) {
             query.windowName = res.action.payload.windowTitle;
           }
@@ -42,6 +46,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Created collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -56,6 +65,10 @@ export class QueryCollectionEffects {
         switchMap(res => forkJoin([ of(res), this.windowService.getWindowExportData(res.windowId) ])),
         switchMap(([ res, exportData ]) => {
           const query = exportData;
+          if (!query) {
+            return EMPTY;
+          }
+
           if (res.action.payload.windowTitle) {
             query.windowName = res.action.payload.windowTitle;
           }
@@ -63,6 +76,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Added query to collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -78,13 +96,18 @@ export class QueryCollectionEffects {
         switchMap(([ res, exportData ]) => {
           const query = exportData;
 
-          if (res.data.layout.collectionId && res.data.layout.windowIdInCollection) {
+          if (res.data?.layout.collectionId && res.data?.layout.windowIdInCollection && query) {
             return this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query);
           }
           return EMPTY;
         }),
         tap(() => this.notifyService.success('Updated query in collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -95,6 +118,11 @@ export class QueryCollectionEffects {
         ofType(collectionActions.LOAD_COLLECTIONS),
         switchMap(action => this.collectionService.getAll()),
         map(collections => new collectionActions.SetCollectionsAction({ collections })),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -108,6 +136,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -121,6 +154,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Updated collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -134,6 +172,11 @@ export class QueryCollectionEffects {
         }),
         tap(() => this.notifyService.success('Deleted query from collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   });
 
@@ -151,10 +194,13 @@ export class QueryCollectionEffects {
           }
           return EMPTY;
         }),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
       )
   }, { dispatch: false });
-
-
 
   importCollections$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
@@ -177,8 +223,55 @@ export class QueryCollectionEffects {
           `Something went wrong importing collection. Error: ${errorMessage}`
         );
         return EMPTY;
-      })
+      }),
+      repeat(),
     );
+  });
+
+  syncRemoteToLocalOnLoggedIn$: Observable<Action> = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(accountActions.ACCOUNT_IS_LOGGED_IN, collectionActions.SYNC_REMOTE_COLLECTIONS_TO_LOCAL),
+      switchMap(() => {
+        return from(this.collectionService.syncRemoteToLocal());
+      }),
+      tap(() =>
+        this.notifyService.success("Successfully downloaded remote collections.")
+      ),
+      map(() => new collectionActions.LoadCollectionsAction()),
+      catchError((error) => {
+        const errorMessage = error.message ? error.message : error.toString();
+        this.notifyService.error(
+          `Something went wrong syncing remote collections. Error: ${errorMessage}`
+        );
+        return EMPTY;
+      }),
+      repeat(),
+    );
+  });
+
+  syncLocalCollectionToRemote$: Observable<Action> = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(collectionActions.SYNC_LOCAL_COLLECTION_TO_REMOTE),
+        switchMap((action: collectionActions.SyncLocalCollectionToRemoteAction) => {
+          const collection = action.payload.collection;
+
+          if (collection.id) {
+            if (collection.serverId) {
+              return this.collectionService.updateRemoteCollection(collection.id);
+            }
+            return this.collectionService.createRemoteCollection(collection.id, collection);
+          }
+          return EMPTY;
+        }),
+        tap(() => this.notifyService.success('Synced collection to remote.')),
+        map(() => new collectionActions.LoadCollectionsAction()),
+        catchError((err: any) => {
+          this.notifyService.error(err.message || err);
+          return EMPTY;
+        }),
+        repeat(),
+      )
   });
 
 

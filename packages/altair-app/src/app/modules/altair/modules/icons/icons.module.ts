@@ -52,10 +52,13 @@ import {
   Sun,
   Terminal,
   Tag,
+  User,
+  UserCheck,
   Watch,
   X,
   XCircle,
   XSquare,
+  Zap,
 } from 'angular-feather/icons';
 
 const icons = {
@@ -107,10 +110,13 @@ const icons = {
   Sun,
   Terminal,
   Tag,
+  User,
+  UserCheck,
   Watch,
   X,
   XCircle,
   XSquare,
+  Zap,
 };
 
 @NgModule({

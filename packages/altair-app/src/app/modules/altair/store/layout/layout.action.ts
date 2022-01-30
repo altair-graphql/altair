@@ -3,6 +3,7 @@ import { Action as NGRXAction } from '@ngrx/store';
 export const START_LOADING = 'START_LOADING';
 export const STOP_LOADING = 'STOP_LOADING';
 export const SET_WINDOW_NAME = 'SET_WINDOW_NAME';
+export const SET_WINDOW_ID_IN_COLLECTION = 'SET_WINDOW_ID_IN_COLLECTION';
 export const NOTIFY_EXPERIMENTAL = 'NOTIFY_EXPERIMENTAL';
 
 export class StartLoadingAction implements NGRXAction {
@@ -23,6 +24,12 @@ export class SetWindowNameAction implements NGRXAction {
   constructor(public windowId: string, public payload: { title: string, setByUser?: boolean }) {}
 }
 
+export class SetWindowIdInCollectionAction implements NGRXAction {
+  readonly type = SET_WINDOW_ID_IN_COLLECTION;
+
+  constructor(public windowId: string, public payload: { collectionId?: number; windowIdInCollection?: string }) {}
+}
+
 export class NotifyExperimentalAction implements NGRXAction {
   readonly type = NOTIFY_EXPERIMENTAL;
 
@@ -33,4 +40,5 @@ export type Action =
   | StartLoadingAction
   | StopLoadingAction
   | SetWindowNameAction
+  | SetWindowIdInCollectionAction
   | NotifyExperimentalAction;

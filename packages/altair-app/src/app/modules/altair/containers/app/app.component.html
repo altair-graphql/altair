@@ -176,6 +176,22 @@
                     {{ 'COLLECTIONS_TEXT' | translate }}
                   </div>
                 </a>
+                <a
+                  *ngIf="(settings$ | async)?.enableExperimental && serverReady"
+                  class="side-menu-item"
+                  (click)="setShowAccountDialog(true)"
+                  attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
+                  track-id="show_collections"
+                  [ngClass]="{ 'side-menu-item--active': (account$ | async).loggedIn }"
+                >
+                  <div class="side-menu-item-icon">
+                    <app-icon name="user" *ngIf="!(account$ | async).loggedIn"></app-icon>
+                    <app-icon name="user-check" *ngIf="(account$ | async).loggedIn"></app-icon>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ 'ACCOUNT_TITLE' | translate }}
+                  </div>
+                </a>
               </div>
             </div>
             <div class="side-menu__extra">
@@ -183,15 +199,18 @@
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
                 [sortBy]="(collection$ | async)?.sortBy"
+                [loggedIn]="(account$ | async).loggedIn"
     
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
                 (deleteQueryChange)="deleteQueryFromCollection($event)"
                 (deleteCollectionChange)="deleteCollection($event)"
                 (editCollectionChange)="toggleEditCollectionDialog($event)"
+                (syncCollectionChange)="syncLocalCollectionToRemote($event)"
                 (exportCollectionChange)="exportCollection($event)"
                 (importCollectionsChange)="importCollections()"
                 (sortCollectionsChange)="sortCollections($event)"
+                (syncCollectionsChange)="syncCollections()"
               ></app-query-collections>
             </div>
             <div class="sidebar__panels">
@@ -245,6 +264,11 @@
             (toggleDialogChange)="setShowEditCollectionDialog($event)"
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
+            <app-account-dialog
+            [showDialog]="(windowsMeta$ | async).showAccountDialog"
+            (toggleDialogChange)="setShowAccountDialog($event)"
+            (handleLoginChange)="accountLogin()"
+          ></app-account-dialog>
         </div>
         <nz-alert nzBanner [nzMessage]="supportDevelopment" *ngIf="showDonationAlert" nzCloseable (nzOnClose)="hideDonationAlert()"></nz-alert>
         <ng-template #supportDevelopment>

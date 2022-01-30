@@ -11,6 +11,7 @@ export const SHOW_EDIT_COLLECTION_DIALOG = 'SHOW_EDIT_COLLECTION_DIALOG';
 export const SHOW_SETTINGS_DIALOG = 'SHOW_SETTINGS_DIALOG';
 export const SHOW_ENVIRONMENT_MANAGER = 'SHOW_ENVIRONMENT_MANAGER';
 export const SHOW_PLUGIN_MANAGER = 'SHOW_PLUGIN_MANAGER';
+export const SHOW_ACCOUNT_DIALOG = 'SHOW_ACCOUNT_DIALOG';
 
 export const EXPORT_BACKUP_DATA = 'EXPORT_BACKUP_DATA';
 export const IMPORT_BACKUP_DATA = 'IMPORT_BACKUP_DATA';
@@ -87,6 +88,12 @@ export class ImportBackupDataAction implements NGRXAction {
   constructor(public payload?: any) {}
 }
 
+export class ShowAccountDialogAction implements NGRXAction {
+  readonly type = SHOW_ACCOUNT_DIALOG;
+
+  constructor(public payload?: { value: boolean }) { }
+}
+
 export type Action =
   | SetActiveWindowIdAction
   | SetNextWindowActiveAction
@@ -98,6 +105,7 @@ export type Action =
   | ShowSettingsDialogAction
   | ShowEnvironmentManagerAction
   | ShowPluginManagerAction
+  | ShowAccountDialogAction
   | ExportBackupDataAction
   | ImportBackupDataAction
   ;
