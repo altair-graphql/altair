@@ -29,6 +29,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() variables = '';
   @Input() variableToType: IDictionary = {};
   @Input() tabSize = 4;
+  @Input() showVariableDialog = false;
 
   @Output() variablesChange = new EventEmitter();
 
@@ -80,6 +81,10 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     if (changes?.tabSize?.currentValue) {
       this.variableEditorConfig.tabSize = this.tabSize;
       this.variableEditorConfig.indentUnit = this.tabSize;
+    }
+
+    if (changes?.activeWindowId?.currentValue || changes?.showVariableDialog?.currentValue) {
+      handleEditorRefresh(this.editor?.codeMirror);
     }
   }
 
