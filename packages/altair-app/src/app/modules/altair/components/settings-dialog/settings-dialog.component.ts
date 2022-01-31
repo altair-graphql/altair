@@ -95,8 +95,8 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   ngOnChanges(changes: SimpleChanges) {
     // Refresh the query result editor view when there are any changes
     // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
-    if (changes && changes.settings && changes.settings.currentValue) {
+    handleEditorRefresh(this.editor?.codeMirror);
+    if (changes?.settings?.currentValue) {
       this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
     }
   }

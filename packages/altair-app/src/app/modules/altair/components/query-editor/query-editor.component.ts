@@ -230,7 +230,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     if (changes?.activeWindowId?.currentValue) {
-      handleEditorRefresh(this.editor && this.editor.codeMirror);
+      handleEditorRefresh(this.editor?.codeMirror);
     }
   }
 

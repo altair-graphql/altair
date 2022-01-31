@@ -8,6 +8,7 @@ import * as fromRoot from '../../store';
 
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as queryActions from '../../store/query/query.action';
+import * as collectionActions from '../../store/collection/collection.action';
 import * as docsActions from '../../store/docs/docs.action';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -78,15 +79,26 @@ export class KeybinderService {
       () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
       'Send Request'
     );
+
+    this.bindShortcut(
+      ['Command+S'],
+      () => this.store.dispatch(new collectionActions.UpdateQueryInCollectionAction({
+        windowId: this.activeWindowId,
+      })),
+      'Save Request'
+    );
   }
 
-  bindShortcut(keys: string[], callback: (...args: any[]) => any, description = '') {
+  bindShortcut(keys: string[], callback: (...args: any[]) => any, description = 'TODO - Add description') {
     this.shortcuts.push({
       keys,
       description
     });
 
-    return mousetrap.bindGlobal(keys.map(key => key.toLowerCase()), () => this.zone.run(callback));
+    return mousetrap.bindGlobal(keys.map(key => key.toLowerCase()), () => {
+      this.zone.run(callback);
+      return false;
+    });
   }
 
   getShortcuts() {

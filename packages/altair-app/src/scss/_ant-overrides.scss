@@ -65,9 +65,12 @@
   border-color: var(--theme-border-color);
 
   .ant-list-item {
-    border-color: var(--theme-border-color);
+      border-color: var(--theme-border-color);
+  }
 }
 
+.ant-list-item {
+  color: var(--theme-font-color);
 }
 
 .ant-dropdown-menu {

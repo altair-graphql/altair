@@ -10,6 +10,7 @@ import * as fromRoot from '../store';
 
 import * as collectionActions from '../store/collection/collection.action';
 import * as accountActions from '../store/account/account.action';
+import * as dialogsActions from '../store/dialogs/dialogs.action';
 import { QueryCollectionService, WindowService, NotifyService } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -97,9 +98,15 @@ export class QueryCollectionEffects {
         switchMap(([ res, exportData ]) => {
           const query = exportData;
 
-          if (res.data?.layout.collectionId && res.data?.layout.windowIdInCollection && query) {
+          if (!res.data?.layout.collectionId || !res.data.layout.windowIdInCollection) {
+            this.store.dispatch(new dialogsActions.ToggleAddToCollectionDialogAction(res.windowId));
+            return EMPTY;
+          }
+
+          if (query) {
             return this.collectionService.updateQuery(res.data.layout.collectionId, res.data.layout.windowIdInCollection, query);
           }
+
           return EMPTY;
         }),
         tap(() => this.notifyService.success('Updated query in collection.')),
