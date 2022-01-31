@@ -25,12 +25,15 @@ const helpers = {
   },
   async writeQueryInEditor(window: Page, query: string) {
     const queryEditor = await window.$(SELECTORS.VISIBLE_WINDOW_QUERY_EDITOR);
+    const codemirror = window.locator(SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR);
+    await codemirror.evaluate((node, q) => (node as any).CodeMirror.setValue(q), query);
     await queryEditor.click();
+    await queryEditor.type(`\n`);
     // Clear editor
-    await queryEditor.press('Meta+A');
-    await queryEditor.press('Backspace');
+    // await queryEditor.press('Meta+A');
+    // await queryEditor.press('Backspace');
 
-    await queryEditor.type(`${query}`);
+    // await queryEditor.type(`${query}`);
   },
   async getQueryResultData(window: Page) {
     return await window.$eval(`${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .CodeMirror`, (el: any) => el.CodeMirror.getValue());
