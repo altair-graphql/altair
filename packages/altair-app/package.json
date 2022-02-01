@@ -80,7 +80,7 @@
     "lodash-es": "^4.17.21",
     "loglevel": "^1.7.0",
     "loglevel-plugin-prefix": "^0.8.4",
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "memoizee": "^0.4.14",
     "mousetrap": "^1.6.3",
     "mousetrap-global-bind": "^1.1.0",
