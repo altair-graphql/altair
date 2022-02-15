@@ -140,7 +140,7 @@
     "@types/zen-observable": "^0.8.1",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.2",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "ajv-cli": "^3.0.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.6.0",
