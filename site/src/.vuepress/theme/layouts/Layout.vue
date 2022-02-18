@@ -16,6 +16,7 @@
     />
 
     <Sidebar
+      v-if="shouldShowSidebar"
       :items="sidebarItems"
       @toggle-sidebar="toggleSidebar"
     >

@@ -39,9 +39,11 @@ export default {
 <style lang="stylus">
 .carbon-ads
   min-height 100px
-  padding 1.5rem 1.5rem 0
-  margin-bottom -0.5rem
+  padding 1.5rem 1.5rem
   font-size 0.75rem
+  max-width 400px
+  text-align left
+  margin 0 auto
   a
     color #444
     font-weight normal
