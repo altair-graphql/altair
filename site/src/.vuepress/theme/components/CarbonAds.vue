@@ -44,10 +44,7 @@ export default {
   max-width 400px
   text-align left
   margin 0 auto
-  overflow hidden
   a
-    color #444
-    font-weight normal
     display inline
   .carbon-img
     float left
