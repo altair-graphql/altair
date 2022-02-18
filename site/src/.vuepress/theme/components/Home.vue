@@ -94,10 +94,12 @@
     <Downloads :downloads="data.downloads" />
 
     <div
-      v-if="data.footer"
       class="footer"
     >
-      {{ data.footer }}
+      <CarbonAds />
+      <p>
+        Made by <a href="https://twitter.com/imolorhe" target="_blank">Samuel</a> with ❤️
+      </p>
     </div>
   </main>
 </template>
@@ -106,6 +108,7 @@
 import NavLink from '@theme/components/NavLink.vue';
 import Contributions from '@theme/components/Contributions.vue';
 import Downloads from '@theme/components/Downloads.vue';
+import CarbonAds from '@theme/components/CarbonAds.vue';
 
 export default {
   name: 'Home',
@@ -114,6 +117,7 @@ export default {
     NavLink,
     Contributions,
     Downloads,
+    CarbonAds,
   },
 
   computed: {

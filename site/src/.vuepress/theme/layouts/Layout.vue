@@ -23,7 +23,9 @@
         <slot name="sidebar-top" />
       </template>
       <template #bottom>
-        <slot name="sidebar-bottom" />
+        <slot name="sidebar-bottom">
+          <CarbonAds />
+        </slot>
       </template>
     </Sidebar>
 
@@ -48,6 +50,7 @@ import Home from '@theme/components/Home.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
+import CarbonAds from '@theme/components/CarbonAds.vue'
 import { resolveSidebarItems, initGAEventTracking } from '../util'
 
 if (typeof window !== 'undefined') {
@@ -74,7 +77,8 @@ export default {
     Home,
     Page,
     Sidebar,
-    Navbar
+    Navbar,
+    CarbonAds,
   },
 
   data () {

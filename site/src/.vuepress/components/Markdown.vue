@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import marked from 'marked';
+import { marked } from 'marked';
 
 export default {
   name: 'Markdown',
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     rendered() {
-      return marked(this.markdown);
+      return marked.parse(this.markdown);
     },
   },
 }
