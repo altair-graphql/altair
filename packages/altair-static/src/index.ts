@@ -75,7 +75,7 @@ function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfi
             case 'object':
                 return `${propertyName}: ${JSON.stringify(option)},`;
             case 'boolean':
-                return `${propertyName}: ${option}`
+                return `${propertyName}: ${option},`
         }
         return `${propertyName}: \`${option}\`,`;
     }
