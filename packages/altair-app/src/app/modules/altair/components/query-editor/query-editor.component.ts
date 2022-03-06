@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 
 import * as fromVariables from '../../store/variables/variables.reducer';
+import sanitizeHtml from 'sanitize-html';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -143,10 +144,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       completeSingle: false,
       render: (elt: Element, data: any, cur: any) => {
         elt.classList.add('query-editor__autocomplete-item');
-        elt.innerHTML = `
+        const content = `
           <span class="query-editor__autocomplete-item__text">${cur.text}</span>
           <span class="query-editor__autocomplete-item__type">${cur.typeDetail}</span>
         `.trim().replace(/ +/g, ' ');
+        elt.innerHTML = sanitizeHtml(content);
         // debug.log(elt, data, cur);
       }
     },
@@ -354,7 +356,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
             definitionsInfo.forEach(({ operationName, operation, location }) => {
               const widgetEl = document.createElement('div');
-              widgetEl.innerHTML = `&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`;
+              widgetEl.innerHTML = sanitizeHtml(`&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`);
               widgetEl.className = 'query-editor__line-widget';
               widgetEl.onclick = () => {
                 this.zone.run(() => this.sendRequest.next({ operationName }));
