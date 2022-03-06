@@ -2,6 +2,7 @@
 
 import { GraphQLList, GraphQLNonNull, GraphQLType } from 'graphql';
 import marked from 'marked';
+import sanitizeHtml from 'sanitize-html';
 
 const renderType = (type: GraphQLType): string => {
   if (type instanceof GraphQLNonNull) {
@@ -53,10 +54,10 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
         // This "fillAllFieldsOption" node will contain the fill all fields option.
         fillAllFieldsOption = document.createElement('div');
         fillAllFieldsOption.className = 'CodeMirror-hint-fill-all-fields';
-        fillAllFieldsOption.innerHTML = `
+        fillAllFieldsOption.innerHTML = sanitizeHtml(`
           <span class="query-editor__autocomplete-item__text">Fill all fields</span>
           <span class="query-editor__autocomplete-item__shortcut">Ctrl+Shift+Enter</span>
-        `.trim().replace(/ +/g, ' ');
+        `.trim().replace(/ +/g, ' '));
         hintsUl.appendChild(fillAllFieldsOption);
 
         // When CodeMirror attempts to remove the hint UI, we detect that it was
@@ -85,12 +86,13 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
     const type = getTypeFromContext(ctx);
 
     if (information) {
-      information.innerHTML =
+      const content =
         '<div class="content">' +
         (description.slice(0, 3) === '<p>'
-          ? '<p>' + type + description.slice(3)
-          : type + description) +
+          ? '<p>' + sanitizeHtml(type + description.slice(3))
+          : sanitizeHtml(type + description)) +
         '</div>';
+      information.innerHTML = sanitizeHtml(content);
     }
 
     if (ctx.isDeprecated) {
@@ -98,9 +100,10 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
         ? marked(ctx.deprecationReason)
         : '';
       if (deprecation) {
-        deprecation.innerHTML =
+        const content =
           '<span class="deprecation-label">Deprecated</span>' + reason;
         deprecation.style.display = 'block';
+        deprecation.innerHTML = sanitizeHtml(content);
       }
     } else {
       if (deprecation) {

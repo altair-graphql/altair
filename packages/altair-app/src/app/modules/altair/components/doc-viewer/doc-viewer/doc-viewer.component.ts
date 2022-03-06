@@ -30,6 +30,7 @@ import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
+import marked from 'marked';
 
 @UntilDestroy()
 @Component({
@@ -114,13 +115,14 @@ export class DocViewerComponent implements OnChanges {
 
   autocompleteSource = (term: string) => from(this.getDocUtilsWorker().then(_ => _.searchDocs(term)));
   autocompleteListFormatter = (data: DocumentIndexEntry) => {
+    // TODO: Replace ngui/autocomplete
     const html = `
       <div class='doc-viewer-autocomplete-item'>
         ${data.search}
         <span class='doc-viewer-autocomplete-item-field'>${data.cat}</span>
         <span class='doc-viewer-autocomplete-item-description'>${data.description}</span>
       </div>`;
-    return this._sanitizer.bypassSecurityTrustHtml(html);
+    return html;
   };
 
   searchInputKeyUp(term: string, e: KeyboardEvent) {

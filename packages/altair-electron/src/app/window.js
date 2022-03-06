@@ -12,9 +12,10 @@ const fs = require('fs');
 const mime = require('mime-types');
 const windowStateKeeper = require('electron-window-state');
 
-const { getDistDirectory, renderAltair } = require('altair-static');
+const { getDistDirectory, renderAltair, renderInitialOptions } = require('altair-static');
 
 const { checkMultipleDataVersions } = require('../utils/check-multi-data-versions');
+const { createSha256CspHash } = require('../utils/csp-hash');
 const { initMainProcessStoreEvents } = require('../electron-store-adapter/main-store-events');
 const { initSettingsStoreEvents, initUpdateAvailableEvent } = require('../settings/main/events');
 
@@ -163,6 +164,13 @@ class WindowManager {
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
       // console.log('received headers..', details.responseHeaders);
+      const scriptSrc = [
+        `'self'`,
+        `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
+        `'${createSha256CspHash(renderInitialOptions())}'`,
+        `https://cdn.jsdelivr.net`,
+        `localhost:*`,
+      ];
       callback({
         responseHeaders: Object.assign(
           {},
@@ -170,7 +178,10 @@ class WindowManager {
           {
             // Setting CSP
             // TODO: Figure out why an error from this breaks devtools
-            // 'Content-Security-Policy': [`script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='; object-src 'self';`]
+            'Content-Security-Policy': [
+              `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
+              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
+            ]
           }
         )
       });
