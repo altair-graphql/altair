@@ -170,6 +170,7 @@ class WindowManager {
         `'${createSha256CspHash(renderInitialOptions())}'`,
         `https://cdn.jsdelivr.net`,
         `localhost:*`,
+        `file:`,
       ];
       callback({
         responseHeaders: Object.assign(
