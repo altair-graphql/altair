@@ -31,12 +31,12 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
+    "@fastify/static": "^5.0.0",
     "altair-static": "^4.4.1",
-    "fastify-plugin": "^2.3.4",
-    "fastify-static": "^4.4.1"
+    "fastify-plugin": "^2.3.4"
   },
   "devDependencies": {
-    "fastify": "^3.5.1",
+    "fastify": "^3.29.0",
     "mercurius": "^6.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
