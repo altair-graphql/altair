@@ -214,6 +214,7 @@ test.only('can add query from doc to query editor', async () => {
   const helloQuery = await docViewer.$('.doc-viewer-item-query:has-text("hello")');
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
+  await window.screenshot()
   const result = await helpers.getQueryEditorContent(window);
   expect(result).toMatch(/query.*\{.*hello.*\}/us);
   await helpers.closeLastAltairWindow(window);

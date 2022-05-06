@@ -38,6 +38,13 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: yarn test:ci
+    # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
+    - name: Upload Test Results 🗃
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: packages/altair-electron/e2e/screenshots/**
   # https://github.com/marketplace/actions/deployment-action
   # deploy-surge:
   #   runs-on: ubuntu-latest
