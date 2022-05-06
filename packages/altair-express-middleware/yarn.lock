@@ -166,10 +166,10 @@ actioncable@^5.2.6:
   resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.6.tgz#cea30647183524f3bae8c2a78fa6ecd6d4dbc70c"
   integrity sha512-ofLHm57nN24zghkl+tQe6IVrZeSJ655lNLQjNQJvtQkeTDqlF30McuMB4o9DqpxdHgW/w0RNWaAQHB6VPlleNQ==
 
-altair-graphql-core@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.4.0.tgz#db6afa8171fd2dc7679e5f9d2fd143e446a59314"
-  integrity sha512-OuP/5C6rNZrpseFRZbZ3B9kkPrF+BNCe7ebS2pIa1X5yFlU1ItVUgFopWmFLKfbbXLf2THK+Ix4r8n/Z0sCuVw==
+altair-graphql-core@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.4.1.tgz#7d7d376636a36a8457e128257c21fdd70a7794a8"
+  integrity sha512-bfGBTJVeagDmY+KcF447+sEgnFFau5IZppv0mBFKy8kU5nGi8RlWC/vsuNavsjeQRm3YPP90yf7OtfHgyjRETg==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
@@ -189,12 +189,12 @@ altair-graphql-core@^4.4.0:
     util "^0.12.4"
     uuid "^8.3.2"
 
-altair-static@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.4.0.tgz#1fad9ff13ef36c0082492403cb9a1cfe559c6ff8"
-  integrity sha512-guXOspuwGbqvlCEu+iUB66yZhTyyUygNPG6TQpru+Q/QZwwOiJGJZHPsrsmC+DxOTVkX/dDsISfWI8UJ6yAiBw==
+altair-static@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.4.1.tgz#fde10cc9bb9c712a13d3fe3ed9cfffdd73289fb6"
+  integrity sha512-D+Rwwerlw7QLDs+pdgPgyOyvEh0WyXuMU8Yub3N2OLvE6b3rMk/Qbe6ufifngI5/KwKisbHjmKsgLZ8tDCA6wA==
   dependencies:
-    altair-graphql-core "^4.4.0"
+    altair-graphql-core "^4.4.1"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -204,9 +204,9 @@ ansi-align@^2.0.0:
     string-width "^2.0.0"
 
 ansi-regex@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-3.0.0.tgz#ed0317c322064f79466c02966bddb605ab37d998"
-  integrity sha1-7QMXwyIGT3lGbAKWa922Bas32Zg=
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-3.0.1.tgz#123d6479e92ad45ad897d4054e3c7ca7db4944e1"
+  integrity sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==
 
 ansi-styles@^3.2.1:
   version "3.2.1"
