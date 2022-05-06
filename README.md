@@ -10,7 +10,7 @@
 
 [![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
 
-![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2022.svg)
 
 [Deploying?](.github/DEPLOY.md)
 
