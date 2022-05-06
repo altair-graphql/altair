@@ -1165,10 +1165,10 @@ agent-base@6:
   dependencies:
     debug "4"
 
-altair-graphql-core@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.3.1.tgz#6ffddad23a1a8a17a3911aeed3e1bbf21f8e68c1"
-  integrity sha512-0t6Pm3B80V+AhOf2n9JjsYxFJkETzbTtmviDp/HNVEZlMqLu+6Bn3LRErKFapkpqqQ19LMGLkVus5pN0Tze2eg==
+altair-graphql-core@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.4.1.tgz#7d7d376636a36a8457e128257c21fdd70a7794a8"
+  integrity sha512-bfGBTJVeagDmY+KcF447+sEgnFFau5IZppv0mBFKy8kU5nGi8RlWC/vsuNavsjeQRm3YPP90yf7OtfHgyjRETg==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
@@ -1188,12 +1188,12 @@ altair-graphql-core@^4.3.1:
     util "^0.12.4"
     uuid "^8.3.2"
 
-altair-static@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.3.1.tgz#7380c519ade2a39618f0405c4ef5b4dc97b215e1"
-  integrity sha512-muhgeR4xWs6nfEfy4llfl7rEtMuyyxcFYWEfsTkWrIWHoAVoRW/EYpN0KbgEhHkHB/bMOnnY7UifGn568NwkuA==
+altair-static@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-4.4.1.tgz#fde10cc9bb9c712a13d3fe3ed9cfffdd73289fb6"
+  integrity sha512-D+Rwwerlw7QLDs+pdgPgyOyvEh0WyXuMU8Yub3N2OLvE6b3rMk/Qbe6ufifngI5/KwKisbHjmKsgLZ8tDCA6wA==
   dependencies:
-    altair-graphql-core "^4.3.1"
+    altair-graphql-core "^4.4.1"
 
 ansi-align@^3.0.0:
   version "3.0.0"
@@ -1210,9 +1210,9 @@ ansi-escapes@^4.2.1:
     type-fest "^0.11.0"
 
 ansi-regex@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
-  integrity sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.1.tgz#164daac87ab2d6f6db3a29875e2d1766582dabed"
+  integrity sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==
 
 ansi-regex@^5.0.0:
   version "5.0.0"
