@@ -152,6 +152,8 @@ test('can send a request with multiple queries and see request dropdown', async 
   `);
   await window.press(SELECTORS.VISIBLE_WINDOW_QUERY_EDITOR, 'Control+Enter');
 
+  await window.waitForTimeout(1000);
+
   const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button.ant-dropdown-trigger`);
   expect(sendRequestButton).toBeTruthy();
 
@@ -212,8 +214,11 @@ test('can add query from doc to query editor', async () => {
   await helpers.setTestGraphQLServerUrl(window);
   const docViewer = await helpers.showDocs(window);
   
+  await window.waitForTimeout(1000);
   const QueryDoc = await docViewer.$('span:has-text("Query")');
   await QueryDoc.click();
+
+  await window.waitForTimeout(1000);
   const helloQuery = await docViewer.$('.doc-viewer-item-query:has-text("hello")');
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
