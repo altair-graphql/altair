@@ -2,6 +2,8 @@
 import { ElectronApplication, Page, _electron as electron } from 'playwright';
 import { test, expect } from '@playwright/test';
 import * as SELECTORS from './selectors';
+import { writeFileSync } from 'fs';
+import { resolve } from 'path';
 
 const helpers = {
   async newAltairWindow(window: Page) {
@@ -208,13 +210,14 @@ test('can add query from doc to query editor', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
   const docViewer = await helpers.showDocs(window);
-
+  
   const QueryDoc = await docViewer.$('span:has-text("Query")');
   await QueryDoc.click();
   const helloQuery = await docViewer.$('.doc-viewer-item-query:has-text("hello")');
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
-  await window.screenshot()
+  const buffer = await window.screenshot();
+  writeFileSync(resolve(__dirname, 'screenshot.png'), buffer);
   const result = await helpers.getQueryEditorContent(window);
   expect(result).toMatch(/query.*\{.*hello.*\}/us);
   await helpers.closeLastAltairWindow(window);
