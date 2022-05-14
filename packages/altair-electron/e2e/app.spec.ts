@@ -68,10 +68,22 @@ const helpers = {
     const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button`);
     await sendRequestButton.click();
   },
+  async closeAnyOpenToast(window: Page) {
+    const toastElResult = await window.$('.toast-close-button');
+    if (toastElResult) {
+      await toastElResult.click();
+      await window.waitForTimeout(500);
+      await helpers.closeAnyOpenToast(window);
+    }
+  },
 };
 
 let app: ElectronApplication;
 let window: Page;
+
+test.use({
+  screenshot: 'only-on-failure',
+});
 
 test.beforeEach(async () => {
   // Launch Electron app.
