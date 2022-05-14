@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: screenshots
-        path: packages/altair-electron/e2e/screenshots/**
+        path: packages/altair-electron/e2e/*.png
   # https://github.com/marketplace/actions/deployment-action
   # deploy-surge:
   #   runs-on: ubuntu-latest
