@@ -217,7 +217,7 @@ test('can add query from doc to query editor', async () => {
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
   const buffer = await window.screenshot();
-  writeFileSync(resolve(__dirname, 'screenshot.png'), buffer);
+  writeFileSync(resolve(__dirname, 'screenshots', 'screenshot.png'), buffer);
   const result = await helpers.getQueryEditorContent(window);
   expect(result).toMatch(/query.*\{.*hello.*\}/us);
   await helpers.closeLastAltairWindow(window);
