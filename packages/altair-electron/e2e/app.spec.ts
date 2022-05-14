@@ -41,6 +41,7 @@ const helpers = {
     return await window.$eval(`${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .CodeMirror`, (el: any) => el.CodeMirror.getValue());
   },
   async getQueryEditorContent(window: Page) {
+    await window.waitForTimeout(1000);
     return await window.$eval(SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR, (el: any) => el.CodeMirror.getValue());
   },
   async showDocs(window: Page) {
