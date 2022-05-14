@@ -13,6 +13,7 @@ const helpers = {
     expect(newWindowSwitcherElements.length).toBe(windowSwitcherElements.length + 1);
   },
   async closeLastAltairWindow(window: Page) {
+    await helpers.closeAnyOpenToast(window);
     const windowSwitcherElements = await window.$$(SELECTORS.WINDOW_SWITCHER);
     const closeButtons = await window.$$(SELECTORS.WINDOW_SWITCHER_CLOSE);
     expect(closeButtons.length).toBeTruthy();
