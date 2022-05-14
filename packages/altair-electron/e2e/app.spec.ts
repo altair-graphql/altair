@@ -151,6 +151,9 @@ test('can send a request with multiple queries and see request dropdown', async 
     query B{ bye }
   `);
   await window.press(SELECTORS.VISIBLE_WINDOW_QUERY_EDITOR, 'Control+Enter');
+
+  const buffer = await window.screenshot();
+  writeFileSync(resolve(__dirname, 'screenshot.png'), buffer);
   const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button.ant-dropdown-trigger`);
   expect(sendRequestButton).toBeTruthy();
 
@@ -216,8 +219,6 @@ test('can add query from doc to query editor', async () => {
   const helloQuery = await docViewer.$('.doc-viewer-item-query:has-text("hello")');
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
-  const buffer = await window.screenshot();
-  writeFileSync(resolve(__dirname, 'screenshot.png'), buffer);
   const result = await helpers.getQueryEditorContent(window);
   expect(result).toContain('hello');
   await helpers.closeLastAltairWindow(window);
