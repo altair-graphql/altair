@@ -13,19 +13,20 @@
     "client"
   ],
   "scripts": {
-    "test": "lerna run test --stream",
-    "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test",
+    "test": "nx run-many --target=test --all",
+    "test:ci-test-only": "nx affected --target=test --parallel=3 --ci --code-coverage",
+    "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
     "start-test-server": "./bin/start_ci_test_server.sh",
-    "local-verify": "npm run build-app && lerna bootstrap",
+    "local-verify": "yarn build-app && lerna bootstrap",
     "build:ci": "lerna bootstrap -- --frozen-lockfile",
-    "build-app": "lerna run --scope altair-app build --stream",
-    "build-electron": "lerna bootstrap && lerna run --scope altair build --stream",
-    "build-ext": "npm run build-app && ./bin/chrome_ext.sh",
+    "build-app": "nx build altair-app",
+    "build-electron": "lerna bootstrap && nx build altair",
+    "build-ext": "yarn build-app && ./bin/chrome_ext.sh",
     "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build && echo 'altair.sirmuel.design' > site/src/.vuepress/dist/CNAME",
     "postinstall": "opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
-    "publish-packages": "lerna bootstrap && npm run lerna-publish",
-    "build-ext2": "npm run build-app && cwex build",
+    "publish-packages": "lerna bootstrap && yarn lerna-publish",
+    "build-ext2": "yarn build-app && cwex build",
     "snyk-protect": "snyk protect"
   },
   "engines": {
@@ -44,7 +45,8 @@
     "typedoc": "^0.22.10",
     "typedoc-plugin-markdown": "^3.11.7",
     "typescript": "^4.2.2",
-    "web-ext": "^6.5.0"
+    "web-ext": "^6.5.0",
+    "nx": "14.1.5"
   },
   "resolutions": {
     "y18n": "4.0.1"

@@ -1,5 +1,5 @@
 {
-  "name": "altair",
+  "name": "altair-site",
   "version": "0.0.1",
   "description": "A beautiful feature-rich GraphQL Client IDE for all platforms. Enables you interact with any GraphQL server you are authorized to access from any platform you are on. Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations.",
   "main": "index.js",

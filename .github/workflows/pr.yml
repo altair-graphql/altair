@@ -19,6 +19,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - uses: nrwl/nx-set-shas@v2
     - name: restore lerna
       uses: actions/cache@v2
       with:
