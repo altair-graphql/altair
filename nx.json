@@ -36,7 +36,7 @@
     ]
   },
   "affected": {
-    "defaultBase": "next"
+    "defaultBase": "master"
   },
   "pluginsConfig": {
     "@nrwl/js": {
