@@ -37,7 +37,19 @@ jobs:
     - name: Run headless test
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: yarn test:ci
+        run: |
+          # Retry 3 times before the steps actually fails
+          (echo "===== Headless Tests Attempt: 1 ====" && yarn test:ci) || \
+          (echo "===== Headless Tests Attempt: 2 ====" && yarn test:ci) || \
+          (echo "===== Headless Tests Attempt: 3 ====" && yarn test:ci) || \
+          (echo "==== Headless Tests Step Failed ====" && exit 1)
+    # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
+    - name: Upload Test Results 🗃
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: packages/altair-electron/e2e/*.png
   # https://github.com/marketplace/actions/deployment-action
   # deploy-surge:
   #   runs-on: ubuntu-latest
