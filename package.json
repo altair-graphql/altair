@@ -16,6 +16,7 @@
     "test": "nx run-many --target=test --all",
     "test:ci-test-only": "nx affected --target=test --parallel=3 --ci --code-coverage",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
+    "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci",
     "start-test-server": "./bin/start_ci_test_server.sh",
     "local-verify": "yarn build-app && lerna bootstrap",
     "build:ci": "lerna bootstrap -- --frozen-lockfile",
