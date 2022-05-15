@@ -39,7 +39,6 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: |
-          # Retry 3 times before the steps actually fails
           (echo "===== Headless Tests Attempt: 1 ====" && yarn test:ci) || \
           (echo "===== Headless Tests Attempt: 2 ====" && yarn test:ci) || \
           (echo "===== Headless Tests Attempt: 3 ====" && yarn test:ci) || \
