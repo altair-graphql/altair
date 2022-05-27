@@ -100,7 +100,7 @@ For windows users, you can install using [chocolatey](https://chocolatey.org/pac
 $ choco install altair-graphql
 ```
 
-Or [winget](https://winget.run/pkg/altair-graphql/altair)
+...or [winget](https://winget.run/pkg/altair-graphql/altair):
 
 ```
 $ winget install -e --id altair-graphql.altair
