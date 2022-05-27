@@ -100,6 +100,12 @@ For windows users, you can install using [chocolatey](https://chocolatey.org/pac
 $ choco install altair-graphql
 ```
 
+Or [winget](https://winget.run/pkg/altair-graphql/altair)
+
+```
+$ winget install -e --id altair-graphql.altair
+```
+
 ### Usage with express
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
