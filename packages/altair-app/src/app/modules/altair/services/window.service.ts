@@ -15,6 +15,7 @@ import * as variableActions from '../store/variables/variables.action';
 import * as windowActions from '../store/windows/windows.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as preRequestActions from '../store/pre-request/pre-request.action';
+import * as postRequestActions from '../store/post-request/post-request.action';
 import * as streamActions from '../store/stream/stream.action';
 import * as localActions from '../store/local/local.action';
 import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
@@ -251,6 +252,13 @@ export class WindowService {
         }
         if (data.preRequestScript) {
           this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(windowId, { script: data.preRequestScript }));
+        }
+
+        if (data.postRequestScriptEnabled) {
+          this.store.dispatch(new postRequestActions.SetPostRequestEnabledAction(windowId, { enabled: data.postRequestScriptEnabled }));
+        }
+        if (data.postRequestScript) {
+          this.store.dispatch(new postRequestActions.SetPostRequestScriptAction(windowId, { script: data.postRequestScript }));
         }
 
         if (data.gqlSchema) {

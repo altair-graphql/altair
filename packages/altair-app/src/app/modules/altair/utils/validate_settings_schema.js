@@ -15,6 +15,7 @@ var validate = (function() {
     'use strict';
     var vErrors = null;
     var errors = 0;
+    if (rootData === undefined) rootData = data;
     if ((data && typeof data === "object" && !Array.isArray(data))) {
       var errs__0 = errors;
       var valid1 = true;
@@ -22,7 +23,7 @@ var validate = (function() {
         valid1 = true;
       } else {
         var errs_1 = errors;
-        if (typeof data.addQueryDepthLimit !== "number") {
+        if ((typeof data.addQueryDepthLimit !== "number")) {
           validate.errors = [{
             keyword: 'type',
             dataPath: (dataPath || '') + '.addQueryDepthLimit',
@@ -113,6 +114,8 @@ var validate = (function() {
                   return false;
                 }
                 var valid2 = errors === errs_2;
+                if (valid2) {}
+                if (errors === errs_1) {}
                 var valid1 = errors === errs_1;
               }
               if (valid1) {
@@ -139,7 +142,7 @@ var validate = (function() {
                     valid1 = true;
                   } else {
                     var errs_1 = errors;
-                    if (typeof data.historyDepth !== "number") {
+                    if ((typeof data.historyDepth !== "number")) {
                       validate.errors = [{
                         keyword: 'type',
                         dataPath: (dataPath || '') + '.historyDepth',
@@ -190,8 +193,11 @@ var validate = (function() {
                           message: 'should be equal to one of the allowed values'
                         }];
                         return false;
-                      }
+                      } else {}
+                      if (errors === errs_2) {}
                       var valid2 = errors === errs_2;
+                      if (valid2) {}
+                      if (errors === errs_1) {}
                       var valid1 = errors === errs_1;
                     }
                     if (valid1) {
@@ -220,6 +226,7 @@ var validate = (function() {
                             var valid2 = errors === errs_2;
                             if (!valid2) break;
                           }
+                          if (errs__1 == errors) {}
                         } else {
                           validate.errors = [{
                             keyword: 'type',
@@ -232,6 +239,7 @@ var validate = (function() {
                           }];
                           return false;
                         }
+                        if (errors === errs_1) {}
                         var valid1 = errors === errs_1;
                       }
                       if (valid1) {
@@ -296,7 +304,7 @@ var validate = (function() {
                                 valid1 = true;
                               } else {
                                 var errs_1 = errors;
-                                if (typeof data.tabSize !== "number") {
+                                if ((typeof data.tabSize !== "number")) {
                                   validate.errors = [{
                                     keyword: 'type',
                                     dataPath: (dataPath || '') + '.tabSize',
@@ -372,7 +380,7 @@ var validate = (function() {
                                         valid1 = true;
                                       } else {
                                         var errs_1 = errors;
-                                        if (typeof data['theme.editorFontSize'] !== "number") {
+                                        if ((typeof data['theme.editorFontSize'] !== "number")) {
                                           validate.errors = [{
                                             keyword: 'type',
                                             dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
@@ -391,7 +399,7 @@ var validate = (function() {
                                           valid1 = true;
                                         } else {
                                           var errs_1 = errors;
-                                          if (typeof data['theme.fontsize'] !== "number") {
+                                          if ((typeof data['theme.fontsize'] !== "number")) {
                                             validate.errors = [{
                                               keyword: 'type',
                                               dataPath: (dataPath || '') + '[\'theme.fontsize\']',
@@ -405,7 +413,11 @@ var validate = (function() {
                                           }
                                           var valid1 = errors === errs_1;
                                         }
-                                        if (valid1) {}
+                                        if (valid1) {
+                                          if (valid1) {
+                                            if (valid1) {}
+                                          }
+                                        }
                                       }
                                     }
                                   }
@@ -423,6 +435,7 @@ var validate = (function() {
           }
         }
       }
+      if (errs__0 == errors) {}
     } else {
       validate.errors = [{
         keyword: 'type',
@@ -435,6 +448,7 @@ var validate = (function() {
       }];
       return false;
     }
+    if (errors === 0) {}
     validate.errors = vErrors;
     return errors === 0;
   };

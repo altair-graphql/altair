@@ -24,6 +24,7 @@
     "build-electron": "lerna bootstrap && nx build altair",
     "build-ext": "yarn build-app && ./bin/chrome_ext.sh",
     "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build && echo 'altair.sirmuel.design' > site/src/.vuepress/dist/CNAME",
+    "start:app": "nx start altair-app",
     "postinstall": "opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "publish-packages": "lerna bootstrap && yarn lerna-publish",
