@@ -1,6 +1,6 @@
 {
   "name": "altair-fastify-plugin",
-  "version": "4.4.1",
+  "version": "4.2.2",
   "description": "Fastify Plugin of Altair GraphQL Client",
   "keywords": [
     "graphql",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@fastify/static": "^5.0.0",
-    "altair-static": "^4.4.1",
+    "altair-static": "^4.2.2",
     "fastify-plugin": "^2.3.4"
   },
   "devDependencies": {
