@@ -94,16 +94,16 @@ For arch linux users, an AUR package [aur/altair](https://aur.archlinux.org/pack
 $ yay -S altair
 ```
 
-For windows users, you can install using [appget](https://appget.net/packages/i/altair-graphql):
-
-```
-$ appget install altair-graphql
-```
-
-or [chocolatey](https://chocolatey.org/packages/altair-graphql):
+For windows users, you can install using [chocolatey](https://chocolatey.org/packages/altair-graphql):
 
 ```
 $ choco install altair-graphql
+```
+
+...or [winget](https://winget.run/pkg/altair-graphql/altair):
+
+```
+$ winget install -e --id altair-graphql.altair
 ```
 
 ### Usage with express
