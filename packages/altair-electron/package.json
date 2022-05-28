@@ -10,7 +10,7 @@
   "scripts": {
     "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "jest",
-    "test:e2e": "playwright test e2e",
+    "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
     "build": "electron-builder",
     "dev": "electron ."

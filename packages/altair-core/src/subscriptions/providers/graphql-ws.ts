@@ -4,6 +4,7 @@ import { Client, createClient } from 'graphql-ws';
 
 export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
   client?: Client;
+  cleanup?: () => void;
 
   createClient() {
     this.client = createClient({
@@ -28,7 +29,7 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
     }
 
     return new Observable((subscriber) => {
-      return this.client!.subscribe({
+      this.cleanup = this.client!.subscribe({
         query: options.query,
         variables: options.variables,
         operationName: options.operationName,
@@ -41,6 +42,8 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
   }
 
   close() {
+    this.cleanup?.();
+    this.cleanup = undefined;
     this.client?.dispose();
     this.client = undefined;
   }

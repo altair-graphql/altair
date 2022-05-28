@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 export class WebsocketSubscriptionProvider extends SubscriptionProvider {
   client?: SubscriptionClient;
+  cleanup?: () => void;
 
   createClient() {
     this.client = new SubscriptionClient(this.subscriptionUrl, {
@@ -21,7 +22,7 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
     }
 
     return new Observable((subscriber) => {
-      return this.client!.request({
+      const res = this.client!.request({
         query: options.query,
         variables: options.variables,
         operationName: options.operationName,
@@ -29,11 +30,15 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
         next: (...args) =>  subscriber.next(...args),
         error: (...args) => subscriber.error(...args),
         complete: () => subscriber.complete(),
-      })
+      });
+
+      this.cleanup = res.unsubscribe;
     });
   }
 
   close() {
+    this.cleanup?.();
+    this.cleanup = undefined;
     this.client?.unsubscribeAll();
     this.client?.close();
     this.client = undefined;
