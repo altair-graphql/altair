@@ -89,7 +89,7 @@ export class DocViewerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the editor schema
-    if (changes.gqlSchema && changes.gqlSchema.currentValue) {
+    if (changes?.gqlSchema?.currentValue) {
       // const schema = changes.gqlSchema.currentValue;
       this.gqlSchema = changes.gqlSchema.currentValue;
       this.updateDocs(changes.gqlSchema.currentValue);

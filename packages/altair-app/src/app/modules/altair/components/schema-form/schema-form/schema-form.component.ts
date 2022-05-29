@@ -38,7 +38,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // If there is a new schema, update the schema properties
-    if (changes && changes.schema && changes.schema.currentValue) {
+    if (changes?.schema?.currentValue) {
       this.updateSchemaProperties(changes.schema.currentValue);
     }
   }

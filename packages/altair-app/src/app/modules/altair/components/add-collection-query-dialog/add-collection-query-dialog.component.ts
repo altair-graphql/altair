@@ -32,7 +32,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   ) {
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.windowTitle && changes.windowTitle.currentValue) {
+    if (changes?.windowTitle?.currentValue) {
       this.windowTitle = changes.windowTitle.currentValue;
       this.reset();
     }

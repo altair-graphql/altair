@@ -6,7 +6,7 @@ import { getAppStateFromStorage } from './async-storage-sync';
 
 @Injectable()
 export class ReducerBootstrapper {
-  initialState: RootState | undefined;
+  initialState: Partial<RootState> | undefined;
 
   constructor(
     private altairConfig: AltairConfig,
@@ -25,7 +25,7 @@ export class ReducerBootstrapper {
       // remove all selectedFiles where windowId not in windowIds
       await this.storageService.selectedFiles
         .where('windowId')
-        .noneOf(this.initialState.windowsMeta.windowIds)
+        .noneOf(this.initialState.windowsMeta?.windowIds || [])
         .delete();
     }
   }

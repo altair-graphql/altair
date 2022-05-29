@@ -1,4 +1,4 @@
-import { INIT } from '@ngrx/store';
+import { INIT, Store } from '@ngrx/store';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import deepmerge from 'deepmerge';
 import { Transaction } from 'dexie';
@@ -333,7 +333,8 @@ export const getAppStateFromStorage = async({
 
     // console.log('reduced', reducedState);
     // throw new Error('..');
-  return reducedState as RootState;
+  return reducedState;
+  // return reducedState as RootState;
 };
 
 export const importIndexedRecords = (records: { key: string, value: any }[]) => {
@@ -440,5 +441,4 @@ const serializeValue = (value: any) => {
   // until we remove the GraphQLSchema from the state before storing
   // since it isn't a valid value for structured cloning (it is a class instance)
   return JSON.stringify(value);
-  return stringify(value);
 };

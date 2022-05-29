@@ -7,6 +7,8 @@
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const execa = require('execa');
+const compareVersions = require('compare-versions');
+const pkg = require('../package.json');
 const SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/;
 
 function createLogger() {
@@ -32,11 +34,15 @@ async function main() {
         name: 'newVersion',
         message: 'What is the new version?',
         validate: function (value) {
-          if (value.match(SEMVER_REGEX)) {
-            return true;
+          if (!value.match(SEMVER_REGEX)) {
+            return 'Please enter a valid version (e.g. 3.2.1)';
+          }
+
+          if (compareVersions(value, pkg.version) <= 0) {
+            return 'New version must be newer than the current version';
           }
       
-          return 'Please enter a valid version (e.g. 3.2.1)';
+          return true;
         },
       },
     ]);
