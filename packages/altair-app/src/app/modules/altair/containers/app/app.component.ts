@@ -53,6 +53,7 @@ import { WindowState } from 'altair-graphql-core/build/types/state/window.interf
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { externalLink, mapToKeyValueList, openFile } from '../../utils';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
+import { catchUselessObservableError } from '../../utils/errors';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -360,7 +361,7 @@ export class AppComponent  {
 
   removeWindow(windowId: string) {
     this.windowService.removeWindow(windowId)
-      .pipe(untilDestroyed(this))
+      .pipe(untilDestroyed(this), catchUselessObservableError)
       .subscribe();
   }
 

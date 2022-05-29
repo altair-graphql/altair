@@ -18,6 +18,7 @@ import { StorageService } from '../storage/storage.service';
 import { downloadData } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { catchUselessObservableError } from '../../utils/errors';
 
 @Injectable({
   providedIn: 'root',
@@ -64,12 +65,12 @@ export class ElectronAppService {
       });
 
       this.ipc.on('create-tab', () => {
-        this.zone.run(() => this.windowService.newWindow().pipe(first()).subscribe());
+        this.zone.run(() => this.windowService.newWindow().pipe(first(), catchUselessObservableError).subscribe());
       });
       this.ipc.on('close-tab', () => {
         this.zone.run(() => {
           if (this.windowIds.length > 1) {
-            this.windowService.removeWindow(this.activeWindowId).subscribe();
+            this.windowService.removeWindow(this.activeWindowId).pipe(catchUselessObservableError).subscribe();
           }
         });
       });

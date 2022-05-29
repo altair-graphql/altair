@@ -6,12 +6,16 @@ import { WindowService } from '../window.service';
 
 import * as fromRoot from '../../store';
 
+import * as windowsActions from '../../store/windows/windows.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as queryActions from '../../store/query/query.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as docsActions from '../../store/docs/docs.action';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { catchError, first } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { catchUselessObservableError } from '../../utils/errors';
 
 export interface KeyboardShortcutCategory {
   title: string;
@@ -86,6 +90,28 @@ export class KeybinderService {
         windowId: this.activeWindowId,
       })),
       'Save Request'
+    );
+
+    this.bindShortcut(
+      ['Ctrl+T'],
+      () => this.windowService.newWindow().pipe(first(), catchUselessObservableError).subscribe(),
+      'Create new window'
+    );
+
+    this.bindShortcut(
+      ['Ctrl+Shift+T'],
+      () => this.store.dispatch(new windowsActions.ReopenClosedWindowAction()),
+      'Reopen closed window'
+    );
+
+    this.bindShortcut(
+      ['Ctrl+W'],
+      () => {
+        if (this.windowIds.length > 1) {
+          this.windowService.removeWindow(this.activeWindowId).pipe(catchUselessObservableError).subscribe();
+        }
+      },
+      'Close window'
     );
   }
 
