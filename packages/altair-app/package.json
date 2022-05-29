@@ -1,6 +1,6 @@
 {
   "name": "altair-app",
-  "version": "4.2.2",
+  "version": "4.4.2",
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
@@ -52,7 +52,7 @@
     "@webcomponents/custom-elements": "^1.4.1",
     "abab": "^2.0.5",
     "actioncable": "^5.2.4-4",
-    "altair-graphql-core": "^4.2.2",
+    "altair-graphql-core": "^4.4.2",
     "angular-feather": "^6.0.10",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-link": "^1.2.14",
