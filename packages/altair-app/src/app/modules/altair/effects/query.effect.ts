@@ -583,10 +583,20 @@ export class QueryEffects {
               err = err[0];
             }
             errMsg = errMsg || err.message || err.stack;
-            this.notifyService.error(`
-              An error occurred in subscription.<br>
-              Error: ${errMsg}
-            `);
+            if (!errMsg) {
+              if (err instanceof Event && err.type === 'error') {
+                if (err.target && err.target instanceof WebSocket) {
+                  errMsg = 'Unknown websocket error event';
+                } else {
+                  errMsg = 'Unknown error event';
+                }
+              }
+            }
+
+            this.notifyService.error([
+              'Check that your subscription endpoint, connection params are correct. Check that the subscription endpoint is working properly.',
+              `Error: ${errMsg}`,
+            ].join('<br><br>'), 'Subscription error');
             this.store.dispatch(new queryActions.StopSubscriptionAction(response.windowId));
             return EMPTY;
           };

@@ -17,12 +17,15 @@ export class GlobalErrorHandler implements ErrorHandler {
       debug.error('Backend returned status code: ', error.status);
       debug.error('Response body:', error.message);
     } else {
+      if (this.isUncaughtPromiseError(error)) {
+        // We ignore uncaught promise errors
+        return;
+      }
       const notifyService = this.injector.get(NotifyService);
-      const errorMessage = error.message ? error.message : error.toString();
 
       const issueUrl = getIssueUrl(error);
-      debug.error('Application error:', errorMessage);
-      notifyService.error(`An error occured: ${errorMessage}`);
+      debug.error('Application error:', error);
+      notifyService.error(`An error occured: ${this.getErrorMessage(error)}`);
       notifyService.warning(`If you think this is a bug, click here to report the bug.`, 'Altair', {
         disableTimeOut: true,
         data: {
@@ -31,5 +34,12 @@ export class GlobalErrorHandler implements ErrorHandler {
       });
     }
     // appRef.tick();
+  }
+  getErrorMessage(error: any) {
+    return error.message ? (error.message as string) : (error.toString() as string);
+  }
+  isUncaughtPromiseError(error: any) {
+    const errorMessage = this.getErrorMessage(error);
+    return errorMessage.startsWith('Uncaught (in promise):');
   }
 }

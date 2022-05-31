@@ -10,6 +10,10 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
     this.client = createClient({
       url: this.subscriptionUrl,
       connectionParams: this.connectionParams,
+      lazy: false,
+      onNonLazyError: (err) => {
+        this.extraOptions?.onConnected?.(err, undefined);
+      },
       on: {
         connected: () => {
           this.extraOptions?.onConnected?.(undefined, undefined);

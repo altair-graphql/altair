@@ -53,7 +53,7 @@
     "convert-css-color-name-to-hex": "^0.1.1",
     "deepmerge": "^4.2.2",
     "graphql": "^15.5.1",
-    "graphql-ws": "^5.1.2",
+    "graphql-ws": "^5.8.2",
     "loglevel": "^1.7.1",
     "loglevel-plugin-prefix": "^0.8.4",
     "rxjs": "^7.1.0",
