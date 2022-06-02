@@ -17,10 +17,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       debug.error('Backend returned status code: ', error.status);
       debug.error('Response body:', error.message);
     } else {
-      if (this.isUncaughtPromiseError(error)) {
-        // We ignore uncaught promise errors
-        return;
-      }
       const notifyService = this.injector.get(NotifyService);
 
       const issueUrl = getIssueUrl(error);

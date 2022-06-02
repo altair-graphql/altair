@@ -45,10 +45,15 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
     });
   }
 
-  close() {
-    this.cleanup?.();
-    this.cleanup = undefined;
-    this.client?.dispose();
-    this.client = undefined;
+  async close() {
+    try {
+      this.cleanup?.();
+      this.cleanup = undefined;
+      // This causes the 'Error: Uncaught (in promise): Event: {"isTrusted":true}' error
+      await this.client?.dispose();
+      this.client = undefined;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
