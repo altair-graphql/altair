@@ -1,5 +1,5 @@
 import getAltairHtml from './utils/get-altair-html';
-import { AltairConfigOptions } from 'altair-graphql-core/build/config';
+import type { AltairConfigOptions } from 'altair-graphql-core/build/config';
 
 export interface RenderOptions extends AltairConfigOptions {
     /**
