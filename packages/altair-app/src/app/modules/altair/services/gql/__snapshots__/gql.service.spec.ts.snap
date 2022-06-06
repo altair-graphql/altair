@@ -133,14 +133,14 @@ Object {
 `;
 
 exports[`GqlService .refactorQuery() should return edited query with generated name 1`] = `
-"query refactored2000($name1000: String) {
-  GOTHouses(name: $name1000) {
+"query refactored1000($name: String) {
+  GOTHouses(name: $name) {
     ...GOTHouseFields
   }
 }
 
-query refactored4000($name3000: String) {
-  GOTHouses(name: $name3000) {
+query refactored3000($name2000: String) {
+  GOTHouses(name: $name2000) {
     ...GOTHouseFields
   }
 }
@@ -159,7 +159,7 @@ fragment GOTHouseFields on GOTHouse {
 
 exports[`GqlService .refactorQuery() should return edited query with generated name 2`] = `
 Object {
-  "name1000": "first",
-  "name3000": "second",
+  "name": "first",
+  "name2000": "second",
 }
 `;

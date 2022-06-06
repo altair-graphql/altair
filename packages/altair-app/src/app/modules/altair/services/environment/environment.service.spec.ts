@@ -94,6 +94,46 @@ describe('EnvironmentService', () => {
         var2: 'environment1 value',
       });
     });
+
+    it('should deeply merge base and active sub environment nested objects', () => {
+      const environments = createEnvironmentState({
+        base: {
+          baseUrl: 'https://example.api',
+          var1: 'base value',
+          nested: {
+            base: 1,
+          },
+        },
+        subEnvironments: [
+          {
+            baseUrl: 'https://environment-1.api',
+            var2: 'environment1 value',
+            nested: {
+              env1: 1,
+              env2: 2,
+            },
+          },
+          {
+            baseUrl: 'https://environment-2.api',
+            var3: 'environment2 value',
+          }
+        ],
+        activeIndex: 0
+      });
+      mockStore.subscribe = createStoreSubscribeFn(environments);
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const activeEnvironment = service.getActiveEnvironment();
+      expect(activeEnvironment).toEqual({
+        baseUrl: 'https://environment-1.api',
+        var1: 'base value',
+        var2: 'environment1 value',
+        nested: {
+          base: 1,
+          env1: 1,
+          env2: 2,
+        },
+      });
+    });
   });
 
   describe('.hydrate()', () => {

@@ -327,7 +327,11 @@ export const refactorArgumentsToVariables = (
           if (node.value.kind !== Kind.VARIABLE && fieldDef && fieldDef.args) {
             const foundArg = fieldDef.args.find(arg => arg.name === node.name.value);
             if (foundArg) {
-              const variableName = generateRandomNameForString(foundArg.name);
+              let variableName = foundArg.name;
+              if (variablesMap[variableName]) {
+                // variable name is already used, so generate random name instead
+                variableName = generateRandomNameForString(foundArg.name);
+              }
               const variableMapEntry = {
                 name: variableName,
                 value: argumentNodeToJS(node, variables),

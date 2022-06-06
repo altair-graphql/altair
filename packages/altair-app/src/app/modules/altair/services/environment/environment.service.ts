@@ -10,6 +10,7 @@ import { IDictionary } from '../../interfaces/shared';
 import { EnvironmentsState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { merge } from 'lodash-es';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -59,7 +60,7 @@ export class EnvironmentService {
       }
     }
 
-    return { ...baseEnvironment, ...subEnvironment };
+    return merge(baseEnvironment, subEnvironment);
   }
 
   /**
