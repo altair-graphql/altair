@@ -9,7 +9,7 @@ import { getFileStr } from '../../utils';
 import { supabase } from '../api/supabase';
 import { TODO } from 'altair-graphql-core/build/types/shared';
 
-type CollectionID = number;
+type CollectionID = number | string;
 type QueryID = string;
 const COLLECTION_PATH_SEPARATOR = '/';
 
@@ -112,6 +112,7 @@ export class QueryCollectionService {
 
     return this.storage.queryCollections.add({
       ...collection,
+      id: uuid(),
       parentPath,
       created_at: now,
       updated_at: now,
@@ -394,7 +395,7 @@ export class QueryCollectionService {
         throw new Error('File is not a valid Altair collection file.');
       }
 
-      const collections = this.getCollectionListFromTree(data);
+      const collections = this.remapCollectionIDsToCollectionList(data);
       for (let i = 0; i < collections.length; i++) {
         const collection = collections[i];
         await this.create(collection);
@@ -550,7 +551,7 @@ export class QueryCollectionService {
 
   getCollectionTrees(collections: IQueryCollection[]) {
     const roots: IQueryCollectionTree[] = [];
-    const collectionMap = new Map<number, IQueryCollectionTree>();
+    const collectionMap = new Map<string, IQueryCollectionTree>();
 
     collections.forEach(collection => {
       const collectionId = collection.id;
@@ -558,15 +559,15 @@ export class QueryCollectionService {
         throw new Error('All collections must have an ID to get a tree!');
       }
 
-      collectionMap.set(collectionId, {
+      collectionMap.set(`${collectionId}`, {
         ...collection,
-        id: collectionId,
+        id: `${collectionId}`,
         collections: [],
       });
     });
 
     collections.forEach(collection => {
-      const collectionTree = collectionMap.get(collection.id!);
+      const collectionTree = collectionMap.get(`${collection.id}`);
       if (!collectionTree) {
         return;
       }
@@ -582,7 +583,7 @@ export class QueryCollectionService {
         return;
       }
 
-      const parentCollection = collectionMap.get(+parentCollectionId);
+      const parentCollection = collectionMap.get(parentCollectionId);
       parentCollection?.collections?.push(collectionTree);
     });
 
@@ -591,7 +592,7 @@ export class QueryCollectionService {
 
   getParentCollectionId(collection: IQueryCollection) {
     const id = collection.parentPath?.split(COLLECTION_PATH_SEPARATOR).pop();
-    return id ? +id : undefined;
+    return id ? id : undefined;
   }
 
   getParentCollection(collection: IQueryCollection) {
@@ -609,6 +610,23 @@ export class QueryCollectionService {
     // remove collections and keep the rest as collection
     const { collections, ...rootCollection } = tree;
     const subcollections = collections?.map(ct => this.getCollectionListFromTree(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${tree.id}`));
+
+    return [
+      {
+        ...rootCollection,
+        parentPath, // set the parent path
+      },
+      ...(subcollections || []).flat(),
+    ];
+  }
+
+  remapCollectionIDsToCollectionList(tree: IQueryCollectionTree, parentPath = ''): IQueryCollection[] {
+    // remove collections and keep the rest as collection
+    const { collections, ...rootCollection } = tree;
+    // re-assign a new ID to collection
+    rootCollection.id = uuid();
+    // pass new ID as parentPath in sub collections
+    const subcollections = collections?.map(ct => this.remapCollectionIDsToCollectionList(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${rootCollection.id}`));
 
     return [
       {

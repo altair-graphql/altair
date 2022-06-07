@@ -16,7 +16,7 @@ export interface IQuery extends ExportWindowState {
 }
 
 export interface IQueryCollection {
-  id?: number;
+  id?: number | string;
   serverId?: number;
   title: string;
   queries: IQuery[];
@@ -33,7 +33,7 @@ export interface IQueryCollection {
 }
 
 export interface IQueryCollectionTree extends IQueryCollection {
-  id: number;
+  id: IQueryCollection['id'];
   collections?: IQueryCollectionTree[];
 }
 
