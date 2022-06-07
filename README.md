@@ -126,7 +126,7 @@ $ composer require xkojimedia/laravel-altair-graphql
 *You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
 
 ### Configuration Options
-When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/master/packages/altair-app/src/app/modules/altair/config.ts#L9) you can use to customize Altair based on your needs:
+When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/master/packages/altair-core/src/config.ts#L10) you can use to customize Altair based on your needs:
 
 - `endpointURL` `string` - URL to set as the server endpoint
 - `subscriptionsEndpoint` `string` - URL to set as the subscription endpoint
