@@ -33,7 +33,7 @@ export interface IQueryCollection {
 }
 
 export interface IQueryCollectionTree extends IQueryCollection {
-  id: IQueryCollection['id'];
+  id: number | string;
   collections?: IQueryCollectionTree[];
 }
 

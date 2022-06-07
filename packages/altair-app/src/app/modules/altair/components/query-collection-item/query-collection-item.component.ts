@@ -14,8 +14,8 @@ export class QueryCollectionItemComponent  {
   @Input() loggedIn = false;
 
   @Output() selectQueryChange = new EventEmitter();
-  @Output() deleteQueryChange: EventEmitter<{ collectionId: number, query: IQuery }> = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{ collectionId: number }> = new EventEmitter();
+  @Output() deleteQueryChange: EventEmitter<{ collectionId: number | string, query: IQuery }> = new EventEmitter();
+  @Output() deleteCollectionChange: EventEmitter<{ collectionId: number | string }> = new EventEmitter();
   @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
   @Output() syncCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
