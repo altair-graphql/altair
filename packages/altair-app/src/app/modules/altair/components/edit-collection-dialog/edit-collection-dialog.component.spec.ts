@@ -1,38 +1,31 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { EditCollectionDialogComponent } from './edit-collection-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
+import { mount, NgxTestWrapper } from '../../../../../testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { expect, it } from '@jest/globals';
 
 describe('EditCollectionDialogComponent', () => {
-  let component: EditCollectionDialogComponent;
-  let fixture: ComponentFixture<EditCollectionDialogComponent>;
+  let wrapper: NgxTestWrapper<EditCollectionDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditCollectionDialogComponent ],
+  beforeEach(async() => {
+    wrapper = await mount({
+      component: EditCollectionDialogComponent,
+      declarations: [
+        EditCollectionDialogComponent,
+      ],
+      providers: [],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
-        CodemirrorModule,
         SharedModule,
-        TranslateModule.forRoot()
       ],
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EditCollectionDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render correctly', () => {
+    expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 });

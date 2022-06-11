@@ -60,7 +60,15 @@ export class EnvironmentService {
       }
     }
 
-    return merge(baseEnvironment, subEnvironment);
+    return this.mergeEnvironments(baseEnvironment, subEnvironment);
+  }
+
+  mergeWithActiveEnvironment(environment: IEnvironment) {
+    return this.mergeEnvironments(this.getActiveEnvironment(), environment);
+  }
+
+  mergeEnvironments(env1: IEnvironment, env2: IEnvironment) {
+    return merge(env1, env2);
   }
 
   /**

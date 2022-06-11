@@ -4,6 +4,7 @@
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
+  [nzWidth]="800"
   (nzOnCancel)="toggleDialogChange.next($event)"
 >
   <ng-template #modalTitle>
@@ -15,9 +16,33 @@
 
   <ng-template #modalContent>
     <div class="app-dialog-body" *ngIf="collection">
-      <div class="form-group">
-        {{ 'COLLECTION_TITLE_LABEL' | translate }}
-        <input type="text" class="dialog-input" [(ngModel)]="collection.title">
+      <div class="app-dialog-section">
+        <div class="form-group">
+          {{ 'COLLECTION_TITLE_LABEL' | translate }}
+          <input type="text" class="dialog-input" [(ngModel)]="title">
+        </div>
+      </div>
+      <div class="app-dialog-section">
+        <nz-tabset
+          [nzAnimated]="false"
+          nzSize="small"
+          nzTabBarGutter="16"
+        >
+          <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
+            <app-pre-request-editor
+              [preRequest]="preRequest"
+              (preRequestScriptChange)="preRequest.script = $event"
+              (preRequestEnabledChange)="preRequest.enabled = $event"
+            ></app-pre-request-editor>
+          </nz-tab>
+          <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
+            <app-post-request-editor
+              [postRequest]="postRequest"
+              (postRequestScriptChange)="postRequest.script = $event"
+              (postRequestEnabledChange)="postRequest.enabled = $event"
+            ></app-post-request-editor>
+          </nz-tab>
+        </nz-tabset>
       </div>
     </div>
   </ng-template>

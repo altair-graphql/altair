@@ -81,6 +81,7 @@ const providers = [
   services.ThemeRegistryService,
   services.SubscriptionProviderRegistryService,
   services.PluginContextService,
+  services.QueryService,
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,
   CookieService,

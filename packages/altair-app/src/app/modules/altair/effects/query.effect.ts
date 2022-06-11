@@ -1,4 +1,4 @@
-import { of as observableOf, EMPTY, Observable, iif, Subscriber, of, from } from 'rxjs';
+import { of as observableOf, EMPTY, Observable, iif, Subscriber, of, from, combineLatest } from 'rxjs';
 
 import { tap, catchError, withLatestFrom, switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -16,6 +16,7 @@ import {
   EnvironmentService,
   PreRequestService,
   SubscriptionProviderRegistryService,
+  QueryService,
 } from '../services';
 import * as fromRoot from '../store';
 
@@ -77,7 +78,11 @@ export class QueryEffects {
           return observableOf(response);
         }),
         switchMap(response => {
-          return this.getPrerequestTransformedData$(response);
+          return combineLatest([of(response), from(this.queryService.getPrerequestTransformedData(response.windowId))]).pipe(
+            map(([ response, transformedData ]) => {
+              return { response, transformedData };
+            })
+          );
         }),
         switchMap((returnedData) => {
           if (!returnedData) {
@@ -212,7 +217,11 @@ export class QueryEffects {
                   })
                   .pipe(
                     switchMap((res) => {
-                      return this.handlePostRequestTransforms$(RequestType.QUERY, res, response);
+                      return combineLatest([of(res), from(this.queryService.getPostRequestTransformedData(response.windowId, RequestType.QUERY, res))]).pipe(
+                        map(([ data, transformedData ]) => {
+                          return { data, transformedData };
+                        })
+                      );
                     }),
                     map(res => {
                       if (!res) {
@@ -370,7 +379,11 @@ export class QueryEffects {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
-          return this.getPrerequestTransformedData$(response);
+          return combineLatest([of(response), from(this.queryService.getPrerequestTransformedData(response.windowId))]).pipe(
+            map(([ response, transformedData ]) => {
+              return { response, transformedData };
+            })
+          );
         }),
         switchMap((res) => {
           if (!res) {
@@ -406,7 +419,11 @@ export class QueryEffects {
             })
             .pipe(
               switchMap((introspectionResponse) => {
-                return this.handlePostRequestTransforms$(RequestType.INTROSPECTION, introspectionResponse, response);
+                return combineLatest([of(introspectionResponse), from(this.queryService.getPostRequestTransformedData(response.windowId, RequestType.INTROSPECTION, introspectionResponse))]).pipe(
+                  map(([ data, transformedData ]) => {
+                    return { data, transformedData };
+                  })
+                );
               }),
               catchError((err: UnknownError) => {
                 this.store.dispatch(new docsAction.StopLoadingDocsAction(response.windowId));
@@ -542,7 +559,11 @@ export class QueryEffects {
           return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
         switchMap(response => {
-          return this.getPrerequestTransformedData$(response);
+          return combineLatest([of(response), from(this.queryService.getPrerequestTransformedData(response.windowId))]).pipe(
+            map(([ response, transformedData ]) => {
+              return { response, transformedData };
+            })
+          );
         }),
         switchMap(res => {
           if (!res) {
@@ -1073,71 +1094,9 @@ export class QueryEffects {
     private donationService: DonationService,
     private electronAppService: ElectronAppService,
     private environmentService: EnvironmentService,
-    private preRequestService: PreRequestService,
+    private queryService: QueryService,
     private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
     private store: Store<RootState>
   ) {}
 
-
-  private getPrerequestTransformedData$(input: EffectResponseData) {
-    return observableOf(input).pipe(
-      switchMap(response => {
-        if (!response.data) {
-          return EMPTY;
-        }
-        const data = response.data;
-        const query = (response.data.query.query || '').trim();
-        /**
-         * pre request execution context is passed the current headers, environment, variables, query, etc
-         * and returns a set of the same that would have potentially been modified during the script execution.
-         * The returned data is used instead of the original set of data
-         */
-        return iif(
-          () => data.preRequest.enabled || false,
-          new Observable((subscriber: Subscriber<{ response: typeof response; transformedData: ScriptContextData | undefined }>) => {
-            try {
-              this.preRequestService.executeScript(data.preRequest.script, {
-                environment: this.environmentService.getActiveEnvironment(),
-                headers: data.headers,
-                query,
-                variables: data.variables.variables,
-              }).then(transformedData => {
-                subscriber.next({ response, transformedData });
-                subscriber.complete();
-              }).catch(error => {
-                debug.error(error);
-                this.notifyService.error(error.message, 'Pre-request error');
-                subscriber.next(undefined);
-                subscriber.complete();
-              });
-            } catch (err) {
-              debug.error(err);
-              this.notifyService.error(err.message, 'Pre-request error');
-              subscriber.next(undefined);
-              subscriber.complete();
-            }
-          }),
-          observableOf({ response, transformedData: undefined })
-        );
-      }),
-    );
-  }
-
-  private handlePostRequestTransforms$(requestType: RequestType, data: SendRequestResponse, requestData: EffectResponseData) {
-    if (!requestData.data?.postRequest.enabled) {
-      return of({ transformedData: null, data });
-    }
-    return from(this.preRequestService.executeScript(requestData.data.postRequest.script, {
-      environment: this.environmentService.getActiveEnvironment(),
-      headers: requestData.data.headers,
-      query: requestData.data.query.query || '',
-      variables: requestData.data.variables.variables,
-      requestType,
-      response: data,
-    })).pipe(
-      map(transformedData => {
-        return { transformedData, data };
-      }),
-    );
-  }
 }

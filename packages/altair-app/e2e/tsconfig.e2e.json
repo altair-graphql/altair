@@ -5,7 +5,7 @@
     "module": "commonjs",
     "target": "es2020",
     "types":[
-      "jasmine",
+      "jest",
       "node"
     ]
   }

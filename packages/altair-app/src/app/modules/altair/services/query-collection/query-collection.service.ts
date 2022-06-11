@@ -155,7 +155,7 @@ export class QueryCollectionService {
 
   private async addLocalQuery(collectionId: CollectionID, query: IQuery) {
     const now = this.storage.now();
-    return this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
+    return this.updateCollectionByID(collectionId, collection => {
       const uQuery = { ...query, id: uuid(), created_at: now, updated_at: now };
       collection.queries.push(uQuery);
     });
@@ -196,8 +196,37 @@ export class QueryCollectionService {
     return res;
   }
 
+  private getAlternateCollectionID(collectionId: CollectionID) {
+    let alternateCollectionId: number | string = '';
+    if (typeof collectionId === 'number') {
+      alternateCollectionId = `${collectionId}`;
+    }
+    if (typeof collectionId === 'string') {
+      alternateCollectionId = Number(collectionId);
+      if (isNaN(alternateCollectionId)) {
+        // we don't want to query with NaN as ID
+        alternateCollectionId = '';
+      }
+    }
+
+    return alternateCollectionId;
+  }
+
+  async getCollectionByID(collectionId: CollectionID) {
+    let localCollection = await this.storage.queryCollections.get(collectionId);
+    if (!localCollection) {
+      collectionId = this.getAlternateCollectionID(collectionId);
+    }
+    return await this.storage.queryCollections.get(collectionId);
+  }
+
+  private async updateCollectionByID(collectionId: CollectionID, changeCb: (obj: IQueryCollection, ctx: { value: IQueryCollection; }) => boolean | void) {
+    const alternateCollectionId = this.getAlternateCollectionID(collectionId);
+    return this.storage.queryCollections.where('id').equals(collectionId).or('id').equals(alternateCollectionId).modify(changeCb);
+  }
+
   private async mustGetLocalCollection(collectionId: CollectionID) {
-    const localCollection = await this.storage.queryCollections.get(collectionId);
+    const localCollection = await this.getCollectionByID(collectionId);
     if (!localCollection) {
       throw new Error('Could not retrieve local collection data');
     }
@@ -205,7 +234,7 @@ export class QueryCollectionService {
   }
 
   private async getLocalQuery(collectionId: CollectionID, queryId: QueryID) {
-    const localCollection = await this.storage.queryCollections.get(collectionId);
+    const localCollection = await this.getCollectionByID(collectionId);
     if (localCollection) {
       return localCollection.queries.find(query => query.id === queryId);
     }
@@ -213,7 +242,7 @@ export class QueryCollectionService {
 
   private updateLocalQuery(collectionId: CollectionID, queryId: QueryID, query: IQuery) {
     const now = this.storage.now();
-    return this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
+    return this.updateCollectionByID(collectionId, collection => {
       const uQuery = { ...query, id: queryId, updated_at: now };
       collection.queries = collection.queries.map(collectionQuery => {
         if (collectionQuery.id === queryId) {
@@ -263,7 +292,7 @@ export class QueryCollectionService {
   }
 
   private deleteLocalQuery(collectionId: CollectionID, query: IQuery) {
-    return this.storage.queryCollections.where('id').equals(collectionId).modify(collection => {
+    return this.updateCollectionByID(collectionId, collection => {
       collection.queries = collection.queries.filter(collectionQuery => {
         if (query.id) {
           if (query.id === collectionQuery.id) {
@@ -310,8 +339,9 @@ export class QueryCollectionService {
     }
   }
 
-  deleteLocalCollection(collectionId: CollectionID) {
-    return this.storage.queryCollections.delete(collectionId);
+  async deleteLocalCollection(collectionId: CollectionID) {
+    await this.storage.queryCollections.delete(collectionId);
+    await this.storage.queryCollections.delete(this.getAlternateCollectionID(collectionId));
   }
 
   async updateCollection(collectionId: CollectionID, modifiedCollection: IQueryCollection) {
@@ -356,7 +386,7 @@ export class QueryCollectionService {
   }
 
   private updateLocalCollection(collectionId: CollectionID, modifiedCollection: IQueryCollection) {
-    return this.storage.queryCollections.where('id').equals(collectionId).modify((collection, ctx) => {
+    return this.updateCollectionByID(collectionId, (collection, ctx) => {
       ctx.value = modifiedCollection;
       ctx.value.updated_at = this.storage.now();
     });
@@ -521,13 +551,13 @@ export class QueryCollectionService {
    */
   private async moveLocalCollection(collectionId: CollectionID, newParentCollectionId: CollectionID) {
     return this.storage.transaction('rw', this.storage.queryCollections, async () => {
-      const collection = await this.storage.queryCollections.get(collectionId);
+      const collection = await this.getCollectionByID(collectionId);
       if (!collection) {
         throw new Error('Could not retrieve collection');
       }
 
       // '/coll-z', id: 456
-      const newParentCollection = await this.storage.queryCollections.get(newParentCollectionId);
+      const newParentCollection = await this.getCollectionByID(newParentCollectionId);
       if (!newParentCollection) {
         throw new Error('Could not retrieve parent collection');
       }
@@ -541,7 +571,7 @@ export class QueryCollectionService {
 
       // '/coll-a' -> '/coll-z/456'
       // '/coll-a/123' -> '/coll-z/456/123'
-      return this.storage.queryCollections.where({ id: collectionId }) // include the collection itself
+      return this.storage.queryCollections.where({ id: collectionId }).or('id').equals(this.getAlternateCollectionID(collectionId)) // include the collection itself
         .or('parentPath').startsWith(parentPath) // ...and its descendants
         .modify(c => {
           c.parentPath = c.parentPath?.replace(collectionParentPath, newParentSubcollectionParentPath);
@@ -598,7 +628,21 @@ export class QueryCollectionService {
   getParentCollection(collection: IQueryCollection) {
     const parentCollectionId = this.getParentCollectionId(collection);
     if (parentCollectionId) {
-      return this.storage.queryCollections.get(parentCollectionId);
+      return this.getCollectionByID(parentCollectionId);
+    }
+  }
+
+  async getAllParentCollections(collection: IQueryCollection) {
+    const collections: IQueryCollection[] = [];
+    let curCollection = collection;
+    for(;;) {
+      const parentCollection = await this.getParentCollection(curCollection);
+      if (!parentCollection) {
+        return collections;
+      }
+
+      collections.push(parentCollection);
+      curCollection = parentCollection;
     }
   }
 
@@ -638,7 +682,7 @@ export class QueryCollectionService {
   }
 
   async getCollectionTreeByCollectionId(collectionId: CollectionID) {
-    const collection = await this.storage.queryCollections.get(collectionId);
+    const collection = await this.getCollectionByID(collectionId);
     if (!collection) {
       throw new Error('Collection not found!');
     }
@@ -654,7 +698,7 @@ export class QueryCollectionService {
    * @param parentCollectionId
    */
   private async getSubcollectionParentPath(parentCollectionId: CollectionID) {
-    const parentCollection = await this.storage.queryCollections.get(parentCollectionId);
+    const parentCollection = await this.getCollectionByID(parentCollectionId);
     const parentCollectionParentPath = parentCollection?.parentPath ?? '';
 
     return `${parentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${parentCollectionId}`;

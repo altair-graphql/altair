@@ -43,7 +43,15 @@ export class QueryCollectionEffects {
 
           return this.collectionService.create({
             title: res.action.payload.collectionTitle,
-            queries: [ query ]
+            queries: [ query ],
+            preRequest: {
+              script: '',
+              enabled: false,
+            },
+            postRequest: {
+              script: '',
+              enabled: false,
+            },
           }, res.action.payload.parentCollectionId);
         }),
         tap(() => this.notifyService.success('Created collection.')),

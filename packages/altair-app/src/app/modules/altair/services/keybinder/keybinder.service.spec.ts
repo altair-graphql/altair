@@ -20,7 +20,7 @@ describe('KeybinderService', () => {
       ],
       providers: [
         KeybinderService,
-        WindowService,
+        MockProvider(WindowService),
         DbService,
         ElectronAppService,
         ElectronService,

@@ -1,13 +1,15 @@
 
-import { Observable } from 'rxjs';
+import { EMPTY, from, Observable } from 'rxjs';
 
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import uuid from 'uuid/v4';
 
 import * as fromQuery from '../store/query/query.reducer';
+
+import * as fromRoot from '../store';
 
 import * as queryActions from '../store/query/query.action';
 import * as headerActions from '../store/headers/headers.action';
@@ -19,6 +21,7 @@ import * as postRequestActions from '../store/post-request/post-request.action';
 import * as streamActions from '../store/stream/stream.action';
 import * as localActions from '../store/local/local.action';
 import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
+import * as layoutActions from '../store/layout/layout.action';
 
 import { getFileStr, mapToKeyValueList } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
@@ -26,6 +29,7 @@ import { debug } from '../utils/logger';
 import { GqlService } from './gql/gql.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
+import { QueryCollectionService } from './query-collection/query-collection.service';
 
 
 interface ImportWindowDataOptions {
@@ -38,6 +42,7 @@ export class WindowService {
   constructor(
     private store: Store<RootState>,
     private gqlService: GqlService,
+    private collectionService: QueryCollectionService,
   ) { }
 
   newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string, fixedTitle?: boolean } = {}) {
@@ -345,20 +350,44 @@ export class WindowService {
   /**
    * Handle the imported file
    */
-  handleImportedFile(files: FileList) {
-    return getFileStr(files).then((dataStr: string) => {
-      try {
-        this.importStringData(dataStr);
-      } catch (error) {
-        debug.log('There was an issue importing the file.', error);
-      }
-    });
+  async handleImportedFile(files: FileList) {
+    const dataStr = await getFileStr(files);
+    try {
+      this.importStringData(dataStr);
+    } catch (error) {
+      debug.log('There was an issue importing the file.', error);
+    }
   }
 
   /**
    * Carry out any necessary house cleaning tasks.
    */
   setupWindow(windowId: string) {
+    // Validate that query is ACTUALLY in an existing collection
+    this.getWindowState(windowId).pipe(
+      first(),
+      switchMap(data => {
+        if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
+          return from(this.collectionService.getCollectionByID(data.layout.collectionId)).pipe(
+            map(collection => {
+              if (collection) {
+                const query = collection.queries.find(q => q.id === data.layout.windowIdInCollection);
+                return !!query;
+              }
+
+              return false;
+            }),
+          );
+        }
+
+        return EMPTY;
+      }),
+    ).subscribe(isValidCollectionQuery => {
+      if (!isValidCollectionQuery) {
+        this.store.dispatch(new layoutActions.SetWindowIdInCollectionAction(windowId, {}));
+      }
+    });
+
     this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] }));
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
@@ -372,6 +401,10 @@ export class WindowService {
         this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
       }
     });
+  }
+
+  private getWindowState(windowId: string) {
+    return this.store.pipe(select(fromRoot.selectWindowState(windowId)));
   }
   private cleanupWindow(windowId: string) {
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));

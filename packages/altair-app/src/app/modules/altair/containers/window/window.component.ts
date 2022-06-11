@@ -221,32 +221,6 @@ export class WindowComponent implements OnInit {
       }
     });
 
-    // Validate that query is ACTUALLY in an existing collection
-    this.getWindowState().pipe(
-      untilDestroyed(this),
-      switchMap(data => {
-        if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
-          return this.collections$.pipe(
-            map(collections => {
-              const collection = collections.find(collection => collection.id === data.layout.collectionId);
-
-              if (collection) {
-                const query = collection.queries.find(q => q.id === data.layout.windowIdInCollection);
-                return !!query;
-              }
-
-              return false;
-            }),
-          );
-        }
-
-        return EMPTY;
-      }),
-    ).subscribe(isValidCollectionQuery => {
-      if (!isValidCollectionQuery) {
-        this.store.dispatch(new layoutActions.SetWindowIdInCollectionAction(this.windowId, {}));
-      }
-    });
     this.windowService.setupWindow(this.windowId);
   }
 
