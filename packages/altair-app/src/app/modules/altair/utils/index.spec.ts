@@ -65,5 +65,10 @@ describe('utils', () => {
             const result = getFullUrl(endpoint);
             expect(result).toBe(location.origin + "/" + endpoint);
         });
+        it('should use specified protocol', () => {
+            const endpoint = 'graphql';
+            const result = getFullUrl(endpoint, 'wss');
+            expect(result).toBe('wss://' + location.host + "/" + endpoint);
+        });
     })
 })
