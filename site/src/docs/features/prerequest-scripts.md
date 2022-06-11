@@ -8,6 +8,21 @@ Ever wanted to use dynamic data in your request headers, URLs, before sending th
 
 You might want to perform some extra logic with the response from a request. For example, setting an environment variable from a response header, or from the result of a query. Post request scripts enables you do just that.
 
+## Execution order
+
+Pre and post request scripts can be added to a query window, as well as to a [collection](/docs/features/collections).
+Also collections can be nested with sub collections as well. When a query that belongs to a collection is executed, the pre and post request scripts of the query window is executed as well as all the pre and post request scripts of the query's collection and all its parent collections. The execution order is as follows:
+
+- Query collection pre request script
+- All parent collections' pre request scripts
+- Query window pre request script
+- Execute query request
+- Query collection post request script
+- All parent collections' post request scripts
+- Query window post request script
+
+![Request script execution order](/assets/img/docs/request-script-execution-order.png)
+
 ### Available API for request scripts
 
 Request scripts support all JavaScript syntax supported in the latest [ecmascript 2019 (ES10) specification](https://tc39.es/ecma262/) (except **with** and **label** statements, but those are discouraged anyway). These include things like `[].flat()`, `[].flatMap()`, `Object.fromEntries()`, etc.
