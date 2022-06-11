@@ -11,8 +11,8 @@ import {
   DonationService,
   EnvironmentService,
   ElectronAppService,
-  PreRequestService,
   SubscriptionProviderRegistryService,
+  QueryService,
 } from '../services';
 import * as fromRoot from '../store';
 import { ConvertToNamedQueryAction, SetQueryAction } from '../store/query/query.action';
@@ -26,7 +26,7 @@ describe('query effects', () => {
   let mockDonationService: DonationService;
   let mockElectronAppService: ElectronAppService;
   let mockEnvironmentService: EnvironmentService;
-  let mockPrerequestService: PreRequestService;
+  let mockQueryService: QueryService;
   let mockSubscriptionProviderRegistryService: SubscriptionProviderRegistryService;
   let mockStore: Store<RootState>;
 
@@ -38,7 +38,7 @@ describe('query effects', () => {
     mockDonationService = mock();
     mockElectronAppService = mock();
     mockEnvironmentService = mock();
-    mockPrerequestService = mock();
+    mockQueryService = mock();
     mockSubscriptionProviderRegistryService = mock();
     mockStore = mockStoreFactory();
   });
@@ -65,7 +65,7 @@ describe('query effects', () => {
         mockDonationService,
         mockElectronAppService,
         mockEnvironmentService,
-        mockPrerequestService,
+        mockQueryService,
         mockSubscriptionProviderRegistryService,
         mockStore,
       );
