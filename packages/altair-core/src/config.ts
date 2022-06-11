@@ -20,9 +20,15 @@ export interface AltairWindowOptions {
    endpointURL?: string;
 
   /**
-  * URL to set as the subscription endpoint
+  * URL to set as the subscription endpoint. This can be relative or absolute.
   */
   subscriptionsEndpoint?: string;
+
+  /**
+   * URL protocol for the subscription endpoint. This is used if the specified subscriptions endpoint is relative.
+   * e.g. wss
+   */
+  subscriptionsProtocol?: string;
 
   /**
   * Initial query to be added
@@ -153,6 +159,7 @@ export class AltairConfig {
   initialData = {
     url: '',
     subscriptionsEndpoint: '',
+    subscriptionsProtocol: '',
     query: '',
     variables: '',
     // Force type of header, since initial value inference is wrong
@@ -171,6 +178,7 @@ export class AltairConfig {
   constructor({
     endpointURL,
     subscriptionsEndpoint,
+    subscriptionsProtocol,
     initialQuery,
     initialHeaders,
     initialEnvironments,
@@ -187,6 +195,7 @@ export class AltairConfig {
   }: AltairConfigOptions = {}) {
     this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
+    this.initialData.subscriptionsProtocol = subscriptionsProtocol;
     this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
     this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
     this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';

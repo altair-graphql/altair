@@ -161,7 +161,7 @@ export const copyToClipboard = (str: string) => {
   }
 };
 
-export const getFullUrl = (url: string) => {
+export const getFullUrl = (url: string, protocol = location.protocol) => {
   if (!url) {
     return url;
   }
@@ -179,7 +179,7 @@ export const getFullUrl = (url: string) => {
     if (url.substr(0, 1) === '/') {
       url = url.substr(1);
     }
-    return location.origin + '/' + url;
+    return `${protocol.replace(/:$/, '').toLowerCase()}://${location.host}/${url}`;
   }
 
   return url;

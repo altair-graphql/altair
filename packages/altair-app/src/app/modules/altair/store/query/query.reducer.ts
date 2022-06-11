@@ -11,7 +11,7 @@ export const getInitialState = (): QueryState => {
 
   return {
     url: getFullUrl(initialData.url ? '' + initialData.url : ''),
-    subscriptionUrl: initialData.subscriptionsEndpoint ? '' + initialData.subscriptionsEndpoint : '',
+    subscriptionUrl: getFullUrl(initialData.subscriptionsEndpoint ? '' + initialData.subscriptionsEndpoint : '', initialData.subscriptionsProtocol),
     query: initialData.query ? '' + initialData.query : initialQuery,
     selectedOperation: null,
     operations: [],

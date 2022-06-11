@@ -25,6 +25,7 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
             getRenderedAltairOpts(options, [
                 'endpointURL',
                 'subscriptionsEndpoint',
+                'subscriptionsProtocol',
                 'initialQuery',
                 'initialVariables',
                 'initialPreRequestScript',
