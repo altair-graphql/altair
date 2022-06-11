@@ -98,23 +98,8 @@ export class QueryEffects {
                   return EMPTY;
                 }
 
-                const query = (response.data.query.query || '').trim();
-                let url = this.environmentService.hydrate(response.data.query.url);
-                let variables = this.environmentService.hydrate(response.data.variables.variables);
-                let headers = this.environmentService.hydrateHeaders(response.data.headers);
+                const { url, variables, headers, query } = this.queryService.hydrateAllHydratables(response.data, transformedData);
                 let selectedOperation = response.data.query.selectedOperation;
-
-                if (transformedData) {
-                  url = this.environmentService.hydrate(response.data.query.url, {
-                    activeEnvironment: transformedData.environment
-                  });
-                  variables = this.environmentService.hydrate(response.data.variables.variables, {
-                    activeEnvironment: transformedData.environment
-                  });
-                  headers = this.environmentService.hydrateHeaders(response.data.headers, {
-                    activeEnvironment: transformedData.environment
-                  });
-                }
 
                 // If the URL is not set or is invalid, just return
                 if (!url || !validUrl.isUri(url)) {
@@ -394,17 +379,7 @@ export class QueryEffects {
             return EMPTY;
           }
 
-          let url = this.environmentService.hydrate(response.data.query.url);
-          let headers = this.environmentService.hydrateHeaders(response.data.headers);
-
-          if (transformedData) {
-            url = this.environmentService.hydrate(response.data.query.url, {
-              activeEnvironment: transformedData.environment
-            });
-            headers = this.environmentService.hydrateHeaders(response.data.headers, {
-              activeEnvironment: transformedData.environment
-            });
-          }
+          const { url, headers } = this.queryService.hydrateAllHydratables(response.data, transformedData);
 
           if (!url) {
             return EMPTY;
@@ -573,28 +548,10 @@ export class QueryEffects {
           if (!response.data) {
             return EMPTY;
           }
+          const { subscriptionUrl, query, variables, headers } = this.queryService.hydrateAllHydratables(response.data, transformedData);
           let connectionParams: IDictionary = {};
-          let subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl);
-          let query = this.environmentService.hydrate(response.data.query.query || '');
-          let variables = this.environmentService.hydrate(response.data.variables.variables);
           let variablesObj: IDictionary = {};
           let selectedOperation = response.data.query.selectedOperation;
-          let headers = this.environmentService.hydrateHeaders(response.data.headers);
-
-          if (transformedData) {
-            subscriptionUrl = this.environmentService.hydrate(response.data.query.subscriptionUrl, {
-              activeEnvironment: transformedData.environment
-            });
-            query = this.environmentService.hydrate(response.data.query.query || '', {
-              activeEnvironment: transformedData.environment
-            });
-            variables = this.environmentService.hydrate(response.data.variables.variables, {
-              activeEnvironment: transformedData.environment
-            });
-            headers = this.environmentService.hydrateHeaders(response.data.headers, {
-              activeEnvironment: transformedData.environment
-            });
-          }
 
           // For electron app, send the instruction to set headers
           this.electronAppService.setHeaders(headers);
@@ -854,15 +811,24 @@ export class QueryEffects {
         withLatestFrom(this.store, (action: queryActions.Action, state: RootState) => {
           return { data: state.windows[action.windowId], windowId: action.windowId, action };
         }),
+        switchMap(response => {
+          return combineLatest([of(response), from(this.queryService.getPrerequestTransformedData(response.windowId))]).pipe(
+            map(([ response, transformedData ]) => {
+              return { response, transformedData };
+            })
+          );
+        }),
         switchMap(res => {
-          if (!res.data) {
+          if (!res) {
+            return EMPTY;
+          }
+          const { response, transformedData } = res;
+          if (!response.data) {
             return EMPTY;
           }
 
-          const url = this.environmentService.hydrate(res.data.query.url);
-          const query = this.environmentService.hydrate(res.data.query.query || '');
-          const variables = this.environmentService.hydrate(res.data.variables.variables);
-          const { resolvedFiles } = this.gqlService.normalizeFiles(res.data.variables.files);
+          const { query, variables, url } = this.queryService.hydrateAllHydratables(response.data, transformedData);
+          const { resolvedFiles } = this.gqlService.normalizeFiles(response.data.variables.files);
           if (resolvedFiles.length) {
             this.notifyService.error('This is not currently available with file variables');
             return EMPTY;
@@ -871,8 +837,8 @@ export class QueryEffects {
           try {
             const curlCommand = generateCurl({
               url,
-              method: res.data.query.httpVerb,
-              headers: res.data.headers.reduce((acc, cur) => {
+              method: response.data.query.httpVerb,
+              headers: response.data.headers.reduce((acc, cur) => {
                 acc[cur.key] = this.environmentService.hydrate(cur.value);
                 return acc;
               }, {} as any),

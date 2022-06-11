@@ -14,6 +14,7 @@ import { SubscriptionProviderRegistryService } from '../subscriptions/subscripti
 import { first } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -140,6 +141,40 @@ export class QueryService {
     }
 
     return this.getPostRequestTransformedDataForScript(windowId, state.postRequest.script, requestType, data, preTransformedData);
+  }
+
+  hydrateAllHydratables(window: PerWindowState, transformedData?: ScriptContextData) {
+    let url = this.environmentService.hydrate(window.query.url);
+    let subscriptionUrl = this.environmentService.hydrate(window.query.subscriptionUrl);
+    let query = this.environmentService.hydrate(window.query.query || '');
+    let variables = this.environmentService.hydrate(window.variables.variables);
+    let headers = this.environmentService.hydrateHeaders(window.headers);
+
+    if (transformedData) {
+      url = this.environmentService.hydrate(window.query.url, {
+        activeEnvironment: transformedData.environment
+      });
+      subscriptionUrl = this.environmentService.hydrate(window.query.subscriptionUrl, {
+        activeEnvironment: transformedData.environment
+      });
+      query = this.environmentService.hydrate(window.query.query || '', {
+        activeEnvironment: transformedData.environment
+      });
+      variables = this.environmentService.hydrate(window.variables.variables, {
+        activeEnvironment: transformedData.environment
+      });
+      headers = this.environmentService.hydrateHeaders(window.headers, {
+        activeEnvironment: transformedData.environment
+      });
+    }
+
+    return {
+      url,
+      subscriptionUrl,
+      query,
+      variables,
+      headers,
+    };
   }
 
   private async getWindowParentCollections(window: PerWindowState) {
