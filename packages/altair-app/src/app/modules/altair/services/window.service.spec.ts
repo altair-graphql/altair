@@ -10,6 +10,7 @@ import { GqlService } from './gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NotifyService } from './notify/notify.service';
 import { MockProvider } from 'ng-mocks';
+import { QueryCollectionService } from './query-collection/query-collection.service';
 
 describe('WindowService', () => {
   beforeEach(() => {
@@ -20,6 +21,7 @@ describe('WindowService', () => {
       providers: [
         WindowService,
         GqlService,
+        MockProvider(QueryCollectionService),
         MockProvider(NotifyService),
         services.DbService,
         { provide: Store, useValue: {

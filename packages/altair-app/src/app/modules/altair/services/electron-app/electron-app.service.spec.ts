@@ -18,7 +18,7 @@ describe('ElectronAppService', () => {
       ],
       providers: [
         ElectronAppService,
-        WindowService,
+        MockProvider(WindowService),
         DbService,
         MockProvider(NotifyService),
         GqlService,

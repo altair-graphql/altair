@@ -35,7 +35,7 @@ describe('SettingsDialogComponent', () => {
       providers: [
         MockProviders(NotifyService),
         KeybinderService,
-        WindowService,
+        MockProviders(WindowService),
         DbService,
         ElectronAppService,
         ElectronService,

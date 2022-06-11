@@ -1,3 +1,5 @@
+import { PostrequestState } from './postrequest.interfaces';
+import { PrerequestState } from './prerequest.interfaces';
 import { ExportWindowState } from './window.interfaces';
 
 export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
@@ -21,6 +23,9 @@ export interface IQueryCollection {
   title: string;
   queries: IQuery[];
   description?: string;
+
+  preRequest?: PrerequestState;
+  postRequest?: PostrequestState;
 
   /**
    * path of the collection in the collection tree

@@ -139,6 +139,11 @@ export class PreRequestService {
         getEnvironment: (key: string) => {
           return data.environment[key];
         },
+        /**
+         * @param key environment key
+         * @param val value to set
+         * @param activeEnvironment if the value should be replaced in the currently active environment after execution
+         */
         setEnvironment: (key: string, val: any, activeEnvironment = false) => {
           data.environment[key] = val;
           if (activeEnvironment) {
