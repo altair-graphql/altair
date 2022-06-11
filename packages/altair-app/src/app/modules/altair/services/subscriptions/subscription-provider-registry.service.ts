@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ACTION_CABLE_PROVIDER_ID, APP_SYNC_PROVIDER_ID, GRAPHQL_WS_PROVIDER_ID, SubscriptionProviderData, WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { ACTION_CABLE_PROVIDER_ID, APP_SYNC_PROVIDER_ID, GRAPHQL_SSE_ID, GRAPHQL_WS_PROVIDER_ID, SubscriptionProviderData, WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -34,6 +34,13 @@ export class SubscriptionProviderRegistryService {
       getProviderClass: async() =>
         (await import('altair-graphql-core/build/subscriptions/providers/action-cable')).ActionCableSubscriptionProvider,
       copyTag: 'SUBSCRIPTION_PROVIDER_ACTION_CABLE',
+    });
+
+    this.addProviderData({
+      id: GRAPHQL_SSE_ID,
+      getProviderClass: async() =>
+        (await import('altair-graphql-core/build/subscriptions/providers/graphql-sse')).GraphQLSSESubscriptionProvider,
+      copyTag: 'SUBSCRIPTION_PROVIDER_GRAPHQL_SSE',
     });
   }
 

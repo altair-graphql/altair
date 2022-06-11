@@ -548,7 +548,7 @@ export class QueryEffects {
           if (!response.data) {
             return EMPTY;
           }
-          const { subscriptionUrl, query, variables, headers } = this.queryService.hydrateAllHydratables(response.data, transformedData);
+          const { subscriptionUrl, query, variables, headers, subscriptionConnectionParams } = this.queryService.hydrateAllHydratables(response.data, transformedData);
           let connectionParams: IDictionary = {};
           let variablesObj: IDictionary = {};
           let selectedOperation = response.data.query.selectedOperation;
@@ -615,12 +615,7 @@ export class QueryEffects {
             }
 
             try {
-              const subscriptionConnectionParams = this.environmentService.hydrate(response.data.query.subscriptionConnectionParams, {
-                activeEnvironment: transformedData?.environment
-              });
-
-              connectionParams =
-                subscriptionConnectionParams ? JSON.parse(subscriptionConnectionParams) : {};
+              connectionParams = subscriptionConnectionParams ? JSON.parse(subscriptionConnectionParams) : {};
             } catch (err) {
               this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId));
               return subscriptionErrorHandler(err, 'Your connection parameters is not a valid JSON object.');
@@ -646,7 +641,8 @@ export class QueryEffects {
                           return subscriptionErrorHandler(error);
                         }
                         debug.log('Connected subscription.');
-                      }
+                      },
+                      headers,
                     }
                   );
 
