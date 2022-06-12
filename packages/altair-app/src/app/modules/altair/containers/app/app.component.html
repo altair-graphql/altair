@@ -270,7 +270,14 @@
             (handleLoginChange)="accountLogin()"
           ></app-account-dialog>
         </div>
-        <nz-alert nzBanner [nzMessage]="supportDevelopment" *ngIf="showDonationAlert" nzCloseable (nzOnClose)="hideDonationAlert()"></nz-alert>
+
+        <nz-alert
+          nzBanner
+          [nzMessage]="supportDevelopment"
+          *ngIf="showDonationAlert"
+          nzCloseable
+          (nzOnClose)="hideDonationAlert()"
+        ></nz-alert>
         <ng-template #supportDevelopment>
           <span class="alert-text">
               Do you find this app useful? Would you mind supporting its development?

@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 
 // Import the codemirror packages
-import * as Codemirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/lint/lint';
@@ -23,6 +22,10 @@ import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
+import { Extension } from '@codemirror/state';
+import { javascriptLanguage } from '@codemirror/lang-javascript';
+import { getGlobalScopeAutocompletion } from '../../utils/editor/javascript';
+import { PreRequestService } from '../../services';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
@@ -64,7 +67,25 @@ export class PreRequestEditorComponent implements AfterViewInit, DoCheck {
     },
   };
 
-  constructor() {}
+  editorExtensions: Extension[] = [
+    javascriptLanguage.data.of({
+      autocomplete: getGlobalScopeAutocompletion({
+        // TODO: Figure out why altair.helpers does not show autocomplete
+        // https://github.com/lezer-parser/javascript/blob/main/test/expression.txt
+        // https://codemirror.net/examples/autocompletion/
+        altair: this.preRequestService.getGlobalContext({
+          headers: [],
+          environment: {},
+          query: '',
+          variables: '',
+        })
+      }),
+    }),
+  ];
+
+  constructor(
+    private preRequestService: PreRequestService,
+  ) {}
 
   ngAfterViewInit() {
     if (this.editor?.codeMirror) {
