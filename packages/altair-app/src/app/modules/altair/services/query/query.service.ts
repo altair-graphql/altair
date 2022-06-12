@@ -148,6 +148,7 @@ export class QueryService {
     let subscriptionUrl = this.environmentService.hydrate(window.query.subscriptionUrl);
     let query = this.environmentService.hydrate(window.query.query || '');
     let variables = this.environmentService.hydrate(window.variables.variables);
+    let subscriptionConnectionParams = this.environmentService.hydrate(window.query.subscriptionConnectionParams);
     let headers = this.environmentService.hydrateHeaders(window.headers);
 
     if (transformedData) {
@@ -163,6 +164,9 @@ export class QueryService {
       variables = this.environmentService.hydrate(window.variables.variables, {
         activeEnvironment: transformedData.environment
       });
+      subscriptionConnectionParams = this.environmentService.hydrate(window.query.subscriptionConnectionParams, {
+        activeEnvironment: transformedData.environment
+      });
       headers = this.environmentService.hydrateHeaders(window.headers, {
         activeEnvironment: transformedData.environment
       });
@@ -174,6 +178,7 @@ export class QueryService {
       query,
       variables,
       headers,
+      subscriptionConnectionParams,
     };
   }
 

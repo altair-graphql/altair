@@ -3,6 +3,7 @@ import { IDictionary } from '../types/shared';
 
 export interface SubscriptionProviderExtraOptions {
   onConnected?: (error: any, data: any) => void;
+  headers?: IDictionary;
 }
 
 export interface SubscriptionProviderExecuteOptions {
