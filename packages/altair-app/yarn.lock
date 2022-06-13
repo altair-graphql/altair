@@ -2052,6 +2052,14 @@
     "@lezer/common" "^1.0.0"
     "@lezer/javascript" "^1.0.0"
 
+"@codemirror/lang-json@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@codemirror/lang-json/-/lang-json-6.0.0.tgz#6ac373248c2d44ceab6d5d58879cc543095e503e"
+  integrity sha512-DvTcYTKLmg2viADXlTdufrT334M9jowe1qO02W28nvm+nejcvhM5vot5mE8/kPrxYw/HJHhwu1z2PyBpnMLCNQ==
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@lezer/json" "^1.0.0"
+
 "@codemirror/language@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@codemirror/language/-/language-6.0.0.tgz#f590558447c01f430fb3ef3297c41b8cd3ae9190"
@@ -2511,6 +2519,14 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@lezer/javascript/-/javascript-1.0.0.tgz#60f0b6c295ef526a51fb33603403daad452d9470"
   integrity sha512-RawBSrMD9yrVdrXWKn7hqo5BqgBaFelUx80i6p2/V0f+0THjncSSrRC6v3QWVv++RpqWT59L8ujKZjlExJq9xw==
+  dependencies:
+    "@lezer/highlight" "^1.0.0"
+    "@lezer/lr" "^1.0.0"
+
+"@lezer/json@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@lezer/json/-/json-1.0.0.tgz#848ad9c2c3e812518eb02897edd5a7f649e9c160"
+  integrity sha512-zbAuUY09RBzCoCA3lJ1+ypKw5WSNvLqGMtasdW6HvVOqZoCpPr8eWrsGnOVWGKGn8Rh21FnrKRVlJXrGAVUqRw==
   dependencies:
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"

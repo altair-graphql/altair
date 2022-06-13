@@ -14,9 +14,7 @@ exports[`PostRequestEditorComponent should render correctly 1`] = `
         
       </label>
     </div>
-    <ngx-codemirror
-      class="request-script-textarea post-request-textarea mousetrap"
-    />
+    <app-codemirror />
     <small>
       <a
         aria-label="learn more"

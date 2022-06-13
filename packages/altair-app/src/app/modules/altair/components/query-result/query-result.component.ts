@@ -31,6 +31,9 @@ import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { TrackByIdItem } from '../../interfaces/shared';
+import { EditorState, Extension } from '@codemirror/state';
+import { json } from '@codemirror/lang-json';
+import { indentUnit } from '@codemirror/language';
 
 @Component({
   selector: 'app-query-result',
@@ -87,6 +90,13 @@ export class QueryResultComponent implements OnChanges {
       'Ctrl-F': 'findPersistent',
     },
   };
+
+  editorExtensions: Extension[] = [
+    json(),
+    EditorState.readOnly.of(true),
+    indentUnit.of(' '.repeat(this.tabSize)),
+    EditorState.tabSize.of(this.tabSize),
+  ];
 
   constructor() {}
 

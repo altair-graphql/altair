@@ -11,6 +11,9 @@ import 'codemirror/addon/fold/indent-fold';
 // import 'codemirror/addon/display/autorefresh';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
+import { Extension } from '@codemirror/state';
+import { json } from '@codemirror/lang-json';
+import { lineNumbers } from '@codemirror/view';
 
 @Component({
   selector: 'app-subscription-url-dialog',
@@ -44,6 +47,10 @@ export class SubscriptionUrlDialogComponent implements  DoCheck {
     },
     jump: {}
   };
+
+  connectionParamsExtensions: Extension[] = [
+    json(),
+  ];
 
   @ViewChild('editor') editor: ElementRef & { codeMirror: CodeMirror.Editor };
 

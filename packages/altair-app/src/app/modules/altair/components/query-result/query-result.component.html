@@ -32,11 +32,11 @@
         <!--We want it to be hidden in the DOM, not removed so we use hidden-->
         <div class="app-result" [ngClass]="{ 'hide': !queryResult }">
           <div class="response-stats">
-            <div class="left">
+            <div class="l">
               <span class="response-status-code response-stats__item" [attr.data-status-code]="responseStatus">{{responseStatus}} {{responseStatusText}}</span>
               <span class="response-time response-stats__item"><app-icon name="clock"></app-icon> {{responseTime}}ms</span>
             </div>
-            <div class="right">
+            <div class="r">
             </div>
           </div>
           <div class="query-result__top-actions">
@@ -58,12 +58,17 @@
               {{ uiAction.title }}
             </button>
           </div>
-          <ngx-codemirror
+          <app-codemirror
+            [ngModel]="queryResult | json"
+            [fullHeight]="true"
+            [extensions]="editorExtensions"
+          ></app-codemirror>
+          <!-- <ngx-codemirror
             #editor
             class="app-query-result-textarea"
             [options]="resultEditorConfig"
             [ngModel]="queryResult | json"
-          ></ngx-codemirror>
+          ></ngx-codemirror> -->
         </div>
       </div>
     </div>

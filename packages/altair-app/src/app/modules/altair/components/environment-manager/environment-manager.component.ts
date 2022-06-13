@@ -20,6 +20,8 @@ import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/keymap/sublime';
 import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { Extension } from '@codemirror/state';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -76,6 +78,11 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
     gutters: ['CodeMirror-lint-markers', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     extraKeys: {}
   };
+
+  editorExtensions: Extension[] = [
+    json(),
+    // jsonParseLinter,
+  ];
 
   selectedEnvironmentId = 'base';
   selectedEnvironment?: EnvironmentState;

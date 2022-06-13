@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 
 // Import the codemirror packages
-import * as Codemirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/lint/lint';
@@ -23,6 +22,8 @@ import 'codemirror/keymap/sublime';
 import 'codemirror/mode/javascript/javascript';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
+import { PreRequestService } from '../../services';
+import { getRequestScriptExtensions } from '../../utils/editor/extensions';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
@@ -64,7 +65,16 @@ export class PostRequestEditorComponent implements AfterViewInit, DoCheck {
     },
   };
 
-  constructor() {}
+  editorExtensions = getRequestScriptExtensions(this.preRequestService.getGlobalContext({
+    headers: [],
+    environment: {},
+    query: '',
+    variables: '',
+  }));
+
+  constructor(
+    private preRequestService: PreRequestService,
+  ) {}
 
   ngAfterViewInit() {
     if (this.editor?.codeMirror) {

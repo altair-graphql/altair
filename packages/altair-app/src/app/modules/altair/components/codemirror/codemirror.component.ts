@@ -40,6 +40,8 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
 
   @Input() extensions: Extension[] = [];
   @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
+  @Input() showLineNumber = true;
+  @Input() foldGutter = true;
 
   @Output() focusChange = new EventEmitter<boolean>();
 
@@ -138,15 +140,6 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
           fontWeight: 'bold',
         },
       })
-      const requestScriptTheme = EditorView.theme({
-        '&': {
-          backgroundColor: 'var(--theme-off-bg-color)',
-          minHeight: '200px',
-        },
-      })
-      const globalJavaScriptCompletions = javascriptLanguage.data.of({
-        autocomplete: getGlobalScopeAutocompletion(),
-      });
       // https://github.com/codemirror/theme-one-dark/blob/848ca1e82addf4892afc895e013754805af6182a/src/one-dark.ts#L96
       const defaultHighlightStyle = HighlightStyle.define([
         {tag: t.keyword,
@@ -190,18 +183,15 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
             ...completionKeymap,
             ...closeBracketsKeymap,
           ]),
-          lineNumbers(),
-          foldGutter(),
-          javascript(),
+          this.showLineNumber ? lineNumbers() : [],
+          this.foldGutter ? foldGutter() : [],
           // highlightActiveLineGutter(),
           bracketMatching(),
           closeBrackets(),
           history(),
-          globalJavaScriptCompletions,
           autocompletion(),
           syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
           baseTheme,
-          requestScriptTheme,
           ...this.extensions,
         ]
       });

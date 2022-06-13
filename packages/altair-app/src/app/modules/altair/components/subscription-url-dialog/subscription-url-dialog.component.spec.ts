@@ -10,6 +10,8 @@ import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import * as refreshEditor from '../../utils/codemirror/refresh-editor';
+import { MockModule } from 'ng-mocks';
+import { CodemirrorComponent } from '../codemirror/codemirror.component';
 
 describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;
@@ -17,13 +19,14 @@ describe('SubscriptionUrlDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubscriptionUrlDialogComponent ],
+      declarations: [ SubscriptionUrlDialogComponent, CodemirrorComponent ],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
         SharedModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        SharedModule,
       ]
     })
     .compileComponents();

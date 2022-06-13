@@ -6,6 +6,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CodemirrorComponent } from '../codemirror/codemirror.component';
 
 describe('EnvironmentManagerComponent', () => {
   let component: EnvironmentManagerComponent;
@@ -13,13 +14,14 @@ describe('EnvironmentManagerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EnvironmentManagerComponent ],
+      declarations: [ EnvironmentManagerComponent, CodemirrorComponent ],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
         CodemirrorModule,
         SharedModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        SharedModule,
       ],
     })
     .compileComponents();

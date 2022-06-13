@@ -6,14 +6,6 @@
       (ngModelChange)="preRequestEnabledChange.next($event)"
     >{{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}</label>
   </div>
-  <!-- <ngx-codemirror
-    #editor
-    class="request-script-textarea pre-request-textarea mousetrap"
-    [options]="preRequestEditorConfig"
-    [ngModel]="preRequest.script"
-    (ngModelChange)="preRequestScriptChange.emit($event)"
-  ></ngx-codemirror> -->
-
   <app-codemirror
     [extensions]="editorExtensions"
     [fullHeight]="true"
