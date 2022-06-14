@@ -44,9 +44,6 @@ downloads:
     pattern: _x64_mac.dmg$
     link: https://github.com/altair-graphql/altair/releases/latest
     extra: brew install --cask altair-graphql-client
-  - name: macOS M1
-    image: /assets/img/osx_logo.svg
-    pattern: _arm64_mac.dmg$
   - name: linux
     image: /assets/img/linux_logo.svg
     pattern: AppImage
