@@ -4,13 +4,23 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import * as localActions from '../../store/local/local.action';
+import * as settingsActions from '../../store/settings/settings.action';
 import { PluginContextService } from './context/plugin-context.service';
 import { AltairPlugin, createPlugin, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
+import { DbService } from '../db.service';
+import { first } from 'rxjs/operators';
+import { NotifyService } from '../notify/notify.service';
+import sanitize from 'sanitize-html';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
+
+const PLUGIN_APPROVED_MAP_STORAGE_KEY = '__user_plugin_approved_map';
+
+type UserPluginApprovedMap = Record<string, Record<string, string[]>>
 
 interface PluginInfo extends Record<string, string> {
   name: string;
@@ -25,6 +35,8 @@ export class PluginRegistryService {
   constructor(
     private http: HttpClient,
     private pluginContextService: PluginContextService,
+    private db: DbService,
+    private notifyService: NotifyService,
     private store: Store<RootState>,
   ) {}
 
@@ -92,6 +104,79 @@ export class PluginRegistryService {
     return Promise.all(this.fetchedPlugins);
   }
 
+  async isUserApprovedPlugin(opts: PluginInfo) {
+    if (opts.version === 'latest') {
+      // latest version is not a valid version for user approval
+      return false;
+    }
+
+    const approvedMap: UserPluginApprovedMap | undefined = await this.db.getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY).pipe(first()).toPromise();
+
+    if (!approvedMap) {
+      return false;
+    }
+
+    if (!approvedMap[opts.pluginSource]) {
+      return false;
+    }
+
+    if (!approvedMap[opts.pluginSource][opts.name]) {
+      return false;
+    }
+
+    return approvedMap[opts.pluginSource][opts.name].includes(opts.version);
+  }
+
+  async addPluginToApprovedMap(opts: PluginInfo) {
+    let approvedMap: UserPluginApprovedMap = {};
+    if (opts.version === 'latest') {
+      // latest version is not a valid version for user approval
+      return;
+    }
+
+    const retrievedApprovedMap: UserPluginApprovedMap | undefined = await this.db.getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY).pipe(first()).toPromise();
+
+    if (retrievedApprovedMap) {
+      approvedMap = retrievedApprovedMap;
+    }
+
+    if (!approvedMap[opts.pluginSource]) {
+      approvedMap[opts.pluginSource] = {};
+    }
+
+    if (!approvedMap[opts.pluginSource][opts.name]) {
+      approvedMap[opts.pluginSource][opts.name] = [];
+    }
+
+    approvedMap[opts.pluginSource][opts.name] = [ ...approvedMap[opts.pluginSource][opts.name], opts.version ];
+
+    await this.db.setItem(PLUGIN_APPROVED_MAP_STORAGE_KEY, approvedMap).pipe(first()).toPromise();
+  }
+
+  async addPluginToSettings(pluginName: string) {
+    const resp = await this.store.select(state => state.settings).pipe(first()).toPromise();
+
+    const settings: SettingsState = JSON.parse(JSON.stringify(resp));
+    settings['plugin.list'] = settings['plugin.list'] || [];
+    settings['plugin.list'].push(pluginName);
+
+    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
+  }
+
+  async removePluginFromSettings(pluginName: string) {
+    const resp = await this.store.select(state => state.settings).pipe(first()).toPromise();
+    const settings: SettingsState = JSON.parse(JSON.stringify(resp));
+
+    settings['plugin.list'] = (settings['plugin.list'] || []).filter(pluginStr => {
+      const pluginInfo = this.getPluginInfoFromString(pluginStr);
+      if (pluginInfo) {
+        return pluginName !== pluginInfo.name;
+      }
+    });
+
+    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
+  }
+
   private async fetchPluginAssets(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: PluginInfo) {
     debug.log('PLUGIN: ', name, pluginSource, version);
 
@@ -106,6 +191,25 @@ export class PluginRegistryService {
     try {
       // Get manifest file
       const manifest = (await this.http.get(manifestUrl).toPromise()) as PluginManifest;
+
+      const opts: PluginInfo = {
+        name,
+        pluginSource,
+        // get the real version from the manifest
+        version: manifest.version,
+      };
+      const isUserApproved = await this.isUserApprovedPlugin(opts);
+
+      if (!isUserApproved) {
+        const canInstall = await this.notifyService.confirm(`Are you sure you want to install <strong>${sanitize(name)}</strong> plugin?`, 'Plugin manager');
+
+        if (!canInstall) {
+          await this.removePluginFromSettings(opts.name);
+          return;
+        }
+
+        await this.addPluginToApprovedMap(opts);
+      }
 
       debug.log('PLUGIN', manifest);
 

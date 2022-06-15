@@ -5,8 +5,9 @@ import { isExtension } from '../../utils';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { IDictionary } from '../../interfaces/shared';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { ConfirmToastComponent } from '../../components/confirm-toast/confirm-toast.component';
 
 type NotifyOptions = Partial<IndividualConfig & { data: any }>;
 type NotifyType = 'success' | 'error' | 'warning' | 'info';
@@ -43,12 +44,12 @@ export class NotifyService {
   exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
     if (opts.data && opts.data.action) {
-      toast.onTap.subscribe(_toast => {
+      toast.onTap.pipe(first()).subscribe(_toast => {
         opts.data.action();
       })
     }
     if (opts.data && opts.data.url) {
-      toast.onTap.subscribe(_toast => {
+      toast.onTap.pipe(first()).subscribe(_toast => {
         window.open(opts.data.url, '_blank');
       })
     }
@@ -112,6 +113,27 @@ export class NotifyService {
             this.extensionNotifications[notifId].onclick = opts.onclick;
           }
         }
+      });
+    });
+  }
+
+  async confirm(message: string, title = 'Altair') {
+    const toast = this.toast.show(message, title, {
+      toastComponent: ConfirmToastComponent,
+      toastClass: 'ngx-toastr confirm-toast',
+      disableTimeOut: true,
+      tapToDismiss: false,
+      closeButton: false,
+    });
+
+    return new Promise<boolean>((resolve, reject) => {
+      toast.onHidden.pipe(take(1)).subscribe(() => {
+        resolve(false);
+      });
+      toast.onAction.pipe(take(1)).subscribe(() => {
+        resolve(true);
+      }, (err) => {
+        reject(err);
       });
     });
   }

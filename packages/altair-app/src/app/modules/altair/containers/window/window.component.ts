@@ -337,6 +337,8 @@ export class WindowComponent implements OnInit {
 
   reloadDocs() {
     this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.windowId));
+    // const resp = await this.notifyService.confirm('Are you sure you want to install <strong>altair-graphql-plugin-graphql-explorer</strong> plugin?', 'Plugin manager');
+    // console.log('Gotten response!', resp);
   }
 
   addHeader() {

@@ -38,13 +38,6 @@ describe('SubscriptionUrlDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should call handleEditorRefresh after first change detection check', () => {
-    spyOn(refreshEditor, 'handleEditorRefresh');
-    fixture.detectChanges();
-
-    expect(refreshEditor.handleEditorRefresh).toHaveBeenCalled();
-  });
-
   it("should handle subscriptionUrlChange", () => {
     const subscriptionUrl = "test";
     component.subscriptionUrl = subscriptionUrl;
