@@ -10,11 +10,17 @@ export const getInitialState = (): HistoryState => {
   };
 };
 
-export function historyReducer(state = getInitialState(), action: history.Action): HistoryState {
+export function historyReducer(
+  state = getInitialState(),
+  action: history.Action
+): HistoryState {
   switch (action.type) {
     case history.ADD_HISTORY:
       const _state = { ...state };
-      const limit = (typeof action.payload.limit !== 'undefined' ? action.payload.limit : getAltairConfig().query_history_depth);
+      const limit =
+        typeof action.payload.limit !== 'undefined'
+          ? action.payload.limit
+          : getAltairConfig().query_history_depth;
 
       // If the items in the list is more than the allowed limit, remove the last item
       if (state.list.length >= limit) {
@@ -26,11 +32,11 @@ export function historyReducer(state = getInitialState(), action: history.Action
         ..._state,
         list: [
           { query: action.payload.query }, // Add the new item to the top of the list
-          ..._state.list
-        ]
+          ..._state.list,
+        ],
       };
     case history.CLEAR_HISTORY:
-      return {list: []};
+      return { list: [] };
     default:
       return state;
   }

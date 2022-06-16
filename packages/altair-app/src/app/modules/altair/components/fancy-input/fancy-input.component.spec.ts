@@ -1,5 +1,11 @@
 import { expect, it, beforeEach, describe } from '@jest/globals';
-import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync,
+  waitForAsync,
+} from '@angular/core/testing';
 
 import { FancyInputComponent } from './fancy-input.component';
 import { FormsModule } from '@angular/forms';
@@ -14,29 +20,27 @@ describe('FancyInputComponent', () => {
   let component: FancyInputComponent;
   let fixture: ComponentFixture<FancyInputComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FancyInputComponent, FancyInputMarkerComponent ],
-      imports: [
-        FormsModule,
-        SharedModule,
-      ],
-      providers: [
-        {
-          provide: Store,
-          useValue: mockStoreFactory(),
-        },
-        {
-          provide: EnvironmentService,
-          useValue: mock<EnvironmentService>({
-            getActiveEnvironment: () => ({}),
-            hydrate: () => '',
-          }),
-        }
-      ],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FancyInputComponent, FancyInputMarkerComponent],
+        imports: [FormsModule, SharedModule],
+        providers: [
+          {
+            provide: Store,
+            useValue: mockStoreFactory(),
+          },
+          {
+            provide: EnvironmentService,
+            useValue: mock<EnvironmentService>({
+              getActiveEnvironment: () => ({}),
+              hydrate: () => '',
+            }),
+          },
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FancyInputComponent);
@@ -48,7 +52,7 @@ describe('FancyInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set component value when input value changes', async() => {
+  it('should set component value when input value changes', async () => {
     const input = fixture.nativeElement.querySelector('input');
     input.value = 'some text';
     input.dispatchEvent(new Event('input'));
@@ -59,7 +63,7 @@ describe('FancyInputComponent', () => {
     expect(component.value).toBe('some text');
   });
 
-  it('should render the highlights correctly based on the matched variables in text', async() => {
+  it('should render the highlights correctly based on the matched variables in text', async () => {
     const input = fixture.nativeElement.querySelector('input');
     input.value = 'some text {{variable1}} then {{variable2}} is next';
     input.dispatchEvent(new Event('input'));
@@ -69,7 +73,7 @@ describe('FancyInputComponent', () => {
     expect(fixture.nativeElement).toMatchSnapshot();
   });
 
-  it('should render mark element containing the matched variables in text', async() => {
+  it('should render mark element containing the matched variables in text', async () => {
     const input = fixture.nativeElement.querySelector('input');
     input.value = 'some text {{variable1}} then {{variable2}} is next';
     input.dispatchEvent(new Event('input'));

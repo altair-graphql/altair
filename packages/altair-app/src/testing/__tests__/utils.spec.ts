@@ -6,8 +6,8 @@ describe('utils', () => {
     it('should return expected template string', () => {
       const tmpl = buildTestHostComponentTemplate(
         'my-main-component',
-        [ 'disabled', 'input2', 'collections' ],
-        [ 'saveChange', 'dialogChange', 'modelChange' ]
+        ['disabled', 'input2', 'collections'],
+        ['saveChange', 'dialogChange', 'modelChange']
       );
 
       expect(tmpl).toMatchSnapshot();

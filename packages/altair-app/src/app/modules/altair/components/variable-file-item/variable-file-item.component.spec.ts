@@ -10,19 +10,17 @@ import { StorageService } from '../../services';
 describe('VariableFileItemComponent', () => {
   let wrapper: NgxTestWrapper<VariableFileItemComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: VariableFileItemComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
+      imports: [MockModule(SharedModule)],
       providers: [
         {
           provide: StorageService,
           useValue: mock(),
-        }
+        },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

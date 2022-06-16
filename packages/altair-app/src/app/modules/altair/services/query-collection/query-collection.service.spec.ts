@@ -67,145 +67,162 @@ const collectionPairs = [
 describe('QueryCollectionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QueryCollectionService, StorageService]
+      providers: [QueryCollectionService, StorageService],
     });
   });
 
-  it('should be created', inject([QueryCollectionService], (service: QueryCollectionService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [QueryCollectionService],
+    (service: QueryCollectionService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 
   describe('create', () => {
-    it('creates and stores a collection', inject([QueryCollectionService], async (service: QueryCollectionService) => {
-      const collection: IQueryCollection = {
-        queries: [],
-        title: 'Collection 1',
-      };
-      const result = await service.create(collection);
-      expect(result).toBeTruthy();
+    it('creates and stores a collection', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        const collection: IQueryCollection = {
+          queries: [],
+          title: 'Collection 1',
+        };
+        const result = await service.create(collection);
+        expect(result).toBeTruthy();
 
-      // cleanup
-      await service.deleteCollection(result);
-    }));
+        // cleanup
+        await service.deleteCollection(result);
+      }
+    ));
   });
 
   describe('getAll', () => {
-    it('gets all collections', inject([QueryCollectionService], async (service: QueryCollectionService) => {
-      for (let i = 0; i < collectionPairs.length; i++) {
-        const pair = collectionPairs[i];
-        await service.create(pair.collection, pair.parentCollectionId);
+    it('gets all collections', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        for (let i = 0; i < collectionPairs.length; i++) {
+          const pair = collectionPairs[i];
+          await service.create(pair.collection, pair.parentCollectionId);
+        }
+        const result = await service.getAll();
+        expect(result.length).toBe(7);
       }
-      const result = await service.getAll();
-      expect(result.length).toBe(7);
-    }));
+    ));
   });
 
   describe('getCollectionTrees', () => {
-    it('returns expected collection trees', inject([QueryCollectionService], async (service: QueryCollectionService) => {
-      const collections = await service.getAll();
-      const trees = await service.getCollectionTrees(collections);
-      expect(trees).toHaveLength(2);
-    }));
-    it('returns expected nested collection tree', inject([QueryCollectionService], async (service: QueryCollectionService) => {
-      const collections = [
-        {
-          id: 1,
-          title: 'Collection 1',
-          queries: [],
-        },
-        {
-          id: 2,
-          title: 'Collection 2',
-          queries: [],
-          parentPath: '/1',
-        },
-        {
-          id: 3,
-          title: 'Collection 3',
-          queries: [],
-          parentPath: '/1/2',
-        },
-        {
-          id: 4,
-          title: 'Collection 4',
-          queries: [],
-        },
-      ];
-      const trees = await service.getCollectionTrees(collections);
-      expect(trees).toHaveLength(2);
-      expect(trees[0]).toEqual({
-        id: '1',
-        title: 'Collection 1',
-        queries: [],
-        collections: [
+    it('returns expected collection trees', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        const collections = await service.getAll();
+        const trees = await service.getCollectionTrees(collections);
+        expect(trees).toHaveLength(2);
+      }
+    ));
+    it('returns expected nested collection tree', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        const collections = [
           {
-            id: '2',
+            id: 1,
+            title: 'Collection 1',
+            queries: [],
+          },
+          {
+            id: 2,
             title: 'Collection 2',
             queries: [],
             parentPath: '/1',
-            collections: [
-              {
-                id: '3',
-                title: 'Collection 3',
-                queries: [],
-                parentPath: '/1/2',
-                collections: [],
-              },
-            ],
-          }
-        ]
-      });
-    }));
+          },
+          {
+            id: 3,
+            title: 'Collection 3',
+            queries: [],
+            parentPath: '/1/2',
+          },
+          {
+            id: 4,
+            title: 'Collection 4',
+            queries: [],
+          },
+        ];
+        const trees = await service.getCollectionTrees(collections);
+        expect(trees).toHaveLength(2);
+        expect(trees[0]).toEqual({
+          id: '1',
+          title: 'Collection 1',
+          queries: [],
+          collections: [
+            {
+              id: '2',
+              title: 'Collection 2',
+              queries: [],
+              parentPath: '/1',
+              collections: [
+                {
+                  id: '3',
+                  title: 'Collection 3',
+                  queries: [],
+                  parentPath: '/1/2',
+                  collections: [],
+                },
+              ],
+            },
+          ],
+        });
+      }
+    ));
   });
 
   describe('remapCollectionIDsToCollectionList', () => {
-    it('returns expected nested collection tree', inject([QueryCollectionService], async (service: QueryCollectionService) => {
-      const collections = [
-        {
-          id: 1,
-          title: 'Collection 1',
-          queries: [],
-        },
-        {
-          id: 2,
-          title: 'Collection 2',
-          queries: [],
-          parentPath: '/1',
-        },
-        {
-          id: 3,
-          title: 'Collection 3',
-          queries: [],
-          parentPath: '/1/2',
-        },
-      ];
-      const trees = service.getCollectionTrees(collections);
-      const remapped = service.remapCollectionIDsToCollectionList(trees[0]);
-      const uuidRegex = /[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}/;
-      expect(remapped).toEqual([
-        {
-          id: expect.stringMatching(uuidRegex),
-          title: 'Collection 1',
-          queries: [],
-          parentPath: '',
-        },
-        {
-          id: expect.stringMatching(uuidRegex),
-          title: 'Collection 2',
-          queries: [],
-          parentPath: `/${remapped[0].id}`,
-        },
-        {
-          id: expect.stringMatching(uuidRegex),
-          title: 'Collection 3',
-          queries: [],
-          parentPath: `/${remapped[0].id}/${remapped[1].id}`,
-        },
-      ]);
-    }));
+    it('returns expected nested collection tree', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        const collections = [
+          {
+            id: 1,
+            title: 'Collection 1',
+            queries: [],
+          },
+          {
+            id: 2,
+            title: 'Collection 2',
+            queries: [],
+            parentPath: '/1',
+          },
+          {
+            id: 3,
+            title: 'Collection 3',
+            queries: [],
+            parentPath: '/1/2',
+          },
+        ];
+        const trees = service.getCollectionTrees(collections);
+        const remapped = service.remapCollectionIDsToCollectionList(trees[0]);
+        const uuidRegex =
+          /[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}/;
+        expect(remapped).toEqual([
+          {
+            id: expect.stringMatching(uuidRegex),
+            title: 'Collection 1',
+            queries: [],
+            parentPath: '',
+          },
+          {
+            id: expect.stringMatching(uuidRegex),
+            title: 'Collection 2',
+            queries: [],
+            parentPath: `/${remapped[0].id}`,
+          },
+          {
+            id: expect.stringMatching(uuidRegex),
+            title: 'Collection 3',
+            queries: [],
+            parentPath: `/${remapped[0].id}/${remapped[1].id}`,
+          },
+        ]);
+      }
+    ));
   });
-
-
 
   // TODO:
 });

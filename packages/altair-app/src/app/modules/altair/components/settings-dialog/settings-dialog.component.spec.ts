@@ -6,7 +6,15 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
-import { NotifyService, KeybinderService, WindowService, DbService, ElectronAppService, StorageService, GqlService } from '../../services';
+import {
+  NotifyService,
+  KeybinderService,
+  WindowService,
+  DbService,
+  ElectronAppService,
+  StorageService,
+  GqlService,
+} from '../../services';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,43 +28,45 @@ describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
   let fixture: ComponentFixture<SettingsDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SettingsDialogComponent ],
-      imports: [
-        HttpClientModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot(),
-        SchemaFormModule,
-      ],
-      providers: [
-        MockProviders(NotifyService),
-        KeybinderService,
-        MockProviders(WindowService),
-        DbService,
-        ElectronAppService,
-        ElectronService,
-        StorageService,
-        GqlService,
-        {
-          provide: Store, useValue: {
-            subscribe: () => { },
-            select: () => [],
-            map: () => observableEmpty(),
-            dispatch: () => { }
-          }
-        },
-        {
-          provide: AltairConfig,
-          useValue: new AltairConfig(),
-        },
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SettingsDialogComponent],
+        imports: [
+          HttpClientModule,
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+          SchemaFormModule,
+        ],
+        providers: [
+          MockProviders(NotifyService),
+          KeybinderService,
+          MockProviders(WindowService),
+          DbService,
+          ElectronAppService,
+          ElectronService,
+          StorageService,
+          GqlService,
+          {
+            provide: Store,
+            useValue: {
+              subscribe: () => {},
+              select: () => [],
+              map: () => observableEmpty(),
+              dispatch: () => {},
+            },
+          },
+          {
+            provide: AltairConfig,
+            useValue: new AltairConfig(),
+          },
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingsDialogComponent);

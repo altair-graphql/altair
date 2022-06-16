@@ -4,8 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-account-dialog',
   templateUrl: './account-dialog.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class AccountDialogComponent {
   @Input() showDialog = true;
@@ -15,5 +14,4 @@ export class AccountDialogComponent {
   submitLogin() {
     this.handleLoginChange.emit();
   }
-
 }

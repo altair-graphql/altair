@@ -32,7 +32,7 @@ export class AddInstalledPluginEntryAction implements NGRXAction {
 export class SetPluginActiveAction implements NGRXAction {
   readonly type = SET_PLUGIN_ACTIVE;
 
-  constructor(public payload: { pluginName: string, isActive: boolean }) {}
+  constructor(public payload: { pluginName: string; isActive: boolean }) {}
 }
 
 export class AddPanelAction implements NGRXAction {
@@ -50,7 +50,7 @@ export class RemovePanelAction implements NGRXAction {
 export class SetPanelActiveAction implements NGRXAction {
   readonly type = SET_PANEL_ACTIVE;
 
-  constructor(public payload: { panelId: string, isActive: boolean }) {}
+  constructor(public payload: { panelId: string; isActive: boolean }) {}
 }
 
 export class AddUiActionAction implements NGRXAction {
@@ -74,5 +74,4 @@ export type Action =
   | RemovePanelAction
   | SetPanelActiveAction
   | AddUiActionAction
-  | RemoveUiActionAction
-  ;
+  | RemoveUiActionAction;

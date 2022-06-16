@@ -35,7 +35,12 @@ interface GenerateMeta {
   hasArgs?: boolean;
 }
 
-export const generateQuery = async (schema: GraphQLSchema, name: string, parentType: string, { maxDepth = 2, tabSize = 2 } = {}) => {
+export const generateQuery = async (
+  schema: GraphQLSchema,
+  name: string,
+  parentType: string,
+  { maxDepth = 2, tabSize = 2 } = {}
+) => {
   const parentTypeObject = schema.getType(parentType);
 
   if (!(parentTypeObject instanceof GraphQLObjectType)) {
@@ -49,16 +54,23 @@ export const generateQuery = async (schema: GraphQLSchema, name: string, parentT
 
   const operationType = getOperationType(schema, parentTypeObject);
 
-  const { node: selectionNode, metas } = buildSelectionNode(field, { maxDepth, currentDepth: 0 })
+  const { node: selectionNode, metas } = buildSelectionNode(field, {
+    maxDepth,
+    currentDepth: 0,
+  });
   const selectionSet = {
     kind: Kind.SELECTION_SET,
     // start building actual content here
-    selections: [ selectionNode ],
+    selections: [selectionNode],
   };
 
   const x: DocumentNode = {
     kind: Kind.DOCUMENT,
-    definitions: [ operationType ? buildOperationDefinitionWrapper(operationType, selectionSet) : buildFragmentDefinitionWrapper(parentTypeObject, selectionSet) ],
+    definitions: [
+      operationType
+        ? buildOperationDefinitionWrapper(operationType, selectionSet)
+        : buildFragmentDefinitionWrapper(parentTypeObject, selectionSet),
+    ],
   };
 
   return {
@@ -68,7 +80,10 @@ export const generateQuery = async (schema: GraphQLSchema, name: string, parentT
 };
 
 const getOperationType = (schema: GraphQLSchema, type: GraphQLObjectType) => {
-  const typeToOperation = new Map<Maybe<GraphQLObjectType<any, any>>, OperationTypeNode>([
+  const typeToOperation = new Map<
+    Maybe<GraphQLObjectType<any, any>>,
+    OperationTypeNode
+  >([
     [schema.getQueryType(), 'query'],
     [schema.getMutationType(), 'mutation'],
     [schema.getSubscriptionType(), 'subscription'],
@@ -78,7 +93,10 @@ const getOperationType = (schema: GraphQLSchema, type: GraphQLObjectType) => {
 };
 
 // operation definition would wrap a selection to return a query AST (for fields from root types)
-const buildOperationDefinitionWrapper = (operationType: OperationTypeNode, selectionSet: SelectionSetNode): OperationDefinitionNode => {
+const buildOperationDefinitionWrapper = (
+  operationType: OperationTypeNode,
+  selectionSet: SelectionSetNode
+): OperationDefinitionNode => {
   return {
     kind: Kind.OPERATION_DEFINITION,
     operation: operationType,
@@ -90,7 +108,10 @@ const buildOperationDefinitionWrapper = (operationType: OperationTypeNode, selec
 };
 
 // fragment definition would wrap a selection to return a fragment AST
-const buildFragmentDefinitionWrapper = (parentType: GraphQLObjectType, selectionSet: SelectionSetNode): FragmentDefinitionNode => {
+const buildFragmentDefinitionWrapper = (
+  parentType: GraphQLObjectType,
+  selectionSet: SelectionSetNode
+): FragmentDefinitionNode => {
   return {
     kind: Kind.FRAGMENT_DEFINITION,
     name: {
@@ -104,13 +125,16 @@ const buildFragmentDefinitionWrapper = (parentType: GraphQLObjectType, selection
       name: {
         kind: Kind.NAME,
         value: parentType.name,
-      }
+      },
     },
     selectionSet,
   };
 };
 
-export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, currentDepth = 0 } = {}): { selectionSet: SelectionSetNode, metas: GenerateMeta[] } => {
+export const buildSelectionSet = (
+  type: GraphQLType | null,
+  { maxDepth = 1, currentDepth = 0 } = {}
+): { selectionSet: SelectionSetNode; metas: GenerateMeta[] } => {
   let setMetas: GenerateMeta[] = [];
   const selectionSet: SelectionSetNode = {
     kind: Kind.SELECTION_SET,
@@ -135,20 +159,26 @@ export const buildSelectionSet = (type: GraphQLType | null, { maxDepth = 1, curr
   }
 
   const fields = namedType && namedType.getFields();
-  selectionSet.selections = Object.keys(fields).map(fieldName => {
+  selectionSet.selections = Object.keys(fields).map((fieldName) => {
     const field = fields[fieldName];
-    const { node, metas } = buildSelectionNode(field, { maxDepth, currentDepth });
-    
-    setMetas = [ ...setMetas, ...metas ];
+    const { node, metas } = buildSelectionNode(field, {
+      maxDepth,
+      currentDepth,
+    });
+
+    setMetas = [...setMetas, ...metas];
 
     return node;
-  })
+  });
 
   return { selectionSet, metas: setMetas };
 };
 
-export const buildSelectionNode = (field: GraphQLField<any, any>, { maxDepth = 1, currentDepth = 0 } = {}) => {
-  const argumentsNodes: ArgumentNode[] = field.args.map(arg => {
+export const buildSelectionNode = (
+  field: GraphQLField<any, any>,
+  { maxDepth = 1, currentDepth = 0 } = {}
+) => {
+  const argumentsNodes: ArgumentNode[] = field.args.map((arg) => {
     return {
       kind: Kind.ARGUMENT,
       name: {
@@ -159,29 +189,44 @@ export const buildSelectionNode = (field: GraphQLField<any, any>, { maxDepth = 1
     };
   });
 
-  const { selectionSet, metas } = buildSelectionSet(field.type, { maxDepth, currentDepth: currentDepth + 1 });
+  const { selectionSet, metas } = buildSelectionSet(field.type, {
+    maxDepth,
+    currentDepth: currentDepth + 1,
+  });
 
   const node = {
     kind: Kind.FIELD,
     alias: undefined,
     name: {
       kind: Kind.NAME,
-      value: field.name
+      value: field.name,
     },
     arguments: argumentsNodes,
     directives: [],
     selectionSet,
   } as const;
 
-  return { node, metas: [ { hasArgs: !!argumentsNodes.length }, ...metas ] };
+  return { node, metas: [{ hasArgs: !!argumentsNodes.length }, ...metas] };
 };
 
 // Generate default values based on the GraphQL type
-const buildDefaultArgumentValueNode = (argumentType: GraphQLInputType, defaultValue?: any, { currentDepth = 0, maxDepth = 2 } = {}): ValueNode => {
-  return maybeBuildDefaultArgumentValueNode(argumentType, defaultValue, { currentDepth, maxDepth }) ?? { kind: Kind.STRING, value: '_____' };
+const buildDefaultArgumentValueNode = (
+  argumentType: GraphQLInputType,
+  defaultValue?: any,
+  { currentDepth = 0, maxDepth = 2 } = {}
+): ValueNode => {
+  return (
+    maybeBuildDefaultArgumentValueNode(argumentType, defaultValue, {
+      currentDepth,
+      maxDepth,
+    }) ?? { kind: Kind.STRING, value: '_____' }
+  );
 };
-const maybeBuildDefaultArgumentValueNode = (type: GraphQLInputType, defaultValue?: any, { currentDepth = 0, maxDepth = 2 } = {}): ValueNode | undefined | null => {
-
+const maybeBuildDefaultArgumentValueNode = (
+  type: GraphQLInputType,
+  defaultValue?: any,
+  { currentDepth = 0, maxDepth = 2 } = {}
+): ValueNode | undefined | null => {
   const defaultValueNode = astFromValue(defaultValue, type);
   if (defaultValueNode) {
     return defaultValueNode;
@@ -195,7 +240,12 @@ const maybeBuildDefaultArgumentValueNode = (type: GraphQLInputType, defaultValue
   if (isListType(type)) {
     const value: ValueNode = {
       kind: Kind.LIST,
-      values:[ buildDefaultArgumentValueNode(type.ofType, undefined, { currentDepth: currentDepth + 1, maxDepth }) ],
+      values: [
+        buildDefaultArgumentValueNode(type.ofType, undefined, {
+          currentDepth: currentDepth + 1,
+          maxDepth,
+        }),
+      ],
     };
     return value;
   }
@@ -206,11 +256,16 @@ const maybeBuildDefaultArgumentValueNode = (type: GraphQLInputType, defaultValue
       return;
     }
 
-    
     const fieldNodes = [];
-    for (const field of Object.values((type as GraphQLInputObjectType).getFields())) {
+    for (const field of Object.values(
+      (type as GraphQLInputObjectType).getFields()
+    )) {
       if (isRequiredInputField(field)) {
-        const fieldValue = maybeBuildDefaultArgumentValueNode(field.type, undefined, { currentDepth: currentDepth + 1, maxDepth });
+        const fieldValue = maybeBuildDefaultArgumentValueNode(
+          field.type,
+          undefined,
+          { currentDepth: currentDepth + 1, maxDepth }
+        );
         if (fieldValue) {
           fieldNodes.push({
             kind: Kind.OBJECT_FIELD,

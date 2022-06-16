@@ -10,21 +10,17 @@ import { PreRequestService } from '../../services';
 describe('PostRequestEditorComponent', () => {
   let wrapper: NgxTestWrapper<PostRequestEditorComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: PostRequestEditorComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      providers: [
-        MockProviders(PreRequestService),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      providers: [MockProviders(PreRequestService)],
+      schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         postRequest: {
           enabled: true,
           script: '',
-        }
+        },
       },
     });
   });

@@ -14,20 +14,21 @@ describe('SetVariableDialogComponent', () => {
   let component: SetVariableDialogComponent;
   let fixture: ComponentFixture<SetVariableDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SetVariableDialogComponent, VariablesEditorComponent ],
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot()
-      ],
-      providers: []
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SetVariableDialogComponent, VariablesEditorComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SetVariableDialogComponent);

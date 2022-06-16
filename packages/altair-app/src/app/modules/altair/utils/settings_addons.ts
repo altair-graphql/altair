@@ -5,7 +5,8 @@ import { ValidateFunction } from 'ajv';
 import { JSONSchema6 } from 'json-schema';
 import { UnknownError } from '../interfaces/shared';
 
-const settingsValidator = require('./validate_settings_schema') as ValidateFunction;
+const settingsValidator =
+  require('./validate_settings_schema') as ValidateFunction;
 
 export interface SchemaFormProperty extends JSONSchema6 {
   ref?: any; // TODO:
@@ -21,24 +22,28 @@ export const validateSettings = (settings: string) => {
 };
 
 export const registerSettingsLinter = (CM: typeof Codemirror) => {
-  CM.registerHelper('lint', 'json', function(text: string) {
+  CM.registerHelper('lint', 'json', function (text: string) {
     let found: any[] = [];
     try {
       if (!validateSettings(text) && settingsValidator.errors) {
         found = [
           ...found,
           ...settingsValidator.errors.map((error: UnknownError) => {
-            let message = `[${error.keyword}] '${error.dataPath.substring(1)}' ${error.message}`;
+            let message = `[${error.keyword}] '${error.dataPath.substring(
+              1
+            )}' ${error.message}`;
 
             if (error.params && error.params['allowedValues']) {
-              message += `\nAllowed values: [${error.params['allowedValues'].join(', ')}]`
+              message += `\nAllowed values: [${error.params[
+                'allowedValues'
+              ].join(', ')}]`;
             }
             return {
               from: CM.Pos(1, 1),
               to: CM.Pos(1, 1),
-              message: message
-            }
-          })
+              message: message,
+            };
+          }),
         ];
       }
       // debug.log(valid, ajv.errors, text);
@@ -47,7 +52,7 @@ export const registerSettingsLinter = (CM: typeof Codemirror) => {
       found.push({
         from: CM.Pos(1, 1),
         to: CM.Pos(1, 1),
-        message: 'Invalid JSON'
+        message: 'Invalid JSON',
       });
     }
 
@@ -60,12 +65,12 @@ function elt(tagname: string, cls: string, ...elts: any[]) {
   if (cls) {
     e.className = cls;
   }
-  elts.forEach((_elt => {
+  elts.forEach((_elt) => {
     if (typeof _elt === 'string') {
       _elt = document.createTextNode(_elt);
     }
     e.appendChild(_elt);
-  }));
+  });
   return e;
 }
 
@@ -84,11 +89,14 @@ function remove(node: Node) {
   }
 }
 
-export const getPropertyRef = (property: SchemaFormProperty, schema: JSONSchema6) => {
+export const getPropertyRef = (
+  property: SchemaFormProperty,
+  schema: JSONSchema6
+) => {
   if (property.$ref) {
     const refPath = property.$ref.split('/');
     let curRef: any = schema;
-    refPath.forEach(path => {
+    refPath.forEach((path) => {
       if (path === '#') {
         curRef = schema;
       } else {
@@ -133,33 +141,42 @@ export const getHint = (cm: CodeMirror.Editor) => {
   }
 
   const schemaProperties = (settingsValidator.schema as any).properties;
-  const fullList = Object.keys(schemaProperties)
-    .map(item => ({
-      ...schemaProperties[item],
-      text: `${before}${item}${after}`,
-      displayText: item,
-      description: schemaProperties[item].description
-        + '\nType: ' + getPropertyType(schemaProperties[item], settingsValidator.schema)
-    }));
-  const list = fullList
-    .filter(item => item.displayText.indexOf(currentWord.replace(new RegExp(`(^${before})|(${after}$)`, 'g'), '')) > -1);
+  const fullList = Object.keys(schemaProperties).map((item) => ({
+    ...schemaProperties[item],
+    text: `${before}${item}${after}`,
+    displayText: item,
+    description:
+      schemaProperties[item].description +
+      '\nType: ' +
+      getPropertyType(schemaProperties[item], settingsValidator.schema),
+  }));
+  const list = fullList.filter(
+    (item) =>
+      item.displayText.indexOf(
+        currentWord.replace(new RegExp(`(^${before})|(${after}$)`, 'g'), '')
+      ) > -1
+  );
 
   const hintResult = {
     list: list.length ? list : fullList,
     from: Codemirror.Pos(line, start),
-    to: Codemirror.Pos(line, token.end)
+    to: Codemirror.Pos(line, token.end),
   };
   let tooltip: HTMLElement;
-  Codemirror.on(hintResult, 'close', function() { remove(tooltip); });
-  Codemirror.on(hintResult, 'update', function() { remove(tooltip); });
-  Codemirror.on(hintResult, 'select', function(cur: any, node: Node) {
+  Codemirror.on(hintResult, 'close', function () {
+    remove(tooltip);
+  });
+  Codemirror.on(hintResult, 'update', function () {
+    remove(tooltip);
+  });
+  Codemirror.on(hintResult, 'select', function (cur: any, node: Node) {
     remove(tooltip);
     const content = cur.description;
     if (content && node.parentElement) {
       tooltip = makeTooltip(
         node.parentElement.getBoundingClientRect().right + window.pageXOffset,
         node.parentElement.getBoundingClientRect().top + window.pageYOffset,
-        content,
+        content
       );
       if (tooltip) {
         tooltip.className += ' ' + 'CodeMirror-Tern-hint-doc';

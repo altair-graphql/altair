@@ -1,8 +1,18 @@
-
-import {from as observableFrom, Observable, empty as observableEmpty, throwError, of } from 'rxjs';
+import {
+  from as observableFrom,
+  Observable,
+  empty as observableEmpty,
+  throwError,
+  of,
+} from 'rxjs';
 import { Injectable } from '@angular/core';
 import uuid from 'uuid/v4';
-import { ExportCollectionState, IQuery, IQueryCollection, IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  ExportCollectionState,
+  IQuery,
+  IQueryCollection,
+  IQueryCollectionTree,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { StorageService } from '../storage/storage.service';
 import { debug } from '../../utils/logger';
 import { getFileStr } from '../../utils';
@@ -18,13 +28,16 @@ const COLLECTION_PATH_SEPARATOR = '/';
 // https://github.com/dexie/Dexie.js/issues/749
 @Injectable()
 export class QueryCollectionService {
+  constructor(private storage: StorageService) {}
 
-  constructor(
-    private storage: StorageService
-  ) { }
-
-  async create(collection: IQueryCollection, parentCollectionId?: CollectionID) {
-    const newCollectionId = await this.createLocalCollection(collection, parentCollectionId);
+  async create(
+    collection: IQueryCollection,
+    parentCollectionId?: CollectionID
+  ) {
+    const newCollectionId = await this.createLocalCollection(
+      collection,
+      parentCollectionId
+    );
 
     // Remote - don't add to remote yet, until user explicitly syncs
 
@@ -35,7 +48,10 @@ export class QueryCollectionService {
     return !!supabase.auth.user();
   }
 
-  async createRemoteCollection(localCollectionId: CollectionID, collection: IQueryCollection) {
+  async createRemoteCollection(
+    localCollectionId: CollectionID,
+    collection: IQueryCollection
+  ) {
     if (!this.canApplyRemote()) {
       // not logged in
       return;
@@ -45,7 +61,8 @@ export class QueryCollectionService {
     const parentCollection = await this.getParentCollection(collection);
     const parentCollectionServerId = parentCollection?.serverId;
 
-    const { data: workspace, error: workspaceGetError } = await supabase.from('workspaces')
+    const { data: workspace, error: workspaceGetError } = await supabase
+      .from('workspaces')
       .select('id')
       .single();
 
@@ -58,31 +75,34 @@ export class QueryCollectionService {
     }
 
     // add collection
-    const { data: requestCollections, error: collectionInsertError } = await supabase.from('request_collections')
-      .insert({
+    const { data: requestCollections, error: collectionInsertError } =
+      await supabase.from('request_collections').insert({
         collection_name: collection.title,
         parent_collection_id: parentCollectionServerId,
         workspace_id: workspaceId,
       });
 
-      if (collectionInsertError) {
-        throw collectionInsertError;
-      }
+    if (collectionInsertError) {
+      throw collectionInsertError;
+    }
     if (!requestCollections?.length) {
       throw new Error('Could not add collection to remote');
     }
     const requestCollection = requestCollections[0];
 
     // add queries
-    const { data: requests, error: requestInsertError } = await supabase.from('requests')
-      .insert(collection.queries.map(query => ({
-        name: query.windowName,
-        request_version: query.version,
-        content: query,
-        collection_id: requestCollection.id,
-      })));
+    const { data: requests, error: requestInsertError } = await supabase
+      .from('requests')
+      .insert(
+        collection.queries.map((query) => ({
+          name: query.windowName,
+          request_version: query.version,
+          content: query,
+          collection_id: requestCollection.id,
+        }))
+      );
 
-    if(requestInsertError) {
+    if (requestInsertError) {
       throw requestInsertError;
     }
     if (!requests?.length) {
@@ -90,7 +110,9 @@ export class QueryCollectionService {
     }
 
     // Add serverId to local query and collection data
-    const localCollection = await this.mustGetLocalCollection(localCollectionId);
+    const localCollection = await this.mustGetLocalCollection(
+      localCollectionId
+    );
     localCollection.serverId = requestCollection.id;
     localCollection.queries = localCollection.queries.map((query, idx) => {
       query.serverId = requests[idx].id;
@@ -99,7 +121,10 @@ export class QueryCollectionService {
     return this.updateLocalCollection(localCollectionId, localCollection);
   }
 
-  private async createLocalCollection(collection: IQueryCollection, parentCollectionId?: CollectionID) {
+  private async createLocalCollection(
+    collection: IQueryCollection,
+    parentCollectionId?: CollectionID
+  ) {
     const now = this.storage.now();
     let parentPath = '';
     if (parentCollectionId) {
@@ -107,7 +132,7 @@ export class QueryCollectionService {
     }
 
     collection.queries = collection.queries.map((query) => {
-      return { ...query, id: uuid(), created_at: now, updated_at: now }
+      return { ...query, id: uuid(), created_at: now, updated_at: now };
     });
 
     return this.storage.queryCollections.add({
@@ -128,24 +153,27 @@ export class QueryCollectionService {
       // not logged in
       return;
     }
-    
+
     if (localCollection.serverId) {
       // only add query to remote if already synced
-      await this.addRemoteQuery(collectionId, [ query ]);
+      await this.addRemoteQuery(collectionId, [query]);
     }
   }
 
   private async addRemoteQuery(collectionId: CollectionID, queries: IQuery[]) {
     const localCollection = await this.mustGetLocalCollection(collectionId);
-    const { data: requests, error: requestInsertError } = await supabase.from('requests')
-      .insert(queries.map(query => ({
-        name: query.windowName,
-        request_version: query.version,
-        content: query,
-        collection_id: localCollection.serverId,
-      })));
+    const { data: requests, error: requestInsertError } = await supabase
+      .from('requests')
+      .insert(
+        queries.map((query) => ({
+          name: query.windowName,
+          request_version: query.version,
+          content: query,
+          collection_id: localCollection.serverId,
+        }))
+      );
 
-    if(requestInsertError) {
+    if (requestInsertError) {
       throw requestInsertError;
     }
     if (!requests?.length) {
@@ -155,13 +183,17 @@ export class QueryCollectionService {
 
   private async addLocalQuery(collectionId: CollectionID, query: IQuery) {
     const now = this.storage.now();
-    return this.updateCollectionByID(collectionId, collection => {
+    return this.updateCollectionByID(collectionId, (collection) => {
       const uQuery = { ...query, id: uuid(), created_at: now, updated_at: now };
       collection.queries.push(uQuery);
     });
   }
 
-  async updateQuery(collectionId: CollectionID, queryId: QueryID, query: IQuery) {
+  async updateQuery(
+    collectionId: CollectionID,
+    queryId: QueryID,
+    query: IQuery
+  ) {
     const res = await this.updateLocalQuery(collectionId, queryId, query);
 
     if (!this.canApplyRemote()) {
@@ -175,10 +207,11 @@ export class QueryCollectionService {
     }
     const localQuery = await this.getLocalQuery(collectionId, queryId);
     if (!localQuery?.serverId) {
-      return this.addRemoteQuery(collectionId, [ query ]);
+      return this.addRemoteQuery(collectionId, [query]);
     }
 
-    const { data: requests, error: requestUpdateError } = await supabase.from('requests')
+    const { data: requests, error: requestUpdateError } = await supabase
+      .from('requests')
       .update({
         name: query.windowName,
         request_version: query.version,
@@ -186,7 +219,7 @@ export class QueryCollectionService {
       })
       .eq('id', localQuery.serverId);
 
-    if(requestUpdateError) {
+    if (requestUpdateError) {
       throw requestUpdateError;
     }
     if (!requests?.length) {
@@ -220,9 +253,20 @@ export class QueryCollectionService {
     return await this.storage.queryCollections.get(collectionId);
   }
 
-  private async updateCollectionByID(collectionId: CollectionID, changeCb: (obj: IQueryCollection, ctx: { value: IQueryCollection; }) => boolean | void) {
+  private async updateCollectionByID(
+    collectionId: CollectionID,
+    changeCb: (
+      obj: IQueryCollection,
+      ctx: { value: IQueryCollection }
+    ) => boolean | void
+  ) {
     const alternateCollectionId = this.getAlternateCollectionID(collectionId);
-    return this.storage.queryCollections.where('id').equals(collectionId).or('id').equals(alternateCollectionId).modify(changeCb);
+    return this.storage.queryCollections
+      .where('id')
+      .equals(collectionId)
+      .or('id')
+      .equals(alternateCollectionId)
+      .modify(changeCb);
   }
 
   private async mustGetLocalCollection(collectionId: CollectionID) {
@@ -236,15 +280,19 @@ export class QueryCollectionService {
   private async getLocalQuery(collectionId: CollectionID, queryId: QueryID) {
     const localCollection = await this.getCollectionByID(collectionId);
     if (localCollection) {
-      return localCollection.queries.find(query => query.id === queryId);
+      return localCollection.queries.find((query) => query.id === queryId);
     }
   }
 
-  private updateLocalQuery(collectionId: CollectionID, queryId: QueryID, query: IQuery) {
+  private updateLocalQuery(
+    collectionId: CollectionID,
+    queryId: QueryID,
+    query: IQuery
+  ) {
     const now = this.storage.now();
-    return this.updateCollectionByID(collectionId, collection => {
+    return this.updateCollectionByID(collectionId, (collection) => {
       const uQuery = { ...query, id: queryId, updated_at: now };
-      collection.queries = collection.queries.map(collectionQuery => {
+      collection.queries = collection.queries.map((collectionQuery) => {
         if (collectionQuery.id === queryId) {
           collectionQuery = { ...collectionQuery, ...uQuery };
         }
@@ -252,7 +300,7 @@ export class QueryCollectionService {
       });
 
       // collection.updated_at = now;
-    })
+    });
   }
 
   async deleteQuery(collectionId: CollectionID, query: IQuery) {
@@ -279,11 +327,12 @@ export class QueryCollectionService {
       debug.log('Query does not have server id. Skipping remote check.');
       return;
     }
-    const { data: requests, error: requestDeleteError } = await supabase.from('requests')
-    .delete()
-    .eq('id', localQuery.serverId);
+    const { data: requests, error: requestDeleteError } = await supabase
+      .from('requests')
+      .delete()
+      .eq('id', localQuery.serverId);
 
-    if(requestDeleteError) {
+    if (requestDeleteError) {
       throw requestDeleteError;
     }
     if (!requests?.length) {
@@ -292,8 +341,8 @@ export class QueryCollectionService {
   }
 
   private deleteLocalQuery(collectionId: CollectionID, query: IQuery) {
-    return this.updateCollectionByID(collectionId, collection => {
-      collection.queries = collection.queries.filter(collectionQuery => {
+    return this.updateCollectionByID(collectionId, (collection) => {
+      collection.queries = collection.queries.filter((collectionQuery) => {
         if (query.id) {
           if (query.id === collectionQuery.id) {
             return false;
@@ -316,7 +365,7 @@ export class QueryCollectionService {
     const localCollection = await this.mustGetLocalCollection(collectionId);
     await this.deleteLocalCollection(collectionId);
     // Note: Deleting a collection would delete all subcollections and queries inside the collection
-    
+
     // delete collection remote
     if (!this.canApplyRemote()) {
       // not logged in
@@ -327,11 +376,13 @@ export class QueryCollectionService {
       return;
     }
 
-    const { data: requestCollections, error: collectionDeleteError } = await supabase.from('request_collections')
-    .delete()
-    .eq('id', localCollection.serverId);
+    const { data: requestCollections, error: collectionDeleteError } =
+      await supabase
+        .from('request_collections')
+        .delete()
+        .eq('id', localCollection.serverId);
 
-    if(collectionDeleteError) {
+    if (collectionDeleteError) {
       throw collectionDeleteError;
     }
     if (!requestCollections?.length) {
@@ -341,11 +392,19 @@ export class QueryCollectionService {
 
   async deleteLocalCollection(collectionId: CollectionID) {
     await this.storage.queryCollections.delete(collectionId);
-    await this.storage.queryCollections.delete(this.getAlternateCollectionID(collectionId));
+    await this.storage.queryCollections.delete(
+      this.getAlternateCollectionID(collectionId)
+    );
   }
 
-  async updateCollection(collectionId: CollectionID, modifiedCollection: IQueryCollection) {
-    const res = await this.updateLocalCollection(collectionId, modifiedCollection);
+  async updateCollection(
+    collectionId: CollectionID,
+    modifiedCollection: IQueryCollection
+  ) {
+    const res = await this.updateLocalCollection(
+      collectionId,
+      modifiedCollection
+    );
 
     const localCollection = await this.mustGetLocalCollection(collectionId);
 
@@ -368,12 +427,14 @@ export class QueryCollectionService {
     const localCollection = await this.mustGetLocalCollection(collectionId);
     const parentCollection = await this.getParentCollection(localCollection);
 
-    const { data: requestCollections, error: collectionInsertError } = await supabase.from('request_collections')
-      .update({
-        collection_name: localCollection.title,
-        parent_collection_id: parentCollection?.serverId,
-      })
-      .eq('id', localCollection.serverId);
+    const { data: requestCollections, error: collectionInsertError } =
+      await supabase
+        .from('request_collections')
+        .update({
+          collection_name: localCollection.title,
+          parent_collection_id: parentCollection?.serverId,
+        })
+        .eq('id', localCollection.serverId);
 
     if (collectionInsertError) {
       throw collectionInsertError;
@@ -385,7 +446,10 @@ export class QueryCollectionService {
     return requestCollections;
   }
 
-  private updateLocalCollection(collectionId: CollectionID, modifiedCollection: IQueryCollection) {
+  private updateLocalCollection(
+    collectionId: CollectionID,
+    modifiedCollection: IQueryCollection
+  ) {
     return this.updateCollectionByID(collectionId, (collection, ctx) => {
       ctx.value = modifiedCollection;
       ctx.value.updated_at = this.storage.now();
@@ -393,7 +457,9 @@ export class QueryCollectionService {
   }
 
   async getExportCollectionData(collectionId: CollectionID) {
-    const collectionTree = await this.getCollectionTreeByCollectionId(collectionId);
+    const collectionTree = await this.getCollectionTreeByCollectionId(
+      collectionId
+    );
     const exportCollectionData: ExportCollectionState = {
       version: 1,
       type: 'collection',
@@ -430,7 +496,6 @@ export class QueryCollectionService {
         const collection = collections[i];
         await this.create(collection);
       }
-
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);
       throw err;
@@ -473,27 +538,34 @@ export class QueryCollectionService {
     const localCollections = await this.getAll();
 
     for (const serverCollection of serverCollections) {
-      const matchedCollection = localCollections.find(collection => collection.serverId === serverCollection.id);
+      const matchedCollection = localCollections.find(
+        (collection) => collection.serverId === serverCollection.id
+      );
       if (matchedCollection) {
         const serverDate = new Date(serverCollection.updated_at);
         const localDate = new Date(matchedCollection.updated_at!);
-        if (serverDate.getTime() > (localDate.getTime() + timestampDiffOffset)) {
+        if (serverDate.getTime() > localDate.getTime() + timestampDiffOffset) {
           serverCollection.requests.forEach((request: TODO) => {
             // update collection queries
-            matchedCollection.queries = matchedCollection.queries.map(query => {
-              if (query.serverId === request.id) {
-                const serverRequestDate = new Date(request.updated_at);
-                const localRequestDate = new Date(query.updated_at!);
-                if (serverRequestDate.getTime() > (localRequestDate.getTime() + timestampDiffOffset)) {
-                  // server content is newer
-                  return {
-                    ...request.content,
-                    serverId: request.id,
-                  };
+            matchedCollection.queries = matchedCollection.queries.map(
+              (query) => {
+                if (query.serverId === request.id) {
+                  const serverRequestDate = new Date(request.updated_at);
+                  const localRequestDate = new Date(query.updated_at!);
+                  if (
+                    serverRequestDate.getTime() >
+                    localRequestDate.getTime() + timestampDiffOffset
+                  ) {
+                    // server content is newer
+                    return {
+                      ...request.content,
+                      serverId: request.id,
+                    };
+                  }
                 }
+                return query;
               }
-              return query;
-            });
+            );
 
             // TODO: Handle parentPath
             // matchedCollection.parentPath
@@ -502,12 +574,18 @@ export class QueryCollectionService {
           });
           // server content is newer
           if (matchedCollection.id) {
-            await this.updateLocalCollection(matchedCollection.id, matchedCollection);
+            await this.updateLocalCollection(
+              matchedCollection.id,
+              matchedCollection
+            );
           }
         }
       } else {
         // add collection to local
-        const queries = serverCollection.requests.map((request: TODO) => ({ ...request.content, serverId: request.id }));
+        const queries = serverCollection.requests.map((request: TODO) => ({
+          ...request.content,
+          serverId: request.id,
+        }));
         const localCollection: IQueryCollection = {
           title: serverCollection.collection_name,
           queries,
@@ -517,15 +595,18 @@ export class QueryCollectionService {
 
         await this.createLocalCollection(localCollection);
       }
-    };
+    }
   }
 
   /**
-   * 
-   * @param collectionId the parent collection ID 
+   *
+   * @param collectionId the parent collection ID
    * @param recursive determines if all the descendants (sub collections of sub collections) should be retrieved
    */
-  async getSubcollections(collectionId: CollectionID, recursive = false): Promise<IQueryCollection[]> {
+  async getSubcollections(
+    collectionId: CollectionID,
+    recursive = false
+  ): Promise<IQueryCollection[]> {
     const parentPath = await this.getSubcollectionParentPath(collectionId);
     const whereClause = this.storage.queryCollections.where('parentPath');
 
@@ -539,7 +620,10 @@ export class QueryCollectionService {
     observableFrom(this.getSubcollections(collectionId, recursive));
   }
 
-  moveCollection(collectionId: CollectionID, newParentCollectionId: CollectionID) {
+  moveCollection(
+    collectionId: CollectionID,
+    newParentCollectionId: CollectionID
+  ) {
     return this.moveLocalCollection(collectionId, newParentCollectionId);
     // TODO: move collection remote
   }
@@ -549,41 +633,58 @@ export class QueryCollectionService {
    * @param collectionId
    * @param newParentCollectionId
    */
-  private async moveLocalCollection(collectionId: CollectionID, newParentCollectionId: CollectionID) {
-    return this.storage.transaction('rw', this.storage.queryCollections, async () => {
-      const collection = await this.getCollectionByID(collectionId);
-      if (!collection) {
-        throw new Error('Could not retrieve collection');
+  private async moveLocalCollection(
+    collectionId: CollectionID,
+    newParentCollectionId: CollectionID
+  ) {
+    return this.storage.transaction(
+      'rw',
+      this.storage.queryCollections,
+      async () => {
+        const collection = await this.getCollectionByID(collectionId);
+        if (!collection) {
+          throw new Error('Could not retrieve collection');
+        }
+
+        // '/coll-z', id: 456
+        const newParentCollection = await this.getCollectionByID(
+          newParentCollectionId
+        );
+        if (!newParentCollection) {
+          throw new Error('Could not retrieve parent collection');
+        }
+        const newParentCollectionParentPath =
+          newParentCollection.parentPath ?? '';
+        const newParentSubcollectionParentPath = `${newParentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${newParentCollectionId}`;
+
+        // '/coll-a'
+        const collectionParentPath = collection.parentPath ?? '';
+        // '/coll-a/123'
+        const parentPath = `${collectionParentPath}${COLLECTION_PATH_SEPARATOR}${collectionId}`;
+
+        // '/coll-a' -> '/coll-z/456'
+        // '/coll-a/123' -> '/coll-z/456/123'
+        return this.storage.queryCollections
+          .where({ id: collectionId })
+          .or('id')
+          .equals(this.getAlternateCollectionID(collectionId)) // include the collection itself
+          .or('parentPath')
+          .startsWith(parentPath) // ...and its descendants
+          .modify((c) => {
+            c.parentPath = c.parentPath?.replace(
+              collectionParentPath,
+              newParentSubcollectionParentPath
+            );
+          });
       }
-
-      // '/coll-z', id: 456
-      const newParentCollection = await this.getCollectionByID(newParentCollectionId);
-      if (!newParentCollection) {
-        throw new Error('Could not retrieve parent collection');
-      }
-      const newParentCollectionParentPath = newParentCollection.parentPath ?? '';
-      const newParentSubcollectionParentPath = `${newParentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${newParentCollectionId}`;
-
-      // '/coll-a'
-      const collectionParentPath = collection.parentPath ?? '';
-      // '/coll-a/123'
-      const parentPath = `${collectionParentPath}${COLLECTION_PATH_SEPARATOR}${collectionId}`;
-
-      // '/coll-a' -> '/coll-z/456'
-      // '/coll-a/123' -> '/coll-z/456/123'
-      return this.storage.queryCollections.where({ id: collectionId }).or('id').equals(this.getAlternateCollectionID(collectionId)) // include the collection itself
-        .or('parentPath').startsWith(parentPath) // ...and its descendants
-        .modify(c => {
-          c.parentPath = c.parentPath?.replace(collectionParentPath, newParentSubcollectionParentPath);
-        });
-    });
+    );
   }
 
   getCollectionTrees(collections: IQueryCollection[]) {
     const roots: IQueryCollectionTree[] = [];
     const collectionMap = new Map<string, IQueryCollectionTree>();
 
-    collections.forEach(collection => {
+    collections.forEach((collection) => {
       const collectionId = collection.id;
       if (!collectionId) {
         throw new Error('All collections must have an ID to get a tree!');
@@ -596,7 +697,7 @@ export class QueryCollectionService {
       });
     });
 
-    collections.forEach(collection => {
+    collections.forEach((collection) => {
       const collectionTree = collectionMap.get(`${collection.id}`);
       if (!collectionTree) {
         return;
@@ -635,7 +736,7 @@ export class QueryCollectionService {
   async getAllParentCollections(collection: IQueryCollection) {
     const collections: IQueryCollection[] = [];
     let curCollection = collection;
-    for(;;) {
+    for (;;) {
       const parentCollection = await this.getParentCollection(curCollection);
       if (!parentCollection) {
         return collections;
@@ -650,10 +751,18 @@ export class QueryCollectionService {
     return of(this.getCollectionTrees(collections));
   }
 
-  getCollectionListFromTree(tree: IQueryCollectionTree, parentPath = ''): IQueryCollection[] {
+  getCollectionListFromTree(
+    tree: IQueryCollectionTree,
+    parentPath = ''
+  ): IQueryCollection[] {
     // remove collections and keep the rest as collection
     const { collections, ...rootCollection } = tree;
-    const subcollections = collections?.map(ct => this.getCollectionListFromTree(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${tree.id}`));
+    const subcollections = collections?.map((ct) =>
+      this.getCollectionListFromTree(
+        ct,
+        `${parentPath}${COLLECTION_PATH_SEPARATOR}${tree.id}`
+      )
+    );
 
     return [
       {
@@ -664,13 +773,21 @@ export class QueryCollectionService {
     ];
   }
 
-  remapCollectionIDsToCollectionList(tree: IQueryCollectionTree, parentPath = ''): IQueryCollection[] {
+  remapCollectionIDsToCollectionList(
+    tree: IQueryCollectionTree,
+    parentPath = ''
+  ): IQueryCollection[] {
     // remove collections and keep the rest as collection
     const { collections, ...rootCollection } = tree;
     // re-assign a new ID to collection
     rootCollection.id = uuid();
     // pass new ID as parentPath in sub collections
-    const subcollections = collections?.map(ct => this.remapCollectionIDsToCollectionList(ct, `${parentPath}${COLLECTION_PATH_SEPARATOR}${rootCollection.id}`));
+    const subcollections = collections?.map((ct) =>
+      this.remapCollectionIDsToCollectionList(
+        ct,
+        `${parentPath}${COLLECTION_PATH_SEPARATOR}${rootCollection.id}`
+      )
+    );
 
     return [
       {
@@ -688,7 +805,10 @@ export class QueryCollectionService {
     }
     const subcollections = await this.getSubcollections(collectionId, true);
 
-    const [ collectionTree ] = this.getCollectionTrees([ collection, ...subcollections ]);
+    const [collectionTree] = this.getCollectionTrees([
+      collection,
+      ...subcollections,
+    ]);
 
     return collectionTree;
   }

@@ -11,23 +11,18 @@ import { DocViewerSearchResultsComponent } from './doc-viewer-search-results/doc
 import { ComponentModule } from '../components.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    ComponentModule,
-  ],
+  imports: [CommonModule, FormsModule, SharedModule, ComponentModule],
   declarations: [
     DocViewerComponent,
     DocViewerFieldComponent,
     DocViewerTypeComponent,
-    DocViewerSearchResultsComponent
+    DocViewerSearchResultsComponent,
   ],
   exports: [
     DocViewerComponent,
     DocViewerFieldComponent,
     DocViewerTypeComponent,
-    DocViewerSearchResultsComponent
-  ]
+    DocViewerSearchResultsComponent,
+  ],
 })
-export class DocViewerModule { }
+export class DocViewerModule {}

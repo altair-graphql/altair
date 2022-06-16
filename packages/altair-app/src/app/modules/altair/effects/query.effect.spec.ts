@@ -15,7 +15,10 @@ import {
   QueryService,
 } from '../services';
 import * as fromRoot from '../store';
-import { ConvertToNamedQueryAction, SetQueryAction } from '../store/query/query.action';
+import {
+  ConvertToNamedQueryAction,
+  SetQueryAction,
+} from '../store/query/query.action';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 describe('query effects', () => {
@@ -46,16 +49,18 @@ describe('query effects', () => {
     it('should dispatch set query action with named query', (done) => {
       actions$ = of(new ConvertToNamedQueryAction('window1', {}));
       mockGqlService = mock({
-        nameQuery() { return 'query named {}' }
+        nameQuery() {
+          return 'query named {}';
+        },
       } as any);
       mockStore = mockStoreFactory<RootState>({
         windows: {
-          'window1': {
+          window1: {
             query: {
-              query: 'query {}'
-            }
-          }
-        }
+              query: 'query {}',
+            },
+          },
+        },
       } as any);
       const effects = new QueryEffects(
         actions$,
@@ -67,7 +72,7 @@ describe('query effects', () => {
         mockEnvironmentService,
         mockQueryService,
         mockSubscriptionProviderRegistryService,
-        mockStore,
+        mockStore
       );
 
       effects.convertToNamedQuery$.subscribe((action) => {

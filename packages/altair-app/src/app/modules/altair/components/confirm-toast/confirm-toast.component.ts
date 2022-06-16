@@ -1,12 +1,18 @@
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { Component } from '@angular/core';
 import { Toast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirm-toast',
   templateUrl: './confirm-toast.component.html',
-  styles: [
-  ],
+  styles: [],
   animations: [
     trigger('flyInOut', [
       state('inactive', style({ opacity: 0 })),
@@ -16,11 +22,8 @@ import { Toast } from 'ngx-toastr';
         'inactive => active',
         animate('{{ easeTime }}ms {{ easing }}')
       ),
-      transition(
-        'active => removed',
-        animate('{{ easeTime }}ms {{ easing }}')
-      )
-    ])
+      transition('active => removed', animate('{{ easeTime }}ms {{ easing }}')),
+    ]),
   ],
 })
 export class ConfirmToastComponent extends Toast {

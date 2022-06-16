@@ -10,13 +10,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('HistoryDialogComponent', () => {
   let wrapper: NgxTestWrapper<HistoryDialogComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: HistoryDialogComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

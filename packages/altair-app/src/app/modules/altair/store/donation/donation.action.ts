@@ -11,6 +11,4 @@ export class HideDonationAlertAction implements NGRXAction {
   readonly type = HIDE_DONATION_ALERT;
 }
 
-export type Action =
-  | ShowDonationAlertAction
-  | HideDonationAlertAction;
+export type Action = ShowDonationAlertAction | HideDonationAlertAction;

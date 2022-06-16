@@ -3,15 +3,17 @@ import { GQLSchemaState } from 'altair-graphql-core/build/types/state/gql-schema
 
 import * as gqlSchema from './gql-schema.action';
 
-
 export const getInitialState = (): GQLSchemaState => {
   return {
     sdl: '',
-    allowIntrospection: true
+    allowIntrospection: true,
   };
 };
 
-export function gqlSchemaReducer(state = getInitialState(), action: gqlSchema.Action): GQLSchemaState {
+export function gqlSchemaReducer(
+  state = getInitialState(),
+  action: gqlSchema.Action
+): GQLSchemaState {
   switch (action.type) {
     case gqlSchema.SET_INTROSPECTION:
     case gqlSchema.SET_INTROSPECTION_FROM_DB:

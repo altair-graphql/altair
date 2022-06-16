@@ -1,13 +1,17 @@
-import { Component, AfterViewInit, HostListener, ElementRef } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  HostListener,
+  ElementRef,
+} from '@angular/core';
 import { KEYS } from '../keys';
 import { Cursor } from '../models/cursor';
 import { debug } from '../../../utils/logger';
 import { InputState, BlockEvent, BlockState, BlockOption } from '../models';
 
-
 const VARIABLE_STRUCT = {
   open: '{{',
-  close: '}}'
+  close: '}}',
 };
 
 @Component({
@@ -16,7 +20,7 @@ const VARIABLE_STRUCT = {
   styleUrls: ['./smart-input.component.scss'],
   preserveWhitespaces: false,
 })
-export class SmartInputComponent implements  AfterViewInit {
+export class SmartInputComponent implements AfterViewInit {
   state: InputState = {
     lines: [
       {
@@ -24,23 +28,30 @@ export class SmartInputComponent implements  AfterViewInit {
           { content: 'some ', isFocused: false, caretOffset: 0 },
           { type: 'some-class', content: 'other' },
           { content: ' content' },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   };
 
-  constructor(private element: ElementRef) { }
+  constructor(private element: ElementRef) {}
 
   ngAfterViewInit() {
     this.element.nativeElement.contentEditable = true;
   }
 
-  
-
   getBlockInfoFromData(data: BlockEvent) {
-    const curBlockEl = data.cursor.selection && data.cursor.selection.focusNode ? data.cursor.selection.focusNode.parentElement : null;
-    const lineIndex = curBlockEl && curBlockEl.getAttribute('data-line-index') ? +curBlockEl.getAttribute('data-line-index')! : 0;
-    const blockIndex = curBlockEl && curBlockEl.getAttribute('data-block-index') ? +curBlockEl.getAttribute('data-block-index')! : 0;
+    const curBlockEl =
+      data.cursor.selection && data.cursor.selection.focusNode
+        ? data.cursor.selection.focusNode.parentElement
+        : null;
+    const lineIndex =
+      curBlockEl && curBlockEl.getAttribute('data-line-index')
+        ? +curBlockEl.getAttribute('data-line-index')!
+        : 0;
+    const blockIndex =
+      curBlockEl && curBlockEl.getAttribute('data-block-index')
+        ? +curBlockEl.getAttribute('data-block-index')!
+        : 0;
 
     return { curBlockEl, lineIndex, blockIndex };
   }
@@ -58,65 +69,94 @@ export class SmartInputComponent implements  AfterViewInit {
   }
   updateBlock(data: BlockState, { lineIndex, blockIndex }: BlockOption) {
     debug.log('updating..', data, lineIndex, blockIndex);
-    this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.map((block, i) => {
-      if (i === blockIndex) {
-        return { ...block, ...data };
-      }
+    this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.map(
+      (block, i) => {
+        if (i === blockIndex) {
+          return { ...block, ...data };
+        }
 
-      if (data.isFocused) {
-        // If this is not the block but isFocused is set for the chosen block,
-        // then remove isFocused from all other blocks
-        block.isFocused = false;
-      }
+        if (data.isFocused) {
+          // If this is not the block but isFocused is set for the chosen block,
+          // then remove isFocused from all other blocks
+          block.isFocused = false;
+        }
 
-      return block;
-    });
+        return block;
+      }
+    );
   }
 
-  replaceBlock(newBlocks: BlockState[], { lineIndex, blockIndex }: BlockOption) {
-    const beforeBlocks = this.state.lines[lineIndex].blocks.slice(0, blockIndex);
-    const afterBlocks = this.state.lines[lineIndex].blocks.slice(blockIndex + 1);
-    this.state.lines[lineIndex].blocks = [ ...beforeBlocks, ...newBlocks, ...afterBlocks ];
+  replaceBlock(
+    newBlocks: BlockState[],
+    { lineIndex, blockIndex }: BlockOption
+  ) {
+    const beforeBlocks = this.state.lines[lineIndex].blocks.slice(
+      0,
+      blockIndex
+    );
+    const afterBlocks = this.state.lines[lineIndex].blocks.slice(
+      blockIndex + 1
+    );
+    this.state.lines[lineIndex].blocks = [
+      ...beforeBlocks,
+      ...newBlocks,
+      ...afterBlocks,
+    ];
   }
 
   deleteBlock(data: any, { lineIndex, blockIndex }: BlockOption) {
-    this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.filter((block, i) => {
+    this.state.lines[lineIndex].blocks = this.state.lines[
+      lineIndex
+    ].blocks.filter((block, i) => {
       return i !== blockIndex;
-    })
+    });
   }
 
   onBlockInput(data: BlockEvent) {
     debug.log(data);
-    const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
+    const { curBlockEl, lineIndex, blockIndex } =
+      this.getBlockInfoFromData(data);
     const curBlock = this.getBlock({ lineIndex, blockIndex });
     const originalContent = curBlock.content;
-    const output = [originalContent.slice(0, data.cursor.offset), data.value, originalContent.slice(data.cursor.offset)].join('');
+    const output = [
+      originalContent.slice(0, data.cursor.offset),
+      data.value,
+      originalContent.slice(data.cursor.offset),
+    ].join('');
     curBlock.content = output;
     curBlock.isFocused = data.isFocused;
     curBlock.caretOffset = data.cursor.offset + data.value.length;
 
-    if (output.slice(curBlock.caretOffset! - VARIABLE_STRUCT.open.length, curBlock.caretOffset) === VARIABLE_STRUCT.open) {
+    if (
+      output.slice(
+        curBlock.caretOffset! - VARIABLE_STRUCT.open.length,
+        curBlock.caretOffset
+      ) === VARIABLE_STRUCT.open
+    ) {
       // before - variable - after
       const beforeContent = output.slice(0, curBlock.caretOffset! - 2);
       const afterContent = output.slice(curBlock.caretOffset);
-      const variableContent = [VARIABLE_STRUCT.open, VARIABLE_STRUCT.close].join('');
+      const variableContent = [
+        VARIABLE_STRUCT.open,
+        VARIABLE_STRUCT.close,
+      ].join('');
 
       const newBlocks = [
         this.createNewBlock({
           content: beforeContent,
-          isFocused: false
+          isFocused: false,
         }),
         this.createNewBlock({
           content: variableContent,
           caretOffset: VARIABLE_STRUCT.open.length,
           isFocused: true,
-          type: 'special'
+          type: 'special',
         }),
         this.createNewBlock({
           content: afterContent,
-          isFocused: false
+          isFocused: false,
         }),
-      ].filter(x => !!x.content);
+      ].filter((x) => !!x.content);
 
       return this.replaceBlock(newBlocks, { lineIndex, blockIndex });
     }
@@ -125,12 +165,19 @@ export class SmartInputComponent implements  AfterViewInit {
   }
 
   onBlockBackspace(data: BlockEvent) {
-    const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
+    const { curBlockEl, lineIndex, blockIndex } =
+      this.getBlockInfoFromData(data);
     const curBlock = this.getBlock({ lineIndex, blockIndex });
-    const previousBlock = this.getBlock({ lineIndex, blockIndex: blockIndex - 1 });
+    const previousBlock = this.getBlock({
+      lineIndex,
+      blockIndex: blockIndex - 1,
+    });
     const originalContent = curBlock.content;
     if (data.cursor.offset) {
-      const output = [originalContent.slice(0, data.cursor.offset - 1), originalContent.slice(data.cursor.offset)].join('');
+      const output = [
+        originalContent.slice(0, data.cursor.offset - 1),
+        originalContent.slice(data.cursor.offset),
+      ].join('');
       curBlock.content = output;
       curBlock.isFocused = data.isFocused;
       curBlock.caretOffset = data.cursor.offset - 1;
@@ -142,21 +189,31 @@ export class SmartInputComponent implements  AfterViewInit {
     if (previousBlock) {
       // If previous is a special block, remove it instead.
       if (previousBlock.type === 'special') {
-        return this.deleteBlock(null, { lineIndex, blockIndex: blockIndex - 1 });
+        return this.deleteBlock(null, {
+          lineIndex,
+          blockIndex: blockIndex - 1,
+        });
       }
 
       previousBlock.caretOffset = previousBlock.content.length - 1;
-      previousBlock.content = [previousBlock.content.slice(0, -1), curBlock.content].join('');
+      previousBlock.content = [
+        previousBlock.content.slice(0, -1),
+        curBlock.content,
+      ].join('');
       previousBlock.isFocused = data.isFocused;
       // Delete curBlock
       this.deleteBlock(null, { lineIndex, blockIndex });
-      return this.updateBlock(previousBlock, { lineIndex, blockIndex: blockIndex - 1 });
+      return this.updateBlock(previousBlock, {
+        lineIndex,
+        blockIndex: blockIndex - 1,
+      });
     }
   }
 
   onBlockMoveCursor(data: BlockEvent) {
     debug.log('ok', data);
-    const { curBlockEl, lineIndex, blockIndex } = this.getBlockInfoFromData(data);
+    const { curBlockEl, lineIndex, blockIndex } =
+      this.getBlockInfoFromData(data);
     switch (data.value) {
       case KEYS.UP:
         // Handle up
@@ -170,7 +227,10 @@ export class SmartInputComponent implements  AfterViewInit {
         return;
       case KEYS.LEFT: {
         const curBlock = this.getBlock({ lineIndex, blockIndex });
-        const previousBlock = this.getBlock({ lineIndex, blockIndex: blockIndex - 1 });
+        const previousBlock = this.getBlock({
+          lineIndex,
+          blockIndex: blockIndex - 1,
+        });
         if (data.cursor.offset) {
           curBlock.caretOffset = data.cursor.offset - 1;
           curBlock.isFocused = data.isFocused;
@@ -179,13 +239,19 @@ export class SmartInputComponent implements  AfterViewInit {
         if (previousBlock) {
           previousBlock.caretOffset = previousBlock.content.length - 1;
           previousBlock.isFocused = data.isFocused;
-          return this.updateBlock(previousBlock, { lineIndex, blockIndex: blockIndex - 1 });
+          return this.updateBlock(previousBlock, {
+            lineIndex,
+            blockIndex: blockIndex - 1,
+          });
         }
         return;
       }
       case KEYS.RIGHT: {
         const curBlock = this.getBlock({ lineIndex, blockIndex });
-        const nextBlock = this.getBlock({ lineIndex, blockIndex: blockIndex + 1 });
+        const nextBlock = this.getBlock({
+          lineIndex,
+          blockIndex: blockIndex + 1,
+        });
         if (data.cursor.offset < curBlock.content.length) {
           curBlock.caretOffset = data.cursor.offset + 1;
           curBlock.isFocused = data.isFocused;
@@ -194,7 +260,10 @@ export class SmartInputComponent implements  AfterViewInit {
         if (nextBlock) {
           nextBlock.caretOffset = 1;
           nextBlock.isFocused = data.isFocused;
-          return this.updateBlock(nextBlock, { lineIndex, blockIndex: blockIndex + 1 });
+          return this.updateBlock(nextBlock, {
+            lineIndex,
+            blockIndex: blockIndex + 1,
+          });
         }
         return;
       }
@@ -203,17 +272,12 @@ export class SmartInputComponent implements  AfterViewInit {
     }
   }
 
-
   setCaretPosition(offset: number) {
     const range = document.createRange();
     const sel = window.getSelection();
     // nativeElement -> smart-input-block
     // .childNodes[0] -> text
-    range.setStart(
-      this.element.nativeElement
-        .childNodes[0],
-      offset
-    );
+    range.setStart(this.element.nativeElement.childNodes[0], offset);
     range.collapse(true);
     if (sel) {
       sel.removeAllRanges();
@@ -225,7 +289,7 @@ export class SmartInputComponent implements  AfterViewInit {
     return {
       value: payload,
       cursor: new Cursor(),
-      isFocused: document.activeElement === this.element.nativeElement
+      isFocused: document.activeElement === this.element.nativeElement,
     };
   }
 
@@ -237,7 +301,7 @@ export class SmartInputComponent implements  AfterViewInit {
     return content.replace(/(^\s+|\s+$)/g, '\u00A0');
   }
 
-  @HostListener('keydown', [ '$event' ])
+  @HostListener('keydown', ['$event'])
   onKeydown(e: KeyboardEvent) {
     // Handle non value key events
     let cancel = false;
@@ -277,7 +341,6 @@ export class SmartInputComponent implements  AfterViewInit {
         cancel = true;
         this.onBlockMoveCursor(this.createBlockEvent('home'));
         break;
-
     }
     if (cancel) {
       e.preventDefault();
@@ -286,7 +349,7 @@ export class SmartInputComponent implements  AfterViewInit {
     debug.log('key down', e, window.getSelection());
   }
 
-  @HostListener('keypress', [ '$event' ])
+  @HostListener('keypress', ['$event'])
   onKeyPress(e: KeyboardEvent) {
     if (e.metaKey) {
       return;
@@ -297,7 +360,7 @@ export class SmartInputComponent implements  AfterViewInit {
     this.onBlockInput(this.createBlockEvent(String.fromCharCode(e.charCode)));
   }
 
-  @HostListener('paste', [ '$event' ])
+  @HostListener('paste', ['$event'])
   onPaste(e: Event) {
     // const text = e.clipboardData.getData('text/plain');
     // if (typeof text === 'string') {
@@ -308,19 +371,19 @@ export class SmartInputComponent implements  AfterViewInit {
     debug.log('paste', e);
   }
 
-  @HostListener('compositionstart', [ '$event' ])
+  @HostListener('compositionstart', ['$event'])
   onCompositionStart(e: Event) {
     e.preventDefault();
     // handler.onTextCompositionStart();
     debug.log('compositionstart', e);
   }
 
-  @HostListener('compositionupdate', [ '$event' ])
+  @HostListener('compositionupdate', ['$event'])
   onCompositionUpdate(e: Event) {
     debug.log('compositionupdate', e);
   }
 
-  @HostListener('compositionend', [ '$event' ])
+  @HostListener('compositionend', ['$event'])
   onCompositionEnd(e: Event) {
     // handler.onTextCompositionEnd();
     // handler.onInput(event.data);
@@ -329,14 +392,14 @@ export class SmartInputComponent implements  AfterViewInit {
     debug.log('compositionend', e);
   }
 
-  @HostListener('input', [ '$event' ])
+  @HostListener('input', ['$event'])
   onInput(e: any) {
     debug.log('input', e.data);
     e.preventDefault();
     e.stopPropagation();
   }
 
-  @HostListener('textInput', [ '$event' ])
+  @HostListener('textInput', ['$event'])
   onTextInput(e: Event) {
     debug.log('textInput', e);
   }
@@ -344,5 +407,4 @@ export class SmartInputComponent implements  AfterViewInit {
   trackByIndex(index: number) {
     return index;
   }
-
 }

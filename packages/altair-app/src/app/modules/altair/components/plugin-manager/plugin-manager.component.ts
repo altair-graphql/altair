@@ -4,14 +4,12 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
-
 @Component({
   selector: 'app-plugin-manager',
   templateUrl: './plugin-manager.component.html',
-  styles: []
+  styles: [],
 })
-export class PluginManagerComponent  {
-
+export class PluginManagerComponent {
   @Input() showPluginManager = false;
   @Input() settings: SettingsState;
 
@@ -23,9 +21,7 @@ export class PluginManagerComponent  {
 
   shouldRestart = false;
 
-  constructor(
-    private pluginRegistry: PluginRegistryService,
-  ) {
+  constructor(private pluginRegistry: PluginRegistryService) {
     this.remotePlugins$ = this.pluginRegistry.getRemotePluginList().pipe(
       catchError((error) => {
         return of(null);
@@ -38,15 +34,13 @@ export class PluginManagerComponent  {
     );
   }
 
-  
-
   onSelectPlugin(pluginItem: any) {
     this.selectedPluginItem = pluginItem;
   }
 
   isPluginInstalled(pluginName: string) {
     if (this.settings['plugin.list']) {
-      return this.settings['plugin.list'].some(item => {
+      return this.settings['plugin.list'].some((item) => {
         const pluginInfo = this.pluginRegistry.getPluginInfoFromString(item);
         if (pluginInfo) {
           return pluginInfo.name === pluginName;

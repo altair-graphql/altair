@@ -12,19 +12,20 @@ describe('EnvironmentManagerComponent', () => {
   let component: EnvironmentManagerComponent;
   let fixture: ComponentFixture<EnvironmentManagerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EnvironmentManagerComponent, CodemirrorComponent ],
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot(),
-      ],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EnvironmentManagerComponent, CodemirrorComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentManagerComponent);

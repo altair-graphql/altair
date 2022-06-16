@@ -2,7 +2,12 @@ import { environment } from 'environments/environment';
 import newGithubIssueUrl from 'new-github-issue-url';
 import { truncateText } from '..';
 import { UnknownError } from '../../interfaces/shared';
-import { issueTemplate, ISSUE_TEMPLATE_ALTAIR_VERSION_PLACEHOLDER, ISSUE_TEMPLATE_ERROR_MESSAGE_PLACEHOLDER, ISSUE_TEMPLATE_ERROR_STACK_PLACEHOLDER } from './template';
+import {
+  issueTemplate,
+  ISSUE_TEMPLATE_ALTAIR_VERSION_PLACEHOLDER,
+  ISSUE_TEMPLATE_ERROR_MESSAGE_PLACEHOLDER,
+  ISSUE_TEMPLATE_ERROR_STACK_PLACEHOLDER,
+} from './template';
 
 export const getIssueUrl = (error: UnknownError) => {
   const errorMessage = error.message ? error.message : error.toString();
@@ -12,12 +17,12 @@ export const getIssueUrl = (error: UnknownError) => {
     .replaceAll(ISSUE_TEMPLATE_ERROR_STACK_PLACEHOLDER, error.stack)
     .replaceAll(ISSUE_TEMPLATE_ALTAIR_VERSION_PLACEHOLDER, environment.version);
 
-    const issueUrl = newGithubIssueUrl({
+  const issueUrl = newGithubIssueUrl({
     user: 'imolorhe',
     repo: 'altair',
     title: issueTitle,
     body: issueBody,
-    labels: [ 'bug-report' ],
+    labels: ['bug-report'],
     template: 'Bug_report.md',
   });
 

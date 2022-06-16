@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
@@ -6,15 +13,16 @@ import { PrerequestState } from 'altair-graphql-core/build/types/state/prereques
 @Component({
   selector: 'app-edit-collection-dialog',
   templateUrl: './edit-collection-dialog.component.html',
-  styleUrls: ['./edit-collection-dialog.component.scss']
+  styleUrls: ['./edit-collection-dialog.component.scss'],
 })
 export class EditCollectionDialogComponent implements OnChanges {
-
   @Input() showEditCollectionDialog = true;
   @Input() collection: IQueryCollection;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
-  @Output() updateCollectionChange = new EventEmitter<{ collection: IQueryCollection }>();
+  @Output() updateCollectionChange = new EventEmitter<{
+    collection: IQueryCollection;
+  }>();
 
   title = '';
   preRequest: PrerequestState = { script: '', enabled: false };
@@ -26,7 +34,10 @@ export class EditCollectionDialogComponent implements OnChanges {
       // setup form data fields
       this.title = collection.title;
       this.preRequest = collection.preRequest || { script: '', enabled: false };
-      this.postRequest = collection.postRequest || { script: '', enabled: false };
+      this.postRequest = collection.postRequest || {
+        script: '',
+        enabled: false,
+      };
     }
   }
 

@@ -9,13 +9,15 @@ const DEPRECATED_WINDOW_CONFIG = [
 ];
 
 const logDeprecatedMessage = (key: string) => {
-  console.warn(`DEPRECATION NOTICE: Configuring altair using global variables is deprecated, and will be removed in a future version.`);
+  console.warn(
+    `DEPRECATION NOTICE: Configuring altair using global variables is deprecated, and will be removed in a future version.`
+  );
   console.warn(`You set [window.${key}], which is deprecated.`);
   console.warn(`Use 'AltairGraphQL.init(opts)' instead.`);
 };
 
 export const handleDeprecations = () => {
-  DEPRECATED_WINDOW_CONFIG.forEach(key => {
+  DEPRECATED_WINDOW_CONFIG.forEach((key) => {
     if ((window as any)[key]) {
       logDeprecatedMessage(key);
     }
@@ -27,7 +29,7 @@ export const handleDeprecations = () => {
       set(value) {
         logDeprecatedMessage(key);
         (window as any)[key] = value;
-      }
+      },
     });
   });
 };

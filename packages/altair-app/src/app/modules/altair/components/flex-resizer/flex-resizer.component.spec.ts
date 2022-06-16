@@ -7,15 +7,14 @@ describe('FlexResizerComponent', () => {
   let component: FlexResizerComponent;
   let fixture: ComponentFixture<FlexResizerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FlexResizerComponent ],
-      imports: [
-        SharedModule,
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FlexResizerComponent],
+        imports: [SharedModule],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FlexResizerComponent);

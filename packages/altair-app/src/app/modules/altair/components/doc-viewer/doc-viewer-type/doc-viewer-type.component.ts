@@ -3,9 +3,16 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, GraphQLAbstractType, GraphQLArgument } from 'graphql';
+import {
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLType,
+  GraphQLAbstractType,
+  GraphQLArgument,
+} from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -13,17 +20,14 @@ import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLType, Gr
   styleUrls: ['./doc-viewer-type.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocViewerTypeComponent  {
-
+export class DocViewerTypeComponent {
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
 
-  constructor() { }
-
-  
+  constructor() {}
 
   /**
    * Check if the current type is a root type
@@ -36,8 +40,10 @@ export class DocViewerTypeComponent  {
 
     switch (type) {
       case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
-      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType()!.name:
-      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType()!.name:
+      case this.gqlSchema.getMutationType() &&
+        this.gqlSchema.getMutationType()!.name:
+      case this.gqlSchema.getSubscriptionType() &&
+        this.gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 

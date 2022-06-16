@@ -10,12 +10,9 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppComponent ],
-      imports: [
-        MockModule(AltairModule),
-      ],
-    })
-    .compileComponents();
+      declarations: [AppComponent],
+      imports: [MockModule(AltairModule)],
+    }).compileComponents();
   });
 
   beforeEach(() => {

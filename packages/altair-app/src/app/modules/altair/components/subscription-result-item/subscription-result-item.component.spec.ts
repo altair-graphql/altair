@@ -6,12 +6,13 @@ describe('SubscriptionResultItemComponent', () => {
   let component: SubscriptionResultItemComponent;
   let fixture: ComponentFixture<SubscriptionResultItemComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SubscriptionResultItemComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SubscriptionResultItemComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SubscriptionResultItemComponent);

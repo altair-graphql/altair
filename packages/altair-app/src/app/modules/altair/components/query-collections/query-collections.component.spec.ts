@@ -14,18 +14,13 @@ import { QueryCollectionService, StorageService } from '../../services';
 describe('QueryCollectionsComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionsComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: QueryCollectionsComponent,
-      declarations: [ MockComponent(QueryCollectionItemComponent) ],
-      imports: [
-        MockModule(SharedModule),
-      ],
-      providers: [
-        QueryCollectionService,
-        StorageService,
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      declarations: [MockComponent(QueryCollectionItemComponent)],
+      imports: [MockModule(SharedModule)],
+      providers: [QueryCollectionService, StorageService],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 
@@ -33,24 +28,24 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.componentInstance).toBeTruthy();
   });
 
-  it('should render passed collections correctly', async() => {
+  it('should render passed collections correctly', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
         {
           id: 2,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
         {
           id: 3,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -59,45 +54,62 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 
-  it('should render passed collections', async() => {
+  it('should render passed collections', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
         {
           id: 2,
           title: 'Collection 2',
-          queries: []
+          queries: [],
         },
         {
           id: 3,
           title: 'Collection 3',
-          queries: []
+          queries: [],
         },
       ],
     });
 
     await wrapper.nextTick();
 
-    const collectionItems = wrapper.findAll<QueryCollectionItemComponent>('app-query-collection-item');
+    const collectionItems = wrapper.findAll<QueryCollectionItemComponent>(
+      'app-query-collection-item'
+    );
     expect(collectionItems.length).toBe(3);
-    expect(collectionItems[0].componentInstance.collectionTree).toEqual({ id: '1', title: 'Collection 1', queries: [], collections: [] });
-    expect(collectionItems[1].componentInstance.collectionTree).toEqual({ id: '2', title: 'Collection 2', queries: [], collections: [] });
-    expect(collectionItems[2].componentInstance.collectionTree).toEqual({ id: '3', title: 'Collection 3', queries: [], collections: [] });
+    expect(collectionItems[0].componentInstance.collectionTree).toEqual({
+      id: '1',
+      title: 'Collection 1',
+      queries: [],
+      collections: [],
+    });
+    expect(collectionItems[1].componentInstance.collectionTree).toEqual({
+      id: '2',
+      title: 'Collection 2',
+      queries: [],
+      collections: [],
+    });
+    expect(collectionItems[2].componentInstance.collectionTree).toEqual({
+      id: '3',
+      title: 'Collection 3',
+      queries: [],
+      collections: [],
+    });
   });
 
-  it('should emit "selectQueryChange" from query-collection-item', async() => {
+  it('should emit "selectQueryChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -111,14 +123,14 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('selectQueryChange')).toBeTruthy();
   });
 
-  it('should emit "deleteQueryChange" from query-collection-item', async() => {
+  it('should emit "deleteQueryChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -132,14 +144,14 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('deleteQueryChange')).toBeTruthy();
   });
 
-  it('should emit "deleteCollectionChange" from query-collection-item', async() => {
+  it('should emit "deleteCollectionChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -153,14 +165,14 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('deleteCollectionChange')).toBeTruthy();
   });
 
-  it('should emit "editCollectionChange" from query-collection-item', async() => {
+  it('should emit "editCollectionChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -174,14 +186,14 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('editCollectionChange')).toBeTruthy();
   });
 
-  it('should emit "exportCollectionChange" from query-collection-item', async() => {
+  it('should emit "exportCollectionChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
@@ -195,35 +207,37 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('exportCollectionChange')).toBeTruthy();
   });
 
-  it('should emit "importCollectionsChange" when clicking import collection button', async() => {
+  it('should emit "importCollectionsChange" when clicking import collection button', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });
 
     await wrapper.nextTick();
 
-    const importCollectionsButton = wrapper.find('[data-test-id="import-collection"]');
+    const importCollectionsButton = wrapper.find(
+      '[data-test-id="import-collection"]'
+    );
 
     importCollectionsButton.emit('click');
 
     expect(wrapper.emitted('importCollectionsChange')).toBeTruthy();
   });
 
-  it('should emit "sortCollectionsChange" when clicking one of the sort options', async() => {
+  it('should emit "sortCollectionsChange" when clicking one of the sort options', async () => {
     wrapper.setProps({
       showCollections: true,
       collections: [
         {
           id: 1,
           title: 'Collection 1',
-          queries: []
+          queries: [],
         },
       ],
     });

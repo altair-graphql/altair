@@ -70,21 +70,27 @@ export class PerformantLocalStorage implements Storage {
       // Cancel any previous callbacks
       (window as any).cancelIdleCallback(this.setItemHandles[key]);
     }
-    this.setItemHandles[key] = (window as any).requestIdleCallback((deadline: any) => {
-      if (deadline.timeRemaining()) {
-        try {
-          (window as any).cancelIdleCallback(this.setItemHandles[key]);
-          this.setItemHandles[key] = undefined;
-          return this.storage.setItem(key, value);
-        } catch (error) {
-          if (['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(error.name)) {
-            // handle quota limit exceeded error
+    this.setItemHandles[key] = (window as any).requestIdleCallback(
+      (deadline: any) => {
+        if (deadline.timeRemaining()) {
+          try {
+            (window as any).cancelIdleCallback(this.setItemHandles[key]);
+            this.setItemHandles[key] = undefined;
+            return this.storage.setItem(key, value);
+          } catch (error) {
+            if (
+              ['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(
+                error.name
+              )
+            ) {
+              // handle quota limit exceeded error
+            }
           }
+          return this.storage.setItem(key, value);
         }
-        return this.storage.setItem(key, value);
+        // return runSetItem();
       }
-      // return runSetItem();
-    });
+    );
   }
 }
 

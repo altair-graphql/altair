@@ -9,7 +9,8 @@ export const SET_HTTP_VERB = 'SET_HTTP_VERB';
 
 export const SET_SUBSCRIPTION_URL = 'SET_SUBSCRIPTION_URL';
 
-export const SEND_INTROSPECTION_QUERY_REQUEST = 'SEND_INTROSPECTION_QUERY_REQUEST';
+export const SEND_INTROSPECTION_QUERY_REQUEST =
+  'SEND_INTROSPECTION_QUERY_REQUEST';
 
 export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
@@ -17,7 +18,8 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
 
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
-export const SET_QUERY_RESULT_RESPONSE_HEADERS = 'SET_QUERY_RESULT_RESPONSE_HEADERS';
+export const SET_QUERY_RESULT_RESPONSE_HEADERS =
+  'SET_QUERY_RESULT_RESPONSE_HEADERS';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
 export const COPY_AS_CURL = 'COPY_AS_CURL';
@@ -30,11 +32,13 @@ export const CANCEL_QUERY_REQUEST = 'CANCEL_QUERY_REQUEST';
 export const START_SUBSCRIPTION = 'START_SUBSCRIPTION';
 export const STOP_SUBSCRIPTION = 'STOP_SUBSCRIPTION';
 export const SET_SUBSCRIPTION_CLIENT = 'SET_SUBSCRIPTION_CLIENT';
-export const SET_SUBSCRIPTION_CONNECTION_PARAMS = 'SET_SUBSCRIPTION_CONNECTION_PARAMS';
+export const SET_SUBSCRIPTION_CONNECTION_PARAMS =
+  'SET_SUBSCRIPTION_CONNECTION_PARAMS';
 export const SET_SUBSCRIPTION_PROVIDER_ID = 'SET_SUBSCRIPTION_PROVIDER_ID';
 export const ADD_SUBSCRIPTION_RESPONSE = 'ADD_SUBSCRIPTION_RESPONSE';
 export const SET_SUBSCRIPTION_RESPONSE_LIST = 'SET_SUBSCRIPTION_RESPONSE_LIST';
-export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE = 'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
+export const TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE =
+  'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
 export const SET_RESPONSE_STATS = 'SET_RESPONSE_STATS';
 export const CLEAR_RESULT = 'CLEAR_RESULT';
@@ -47,7 +51,6 @@ export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
-
 
 export class SetUrlAction implements NGRXAction {
   readonly type = SET_URL;
@@ -70,7 +73,10 @@ export class SetUrlFromDbAction implements NGRXAction {
 export class SetSubscriptionUrlAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_URL;
 
-  constructor(public payload: { subscriptionUrl: string }, public windowId: string) { }
+  constructor(
+    public payload: { subscriptionUrl: string },
+    public windowId: string
+  ) {}
 }
 
 export class SendIntrospectionQueryRequestAction implements NGRXAction {
@@ -100,7 +106,10 @@ export class SetQueryResultAction implements NGRXAction {
 export class SetQueryResultResponseHeadersAction implements NGRXAction {
   readonly type = SET_QUERY_RESULT_RESPONSE_HEADERS;
 
-  constructor(public windowId: string, public payload: { headers?: IDictionary }) {}
+  constructor(
+    public windowId: string,
+    public payload: { headers?: IDictionary }
+  ) {}
 }
 
 export class PrettifyQueryAction implements NGRXAction {
@@ -142,7 +151,10 @@ export class SendQueryRequestAction implements NGRXAction {
 export class SetSelectedOperationAction implements NGRXAction {
   readonly type = SET_SELECTED_OPERATION;
 
-  constructor(public windowId: string, public payload: { selectedOperation: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: { selectedOperation: string }
+  ) {}
 }
 
 export class SetResponseStatsAction implements NGRXAction {
@@ -151,54 +163,71 @@ export class SetResponseStatsAction implements NGRXAction {
   constructor(
     public windowId: string,
     public payload: {
-      requestStartTime: number,
-      requestEndTime: number,
-      responseTime: number,
-      responseStatus: number,
-      responseStatusText: string
-    }) {}
+      requestStartTime: number;
+      requestEndTime: number;
+      responseTime: number;
+      responseStatus: number;
+      responseStatusText: string;
+    }
+  ) {}
 }
 
 export class StartSubscriptionAction implements NGRXAction {
   readonly type = START_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?: any) { }
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class StopSubscriptionAction implements NGRXAction {
   readonly type = STOP_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?: any) { }
+  constructor(public windowId: string, public payload?: any) {}
 }
 
 export class SetSubscriptionConnectionParamsAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CONNECTION_PARAMS;
 
-  constructor(public windowId: string, public payload: { connectionParams: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: { connectionParams: string }
+  ) {}
 }
 
 export class SetSubscriptionProviderIdAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_PROVIDER_ID;
 
-  constructor(public windowId: string, public payload: { providerId: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: { providerId: string }
+  ) {}
 }
 
 export class SetSubscriptionClientAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_CLIENT;
 
-  constructor(public windowId: string, public payload: { subscriptionClient?: SubscriptionProvider }) { }
+  constructor(
+    public windowId: string,
+    public payload: { subscriptionClient?: SubscriptionProvider }
+  ) {}
 }
 
 export class AddSubscriptionResponseAction implements NGRXAction {
   readonly type = ADD_SUBSCRIPTION_RESPONSE;
 
-  constructor(public windowId: string, public payload: { response: string, responseObj?: any, responseTime: number }) { }
+  constructor(
+    public windowId: string,
+    public payload: {
+      response: string;
+      responseObj?: any;
+      responseTime: number;
+    }
+  ) {}
 }
 
 export class SetSubscriptionResponseListAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_RESPONSE_LIST;
 
-  constructor(public windowId: string, public payload: { list: Array<any> }) { }
+  constructor(public windowId: string, public payload: { list: Array<any> }) {}
 }
 
 export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
@@ -267,5 +296,4 @@ export type Action =
   | CancelQueryRequestAction
   | SetHTTPMethodAction
   | SetQueryOperationsAction
-  | SetQueryEditorStateAction
-  ;
+  | SetQueryEditorStateAction;

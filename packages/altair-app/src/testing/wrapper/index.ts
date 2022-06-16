@@ -1,7 +1,12 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Type } from '@angular/core';
-import { setProps, setValue, BaseTestHostComponent, flushPromises } from '../utils';
+import {
+  setProps,
+  setValue,
+  BaseTestHostComponent,
+  flushPromises,
+} from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
 export class NgxTestWrapper<C extends any> {
@@ -10,12 +15,14 @@ export class NgxTestWrapper<C extends any> {
 
   constructor(
     private _testHostFixture: ComponentFixture<BaseTestHostComponent>,
-    private _mainComponent?: any,
+    private _mainComponent?: any
   ) {
     if (_mainComponent instanceof DebugElement) {
       this._mainComponentDebugEl = _mainComponent;
     } else {
-      this._mainComponentDebugEl = _testHostFixture.debugElement.query(By.directive(_mainComponent));
+      this._mainComponentDebugEl = _testHostFixture.debugElement.query(
+        By.directive(_mainComponent)
+      );
       this._isWrapper = true;
     }
   }
@@ -47,25 +54,39 @@ export class NgxTestWrapper<C extends any> {
   find<SC extends any = unknown>(selector: string) {
     const comp = this._mainComponentDebugEl.query(By.css(selector));
 
-    return new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement());
+    return new NgxTestWrapper<SC>(
+      this._testHostFixture,
+      comp || new DebugElement()
+    );
   }
 
   findComponent<SC extends any = unknown>(type: Type<any>) {
     const comp = this._mainComponentDebugEl.query(By.directive(type));
 
-    return new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement());
+    return new NgxTestWrapper<SC>(
+      this._testHostFixture,
+      comp || new DebugElement()
+    );
   }
 
   findAll<SC extends any = unknown>(selector: string) {
-    return this._mainComponentDebugEl.queryAll(By.css(selector))
+    return this._mainComponentDebugEl
+      .queryAll(By.css(selector))
       .filter(Boolean)
-      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp || new DebugElement()));
+      .map(
+        (comp) =>
+          new NgxTestWrapper<SC>(
+            this._testHostFixture,
+            comp || new DebugElement()
+          )
+      );
   }
 
   findAllComponents<SC extends any = unknown>(type: Type<any>) {
-    return this._mainComponentDebugEl.queryAll(By.directive(type))
+    return this._mainComponentDebugEl
+      .queryAll(By.directive(type))
       .filter(Boolean)
-      .map(comp => new NgxTestWrapper<SC>(this._testHostFixture, comp));
+      .map((comp) => new NgxTestWrapper<SC>(this._testHostFixture, comp));
   }
 
   emit(eventName: string, eventObj: any = null) {
@@ -77,40 +98,53 @@ export class NgxTestWrapper<C extends any> {
   emitted(event?: string) {
     if (this._isWrapper) {
       const emitted = this._testHostFixture.componentInstance.outputList
-        .map(prop => {
+        .map((prop) => {
           return {
             event: prop,
-            calls: (this._testHostFixture.componentInstance.mock[prop] || {}).calls,
+            calls: (this._testHostFixture.componentInstance.mock[prop] || {})
+              .calls,
           };
         })
-        .filter(_ => _.calls && _.calls.length)
+        .filter((_) => _.calls && _.calls.length)
         .reduce((acc, cur) => {
           acc[cur.event] = cur.calls;
           return acc;
         }, {} as IDictionary<any[]>);
 
-        if (event) {
-          return emitted[event];
-        }
-        return emitted;
+      if (event) {
+        return emitted[event];
+      }
+      return emitted;
     }
   }
 
   setProps(valueObj: Partial<C> = {}) {
     if (this._isWrapper) {
-      const componentInputs = Object.keys(this._testHostFixture.componentInstance.inputs);
-      Object.keys(valueObj).forEach(prop => {
+      const componentInputs = Object.keys(
+        this._testHostFixture.componentInstance.inputs
+      );
+      Object.keys(valueObj).forEach((prop) => {
         if (componentInputs.includes(prop)) {
           // For component inputs (@input), we set the data on the test host itself, which would pass the value as input.
           // This is to properly trigger the full input lifecycle of the component.
           // Setting the input directly on the component instance would not do that.
           // TODO: Only set inputs where valueObj property is defined?
-          this._testHostFixture.componentInstance.inputs[prop] = (valueObj as any)[prop];
+          this._testHostFixture.componentInstance.inputs[prop] = (
+            valueObj as any
+          )[prop];
         }
       });
-      return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+      return setProps(
+        this._testHostFixture,
+        this._mainComponentDebugEl,
+        valueObj
+      );
     }
-    return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+    return setProps(
+      this._testHostFixture,
+      this._mainComponentDebugEl,
+      valueObj
+    );
   }
 
   setValue(value: any = '') {

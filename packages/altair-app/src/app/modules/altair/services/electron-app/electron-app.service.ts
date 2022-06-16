@@ -1,5 +1,4 @@
-
-import {first} from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
@@ -13,7 +12,10 @@ import * as windowsMetaActions from '../../store/windows-meta/windows-meta.actio
 import * as windowsActions from '../../store/windows/windows.action';
 import { debug } from '../../utils/logger';
 import { ObjectLocalStorage } from '../../utils/object-local-storage';
-import { getAppStateFromStorage, importIndexedRecords } from '../../store/async-storage-sync';
+import {
+  getAppStateFromStorage,
+  importIndexedRecords,
+} from '../../store/async-storage-sync';
 import { StorageService } from '../storage/storage.service';
 import { downloadData } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -24,7 +26,6 @@ import { catchUselessObservableError } from '../../utils/errors';
   providedIn: 'root',
 })
 export class ElectronAppService {
-
   windowIds: string[];
   activeWindowId = '';
 
@@ -35,12 +36,12 @@ export class ElectronAppService {
     private store: Store<RootState>,
     private windowService: WindowService,
     private notifyService: NotifyService,
-    private zone: NgZone,
+    private zone: NgZone
   ) {
-    this.store.subscribe(data => {
+    this.store.subscribe((data) => {
       this.windowIds = Object.keys(data.windows);
       this.activeWindowId = data.windowsMeta.activeWindowId;
-    })
+    });
   }
 
   connect() {
@@ -50,10 +51,12 @@ export class ElectronAppService {
       });
 
       this.ipc.on('certificate-error', (evt: any, error: Error) => {
-        this.zone.run(() => this.notifyService.warning(`
+        this.zone.run(() =>
+          this.notifyService.warning(`
           Your request has an invalid certificate.
           You should check that your request is coming from a trusted source.
-        `));
+        `)
+        );
       });
 
       this.ipc.on('import-app-data', (evt: any, content: string) => {
@@ -65,45 +68,83 @@ export class ElectronAppService {
       });
 
       this.ipc.on('create-tab', () => {
-        this.zone.run(() => this.windowService.newWindow().pipe(first(), catchUselessObservableError).subscribe());
+        this.zone.run(() =>
+          this.windowService
+            .newWindow()
+            .pipe(first(), catchUselessObservableError)
+            .subscribe()
+        );
       });
       this.ipc.on('close-tab', () => {
         this.zone.run(() => {
           if (this.windowIds.length > 1) {
-            this.windowService.removeWindow(this.activeWindowId).pipe(catchUselessObservableError).subscribe();
+            this.windowService
+              .removeWindow(this.activeWindowId)
+              .pipe(catchUselessObservableError)
+              .subscribe();
           }
         });
       });
 
       this.ipc.on('next-tab', () => {
-        this.zone.run(() => this.store.dispatch(new windowsMetaActions.SetNextWindowActiveAction()));
+        this.zone.run(() =>
+          this.store.dispatch(
+            new windowsMetaActions.SetNextWindowActiveAction()
+          )
+        );
       });
 
       this.ipc.on('previous-tab', () => {
-        this.zone.run(() => this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction()));
+        this.zone.run(() =>
+          this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction())
+        );
       });
 
       this.ipc.on('reopen-closed-tab', () => {
-        this.zone.run(() => this.store.dispatch(new windowsActions.ReopenClosedWindowAction()));
+        this.zone.run(() =>
+          this.store.dispatch(new windowsActions.ReopenClosedWindowAction())
+        );
       });
 
       this.ipc.on('send-request', () => {
-        this.zone.run(() => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)));
+        this.zone.run(() =>
+          this.store.dispatch(
+            new queryActions.SendQueryRequestAction(this.activeWindowId)
+          )
+        );
       });
       this.ipc.on('reload-docs', () => {
-        this.zone.run(() => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)));
+        this.zone.run(() =>
+          this.store.dispatch(
+            new queryActions.SendIntrospectionQueryRequestAction(
+              this.activeWindowId
+            )
+          )
+        );
       });
       this.ipc.on('show-docs', () => {
-        this.zone.run(() => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)));
+        this.zone.run(() =>
+          this.store.dispatch(
+            new docsActions.ToggleDocsViewAction(this.activeWindowId)
+          )
+        );
       });
       this.ipc.on('show-settings', () => {
-        this.zone.run(() => this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true })));
+        this.zone.run(() =>
+          this.store.dispatch(
+            new windowsMetaActions.ShowSettingsDialogAction({ value: true })
+          )
+        );
       });
       debug.log('Electron app connected.');
 
       this.ipc.send('get-file-opened');
 
-      this.store.select((state: RootState) => state.settings['alert.disableUpdateNotification'])
+      this.store
+        .select(
+          (state: RootState) =>
+            state.settings['alert.disableUpdateNotification']
+        )
         .pipe(first())
         .subscribe((disableUpdateNotification: boolean) => {
           if (!disableUpdateNotification) {
@@ -118,12 +159,16 @@ export class ElectronAppService {
       disableTimeOut: true,
       data: {
         action: () => {
-          this.ipc.send('update')
-        }
-      }
-    }
+          this.ipc.send('update');
+        },
+      },
+    };
     this.ipc.on('update-available', () => {
-      this.notifyService.info('Click here to download the latest version!', 'Update Found!', opts)
+      this.notifyService.info(
+        'Click here to download the latest version!',
+        'Update Found!',
+        opts
+      );
     });
   }
 
@@ -188,9 +233,9 @@ export class ElectronAppService {
 
     // notify invlaid file content
     return this.notifyService.error('Invalid file content.');
-  };
+  }
 
-  async exportBackupData () {
+  async exportBackupData() {
     // get store data, in indexedrecords format
     // create data following schema
     // save stringified to file with agbkp extension
@@ -200,6 +245,8 @@ export class ElectronAppService {
       version: 2,
       indexedrecords: stateList,
     };
-    downloadData(JSON.stringify(backupData), 'altair_backup', { fileType: 'agbkp' });
-  };
+    downloadData(JSON.stringify(backupData), 'altair_backup', {
+      fileType: 'agbkp',
+    });
+  }
 }

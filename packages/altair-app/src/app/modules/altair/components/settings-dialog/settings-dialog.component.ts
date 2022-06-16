@@ -23,8 +23,17 @@ import 'codemirror/addon/fold/foldgutter';
 import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/indent-fold';
 // import 'codemirror/addon/display/autorefresh';
-import { registerSettingsLinter, getHint, validateSettings, settingsSchema } from '../../utils/settings_addons';
-import { NotifyService, KeybinderService, StorageService } from '../../services';
+import {
+  registerSettingsLinter,
+  getHint,
+  validateSettings,
+  settingsSchema,
+} from '../../utils/settings_addons';
+import {
+  NotifyService,
+  KeybinderService,
+  StorageService,
+} from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
@@ -35,10 +44,11 @@ registerSettingsLinter(Codemirror);
 @Component({
   selector: 'app-settings-dialog',
   templateUrl: './settings-dialog.component.html',
-  styleUrls: ['./settings-dialog.component.scss']
+  styleUrls: ['./settings-dialog.component.scss'],
 })
-export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges {
-
+export class SettingsDialogComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   @Input() settings: SettingsState;
   @Input() appVersion: string;
   @Input() showSettingsDialog = false;
@@ -51,7 +61,9 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   settingsSchema = settingsSchema;
   showForm = true;
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('editor', { static: true }) editor: ElementRef & {
+    codeMirror: CodeMirror.Editor;
+  };
   jsonSettings = '';
   localSettings = null;
 
@@ -67,15 +79,17 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     theme: 'default settings-editor',
     gutters: ['CodeMirror-lint-markers'],
     extraKeys: {
-      'Ctrl-Space': (cm: CodeMirror.Editor) => { this.showHint(cm); },
-    }
+      'Ctrl-Space': (cm: CodeMirror.Editor) => {
+        this.showHint(cm);
+      },
+    },
   };
 
   constructor(
     private notifyService: NotifyService,
     private keybinderService: KeybinderService,
     private storageService: StorageService,
-    private altairConfig: AltairConfig,
+    private altairConfig: AltairConfig
   ) {}
 
   ngOnInit() {
@@ -86,7 +100,8 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     if (this.editor) {
       this.editor.codeMirror.on(
         'keyup',
-        (cm: CodeMirror.Editor, event: KeyboardEvent) => /^[a-zA-Z0-9_@(]$/.test(event.key) && this.showHint(cm)
+        (cm: CodeMirror.Editor, event: KeyboardEvent) =>
+          /^[a-zA-Z0-9_@(]$/.test(event.key) && this.showHint(cm)
       );
       this.editor.codeMirror.refresh();
     }
@@ -97,7 +112,9 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
     // to fix any broken UI issues in it
     handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.settings?.currentValue) {
-      this.updateLocalSettings(JSON.stringify(changes.settings.currentValue, null, 2));
+      this.updateLocalSettings(
+        JSON.stringify(changes.settings.currentValue, null, 2)
+      );
     }
   }
 
@@ -137,18 +154,30 @@ export class SettingsDialogComponent implements OnInit, AfterViewInit, OnChanges
   onResetApplicationData(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    if (confirm(`
+    if (
+      confirm(
+        `
     ❌❌❌
     Warning! You are about to reset the application.
     Are you sure you want to reset the application?
 
-    This is not reversible!`.trim().replace(/ +/g, ' '))) {
-      if (confirm(`
+    This is not reversible!`
+          .trim()
+          .replace(/ +/g, ' ')
+      )
+    ) {
+      if (
+        confirm(
+          `
         THIS IS YOUR LAST WARNING!
         TURN BACK NOW IF YOU DON'T WANT TO LOSE ALL THE APPLICATION DATA.
 
         ARE YOU REALLY SURE YOU WANT TO RESET ALTAIR?!
-      `.trim().replace(/ +/g, ' '))) {
+      `
+            .trim()
+            .replace(/ +/g, ' ')
+        )
+      ) {
         this.storageService.clearAllLocalData();
         location.reload();
       }

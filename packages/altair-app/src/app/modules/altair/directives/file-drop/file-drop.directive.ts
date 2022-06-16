@@ -1,10 +1,15 @@
-import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
+import {
+  Directive,
+  Output,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+} from '@angular/core';
 
 @Directive({
-  selector: '[appFileDrop]'
+  selector: '[appFileDrop]',
 })
 export class FileDropDirective {
-
   @Output() fileDroppedChange = new EventEmitter<any>();
 
   // Dragover listener

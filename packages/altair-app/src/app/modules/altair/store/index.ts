@@ -1,5 +1,11 @@
 import { InjectionToken } from '@angular/core';
-import { combineReducers, Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import {
+  combineReducers,
+  Action,
+  ActionReducer,
+  ActionReducerMap,
+  MetaReducer,
+} from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
 
@@ -62,14 +68,16 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-export function asyncStorageSyncReducer(_reducer: ActionReducer<any>): ActionReducer<any> {
+export function asyncStorageSyncReducer(
+  _reducer: ActionReducer<any>
+): ActionReducer<any> {
   return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
 export const metaReducers: MetaReducer<any>[] = [
   asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
-  log
+  log,
 ];
 
 export const getReducer = (): ActionReducerMap<RootState> => {
@@ -82,16 +90,19 @@ export const getReducer = (): ActionReducerMap<RootState> => {
     environments: fromEnvironments.environmentsReducer,
     local: fromLocal.localReducer,
     account: fromAccount.accountReducer,
-  }
+  };
 };
 
-export const reducerToken = new InjectionToken<ActionReducerMap<RootState>>('Registered Reducers');
+export const reducerToken = new InjectionToken<ActionReducerMap<RootState>>(
+  'Registered Reducers'
+);
 
 export const reducerProvider = [
-  { provide: reducerToken, useValue: getReducer() }
+  { provide: reducerToken, useValue: getReducer() },
 ];
 
-export const selectWindowState = (windowId: string) => (state: RootState) => state.windows[windowId];
+export const selectWindowState = (windowId: string) => (state: RootState) =>
+  state.windows[windowId];
 
 export * from './query/selectors';
 export * from './docs/selectors';

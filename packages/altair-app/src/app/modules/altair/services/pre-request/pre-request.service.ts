@@ -54,37 +54,48 @@ interface GlobalHelperContext {
 
 interface ModuleImportsMap {
   [name: string]: { exec: () => Promise<any> };
-};
+}
 
 const ModuleImports: ModuleImportsMap = {
   atob: {
-    async exec() { return (await import('abab')).atob }
+    async exec() {
+      return (await import('abab')).atob;
+    },
   },
   btoa: {
-    async exec() { return (await import('abab')).btoa }
+    async exec() {
+      return (await import('abab')).btoa;
+    },
   },
   'crypto-js': {
-    async exec() { return (await import('crypto-js')).default }
+    async exec() {
+      return (await import('crypto-js')).default;
+    },
   },
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PreRequestService {
-
   constructor(
     private cookieService: CookieService,
     private http: HttpClient,
     private store: Store<RootState>,
-    private notifyService: NotifyService,
-  ) { }
+    private notifyService: NotifyService
+  ) {}
 
-  async executeScript(script: string, data: ScriptContextData): Promise<ScriptContextData> {
-    const Sval: typeof import('sval').default = (await import('sval') as any).default;
+  async executeScript(
+    script: string,
+    data: ScriptContextData
+  ): Promise<ScriptContextData> {
+    const Sval: typeof import('sval').default = ((await import('sval')) as any)
+      .default;
 
     // deep cloning
-    const clonedMutableData: ScriptContextData = JSON.parse(JSON.stringify(data));
+    const clonedMutableData: ScriptContextData = JSON.parse(
+      JSON.stringify(data)
+    );
     const interpreter = new Sval({
       ecmaVer: 10,
       sandBox: true,
@@ -107,24 +118,40 @@ export class PreRequestService {
       throw new RequestScriptError(error);
     }
     if (clonedMutableData.__toSetActiveEnvironment) {
-      const activeEnvState = await this.store.select(getActiveSubEnvironmentState).pipe(first()).toPromise();
+      const activeEnvState = await this.store
+        .select(getActiveSubEnvironmentState)
+        .pipe(first())
+        .toPromise();
 
       if (activeEnvState) {
         try {
-          const envVariables = { ...JSON.parse(activeEnvState.variablesJson), ...clonedMutableData.__toSetActiveEnvironment };
-          this.store.dispatch(new environmentsActions.UpdateSubEnvironmentJsonAction({
-            id: activeEnvState.id!,
-            value: JSON.stringify(envVariables, null, 2),
-          }));
+          const envVariables = {
+            ...JSON.parse(activeEnvState.variablesJson),
+            ...clonedMutableData.__toSetActiveEnvironment,
+          };
+          this.store.dispatch(
+            new environmentsActions.UpdateSubEnvironmentJsonAction({
+              id: activeEnvState.id!,
+              value: JSON.stringify(envVariables, null, 2),
+            })
+          );
           this.notifyService.info(
-            `Updated active environment variables: ${Object.keys(clonedMutableData.__toSetActiveEnvironment).join(', ')}.`,
-            'Request script',
+            `Updated active environment variables: ${Object.keys(
+              clonedMutableData.__toSetActiveEnvironment
+            ).join(', ')}.`,
+            'Request script'
           );
         } catch (error) {
-          this.notifyService.error(`Could not update active environment variables. ${error.message}`, 'Request script');
+          this.notifyService.error(
+            `Could not update active environment variables. ${error.message}`,
+            'Request script'
+          );
         }
       } else {
-        this.notifyService.warning('No active environment selected. Cannot update environment variables', 'Request script');
+        this.notifyService.warning(
+          'No active environment selected. Cannot update environment variables',
+          'Request script'
+        );
       }
     }
     return clonedMutableData;
@@ -157,12 +184,11 @@ export class PreRequestService {
         request: async (arg1: any, arg2: any, arg3: any) => {
           // https://angular.io/api/common/http/HttpClient#request
           try {
-            return self.http.request(arg1, arg2, arg3)
-              .toPromise();
+            return self.http.request(arg1, arg2, arg3).toPromise();
           } catch (err) {
             return null;
           }
-        }
+        },
       },
       importModule: (moduleName: string) => this.importModuleHelper(moduleName),
       response: this.buildContextResponse(data),
@@ -177,7 +203,9 @@ export class PreRequestService {
     return ModuleImports[moduleName].exec();
   }
 
-  private buildContextResponse(data: ScriptContextData): ScriptContextResponse | undefined {
+  private buildContextResponse(
+    data: ScriptContextData
+  ): ScriptContextResponse | undefined {
     if (data.response) {
       return {
         body: data.response.response.body,
@@ -185,7 +213,7 @@ export class PreRequestService {
         responseTime: data.response.meta.responseTime,
         statusCode: data.response.response.status,
         headers: data.response.meta.headers,
-      }
+      };
     }
 
     return;

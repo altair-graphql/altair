@@ -1,30 +1,44 @@
-import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { createTheme, hexToRgbStr, ICustomTheme, ITheme } from 'altair-graphql-core/build/theme';
+import {
+  Directive,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  createTheme,
+  hexToRgbStr,
+  ICustomTheme,
+  ITheme,
+} from 'altair-graphql-core/build/theme';
 
 import { css } from 'emotion';
 import { ThemeRegistryService } from '../../services';
 
 @Directive({
-  selector: '[appTheme]'
+  selector: '[appTheme]',
 })
 export class ThemeDirective implements OnInit, OnChanges {
-
   @Input() appTheme: ICustomTheme;
   @Input() appDarkTheme: ICustomTheme;
 
   private className = '';
 
-  constructor(
-    private themeRegistry: ThemeRegistryService
-  ) {}
+  constructor(private themeRegistry: ThemeRegistryService) {}
 
   ngOnInit() {
     this.addHTMLClass(this.appTheme, this.appDarkTheme);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.appTheme?.currentValue || changes?.appDarkTheme?.currentValue) {
-      this.addHTMLClass(changes.appTheme?.currentValue, changes.appDarkTheme?.currentValue);
+    if (
+      changes?.appTheme?.currentValue ||
+      changes?.appDarkTheme?.currentValue
+    ) {
+      this.addHTMLClass(
+        changes.appTheme?.currentValue,
+        changes.appDarkTheme?.currentValue
+      );
     }
   }
 
@@ -53,7 +67,9 @@ export class ThemeDirective implements OnInit, OnChanges {
       --primary-color: ${theme.colors.primary};
       --secondary-color: ${theme.colors.secondary};
 
-      --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${theme.shadow.opacity});
+      --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${
+      theme.shadow.opacity
+    });
 
       --rgb-black: ${hexToRgbStr(theme.colors.black)};
       --rgb-dark-grey: ${hexToRgbStr(theme.colors.darkGray)};
@@ -118,9 +134,13 @@ export class ThemeDirective implements OnInit, OnChanges {
 
     if (!appTheme || appTheme.isSystem) {
       return css(`
-        ${this.getCssString(createTheme(this.themeRegistry.getTheme('light')!, appTheme))}
+        ${this.getCssString(
+          createTheme(this.themeRegistry.getTheme('light')!, appTheme)
+        )}
         @media (prefers-color-scheme: dark) {
-          ${this.getCssString(createTheme(this.themeRegistry.getTheme('dark')!, appTheme))}
+          ${this.getCssString(
+            createTheme(this.themeRegistry.getTheme('dark')!, appTheme)
+          )}
         }
       `);
     }

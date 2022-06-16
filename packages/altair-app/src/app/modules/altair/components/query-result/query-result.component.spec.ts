@@ -12,17 +12,18 @@ describe('QueryResultComponent', () => {
   let component: QueryResultComponent;
   let fixture: ComponentFixture<QueryResultComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        CodemirrorModule,
-        ComponentModule,
-        TranslateModule.forRoot()
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          FormsModule,
+          CodemirrorModule,
+          ComponentModule,
+          TranslateModule.forRoot(),
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QueryResultComponent);

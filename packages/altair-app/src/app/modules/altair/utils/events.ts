@@ -1,4 +1,3 @@
-
 /**
  * Event delegation
  * @param eventName
@@ -7,7 +6,7 @@
  * @example on('click', '.el', fn);
  */
 export const on = (eventName: string, elSelector: string, fn: Function) => {
-  document.body.addEventListener(eventName, function(e: Event) {
+  document.body.addEventListener(eventName, function (e: Event) {
     if (e.target && (e.target as Element).matches(elSelector)) {
       fn.apply(e.target, [e]);
     }
@@ -15,8 +14,8 @@ export const on = (eventName: string, elSelector: string, fn: Function) => {
 };
 
 export const handleExternalLinks = () => {
-  on('click', 'a', function(e: Event) {
-    const url = (this.href || '');
+  on('click', 'a', function (e: Event) {
+    const url = this.href || '';
 
     if (!url.replace(/#.*$/, '')) {
       // Handle hashes
@@ -25,7 +24,10 @@ export const handleExternalLinks = () => {
     e.preventDefault();
 
     // If electron app
-    if ((window as any).process && (window as any).process.versions['electron']) {
+    if (
+      (window as any).process &&
+      (window as any).process.versions['electron']
+    ) {
       const electron = (window as any).require('electron');
       electron.shell.openExternal(url);
     } else {

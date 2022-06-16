@@ -14,16 +14,19 @@ export const getInitialState = (): LocalState => {
   };
 };
 
-export function localReducer(state = getInitialState(), action: local.Action): LocalState {
+export function localReducer(
+  state = getInitialState(),
+  action: local.Action
+): LocalState {
   const len = state.closedWindows.length;
   switch (action.type) {
     case local.PUSH_CLOSED_WINDOW_TO_LOCAL:
       return {
         ...state,
-        closedWindows: len === MAX_CLOSED_WINDOWS_LENGTH ?
-          [ ...state.closedWindows.slice(1), action.payload.window ] :
-          [ ...state.closedWindows, action.payload.window ],
-
+        closedWindows:
+          len === MAX_CLOSED_WINDOWS_LENGTH
+            ? [...state.closedWindows.slice(1), action.payload.window]
+            : [...state.closedWindows, action.payload.window],
       };
     case local.POP_FROM_CLOSED_WINDOWS:
       return {
@@ -33,7 +36,9 @@ export function localReducer(state = getInitialState(), action: local.Action): L
 
     case local.ADD_INSTALLED_PLUGIN_ENTRY: {
       if (state.installedPlugins[action.payload.name]) {
-        throw new Error(`plugin already registered with same name [${action.payload.name}]`);
+        throw new Error(
+          `plugin already registered with same name [${action.payload.name}]`
+        );
       }
 
       return {
@@ -42,11 +47,11 @@ export function localReducer(state = getInitialState(), action: local.Action): L
           ...state.installedPlugins,
           [action.payload.name]: {
             isActive: false,
-            ...action.payload
+            ...action.payload,
           },
-        }
-      }
-    };
+        },
+      };
+    }
     case local.SET_PLUGIN_ACTIVE: {
       return {
         ...state,
@@ -55,27 +60,31 @@ export function localReducer(state = getInitialState(), action: local.Action): L
           [action.payload.pluginName]: {
             ...state.installedPlugins[action.payload.pluginName],
             isActive: action.payload.isActive,
-          }
-        }
+          },
+        },
       };
-    };
+    }
     case local.ADD_PANEL: {
       return {
         ...state,
-        panels: [ ...state.panels, action.payload ],
+        panels: [...state.panels, action.payload],
       };
-    };
+    }
     case local.REMOVE_PANEL: {
       return {
         ...state,
-        panels: state.panels.filter(panel => panel.id !== action.payload.panelId),
+        panels: state.panels.filter(
+          (panel) => panel.id !== action.payload.panelId
+        ),
       };
-    };
+    }
     case local.SET_PANEL_ACTIVE: {
-      const curPanel = state.panels.find(panel => panel.id === action.payload.panelId);
+      const curPanel = state.panels.find(
+        (panel) => panel.id === action.payload.panelId
+      );
       return {
         ...state,
-        panels: state.panels.map(panel => {
+        panels: state.panels.map((panel) => {
           if (panel.id === action.payload.panelId) {
             panel.isActive = action.payload.isActive;
           } else if (panel.location === curPanel?.location) {
@@ -84,19 +93,21 @@ export function localReducer(state = getInitialState(), action: local.Action): L
           return panel;
         }),
       };
-    };
+    }
     case local.ADD_UI_ACTION: {
       return {
         ...state,
-        uiActions: [ ...state.uiActions, action.payload ],
+        uiActions: [...state.uiActions, action.payload],
       };
-    };
+    }
     case local.REMOVE_UI_ACTION: {
       return {
         ...state,
-        uiActions: state.uiActions.filter(uiAction => uiAction.id !== action.payload.actionId),
+        uiActions: state.uiActions.filter(
+          (uiAction) => uiAction.id !== action.payload.actionId
+        ),
       };
-    };
+    }
     default:
       return state;
   }

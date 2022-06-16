@@ -10,25 +10,22 @@ describe('SchemaFormItemComponent', () => {
   let component: SchemaFormItemComponent;
   let fixture: ComponentFixture<SchemaFormItemComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        SharedModule,
-        SchemaFormModule,
-      ],
-      declarations: [
-        // SchemaFormItemComponent,
-      ],
-      providers: [
-        {
-          provide: AltairConfig,
-          useValue: new AltairConfig(),
-        },
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, SharedModule, SchemaFormModule],
+        declarations: [
+          // SchemaFormItemComponent,
+        ],
+        providers: [
+          {
+            provide: AltairConfig,
+            useValue: new AltairConfig(),
+          },
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemComponent);

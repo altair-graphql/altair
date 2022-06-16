@@ -10,18 +10,8 @@ import { SmartInputComponent } from './smart-input/smart-input.component';
 import { SmartInputBlockComponent } from './smart-input-block/smart-input-block.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    ComponentModule,
-  ],
-  declarations: [
-    SmartInputComponent,
-    SmartInputBlockComponent,
-  ],
-  exports: [
-    SmartInputComponent,
-  ]
+  imports: [CommonModule, FormsModule, SharedModule, ComponentModule],
+  declarations: [SmartInputComponent, SmartInputBlockComponent],
+  exports: [SmartInputComponent],
 })
-export class SmartInputModule { }
+export class SmartInputModule {}

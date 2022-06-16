@@ -9,19 +9,16 @@ describe('SchemaFormItemInputComponent', () => {
   let component: SchemaFormItemInputComponent;
   let fixture: ComponentFixture<SchemaFormItemInputComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        SharedModule,
-        SchemaFormModule,
-      ],
-      declarations: [
-        // SchemaFormItemInputComponent,
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, SharedModule, SchemaFormModule],
+        declarations: [
+          // SchemaFormItemInputComponent,
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemInputComponent);

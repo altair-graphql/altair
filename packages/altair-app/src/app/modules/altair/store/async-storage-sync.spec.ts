@@ -13,8 +13,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       };
       const res = _setValueInPath('win.dows.b', obj, 2);
 
@@ -26,8 +26,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       };
       const res = _setValueInPath('win.dows.b', obj, 2);
 
@@ -35,16 +35,16 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       });
 
       expect(res).toStrictEqual({
         win: {
           dows: {
             b: 2,
-          }
-        }
+          },
+        },
       });
     });
 
@@ -53,8 +53,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       };
       const res = _setValueInPath('win.dows.notfound', obj, 2);
 
@@ -62,8 +62,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       });
     });
 
@@ -72,8 +72,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       };
       const res = _setValueInPath('win.notfound.b', obj, 2);
 
@@ -81,8 +81,8 @@ describe('async-storage-sync', () => {
         win: {
           dows: {
             b: 1,
-          }
-        }
+          },
+        },
       });
     });
 
@@ -97,8 +97,8 @@ describe('async-storage-sync', () => {
           },
           wods: {
             b: 3,
-          }
-        }
+          },
+        },
       };
       const res = _setValueInPath('win.$$.b', obj, 'set');
 
@@ -112,8 +112,8 @@ describe('async-storage-sync', () => {
           },
           wods: {
             b: 'set',
-          }
-        }
+          },
+        },
       });
     });
   });
@@ -122,26 +122,26 @@ describe('async-storage-sync', () => {
     it('returns new cloned object', () => {
       const data = {
         x: {
-          y: 1
-        }
+          y: 1,
+        },
       };
       const res = prepareValueToStore('namespace::somekey::somekey2', data);
       expect(res).not.toBe(data);
-    })
+    });
 
     it('returns same data if no purge path in key path', () => {
       const data = {
         x: {
-          y: 1
-        }
+          y: 1,
+        },
       };
       const res = prepareValueToStore('namespace::somekey::somekey2', data);
       expect(res).toEqual({
         x: {
           y: 1,
-        }
+        },
       });
-    })
+    });
 
     it('returns data with purged content if purge path in key path', () => {
       const window = {
@@ -153,7 +153,10 @@ describe('async-storage-sync', () => {
         },
         schema: { schema: {} },
       };
-      const res = prepareValueToStore('namespace::windows::some-window-id', window);
+      const res = prepareValueToStore(
+        'namespace::windows::some-window-id',
+        window
+      );
       expect(res).toEqual({
         layout: {
           title: 'Test',
@@ -163,7 +166,7 @@ describe('async-storage-sync', () => {
         },
         schema: undefined,
       });
-    })
+    });
 
     it('should not purge content if key path matches purge path exactly', () => {
       const window = {
@@ -175,7 +178,10 @@ describe('async-storage-sync', () => {
         },
         schema: { schema: {} },
       };
-      const res = prepareValueToStore('namespace::windows::some-window-id::schema', window);
+      const res = prepareValueToStore(
+        'namespace::windows::some-window-id::schema',
+        window
+      );
       expect(res).toEqual({
         layout: {
           title: 'Test',
@@ -185,7 +191,7 @@ describe('async-storage-sync', () => {
         },
         schema: { schema: {} },
       });
-    })
+    });
   });
 
   describe('_normalizeToResolvedKeyValue', () => {
@@ -194,15 +200,20 @@ describe('async-storage-sync', () => {
         win: {
           doms: {
             b: 1,
-          }
-        }
+          },
+        },
       };
-      const res = _normalizeToResolvedKeyPartsValuePairs('win.doms.b'.split('.'), obj);
-      expect(res).toEqual([{
-        keyParts: [ 'win', 'doms', 'b' ],
-        value: 1,
-      }]);
-    })
+      const res = _normalizeToResolvedKeyPartsValuePairs(
+        'win.doms.b'.split('.'),
+        obj
+      );
+      expect(res).toEqual([
+        {
+          keyParts: ['win', 'doms', 'b'],
+          value: 1,
+        },
+      ]);
+    });
 
     it('should return array of keyParts-value pairs for given path parts', () => {
       const obj = {
@@ -216,24 +227,27 @@ describe('async-storage-sync', () => {
           sodm: {
             b: 3,
           },
-        }
+        },
       };
-      const res = _normalizeToResolvedKeyPartsValuePairs('win.$$.b'.split('.'), obj);
+      const res = _normalizeToResolvedKeyPartsValuePairs(
+        'win.$$.b'.split('.'),
+        obj
+      );
       expect(res).toEqual([
         {
-          keyParts: [ 'win', 'doms', 'b' ],
+          keyParts: ['win', 'doms', 'b'],
           value: 1,
         },
         {
-          keyParts: [ 'win', 'mods', 'b' ],
+          keyParts: ['win', 'mods', 'b'],
           value: 2,
         },
         {
-          keyParts: [ 'win', 'sodm', 'b' ],
+          keyParts: ['win', 'sodm', 'b'],
           value: 3,
         },
       ]);
-    })
+    });
   });
 
   describe('normalizeToKeyValue', () => {
@@ -250,7 +264,11 @@ describe('async-storage-sync', () => {
           },
         },
       };
-      const normalized = normalizeToKeyValue(state as any, ['environments', 'settings', 'windows'], 'altair');
+      const normalized = normalizeToKeyValue(
+        state as any,
+        ['environments', 'settings', 'windows'],
+        'altair'
+      );
       expect(normalized).toEqual({
         '[altair]::environments': {
           somestate: {
@@ -290,7 +308,11 @@ describe('async-storage-sync', () => {
           },
         },
       };
-      const normalized = normalizeToKeyValue(state as any, ['environments', 'settings', 'windows'], 'altair');
+      const normalized = normalizeToKeyValue(
+        state as any,
+        ['environments', 'settings', 'windows'],
+        'altair'
+      );
       expect(normalized).toEqual({
         '[altair]::environments': {
           somestate: {

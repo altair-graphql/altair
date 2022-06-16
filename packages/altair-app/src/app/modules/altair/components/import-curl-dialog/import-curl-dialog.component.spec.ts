@@ -11,13 +11,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('ImportCurlDialogComponent', () => {
   let wrapper: NgxTestWrapper<ImportCurlDialogComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: ImportCurlDialogComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

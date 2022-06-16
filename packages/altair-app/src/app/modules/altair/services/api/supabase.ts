@@ -1,4 +1,9 @@
-import { createClient, Provider, User, UserCredentials } from '@supabase/supabase-js';
+import {
+  createClient,
+  Provider,
+  User,
+  UserCredentials,
+} from '@supabase/supabase-js';
 import { environment } from 'environments/environment';
 
 export const supabase = createClient(
@@ -11,7 +16,10 @@ export const supabase = createClient(
   }
 );
 
-export const signinWithPopup = async (provider: Provider, options?: { redirectTo?: string; scopes?: string;}) => {
+export const signinWithPopup = async (
+  provider: Provider,
+  options?: { redirectTo?: string; scopes?: string }
+) => {
   const url = supabase.auth.api.getUrlForProvider(provider, options || {});
 
   // MUST open popup before any async action is executed, else would be blocked by some browsers
@@ -48,7 +56,14 @@ const tryGetPopupHash = (popup: Window) => {
 };
 
 const parseURLHash = (urlHash: string) => {
-  return urlHash.replace(/^\#/, '').split('&').map(_ => _.split('=')).reduce((acc, cur) => ({ ...acc, [cur[0]]: cur[1] }), <Record<string, string>>{})
+  return urlHash
+    .replace(/^\#/, '')
+    .split('&')
+    .map((_) => _.split('='))
+    .reduce(
+      (acc, cur) => ({ ...acc, [cur[0]]: cur[1] }),
+      <Record<string, string>>{}
+    );
 };
 
 export const runPopup = (popup: Window) => {

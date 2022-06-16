@@ -6,6 +6,7 @@ export const environment = {
   serverReady: false,
   supabase: {
     publicUrl: 'https://pdfdnnhkxsrfvyhksaop.supabase.co',
-    apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyMzU4MDIwLCJleHAiOjE5NTc5MzQwMjB9.4SDcU2t37R6KfcGRxloHtqvq_62FhdgT3P9eWBL7Rpc',
+    apiKey:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyMzU4MDIwLCJleHAiOjE5NTc5MzQwMjB9.4SDcU2t37R6KfcGRxloHtqvq_62FhdgT3P9eWBL7Rpc',
   },
 };

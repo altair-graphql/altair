@@ -21,13 +21,19 @@ export class StopLoadingAction implements NGRXAction {
 export class SetWindowNameAction implements NGRXAction {
   readonly type = SET_WINDOW_NAME;
 
-  constructor(public windowId: string, public payload: { title: string, setByUser?: boolean }) {}
+  constructor(
+    public windowId: string,
+    public payload: { title: string; setByUser?: boolean }
+  ) {}
 }
 
 export class SetWindowIdInCollectionAction implements NGRXAction {
   readonly type = SET_WINDOW_ID_IN_COLLECTION;
 
-  constructor(public windowId: string, public payload: { collectionId?: number; windowIdInCollection?: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: { collectionId?: number; windowIdInCollection?: string }
+  ) {}
 }
 
 export class NotifyExperimentalAction implements NGRXAction {

@@ -11,7 +11,10 @@ export const getInitialState = (): CollectionState => {
   };
 };
 
-export function collectionReducer(state = getInitialState(), action: collectionActions.Action): CollectionState {
+export function collectionReducer(
+  state = getInitialState(),
+  action: collectionActions.Action
+): CollectionState {
   switch (action.type) {
     case collectionActions.SET_COLLECTIONS:
       return { ...state, list: action.payload.collections };

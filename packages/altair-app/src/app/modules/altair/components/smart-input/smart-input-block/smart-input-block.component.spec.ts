@@ -8,15 +8,13 @@ describe('SmartInputBlockComponent', () => {
   let component: SmartInputBlockComponent;
   let fixture: ComponentFixture<SmartInputBlockComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        SmartInputModule
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [TranslateModule.forRoot(), SmartInputModule],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SmartInputBlockComponent);

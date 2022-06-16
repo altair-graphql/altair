@@ -4,16 +4,15 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 
 @Component({
   selector: 'app-set-variable-dialog',
   templateUrl: './set-variable-dialog.component.html',
-  styleUrls: ['./set-variable-dialog.component.scss']
+  styleUrls: ['./set-variable-dialog.component.scss'],
 })
 export class SetVariableDialogComponent {
-
   @Input() showVariableDialog = false;
   @Input() variables = '';
   @Output() toggleVariableDialog = new EventEmitter();

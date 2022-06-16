@@ -1,4 +1,13 @@
-import { first, distinctUntilChanged, map, filter, take, switchMap, timeout, catchError } from 'rxjs/operators';
+import {
+  first,
+  distinctUntilChanged,
+  map,
+  filter,
+  take,
+  switchMap,
+  timeout,
+  catchError,
+} from 'rxjs/operators';
 import { Component, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, forkJoin, of, from } from 'rxjs';
@@ -43,9 +52,17 @@ import { debug } from '../../utils/logger';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PluginEventService } from '../../services/plugin/plugin-event.service';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
-import { CollectionState, IQuery, IQueryCollection, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  CollectionState,
+  IQuery,
+  IQueryCollection,
+  SortByOptions,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
-import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import {
+  EnvironmentsState,
+  EnvironmentState,
+} from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { ICustomTheme } from 'altair-graphql-core/build/theme';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
@@ -60,7 +77,7 @@ import { catchUselessObservableError } from '../../utils/errors';
   selector: 'app-altair',
   templateUrl: './app.component.html',
 })
-export class AppComponent  {
+export class AppComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
@@ -102,10 +119,12 @@ export class AppComponent  {
     private pluginEvent: PluginEventService,
     private collectionService: QueryCollectionService,
     private themeRegistry: ThemeRegistryService,
-    private altairConfig: AltairConfig,
+    private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
-    this.settings$ = this.store.pipe(select('settings')).pipe(distinctUntilChanged());
+    this.settings$ = this.store
+      .pipe(select('settings'))
+      .pipe(distinctUntilChanged());
     this.theme$ = this.settings$.pipe(
       map((settings) => {
         // Get specified theme
@@ -113,14 +132,16 @@ export class AppComponent  {
         // Warn about deprecated theme options, with alternatives
         // Add theme config object from settings
 
-        const selectedTheme = this.themeRegistry.getTheme(settings.theme) || { isSystem: true };
+        const selectedTheme = this.themeRegistry.getTheme(settings.theme) || {
+          isSystem: true,
+        };
         const deperecatedThemeConfig: ICustomTheme = {
           type: {
             fontSize: {
               ...(settings['theme.fontsize'] && {
                 remBase: settings['theme.fontsize'],
               }),
-            }
+            },
           },
           editor: {
             ...(settings['theme.editorFontSize'] && {
@@ -131,11 +152,15 @@ export class AppComponent  {
                 default: settings['theme.editorFontFamily'],
               },
             }),
-          }
+          },
         };
         const settingsThemeConfig = settings.themeConfig || {};
 
-        return this.themeRegistry.mergeThemes(selectedTheme, deperecatedThemeConfig, settingsThemeConfig);
+        return this.themeRegistry.mergeThemes(
+          selectedTheme,
+          deperecatedThemeConfig,
+          settingsThemeConfig
+        );
       })
     );
     this.themeDark$ = this.settings$.pipe(
@@ -149,14 +174,17 @@ export class AppComponent  {
           return;
         }
 
-        const selectedTheme = settings['theme.dark'] && this.themeRegistry.getTheme(settings['theme.dark']) || { isSystem: true };
+        const selectedTheme = (settings['theme.dark'] &&
+          this.themeRegistry.getTheme(settings['theme.dark'])) || {
+          isSystem: true,
+        };
         const deperecatedThemeConfig: ICustomTheme = {
           type: {
             fontSize: {
               ...(settings['theme.fontsize'] && {
                 remBase: settings['theme.fontsize'],
               }),
-            }
+            },
           },
           editor: {
             ...(settings['theme.editorFontSize'] && {
@@ -167,22 +195,31 @@ export class AppComponent  {
                 default: settings['theme.editorFontFamily'],
               },
             }),
-          }
+          },
         };
         const settingsThemeConfig = settings['themeConfig.dark'] || {};
 
-        return this.themeRegistry.mergeThemes(selectedTheme, deperecatedThemeConfig, settingsThemeConfig);
+        return this.themeRegistry.mergeThemes(
+          selectedTheme,
+          deperecatedThemeConfig,
+          settingsThemeConfig
+        );
       })
     );
     this.collection$ = this.store.select('collection');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
     this.account$ = this.store.select('account');
-    this.sortedCollections$ = this.store.select(fromRoot.selectSortedCollections);
+    this.sortedCollections$ = this.store.select(
+      fromRoot.selectSortedCollections
+    );
     this.activeEnvironment$ = this.environments$.pipe(
-      map(environments => {
+      map((environments) => {
         if (environments.activeSubEnvironment) {
-          return environments.subEnvironments.find(subEnvironment => subEnvironment.id === environments.activeSubEnvironment);
+          return environments.subEnvironments.find(
+            (subEnvironment) =>
+              subEnvironment.id === environments.activeSubEnvironment
+          );
         }
         return;
       })
@@ -199,10 +236,11 @@ export class AppComponent  {
       this.translate.use(applicationLanguage),
       this.store.pipe(
         take(1),
-        switchMap(data => {
+        switchMap((data) => {
           if (data.settings['plugin.list']) {
-            data.settings['plugin.list'].forEach(pluginStr => {
-              const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
+            data.settings['plugin.list'].forEach((pluginStr) => {
+              const pluginInfo =
+                this.pluginRegistry.getPluginInfoFromString(pluginStr);
               if (pluginInfo) {
                 this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
               }
@@ -218,7 +256,7 @@ export class AppComponent  {
         }),
         // Only wait 7 seconds for plugins to be ready
         timeout(7000),
-        catchError(error => of('Plugins were not ready on time!')),
+        catchError((error) => of('Plugins were not ready on time!'))
       ),
     ])
       .pipe(untilDestroyed(this))
@@ -229,76 +267,96 @@ export class AppComponent  {
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
-    this.settings$.pipe(
-      untilDestroyed(this),
-      map(settings => settings.language),
-      filter(x => !!x),
-      distinctUntilChanged(),
-    )
-    .subscribe(language => {
-      this.translate.use(language);
-    });
+    this.settings$
+      .pipe(
+        untilDestroyed(this),
+        map((settings) => settings.language),
+        filter((x) => !!x),
+        distinctUntilChanged()
+      )
+      .subscribe((language) => {
+        this.translate.use(language);
+      });
 
     this.electronApp.connect();
     this.keybinder.connect();
 
-    this.windowIds$ = this.store.select('windows').pipe(map(windows => {
-      return Object.keys(windows);
-    }));
+    this.windowIds$ = this.store.select('windows').pipe(
+      map((windows) => {
+        return Object.keys(windows);
+      })
+    );
 
-    this.store
-      .pipe(untilDestroyed(this))
-      .subscribe(data => {
-        this.windows = data.windows;
-        this.windowIds = Object.keys(data.windows);
-        this.closedWindows = data.local.closedWindows;
-        this.showDonationAlert = data.donation.showAlert;
+    this.store.pipe(untilDestroyed(this)).subscribe((data) => {
+      this.windows = data.windows;
+      this.windowIds = Object.keys(data.windows);
+      this.closedWindows = data.local.closedWindows;
+      this.showDonationAlert = data.donation.showAlert;
 
-        this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
-        this.showEditCollectionDialog = data.windowsMeta.showEditCollectionDialog;
+      this.showImportCurlDialog = data.windowsMeta.showImportCurlDialog;
+      this.showEditCollectionDialog = data.windowsMeta.showEditCollectionDialog;
 
-        // Set the window IDs in the meta state if it does not already exist
-        if (data.windowsMeta.windowIds) {
-          // Filter the IDs based on the windows that are valid.
-          // This fixes issues with when windows are removed.
-          // Before the effect gets the remove action, the store has already been updated.
-          // While this is valid, it causes the component to try to retrieve the invalid window.
-          this.windowIds = data.windowsMeta.windowIds.filter(id => !!(this.windows as any)[id]);
-        } else {
-          this.store.dispatch(new windowsMetaActions.SetWindowIdsAction( { ids: this.windowIds }));
-        }
+      // Set the window IDs in the meta state if it does not already exist
+      if (data.windowsMeta.windowIds) {
+        // Filter the IDs based on the windows that are valid.
+        // This fixes issues with when windows are removed.
+        // Before the effect gets the remove action, the store has already been updated.
+        // While this is valid, it causes the component to try to retrieve the invalid window.
+        this.windowIds = data.windowsMeta.windowIds.filter(
+          (id) => !!(this.windows as any)[id]
+        );
+      } else {
+        this.store.dispatch(
+          new windowsMetaActions.SetWindowIdsAction({ ids: this.windowIds })
+        );
+      }
 
-        this.activeWindowId = data.windowsMeta.activeWindowId;
-        debug.log(data.windows, this.windowIds);
+      this.activeWindowId = data.windowsMeta.activeWindowId;
+      debug.log(data.windows, this.windowIds);
 
-        // If the active window has not been set, default it
-        if (this.windowIds.length && (!this.activeWindowId || !data.windows[this.activeWindowId])) {
-          this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId: this.windowIds[0] }));
-        }
-      });
+      // If the active window has not been set, default it
+      if (
+        this.windowIds.length &&
+        (!this.activeWindowId || !data.windows[this.activeWindowId])
+      ) {
+        this.store.dispatch(
+          new windowsMetaActions.SetActiveWindowIdAction({
+            windowId: this.windowIds[0],
+          })
+        );
+      }
+    });
 
     if (!this.windowIds.length) {
       if (altairConfig.initialData.windows.length) {
-        altairConfig.initialData.windows.forEach(windowOption => {
-          windowService.importWindowData({
-            version: 1,
-            windowName: windowOption.initialName || '',
-            type: 'window',
-            apiUrl: windowOption.endpointURL || '',
-            headers: windowOption.initialHeaders ? mapToKeyValueList(windowOption.initialHeaders) : [],
-            query: windowOption.initialQuery || '',
-            subscriptionUrl: windowOption.subscriptionsEndpoint || '',
-            variables: windowOption.initialVariables || '',
-            postRequestScript: windowOption.initialPostRequestScript,
-            postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
-            preRequestScript: windowOption.initialPreRequestScript,
-            preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
-            subscriptionConnectionParams: windowOption.initialSubscriptionsPayload ? JSON.stringify(windowOption.initialSubscriptionsPayload) : '',
-            subscriptionProvider: windowOption.initialSubscriptionsProvider,
-          }, {
-            fixedTitle: true,
-          })
-        })
+        altairConfig.initialData.windows.forEach((windowOption) => {
+          windowService.importWindowData(
+            {
+              version: 1,
+              windowName: windowOption.initialName || '',
+              type: 'window',
+              apiUrl: windowOption.endpointURL || '',
+              headers: windowOption.initialHeaders
+                ? mapToKeyValueList(windowOption.initialHeaders)
+                : [],
+              query: windowOption.initialQuery || '',
+              subscriptionUrl: windowOption.subscriptionsEndpoint || '',
+              variables: windowOption.initialVariables || '',
+              postRequestScript: windowOption.initialPostRequestScript,
+              postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
+              preRequestScript: windowOption.initialPreRequestScript,
+              preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
+              subscriptionConnectionParams:
+                windowOption.initialSubscriptionsPayload
+                  ? JSON.stringify(windowOption.initialSubscriptionsPayload)
+                  : '',
+              subscriptionProvider: windowOption.initialSubscriptionsProvider,
+            },
+            {
+              fixedTitle: true,
+            }
+          );
+        });
       } else {
         this.newWindow();
       }
@@ -335,32 +393,40 @@ export class AppComponent  {
   getAppLanguage() {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
-    const isClientLanguageAvailable = this.checkLanguageAvailability(clientLanguage);
+    const isClientLanguageAvailable =
+      this.checkLanguageAvailability(clientLanguage);
 
-    return isClientLanguageAvailable && !this.altairConfig.isTranslateMode ? clientLanguage : defaultLanguage;
+    return isClientLanguageAvailable && !this.altairConfig.isTranslateMode
+      ? clientLanguage
+      : defaultLanguage;
   }
 
   newWindow() {
-    this.windowService.newWindow()
-    .pipe(
-      first(),
-      untilDestroyed(this),
-    )
-    .subscribe(({ url, windowId }) => {
-      this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+    this.windowService
+      .newWindow()
+      .pipe(first(), untilDestroyed(this))
+      .subscribe(({ url, windowId }) => {
+        this.store.dispatch(
+          new windowsMetaActions.SetActiveWindowIdAction({ windowId })
+        );
 
-      if (url) {
-        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
-      }
-    });
+        if (url) {
+          this.store.dispatch(
+            new queryActions.SendIntrospectionQueryRequestAction(windowId)
+          );
+        }
+      });
   }
 
   setActiveWindow(windowId: string) {
-    this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+    this.store.dispatch(
+      new windowsMetaActions.SetActiveWindowIdAction({ windowId })
+    );
   }
 
   removeWindow(windowId: string) {
-    this.windowService.removeWindow(windowId)
+    this.windowService
+      .removeWindow(windowId)
       .pipe(untilDestroyed(this), catchUselessObservableError)
       .subscribe();
   }
@@ -370,11 +436,27 @@ export class AppComponent  {
   }
 
   setWindowName({ windowId = '', windowName = '' }) {
-    this.store.dispatch(new layoutActions.SetWindowNameAction(windowId, { title: windowName, setByUser: true }));
+    this.store.dispatch(
+      new layoutActions.SetWindowNameAction(windowId, {
+        title: windowName,
+        setByUser: true,
+      })
+    );
   }
 
-  repositionWindow({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {
-    this.store.dispatch(new windowsMetaActions.RepositionWindowAction({ currentPosition, newPosition }));
+  repositionWindow({
+    currentPosition,
+    newPosition,
+  }: {
+    currentPosition: number;
+    newPosition: number;
+  }) {
+    this.store.dispatch(
+      new windowsMetaActions.RepositionWindowAction({
+        currentPosition,
+        newPosition,
+      })
+    );
   }
 
   reopenClosedWindow() {
@@ -394,35 +476,51 @@ export class AppComponent  {
   }
 
   importWindowFromCurl(data: string) {
-    this.store.dispatch(new windowsActions.ImportWindowFromCurlAction({ data }));
+    this.store.dispatch(
+      new windowsActions.ImportWindowFromCurlAction({ data })
+    );
   }
 
   showSettingsDialog() {
-    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: true }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowSettingsDialogAction({ value: true })
+    );
   }
 
   hideSettingsDialog() {
-    this.store.dispatch(new windowsMetaActions.ShowSettingsDialogAction({ value: false }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowSettingsDialogAction({ value: false })
+    );
   }
 
   setSettingsJson(settingsJson: string) {
-    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: settingsJson }));
+    this.store.dispatch(
+      new settingsActions.SetSettingsJsonAction({ value: settingsJson })
+    );
   }
 
   setShowImportCurlDialog(value: boolean) {
-    this.store.dispatch(new windowsMetaActions.ShowImportCurlDialogAction({ value }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowImportCurlDialogAction({ value })
+    );
   }
 
   prettifyCode() {
-    this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId));
+    this.store.dispatch(
+      new queryActions.PrettifyQueryAction(this.activeWindowId)
+    );
   }
 
   compressQuery() {
-    this.store.dispatch(new queryActions.CompressQueryAction(this.activeWindowId));
+    this.store.dispatch(
+      new queryActions.CompressQueryAction(this.activeWindowId)
+    );
   }
 
   clearEditor() {
-    this.store.dispatch(new queryActions.SetQueryAction(``, this.activeWindowId));
+    this.store.dispatch(
+      new queryActions.SetQueryAction(``, this.activeWindowId)
+    );
   }
 
   copyAsCurl() {
@@ -430,63 +528,104 @@ export class AppComponent  {
   }
 
   convertToNamedQuery() {
-    this.store.dispatch(new queryActions.ConvertToNamedQueryAction(this.activeWindowId));
+    this.store.dispatch(
+      new queryActions.ConvertToNamedQueryAction(this.activeWindowId)
+    );
   }
 
   refactorQuery() {
-    this.store.dispatch(new queryActions.RefactorQueryAction(this.activeWindowId));
+    this.store.dispatch(
+      new queryActions.RefactorQueryAction(this.activeWindowId)
+    );
   }
 
   toggleHeader(isOpen: boolean) {
-    this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId));
+    this.store.dispatch(
+      new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)
+    );
   }
 
   toggleVariableDialog(isOpen = undefined) {
-    this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId));
+    this.store.dispatch(
+      new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)
+    );
   }
 
   toggleSubscriptionUrlDialog(isOpen: boolean) {
-    this.store.dispatch(new dialogsActions.ToggleSubscriptionUrlDialogAction(this.activeWindowId));
+    this.store.dispatch(
+      new dialogsActions.ToggleSubscriptionUrlDialogAction(this.activeWindowId)
+    );
   }
 
   toggleHistoryDialog(isOpen: boolean) {
-    this.store.dispatch(new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId));
+    this.store.dispatch(
+      new dialogsActions.ToggleHistoryDialogAction(this.activeWindowId)
+    );
   }
 
   togglePreRequestDialog(isOpen: boolean) {
-    this.store.dispatch(new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId));
+    this.store.dispatch(
+      new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId)
+    );
   }
 
   toggleEnvironmentManager(show: boolean) {
-    this.store.dispatch(new windowsMetaActions.ShowEnvironmentManagerAction({ value: show }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowEnvironmentManagerAction({ value: show })
+    );
   }
 
   togglePluginManager(show: boolean) {
-    this.store.dispatch(new windowsMetaActions.ShowPluginManagerAction({ value: show }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowPluginManagerAction({ value: show })
+    );
   }
 
   updateBaseEnvironmentJson(opts: { value: string }) {
-    this.store.dispatch(new environmentsActions.UpdateBaseEnvironmentJsonAction(opts));
+    this.store.dispatch(
+      new environmentsActions.UpdateBaseEnvironmentJsonAction(opts)
+    );
   }
-  updateSubEnvironmentJson(opts: { id: string, value: string }) {
-    this.store.dispatch(new environmentsActions.UpdateSubEnvironmentJsonAction(opts));
+  updateSubEnvironmentJson(opts: { id: string; value: string }) {
+    this.store.dispatch(
+      new environmentsActions.UpdateSubEnvironmentJsonAction(opts)
+    );
   }
-  updateSubEnvironmentTitle(opts: { id: string, value: string }) {
-    this.store.dispatch(new environmentsActions.UpdateSubEnvironmentTitleAction(opts));
+  updateSubEnvironmentTitle(opts: { id: string; value: string }) {
+    this.store.dispatch(
+      new environmentsActions.UpdateSubEnvironmentTitleAction(opts)
+    );
   }
 
   addNewSubEnvironment() {
-    this.store.dispatch(new environmentsActions.AddSubEnvironmentAction({ id: uuid() }));
+    this.store.dispatch(
+      new environmentsActions.AddSubEnvironmentAction({ id: uuid() })
+    );
   }
   deleteSubEnvironment(opts: { id: string }) {
-    this.store.dispatch(new environmentsActions.DeleteSubEnvironmentAction(opts));
+    this.store.dispatch(
+      new environmentsActions.DeleteSubEnvironmentAction(opts)
+    );
     this.selectActiveEnvironment();
   }
   selectActiveEnvironment(id?: string) {
-    this.store.dispatch(new environmentsActions.SelectActiveSubEnvironmentAction({ id }));
+    this.store.dispatch(
+      new environmentsActions.SelectActiveSubEnvironmentAction({ id })
+    );
   }
-  repositionSubEnvironments({ currentPosition, newPosition }: { currentPosition: number, newPosition: number }) {
-    this.store.dispatch(new environmentsActions.RepositionSubEnvironmentAction({ currentPosition, newPosition }));
+  repositionSubEnvironments({
+    currentPosition,
+    newPosition,
+  }: {
+    currentPosition: number;
+    newPosition: number;
+  }) {
+    this.store.dispatch(
+      new environmentsActions.RepositionSubEnvironmentAction({
+        currentPosition,
+        newPosition,
+      })
+    );
   }
 
   toggleCollections() {
@@ -500,28 +639,55 @@ export class AppComponent  {
   selectQueryFromCollection({
     query,
     collectionId,
-    windowIdInCollection
-  }: { query: IQuery, collectionId: number, windowIdInCollection: string }) {
-    const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(windowId => {
-      return this.windows[windowId]?.layout.windowIdInCollection === windowIdInCollection;
-    });
+    windowIdInCollection,
+  }: {
+    query: IQuery;
+    collectionId: number;
+    windowIdInCollection: string;
+  }) {
+    const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(
+      (windowId) => {
+        return (
+          this.windows[windowId]?.layout.windowIdInCollection ===
+          windowIdInCollection
+        );
+      }
+    );
     if (matchingOpenQueryWindowIds.length) {
       this.setActiveWindow(matchingOpenQueryWindowIds[0]);
       return;
     }
-    this.windowService.importWindowData({ ...query, collectionId, windowIdInCollection }, { fixedTitle: true });
+    this.windowService.importWindowData(
+      { ...query, collectionId, windowIdInCollection },
+      { fixedTitle: true }
+    );
   }
 
-  deleteQueryFromCollection({ collectionId, query }: { collectionId: number, query: IQuery }) {
-   this.store.dispatch(new collectionActions.DeleteQueryFromCollectionAction({ collectionId, query }));
+  deleteQueryFromCollection({
+    collectionId,
+    query,
+  }: {
+    collectionId: number;
+    query: IQuery;
+  }) {
+    this.store.dispatch(
+      new collectionActions.DeleteQueryFromCollectionAction({
+        collectionId,
+        query,
+      })
+    );
   }
 
   deleteCollection({ collectionId }: { collectionId: number }) {
-    this.store.dispatch(new collectionActions.DeleteCollectionAction({ collectionId }));
+    this.store.dispatch(
+      new collectionActions.DeleteCollectionAction({ collectionId })
+    );
   }
 
   exportCollection({ collectionId }: { collectionId: number }) {
-    this.store.dispatch(new collectionActions.ExportCollectionAction({ collectionId }));
+    this.store.dispatch(
+      new collectionActions.ExportCollectionAction({ collectionId })
+    );
   }
 
   importCollections() {
@@ -529,40 +695,72 @@ export class AppComponent  {
   }
 
   syncCollections() {
-    this.store.dispatch(new collectionActions.SyncRemoteCollectionsToLocalAction());
+    this.store.dispatch(
+      new collectionActions.SyncRemoteCollectionsToLocalAction()
+    );
   }
 
-  syncLocalCollectionToRemote({ collection }: { collection: IQueryCollection }) {
-    this.store.dispatch(new collectionActions.SyncLocalCollectionToRemoteAction({ collection }));
+  syncLocalCollectionToRemote({
+    collection,
+  }: {
+    collection: IQueryCollection;
+  }) {
+    this.store.dispatch(
+      new collectionActions.SyncLocalCollectionToRemoteAction({ collection })
+    );
   }
 
   toggleEditCollectionDialog({ collection }: { collection: IQueryCollection }) {
-    this.store.dispatch(new collectionActions.SetActiveCollectionAction({ collection }));
-    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value: true }));
+    this.store.dispatch(
+      new collectionActions.SetActiveCollectionAction({ collection })
+    );
+    this.store.dispatch(
+      new windowsMetaActions.ShowEditCollectionDialogAction({ value: true })
+    );
   }
 
   setShowEditCollectionDialog(value: boolean) {
-    this.store.dispatch(new windowsMetaActions.ShowEditCollectionDialogAction({ value }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowEditCollectionDialogAction({ value })
+    );
   }
 
   setShowAccountDialog(value: boolean) {
-    this.store.dispatch(new windowsMetaActions.ShowAccountDialogAction({ value }));
+    this.store.dispatch(
+      new windowsMetaActions.ShowAccountDialogAction({ value })
+    );
   }
 
   accountLogin() {
     this.store.dispatch(new accountActions.LoginAccountAction());
   }
 
-  updateCollection({ collection }: { collection: IQueryCollection & { id: number } }) {
-    this.store.dispatch(new collectionActions.UpdateCollectionAction({ collectionId: collection.id, collection }));
+  updateCollection({
+    collection,
+  }: {
+    collection: IQueryCollection & { id: number };
+  }) {
+    this.store.dispatch(
+      new collectionActions.UpdateCollectionAction({
+        collectionId: collection.id,
+        collection,
+      })
+    );
   }
 
   sortCollections({ sortBy = '' as SortByOptions }) {
-    this.store.dispatch(new collectionActions.SortCollectionsAction({ sortBy }));
+    this.store.dispatch(
+      new collectionActions.SortCollectionsAction({ sortBy })
+    );
   }
 
   togglePanelActive(panel: AltairPanel) {
-    this.store.dispatch(new localActions.SetPanelActiveAction({ panelId: panel.id, isActive: !panel.isActive }));
+    this.store.dispatch(
+      new localActions.SetPanelActiveAction({
+        panelId: panel.id,
+        isActive: !panel.isActive,
+      })
+    );
   }
 
   async fileDropped(files: FileList) {
@@ -574,7 +772,7 @@ export class AppComponent  {
         debug.log(error);
         try {
           // Handle collection import
-          await this.collectionService.handleImportedFile(files)
+          await this.collectionService.handleImportedFile(files);
         } catch (collectionError) {
           debug.log(collectionError);
         }
@@ -593,7 +791,10 @@ export class AppComponent  {
   }
 
   openWebAppLimitationPost(e: Event) {
-    externalLink(e, 'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8');
+    externalLink(
+      e,
+      'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8'
+    );
   }
 
   trackById(index: number, item: any) {

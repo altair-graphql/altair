@@ -8,9 +8,8 @@ describe('CodemirrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CodemirrorComponent ]
-    })
-    .compileComponents();
+      declarations: [CodemirrorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

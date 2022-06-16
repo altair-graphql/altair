@@ -6,13 +6,16 @@ export const CLEAR_HISTORY = 'CLEAR_HISTORY';
 export class AddHistoryAction implements NGRXAction {
   readonly type = ADD_HISTORY;
 
-  constructor(public windowId: string, public payload: { query: string, limit?: number }) { }
+  constructor(
+    public windowId: string,
+    public payload: { query: string; limit?: number }
+  ) {}
 }
 
 export class ClearHistoryAction implements NGRXAction {
   readonly type = CLEAR_HISTORY;
 
-  constructor(public windowId: string, public payload: {}) { }
+  constructor(public windowId: string, public payload: {}) {}
 }
 
 export type Action = AddHistoryAction | ClearHistoryAction;

@@ -1,8 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { getRequestScriptExtensions } from '../../utils/editor/extensions';
@@ -13,10 +9,9 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 @Component({
   selector: 'app-pre-request-editor',
   templateUrl: './pre-request-editor.component.html',
-  styles: []
+  styles: [],
 })
 export class PreRequestEditorComponent {
-
   @Input() preRequest: PrerequestState = {
     enabled: false,
     script: '',
@@ -24,14 +19,14 @@ export class PreRequestEditorComponent {
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
-  editorExtensions = getRequestScriptExtensions(this.preRequestService.getGlobalContext({
-    headers: [],
-    environment: {},
-    query: '',
-    variables: '',
-  }));
+  editorExtensions = getRequestScriptExtensions(
+    this.preRequestService.getGlobalContext({
+      headers: [],
+      environment: {},
+      query: '',
+      variables: '',
+    })
+  );
 
-  constructor(
-    private preRequestService: PreRequestService,
-  ) {}
+  constructor(private preRequestService: PreRequestService) {}
 }

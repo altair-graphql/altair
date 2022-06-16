@@ -11,16 +11,14 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('UrlBoxComponent', () => {
   let wrapper: NgxTestWrapper<UrlBoxComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: UrlBoxComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         queryOperations: [],
-      }
+      },
     });
   });
 
@@ -32,7 +30,7 @@ describe('UrlBoxComponent', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it('should render correctly with queryOperations > 1', async() => {
+  it('should render correctly with queryOperations > 1', async () => {
     wrapper.setProps({
       queryOperations: [
         { name: { value: 'operation 1' } },

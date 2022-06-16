@@ -88,6 +88,6 @@ const COMPONENTS = [
     SchemaFormModule,
   ],
   declarations: COMPONENTS,
-  exports: [ ...COMPONENTS ]
+  exports: [...COMPONENTS],
 })
 export class ComponentModule {}

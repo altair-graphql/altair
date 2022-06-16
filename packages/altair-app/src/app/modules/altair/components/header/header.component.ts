@@ -1,16 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import {
+  EnvironmentsState,
+  EnvironmentState,
+} from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { externalLink } from '../../utils';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styles: [
-  ]
+  styles: [],
 })
-export class HeaderComponent  {
-
+export class HeaderComponent {
   @Input() experimentalEnabled = false;
   @Input() windows = {};
   @Input() windowIds = [];
@@ -24,11 +25,19 @@ export class HeaderComponent  {
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter<string>();
   @Output() duplicateWindowChange = new EventEmitter<string>();
-  @Output() windowNameChange = new EventEmitter<{ windowId: string, windowName: string }>();
-  @Output() repositionWindowChange = new EventEmitter<{ currentPosition: number, newPosition: number }>();
+  @Output() windowNameChange = new EventEmitter<{
+    windowId: string;
+    windowName: string;
+  }>();
+  @Output() repositionWindowChange = new EventEmitter<{
+    currentPosition: number;
+    newPosition: number;
+  }>();
   @Output() reopenClosedWindowChange = new EventEmitter();
   @Output() togglePanelActiveChange = new EventEmitter<AltairPanel>();
-  @Output() selectActiveEnvironmentChange = new EventEmitter<string | undefined>();
+  @Output() selectActiveEnvironmentChange = new EventEmitter<
+    string | undefined
+  >();
   @Output() toggleEnvironmentManagerChange = new EventEmitter<boolean>();
   @Output() showSettingsDialogChange = new EventEmitter();
   @Output() importWindowChange = new EventEmitter();
@@ -36,14 +45,13 @@ export class HeaderComponent  {
   @Output() exportBackupDataChange = new EventEmitter();
   @Output() importBackupDataChange = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   openLink(e: Event, url: string) {
     externalLink(e, url);
   }
 
-  trackById(index: number, item: { id: string; }) {
+  trackById(index: number, item: { id: string }) {
     return item.id;
   }
-
 }

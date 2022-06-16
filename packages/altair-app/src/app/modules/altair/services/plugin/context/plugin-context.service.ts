@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CreateActionOptions, CreatePanelOptions, PluginContextGenerator, PluginWindowState } from 'altair-graphql-core/build/plugin/context/context.interface';
+import {
+  CreateActionOptions,
+  CreatePanelOptions,
+  PluginContextGenerator,
+  PluginWindowState,
+} from 'altair-graphql-core/build/plugin/context/context.interface';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
-import { PluginEvent, PluginEventCallback } from 'altair-graphql-core/build/plugin/event/event.interfaces';
+import {
+  PluginEvent,
+  PluginEventCallback,
+} from 'altair-graphql-core/build/plugin/event/event.interfaces';
 import { ICustomTheme } from 'altair-graphql-core/build/theme';
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { SubscriptionProviderData } from 'altair-graphql-core/build/subscriptions';
@@ -24,11 +32,17 @@ import { first } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
-import { AltairPanel, AltairPanelLocation } from 'altair-graphql-core/build/plugin/panel';
-import { AltairUiAction, AltairUiActionLocation } from 'altair-graphql-core/build/plugin/ui-action';
+import {
+  AltairPanel,
+  AltairPanelLocation,
+} from 'altair-graphql-core/build/plugin/panel';
+import {
+  AltairUiAction,
+  AltairUiActionLocation,
+} from 'altair-graphql-core/build/plugin/ui-action';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PluginContextService implements PluginContextGenerator {
   constructor(
@@ -37,7 +51,7 @@ export class PluginContextService implements PluginContextGenerator {
     private pluginEventService: PluginEventService,
     private themeRegistryService: ThemeRegistryService,
     private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
-    private notifyService: NotifyService,
+    private notifyService: NotifyService
   ) {}
 
   createContext(pluginName: string, plugin: AltairPlugin) {
@@ -71,7 +85,10 @@ export class PluginContextService implements PluginContextGenerator {
          */
         createPanel(
           element: HTMLElement,
-          { location = AltairPanelLocation.SIDEBAR, title = plugin.display_name }: CreatePanelOptions = {},
+          {
+            location = AltairPanelLocation.SIDEBAR,
+            title = plugin.display_name,
+          }: CreatePanelOptions = {}
         ) {
           log(`Creating panel<${title}>`);
           const panel = new AltairPanel(title, element, location);
@@ -82,7 +99,9 @@ export class PluginContextService implements PluginContextGenerator {
           log(`Destroying panel<${panel.title}:[${panel.id}]>`);
           if (panel instanceof AltairPanel) {
             panel.destroy();
-            self.store.dispatch(new localActions.RemovePanelAction({ panelId: panel.id }));
+            self.store.dispatch(
+              new localActions.RemovePanelAction({ panelId: panel.id })
+            );
           }
         },
         /**
@@ -99,7 +118,7 @@ export class PluginContextService implements PluginContextGenerator {
           execute,
         }: CreateActionOptions) {
           log(`Creating ui action<${title}>`);
-          const uiAction = new AltairUiAction(title, location, async() => {
+          const uiAction = new AltairUiAction(title, location, async () => {
             const state = await self.getCurrentWindowState();
             if (state) {
               execute(state);
@@ -113,7 +132,9 @@ export class PluginContextService implements PluginContextGenerator {
         destroyAction(uiAction: AltairUiAction) {
           log(`Destroying ui action<${uiAction.title}:[${uiAction.id}]>`);
           if (uiAction instanceof AltairUiAction) {
-            self.store.dispatch(new localActions.RemoveUiActionAction({ actionId: uiAction.id }));
+            self.store.dispatch(
+              new localActions.RemoveUiActionAction({ actionId: uiAction.id })
+            );
           }
         },
         isElectron() {
@@ -129,16 +150,22 @@ export class PluginContextService implements PluginContextGenerator {
         },
         setVariables(windowId: string, variables: string) {
           log('setting variables');
-          self.store.dispatch(new variablesActions.UpdateVariablesAction(variables, windowId));
+          self.store.dispatch(
+            new variablesActions.UpdateVariablesAction(variables, windowId)
+          );
         },
         setEndpoint(windowId: string, url: string) {
           log('setting endpoint');
           self.store.dispatch(new queryActions.SetUrlAction({ url }, windowId));
-          self.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+          self.store.dispatch(
+            new queryActions.SendIntrospectionQueryRequestAction(windowId)
+          );
         },
         addSubscriptionProvider(providerData: SubscriptionProviderData) {
           log(`adding subscription provider: ${providerData.id}`);
-          self.subscriptionProviderRegistryService.addProviderData(providerData);
+          self.subscriptionProviderRegistryService.addProviderData(
+            providerData
+          );
         },
         executeCommand() {
           // TODO: To be implemented...
@@ -167,22 +194,33 @@ export class PluginContextService implements PluginContextGenerator {
         },
         async enable(name: string, darkMode = false) {
           log('Enabling theme: ' + name);
-          const settings = { ...await self.store.select('settings').pipe(first()).toPromise() };
+          const settings = {
+            ...(await self.store.select('settings').pipe(first()).toPromise()),
+          };
 
           if (darkMode) {
             settings['theme.dark'] = `plugin:${name}` as any;
           } else {
             settings.theme = `plugin:${name}` as any;
           }
-          self.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
-          self.notifyService.info(`Plugin "${pluginName}" has enabled the "${name}" theme`);
+          self.store.dispatch(
+            new settingsActions.SetSettingsJsonAction({
+              value: JSON.stringify(settings),
+            })
+          );
+          self.notifyService.info(
+            `Plugin "${pluginName}" has enabled the "${name}" theme`
+          );
         },
       },
     };
   }
 
   private async getWindowState(windowId: string) {
-    const data = await this.store.select(fromRoot.selectWindowState(windowId)).pipe(first()).toPromise();
+    const data = await this.store
+      .select(fromRoot.selectWindowState(windowId))
+      .pipe(first())
+      .toPromise();
 
     if (!data) {
       return;
@@ -212,7 +250,10 @@ export class PluginContextService implements PluginContextGenerator {
   }
 
   private async getCurrentWindowState() {
-    const windowMeta = await this.store.select('windowsMeta').pipe(first()).toPromise();
+    const windowMeta = await this.store
+      .select('windowsMeta')
+      .pipe(first())
+      .toPromise();
     return this.getWindowState(windowMeta.activeWindowId);
   }
 }

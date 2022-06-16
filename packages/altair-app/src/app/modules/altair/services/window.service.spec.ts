@@ -15,22 +15,23 @@ import { QueryCollectionService } from './query-collection/query-collection.serv
 describe('WindowService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-      ],
+      imports: [HttpClientModule],
       providers: [
         WindowService,
         GqlService,
         MockProvider(QueryCollectionService),
         MockProvider(NotifyService),
         services.DbService,
-        { provide: Store, useValue: {
-          subscribe: () => {},
-          select: () => [],
-          map: () => observableEmpty(),
-          dispatch: () => {}
-        } }
-      ]
+        {
+          provide: Store,
+          useValue: {
+            subscribe: () => {},
+            select: () => [],
+            map: () => observableEmpty(),
+            dispatch: () => {},
+          },
+        },
+      ],
     });
   });
 

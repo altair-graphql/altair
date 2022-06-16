@@ -4,19 +4,19 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'app-fork-repo',
   templateUrl: './fork-repo.component.html',
   styleUrls: ['./fork-repo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForkRepoComponent  {
-
-  constructor() { }
-
-  
+export class ForkRepoComponent {
+  constructor() {}
 
   externalLink(e: Event, url: string) {
     e.preventDefault();
 
     // If electron app
-    if ((window as any).process && (window as any).process.versions['electron']) {
+    if (
+      (window as any).process &&
+      (window as any).process.versions['electron']
+    ) {
       const electron = (window as any).require('electron');
       electron.shell.openExternal(url);
     } else {
@@ -26,5 +26,4 @@ export class ForkRepoComponent  {
       }
     }
   }
-
 }

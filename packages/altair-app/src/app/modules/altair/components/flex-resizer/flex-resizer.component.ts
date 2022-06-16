@@ -1,4 +1,3 @@
-
 import { throttleTime } from 'rxjs/operators';
 import {
   Component,
@@ -20,7 +19,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-flex-resizer',
   templateUrl: './flex-resizer.component.html',
-  styleUrls: ['./flex-resizer.component.scss']
+  styleUrls: ['./flex-resizer.component.scss'],
 })
 export class FlexResizerComponent implements OnInit {
   @Input() resizeDirection = 'left';
@@ -48,15 +47,19 @@ export class FlexResizerComponent implements OnInit {
   throttleMs = 100;
 
   documentMouseUp$ = fromEvent(this.document, 'mouseup');
-  documentMouseMove$ = fromEvent(this.document, 'mousemove').pipe(throttleTime(this.throttleMs));
-  elMouseMove$ = fromEvent(this.el.nativeElement, 'mousemove').pipe(throttleTime(this.throttleMs));
+  documentMouseMove$ = fromEvent(this.document, 'mousemove').pipe(
+    throttleTime(this.throttleMs)
+  );
+  elMouseMove$ = fromEvent(this.el.nativeElement, 'mousemove').pipe(
+    throttleTime(this.throttleMs)
+  );
   elMouseDown$ = fromEvent(this.el.nativeElement, 'mousedown');
 
   constructor(
     private el: ElementRef,
     @Inject(DOCUMENT)
     private document: Document,
-    private zone: NgZone,
+    private zone: NgZone
   ) {
     this.resizeElement = this.el.nativeElement.parentElement;
     this.resizeContainer = this.getResizeContainer();
@@ -84,8 +87,6 @@ export class FlexResizerComponent implements OnInit {
         .pipe(untilDestroyed(this))
         .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
     });
-
-
   }
 
   onResizerPress(event: MouseEvent) {
@@ -94,9 +95,15 @@ export class FlexResizerComponent implements OnInit {
     this.originalX = event.clientX;
 
     if (this.resizeElement.parentElement) {
-      this.siblingGrowthFactor = Array.from(this.resizeElement.parentElement.children)
-        .filter(el => this.resizeElement !== el)
-        .reduce((acc, el) => +getComputedStyle(el).getPropertyValue('flex-grow') + acc, 0);
+      this.siblingGrowthFactor = Array.from(
+        this.resizeElement.parentElement.children
+      )
+        .filter((el) => this.resizeElement !== el)
+        .reduce(
+          (acc, el) =>
+            +getComputedStyle(el).getPropertyValue('flex-grow') + acc,
+          0
+        );
     }
   }
 
@@ -108,10 +115,13 @@ export class FlexResizerComponent implements OnInit {
     event.preventDefault();
     this.diffX = event.clientX - this.originalX;
 
-    const newWidth = this.isRight ? this.originalWidth + this.diffX : this.originalWidth - this.diffX;
+    const newWidth = this.isRight
+      ? this.originalWidth + this.diffX
+      : this.originalWidth - this.diffX;
 
     const widthRatio = newWidth / this.resizeContainer.clientWidth;
-    const newGrowthFactor = (widthRatio * this.siblingGrowthFactor) / (1 - widthRatio);
+    const newGrowthFactor =
+      (widthRatio * this.siblingGrowthFactor) / (1 - widthRatio);
 
     this.zone.run(() => {
       this.resizeChange.next(newGrowthFactor);

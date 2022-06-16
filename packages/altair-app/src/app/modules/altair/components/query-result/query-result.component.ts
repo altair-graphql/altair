@@ -21,10 +21,9 @@ import { indentUnit } from '@codemirror/language';
 @Component({
   selector: 'app-query-result',
   templateUrl: './query-result.component.html',
-  styleUrls: ['./query-result.component.scss']
+  styleUrls: ['./query-result.component.scss'],
 })
 export class QueryResultComponent implements OnChanges {
-
   @Input() queryResult = '';
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
@@ -48,7 +47,8 @@ export class QueryResultComponent implements OnChanges {
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
-  @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
+  @ViewChild('subscriptionResponseList', { static: true })
+  subscriptionResponseList: ElementRef;
 
   isElectron = isElectron;
 
@@ -66,8 +66,12 @@ export class QueryResultComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
-        if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
-          this.subscriptionResponseList.nativeElement.scrollTop = this.subscriptionResponseList.nativeElement.scrollHeight;
+        if (
+          this.subscriptionResponseList &&
+          this.autoscrollSubscriptionResponses
+        ) {
+          this.subscriptionResponseList.nativeElement.scrollTop =
+            this.subscriptionResponseList.nativeElement.scrollHeight;
         }
         clearTimeout(scrollTopTimeout);
       }, 50);
@@ -85,7 +89,6 @@ export class QueryResultComponent implements OnChanges {
       }
     }
   }
-  
 
   subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
     return response.responseTime;

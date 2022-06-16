@@ -12,7 +12,10 @@ export const getInitialState = (): AccountState => {
   };
 };
 
-export function accountReducer(state = getInitialState(), action: account.Action): AccountState {
+export function accountReducer(
+  state = getInitialState(),
+  action: account.Action
+): AccountState {
   switch (action.type) {
     case account.ACCOUNT_IS_LOGGED_IN:
       const payload = action.payload;

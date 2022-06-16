@@ -8,21 +8,32 @@ interface GenerateCurlOpts {
   url: string;
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE';
   headers?: object;
-  data?: { [ key: string]: string; };
+  data?: { [key: string]: string };
 }
 
-const getCurlHeaderString = (header: { key: string, value: string }) => {
+const getCurlHeaderString = (header: { key: string; value: string }) => {
   return `-H '${header.key}: ${header.value}'`;
-}
+};
 
 const buildUrl = (url: string, params?: { [key: string]: string }) => {
   const euc = encodeURIComponent;
   if (params) {
     const queryParams = Object.keys(params)
-      .map(key => euc(key) + '=' + euc(typeof params[key] === 'string' ? params[key] : JSON.stringify(params[key])))
+      .map(
+        (key) =>
+          euc(key) +
+          '=' +
+          euc(
+            typeof params[key] === 'string'
+              ? params[key]
+              : JSON.stringify(params[key])
+          )
+      )
       .join('&');
 
-    return url.includes('?') ? `${url}&${queryParams}` : `${url}?${queryParams}`;
+    return url.includes('?')
+      ? `${url}&${queryParams}`
+      : `${url}?${queryParams}`;
   }
 
   return url;
@@ -34,7 +45,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     Connection: 'keep-alive',
-    Origin: location.origin
+    Origin: location.origin,
   };
 
   const method = opts.method || 'POST';
@@ -46,7 +57,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
 
   const url = method === 'GET' ? buildUrl(opts.url, opts.data) : opts.url;
 
-  const curlParts = [ `'${url}'` ];
+  const curlParts = [`'${url}'`];
 
   if (!['GET', 'POST'].includes(method)) {
     curlParts.push(`-X ${method}`);

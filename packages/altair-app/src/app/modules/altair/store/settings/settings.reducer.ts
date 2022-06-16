@@ -1,6 +1,9 @@
 import * as settings from './settings.action';
 import { jsonc } from '../../utils';
-import { SettingsLanguage, SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import {
+  SettingsLanguage,
+  SettingsState,
+} from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 export const getInitialState = (): SettingsState => {
@@ -15,7 +18,10 @@ export const getInitialState = (): SettingsState => {
   };
 };
 
-export function settingsReducer(state = getInitialState(), action: settings.Action): SettingsState {
+export function settingsReducer(
+  state = getInitialState(),
+  action: settings.Action
+): SettingsState {
   switch (action.type) {
     case settings.SET_SETTINGS_JSON:
       const newState = { ...getInitialState(), ...jsonc(action.payload.value) };

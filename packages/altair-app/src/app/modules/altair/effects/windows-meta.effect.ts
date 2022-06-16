@@ -5,9 +5,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
-import {
-  ElectronAppService,
-} from '../services';
+import { ElectronAppService } from '../services';
 
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 
@@ -15,21 +13,22 @@ import { openFile } from '../utils';
 
 @Injectable()
 export class WindowsMetaEffects {
-
-  exportBackupData$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  exportBackupData$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(windowsMetaActions.EXPORT_BACKUP_DATA),
         switchMap(() => {
           this.electronAppService.exportBackupData();
           return EMPTY;
         })
-      )
-  }, { dispatch: false });
+      );
+    },
+    { dispatch: false }
+  );
 
-  importBackupData$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  importBackupData$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(windowsMetaActions.IMPORT_BACKUP_DATA),
         switchMap(() => {
           openFile({ accept: '.agbkp' }).then((fileContent: string) => {
@@ -37,11 +36,13 @@ export class WindowsMetaEffects {
           });
           return EMPTY;
         })
-      )
-  }, { dispatch: false });
+      );
+    },
+    { dispatch: false }
+  );
 
   constructor(
     private actions$: Actions,
-    private electronAppService: ElectronAppService,
+    private electronAppService: ElectronAppService
   ) {}
 }
