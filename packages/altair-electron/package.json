@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "yarn test:unit && yarn test:e2e",
+    "test": "yarn test:unit",
     "test:unit": "jest",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
