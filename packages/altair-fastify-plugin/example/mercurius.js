@@ -13,8 +13,8 @@ const schema = `
 
 const resolvers = {
   Query: {
-    add: async (_, { x, y }) => x + y,
-  },
+    add: async (_, { x, y }) => x + y
+  }
 };
 
 app.register(mercurius, {
@@ -22,7 +22,7 @@ app.register(mercurius, {
   resolvers,
   graphiql: false,
   ide: false,
-  path: '/graphql',
+  path: '/graphql'
 });
 
 app.register(AltairFastify, {
@@ -40,12 +40,12 @@ app.register(AltairFastify, {
     query {
       add(x: 1, y: 2)
     }
-    `,
+    `
 });
 
-app.get('/', async function (req, reply) {
+app.get('/', async function(req, reply) {
   const query = '{ add(x: 2, y: 2) }';
   return reply.graphql(query);
 });
 
-app.listen(3000);
+app.listen({ port: 3000 });
