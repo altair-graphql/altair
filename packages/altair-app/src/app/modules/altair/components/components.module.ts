@@ -39,6 +39,8 @@ import { SchemaFormModule } from './schema-form/schema-form.module';
 import { PluginManagerComponent } from './plugin-manager/plugin-manager.component';
 import { ElementWrapperComponent } from './element-wrapper/element-wrapper.component';
 import { AccountDialogComponent } from './account-dialog/account-dialog.component';
+import { CodemirrorComponent } from './codemirror/codemirror.component';
+import { ConfirmToastComponent } from './confirm-toast/confirm-toast.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -70,6 +72,8 @@ const COMPONENTS = [
   PluginManagerComponent,
   ElementWrapperComponent,
   AccountDialogComponent,
+  CodemirrorComponent,
+  ConfirmToastComponent,
 ];
 
 @NgModule({

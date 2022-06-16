@@ -68,8 +68,7 @@
   },
   "funding": {
     "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
+    "url": "https://opencollective.com/altair"
   },
   "snyk": true,
   "private": true,

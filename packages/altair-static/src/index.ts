@@ -1,4 +1,4 @@
-import getAltairHtml from './utils/get-altair-html';
+import getAltairHtml from './get-altair-html';
 import type { AltairConfigOptions } from 'altair-graphql-core/build/config';
 
 export interface RenderOptions extends AltairConfigOptions {
@@ -83,6 +83,7 @@ function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfi
     return '';
 }
 
-export { getDistDirectory } from './utils/get-dist';
+export { getDistDirectory } from './get-dist';
+export { getAltairHtml };
 
 export default renderAltair;

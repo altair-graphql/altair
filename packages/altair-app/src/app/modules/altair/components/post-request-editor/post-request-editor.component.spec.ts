@@ -4,7 +4,8 @@ import { PostRequestEditorComponent } from './post-request-editor.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgxTestWrapper, mount } from '../../../../../testing';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockProviders } from 'ng-mocks';
+import { PreRequestService } from '../../services';
 
 describe('PostRequestEditorComponent', () => {
   let wrapper: NgxTestWrapper<PostRequestEditorComponent>;
@@ -15,9 +16,12 @@ describe('PostRequestEditorComponent', () => {
       imports: [
         MockModule(SharedModule),
       ],
+      providers: [
+        MockProviders(PreRequestService),
+      ],
       schemas: [ NO_ERRORS_SCHEMA ],
       propsData: {
-        preRequest: {
+        postRequest: {
           enabled: true,
           script: '',
         }

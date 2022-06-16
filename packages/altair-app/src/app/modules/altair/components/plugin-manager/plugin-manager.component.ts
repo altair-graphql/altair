@@ -57,28 +57,17 @@ export class PluginManagerComponent  {
     return false;
   }
 
-  onAddPlugin(pluginName: string) {
-    const settings: SettingsState = JSON.parse(JSON.stringify(this.settings));
-    settings['plugin.list'] = settings['plugin.list'] || [];
-    settings['plugin.list'].push(pluginName);
-
-    this.settingsJsonChange.next(JSON.stringify(settings));
+  async onAddPlugin(pluginName: string) {
+    await this.pluginRegistry.addPluginToSettings(pluginName);
     this.shouldRestart = true;
   }
-  onRemovePlugin(pluginName: string) {
-    const settings: SettingsState = JSON.parse(JSON.stringify(this.settings));
-    settings['plugin.list'] = (settings['plugin.list'] || []).filter(pluginStr => {
-      const pluginInfo = this.pluginRegistry.getPluginInfoFromString(pluginStr);
-      if (pluginInfo) {
-        return pluginName !== pluginInfo.name;
-      }
-    });
-
-    this.settingsJsonChange.next(JSON.stringify(settings));
+  async onRemovePlugin(pluginName: string) {
+    await this.pluginRegistry.removePluginFromSettings(pluginName);
     this.shouldRestart = true;
   }
 
   onRestartApp() {
+    this.toggleDialogChange.emit(false);
     location.reload();
   }
 

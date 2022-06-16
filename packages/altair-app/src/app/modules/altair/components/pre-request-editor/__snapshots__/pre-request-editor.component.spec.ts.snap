@@ -14,9 +14,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
         
       </label>
     </div>
-    <ngx-codemirror
-      class="request-script-textarea pre-request-textarea mousetrap"
-    />
+    <app-codemirror />
     <small>
       <a
         aria-label="learn more"

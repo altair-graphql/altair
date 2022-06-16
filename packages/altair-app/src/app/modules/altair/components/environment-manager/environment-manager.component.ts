@@ -10,16 +10,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import * as fromEnvironments from '../../store/environments/environments.reducer';
-import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
-
-// Import the codemirror packages
-import * as Codemirror from 'codemirror';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/lint/json-lint';
-import 'codemirror/keymap/sublime';
 import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { Extension } from '@codemirror/state';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function(str: string) {
@@ -58,24 +51,12 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Output() deleteSubEnvironmentChange = new EventEmitter();
   @Output() repositionSubEnvironmentsChange = new EventEmitter();
 
-  @ViewChild('editor') editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
 
-  jsonEditorConfig = {
-    mode: 'application/json',
-    json: true,
-    lint: true,
-    lineWrapping: true,
-    lineNumbers: true,
-    foldGutter: true,
-    autoRefresh: true,
-    dragDrop: false,
-    autoCloseBrackets: true,
-    keyMap: 'sublime',
-    theme: 'default environments-editor',
-    gutters: ['CodeMirror-lint-markers', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    extraKeys: {}
-  };
+  editorExtensions: Extension[] = [
+    json(),
+    // jsonParseLinter,
+  ];
 
   selectedEnvironmentId = 'base';
   selectedEnvironment?: EnvironmentState;
@@ -98,13 +79,6 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges) {
-    handleEditorRefresh(this.editor && this.editor.codeMirror);
-    if (changes?.showEnvironmentManager?.currentValue) {
-      const refreshEditorTimeout = setTimeout(() => {
-        handleEditorRefresh(this.editor && this.editor.codeMirror, true);
-        clearTimeout(refreshEditorTimeout);
-      }, 300);
-    }
     if (changes?.environments?.currentValue) {
       this.selectEnvironment(this.selectedEnvironmentId);
     }

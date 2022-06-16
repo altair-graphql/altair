@@ -10,27 +10,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-// Import the codemirror packages
-import * as Codemirror from 'codemirror';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/fold/foldcode';
-import 'codemirror/addon/fold/foldgutter';
-import 'codemirror/addon/fold/brace-fold';
-import 'codemirror/addon/fold/indent-fold';
-// import 'codemirror/addon/display/autorefresh';
-import 'codemirror/addon/dialog/dialog';
-import 'codemirror/addon/search/search';
-import 'codemirror/addon/search/searchcursor';
-import 'codemirror/addon/search/matchesonscrollbar';
-import 'codemirror/addon/search/jump-to-line';
-import 'codemirror/addon/scroll/annotatescrollbar';
-import 'codemirror-graphql/results/mode';
-import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { TrackByIdItem } from '../../interfaces/shared';
+import { EditorState, Extension } from '@codemirror/state';
+import { json } from '@codemirror/lang-json';
+import { indentUnit } from '@codemirror/language';
 
 @Component({
   selector: 'app-query-result',
@@ -62,38 +48,22 @@ export class QueryResultComponent implements OnChanges {
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
   @ViewChild('subscriptionResponseList', { static: true }) subscriptionResponseList: ElementRef;
 
   isElectron = isElectron;
 
   selectedIndex = 0;
 
-  resultEditorConfig = {
-    mode: 'graphql-results',
-    json: true,
-    tabSize: this.tabSize,
-    indentUnit: this.tabSize,
-    lineWrapping: true,
-    lineNumbers: true,
-    foldGutter: true,
-    readOnly: true,
-    dragDrop: false,
-    autoRefresh: true,
-    theme: 'default query-result',
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    extraKeys: {
-      'Alt-F': 'findPersistent',
-      'Ctrl-F': 'findPersistent',
-    },
-  };
+  editorExtensions: Extension[] = [
+    json(),
+    EditorState.readOnly.of(true),
+    indentUnit.of(' '.repeat(this.tabSize)),
+    EditorState.tabSize.of(this.tabSize),
+  ];
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
         if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
@@ -101,17 +71,6 @@ export class QueryResultComponent implements OnChanges {
         }
         clearTimeout(scrollTopTimeout);
       }, 50);
-    }
-
-    if (changes?.queryResult?.currentValue) {
-      setTimeout(() => handleEditorRefresh(this.editor?.codeMirror, true), 10);
-      this.resultEditorConfig.tabSize = this.tabSize;
-      this.resultEditorConfig.indentUnit = this.tabSize;
-    }
-
-    if (changes?.tabSize?.currentValue) {
-      this.resultEditorConfig.tabSize = this.tabSize;
-      this.resultEditorConfig.indentUnit = this.tabSize;
     }
 
     if (changes?.isSubscribed) {

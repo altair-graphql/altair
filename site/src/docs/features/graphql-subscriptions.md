@@ -14,6 +14,9 @@ Altair supports a number of subscription implementations:
 
 This supports both the the original [subscriptions-transport-ws protocol](https://github.com/apollographql/subscriptions-transport-ws/blob/master/PROTOCOL.md) as well as the new [graphql-ws protocol](https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md), which are the more common specifications used for GraphQL subscriptions.
 
+### SSE
+There is support for using [GraphQL subscriptions over SSE](https://github.com/enisdenjo/graphql-sse).
+
 ### AWS AppSync
 
 This supports the MQTT-based subscription protocol used in [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html) which is an enterprise-level, fully managed GraphQL service with real-time data synchronization and offline programming features.

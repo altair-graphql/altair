@@ -6,6 +6,9 @@
   padding: 10px;
   font-size: fontsize(12);
   color: var(--theme-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .response-stats__item {

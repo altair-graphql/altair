@@ -36,13 +36,14 @@
       <div class="subscription-params-section">
         <div class="subscription-params-title">{{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}</div>
         <div class="subscription-params-editor-wrapper">
-          <ngx-codemirror
-            #editor
+          <app-codemirror
             class="subscription-params__input"
             [ngModel]="subscriptionConnectionParams"
             (ngModelChange)="subscriptionConnectionParamsChange.emit($event)"
-            [options]="subscriptionConnectionParamsEditorConfig"
-          ></ngx-codemirror>
+            [extensions]="connectionParamsExtensions"
+            [showLineNumber]="false"
+            [foldGutter]="false"
+          ></app-codemirror>
         </div>
       </div>
     </div>

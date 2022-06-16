@@ -7,8 +7,9 @@
   "scripts": {
     "test": "jest",
     "prepare-dist": "node scripts/prepare_dist.js",
-    "compile": "tsc --declaration",
-    "prepare": "npm run prepare-dist && npm run compile"
+    "compile": "node scripts/build.js",
+    "prepare": "yarn prepare-dist && yarn compile && yarn types",
+    "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -28,12 +29,12 @@
     "url": "https://github.com/altair-graphql/altair/issues"
   },
   "homepage": "https://github.com/altair-graphql/altair#readme",
-  "dependencies": {
-    "altair-graphql-core": "^4.4.2"
-  },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "altair-app": "^4.4.2",
+    "altair-graphql-core": "^4.4.2",
+    "dts-bundle-generator": "^6.11.0",
+    "esbuild": "^0.14.43",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
     "typescript": "4.0.7"

@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { renderAltair, renderInitialOptions } from './index';
-import * as getAltairHtml from './utils/get-altair-html';
+import * as getAltairHtml from './get-altair-html';
 
 const translateRenderedStrToObj = (result) => {
   const resultObj = Function(`

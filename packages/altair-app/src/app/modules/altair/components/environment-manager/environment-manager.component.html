@@ -68,13 +68,21 @@
                 </button>
               </div>
             </div>
-            <ngx-codemirror
+            <app-codemirror
+              #editor
+              class="environments-editor-textarea"
+              [extensions]="editorExtensions"
+              [fullHeight]="true"
+              [(ngModel)]="editorContent"
+              (ngModelChange)="onEditorChange($event)"
+            ></app-codemirror>
+            <!-- <ngx-codemirror
               #editor
               class="environments-editor-textarea"
               [options]="jsonEditorConfig"
               [(ngModel)]="editorContent"
               (ngModelChange)="onEditorChange($event)"
-            ></ngx-codemirror>
+            ></ngx-codemirror> -->
           </div>
         </div>
       </div>

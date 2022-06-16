@@ -6,14 +6,12 @@
       (ngModelChange)="preRequestEnabledChange.next($event)"
     >{{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}</label>
   </div>
-  <ngx-codemirror
-    #editor
-    class="request-script-textarea pre-request-textarea mousetrap"
-    [options]="preRequestEditorConfig"
+  <app-codemirror
+    [extensions]="editorExtensions"
+    [fullHeight]="true"
     [ngModel]="preRequest.script"
     (ngModelChange)="preRequestScriptChange.emit($event)"
-  ></ngx-codemirror>
-  
+  ></app-codemirror>
   <small>
     <a href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html" target="_blank" aria-label="learn more">
       <app-icon name="info"></app-icon>
