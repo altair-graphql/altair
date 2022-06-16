@@ -10,12 +10,14 @@ export class ReducerBootstrapper {
 
   constructor(
     private altairConfig: AltairConfig,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {}
 
   async bootstrap() {
     if (this.altairConfig.initialData.preserveState) {
-      this.initialState = await getAppStateFromStorage({ updateFromLocalStorage: true });
+      this.initialState = await getAppStateFromStorage({
+        updateFromLocalStorage: true,
+      });
       await this.cleanSelectedFilesStorage();
     }
   }

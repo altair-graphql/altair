@@ -17,20 +17,21 @@ describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;
   let fixture: ComponentFixture<SubscriptionUrlDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SubscriptionUrlDialogComponent, CodemirrorComponent ],
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot(),
-        SharedModule,
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+          SharedModule,
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SubscriptionUrlDialogComponent);
@@ -38,17 +39,17 @@ describe('SubscriptionUrlDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it("should handle subscriptionUrlChange", () => {
-    const subscriptionUrl = "test";
+  it('should handle subscriptionUrlChange', () => {
+    const subscriptionUrl = 'test';
     component.subscriptionUrl = subscriptionUrl;
     component.subscriptionUrlChange.emit(subscriptionUrl);
     expect(component.subscriptionUrl).toBe(subscriptionUrl);
   });
 
-  it("should handle updateSubscriptionProviderId", () => {
-    spyOn(component.subscriptionProviderIdChange, "emit");
+  it('should handle updateSubscriptionProviderId', () => {
+    spyOn(component.subscriptionProviderIdChange, 'emit');
 
-    const providerId = "test";
+    const providerId = 'test';
     component.updateSubscriptionProviderId(providerId);
 
     expect(component.subscriptionProviderIdChange.emit).toHaveBeenCalledWith(
@@ -56,7 +57,7 @@ describe('SubscriptionUrlDialogComponent', () => {
     );
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

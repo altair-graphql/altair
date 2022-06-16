@@ -3,10 +3,10 @@ import { from } from 'rxjs';
 import { signinWithPopup, supabase } from './supabase';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  constructor() { }
+  constructor() {}
 
   private async accountLoginWithSupabasePromise() {
     return signinWithPopup('google', {

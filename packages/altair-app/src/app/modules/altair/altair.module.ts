@@ -1,8 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, APP_INITIALIZER, ApplicationInitStatus, ModuleWithProviders } from '@angular/core';
+import {
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ErrorHandler,
+  APP_INITIALIZER,
+  ApplicationInitStatus,
+  ModuleWithProviders,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -35,7 +46,6 @@ import { SchemaFormModule } from './components/schema-form/schema-form.module';
 import { AppComponent } from './containers/app/app.component';
 import { WindowComponent } from './containers/window/window.component';
 
-
 import * as services from './services';
 import { HTTPErrorInterceptor } from './interceptors/http-error.interceptor';
 import { GlobalErrorHandler } from './error-handler';
@@ -56,7 +66,6 @@ export function createTranslateLoader(http: HttpClient) {
   // Using relative path to the translation files to ensure cross platform compatibility (majorly because of the electron apps)
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
 
 export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
   // bootstrap() returns a Promise
@@ -104,15 +113,12 @@ const providers = [
     provide: APP_INITIALIZER,
     deps: [ReducerBootstrapper],
     multi: true,
-    useFactory: reducerBootstrapFactory
+    useFactory: reducerBootstrapFactory,
   },
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    WindowComponent,
-  ],
+  declarations: [AppComponent, WindowComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -150,8 +156,8 @@ const providers = [
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [ HttpClient ]
-      }
+        deps: [HttpClient],
+      },
     }),
     ToastrModule.forRoot({
       newestOnTop: false,
@@ -164,25 +170,24 @@ const providers = [
     }),
   ],
   providers: providers,
-  bootstrap: [ AppComponent ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
-  exports: [
-    AppComponent,
-  ]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [AppComponent],
 })
 export class AltairModule {
   constructor(
     applicationInitStatus: ApplicationInitStatus,
     store: Store<RootState>,
-    reducerBootstrapper: ReducerBootstrapper,
+    reducerBootstrapper: ReducerBootstrapper
   ) {
-    applicationInitStatus.donePromise.then(() => store.dispatch(new AppInitAction({ initialState: reducerBootstrapper.initialState })));
+    applicationInitStatus.donePromise.then(() =>
+      store.dispatch(
+        new AppInitAction({ initialState: reducerBootstrapper.initialState })
+      )
+    );
   }
 
   static forRoot(): ModuleWithProviders<AltairModule> {
-
     return {
       ngModule: AltairModule,
       providers: [

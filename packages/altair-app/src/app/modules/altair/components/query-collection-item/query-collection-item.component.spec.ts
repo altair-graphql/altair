@@ -37,16 +37,14 @@ describe('QueryCollectionItemComponent', () => {
     ],
   };
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: QueryCollectionItemComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
       propsData: {
-        collectionTree: collectionData
-      }
+        collectionTree: collectionData,
+      },
     });
   });
 
@@ -76,7 +74,9 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "editCollectionChange" when edit collection is clicked', () => {
-    const editCollectionButton = wrapper.find('[data-test-id="edit-collection"]');
+    const editCollectionButton = wrapper.find(
+      '[data-test-id="edit-collection"]'
+    );
     editCollectionButton.emit('click');
 
     expect(wrapper.emitted('editCollectionChange')).toBeTruthy();
@@ -87,7 +87,9 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "exportCollectionChange" when export collection is clicked', () => {
-    const exportCollectionButton = wrapper.find('[data-test-id="export-collection"]');
+    const exportCollectionButton = wrapper.find(
+      '[data-test-id="export-collection"]'
+    );
     exportCollectionButton.emit('click');
 
     expect(wrapper.emitted('exportCollectionChange')).toBeTruthy();
@@ -98,8 +100,12 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "deleteCollectionChange" when delete collection is clicked', () => {
-    const confirmSpy = jest.spyOn(window, 'confirm').mockImplementation(() => true);
-    const deleteCollectionButton = wrapper.find('[data-test-id="delete-collection"]');
+    const confirmSpy = jest
+      .spyOn(window, 'confirm')
+      .mockImplementation(() => true);
+    const deleteCollectionButton = wrapper.find(
+      '[data-test-id="delete-collection"]'
+    );
     deleteCollectionButton.emit('click');
 
     expect(wrapper.emitted('deleteCollectionChange')).toBeTruthy();
@@ -112,7 +118,9 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "deleteQueryChange" when delete query is clicked', () => {
-    const confirmSpy = jest.spyOn(window, 'confirm').mockImplementation(() => true);
+    const confirmSpy = jest
+      .spyOn(window, 'confirm')
+      .mockImplementation(() => true);
     const deleteQueryButton = wrapper.find('[data-test-id="delete-query"]');
     deleteQueryButton.emit('click');
 
@@ -126,55 +134,63 @@ describe('QueryCollectionItemComponent', () => {
     confirmSpy.mockRestore();
   });
 
-  it('should sort rendered queries when sortBy (a-z) is clicked', async() => {
+  it('should sort rendered queries when sortBy (a-z) is clicked', async () => {
     const sortByButton = wrapper.find('[data-test-id="sort-queries-a-z"]');
     sortByButton.emit('click');
 
     await wrapper.nextTick();
 
-    const queryItemTitles = wrapper.findAll('[data-test-id="query-item-title"]');
+    const queryItemTitles = wrapper.findAll(
+      '[data-test-id="query-item-title"]'
+    );
     expect(queryItemTitles[0].html()).toContain('Another Query');
     expect(queryItemTitles[1].html()).toContain('Query 1');
     expect(queryItemTitles[2].html()).toContain('Zap Query');
   });
 
-  it('should sort rendered queries when sortBy (z-a) is clicked', async() => {
+  it('should sort rendered queries when sortBy (z-a) is clicked', async () => {
     const sortByButton = wrapper.find('[data-test-id="sort-queries-z-a"]');
     sortByButton.emit('click');
 
     await wrapper.nextTick();
 
-    const queryItemTitles = wrapper.findAll('[data-test-id="query-item-title"]');
+    const queryItemTitles = wrapper.findAll(
+      '[data-test-id="query-item-title"]'
+    );
     expect(queryItemTitles[0].html()).toContain('Zap Query');
     expect(queryItemTitles[1].html()).toContain('Query 1');
     expect(queryItemTitles[2].html()).toContain('Another Query');
   });
 
-  it('should sort rendered queries when sortBy (newest) is clicked', async() => {
+  it('should sort rendered queries when sortBy (newest) is clicked', async () => {
     const sortByButton = wrapper.find('[data-test-id="sort-queries-newest"]');
     sortByButton.emit('click');
 
     await wrapper.nextTick();
 
-    const queryItemTitles = wrapper.findAll('[data-test-id="query-item-title"]');
+    const queryItemTitles = wrapper.findAll(
+      '[data-test-id="query-item-title"]'
+    );
     expect(queryItemTitles[0].html()).toContain('Another Query');
     expect(queryItemTitles[1].html()).toContain('Zap Query');
     expect(queryItemTitles[2].html()).toContain('Query 1');
   });
 
-  it('should sort rendered queries when sortBy (oldest) is clicked', async() => {
+  it('should sort rendered queries when sortBy (oldest) is clicked', async () => {
     const sortByButton = wrapper.find('[data-test-id="sort-queries-oldest"]');
     sortByButton.emit('click');
 
     await wrapper.nextTick();
 
-    const queryItemTitles = wrapper.findAll('[data-test-id="query-item-title"]');
+    const queryItemTitles = wrapper.findAll(
+      '[data-test-id="query-item-title"]'
+    );
     expect(queryItemTitles[0].html()).toContain('Query 1');
     expect(queryItemTitles[1].html()).toContain('Zap Query');
     expect(queryItemTitles[2].html()).toContain('Another Query');
   });
 
-  it('should render collapsed collection correctly', async() => {
+  it('should render collapsed collection correctly', async () => {
     const collapseButton = wrapper.find('[data-test-id="collection-collapse"]');
     collapseButton.emit('click');
 

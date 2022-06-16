@@ -18,7 +18,11 @@ const renderType = (type: GraphQLType): string => {
  * Render a custom UI for CodeMirror's hint which includes additional info
  * about the type and description for the selected context.
  */
-export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}) => {
+export const onHasCompletion = (
+  cm: CodeMirror.Editor,
+  data: any,
+  opts: any = {}
+) => {
   const CodeMirror = require('codemirror');
   const onHintInformationRender = opts.onHintInformationRender;
   const onClickHintInformation = opts.onClickHintInformation;
@@ -29,7 +33,6 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
 
   // When a hint result is selected, we augment the UI with information.
   CodeMirror.on(data, 'select', (ctx: any, el: HTMLElement) => {
-
     let onClickHintInformationCb: Function | undefined = undefined;
     if (onClickHintInformation) {
       onClickHintInformationCb = () => onClickHintInformation(ctx.type);
@@ -54,10 +57,14 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
         // This "fillAllFieldsOption" node will contain the fill all fields option.
         fillAllFieldsOption = document.createElement('div');
         fillAllFieldsOption.className = 'CodeMirror-hint-fill-all-fields';
-        fillAllFieldsOption.innerHTML = sanitizeHtml(`
+        fillAllFieldsOption.innerHTML = sanitizeHtml(
+          `
           <span class="query-editor__autocomplete-item__text">Fill all fields</span>
           <span class="query-editor__autocomplete-item__shortcut">Ctrl+Shift+Enter</span>
-        `.trim().replace(/ +/g, ' '));
+        `
+            .trim()
+            .replace(/ +/g, ' ')
+        );
         hintsUl.appendChild(fillAllFieldsOption);
 
         // When CodeMirror attempts to remove the hint UI, we detect that it was
@@ -68,7 +75,10 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
           (onRemoveFn = (event: Event) => {
             if (event.target === hintsUl) {
               if (information && onClickHintInformationCb) {
-                information.removeEventListener('click', onClickHintInformationCb as any);
+                information.removeEventListener(
+                  'click',
+                  onClickHintInformationCb as any
+                );
               }
               hintsUl.removeEventListener('DOMNodeRemoved', onRemoveFn as any);
               information = null;
@@ -76,7 +86,7 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
               fillAllFieldsOption = null;
               onRemoveFn = undefined;
             }
-          }),
+          })
         );
       }
     }
@@ -96,9 +106,7 @@ export const onHasCompletion = (cm: CodeMirror.Editor, data: any, opts: any = {}
     }
 
     if (ctx.isDeprecated) {
-      const reason = ctx.deprecationReason
-        ? marked(ctx.deprecationReason)
-        : '';
+      const reason = ctx.deprecationReason ? marked(ctx.deprecationReason) : '';
       if (deprecation) {
         const content =
           '<span class="deprecation-label">Deprecated</span>' + reason;
@@ -138,7 +146,10 @@ function getDescriptionFromContext(ctx: any) {
     appendEllipsis = true;
   }
 
-  return marked((`${description}`).substring(0, maxDescriptionLength) + (appendEllipsis ? '...' : ''));
+  return marked(
+    `${description}`.substring(0, maxDescriptionLength) +
+      (appendEllipsis ? '...' : '')
+  );
 }
 
 function getTypeFromContext(ctx: any) {
@@ -146,4 +157,3 @@ function getTypeFromContext(ctx: any) {
     ? '<span class="infoType">' + renderType(ctx.type) + '</span>'
     : '';
 }
-

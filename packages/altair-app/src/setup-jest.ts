@@ -1,8 +1,11 @@
 import 'jest-preset-angular/setup-jest';
 import 'fake-indexeddb/auto';
-jest.mock('./app/modules/altair/components/doc-viewer/doc-viewer/worker-helper', () => ({
-  getDocUtilsWorkerAsyncClass: () => {},
-}))
+jest.mock(
+  './app/modules/altair/components/doc-viewer/doc-viewer/worker-helper',
+  () => ({
+    getDocUtilsWorkerAsyncClass: () => {},
+  })
+);
 
 /* global mocks for jsdom */
 const mock = () => {
@@ -11,7 +14,7 @@ const mock = () => {
     getItem: (key: string) => (key in storage ? storage[key] : null),
     setItem: (key: string, value: string) => (storage[key] = value || ''),
     removeItem: (key: string) => delete storage[key],
-    clear: () => (storage = {})
+    clear: () => (storage = {}),
   };
 };
 
@@ -26,7 +29,7 @@ Object.defineProperty(window, 'console', {
     log: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-  }
+  },
 });
 Object.defineProperty(document.body.style, 'transform', {
   value: () => {
@@ -38,7 +41,7 @@ Object.defineProperty(document.body.style, 'transform', {
 });
 
 Object.defineProperty(window, 'DragEvent', {
-  value: class DragEvent {}
+  value: class DragEvent {},
 });
 Object.defineProperty(window, 'EventSource', {
   value: class EventSource {
@@ -47,7 +50,7 @@ Object.defineProperty(window, 'EventSource', {
       this.url = url;
     }
     close() {}
-  }
+  },
 });
 
 /* output shorter and more meaningful Zone error stack traces */

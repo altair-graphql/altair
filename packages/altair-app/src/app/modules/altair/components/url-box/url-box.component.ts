@@ -4,7 +4,7 @@ import { OperationDefinitionNode } from 'graphql';
 
 @Component({
   selector: 'app-url-box',
-  templateUrl: './url-box.component.html'
+  templateUrl: './url-box.component.html',
 })
 export class UrlBoxComponent {
   @Input() apiUrl: string;

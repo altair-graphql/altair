@@ -1,7 +1,12 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { IQuery, IQueryCollection, SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  IQuery,
+  IQueryCollection,
+  SortByOptions,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 
-export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION = 'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
+export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION =
+  'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
 export const SAVE_QUERY_TO_COLLECTION = 'SAVE_QUERY_TO_COLLECTION';
 export const UPDATE_QUERY_IN_COLLECTION = 'UPDATE_QUERY_IN_COLLECTION';
 export const DELETE_QUERY_FROM_COLLECTION = 'DELETE_QUERY_FROM_COLLECTION';
@@ -17,19 +22,36 @@ export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
 
 export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
 
-export const SYNC_REMOTE_COLLECTIONS_TO_LOCAL = 'SYNC_REMOTE_COLLECTIONS_TO_LOCAL';
-export const SYNC_LOCAL_COLLECTION_TO_REMOTE = 'SYNC_LOCAL_COLLECTION_TO_REMOTE';
+export const SYNC_REMOTE_COLLECTIONS_TO_LOCAL =
+  'SYNC_REMOTE_COLLECTIONS_TO_LOCAL';
+export const SYNC_LOCAL_COLLECTION_TO_REMOTE =
+  'SYNC_LOCAL_COLLECTION_TO_REMOTE';
 
-export class CreateCollectionAndSaveQueryToCollectionAction implements NGRXAction {
+export class CreateCollectionAndSaveQueryToCollectionAction
+  implements NGRXAction
+{
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
 
-  constructor(public payload: { collectionTitle: string, windowId: string, windowTitle?: string, parentCollectionId?: number }) {}
+  constructor(
+    public payload: {
+      collectionTitle: string;
+      windowId: string;
+      windowTitle?: string;
+      parentCollectionId?: number;
+    }
+  ) {}
 }
 
 export class SaveQueryToCollectionAction implements NGRXAction {
   readonly type = SAVE_QUERY_TO_COLLECTION;
 
-  constructor(public payload: { windowId: string, collectionId: number, windowTitle?: string }) {}
+  constructor(
+    public payload: {
+      windowId: string;
+      collectionId: number;
+      windowTitle?: string;
+    }
+  ) {}
 }
 
 export class UpdateQueryInCollectionAction implements NGRXAction {
@@ -40,7 +62,7 @@ export class UpdateQueryInCollectionAction implements NGRXAction {
 
 export class DeleteQueryFromCollectionAction implements NGRXAction {
   readonly type = DELETE_QUERY_FROM_COLLECTION;
-  constructor(public payload: { collectionId: number, query: IQuery }) {}
+  constructor(public payload: { collectionId: number; query: IQuery }) {}
 }
 
 export class DeleteCollectionAction implements NGRXAction {
@@ -63,7 +85,9 @@ export class SetActiveCollectionAction implements NGRXAction {
 export class UpdateCollectionAction implements NGRXAction {
   readonly type = UPDATE_COLLECTION;
 
-  constructor(public payload: { collectionId: number, collection: IQueryCollection }) {}
+  constructor(
+    public payload: { collectionId: number; collection: IQueryCollection }
+  ) {}
 }
 
 export class LoadCollectionsAction implements NGRXAction {
@@ -114,5 +138,4 @@ export type Action =
   | ImportCollectionsAction
   | SortCollectionsAction
   | SyncRemoteCollectionsToLocalAction
-  | SyncLocalCollectionToRemoteAction
-  ;
+  | SyncLocalCollectionToRemoteAction;

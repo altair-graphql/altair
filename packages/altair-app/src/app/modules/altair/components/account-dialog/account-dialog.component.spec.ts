@@ -8,17 +8,13 @@ import { AccountDialogComponent } from './account-dialog.component';
 describe('AccountDialogComponent', () => {
   let wrapper: NgxTestWrapper<AccountDialogComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: AccountDialogComponent,
-      declarations: [
-        AccountDialogComponent,
-      ],
+      declarations: [AccountDialogComponent],
       providers: [],
-      imports: [
-        SharedModule,
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [SharedModule],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

@@ -3,14 +3,16 @@ import { DonationState } from 'altair-graphql-core/build/types/state/donation.in
 
 import * as donation from './donation.action';
 
-
 export const getInitialState = (): DonationState => {
   return {
-    showAlert: false
+    showAlert: false,
   };
 };
 
-export function donationReducer(state = getInitialState(), action: donation.Action): DonationState {
+export function donationReducer(
+  state = getInitialState(),
+  action: donation.Action
+): DonationState {
   switch (action.type) {
     case donation.SHOW_DONATION_ALERT:
       return { ...state, showAlert: true };

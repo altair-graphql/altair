@@ -1,8 +1,7 @@
 import { IDictionary } from '../interfaces/shared';
 
 export class ObjectLocalStorage implements Storage {
-  constructor(private data: IDictionary) {
-  }
+  constructor(private data: IDictionary) {}
 
   /**
    * Returns the number of key/value pairs currently present in the list associated with the object.
@@ -17,7 +16,7 @@ export class ObjectLocalStorage implements Storage {
    */
   // clear(): void;
   clear() {
-    return this.data = {};
+    return (this.data = {});
   }
 
   /**

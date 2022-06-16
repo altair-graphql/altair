@@ -15,10 +15,26 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension } from '@codemirror/state';
-import { EditorView, highlightActiveLineGutter, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
+import {
+  EditorView,
+  highlightActiveLineGutter,
+  keymap,
+  lineNumbers,
+  ViewUpdate,
+} from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
-import { syntaxHighlighting, HighlightStyle, foldGutter, bracketMatching } from '@codemirror/language';
+import {
+  autocompletion,
+  completionKeymap,
+  closeBrackets,
+  closeBracketsKeymap,
+} from '@codemirror/autocomplete';
+import {
+  syntaxHighlighting,
+  HighlightStyle,
+  foldGutter,
+  bracketMatching,
+} from '@codemirror/language';
 
 import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { tags as t } from '@lezer/highlight';
@@ -36,8 +52,9 @@ import { getGlobalScopeAutocompletion } from '../../utils/editor/javascript';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValueAccessor, OnDestroy {
-
+export class CodemirrorComponent
+  implements AfterViewInit, DoCheck, ControlValueAccessor, OnDestroy
+{
   @Input() extensions: Extension[] = [];
   @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
   @Input() showLineNumber = true;
@@ -52,9 +69,7 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
-  constructor(
-    private zone: NgZone,
-  ) { }
+  constructor(private zone: NgZone) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
@@ -74,7 +89,8 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
           border: '1px solid var(--theme-border-color)',
           borderRadius: '4px',
           padding: '4px',
-          fontSize: 'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
+          fontSize:
+            'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
 
           '& > ul': {
             fontFamily: 'var(--editor-font-family)',
@@ -89,42 +105,42 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
             padding: 0,
             background: 'var(--theme-bg-color)',
             color: 'var(--theme-font-color)',
-      
+
             '& > li': {
               overflowX: 'hidden',
               textOverflow: 'ellipsis',
               cursor: 'pointer',
               padding: '2px 4px',
-              lineHeight: 1.4
+              lineHeight: 1.4,
             },
-          }
+          },
         },
-      
+
         '.cm-tooltip-autocomplete ul li': {
           background: 'var(--theme-bg-color)',
           color: 'var(--theme-font-color)',
           borderRadius: '4px',
         },
-      
+
         '.cm-tooltip-autocomplete ul li[aria-selected]': {
           background: 'var(--primary-color)',
         },
-      
+
         // '&dark .cm-tooltip-autocomplete ul li[aria-selected]': {
         //   background: '#347',
         //   color: 'white',
         // },
-      
+
         '.cm-tooltip.cm-completionInfo': {
           position: 'absolute',
           padding: '3px 9px',
           width: 'max-content',
           maxWidth: '300px',
         },
-      
+
         '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
         '.cm-completionInfo.cm-completionInfo-right': { left: '100%' },
-      
+
         // '&light .cm-snippetField': {backgroundColor: '#00000022'},
         // '&dark .cm-snippetField': {backgroundColor: '#ffffff22'},
         '.cm-snippetFieldPosition': {
@@ -132,47 +148,76 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
           width: 0,
           height: '1.15em',
           margin: '0 -0.7px -.7em',
-          borderLeft: '1.4px dotted #888'
+          borderLeft: '1.4px dotted #888',
         },
-      
+
         '.cm-completionMatchedText': {
           textDecoration: 'none',
           fontWeight: 'bold',
         },
-      })
+      });
       // https://github.com/codemirror/theme-one-dark/blob/848ca1e82addf4892afc895e013754805af6182a/src/one-dark.ts#L96
       const defaultHighlightStyle = HighlightStyle.define([
-        {tag: t.keyword,
-         color: 'var(--editor-keyword-color)'},
-        {tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName],
-         color: 'var(--editor-property-color)'},
-        {tag: [t.function(t.variableName), t.labelName],
-         color: 'var(--editor-variable-color)'},
-        {tag: [t.color, t.constant(t.name), t.standard(t.name)],
-         color: 'var(--editor-builtin-color)'},
-        {tag: [t.definition(t.name), t.separator],
-         color: 'var(--editor-def-color)'},
-        {tag: [t.typeName, t.className, t.number, t.changed, t.annotation, t.modifier, t.self, t.namespace],
-         color: 'var(--editor-number-color)'},
-        {tag: [t.operator, t.operatorKeyword, t.url, t.escape, t.regexp, t.link, t.special(t.string)],
-         color: 'var(--editor-keyword-color)'},
-        {tag: [t.meta, t.comment],
-         color: 'var(--editor-comment-color)'},
-        {tag: [t.attributeName, t.attributeValue],
-         color: 'var(--editor-attribute-color)'},
-        {tag: [t.punctuation],
-         color: 'var(--editor-punctuation-color)'},
-        {tag: t.strong,
-         fontWeight: 'bold'},
-        {tag: t.emphasis,
-         fontStyle: 'italic'},
-        {tag: t.strikethrough,
-         textDecoration: 'line-through'},
-        {tag: [t.atom, t.bool, t.special(t.variableName)],
-         color: 'var(--editor-atom-color)' },
-        {tag: [t.processingInstruction, t.string, t.inserted],
-         color: 'var(--editor-string-color)'},
-      ])
+        { tag: t.keyword, color: 'var(--editor-keyword-color)' },
+        {
+          tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName],
+          color: 'var(--editor-property-color)',
+        },
+        {
+          tag: [t.function(t.variableName), t.labelName],
+          color: 'var(--editor-variable-color)',
+        },
+        {
+          tag: [t.color, t.constant(t.name), t.standard(t.name)],
+          color: 'var(--editor-builtin-color)',
+        },
+        {
+          tag: [t.definition(t.name), t.separator],
+          color: 'var(--editor-def-color)',
+        },
+        {
+          tag: [
+            t.typeName,
+            t.className,
+            t.number,
+            t.changed,
+            t.annotation,
+            t.modifier,
+            t.self,
+            t.namespace,
+          ],
+          color: 'var(--editor-number-color)',
+        },
+        {
+          tag: [
+            t.operator,
+            t.operatorKeyword,
+            t.url,
+            t.escape,
+            t.regexp,
+            t.link,
+            t.special(t.string),
+          ],
+          color: 'var(--editor-keyword-color)',
+        },
+        { tag: [t.meta, t.comment], color: 'var(--editor-comment-color)' },
+        {
+          tag: [t.attributeName, t.attributeValue],
+          color: 'var(--editor-attribute-color)',
+        },
+        { tag: [t.punctuation], color: 'var(--editor-punctuation-color)' },
+        { tag: t.strong, fontWeight: 'bold' },
+        { tag: t.emphasis, fontStyle: 'italic' },
+        { tag: t.strikethrough, textDecoration: 'line-through' },
+        {
+          tag: [t.atom, t.bool, t.special(t.variableName)],
+          color: 'var(--editor-atom-color)',
+        },
+        {
+          tag: [t.processingInstruction, t.string, t.inserted],
+          color: 'var(--editor-string-color)',
+        },
+      ]);
       const startState = EditorState.create({
         doc: this.value,
         extensions: [
@@ -193,9 +238,9 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
           syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
           baseTheme,
           ...this.extensions,
-        ]
+        ],
       });
-  
+
       this.view = new EditorView({
         state: startState,
         parent: this.ref.nativeElement,
@@ -223,7 +268,7 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
     if (editorValue !== value) {
       this.value = value;
       this.view.dispatch({
-        changes: {from: 0, to: this.view.state.doc.length, insert: value},
+        changes: { from: 0, to: this.view.state.doc.length, insert: value },
       });
     }
   }
@@ -247,5 +292,4 @@ export class CodemirrorComponent implements AfterViewInit, DoCheck, ControlValue
     this.onTouched();
     this.focusChange.emit(focused);
   }
-
 }

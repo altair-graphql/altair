@@ -8,7 +8,11 @@ import { environment } from './environments/environment';
 import { handleExternalLinks } from 'app/modules/altair/utils/events';
 import { handleDeprecations } from 'app/modules/altair/utils/deprecated';
 import { debug } from 'app/modules/altair/utils/logger';
-import { AltairConfig, AltairConfigOptions, setAltairConfig } from 'altair-graphql-core/build/config';
+import {
+  AltairConfig,
+  AltairConfigOptions,
+  setAltairConfig,
+} from 'altair-graphql-core/build/config';
 
 let initialized = false;
 
@@ -24,21 +28,22 @@ let initialized = false;
       enableProdMode();
     }
 
-    platformBrowserDynamic(
-      [
-        {
-          provide: AltairConfig,
-          useValue: altairConfig,
-        },
-      ]
-    ).bootstrapModule(AppModule, {
-      preserveWhitespaces: true,
-    }).then(moduleRef => {
-      const applicationRef = moduleRef.injector.get(ApplicationRef);
-      const componentRef = applicationRef.components[0];
+    platformBrowserDynamic([
+      {
+        provide: AltairConfig,
+        useValue: altairConfig,
+      },
+    ])
+      .bootstrapModule(AppModule, {
+        preserveWhitespaces: true,
+      })
+      .then((moduleRef) => {
+        const applicationRef = moduleRef.injector.get(ApplicationRef);
+        const componentRef = applicationRef.components[0];
 
-      enableDebugTools(componentRef);
-    }).catch(err => debug.log('Error bootstrapping application:', err));
+        enableDebugTools(componentRef);
+      })
+      .catch((err) => debug.log('Error bootstrapping application:', err));
 
     handleExternalLinks();
     handleDeprecations();

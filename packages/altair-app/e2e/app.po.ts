@@ -7,7 +7,10 @@ export class AltairPage {
   async navigateTo() {
     await browser.get('/');
     const EC = ExpectedConditions;
-    await browser.wait(ExpectedConditions.elementToBeClickable(element(by.css('app-window'))), 5000);
+    await browser.wait(
+      ExpectedConditions.elementToBeClickable(element(by.css('app-window'))),
+      5000
+    );
   }
 
   getParagraphText() {

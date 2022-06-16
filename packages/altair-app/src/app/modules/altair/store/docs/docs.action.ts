@@ -30,5 +30,4 @@ export type Action =
   | ToggleDocsViewAction
   | StartLoadingDocsAction
   | StopLoadingDocsAction
-  | SetDocViewAction
-  ;
+  | SetDocViewAction;

@@ -16,20 +16,20 @@ import { AltairPlugin } from 'altair-graphql-core/build/plugin/plugin.interfaces
 
 const createContext = () => {
   const service: PluginContextService = TestBed.inject(PluginContextService);
-    const testPlugin: AltairPlugin = {
+  const testPlugin: AltairPlugin = {
+    name: 'Test',
+    display_name: 'Test plugin',
+    capabilities: [],
+    manifest: {
+      manifest_version: 2,
       name: 'Test',
+      description: 'plugin description',
       display_name: 'Test plugin',
-      capabilities: [],
-      manifest: {
-        manifest_version: 2,
-        name: 'Test',
-        description: 'plugin description',
-        display_name: 'Test plugin',
-        scripts: [],
-        version: '0.0.1',
-      }
-    };
-    return service.createContext('test-plugin', testPlugin);
+      scripts: [],
+      version: '0.0.1',
+    },
+  };
+  return service.createContext('test-plugin', testPlugin);
 };
 
 describe('PluginContextService', () => {
@@ -43,35 +43,38 @@ describe('PluginContextService', () => {
       windowsMeta: {
         ...windowsMetaReducer.getInitialState(),
         activeWindowId: 'def-456',
-      }
+      },
     });
   });
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      {
-        provide: Store,
-        useValue: mockStore,
-      },
-      {
-        provide: WindowService,
-        useFactory: () => mock(),
-      },
-      {
-        provide: NotifyService,
-        useFactory: () => mock(),
-      },
-      {
-        provide: PluginEventService,
-        useFactory: () => mock<PluginEventService>({
-          group: () => ({} as unknown as any),
-        }),
-      },
-      {
-        provide: SubscriptionProviderRegistryService,
-        useFactory: () => mock(),
-      },
-    ]
-  }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: Store,
+          useValue: mockStore,
+        },
+        {
+          provide: WindowService,
+          useFactory: () => mock(),
+        },
+        {
+          provide: NotifyService,
+          useFactory: () => mock(),
+        },
+        {
+          provide: PluginEventService,
+          useFactory: () =>
+            mock<PluginEventService>({
+              group: () => ({} as unknown as any),
+            }),
+        },
+        {
+          provide: SubscriptionProviderRegistryService,
+          useFactory: () => mock(),
+        },
+      ],
+    })
+  );
 
   it('should be created', () => {
     const service: PluginContextService = TestBed.inject(PluginContextService);
@@ -106,47 +109,53 @@ describe('PluginContextService', () => {
     describe('createPanel', () => {
       it('should return new panel', () => {
         const ctx = createContext();
-        const element = document.createElement('div')
+        const element = document.createElement('div');
         const panel = ctx.app.createPanel(element);
-        expect(panel).toEqual(expect.objectContaining({
-          element,
-          id: expect.any(String),
-          isActive: false,
-          location: 'sidebar',
-          title: 'Test plugin'
-        }));
-      });
-      it('should dispatch AddPanelAction for new panel', () => {
-        const ctx = createContext();
-        const element = document.createElement('div')
-        ctx.app.createPanel(element);
-        expect(mockStore.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-          payload: {
+        expect(panel).toEqual(
+          expect.objectContaining({
             element,
             id: expect.any(String),
             isActive: false,
             location: 'sidebar',
-            title: 'Test plugin'
-          },
-          type: 'ADD_PANEL',
-        }));
+            title: 'Test plugin',
+          })
+        );
+      });
+      it('should dispatch AddPanelAction for new panel', () => {
+        const ctx = createContext();
+        const element = document.createElement('div');
+        ctx.app.createPanel(element);
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: {
+              element,
+              id: expect.any(String),
+              isActive: false,
+              location: 'sidebar',
+              title: 'Test plugin',
+            },
+            type: 'ADD_PANEL',
+          })
+        );
       });
     });
 
     describe('destroyPanel', () => {
       it('should dispatch RemovePanelAction for given panel', () => {
         const ctx = createContext();
-        const element = document.createElement('div')
+        const element = document.createElement('div');
         const panel = ctx.app.createPanel(element);
 
         ctx.app.destroyPanel(panel);
 
-        expect(mockStore.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-          payload: {
-            panelId: panel.id,
-          },
-          type: 'REMOVE_PANEL',
-        }));
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: {
+              panelId: panel.id,
+            },
+            type: 'REMOVE_PANEL',
+          })
+        );
       });
     });
 
@@ -157,12 +166,14 @@ describe('PluginContextService', () => {
           title: 'Test action',
           execute: () => {},
         });
-        expect(action).toEqual(expect.objectContaining({
-          callback: expect.any(Function),
-          id: expect.any(String),
-          location: 'result_pane',
-          title: 'Test action'
-        }));
+        expect(action).toEqual(
+          expect.objectContaining({
+            callback: expect.any(Function),
+            id: expect.any(String),
+            location: 'result_pane',
+            title: 'Test action',
+          })
+        );
       });
       it('should dispatch AddPanelAction for new action', () => {
         const ctx = createContext();
@@ -170,15 +181,17 @@ describe('PluginContextService', () => {
           title: 'Test action',
           execute: () => {},
         });
-        expect(mockStore.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-          payload: {
-            callback: expect.any(Function),
-            id: expect.any(String),
-            location: 'result_pane',
-            title: 'Test action'
-          },
-          type: 'ADD_UI_ACTION',
-        }));
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: {
+              callback: expect.any(Function),
+              id: expect.any(String),
+              location: 'result_pane',
+              title: 'Test action',
+            },
+            type: 'ADD_UI_ACTION',
+          })
+        );
       });
     });
 
@@ -192,12 +205,14 @@ describe('PluginContextService', () => {
 
         ctx.app.destroyAction(action);
 
-        expect(mockStore.dispatch).toHaveBeenCalledWith(expect.objectContaining({
-          payload: {
-            actionId: action.id,
-          },
-          type: 'REMOVE_UI_ACTION',
-        }));
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: {
+              actionId: action.id,
+            },
+            type: 'REMOVE_UI_ACTION',
+          })
+        );
       });
     });
   });

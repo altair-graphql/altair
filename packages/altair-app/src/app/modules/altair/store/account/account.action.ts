@@ -10,14 +10,13 @@ export class LoginAccountAction implements NGRXAction {
 export class AccountIsLoggedInAction implements NGRXAction {
   readonly type = ACCOUNT_IS_LOGGED_IN;
 
-  constructor(public payload: {
-    email: string;
-    firstName: string;
-    lastName: string;
-  }) {}
+  constructor(
+    public payload: {
+      email: string;
+      firstName: string;
+      lastName: string;
+    }
+  ) {}
 }
 
-export type Action =
-  | LoginAccountAction
-  | AccountIsLoggedInAction
-  ;
+export type Action = LoginAccountAction | AccountIsLoggedInAction;

@@ -9,12 +9,10 @@ import { GqlService, NotifyService } from '../../services';
 describe('QueryEditorComponent', () => {
   let wrapper: NgxTestWrapper<QueryEditorComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: QueryEditorComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
+      imports: [MockModule(SharedModule)],
       providers: [
         {
           provide: GqlService,
@@ -25,10 +23,10 @@ describe('QueryEditorComponent', () => {
           useValue: mock(),
         },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         queryOperations: [],
-      }
+      },
     });
   });
 
@@ -41,7 +39,9 @@ describe('QueryEditorComponent', () => {
   });
 
   it('should pass editor config to codemirror instance as options', () => {
-    expect(wrapper.find('ngx-codemirror').props('options').mode).toBe('graphql');
+    expect(wrapper.find('ngx-codemirror').props('options').mode).toBe(
+      'graphql'
+    );
   });
 
   it('should pass tabSize to variable editor component', async () => {

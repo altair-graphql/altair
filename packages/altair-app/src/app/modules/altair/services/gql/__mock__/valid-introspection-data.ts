@@ -1,13 +1,13 @@
 const data = {
   __schema: {
     queryType: {
-      name: 'Query'
+      name: 'Query',
     },
     mutationType: {
-      name: 'Mutation'
+      name: 'Mutation',
     },
     subscriptionType: {
-      name: 'Subscription'
+      name: 'Subscription',
     },
     types: [
       {
@@ -22,10 +22,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'bye',
@@ -34,10 +34,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'Boolean',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'GOTCharacters',
@@ -49,9 +49,9 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
+                defaultValue: null,
               },
               {
                 name: 'gender',
@@ -59,9 +59,9 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
+                defaultValue: null,
               },
               {
                 name: 'culture',
@@ -69,9 +69,9 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
+                defaultValue: null,
               },
               {
                 name: 'born',
@@ -79,9 +79,9 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
+                defaultValue: null,
               },
               {
                 name: 'died',
@@ -89,9 +89,9 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
+                defaultValue: null,
               },
               {
                 name: 'isAlive',
@@ -99,10 +99,10 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'Boolean',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'LIST',
@@ -110,11 +110,11 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'GOTCharacter',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'GOTBooks',
@@ -126,10 +126,10 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'LIST',
@@ -137,11 +137,11 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'GOTBook',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'GOTHouses',
@@ -153,10 +153,10 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'LIST',
@@ -164,11 +164,11 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'GOTHouse',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'HNUser',
@@ -180,18 +180,18 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'OBJECT',
               name: 'HNUser',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'files',
@@ -203,27 +203,28 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'File',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'SCALAR',
         name: 'String',
-        description: 'The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.',
+        description:
+          'The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.',
         fields: null,
         inputFields: null,
         interfaces: null,
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'SCALAR',
@@ -233,12 +234,13 @@ const data = {
         inputFields: null,
         interfaces: null,
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: 'GOTCharacter',
-        description: 'ID as MongoDB ObjectId\n\n## Test Heading\n**bold**\n- list1\n- list2',
+        description:
+          'ID as MongoDB ObjectId\n\n## Test Heading\n**bold**\n- list1\n- list2',
         fields: [
           {
             name: 'id',
@@ -250,11 +252,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Int',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'url',
@@ -263,10 +265,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'name',
@@ -275,10 +277,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'gender',
@@ -287,10 +289,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'culture',
@@ -299,10 +301,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'born',
@@ -311,10 +313,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'died',
@@ -323,10 +325,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'titles',
@@ -338,11 +340,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'aliases',
@@ -354,11 +356,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'father',
@@ -367,10 +369,10 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: 'GOTCharacter',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'mother',
@@ -379,10 +381,10 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: 'GOTCharacter',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'spouse',
@@ -391,10 +393,10 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: 'GOTCharacter',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'allegiances',
@@ -406,11 +408,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'books',
@@ -422,11 +424,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'playedBy',
@@ -438,32 +440,34 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'SCALAR',
         name: 'Int',
-        description: 'The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ',
+        description:
+          'The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ',
         fields: null,
         inputFields: null,
         interfaces: null,
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: 'GOTBook',
-        description: 'A Game of Thrones Book\n\n### Real books\n\n- First item\n- Second item\n- Third item\n- Fourth item',
+        description:
+          'A Game of Thrones Book\n\n### Real books\n\n- First item\n- Second item\n- Third item\n- Fourth item',
         fields: [
           {
             name: 'id',
@@ -475,11 +479,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Int',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'url',
@@ -488,10 +492,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'name',
@@ -500,10 +504,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'authors',
@@ -515,11 +519,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'characters',
@@ -531,11 +535,11 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'GOTCharacter',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'released',
@@ -544,16 +548,16 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -570,11 +574,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Int',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'url',
@@ -583,10 +587,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'name',
@@ -595,10 +599,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'region',
@@ -607,10 +611,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'titles',
@@ -622,11 +626,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'seats',
@@ -638,11 +642,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'words',
@@ -651,10 +655,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'overlord',
@@ -663,10 +667,10 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: 'GOTHouse',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'swornMembers',
@@ -678,17 +682,17 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'GOTCharacter',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -702,10 +706,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'karma',
@@ -714,10 +718,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'Int',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'bio',
@@ -726,16 +730,16 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -752,11 +756,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'mimetype',
@@ -768,11 +772,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'encoding',
@@ -784,11 +788,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'filepath',
@@ -800,17 +804,17 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -827,18 +831,18 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'String',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'OBJECT',
               name: 'Message',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'singleUpload',
@@ -853,19 +857,19 @@ const data = {
                   ofType: {
                     kind: 'SCALAR',
                     name: 'Upload',
-                    ofType: null
-                  }
+                    ofType: null,
+                  },
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'OBJECT',
               name: 'File',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'multipleUploads',
@@ -886,13 +890,13 @@ const data = {
                       ofType: {
                         kind: 'SCALAR',
                         name: 'Upload',
-                        ofType: null
-                      }
-                    }
-                  }
+                        ofType: null,
+                      },
+                    },
+                  },
                 },
-                defaultValue: null
-              }
+                defaultValue: null,
+              },
             ],
             type: {
               kind: 'LIST',
@@ -900,17 +904,17 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: 'File',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -927,11 +931,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Int',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'content',
@@ -940,10 +944,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'author',
@@ -952,16 +956,16 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'SCALAR',
@@ -971,7 +975,7 @@ const data = {
         inputFields: null,
         interfaces: null,
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
@@ -985,21 +989,22 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: 'Message',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__Schema',
-        description: 'A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.',
+        description:
+          'A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.',
         fields: [
           {
             name: 'types',
@@ -1017,13 +1022,13 @@ const data = {
                   ofType: {
                     kind: 'OBJECT',
                     name: '__Type',
-                    ofType: null
-                  }
-                }
-              }
+                    ofType: null,
+                  },
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'queryType',
@@ -1035,35 +1040,37 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: '__Type',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'mutationType',
-            description: 'If this server supports mutation, the type that mutation operations will be rooted at.',
+            description:
+              'If this server supports mutation, the type that mutation operations will be rooted at.',
             args: [],
             type: {
               kind: 'OBJECT',
               name: '__Type',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'subscriptionType',
-            description: 'If this server support subscription, the type that subscription operations will be rooted at.',
+            description:
+              'If this server support subscription, the type that subscription operations will be rooted at.',
             args: [],
             type: {
               kind: 'OBJECT',
               name: '__Type',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'directives',
@@ -1081,24 +1088,25 @@ const data = {
                   ofType: {
                     kind: 'OBJECT',
                     name: '__Directive',
-                    ofType: null
-                  }
-                }
-              }
+                    ofType: null,
+                  },
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__Type',
-        description: 'The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.',
+        description:
+          'The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.',
         fields: [
           {
             name: 'kind',
@@ -1110,11 +1118,11 @@ const data = {
               ofType: {
                 kind: 'ENUM',
                 name: '__TypeKind',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'name',
@@ -1123,10 +1131,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'description',
@@ -1135,10 +1143,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'fields',
@@ -1150,10 +1158,10 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'Boolean',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: 'false'
-              }
+                defaultValue: 'false',
+              },
             ],
             type: {
               kind: 'LIST',
@@ -1164,12 +1172,12 @@ const data = {
                 ofType: {
                   kind: 'OBJECT',
                   name: '__Field',
-                  ofType: null
-                }
-              }
+                  ofType: null,
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'interfaces',
@@ -1184,12 +1192,12 @@ const data = {
                 ofType: {
                   kind: 'OBJECT',
                   name: '__Type',
-                  ofType: null
-                }
-              }
+                  ofType: null,
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'possibleTypes',
@@ -1204,12 +1212,12 @@ const data = {
                 ofType: {
                   kind: 'OBJECT',
                   name: '__Type',
-                  ofType: null
-                }
-              }
+                  ofType: null,
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'enumValues',
@@ -1221,10 +1229,10 @@ const data = {
                 type: {
                   kind: 'SCALAR',
                   name: 'Boolean',
-                  ofType: null
+                  ofType: null,
                 },
-                defaultValue: 'false'
-              }
+                defaultValue: 'false',
+              },
             ],
             type: {
               kind: 'LIST',
@@ -1235,12 +1243,12 @@ const data = {
                 ofType: {
                   kind: 'OBJECT',
                   name: '__EnumValue',
-                  ofType: null
-                }
-              }
+                  ofType: null,
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'inputFields',
@@ -1255,12 +1263,12 @@ const data = {
                 ofType: {
                   kind: 'OBJECT',
                   name: '__InputValue',
-                  ofType: null
-                }
-              }
+                  ofType: null,
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'ofType',
@@ -1269,21 +1277,22 @@ const data = {
             type: {
               kind: 'OBJECT',
               name: '__Type',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'ENUM',
         name: '__TypeKind',
-        description: 'An enum describing what kind of type a given `__Type` is.',
+        description:
+          'An enum describing what kind of type a given `__Type` is.',
         fields: null,
         inputFields: null,
         interfaces: null,
@@ -1292,57 +1301,65 @@ const data = {
             name: 'SCALAR',
             description: 'Indicates this type is a scalar.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'OBJECT',
-            description: 'Indicates this type is an object. `fields` and `interfaces` are valid fields.',
+            description:
+              'Indicates this type is an object. `fields` and `interfaces` are valid fields.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INTERFACE',
-            description: 'Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.',
+            description:
+              'Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'UNION',
-            description: 'Indicates this type is a union. `possibleTypes` is a valid field.',
+            description:
+              'Indicates this type is a union. `possibleTypes` is a valid field.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'ENUM',
-            description: 'Indicates this type is an enum. `enumValues` is a valid field.',
+            description:
+              'Indicates this type is an enum. `enumValues` is a valid field.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INPUT_OBJECT',
-            description: 'Indicates this type is an input object. `inputFields` is a valid field.',
+            description:
+              'Indicates this type is an input object. `inputFields` is a valid field.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'LIST',
-            description: 'Indicates this type is a list. `ofType` is a valid field.',
+            description:
+              'Indicates this type is a list. `ofType` is a valid field.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'NON_NULL',
-            description: 'Indicates this type is a non-null. `ofType` is a valid field.',
+            description:
+              'Indicates this type is a non-null. `ofType` is a valid field.',
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__Field',
-        description: 'Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.',
+        description:
+          'Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.',
         fields: [
           {
             name: 'name',
@@ -1354,11 +1371,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'description',
@@ -1367,10 +1384,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'args',
@@ -1388,13 +1405,13 @@ const data = {
                   ofType: {
                     kind: 'OBJECT',
                     name: '__InputValue',
-                    ofType: null
-                  }
-                }
-              }
+                    ofType: null,
+                  },
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'type',
@@ -1406,11 +1423,11 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: '__Type',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'isDeprecated',
@@ -1422,11 +1439,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Boolean',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'deprecationReason',
@@ -1435,21 +1452,22 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__InputValue',
-        description: 'Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.',
+        description:
+          'Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.',
         fields: [
           {
             name: 'name',
@@ -1461,11 +1479,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'description',
@@ -1474,10 +1492,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'type',
@@ -1489,34 +1507,36 @@ const data = {
               ofType: {
                 kind: 'OBJECT',
                 name: '__Type',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'defaultValue',
-            description: 'A GraphQL-formatted string representing the default value for this input value.',
+            description:
+              'A GraphQL-formatted string representing the default value for this input value.',
             args: [],
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__EnumValue',
-        description: 'One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.',
+        description:
+          'One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.',
         fields: [
           {
             name: 'name',
@@ -1528,11 +1548,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'description',
@@ -1541,10 +1561,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'isDeprecated',
@@ -1556,11 +1576,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Boolean',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'deprecationReason',
@@ -1569,21 +1589,22 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'OBJECT',
         name: '__Directive',
-        description: 'A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL\'s execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.',
+        description:
+          "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
         fields: [
           {
             name: 'name',
@@ -1595,11 +1616,11 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'String',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'description',
@@ -1608,10 +1629,10 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'locations',
@@ -1629,13 +1650,13 @@ const data = {
                   ofType: {
                     kind: 'ENUM',
                     name: '__DirectiveLocation',
-                    ofType: null
-                  }
-                }
-              }
+                    ofType: null,
+                  },
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'args',
@@ -1653,24 +1674,25 @@ const data = {
                   ofType: {
                     kind: 'OBJECT',
                     name: '__InputValue',
-                    ofType: null
-                  }
-                }
-              }
+                    ofType: null,
+                  },
+                },
+              },
             },
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
         inputFields: null,
         interfaces: [],
         enumValues: null,
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'ENUM',
         name: '__DirectiveLocation',
-        description: 'A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.',
+        description:
+          'A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.',
         fields: null,
         inputFields: null,
         interfaces: null,
@@ -1679,118 +1701,120 @@ const data = {
             name: 'QUERY',
             description: 'Location adjacent to a query operation.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'MUTATION',
             description: 'Location adjacent to a mutation operation.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'SUBSCRIPTION',
             description: 'Location adjacent to a subscription operation.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'FIELD',
             description: 'Location adjacent to a field.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'FRAGMENT_DEFINITION',
             description: 'Location adjacent to a fragment definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'FRAGMENT_SPREAD',
             description: 'Location adjacent to a fragment spread.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INLINE_FRAGMENT',
             description: 'Location adjacent to an inline fragment.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'VARIABLE_DEFINITION',
             description: 'Location adjacent to a variable definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'SCHEMA',
             description: 'Location adjacent to a schema definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'SCALAR',
             description: 'Location adjacent to a scalar definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'OBJECT',
             description: 'Location adjacent to an object type definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'FIELD_DEFINITION',
             description: 'Location adjacent to a field definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'ARGUMENT_DEFINITION',
             description: 'Location adjacent to an argument definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INTERFACE',
             description: 'Location adjacent to an interface definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'UNION',
             description: 'Location adjacent to a union definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'ENUM',
             description: 'Location adjacent to an enum definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'ENUM_VALUE',
             description: 'Location adjacent to an enum value definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INPUT_OBJECT',
-            description: 'Location adjacent to an input object type definition.',
+            description:
+              'Location adjacent to an input object type definition.',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'INPUT_FIELD_DEFINITION',
-            description: 'Location adjacent to an input object field definition.',
+            description:
+              'Location adjacent to an input object field definition.',
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
-        possibleTypes: null
+        possibleTypes: null,
       },
       {
         kind: 'ENUM',
@@ -1804,27 +1828,23 @@ const data = {
             name: 'PUBLIC',
             description: '',
             isDeprecated: false,
-            deprecationReason: null
+            deprecationReason: null,
           },
           {
             name: 'PRIVATE',
             description: '',
             isDeprecated: false,
-            deprecationReason: null
-          }
+            deprecationReason: null,
+          },
         ],
-        possibleTypes: null
-      }
+        possibleTypes: null,
+      },
     ],
     directives: [
       {
         name: 'cacheControl',
         description: '',
-        locations: [
-          'FIELD_DEFINITION',
-          'OBJECT',
-          'INTERFACE'
-        ],
+        locations: ['FIELD_DEFINITION', 'OBJECT', 'INTERFACE'],
         args: [
           {
             name: 'maxAge',
@@ -1832,9 +1852,9 @@ const data = {
             type: {
               kind: 'SCALAR',
               name: 'Int',
-              ofType: null
+              ofType: null,
             },
-            defaultValue: null
+            defaultValue: null,
           },
           {
             name: 'scope',
@@ -1842,20 +1862,17 @@ const data = {
             type: {
               kind: 'ENUM',
               name: 'CacheControlScope',
-              ofType: null
+              ofType: null,
             },
-            defaultValue: null
-          }
-        ]
+            defaultValue: null,
+          },
+        ],
       },
       {
         name: 'skip',
-        description: 'Directs the executor to skip this field or fragment when the `if` argument is true.',
-        locations: [
-          'FIELD',
-          'FRAGMENT_SPREAD',
-          'INLINE_FRAGMENT'
-        ],
+        description:
+          'Directs the executor to skip this field or fragment when the `if` argument is true.',
+        locations: ['FIELD', 'FRAGMENT_SPREAD', 'INLINE_FRAGMENT'],
         args: [
           {
             name: 'if',
@@ -1866,21 +1883,18 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Boolean',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
-            defaultValue: null
-          }
-        ]
+            defaultValue: null,
+          },
+        ],
       },
       {
         name: 'include',
-        description: 'Directs the executor to include this field or fragment only when the `if` argument is true.',
-        locations: [
-          'FIELD',
-          'FRAGMENT_SPREAD',
-          'INLINE_FRAGMENT'
-        ],
+        description:
+          'Directs the executor to include this field or fragment only when the `if` argument is true.',
+        locations: ['FIELD', 'FRAGMENT_SPREAD', 'INLINE_FRAGMENT'],
         args: [
           {
             name: 'if',
@@ -1891,35 +1905,34 @@ const data = {
               ofType: {
                 kind: 'SCALAR',
                 name: 'Boolean',
-                ofType: null
-              }
+                ofType: null,
+              },
             },
-            defaultValue: null
-          }
-        ]
+            defaultValue: null,
+          },
+        ],
       },
       {
         name: 'deprecated',
-        description: 'Marks an element of a GraphQL schema as no longer supported.',
-        locations: [
-          'FIELD_DEFINITION',
-          'ENUM_VALUE'
-        ],
+        description:
+          'Marks an element of a GraphQL schema as no longer supported.',
+        locations: ['FIELD_DEFINITION', 'ENUM_VALUE'],
         args: [
           {
             name: 'reason',
-            description: 'Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/).',
+            description:
+              'Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/).',
             type: {
               kind: 'SCALAR',
               name: 'String',
-              ofType: null
+              ofType: null,
             },
-            defaultValue: '"No longer supported"'
-          }
-        ]
-      }
-    ]
-  }
+            defaultValue: '"No longer supported"',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export default data;

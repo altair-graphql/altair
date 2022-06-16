@@ -8,16 +8,15 @@ import { Component, ViewEncapsulation, Input } from '@angular/core';
   preserveWhitespaces: false,
 })
 export class SubscriptionResultItemComponent {
-
   @Input() data = {
     response: '',
     responseObj: null,
-    responseTime: 0
+    responseTime: 0,
   };
 
   isExpanded = false;
 
-  constructor() { }
+  constructor() {}
 
   toggleExpanded() {
     this.isExpanded = !this.isExpanded;

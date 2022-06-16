@@ -1,5 +1,4 @@
-
-import {of as observableOf,  Observable ,  Subscriber } from 'rxjs';
+import { of as observableOf, Observable, Subscriber } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -8,7 +7,7 @@ export class DbService {
   servicePrefix = 'db:';
   db$: Observable<any>;
 
-  constructor() { }
+  constructor() {}
 
   /**
    * Gets the item with the exact name specified
@@ -47,7 +46,7 @@ export class DbService {
    */
   setItem(key: string, value: any): Observable<any> {
     const dbValue = {
-      value: null
+      value: null,
     };
 
     if (key && value) {
@@ -56,7 +55,7 @@ export class DbService {
 
     localStorage.setItem(this.getItemName(key), JSON.stringify(dbValue));
 
-    return new Observable(obs => obs.next(null));
+    return new Observable((obs) => obs.next(null));
   }
 
   /**
@@ -66,7 +65,7 @@ export class DbService {
   removeItemByExactKey(key: string): Observable<any> {
     localStorage.removeItem(key);
 
-    return new Observable(obs => obs.next(null));
+    return new Observable((obs) => obs.next(null));
   }
 
   /**
@@ -82,7 +81,9 @@ export class DbService {
    */
   getAllKeys() {
     // Get all the items in the local storage that is specific to the app
-    const allKeys = Object.keys(localStorage).filter((key: string) => key.includes(this.storagePrefix));
+    const allKeys = Object.keys(localStorage).filter((key: string) =>
+      key.includes(this.storagePrefix)
+    );
 
     // return Observable.combineLatest(allKeys.map(key => this.getItemByExactKey(key)));
     return observableOf(allKeys);
@@ -95,5 +96,4 @@ export class DbService {
   private getItemName(key: string) {
     return `${this.storagePrefix}${this.servicePrefix}${key}`;
   }
-
 }

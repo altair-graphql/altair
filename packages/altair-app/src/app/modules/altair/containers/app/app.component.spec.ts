@@ -10,7 +10,6 @@ import { empty as observableEmpty, of } from 'rxjs';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-
 import { AppComponent } from './app.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
@@ -22,7 +21,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 describe('AppComponent', () => {
   let wrapper: NgxTestWrapper<AppComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     const providers = [
       {
         provide: services.WindowService,
@@ -81,15 +80,12 @@ describe('AppComponent', () => {
           windowsMeta: {},
         }),
       },
-  ];
+    ];
     wrapper = await mount({
       component: AppComponent,
-      imports: [
-        MockModule(SharedModule),
-        MockModule(TranslateModule),
-      ],
+      imports: [MockModule(SharedModule), MockModule(TranslateModule)],
       providers,
-      schemas: [ NO_ERRORS_SCHEMA ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

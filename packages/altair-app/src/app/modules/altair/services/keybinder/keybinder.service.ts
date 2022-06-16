@@ -29,7 +29,6 @@ export interface KeyboardShortcut {
 
 @Injectable()
 export class KeybinderService {
-
   windowIds: string[];
   activeWindowId = '';
 
@@ -39,62 +38,89 @@ export class KeybinderService {
     private store: Store<RootState>,
     private windowService: WindowService,
     private electronService: ElectronAppService,
-    private zone: NgZone,
+    private zone: NgZone
   ) {
-    this.store.subscribe(data => {
+    this.store.subscribe((data) => {
       this.windowIds = Object.keys(data.windows);
       this.activeWindowId = data.windowsMeta.activeWindowId;
-    })
+    });
   }
 
   connect() {
     this.bindShortcut(
       ['Ctrl+Shift+V'],
-      () => this.store.dispatch(new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)
+        ),
       'Toggle Variable Pane'
     );
 
     this.bindShortcut(
       ['Ctrl+Shift+H'],
-      () => this.store.dispatch(new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)
+        ),
       'Toggle Header Pane'
     );
 
     this.bindShortcut(
       ['Ctrl+Shift+R'],
-      () => this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new queryActions.SendIntrospectionQueryRequestAction(
+            this.activeWindowId
+          )
+        ),
       'Reload Docs'
     );
 
     this.bindShortcut(
       ['Ctrl+Shift+D'],
-      () => this.store.dispatch(new docsActions.ToggleDocsViewAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new docsActions.ToggleDocsViewAction(this.activeWindowId)
+        ),
       'Toggle Docs'
     );
 
     this.bindShortcut(
       ['Ctrl+Shift+P'],
-      () => this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new queryActions.PrettifyQueryAction(this.activeWindowId)
+        ),
       'Prettify Query'
     );
 
     this.bindShortcut(
       ['Command+Enter', 'Ctrl+Enter'],
-      () => this.store.dispatch(new queryActions.SendQueryRequestAction(this.activeWindowId)),
+      () =>
+        this.store.dispatch(
+          new queryActions.SendQueryRequestAction(this.activeWindowId)
+        ),
       'Send Request'
     );
 
     this.bindShortcut(
       ['Command+S'],
-      () => this.store.dispatch(new collectionActions.UpdateQueryInCollectionAction({
-        windowId: this.activeWindowId,
-      })),
+      () =>
+        this.store.dispatch(
+          new collectionActions.UpdateQueryInCollectionAction({
+            windowId: this.activeWindowId,
+          })
+        ),
       'Save Request'
     );
 
     this.bindShortcut(
       ['Ctrl+T'],
-      () => this.windowService.newWindow().pipe(first(), catchUselessObservableError).subscribe(),
+      () =>
+        this.windowService
+          .newWindow()
+          .pipe(first(), catchUselessObservableError)
+          .subscribe(),
       'Create new window'
     );
 
@@ -108,62 +134,70 @@ export class KeybinderService {
       ['Ctrl+W'],
       () => {
         if (this.windowIds.length > 1) {
-          this.windowService.removeWindow(this.activeWindowId).pipe(catchUselessObservableError).subscribe();
+          this.windowService
+            .removeWindow(this.activeWindowId)
+            .pipe(catchUselessObservableError)
+            .subscribe();
         }
       },
       'Close window'
     );
   }
 
-  bindShortcut(keys: string[], callback: (...args: any[]) => any, description = 'TODO - Add description') {
+  bindShortcut(
+    keys: string[],
+    callback: (...args: any[]) => any,
+    description = 'TODO - Add description'
+  ) {
     this.shortcuts.push({
       keys,
-      description
+      description,
     });
 
-    return mousetrap.bindGlobal(keys.map(key => key.toLowerCase()), () => {
-      this.zone.run(callback);
-      return false;
-    });
+    return mousetrap.bindGlobal(
+      keys.map((key) => key.toLowerCase()),
+      () => {
+        this.zone.run(callback);
+        return false;
+      }
+    );
   }
 
   getShortcuts() {
     const categories: KeyboardShortcutCategory[] = [
       {
         title: 'General',
-        shortcuts: this.shortcuts
+        shortcuts: this.shortcuts,
       },
       {
         title: 'Editor',
         shortcuts: [
           {
             keys: ['Ctrl+D'],
-            description: 'Jump to docs'
+            description: 'Jump to docs',
           },
           {
             keys: ['Ctrl+F', 'Alt+F'],
-            description: 'Search in context'
+            description: 'Search in context',
           },
           {
             keys: ['Ctrl+/', 'Command+/'],
-            description: 'Toggle comment'
+            description: 'Toggle comment',
           },
           {
             keys: ['Ctrl+Shift+Enter'],
-            description: 'Fill all fields'
+            description: 'Fill all fields',
           },
-        ]
+        ],
       },
     ];
     if (this.electronService.isElectronApp()) {
       categories.push({
         title: 'Electron Shortcuts',
-        shortcuts: [
-        ]
+        shortcuts: [],
       });
     }
 
     return categories;
   }
-
 }

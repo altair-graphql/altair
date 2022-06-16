@@ -11,7 +11,7 @@ interface ISelectedFile {
 @Injectable()
 export class StorageService extends Dexie {
   queryCollections: Dexie.Table<IQueryCollection, number | string>;
-  appState: Dexie.Table<{ key: string, value: any }, string>;
+  appState: Dexie.Table<{ key: string; value: any }, string>;
   selectedFiles: Dexie.Table<ISelectedFile, string>;
 
   constructor() {
@@ -28,21 +28,18 @@ export class StorageService extends Dexie {
   }
 
   now() {
-    return +(new Date());
+    return +new Date();
   }
 
   clearAllLocalData() {
     // Clear indexedDb
-    Dexie.getDatabaseNames()
-      .then(names => {
-        names.forEach(name => {
-          const db = new Dexie(name);
-          db.delete().catch(() => {});
-        });
+    Dexie.getDatabaseNames().then((names) => {
+      names.forEach((name) => {
+        const db = new Dexie(name);
+        db.delete().catch(() => {});
       });
+    });
 
     localStorage.clear();
   }
-
 }
-

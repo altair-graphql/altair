@@ -3,18 +3,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-schema-form-item-list',
   templateUrl: './schema-form-item-list.component.html',
-  styles: []
+  styles: [],
 })
-export class SchemaFormItemListComponent  {
-
+export class SchemaFormItemListComponent {
   @Input() item: any;
   @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 
-  constructor() { }
-
-  
+  constructor() {}
 
   addField() {
     if (!this.data || !Array.isArray(this.data)) {
@@ -35,5 +32,4 @@ export class SchemaFormItemListComponent  {
   trackByIndex(index: number) {
     return index;
   }
-
 }

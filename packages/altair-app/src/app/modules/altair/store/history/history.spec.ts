@@ -1,5 +1,10 @@
 import { historyReducer } from './history.reducer';
-import { AddHistoryAction, ADD_HISTORY, CLEAR_HISTORY, ClearHistoryAction } from './history.action';
+import {
+  AddHistoryAction,
+  ADD_HISTORY,
+  CLEAR_HISTORY,
+  ClearHistoryAction,
+} from './history.action';
 import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
 
 jest.mock('altair-graphql-core/build/config', () => {
@@ -7,18 +12,18 @@ jest.mock('altair-graphql-core/build/config', () => {
     getAltairConfig() {
       return {
         query_history_depth: 2,
-      }
-    }
-  }
+      };
+    },
+  };
 });
 describe('history', () => {
   it('should return the state for unknown action', () => {
     const state: HistoryState = {
       list: [
         {
-          query: 'query {}'
-        }
-      ]
+          query: 'query {}',
+        },
+      ],
     };
     const newState = historyReducer(state, { type: 'UNKNOWN' } as any);
 
@@ -38,9 +43,9 @@ describe('history', () => {
     expect(newState).toEqual({
       list: [
         {
-          query: 'query{}'
-        }
-      ]
+          query: 'query{}',
+        },
+      ],
     });
   });
 
@@ -48,12 +53,12 @@ describe('history', () => {
     const state: HistoryState = {
       list: [
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
         {
-          query: 'query A{}'
+          query: 'query A{}',
         },
-      ]
+      ],
     };
     const action = new AddHistoryAction('', { query: 'query C{}' });
     const newState = historyReducer(state, action);
@@ -61,12 +66,12 @@ describe('history', () => {
     expect(newState).toEqual({
       list: [
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
-      ]
+      ],
     });
   });
 
@@ -74,15 +79,15 @@ describe('history', () => {
     const state: HistoryState = {
       list: [
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
         {
-          query: 'query A{}'
+          query: 'query A{}',
         },
-      ]
+      ],
     };
     const action = new AddHistoryAction('', { query: 'query D{}', limit: 4 });
     const newState = historyReducer(state, action);
@@ -90,18 +95,18 @@ describe('history', () => {
     expect(newState).toEqual({
       list: [
         {
-          query: 'query D{}'
+          query: 'query D{}',
         },
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
         {
-          query: 'query A{}'
+          query: 'query A{}',
         },
-      ]
+      ],
     });
   });
 
@@ -109,18 +114,18 @@ describe('history', () => {
     const state: HistoryState = {
       list: [
         {
-          query: 'query D{}'
+          query: 'query D{}',
         },
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
         {
-          query: 'query A{}'
+          query: 'query A{}',
         },
-      ]
+      ],
     };
     const action = new AddHistoryAction('', { query: 'query E{}', limit: 4 });
     const newState = historyReducer(state, action);
@@ -128,18 +133,18 @@ describe('history', () => {
     expect(newState).toEqual({
       list: [
         {
-          query: 'query E{}'
+          query: 'query E{}',
         },
         {
-          query: 'query D{}'
+          query: 'query D{}',
         },
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
-      ]
+      ],
     });
   });
 
@@ -147,24 +152,24 @@ describe('history', () => {
     const state: HistoryState = {
       list: [
         {
-          query: 'query D{}'
+          query: 'query D{}',
         },
         {
-          query: 'query C{}'
+          query: 'query C{}',
         },
         {
-          query: 'query B{}'
+          query: 'query B{}',
         },
         {
-          query: 'query A{}'
+          query: 'query A{}',
         },
-      ]
+      ],
     };
     const action = new ClearHistoryAction('', {});
     const newState = historyReducer(state, action);
 
     expect(newState).toEqual({
-      list: []
+      list: [],
     });
   });
 });

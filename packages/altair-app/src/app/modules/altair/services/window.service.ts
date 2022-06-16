@@ -1,4 +1,3 @@
-
 import { EMPTY, from, Observable } from 'rxjs';
 
 import { first, tap, map, switchMap } from 'rxjs/operators';
@@ -31,32 +30,41 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { QueryCollectionService } from './query-collection/query-collection.service';
 
-
 interface ImportWindowDataOptions {
   fixedTitle?: boolean;
 }
 
 @Injectable()
 export class WindowService {
-
   constructor(
     private store: Store<RootState>,
     private gqlService: GqlService,
-    private collectionService: QueryCollectionService,
-  ) { }
+    private collectionService: QueryCollectionService
+  ) {}
 
-  newWindow(opts: { title?: string, url?: string, collectionId?: number, windowIdInCollection?: string, fixedTitle?: boolean } = {}) {
+  newWindow(
+    opts: {
+      title?: string;
+      url?: string;
+      collectionId?: number;
+      windowIdInCollection?: string;
+      fixedTitle?: boolean;
+    } = {}
+  ) {
     return this.store.pipe(
       first(),
-      map(state => {
-        const url = opts.url || fromQuery.getInitialState().url || (
-          state.windowsMeta.activeWindowId &&
-          state.windows[state.windowsMeta.activeWindowId]?.query.url || ''
-        )
+      map((state) => {
+        const url =
+          opts.url ||
+          fromQuery.getInitialState().url ||
+          (state.windowsMeta.activeWindowId &&
+            state.windows[state.windowsMeta.activeWindowId]?.query.url) ||
+          '';
 
         const newWindow = {
           windowId: uuid(),
-          title: opts.title || `Window ${Object.keys(state.windows).length + 1}`,
+          title:
+            opts.title || `Window ${Object.keys(state.windows).length + 1}`,
           url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
@@ -68,7 +76,7 @@ export class WindowService {
         this.setupWindow(newWindow.windowId);
 
         return newWindow;
-      }),
+      })
     );
   }
 
@@ -80,15 +88,17 @@ export class WindowService {
       tap((data) => {
         const window = data.windows[windowId];
         if (window) {
-          this.store.dispatch(new localActions.PushClosedWindowToLocalAction({ window }));
+          this.store.dispatch(
+            new localActions.PushClosedWindowToLocalAction({ window })
+          );
         }
         this.store.dispatch(new windowActions.RemoveWindowAction({ windowId }));
-      }),
+      })
     );
   }
 
   duplicateWindow(windowId: string) {
-    return this.store.pipe(first()).subscribe(data => {
+    return this.store.pipe(first()).subscribe((data) => {
       const window = data.windows[windowId];
       if (!window) {
         return;
@@ -102,7 +112,8 @@ export class WindowService {
         apiUrl: clonedWindow.query.url,
         variables: clonedWindow.variables.variables,
         subscriptionUrl: clonedWindow.query.subscriptionUrl,
-        subscriptionConnectionParams: clonedWindow.query.subscriptionConnectionParams,
+        subscriptionConnectionParams:
+          clonedWindow.query.subscriptionConnectionParams,
         headers: clonedWindow.headers,
         windowName: `${clonedWindow.layout.title} (Copy)`,
         preRequestScript: clonedWindow.preRequest.script,
@@ -117,7 +128,7 @@ export class WindowService {
   getWindowExportData(windowId: string) {
     return this.store.pipe(
       first(),
-      map(state => {
+      map((state) => {
         const window = state.windows[windowId];
         if (!window) {
           return;
@@ -133,7 +144,8 @@ export class WindowService {
           apiUrl: clonedWindow.query.url,
           variables: clonedWindow.variables.variables,
           subscriptionUrl: clonedWindow.query.subscriptionUrl,
-          subscriptionConnectionParams: clonedWindow.query.subscriptionConnectionParams,
+          subscriptionConnectionParams:
+            clonedWindow.query.subscriptionConnectionParams,
           headers: clonedWindow.headers,
           windowName: clonedWindow.layout.title,
           preRequestScript: clonedWindow.preRequest.script,
@@ -141,7 +153,7 @@ export class WindowService {
           postRequestScript: clonedWindow.postRequest.script,
           postRequestScriptEnabled: clonedWindow.postRequest.enabled,
         };
-      }),
+      })
     );
   }
 
@@ -157,7 +169,9 @@ export class WindowService {
         // For a period, the JSON data was URI encoded.
         // Maybe that is the problem with this data.
         debug.log('(Second attempt) Trying to decode JSON data...');
-        return this.importWindowData(JSON.parse(decodeURIComponent(data)), { fixedTitle: true });
+        return this.importWindowData(JSON.parse(decodeURIComponent(data)), {
+          fixedTitle: true,
+        });
       } catch (err) {}
       debug.log('The file is invalid.', err);
     }
@@ -175,7 +189,9 @@ export class WindowService {
         type: 'window',
         query: curlObj.body ? JSON.parse(curlObj.body).query : '',
         apiUrl: curlObj.url,
-        variables: curlObj.body ? JSON.stringify(JSON.parse(curlObj.body).variables) : '',
+        variables: curlObj.body
+          ? JSON.stringify(JSON.parse(curlObj.body).variables)
+          : '',
         subscriptionUrl: '',
         subscriptionConnectionParams: '',
         headers: curlObj.headers ? mapToKeyValueList(curlObj.headers) : [],
@@ -194,7 +210,10 @@ export class WindowService {
    * Import the window represented by the provided data string
    * @param data window data string
    */
-  importWindowData(data: ExportWindowState, options: ImportWindowDataOptions = {}) {
+  importWindowData(
+    data: ExportWindowState,
+    options: ImportWindowDataOptions = {}
+  ) {
     try {
       // Verify file's content
       if (!data) {
@@ -218,59 +237,103 @@ export class WindowService {
         collectionId: data.collectionId,
         windowIdInCollection: data.windowIdInCollection,
         fixedTitle: options.fixedTitle,
-      }).subscribe(newWindow => {
+      }).subscribe((newWindow) => {
         const windowId = newWindow.windowId;
 
         if (data.apiUrl) {
-          this.store.dispatch(new queryActions.SetUrlAction({ url: data.apiUrl }, windowId));
-          this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
+          this.store.dispatch(
+            new queryActions.SetUrlAction({ url: data.apiUrl }, windowId)
+          );
+          this.store.dispatch(
+            new queryActions.SendIntrospectionQueryRequestAction(windowId)
+          );
         }
 
         if (data.query) {
-          this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
+          this.store.dispatch(
+            new queryActions.SetQueryAction(data.query, windowId)
+          );
         }
 
         if (data.headers.length) {
-          this.store.dispatch(new headerActions.SetHeadersAction({ headers: data.headers }, windowId));
+          this.store.dispatch(
+            new headerActions.SetHeadersAction(
+              { headers: data.headers },
+              windowId
+            )
+          );
         }
 
         if (data.variables) {
-          this.store.dispatch(new variableActions.UpdateVariablesAction(data.variables, windowId));
+          this.store.dispatch(
+            new variableActions.UpdateVariablesAction(data.variables, windowId)
+          );
         }
 
         if (data.subscriptionUrl) {
-          this.store.dispatch(new queryActions.SetSubscriptionUrlAction({ subscriptionUrl: data.subscriptionUrl }, windowId));
+          this.store.dispatch(
+            new queryActions.SetSubscriptionUrlAction(
+              { subscriptionUrl: data.subscriptionUrl },
+              windowId
+            )
+          );
         }
 
         if (data.subscriptionConnectionParams) {
           this.store.dispatch(
-            new queryActions.SetSubscriptionConnectionParamsAction(windowId, { connectionParams: data.subscriptionConnectionParams })
+            new queryActions.SetSubscriptionConnectionParamsAction(windowId, {
+              connectionParams: data.subscriptionConnectionParams,
+            })
           );
         }
 
         if (data.subscriptionProvider) {
-          this.store.dispatch(new queryActions.SetSubscriptionProviderIdAction(windowId, { providerId: data.subscriptionProvider }));
+          this.store.dispatch(
+            new queryActions.SetSubscriptionProviderIdAction(windowId, {
+              providerId: data.subscriptionProvider,
+            })
+          );
         }
 
         if (data.preRequestScriptEnabled) {
-          this.store.dispatch(new preRequestActions.SetPreRequestEnabledAction(windowId, { enabled: data.preRequestScriptEnabled }));
+          this.store.dispatch(
+            new preRequestActions.SetPreRequestEnabledAction(windowId, {
+              enabled: data.preRequestScriptEnabled,
+            })
+          );
         }
         if (data.preRequestScript) {
-          this.store.dispatch(new preRequestActions.SetPreRequestScriptAction(windowId, { script: data.preRequestScript }));
+          this.store.dispatch(
+            new preRequestActions.SetPreRequestScriptAction(windowId, {
+              script: data.preRequestScript,
+            })
+          );
         }
 
         if (data.postRequestScriptEnabled) {
-          this.store.dispatch(new postRequestActions.SetPostRequestEnabledAction(windowId, { enabled: data.postRequestScriptEnabled }));
+          this.store.dispatch(
+            new postRequestActions.SetPostRequestEnabledAction(windowId, {
+              enabled: data.postRequestScriptEnabled,
+            })
+          );
         }
         if (data.postRequestScript) {
-          this.store.dispatch(new postRequestActions.SetPostRequestScriptAction(windowId, { script: data.postRequestScript }));
+          this.store.dispatch(
+            new postRequestActions.SetPostRequestScriptAction(windowId, {
+              script: data.postRequestScript,
+            })
+          );
         }
 
         if (data.gqlSchema) {
-          this.store.dispatch(new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema));
+          this.store.dispatch(
+            new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema)
+          );
         }
 
-        this.store.dispatch(new windowsMetaActions.SetActiveWindowIdAction({ windowId }));
+        this.store.dispatch(
+          new windowsMetaActions.SetActiveWindowIdAction({ windowId })
+        );
       });
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);
@@ -364,43 +427,57 @@ export class WindowService {
    */
   setupWindow(windowId: string) {
     // Validate that query is ACTUALLY in an existing collection
-    this.getWindowState(windowId).pipe(
-      first(),
-      switchMap(data => {
-        if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
-          return from(this.collectionService.getCollectionByID(data.layout.collectionId)).pipe(
-            map(collection => {
-              if (collection) {
-                const query = collection.queries.find(q => q.id === data.layout.windowIdInCollection);
-                return !!query;
-              }
+    this.getWindowState(windowId)
+      .pipe(
+        first(),
+        switchMap((data) => {
+          if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
+            return from(
+              this.collectionService.getCollectionByID(data.layout.collectionId)
+            ).pipe(
+              map((collection) => {
+                if (collection) {
+                  const query = collection.queries.find(
+                    (q) => q.id === data.layout.windowIdInCollection
+                  );
+                  return !!query;
+                }
 
-              return false;
-            }),
+                return false;
+              })
+            );
+          }
+
+          return EMPTY;
+        })
+      )
+      .subscribe((isValidCollectionQuery) => {
+        if (!isValidCollectionQuery) {
+          this.store.dispatch(
+            new layoutActions.SetWindowIdInCollectionAction(windowId, {})
           );
         }
+      });
 
-        return EMPTY;
-      }),
-    ).subscribe(isValidCollectionQuery => {
-      if (!isValidCollectionQuery) {
-        this.store.dispatch(new layoutActions.SetWindowIdInCollectionAction(windowId, {}));
-      }
-    });
-
-    this.store.dispatch(new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] }));
+    this.store.dispatch(
+      new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] })
+    );
     this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
 
-    this.store.pipe(
-      first(),
-      map(data => data.settings['schema.reloadOnStart']),
-    ).subscribe(shouldReloadSchema => {
-      if (shouldReloadSchema) {
-        this.store.dispatch(new queryActions.SendIntrospectionQueryRequestAction(windowId));
-      }
-    });
+    this.store
+      .pipe(
+        first(),
+        map((data) => data.settings['schema.reloadOnStart'])
+      )
+      .subscribe((shouldReloadSchema) => {
+        if (shouldReloadSchema) {
+          this.store.dispatch(
+            new queryActions.SendIntrospectionQueryRequestAction(windowId)
+          );
+        }
+      });
   }
 
   private getWindowState(windowId: string) {

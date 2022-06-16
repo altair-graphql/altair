@@ -12,18 +12,15 @@ describe('FancyInputMarkerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FancyInputMarkerComponent ],
-      imports: [
-        MockModule(SharedModule),
-      ],
+      declarations: [FancyInputMarkerComponent],
+      imports: [MockModule(SharedModule)],
       providers: [
         {
           provide: Store,
           useValue: mockStoreFactory(),
-        }
-      ]
-    })
-    .compileComponents();
+        },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { dark, dracula, ICustomTheme, light, mergeThemes } from 'altair-graphql-core/build/theme';
+import {
+  dark,
+  dracula,
+  ICustomTheme,
+  light,
+  mergeThemes,
+} from 'altair-graphql-core/build/theme';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeRegistryService {
-
   private registry = new Map<string, ICustomTheme>();
 
   constructor() {

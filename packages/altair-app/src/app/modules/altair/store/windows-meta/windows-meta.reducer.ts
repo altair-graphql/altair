@@ -3,7 +3,6 @@ import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-
 
 import * as windowsMeta from './windows-meta.action';
 
-
 export const getInitialState = (): WindowsMetaState => {
   return {
     activeWindowId: '',
@@ -17,12 +16,17 @@ export const getInitialState = (): WindowsMetaState => {
   };
 };
 
-export function windowsMetaReducer(state = getInitialState(), action: windowsMeta.Action): WindowsMetaState {
+export function windowsMetaReducer(
+  state = getInitialState(),
+  action: windowsMeta.Action
+): WindowsMetaState {
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
       return { ...state, activeWindowId: action.payload.windowId };
     case windowsMeta.SET_NEXT_WINDOW_ACTIVE: {
-      const idx = state.windowIds.findIndex(id => id === state.activeWindowId);
+      const idx = state.windowIds.findIndex(
+        (id) => id === state.activeWindowId
+      );
       let newActiveWindowId = '';
       if (idx >= state.windowIds.length - 1) {
         newActiveWindowId = state.windowIds[0];
@@ -32,7 +36,9 @@ export function windowsMetaReducer(state = getInitialState(), action: windowsMet
       return { ...state, activeWindowId: newActiveWindowId };
     }
     case windowsMeta.SET_PREVIOUS_WINDOW_ACTIVE: {
-      const idx = state.windowIds.findIndex(id => id === state.activeWindowId);
+      const idx = state.windowIds.findIndex(
+        (id) => id === state.activeWindowId
+      );
       let newActiveWindowId = '';
       if (idx <= 0) {
         newActiveWindowId = state.windowIds[state.windowIds.length - 1];
@@ -49,11 +55,16 @@ export function windowsMetaReducer(state = getInitialState(), action: windowsMet
       const curPos = action.payload.currentPosition;
       const newPos = action.payload.newPosition;
 
-      if (curPos > -1 && curPos < state.windowIds.length && newPos > -1 && newPos < state.windowIds.length) {
-        const arr = [ ...state.windowIds ];
+      if (
+        curPos > -1 &&
+        curPos < state.windowIds.length &&
+        newPos > -1 &&
+        newPos < state.windowIds.length
+      ) {
+        const arr = [...state.windowIds];
         arr.splice(newPos, 0, arr.splice(curPos, 1)[0]);
 
-        return { ...state, windowIds: [ ...arr ] };
+        return { ...state, windowIds: [...arr] };
       }
       return state;
     case windowsMeta.SHOW_IMPORT_CURL_DIALOG:

@@ -10,19 +10,13 @@ import { SchemaFormItemInputComponent } from './schema-form-item-input/schema-fo
 import { SchemaFormItemListComponent } from './schema-form-item-list/schema-form-item-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, FormsModule, SharedModule],
   declarations: [
     SchemaFormComponent,
     SchemaFormItemComponent,
     SchemaFormItemInputComponent,
     SchemaFormItemListComponent,
   ],
-  exports: [
-    SchemaFormComponent,
-  ],
+  exports: [SchemaFormComponent],
 })
-export class SchemaFormModule { }
+export class SchemaFormModule {}

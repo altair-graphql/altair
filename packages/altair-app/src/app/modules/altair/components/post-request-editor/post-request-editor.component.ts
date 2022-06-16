@@ -1,8 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { PreRequestService } from '../../services';
@@ -13,10 +9,9 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 @Component({
   selector: 'app-post-request-editor',
   templateUrl: './post-request-editor.component.html',
-  styles: []
+  styles: [],
 })
 export class PostRequestEditorComponent {
-
   @Input() postRequest: PostrequestState = {
     enabled: false,
     script: '',
@@ -24,14 +19,14 @@ export class PostRequestEditorComponent {
   @Output() postRequestScriptChange = new EventEmitter();
   @Output() postRequestEnabledChange = new EventEmitter();
 
-  editorExtensions = getRequestScriptExtensions(this.preRequestService.getGlobalContext({
-    headers: [],
-    environment: {},
-    query: '',
-    variables: '',
-  }));
+  editorExtensions = getRequestScriptExtensions(
+    this.preRequestService.getGlobalContext({
+      headers: [],
+      environment: {},
+      query: '',
+      variables: '',
+    })
+  );
 
-  constructor(
-    private preRequestService: PreRequestService,
-  ) {}
+  constructor(private preRequestService: PreRequestService) {}
 }

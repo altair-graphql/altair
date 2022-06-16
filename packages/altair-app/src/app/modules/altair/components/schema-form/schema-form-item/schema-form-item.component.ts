@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Component({
@@ -7,18 +13,13 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SchemaFormItemComponent  {
-
+export class SchemaFormItemComponent {
   @Input() item: any;
   @Input() data: any;
 
   @Output() dataChange = new EventEmitter();
 
-  constructor(
-    private altairConfig: AltairConfig,
-  ) { }
-
-  
+  constructor(private altairConfig: AltairConfig) {}
 
   getOptionLabel(item: any, option: string) {
     switch (item?.key) {
@@ -26,7 +27,7 @@ export class SchemaFormItemComponent  {
         return (this.altairConfig.languages as any)[option] || option;
     }
   }
-  getSelectOptions(item: any): { label: string, value: string }[] {
+  getSelectOptions(item: any): { label: string; value: string }[] {
     switch (item?.key) {
       case 'language':
         return item.ref.enum.map((content: string) => {
@@ -49,5 +50,4 @@ export class SchemaFormItemComponent  {
     // console.log(event, item);
     this.dataChange.next(this.data);
   }
-
 }

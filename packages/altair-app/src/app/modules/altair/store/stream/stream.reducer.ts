@@ -1,17 +1,19 @@
 import { StreamState } from 'altair-graphql-core/build/types/state/stream.interfaces';
 import * as stream from './stream.action';
 
-
 export const getInitialState = (): StreamState => {
   return {
     url: '',
     type: '',
     isConnected: false,
-    failed: null
+    failed: null,
   };
 };
 
-export function streamReducer(state = getInitialState(), action: stream.Action): StreamState {
+export function streamReducer(
+  state = getInitialState(),
+  action: stream.Action
+): StreamState {
   switch (action.type) {
     case stream.SET_STREAM_SETTING:
       return { ...state, url: action.payload.streamUrl, isConnected: false };

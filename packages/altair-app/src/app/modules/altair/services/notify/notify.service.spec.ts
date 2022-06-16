@@ -31,7 +31,7 @@ describe('NotifyService', () => {
           provide: ToastrService,
           useFactory: () => mockToastService,
         },
-      ]
+      ],
     });
   });
 
@@ -40,82 +40,87 @@ describe('NotifyService', () => {
   }));
 
   describe('.success', () => {
-    it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.success('message', 'title', { data: 'x' });
+    it('should call .exec with passed options', inject(
+      [NotifyService],
+      (service: NotifyService) => {
+        service.success('message', 'title', { data: 'x' });
 
-      expect(mockToastService.success).toHaveBeenCalledWith(
-        'message',
-        'title',
-        ({
-          data: 'x'
-        }) as any
-      );
-    }));
+        expect(mockToastService.success).toHaveBeenCalledWith(
+          'message',
+          'title',
+          {
+            data: 'x',
+          } as any
+        );
+      }
+    ));
   });
 
   describe('.warning', () => {
-    it(
-      'should call .exec with passed options if disableWarnings settings is false',
-      inject([NotifyService], (service: NotifyService) => {
+    it('should call .exec with passed options if disableWarnings settings is false', inject(
+      [NotifyService],
+      (service: NotifyService) => {
+        const state = {
+          settings: {
+            'alert.disableWarnings': false,
+          },
+        };
+        mockStore.select = (predicate: any) => of(predicate(state));
+        service.warning('message', 'title', { data: 'x' });
 
-      const state = {
-        settings: {
-          'alert.disableWarnings': false,
-        }
-      };
-      mockStore.select = (predicate: any) => of(predicate(state));
-      service.warning('message', 'title', { data: 'x' });
+        expect(mockToastService.warning).toHaveBeenCalledWith(
+          'message',
+          'title',
+          {
+            data: 'x',
+          } as any
+        );
+      }
+    ));
 
-      expect(mockToastService.warning).toHaveBeenCalledWith(
-        'message',
-        'title',
-        ({
-          data: 'x'
-        }) as any
-      );
-    }));
+    it('should NOT call .exec if disableWarnings settings is true', inject(
+      [NotifyService],
+      (service: NotifyService) => {
+        const state = {
+          settings: {
+            'alert.disableWarnings': true,
+          },
+        };
+        mockStore.select = (predicate: any) => of(predicate(state));
+        service.warning('message', 'title', { data: 'x' });
 
-    it(
-      'should NOT call .exec if disableWarnings settings is true',
-      inject([NotifyService], (service: NotifyService) => {
-
-      const state = {
-        settings: {
-          'alert.disableWarnings': true,
-        }
-      };
-      mockStore.select = (predicate: any) => of(predicate(state));
-      service.warning('message', 'title', { data: 'x' });
-
-      expect(mockToastService.warning).not.toHaveBeenCalled();
-    }));
+        expect(mockToastService.warning).not.toHaveBeenCalled();
+      }
+    ));
   });
 
   describe('.info', () => {
-    it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.info('message', 'title', { data: 'x' });
+    it('should call .exec with passed options', inject(
+      [NotifyService],
+      (service: NotifyService) => {
+        service.info('message', 'title', { data: 'x' });
 
-      expect(mockToastService.info).toHaveBeenCalledWith(
-        'message',
-        'title',
-        ({
-          data: 'x'
-        }) as any
-      );
-    }));
+        expect(mockToastService.info).toHaveBeenCalledWith('message', 'title', {
+          data: 'x',
+        } as any);
+      }
+    ));
   });
 
   describe('.error', () => {
-    it('should call .exec with passed options', inject([NotifyService], (service: NotifyService) => {
-      service.error('message', 'title', { data: 'x' });
+    it('should call .exec with passed options', inject(
+      [NotifyService],
+      (service: NotifyService) => {
+        service.error('message', 'title', { data: 'x' });
 
-      expect(mockToastService.error).toHaveBeenCalledWith(
-        'message',
-        'title',
-        ({
-          data: 'x'
-        }) as any
-      );
-    }));
+        expect(mockToastService.error).toHaveBeenCalledWith(
+          'message',
+          'title',
+          {
+            data: 'x',
+          } as any
+        );
+      }
+    ));
   });
 });

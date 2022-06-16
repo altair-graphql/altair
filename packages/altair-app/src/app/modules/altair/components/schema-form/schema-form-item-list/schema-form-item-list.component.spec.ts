@@ -10,20 +10,17 @@ describe('SchemaFormItemListComponent', () => {
   let component: SchemaFormItemListComponent;
   let fixture: ComponentFixture<SchemaFormItemListComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        SharedModule,
-        SchemaFormModule,
-      ],
-      declarations: [
-        // SchemaFormItemListComponent,
-        // SchemaFormItemComponent
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, SharedModule, SchemaFormModule],
+        declarations: [
+          // SchemaFormItemListComponent,
+          // SchemaFormItemComponent
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemListComponent);

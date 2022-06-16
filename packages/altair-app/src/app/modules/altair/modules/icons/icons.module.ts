@@ -120,16 +120,8 @@ const icons = {
 };
 
 @NgModule({
-  declarations: [
-    IconComponent,
-  ],
-  imports: [
-    CommonModule,
-    FeatherModule.pick(icons),
-  ],
-  exports: [
-    IconComponent,
-    FeatherModule,
-  ],
+  declarations: [IconComponent],
+  imports: [CommonModule, FeatherModule.pick(icons)],
+  exports: [IconComponent, FeatherModule],
 })
-export class IconsModule { }
+export class IconsModule {}

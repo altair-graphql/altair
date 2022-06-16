@@ -8,7 +8,10 @@ import {
   Output,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { getPropertyRef, SchemaFormProperty } from '../../../utils/settings_addons';
+import {
+  getPropertyRef,
+  SchemaFormProperty,
+} from '../../../utils/settings_addons';
 import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
 
 @Component({
@@ -18,7 +21,6 @@ import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchemaFormComponent implements OnInit, OnChanges {
-
   @Input() schema = {};
   @Input() data = null;
 
@@ -27,7 +29,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
   schemaProperties: SchemaFormProperty[] = [];
   formData: object;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     // console.log('SCHEMA:', this.schema);
@@ -45,13 +47,13 @@ export class SchemaFormComponent implements OnInit, OnChanges {
 
   updateSchemaProperties(schema: JSONSchema6) {
     this.schemaProperties = Object.entries(schema.properties || {})
-      .map(([ key, pty ]) => {
+      .map(([key, pty]) => {
         if (typeof pty !== 'object') {
           return { key };
         }
         return { ...pty, key };
       })
-      .sort((a, b) => (a.key > b.key) ? 1 : -1)
+      .sort((a, b) => (a.key > b.key ? 1 : -1))
       .map((pty: SchemaFormProperty) => {
         if (pty.$ref) {
           pty.ref = getPropertyRef(pty, schema);
@@ -70,5 +72,4 @@ export class SchemaFormComponent implements OnInit, OnChanges {
     // console.log(event, item);
     this.dataChange.next(this.formData);
   }
-
 }

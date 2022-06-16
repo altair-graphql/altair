@@ -4,6 +4,6 @@ export default (schema: GraphQLSchema) => {
   return [
     schema.getQueryType(),
     schema.getMutationType(),
-    schema.getSubscriptionType()
+    schema.getSubscriptionType(),
   ].filter(Boolean) as GraphQLObjectType[];
-}
+};

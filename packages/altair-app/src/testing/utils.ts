@@ -1,33 +1,47 @@
 import { DebugElement } from '@angular/core';
 import { Component } from '@angular/core';
-import { TestBed, TestModuleMetadata, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  TestModuleMetadata,
+  ComponentFixture,
+} from '@angular/core/testing';
 import { IDictionary } from 'app/modules/altair/interfaces/shared';
 import { NgxTestWrapper } from './wrapper';
 
 export const flushPromises = () => new Promise(setImmediate);
 
-const isInputElement = (el: HTMLElement): el is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
+const isInputElement = (
+  el: HTMLElement
+): el is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement => {
   return (
-    el instanceof HTMLInputElement
-    || el instanceof HTMLSelectElement
-    || el instanceof HTMLTextAreaElement
+    el instanceof HTMLInputElement ||
+    el instanceof HTMLSelectElement ||
+    el instanceof HTMLTextAreaElement
   );
 };
 
 async function nextTick<C extends any>(fixture: ComponentFixture<C>) {
   fixture.detectChanges();
   await fixture.whenStable();
-};
+}
 
-export function setProps<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, valueObj: any = {}) {
-  Object.keys(valueObj).forEach(key => {
+export function setProps<C extends any>(
+  fixture: ComponentFixture<C>,
+  debugEl: DebugElement,
+  valueObj: any = {}
+) {
+  Object.keys(valueObj).forEach((key) => {
     debugEl.componentInstance[key] = valueObj[key];
   });
 
   // await nextTick(fixture);
-};
+}
 
-export function setValue<C extends any>(fixture: ComponentFixture<C>, debugEl: DebugElement, value: any = '') {
+export function setValue<C extends any>(
+  fixture: ComponentFixture<C>,
+  debugEl: DebugElement,
+  value: any = ''
+) {
   const nativeElement: HTMLElement = debugEl.nativeElement;
 
   if (isInputElement(nativeElement)) {
@@ -38,14 +52,14 @@ export function setValue<C extends any>(fixture: ComponentFixture<C>, debugEl: D
   }
 
   // await nextTick(fixture);
-};
+}
 
 function getComponentMeta(compType: any) {
   const props = compType.__prop__metadata__ || {};
   const inputs: string[] = [];
   const outputs: string[] = [];
 
-  Object.keys(props).forEach(prop => {
+  Object.keys(props).forEach((prop) => {
     const member = props[prop][0];
     if (member.ngMetadataName === 'Input') {
       inputs.push(prop);
@@ -78,32 +92,43 @@ export async function mount(mountOptions: TestMountOptions) {
     // Set initial props values
     return { ...acc, [cur]: propsData[cur] };
   }, {});
-  const annotations = Reflect.getOwnPropertyDescriptor(MainComponent, '__annotations__')?.value[0];
+  const annotations = Reflect.getOwnPropertyDescriptor(
+    MainComponent,
+    '__annotations__'
+  )?.value[0];
   if (!annotations) {
     throw new Error(`Component does not have the @Component annotations!`);
   }
   const COMPONENT_TAG_NAME = annotations.selector;
 
-  const template = buildTestHostComponentTemplate(COMPONENT_TAG_NAME, props.inputs, props.outputs);
+  const template = buildTestHostComponentTemplate(
+    COMPONENT_TAG_NAME,
+    props.inputs,
+    props.outputs
+  );
 
   class X extends BaseTestHostComponent {
     mock = {};
     inputs = templateInputs;
     outputList = props.outputs;
   }
-  props.outputs.forEach(prop => {
+  props.outputs.forEach((prop) => {
     // Set output listeners
-    (X.prototype as any)[prop] = function(...args: any[]) {
+    (X.prototype as any)[prop] = function (...args: any[]) {
       this.mock[prop] = this.mock[prop] || { calls: [] };
       this.mock[prop].calls.push(args);
     };
   });
 
-  const TestHostComponent = Component({template: template})(X);
+  const TestHostComponent = Component({ template: template })(X);
 
   const moduleDef: TestModuleMetadata = {
     ...mountOptions,
-    declarations: [ ...(mountOptions.declarations || []), TestHostComponent, MainComponent ],
+    declarations: [
+      ...(mountOptions.declarations || []),
+      TestHostComponent,
+      MainComponent,
+    ],
   };
 
   await TestBed.configureTestingModule(moduleDef).compileComponents();
@@ -115,12 +140,23 @@ export async function mount(mountOptions: TestMountOptions) {
     throw error;
   }
 
-  return new NgxTestWrapper<typeof MainComponent>(testHostFixture, MainComponent);
-};
+  return new NgxTestWrapper<typeof MainComponent>(
+    testHostFixture,
+    MainComponent
+  );
+}
 
-export function buildTestHostComponentTemplate(componentTagName: string, inputs: string[], outputs: string[]) {
-  const inputTmpl = inputs.map(input => `[${input}]="inputs.${input}"`).join('\n');
-  const outputTmpl = outputs.map(output => `(${output})="${output}($event)"`).join('\n');
+export function buildTestHostComponentTemplate(
+  componentTagName: string,
+  inputs: string[],
+  outputs: string[]
+) {
+  const inputTmpl = inputs
+    .map((input) => `[${input}]="inputs.${input}"`)
+    .join('\n');
+  const outputTmpl = outputs
+    .map((output) => `(${output})="${output}($event)"`)
+    .join('\n');
   const template = `
     <div class="test-host">
       <${componentTagName}
@@ -135,15 +171,18 @@ export function buildTestHostComponentTemplate(componentTagName: string, inputs:
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 export const ButtonClickEvents = {
-  left:  { button: 0 },
-  right: { button: 2 }
+  left: { button: 0 },
+  right: { button: 2 },
 };
 
 /** Simulate element click. Defaults to mouse left-button click event. */
-export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClickEvents.left): void {
- if (el instanceof HTMLElement) {
-   el.click();
- } else {
-   el.triggerEventHandler('click', eventObj);
- }
+export function click(
+  el: DebugElement | HTMLElement,
+  eventObj: any = ButtonClickEvents.left
+): void {
+  if (el instanceof HTMLElement) {
+    el.click();
+  } else {
+    el.triggerEventHandler('click', eventObj);
+  }
 }

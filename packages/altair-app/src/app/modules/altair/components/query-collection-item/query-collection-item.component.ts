@@ -1,5 +1,15 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { IQuery, IQueryCollection, IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import {
+  IQuery,
+  IQueryCollection,
+  IQueryCollectionTree,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { memoize } from '../../utils/memoize';
 
 type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
@@ -9,23 +19,31 @@ type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest';
   styleUrls: ['./query-collection-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueryCollectionItemComponent  {
+export class QueryCollectionItemComponent {
   @Input() collectionTree: IQueryCollectionTree;
   @Input() loggedIn = false;
 
   @Output() selectQueryChange = new EventEmitter();
-  @Output() deleteQueryChange: EventEmitter<{ collectionId: number | string, query: IQuery }> = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{ collectionId: number | string }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
-  @Output() syncCollectionChange: EventEmitter<{ collection: IQueryCollectionTree }> = new EventEmitter();
+  @Output() deleteQueryChange: EventEmitter<{
+    collectionId: number | string;
+    query: IQuery;
+  }> = new EventEmitter();
+  @Output() deleteCollectionChange: EventEmitter<{
+    collectionId: number | string;
+  }> = new EventEmitter();
+  @Output() editCollectionChange: EventEmitter<{
+    collection: IQueryCollectionTree;
+  }> = new EventEmitter();
+  @Output() syncCollectionChange: EventEmitter<{
+    collection: IQueryCollectionTree;
+  }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
-
 
   sortBy: SortByOptions = 'newest';
 
   showContent = true;
 
-  constructor() { }
+  constructor() {}
 
   getQueryCount(collection: IQueryCollectionTree) {
     return collection.queries && collection.queries.length;
@@ -36,10 +54,12 @@ export class QueryCollectionItemComponent  {
   }
 
   deleteQuery(query: IQuery) {
-    if (confirm('Are you sure you want to delete this query from the collection?')) {
+    if (
+      confirm('Are you sure you want to delete this query from the collection?')
+    ) {
       this.deleteQueryChange.next({
         query,
-        collectionId: this.collectionTree.id
+        collectionId: this.collectionTree.id,
       });
     }
   }
@@ -47,7 +67,7 @@ export class QueryCollectionItemComponent  {
   deleteCollection() {
     if (confirm('Are you sure you want to delete this collection?')) {
       this.deleteCollectionChange.next({
-        collectionId: this.collectionTree.id
+        collectionId: this.collectionTree.id,
       });
     }
   }
@@ -55,14 +75,14 @@ export class QueryCollectionItemComponent  {
   editCollection() {
     this.editCollectionChange.next({ collection: this.collectionTree });
   }
-  
+
   syncCollection() {
     this.syncCollectionChange.next({ collection: this.collectionTree });
   }
 
   exportCollection() {
     this.exportCollectionChange.next({
-      collectionId: this.collectionTree.id
+      collectionId: this.collectionTree.id,
     });
   }
   setQueriesSortBy(sortBy: SortByOptions) {
@@ -136,5 +156,4 @@ export class QueryCollectionItemComponent  {
   trackById(index: number, collection: IQueryCollection) {
     return collection.id;
   }
-
 }

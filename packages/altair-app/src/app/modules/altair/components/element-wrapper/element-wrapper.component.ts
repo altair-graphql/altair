@@ -1,20 +1,27 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-element-wrapper',
   templateUrl: './element-wrapper.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class ElementWrapperComponent implements AfterViewInit, OnChanges {
-
   @Input() element: HTMLElement;
   @Input() windowId = '';
   @Input() activeWindowId = '';
 
   @ViewChild('elRef', { static: true }) elRef: ElementRef<HTMLDivElement>;
 
-  constructor() { }
+  constructor() {}
 
   ngAfterViewInit(): void {
     this.handleRender();
@@ -32,5 +39,4 @@ export class ElementWrapperComponent implements AfterViewInit, OnChanges {
       this.elRef.nativeElement.appendChild(this.element);
     }
   }
-
 }

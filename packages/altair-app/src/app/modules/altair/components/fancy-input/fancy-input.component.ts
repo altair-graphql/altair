@@ -1,4 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EnvironmentService } from '../../services';
@@ -32,15 +41,14 @@ export interface HighlightSection {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => FancyInputComponent),
       multi: true,
-    }
+    },
   ],
 })
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
-
   // get accessor
   get value(): any {
     return this.innerValue;
-};
+  }
 
   // set accessor including call the onchange callback
   set value(v: any) {
@@ -56,11 +64,11 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   @Output() submitChange = new EventEmitter();
 
   @ViewChild('fancyInputEl', { static: true }) fancyInputEl: ElementRef;
-  @ViewChild('fancyInputHighlightsEl',  { static: true }) fancyInputHighlightsEl: ElementRef;
-
+  @ViewChild('fancyInputHighlightsEl', { static: true })
+  fancyInputHighlightsEl: ElementRef;
 
   highlightData = {
-    sections: [] as HighlightSection[]
+    sections: [] as HighlightSection[],
   };
 
   private innerValue = '';
@@ -69,35 +77,37 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     private store: Store<RootState>,
-    private environmentService: EnvironmentService,
+    private environmentService: EnvironmentService
   ) {
-    store.pipe(
-      map(data => data.environments),
-      distinctUntilChanged(),
-      untilDestroyed(this)
-    ).subscribe({
-      next: (data) => {
-        // get active environment
-        this.activeEnvironment = environmentService.getActiveEnvironment();
-      },
-    });
+    store
+      .pipe(
+        map((data) => data.environments),
+        distinctUntilChanged(),
+        untilDestroyed(this)
+      )
+      .subscribe({
+        next: (data) => {
+          // get active environment
+          this.activeEnvironment = environmentService.getActiveEnvironment();
+        },
+      });
   }
 
   // From ControlValueAccessor interface
   writeValue(value: any) {
     if (value !== this.innerValue) {
-        this.innerValue = value;
+      this.innerValue = value;
     }
   }
 
   // From ControlValueAccessor interface
   registerOnChange(fn: any) {
-      this.onChangeCallback = fn;
+    this.onChangeCallback = fn;
   }
 
   // From ControlValueAccessor interface
   registerOnTouched(fn: any) {
-      this.onTouchedCallback = fn;
+    this.onTouchedCallback = fn;
   }
 
   ngOnInit() {
@@ -115,7 +125,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const ranges = this.getRanges(val, VARIABLE_REGEX);
     const unstaggeredRanges = this.removeStaggeredRanges(ranges);
     const boundaries = this.getBoundaries(unstaggeredRanges);
-    this.highlightData.sections = this.generateHighlightSections(val, boundaries);
+    this.highlightData.sections = this.generateHighlightSections(
+      val,
+      boundaries
+    );
     this.updateHighlighterScroll();
   }
   handleScroll() {
@@ -141,7 +154,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
       return 'firefox';
     } else if (!!ua.match(/msie|trident\/7|edge/)) {
       return 'ie';
-    } else if (!!ua.match(/ipad|iphone|ipod/) && ua.indexOf('windows phone') === -1) {
+    } else if (
+      !!ua.match(/ipad|iphone|ipod/) &&
+      ua.indexOf('windows phone') === -1
+    ) {
       // Windows Phone flags itself as "like iPhone", thus the extra check
       return 'ios';
     } else {
@@ -152,7 +168,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   getRanges(val: string, highlight: RegExp) {
     const ranges: any[] = [];
     let match;
-    while (match = highlight.exec(val), match !== null) {
+    while (((match = highlight.exec(val)), match !== null)) {
       ranges.push([match.index, match.index + match[0].length]);
       if (!highlight.global) {
         // non-global regexes do not increase lastIndex, causing an infinite loop,
@@ -168,8 +184,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const unstaggeredRanges: any[] = [];
     ranges.forEach((range: any) => {
       const isStaggered = unstaggeredRanges.some((unstaggeredRange) => {
-        const isStartInside = range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
-        const isStopInside = range[1] > unstaggeredRange[0] && range[1] < unstaggeredRange[1];
+        const isStartInside =
+          range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
+        const isStopInside =
+          range[1] > unstaggeredRange[0] && range[1] < unstaggeredRange[1];
         return isStartInside !== isStopInside; // xor
       });
       if (!isStaggered) {
@@ -185,11 +203,11 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
       boundaries.push({
         type: 'start',
         index: range[0],
-        className: range.className
+        className: range.className,
       });
       boundaries.push({
         type: 'stop',
-        index: range[1]
+        index: range[1],
       });
     });
 
@@ -199,7 +217,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   sortBoundaries(boundaries: BoundaryMarker[]) {
     // backwards sort (since marks are inserted right to left)
-    boundaries.sort(function(a, b) {
+    boundaries.sort(function (a, b) {
       if (a.index !== b.index) {
         return a.index - b.index;
       } else if (a.type === 'start' && b.type === 'stop') {
@@ -215,18 +233,21 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const sections: HighlightSection[] = [];
     let lastBoundary = {
       index: 0,
-      type: ''
+      type: '',
     };
 
-    boundaries.forEach(boundary => {
+    boundaries.forEach((boundary) => {
       sections.push({
         content: val.substring(lastBoundary.index, boundary.index),
-        type: lastBoundary.type === 'start' && boundary.type === 'stop' ? 'mark' : undefined,
+        type:
+          lastBoundary.type === 'start' && boundary.type === 'stop'
+            ? 'mark'
+            : undefined,
       });
       lastBoundary = boundary;
     });
     sections.push({
-      content: val.substring(lastBoundary.index)
+      content: val.substring(lastBoundary.index),
     });
 
     return sections;
@@ -234,9 +255,12 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   updateHighlighterScroll() {
     const updateHighlighterScrollTimeout = setTimeout(() => {
-      this.fancyInputHighlightsEl.nativeElement.scrollLeft = this.fancyInputEl.nativeElement.scrollLeft;
-      this.fancyInputHighlightsEl.nativeElement.scrollTop = this.fancyInputEl.nativeElement.scrollTop;
-      this.fancyInputHighlightsEl.nativeElement.height = this.fancyInputEl.nativeElement.height;
+      this.fancyInputHighlightsEl.nativeElement.scrollLeft =
+        this.fancyInputEl.nativeElement.scrollLeft;
+      this.fancyInputHighlightsEl.nativeElement.scrollTop =
+        this.fancyInputEl.nativeElement.scrollTop;
+      this.fancyInputHighlightsEl.nativeElement.height =
+        this.fancyInputEl.nativeElement.height;
       clearTimeout(updateHighlighterScrollTimeout);
     }, 10);
     // highlighter.scrollLeft = input.scrollLeft
@@ -249,5 +273,4 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
   private onTouchedCallback: () => void = () => {};
   private onChangeCallback: (_: any) => void = () => {};
-
 }

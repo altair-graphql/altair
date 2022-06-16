@@ -1,11 +1,4 @@
-import {
-  visit,
-  print,
-  TypeInfo,
-  parse,
-  GraphQLSchema,
-  Kind,
-} from 'graphql';
+import { visit, print, TypeInfo, parse, GraphQLSchema, Kind } from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import { Token } from 'codemirror';
@@ -42,7 +35,10 @@ export const getIndentation = (str: string, index: number) => {
   return str.substring(indentStart, indentEnd);
 };
 
-export const withInsertions = (initialQuery: string, insertions: { index: number, string: string }[]) => {
+export const withInsertions = (
+  initialQuery: string,
+  insertions: { index: number; string: string }[]
+) => {
   if (insertions.length === 0) {
     return initialQuery;
   }
@@ -54,11 +50,17 @@ export const withInsertions = (initialQuery: string, insertions: { index: number
   });
   edited += initialQuery.slice(prevIndex);
   return edited;
-}
+};
 
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
-export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, { maxDepth = 1 } = {}) => {
+export const fillAllFields = (
+  schema: GraphQLSchema,
+  query: string,
+  cursor: CodeMirror.Position,
+  token: Token,
+  { maxDepth = 1 } = {}
+) => {
   const insertions: any[] = [];
   if (!schema) {
     return { insertions, result: query };
@@ -89,17 +91,24 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
       if (node.kind === Kind.FIELD) {
         // const fieldType = typeInfo.getType();
         if (
-          1
-          && node.name.value === tokenState.name
-
-          && node.loc
+          1 &&
+          node.name.value === tokenState.name &&
+          node.loc &&
           // With tokenState of SelectionSet (i.e. between braces { | }),
           // we wouldn't have the right position since we strip out the empty braces before
           // parsing the query to make it valid
           // AST line number is 1-indexed while codemirror cursor line number is 0-indexed.
-          && (tokenState.wasSelectionSet || node.loc.startToken.line - 1 === cursor.line)
+          (tokenState.wasSelectionSet ||
+            node.loc.startToken.line - 1 === cursor.line)
         ) {
-          debug.log(node, typeInfo, typeInfo.getType(), cursor, token, maxDepth);
+          debug.log(
+            node,
+            typeInfo,
+            typeInfo.getType(),
+            cursor,
+            token,
+            maxDepth
+          );
           const { selectionSet } = buildSelectionSet(fieldType, { maxDepth });
           const indent = getIndentation(query, node.loc.start);
           if (selectionSet) {
@@ -110,7 +119,7 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
           }
           return {
             ...node,
-            selectionSet
+            selectionSet,
           };
         }
       }
@@ -119,6 +128,6 @@ export const fillAllFields = (schema: GraphQLSchema, query: string, cursor: Code
 
   return {
     insertions,
-    result: withInsertions(query, insertions)
+    result: withInsertions(query, insertions),
   };
 };

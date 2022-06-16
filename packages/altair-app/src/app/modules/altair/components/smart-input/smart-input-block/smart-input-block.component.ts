@@ -9,7 +9,7 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
 import { Cursor } from '../models/cursor';
 import { KEYS } from '../keys';
@@ -22,13 +22,14 @@ import { BlockState } from '../models';
   styleUrls: ['./smart-input-block.component.scss'],
   preserveWhitespaces: false,
 })
-export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChanges {
-
+export class SmartInputBlockComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   @Input() block: BlockState;
 
   @HostBinding('class.special-block') isSpecialBlock = false;
 
-  constructor(private element: ElementRef) { }
+  constructor(private element: ElementRef) {}
 
   ngAfterViewInit() {
     // this.element.nativeElement.contentEditable = true;
@@ -41,7 +42,10 @@ export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChange
   }
 
   renderUIChanges() {
-    if (this.block.caretOffset !== null && this.block.caretOffset !== undefined) {
+    if (
+      this.block.caretOffset !== null &&
+      this.block.caretOffset !== undefined
+    ) {
       this.setCaretPosition(this.block.caretOffset);
     }
     if (this.block.isFocused) {
@@ -59,9 +63,11 @@ export class SmartInputBlockComponent implements OnInit, AfterViewInit, OnChange
     // nativeElement -> smart-input-block
     // .childNodes[0] -> span
     // .childNodes[0] -> text
-    range.setStart(this.element.nativeElement
-        // .childNodes[0]
-        .childNodes[0], offset);
+    range.setStart(
+      // .childNodes[0]
+      this.element.nativeElement.childNodes[0],
+      offset
+    );
     range.collapse(true);
     if (sel) {
       sel.removeAllRanges();

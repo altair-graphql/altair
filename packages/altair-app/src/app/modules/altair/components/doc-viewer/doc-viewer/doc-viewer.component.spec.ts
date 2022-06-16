@@ -13,27 +13,28 @@ describe('DocViewerComponent', () => {
   let component: DocViewerComponent;
   let fixture: ComponentFixture<DocViewerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    mockGqlService = new Mock();
-    TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        // Just import DocViewerModule since it contains all doc viewer component and dependencies
-        DocViewerModule
-      ],
-      providers: [
-        {
-          provide: GqlService,
-          useFactory: () => mockGqlService.Object,
-        },
-        {
-          provide: AltairConfig,
-          useValue: new AltairConfig(),
-        },
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      mockGqlService = new Mock();
+      TestBed.configureTestingModule({
+        imports: [
+          TranslateModule.forRoot(),
+          // Just import DocViewerModule since it contains all doc viewer component and dependencies
+          DocViewerModule,
+        ],
+        providers: [
+          {
+            provide: GqlService,
+            useFactory: () => mockGqlService.Object,
+          },
+          {
+            provide: AltairConfig,
+            useValue: new AltairConfig(),
+          },
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerComponent);

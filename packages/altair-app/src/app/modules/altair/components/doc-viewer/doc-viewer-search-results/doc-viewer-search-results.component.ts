@@ -1,15 +1,10 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
   trigger,
   state,
   style,
   animate,
-  transition
+  transition,
 } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
 import { DocumentIndexEntry } from '../models';
@@ -25,32 +20,35 @@ import { DocumentIndexEntry } from '../models';
           opacity: 0,
           transform: 'translateY(50%)',
         }),
-        animate(200, style({
-          opacity: 1,
-          transform: 'translateY(0)',
-        }))
+        animate(
+          200,
+          style({
+            opacity: 1,
+            transform: 'translateY(0)',
+          })
+        ),
       ]),
       transition(':leave', [
         style({ height: '*' }), // Get the runtime height for use in the next transition
-        animate(200, style({
-          transform: 'translateY(150%)',
-          opacity: 0,
-          height: 0 // This works since we retrieved the runtime height previously
-        }))
-      ])
-    ])
-  ]
+        animate(
+          200,
+          style({
+            transform: 'translateY(150%)',
+            opacity: 0,
+            height: 0, // This works since we retrieved the runtime height previously
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
-export class DocViewerSearchResultsComponent  {
-
+export class DocViewerSearchResultsComponent {
   @Input() results = [];
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
 
-  constructor() { }
-
-  
+  constructor() {}
 
   /**
    * Go to an item based on the category
@@ -102,5 +100,4 @@ export class DocViewerSearchResultsComponent  {
   resultArgTrackBy(index: string, arg: GraphQLArgument) {
     return arg.name;
   }
-
 }

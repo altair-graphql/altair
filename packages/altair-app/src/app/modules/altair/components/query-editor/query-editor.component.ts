@@ -58,10 +58,9 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 @Component({
   selector: 'app-query-editor',
   templateUrl: './query-editor.component.html',
-  styleUrls: ['./query-editor.component.scss']
+  styleUrls: ['./query-editor.component.scss'],
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
-
   @Input() activeWindowId = null;
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
@@ -94,7 +93,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() queryEditorStateChange = new EventEmitter<QueryEditorState>();
   @Output() showTokenInDocsChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('editor', { static: true }) editor: ElementRef & {
+    codeMirror: CodeMirror.Editor;
+  };
 
   @HostBinding('style.flex-grow') public resizeFactor: number;
 
@@ -104,8 +105,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
     toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
     showFinder: 'findPersistent',
-    showInDocs: (cm: CodeMirror.Editor) => this.zone.run(() => this.onShowInDocsByToken(cm)),
-    fillAllFields: (cm: CodeMirror.Editor) => this.zone.run(() => this.onFillFields(cm)),
+    showInDocs: (cm: CodeMirror.Editor) =>
+      this.zone.run(() => this.onShowInDocsByToken(cm)),
+    fillAllFields: (cm: CodeMirror.Editor) =>
+      this.zone.run(() => this.onFillFields(cm)),
     noOp: (cm: CodeMirror.Editor) => {},
   };
 
@@ -147,18 +150,24 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         const content = `
           <span class="query-editor__autocomplete-item__text">${cur.text}</span>
           <span class="query-editor__autocomplete-item__type">${cur.typeDetail}</span>
-        `.trim().replace(/ +/g, ' ');
+        `
+          .trim()
+          .replace(/ +/g, ' ');
         elt.innerHTML = sanitizeHtml(content);
         // debug.log(elt, data, cur);
-      }
+      },
     },
     info: {
-      onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
-      render() { /** Disable rendering of info addon */ }
+      onClick: (reference: any) =>
+        this.zone.run(() => this.onShowInDocsByReference(reference)),
+      render() {
+        /** Disable rendering of info addon */
+      },
     },
     jump: {
-      onClick: (reference: any) => this.zone.run(() => this.onShowInDocsByReference(reference)),
-    }
+      onClick: (reference: any) =>
+        this.zone.run(() => this.onShowInDocsByReference(reference)),
+    },
   };
 
   widgets: CodeMirror.LineWidget[] = [];
@@ -167,7 +176,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(
     private gqlService: GqlService,
     private notifyService: NotifyService,
-    private zone: NgZone,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -188,12 +197,33 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     if (this.editor?.codeMirror) {
-      (this.editor.codeMirror as any).on('keyup', (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event));
-      (this.editor.codeMirror as any).on('focus', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
-      (this.editor.codeMirror as any).on('blur', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
-      (this.editor.codeMirror as any).on('cursorActivity', (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm, event));
-      (this.editor.codeMirror as any).on('hasCompletion', (cm: CodeMirror.Editor, event: Event) => this.onHasCompletion(cm, event));
-      (this.editor.codeMirror as any).on('change', (cm: CodeMirror.Editor, event: Event) => this.updateWidgets(cm, event));
+      (this.editor.codeMirror as any).on(
+        'keyup',
+        (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event)
+      );
+      (this.editor.codeMirror as any).on(
+        'focus',
+        (cm: CodeMirror.Editor, event: Event) =>
+          this.onEditorStateChange(cm, event)
+      );
+      (this.editor.codeMirror as any).on(
+        'blur',
+        (cm: CodeMirror.Editor, event: Event) =>
+          this.onEditorStateChange(cm, event)
+      );
+      (this.editor.codeMirror as any).on(
+        'cursorActivity',
+        (cm: CodeMirror.Editor, event: Event) =>
+          this.onEditorStateChange(cm, event)
+      );
+      (this.editor.codeMirror as any).on(
+        'hasCompletion',
+        (cm: CodeMirror.Editor, event: Event) => this.onHasCompletion(cm, event)
+      );
+      (this.editor.codeMirror as any).on(
+        'change',
+        (cm: CodeMirror.Editor, event: Event) => this.updateWidgets(cm, event)
+      );
     }
   }
 
@@ -205,14 +235,22 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.gqlSchema?.currentValue) {
       this.updateEditorSchema(changes.gqlSchema.currentValue);
       // Validate the schema to know if we can work with it
-      const validationErrors = this.gqlService.validateSchema(changes.gqlSchema.currentValue);
+      const validationErrors = this.gqlService.validateSchema(
+        changes.gqlSchema.currentValue
+      );
       if (validationErrors.length) {
-        const errorList = validationErrors.map(error => '<br><br>' + error.message).join('');
-        this.notifyService.warning(`
+        const errorList = validationErrors
+          .map((error) => '<br><br>' + error.message)
+          .join('');
+        this.notifyService.warning(
+          `
           The schema definition is invalid according to the GraphQL specs.
           Linting and other functionalities would be unavailable.
           ${errorList}
-        `, 'Altair', { disableTimeOut: true });
+        `,
+          'Altair',
+          { disableTimeOut: true }
+        );
       }
     }
 
@@ -268,7 +306,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     } else if (typeInfo.type) {
       this.showTokenInDocsChange.next({
         view: 'type',
-        name: typeInfo.type.inspect()
+        name: typeInfo.type.inspect(),
       });
     }
     this.editor.codeMirror.getInputField().blur();
@@ -284,7 +322,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     } else if (reference.type) {
       this.showTokenInDocsChange.next({
         view: 'type',
-        name: reference.type.inspect()
+        name: reference.type.inspect(),
       });
     }
   }
@@ -303,7 +341,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       cursor,
       token,
       {
-        maxDepth: this.addQueryDepthLimit
+        maxDepth: this.addQueryDepthLimit,
       }
     );
 
@@ -322,11 +360,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
           if (typeDef) {
             this.showTokenInDocsChange.next({
               view: 'type',
-              name: typeDef.inspect()
+              name: typeDef.inspect(),
             });
           }
         }
-      }
+      },
     });
   }
 
@@ -337,8 +375,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.updateWidgetTimeout = setTimeout(() => {
         try {
           const ast = this.gqlService.parseQueryOrEmptyDocument(cm.getValue());
-          ast.definitions.forEach(definition => {
-            if (definition.kind === 'OperationDefinition' && (definition.name?.value || ast.definitions.length === 1)) {
+          ast.definitions.forEach((definition) => {
+            if (
+              definition.kind === 'OperationDefinition' &&
+              (definition.name?.value || ast.definitions.length === 1)
+            ) {
               debug.log('WIDGET', definition);
               definitionsInfo.push({
                 operation: definition.operation,
@@ -348,25 +389,33 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             }
           });
           cm.operation(() => {
-            this.widgets.forEach(widget => {
+            this.widgets.forEach((widget) => {
               (cm as any).removeLineWidget(widget);
               widget.clear();
             });
             this.widgets = [];
 
-            definitionsInfo.forEach(({ operationName, operation, location }) => {
-              const widgetEl = document.createElement('div');
-              widgetEl.innerHTML = sanitizeHtml(`&#9658; (Run ${operation}${operationName ? ` ${operationName}` : ''})`);
-              widgetEl.className = 'query-editor__line-widget';
-              widgetEl.onclick = () => {
-                this.zone.run(() => this.sendRequest.next({ operationName }));
-                debug.log('WIDGET listens');
-              };
+            definitionsInfo.forEach(
+              ({ operationName, operation, location }) => {
+                const widgetEl = document.createElement('div');
+                widgetEl.innerHTML = sanitizeHtml(
+                  `&#9658; (Run ${operation}${
+                    operationName ? ` ${operationName}` : ''
+                  })`
+                );
+                widgetEl.className = 'query-editor__line-widget';
+                widgetEl.onclick = () => {
+                  this.zone.run(() => this.sendRequest.next({ operationName }));
+                  debug.log('WIDGET listens');
+                };
 
-              this.widgets.push(cm.addLineWidget(location.startToken.line - 1, widgetEl, {
-                above: true,
-              }));
-            });
+                this.widgets.push(
+                  cm.addLineWidget(location.startToken.line - 1, widgetEl, {
+                    above: true,
+                  })
+                );
+              }
+            );
           });
         } catch (error) {
           console.error(error);
@@ -396,9 +445,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   updateEditorShortcuts(extraKeys: Record<string, string>) {
-    const normalized = Object.keys(extraKeys).reduce((acc, cur) => ({ ...acc, [cur]: this.getShortcutFn(extraKeys[cur])}), {});
+    const normalized = Object.keys(extraKeys).reduce(
+      (acc, cur) => ({ ...acc, [cur]: this.getShortcutFn(extraKeys[cur]) }),
+      {}
+    );
 
-    this.editorConfig.extraKeys = { ...this.editorConfig.extraKeys, ...normalized };
+    this.editorConfig.extraKeys = {
+      ...this.editorConfig.extraKeys,
+      ...normalized,
+    };
   }
 
   onResize(resizeFactor: number) {
@@ -408,5 +463,4 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   trackByIndex(index: number) {
     return index;
   }
-
 }

@@ -10,12 +10,15 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { EnvironmentsState, EnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import {
+  EnvironmentsState,
+  EnvironmentState,
+} from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
-    parse: function(str: string) {
+    parse: function (str: string) {
       try {
         return JSON.parse(str);
       } catch (err) {
@@ -26,21 +29,20 @@ import { json, jsonParseLinter } from '@codemirror/lang-json';
               first_column: 1,
               last_line: 1,
               last_column: 1,
-            }
+            },
           });
         }
       }
-    }
+    },
   },
 };
 
 @Component({
   selector: 'app-environment-manager',
   templateUrl: './environment-manager.component.html',
-  styleUrls: ['./environment-manager.component.scss']
+  styleUrls: ['./environment-manager.component.scss'],
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
-
   @Input() environments: EnvironmentsState;
   @Input() showEnvironmentManager = false;
   @Output() toggleDialogChange = new EventEmitter();
@@ -65,7 +67,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   sortableOptions = {};
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.environments) {
@@ -73,11 +75,14 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
     }
     this.sortableOptions = {
       onUpdate: (event: any) => {
-        this.repositionSubEnvironmentsChange.emit({ currentPosition: event.oldIndex, newPosition: event.newIndex });
-      }
+        this.repositionSubEnvironmentsChange.emit({
+          currentPosition: event.oldIndex,
+          newPosition: event.newIndex,
+        });
+      },
     };
   }
-  
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.environments?.currentValue) {
       this.selectEnvironment(this.selectedEnvironmentId);
@@ -91,7 +96,10 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
       if (this.selectedEnvironmentId === 'base') {
         this.baseEnvironmentJsonChange.next({ value: content });
       } else {
-        this.subEnvironmentJsonChange.next({id: this.selectedEnvironmentId, value: content });
+        this.subEnvironmentJsonChange.next({
+          id: this.selectedEnvironmentId,
+          value: content,
+        });
       }
     } catch (ex) {
       // Do nothing.
@@ -99,7 +107,10 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   }
 
   onTitleChange(content: string) {
-    this.subEnvironmentTitleChange.next({ id: this.selectedEnvironmentId, value: content });
+    this.subEnvironmentTitleChange.next({
+      id: this.selectedEnvironmentId,
+      value: content,
+    });
   }
 
   selectEnvironment(id?: string) {
@@ -108,7 +119,9 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
     if (this.selectedEnvironmentId === 'base') {
       this.selectedEnvironment = this.environments.base;
     } else {
-      this.selectedEnvironment = this.environments.subEnvironments.find(env => env.id === this.selectedEnvironmentId);
+      this.selectedEnvironment = this.environments.subEnvironments.find(
+        (env) => env.id === this.selectedEnvironmentId
+      );
     }
 
     if (this.selectedEnvironment) {
@@ -131,5 +144,4 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   trackById(index: number, item: any) {
     return item.id;
   }
-
 }

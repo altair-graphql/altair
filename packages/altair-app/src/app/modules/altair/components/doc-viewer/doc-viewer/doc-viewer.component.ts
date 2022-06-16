@@ -9,7 +9,7 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   ElementRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { from } from 'rxjs';
 
@@ -18,10 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as fromDocs from '../../../store/docs/docs.reducer';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  GraphQLSchema,
-  GraphQLObjectType,
-} from 'graphql';
+import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { DocumentIndexEntry } from '../models';
 import { fadeInOutAnimationTrigger } from '../../../animations';
 import * as Comlink from 'comlink';
@@ -37,13 +34,10 @@ import marked from 'marked';
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    fadeInOutAnimationTrigger,
-  ]
+  animations: [fadeInOutAnimationTrigger],
   // styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnChanges {
-
   @Input() gqlSchema: GraphQLSchema;
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
@@ -52,7 +46,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() docView: DocView = {
     view: 'root', // type, field, root, search
     parentType: 'Query', // used by field views
-    name: 'FieldName' // identifies type/field
+    name: 'FieldName', // identifies type/field
   };
   @Input() lastUpdatedAt: number;
 
@@ -84,7 +78,7 @@ export class DocViewerComponent implements OnChanges {
   constructor(
     private gqlService: GqlService,
     private _sanitizer: DomSanitizer,
-    private altairConfig: AltairConfig,
+    private altairConfig: AltairConfig
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -113,7 +107,8 @@ export class DocViewerComponent implements OnChanges {
     }
   }
 
-  autocompleteSource = (term: string) => from(this.getDocUtilsWorker().then(_ => _.searchDocs(term)));
+  autocompleteSource = (term: string) =>
+    from(this.getDocUtilsWorker().then((_) => _.searchDocs(term)));
   autocompleteListFormatter = (data: DocumentIndexEntry) => {
     // TODO: Replace ngui/autocomplete
     const html = `
@@ -206,19 +201,27 @@ export class DocViewerComponent implements OnChanges {
    */
   goToField(name: string, parentType: string) {
     this.updateDocHistory();
-    this.setDocView({ view: 'field', name: name.replace(/[\[\]!]/g, ''), parentType: parentType.replace(/[\[\]!]/g, '') });
+    this.setDocView({
+      view: 'field',
+      name: name.replace(/[\[\]!]/g, ''),
+      parentType: parentType.replace(/[\[\]!]/g, ''),
+    });
   }
 
   async addToEditor(name: string, parentType: string) {
     if (!this.hasSearchIndex) {
-      debug.log('No search index, so cannot add to editor')
+      debug.log('No search index, so cannot add to editor');
       return false;
     }
     const docUtilsWorker = await this.getDocUtilsWorker();
-    const generatedQuery = await docUtilsWorker.generateQueryV2(name, parentType, {
-      tabSize: this.tabSize,
-      addQueryDepthLimit: this.addQueryDepthLimit,
-    });
+    const generatedQuery = await docUtilsWorker.generateQueryV2(
+      name,
+      parentType,
+      {
+        tabSize: this.tabSize,
+        addQueryDepthLimit: this.addQueryDepthLimit,
+      }
+    );
     if (generatedQuery) {
       this.addQueryToEditorChange.next(generatedQuery);
     }

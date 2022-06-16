@@ -5,6 +5,4 @@ const initialQuery = `
 # Enter your graphQL query here.
 `.trimStart();
 
-export {
-  initialQuery
-};
+export { initialQuery };

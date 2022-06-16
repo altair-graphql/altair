@@ -9,13 +9,11 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 describe('WindowSwitcherComponent', () => {
   let wrapper: NgxTestWrapper<WindowSwitcherComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: WindowSwitcherComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: AltairConfig,
@@ -27,7 +25,7 @@ describe('WindowSwitcherComponent', () => {
         windowIds: [],
         closedWindows: [],
         activeWindowId: '',
-      }
+      },
     });
   });
 

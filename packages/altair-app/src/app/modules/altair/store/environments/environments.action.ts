@@ -31,13 +31,13 @@ export class UpdateBaseEnvironmentJsonAction implements NGRXAction {
 export class UpdateSubEnvironmentJsonAction implements NGRXAction {
   readonly type = UPDATE_SUB_ENVIRONMENT_JSON;
 
-  constructor(public payload: { id: string, value: string }) {}
+  constructor(public payload: { id: string; value: string }) {}
 }
 
 export class UpdateSubEnvironmentTitleAction implements NGRXAction {
   readonly type = UPDATE_SUB_ENVIRONMENT_TITLE;
 
-  constructor(public payload: { id: string, value: string }) {}
+  constructor(public payload: { id: string; value: string }) {}
 }
 
 export class SelectActiveSubEnvironmentAction implements NGRXAction {
@@ -49,7 +49,9 @@ export class SelectActiveSubEnvironmentAction implements NGRXAction {
 export class RepositionSubEnvironmentAction implements NGRXAction {
   readonly type = REPOSITION_SUB_ENVIRONMENT;
 
-  constructor(public payload: { currentPosition: number, newPosition: number }) {}
+  constructor(
+    public payload: { currentPosition: number; newPosition: number }
+  ) {}
 }
 
 export type Action =
@@ -59,5 +61,4 @@ export type Action =
   | UpdateSubEnvironmentJsonAction
   | UpdateSubEnvironmentTitleAction
   | SelectActiveSubEnvironmentAction
-  | RepositionSubEnvironmentAction
-  ;
+  | RepositionSubEnvironmentAction;

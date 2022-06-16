@@ -14,10 +14,7 @@ describe('ConfirmToastComponent', () => {
     wrapper = await mount({
       component: ConfirmToastComponent,
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        MockModule(SharedModule),
-        MockModule(ToastrModule),
-      ],
+      imports: [MockModule(SharedModule), MockModule(ToastrModule)],
       // providers: [
       //   ToastPackage,
       // ],

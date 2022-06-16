@@ -6,7 +6,12 @@ import { Store } from '@ngrx/store';
 import * as localActions from '../../store/local/local.action';
 import * as settingsActions from '../../store/settings/settings.action';
 import { PluginContextService } from './context/plugin-context.service';
-import { AltairPlugin, createPlugin, PluginManifest, PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import {
+  AltairPlugin,
+  createPlugin,
+  PluginManifest,
+  PluginSource,
+} from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
@@ -20,7 +25,7 @@ const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
 const PLUGIN_APPROVED_MAP_STORAGE_KEY = '__user_plugin_approved_map';
 
-type UserPluginApprovedMap = Record<string, Record<string, string[]>>
+type UserPluginApprovedMap = Record<string, Record<string, string[]>>;
 
 interface PluginInfo extends Record<string, string> {
   name: string;
@@ -37,7 +42,7 @@ export class PluginRegistryService {
     private pluginContextService: PluginContextService,
     private db: DbService,
     private notifyService: NotifyService,
-    private store: Store<RootState>,
+    private store: Store<RootState>
   ) {}
 
   async add(name: string, plugin: AltairPlugin) {
@@ -51,15 +56,21 @@ export class PluginRegistryService {
     };
 
     if (!pluginStateEntry.instance) {
-      throw new Error(`Could not create the plugin instance for plugin: ${name}. Check that plugin_class is set correctly in manifest.`);
+      throw new Error(
+        `Could not create the plugin instance for plugin: ${name}. Check that plugin_class is set correctly in manifest.`
+      );
     }
 
     pluginStateEntry.instance.initialize(context);
-    this.store.dispatch(new localActions.AddInstalledPluginEntryAction(pluginStateEntry));
+    this.store.dispatch(
+      new localActions.AddInstalledPluginEntryAction(pluginStateEntry)
+    );
   }
 
   getRemotePluginList() {
-    return this.http.get('https://altair-plugin-server.sirmuel.workers.dev/list?v=2');
+    return this.http.get(
+      'https://altair-plugin-server.sirmuel.workers.dev/list?v=2'
+    );
   }
 
   fetchPlugin(name: string, opts: PluginInfo) {
@@ -68,13 +79,11 @@ export class PluginRegistryService {
     }
 
     // TODO: Check if plugin with name already exists
-    this.fetchedPlugins.push(
-      this.fetchPluginAssets(name, opts)
-    );
+    this.fetchedPlugins.push(this.fetchPluginAssets(name, opts));
   }
 
   installedPlugins() {
-    return this.store.select(state => state.local.installedPlugins);
+    return this.store.select((state) => state.local.installedPlugins);
   }
 
   /**
@@ -83,9 +92,21 @@ export class PluginRegistryService {
    * @param pluginStr
    */
   getPluginInfoFromString(pluginStr: string): PluginInfo | undefined {
-    const matches = pluginStr.match(/(([A-Za-z_]*)\:)?(.[A-Za-z0-9\-]*)(@([^#\:\[\]]*))?(\:\:\[(.*)\]->\[(.*)\])?/);
+    const matches = pluginStr.match(
+      /(([A-Za-z_]*)\:)?(.[A-Za-z0-9\-]*)(@([^#\:\[\]]*))?(\:\:\[(.*)\]->\[(.*)\])?/
+    );
     if (matches && matches.length) {
-      const [, , pluginSource = PluginSource.NPM, pluginName, , pluginVersion = 'latest', , opt, optVal ] = matches;
+      const [
+        ,
+        ,
+        pluginSource = PluginSource.NPM,
+        pluginName,
+        ,
+        pluginVersion = 'latest',
+        ,
+        opt,
+        optVal,
+      ] = matches;
       if (pluginName && pluginVersion) {
         if (!pluginName.startsWith(PLUGIN_NAME_PREFIX)) {
           throw new Error(`Plugin name must start with ${PLUGIN_NAME_PREFIX}`);
@@ -94,7 +115,7 @@ export class PluginRegistryService {
           name: pluginName,
           version: pluginVersion,
           pluginSource: pluginSource as PluginSource,
-          ...opt && optVal && { [opt]: optVal },
+          ...(opt && optVal && { [opt]: optVal }),
         };
       }
     }
@@ -110,7 +131,10 @@ export class PluginRegistryService {
       return false;
     }
 
-    const approvedMap: UserPluginApprovedMap | undefined = await this.db.getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY).pipe(first()).toPromise();
+    const approvedMap: UserPluginApprovedMap | undefined = await this.db
+      .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
+      .pipe(first())
+      .toPromise();
 
     if (!approvedMap) {
       return false;
@@ -134,7 +158,11 @@ export class PluginRegistryService {
       return;
     }
 
-    const retrievedApprovedMap: UserPluginApprovedMap | undefined = await this.db.getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY).pipe(first()).toPromise();
+    const retrievedApprovedMap: UserPluginApprovedMap | undefined =
+      await this.db
+        .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
+        .pipe(first())
+        .toPromise();
 
     if (retrievedApprovedMap) {
       approvedMap = retrievedApprovedMap;
@@ -148,36 +176,65 @@ export class PluginRegistryService {
       approvedMap[opts.pluginSource][opts.name] = [];
     }
 
-    approvedMap[opts.pluginSource][opts.name] = [ ...approvedMap[opts.pluginSource][opts.name], opts.version ];
+    approvedMap[opts.pluginSource][opts.name] = [
+      ...approvedMap[opts.pluginSource][opts.name],
+      opts.version,
+    ];
 
-    await this.db.setItem(PLUGIN_APPROVED_MAP_STORAGE_KEY, approvedMap).pipe(first()).toPromise();
+    await this.db
+      .setItem(PLUGIN_APPROVED_MAP_STORAGE_KEY, approvedMap)
+      .pipe(first())
+      .toPromise();
   }
 
   async addPluginToSettings(pluginName: string) {
-    const resp = await this.store.select(state => state.settings).pipe(first()).toPromise();
+    const resp = await this.store
+      .select((state) => state.settings)
+      .pipe(first())
+      .toPromise();
 
     const settings: SettingsState = JSON.parse(JSON.stringify(resp));
     settings['plugin.list'] = settings['plugin.list'] || [];
     settings['plugin.list'].push(pluginName);
 
-    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
+    this.store.dispatch(
+      new settingsActions.SetSettingsJsonAction({
+        value: JSON.stringify(settings),
+      })
+    );
   }
 
   async removePluginFromSettings(pluginName: string) {
-    const resp = await this.store.select(state => state.settings).pipe(first()).toPromise();
+    const resp = await this.store
+      .select((state) => state.settings)
+      .pipe(first())
+      .toPromise();
     const settings: SettingsState = JSON.parse(JSON.stringify(resp));
 
-    settings['plugin.list'] = (settings['plugin.list'] || []).filter(pluginStr => {
-      const pluginInfo = this.getPluginInfoFromString(pluginStr);
-      if (pluginInfo) {
-        return pluginName !== pluginInfo.name;
+    settings['plugin.list'] = (settings['plugin.list'] || []).filter(
+      (pluginStr) => {
+        const pluginInfo = this.getPluginInfoFromString(pluginStr);
+        if (pluginInfo) {
+          return pluginName !== pluginInfo.name;
+        }
       }
-    });
+    );
 
-    this.store.dispatch(new settingsActions.SetSettingsJsonAction({ value: JSON.stringify(settings) }));
+    this.store.dispatch(
+      new settingsActions.SetSettingsJsonAction({
+        value: JSON.stringify(settings),
+      })
+    );
   }
 
-  private async fetchPluginAssets(name: string, { pluginSource = PluginSource.NPM, version = 'latest', ...remainingOpts }: PluginInfo) {
+  private async fetchPluginAssets(
+    name: string,
+    {
+      pluginSource = PluginSource.NPM,
+      version = 'latest',
+      ...remainingOpts
+    }: PluginInfo
+  ) {
     debug.log('PLUGIN: ', name, pluginSource, version);
 
     const pluginBaseUrl = this.getPluginBaseURL({
@@ -190,7 +247,9 @@ export class PluginRegistryService {
 
     try {
       // Get manifest file
-      const manifest = (await this.http.get(manifestUrl).toPromise()) as PluginManifest;
+      const manifest = (await this.http
+        .get(manifestUrl)
+        .toPromise()) as PluginManifest;
 
       const opts: PluginInfo = {
         name,
@@ -201,7 +260,12 @@ export class PluginRegistryService {
       const isUserApproved = await this.isUserApprovedPlugin(opts);
 
       if (!isUserApproved) {
-        const canInstall = await this.notifyService.confirm(`Are you sure you want to install <strong>${sanitize(name)}</strong> plugin?`, 'Plugin manager');
+        const canInstall = await this.notifyService.confirm(
+          `Are you sure you want to install <strong>${sanitize(
+            name
+          )}</strong> plugin?`,
+          'Plugin manager'
+        );
 
         if (!canInstall) {
           await this.removePluginFromSettings(opts.name);
@@ -217,16 +281,24 @@ export class PluginRegistryService {
         if (manifest.styles && manifest.styles.length) {
           debug.log('PLUGIN styles', manifest.styles);
 
-          await Promise.all(manifest.styles.map(style => {
-            return this.injectPluginStylesheet(this.resolveURL(pluginBaseUrl, style));
-          }));
+          await Promise.all(
+            manifest.styles.map((style) => {
+              return this.injectPluginStylesheet(
+                this.resolveURL(pluginBaseUrl, style)
+              );
+            })
+          );
         }
         if (manifest.scripts && manifest.scripts.length) {
           debug.log('PLUGIN scripts', manifest.scripts);
 
-          await Promise.all(manifest.scripts.map(script => {
-            return this.injectPluginScript(this.resolveURL(pluginBaseUrl, script));
-          }));
+          await Promise.all(
+            manifest.scripts.map((script) => {
+              return this.injectPluginScript(
+                this.resolveURL(pluginBaseUrl, script)
+              );
+            })
+          );
         }
         const plugin = createPlugin(name, manifest);
         await this.add(name, plugin);
@@ -266,8 +338,10 @@ export class PluginRegistryService {
   private getPluginBaseURL(pluginInfo: PluginInfo) {
     switch (pluginInfo.pluginSource) {
       case PluginSource.NPM:
-        return this.getNPMPluginBaseURL(pluginInfo.name, { version: pluginInfo.version });
-        case PluginSource.GITHUB:
+        return this.getNPMPluginBaseURL(pluginInfo.name, {
+          version: pluginInfo.version,
+        });
+      case PluginSource.GITHUB:
         return this.getGithubPluginBaseURL(pluginInfo.name, pluginInfo);
       case PluginSource.URL:
         return this.getURLPluginBaseURL(pluginInfo.name, pluginInfo);
@@ -282,7 +356,8 @@ export class PluginRegistryService {
 
   private getGithubPluginBaseURL(name: string, pluginInfo: PluginInfo) {
     const baseUrl = 'https://cdn.jsdelivr.net/gh/';
-    const versionSuffix = pluginInfo.version === 'latest' ? '' : `@${pluginInfo.version}`;
+    const versionSuffix =
+      pluginInfo.version === 'latest' ? '' : `@${pluginInfo.version}`;
     const pluginBaseUrl = `${baseUrl}${pluginInfo.repo}${versionSuffix}/`;
     return pluginBaseUrl;
   }
@@ -297,7 +372,9 @@ export class PluginRegistryService {
 
   private getPluginClass(plugin: AltairPlugin) {
     if (plugin.plugin_class) {
-      return (window as any)['AltairGraphQL'].plugins[plugin.plugin_class] as PluginConstructor;
+      return (window as any)['AltairGraphQL'].plugins[
+        plugin.plugin_class
+      ] as PluginConstructor;
     }
     return;
   }

@@ -38,19 +38,19 @@ export class RemoveWindowAction implements NGRXAction {
 export class ExportWindowAction implements NGRXAction {
   readonly type = EXPORT_WINDOW;
 
-  constructor(public payload: { windowId: string }) { }
+  constructor(public payload: { windowId: string }) {}
 }
 
 export class ImportWindowAction implements NGRXAction {
   readonly type = IMPORT_WINDOW;
 
-  constructor(public payload?: any) { }
+  constructor(public payload?: any) {}
 }
 
 export class ImportWindowFromCurlAction implements NGRXAction {
   readonly type = IMPORT_WINDOW_FROM_CURL;
 
-  constructor(public payload?: { data: string }) { }
+  constructor(public payload?: { data: string }) {}
 }
 
 export class ReopenClosedWindowAction implements NGRXAction {
@@ -64,5 +64,4 @@ export type Action =
   | ExportWindowAction
   | ImportWindowAction
   | ImportWindowFromCurlAction
-  | ReopenClosedWindowAction
-  ;
+  | ReopenClosedWindowAction;

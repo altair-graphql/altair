@@ -10,21 +10,17 @@ import { PreRequestService } from '../../services';
 describe('PreRequestEditorComponent', () => {
   let wrapper: NgxTestWrapper<PreRequestEditorComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: PreRequestEditorComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      providers: [
-        MockProviders(PreRequestService),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      providers: [MockProviders(PreRequestService)],
+      schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         preRequest: {
           enabled: true,
           script: '',
-        }
+        },
       },
     });
   });

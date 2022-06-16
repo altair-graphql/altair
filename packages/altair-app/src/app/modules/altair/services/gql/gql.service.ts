@@ -1,7 +1,13 @@
-import {throwError as observableThrowError, Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpHeaders,
+  HttpClient,
+  HttpResponse,
+  HttpParams,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import {
@@ -45,7 +51,6 @@ import { FileVariable } from 'altair-graphql-core/build/types/state/variable.int
 import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { prettify } from './prettifier';
 
-
 interface SendRequestOptions {
   query: string;
   method: string;
@@ -54,7 +59,7 @@ interface SendRequestOptions {
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;
-};
+}
 
 export interface SendRequestResponse {
   response: HttpResponse<any>;
@@ -66,14 +71,17 @@ export interface SendRequestResponse {
   };
 }
 
-interface ResolvedFileVariable { name: string; data: File; }
+interface ResolvedFileVariable {
+  name: string;
+  data: File;
+}
 type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
 
 @Injectable()
 export class GqlService {
   defaultHeaders = {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    Accept: 'application/json',
   };
 
   headers: HttpHeaders;
@@ -82,23 +90,24 @@ export class GqlService {
   private api_url = localStorage.getItem('altair:url');
   private method = 'POST';
 
-  constructor(
-    private http: HttpClient,
-    private notifyService: NotifyService
-  ) {
-
+  constructor(private http: HttpClient, private notifyService: NotifyService) {
     // Set the default headers on initialization
     this.setHeaders();
   }
 
-  sendRequest(url: string, opts: SendRequestOptions): Observable<SendRequestResponse> {
+  sendRequest(
+    url: string,
+    opts: SendRequestOptions
+  ): Observable<SendRequestResponse> {
     // Only need resolvedFiles to know if valid files exist at this point
     const { resolvedFiles } = this.normalizeFiles(opts.files);
 
     this.setUrl(url)
       .setHTTPMethod(opts.method)
       // Skip json default headers for files
-      .setHeaders(opts.headers, { skipDefaults: this.isGETRequest(opts.method) || !!(resolvedFiles.length) });
+      .setHeaders(opts.headers, {
+        skipDefaults: this.isGETRequest(opts.method) || !!resolvedFiles.length,
+      });
 
     const requestStartTime = new Date().getTime();
     return this._send({
@@ -118,10 +127,15 @@ export class GqlService {
             requestStartTime,
             requestEndTime,
             responseTime: requestElapsedTime,
-            headers: response.headers.keys().reduce((acc, key) => ({ ...acc, [key]: response.headers.get(key)}), {}),
-          }
+            headers: response.headers
+              .keys()
+              .reduce(
+                (acc, key) => ({ ...acc, [key]: response.headers.get(key) }),
+                {}
+              ),
+          },
         };
-      }),
+      })
     );
   }
 
@@ -135,11 +149,16 @@ export class GqlService {
       newHeaders = new HttpHeaders(this.defaultHeaders);
     }
 
-    const forbiddenHeaders = [ 'Origin' ];
+    const forbiddenHeaders = ['Origin'];
 
     if (headers && headers.length) {
-      headers.forEach(header => {
-        if (!forbiddenHeaders.includes(header.key) && header.enabled && header.key && header.value) {
+      headers.forEach((header) => {
+        if (
+          !forbiddenHeaders.includes(header.key) &&
+          header.enabled &&
+          header.key &&
+          header.value
+        ) {
           newHeaders = newHeaders.set(header.key, header.value);
         }
       });
@@ -150,11 +169,18 @@ export class GqlService {
   }
 
   getParamsFromData(data: { [key: string]: any }) {
-    return Object.keys(data)
-      .reduce(
-        (params, key) => data[key] ? params.set(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]) : params,
-        new HttpParams()
-      );
+    return Object.keys(data).reduce(
+      (params, key) =>
+        data[key]
+          ? params.set(
+              key,
+              typeof data[key] === 'object'
+                ? JSON.stringify(data[key])
+                : data[key]
+            )
+          : params,
+      new HttpParams()
+    );
   }
 
   setUrl(url: string) {
@@ -177,10 +203,12 @@ export class GqlService {
       selectedOperation: 'IntrospectionQuery',
     };
     return this.sendRequest(url, requestOpts).pipe(
-      map(data => {
+      map((data) => {
         debug.log('introspection', data.response);
         if (!data.response.ok) {
-          throw new Error(`Introspection request failed with: ${data.response.status}`);
+          throw new Error(
+            `Introspection request failed with: ${data.response.status}`
+          );
         }
         return data;
       }),
@@ -188,19 +216,27 @@ export class GqlService {
         debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
-        return this.sendRequest(url, { ...requestOpts, query: oldIntrospectionQuery })
-          .pipe(map(data => {
+        return this.sendRequest(url, {
+          ...requestOpts,
+          query: oldIntrospectionQuery,
+        }).pipe(
+          map((data) => {
             debug.log('old introspection', data);
             if (!data.response.ok) {
-              throw new Error(`Introspection request failed with: ${data.response.status}`);
+              throw new Error(
+                `Introspection request failed with: ${data.response.status}`
+              );
             }
             return data;
-          }));
-      }),
+          })
+        );
+      })
     );
   }
 
-  getIntrospectionSchema(introspection?: IntrospectionQuery): GraphQLSchema | null {
+  getIntrospectionSchema(
+    introspection?: IntrospectionQuery
+  ): GraphQLSchema | null {
     if (!introspection || !introspection.__schema) {
       return null;
     }
@@ -222,8 +258,7 @@ export class GqlService {
       } catch (err) {
         debug.log('Bad introspection data.', err);
         const errorMessage = err.message ? err.message : err.toString();
-        this.notifyService
-          .error(`
+        this.notifyService.error(`
             Looks like the GraphQL schema is invalid.
             Please check that your schema in your GraphQL server conforms to the latest GraphQL spec.
             Error message: ${errorMessage}.
@@ -235,16 +270,22 @@ export class GqlService {
   }
 
   hasInvalidFileVariable(fileVariables: FileVariable[]) {
-    const { erroneousFiles } =  this.normalizeFiles(fileVariables);
+    const { erroneousFiles } = this.normalizeFiles(fileVariables);
     return Boolean(erroneousFiles.length);
   }
 
-  fillAllFields(schema: GraphQLSchema, query: string, cursor: CodeMirror.Position, token: Token, opts: any) {
+  fillAllFields(
+    schema: GraphQLSchema,
+    query: string,
+    cursor: CodeMirror.Position,
+    token: Token,
+    opts: any
+  ) {
     return fillAllFields(schema, query, cursor, token, opts);
   }
 
   /**
-   * 
+   *
    * @param query parses a query string
    * @throws {GraphQLError}
    */
@@ -286,7 +327,6 @@ export class GqlService {
    * @param query
    */
   isSubscriptionQuery(query: string) {
-
     const parsedQuery = this.parseQueryOrEmptyDocument(query);
 
     if (!parsedQuery.definitions) {
@@ -294,7 +334,10 @@ export class GqlService {
     }
 
     return parsedQuery.definitions.reduce((acc, cur) => {
-      return acc || (cur.kind === 'OperationDefinition' && cur.operation === 'subscription');
+      return (
+        acc ||
+        (cur.kind === 'OperationDefinition' && cur.operation === 'subscription')
+      );
     }, false);
   }
 
@@ -302,17 +345,22 @@ export class GqlService {
     const parsedQuery = this.parseQueryOrEmptyDocument(query);
 
     if (parsedQuery.definitions) {
-      return parsedQuery.definitions
-        .filter((def): def is OperationDefinitionNode =>
-          !!(def.kind === 'OperationDefinition' && def.name && def.name.value));
+      return parsedQuery.definitions.filter(
+        (def): def is OperationDefinitionNode =>
+          !!(def.kind === 'OperationDefinition' && def.name && def.name.value)
+      );
     }
 
     return [];
   }
 
   getOperationAtIndex(query: string, index: number) {
-    return this.getOperations(query).find(operation => {
-      return Boolean(operation.loc && operation.loc.start <= index && operation.loc.end >= index);
+    return this.getOperations(query).find((operation) => {
+      return Boolean(
+        operation.loc &&
+          operation.loc.start <= index &&
+          operation.loc.end >= index
+      );
     });
   }
 
@@ -320,7 +368,7 @@ export class GqlService {
     const operation = this.getOperationAtIndex(query, index);
 
     if (operation) {
-      return (operation.name && operation.name.value) ? operation.name.value : '';
+      return operation.name && operation.name.value ? operation.name.value : '';
     }
     return '';
   }
@@ -332,8 +380,13 @@ export class GqlService {
     query = '',
     queryCursorIndex,
     selectedOperation = '',
-    selectIfOneOperation = false
-  }: { query: string, queryCursorIndex?: number, selectedOperation?: SelectedOperation, selectIfOneOperation?: boolean }) {
+    selectIfOneOperation = false,
+  }: {
+    query: string;
+    queryCursorIndex?: number;
+    selectedOperation?: SelectedOperation;
+    selectIfOneOperation?: boolean;
+  }) {
     let newSelectedOperation = null;
     const operations = this.getOperations(query);
     let requestSelectedOperationFromUser = false;
@@ -342,16 +395,23 @@ export class GqlService {
     if (operations) {
       // def.name.Kind = 'Name' is not set when the name is anonymous (#0, #1, etc.. set by the graphql parse() method)
       const availableOperationNames = operations
-        .map(def => def.name && def.name.kind === 'Name' && def.name.value)
+        .map((def) => def.name && def.name.kind === 'Name' && def.name.value)
         .filter(Boolean) as string[];
 
       if (availableOperationNames.length > 1) {
         let operationNameAtCursorIndex = '';
         if (typeof queryCursorIndex !== 'undefined') {
-          operationNameAtCursorIndex = this.getOperationNameAtIndex(query, queryCursorIndex);
+          operationNameAtCursorIndex = this.getOperationNameAtIndex(
+            query,
+            queryCursorIndex
+          );
         }
 
-        if ((selectedOperation && !availableOperationNames.includes(selectedOperation)) || !selectedOperation) {
+        if (
+          (selectedOperation &&
+            !availableOperationNames.includes(selectedOperation)) ||
+          !selectedOperation
+        ) {
           if (operationNameAtCursorIndex) {
             newSelectedOperation = operationNameAtCursorIndex;
           } else {
@@ -373,7 +433,11 @@ export class GqlService {
       newSelectedOperation = null;
     }
 
-    return { selectedOperation: newSelectedOperation, operations, requestSelectedOperationFromUser };
+    return {
+      selectedOperation: newSelectedOperation,
+      operations,
+      requestSelectedOperationFromUser,
+    };
   }
 
   /**
@@ -411,14 +475,13 @@ export class GqlService {
           ...node,
           name: NameKind,
         };
-      }
+      },
     });
 
     return print(edited);
   }
 
   refactorQuery(query: string, schema: GraphQLSchema) {
-
     if (!query || !schema) {
       return;
     }
@@ -426,9 +489,20 @@ export class GqlService {
     const typeUsageEntries = generateTypeUsageEntries(ast, schema);
 
     const fragmentRefactorMap = generateFragmentRefactorMap(typeUsageEntries);
-    const stripped = refactorFieldsWithFragmentSpread(ast, fragmentRefactorMap, schema);
-    const documentWithFragments = addFragmentDefinitionFromRefactorMap(stripped, fragmentRefactorMap, schema);
-    const argumentRefactorResult = refactorArgumentsToVariables(documentWithFragments, schema);
+    const stripped = refactorFieldsWithFragmentSpread(
+      ast,
+      fragmentRefactorMap,
+      schema
+    );
+    const documentWithFragments = addFragmentDefinitionFromRefactorMap(
+      stripped,
+      fragmentRefactorMap,
+      schema
+    );
+    const argumentRefactorResult = refactorArgumentsToVariables(
+      documentWithFragments,
+      schema
+    );
 
     // debug.log('REFACTOR', ast, edited, fragmentRefactorMap, print(argumentRefactorResult.document), argumentRefactorResult.variables);
     return {
@@ -470,7 +544,6 @@ export class GqlService {
 
   closeStreamClient(streamClient: EventSource) {
     if (streamClient) {
-
       if (streamClient.close) {
         streamClient.close();
       }
@@ -482,11 +555,10 @@ export class GqlService {
       return { resolvedFiles: [], erroneousFiles: files || [] };
     }
 
-
     let resolvedFiles: ResolvedFileVariable[] = [];
     let erroneousFiles: FileVariable[] = [];
 
-    files.forEach(file => {
+    files.forEach((file) => {
       if (!file.name) {
         erroneousFiles.push(file);
         return;
@@ -506,7 +578,7 @@ export class GqlService {
               data: fileData,
             };
 
-            const result = this.normalizeFiles([ newFileVariable ]);
+            const result = this.normalizeFiles([newFileVariable]);
 
             resolvedFiles = resolvedFiles.concat(result.resolvedFiles);
             erroneousFiles = erroneousFiles.concat(result.erroneousFiles);
@@ -523,7 +595,7 @@ export class GqlService {
           data: file.data[0],
         };
 
-        const result = this.normalizeFiles([ newFileVariable ]);
+        const result = this.normalizeFiles([newFileVariable]);
 
         resolvedFiles = resolvedFiles.concat(result.resolvedFiles);
         erroneousFiles = erroneousFiles.concat(result.erroneousFiles);
@@ -552,9 +624,12 @@ export class GqlService {
     selectedOperation,
     files,
     withCredentials,
-  }: Omit<SendRequestOptions, 'method'>,
-  ) {
-    const data = { query, variables: {}, operationName: (null as SelectedOperation) };
+  }: Omit<SendRequestOptions, 'method'>) {
+    const data = {
+      query,
+      variables: {},
+      operationName: null as SelectedOperation,
+    };
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
     const headers = this.headers;
@@ -582,7 +657,7 @@ export class GqlService {
         data.variables = data.variables || {};
         resolvedFiles.forEach((file, i) => {
           setByDotNotation(data.variables, file.name, null);
-          fileMap[i] = [ `variables.${file.name}` ];
+          fileMap[i] = [`variables.${file.name}`];
         });
         const formData = new FormData();
         formData.append('operations', JSON.stringify(data));
@@ -601,40 +676,43 @@ export class GqlService {
     if (!this.api_url) {
       throw new Error('You need to have a URL for the request!');
     }
-    return this.http.request(this.method, this.api_url, {
-      // GET method uses params, while the other methods use body
-      ...(!this.isGETRequest() && { body }),
-      params,
-      headers,
-      observe: 'response',
-      withCredentials,
-    })
-    .pipe(
-      catchError((err: HttpErrorResponse) => {
-        debug.error(err);
-        if (err.error instanceof ErrorEvent) {
-          // A client-side or network error occurred. Handle it accordingly.
-          debug.error('An error occurred:', err.error.message);
-        } else if (err.error instanceof ProgressEvent) {
-          debug.error('Progress event error', err.error);
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong,
-          debug.error(err.error);
-          debug.error(
-            `Backend returned code ${err.status}, ` +
-            `body was: ${err.error}`);
+    return this.http
+      .request(this.method, this.api_url, {
+        // GET method uses params, while the other methods use body
+        ...(!this.isGETRequest() && { body }),
+        params,
+        headers,
+        observe: 'response',
+        withCredentials,
+      })
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          debug.error(err);
+          if (err.error instanceof ErrorEvent) {
+            // A client-side or network error occurred. Handle it accordingly.
+            debug.error('An error occurred:', err.error.message);
+          } else if (err.error instanceof ProgressEvent) {
+            debug.error('Progress event error', err.error);
+          } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong,
+            debug.error(err.error);
+            debug.error(
+              `Backend returned code ${err.status}, ` + `body was: ${err.error}`
+            );
 
-          return of(new HttpResponse({
-            body: err.error || err.message,
-            headers: err.headers,
-            status: err.status,
-            statusText: err.statusText,
-            url: err.url || undefined,
-          }));
-        }
-        return observableThrowError(err);
-      }),
-    );
+            return of(
+              new HttpResponse({
+                body: err.error || err.message,
+                headers: err.headers,
+                status: err.status,
+                statusText: err.statusText,
+                url: err.url || undefined,
+              })
+            );
+          }
+          return observableThrowError(err);
+        })
+      );
   }
 }

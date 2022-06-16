@@ -1,5 +1,15 @@
-import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IQueryCollection, IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  IQueryCollection,
+  IQueryCollectionTree,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { Observable } from 'rxjs';
 import { QueryCollectionService } from '../../services';
@@ -7,11 +17,9 @@ import { QueryCollectionService } from '../../services';
 @Component({
   selector: 'app-add-collection-query-dialog',
   templateUrl: './add-collection-query-dialog.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class AddCollectionQueryDialogComponent implements OnChanges {
-
   @Input() showDialog = false;
   @Input() windowTitle = '';
   @Input() collections: IQueryCollection[] = [];
@@ -27,10 +35,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   newCollectionParentCollectionId = 0; // 0 for root
   collectionNodes: NzTreeNodeOptions[];
 
-  constructor(
-    private collectionService: QueryCollectionService,
-  ) {
-  }
+  constructor(private collectionService: QueryCollectionService) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.windowTitle?.currentValue) {
       this.windowTitle = changes.windowTitle.currentValue;
@@ -54,7 +59,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   saveQueryToCollection() {
     this.saveQueryToCollectionChange.emit({
       queryName: this.newCollectionQueryTitle,
-      collectionId: this.collectionId
+      collectionId: this.collectionId,
     });
 
     this.reset();
@@ -78,15 +83,22 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   }
 
   setTreeNodes(collections: IQueryCollection[]) {
-    const collectionTree = this.collectionService.getCollectionTrees(collections);
-    this.collectionNodes = collectionTree.map(tree => this.collectionTreeToNzTreeNode(tree));
+    const collectionTree =
+      this.collectionService.getCollectionTrees(collections);
+    this.collectionNodes = collectionTree.map((tree) =>
+      this.collectionTreeToNzTreeNode(tree)
+    );
   }
 
-  collectionTreeToNzTreeNode(collectionTree: IQueryCollectionTree): NzTreeNodeOptions {
+  collectionTreeToNzTreeNode(
+    collectionTree: IQueryCollectionTree
+  ): NzTreeNodeOptions {
     return {
       title: collectionTree.title,
       key: `${collectionTree.id}`,
-      children: collectionTree.collections?.map(ct => this.collectionTreeToNzTreeNode(ct)),
+      children: collectionTree.collections?.map((ct) =>
+        this.collectionTreeToNzTreeNode(ct)
+      ),
     };
   }
 }

@@ -3,9 +3,14 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { GraphQLSchema, GraphQLType, GraphQLArgs, GraphQLArgument } from 'graphql';
+import {
+  GraphQLSchema,
+  GraphQLType,
+  GraphQLArgs,
+  GraphQLArgument,
+} from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-field',
@@ -13,7 +18,7 @@ import { GraphQLSchema, GraphQLType, GraphQLArgs, GraphQLArgument } from 'graphq
   styleUrls: ['./doc-viewer-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocViewerFieldComponent  {
+export class DocViewerFieldComponent {
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
   @Input() parentType = '';
@@ -21,9 +26,7 @@ export class DocViewerFieldComponent  {
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
 
-  constructor() { }
-
-  
+  constructor() {}
 
   cleanName(name: string) {
     return name.replace(/[\[\]!]/g, '');
@@ -40,8 +43,10 @@ export class DocViewerFieldComponent  {
 
     switch (type) {
       case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
-      case this.gqlSchema.getMutationType() && this.gqlSchema.getMutationType()!.name:
-      case this.gqlSchema.getSubscriptionType() && this.gqlSchema.getSubscriptionType()!.name:
+      case this.gqlSchema.getMutationType() &&
+        this.gqlSchema.getMutationType()!.name:
+      case this.gqlSchema.getSubscriptionType() &&
+        this.gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 
@@ -56,7 +61,7 @@ export class DocViewerFieldComponent  {
     this.goToTypeChange.next({ name });
   }
 
-  addToEditor(data: { name: string, parentType: string }) {
+  addToEditor(data: { name: string; parentType: string }) {
     this.addToEditorChange.next(data);
   }
 

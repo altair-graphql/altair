@@ -13,13 +13,12 @@ export const baseJavascriptExtensions: Extension[] = [
 ];
 
 export const getRequestScriptExtensions = (altairObj: any) => {
-
   const requestScriptTheme = EditorView.theme({
     '&': {
       backgroundColor: 'var(--theme-off-bg-color)',
       minHeight: '200px',
     },
-  })
+  });
   const editorExtensions: Extension[] = [
     ...baseJavascriptExtensions,
     requestScriptTheme,

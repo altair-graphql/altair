@@ -10,13 +10,11 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
   let wrapper: NgxTestWrapper<HeaderComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: HeaderComponent,
-      imports: [
-        MockModule(SharedModule),
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

@@ -9,19 +9,13 @@ import { expect, it } from '@jest/globals';
 describe('EditCollectionDialogComponent', () => {
   let wrapper: NgxTestWrapper<EditCollectionDialogComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mount({
       component: EditCollectionDialogComponent,
-      declarations: [
-        EditCollectionDialogComponent,
-      ],
+      declarations: [EditCollectionDialogComponent],
       providers: [],
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        SharedModule,
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [BrowserAnimationsModule, FormsModule, SharedModule],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

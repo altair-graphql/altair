@@ -1,4 +1,14 @@
-import { Component, Input, Output, ViewChild, EventEmitter, OnChanges, ElementRef, SimpleChanges, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  ViewChild,
+  EventEmitter,
+  OnChanges,
+  ElementRef,
+  SimpleChanges,
+  AfterViewInit,
+} from '@angular/core';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -22,10 +32,9 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_\"\']$/;
 @Component({
   selector: 'app-variables-editor',
   templateUrl: './variables-editor.component.html',
-  styleUrls: ['./variables-editor.component.scss']
+  styleUrls: ['./variables-editor.component.scss'],
 })
 export class VariablesEditorComponent implements AfterViewInit, OnChanges {
-
   @Input() variables = '';
   @Input() variableToType: IDictionary = {};
   @Input() tabSize = 4;
@@ -33,7 +42,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() variablesChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & { codeMirror: CodeMirror.Editor };
+  @ViewChild('editor', { static: true }) editor: ElementRef & {
+    codeMirror: CodeMirror.Editor;
+  };
 
   variableEditorConfig = <any>{
     mode: 'graphql-variables',
@@ -58,15 +69,18 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     lint: {},
     hintOptions: {
-      completeSingle: false
+      completeSingle: false,
     },
   };
 
-  constructor() { }
+  constructor() {}
 
   ngAfterViewInit() {
     if (this.editor?.codeMirror) {
-      (this.editor.codeMirror as any).on('keyup', (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event));
+      (this.editor.codeMirror as any).on(
+        'keyup',
+        (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event)
+      );
     }
   }
 
@@ -83,12 +97,13 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
       this.variableEditorConfig.indentUnit = this.tabSize;
     }
 
-    if (changes?.activeWindowId?.currentValue || changes?.showVariableDialog?.currentValue) {
+    if (
+      changes?.activeWindowId?.currentValue ||
+      changes?.showVariableDialog?.currentValue
+    ) {
       handleEditorRefresh(this.editor?.codeMirror);
     }
   }
-
-  
 
   onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
@@ -102,5 +117,4 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
       this.variableEditorConfig.hintOptions.variableToType = variableToType;
     }
   }
-
 }

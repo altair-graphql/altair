@@ -5,10 +5,9 @@ import { json } from '@codemirror/lang-json';
 
 @Component({
   selector: 'app-subscription-url-dialog',
-  templateUrl: './subscription-url-dialog.component.html'
+  templateUrl: './subscription-url-dialog.component.html',
 })
 export class SubscriptionUrlDialogComponent {
-
   @Input() subscriptionUrl = '';
   @Input() subscriptionConnectionParams = '';
   @Input() selectedSubscriptionProviderId = '';
@@ -19,11 +18,9 @@ export class SubscriptionUrlDialogComponent {
   @Output() subscriptionConnectionParamsChange = new EventEmitter();
   @Output() subscriptionProviderIdChange = new EventEmitter();
 
-  connectionParamsExtensions: Extension[] = [
-    json(),
-  ];
+  connectionParamsExtensions: Extension[] = [json()];
 
-  constructor() { }
+  constructor() {}
 
   subscriptionUrlInput(event: Event) {
     if (event.target) {

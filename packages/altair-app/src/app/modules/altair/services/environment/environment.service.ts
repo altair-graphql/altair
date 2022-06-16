@@ -15,7 +15,8 @@ import { merge } from 'lodash-es';
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
 // export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
-export const VARIABLE_REGEX = /(^{{\s*[\w\.]+\s*}})|((?!\\)(.){{\s*[\w\.]+\s*}})/g;
+export const VARIABLE_REGEX =
+  /(^{{\s*[\w\.]+\s*}})|((?!\\)(.){{\s*[\w\.]+\s*}})/g;
 interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
 }
@@ -24,17 +25,14 @@ interface HydrateEnvironmentOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EnvironmentService {
-
   environmentsState: EnvironmentsState;
 
-  constructor(
-    private store: Store<RootState>
-  ) {
+  constructor(private store: Store<RootState>) {
     this.store.subscribe({
-      next: data => {
+      next: (data) => {
         this.environmentsState = data.environments;
       },
     });
@@ -49,9 +47,11 @@ export class EnvironmentService {
     } catch (ex) {}
 
     if (this.environmentsState.activeSubEnvironment) {
-      const activeSubEnvState = this.environmentsState.subEnvironments.find(env => {
-        return env.id === this.environmentsState.activeSubEnvironment;
-      });
+      const activeSubEnvState = this.environmentsState.subEnvironments.find(
+        (env) => {
+          return env.id === this.environmentsState.activeSubEnvironment;
+        }
+      );
 
       if (activeSubEnvState) {
         try {
@@ -77,12 +77,13 @@ export class EnvironmentService {
    * @param content {string}
    */
   hydrate(content: string, options: HydrateEnvironmentOptions = {}): string {
-
     if (!content) {
       return content;
     }
 
-    const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
+    const activeEnvironment = options.activeEnvironment
+      ? options.activeEnvironment
+      : this.getActiveEnvironment();
 
     const escaped: IDictionary = {};
     // Keep escaped variable regex aside, replacing with non-variable values
@@ -109,15 +110,18 @@ export class EnvironmentService {
     });
 
     // Replace escaped variable values back
-    Object.keys(escaped).forEach(escapedId => {
+    Object.keys(escaped).forEach((escapedId) => {
       content = content.split(`[[${escapedId}]]`).join(escaped[escapedId]);
     });
 
     return content;
   }
 
-  hydrateHeaders(headers: HeaderState, options: HydrateEnvironmentOptions = {}): HeaderState {
-    const hydratedHeaders = headers.map(header => {
+  hydrateHeaders(
+    headers: HeaderState,
+    options: HydrateEnvironmentOptions = {}
+  ): HeaderState {
+    const hydratedHeaders = headers.map((header) => {
       return {
         key: this.hydrate(header.key, options),
         value: this.hydrate(header.value, options),
@@ -125,20 +129,24 @@ export class EnvironmentService {
       };
     });
 
-    const activeEnvironment = options.activeEnvironment ? options.activeEnvironment : this.getActiveEnvironment();
+    const activeEnvironment = options.activeEnvironment
+      ? options.activeEnvironment
+      : this.getActiveEnvironment();
 
     const environmentHeadersMap = activeEnvironment.headers;
 
     if (environmentHeadersMap) {
-      const environmentHeaders = Object.keys(environmentHeadersMap).map(key => {
-        return {
-          key: this.hydrate(key, options),
-          value: this.hydrate(environmentHeadersMap[key], options),
-          enabled: true,
+      const environmentHeaders = Object.keys(environmentHeadersMap).map(
+        (key) => {
+          return {
+            key: this.hydrate(key, options),
+            value: this.hydrate(environmentHeadersMap[key], options),
+            enabled: true,
+          };
         }
-      });
+      );
 
-      return [ ...environmentHeaders, ...hydratedHeaders ];
+      return [...environmentHeaders, ...hydratedHeaders];
     }
 
     return hydratedHeaders;

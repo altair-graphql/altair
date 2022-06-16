@@ -1,4 +1,3 @@
-
 import { Observable, zip } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -9,7 +8,6 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Injectable()
 export class DonationService {
-
   private actionCountKey = 'dac';
   private seedKey = 'ds';
   private hashKey = 'dh';
@@ -17,8 +15,8 @@ export class DonationService {
 
   constructor(
     private dbService: DbService,
-    private altairConfig: AltairConfig,
-  ) { }
+    private altairConfig: AltairConfig
+  ) {}
 
   donated() {
     const seed = Math.random() * this.seedBuff;
@@ -35,7 +33,7 @@ export class DonationService {
 
   /**
    * counts the action and checks if the action is eligible to display the donation alert
-  */
+   */
   trackAndCheckIfEligible(): Observable<boolean> {
     /**
      * Check if the count threshold has been reached.
@@ -48,27 +46,29 @@ export class DonationService {
     const seed$ = this.dbService.getItem(this.seedKey);
     const curHash$ = this.dbService.getItem(this.hashKey);
 
-    return zip(actionCount$, seed$, curHash$)
-      .pipe(
-        map(([ actionCount, seed, curHash ]) => {
-          if (actionCount && actionCount >= this.altairConfig.donation.action_count_threshold) {
-            // Reset count
-            this.dbService.setItem(this.actionCountKey, 0);
+    return zip(actionCount$, seed$, curHash$).pipe(
+      map(([actionCount, seed, curHash]) => {
+        if (
+          actionCount &&
+          actionCount >= this.altairConfig.donation.action_count_threshold
+        ) {
+          // Reset count
+          this.dbService.setItem(this.actionCountKey, 0);
 
-            if (seed && uaSeedHash(seed) === curHash) {
-              // User has donated already
-              return false;
-            } else {
-              // User has not donated
-              return true;
-            }
-          } else {
-            // Increment count
-            this.dbService.setItem(this.actionCountKey, actionCount + 1);
-
+          if (seed && uaSeedHash(seed) === curHash) {
+            // User has donated already
             return false;
+          } else {
+            // User has not donated
+            return true;
           }
-        }),
-      );
+        } else {
+          // Increment count
+          this.dbService.setItem(this.actionCountKey, actionCount + 1);
+
+          return false;
+        }
+      })
+    );
   }
 }

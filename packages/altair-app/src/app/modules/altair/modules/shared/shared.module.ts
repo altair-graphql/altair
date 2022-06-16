@@ -69,9 +69,10 @@ const AntdComponentModules = [
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
     ContextMenuModule.forRoot(),
-    NgxPopperModule.forRoot({ // use antd
+    NgxPopperModule.forRoot({
+      // use antd
       applyClass: 'tooltip-content',
-      trigger: 'hover'
+      trigger: 'hover',
     }),
     MarkdownModule.forRoot(),
     IconsModule,
@@ -108,13 +109,13 @@ const AntdComponentModules = [
     IconsModule,
     HotToastModule,
     ...AntdComponentModules,
-  ]
+  ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: []
+      providers: [],
     };
   }
 }

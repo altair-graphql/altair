@@ -9,19 +9,16 @@ describe('SchemaFormComponent', () => {
   let component: SchemaFormComponent;
   let fixture: ComponentFixture<SchemaFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        SharedModule,
-        SchemaFormModule,
-      ],
-      declarations: [
-        // SchemaFormComponent,
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, SharedModule, SchemaFormModule],
+        declarations: [
+          // SchemaFormComponent,
+        ],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormComponent);

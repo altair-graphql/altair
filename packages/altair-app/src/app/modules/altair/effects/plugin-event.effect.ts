@@ -14,15 +14,22 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 
 @Injectable()
 export class PluginEventEffects {
-
-  onSetQuery$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  onSetQuery$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(queryActions.SET_QUERY),
-        withLatestFrom(this.store, (action: queryActions.SetQueryAction, state) => {
-          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
-        }),
-        switchMap(data => {
+        withLatestFrom(
+          this.store,
+          (action: queryActions.SetQueryAction, state) => {
+            return {
+              state,
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
           if (data.data) {
             this.pluginEventService.emit('query.change', {
               windowId: data.windowId,
@@ -30,19 +37,28 @@ export class PluginEventEffects {
             });
           }
           return EMPTY;
-        }),
-      )
-  }, { dispatch: false });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
-
-  onSetSDL$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  onSetSDL$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(schemaActions.SET_SCHEMA_SDL),
-        withLatestFrom(this.store, (action: schemaActions.SetSchemaSDLAction, state) => {
-          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
-        }),
-        switchMap(data => {
+        withLatestFrom(
+          this.store,
+          (action: schemaActions.SetSchemaSDLAction, state) => {
+            return {
+              state,
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
           if (data.data) {
             this.pluginEventService.emit('sdl.change', {
               windowId: data.windowId,
@@ -50,65 +66,95 @@ export class PluginEventEffects {
             });
           }
           return EMPTY;
-        }),
-      )
-  }, { dispatch: false });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
-
-  onSetActiveWindow$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  onSetActiveWindow$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(windowsMetaActions.SET_ACTIVE_WINDOW_ID),
-        withLatestFrom(this.store, (action: windowsMetaActions.SetActiveWindowIdAction, state) => {
-          return { state, data: state.windows[action.payload.windowId], windowId: action.payload.windowId, action };
-        }),
-        switchMap(data => {
+        withLatestFrom(
+          this.store,
+          (action: windowsMetaActions.SetActiveWindowIdAction, state) => {
+            return {
+              state,
+              data: state.windows[action.payload.windowId],
+              windowId: action.payload.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
           this.pluginEventService.emit('current-window.change', {
             windowId: data.windowId,
           });
           return EMPTY;
-        }),
-      )
-  }, { dispatch: false });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
-
-  onSetQueryResult$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  onSetQueryResult$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(queryActions.SET_QUERY_RESULT),
-        withLatestFrom(this.store, (action: queryActions.SetQueryResultAction, state) => {
-          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
-        }),
-        switchMap(data => {
+        withLatestFrom(
+          this.store,
+          (action: queryActions.SetQueryResultAction, state) => {
+            return {
+              state,
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
           this.pluginEventService.emit('query-result.change', {
             windowId: data.windowId,
             data: data.action.payload,
           });
           return EMPTY;
-        }),
-      )
-  }, { dispatch: false });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
-  onSetResponseStats$: Observable<Action> = createEffect(() => {
-    return this.actions$
-      .pipe(
+  onSetResponseStats$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
         ofType(queryActions.SET_RESPONSE_STATS),
-        withLatestFrom(this.store, (action: queryActions.SetResponseStatsAction, state) => {
-          return { state, data: state.windows[action.windowId], windowId: action.windowId, action };
-        }),
-        switchMap(data => {
+        withLatestFrom(
+          this.store,
+          (action: queryActions.SetResponseStatsAction, state) => {
+            return {
+              state,
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
           this.pluginEventService.emit('query-result-meta.change', {
             windowId: data.windowId,
             data: data.action.payload,
           });
           return EMPTY;
-        }),
-      )
-  }, { dispatch: false });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,
-    private pluginEventService: PluginEventService,
+    private pluginEventService: PluginEventService
   ) {}
 }

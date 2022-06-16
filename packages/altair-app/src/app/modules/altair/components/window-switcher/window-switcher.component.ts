@@ -4,7 +4,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
@@ -15,10 +15,9 @@ import { debug } from '../../utils/logger';
 @Component({
   selector: 'app-window-switcher',
   templateUrl: './window-switcher.component.html',
-  styleUrls: ['./window-switcher.component.scss']
+  styleUrls: ['./window-switcher.component.scss'],
 })
 export class WindowSwitcherComponent implements OnInit {
-
   @Input() windows = {};
   @Input() windowIds = [];
   @Input() closedWindows = [];
@@ -32,26 +31,23 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() repositionWindowChange = new EventEmitter();
   @Output() reopenClosedWindowChange = new EventEmitter();
 
-  @ViewChild(ContextMenuComponent, { static: true }) public windowTabMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: true })
+  public windowTabMenu: ContextMenuComponent;
 
-  windowTabMenuData = [
-    { name: 'Edit' }
-  ];
+  windowTabMenuData = [{ name: 'Edit' }];
 
   windowIdEditing = '';
   maxWindowCount = this.altairConfig.max_windows;
 
   sortableOptions = {};
 
-  constructor(
-    private altairConfig: AltairConfig,
-  ) {}
+  constructor(private altairConfig: AltairConfig) {}
 
   ngOnInit() {
     this.sortableOptions = {
       onUpdate: (event: any) => {
         this.moveWindow(event.oldIndex, event.newIndex);
-      }
+      },
     };
   }
 
@@ -72,7 +68,7 @@ export class WindowSwitcherComponent implements OnInit {
   }
 
   moveWindow(currentPosition: number, newPosition: number) {
-    this.repositionWindowChange.next(({ currentPosition, newPosition }));
+    this.repositionWindowChange.next({ currentPosition, newPosition });
   }
 
   closeWindow(windowId: string) {
@@ -84,11 +80,15 @@ export class WindowSwitcherComponent implements OnInit {
     if (lowerBound >= this.windowIds.length) {
       return;
     }
-    return this.windowIds.filter((wid, i) => i > curIndex).map(_ => this.closeWindow(_));
+    return this.windowIds
+      .filter((wid, i) => i > curIndex)
+      .map((_) => this.closeWindow(_));
   }
 
   closeOtherWindows(windowId: string) {
-    return this.windowIds.filter(wid => wid !== windowId).map(_ => this.closeWindow(_));
+    return this.windowIds
+      .filter((wid) => wid !== windowId)
+      .map((_) => this.closeWindow(_));
   }
 
   duplicateWindow(windowId: string) {
@@ -102,5 +102,4 @@ export class WindowSwitcherComponent implements OnInit {
   log(str: string) {
     debug.log(str);
   }
-
 }

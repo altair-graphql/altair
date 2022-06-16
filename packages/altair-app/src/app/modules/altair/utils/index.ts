@@ -20,12 +20,12 @@ export const downloadData = (
   {
     mimeType = 'text/plain',
     dataUriAttr = 'text/plain;charset=utf-8',
-    fileType = 'txt'
-  } = {}) => {
-
+    fileType = 'txt',
+  } = {}
+) => {
   const dataStr = `data:${dataUriAttr},${data}`;
   const fileNameWithExt = `${toSnakeCase(fileName)}.${fileType}`;
-  const fileBlob = new Blob([data], {type: dataUriAttr});
+  const fileBlob = new Blob([data], { type: dataUriAttr });
   FileSaver.saveAs(fileBlob, fileNameWithExt);
 };
 
@@ -34,11 +34,15 @@ export const downloadData = (
  * @param obj The object to be downloaded
  * @param fileName The name the file will be called
  */
-export const downloadJson = (obj: any, fileName = 'response', opts: any = undefined) => {
+export const downloadJson = (
+  obj: any,
+  fileName = 'response',
+  opts: any = undefined
+) => {
   let _opts = {
     mimeType: 'text/json',
     dataUriAttr: 'text/json;charset=utf-8',
-    fileType: 'json'
+    fileType: 'json',
   };
 
   if (opts) {
@@ -67,7 +71,7 @@ export const getFileStr = (files: FileList) => {
 };
 interface FileDialogOptions {
   readonly multiple?: boolean;
-  readonly accept?: string|ReadonlyArray<string>;
+  readonly accept?: string | ReadonlyArray<string>;
 }
 export const openFile = async (opts: FileDialogOptions = {}) => {
   try {
@@ -88,8 +92,8 @@ export const getFileContent = async (file: File) => {
       resolve(contents);
     };
     fileReader.readAsText(file);
-  })
-}
+  });
+};
 
 export const openFiles = async (opts: FileDialogOptions = {}) => {
   try {
@@ -103,8 +107,14 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
   }
 };
 
-export const isExtension = !!((window as any).chrome && (window as any).chrome.runtime && (window as any).chrome.runtime.id);
-export const isFirefoxExtension = !!((window as any).chrome && (window as any).chrome.geckoProfiler);
+export const isExtension = !!(
+  (window as any).chrome &&
+  (window as any).chrome.runtime &&
+  (window as any).chrome.runtime.id
+);
+export const isFirefoxExtension = !!(
+  (window as any).chrome && (window as any).chrome.geckoProfiler
+);
 
 export const detectEnvironment = () => {
   if (isElectron) {
@@ -115,7 +125,7 @@ export const detectEnvironment = () => {
     if (isFirefoxExtension) {
       return 'firefox-extension';
     } else {
-      return 'chrome-extension'
+      return 'chrome-extension';
     }
   }
 
@@ -141,23 +151,24 @@ export const jsonc = (str: string) => {
 };
 
 export const copyToClipboard = (str: string) => {
-  const el = document.createElement('textarea');  // Create a <textarea> element
-  el.value = str;                                 // Set its value to the string that you want copied
-  el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
+  const el = document.createElement('textarea'); // Create a <textarea> element
+  el.value = str; // Set its value to the string that you want copied
+  el.setAttribute('readonly', ''); // Make it readonly to be tamper-proof
   el.style.position = 'absolute';
-  el.style.left = '-9999px';                      // Move outside the screen to make it invisible
-  document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+  el.style.left = '-9999px'; // Move outside the screen to make it invisible
+  document.body.appendChild(el); // Append the <textarea> element to the HTML document
   const documentSelection = document.getSelection();
   const selected =
-    documentSelection && documentSelection.rangeCount > 0        // Check if there is any content selected previously
-      ? documentSelection.getRangeAt(0)     // Store selection if found
-      : false;                                    // Mark as false to know no selection existed before
-  el.select();                                    // Select the <textarea> content
-  document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
-  document.body.removeChild(el);                  // Remove the <textarea> element
-  if (selected && documentSelection) {                                 // If a selection existed before copying
-    documentSelection.removeAllRanges();    // Unselect everything on the HTML document
-    documentSelection.addRange(selected);   // Restore the original selection
+    documentSelection && documentSelection.rangeCount > 0 // Check if there is any content selected previously
+      ? documentSelection.getRangeAt(0) // Store selection if found
+      : false; // Mark as false to know no selection existed before
+  el.select(); // Select the <textarea> content
+  document.execCommand('copy'); // Copy - only works as a result of a user action (e.g. click events)
+  document.body.removeChild(el); // Remove the <textarea> element
+  if (selected && documentSelection) {
+    // If a selection existed before copying
+    documentSelection.removeAllRanges(); // Unselect everything on the HTML document
+    documentSelection.addRange(selected); // Restore the original selection
   }
 };
 
@@ -179,7 +190,9 @@ export const getFullUrl = (url: string, protocol = location.protocol) => {
     if (url.substr(0, 1) === '/') {
       url = url.substr(1);
     }
-    return `${protocol.replace(/:$/, '').toLowerCase()}://${location.host}/${url}`;
+    return `${protocol.replace(/:$/, '').toLowerCase()}://${
+      location.host
+    }/${url}`;
   }
 
   return url;
@@ -187,9 +200,7 @@ export const getFullUrl = (url: string, protocol = location.protocol) => {
 
 export function parseDotNotationKey(key: string) {
   const intKey = parseInt(key, 10);
-  return intKey.toString() === key
-    ? intKey
-    : key;
+  return intKey.toString() === key ? intKey : key;
 }
 
 /**
@@ -208,7 +219,7 @@ export function parseDotNotationKey(key: string) {
 export function setByDotNotation<TResult = any>(
   obj: IDictionary,
   path: Array<number | string> | number | string,
-  value: TResult,
+  value: TResult
 ): TResult | undefined {
   if (typeof path === 'number') {
     path = [path];
@@ -217,7 +228,11 @@ export function setByDotNotation<TResult = any>(
     return undefined;
   }
   if (typeof path === 'string') {
-    return setByDotNotation(obj, path.split('.').map(parseDotNotationKey), value);
+    return setByDotNotation(
+      obj,
+      path.split('.').map(parseDotNotationKey),
+      value
+    );
   }
 
   const currentPath = path[0];
@@ -240,7 +255,9 @@ export function setByDotNotation<TResult = any>(
 }
 
 export const mapToKeyValueList = (obj: Record<string, string>) => {
-  return Object.keys(obj).filter(key => !!key).map(key => ({ key, value: obj[key] }))
+  return Object.keys(obj)
+    .filter((key) => !!key)
+    .map((key) => ({ key, value: obj[key] }));
 };
 
 export function truncateText(text: string, maxLength = 70) {
@@ -265,4 +282,4 @@ export const externalLink = (e: Event, url: string) => {
       win.focus();
     }
   }
-}
+};
