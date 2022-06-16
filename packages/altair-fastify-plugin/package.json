@@ -1,6 +1,6 @@
 {
   "name": "altair-fastify-plugin",
-  "version": "4.4.2",
+  "version": "5.0.0",
   "description": "Fastify Plugin of Altair GraphQL Client",
   "keywords": [
     "graphql",
@@ -31,17 +31,17 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "@fastify/static": "^5.0.0",
+    "@fastify/static": "^6.4.0",
     "altair-static": "^4.4.2",
     "fastify-plugin": "^2.3.4"
   },
   "devDependencies": {
-    "fastify": "^3.29.0",
-    "mercurius": "^6.0.0",
+    "fastify": "^4.0.3",
+    "mercurius": "^10.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   },
   "peerDependencies": {
-    "fastify": "^3.1.1"
+    "fastify": "^4.0.3"
   }
 }
