@@ -7,9 +7,13 @@ import { mock } from '../../../../../testing';
 import { PluginContextService } from './context/plugin-context.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { DbService } from '../db.service';
+import { NotifyService } from '../notify/notify.service';
 
 let mockHttpClient: HttpClient;
 let mockPluginContextService: PluginContextService;
+let mockDbService: DbService;
+let mockNotifyService: NotifyService;
 let mockStore: Store<RootState>;
 
 describe('PluginRegistryService', () => {
@@ -17,6 +21,8 @@ describe('PluginRegistryService', () => {
     mockHttpClient = mock();
     mockStore = mock();
     mockPluginContextService = mock();
+    mockDbService = mock();
+    mockNotifyService = mock();
 
     TestBed.configureTestingModule({
       providers: [
@@ -25,14 +31,24 @@ describe('PluginRegistryService', () => {
           provide: HttpClient,
           useFactory: () => mockHttpClient,
         },
-        { provide: Store,
-          useFactory: () => mockStore,
-        },
+        { provide: Store, useFactory: () => mockStore },
         {
           provide: PluginContextService,
           useFactory: () => mockPluginContextService,
         },
-      ]
+        {
+          provide: DbService,
+          useFactory: () => mockDbService,
+        },
+        {
+          provide: DbService,
+          useFactory: () => mockDbService,
+        },
+        {
+          provide: NotifyService,
+          useFactory: () => mockNotifyService,
+        },
+      ],
     });
   });
 
@@ -54,7 +70,9 @@ describe('PluginRegistryService', () => {
 
     it('return version as latest, if version is not specified', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('altair-graphql-plugin-plugin-name')).toEqual({
+      expect(
+        service.getPluginInfoFromString('altair-graphql-plugin-plugin-name')
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: 'latest',
         pluginSource: PluginSource.NPM,
@@ -63,7 +81,11 @@ describe('PluginRegistryService', () => {
 
     it('return pluginSource as npm, if pluginSource is not specified', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('altair-graphql-plugin-plugin-name@0.0.1')).toEqual({
+      expect(
+        service.getPluginInfoFromString(
+          'altair-graphql-plugin-plugin-name@0.0.1'
+        )
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
         pluginSource: PluginSource.NPM,
@@ -72,7 +94,11 @@ describe('PluginRegistryService', () => {
 
     it('retrieve plugin info for github plugin', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('github:altair-graphql-plugin-plugin-name::[repo]->[imolorhe/altair]')).toEqual({
+      expect(
+        service.getPluginInfoFromString(
+          'github:altair-graphql-plugin-plugin-name::[repo]->[imolorhe/altair]'
+        )
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         pluginSource: PluginSource.GITHUB,
         version: 'latest',
@@ -82,13 +108,21 @@ describe('PluginRegistryService', () => {
 
     it('return extra option if specified', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('altair-graphql-plugin-plugin-name@0.0.1::[opt]->[1]')).toEqual({
+      expect(
+        service.getPluginInfoFromString(
+          'altair-graphql-plugin-plugin-name@0.0.1::[opt]->[1]'
+        )
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
         pluginSource: PluginSource.NPM,
         opt: '1',
       } as any);
-      expect(service.getPluginInfoFromString('url:altair-graphql-plugin-plugin-name@0.0.1::[url]->[http://localhost:8080]')).toEqual({
+      expect(
+        service.getPluginInfoFromString(
+          'url:altair-graphql-plugin-plugin-name@0.0.1::[url]->[http://localhost:8080]'
+        )
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
         pluginSource: PluginSource.URL,
@@ -98,12 +132,15 @@ describe('PluginRegistryService', () => {
 
     it('return specified values', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(service.getPluginInfoFromString('url:altair-graphql-plugin-plugin-name@0.1.1')).toEqual({
+      expect(
+        service.getPluginInfoFromString(
+          'url:altair-graphql-plugin-plugin-name@0.1.1'
+        )
+      ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.1.1',
         pluginSource: PluginSource.URL,
       });
     });
-
   });
 });

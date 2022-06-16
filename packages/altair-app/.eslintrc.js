@@ -18,7 +18,11 @@ module.exports = {
       },
       extends: [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier",
+      ],
+      plugins: [
+        "prettier",
       ],
       rules: {
         '@angular-eslint/component-selector': [
@@ -36,7 +40,8 @@ module.exports = {
             style: "camelCase",
             type: "attribute"
           }
-        ]
+        ],
+        "prettier/prettier": 1,
       }
     },
     {

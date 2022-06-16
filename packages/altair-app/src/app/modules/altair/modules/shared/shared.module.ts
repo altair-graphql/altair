@@ -84,14 +84,14 @@ const AntdComponentModules = [
     //   preventDuplicates: true,
     //   resetTimeoutOnDuplicate: true,
     // }),
-    HotToastModule.forRoot({
-      position: 'top-center',
-      reverseOrder: true,
-      dismissible: true,
-      closeStyle: {
-        backgroundImage: `none`,
-      },
-    }),
+    // HotToastModule.forRoot({
+    //   position: 'top-center',
+    //   reverseOrder: true,
+    //   dismissible: true,
+    //   closeStyle: {
+    //     backgroundImage: `none`,
+    //   },
+    // }),
     ...AntdComponentModules,
   ],
 

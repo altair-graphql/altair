@@ -158,6 +158,8 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "fake-indexeddb": "^3.1.7",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

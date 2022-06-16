@@ -21,7 +21,6 @@ describe('EnvironmentManagerComponent', () => {
         CodemirrorModule,
         SharedModule,
         TranslateModule.forRoot(),
-        SharedModule,
       ],
     })
     .compileComponents();
