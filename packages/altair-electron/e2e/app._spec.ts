@@ -39,7 +39,7 @@ const helpers = {
     // await queryEditor.type(`${query}`);
   },
   async getQueryResultData(window: Page) {
-    return await window.$eval(`${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .CodeMirror`, (el: any) => el.textContent);
+    return await window.$eval(`${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .cm-editor`, (el: any) => el.textContent);
   },
   async getQueryEditorContent(window: Page) {
     await window.waitForTimeout(1000);
