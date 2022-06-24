@@ -3661,10 +3661,10 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-altair-graphql-core@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.4.2.tgz#f73e4c99c158742e0583e008488a08266b089afe"
-  integrity sha512-jrTDHUG9GF4SNd186VCP1idVtazBq+DNtatnZC8+EVDlYB2RU3qn6IcPzZi/XyldqDkeBeSVOw3VbZ7uGSRzcg==
+altair-graphql-core@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.5.1.tgz#fd1507c07fe2188042a09df0ce3458d6f2b1aab6"
+  integrity sha512-iestCouwDPV46PRU5ThR0dMIYpvuaUArMKWAttvh7BFwyoWOkMMfX1SAcjBh5b82SZ4I0lb3sTo4t2tiTflvJg==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"
@@ -3676,11 +3676,12 @@ altair-graphql-core@^4.4.2:
     convert-css-color-name-to-hex "^0.1.1"
     deepmerge "^4.2.2"
     graphql "^15.5.1"
-    graphql-ws "^5.1.2"
+    graphql-sse "^1.2.2"
+    graphql-ws "^5.8.2"
     loglevel "^1.7.1"
     loglevel-plugin-prefix "^0.8.4"
     rxjs "^7.1.0"
-    subscriptions-transport-ws "^0.9.19"
+    subscriptions-transport-ws "0.9.19"
     util "^0.12.4"
     uuid "^8.3.2"
 
@@ -7786,6 +7787,11 @@ graphql-query-compress@^1.2.2:
   dependencies:
     tokenizr "1.5.6"
 
+graphql-sse@^1.2.2:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/graphql-sse/-/graphql-sse-1.2.3.tgz#55270c77dad21979e37a418cd385dfa09c7a47fe"
+  integrity sha512-Nlzc3ZFlhXmwjiigPkaxFJKSmcnzj4N6PiFQzsDonRo3OObujEmDl/JgdtxHTfwP0NCCBGlxfW+igbepCtq6/Q==
+
 graphql-tag@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.11.0.tgz#1deb53a01c46a7eb401d6cb59dec86fa1cccbffd"
@@ -7810,7 +7816,7 @@ graphql-ws@^4.4.1:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-4.4.1.tgz#69f472f362b57366af23265c6c6b967077b9d1dc"
   integrity sha512-kHgDohfRQFDdzXzLqsV4wZM141sO1ukaXW/RSLlmIUsxT4N3r/4eQYTbkeLd4yRXaDkmv/rYf1EHL09Y5KO+Uw==
 
-graphql-ws@^5.1.2:
+graphql-ws@^5.8.2:
   version "5.9.0"
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.9.0.tgz#1fea3cca4582bbda15bc3a50bf30b539869b826f"
   integrity sha512-CXv0l0nI1bgChwl4Rm+BqNOAKwL/C9T2N8RfmTkhQ38YLFdUXCi2WNW4oFp8BJP+t75nCLzjHHgR04sP1oF02w==
@@ -13518,6 +13524,17 @@ stylus@0.54.8:
     semver "^6.3.0"
     source-map "^0.7.3"
 
+subscriptions-transport-ws@0.9.19:
+  version "0.9.19"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
+  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
+  dependencies:
+    backo2 "^1.0.2"
+    eventemitter3 "^3.1.0"
+    iterall "^1.2.1"
+    symbol-observable "^1.0.4"
+    ws "^5.2.0 || ^6.0.0 || ^7.0.0"
+
 subscriptions-transport-ws@^0.9.16:
   version "0.9.16"
   resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.16.tgz#90a422f0771d9c32069294c08608af2d47f596ec"
@@ -13528,17 +13545,6 @@ subscriptions-transport-ws@^0.9.16:
     iterall "^1.2.1"
     symbol-observable "^1.0.4"
     ws "^5.2.0"
-
-subscriptions-transport-ws@^0.9.19:
-  version "0.9.19"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
-  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
-  dependencies:
-    backo2 "^1.0.2"
-    eventemitter3 "^3.1.0"
-    iterall "^1.2.1"
-    symbol-observable "^1.0.4"
-    ws "^5.2.0 || ^6.0.0 || ^7.0.0"
 
 sumchecker@^3.0.1:
   version "3.0.1"
