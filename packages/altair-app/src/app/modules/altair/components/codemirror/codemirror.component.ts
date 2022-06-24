@@ -15,13 +15,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension } from '@codemirror/state';
-import {
-  EditorView,
-  highlightActiveLineGutter,
-  keymap,
-  lineNumbers,
-  ViewUpdate,
-} from '@codemirror/view';
+import { EditorView, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import {
   autocompletion,
@@ -36,9 +30,7 @@ import {
   bracketMatching,
 } from '@codemirror/language';
 
-import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { tags as t } from '@lezer/highlight';
-import { getGlobalScopeAutocompletion } from '../../utils/editor/javascript';
 
 @Component({
   selector: 'app-codemirror',
@@ -59,6 +51,7 @@ export class CodemirrorComponent
   @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
   @Input() showLineNumber = true;
   @Input() foldGutter = true;
+  @Input() wrapLines = true;
 
   @Output() focusChange = new EventEmitter<boolean>();
 
@@ -230,6 +223,7 @@ export class CodemirrorComponent
           ]),
           this.showLineNumber ? lineNumbers() : [],
           this.foldGutter ? foldGutter() : [],
+          this.wrapLines ? EditorView.lineWrapping : [],
           // highlightActiveLineGutter(),
           bracketMatching(),
           closeBrackets(),
