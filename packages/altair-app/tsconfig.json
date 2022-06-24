@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2018",
+    "target": "es2020",
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
