@@ -15,8 +15,8 @@ import { MockProvider } from 'ng-mocks';
 describe('KeybinderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    imports: [HttpClientModule],
+    providers: [
         KeybinderService,
         MockProvider(WindowService),
         DbService,
@@ -25,16 +25,17 @@ describe('KeybinderService', () => {
         MockProvider(NotifyService),
         GqlService,
         {
-          provide: Store,
-          useValue: {
-            subscribe: () => {},
-            select: () => [],
-            map: () => observableEmpty(),
-            dispatch: () => {},
-          },
+            provide: Store,
+            useValue: {
+                subscribe: () => { },
+                select: () => [],
+                map: () => observableEmpty(),
+                dispatch: () => { },
+            },
         },
-      ],
-    });
+    ],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should be created', inject(

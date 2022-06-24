@@ -10,9 +10,10 @@ describe('DocViewerSearchResultsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [DocViewerSearchResultsComponent],
-        imports: [TranslateModule.forRoot()],
-      }).compileComponents();
+    declarations: [DocViewerSearchResultsComponent],
+    imports: [TranslateModule.forRoot()],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

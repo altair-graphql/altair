@@ -48,32 +48,32 @@ describe('PluginContextService', () => {
   });
   beforeEach(() =>
     TestBed.configureTestingModule({
-      providers: [
+    providers: [
         {
-          provide: Store,
-          useValue: mockStore,
+            provide: Store,
+            useValue: mockStore,
         },
         {
-          provide: WindowService,
-          useFactory: () => mock(),
+            provide: WindowService,
+            useFactory: () => mock(),
         },
         {
-          provide: NotifyService,
-          useFactory: () => mock(),
+            provide: NotifyService,
+            useFactory: () => mock(),
         },
         {
-          provide: PluginEventService,
-          useFactory: () =>
-            mock<PluginEventService>({
-              group: () => ({} as unknown as any),
+            provide: PluginEventService,
+            useFactory: () => mock<PluginEventService>({
+                group: () => ({} as unknown as any),
             }),
         },
         {
-          provide: SubscriptionProviderRegistryService,
-          useFactory: () => mock(),
+            provide: SubscriptionProviderRegistryService,
+            useFactory: () => mock(),
         },
-      ],
-    })
+    ],
+    teardown: { destroyAfterEach: false }
+})
   );
 
   it('should be created', () => {

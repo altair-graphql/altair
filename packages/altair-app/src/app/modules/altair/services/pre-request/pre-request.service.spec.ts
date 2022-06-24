@@ -15,20 +15,21 @@ const mockNotifyService = mock({
 describe('PreRequestService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    imports: [HttpClientModule],
+    providers: [
         CookieService,
         PreRequestService,
         {
-          provide: NotifyService,
-          useFactory: () => mockNotifyService,
+            provide: NotifyService,
+            useFactory: () => mockNotifyService,
         },
         {
-          provide: Store,
-          useFactory: () => mockStoreFactory(),
+            provide: Store,
+            useFactory: () => mockStoreFactory(),
         },
-      ],
-    })
+    ],
+    teardown: { destroyAfterEach: false }
+})
   );
 
   it('should be created', inject(

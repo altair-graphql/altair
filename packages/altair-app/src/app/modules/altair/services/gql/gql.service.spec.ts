@@ -39,22 +39,23 @@ describe('GqlService', () => {
       info: anyFn(),
     } as NotifyService;
     TestBed.configureTestingModule({
-      providers: [
+    providers: [
         GqlService,
         {
-          provide: HttpClient,
-          useFactory: () => mockHttpClient,
+            provide: HttpClient,
+            useFactory: () => mockHttpClient,
         },
         {
-          provide: NotifyService,
-          useFactory: () => mockNotifyService,
+            provide: NotifyService,
+            useFactory: () => mockNotifyService,
         },
         {
-          provide: Store,
-          useFactory: () => mockStore,
+            provide: Store,
+            useFactory: () => mockStore,
         },
-      ],
-    });
+    ],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should create successfully', inject(

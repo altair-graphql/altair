@@ -15,13 +15,14 @@ describe('QueryResultComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          FormsModule,
-          CodemirrorModule,
-          ComponentModule,
-          TranslateModule.forRoot(),
-        ],
-      }).compileComponents();
+    imports: [
+        FormsModule,
+        CodemirrorModule,
+        ComponentModule,
+        TranslateModule.forRoot(),
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

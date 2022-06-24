@@ -13,12 +13,13 @@ describe('SchemaFormItemListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, SharedModule, SchemaFormModule],
-        declarations: [
-          // SchemaFormItemListComponent,
-          // SchemaFormItemComponent
-        ],
-      }).compileComponents();
+    imports: [FormsModule, SharedModule, SchemaFormModule],
+    declarations: [
+    // SchemaFormItemListComponent,
+    // SchemaFormItemComponent
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

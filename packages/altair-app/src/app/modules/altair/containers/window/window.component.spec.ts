@@ -63,11 +63,12 @@ describe('WindowComponent', () => {
         },
       ];
       TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [WindowComponent],
-        providers: providers,
-        schemas: [NO_ERRORS_SCHEMA],
-      }).compileComponents();
+    imports: [TranslateModule.forRoot()],
+    declarations: [WindowComponent],
+    providers: providers,
+    schemas: [NO_ERRORS_SCHEMA],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

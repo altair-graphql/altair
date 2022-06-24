@@ -6,7 +6,7 @@ describe('ThemeRegistryService', () => {
   let service: ThemeRegistryService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } });
     service = TestBed.inject(ThemeRegistryService);
   });
 

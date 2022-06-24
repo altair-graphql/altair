@@ -13,17 +13,18 @@ describe('SchemaFormItemComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, SharedModule, SchemaFormModule],
-        declarations: [
-          // SchemaFormItemComponent,
-        ],
-        providers: [
-          {
+    imports: [FormsModule, SharedModule, SchemaFormModule],
+    declarations: [
+    // SchemaFormItemComponent,
+    ],
+    providers: [
+        {
             provide: AltairConfig,
             useValue: new AltairConfig(),
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

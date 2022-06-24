@@ -17,22 +17,23 @@ describe('DocViewerComponent', () => {
     waitForAsync(() => {
       mockGqlService = new Mock();
       TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          // Just import DocViewerModule since it contains all doc viewer component and dependencies
-          DocViewerModule,
-        ],
-        providers: [
-          {
+    imports: [
+        TranslateModule.forRoot(),
+        // Just import DocViewerModule since it contains all doc viewer component and dependencies
+        DocViewerModule,
+    ],
+    providers: [
+        {
             provide: GqlService,
             useFactory: () => mockGqlService.Object,
-          },
-          {
+        },
+        {
             provide: AltairConfig,
             useValue: new AltairConfig(),
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

@@ -21,6 +21,8 @@ coverage
 dist
 build
 
+**/.angular/cache
+
 # dependencies
 node_modules
 

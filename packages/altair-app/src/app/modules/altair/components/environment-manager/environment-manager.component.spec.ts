@@ -15,15 +15,16 @@ describe('EnvironmentManagerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [EnvironmentManagerComponent, CodemirrorComponent],
-        imports: [
-          BrowserAnimationsModule,
-          FormsModule,
-          CodemirrorModule,
-          SharedModule,
-          TranslateModule.forRoot(),
-        ],
-      }).compileComponents();
+    declarations: [EnvironmentManagerComponent, CodemirrorComponent],
+    imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        CodemirrorModule,
+        SharedModule,
+        TranslateModule.forRoot(),
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

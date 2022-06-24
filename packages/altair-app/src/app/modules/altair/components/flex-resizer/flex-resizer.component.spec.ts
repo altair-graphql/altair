@@ -10,9 +10,10 @@ describe('FlexResizerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [FlexResizerComponent],
-        imports: [SharedModule],
-      }).compileComponents();
+    declarations: [FlexResizerComponent],
+    imports: [SharedModule],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

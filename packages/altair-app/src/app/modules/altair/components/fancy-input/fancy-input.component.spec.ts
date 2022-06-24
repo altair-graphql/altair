@@ -23,22 +23,23 @@ describe('FancyInputComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [FancyInputComponent, FancyInputMarkerComponent],
-        imports: [FormsModule, SharedModule],
-        providers: [
-          {
+    declarations: [FancyInputComponent, FancyInputMarkerComponent],
+    imports: [FormsModule, SharedModule],
+    providers: [
+        {
             provide: Store,
             useValue: mockStoreFactory(),
-          },
-          {
+        },
+        {
             provide: EnvironmentService,
             useValue: mock<EnvironmentService>({
-              getActiveEnvironment: () => ({}),
-              hydrate: () => '',
+                getActiveEnvironment: () => ({}),
+                hydrate: () => '',
             }),
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

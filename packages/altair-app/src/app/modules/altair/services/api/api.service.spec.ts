@@ -6,7 +6,7 @@ describe('ApiService', () => {
   let service: ApiService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } });
     service = TestBed.inject(ApiService);
   });
 

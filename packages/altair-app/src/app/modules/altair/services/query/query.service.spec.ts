@@ -14,17 +14,18 @@ describe('QueryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
+    providers: [
         MockProvider(NotifyService),
         MockProvider(EnvironmentService),
         MockProvider(PreRequestService),
         MockProvider(QueryCollectionService),
         {
-          provide: Store,
-          useFactory: () => mockStoreFactory(),
+            provide: Store,
+            useFactory: () => mockStoreFactory(),
         },
-      ],
-    });
+    ],
+    teardown: { destroyAfterEach: false }
+});
     service = TestBed.inject(QueryService);
   });
 

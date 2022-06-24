@@ -43,14 +43,15 @@ describe('EnvironmentService', () => {
     mockStore = mock();
     mockStore.subscribe = createStoreSubscribeFn(environments);
     TestBed.configureTestingModule({
-      providers: [
+    providers: [
         EnvironmentService,
         {
-          provide: Store,
-          useFactory: () => mockStore,
+            provide: Store,
+            useFactory: () => mockStore,
         },
-      ],
-    });
+    ],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should be created', () => {

@@ -12,11 +12,12 @@ describe('SchemaFormItemInputComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, SharedModule, SchemaFormModule],
-        declarations: [
-          // SchemaFormItemInputComponent,
-        ],
-      }).compileComponents();
+    imports: [FormsModule, SharedModule, SchemaFormModule],
+    declarations: [
+    // SchemaFormItemInputComponent,
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

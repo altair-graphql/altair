@@ -9,8 +9,9 @@ describe('SubscriptionResultItemComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [SubscriptionResultItemComponent],
-      }).compileComponents();
+    declarations: [SubscriptionResultItemComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

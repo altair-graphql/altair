@@ -31,40 +31,41 @@ describe('SettingsDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [SettingsDialogComponent],
-        imports: [
-          HttpClientModule,
-          BrowserAnimationsModule,
-          FormsModule,
-          CodemirrorModule,
-          SharedModule,
-          TranslateModule.forRoot(),
-          SchemaFormModule,
-        ],
-        providers: [
-          MockProviders(NotifyService),
-          KeybinderService,
-          MockProviders(WindowService),
-          DbService,
-          ElectronAppService,
-          ElectronService,
-          StorageService,
-          GqlService,
-          {
+    declarations: [SettingsDialogComponent],
+    imports: [
+        HttpClientModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        CodemirrorModule,
+        SharedModule,
+        TranslateModule.forRoot(),
+        SchemaFormModule,
+    ],
+    providers: [
+        MockProviders(NotifyService),
+        KeybinderService,
+        MockProviders(WindowService),
+        DbService,
+        ElectronAppService,
+        ElectronService,
+        StorageService,
+        GqlService,
+        {
             provide: Store,
             useValue: {
-              subscribe: () => {},
-              select: () => [],
-              map: () => observableEmpty(),
-              dispatch: () => {},
+                subscribe: () => { },
+                select: () => [],
+                map: () => observableEmpty(),
+                dispatch: () => { },
             },
-          },
-          {
+        },
+        {
             provide: AltairConfig,
             useValue: new AltairConfig(),
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
     })
   );
 

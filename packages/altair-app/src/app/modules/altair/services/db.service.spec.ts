@@ -5,8 +5,9 @@ import { DbService } from './db.service';
 describe('DbService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DbService],
-    });
+    providers: [DbService],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should ...', inject([DbService], (service: DbService) => {

@@ -25,31 +25,32 @@ describe('PluginRegistryService', () => {
     mockNotifyService = mock();
 
     TestBed.configureTestingModule({
-      providers: [
+    providers: [
         PluginRegistryService,
         {
-          provide: HttpClient,
-          useFactory: () => mockHttpClient,
+            provide: HttpClient,
+            useFactory: () => mockHttpClient,
         },
         { provide: Store, useFactory: () => mockStore },
         {
-          provide: PluginContextService,
-          useFactory: () => mockPluginContextService,
+            provide: PluginContextService,
+            useFactory: () => mockPluginContextService,
         },
         {
-          provide: DbService,
-          useFactory: () => mockDbService,
+            provide: DbService,
+            useFactory: () => mockDbService,
         },
         {
-          provide: DbService,
-          useFactory: () => mockDbService,
+            provide: DbService,
+            useFactory: () => mockDbService,
         },
         {
-          provide: NotifyService,
-          useFactory: () => mockNotifyService,
+            provide: NotifyService,
+            useFactory: () => mockNotifyService,
         },
-      ],
-    });
+    ],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should be created', () => {
