@@ -13,7 +13,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject, forkJoin, of, from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 import * as fromRoot from '../../store';
 import * as fromCollection from '../../store/collection/collection.reducer';

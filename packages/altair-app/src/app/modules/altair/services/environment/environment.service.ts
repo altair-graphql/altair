@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { get } from 'object-path';
 
 import * as fromRoot from '../../store';

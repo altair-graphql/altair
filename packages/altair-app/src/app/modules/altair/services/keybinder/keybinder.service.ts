@@ -154,7 +154,7 @@ export class KeybinderService {
       description,
     });
 
-    return mousetrap.bindGlobal(
+    return (mousetrap as any).bindGlobal(
       keys.map((key) => key.toLowerCase()),
       () => {
         this.zone.run(callback);
