@@ -12,10 +12,10 @@ describe('DocViewerFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    declarations: [DocViewerFieldComponent, DocViewerTypeComponent],
-    imports: [TranslateModule.forRoot(), SharedModule],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        declarations: [DocViewerFieldComponent, DocViewerTypeComponent],
+        imports: [TranslateModule.forRoot(), SharedModule],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

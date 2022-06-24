@@ -17,17 +17,17 @@ describe('SetVariableDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    declarations: [SetVariableDialogComponent, VariablesEditorComponent],
-    imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot(),
-    ],
-    providers: [],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        declarations: [SetVariableDialogComponent, VariablesEditorComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

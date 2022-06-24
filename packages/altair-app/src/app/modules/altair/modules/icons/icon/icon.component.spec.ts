@@ -10,9 +10,9 @@ describe('IconComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [IconsModule],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        imports: [IconsModule],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

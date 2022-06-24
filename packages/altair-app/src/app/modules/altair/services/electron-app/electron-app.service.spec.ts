@@ -12,25 +12,25 @@ import { MockProvider } from 'ng-mocks';
 describe('ElectronAppService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [HttpClientModule, NgxElectronModule],
-    providers: [
+      imports: [HttpClientModule, NgxElectronModule],
+      providers: [
         ElectronAppService,
         MockProvider(WindowService),
         DbService,
         MockProvider(NotifyService),
         GqlService,
         {
-            provide: Store,
-            useValue: {
-                subscribe: () => { },
-                select: () => [],
-                map: () => observableEmpty(),
-                dispatch: () => { },
-            },
+          provide: Store,
+          useValue: {
+            subscribe: () => {},
+            select: () => [],
+            map: () => observableEmpty(),
+            dispatch: () => {},
+          },
         },
-    ],
-    teardown: { destroyAfterEach: false }
-});
+      ],
+      teardown: { destroyAfterEach: false },
+    });
   });
 
   it('should be created', inject(

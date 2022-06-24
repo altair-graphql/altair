@@ -10,10 +10,10 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [AppComponent],
-    imports: [MockModule(AltairModule)],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+      declarations: [AppComponent],
+      imports: [MockModule(AltairModule)],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
   });
 
   beforeEach(() => {

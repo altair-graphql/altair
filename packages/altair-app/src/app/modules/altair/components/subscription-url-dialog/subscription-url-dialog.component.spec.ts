@@ -20,17 +20,17 @@ describe('SubscriptionUrlDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
-    imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        CodemirrorModule,
-        SharedModule,
-        TranslateModule.forRoot(),
-        SharedModule,
-    ],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          CodemirrorModule,
+          SharedModule,
+          TranslateModule.forRoot(),
+          SharedModule,
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

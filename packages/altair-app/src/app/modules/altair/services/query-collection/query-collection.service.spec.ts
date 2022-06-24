@@ -67,9 +67,9 @@ const collectionPairs = [
 describe('QueryCollectionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    providers: [QueryCollectionService, StorageService],
-    teardown: { destroyAfterEach: false }
-});
+      providers: [QueryCollectionService, StorageService],
+      teardown: { destroyAfterEach: false },
+    });
   });
 
   it('should be created', inject(

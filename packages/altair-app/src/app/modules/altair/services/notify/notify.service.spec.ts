@@ -21,19 +21,19 @@ describe('NotifyService', () => {
     });
     mockStore = mock();
     TestBed.configureTestingModule({
-    providers: [
+      providers: [
         NotifyService,
         {
-            provide: Store,
-            useFactory: () => mockStore,
+          provide: Store,
+          useFactory: () => mockStore,
         },
         {
-            provide: ToastrService,
-            useFactory: () => mockToastService,
+          provide: ToastrService,
+          useFactory: () => mockToastService,
         },
-    ],
-    teardown: { destroyAfterEach: false }
-});
+      ],
+      teardown: { destroyAfterEach: false },
+    });
   });
 
   it('should be created', inject([NotifyService], (service: NotifyService) => {

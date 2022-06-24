@@ -8,9 +8,9 @@ describe('CodemirrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [CodemirrorComponent],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+      declarations: [CodemirrorComponent],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
   });
 
   beforeEach(() => {

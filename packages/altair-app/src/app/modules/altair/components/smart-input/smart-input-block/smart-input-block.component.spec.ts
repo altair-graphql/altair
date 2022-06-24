@@ -11,9 +11,9 @@ describe('SmartInputBlockComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [TranslateModule.forRoot(), SmartInputModule],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        imports: [TranslateModule.forRoot(), SmartInputModule],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

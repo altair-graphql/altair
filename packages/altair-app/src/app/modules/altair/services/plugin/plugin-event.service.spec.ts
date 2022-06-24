@@ -7,7 +7,9 @@ import { PluginEventService } from './plugin-event.service';
  * subscribe, emit, should callback
  */
 describe('PluginEventService', () => {
-  beforeEach(() => TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } })
+  );
 
   it('should be created', () => {
     const service: PluginEventService = TestBed.get(PluginEventService);

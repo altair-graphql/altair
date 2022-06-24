@@ -18,16 +18,16 @@ describe('PluginManagerComponent', () => {
         getRemotePluginList: () => of({}),
       } as PluginRegistryService;
       TestBed.configureTestingModule({
-    providers: [
-        {
+        providers: [
+          {
             provide: PluginRegistryService,
             useFactory: () => mockPluginRegistryService,
-        },
-    ],
-    imports: [HttpClientModule, SharedModule],
-    declarations: [PluginManagerComponent],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+          },
+        ],
+        imports: [HttpClientModule, SharedModule],
+        declarations: [PluginManagerComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

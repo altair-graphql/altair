@@ -12,12 +12,12 @@ describe('SchemaFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [FormsModule, SharedModule, SchemaFormModule],
-    declarations: [
-    // SchemaFormComponent,
-    ],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        imports: [FormsModule, SharedModule, SchemaFormModule],
+        declarations: [
+          // SchemaFormComponent,
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 

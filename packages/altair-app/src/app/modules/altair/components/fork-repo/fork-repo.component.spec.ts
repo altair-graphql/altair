@@ -9,9 +9,9 @@ describe('ForkRepoComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    declarations: [ForkRepoComponent],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        declarations: [ForkRepoComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
     })
   );
 
