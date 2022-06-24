@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yarn ng build --outputHashing=none --prod --aot --stats-json
+yarn ng build --output-hashing=none --prod --aot --stats-json
 
 # Get new tags from remote
 git fetch --tags
