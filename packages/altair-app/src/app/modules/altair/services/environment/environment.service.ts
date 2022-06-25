@@ -17,7 +17,7 @@ import { merge } from 'lodash-es';
 // export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
 export const VARIABLE_REGEX =
   /(^{{\s*[\w\.]+\s*}})|((?!\\)(.){{\s*[\w\.]+\s*}})/g;
-interface IEnvironment extends IDictionary<any> {
+export interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
 }
 interface HydrateEnvironmentOptions {

@@ -45,14 +45,14 @@
         ></app-icon>
       </div>
     </div>
-    <app-fancy-input
+    <app-x-input
       class="url-box__input"
       track-id="set_url"
       placeholder="Enter URL"
+      [(ngModel)]="apiUrl"
       (blurChange)="setApiUrl()"
       (submitChange)="setApiUrl()"
-      [(ngModel)]="apiUrl"
-    ></app-fancy-input>
+    ></app-x-input>
   </div>
   <div class="url-box__input-actions">
     <button

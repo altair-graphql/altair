@@ -71,6 +71,8 @@ export class ThemeDirective implements OnInit, OnChanges {
       theme.shadow.opacity
     });
 
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
       --rgb-black: ${hexToRgbStr(theme.colors.black)};
       --rgb-dark-grey: ${hexToRgbStr(theme.colors.darkGray)};
       --rgb-grey: ${hexToRgbStr(theme.colors.gray)};
