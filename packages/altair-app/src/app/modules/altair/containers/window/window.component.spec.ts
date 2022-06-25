@@ -28,6 +28,23 @@ describe('WindowComponent', () => {
           ...windowsMetaReducer.getInitialState(),
           activeWindowId: 'abc-123',
         },
+        settings: {
+          theme: 'light',
+          addQueryDepthLimit: 2,
+          language: 'en-US',
+          tabSize: 2,
+        },
+        local: {
+          closedWindows: [],
+          installedPlugins: {},
+          panels: [],
+          uiActions: [],
+        },
+        collection: {
+          activeCollection: null,
+          list: [],
+          sortBy: 'a-z',
+        },
       });
       const providers = [
         {

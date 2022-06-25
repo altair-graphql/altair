@@ -1,9 +1,9 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "target": "es2020",
-    "baseUrl": "../src",
+    "outDir": "./out-tsc/spec",
+    // "target": "es2020",
+    "baseUrl": "./src",
     "types": [
       "node",
       "jest"

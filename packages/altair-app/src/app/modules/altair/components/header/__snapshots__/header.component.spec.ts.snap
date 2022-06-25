@@ -25,7 +25,6 @@ exports[`HeaderComponent should render correctly 1`] = `
         nztrigger="click"
       >
         
-        
         <span>
           <app-icon
             name="eye-off"
@@ -34,7 +33,9 @@ exports[`HeaderComponent should render correctly 1`] = `
             
           </span>
         </span>
+        
       </li>
+      
       <nz-dropdown-menu>
         <ul
           class="environments-dropdown__list"
@@ -46,7 +47,9 @@ exports[`HeaderComponent should render correctly 1`] = `
           >
              ... 
           </li>
+          
         </ul>
+        
       </nz-dropdown-menu>
       <li
         class="header__menu-item"
@@ -57,6 +60,7 @@ exports[`HeaderComponent should render correctly 1`] = `
           name="settings"
         />
       </li>
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -66,37 +70,45 @@ exports[`HeaderComponent should render correctly 1`] = `
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
           <li
             nz-menu-item=""
           >
             
           </li>
+          
         </ul>
+        
       </nz-dropdown-menu>
     </ul>
   </div>

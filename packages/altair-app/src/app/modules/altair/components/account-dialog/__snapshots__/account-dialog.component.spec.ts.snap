@@ -3,5 +3,6 @@
 exports[`AccountDialogComponent should create 1`] = `
 <app-account-dialog>
   <nz-modal />
+  
 </app-account-dialog>
 `;

@@ -8,7 +8,7 @@ import * as services from '../../services';
 import { SetVariableDialogComponent } from './set-variable-dialog.component';
 import { VariablesEditorComponent } from '../variables-editor/variables-editor.component';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SetVariableDialogComponent', () => {
   let component: SetVariableDialogComponent;
@@ -19,7 +19,7 @@ describe('SetVariableDialogComponent', () => {
       TestBed.configureTestingModule({
         declarations: [SetVariableDialogComponent, VariablesEditorComponent],
         imports: [
-          BrowserAnimationsModule,
+          NoopAnimationsModule,
           FormsModule,
           CodemirrorModule,
           SharedModule,

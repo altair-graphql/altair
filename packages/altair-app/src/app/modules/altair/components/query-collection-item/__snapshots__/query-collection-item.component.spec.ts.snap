@@ -16,7 +16,6 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
           class="query-collections__item-title"
         >
           
-          
           <span
             class="query-title-icon"
           >
@@ -24,6 +23,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               name="folder-plus"
             />
           </span>
+          
           <span>
             collection-1
           </span>
@@ -51,6 +51,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               name="more-horizontal"
             />
           </button>
+          
         </span>
         <nz-dropdown-menu>
           <ul
@@ -63,18 +64,21 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             >
                 
             </li>
+            
             <li
               data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
             </li>
+            
             <li
               data-test-id="export-collection"
               nz-menu-item=""
             >
                 
             </li>
+            
             <li
               nz-submenu=""
             >
@@ -85,27 +89,33 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-z-a"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-newest"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-oldest"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
               </ul>
             </li>
+            
           </ul>
+          
         </nz-dropdown-menu>
       </div>
     </div>
@@ -120,7 +130,6 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
       <div
         class="query-collections__item-queries"
       >
-        
         <div
           class="query-collections__item-queries-item"
         >
@@ -165,6 +174,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -176,7 +186,9 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
@@ -224,6 +236,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -235,7 +248,9 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
@@ -283,6 +298,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -294,10 +310,13 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
+        
       </div>
     </div>
   </div>
@@ -319,7 +338,6 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
         <div
           class="query-collections__item-title"
         >
-          
           <span
             class="query-title-icon"
           >
@@ -327,6 +345,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               name="folder-minus"
             />
           </span>
+          
           
           <span>
             collection-1
@@ -355,6 +374,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               name="more-horizontal"
             />
           </button>
+          
         </span>
         <nz-dropdown-menu>
           <ul
@@ -367,18 +387,21 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             >
                 
             </li>
+            
             <li
               data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
             </li>
+            
             <li
               data-test-id="export-collection"
               nz-menu-item=""
             >
                 
             </li>
+            
             <li
               nz-submenu=""
             >
@@ -389,27 +412,33 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-z-a"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-newest"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
                 <li
                   data-test-id="sort-queries-oldest"
                   nz-menu-item=""
                 >
                     
                 </li>
+                
               </ul>
             </li>
+            
           </ul>
+          
         </nz-dropdown-menu>
       </div>
     </div>
@@ -424,7 +453,6 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
       <div
         class="query-collections__item-queries"
       >
-        
         <div
           class="query-collections__item-queries-item"
         >
@@ -469,6 +497,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -480,7 +509,9 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
@@ -528,6 +559,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -539,7 +571,9 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
@@ -587,6 +621,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
+              
             </span>
             <nz-dropdown-menu>
               <ul
@@ -598,10 +633,13 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                 >
                     
                 </li>
+                
               </ul>
+              
             </nz-dropdown-menu>
           </span>
         </div>
+        
       </div>
     </div>
   </div>

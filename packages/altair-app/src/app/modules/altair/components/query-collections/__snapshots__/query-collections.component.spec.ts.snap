@@ -5,7 +5,6 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
   <div
     class="query-collections-wrapper"
   >
-    
     <div
       class="query-collections__inner"
     >
@@ -27,6 +26,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
           />
         </button>
         
+        
         <div
           class="query-collections__actions--right"
         >
@@ -42,6 +42,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             
             
           </button>
+          
           <nz-dropdown-menu>
             <ul
               nz-menu=""
@@ -51,35 +52,41 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
               >
                   
               </li>
+              
               <li
                 nz-menu-item=""
               >
                   
               </li>
+              
               <li
                 nz-menu-item=""
               >
                   
               </li>
+              
               <li
                 nz-menu-item=""
               >
                   
               </li>
+              
             </ul>
+            
           </nz-dropdown-menu>
         </div>
       </div>
       <div
         class="query-collections__items-wrapper"
       >
+        <app-query-collection-item />
+        <app-query-collection-item />
+        <app-query-collection-item />
         
-        <app-query-collection-item />
-        <app-query-collection-item />
-        <app-query-collection-item />
         
       </div>
     </div>
+    
   </div>
 </app-query-collections>
 `;

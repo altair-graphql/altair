@@ -1,6 +1,6 @@
 import { EditCollectionDialogComponent } from './edit-collection-dialog.component';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { mount, NgxTestWrapper } from '../../../../../testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -14,7 +14,7 @@ describe('EditCollectionDialogComponent', () => {
       component: EditCollectionDialogComponent,
       declarations: [EditCollectionDialogComponent],
       providers: [],
-      imports: [BrowserAnimationsModule, FormsModule, SharedModule],
+      imports: [NoopAnimationsModule, FormsModule, SharedModule],
       schemas: [NO_ERRORS_SCHEMA],
     });
   });
