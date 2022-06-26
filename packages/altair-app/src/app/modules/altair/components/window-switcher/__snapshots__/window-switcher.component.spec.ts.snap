@@ -7,13 +7,14 @@ exports[`WindowSwitcherComponent should render correctly 1`] = `
     sortablejs=""
   >
     
-    
     <li
       class="window-switcher__item"
     >
         
     </li>
+    
   </ul>
+  
   <context-menu>
     
     

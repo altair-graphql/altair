@@ -4,7 +4,7 @@ import { first, tap, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 import * as fromQuery from '../store/query/query.reducer';
 

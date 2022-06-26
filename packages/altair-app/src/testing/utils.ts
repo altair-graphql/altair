@@ -1,5 +1,9 @@
-import { DebugElement } from '@angular/core';
-import { Component } from '@angular/core';
+import 'reflect-metadata';
+import {
+  DebugElement,
+  ɵReflectionCapabilities,
+  Component,
+} from '@angular/core';
 import {
   TestBed,
   TestModuleMetadata,
@@ -8,7 +12,14 @@ import {
 import { IDictionary } from 'app/modules/altair/interfaces/shared';
 import { NgxTestWrapper } from './wrapper';
 
-export const flushPromises = () => new Promise(setImmediate);
+export const flushPromises = () =>
+  new Promise((resolve) => {
+    if (typeof setImmediate === 'function') {
+      return setImmediate(resolve);
+    }
+
+    return setTimeout(resolve);
+  });
 
 const isInputElement = (
   el: HTMLElement
@@ -55,7 +66,9 @@ export function setValue<C extends any>(
 }
 
 function getComponentMeta(compType: any) {
-  const props = compType.__prop__metadata__ || {};
+  const rc = new ɵReflectionCapabilities();
+  const props =
+    compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
   const inputs: string[] = [];
   const outputs: string[] = [];
 
@@ -185,4 +198,8 @@ export function click(
   } else {
     el.triggerEventHandler('click', eventObj);
   }
+}
+
+export function testLog(...msgs: any[]) {
+  require('console').log(...msgs);
 }

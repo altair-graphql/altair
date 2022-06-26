@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 
 import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -19,7 +19,7 @@ describe('AddCollectionQueryDialogComponent', () => {
       component: AddCollectionQueryDialogComponent,
       declarations: [AddCollectionQueryDialogComponent],
       providers: [QueryCollectionService, StorageService],
-      imports: [BrowserAnimationsModule, FormsModule, SharedModule],
+      imports: [NoopAnimationsModule, FormsModule, SharedModule],
       schemas: [NO_ERRORS_SCHEMA],
     });
   });

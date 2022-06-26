@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { expect } from '@jest/globals';
+import { expect, jest } from '@jest/globals';
 import { Mock } from 'ts-mocks';
 
 import {
@@ -871,7 +871,7 @@ describe('GqlService', () => {
   describe('.closeStreamClient()', () => {
     it('should close client', inject([GqlService], (service: GqlService) => {
       const client = new EventSource('http://example.com/stream');
-      const closeSpy = spyOn(client, 'close');
+      const closeSpy = jest.spyOn(client, 'close');
       service.closeStreamClient(client);
 
       expect(client.close).toHaveBeenCalled();

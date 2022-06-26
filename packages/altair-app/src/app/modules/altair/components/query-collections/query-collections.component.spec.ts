@@ -1,10 +1,7 @@
 import { QueryCollectionsComponent } from './query-collections.component';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
-import { mock } from '../../../../../testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { describe, expect } from '@jest/globals';
 import { MockModule, MockComponent } from 'ng-mocks';

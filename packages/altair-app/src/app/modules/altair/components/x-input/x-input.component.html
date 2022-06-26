@@ -1,0 +1,7 @@
+<app-codemirror
+  *ngIf="ready"
+  [bare]="true"
+  [extensions]="extensions"
+  (focusChange)="focusChanged($event)"
+  [(ngModel)]="value"
+></app-codemirror>

@@ -3,5 +3,6 @@
 exports[`EditCollectionDialogComponent should render correctly 1`] = `
 <app-edit-collection-dialog>
   <nz-modal />
+  
 </app-edit-collection-dialog>
 `;

@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import * as variables from './variables.action';
 import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const initialFileVariableState = () => ({
   id: uuid(),

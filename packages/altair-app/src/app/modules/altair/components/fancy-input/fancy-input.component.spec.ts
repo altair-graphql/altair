@@ -20,30 +20,25 @@ describe('FancyInputComponent', () => {
   let component: FancyInputComponent;
   let fixture: ComponentFixture<FancyInputComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [FancyInputComponent, FancyInputMarkerComponent],
-        imports: [FormsModule, SharedModule],
-        providers: [
-          {
-            provide: Store,
-            useValue: mockStoreFactory(),
-          },
-          {
-            provide: EnvironmentService,
-            useValue: mock<EnvironmentService>({
-              getActiveEnvironment: () => ({}),
-              hydrate: () => '',
-            }),
-          },
-        ],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
-
-  beforeEach(() => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [FancyInputComponent, FancyInputMarkerComponent],
+      imports: [FormsModule, SharedModule],
+      providers: [
+        {
+          provide: Store,
+          useValue: mockStoreFactory(),
+        },
+        {
+          provide: EnvironmentService,
+          useValue: mock<EnvironmentService>({
+            getActiveEnvironment: () => ({}),
+            hydrate: () => '',
+          }),
+        },
+      ],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
     fixture = TestBed.createComponent(FancyInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

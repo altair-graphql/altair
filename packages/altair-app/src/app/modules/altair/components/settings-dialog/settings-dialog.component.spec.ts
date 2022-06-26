@@ -17,7 +17,7 @@ import {
 } from '../../services';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,7 +34,7 @@ describe('SettingsDialogComponent', () => {
         declarations: [SettingsDialogComponent],
         imports: [
           HttpClientModule,
-          BrowserAnimationsModule,
+          NoopAnimationsModule,
           FormsModule,
           CodemirrorModule,
           SharedModule,

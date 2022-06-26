@@ -8,13 +8,16 @@ import {
   forwardRef,
   HostBinding,
   Input,
+  KeyValueDiffers,
   NgZone,
+  OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorState, Extension } from '@codemirror/state';
+import { EditorState, Extension, StateEffect } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import {
@@ -45,13 +48,16 @@ import { tags as t } from '@lezer/highlight';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodemirrorComponent
-  implements AfterViewInit, DoCheck, ControlValueAccessor, OnDestroy
+  implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
 {
   @Input() extensions: Extension[] = [];
   @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
   @Input() showLineNumber = true;
   @Input() foldGutter = true;
   @Input() wrapLines = true;
+
+  // Specifies the editor should not have any default extensions
+  @Input() bare = false;
 
   @Output() focusChange = new EventEmitter<boolean>();
 
@@ -62,7 +68,7 @@ export class CodemirrorComponent
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone, private differ: KeyValueDiffers) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
@@ -77,6 +83,9 @@ export class CodemirrorComponent
         }
       });
       const baseTheme = EditorView.theme({
+        '&.cm-editor.cm-focused': {
+          outline: 'none',
+        },
         '.cm-tooltip.cm-tooltip-autocomplete': {
           background: 'var(--theme-bg-color)',
           border: '1px solid var(--theme-border-color)',
@@ -126,9 +135,15 @@ export class CodemirrorComponent
 
         '.cm-tooltip.cm-completionInfo': {
           position: 'absolute',
-          padding: '3px 9px',
+          padding: '4px',
+          borderRadius: '4px',
           width: 'max-content',
-          maxWidth: '300px',
+          maxWidth: '400px',
+          background: 'var(--theme-bg-color)',
+          color: 'var(--theme-font-color)',
+          lineHeight: '1.4',
+          border: '1px solid var(--theme-border-color)',
+          margin: '0 4px',
         },
 
         '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
@@ -211,25 +226,30 @@ export class CodemirrorComponent
           color: 'var(--editor-string-color)',
         },
       ]);
+
+      const baseExtensions = [
+        keymap.of([
+          ...defaultKeymap,
+          ...historyKeymap,
+          ...completionKeymap,
+          ...closeBracketsKeymap,
+        ]),
+        this.showLineNumber ? lineNumbers() : [],
+        this.foldGutter ? foldGutter() : [],
+        this.wrapLines ? EditorView.lineWrapping : [],
+        // highlightActiveLineGutter(),
+        bracketMatching(),
+        closeBrackets(),
+        history(),
+        autocompletion(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+      ];
       const startState = EditorState.create({
         doc: this.value,
         extensions: [
           updateListener,
-          keymap.of([
-            ...defaultKeymap,
-            ...historyKeymap,
-            ...completionKeymap,
-            ...closeBracketsKeymap,
-          ]),
-          this.showLineNumber ? lineNumbers() : [],
-          this.foldGutter ? foldGutter() : [],
-          this.wrapLines ? EditorView.lineWrapping : [],
-          // highlightActiveLineGutter(),
-          bracketMatching(),
-          closeBrackets(),
-          history(),
-          autocompletion(),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+          !this.bare ? [...baseExtensions] : [],
+
           baseTheme,
           ...this.extensions,
         ],
@@ -241,11 +261,13 @@ export class CodemirrorComponent
       });
     });
   }
-  ngDoCheck(): void {
-    if (false) {
-      console.log('TODO: implement for config options');
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.view && changes.extensions?.currentValue) {
+      this.view.dispatch({
+        effects: StateEffect.reconfigure.of(changes.extensions.currentValue),
+      });
     }
-    // throw new Error('Method not implemented.');
   }
 
   ngOnDestroy() {

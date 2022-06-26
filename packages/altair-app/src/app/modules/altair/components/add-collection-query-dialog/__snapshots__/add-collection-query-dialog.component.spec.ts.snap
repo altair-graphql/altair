@@ -44,11 +44,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector"
+                  class="ant-select-selector nz-animate-disabled"
                 >
-                  
-                  
-                  
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
@@ -64,22 +61,19 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   
                   
                   
+                  
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-                    
                      Choose 
+                    
+                    
                   </nz-select-placeholder>
+                  
                 </nz-select-top-control>
-                
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-                  
-                  
-                  
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -103,7 +97,11 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   
                   
                   
+                  
+                  
+                  
                 </nz-select-arrow>
+                
                 
                 
               </nz-select>
@@ -168,11 +166,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector"
+                  class="ant-select-selector nz-animate-disabled"
                 >
-                  
-                  
-                  
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
@@ -188,22 +183,19 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   
                   
                   
+                  
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-                    
                      Choose 
+                    
+                    
                   </nz-select-placeholder>
+                  
                 </nz-select-top-control>
-                
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-                  
-                  
-                  
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -227,7 +219,11 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   
                   
                   
+                  
+                  
+                  
                 </nz-select-arrow>
+                
                 
                 
               </nz-select>
@@ -292,11 +288,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector"
+                  class="ant-select-selector nz-animate-disabled"
                 >
-                  
-                  
-                  
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
@@ -312,22 +305,19 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   
                   
                   
+                  
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-                    
                      Choose 
+                    
+                    
                   </nz-select-placeholder>
+                  
                 </nz-select-top-control>
-                
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-                  
-                  
-                  
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -351,7 +341,11 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   
                   
                   
+                  
+                  
+                  
                 </nz-select-arrow>
+                
                 
                 
               </nz-select>

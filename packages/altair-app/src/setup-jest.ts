@@ -1,5 +1,12 @@
 import 'jest-preset-angular/setup-jest';
 import 'fake-indexeddb/auto';
+const crypto = require('crypto');
+
+Object.defineProperty(window, 'crypto', {
+  value: {
+    getRandomValues: (arr: any[]) => crypto.randomBytes(arr.length),
+  },
+});
 jest.mock(
   './app/modules/altair/components/doc-viewer/doc-viewer/worker-helper',
   () => ({

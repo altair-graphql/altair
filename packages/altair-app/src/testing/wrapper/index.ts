@@ -54,32 +54,20 @@ export class NgxTestWrapper<C extends any> {
   find<SC extends any = unknown>(selector: string) {
     const comp = this._mainComponentDebugEl.query(By.css(selector));
 
-    return new NgxTestWrapper<SC>(
-      this._testHostFixture,
-      comp || new DebugElement()
-    );
+    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
   }
 
   findComponent<SC extends any = unknown>(type: Type<any>) {
     const comp = this._mainComponentDebugEl.query(By.directive(type));
 
-    return new NgxTestWrapper<SC>(
-      this._testHostFixture,
-      comp || new DebugElement()
-    );
+    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
   }
 
   findAll<SC extends any = unknown>(selector: string) {
     return this._mainComponentDebugEl
       .queryAll(By.css(selector))
       .filter(Boolean)
-      .map(
-        (comp) =>
-          new NgxTestWrapper<SC>(
-            this._testHostFixture,
-            comp || new DebugElement()
-          )
-      );
+      .map((comp) => new NgxTestWrapper<SC>(this._testHostFixture, comp));
   }
 
   findAllComponents<SC extends any = unknown>(type: Type<any>) {

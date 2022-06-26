@@ -33,6 +33,10 @@
     background: rgba(var(--rgb-theme-off-bg), .5);
     border: 0;
   }
+
+  .cm-focused {
+    outline: none !important; // This has proven to be a very persistent styling so using important to override
+  }
 }
 
 

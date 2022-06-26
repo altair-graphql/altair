@@ -4,14 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
-import * as services from '../../services';
-
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
-import * as refreshEditor from '../../utils/codemirror/refresh-editor';
-import { MockModule } from 'ng-mocks';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
+import { jest } from '@jest/globals';
 
 describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;
@@ -22,7 +19,7 @@ describe('SubscriptionUrlDialogComponent', () => {
       TestBed.configureTestingModule({
         declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
         imports: [
-          BrowserAnimationsModule,
+          NoopAnimationsModule,
           FormsModule,
           CodemirrorModule,
           SharedModule,
@@ -48,7 +45,7 @@ describe('SubscriptionUrlDialogComponent', () => {
   });
 
   it('should handle updateSubscriptionProviderId', () => {
-    spyOn(component.subscriptionProviderIdChange, 'emit');
+    jest.spyOn(component.subscriptionProviderIdChange, 'emit');
 
     const providerId = 'test';
     component.updateSubscriptionProviderId(providerId);

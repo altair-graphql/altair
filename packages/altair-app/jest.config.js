@@ -1,32 +1,21 @@
+// const { pathsToModuleNameMapper } = require('ts-jest');
+// const { paths } = require('./tsconfig.json').compilerOptions;
+
+// eslint-disable-next-line no-undef
+globalThis.ngJest = {
+  skipNgcc: false,
+  tsconfig: 'tsconfig.spec.json',
+};
+
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
   collectCoverage: true,
-  roots: [ 'src' ],
-  transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest'
-  },
-  setupFilesAfterEnv: [
-    '<rootDir>/src/setup-jest.ts'
-  ],
-  moduleNameMapper: {
-    '@app/(.*)':'<rootDir>/src/app/$1',
-    '@assets/(.*)':'<rootDir>/src/assets/$1',
-    '@core/(.*)':'<rootDir>/src/app/core/$1',
-    '@env':'<rootDir>/src/environments/environment',
-    '@src/(.*)':'<rootDir>/src/src/$1',
-    '@state/(.*)':'<rootDir>/src/app/state/$1'
-  },
+  globalSetup: 'jest-preset-angular/global-setup',
+  // moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+  setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
+  moduleDirectories: ['node_modules', 'src'],
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!lodash-es)'
+    'node_modules/(?!@angular|@firebase|firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid)',
   ],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/src/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.html$',
-      astTransformers: [
-        'jest-preset-angular/build/InlineFilesTransformer',
-        'jest-preset-angular/build/StripStylesTransformer'
-      ]
-    }
-  }
 };

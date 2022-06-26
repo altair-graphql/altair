@@ -41,6 +41,7 @@ import { ElementWrapperComponent } from './element-wrapper/element-wrapper.compo
 import { AccountDialogComponent } from './account-dialog/account-dialog.component';
 import { CodemirrorComponent } from './codemirror/codemirror.component';
 import { ConfirmToastComponent } from './confirm-toast/confirm-toast.component';
+import { XInputComponent } from './x-input/x-input.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -74,6 +75,7 @@ const COMPONENTS = [
   AccountDialogComponent,
   CodemirrorComponent,
   ConfirmToastComponent,
+  XInputComponent,
 ];
 
 @NgModule({

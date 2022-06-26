@@ -18,11 +18,11 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       >
           
       </button>
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
         >
-          
           <li
             nz-menu-item=""
             value="0"
@@ -51,14 +51,16 @@ exports[`UrlBoxComponent should render correctly 1`] = `
              DELETE 
           </li>
           
+          
         </ul>
+        
       </nz-dropdown-menu>
     </div>
     <div
       class="url-box__input-container"
     >
       
-      <app-fancy-input
+      <app-x-input
         class="url-box__input"
         placeholder="Enter URL"
         track-id="set_url"
@@ -77,6 +79,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           name="save"
         />
       </button>
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -87,12 +90,15 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           >
               
           </li>
+          
           <li
             nz-menu-item=""
           >
               
           </li>
+          
         </ul>
+        
       </nz-dropdown-menu>
       <button
         class="url-box__button"
@@ -103,6 +109,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           name="refresh-ccw"
         />
       </button>
+      
       <button
         class="url-box__button"
         track-id="show_docs"
@@ -114,17 +121,17 @@ exports[`UrlBoxComponent should render correctly 1`] = `
     <div
       class="send-request__wrapper"
     >
-      
       <button
         class="app-button active-primary send-request__button"
         track-id="set_request"
       >
         
-        
         <span>
           
         </span>
+        
       </button>
+      
       
       <nz-dropdown-menu>
         <ul
@@ -132,6 +139,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         >
           
         </ul>
+        
       </nz-dropdown-menu>
     </div>
   </div>
@@ -156,11 +164,11 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       >
           
       </button>
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
         >
-          
           <li
             nz-menu-item=""
             value="0"
@@ -189,14 +197,16 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
              DELETE 
           </li>
           
+          
         </ul>
+        
       </nz-dropdown-menu>
     </div>
     <div
       class="url-box__input-container"
     >
       
-      <app-fancy-input
+      <app-x-input
         class="url-box__input"
         placeholder="Enter URL"
         track-id="set_url"
@@ -215,6 +225,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           name="save"
         />
       </button>
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -225,12 +236,15 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           >
               
           </li>
+          
           <li
             nz-menu-item=""
           >
               
           </li>
+          
         </ul>
+        
       </nz-dropdown-menu>
       <button
         class="url-box__button"
@@ -241,6 +255,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           name="refresh-ccw"
         />
       </button>
+      
       <button
         class="url-box__button"
         track-id="show_docs"
@@ -253,7 +268,6 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       class="send-request__wrapper"
     >
       
-      
       <button
         class="app-button active-primary send-request__button"
         nz-dropdown=""
@@ -262,21 +276,21 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         track-id="send_request"
       >
         
-        
         <span>
           
         </span>
+        
         
         <app-icon
           name="chevron-down"
         />
       </button>
       
+      
       <nz-dropdown-menu>
         <ul
           nz-menu=""
         >
-          
           <li
             nz-menu-item=""
           >
@@ -289,7 +303,9 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
              operation 2 
           </li>
           
+          
         </ul>
+        
       </nz-dropdown-menu>
     </div>
   </div>
