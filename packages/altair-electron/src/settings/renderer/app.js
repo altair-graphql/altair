@@ -51,7 +51,7 @@ const hideAllNested = () => {
 // Initialize when loaded
 document.addEventListener('DOMContentLoaded', function () {
   // load settings
-  const initialData = ipc.sendSync(SETTINGS_STORE_EVENTS.GET_SETTINGS_DATA);
+  const initialData = ipc.sendSync(SETTINGS_STORE_EVENTS.GET_SETTINGS_DATA) || {};
   // set selected settings
   const networkForm = document.querySelector('.js-network-form');
   Object.keys(initialData).forEach((key) => {
