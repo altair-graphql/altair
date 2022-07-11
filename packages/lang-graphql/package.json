@@ -1,0 +1,43 @@
+{
+  "name": "altair-codemirror-graphql",
+  "version": "0.1.0",
+  "description": "GraphQL language support for CodeMirror",
+  "scripts": {
+    "test": "mocha test/test.js",
+    "prepare": "cm-buildhelper src/index.ts"
+  },
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "devDependencies": {
+    "@codemirror/buildhelper": "^0.1.16",
+    "@codemirror/language": "6.0.0",
+    "@lezer/common": "^1.0.0",
+    "@lezer/generator": "^1.1.0",
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.1.0",
+    "esbuild": "^0.14.47",
+    "mocha": "^9.0.1",
+    "rollup": "^2.60.2",
+    "rollup-plugin-dts": "^4.0.1",
+    "rollup-plugin-esbuild": "^4.9.1",
+    "rollup-plugin-ts": "^2.0.4",
+    "typescript": "^4.3.4"
+  },
+  "peerDependencies": {
+    "@codemirror/language": "6.0.0"
+  },
+  "resolutions": {
+    "@codemirror/view": "6.0.0",
+    "@codemirror/state": "6.0.0",
+    "@codemirror/language": "6.0.0",
+    "@lezer/lr": "1.1.0"
+  },
+  "license": "MIT"
+}

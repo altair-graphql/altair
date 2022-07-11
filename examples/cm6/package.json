@@ -1,0 +1,37 @@
+{
+  "name": "cm6",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html -p 8080",
+    "build": "parcel build src/index.html --public-url /"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "6.0.0",
+    "@codemirror/commands": "6.0.0",
+    "@codemirror/lang-html": "^6.1.0",
+    "@codemirror/lang-json": "^6.0.0",
+    "@codemirror/lang-python": "^6.0.0",
+    "@codemirror/language": "6.0.0",
+    "@codemirror/state": "6.0.0",
+    "@codemirror/theme-one-dark": "^6.0.0",
+    "@codemirror/view": "6.0.0",
+    "@lezer/lr": "1.1.0",
+    "altair-codemirror-graphql": "file:../../packages/lang-graphql",
+    "graphql": "^16.5.0",
+    "graphql-language-service-interface": "^2.10.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.7.4"
+  },
+  "resolutions": {
+    "@codemirror/autocomplete": "6.0.0",
+    "@codemirror/commands": "6.0.0",
+    "@codemirror/view": "6.0.0",
+    "@codemirror/state": "6.0.0",
+    "@codemirror/language": "6.0.0",
+    "@lezer/lr": "1.1.0"
+  }
+}

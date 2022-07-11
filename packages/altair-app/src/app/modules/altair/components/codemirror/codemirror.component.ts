@@ -19,7 +19,12 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, StateEffect } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from '@codemirror/commands';
 import { searchKeymap, search } from '@codemirror/search';
 import {
   autocompletion,
@@ -69,209 +74,13 @@ export class CodemirrorComponent
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
-  constructor(private zone: NgZone, private differ: KeyValueDiffers) {}
+  constructor(private zone: NgZone) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
-        if (vu.docChanged) {
-          const doc = vu.state.doc;
-          const value = doc.toString();
-          this.zone.run(() => this.codemirrorValueChanged(value));
-        }
-        if (vu.focusChanged) {
-          this.zone.run(() => this.focusChanged(vu.view.hasFocus));
-        }
-      });
-      const baseTheme = EditorView.theme({
-        '&.cm-editor.cm-focused': {
-          outline: 'none',
-        },
-        '.cm-tooltip.cm-tooltip-autocomplete': {
-          background: 'var(--theme-bg-color)',
-          border: '1px solid var(--theme-border-color)',
-          borderRadius: '4px',
-          padding: '4px',
-          fontSize:
-            'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
-
-          '& > ul': {
-            fontFamily: 'var(--editor-font-family)',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden auto',
-            maxWidth_fallback: '700px',
-            maxWidth: 'min(700px, 95vw)',
-            minWidth: '250px',
-            maxHeight: '10em',
-            listStyle: 'none',
-            margin: 0,
-            padding: 0,
-            background: 'var(--theme-bg-color)',
-            color: 'var(--theme-font-color)',
-
-            '& > li': {
-              overflowX: 'hidden',
-              textOverflow: 'ellipsis',
-              cursor: 'pointer',
-              padding: '2px 4px',
-              lineHeight: 1.4,
-            },
-          },
-        },
-
-        '.cm-tooltip-autocomplete ul li': {
-          background: 'var(--theme-bg-color)',
-          color: 'var(--theme-font-color)',
-          borderRadius: '4px',
-        },
-
-        '.cm-tooltip-autocomplete ul li[aria-selected]': {
-          background: 'var(--primary-color)',
-        },
-
-        '.cm-tooltip.cm-completionInfo': {
-          position: 'absolute',
-          padding: '4px',
-          borderRadius: '4px',
-          width: 'max-content',
-          maxWidth: '400px',
-          background: 'var(--theme-bg-color)',
-          color: 'var(--theme-font-color)',
-          lineHeight: '1.4',
-          border: '1px solid var(--theme-border-color)',
-          margin: '0 4px',
-        },
-
-        '.cm-panels': {
-          background: 'var(--theme-bg-color)',
-          color: 'var(--theme-font-color)',
-        },
-        '.cm-panels-top': {
-          borderColor: 'var(--theme-border-color)',
-        },
-
-        '.cm-button': {
-          background: 'var(--theme-off-bg-color)',
-          borderRadius: '4px',
-        },
-
-        '.cm-textfield': {
-          background: 'var(--theme-bg-color)',
-          border: 'none',
-          borderBottom: '1px solid var(--theme-border-color)',
-        },
-
-        '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
-        '.cm-completionInfo.cm-completionInfo-right': { left: '100%' },
-
-        // '&light .cm-snippetField': {backgroundColor: '#00000022'},
-        // '&dark .cm-snippetField': {backgroundColor: '#ffffff22'},
-        '.cm-snippetFieldPosition': {
-          verticalAlign: 'text-top',
-          width: 0,
-          height: '1.15em',
-          margin: '0 -0.7px -.7em',
-          borderLeft: '1.4px dotted #888',
-        },
-
-        '.cm-completionMatchedText': {
-          textDecoration: 'none',
-          fontWeight: 'bold',
-        },
-      });
-      // https://github.com/codemirror/theme-one-dark/blob/848ca1e82addf4892afc895e013754805af6182a/src/one-dark.ts#L96
-      const defaultHighlightStyle = HighlightStyle.define([
-        { tag: t.keyword, color: 'var(--editor-keyword-color)' },
-        {
-          tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName],
-          color: 'var(--editor-property-color)',
-        },
-        {
-          tag: [t.function(t.variableName), t.labelName],
-          color: 'var(--editor-variable-color)',
-        },
-        {
-          tag: [t.color, t.constant(t.name), t.standard(t.name)],
-          color: 'var(--editor-builtin-color)',
-        },
-        {
-          tag: [t.definition(t.name), t.separator],
-          color: 'var(--editor-def-color)',
-        },
-        {
-          tag: [
-            t.typeName,
-            t.className,
-            t.number,
-            t.changed,
-            t.annotation,
-            t.modifier,
-            t.self,
-            t.namespace,
-          ],
-          color: 'var(--editor-number-color)',
-        },
-        {
-          tag: [
-            t.operator,
-            t.operatorKeyword,
-            t.url,
-            t.escape,
-            t.regexp,
-            t.link,
-            t.special(t.string),
-          ],
-          color: 'var(--editor-keyword-color)',
-        },
-        { tag: [t.meta, t.comment], color: 'var(--editor-comment-color)' },
-        {
-          tag: [t.attributeName, t.attributeValue],
-          color: 'var(--editor-attribute-color)',
-        },
-        { tag: [t.punctuation], color: 'var(--editor-punctuation-color)' },
-        { tag: t.strong, fontWeight: 'bold' },
-        { tag: t.emphasis, fontStyle: 'italic' },
-        { tag: t.strikethrough, textDecoration: 'line-through' },
-        {
-          tag: [t.atom, t.bool, t.special(t.variableName)],
-          color: 'var(--editor-atom-color)',
-        },
-        {
-          tag: [t.processingInstruction, t.string, t.inserted],
-          color: 'var(--editor-string-color)',
-        },
-      ]);
-
-      const baseExtensions = [
-        keymap.of([
-          ...defaultKeymap,
-          ...historyKeymap,
-          ...completionKeymap,
-          ...closeBracketsKeymap,
-          ...searchKeymap,
-        ]),
-        this.showLineNumber ? lineNumbers() : [],
-        this.foldGutter ? foldGutter() : [],
-        this.wrapLines ? EditorView.lineWrapping : [],
-        // highlightActiveLineGutter(),
-        bracketMatching(),
-        closeBrackets(),
-        history(),
-        autocompletion(),
-        search({
-          top: true,
-        }),
-        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-      ];
       const startState = EditorState.create({
         doc: this.value,
-        extensions: [
-          updateListener,
-          !this.bare ? [...baseExtensions] : [],
-
-          baseTheme,
-          ...this.extensions,
-        ],
+        extensions: this.getExtensions(),
       });
 
       this.view = new EditorView({
@@ -284,7 +93,9 @@ export class CodemirrorComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (this.view && changes.extensions?.currentValue) {
       this.view.dispatch({
-        effects: StateEffect.reconfigure.of(changes.extensions.currentValue),
+        effects: StateEffect.reconfigure.of(
+          this.getExtensions(changes.extensions.currentValue)
+        ),
       });
     }
   }
@@ -326,5 +137,192 @@ export class CodemirrorComponent
   focusChanged(focused: boolean) {
     this.onTouched();
     this.focusChange.emit(focused);
+  }
+
+  getExtensions(extraExtensions = this.extensions) {
+    const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
+      if (vu.docChanged) {
+        const doc = vu.state.doc;
+        const value = doc.toString();
+        this.zone.run(() => this.codemirrorValueChanged(value));
+      }
+      if (vu.focusChanged) {
+        this.zone.run(() => this.focusChanged(vu.view.hasFocus));
+      }
+    });
+    const baseTheme = EditorView.theme({
+      '&.cm-editor.cm-focused': {
+        outline: 'none',
+      },
+      '.cm-tooltip.cm-tooltip-autocomplete': {
+        background: 'var(--theme-bg-color)',
+        border: '1px solid var(--theme-border-color)',
+        borderRadius: '4px',
+        padding: '4px',
+        fontSize:
+          'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
+
+        '& > ul': {
+          fontFamily: 'var(--editor-font-family)',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden auto',
+          maxWidth_fallback: '700px',
+          maxWidth: 'min(700px, 95vw)',
+          minWidth: '250px',
+          maxHeight: '10em',
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+          background: 'var(--theme-bg-color)',
+          color: 'var(--theme-font-color)',
+
+          '& > li': {
+            overflowX: 'hidden',
+            textOverflow: 'ellipsis',
+            cursor: 'pointer',
+            padding: '2px 4px',
+            lineHeight: 1.4,
+          },
+        },
+      },
+
+      '.cm-tooltip-autocomplete ul li': {
+        background: 'var(--theme-bg-color)',
+        color: 'var(--theme-font-color)',
+        borderRadius: '4px',
+      },
+
+      '.cm-tooltip-autocomplete ul li[aria-selected]': {
+        background: 'var(--primary-color)',
+      },
+
+      // '&dark .cm-tooltip-autocomplete ul li[aria-selected]': {
+      //   background: '#347',
+      //   color: 'white',
+      // },
+
+      '.cm-tooltip.cm-completionInfo': {
+        position: 'absolute',
+        padding: '4px',
+        borderRadius: '4px',
+        width: 'max-content',
+        maxWidth: '400px',
+        background: 'var(--theme-bg-color)',
+        color: 'var(--theme-font-color)',
+        lineHeight: '1.4',
+        border: '1px solid var(--theme-border-color)',
+        margin: '0 4px',
+      },
+
+      '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
+      '.cm-completionInfo.cm-completionInfo-right': { left: '100%' },
+
+      // '&light .cm-snippetField': {backgroundColor: '#00000022'},
+      // '&dark .cm-snippetField': {backgroundColor: '#ffffff22'},
+      '.cm-snippetFieldPosition': {
+        verticalAlign: 'text-top',
+        width: 0,
+        height: '1.15em',
+        margin: '0 -0.7px -.7em',
+        borderLeft: '1.4px dotted #888',
+      },
+
+      '.cm-completionMatchedText': {
+        textDecoration: 'none',
+        fontWeight: 'bold',
+      },
+    });
+    // https://github.com/codemirror/theme-one-dark/blob/848ca1e82addf4892afc895e013754805af6182a/src/one-dark.ts#L96
+    const defaultHighlightStyle = HighlightStyle.define([
+      { tag: t.keyword, color: 'var(--editor-keyword-color)' },
+      {
+        tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName],
+        color: 'var(--editor-property-color)',
+      },
+      {
+        tag: [t.function(t.variableName), t.labelName],
+        color: 'var(--editor-variable-color)',
+      },
+      {
+        tag: [t.color, t.constant(t.name), t.standard(t.name)],
+        color: 'var(--editor-builtin-color)',
+      },
+      {
+        tag: [t.definition(t.name), t.separator],
+        color: 'var(--editor-def-color)',
+      },
+      {
+        tag: [
+          t.typeName,
+          t.className,
+          t.number,
+          t.changed,
+          t.annotation,
+          t.modifier,
+          t.self,
+          t.namespace,
+        ],
+        color: 'var(--editor-number-color)',
+      },
+      {
+        tag: [
+          t.operator,
+          t.operatorKeyword,
+          t.url,
+          t.escape,
+          t.regexp,
+          t.link,
+          t.special(t.string),
+        ],
+        color: 'var(--editor-keyword-color)',
+      },
+      { tag: [t.meta, t.comment], color: 'var(--editor-comment-color)' },
+      {
+        tag: [t.attributeName, t.attributeValue],
+        color: 'var(--editor-attribute-color)',
+      },
+      { tag: [t.punctuation], color: 'var(--editor-punctuation-color)' },
+      { tag: t.strong, fontWeight: 'bold' },
+      { tag: t.emphasis, fontStyle: 'italic' },
+      { tag: t.strikethrough, textDecoration: 'line-through' },
+      {
+        tag: [t.atom, t.bool, t.special(t.variableName)],
+        color: 'var(--editor-atom-color)',
+      },
+      {
+        tag: [t.processingInstruction, t.string, t.inserted],
+        color: 'var(--editor-string-color)',
+      },
+    ]);
+
+    const baseExtensions = [
+      keymap.of([
+        ...defaultKeymap,
+        ...historyKeymap,
+        ...completionKeymap,
+        ...closeBracketsKeymap,
+        ...searchKeymap,
+        indentWithTab,
+      ]),
+      this.showLineNumber ? lineNumbers() : [], // TODO: Create own compartment
+      this.foldGutter ? foldGutter() : [], // TODO: Create own compartment
+      this.wrapLines ? EditorView.lineWrapping : [], // TODO: Create own compartment
+      bracketMatching(),
+      closeBrackets(),
+      history(),
+      autocompletion(),
+      search({
+        top: true,
+      }),
+      syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+    ];
+
+    return [
+      updateListener,
+      !this.bare ? [...baseExtensions] : [],
+
+      baseTheme,
+      ...extraExtensions,
+    ];
   }
 }

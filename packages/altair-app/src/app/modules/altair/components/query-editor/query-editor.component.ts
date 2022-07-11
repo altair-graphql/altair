@@ -15,6 +15,7 @@ import {
 
 import * as fromVariables from '../../store/variables/variables.reducer';
 import sanitizeHtml from 'sanitize-html';
+import { graphql } from 'altair-codemirror-graphql';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -52,6 +53,7 @@ import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
 import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { Extension } from '@codemirror/state';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -111,6 +113,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.zone.run(() => this.onFillFields(cm)),
     noOp: (cm: CodeMirror.Editor) => {},
   };
+
+  editorExtensions: Extension[] = [graphql()];
 
   editorConfig = <any>{
     mode: 'graphql',
