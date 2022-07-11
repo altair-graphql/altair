@@ -41,7 +41,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <iconUrl>https://altair.sirmuel.design/assets/img/altair_logo_128.png</iconUrl>
     <!-- <copyright>Year Software Vendor</copyright> -->
     <!-- If there is a license Url available, it is required for the community feed -->
-    <licenseUrl>https://github.com/altair-graphql/altair/blob/master/.github/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/altair-graphql/altair/blob/master/chocolatey/legal/LICENSE</licenseUrl>
     <!-- <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
     <projectSourceUrl>https://github.com/imolorhe/altair</projectSourceUrl>
     <docsUrl>https://github.com/altair-graphql/altair/blob/master/chocolatey/README.md</docsUrl>
