@@ -33,6 +33,7 @@ app-url-box {
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 0; // needed to fix the overflow issue when there is a long url in the input
 }
 
 .url-box__input {

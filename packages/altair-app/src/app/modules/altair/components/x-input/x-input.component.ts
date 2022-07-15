@@ -94,6 +94,9 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         fontFamily: 'var(--font-family)',
         cursor: 'text',
       },
+      '.cm-scroller::-webkit-scrollbar': {
+        display: 'none',
+      },
       '.cm-tooltip-hover': {
         background: 'var(--theme-bg-color)',
         border: '1px solid var(--theme-border-color)',
