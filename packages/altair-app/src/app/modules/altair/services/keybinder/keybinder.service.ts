@@ -13,7 +13,7 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as docsActions from '../../store/docs/docs.action';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { catchError, first } from 'rxjs/operators';
+import { catchError, first, take } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { catchUselessObservableError } from '../../utils/errors';
 
@@ -119,7 +119,7 @@ export class KeybinderService {
       () =>
         this.windowService
           .newWindow()
-          .pipe(first(), catchUselessObservableError)
+          .pipe(take(1), catchUselessObservableError)
           .subscribe(),
       'Create new window'
     );

@@ -1,6 +1,6 @@
 import { EMPTY, from, Observable } from 'rxjs';
 
-import { first, tap, map, switchMap } from 'rxjs/operators';
+import { first, tap, map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
@@ -52,7 +52,7 @@ export class WindowService {
     } = {}
   ) {
     return this.store.pipe(
-      first(),
+      take(1),
       map((state) => {
         const url =
           opts.url ||
@@ -84,7 +84,7 @@ export class WindowService {
     this.cleanupWindow(windowId);
 
     return this.store.pipe(
-      first(),
+      take(1),
       tap((data) => {
         const window = data.windows[windowId];
         if (window) {
@@ -98,7 +98,7 @@ export class WindowService {
   }
 
   duplicateWindow(windowId: string) {
-    return this.store.pipe(first()).subscribe((data) => {
+    return this.store.pipe(take(1)).subscribe((data) => {
       const window = data.windows[windowId];
       if (!window) {
         return;
@@ -127,7 +127,7 @@ export class WindowService {
 
   getWindowExportData(windowId: string) {
     return this.store.pipe(
-      first(),
+      take(1),
       map((state) => {
         const window = state.windows[windowId];
         if (!window) {
@@ -429,7 +429,7 @@ export class WindowService {
     // Validate that query is ACTUALLY in an existing collection
     this.getWindowState(windowId)
       .pipe(
-        first(),
+        take(1),
         switchMap((data) => {
           if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
             return from(
@@ -468,7 +468,7 @@ export class WindowService {
 
     this.store
       .pipe(
-        first(),
+        take(1),
         map((data) => data.settings['schema.reloadOnStart'])
       )
       .subscribe((shouldReloadSchema) => {

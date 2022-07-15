@@ -28,7 +28,7 @@ export class NotifyService {
   warning(message: string, title = '', opts: NotifyOptions = {}) {
     this.store
       .select((state) => state.settings['alert.disableWarnings'])
-      .pipe(first())
+      .pipe(take(1))
       .subscribe((disableWarnings) => {
         if (!disableWarnings) {
           return this.exec('warning', message, title, opts);
@@ -46,12 +46,12 @@ export class NotifyService {
   ) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
     if (opts.data && opts.data.action) {
-      toast.onTap.pipe(first()).subscribe((_toast) => {
+      toast.onTap.pipe(take(1)).subscribe((_toast) => {
         opts.data.action();
       });
     }
     if (opts.data && opts.data.url) {
-      toast.onTap.pipe(first()).subscribe((_toast) => {
+      toast.onTap.pipe(take(1)).subscribe((_toast) => {
         window.open(opts.data.url, '_blank');
       });
     }
@@ -82,7 +82,7 @@ export class NotifyService {
   electronPushNotify(message: string, title = 'Altair', opts: any = {}) {
     this.store
       .select((state) => state.settings.disablePushNotification)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise()
       .then((disablePushNotification) => {
         if (disablePushNotification) {
@@ -103,7 +103,7 @@ export class NotifyService {
   extensionPushNotify(message: string, title = 'Altair', opts: any = {}) {
     this.store
       .select((state) => state.settings.disablePushNotification)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise()
       .then((disablePushNotification) => {
         if (disablePushNotification) {

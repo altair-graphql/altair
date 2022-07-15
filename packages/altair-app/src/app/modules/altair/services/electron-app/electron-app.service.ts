@@ -1,4 +1,4 @@
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
@@ -71,7 +71,7 @@ export class ElectronAppService {
         this.zone.run(() =>
           this.windowService
             .newWindow()
-            .pipe(first(), catchUselessObservableError)
+            .pipe(take(1), catchUselessObservableError)
             .subscribe()
         );
       });
@@ -145,7 +145,7 @@ export class ElectronAppService {
           (state: RootState) =>
             state.settings['alert.disableUpdateNotification']
         )
-        .pipe(first())
+        .pipe(take(1))
         .subscribe((disableUpdateNotification: boolean) => {
           if (!disableUpdateNotification) {
             this.initUpdateAvailableHandler();

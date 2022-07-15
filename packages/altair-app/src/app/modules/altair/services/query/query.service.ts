@@ -15,7 +15,7 @@ import {
   ScriptContextData,
 } from '../pre-request/pre-request.service';
 import { SubscriptionProviderRegistryService } from '../subscriptions/subscription-provider-registry.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
@@ -36,7 +36,7 @@ export class QueryService {
   async getWindowState(windowId: string) {
     return this.store
       .pipe(select(fromRoot.selectWindowState(windowId)))
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
   }
 

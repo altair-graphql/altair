@@ -13,7 +13,7 @@ import { GqlService } from './gql.service';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { empty as observableEmpty, Observable, of } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
@@ -251,7 +251,7 @@ describe('GqlService', () => {
           .getIntrospectionRequest('http://test.com', {
             method: 'GET',
           })
-          .pipe(first())
+          .pipe(take(1))
           .toPromise();
 
         expect(res.response.body).toEqual({
@@ -295,7 +295,7 @@ describe('GqlService', () => {
           .getIntrospectionRequest('http://test.com', {
             method: 'GET',
           })
-          .pipe(first())
+          .pipe(take(1))
           .toPromise();
 
         expect(res.response.body).toEqual({
@@ -339,7 +339,7 @@ describe('GqlService', () => {
             .getIntrospectionRequest('http://test.com', {
               method: 'GET',
             })
-            .pipe(first())
+            .pipe(take(1))
             .toPromise();
           // Should not be called
           expect(true).toBe(false);

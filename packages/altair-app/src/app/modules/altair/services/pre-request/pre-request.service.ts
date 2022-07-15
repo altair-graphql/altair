@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import * as environmentsActions from '../../store/environments/environments.action';
 import { getActiveSubEnvironmentState } from '../../store/environments/selectors';
 import { NotifyService } from '../notify/notify.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { SendRequestResponse } from '../gql/gql.service';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -120,7 +120,7 @@ export class PreRequestService {
     if (clonedMutableData.__toSetActiveEnvironment) {
       const activeEnvState = await this.store
         .select(getActiveSubEnvironmentState)
-        .pipe(first())
+        .pipe(take(1))
         .toPromise();
 
       if (activeEnvState) {

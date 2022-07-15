@@ -404,7 +404,7 @@ export class AppComponent {
   newWindow() {
     this.windowService
       .newWindow()
-      .pipe(first(), untilDestroyed(this))
+      .pipe(take(1), untilDestroyed(this))
       .subscribe(({ url, windowId }) => {
         this.store.dispatch(
           new windowsMetaActions.SetActiveWindowIdAction({ windowId })

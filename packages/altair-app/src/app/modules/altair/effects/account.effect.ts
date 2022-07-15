@@ -10,6 +10,7 @@ import {
   map,
   repeat,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import { ApiService, NotifyService, StorageService } from '../services';
@@ -28,7 +29,7 @@ export class AccountEffects {
           if (!environment.serverReady) {
             return EMPTY;
           }
-          return of(this.apiService.getSession()).pipe(first());
+          return of(this.apiService.getSession()).pipe(take(1));
         }),
         switchMap((session) => {
           if (!session) {
@@ -64,7 +65,7 @@ export class AccountEffects {
           }
         ),
         switchMap(({ action }) => {
-          return this.apiService.accountLoginWithSupabase().pipe(first());
+          return this.apiService.accountLoginWithSupabase().pipe(take(1));
         }),
         switchMap((data) => {
           if (!data.session?.user) {

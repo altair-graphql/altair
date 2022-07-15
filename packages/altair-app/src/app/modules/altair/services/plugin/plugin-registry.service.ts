@@ -16,7 +16,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
 import { DbService } from '../db.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { NotifyService } from '../notify/notify.service';
 import sanitize from 'sanitize-html';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
@@ -133,7 +133,7 @@ export class PluginRegistryService {
 
     const approvedMap: UserPluginApprovedMap | undefined = await this.db
       .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
 
     if (!approvedMap) {
@@ -161,7 +161,7 @@ export class PluginRegistryService {
     const retrievedApprovedMap: UserPluginApprovedMap | undefined =
       await this.db
         .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
-        .pipe(first())
+        .pipe(take(1))
         .toPromise();
 
     if (retrievedApprovedMap) {
@@ -183,14 +183,14 @@ export class PluginRegistryService {
 
     await this.db
       .setItem(PLUGIN_APPROVED_MAP_STORAGE_KEY, approvedMap)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
   }
 
   async addPluginToSettings(pluginName: string) {
     const resp = await this.store
       .select((state) => state.settings)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
 
     const settings: SettingsState = JSON.parse(JSON.stringify(resp));
@@ -207,7 +207,7 @@ export class PluginRegistryService {
   async removePluginFromSettings(pluginName: string) {
     const resp = await this.store
       .select((state) => state.settings)
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
     const settings: SettingsState = JSON.parse(JSON.stringify(resp));
 

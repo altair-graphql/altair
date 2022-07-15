@@ -28,7 +28,7 @@ import * as localActions from '../../../store/local/local.action';
 import * as settingsActions from '../../../store/settings/settings.action';
 
 import { PluginEventService } from '../plugin-event.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
@@ -195,7 +195,7 @@ export class PluginContextService implements PluginContextGenerator {
         async enable(name: string, darkMode = false) {
           log('Enabling theme: ' + name);
           const settings = {
-            ...(await self.store.select('settings').pipe(first()).toPromise()),
+            ...(await self.store.select('settings').pipe(take(1)).toPromise()),
           };
 
           if (darkMode) {
@@ -219,7 +219,7 @@ export class PluginContextService implements PluginContextGenerator {
   private async getWindowState(windowId: string) {
     const data = await this.store
       .select(fromRoot.selectWindowState(windowId))
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
 
     if (!data) {
@@ -252,7 +252,7 @@ export class PluginContextService implements PluginContextGenerator {
   private async getCurrentWindowState() {
     const windowMeta = await this.store
       .select('windowsMeta')
-      .pipe(first())
+      .pipe(take(1))
       .toPromise();
     return this.getWindowState(windowMeta.activeWindowId);
   }
