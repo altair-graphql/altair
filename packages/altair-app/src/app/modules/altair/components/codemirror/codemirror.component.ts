@@ -20,6 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, StateEffect } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { searchKeymap, search } from '@codemirror/search';
 import {
   autocompletion,
   completionKeymap,
@@ -128,11 +129,6 @@ export class CodemirrorComponent
           background: 'var(--primary-color)',
         },
 
-        // '&dark .cm-tooltip-autocomplete ul li[aria-selected]': {
-        //   background: '#347',
-        //   color: 'white',
-        // },
-
         '.cm-tooltip.cm-completionInfo': {
           position: 'absolute',
           padding: '4px',
@@ -144,6 +140,25 @@ export class CodemirrorComponent
           lineHeight: '1.4',
           border: '1px solid var(--theme-border-color)',
           margin: '0 4px',
+        },
+
+        '.cm-panels': {
+          background: 'var(--theme-bg-color)',
+          color: 'var(--theme-font-color)',
+        },
+        '.cm-panels-top': {
+          borderColor: 'var(--theme-border-color)',
+        },
+
+        '.cm-button': {
+          background: 'var(--theme-off-bg-color)',
+          borderRadius: '4px',
+        },
+
+        '.cm-textfield': {
+          background: 'var(--theme-bg-color)',
+          border: 'none',
+          borderBottom: '1px solid var(--theme-border-color)',
         },
 
         '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
@@ -233,6 +248,7 @@ export class CodemirrorComponent
           ...historyKeymap,
           ...completionKeymap,
           ...closeBracketsKeymap,
+          ...searchKeymap,
         ]),
         this.showLineNumber ? lineNumbers() : [],
         this.foldGutter ? foldGutter() : [],
@@ -242,6 +258,9 @@ export class CodemirrorComponent
         closeBrackets(),
         history(),
         autocompletion(),
+        search({
+          top: true,
+        }),
         syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
       ];
       const startState = EditorState.create({

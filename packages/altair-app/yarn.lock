@@ -1736,6 +1736,15 @@
     "@codemirror/view" "^6.0.0"
     crelt "^1.0.5"
 
+"@codemirror/search@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@codemirror/search/-/search-6.0.0.tgz#43bd6341d9aff18869386d2fce27519850e919e3"
+  integrity sha512-rL0rd3AhI0TAsaJPUaEwC63KHLO7KL0Z/dYozXj6E7L3wNHRyx7RfE0/j5HsIf912EE5n2PCb4Vg0rGYmDv4UQ==
+  dependencies:
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.0.0"
+    crelt "^1.0.5"
+
 "@codemirror/state@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@codemirror/state/-/state-6.0.0.tgz#baac0d050ce9271259b0997e1693469c044deb3f"
@@ -3678,10 +3687,10 @@ ajv@^8.0.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-altair-graphql-core@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.5.1.tgz#fd1507c07fe2188042a09df0ce3458d6f2b1aab6"
-  integrity sha512-iestCouwDPV46PRU5ThR0dMIYpvuaUArMKWAttvh7BFwyoWOkMMfX1SAcjBh5b82SZ4I0lb3sTo4t2tiTflvJg==
+altair-graphql-core@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/altair-graphql-core/-/altair-graphql-core-4.5.3.tgz#7f8ebea36687efd2afb2db4c77c85996d4c4166e"
+  integrity sha512-POHmivkBM92m3tZlLFOIATIQ4IGGWdYvvT/DlCC6ll9xY/B5f9ATI0y+XMRHqYmgsTY1Jwdo78sHwHWpdlhrYg==
   dependencies:
     "@apollo/client" "^3.3.20"
     actioncable "^5.2.6"

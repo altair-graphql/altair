@@ -41,6 +41,7 @@
     "@codemirror/lang-javascript": "^6.0.0",
     "@codemirror/lang-json": "^6.0.0",
     "@codemirror/language": "^6.0.0",
+    "@codemirror/search": "^6.0.0",
     "@codemirror/state": "^6.0.0",
     "@codemirror/view": "^6.0.0",
     "@ctrl/ngx-codemirror": "^3.1.3",
