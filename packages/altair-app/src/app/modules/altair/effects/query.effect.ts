@@ -254,8 +254,7 @@ export class QueryEffects {
                   `
                     You have some invalid file variables.<br><br>
                     You need to provide a file and file name, when uploading files.
-                    Check your files in the variables section.<br><br>
-                    Note: Files don't persist after restarting Altair.
+                    Check your files in the variables section.
                   `,
                   'Altair',
                   {

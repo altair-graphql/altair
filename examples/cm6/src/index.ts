@@ -4,7 +4,7 @@ import { EditorState, Text } from '@codemirror/state';
 import { EditorView, lineNumbers, keymap } from '@codemirror/view';
 import { history, defaultKeymap, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { autocompletion, closeBrackets, CompletionContext, completionKeymap, closeBracketsKeymap } from '@codemirror/autocomplete';
-import { bracketMatching, syntaxHighlighting, defaultHighlightStyle, syntaxTree } from '@codemirror/language';
+import { bracketMatching, syntaxHighlighting, HighlightStyle, syntaxTree } from '@codemirror/language';
 import { linter } from '@codemirror/lint';
 import query, { sdl } from './query';
 import { graphql, graphqlLanguage } from 'altair-codemirror-graphql';
@@ -14,6 +14,7 @@ import { python } from '@codemirror/lang-python';
 import { oneDarkHighlightStyle } from '@codemirror/theme-one-dark';
 import { buildSchema } from 'graphql';
 import { getAutocompleteSuggestions, getDiagnostics } from 'graphql-language-service-interface';
+import { tags as t } from '@lezer/highlight';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 const schema = buildSchema(sdl);
@@ -88,6 +89,68 @@ const gqlDocsJump = EditorView.domEventHandlers({
     console.log(evt, view, currentPosition, nodeBefore);
   },
 });
+const defaultHighlightStyle = HighlightStyle.define([
+  { tag: t.keyword, color: 'var(--editor-keyword-color)' },
+  {
+    tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName],
+    color: 'var(--editor-property-color, red)',
+  },
+  {
+    tag: [t.function(t.variableName), t.variableName, t.special(t.variableName), t.labelName],
+    color: 'var(--editor-variable-color)',
+  },
+  {
+    tag: [t.color, t.constant(t.name), t.standard(t.name), t.bool],
+    color: 'var(--editor-builtin-color)',
+  },
+  {
+    tag: [t.definition(t.name), t.separator],
+    color: 'var(--editor-def-color)',
+  },
+  {
+    tag: [
+      t.typeName,
+      t.className,
+      t.number,
+      t.changed,
+      t.annotation,
+      t.modifier,
+      t.self,
+      t.namespace,
+    ],
+    color: 'var(--editor-number-color)',
+  },
+  {
+    tag: [
+      t.operator,
+      t.operatorKeyword,
+      t.url,
+      t.escape,
+      t.regexp,
+      t.link,
+      t.special(t.string),
+    ],
+    color: 'var(--editor-keyword-color)',
+  },
+  { tag: [t.meta, t.comment], color: 'var(--editor-comment-color)' },
+  {
+    tag: [t.attributeName, t.attributeValue],
+    color: 'var(--editor-attribute-color)',
+  },
+  { tag: [t.punctuation], color: 'var(--editor-punctuation-color)' },
+  { tag: t.strong, fontWeight: 'bold' },
+  { tag: t.emphasis, fontStyle: 'italic' },
+  { tag: t.strikethrough, textDecoration: 'line-through' },
+  { tag: [t.bool], color: 'var(--editor-builtin-color)' },
+  {
+    tag: [t.atom],
+    color: 'var(--editor-atom-color)',
+  },
+  {
+    tag: [t.processingInstruction, t.string, t.inserted],
+    color: 'var(--editor-string-color)',
+  },
+]);
 
 // console.log(graphql(), html(), json(), python());
 const state = EditorState.create({
@@ -109,7 +172,8 @@ const state = EditorState.create({
     // html(),
     // python(),
     graphql(),
-    syntaxHighlighting(oneDarkHighlightStyle),
+    // syntaxHighlighting(oneDarkHighlightStyle),
+    syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
     gqlSchemaCompletions,
     gqlSchemaLinter,
     gqlDocsJump,

@@ -27,6 +27,7 @@ app-query-editor {
 }
 
 .query-editor__line-widget {
+  font-family: var(--font-family);
   font-size: fontsize(10);
   cursor: pointer;
   display: inline-block;

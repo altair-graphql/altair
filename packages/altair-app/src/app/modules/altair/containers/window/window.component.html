@@ -58,6 +58,7 @@
         [preRequest]="preRequest$ | async"
         [postRequest]="postRequest$ | async"
         [shortcutMapping]="editorShortcutMapping$ | async"
+        [enableExperimental]="enableExperimental$ | async"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"

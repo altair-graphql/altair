@@ -149,9 +149,9 @@ const providers = [
       LocalEffects,
       AccountEffects,
     ]),
-    StoreDevtoolsModule.instrument({
-      logOnly: environment.production,
-    }),
+    // StoreDevtoolsModule.instrument({
+    //   logOnly: environment.production,
+    // }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

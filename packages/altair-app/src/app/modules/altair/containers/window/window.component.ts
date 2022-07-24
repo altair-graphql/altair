@@ -95,6 +95,7 @@ export class WindowComponent implements OnInit {
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
+  enableExperimental$: Observable<boolean | undefined>;
   autoscrollSubscriptionResponses$: Observable<boolean>;
 
   collections$: Observable<IQueryCollection[]>;
@@ -142,6 +143,9 @@ export class WindowComponent implements OnInit {
       select((state) => state.settings.addQueryDepthLimit)
     );
     this.tabSize$ = this.store.pipe(select((state) => state.settings.tabSize));
+    this.enableExperimental$ = this.store.pipe(
+      select((state) => state.settings.enableExperimental)
+    );
     this.collections$ = this.store.pipe(
       select((state) => state.collection.list)
     );

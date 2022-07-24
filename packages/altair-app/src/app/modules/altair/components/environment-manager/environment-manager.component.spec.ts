@@ -5,7 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
 
 describe('EnvironmentManagerComponent', () => {

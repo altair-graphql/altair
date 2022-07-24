@@ -17,7 +17,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorState, Extension, StateEffect } from '@codemirror/state';
+import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, ViewUpdate } from '@codemirror/view';
 import {
   defaultKeymap,
@@ -69,7 +69,7 @@ export class CodemirrorComponent
 
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 
-  private view: EditorView;
+  view: EditorView;
   private value = '';
   private onTouched = () => {};
   private onChange = (s: string) => {};
@@ -94,7 +94,7 @@ export class CodemirrorComponent
     if (this.view && changes.extensions?.currentValue) {
       this.view.dispatch({
         effects: StateEffect.reconfigure.of(
-          this.getExtensions(changes.extensions.currentValue)
+          Prec.high(this.getExtensions(changes.extensions.currentValue))
         ),
       });
     }
@@ -151,16 +151,26 @@ export class CodemirrorComponent
       }
     });
     const baseTheme = EditorView.theme({
+      '&.cm-editor': {
+        cursor: 'text',
+      },
       '&.cm-editor.cm-focused': {
         outline: 'none',
       },
-      '.cm-tooltip.cm-tooltip-autocomplete': {
+      '& .cm-tooltip': {
         background: 'var(--theme-bg-color)',
         border: '1px solid var(--theme-border-color)',
         borderRadius: '4px',
-        padding: '4px',
         fontSize:
           'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
+
+        '& > ul': {
+          background: 'var(--theme-bg-color)',
+          color: 'var(--theme-font-color)',
+        },
+      },
+      '.cm-tooltip.cm-tooltip-autocomplete': {
+        padding: '4px',
 
         '& > ul': {
           fontFamily: 'var(--editor-font-family)',
@@ -173,8 +183,6 @@ export class CodemirrorComponent
           listStyle: 'none',
           margin: 0,
           padding: 0,
-          background: 'var(--theme-bg-color)',
-          color: 'var(--theme-font-color)',
 
           '& > li': {
             overflowX: 'hidden',
@@ -190,6 +198,10 @@ export class CodemirrorComponent
         background: 'var(--theme-bg-color)',
         color: 'var(--theme-font-color)',
         borderRadius: '4px',
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
       },
 
       '.cm-tooltip-autocomplete ul li[aria-selected]': {
@@ -217,6 +229,16 @@ export class CodemirrorComponent
       '.cm-completionInfo.cm-completionInfo-left': { right: '100%' },
       '.cm-completionInfo.cm-completionInfo-right': { left: '100%' },
 
+      '.cm-completionIcon': {
+        '&:empty': {
+          display: 'none',
+        },
+      },
+      // '.cm-completionLabel': {
+      //   textAlign: 'left',
+      // },
+      // '.cm-completionDetail': {},
+
       // '&light .cm-snippetField': {backgroundColor: '#00000022'},
       // '&dark .cm-snippetField': {backgroundColor: '#ffffff22'},
       '.cm-snippetFieldPosition': {
@@ -231,6 +253,23 @@ export class CodemirrorComponent
         textDecoration: 'none',
         fontWeight: 'bold',
       },
+
+      '.cm-panel-lint': {
+        borderColor: 'red',
+      },
+      '.cm-tooltip-lint': {
+        background: 'var(--theme-bg-color)',
+        color: 'var(--theme-font-color)',
+      },
+
+      '.cm-gqlCompletionDescriptionTypeContent': {
+        color: 'var(--primary-color)',
+        background: 'rgba(var(--rgb-primary), .15)',
+        cursor: 'pointer',
+        padding: '3px',
+        borderRadius: '2px',
+        marginBottom: '5px',
+      },
     });
     // https://github.com/codemirror/theme-one-dark/blob/848ca1e82addf4892afc895e013754805af6182a/src/one-dark.ts#L96
     const defaultHighlightStyle = HighlightStyle.define([
@@ -240,11 +279,16 @@ export class CodemirrorComponent
         color: 'var(--editor-property-color)',
       },
       {
-        tag: [t.function(t.variableName), t.labelName],
+        tag: [
+          t.function(t.variableName),
+          t.special(t.variableName),
+          t.variableName,
+          t.labelName,
+        ],
         color: 'var(--editor-variable-color)',
       },
       {
-        tag: [t.color, t.constant(t.name), t.standard(t.name)],
+        tag: [t.color, t.constant(t.name), t.standard(t.name), t.bool],
         color: 'var(--editor-builtin-color)',
       },
       {
@@ -286,7 +330,7 @@ export class CodemirrorComponent
       { tag: t.emphasis, fontStyle: 'italic' },
       { tag: t.strikethrough, textDecoration: 'line-through' },
       {
-        tag: [t.atom, t.bool, t.special(t.variableName)],
+        tag: [t.atom],
         color: 'var(--editor-atom-color)',
       },
       {
@@ -296,14 +340,16 @@ export class CodemirrorComponent
     ]);
 
     const baseExtensions = [
-      keymap.of([
-        ...defaultKeymap,
-        ...historyKeymap,
-        ...completionKeymap,
-        ...closeBracketsKeymap,
-        ...searchKeymap,
-        indentWithTab,
-      ]),
+      Prec.low(
+        keymap.of([
+          ...defaultKeymap,
+          ...historyKeymap,
+          ...completionKeymap,
+          ...closeBracketsKeymap,
+          ...searchKeymap,
+          indentWithTab,
+        ])
+      ),
       this.showLineNumber ? lineNumbers() : [], // TODO: Create own compartment
       this.foldGutter ? foldGutter() : [], // TODO: Create own compartment
       this.wrapLines ? EditorView.lineWrapping : [], // TODO: Create own compartment
@@ -319,10 +365,10 @@ export class CodemirrorComponent
 
     return [
       updateListener,
+      Prec.highest(extraExtensions),
       !this.bare ? [...baseExtensions] : [],
 
       baseTheme,
-      ...extraExtensions,
     ];
   }
 }

@@ -293,7 +293,9 @@ Directive { DirectiveName Arguments? }
 Arguments { "(" Argument+ ")"}
 
 // https://spec.graphql.org/October2021/#Argument
-Argument { Name ":" value }
+Argument { ArgumentAttributeName ":" value }
+
+ArgumentAttributeName { name }
 
 // https://spec.graphql.org/October2021/#SelectionSet
 SelectionSet { "{" Selection+ "}" }
@@ -305,8 +307,10 @@ Selection {
 
 // https://spec.graphql.org/October2021/#Field
 Field {
-  Alias? Name Arguments? Directives? SelectionSet?
+  Alias? FieldName Arguments? Directives? SelectionSet?
 }
+
+FieldName { name }
 
 // https://spec.graphql.org/October2021/#Alias
 Alias { Name ":" }
@@ -342,16 +346,18 @@ objectField {
   Name ":" value comma?
 }
 
+Name { name }
+
 @tokens {
 
   @precedence { FloatValue, IntValue }
   @precedence { NullValue, EnumValue }
   @precedence { BooleanValue, EnumValue }
 
-  DirectiveName { "@" Name }
+  DirectiveName { "@" name }
 
   // https://spec.graphql.org/October2021/#Variable
-  Variable { "$" Name }
+  Variable { "$" name }
 
   // https://spec.graphql.org/October2021/#IntValue
   IntValue {
@@ -408,10 +414,12 @@ objectField {
   
   // TODO: Value but not true or false or null
   // https://spec.graphql.org/October2021/#EnumValue
-  EnumValue { Name }
+  EnumValue { name }
   
   // https://spec.graphql.org/October2021/#Name
-  Name { $[_A-Za-z] $[_0-9A-Za-z]* }
+  name { $[_A-Za-z] $[_0-9A-Za-z]* }
+
+  // Name { name }
 
   Comment { "#" ![\n]* }
 
@@ -425,9 +433,9 @@ objectField {
 scopedBraces<expr> { !vDef "{" expr "}" }
 
 // keywords
-kw<term> { @specialize[@name={term}]<Name, term> }
+kw<term> { @specialize[@name={term}]<name, term> }
 
-operation<term> { @specialize<Name, term> }
+operation<term> { @specialize<name, term> }
 
 ScalarKeyword { kw<"scalar"> }
 TypeKeyword { kw<"type"> }
