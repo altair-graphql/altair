@@ -8,11 +8,6 @@ export function offsetToPos(doc: Text, offset: number): Position {
   return new Position(line.number - 1, offset - line.from);
 }
 
-interface CM5Pos {
-  line: number;
-  ch: number;
-}
-
 export interface IPosition {
   line: number;
   character: number;

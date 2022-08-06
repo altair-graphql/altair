@@ -30,11 +30,7 @@ class RunActionWidget extends WidgetType {
 
   toDOM() {
     const wrap = document.createElement('div');
-    wrap.innerHTML = sanitizeHtml(
-      `&#9658; (Run ${this.opts.operationType}${
-        this.opts.operationName ? ` ${this.opts.operationName}` : ''
-      })`
-    );
+    wrap.innerHTML = sanitizeHtml(`&#9658; Run`);
     wrap.className = 'query-editor__line-widget';
 
     wrap.addEventListener('click', () =>
