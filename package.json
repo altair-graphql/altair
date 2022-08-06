@@ -12,6 +12,9 @@
     "editor",
     "client"
   ],
+  "workspaces":[
+    "packages/*"
+  ],
   "scripts": {
     "test": "nx run-many --target=test --all",
     "test:ci-test-only": "nx affected --target=test --parallel=3",

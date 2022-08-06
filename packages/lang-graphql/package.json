@@ -17,7 +17,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@codemirror/buildhelper": "^0.1.16",
-    "@codemirror/language": "6.0.0",
+    "@codemirror/language": "6.2.1",
     "@lezer/common": "^1.0.0",
     "@lezer/generator": "^1.1.0",
     "@lezer/highlight": "^1.0.0",
@@ -36,7 +36,7 @@
   "resolutions": {
     "@codemirror/view": "6.0.0",
     "@codemirror/state": "6.0.0",
-    "@codemirror/language": "6.0.0",
+    "@codemirror/language": "6.2.1",
     "@lezer/lr": "1.1.0"
   },
   "license": "MIT"
