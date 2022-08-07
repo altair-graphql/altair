@@ -16,7 +16,6 @@ import {
   GqlService,
 } from '../../services';
 import { Store } from '@ngrx/store';
-import { ElectronService } from 'ngx-electron';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
@@ -47,7 +46,6 @@ describe('SettingsDialogComponent', () => {
           MockProviders(WindowService),
           DbService,
           ElectronAppService,
-          ElectronService,
           StorageService,
           GqlService,
           {

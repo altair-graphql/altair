@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxElectronModule } from 'ngx-electron';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
@@ -66,7 +65,6 @@ const AntdComponentModules = [
   imports: [
     CommonModule,
     TranslateModule.forRoot(),
-    NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
@@ -101,7 +99,6 @@ const AntdComponentModules = [
   // DON'T FORGET TO EXPORT MODULE
   exports: [
     TranslateModule,
-    NgxElectronModule,
     SortablejsModule,
     NgPipesModule,
     ContextMenuModule,

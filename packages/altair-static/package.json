@@ -35,7 +35,7 @@
     "altair-graphql-core": "^4.5.3",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",
-    "jest": "28.0.1",
+    "jest": "28.0.0",
     "ts-jest": "28.0.7",
     "typescript": "4.0.7"
   },
