@@ -7,7 +7,7 @@
     "target": "es2020",
     "module": "commonjs",
     "sourceMap": true,
-    "skipLibCheck": true,
+    // "skipLibCheck": true,
     "lib": [
       "dom",
       "esnext"

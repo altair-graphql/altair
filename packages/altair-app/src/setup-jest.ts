@@ -1,3 +1,5 @@
+import 'core-js/es/reflect';
+import 'core-js/proposals/reflect-metadata';
 import 'jest-preset-angular/setup-jest';
 import 'fake-indexeddb/auto';
 const crypto = require('crypto');

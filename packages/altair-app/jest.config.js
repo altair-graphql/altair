@@ -14,8 +14,8 @@ module.exports = {
   globalSetup: 'jest-preset-angular/global-setup',
   // moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
   setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
-  moduleDirectories: ['node_modules', 'src'],
+  moduleDirectories: ['node_modules', '../../node_modules', 'src'],
   transformIgnorePatterns: [
-    'node_modules/(?!@angular|@firebase|firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid)',
+    'node_modules/(?!@angular|@firebase|firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid|ngx-cookie-service)',
   ],
 };
