@@ -9,11 +9,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --aot --stats-json",
+    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json",
     "test-single-run": "ng test --watch=false --code-coverage",
     "test": "jest && ng lint",
     "test:watch": "jest --watch",
-    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json",
+    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json",
     "test-build": "ng lint && yarn build && yarn test-single-run",
     "postinstall": "yarn generate-settings-schema-validator",
     "lint": "ng lint",

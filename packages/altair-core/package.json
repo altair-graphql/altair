@@ -54,7 +54,7 @@
     "graphql": "15.5.1",
     "graphql-sse": "1.2.2",
     "graphql-ws": "5.8.2",
-    "loglevel": "1.7.1",
+    "loglevel": "1.8.0",
     "loglevel-plugin-prefix": "0.8.4",
     "rxjs": "7.1.0",
     "subscriptions-transport-ws": "0.9.19",
