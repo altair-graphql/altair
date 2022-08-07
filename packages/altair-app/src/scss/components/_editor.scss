@@ -14,6 +14,19 @@ app-query-editor {
   border-radius: 4px;
 }
 
+.query-editor__beta-label-wrapper {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  z-index: 7;
+  opacity: .2;
+  transition: all .3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .query-editor__input {
   position: absolute;
   left: 0;
