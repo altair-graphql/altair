@@ -15,7 +15,7 @@ import {
 
 import * as fromVariables from '../../store/variables/variables.reducer';
 import sanitizeHtml from 'sanitize-html';
-import { graphql } from 'altair-codemirror-graphql';
+import { updateSchema, updateOpts, showInDocsCommand, fillAllFieldsCommands } from 'altair-codemirror-graphql';
 
 // Import the codemirror packages
 import * as Codemirror from 'codemirror';
@@ -55,11 +55,8 @@ import { VariableState } from 'altair-graphql-core/build/types/state/variable.in
 import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { Compartment, EditorState, Extension } from '@codemirror/state';
 import {
-  fillAllFieldsCommands,
   getCodemirrorGraphqlExtensions,
   noOpCommand,
-  showInDocsCommand,
-  updateSchema,
 } from './gql-extensions';
 import { Position, posToOffset } from '../../utils/editor/helpers';
 import { startCompletion } from '@codemirror/autocomplete';
