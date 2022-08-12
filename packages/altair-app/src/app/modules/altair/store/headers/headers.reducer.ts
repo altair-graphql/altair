@@ -1,20 +1,13 @@
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { headerMapToList } from '../../utils/headers';
 import * as headers from './headers.action';
 
 export const getInitialHeadersState = () => {
   const altairConfig = getAltairConfig();
   let initialHeaders: HeaderState = [];
   if (altairConfig.initialData.headers) {
-    initialHeaders = Object.keys(altairConfig.initialData.headers).map(
-      (key) => ({
-        key,
-        value: altairConfig.initialData.headers[key]
-          ? '' + altairConfig.initialData.headers[key]
-          : '',
-        enabled: true,
-      })
-    );
+    initialHeaders = headerMapToList(altairConfig.initialData.headers);
   }
   initialHeaders = [...initialHeaders, { key: '', value: '', enabled: true }];
 

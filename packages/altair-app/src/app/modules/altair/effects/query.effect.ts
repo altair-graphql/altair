@@ -66,6 +66,7 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { RequestScriptError } from '../services/pre-request/errors';
+import { headerListToMap } from '../utils/headers';
 
 interface EffectResponseData {
   state: RootState;
@@ -941,7 +942,7 @@ export class QueryEffects {
                       }
                       debug.log('Connected subscription.');
                     },
-                    headers,
+                    headers: headerListToMap(headers),
                   }
                 );
 
