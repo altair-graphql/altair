@@ -1,6 +1,6 @@
 {
   "name": "altair-graphql-plugin",
-  "version": "4.6.0",
+  "version": "4.5.3",
   "description": "Plugin helper for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
