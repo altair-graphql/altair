@@ -1,19 +1,19 @@
-import { parser } from './syntax.grammar';
+import { parser } from "./syntax.grammar";
 import {
   LRLanguage,
   LanguageSupport,
   indentNodeProp,
   foldNodeProp,
   foldInside,
-  delimitedIndent,
-} from '@codemirror/language';
-import { styleTags, tags as t } from '@lezer/highlight';
+  delimitedIndent
+} from "@codemirror/language";
+import { styleTags, tags as t } from "@lezer/highlight";
 
 const nodesWithBraces =
-  'RootTypeDefinition InputFieldsDefinition EnumValuesDefinition FieldsDefinition SelectionSet';
+  "RootTypeDefinition InputFieldsDefinition EnumValuesDefinition FieldsDefinition SelectionSet { }";
 const keywords =
-  'scalar type interface union enum input implements fragment extend schema directive on repeatable';
-const punctuations = '( ) { } : [ ]';
+  "scalar type interface union enum input implements fragment extend schema directive on repeatable";
+const punctuations = "( ) { } : [ ]";
 export const graphqlLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
@@ -33,24 +33,24 @@ export const graphqlLanguage = LRLanguage.define({
         Field: t.propertyName,
         ArgumentAttributeName: t.attributeName,
         Name: t.atom,
-        '( )': t.paren,
-        '{ }': t.brace,
-        ',': t.separator,
-        [punctuations]: t.punctuation,
+        "( )": t.paren,
+        "{ }": t.brace,
+        ",": t.separator,
+        [punctuations]: t.punctuation
       }),
       // https://codemirror.net/docs/ref/#language.indentNodeProp
       indentNodeProp.add({
-        [nodesWithBraces]: delimitedIndent({ closing: '}', align: true }),
+        [nodesWithBraces]: delimitedIndent({ closing: "}", align: true })
       }),
       foldNodeProp.add({
-        [nodesWithBraces]: foldInside,
-      }),
-    ],
+        [nodesWithBraces]: foldInside
+      })
+    ]
   }),
   languageData: {
-    commentTokens: { line: '#' },
-    indentOnInput: /^\s*(\{|\})$/,
-  },
+    commentTokens: { line: "#" },
+    indentOnInput: /^\s*(\{|\})$/
+  }
 });
 
 export function graphqlLanguageSupport() {

@@ -1,8 +1,11 @@
-import {
-  Prec,
-} from '@codemirror/state';
+import { Prec } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import { graphql, fillAllFieldsCommands, showInDocsCommand } from 'altair-codemirror-graphql';
+import {
+  graphql,
+  fillAllFieldsCommands,
+  showInDocsCommand,
+  graphqlLanguage,
+} from 'altair-codemirror-graphql';
 import { getNamedType, GraphQLSchema, GraphQLType } from 'graphql';
 import { ContextToken } from 'graphql-language-service-parser';
 import { CompletionItem } from 'graphql-language-service-types';
@@ -11,6 +14,8 @@ import marked from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import { debug } from '../../utils/logger';
 import { getRunActionPlugin, RunActionWidgetOptions } from './run-widget';
+import { CompletionContext } from '@codemirror/autocomplete';
+import { syntaxTree } from '@codemirror/language';
 
 export interface ExtensionsOptions {
   onShowInDocs?: (field?: string, type?: string, parentType?: string) => void;
@@ -107,6 +112,37 @@ export const getCodemirrorGraphqlExtensions = (opts?: ExtensionsOptions) => {
       ])
     ),
     getRunActionPlugin(opts?.onRunActionClick || noOp),
+    graphqlLanguage.data.of({
+      autocomplete: (context: CompletionContext) => {
+        const nodeBefore = syntaxTree(context.state).resolveInner(
+          context.pos,
+          -1
+        );
+
+        // Only show if inside a field SelectionSet
+        if (
+          nodeBefore.name === 'SelectionSet' &&
+          nodeBefore.parent?.name === 'Field'
+        ) {
+          return {
+            from: context.pos,
+            options: [
+              {
+                label: 'Fill all fields',
+                apply(view: EditorView) {
+                  fillAllFieldsCommands(view);
+                },
+                boost: 99,
+                type: 'function',
+                info: 'Automatically fill in all the fields here. Optionally generates nested fields as well (controlled by addQueryDepthLimit in settings)',
+              },
+            ],
+          };
+        }
+
+        return null;
+      },
+    }),
   ];
 
   return extensions;

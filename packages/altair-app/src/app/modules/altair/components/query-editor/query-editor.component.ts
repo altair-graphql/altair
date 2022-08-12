@@ -13,12 +13,14 @@ import {
   ElementRef,
 } from '@angular/core';
 
-import * as fromVariables from '../../store/variables/variables.reducer';
 import sanitizeHtml from 'sanitize-html';
-import { updateSchema, updateOpts, showInDocsCommand, fillAllFieldsCommands } from 'altair-codemirror-graphql';
+import {
+  updateSchema,
+  showInDocsCommand,
+  fillAllFieldsCommands,
+} from 'altair-codemirror-graphql';
 
 // Import the codemirror packages
-import * as Codemirror from 'codemirror';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/lint/lint';
@@ -54,10 +56,7 @@ import { IDictionary } from '../../interfaces/shared';
 import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { Compartment, EditorState, Extension } from '@codemirror/state';
-import {
-  getCodemirrorGraphqlExtensions,
-  noOpCommand,
-} from './gql-extensions';
+import { getCodemirrorGraphqlExtensions, noOpCommand } from './gql-extensions';
 import { Position, posToOffset } from '../../utils/editor/helpers';
 import { startCompletion } from '@codemirror/autocomplete';
 import { Command, EditorView, keymap } from '@codemirror/view';
