@@ -12,9 +12,11 @@
     "editor",
     "client"
   ],
-  "workspaces":[
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "test": "nx run-many --target=test --all",
     "test:ci-test-only": "nx affected --target=test --parallel=3",
