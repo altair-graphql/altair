@@ -20,6 +20,7 @@ import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
 import { anyFn } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { Position } from '../../utils/editor/helpers';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
@@ -664,9 +665,15 @@ describe('GqlService', () => {
           },
           type: 'punctuation',
         };
-        const res = service.fillAllFields(schema, query, cursor, token, {
-          maxDepth: 1,
-        });
+        const res = service.fillAllFields(
+          schema,
+          query,
+          new Position(cursor.line, cursor.ch),
+          token,
+          {
+            maxDepth: 1,
+          }
+        );
 
         expect(res).toMatchSnapshot();
       }

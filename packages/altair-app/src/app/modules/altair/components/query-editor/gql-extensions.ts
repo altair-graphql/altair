@@ -1,0 +1,148 @@
+import {
+  Prec,
+} from '@codemirror/state';
+import { EditorView, keymap } from '@codemirror/view';
+import { graphql, fillAllFieldsCommands, showInDocsCommand } from 'altair-codemirror-graphql';
+import { getNamedType, GraphQLSchema, GraphQLType } from 'graphql';
+import { ContextToken } from 'graphql-language-service-parser';
+import { CompletionItem } from 'graphql-language-service-types';
+import { Position } from '../../utils/editor/helpers';
+import marked from 'marked';
+import sanitizeHtml from 'sanitize-html';
+import { debug } from '../../utils/logger';
+import { getRunActionPlugin, RunActionWidgetOptions } from './run-widget';
+
+export interface ExtensionsOptions {
+  onShowInDocs?: (field?: string, type?: string, parentType?: string) => void;
+  onFillAllFields?: (
+    view: EditorView,
+    schema: GraphQLSchema,
+    query: string,
+    cursor: Position,
+    token: ContextToken
+  ) => void;
+  onRunActionClick?: RunActionWidgetOptions['onClick'];
+}
+
+const noOp = () => {};
+
+export const getCodemirrorGraphqlExtensions = (opts?: ExtensionsOptions) => {
+  const extensions = [
+    graphql(undefined, {
+      onShowInDocs: opts?.onShowInDocs,
+      onCompletionInfoRender: (completionItem, ctx, _item) => {
+        const description = getDescriptionFromContext(completionItem);
+        const deprecation = completionItem.isDeprecated
+          ? completionItem.deprecationReason
+          : '';
+
+        if (description || deprecation) {
+          const el = document.createElement('div');
+          if (description) {
+            const descriptionEl = document.createElement('div');
+            descriptionEl.classList.add('cm-gqlCompletionDescription');
+
+            if (completionItem.type) {
+              const typeEl = document.createElement('div');
+              typeEl.classList.add('cm-gqlCompletionDescriptionType');
+              typeEl.innerHTML = `<span class="cm-gqlCompletionDescriptionTypeContent">${sanitizeHtml(
+                completionItem.type.inspect()
+              )}</span>`;
+              typeEl.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                if (opts?.onShowInDocs) {
+                  opts.onShowInDocs(
+                    undefined,
+                    getMaybeNamedType(completionItem.type)?.name
+                  );
+                }
+              });
+
+              descriptionEl.appendChild(typeEl);
+            }
+
+            const descriptionContentEl = document.createElement('div');
+            descriptionContentEl.classList.add(
+              'cm-gqlCompletionDescriptionContent'
+            );
+            descriptionContentEl.innerHTML = sanitizeHtml(description);
+
+            descriptionEl.appendChild(descriptionContentEl);
+
+            el.appendChild(descriptionEl);
+          }
+
+          if (deprecation) {
+            const deprecationEl = document.createElement('div');
+            deprecationEl.classList.add('cm-gqlCompletionDeprecation');
+            deprecationEl.innerHTML = `<span class="cm-gqlCompletionDeprecationTag">Deprecated</span> ${sanitizeHtml(
+              deprecation
+            )}`;
+
+            el.appendChild(deprecationEl);
+          }
+
+          return el;
+        }
+
+        return null;
+      },
+      onFillAllFields: opts?.onFillAllFields,
+    }),
+    Prec.high(
+      keymap.of([
+        {
+          key: 'Shift-Ctrl-Enter',
+          run: fillAllFieldsCommands,
+        },
+        {
+          // NOTE: shortcut key is case sensitive
+          key: 'Ctrl-d',
+          run: showInDocsCommand,
+        },
+        {
+          key: 'Cmd-Enter',
+          run: noOpCommand,
+        },
+      ])
+    ),
+    getRunActionPlugin(opts?.onRunActionClick || noOp),
+  ];
+
+  return extensions;
+};
+
+export const noOpCommand = () => {
+  debug.log('no op');
+  return true;
+};
+
+const getDescriptionFromContext = (ctx: CompletionItem) => {
+  const maxDescriptionLength = 70;
+
+  let description = 'Self descriptive.';
+  let appendEllipsis = false;
+
+  if (ctx.documentation) {
+    description = ctx.documentation;
+  }
+  const type = getMaybeNamedType(ctx.type);
+  if (type?.description) {
+    description = type.description;
+  }
+
+  if (description.length > maxDescriptionLength) {
+    appendEllipsis = true;
+  }
+
+  return marked(
+    `${description}`.substring(0, maxDescriptionLength) +
+      (appendEllipsis ? '...' : '')
+  );
+};
+
+const getMaybeNamedType = (type?: GraphQLType) => {
+  if (type) {
+    return getNamedType(type);
+  }
+};

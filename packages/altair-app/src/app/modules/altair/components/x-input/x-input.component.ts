@@ -13,7 +13,12 @@ import {
   CompletionContext,
   completionKeymap,
 } from '@codemirror/autocomplete';
-import { Extension, StateEffect, StateField } from '@codemirror/state';
+import {
+  EditorState,
+  Extension,
+  StateEffect,
+  StateField,
+} from '@codemirror/state';
 import {
   Decoration,
   DecorationSet,
@@ -114,6 +119,9 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         },
       },
     });
+    const filterNewLine = EditorState.transactionFilter.of((tr) => {
+      return tr.newDoc.lines > 1 ? [] : [tr];
+    });
 
     return [
       inputTheme,
@@ -143,6 +151,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       }),
       ...this.getHighlightExtensions(),
       this.getTooltipExtensions(),
+      filterNewLine,
     ];
   }
 

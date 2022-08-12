@@ -24,6 +24,7 @@ import {
   OperationDefinitionNode,
   IntrospectionQuery,
 } from 'graphql';
+import { ContextToken } from 'graphql-language-service-parser';
 import compress from 'graphql-query-compress';
 
 import { NotifyService } from '../notify/notify.service';
@@ -50,6 +51,7 @@ import { HeaderState } from 'altair-graphql-core/build/types/state/header.interf
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { prettify } from './prettifier';
+import { Position } from '../../utils/editor/helpers';
 
 interface SendRequestOptions {
   query: string;
@@ -277,8 +279,8 @@ export class GqlService {
   fillAllFields(
     schema: GraphQLSchema,
     query: string,
-    cursor: CodeMirror.Position,
-    token: Token,
+    cursor: Position,
+    token: ContextToken,
     opts: any
   ) {
     return fillAllFields(schema, query, cursor, token, opts);

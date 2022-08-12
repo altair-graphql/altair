@@ -19,5 +19,8 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": false
+  }
 }

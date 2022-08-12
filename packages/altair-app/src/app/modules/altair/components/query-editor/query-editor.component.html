@@ -7,8 +7,31 @@
 >
   <nz-tab [nzTitle]="'QUERY_TAB' | translate">
     <div class="query-editor-container">
+      <div
+        *ngIf="enableExperimental"
+        class="query-editor__beta-label-wrapper"
+      >
+        <nz-tag
+          [nzColor]="'geekblue'"
+          popper="This query editor is in beta. Please report any bugs/improvements you find on GitHub. If you want to use the old editor, please disable enableExperimental in the settings and restart Altair."
+          [popperStyles]="{ 'font-size': '10px', width: '300px' }"
+        >
+          <span>Beta</span>
+        </nz-tag>
+      </div>
+      <app-codemirror
+        #newEditor
+        *ngIf="enableExperimental"
+        class="query-editor__input"
+        [fullHeight]="true"
+        [extensions]="editorExtensions"
+        [ngModel]="query"
+        (ngModelChange)="queryChange.emit($event)"
+        ngDefaultControl
+      ></app-codemirror>
       <ngx-codemirror
         #editor
+        *ngIf="!enableExperimental"
         class="query-editor__input"
         [ngModel]="query"
         (ngModelChange)="queryChange.emit($event)"

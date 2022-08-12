@@ -6,7 +6,6 @@ import { empty as observableEmpty } from 'rxjs';
 import { WindowService } from '../window.service';
 import { DbService } from '../db.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { ElectronService } from 'ngx-electron';
 import { NotifyService } from '../notify/notify.service';
 import { GqlService } from '../gql/gql.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,7 +20,6 @@ describe('KeybinderService', () => {
         MockProvider(WindowService),
         DbService,
         ElectronAppService,
-        ElectronService,
         MockProvider(NotifyService),
         GqlService,
         {

@@ -16,8 +16,10 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "../../node_modules/@types"
     ],
+    "types": ["jest"],
     "downlevelIteration": true,
     "lib": [
       "es2017",

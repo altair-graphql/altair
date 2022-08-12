@@ -11,10 +11,13 @@ exports[`QueryEditorComponent should render correctly 1`] = `
       <div
         class="query-editor-container"
       >
+        
+        
         <ngx-codemirror
           class="query-editor__input"
           ngdefaultcontrol=""
         />
+        
       </div>
       <div
         class="variables-editor-container"

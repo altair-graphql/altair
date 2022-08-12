@@ -46,7 +46,7 @@ describe('PluginContextService', () => {
       },
     });
   });
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -74,8 +74,8 @@ describe('PluginContextService', () => {
         },
       ],
       teardown: { destroyAfterEach: false },
-    })
-  );
+    });
+  });
 
   it('should be created', () => {
     const service: PluginContextService = TestBed.inject(PluginContextService);

@@ -2,7 +2,9 @@ import { visit, print, TypeInfo, parse, GraphQLSchema, Kind } from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import { Token } from 'codemirror';
+import { ContextToken } from 'graphql-language-service-parser';
 import { buildSelectionSet } from './generateQuery';
+import { Position } from '../../utils/editor/helpers';
 
 export const parseQuery = (query: string) => {
   if (!query) {
@@ -57,8 +59,8 @@ export const withInsertions = (
 export const fillAllFields = (
   schema: GraphQLSchema,
   query: string,
-  cursor: CodeMirror.Position,
-  token: Token,
+  cursor: Position,
+  token: ContextToken,
   { maxDepth = 1 } = {}
 ) => {
   const insertions: any[] = [];
@@ -66,7 +68,7 @@ export const fillAllFields = (
     return { insertions, result: query };
   }
 
-  let tokenState = token.state;
+  let tokenState = token.state as any;
   if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };

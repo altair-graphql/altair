@@ -12,6 +12,11 @@
     "editor",
     "client"
   ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "test": "nx run-many --target=test --all",
     "test:ci-test-only": "nx affected --target=test --parallel=3",
@@ -25,6 +30,7 @@
     "build-ext": "yarn build-app && ./bin/chrome_ext.sh",
     "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build && echo 'altair.sirmuel.design' > site/src/.vuepress/dist/CNAME",
     "start:app": "nx start altair-app",
+    "prepare": "nx run-many --target=prepare --all --output-style=stream",
     "postinstall": "opencollective postinstall",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "publish-packages": "lerna bootstrap && yarn lerna-publish",

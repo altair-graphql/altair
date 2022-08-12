@@ -1,7 +1,7 @@
 import { first, take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
 import { Store } from '@ngrx/store';
+import type { IpcRenderer } from 'electron';
 
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
@@ -29,10 +29,9 @@ export class ElectronAppService {
   windowIds: string[];
   activeWindowId = '';
 
-  private ipc: Electron.IpcRenderer = (window as any).ipc;
+  private ipc: IpcRenderer = (window as any).ipc;
 
   constructor(
-    private electron: ElectronService,
     private store: Store<RootState>,
     private windowService: WindowService,
     private notifyService: NotifyService,
@@ -45,7 +44,7 @@ export class ElectronAppService {
   }
 
   connect() {
-    if (this.electron.isElectronApp) {
+    if (this.isElectronApp()) {
       this.ipc.on('file-opened', (evt: any, content: string) => {
         this.zone.run(() => this.windowService.importStringData(content));
       });
@@ -173,17 +172,17 @@ export class ElectronAppService {
   }
 
   setHeaders(headers: HeaderState) {
-    if (this.electron.isElectronApp) {
+    if (this.isElectronApp()) {
       this.ipc.sendSync('set-headers-sync', headers);
     }
   }
 
   isElectronApp() {
-    return this.electron.isElectronApp;
+    return !!window.navigator.userAgent.match(/Electron/);
   }
 
   restartApp() {
-    if (this.electron.isElectronApp) {
+    if (this.isElectronApp()) {
       this.ipc.send('restart-app');
     }
   }

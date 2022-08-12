@@ -35,14 +35,13 @@
     "altair-graphql-core": "^4.5.3",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.2.0",
+    "jest": "28.0.0",
+    "ts-jest": "28.0.7",
     "typescript": "4.0.7"
   },
   "funding": {
     "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
+    "url": "https://opencollective.com/altair"
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }
