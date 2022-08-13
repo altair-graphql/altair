@@ -16,12 +16,14 @@ module.exports = (options = {}, context) => ({
 
 const getGithubMetadata = async ({ owner = '', repo = '' }) => {
   
-  let githubToken = process.env.GITHUB_TOKEN || '';
+  let githubToken = '';
   try {
     githubToken = fs.readFileSync(path.resolve(__dirname, './github-token'), 'utf-8');
   } catch (error) {
     console.log('no github token found');
   }
+  githubToken ||= process.env.GITHUB_TOKEN;
+
   const octokit = new Octokit({
     auth: githubToken || undefined,
   });
