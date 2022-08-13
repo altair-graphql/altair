@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="120px" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <title>Chrome</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Site" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-1008.000000, -1366.000000)">
+            <g id="Get-altair" transform="translate(0.000000, 1226.000000)">
+                <g id="Chrome" transform="translate(992.000000, 140.000000)">
+                    <g transform="translate(16.000000, 0.000000)" id="if_chrome_317753">
+                        <g>
+                            <path d="M60,90.705 C53.90625,90.705 48.36,89.0625 43.3575,85.785 C38.355,82.50375 34.605,78.285 32.1075,73.12875 L7.5,30 C2.34375,39.22125 0,49.53375 0,60 C0,75 4.8825,88.0875 14.6475,99.25875 C24.4125,110.43 36.5625,117.10875 51.09375,119.29875 L68.4975,89.1825 C66.74625,89.69625 63.825,90.705 60,90.705 Z" id="Shape" fill="#4AAE48" fill-rule="nonzero"></path>
+                            <path d="M41.13375,35.74125 C46.67625,31.4475 52.96875,30 60,30 C60.9375,30 111.5625,30 111.5625,30 C106.24875,20.94 99.0225,13.2825 89.88375,7.96875 C80.74125,2.65875 70.78125,0 60,0 C50.625,0 41.8725,1.99125 33.75,5.9775 C25.62375,9.96 18.105,15.76125 12.59625,23.205 L30,52.5 C31.7175,45.78375 35.58375,40.0425 41.13375,35.74125 Z" id="Shape" fill="#EA3939" fill-rule="nonzero"></path>
+                            <path d="M115.48875,37.5 L80.625,37.5 C86.71875,43.59375 90.705,51.40875 90.705,60 C90.705,66.40875 88.90875,72.26625 85.3125,77.58 L60.705,120 C77.11125,119.8425 91.095,113.90625 102.66,102.1875 C114.2175,90.46875 120,76.40625 120,60 C120,52.34625 118.71,44.295 115.48875,37.5 Z" id="Shape" fill="#FED14B" fill-rule="nonzero"></path>
+                            <circle id="Oval" fill="#188FD1" fill-rule="nonzero" cx="60" cy="60" r="22.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
