@@ -17,8 +17,8 @@ const deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-
-const distSrc = path.join(__dirname, '../node_modules/altair-app/dist'); // From the altair-app dist folder
+const altairAppDistFile = require.resolve('altair-app'); // should resolve to <altair-dir>/dist/main.js
+const distSrc = path.join(altairAppDistFile, '..'); // From the altair-app dist folder
 const distDestination = path.join(__dirname, '../build/dist'); // To altair-static dist folder
 deleteFolderRecursive(distDestination);
 fs.mkdirSync(distDestination, { recursive: true });
@@ -38,7 +38,8 @@ const indexHtmlFile = path.join(distDestination, 'index.html');
  */
 ncp(distSrc, distDestination, function (err) {
   if (err) {
-    return console.error(err);
+    console.error(err);
+    throw err;
   }
   console.log('Done copying dist folder!');
 
