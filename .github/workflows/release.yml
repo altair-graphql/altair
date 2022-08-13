@@ -4,6 +4,8 @@ on:
   push:
     tags:
     - '**'
+permissions:
+  contents: write
 
 # TODO: Handle browser extension release
 jobs:
@@ -33,10 +35,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn --frozen-lockfile
+    - run: yarn --frozen-lockfile --network-timeout 1000000
     - uses: nick-invision/retry@v2
       with:
-        timeout_minutes: 15
+        timeout_minutes: 20
         max_attempts: 3
         command: yarn lerna bootstrap
     - name: Install Snapcraft
