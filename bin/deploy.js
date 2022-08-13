@@ -38,7 +38,7 @@ async function main() {
             return 'Please enter a valid version (e.g. 3.2.1)';
           }
 
-          if (compareVersions(value, pkg.version) <= 0) {
+          if (compareVersions(value, pkg.version) < 0) {
             return 'New version must be newer than the current version';
           }
       
