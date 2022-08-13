@@ -15,7 +15,7 @@ jobs:
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: [publish-release]
     steps:
       - uses: actions/checkout@v2.3.1
@@ -35,7 +35,7 @@ jobs:
   chrome-extension-upload:
     name: Publish webextension
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: [publish-release]
     steps:
     - uses: actions/checkout@v2
