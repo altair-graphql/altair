@@ -11,25 +11,24 @@
 // The loaded page will not be able to access this, it is only available
 // in this context
 // window.bar = 'bar'
-const ipc = require('electron').ipcRenderer;
-window.ipc = ipc;
-const ElectronStoreAdapter = require('../electron-store-adapter/electron-store-adapter');
+import { ipcRenderer as ipc } from "electron";
+(window as any).ipc = ipc;
+import { ElectronStoreAdapter } from "../electron-store-adapter/electron-store-adapter";
 
-const reload = async() => {
-  await ipc.invoke('reload-window');
+const reload = async () => {
+  await ipc.invoke("reload-window");
 };
 
-if (process.env.NODE_ENV === 'development') {
-  console.log('installing devtron', require('devtron'));
-  require('devtron').install();
-  // eslint-disable-next-line no-underscore-dangle
-  window.__devtron = { require, process };
+if (process.env.NODE_ENV === "development") {
+  console.log("installing devtron", require("devtron"));
+  require("devtron").install();
+  (window as any).__devtron = { require, process };
 }
 
-process.once('loaded', () => {
+process.once("loaded", () => {
   // Giving access to spectron to run tests successfully
-  if (process.env.NODE_ENV === 'test') {
-    window.electronRequire = require;
+  if (process.env.NODE_ENV === "test") {
+    (window as any).electronRequire = require;
   }
 
   // console.log(allStorage());
@@ -38,11 +37,14 @@ process.once('loaded', () => {
   if (!store.length && window.localStorage.length) {
     // Else, copy content of localstorage into electron store and reload.
     Object.keys(window.localStorage).forEach(key => {
-      store.setItem(key, window.localStorage.getItem(key));
+      const val = window.localStorage.getItem(key);
+      if (val) {
+        store.setItem(key, val);
+      }
     });
     return reload();
   }
   // If so, then add electron localstorage to window and continue
-  global.electronLocalStorage = store;
-  global.localStorage = store;
+  (global as any).electronLocalStorage = store;
+  (global as any).localStorage = store;
 });

@@ -1,6 +1,8 @@
-const ElectronStore = require('electron-store');
+import ElectronStore from "electron-store";
 
-class InMemoryStore {
+export class InMemoryStore {
+  data: Record<string, any>;
+
   constructor() {
     this.data = {};
   }
@@ -8,7 +10,7 @@ class InMemoryStore {
   /**
    * @param {string} key key to search for
    */
-  get(key) {
+  get(key: string) {
     return this.data[key];
   }
 
@@ -16,22 +18,16 @@ class InMemoryStore {
    * @param {string} key key of item
    * @param {any} val value of item
    */
-  set(key, val) {
+  set(key: string, val: any) {
     this.data[key] = val;
   }
 
   /**
    * @param {string} key key of item
    */
-  delete(key) {
+  delete(key: string) {
     return Reflect.deleteProperty(this.data, key);
   }
 }
 
-class PersistentStore extends ElectronStore {}
-
-
-module.exports = {
-  InMemoryStore,
-  PersistentStore,
-};
+export class PersistentStore extends ElectronStore {}

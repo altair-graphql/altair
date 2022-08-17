@@ -1,5 +1,5 @@
 const ipc = require('electron').ipcRenderer;
-const { SETTINGS_STORE_EVENTS } = require('../constants');
+const { SETTINGS_STORE_EVENTS } = require('../../dist/settings/constants');
 
 /**
  * event delegation
@@ -73,4 +73,3 @@ document.addEventListener('DOMContentLoaded', function () {
     ipc.sendSync('restart-app');
   });
 });
-

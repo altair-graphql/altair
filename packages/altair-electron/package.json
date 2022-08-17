@@ -3,7 +3,7 @@
   "productName": "Altair GraphQL Client",
   "version": "4.6.2",
   "description": "Electron wrapper for Altair",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "license": "MIT",
   "private": true,
@@ -12,8 +12,9 @@
     "test:unit": "jest",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
-    "build": "electron-builder",
-    "dev": "electron ."
+    "compile": "tsc",
+    "build": "yarn compile && electron-builder",
+    "dev": "yarn compile && electron ./dist/"
   },
   "dependencies": {
     "altair-static": "^4.6.2",
@@ -32,6 +33,7 @@
     "@jest/globals": "28.0.0",
     "@playwright/test": "^1.16.3",
     "@types/jest": "^26.0.3",
+    "@types/mime-types": "^2.1.1",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "19.0.10",
@@ -45,7 +47,7 @@
     "jest-circus": "28.0.0",
     "playwright": "^1.18.1",
     "spectron": "^15.0.0",
-    "typescript": "^4.4.3",
+    "typescript": "^4.7.4",
     "webdriverio": "^7.12.5"
   },
   "repository": {
@@ -62,8 +64,7 @@
   },
   "funding": {
     "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
+    "url": "https://opencollective.com/altair"
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }
