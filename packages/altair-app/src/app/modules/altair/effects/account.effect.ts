@@ -29,20 +29,17 @@ export class AccountEffects {
           if (!environment.serverReady) {
             return EMPTY;
           }
-          return of(this.apiService.getSession()).pipe(take(1));
+          return from(this.apiService.getUser()).pipe(take(1));
         }),
-        switchMap((session) => {
-          if (!session) {
+        switchMap((user) => {
+          if (!user) {
             return EMPTY;
           }
 
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
-              email: session.user?.email || '',
-              firstName:
-                session.user?.user_metadata.full_name ||
-                session.user?.email ||
-                '',
+              email: user?.email || '',
+              firstName: user?.displayName || user?.email || '',
               lastName: '',
             })
           );
@@ -65,10 +62,10 @@ export class AccountEffects {
           }
         ),
         switchMap(({ action }) => {
-          return this.apiService.accountLoginWithSupabase().pipe(take(1));
+          return this.apiService.accountLogin$().pipe(take(1));
         }),
         switchMap((data) => {
-          if (!data.session?.user) {
+          if (!data.user) {
             this.notifyService.error(
               'Sorry, we could not log you in. Please check that your credentials are correct.'
             );
@@ -76,15 +73,14 @@ export class AccountEffects {
           }
 
           this.notifyService.success(
-            `You're logged in. Welcome back, ${data.session.user.email}`
+            `You're logged in. Welcome back, ${
+              data.user.displayName || data.user.email
+            }`
           );
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
-              email: data.session.user.email || '',
-              firstName:
-                data.session.user.user_metadata.full_name ||
-                data.session.user.email ||
-                '',
+              email: data.user.email || '',
+              firstName: data.user.displayName || data.user.email || '',
               lastName: '',
             })
           );

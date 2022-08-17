@@ -40,6 +40,9 @@ snap:
       releaseType: release
     - provider: snapStore
       channels: stable
+  layout:
+    /usr/share/libdrm:
+      bind: $SNAP/usr/share/libdrm
 win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
 electronCompile: false

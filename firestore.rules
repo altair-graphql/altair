@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{userId} {
+      allow create: if isUser(userId);
+      allow read: if isUser(userId);
+      allow update: if isUser(userId);
+
+      match /checkout_sessions/{id} {
+        allow read, write: if isUser(userId);
+      }
+      match /subscriptions/{id} {
+        allow read: if isUser(userId);
+      }
+      match /payments/{id} {
+        allow read: if isUser(userId);
+      }
+    }
+
+    // Needed for collection group queries?
+    match /{path=**}/query_collections/{collectionId} {
+      allow create: if requestBelongsToUser();
+      allow read: if resourceBelongsToUser();
+      allow update, delete: if resourceBelongsToUser();
+    }
+    match /{path=**}/queries/{queryId} {
+      allow create: if isValidSignedInUser() && requestBelongsToUser();
+      allow read: if resourceBelongsToUser();
+      allow update, delete: if resourceBelongsToUser();
+    }
+
+    match /teams/{teamId} {
+
+      // member ID == user ID who is the member
+      match /memberships/{memberId} {
+        // TODO:
+        allow read, write: if false;
+      }
+
+      match /invitations/{invitationId} {
+        // TODO:
+        allow read, write: if false;
+      }
+    }
+
+    match /product_configs/{id} {
+      allow read: if true;
+
+      match /prices/{id} {
+        allow read: if true;
+      }
+
+      match /tax_rates/{id} {
+        allow read: if true;
+      }
+    }
+
+    // --- Helper functions --- //
+
+    function isValidSignedInUser() {
+      return isSignedIn() && userExists();
+    }
+
+    function belongsTo(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function requestMatchesUID() {
+      return request.auth.uid == request.resource.data.uid;
+    }
+
+    function resourceMatchesUID() {
+      return request.auth.uid == resource.data.uid;
+    }
+
+    function requestBelongsToUser() {
+      return isValidSignedInUser() && request.auth.uid == request.resource.data.ownerUid;
+    }
+
+    function resourceBelongsToUser() {
+      return isValidSignedInUser() && request.auth.uid == resource.data.ownerUid;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function emailVerified() {
+      return request.auth.token.email_verified;
+    }
+    function userExists() {
+      return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    // [READ] Data that exists on the Firestore document
+    function existingData() {
+      return resource.data;
+    }
+    // [WRITE] Data that is sent to a Firestore document
+    function incomingData() {
+      return request.resource.data;
+    }
+
+    // Does the logged-in user match the requested userId?
+    function isUser(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Fetch a user from Firestore
+    function getUserData() {
+      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+    }
+
+  }
+}

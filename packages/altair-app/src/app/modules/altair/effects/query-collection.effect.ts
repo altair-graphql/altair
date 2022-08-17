@@ -26,6 +26,7 @@ import {
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { UnknownError } from '../interfaces/shared';
+import { debug } from '../utils/logger';
 
 @Injectable()
 export class QueryCollectionEffects {
@@ -359,6 +360,7 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Synced collection to remote.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
+        debug.error(err);
         this.notifyService.error(err.message || err);
         return EMPTY;
       }),

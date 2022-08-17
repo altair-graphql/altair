@@ -1,10 +1,4 @@
-import {
-  from as observableFrom,
-  Observable,
-  empty as observableEmpty,
-  throwError,
-  of,
-} from 'rxjs';
+import { from as observableFrom, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 import {
@@ -15,9 +9,8 @@ import {
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { StorageService } from '../storage/storage.service';
 import { debug } from '../../utils/logger';
-import { getFileStr } from '../../utils';
-import { supabase } from '../api/supabase';
-import { TODO } from 'altair-graphql-core/build/types/shared';
+import { getFileStr, str } from '../../utils';
+import { ApiService } from '../api/api.service';
 
 type CollectionID = number | string;
 type QueryID = string;
@@ -28,7 +21,7 @@ const COLLECTION_PATH_SEPARATOR = '/';
 // https://github.com/dexie/Dexie.js/issues/749
 @Injectable()
 export class QueryCollectionService {
-  constructor(private storage: StorageService) {}
+  constructor(private storage: StorageService, private api: ApiService) {}
 
   async create(
     collection: IQueryCollection,
@@ -44,78 +37,41 @@ export class QueryCollectionService {
     return newCollectionId;
   }
 
-  private canApplyRemote() {
-    return !!supabase.auth.user();
+  private async canApplyRemote() {
+    return !!(await this.api.getUser());
   }
 
   async createRemoteCollection(
     localCollectionId: CollectionID,
     collection: IQueryCollection
   ) {
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
 
     // Get parent collection, retrieve parent collection server id, set parent collection id in remote
     const parentCollection = await this.getParentCollection(collection);
-    const parentCollectionServerId = parentCollection?.serverId;
+    const parentCollectionServerId = parentCollection?.serverId
+      ? `${parentCollection.serverId}`
+      : undefined;
 
-    const { data: workspace, error: workspaceGetError } = await supabase
-      .from('workspaces')
-      .select('id')
-      .single();
+    const res = await this.api.createQueryCollection(
+      collection,
+      parentCollectionServerId
+    );
 
-    if (workspaceGetError) {
-      throw workspaceGetError;
-    }
-    const workspaceId = workspace.id;
-    if (!workspaceId) {
-      throw new Error('Could not retrieve your workspace');
-    }
-
-    // add collection
-    const { data: requestCollections, error: collectionInsertError } =
-      await supabase.from('request_collections').insert({
-        collection_name: collection.title,
-        parent_collection_id: parentCollectionServerId,
-        workspace_id: workspaceId,
-      });
-
-    if (collectionInsertError) {
-      throw collectionInsertError;
-    }
-    if (!requestCollections?.length) {
-      throw new Error('Could not add collection to remote');
-    }
-    const requestCollection = requestCollections[0];
-
-    // add queries
-    const { data: requests, error: requestInsertError } = await supabase
-      .from('requests')
-      .insert(
-        collection.queries.map((query) => ({
-          name: query.windowName,
-          request_version: query.version,
-          content: query,
-          collection_id: requestCollection.id,
-        }))
-      );
-
-    if (requestInsertError) {
-      throw requestInsertError;
-    }
-    if (!requests?.length) {
-      throw new Error('Could not add queries in collection to remote');
+    if (!res) {
+      throw new Error('could not create the collection');
     }
 
     // Add serverId to local query and collection data
     const localCollection = await this.mustGetLocalCollection(
       localCollectionId
     );
-    localCollection.serverId = requestCollection.id;
+    localCollection.serverId = res.collectionId;
     localCollection.queries = localCollection.queries.map((query, idx) => {
-      query.serverId = requests[idx].id;
+      query.serverId = res.queryIds[idx];
       return query;
     });
     return this.updateLocalCollection(localCollectionId, localCollection);
@@ -149,7 +105,7 @@ export class QueryCollectionService {
 
     const localCollection = await this.mustGetLocalCollection(collectionId);
 
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
@@ -162,21 +118,18 @@ export class QueryCollectionService {
 
   private async addRemoteQuery(collectionId: CollectionID, queries: IQuery[]) {
     const localCollection = await this.mustGetLocalCollection(collectionId);
-    const { data: requests, error: requestInsertError } = await supabase
-      .from('requests')
-      .insert(
-        queries.map((query) => ({
-          name: query.windowName,
-          request_version: query.version,
-          content: query,
-          collection_id: localCollection.serverId,
-        }))
+    if (!localCollection.serverId) {
+      debug.warn(
+        'All remote queries must have an existing collection server ID'
       );
-
-    if (requestInsertError) {
-      throw requestInsertError;
+      return;
     }
-    if (!requests?.length) {
+    const queryIds = await this.api.createQueries(
+      `${localCollection.serverId}`,
+      queries
+    );
+
+    if (!queryIds.length) {
       throw new Error('Could not add query in collection to remote');
     }
   }
@@ -196,7 +149,7 @@ export class QueryCollectionService {
   ) {
     const res = await this.updateLocalQuery(collectionId, queryId, query);
 
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
@@ -210,21 +163,7 @@ export class QueryCollectionService {
       return this.addRemoteQuery(collectionId, [query]);
     }
 
-    const { data: requests, error: requestUpdateError } = await supabase
-      .from('requests')
-      .update({
-        name: query.windowName,
-        request_version: query.version,
-        content: query,
-      })
-      .eq('id', localQuery.serverId);
-
-    if (requestUpdateError) {
-      throw requestUpdateError;
-    }
-    if (!requests?.length) {
-      throw new Error('Could not update query in collection to remote');
-    }
+    await this.api.updateQuery(`${localQuery.serverId}`, query);
 
     return res;
   }
@@ -308,7 +247,7 @@ export class QueryCollectionService {
     const localQuery = await this.getLocalQuery(collectionId, query.id!);
     await this.deleteLocalQuery(collectionId, query);
 
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
@@ -327,17 +266,8 @@ export class QueryCollectionService {
       debug.log('Query does not have server id. Skipping remote check.');
       return;
     }
-    const { data: requests, error: requestDeleteError } = await supabase
-      .from('requests')
-      .delete()
-      .eq('id', localQuery.serverId);
 
-    if (requestDeleteError) {
-      throw requestDeleteError;
-    }
-    if (!requests?.length) {
-      throw new Error('Could not update query in collection to remote');
-    }
+    await this.api.deleteQuery(`${localQuery.serverId}`);
   }
 
   private deleteLocalQuery(collectionId: CollectionID, query: IQuery) {
@@ -367,7 +297,7 @@ export class QueryCollectionService {
     // Note: Deleting a collection would delete all subcollections and queries inside the collection
 
     // delete collection remote
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
@@ -376,18 +306,7 @@ export class QueryCollectionService {
       return;
     }
 
-    const { data: requestCollections, error: collectionDeleteError } =
-      await supabase
-        .from('request_collections')
-        .delete()
-        .eq('id', localCollection.serverId);
-
-    if (collectionDeleteError) {
-      throw collectionDeleteError;
-    }
-    if (!requestCollections?.length) {
-      throw new Error('Could not delete collection in remote');
-    }
+    await this.api.deleteCollection(`${localCollection.serverId}`);
   }
 
   async deleteLocalCollection(collectionId: CollectionID) {
@@ -420,30 +339,18 @@ export class QueryCollectionService {
   }
 
   async updateRemoteCollection(collectionId: CollectionID) {
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
     const localCollection = await this.mustGetLocalCollection(collectionId);
     const parentCollection = await this.getParentCollection(localCollection);
 
-    const { data: requestCollections, error: collectionInsertError } =
-      await supabase
-        .from('request_collections')
-        .update({
-          collection_name: localCollection.title,
-          parent_collection_id: parentCollection?.serverId,
-        })
-        .eq('id', localCollection.serverId);
-
-    if (collectionInsertError) {
-      throw collectionInsertError;
-    }
-    if (!requestCollections?.length) {
-      throw new Error('Could not add collection to remote');
-    }
-
-    return requestCollections;
+    await this.api.updateCollection(
+      `${localCollection.serverId}`,
+      localCollection,
+      str(parentCollection?.serverId)
+    );
   }
 
   private updateLocalCollection(
@@ -521,15 +428,16 @@ export class QueryCollectionService {
 
   async syncRemoteToLocal() {
     const timestampDiffOffset = 2 * 60 * 1000;
-    if (!this.canApplyRemote()) {
+    if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
     // https://learnsql.com/blog/do-it-in-sql-recursive-tree-traversal/
     // https://supabase.com/blog/2020/11/18/postgresql-views
-    const { data: serverCollections } = await supabase
-      .from('request_collections')
-      .select('*, requests(*)');
+    const serverCollections = await this.api.getCollections();
+    // const { data: serverCollections } = await supabase
+    //   .from('request_collections')
+    //   .select('*, requests(*)');
 
     if (!serverCollections?.length) {
       return;
@@ -542,15 +450,15 @@ export class QueryCollectionService {
         (collection) => collection.serverId === serverCollection.id
       );
       if (matchedCollection) {
-        const serverDate = new Date(serverCollection.updated_at);
+        const serverDate = new Date(serverCollection.updatedAt);
         const localDate = new Date(matchedCollection.updated_at!);
         if (serverDate.getTime() > localDate.getTime() + timestampDiffOffset) {
-          serverCollection.requests.forEach((request: TODO) => {
+          serverCollection.queries.forEach((serverQuery) => {
             // update collection queries
             matchedCollection.queries = matchedCollection.queries.map(
               (query) => {
-                if (query.serverId === request.id) {
-                  const serverRequestDate = new Date(request.updated_at);
+                if (query.serverId === serverQuery.id) {
+                  const serverRequestDate = new Date(serverQuery.updatedAt);
                   const localRequestDate = new Date(query.updated_at!);
                   if (
                     serverRequestDate.getTime() >
@@ -558,8 +466,8 @@ export class QueryCollectionService {
                   ) {
                     // server content is newer
                     return {
-                      ...request.content,
-                      serverId: request.id,
+                      ...serverQuery.content,
+                      serverId: serverQuery.id,
                     };
                   }
                 }
@@ -570,7 +478,7 @@ export class QueryCollectionService {
             // TODO: Handle parentPath
             // matchedCollection.parentPath
 
-            matchedCollection.title = serverCollection.collection_name;
+            matchedCollection.title = serverCollection.collectionName;
           });
           // server content is newer
           if (matchedCollection.id) {
@@ -582,12 +490,12 @@ export class QueryCollectionService {
         }
       } else {
         // add collection to local
-        const queries = serverCollection.requests.map((request: TODO) => ({
-          ...request.content,
-          serverId: request.id,
+        const queries = serverCollection.queries.map((serverQuery) => ({
+          ...serverQuery.content,
+          serverId: serverQuery.id,
         }));
         const localCollection: IQueryCollection = {
-          title: serverCollection.collection_name,
+          title: serverCollection.collectionName,
           queries,
           serverId: serverCollection.id,
           // parentPath // TODO: Handle parentPath

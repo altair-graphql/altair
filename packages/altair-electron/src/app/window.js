@@ -169,6 +169,7 @@ class WindowManager {
         `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
         `'${createSha256CspHash(renderInitialOptions())}'`,
         `https://cdn.jsdelivr.net`,
+        `https://apis.google.com`,
         `localhost:*`,
         `file:`,
       ];
