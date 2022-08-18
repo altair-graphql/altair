@@ -1,4 +1,5 @@
 # Compiled JavaScript files
+lib/
 lib/**/*.js
 lib/**/*.js.map
 
@@ -7,3 +8,5 @@ typings/
 
 # Node.js dependency directory
 node_modules/
+
+*-debug.log
