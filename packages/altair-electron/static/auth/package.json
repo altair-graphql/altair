@@ -1,0 +1,12 @@
+{
+  "name": "auth-client",
+  "version": "0.0.0",
+  "devDependencies": {
+    "parcel": "^2.7.0",
+    "typescript": "^4.7.4"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^9.9.2"
+  }
+}

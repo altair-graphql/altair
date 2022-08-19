@@ -27,10 +27,9 @@ app.use(bodyParser.json());
 app.post('token', async (req, res) => {
   const body = req.body;
 
-  const oneTimeCode = body?.ot_auth_code;
   const idToken = body?.id_token;
 
-  if (!oneTimeCode || !idToken) {
+  if (!idToken) {
     return res
       .status(400)
       .send({ status: 'error', message: 'invalid arguments' });

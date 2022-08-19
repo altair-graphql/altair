@@ -1,10 +1,11 @@
-import { app, protocol, session, shell } from "electron";
+import { app, BrowserWindow, protocol, session, shell } from "electron";
 import { readFile } from "fs";
 import isDev from "electron-is-dev";
 import { setupAutoUpdates } from "../updates";
 import { InMemoryStore } from "../store";
 import { WindowManager } from "./window";
 import { store } from "../settings/main/store";
+import { AuthServer } from "../auth/server";
 
 export class ElectronApp {
   store: InMemoryStore;
@@ -28,9 +29,9 @@ export class ElectronApp {
           standard: true,
           secure: true,
           corsEnabled: true,
-          supportFetchAPI: true
-        }
-      }
+          supportFetchAPI: true,
+        },
+      },
     ]);
 
     this.manageEvents();
@@ -48,7 +49,7 @@ export class ElectronApp {
          * @type Electron.Config
          */
         const proxyConfig: Electron.Config = {
-          mode: "direct"
+          mode: "direct",
         };
 
         switch (settings.proxy_setting) {
@@ -78,6 +79,11 @@ export class ElectronApp {
         console.log(proxy, proxyConfig);
       }
       this.windowManager.createWindow();
+
+      const authServer = new AuthServer();
+      // await authServer.start();
+      await authServer.getCustomToken();
+
       if (!isDev) {
         setupAutoUpdates();
       }
@@ -134,7 +140,6 @@ export class ElectronApp {
       contents.on("new-window", (e, navigationUrl) => {
         // Ask the operating system to open this event's url in the default browser.
         e.preventDefault();
-
         shell.openExternal(navigationUrl);
       });
     });
