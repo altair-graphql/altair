@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 // app.use(authMiddleware);
 
 // Create custom token for uid
-app.post('token', async (req, res) => {
+app.post('/token', async (req, res) => {
   const body = req.body;
 
   const idToken = body?.id_token;
