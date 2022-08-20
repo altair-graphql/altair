@@ -1,11 +1,10 @@
 name: Firebase deploy
 
-# TODO: Temporary. Change or delete workflow.
 on:
   push:
-    branches-ignore:
+    branches:
       - master
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   deploy:
