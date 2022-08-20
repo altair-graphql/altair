@@ -3,7 +3,7 @@ import pkg from '../../package.json';
 export const environment = {
   production: true,
   version: pkg.version,
-  serverReady: true,
+  serverReady: false,
   firebaseConfig: {
     apiKey: 'AIzaSyA6Tr4NsR5PicUyOfNXpXIKXdyXnL-XX6E',
     authDomain: 'altair-gql.firebaseapp.com',
