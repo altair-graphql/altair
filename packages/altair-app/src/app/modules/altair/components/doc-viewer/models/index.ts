@@ -8,5 +8,5 @@ export interface DocumentIndexEntry {
   highlight: string;
   args?: { name: string; description?: string | null }[];
   type?: string;
-  isQuery?: Boolean;
+  isQuery?: boolean;
 }

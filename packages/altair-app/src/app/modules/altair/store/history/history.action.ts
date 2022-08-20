@@ -15,7 +15,7 @@ export class AddHistoryAction implements NGRXAction {
 export class ClearHistoryAction implements NGRXAction {
   readonly type = CLEAR_HISTORY;
 
-  constructor(public windowId: string, public payload: {}) {}
+  constructor(public windowId: string) {}
 }
 
 export type Action = AddHistoryAction | ClearHistoryAction;

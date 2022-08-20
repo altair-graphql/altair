@@ -47,6 +47,8 @@ module.exports = {
         "@typescript-eslint/require-await": "warn",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-empty-function": "warn",
+        "@typescript-eslint/no-var-requires": "warn",
+        "@typescript-eslint/no-this-alias": "off",
       }
     },
     {

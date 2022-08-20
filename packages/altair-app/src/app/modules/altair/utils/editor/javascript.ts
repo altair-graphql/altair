@@ -12,8 +12,8 @@ const dontCompleteIn = [
 ];
 
 const completeProperties = (from: number, object: IDictionary) => {
-  let options = [];
-  for (let name in object) {
+  const options = [];
+  for (const name in object) {
     options.push({
       label: name,
       type: typeof object[name] === 'function' ? 'function' : 'variable',
@@ -35,10 +35,12 @@ export const getGlobalScopeAutocompletion = (globalObj: any = window) => {
       completePropertyAfter.includes(nodeBefore.name) &&
       nodeBefore.parent?.name == 'MemberExpression'
     ) {
-      let object = nodeBefore.parent.getChild('Expression');
+      const object = nodeBefore.parent.getChild('Expression');
       if (object?.name === 'VariableName') {
-        let from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from;
-        let variableName = context.state.sliceDoc(object.from, object.to);
+        const from = /\./.test(nodeBefore.name)
+          ? nodeBefore.to
+          : nodeBefore.from;
+        const variableName = context.state.sliceDoc(object.from, object.to);
         if (typeof (globalObj as any)[variableName] === 'object') {
           return completeProperties(from, (globalObj as any)[variableName]);
         }

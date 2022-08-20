@@ -5,7 +5,11 @@
  * @param fn
  * @example on('click', '.el', fn);
  */
-export const on = (eventName: string, elSelector: string, fn: Function) => {
+export const on = (
+  eventName: string,
+  elSelector: string,
+  fn: (e: Event) => void
+) => {
   document.body.addEventListener(eventName, function (e: Event) {
     if (e.target && (e.target as Element).matches(elSelector)) {
       fn.apply(e.target, [e]);
