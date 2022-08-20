@@ -16,3 +16,4 @@ export { ThemeRegistryService } from './theme/theme-registry.service';
 export { SubscriptionProviderRegistryService } from './subscriptions/subscription-provider-registry.service';
 export { PluginContextService } from './plugin/context/plugin-context.service';
 export { QueryService } from './query/query.service';
+export { AccountService } from './account/account.service';

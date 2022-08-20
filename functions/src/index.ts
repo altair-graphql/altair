@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import admin from 'firebase-admin';
+import { initializeApp, auth } from 'firebase-admin';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -14,7 +14,7 @@ import bodyParser from 'body-parser';
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
-admin.initializeApp();
+initializeApp();
 
 const app = express();
 app.use(cors({ origin: true }));
@@ -35,11 +35,11 @@ app.post('/token', async (req, res) => {
       .send({ status: 'error', message: 'invalid arguments' });
   }
 
-  const decodedToken = await admin.auth().verifyIdToken(idToken);
+  const decodedToken = await auth().verifyIdToken(idToken);
 
   const uid = decodedToken.uid;
 
-  const authToken = await admin.auth().createCustomToken(uid);
+  const authToken = await auth().createCustomToken(uid);
 
   return res.send({ status: 'success', auth_token: authToken });
 });

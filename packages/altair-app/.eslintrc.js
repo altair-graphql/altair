@@ -45,6 +45,8 @@ module.exports = {
         "prettier/prettier": 1,
         "require-await": "off",
         "@typescript-eslint/require-await": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "warn",
       }
     },
     {

@@ -446,7 +446,7 @@ export class GqlService {
    * Prettifies (formats) a given query
    * @param query
    */
-  async prettify(query: string, tabWidth: number = 2) {
+  async prettify(query: string, tabWidth = 2) {
     return prettify(query, tabWidth);
   }
 

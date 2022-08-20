@@ -11,6 +11,7 @@ import { StorageService } from '../storage/storage.service';
 import { debug } from '../../utils/logger';
 import { getFileStr, str } from '../../utils';
 import { ApiService } from '../api/api.service';
+import { AccountService } from '../account/account.service';
 
 type CollectionID = number | string;
 type QueryID = string;
@@ -21,7 +22,11 @@ const COLLECTION_PATH_SEPARATOR = '/';
 // https://github.com/dexie/Dexie.js/issues/749
 @Injectable()
 export class QueryCollectionService {
-  constructor(private storage: StorageService, private api: ApiService) {}
+  constructor(
+    private storage: StorageService,
+    private api: ApiService,
+    private accountService: AccountService
+  ) {}
 
   async create(
     collection: IQueryCollection,
@@ -38,7 +43,7 @@ export class QueryCollectionService {
   }
 
   private async canApplyRemote() {
-    return !!(await this.api.getUser());
+    return !!(await this.accountService.getUser());
   }
 
   async createRemoteCollection(
@@ -185,7 +190,9 @@ export class QueryCollectionService {
   }
 
   async getCollectionByID(collectionId: CollectionID) {
-    let localCollection = await this.storage.queryCollections.get(collectionId);
+    const localCollection = await this.storage.queryCollections.get(
+      collectionId
+    );
     if (!localCollection) {
       collectionId = this.getAlternateCollectionID(collectionId);
     }
@@ -464,6 +471,7 @@ export class QueryCollectionService {
                     serverRequestDate.getTime() >
                     localRequestDate.getTime() + timestampDiffOffset
                   ) {
+                    // TODO: if collection query is already open in the app, ask user and overwrite open query
                     // server content is newer
                     return {
                       ...serverQuery.content,

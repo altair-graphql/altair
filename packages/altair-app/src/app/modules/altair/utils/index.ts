@@ -301,3 +301,18 @@ export const str = (
 
   return v;
 };
+
+export const isElectronApp = () => {
+  const isElectron = !!window.navigator.userAgent.match(/Electron/);
+
+  if (!isElectron) {
+    return false;
+  }
+
+  if (!(window as any).ipc) {
+    debug.error('Is in electron app but IPC is undefined!');
+    return false;
+  }
+
+  return true;
+};

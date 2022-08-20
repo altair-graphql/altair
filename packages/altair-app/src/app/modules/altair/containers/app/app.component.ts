@@ -278,7 +278,16 @@ export class AppComponent {
         this.translate.use(language);
       });
 
-    this.electronApp.connect();
+    this.electronApp.connect({
+      importFileContent: (content) =>
+        this.windowService.importStringData(content),
+      createNewWindow: () => this.newWindow(),
+      closeCurrentWindow: () => {
+        if (this.windowIds.length > 1) {
+          this.removeWindow(this.activeWindowId);
+        }
+      },
+    });
     this.keybinder.connect();
 
     this.windowIds$ = this.store.select('windows').pipe(

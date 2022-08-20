@@ -14,7 +14,8 @@
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
     "compile": "tsc",
     "build": "yarn compile && electron-builder",
-    "dev": "yarn compile && electron ./dist/"
+    "dev": "yarn compile && electron ./dist/",
+    "prepare": "./scripts/prepare.sh"
   },
   "dependencies": {
     "altair-static": "^4.6.2",

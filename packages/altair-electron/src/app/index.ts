@@ -80,10 +80,6 @@ export class ElectronApp {
       }
       this.windowManager.createWindow();
 
-      const authServer = new AuthServer();
-      // await authServer.start();
-      await authServer.getCustomToken();
-
       if (!isDev) {
         setupAutoUpdates();
       }

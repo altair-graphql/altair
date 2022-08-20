@@ -39,14 +39,21 @@ const init = async () => {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ id_token: token }),
   });
   const json = await response.json();
   console.log(json);
-  // TODO: send token
-  // TODO: close the window
+
+  if (json.status === "success") {
+    await sendToken(json.auth_token);
+  }
+
+  document.body.innerText = "You can now close this window.";
+
+  try {
+    window.close();
+  } catch {}
 };
 
 const sendToken = async (token: string) => {

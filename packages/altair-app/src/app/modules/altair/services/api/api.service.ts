@@ -1,88 +1,32 @@
 import { Injectable } from '@angular/core';
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  User,
-} from '@firebase/auth';
 import { doc, deleteDoc, getDocs, query, where } from '@firebase/firestore';
 import {
   IQuery,
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { from } from 'rxjs';
+import { AccountService } from '../account/account.service';
 import {
   addDocument,
-  auth,
   queriesRef,
   queryCollectionsRef,
   updateDocument,
-  usersRef,
-} from './firebase';
+} from '../firebase/firebase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor() {}
+  constructor(private accountService: AccountService) {}
 
   private now() {
     return Date.now();
-  }
-
-  async accountLogin() {
-    const provider = new GoogleAuthProvider();
-    const cred = await signInWithPopup(auth, provider);
-
-    await updateDocument(doc(usersRef(), cred.user.uid), {
-      name: cred.user.displayName || cred.user.email || '',
-      email: cred.user.email || '',
-      createdAt: this.now(),
-      updatedAt: this.now(),
-    });
-
-    return cred;
-  }
-
-  accountLogin$() {
-    return from(this.accountLogin());
-  }
-
-  getUser() {
-    return new Promise<User | null>((resolve) => {
-      const cleanup = onAuthStateChanged(auth, (user) => {
-        resolve(user);
-      });
-
-      return cleanup();
-    });
-  }
-
-  async mustGetUser() {
-    const user = await this.getUser();
-    if (!user) {
-      throw new Error(
-        'User was expected but is undefined. Ensure you are logged in.'
-      );
-    }
-
-    return user;
-  }
-
-  async logout() {
-    return signOut(auth);
-  }
-
-  async isUserSignedIn() {
-    return !!(await this.getUser());
   }
 
   async createQueryCollection(
     queryCollection: IQueryCollection,
     parentCollectionId?: string
   ) {
-    const user = await this.mustGetUser();
+    const user = await this.accountService.mustGetUser();
 
     // TODO: Team collection
     // TODO: Use transaction to wrap all operations
@@ -115,7 +59,7 @@ export class ApiService {
         queryVersion: query.version,
         content: query,
         collectionId: collectionServerId,
-        ownerUid: (await this.mustGetUser()).uid,
+        ownerUid: (await this.accountService.mustGetUser()).uid,
         createdAt: this.now(),
         updatedAt: this.now(),
       });
@@ -155,7 +99,7 @@ export class ApiService {
 
   // TODO: Handle team collections
   async getCollections() {
-    const user = await this.mustGetUser();
+    const user = await this.accountService.mustGetUser();
     // Get query collections where owner == uid
     // Get queries where collectionId in collection IDs
     const q = query(queryCollectionsRef(), where('ownerUid', '==', user.uid));
