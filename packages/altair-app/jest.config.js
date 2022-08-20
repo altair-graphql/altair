@@ -10,6 +10,7 @@ globalThis.ngJest = {
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
+  resolver: '<rootDir>/jest.resolver.js',
   collectCoverage: true,
   globalSetup: '<rootDir>/jest/global-setup.ts',
   // moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
@@ -19,6 +20,6 @@ module.exports = {
     'src',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!@angular|@firebase|firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid|ngx-cookie-service)',
+    'node_modules/(?!@angular|@firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid|ngx-cookie-service)',
   ],
 };

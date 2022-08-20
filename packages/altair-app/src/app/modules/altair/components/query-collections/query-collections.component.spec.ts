@@ -4,9 +4,14 @@ import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { describe, expect } from '@jest/globals';
-import { MockModule, MockComponent } from 'ng-mocks';
+import { MockModule, MockComponent, MockService, MockProvider } from 'ng-mocks';
 import { QueryCollectionItemComponent } from '../query-collection-item/query-collection-item.component';
-import { QueryCollectionService, StorageService } from '../../services';
+import {
+  AccountService,
+  ApiService,
+  QueryCollectionService,
+  StorageService,
+} from '../../services';
 
 describe('QueryCollectionsComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionsComponent>;
@@ -16,7 +21,12 @@ describe('QueryCollectionsComponent', () => {
       component: QueryCollectionsComponent,
       declarations: [MockComponent(QueryCollectionItemComponent)],
       imports: [MockModule(SharedModule)],
-      providers: [QueryCollectionService, StorageService],
+      providers: [
+        QueryCollectionService,
+        StorageService,
+        MockProvider(ApiService),
+        MockProvider(AccountService),
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     });
   });

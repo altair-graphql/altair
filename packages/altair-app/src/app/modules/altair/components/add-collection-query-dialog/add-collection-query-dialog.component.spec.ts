@@ -1,15 +1,24 @@
 import { expect } from '@jest/globals';
 
 import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog.component';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mount } from '../../../../../testing/utils';
 import { NgxTestWrapper } from 'testing/wrapper';
 import { DialogComponent } from '../dialog/dialog.component';
-import { QueryCollectionService, StorageService } from '../../services';
+import {
+  AccountService,
+  ApiService,
+  QueryCollectionService,
+  StorageService,
+} from '../../services';
 import { mock } from '../../../../../testing';
+import { MockModule, MockProvider, MockService } from 'ng-mocks';
 
 describe('AddCollectionQueryDialogComponent', () => {
   let wrapper: NgxTestWrapper<AddCollectionQueryDialogComponent>;
@@ -18,7 +27,12 @@ describe('AddCollectionQueryDialogComponent', () => {
     wrapper = await mount({
       component: AddCollectionQueryDialogComponent,
       declarations: [AddCollectionQueryDialogComponent],
-      providers: [QueryCollectionService, StorageService],
+      providers: [
+        QueryCollectionService,
+        StorageService,
+        MockProvider(ApiService),
+        MockProvider(AccountService),
+      ],
       imports: [NoopAnimationsModule, FormsModule, SharedModule],
       schemas: [NO_ERRORS_SCHEMA],
     });
