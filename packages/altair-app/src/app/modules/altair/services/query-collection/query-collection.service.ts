@@ -129,13 +129,21 @@ export class QueryCollectionService {
       );
       return;
     }
-    const queryIds = await this.api.createQueries(
+    const queryServerIds = await this.api.createQueries(
       `${localCollection.serverId}`,
       queries
     );
 
-    if (!queryIds.length) {
+    if (!queryServerIds.length) {
       throw new Error('Could not add query in collection to remote');
+    }
+
+    // update local query with server ID
+    for (const [idx, queryServerId] of queryServerIds.entries()) {
+      await this.updateLocalQuery(collectionId, queryServerId, {
+        ...queries[idx],
+        serverId: queryServerId,
+      });
     }
   }
 
