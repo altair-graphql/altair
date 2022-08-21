@@ -38,7 +38,7 @@
   "devDependencies": {
     "@jest/globals": "28.0.0",
     "@playwright/test": "^1.16.3",
-    "@types/jest": "^26.0.3",
+    "@types/jest": "^28.1.7",
     "@types/mime-types": "^2.1.1",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
@@ -53,6 +53,7 @@
     "jest-circus": "28.0.0",
     "playwright": "^1.18.1",
     "spectron": "^15.0.0",
+    "ts-jest": "^28.0.8",
     "typescript": "^4.7.4",
     "webdriverio": "^7.12.5"
   },
