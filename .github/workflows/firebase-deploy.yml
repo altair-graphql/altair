@@ -5,6 +5,7 @@ on:
     branches:
       - master
   workflow_dispatch:
+  pull_request: # Temporary dev trigger
 
 jobs:
   deploy:
@@ -21,7 +22,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only functions
+          args: deploy # --only functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 

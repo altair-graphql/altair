@@ -9,6 +9,10 @@ service cloud.firestore {
       allow create: if isUser(userId);
       allow read: if isUser(userId);
       allow update: if isUser(userId);
+      
+      match /counters/{counterId} {
+        allow read: if isUser(userId);
+      }
 
       match /checkout_sessions/{id} {
         allow read, write: if isUser(userId);
@@ -28,7 +32,7 @@ service cloud.firestore {
       allow update, delete: if resourceBelongsToUser();
     }
     match /{path=**}/queries/{queryId} {
-      allow create: if isValidSignedInUser() && requestBelongsToUser();
+      allow create: if isValidSignedInUser() && requestBelongsToUser() && getQueriesCount() < 3; // TODO: Change to 100
       allow read: if resourceBelongsToUser();
       allow update, delete: if resourceBelongsToUser();
     }
@@ -112,6 +116,23 @@ service cloud.firestore {
     // Fetch a user from Firestore
     function getUserData() {
       return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+    }
+
+    function getCounterValue(counterId) {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)) ? 0 : get(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)).data.val;
+    }
+
+    function getQueriesCount() {
+      return getCounterValue('queries');
+    }
+
+    // you can set a `firebaseRole` metadata value on the Stripe product
+    function hasStripeRole(role) {
+      return request.auth.token.stripeRole == role;
+    }
+
+    function hasFreePlan() {
+      return hasStripeRole('free');
     }
 
   }

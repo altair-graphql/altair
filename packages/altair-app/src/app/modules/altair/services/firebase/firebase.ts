@@ -30,6 +30,7 @@ const dataPoint = <T>(path: string, ...collectionPaths: string[]) =>
     converter<T & { id?: string }>()
   );
 
+// TODO: Move to firebase-utils package and reuse in functions
 export const collectionNames = {
   queryCollections: 'query_collections',
   queries: 'queries',
