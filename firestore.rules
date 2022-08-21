@@ -119,7 +119,7 @@ service cloud.firestore {
     }
 
     function getCounterValue(counterId) {
-      return exists(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)) ? 0 : get(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)).data.val;
+      return !exists(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)) ? 0 : get(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)).data.val;
     }
 
     function getQueriesCount() {

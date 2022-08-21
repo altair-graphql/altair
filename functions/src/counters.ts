@@ -4,8 +4,8 @@ import { firestore } from 'firebase-admin';
 const getCounterFunctions = (documentType: string) => {
   const incrementCounter = functions.firestore
     .document(`${documentType}/{itemId}`)
-    .onCreate(async (snapshot, ctx) => {
-      const uid = ctx.auth?.uid;
+    .onCreate(async (snapshot) => {
+      const uid = snapshot.data().ownerUid;
       if (!uid) {
         console.warn(
           `${documentType} with id: ${snapshot.id} was created without an authenticated user.`
@@ -21,8 +21,8 @@ const getCounterFunctions = (documentType: string) => {
 
   const decrementCounter = functions.firestore
     .document(`${documentType}/{itemId}`)
-    .onDelete(async (snapshot, ctx) => {
-      const uid = ctx.auth?.uid;
+    .onDelete(async (snapshot) => {
+      const uid = snapshot.data().ownerUid;
       if (!uid) {
         console.warn(
           `${documentType} with id: ${snapshot.id} was created without an authenticated user.`
