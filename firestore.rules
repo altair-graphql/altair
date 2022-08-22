@@ -32,7 +32,7 @@ service cloud.firestore {
       allow update, delete: if resourceBelongsToUser();
     }
     match /{path=**}/queries/{queryId} {
-      allow create: if isValidSignedInUser() && requestBelongsToUser() && getQueriesCount() < 3; // TODO: Change to 100
+      allow create: if isValidSignedInUser() && requestBelongsToUser() && getQueriesCount() < getMaximumAllowedQueriesCount();
       allow read: if resourceBelongsToUser();
       allow update, delete: if resourceBelongsToUser();
     }
@@ -126,13 +126,26 @@ service cloud.firestore {
       return getCounterValue('queries');
     }
 
+    function getMaximumAllowedQueriesCount() {
+      return getPlanConfig().max_query_count;
+    }
+
     // you can set a `firebaseRole` metadata value on the Stripe product
     function hasStripeRole(role) {
       return request.auth.token.stripeRole == role;
     }
 
+    // default to the `free` role
+    function getStripeRole() {
+      return request.auth.token.stripeRole ? request.auth.token.stripeRole : 'free';
+    }
+
     function hasFreePlan() {
       return hasStripeRole('free');
+    }
+
+    function getPlanConfig() {
+      get(/databases/$(database)/documents/plan_configs/$(getStripeRole())).data;
     }
 
   }
