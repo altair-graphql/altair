@@ -7,6 +7,27 @@ on:
   pull_request:
 
 jobs:
+  deploy-docs:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: yarn build-docs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
+      - name: Publish to cloudflare pages ✨
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: altair-site
+          directory: site/src/.vuepress/dist
+          gitHubToken: ${{ github.token }}
   test:
     strategy:
       matrix:
