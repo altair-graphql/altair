@@ -75,9 +75,9 @@ import { catchUselessObservableError } from '../../utils/errors';
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-altair',
-  templateUrl: './app.component.html',
+  templateUrl: './altair.component.html',
 })
-export class AppComponent {
+export class AltairComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
