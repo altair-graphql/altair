@@ -12,8 +12,10 @@ yarn build-docs
 # navigate into the build output directory
 cd site/src/.vuepress/dist
 
+echo "Update for cloudflare pages deploy"
+exit 1
 # if you are deploying to a custom domain
-echo 'altair.sirmuel.design' > CNAME
+# echo 'altairgraphql.dev' > CNAME
 
 git init
 git add -A

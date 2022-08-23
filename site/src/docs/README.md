@@ -13,7 +13,7 @@ Altair makes it very easy and delightful to test your GraphQL queries and server
 
 There are several options to choose from for you to use Altair, depending on your environment:
 
-1. Desktop apps for [Mac, Windows and Linux](https://altair.sirmuel.design/). You can get the latest version [here](https://altair.sirmuel.design/#download).
+1. Desktop apps for [Mac, Windows and Linux](https://altairgraphql.dev/). You can get the latest version [here](https://altairgraphql.dev/#download).
 1. [Chrome extension](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) for [Google Chrome](https://www.google.com/chrome/) users.
 
 1. [Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/) for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/) users.

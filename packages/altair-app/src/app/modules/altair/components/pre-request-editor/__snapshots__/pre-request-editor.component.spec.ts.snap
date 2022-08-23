@@ -18,7 +18,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
     <small>
       <a
         aria-label="learn more"
-        href="https://altair.sirmuel.design/docs/features/prerequest-scripts.html"
+        href="https://altairgraphql.dev/docs/features/prerequest-scripts.html"
         target="_blank"
       >
         <app-icon

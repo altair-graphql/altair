@@ -1,6 +1,6 @@
 # gatsby-plugin-altair-graphql
 
-Adds an instance of [Altair GraphQL client](https://altair.sirmuel.design/) to gatsby, discovered at `/__altair` route.
+Adds an instance of [Altair GraphQL client](https://altairgraphql.dev/) to gatsby, discovered at `/__altair` route.
 
 ## Install
 

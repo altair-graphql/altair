@@ -41,9 +41,9 @@
     }, function (items) {
       if (items.showChangeLog) {
         chrome.tabs.create({
-          url: "https://altair.sirmuel.design/updated"
+          url: "https://altairgraphql.dev/updated"
         }, function (tab) {
-          console.log("New tab launched with https://altair.sirmuel.design/updated");
+          console.log("New tab launched with https://altairgraphql.dev/updated");
         });
       }
     });

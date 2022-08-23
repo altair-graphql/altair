@@ -18,13 +18,13 @@
 
 <img src="packages/altair-app/src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
 
-<h1><a href="https://altair.sirmuel.design/" target="_blank">Altair GraphQL Client</a></h1>
+<h1><a href="https://altairgraphql.dev/" target="_blank">Altair GraphQL Client</a></h1>
 
 </div>
 
 ![set url](packages/altair-app/src/assets/img/readme/app-shot.png "Altair GraphQL Client")
 
-**Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altair.sirmuel.design/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
+**Altair** is a beautiful feature-rich GraphQL Client IDE for all platforms. Available for [MacOS, Windows, Linux](https://altairgraphql.dev/), [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/).
 It enables you interact with any GraphQL server you are authorized to access from any platform you are on.
 
 
@@ -54,7 +54,7 @@ Altair provides several features that make developing with GraphQL very efficien
 - [**plugin system**](https://sirmuel.design/introducing-plugins-in-altair-still-in-beta-b7adb42b466) for extensibility
 - and many more features (really there's a **lot more!**).
 
-*See more here: https://altair.sirmuel.design/docs/features*
+*See more here: https://altairgraphql.dev/docs/features*
 
 ### Missing feature?
 
@@ -110,7 +110,7 @@ $ winget install -e --id altair-graphql.altair
 You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
 
 ### Usage with koa
-You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altair.sirmuel.design/docs/integrations/altair-koa-middleware).
+You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altairgraphql.dev/docs/integrations/altair-koa-middleware).
 
 ### Usage with Fastify
 
@@ -123,7 +123,7 @@ You can use altair in a Laravel project using [xkojimedia/laravel-altair-graphql
 $ composer require xkojimedia/laravel-altair-graphql
 ```
 
-*You can find other available integrations here: https://altair.sirmuel.design/docs/integrations*
+*You can find other available integrations here: https://altairgraphql.dev/docs/integrations*
 
 ### Configuration Options
 When using a custom instance of Altair, there are [couple of options](https://github.com/altair-graphql/altair/blob/master/packages/altair-core/src/config.ts#L10) you can use to customize Altair based on your needs:
@@ -185,7 +185,7 @@ Would you like to help with translations? https://altair-gql-translate.surge.sh/
 
 <a href="https://opencollective.com/altair#sponsors" target="_blank"><img src="https://opencollective.com/altair/sponsors.svg?width=1000"></a>
 
-Learn more about contributing to Altair [here](.github/CONTRIBUTING.md) and [here](https://altair.sirmuel.design/docs/contributing.html).
+Learn more about contributing to Altair [here](.github/CONTRIBUTING.md) and [here](https://altairgraphql.dev/docs/contributing.html).
 
 ## Development
 

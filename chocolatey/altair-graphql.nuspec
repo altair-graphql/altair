@@ -38,7 +38,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <authors>Samuel Imolorhe</authors>
     <!-- projectUrl is required for the community feed -->
     <projectUrl>https://github.com/altair-graphql/altair</projectUrl>
-    <iconUrl>https://altair.sirmuel.design/assets/img/altair_logo_128.png</iconUrl>
+    <iconUrl>https://altairgraphql.dev/assets/img/altair_logo_128.png</iconUrl>
     <!-- <copyright>Year Software Vendor</copyright> -->
     <!-- If there is a license Url available, it is required for the community feed -->
     <licenseUrl>https://github.com/altair-graphql/altair/blob/master/chocolatey/legal/LICENSE</licenseUrl>
@@ -48,8 +48,8 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!--<mailingListUrl></mailingListUrl>-->
     <bugTrackerUrl>https://github.com/altair-graphql/altair/issues</bugTrackerUrl>
     <tags>altair-graphql graphql graphql-client altair opensource graphql-editor graphql-ide graphiql graphql-subscriptions</tags>
-    <summary>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altair.sirmuel.design/</summary>
-    <description>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altair.sirmuel.design/</description>
+    <summary>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altairgraphql.dev/</summary>
+    <description>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altairgraphql.dev/</description>
     <!-- <releaseNotes>__REPLACE_OR_REMOVE__MarkDown_Okay</releaseNotes> -->
     <!-- =============================== -->      
 

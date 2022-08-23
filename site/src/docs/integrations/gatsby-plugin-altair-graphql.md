@@ -7,7 +7,7 @@ parent: Integrations
 <Badge text="npm" type="error"/>
 <Badge text="gatsby"/>
 
-[gatsby-plugin-altair-graphql](https://www.npmjs.com/package/gatsby-plugin-altair-graphql) adds an instance of [Altair GraphQL client](https://altair.sirmuel.design/) to [Gatsby](https://www.gatsbyjs.org/), discovered at `/__altair` route.
+[gatsby-plugin-altair-graphql](https://www.npmjs.com/package/gatsby-plugin-altair-graphql) adds an instance of [Altair GraphQL client](https://altairgraphql.dev/) to [Gatsby](https://www.gatsbyjs.org/), discovered at `/__altair` route.
 
 #### Installation
 

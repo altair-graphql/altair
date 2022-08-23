@@ -16,16 +16,16 @@ export class MenuManager {
           { role: "about" },
           {
             label: "Check for Updates...",
-            click: menuItem => this.actionManager.checkForUpdates(menuItem)
+            click: (menuItem) => this.actionManager.checkForUpdates(menuItem),
           },
           {
             label: "Preferences",
             accelerator: "Cmd+,",
-            click: () => this.actionManager.showSettings()
+            click: () => this.actionManager.showSettings(),
           },
           {
             label: "Desktop settings...",
-            click: () => this.actionManager.showPreferences()
+            click: () => this.actionManager.showPreferences(),
           },
           ...(isMac
             ? ([
@@ -34,12 +34,12 @@ export class MenuManager {
                 { type: "separator" },
                 { role: "hide" },
                 { role: "hideothers" },
-                { role: "unhide" }
+                { role: "unhide" },
               ] as MenuItemConstructorOptions[])
             : []),
           { type: "separator" },
-          { role: "quit" }
-        ]
+          { role: "quit" },
+        ],
       },
       {
         label: "Edit",
@@ -47,17 +47,17 @@ export class MenuManager {
           {
             label: "New Tab",
             accelerator: "CmdOrCtrl+T",
-            click: () => this.actionManager.createTab()
+            click: () => this.actionManager.createTab(),
           },
           {
             label: "Close Tab",
             accelerator: "CmdOrCtrl+W",
-            click: () => this.actionManager.closeTab()
+            click: () => this.actionManager.closeTab(),
           },
           {
             label: "Reopen Closed Tab",
             accelerator: "CmdOrCtrl+Shift+T",
-            click: () => this.actionManager.reopenClosedTab()
+            click: () => this.actionManager.reopenClosedTab(),
           },
           { role: "undo" },
           { role: "redo" },
@@ -73,11 +73,14 @@ export class MenuManager {
                 { type: "separator" },
                 {
                   label: "Speech",
-                  submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }]
-                }
+                  submenu: [
+                    { role: "startspeaking" },
+                    { role: "stopspeaking" },
+                  ],
+                },
               ] as MenuItemConstructorOptions[])
-            : [])
-        ]
+            : []),
+        ],
       },
       {
         label: "View",
@@ -85,19 +88,19 @@ export class MenuManager {
           {
             label: "Next Tab",
             accelerator: "Ctrl+Tab",
-            click: () => this.actionManager.nextTab()
+            click: () => this.actionManager.nextTab(),
           },
           {
             label: "Previous Tab",
             accelerator: "Ctrl+Shift+Tab",
-            click: () => this.actionManager.previousTab()
+            click: () => this.actionManager.previousTab(),
           },
           { role: "reload" },
           { role: "forceReload" },
           { role: "toggleDevTools" },
           { type: "separator" },
-          { role: "togglefullscreen" }
-        ]
+          { role: "togglefullscreen" },
+        ],
       },
       {
         role: "window",
@@ -108,23 +111,23 @@ export class MenuManager {
             ? ([
                 { role: "minimize" },
                 { type: "separator" },
-                { role: "front" }
+                { role: "front" },
               ] as const)
-            : ([{ role: "about" }] as const))
-        ]
+            : ([{ role: "about" }] as const)),
+        ],
       },
       {
         label: "Data",
         submenu: [
           {
             label: "Export backup data...",
-            click: () => this.actionManager.exportAppData()
+            click: () => this.actionManager.exportAppData(),
           },
           {
             label: "Import backup data...",
-            click: () => this.actionManager.importAppData()
-          }
-        ]
+            click: () => this.actionManager.importAppData(),
+          },
+        ],
       },
       {
         label: "Help",
@@ -132,11 +135,11 @@ export class MenuManager {
           {
             label: "Open documentation",
             click: async () => {
-              await shell.openExternal("https://altair.sirmuel.design/docs/");
-            }
-          }
-        ]
-      }
+              await shell.openExternal("https://altairgraphql.dev/docs/");
+            },
+          },
+        ],
+      },
     ];
 
     return Menu.buildFromTemplate(template);

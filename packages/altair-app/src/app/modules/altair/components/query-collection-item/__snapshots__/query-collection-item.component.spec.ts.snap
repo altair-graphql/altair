@@ -149,7 +149,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
@@ -211,7 +211,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
@@ -273,7 +273,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
@@ -472,7 +472,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
@@ -534,7 +534,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
@@ -596,7 +596,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             <popper-content>
                 
               <a
-                href="https://altair.sirmuel.design/docs/tips/deprecated-collection-queries"
+                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                 rel="noopener"
                 target="_blank"
               >
