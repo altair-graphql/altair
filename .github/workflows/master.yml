@@ -13,7 +13,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 16
     - run: yarn --frozen-lockfile --network-timeout 1000000
     - run: yarn build:ci
     - name: Deploy to translate surge.sh
