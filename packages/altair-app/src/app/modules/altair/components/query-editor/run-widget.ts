@@ -1,11 +1,9 @@
 import { syntaxTree } from '@codemirror/language';
-import { Range } from '@codemirror/state';
+import { EditorState, Range, StateField } from '@codemirror/state';
 import {
   Decoration,
   DecorationSet,
   EditorView,
-  ViewPlugin,
-  ViewUpdate,
   WidgetType,
 } from '@codemirror/view';
 import sanitizeHtml from 'sanitize-html';
@@ -30,7 +28,11 @@ class RunActionWidget extends WidgetType {
 
   toDOM() {
     const wrap = document.createElement('div');
-    wrap.innerHTML = sanitizeHtml(`&#9658; Run`);
+    wrap.innerHTML = sanitizeHtml(
+      `&#9658; (Send ${this.opts.operationType}${
+        this.opts.operationName ? ` ${this.opts.operationName}` : ''
+      })`
+    );
     wrap.className = 'query-editor__line-widget';
 
     wrap.addEventListener('click', () =>
@@ -46,47 +48,41 @@ class RunActionWidget extends WidgetType {
 }
 
 const runActions = (
-  view: EditorView,
+  state: EditorState,
   onClick: RunActionWidgetOptions['onClick']
 ) => {
   const widgets: Range<Decoration>[] = [];
 
-  for (const { from, to } of view.visibleRanges) {
-    syntaxTree(view.state).iterate({
-      from,
-      to,
-      enter: (node) => {
-        if (node.name === 'OperationDefinition') {
-          let operationName = '';
-          const operationTypeNode = node.node.getChild('OperationType');
-          if (!operationTypeNode) {
-            return;
-          }
-          const operationType = view.state.doc.sliceString(
-            operationTypeNode.from,
-            operationTypeNode.to
-          );
-          const nameNode = node.node.getChild('Name');
-          if (nameNode) {
-            operationName = view.state.doc.sliceString(
-              nameNode.from,
-              nameNode.to
-            );
-          }
-          const deco = Decoration.widget({
-            widget: new RunActionWidget({
-              operationName,
-              operationType,
-              onClick,
-            }),
-            side: -1,
-          });
-
-          widgets.push(deco.range(node.from));
+  syntaxTree(state).iterate({
+    enter: (node) => {
+      if (node.name === 'OperationDefinition') {
+        let operationName = '';
+        const operationTypeNode = node.node.getChild('OperationType');
+        if (!operationTypeNode) {
+          return;
         }
-      },
-    });
-  }
+        const operationType = state.doc.sliceString(
+          operationTypeNode.from,
+          operationTypeNode.to
+        );
+        const nameNode = node.node.getChild('Name');
+        if (nameNode) {
+          operationName = state.doc.sliceString(nameNode.from, nameNode.to);
+        }
+        const deco = Decoration.widget({
+          widget: new RunActionWidget({
+            operationName,
+            operationType,
+            onClick,
+          }),
+          side: -1,
+          block: true,
+        });
+
+        widgets.push(deco.range(node.from));
+      }
+    },
+  });
 
   return Decoration.set(widgets);
 };
@@ -94,26 +90,19 @@ const runActions = (
 export const getRunActionPlugin = (
   onClick: RunActionWidgetOptions['onClick']
 ) => {
-  return ViewPlugin.fromClass(
-    class {
-      decorations: DecorationSet;
-
-      constructor(view: EditorView) {
-        this.decorations = runActions(view, onClick);
-      }
-
-      update(vu: ViewUpdate) {
-        if (vu.docChanged || vu.viewportChanged) {
-          this.decorations = runActions(vu.view, onClick);
-        }
-      }
+  return StateField.define<DecorationSet>({
+    create(state) {
+      return runActions(state, onClick);
     },
-    {
-      decorations: (v) => v.decorations,
-      // eventHandlers: {
-      //   mousedown: (e, view) => {
-      //   },
-      // },
-    }
-  );
+    update(decorations, transaction) {
+      if (transaction.docChanged) {
+        return runActions(transaction.state, onClick);
+      }
+
+      return decorations.map(transaction.changes);
+    },
+    provide(field) {
+      return EditorView.decorations.from(field);
+    },
+  });
 };
