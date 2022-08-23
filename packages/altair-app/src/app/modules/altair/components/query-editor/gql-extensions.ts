@@ -10,7 +10,7 @@ import { getNamedType, GraphQLSchema, GraphQLType } from 'graphql';
 import { ContextToken } from 'graphql-language-service-parser';
 import { CompletionItem } from 'graphql-language-service-types';
 import { Position } from '../../utils/editor/helpers';
-import marked from 'marked';
+import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import { debug } from '../../utils/logger';
 import { getRunActionPlugin, RunActionWidgetOptions } from './run-widget';
