@@ -23,7 +23,7 @@
     (sendRequest)="sendRequest()"
     (toggleDocsChange)="toggleDocs()"
     (reloadDocsChange)="reloadDocs()"
-    (addToCollectionChange)="toggleAddToCollectionDialog(true)"
+    (addToCollectionChange)="setShowAddToCollectionDialog(true)"
     (selectedOperationChange)="selectOperation($event)"
     (exportWindowChange)="exportWindowData()"
     (updateQueryInCollectionChange)="updateQueryInCollection()"
@@ -184,14 +184,6 @@
       (restoreHistoryChange)="restoreHistory($event)"
       (clearHistoryChange)="clearHistory()"
     ></app-history-dialog>
-    <app-add-collection-query-dialog
-      [showDialog]="showAddToCollectionDialog"
-      [windowTitle]="(layout$ | async)?.title"
-      [collections]="collections$ | async"
-      (toggleDialogChange)="toggleAddToCollectionDialog($event)"
-      (saveQueryToCollectionChange)="saveQueryToCollection($event)"
-      (createCollectionAndSaveQueryToCollectionChange)="createCollectionAndSaveQueryToCollection($event)"
-    ></app-add-collection-query-dialog>
     <app-dialog
       [showDialog]="showPreRequestDialog"
       [heading]="'PRE_REQUEST_EDITOR_HEADER' | translate"

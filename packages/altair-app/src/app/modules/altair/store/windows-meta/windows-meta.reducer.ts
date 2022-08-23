@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
 
 import * as windowsMeta from './windows-meta.action';
@@ -8,6 +7,7 @@ export const getInitialState = (): WindowsMetaState => {
     activeWindowId: '',
     windowIds: [],
     showImportCurlDialog: false,
+    showAddToCollectionDialog: false,
     showEditCollectionDialog: false,
     showSettingsDialog: false,
     showEnvironmentManager: false,
@@ -75,6 +75,11 @@ export function windowsMetaReducer(
     case windowsMeta.SHOW_EDIT_COLLECTION_DIALOG:
       if (action.payload) {
         return { ...state, showEditCollectionDialog: action.payload.value };
+      }
+      return state;
+    case windowsMeta.SHOW_ADD_TO_COLLECTION_DIALOG:
+      if (action.payload) {
+        return { ...state, showAddToCollectionDialog: action.payload.value };
       }
       return state;
     case windowsMeta.SHOW_SETTINGS_DIALOG:

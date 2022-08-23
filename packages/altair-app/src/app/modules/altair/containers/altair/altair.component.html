@@ -258,6 +258,14 @@
             (toggleDialogChange)="setShowImportCurlDialog($event)"
             (importCurlChange)="importWindowFromCurl($event)"
             ></app-import-curl-dialog>
+            <app-add-collection-query-dialog
+              [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
+              [windowTitle]="(activeWindow$ | async)?.layout.title"
+              [collections]="(collection$ | async)?.list"
+              (toggleDialogChange)="setShowAddToCollectionDialog($event)"
+              (saveQueryToCollectionChange)="saveQueryToCollection($event)"
+              (createCollectionAndSaveQueryToCollectionChange)="createCollectionAndSaveQueryToCollection($event)"
+            ></app-add-collection-query-dialog>
             <app-edit-collection-dialog
             [showEditCollectionDialog]="showEditCollectionDialog"
             [collection]="(collection$ | async)?.activeCollection"
