@@ -283,3 +283,36 @@ export const externalLink = (e: Event, url: string) => {
     }
   }
 };
+
+export const str = (
+  v: string | number | undefined | null
+): string | undefined => {
+  switch (typeof v) {
+    case 'string':
+    case 'undefined':
+      return v;
+    case 'number':
+      return `${v}`;
+  }
+
+  if (!v) {
+    return;
+  }
+
+  return v;
+};
+
+export const isElectronApp = () => {
+  const isElectron = !!window.navigator.userAgent.match(/Electron/);
+
+  if (!isElectron) {
+    return false;
+  }
+
+  if (!(window as any).ipc) {
+    debug.error('Is in electron app but IPC is undefined!');
+    return false;
+  }
+
+  return true;
+};

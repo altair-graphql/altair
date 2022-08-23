@@ -4,6 +4,9 @@ import { describe, expect, it } from '@jest/globals';
 import { QueryCollectionService } from './query-collection.service';
 import { StorageService } from '../storage/storage.service';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { ApiService } from '../api/api.service';
+import { AccountService } from '../account/account.service';
+import { MockProvider } from 'ng-mocks';
 
 const collectionPairs = [
   {
@@ -67,7 +70,12 @@ const collectionPairs = [
 describe('QueryCollectionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QueryCollectionService, StorageService],
+      providers: [
+        QueryCollectionService,
+        StorageService,
+        ApiService,
+        MockProvider(AccountService),
+      ],
       teardown: { destroyAfterEach: false },
     });
   });

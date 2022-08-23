@@ -631,9 +631,7 @@ export class WindowComponent implements OnInit {
   }
 
   clearHistory() {
-    this.store.dispatch(
-      new historyActions.ClearHistoryAction(this.windowId, {})
-    );
+    this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId));
   }
 
   createCollectionAndSaveQueryToCollection({

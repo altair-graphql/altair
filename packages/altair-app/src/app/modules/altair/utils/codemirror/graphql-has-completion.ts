@@ -33,7 +33,7 @@ export const onHasCompletion = (
 
   // When a hint result is selected, we augment the UI with information.
   CodeMirror.on(data, 'select', (ctx: any, el: HTMLElement) => {
-    let onClickHintInformationCb: Function | undefined = undefined;
+    let onClickHintInformationCb: (() => void) | undefined = undefined;
     if (onClickHintInformation) {
       onClickHintInformationCb = () => onClickHintInformation(ctx.type);
     }
@@ -69,7 +69,7 @@ export const onHasCompletion = (
 
         // When CodeMirror attempts to remove the hint UI, we detect that it was
         // removed and in turn remove the information nodes.
-        let onRemoveFn: Function | undefined;
+        let onRemoveFn: ((e: Event) => void) | undefined;
         hintsUl.addEventListener(
           'DOMNodeRemoved',
           (onRemoveFn = (event: Event) => {

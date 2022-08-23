@@ -51,7 +51,7 @@ const runActions = (
 ) => {
   const widgets: Range<Decoration>[] = [];
 
-  for (let { from, to } of view.visibleRanges) {
+  for (const { from, to } of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       from,
       to,

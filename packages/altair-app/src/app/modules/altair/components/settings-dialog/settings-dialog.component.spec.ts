@@ -16,7 +16,10 @@ import {
   GqlService,
 } from '../../services';
 import { Store } from '@ngrx/store';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
 import { HttpClientModule } from '@angular/common/http';

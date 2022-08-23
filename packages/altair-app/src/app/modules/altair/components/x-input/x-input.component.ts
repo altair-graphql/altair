@@ -130,7 +130,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       autocompletion({
         override: [
           (ctx: CompletionContext) => {
-            let word = ctx.matchBefore(/{{\w*/);
+            const word = ctx.matchBefore(/{{\w*/);
 
             if (!word) {
               return null;
@@ -200,7 +200,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       },
       update(highlights, tr) {
         highlights = highlights.map(tr.changes);
-        for (let e of tr.effects)
+        for (const e of tr.effects)
           if (e.is(self.highlightEnvVariable)) {
             const from = e.value.from;
             const to = e.value.to;
@@ -276,7 +276,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         end: end + 2, // +2 for the double closing braces
         above: true,
         create() {
-          let dom = document.createElement('div');
+          const dom = document.createElement('div');
           dom.className = 'cm-tooltip-variable-value';
 
           const tooltipValue = `${self.activeEnvironment[foundVariableName]}`;

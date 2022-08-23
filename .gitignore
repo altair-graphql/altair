@@ -50,6 +50,7 @@ npm-debug.log
 lerna-debug.log
 yarn-error.log
 testem.log
+*-debug.log
 
 # e2e
 /e2e/*.js
@@ -58,3 +59,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+.parcel-cache

@@ -4,9 +4,13 @@ export const environment = {
   production: true,
   version: pkg.version,
   serverReady: false,
-  supabase: {
-    publicUrl: 'https://pdfdnnhkxsrfvyhksaop.supabase.co',
-    apiKey:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyMzU4MDIwLCJleHAiOjE5NTc5MzQwMjB9.4SDcU2t37R6KfcGRxloHtqvq_62FhdgT3P9eWBL7Rpc',
+  firebaseConfig: {
+    apiKey: 'AIzaSyA6Tr4NsR5PicUyOfNXpXIKXdyXnL-XX6E',
+    authDomain: 'altair-gql.firebaseapp.com',
+    databaseURL: 'https://altair-gql.firebaseio.com',
+    projectId: 'altair-gql',
+    storageBucket: 'altair-gql.appspot.com',
+    messagingSenderId: '584169952184',
+    appId: '1:584169952184:web:8884e50761ca87622c754d',
   },
 };

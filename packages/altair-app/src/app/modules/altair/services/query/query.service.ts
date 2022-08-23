@@ -3,22 +3,17 @@ import { select, Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
-import { DbService } from '../db.service';
-import { DonationService } from '../donation.service';
-import { ElectronAppService } from '../electron-app/electron-app.service';
 import { EnvironmentService } from '../environment/environment.service';
-import { GqlService, SendRequestResponse } from '../gql/gql.service';
+import { SendRequestResponse } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
 import {
   PreRequestService,
   RequestType,
   ScriptContextData,
 } from '../pre-request/pre-request.service';
-import { SubscriptionProviderRegistryService } from '../subscriptions/subscription-provider-registry.service';
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
-import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Injectable({
   providedIn: 'root',

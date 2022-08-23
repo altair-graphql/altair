@@ -31,12 +31,12 @@ const isInputElement = (
   );
 };
 
-async function nextTick<C extends any>(fixture: ComponentFixture<C>) {
+async function nextTick<C>(fixture: ComponentFixture<C>) {
   fixture.detectChanges();
   await fixture.whenStable();
 }
 
-export function setProps<C extends any>(
+export function setProps<C>(
   fixture: ComponentFixture<C>,
   debugEl: DebugElement,
   valueObj: any = {}
@@ -48,7 +48,7 @@ export function setProps<C extends any>(
   // await nextTick(fixture);
 }
 
-export function setValue<C extends any>(
+export function setValue<C>(
   fixture: ComponentFixture<C>,
   debugEl: DebugElement,
   value: any = ''

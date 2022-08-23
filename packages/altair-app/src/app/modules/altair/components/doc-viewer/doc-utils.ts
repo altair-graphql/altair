@@ -359,7 +359,7 @@ export class DocUtils {
             return acc;
           }
 
-          const curInnerFieldStr: String = curInnerFieldData.query;
+          const curInnerFieldStr: string = curInnerFieldData.query;
 
           // Set the hasArgs meta if the inner field has args
           meta.hasArgs =

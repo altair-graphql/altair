@@ -4,7 +4,7 @@ export function posToOffset(doc: Text, pos: IPosition) {
   return doc.line(pos.line + 1).from + pos.character;
 }
 export function offsetToPos(doc: Text, offset: number): Position {
-  let line = doc.lineAt(offset);
+  const line = doc.lineAt(offset);
   return new Position(line.number - 1, offset - line.from);
 }
 

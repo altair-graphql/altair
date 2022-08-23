@@ -1,9 +1,8 @@
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import type { IpcRenderer } from 'electron';
+import { IpcRenderer } from 'electron';
 
-import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 
 import * as queryActions from '../../store/query/query.action';
@@ -17,10 +16,15 @@ import {
   importIndexedRecords,
 } from '../../store/async-storage-sync';
 import { StorageService } from '../storage/storage.service';
-import { downloadData } from '../../utils';
+import { downloadData, isElectronApp } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
-import { catchUselessObservableError } from '../../utils/errors';
+
+interface ConnectOptions {
+  importFileContent: (content: string) => void;
+  createNewWindow: () => void;
+  closeCurrentWindow: () => void;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +33,10 @@ export class ElectronAppService {
   windowIds: string[];
   activeWindowId = '';
 
-  private ipc: IpcRenderer = (window as any).ipc;
+  private ipc: IpcRenderer | undefined = (window as any).ipc;
 
   constructor(
     private store: Store<RootState>,
-    private windowService: WindowService,
     private notifyService: NotifyService,
     private zone: NgZone
   ) {
@@ -43,121 +46,123 @@ export class ElectronAppService {
     });
   }
 
-  connect() {
-    if (this.isElectronApp()) {
-      this.ipc.on('file-opened', (evt: any, content: string) => {
-        this.zone.run(() => this.windowService.importStringData(content));
-      });
-
-      this.ipc.on('certificate-error', (evt: any, error: Error) => {
-        this.zone.run(() =>
-          this.notifyService.warning(`
-          Your request has an invalid certificate.
-          You should check that your request is coming from a trusted source.
-        `)
-        );
-      });
-
-      this.ipc.on('import-app-data', (evt: any, content: string) => {
-        this.zone.run(() => this.importBackupData(content));
-      });
-
-      this.ipc.on('export-app-data', () => {
-        this.zone.run(() => this.exportBackupData());
-      });
-
-      this.ipc.on('create-tab', () => {
-        this.zone.run(() =>
-          this.windowService
-            .newWindow()
-            .pipe(take(1), catchUselessObservableError)
-            .subscribe()
-        );
-      });
-      this.ipc.on('close-tab', () => {
-        this.zone.run(() => {
-          if (this.windowIds.length > 1) {
-            this.windowService
-              .removeWindow(this.activeWindowId)
-              .pipe(catchUselessObservableError)
-              .subscribe();
-          }
-        });
-      });
-
-      this.ipc.on('next-tab', () => {
-        this.zone.run(() =>
-          this.store.dispatch(
-            new windowsMetaActions.SetNextWindowActiveAction()
-          )
-        );
-      });
-
-      this.ipc.on('previous-tab', () => {
-        this.zone.run(() =>
-          this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction())
-        );
-      });
-
-      this.ipc.on('reopen-closed-tab', () => {
-        this.zone.run(() =>
-          this.store.dispatch(new windowsActions.ReopenClosedWindowAction())
-        );
-      });
-
-      this.ipc.on('send-request', () => {
-        this.zone.run(() =>
-          this.store.dispatch(
-            new queryActions.SendQueryRequestAction(this.activeWindowId)
-          )
-        );
-      });
-      this.ipc.on('reload-docs', () => {
-        this.zone.run(() =>
-          this.store.dispatch(
-            new queryActions.SendIntrospectionQueryRequestAction(
-              this.activeWindowId
-            )
-          )
-        );
-      });
-      this.ipc.on('show-docs', () => {
-        this.zone.run(() =>
-          this.store.dispatch(
-            new docsActions.ToggleDocsViewAction(this.activeWindowId)
-          )
-        );
-      });
-      this.ipc.on('show-settings', () => {
-        this.zone.run(() =>
-          this.store.dispatch(
-            new windowsMetaActions.ShowSettingsDialogAction({ value: true })
-          )
-        );
-      });
-      debug.log('Electron app connected.');
-
-      this.ipc.send('get-file-opened');
-
-      this.store
-        .select(
-          (state: RootState) =>
-            state.settings['alert.disableUpdateNotification']
-        )
-        .pipe(take(1))
-        .subscribe((disableUpdateNotification: boolean) => {
-          if (!disableUpdateNotification) {
-            this.initUpdateAvailableHandler();
-          }
-        });
+  // TODO: Migrate to use contextBridge instead
+  connect({
+    importFileContent,
+    createNewWindow,
+    closeCurrentWindow,
+  }: ConnectOptions) {
+    if (!isElectronApp() || !this.ipc) {
+      return;
     }
+
+    this.ipc.on('file-opened', (evt: any, content: string) => {
+      this.zone.run(() => importFileContent(content));
+    });
+
+    this.ipc.on('certificate-error', (evt: any, error: Error) => {
+      this.zone.run(() =>
+        this.notifyService.warning(`
+        Your request has an invalid certificate.
+        You should check that your request is coming from a trusted source.
+      `)
+      );
+    });
+
+    this.ipc.on('import-app-data', (evt: any, content: string) => {
+      this.zone.run(() => this.importBackupData(content));
+    });
+
+    this.ipc.on('export-app-data', () => {
+      this.zone.run(() => this.exportBackupData());
+    });
+
+    this.ipc.on('create-tab', () => {
+      this.zone.run(() => createNewWindow());
+    });
+    this.ipc.on('close-tab', () => {
+      this.zone.run(() => closeCurrentWindow());
+    });
+
+    this.ipc.on('next-tab', () => {
+      this.zone.run(() =>
+        this.store.dispatch(new windowsMetaActions.SetNextWindowActiveAction())
+      );
+    });
+
+    this.ipc.on('previous-tab', () => {
+      this.zone.run(() =>
+        this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction())
+      );
+    });
+
+    this.ipc.on('reopen-closed-tab', () => {
+      this.zone.run(() =>
+        this.store.dispatch(new windowsActions.ReopenClosedWindowAction())
+      );
+    });
+
+    this.ipc.on('send-request', () => {
+      this.zone.run(() =>
+        this.store.dispatch(
+          new queryActions.SendQueryRequestAction(this.activeWindowId)
+        )
+      );
+    });
+    this.ipc.on('reload-docs', () => {
+      this.zone.run(() =>
+        this.store.dispatch(
+          new queryActions.SendIntrospectionQueryRequestAction(
+            this.activeWindowId
+          )
+        )
+      );
+    });
+    this.ipc.on('show-docs', () => {
+      this.zone.run(() =>
+        this.store.dispatch(
+          new docsActions.ToggleDocsViewAction(this.activeWindowId)
+        )
+      );
+    });
+    this.ipc.on('show-settings', () => {
+      this.zone.run(() =>
+        this.store.dispatch(
+          new windowsMetaActions.ShowSettingsDialogAction({ value: true })
+        )
+      );
+    });
+    debug.log('Electron app connected.');
+
+    this.ipc.send('get-file-opened');
+
+    this.store
+      .select(
+        (state: RootState) => state.settings['alert.disableUpdateNotification']
+      )
+      .pipe(take(1))
+      .subscribe((disableUpdateNotification: boolean) => {
+        if (!disableUpdateNotification) {
+          this.initUpdateAvailableHandler();
+        }
+      });
+  }
+
+  getAuthToken() {
+    return this.invokeWithCustomErrors('get-auth-token', {});
   }
 
   private initUpdateAvailableHandler() {
+    if (!isElectronApp() || !this.ipc) {
+      return;
+    }
     const opts = {
       disableTimeOut: true,
       data: {
         action: () => {
+          if (!isElectronApp() || !this.ipc) {
+            return;
+          }
           this.ipc.send('update');
         },
       },
@@ -172,17 +177,28 @@ export class ElectronAppService {
   }
 
   setHeaders(headers: HeaderState) {
-    if (this.isElectronApp()) {
+    if (isElectronApp() && this.ipc) {
       this.ipc.sendSync('set-headers-sync', headers);
     }
   }
 
   isElectronApp() {
-    return !!window.navigator.userAgent.match(/Electron/);
+    const isElectron = !!window.navigator.userAgent.match(/Electron/);
+
+    if (!isElectron) {
+      return false;
+    }
+
+    if (!this.ipc) {
+      debug.error('Is in electron app but IPC is undefined!');
+      return false;
+    }
+
+    return true;
   }
 
   restartApp() {
-    if (this.isElectronApp()) {
+    if (isElectronApp() && this.ipc) {
       this.ipc.send('restart-app');
     }
   }
@@ -247,5 +263,24 @@ export class ElectronAppService {
     downloadData(JSON.stringify(backupData), 'altair_backup', {
       fileType: 'agbkp',
     });
+  }
+
+  private decodeError(errObj: { name: string; message: string; extra: any }) {
+    const e = new Error(errObj.message);
+    e.name = errObj.name;
+    Object.assign(e, errObj.extra);
+    return e;
+  }
+
+  // TODO: Create an electron-interop package and move this there
+  private async invokeWithCustomErrors(channel: string, ...args: any[]) {
+    if (!isElectronApp() || !this.ipc) {
+      return;
+    }
+    const { error, result } = await this.ipc.invoke(channel, ...args);
+    if (error) {
+      throw this.decodeError(error);
+    }
+    return result;
   }
 }

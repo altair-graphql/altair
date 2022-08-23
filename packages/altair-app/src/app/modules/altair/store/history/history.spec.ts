@@ -165,7 +165,7 @@ describe('history', () => {
         },
       ],
     };
-    const action = new ClearHistoryAction('', {});
+    const action = new ClearHistoryAction('');
     const newState = historyReducer(state, action);
 
     expect(newState).toEqual({

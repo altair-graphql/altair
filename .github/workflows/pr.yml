@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        node-version: [14.x]
+        node-version: [16]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -22,6 +22,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - uses: nrwl/nx-set-shas@v2
+      with:
+        main-branch-name: master
     - name: restore lerna
       uses: actions/cache@v2
       with:

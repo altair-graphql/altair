@@ -116,7 +116,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   selectedIndex = 0;
 
-  actionToFn: Record<string, string | Function> = {
+  actionToFn: Record<string, string | ((cm: CodeMirror.Editor) => void)> = {
     showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
     toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
     showFinder: 'findPersistent',

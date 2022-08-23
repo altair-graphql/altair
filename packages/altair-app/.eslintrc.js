@@ -19,6 +19,7 @@ module.exports = {
       extends: [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:@typescript-eslint/recommended",
         "prettier",
       ],
       plugins: [
@@ -42,6 +43,12 @@ module.exports = {
           }
         ],
         "prettier/prettier": 1,
+        "require-await": "off",
+        "@typescript-eslint/require-await": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "warn",
+        "@typescript-eslint/no-var-requires": "warn",
+        "@typescript-eslint/no-this-alias": "off",
       }
     },
     {

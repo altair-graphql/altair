@@ -4,18 +4,15 @@ import 'mousetrap-global-bind';
 import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
 
-import * as fromRoot from '../../store';
-
 import * as windowsActions from '../../store/windows/windows.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as queryActions from '../../store/query/query.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as docsActions from '../../store/docs/docs.action';
-import { ElectronAppService } from '../electron-app/electron-app.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { catchError, first, take } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { catchUselessObservableError } from '../../utils/errors';
+import { isElectronApp } from '../../utils';
 
 export interface KeyboardShortcutCategory {
   title: string;
@@ -37,7 +34,6 @@ export class KeybinderService {
   constructor(
     private store: Store<RootState>,
     private windowService: WindowService,
-    private electronService: ElectronAppService,
     private zone: NgZone
   ) {
     this.store.subscribe((data) => {
@@ -191,7 +187,7 @@ export class KeybinderService {
         ],
       },
     ];
-    if (this.electronService.isElectronApp()) {
+    if (isElectronApp()) {
       categories.push({
         title: 'Electron Shortcuts',
         shortcuts: [],
