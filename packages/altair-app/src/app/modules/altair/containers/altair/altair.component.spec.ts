@@ -10,7 +10,7 @@ import { empty as observableEmpty, of } from 'rxjs';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { AppComponent } from './app.component';
+import { AltairComponent } from './altair.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
@@ -18,8 +18,8 @@ import { mockStoreFactory, mock } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
-describe('AppComponent', () => {
-  let wrapper: NgxTestWrapper<AppComponent>;
+describe('AltairComponent', () => {
+  let wrapper: NgxTestWrapper<AltairComponent>;
 
   beforeEach(async () => {
     const providers = [
@@ -82,7 +82,7 @@ describe('AppComponent', () => {
       },
     ];
     wrapper = await mount({
-      component: AppComponent,
+      component: AltairComponent,
       imports: [MockModule(SharedModule), MockModule(TranslateModule)],
       providers,
       schemas: [NO_ERRORS_SCHEMA],

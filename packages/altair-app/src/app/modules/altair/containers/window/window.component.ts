@@ -24,6 +24,7 @@ import * as collectionActions from '../../store/collection/collection.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
+import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as layoutActions from '../../store/layout/layout.action';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 
@@ -115,7 +116,6 @@ export class WindowComponent implements OnInit {
   showVariableDialog = false;
   showSubscriptionUrlDialog = false;
   showHistoryDialog = false;
-  showAddToCollectionDialog = false;
   showPreRequestDialog = true;
 
   gqlSchema: GraphQLSchema | undefined;
@@ -256,7 +256,6 @@ export class WindowComponent implements OnInit {
         this.showVariableDialog = data.dialogs.showVariableDialog;
         this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
         this.showHistoryDialog = data.dialogs.showHistoryDialog;
-        this.showAddToCollectionDialog = data.dialogs.showAddToCollectionDialog;
         this.showPreRequestDialog = data.dialogs.showPreRequestDialog;
 
         this.subscriptionUrl = data.query.subscriptionUrl;
@@ -406,12 +405,13 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  toggleAddToCollectionDialog(isOpen: boolean) {
-    if (this.showAddToCollectionDialog !== isOpen) {
-      this.store.dispatch(
-        new dialogsActions.ToggleAddToCollectionDialogAction(this.windowId)
-      );
-    }
+  setShowAddToCollectionDialog(value: boolean) {
+    this.store.dispatch(
+      new windowsMetaActions.ShowAddToCollectionDialogAction({
+        value,
+        windowId: this.windowId,
+      })
+    );
   }
 
   togglePreRequestDialog(isOpen: boolean) {
@@ -634,35 +634,6 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId));
   }
 
-  createCollectionAndSaveQueryToCollection({
-    queryName = '',
-    collectionName = '',
-    parentCollectionId = 0,
-  }) {
-    this.store.dispatch(
-      new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
-        windowId: this.windowId,
-        windowTitle: queryName,
-        collectionTitle: collectionName,
-        parentCollectionId: parentCollectionId || undefined,
-      })
-    );
-
-    this.onCloseAddToCollectionDialog();
-  }
-
-  saveQueryToCollection({ queryName = '', collectionId = 0 }) {
-    this.store.dispatch(
-      new collectionActions.SaveQueryToCollectionAction({
-        windowId: this.windowId,
-        collectionId,
-        windowTitle: queryName,
-      })
-    );
-
-    this.onCloseAddToCollectionDialog();
-  }
-
   updateQueryInCollection() {
     this.store.dispatch(
       new collectionActions.UpdateQueryInCollectionAction({
@@ -672,7 +643,7 @@ export class WindowComponent implements OnInit {
   }
 
   onCloseAddToCollectionDialog() {
-    this.toggleAddToCollectionDialog(false);
+    this.setShowAddToCollectionDialog(false);
   }
 
   exportSDL() {

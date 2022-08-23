@@ -43,7 +43,7 @@ import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
 import { SmartInputModule } from './components/smart-input/smart-input.module';
 import { SchemaFormModule } from './components/schema-form/schema-form.module';
 
-import { AppComponent } from './containers/app/app.component';
+import { AltairComponent } from './containers/altair/altair.component';
 import { WindowComponent } from './containers/window/window.component';
 
 import * as services from './services';
@@ -118,7 +118,7 @@ const providers = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, WindowComponent],
+  declarations: [AltairComponent, WindowComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -170,9 +170,9 @@ const providers = [
     }),
   ],
   providers: providers,
-  bootstrap: [AppComponent],
+  bootstrap: [AltairComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [AppComponent],
+  exports: [AltairComponent],
 })
 export class AltairModule {
   constructor(

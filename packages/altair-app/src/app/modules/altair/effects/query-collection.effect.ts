@@ -18,6 +18,7 @@ import * as fromRoot from '../store';
 import * as collectionActions from '../store/collection/collection.action';
 import * as accountActions from '../store/account/account.action';
 import * as dialogsActions from '../store/dialogs/dialogs.action';
+import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import {
   QueryCollectionService,
   WindowService,
@@ -162,7 +163,10 @@ export class QueryCollectionEffects {
           !res.data.layout.windowIdInCollection
         ) {
           this.store.dispatch(
-            new dialogsActions.ToggleAddToCollectionDialogAction(res.windowId)
+            new windowsMetaActions.ShowAddToCollectionDialogAction({
+              value: true,
+              windowId: res.windowId,
+            })
           );
           return EMPTY;
         }

@@ -71,13 +71,14 @@ import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { externalLink, mapToKeyValueList, openFile } from '../../utils';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { catchUselessObservableError } from '../../utils/errors';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-altair',
-  templateUrl: './app.component.html',
+  templateUrl: './altair.component.html',
 })
-export class AppComponent {
+export class AltairComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
@@ -88,6 +89,7 @@ export class AppComponent {
   theme$: Observable<ICustomTheme | undefined>;
   themeDark$: Observable<ICustomTheme | undefined>;
   account$: Observable<AccountState>;
+  activeWindow$: Observable<PerWindowState | undefined>;
 
   windowIds: string[] = [];
   windows: WindowState = {};
@@ -210,6 +212,11 @@ export class AppComponent {
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
     this.account$ = this.store.select('account');
+    this.activeWindow$ = this.store.pipe(
+      map((state) => {
+        return state.windows[state.windowsMeta.activeWindowId];
+      })
+    );
     this.sortedCollections$ = this.store.select(
       fromRoot.selectSortedCollections
     );
@@ -728,6 +735,15 @@ export class AppComponent {
     );
   }
 
+  setShowAddToCollectionDialog(value: boolean) {
+    this.store.dispatch(
+      new windowsMetaActions.ShowAddToCollectionDialogAction({
+        value,
+        windowId: this.activeWindowId,
+      })
+    );
+  }
+
   setShowEditCollectionDialog(value: boolean) {
     this.store.dispatch(
       new windowsMetaActions.ShowEditCollectionDialogAction({ value })
@@ -742,6 +758,35 @@ export class AppComponent {
 
   accountLogin() {
     this.store.dispatch(new accountActions.LoginAccountAction());
+  }
+
+  createCollectionAndSaveQueryToCollection({
+    queryName = '',
+    collectionName = '',
+    parentCollectionId = 0,
+  }) {
+    this.store.dispatch(
+      new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
+        windowId: this.activeWindowId,
+        windowTitle: queryName,
+        collectionTitle: collectionName,
+        parentCollectionId: parentCollectionId || undefined,
+      })
+    );
+
+    this.setShowAddToCollectionDialog(false);
+  }
+
+  saveQueryToCollection({ queryName = '', collectionId = 0 }) {
+    this.store.dispatch(
+      new collectionActions.SaveQueryToCollectionAction({
+        windowId: this.activeWindowId,
+        collectionId,
+        windowTitle: queryName,
+      })
+    );
+
+    this.setShowAddToCollectionDialog(false);
   }
 
   updateCollection({

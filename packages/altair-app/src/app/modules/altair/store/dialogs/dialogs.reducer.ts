@@ -7,7 +7,6 @@ export const getInitialState = (): DialogState => {
     showVariableDialog: false,
     showSubscriptionUrlDialog: false,
     showHistoryDialog: false,
-    showAddToCollectionDialog: false,
     showPreRequestDialog: false,
   };
 };
@@ -31,11 +30,6 @@ export function dialogReducer(
       });
     case dialogs.TOGGLE_HISTORY_DIALOG:
       return { ...state, showHistoryDialog: !state.showHistoryDialog };
-    case dialogs.TOGGLE_ADD_TO_COLLECTION_DIALOG:
-      return {
-        ...state,
-        showAddToCollectionDialog: !state.showAddToCollectionDialog,
-      };
     case dialogs.TOGGLE_PRE_REQUEST_DIALOG:
       return { ...state, showPreRequestDialog: !state.showPreRequestDialog };
     default:

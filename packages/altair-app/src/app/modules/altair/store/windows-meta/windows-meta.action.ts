@@ -7,6 +7,7 @@ export const SET_WINDOW_IDS = 'SET_WINDOW_IDS';
 export const REPOSITION_WINDOW = 'REPOSITION_WINDOW';
 
 export const SHOW_IMPORT_CURL_DIALOG = 'SHOW_IMPORT_CURL_DIALOG';
+export const SHOW_ADD_TO_COLLECTION_DIALOG = 'SHOW_ADD_TO_COLLECTION_DIALOG';
 export const SHOW_EDIT_COLLECTION_DIALOG = 'SHOW_EDIT_COLLECTION_DIALOG';
 export const SHOW_SETTINGS_DIALOG = 'SHOW_SETTINGS_DIALOG';
 export const SHOW_ENVIRONMENT_MANAGER = 'SHOW_ENVIRONMENT_MANAGER';
@@ -52,6 +53,12 @@ export class ShowImportCurlDialogAction implements NGRXAction {
   readonly type = SHOW_IMPORT_CURL_DIALOG;
 
   constructor(public payload?: { value: boolean }) {}
+}
+
+export class ShowAddToCollectionDialogAction implements NGRXAction {
+  readonly type = SHOW_ADD_TO_COLLECTION_DIALOG;
+
+  constructor(public payload?: { value: boolean; windowId: string }) {}
 }
 
 export class ShowEditCollectionDialogAction implements NGRXAction {
@@ -103,6 +110,7 @@ export type Action =
   | SetWindowIdsAction
   | RepositionWindowAction
   | ShowImportCurlDialogAction
+  | ShowAddToCollectionDialogAction
   | ShowEditCollectionDialogAction
   | ShowSettingsDialogAction
   | ShowEnvironmentManagerAction
