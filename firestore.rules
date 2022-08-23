@@ -127,7 +127,7 @@ service cloud.firestore {
     }
 
     function getMaximumAllowedQueriesCount() {
-      return getPlanConfig().max_query_count;
+      return getCurrentPlanConfig().max_query_count;
     }
 
     // you can set a `firebaseRole` metadata value on the Stripe product
@@ -144,8 +144,12 @@ service cloud.firestore {
       return hasStripeRole('free');
     }
 
-    function getPlanConfig() {
-      get(/databases/$(database)/documents/plan_configs/$(getStripeRole())).data;
+    function getPlanConfig(stripeRole) {
+      return get(/databases/$(database)/documents/plan_configs/$(stripeRole)).data;
+    }
+
+    function getCurrentPlanConfig() {
+      return getPlanConfig(getStripeRole());
     }
 
   }
