@@ -75,7 +75,6 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   reset() {
     this.newCollectionQueryTitle = this.windowTitle;
     this.newCollectionTitle = '';
-    this.collectionId = null;
   }
 
   trackById(index: number, item: { id: string }) {

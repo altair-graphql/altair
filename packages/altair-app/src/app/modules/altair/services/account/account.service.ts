@@ -8,6 +8,7 @@ import {
   User,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
+import { environment } from 'environments/environment';
 import { from } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
@@ -49,7 +50,11 @@ export class AccountService {
     return from(this.accountLogin());
   }
 
-  getUser() {
+  async getUser() {
+    if (!environment.serverReady) {
+      return null;
+    }
+
     return new Promise<User | null>((resolve) => {
       const cleanup = onAuthStateChanged(auth, (user) => {
         resolve(user);

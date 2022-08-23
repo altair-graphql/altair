@@ -41,9 +41,10 @@
     "test": "nx run-many --target=test --all"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 16"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.18.1",
     "chalk": "^4.1.0",
     "compare-versions": "^4.1.3",
     "cwex": "^1.0.2",
@@ -55,10 +56,9 @@
     "opencollective": "^1.0.3",
     "snyk": "^1.774.0",
     "start-server-and-test": "1.11.0",
-    "typedoc": "^0.22.10",
-    "typedoc-plugin-markdown": "^3.11.7",
     "typescript": "^4.2.2",
-    "web-ext": "^6.5.0"
+    "web-ext": "^6.5.0",
+    "wrangler": "^2.0.27"
   },
   "resolutions": {
     "y18n": "4.0.1"
@@ -80,8 +80,5 @@
     "url": "https://opencollective.com/altair"
   },
   "snyk": true,
-  "private": true,
-  "dependencies": {
-    "@changesets/cli": "^2.18.1"
-  }
+  "private": true
 }
