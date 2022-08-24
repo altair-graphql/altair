@@ -148,7 +148,7 @@ const updateVersion = async(version) => {
 
 const createVersionCommit = async(version) => {
   await exec('git', [ 'add', '--all' ]);
-  await exec('git', [ 'commit', '-am', `Upgraded to v${version}` ]);
+  await exec('git', [ 'commit', '--allow-empty', '-am', `Upgraded to v${version}` ]);
   await syncRepo();
 };
 
