@@ -15,7 +15,7 @@
     "compile": "tsc",
     "build": "yarn compile && electron-builder",
     "dev": "yarn compile && electron ./dist/",
-    "prepare": "./scripts/prepare.sh"
+    "prepare": "yarn compile && yarn --cwd static/auth install"
   },
   "dependencies": {
     "altair-static": "^4.6.3",
