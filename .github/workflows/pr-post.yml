@@ -1,4 +1,5 @@
 name: post-pr-workflow
+
 on:
   workflow_run:
     workflows: [pr-workflow]
