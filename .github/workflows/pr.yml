@@ -1,4 +1,4 @@
-name: PR - testing
+name: pr-workflow
 
 on:
   push:
@@ -123,4 +123,10 @@ jobs:
         # macOS notarization API key
         API_KEY_ID: ${{ secrets.apple_api_key_id }}
         API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+    - name: Upload electron builds
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: electron-builds
+        path: packages/altair-electron/out/**
 
