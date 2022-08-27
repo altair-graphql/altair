@@ -78,7 +78,6 @@ jobs:
       with:
         name: screenshots
         path: packages/altair-electron/e2e/*.png
-  # TODO: Move
   electron:
     strategy:
       matrix:
@@ -97,11 +96,6 @@ jobs:
         timeout_minutes: 20
         max_attempts: 3
         command: yarn lerna bootstrap
-    # - name: Install Snapcraft
-    #   uses: samuelmeuli/action-snapcraft@v1
-    #   if: startsWith(matrix.os, 'ubuntu')
-    #   with:
-    #     snapcraft_token: ${{ secrets.snap_store_login }}
     - name: Prepare for app notarization
       if: startsWith(matrix.os, 'macos')
       # Import Apple API key for app notarization on macOS
