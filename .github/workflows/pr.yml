@@ -1,10 +1,12 @@
-name: PR - testing
+name: pr-workflow
 
 on:
   push:
     branches:
       - master
   pull_request:
+
+# v*.*.*
 
 jobs:
   deploy-docs:
@@ -76,23 +78,49 @@ jobs:
       with:
         name: screenshots
         path: packages/altair-electron/e2e/*.png
-  # https://github.com/marketplace/actions/deployment-action
-  # deploy-surge:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     SURGE_URL: ${{ github.sha }}-${{ github.repository_owner }}-altair.surge.sh
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: 12
-  #   - run: yarn --frozen-lockfile
-  #   - run: yarn build:ci
-  #   - name: Deploy to surge.sh
-  #     uses: dswistowski/surge-sh-action@v1
-  #     with:
-  #       domain: '${{ env.SURGE_URL }}'
-  #       project: './packages/altair-app/dist'
-  #       login: ${{ secrets.surge_login }}
-  #       token: ${{ secrets.surge_token }}
+  electron:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: [16]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn --frozen-lockfile --network-timeout 1000000
+    - uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 20
+        max_attempts: 3
+        command: yarn lerna bootstrap
+    - name: Prepare for app notarization
+      if: startsWith(matrix.os, 'macos')
+      # Import Apple API key for app notarization on macOS
+      run: |
+        mkdir -p ~/private_keys/
+        echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+    - name: Build/release Electron app
+      uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
+      with:
+        github_token: ${{ secrets.github_token }}
+        package_root: packages/altair-electron/
+        skip_build: true
+        skip_install: true
+        mac_certs: ${{ secrets.mac_certs }}
+        mac_certs_password: ${{ secrets.mac_certs_password }}
+        args: '--publish never' # Don't publish with this job since it is not in a release (more like a pre-release)
+        max_attempts: 3
+      env:
+        # macOS notarization API key
+        API_KEY_ID: ${{ secrets.apple_api_key_id }}
+        API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+    - name: Upload electron builds
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: electron-builds
+        path: packages/altair-electron/out/**
+
