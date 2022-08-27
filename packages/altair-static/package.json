@@ -1,6 +1,6 @@
 {
   "name": "altair-static",
-  "version": "4.6.3",
+  "version": "4.6.4",
   "description": "Static package for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -31,8 +31,8 @@
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "devDependencies": {
     "@types/jest": "^24.0.23",
-    "altair-app": "^4.6.3",
-    "altair-graphql-core": "^4.6.3",
+    "altair-app": "^4.6.4",
+    "altair-graphql-core": "^4.6.4",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",
     "jest": "28.0.0",
