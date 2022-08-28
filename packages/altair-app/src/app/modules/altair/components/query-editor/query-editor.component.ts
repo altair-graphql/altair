@@ -63,6 +63,8 @@ import { Command, EditorView, keymap } from '@codemirror/view';
 import { toggleComment } from '@codemirror/commands';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
 import { indentUnit } from '@codemirror/language';
+import { ResizeEvent } from 'angular-resizable-element';
+import { openSearchPanel } from '@codemirror/search';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -116,6 +118,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   selectedIndex = 0;
 
+  variableEditorHeight = '50%';
+
   actionToFn: Record<string, string | ((cm: CodeMirror.Editor) => void)> = {
     showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
     toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
@@ -130,7 +134,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   cm6ActionToFn: Record<string, Command> = {
     showAutocomplete: startCompletion,
     toggleComment: toggleComment,
-    // showFinder: openSearchPanel, // TODO:
+    showFinder: openSearchPanel,
     showInDocs: showInDocsCommand,
     fillAllFields: fillAllFieldsCommands,
     noOp: noOpCommand,
@@ -603,6 +607,28 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   onResize(resizeFactor: number) {
     this.resizeFactor = resizeFactor;
+  }
+
+  // using arrow function, as it seems the this context in angular-resize-element is changed
+  validate = (event: ResizeEvent): boolean => {
+    const MIN_DIMENSIONS_PX = 50;
+    if (!this.showVariableDialog) {
+      return false;
+    }
+
+    if (event.rectangle.height && event.rectangle.height < MIN_DIMENSIONS_PX) {
+      return false;
+    }
+    return true;
+  };
+
+  onResizeEnd(event: ResizeEvent): void {
+    console.log(event);
+    const height = event.rectangle.height;
+
+    if (height) {
+      this.variableEditorHeight = `${height}px`;
+    }
   }
 
   trackByIndex(index: number) {

@@ -344,12 +344,38 @@ app-query-result {
 }
 
 .variables-editor-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   max-height: 50%;
 
   &.show-variables {
     min-height: 50%;
+  }
+
+  &.resize-ghost-element {
+    max-height: none;
+  }
+}
+.variable-editor-resizer {
+  --resizer-width: 6px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--theme-font-color);
+  height: var(--resizer-width);
+  width: 60px;
+  border-radius: 4px;
+  transition: all .3s ease;
+  opacity: .5;
+  cursor: row-resize;
+  z-index: 5;
+
+  &:hover {
+    opacity: .7;
   }
 }
 
