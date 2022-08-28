@@ -611,7 +611,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   // using arrow function, as it seems the this context in angular-resize-element is changed
   validate = (event: ResizeEvent): boolean => {
-    const MIN_DIMENSIONS_PX: number = 50;
+    const MIN_DIMENSIONS_PX = 50;
     if (!this.showVariableDialog) {
       return false;
     }
