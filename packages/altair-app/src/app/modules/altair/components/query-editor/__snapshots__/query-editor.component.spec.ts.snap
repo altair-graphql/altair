@@ -21,6 +21,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
       </div>
       <div
         class="variables-editor-container"
+        mwlresizable=""
       >
         <div
           class="variables-editor--title"
@@ -30,6 +31,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
         </div>
         
       </div>
+      
       
     </nz-tab>
     

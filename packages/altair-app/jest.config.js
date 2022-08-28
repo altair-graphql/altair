@@ -20,6 +20,6 @@ module.exports = {
     'src',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!@angular|@firebase|@ngrx|lodash-es|altair-graphql-core|dexie|uuid|ngx-cookie-service|ngx-markdown)',
+    'node_modules/(?!@angular|@firebase|@ngrx|lodash-es|altair-graphql-core|angular-resizable-element|dexie|uuid|ngx-cookie-service|ngx-markdown)',
   ],
 };
