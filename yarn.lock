@@ -6632,6 +6632,13 @@ angular-feather@6.0.10:
   dependencies:
     feather-icons "4.24.1"
 
+angular-resizable-element@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-6.0.0.tgz#59e6b33e21adda4a8a37cbcd7fc29f8fcad83d82"
+  integrity sha512-rZtL98JDiCg/sh4mPpcWOa64jGJvwkWHpc1abvvUckdQ/LAGF3QlwvWoaCGoYHGlcdrQFXUWCtSJgIrHxSATCg==
+  dependencies:
+    tslib "^2.3.0"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"

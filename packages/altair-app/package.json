@@ -65,6 +65,7 @@
     "altair-codemirror-graphql": "^4.6.4",
     "altair-graphql-core": "^4.6.4",
     "angular-feather": "6.0.10",
+    "angular-resizable-element": "^6.0.0",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-link": "1.2.14",
     "apollo-link-http": "1.5.17",

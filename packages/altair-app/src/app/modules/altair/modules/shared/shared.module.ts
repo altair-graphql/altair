@@ -9,6 +9,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { ResizableModule } from 'angular-resizable-element';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -75,6 +76,7 @@ const AntdComponentModules = [
       trigger: 'hover',
     }),
     MarkdownModule.forRoot(),
+    ResizableModule,
     IconsModule,
     // ToastrModule.forRoot({
     //   newestOnTop: false,
@@ -105,6 +107,7 @@ const AntdComponentModules = [
     NguiAutoCompleteModule,
     NgxPopperModule,
     MarkdownModule,
+    ResizableModule,
     IconsModule,
     HotToastModule,
     ...AntdComponentModules,
