@@ -1228,7 +1228,9 @@ export class QueryEffects {
               url,
               method: response.data.query.httpVerb,
               headers: response.data.headers.reduce((acc, cur) => {
-                acc[cur.key] = this.environmentService.hydrate(cur.value);
+                acc[cur.key] = this.environmentService.hydrate(cur.value, {
+                  activeEnvironment: transformedData?.environment,
+                });
                 return acc;
               }, {} as any),
               data: {
