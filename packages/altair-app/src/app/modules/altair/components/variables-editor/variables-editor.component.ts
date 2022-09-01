@@ -26,6 +26,8 @@ import 'codemirror-graphql/variables/lint';
 import 'codemirror-graphql/variables/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
+import { gqlVariables, updateVariableToType } from './extensions';
+import { CodemirrorComponent } from '../codemirror/codemirror.component';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_\"\']$/;
 
@@ -39,12 +41,15 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() variableToType: IDictionary = {};
   @Input() tabSize = 4;
   @Input() showVariableDialog = false;
+  @Input() enableExperimental = false;
 
   @Output() variablesChange = new EventEmitter();
 
   @ViewChild('editor', { static: true }) editor: ElementRef & {
     codeMirror: CodeMirror.Editor;
   };
+
+  @ViewChild('newEditor') newEditor: CodemirrorComponent | undefined;
 
   variableEditorConfig = <any>{
     mode: 'graphql-variables',
@@ -59,8 +64,8 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     autoCloseBrackets: true,
     keyMap: 'sublime',
     extraKeys: {
-      'Ctrl-Enter': (cm: CodeMirror.Editor) => {},
-      'Cmd-Enter': (cm: CodeMirror.Editor) => {},
+      'Ctrl-Enter': (_cm: CodeMirror.Editor) => {},
+      'Cmd-Enter': (_cm: CodeMirror.Editor) => {},
       'Cmd-Space': (cm: any) => cm.showHint({ completeSingle: false }),
       'Ctrl-Space': (cm: any) => cm.showHint({ completeSingle: false }),
       'Alt-Space': (cm: any) => cm.showHint({ completeSingle: false }),
@@ -73,7 +78,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     },
   };
 
-  constructor() {}
+  editorExtensions = [gqlVariables()];
 
   ngAfterViewInit() {
     if (this.editor?.codeMirror) {
@@ -81,6 +86,10 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
         'keyup',
         (cm: CodeMirror.Editor, event: KeyboardEvent) => this.onKeyUp(cm, event)
       );
+    }
+
+    if (this.newEditor?.view && this.variableToType) {
+      updateVariableToType(this.newEditor.view, this.variableToType);
     }
   }
 
@@ -115,6 +124,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     if (variableToType) {
       this.variableEditorConfig.lint.variableToType = variableToType;
       this.variableEditorConfig.hintOptions.variableToType = variableToType;
+      if (this.newEditor) {
+        updateVariableToType(this.newEditor.view, variableToType);
+      }
     }
   }
 }

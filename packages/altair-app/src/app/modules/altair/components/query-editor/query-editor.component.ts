@@ -623,7 +623,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   onResizeEnd(event: ResizeEvent): void {
-    console.log(event);
     const height = event.rectangle.height;
 
     if (height) {
