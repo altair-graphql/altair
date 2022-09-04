@@ -177,6 +177,7 @@
     "ncp": "2.0.0",
     "ng-mocks": "14.0.1",
     "ngrx-store-freeze": "0.2.4",
+    "prettier-config-altair": "*",
     "protractor": "7.0.0",
     "react": "17.0.1",
     "rxjs-tslint-rules": "4.32.0",

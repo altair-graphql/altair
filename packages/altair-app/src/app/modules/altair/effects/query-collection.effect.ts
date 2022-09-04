@@ -66,7 +66,7 @@ export class QueryCollectionEffects {
             query.windowName = res.action.payload.windowTitle;
           }
 
-          return this.collectionService.create(
+          return this.collectionService.createCollection(
             {
               title: res.action.payload.collectionTitle,
               queries: [query],
