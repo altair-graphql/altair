@@ -12,6 +12,7 @@ const getCounterFunctions = (documentType: string) => {
         );
         return;
       }
+      console.log(`incrementing ${documentType} for ${uid}`);
       await firestore()
         .doc(`users/${uid}/counters/${documentType}`)
         .set({
@@ -29,6 +30,7 @@ const getCounterFunctions = (documentType: string) => {
         );
         return;
       }
+      console.log(`decrementing ${documentType} for ${uid}`);
       await firestore()
         .doc(`users/${uid}/counters/${documentType}`)
         .set({
