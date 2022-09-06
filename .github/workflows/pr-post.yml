@@ -1,9 +1,10 @@
 name: post-pr-workflow
 
-on:
-  workflow_run:
-    workflows: [pr-workflow]
-    types: [completed]
+# Not running correctly
+# on:
+#   workflow_run:
+#     workflows: [pr-workflow]
+#     types: [completed]
 
 jobs:
   artifacts-url-comments:

@@ -95,7 +95,7 @@ describe('QueryCollectionService', () => {
           queries: [],
           title: 'Collection 1',
         };
-        const result = await service.create(collection);
+        const result = await service.createCollection(collection);
         expect(result).toBeTruthy();
 
         // cleanup
@@ -110,7 +110,10 @@ describe('QueryCollectionService', () => {
       async (service: QueryCollectionService) => {
         for (let i = 0; i < collectionPairs.length; i++) {
           const pair = collectionPairs[i];
-          await service.create(pair.collection, pair.parentCollectionId);
+          await service.createCollection(
+            pair.collection,
+            pair.parentCollectionId
+          );
         }
         const result = await service.getAll();
         expect(result.length).toBe(7);

@@ -28,7 +28,7 @@ export class QueryCollectionService {
     private accountService: AccountService
   ) {}
 
-  async create(
+  async createCollection(
     collection: IQueryCollection,
     parentCollectionId?: CollectionID
   ) {
@@ -110,6 +110,15 @@ export class QueryCollectionService {
 
     const localCollection = await this.mustGetLocalCollection(collectionId);
 
+    // log action
+    if (localCollection.serverId) {
+      await this.storage.localActionLogs.add({
+        action: 'CREATE',
+        type: 'query',
+        collectionServerId: str(localCollection.serverId),
+      });
+    }
+
     if (!(await this.canApplyRemote())) {
       // not logged in
       return;
@@ -162,15 +171,27 @@ export class QueryCollectionService {
   ) {
     const res = await this.updateLocalQuery(collectionId, queryId, query);
 
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
-    }
     const localCollection = await this.mustGetLocalCollection(collectionId);
     // only update remote if already synced
     if (!localCollection.serverId) {
       return;
     }
+
+    // log action
+    if (query.serverId) {
+      await this.storage.localActionLogs.add({
+        action: 'UPDATE',
+        type: 'query',
+        collectionServerId: str(localCollection.serverId),
+        serverId: str(query.serverId),
+      });
+    }
+
+    if (!(await this.canApplyRemote())) {
+      // not logged in
+      return;
+    }
+
     const localQuery = await this.getLocalQuery(collectionId, queryId);
     if (!localQuery?.serverId) {
       return this.addRemoteQuery(collectionId, [query]);
@@ -270,6 +291,15 @@ export class QueryCollectionService {
       // only update remote if collection is synced
       return;
     }
+
+    // log action
+    await this.storage.localActionLogs.add({
+      action: 'UPDATE',
+      type: 'query',
+      serverId: str(localQuery?.serverId),
+      collectionServerId: str(localCollection.serverId),
+    });
+
     // delete query remote
     if (!query.id) {
       // ignore these cases as malformed queries
@@ -311,6 +341,15 @@ export class QueryCollectionService {
     await this.deleteLocalCollection(collectionId);
     // Note: Deleting a collection would delete all subcollections and queries inside the collection
 
+    // log action
+    if (localCollection.serverId) {
+      await this.storage.localActionLogs.add({
+        action: 'DELETE',
+        type: 'collection',
+        serverId: str(localCollection.serverId),
+      });
+    }
+
     // delete collection remote
     if (!(await this.canApplyRemote())) {
       // not logged in
@@ -346,6 +385,13 @@ export class QueryCollectionService {
       // only update if synced
       return;
     }
+
+    // log action
+    await this.storage.localActionLogs.add({
+      action: 'UPDATE',
+      type: 'collection',
+      serverId: str(localCollection.serverId),
+    });
 
     // update collection remote
     await this.updateRemoteCollection(collectionId);
@@ -416,7 +462,7 @@ export class QueryCollectionService {
       const collections = this.remapCollectionIDsToCollectionList(data);
       for (let i = 0; i < collections.length; i++) {
         const collection = collections[i];
-        await this.create(collection);
+        await this.createCollection(collection);
       }
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);
@@ -441,6 +487,18 @@ export class QueryCollectionService {
     return this.storage.queryCollections.toArray();
   }
 
+  // manage an action log for each create/update/delete action, use action log to sync with server
+  // for all other updates, use last modified time to determine it
+  // Only track action log if entity has server ID
+  // action: CREATE, serverId: xxx, collectionServerId: xxx, type: QUERY
+  // local <-> remote
+  // -- pull remote
+  // -- check updated at for objects
+  // -- update local if remote updated at is later
+  // -- remove from local action log if updated from remote
+  // -- use action log, update remote with local if still in action log
+  // -- keep track of deleted records in the server (use cloud functions)
+  // after sync, clear local action log
   async syncRemoteToLocal() {
     const timestampDiffOffset = 2 * 60 * 1000;
     if (!(await this.canApplyRemote())) {
@@ -450,9 +508,6 @@ export class QueryCollectionService {
     // https://learnsql.com/blog/do-it-in-sql-recursive-tree-traversal/
     // https://supabase.com/blog/2020/11/18/postgresql-views
     const serverCollections = await this.api.getCollections();
-    // const { data: serverCollections } = await supabase
-    //   .from('request_collections')
-    //   .select('*, requests(*)');
 
     if (!serverCollections?.length) {
       return;
