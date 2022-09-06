@@ -106,7 +106,7 @@ export class QueryCollectionService {
   }
 
   async addQuery(collectionId: CollectionID, query: IQuery) {
-    const res = await this.addLocalQuery(collectionId, query);
+    const newQueryId = await this.addLocalQuery(collectionId, query);
 
     const localCollection = await this.mustGetLocalCollection(collectionId);
 
@@ -124,9 +124,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (localCollection.serverId) {
+    const retrievedQuery = await this.getLocalQuery(collectionId, newQueryId);
+    if (localCollection.serverId && retrievedQuery) {
       // only add query to remote if already synced
-      await this.addRemoteQuery(collectionId, [query]);
+      await this.addRemoteQuery(collectionId, [retrievedQuery]);
     }
   }
 
@@ -149,7 +150,11 @@ export class QueryCollectionService {
 
     // update local query with server ID
     for (const [idx, queryServerId] of queryServerIds.entries()) {
-      await this.updateLocalQuery(collectionId, queryServerId, {
+      const queryId = queries[idx].id;
+      if (!queryId) {
+        continue;
+      }
+      await this.updateLocalQuery(collectionId, queryId, {
         ...queries[idx],
         serverId: queryServerId,
       });
@@ -158,10 +163,13 @@ export class QueryCollectionService {
 
   private async addLocalQuery(collectionId: CollectionID, query: IQuery) {
     const now = this.storage.now();
-    return this.updateCollectionByID(collectionId, (collection) => {
-      const uQuery = { ...query, id: uuid(), created_at: now, updated_at: now };
+    const id = uuid();
+    await this.updateCollectionByID(collectionId, (collection) => {
+      const uQuery = { ...query, id, created_at: now, updated_at: now };
       collection.queries.push(uQuery);
     });
+
+    return id;
   }
 
   async updateQuery(
