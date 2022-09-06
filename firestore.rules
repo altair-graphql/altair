@@ -137,7 +137,7 @@ service cloud.firestore {
 
     // default to the `free` role
     function getStripeRole() {
-      return request.auth.token.stripeRole ? request.auth.token.stripeRole : 'free';
+      return request.auth.token.stripeRole != null ? request.auth.token.stripeRole : 'free';
     }
 
     function hasFreePlan() {

@@ -10,3 +10,5 @@ typings/
 node_modules/
 
 *-debug.log
+
+firestore-coverage.html

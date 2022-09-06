@@ -28,6 +28,7 @@
     "build:ci": "lerna bootstrap -- --frozen-lockfile",
     "deploy:rules": "firebase deploy --only firestore:rules",
     "deploy:functions": "firebase deploy --only functions",
+    "emulators:start": "firebase emulators:start",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "local-verify": "yarn build-app && lerna bootstrap",
     "postinstall": "opencollective postinstall",
