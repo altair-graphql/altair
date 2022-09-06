@@ -84,7 +84,7 @@ describe('firestore rules', () => {
     });
     const userCtx = testEnv.authenticatedContext(uid, {
       email_verified: true,
-      stripeRole: 'free',
+      // stripeRole: 'free',
     });
 
     return userCtx;

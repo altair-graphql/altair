@@ -132,12 +132,12 @@ service cloud.firestore {
 
     // you can set a `firebaseRole` metadata value on the Stripe product
     function hasStripeRole(role) {
-      return request.auth.token.stripeRole == role;
+      return ('stripeRole' in request.auth.token) && request.auth.token.stripeRole == role;
     }
 
     // default to the `free` role
     function getStripeRole() {
-      return request.auth.token.stripeRole != null ? request.auth.token.stripeRole : 'free';
+      return ('stripeRole' in request.auth.token) ? request.auth.token.stripeRole : 'free';
     }
 
     function hasFreePlan() {
