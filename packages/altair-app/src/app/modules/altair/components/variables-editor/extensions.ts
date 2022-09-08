@@ -40,6 +40,19 @@ export const getVariableToType = (state: EditorState) => {
   return state.field(variableToTypeStateField);
 };
 
+export const getHints = (ctx: CompletionContext, dataSource: any, nodeBefore: any) => { 
+  const variableNames = Object.keys(dataSource);
+  return {
+    from: ctx.pos,
+    options: variableNames.map((name): Completion => {
+      return {
+        label: nodeBefore.name === 'Object'? `"${name}": `: name,
+        detail: dataSource[name].toString(),
+      };
+    }),
+  };
+}
+
 export const gqlVariables = () => {
   return [
     json(),
@@ -113,6 +126,7 @@ export const gqlVariables = () => {
         // TODO: Top level object?
         // TODO: Handle nested types
         // TODO: Refactor to a "getHints" function
+        getHints(ctx,dataSource, nodeBefore);
         if (nodeBefore.name === 'Object') {
           const variableNames = Object.keys(dataSource);
           return {
