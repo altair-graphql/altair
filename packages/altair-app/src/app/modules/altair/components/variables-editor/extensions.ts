@@ -127,30 +127,6 @@ export const gqlVariables = () => {
         // TODO: Handle nested types
         // TODO: Refactor to a "getHints" function
         getHints(ctx,dataSource, nodeBefore);
-        if (nodeBefore.name === 'Object') {
-          const variableNames = Object.keys(dataSource);
-          return {
-            from: ctx.pos,
-            options: variableNames.map((name): Completion => {
-              return {
-                label: `"${name}": `,
-                detail: dataSource[name].toString(),
-              };
-            }),
-          };
-        }
-        if (nodeBefore.name === 'PropertyName') {
-          const variableNames = Object.keys(dataSource);
-          return {
-            from: ctx.pos,
-            options: variableNames.map((name): Completion => {
-              return {
-                label: name,
-                detail: dataSource[name].toString(),
-              };
-            }),
-          };
-        }
 
         return null;
       },
