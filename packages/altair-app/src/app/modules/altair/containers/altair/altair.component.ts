@@ -658,7 +658,7 @@ export class AltairComponent {
     windowIdInCollection,
   }: {
     query: IQuery;
-    collectionId: number;
+    collectionId: string;
     windowIdInCollection: string;
   }) {
     const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(

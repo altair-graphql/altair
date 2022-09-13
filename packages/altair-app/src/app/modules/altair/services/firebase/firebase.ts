@@ -12,7 +12,11 @@ import {
   initializeFirestore,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { IQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import {
+  IQuery,
+  IRemoteQuery,
+  IRemoteQueryCollection,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 const app = initializeApp(environment.firebaseConfig);
 
@@ -38,8 +42,8 @@ export const collectionNames = {
 };
 
 interface BaseDocument {
-  createdAt: number;
-  updatedAt: number;
+  created_at?: number;
+  updated_at?: number;
 }
 
 interface UserDocument extends BaseDocument {
@@ -47,27 +51,13 @@ interface UserDocument extends BaseDocument {
   email: string;
 }
 
-interface ServerQueryCollectionDocument extends BaseDocument {
-  collectionName: string;
-  parentCollectionId?: string;
-  ownerUid: string;
-}
-
-interface ServerQueryDocument extends BaseDocument {
-  name: string;
-  queryVersion: number;
-  content: IQuery;
-  collectionId: string;
-  ownerUid: string;
-}
-
 export const usersRef = () => dataPoint<UserDocument>(collectionNames.users);
 
 export const queryCollectionsRef = () =>
-  dataPoint<ServerQueryCollectionDocument>(collectionNames.queryCollections);
+  dataPoint<IRemoteQueryCollection>(collectionNames.queryCollections);
 
 export const queriesRef = () =>
-  dataPoint<ServerQueryDocument>(collectionNames.queries);
+  dataPoint<IRemoteQuery>(collectionNames.queries);
 
 export const addDocument = <T>(
   collectionRef: CollectionReference<T>,
@@ -80,5 +70,5 @@ export const updateDocument = <T extends BaseDocument>(
   docRef: DocumentReference<T>,
   data: PartialWithFieldValue<T>
 ) => {
-  return setDoc(docRef, { ...data, updatedAt: Date.now() }, { merge: true });
+  return setDoc(docRef, { ...data, updated_at: Date.now() }, { merge: true });
 };

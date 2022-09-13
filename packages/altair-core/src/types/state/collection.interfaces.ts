@@ -4,6 +4,8 @@ import { ExportWindowState } from "./window.interfaces";
 
 export type SortByOptions = "a-z" | "z-a" | "newest" | "oldest";
 
+export type EntityStorageType = "local" | "firestore";
+
 export interface CollectionState {
   list: IQueryCollection[];
   activeCollection: any;
@@ -12,14 +14,19 @@ export interface CollectionState {
 
 export interface IQuery extends ExportWindowState {
   id?: string;
-  serverId?: number | string;
+  storageType?: EntityStorageType;
   created_at?: number;
   updated_at?: number;
 }
 
+export interface IRemoteQuery extends IQuery {
+  id?: string;
+  collectionId: string;
+  ownerUid: string;
+}
+
 export interface IQueryCollection {
-  id?: number | string;
-  serverId?: number | string;
+  id?: string;
   title: string;
   queries: IQuery[];
   description?: string;
@@ -33,12 +40,20 @@ export interface IQueryCollection {
    */
   parentPath?: string;
 
+  storageType?: EntityStorageType;
   created_at?: number;
   updated_at?: number;
 }
 
+export interface IRemoteQueryCollection
+  extends Omit<IQueryCollection, "parentPath" | "queries"> {
+  id?: string;
+  parentCollectionId?: string;
+  ownerUid: string;
+}
+
 export interface IQueryCollectionTree extends IQueryCollection {
-  id: number | string;
+  id: string;
   collections?: IQueryCollectionTree[];
 }
 

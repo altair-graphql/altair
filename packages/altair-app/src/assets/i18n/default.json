@@ -184,5 +184,6 @@
 
   "ACCOUNT_TITLE": "Account",
   "LOGIN_TAB": "Login",
-  "REGISTER_TAB": "Register"
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }

@@ -14,7 +14,7 @@ interface AddWindowPayload {
   windowId: string;
   title: string;
   url: string;
-  collectionId?: number;
+  collectionId?: string;
   windowIdInCollection?: string;
   fixedTitle?: boolean;
 }

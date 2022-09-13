@@ -15,9 +15,12 @@ const getCounterFunctions = (documentType: string) => {
       console.log(`incrementing ${documentType} for ${uid}`);
       await firestore()
         .doc(`users/${uid}/counters/${documentType}`)
-        .set({
-          val: firestore.FieldValue.increment(1),
-        });
+        .set(
+          {
+            val: firestore.FieldValue.increment(1),
+          },
+          { merge: true }
+        );
     });
 
   const decrementCounter = functions.firestore
@@ -33,9 +36,12 @@ const getCounterFunctions = (documentType: string) => {
       console.log(`decrementing ${documentType} for ${uid}`);
       await firestore()
         .doc(`users/${uid}/counters/${documentType}`)
-        .set({
-          val: firestore.FieldValue.increment(-1),
-        });
+        .set(
+          {
+            val: firestore.FieldValue.increment(-1),
+          },
+          { merge: true }
+        );
     });
 
   return [incrementCounter, decrementCounter];

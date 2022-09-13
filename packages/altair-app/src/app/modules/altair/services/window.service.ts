@@ -46,7 +46,7 @@ export class WindowService {
     opts: {
       title?: string;
       url?: string;
-      collectionId?: number;
+      collectionId?: string;
       windowIdInCollection?: string;
       fixedTitle?: boolean;
     } = {}
@@ -433,7 +433,9 @@ export class WindowService {
         switchMap((data) => {
           if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
             return from(
-              this.collectionService.getCollectionByID(data.layout.collectionId)
+              this.collectionService.getLocalCollectionByID(
+                data.layout.collectionId
+              )
             ).pipe(
               map((collection) => {
                 if (collection) {

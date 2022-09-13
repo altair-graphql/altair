@@ -39,8 +39,8 @@ export class AccountService {
     await updateDocument(doc(usersRef(), cred.user.uid), {
       name: cred.user.displayName || cred.user.email || '',
       email: cred.user.email || '',
-      createdAt: this.now(),
-      updatedAt: this.now(),
+      created_at: this.now(),
+      updated_at: this.now(),
     });
 
     return cred;
