@@ -80,7 +80,7 @@
         (exportCollectionChange)="exportCollectionChange.next($event)"
         (syncCollectionChange)="syncCollectionChange.next($event)"
       ></app-query-collection-item>
-      <div class="query-collections__empty" *ngIf="!(collections?.length)">
+      <div class="query-collections__empty" *ngIf="!(collectionTrees?.length)">
         <div class="query-collections__empty-icon">
           <app-icon name="sidebar" size="40"></app-icon>
         </div>

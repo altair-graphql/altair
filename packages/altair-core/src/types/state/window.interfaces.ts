@@ -1,6 +1,6 @@
-import { GraphQLSchema } from 'graphql';
-import { SubscriptionProviderIds } from '../../subscriptions';
-import { PerWindowState } from './per-window.interfaces';
+import { GraphQLSchema } from "graphql";
+import { SubscriptionProviderIds } from "../../subscriptions";
+import { PerWindowState } from "./per-window.interfaces";
 
 export interface WindowState {
   [id: string]: PerWindowState | undefined;
@@ -9,13 +9,13 @@ export interface WindowState {
 /**
  * Data structure for exported windows
  */
- export interface ExportWindowState {
+export interface ExportWindowState {
   version: 1;
-  type: 'window';
+  type: "window";
   windowName: string;
   apiUrl: string;
   query: string;
-  headers: Array<{key: string, value: string}>;
+  headers: Array<{ key: string; value: string }>;
   variables: string;
   subscriptionUrl: string;
   subscriptionConnectionParams?: string;
@@ -28,7 +28,7 @@ export interface WindowState {
   /**
    * ID of the collection this query belongs to
    */
-  collectionId?: number;
+  collectionId?: string;
 
   /**
    * ID for window in collection

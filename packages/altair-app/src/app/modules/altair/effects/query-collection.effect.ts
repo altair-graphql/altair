@@ -19,10 +19,12 @@ import * as collectionActions from '../store/collection/collection.action';
 import * as accountActions from '../store/account/account.action';
 import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import * as localActions from '../store/local/local.action';
 import {
   QueryCollectionService,
   WindowService,
   NotifyService,
+  ApiService,
 } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -321,14 +323,30 @@ export class QueryCollectionEffects {
         collectionActions.SYNC_REMOTE_COLLECTIONS_TO_LOCAL
       ),
       switchMap(() => {
-        return from(this.collectionService.syncRemoteToLocal());
+        return from(this.collectionService.getAll());
       }),
-      tap(() =>
-        this.notifyService.success(
-          'Successfully downloaded remote collections.'
-        )
-      ),
+      tap(() => this.notifyService.success('Successfully synced collections')),
       map(() => new collectionActions.LoadCollectionsAction()),
+      catchError((error) => {
+        const errorMessage = error.message ? error.message : error.toString();
+        this.notifyService.error(
+          `Something went wrong syncing remote collections. Error: ${errorMessage}`
+        );
+        return EMPTY;
+      }),
+      repeat()
+    );
+  });
+
+  listenForCollectionChanges$: Observable<Action> = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+      switchMap(() => {
+        return this.apiService.listenForCollectionChanges();
+      }),
+      map(() => {
+        return new collectionActions.LoadCollectionsAction();
+      }),
       catchError((error) => {
         const errorMessage = error.message ? error.message : error.toString();
         this.notifyService.error(
@@ -348,14 +366,10 @@ export class QueryCollectionEffects {
           const collection = action.payload.collection;
 
           if (collection.id) {
-            if (collection.serverId) {
-              return this.collectionService.updateRemoteCollection(
+            return of(
+              this.collectionService.transformCollectionToRemoteCollection(
                 collection.id
-              );
-            }
-            return this.collectionService.createRemoteCollection(
-              collection.id,
-              collection
+              )
             );
           }
           return EMPTY;
@@ -376,6 +390,7 @@ export class QueryCollectionEffects {
     private actions$: Actions,
     private store: Store<RootState>,
     private collectionService: QueryCollectionService,
+    private apiService: ApiService,
     private windowService: WindowService,
     private notifyService: NotifyService
   ) {}

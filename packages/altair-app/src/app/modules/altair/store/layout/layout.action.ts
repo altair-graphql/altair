@@ -32,7 +32,7 @@ export class SetWindowIdInCollectionAction implements NGRXAction {
 
   constructor(
     public windowId: string,
-    public payload: { collectionId?: number; windowIdInCollection?: string }
+    public payload: { collectionId?: string; windowIdInCollection?: string }
   ) {}
 }
 

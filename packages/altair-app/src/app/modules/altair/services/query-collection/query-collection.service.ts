@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 import {
   ExportCollectionState,
+  IRemoteQuery,
   IQuery,
   IQueryCollection,
   IQueryCollectionTree,
@@ -46,40 +47,21 @@ export class QueryCollectionService {
     return !!(await this.accountService.getUser());
   }
 
-  async createRemoteCollection(
-    localCollectionId: CollectionID,
-    collection: IQueryCollection
-  ) {
+  async createRemoteCollection(collection: IQueryCollection) {
     if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
 
-    // Get parent collection, retrieve parent collection server id, set parent collection id in remote
-    const parentCollection = await this.getParentCollection(collection);
-    const parentCollectionServerId = parentCollection?.serverId
-      ? `${parentCollection.serverId}`
-      : undefined;
+    // TODO: Handle parent collection ID
 
-    const res = await this.api.createQueryCollection(
-      collection,
-      parentCollectionServerId
-    );
+    const res = await this.api.createQueryCollection(collection);
 
     if (!res) {
       throw new Error('could not create the collection');
     }
 
-    // Add serverId to local query and collection data
-    const localCollection = await this.mustGetLocalCollection(
-      localCollectionId
-    );
-    localCollection.serverId = res.collectionId;
-    localCollection.queries = localCollection.queries.map((query, idx) => {
-      query.serverId = res.queryIds[idx];
-      return query;
-    });
-    return this.updateLocalCollection(localCollectionId, localCollection);
+    return res.collectionId;
   }
 
   private async createLocalCollection(
@@ -105,66 +87,49 @@ export class QueryCollectionService {
     });
   }
 
-  async addQuery(collectionId: CollectionID, query: IQuery) {
-    const newQueryId = await this.addLocalQuery(collectionId, query);
-
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-
-    // log action
-    if (localCollection.serverId) {
-      await this.storage.localActionLogs.add({
-        action: 'CREATE',
-        type: 'query',
-        collectionServerId: str(localCollection.serverId),
-      });
-    }
-
+  async transformCollectionToRemoteCollection(collectionId: CollectionID) {
     if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
-
-    const retrievedQuery = await this.getLocalQuery(collectionId, newQueryId);
-    if (localCollection.serverId && retrievedQuery) {
-      // only add query to remote if already synced
-      await this.addRemoteQuery(collectionId, [retrievedQuery]);
-    }
+    // Get local collection
+    // Create remote collection
+    // Delete local collection
+    const localCollection = await this.mustGetLocalCollection(collectionId);
+    await this.createRemoteCollection(localCollection);
+    this.deleteLocalCollection(collectionId);
   }
 
-  private async addRemoteQuery(collectionId: CollectionID, queries: IQuery[]) {
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-    if (!localCollection.serverId) {
-      debug.warn(
-        'All remote queries must have an existing collection server ID'
-      );
+  async addQuery(collectionId: CollectionID, query: IQuery | IRemoteQuery) {
+    const collection = await this.getCollectionByID(collectionId);
+
+    if (!collection) {
       return;
     }
-    const queryServerIds = await this.api.createQueries(
-      `${localCollection.serverId}`,
-      queries
-    );
 
-    if (!queryServerIds.length) {
-      throw new Error('Could not add query in collection to remote');
-    }
-
-    // update local query with server ID
-    for (const [idx, queryServerId] of queryServerIds.entries()) {
-      const queryId = queries[idx].id;
-      if (!queryId) {
-        continue;
+    if (collection.storageType === 'firestore') {
+      if (!collection.id) {
+        return;
       }
-      await this.updateLocalQuery(collectionId, queryId, {
-        ...queries[idx],
-        serverId: queryServerId,
-      });
+      if (!(await this.canApplyRemote())) {
+        // not logged in
+        return;
+      }
+
+      const [retrievedId] = await this.api.createQueries(
+        collection.id.toString(),
+        [query]
+      );
+      return retrievedId;
     }
+
+    return await this.addLocalQuery(collectionId, query);
   }
 
   private async addLocalQuery(collectionId: CollectionID, query: IQuery) {
     const now = this.storage.now();
     const id = uuid();
-    await this.updateCollectionByID(collectionId, (collection) => {
+    await this.updateLocalCollectionByID(collectionId, (collection) => {
       const uQuery = { ...query, id, created_at: now, updated_at: now };
       collection.queries.push(uQuery);
     });
@@ -177,37 +142,24 @@ export class QueryCollectionService {
     queryId: QueryID,
     query: IQuery
   ) {
-    const res = await this.updateLocalQuery(collectionId, queryId, query);
+    const collection = await this.getCollectionByID(collectionId);
 
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-    // only update remote if already synced
-    if (!localCollection.serverId) {
+    if (!collection) {
       return;
     }
 
-    // log action
-    if (query.serverId) {
-      await this.storage.localActionLogs.add({
-        action: 'UPDATE',
-        type: 'query',
-        collectionServerId: str(localCollection.serverId),
-        serverId: str(query.serverId),
-      });
+    if (collection.storageType === 'firestore') {
+      if (!collection.id) {
+        return;
+      }
+      if (!(await this.canApplyRemote())) {
+        // not logged in
+        return;
+      }
+
+      return this.api.updateQuery(queryId, query);
     }
-
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
-    }
-
-    const localQuery = await this.getLocalQuery(collectionId, queryId);
-    if (!localQuery?.serverId) {
-      return this.addRemoteQuery(collectionId, [query]);
-    }
-
-    await this.api.updateQuery(`${localQuery.serverId}`, query);
-
-    return res;
+    return this.updateLocalQuery(collectionId, queryId, query);
   }
 
   private getAlternateCollectionID(collectionId: CollectionID) {
@@ -226,7 +178,7 @@ export class QueryCollectionService {
     return alternateCollectionId;
   }
 
-  async getCollectionByID(collectionId: CollectionID) {
+  async getLocalCollectionByID(collectionId: CollectionID) {
     const localCollection = await this.storage.queryCollections.get(
       collectionId
     );
@@ -236,7 +188,20 @@ export class QueryCollectionService {
     return await this.storage.queryCollections.get(collectionId);
   }
 
-  private async updateCollectionByID(
+  async getCollectionByID(
+    collectionId: CollectionID
+  ): Promise<IQueryCollection | undefined> {
+    const localCollection = await this.getLocalCollectionByID(collectionId);
+    if (localCollection) {
+      return localCollection;
+    }
+
+    if (await this.canApplyRemote()) {
+      return this.api.getCollection(collectionId.toString());
+    }
+  }
+
+  private async updateLocalCollectionByID(
     collectionId: CollectionID,
     changeCb: (
       obj: IQueryCollection,
@@ -253,7 +218,7 @@ export class QueryCollectionService {
   }
 
   private async mustGetLocalCollection(collectionId: CollectionID) {
-    const localCollection = await this.getCollectionByID(collectionId);
+    const localCollection = await this.getLocalCollectionByID(collectionId);
     if (!localCollection) {
       throw new Error('Could not retrieve local collection data');
     }
@@ -261,7 +226,7 @@ export class QueryCollectionService {
   }
 
   private async getLocalQuery(collectionId: CollectionID, queryId: QueryID) {
-    const localCollection = await this.getCollectionByID(collectionId);
+    const localCollection = await this.getLocalCollectionByID(collectionId);
     if (localCollection) {
       return localCollection.queries.find((query) => query.id === queryId);
     }
@@ -273,7 +238,7 @@ export class QueryCollectionService {
     query: IQuery
   ) {
     const now = this.storage.now();
-    return this.updateCollectionByID(collectionId, (collection) => {
+    return this.updateLocalCollectionByID(collectionId, (collection) => {
       const uQuery = { ...query, id: queryId, updated_at: now };
       collection.queries = collection.queries.map((collectionQuery) => {
         if (collectionQuery.id === queryId) {
@@ -287,44 +252,29 @@ export class QueryCollectionService {
   }
 
   async deleteQuery(collectionId: CollectionID, query: IQuery) {
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-    const localQuery = await this.getLocalQuery(collectionId, query.id!);
-    await this.deleteLocalQuery(collectionId, query);
+    const collection = await this.getCollectionByID(collectionId);
 
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
-    }
-    if (!localCollection.serverId) {
-      // only update remote if collection is synced
+    if (!collection) {
       return;
     }
 
-    // log action
-    await this.storage.localActionLogs.add({
-      action: 'UPDATE',
-      type: 'query',
-      serverId: str(localQuery?.serverId),
-      collectionServerId: str(localCollection.serverId),
-    });
+    if (collection.storageType === 'firestore') {
+      if (!query.id) {
+        return;
+      }
+      if (!(await this.canApplyRemote())) {
+        // not logged in
+        return;
+      }
 
-    // delete query remote
-    if (!query.id) {
-      // ignore these cases as malformed queries
-      debug.log('Query does not have id. Skipping remote check.');
-      return;
+      return this.api.deleteQuery(query.id);
     }
 
-    if (!localQuery?.serverId) {
-      debug.log('Query does not have server id. Skipping remote check.');
-      return;
-    }
-
-    await this.api.deleteQuery(`${localQuery.serverId}`);
+    return await this.deleteLocalQuery(collectionId, query);
   }
 
   private deleteLocalQuery(collectionId: CollectionID, query: IQuery) {
-    return this.updateCollectionByID(collectionId, (collection) => {
+    return this.updateLocalCollectionByID(collectionId, (collection) => {
       collection.queries = collection.queries.filter((collectionQuery) => {
         if (query.id) {
           if (query.id === collectionQuery.id) {
@@ -345,30 +295,24 @@ export class QueryCollectionService {
   }
 
   async deleteCollection(collectionId: CollectionID) {
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-    await this.deleteLocalCollection(collectionId);
-    // Note: Deleting a collection would delete all subcollections and queries inside the collection
+    const collection = await this.getCollectionByID(collectionId);
 
-    // log action
-    if (localCollection.serverId) {
-      await this.storage.localActionLogs.add({
-        action: 'DELETE',
-        type: 'collection',
-        serverId: str(localCollection.serverId),
-      });
-    }
-
-    // delete collection remote
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
-    }
-    if (!localCollection.serverId) {
-      debug.log('collection does not have server id. Skipping remote check.');
+    if (!collection) {
       return;
     }
 
-    await this.api.deleteCollection(`${localCollection.serverId}`);
+    if (collection.storageType === 'firestore') {
+      if (!collection.id) {
+        return;
+      }
+      if (!(await this.canApplyRemote())) {
+        // not logged in
+        return;
+      }
+
+      return this.api.deleteCollection(collection.id.toString());
+    }
+    return this.deleteLocalCollection(collectionId);
   }
 
   async deleteLocalCollection(collectionId: CollectionID) {
@@ -382,51 +326,34 @@ export class QueryCollectionService {
     collectionId: CollectionID,
     modifiedCollection: IQueryCollection
   ) {
-    const res = await this.updateLocalCollection(
-      collectionId,
-      modifiedCollection
-    );
+    const collection = await this.getCollectionByID(collectionId);
 
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-
-    if (!localCollection.serverId) {
-      // only update if synced
+    if (!collection) {
       return;
     }
 
-    // log action
-    await this.storage.localActionLogs.add({
-      action: 'UPDATE',
-      type: 'collection',
-      serverId: str(localCollection.serverId),
-    });
+    if (collection.storageType === 'firestore') {
+      if (!collection.id) {
+        return;
+      }
+      if (!(await this.canApplyRemote())) {
+        // not logged in
+        return;
+      }
 
-    // update collection remote
-    await this.updateRemoteCollection(collectionId);
-
-    return res;
-  }
-
-  async updateRemoteCollection(collectionId: CollectionID) {
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
+      return this.api.updateCollection(
+        collection.id.toString(),
+        modifiedCollection
+      );
     }
-    const localCollection = await this.mustGetLocalCollection(collectionId);
-    const parentCollection = await this.getParentCollection(localCollection);
-
-    await this.api.updateCollection(
-      `${localCollection.serverId}`,
-      localCollection,
-      str(parentCollection?.serverId)
-    );
+    return this.updateLocalCollection(collectionId, modifiedCollection);
   }
 
   private updateLocalCollection(
     collectionId: CollectionID,
     modifiedCollection: IQueryCollection
   ) {
-    return this.updateCollectionByID(collectionId, (collection, ctx) => {
+    return this.updateLocalCollectionByID(collectionId, (collection, ctx) => {
       ctx.value = modifiedCollection;
       ctx.value.updated_at = this.storage.now();
     });
@@ -491,98 +418,15 @@ export class QueryCollectionService {
     }
   }
 
-  async getAll() {
-    return this.storage.queryCollections.toArray();
-  }
+  async getAll(includeRemote = true) {
+    const localCollections = await this.storage.queryCollections.toArray();
 
-  // manage an action log for each create/update/delete action, use action log to sync with server
-  // for all other updates, use last modified time to determine it
-  // Only track action log if entity has server ID
-  // action: CREATE, serverId: xxx, collectionServerId: xxx, type: QUERY
-  // local <-> remote
-  // -- pull remote
-  // -- check updated at for objects
-  // -- update local if remote updated at is later
-  // -- remove from local action log if updated from remote
-  // -- use action log, update remote with local if still in action log
-  // -- keep track of deleted records in the server (use cloud functions)
-  // after sync, clear local action log
-  async syncRemoteToLocal() {
-    const timestampDiffOffset = 2 * 60 * 1000;
-    if (!(await this.canApplyRemote())) {
-      // not logged in
-      return;
-    }
-    // https://learnsql.com/blog/do-it-in-sql-recursive-tree-traversal/
-    // https://supabase.com/blog/2020/11/18/postgresql-views
-    const serverCollections = await this.api.getCollections();
-
-    if (!serverCollections?.length) {
-      return;
+    if (includeRemote && (await this.canApplyRemote())) {
+      const remoteCollections = await this.api.getCollections();
+      return [...localCollections, ...remoteCollections];
     }
 
-    const localCollections = await this.getAll();
-
-    for (const serverCollection of serverCollections) {
-      const matchedCollection = localCollections.find(
-        (collection) => collection.serverId === serverCollection.id
-      );
-      if (matchedCollection) {
-        const serverDate = new Date(serverCollection.updatedAt);
-        const localDate = new Date(matchedCollection.updated_at!);
-        if (serverDate.getTime() > localDate.getTime() + timestampDiffOffset) {
-          serverCollection.queries.forEach((serverQuery) => {
-            // update collection queries
-            matchedCollection.queries = matchedCollection.queries.map(
-              (query) => {
-                if (query.serverId === serverQuery.id) {
-                  const serverRequestDate = new Date(serverQuery.updatedAt);
-                  const localRequestDate = new Date(query.updated_at!);
-                  if (
-                    serverRequestDate.getTime() >
-                    localRequestDate.getTime() + timestampDiffOffset
-                  ) {
-                    // TODO: if collection query is already open in the app, ask user and overwrite open query
-                    // server content is newer
-                    return {
-                      ...serverQuery.content,
-                      serverId: serverQuery.id,
-                    };
-                  }
-                }
-                return query;
-              }
-            );
-
-            // TODO: Handle parentPath
-            // matchedCollection.parentPath
-
-            matchedCollection.title = serverCollection.collectionName;
-          });
-          // server content is newer
-          if (matchedCollection.id) {
-            await this.updateLocalCollection(
-              matchedCollection.id,
-              matchedCollection
-            );
-          }
-        }
-      } else {
-        // add collection to local
-        const queries = serverCollection.queries.map((serverQuery) => ({
-          ...serverQuery.content,
-          serverId: serverQuery.id,
-        }));
-        const localCollection: IQueryCollection = {
-          title: serverCollection.collectionName,
-          queries,
-          serverId: serverCollection.id,
-          // parentPath // TODO: Handle parentPath
-        };
-
-        await this.createLocalCollection(localCollection);
-      }
-    }
+    return localCollections;
   }
 
   /**
@@ -628,13 +472,13 @@ export class QueryCollectionService {
       'rw',
       this.storage.queryCollections,
       async () => {
-        const collection = await this.getCollectionByID(collectionId);
+        const collection = await this.getLocalCollectionByID(collectionId);
         if (!collection) {
           throw new Error('Could not retrieve collection');
         }
 
         // '/coll-z', id: 456
-        const newParentCollection = await this.getCollectionByID(
+        const newParentCollection = await this.getLocalCollectionByID(
           newParentCollectionId
         );
         if (!newParentCollection) {
@@ -716,7 +560,7 @@ export class QueryCollectionService {
   getParentCollection(collection: IQueryCollection) {
     const parentCollectionId = this.getParentCollectionId(collection);
     if (parentCollectionId) {
-      return this.getCollectionByID(parentCollectionId);
+      return this.getLocalCollectionByID(parentCollectionId);
     }
   }
 
@@ -786,7 +630,7 @@ export class QueryCollectionService {
   }
 
   async getCollectionTreeByCollectionId(collectionId: CollectionID) {
-    const collection = await this.getCollectionByID(collectionId);
+    const collection = await this.getLocalCollectionByID(collectionId);
     if (!collection) {
       throw new Error('Collection not found!');
     }
@@ -805,7 +649,9 @@ export class QueryCollectionService {
    * @param parentCollectionId
    */
   private async getSubcollectionParentPath(parentCollectionId: CollectionID) {
-    const parentCollection = await this.getCollectionByID(parentCollectionId);
+    const parentCollection = await this.getLocalCollectionByID(
+      parentCollectionId
+    );
     const parentCollectionParentPath = parentCollection?.parentPath ?? '';
 
     return `${parentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${parentCollectionId}`;

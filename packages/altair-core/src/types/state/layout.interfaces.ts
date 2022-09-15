@@ -1,8 +1,7 @@
-
 export interface LayoutState {
   isLoading: boolean;
   title: string;
-  collectionId?: number;
+  collectionId?: string;
   windowIdInCollection?: string;
   hasDynamicTitle?: boolean;
 }

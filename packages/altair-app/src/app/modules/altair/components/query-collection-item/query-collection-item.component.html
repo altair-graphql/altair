@@ -13,10 +13,11 @@
       <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
     </div>
     <span
-      *ngIf="loggedIn && collectionTree.serverId"
+      *ngIf="loggedIn && collectionTree.storageType === 'firestore'"
       class="query-collections__item-synced-icon"
+      [title]="'CLOUD_SYNC_TEXT' | translate"
     >
-      <app-icon name="zap"></app-icon>
+      <app-icon name="cloud"></app-icon>
     </span>
     <div class="query-collections__item-right">
       <span class="query-collections__item-icon">
@@ -133,10 +134,11 @@
           </popper-content>
         </span>
         <span
-          *ngIf="loggedIn && query.serverId"
+          *ngIf="loggedIn && query.storageType === 'firestore'"
           class="query-collections__item-queries-item-synced-icon"
+          [title]="'CLOUD_SYNC_TEXT' | translate"
         >
-          <app-icon name="zap"></app-icon>
+          <app-icon name="cloud"></app-icon>
         </span>
         <span class="query-collections__item-queries-item-right">
           <span class="query-collections__item-queries-item-icon">

@@ -46,7 +46,7 @@ export class WindowService {
     opts: {
       title?: string;
       url?: string;
-      collectionId?: number;
+      collectionId?: string;
       windowIdInCollection?: string;
       fixedTitle?: boolean;
     } = {}

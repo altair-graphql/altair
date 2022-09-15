@@ -253,7 +253,7 @@ export class QueryService {
 
   private async getWindowParentCollections(window: PerWindowState) {
     if (window.layout.windowIdInCollection && window.layout.collectionId) {
-      const collection = await this.collectionService.getCollectionByID(
+      const collection = await this.collectionService.getLocalCollectionByID(
         window.layout.collectionId
       );
 
