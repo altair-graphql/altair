@@ -196,7 +196,7 @@ export class QueryCollectionEffects {
   loadCollections$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(collectionActions.LOAD_COLLECTIONS),
-      switchMap((action) => this.collectionService.getAll(true)),
+      switchMap((action) => this.collectionService.getAll()),
       map(
         (collections) =>
           new collectionActions.SetCollectionsAction({ collections })
@@ -323,7 +323,7 @@ export class QueryCollectionEffects {
         collectionActions.SYNC_REMOTE_COLLECTIONS_TO_LOCAL
       ),
       switchMap(() => {
-        return from(this.collectionService.getAll(true));
+        return from(this.collectionService.getAll());
       }),
       tap(() => this.notifyService.success('Successfully synced collections')),
       map(() => new collectionActions.LoadCollectionsAction()),

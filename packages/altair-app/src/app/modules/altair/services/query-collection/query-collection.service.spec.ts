@@ -12,7 +12,7 @@ const collectionPairs = [
   {
     // parentCollectionId: '',
     collection: {
-      id: 1,
+      id: '1',
       title: 'Collection 1',
       queries: [],
     },
@@ -20,47 +20,47 @@ const collectionPairs = [
   {
     // parentCollectionId: '',
     collection: {
-      id: 2,
+      id: '2',
       title: 'Collection 2',
       queries: [],
     },
   },
   {
-    parentCollectionId: 1,
+    parentCollectionId: '1',
     collection: {
-      id: 3,
+      id: '3',
       title: 'Collection 3 - in 1',
       queries: [],
     },
   },
   {
-    parentCollectionId: 3,
+    parentCollectionId: '3',
     collection: {
-      id: 4,
+      id: '4',
       title: 'Collection 4 - in 3',
       queries: [],
     },
   },
   {
-    parentCollectionId: 2,
+    parentCollectionId: '2',
     collection: {
-      id: 5,
+      id: '5',
       title: 'Collection 5 - in 2',
       queries: [],
     },
   },
   {
-    parentCollectionId: 1,
+    parentCollectionId: '1',
     collection: {
-      id: 6,
+      id: '6',
       title: 'Collection 6 - in 1',
       queries: [],
     },
   },
   {
-    parentCollectionId: 4,
+    parentCollectionId: '4',
     collection: {
-      id: 7,
+      id: '7',
       title: 'Collection 7 - in 4',
       queries: [],
     },
@@ -135,24 +135,24 @@ describe('QueryCollectionService', () => {
       async (service: QueryCollectionService) => {
         const collections = [
           {
-            id: 1,
+            id: '1',
             title: 'Collection 1',
             queries: [],
           },
           {
-            id: 2,
+            id: '2',
             title: 'Collection 2',
             queries: [],
             parentPath: '/1',
           },
           {
-            id: 3,
+            id: '3',
             title: 'Collection 3',
             queries: [],
             parentPath: '/1/2',
           },
           {
-            id: 4,
+            id: '4',
             title: 'Collection 4',
             queries: [],
           },
@@ -191,18 +191,18 @@ describe('QueryCollectionService', () => {
       async (service: QueryCollectionService) => {
         const collections = [
           {
-            id: 1,
+            id: '1',
             title: 'Collection 1',
             queries: [],
           },
           {
-            id: 2,
+            id: '2',
             title: 'Collection 2',
             queries: [],
             parentPath: '/1',
           },
           {
-            id: 3,
+            id: '3',
             title: 'Collection 3',
             queries: [],
             parentPath: '/1/2',

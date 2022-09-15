@@ -40,17 +40,17 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
         {
-          id: 2,
+          id: '2',
           title: 'Collection 1',
           queries: [],
         },
         {
-          id: 3,
+          id: '3',
           title: 'Collection 1',
           queries: [],
         },
@@ -66,17 +66,17 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
         {
-          id: 2,
+          id: '2',
           title: 'Collection 2',
           queries: [],
         },
         {
-          id: 3,
+          id: '3',
           title: 'Collection 3',
           queries: [],
         },
@@ -114,7 +114,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -135,7 +135,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -156,7 +156,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -177,7 +177,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -198,7 +198,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -219,7 +219,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },
@@ -242,7 +242,7 @@ describe('QueryCollectionsComponent', () => {
       showCollections: true,
       collections: [
         {
-          id: 1,
+          id: '1',
           title: 'Collection 1',
           queries: [],
         },

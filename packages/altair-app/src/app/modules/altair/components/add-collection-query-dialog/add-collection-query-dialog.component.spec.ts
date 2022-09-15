@@ -80,12 +80,12 @@ describe('AddCollectionQueryDialogComponent', () => {
       collections: [
         {
           title: 'query 1',
-          id: 1,
+          id: '1',
           queries: [],
         },
         {
           title: 'query 2',
-          id: 2,
+          id: '2',
           queries: [],
         },
       ],
@@ -101,12 +101,12 @@ describe('AddCollectionQueryDialogComponent', () => {
       collections: [
         {
           title: 'query 1',
-          id: 1,
+          id: '1',
           queries: [],
         },
         {
           title: 'query 2',
-          id: 2,
+          id: '2',
           queries: [],
         },
       ],
@@ -130,12 +130,12 @@ describe('AddCollectionQueryDialogComponent', () => {
       collections: [
         {
           title: 'query 1',
-          id: 1,
+          id: '1',
           queries: [],
         },
         {
           title: 'query 2',
-          id: 2,
+          id: '2',
           queries: [],
         },
       ],
@@ -176,12 +176,12 @@ describe('AddCollectionQueryDialogComponent', () => {
       collections: [
         {
           title: 'query 1',
-          id: 1,
+          id: '1',
           queries: [],
         },
         {
           title: 'query 2',
-          id: 2,
+          id: '2',
           queries: [],
         },
       ],
@@ -193,7 +193,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
-    select.setValue(2);
+    select.setValue('2');
 
     const appDialog = wrapper.find('app-dialog');
     appDialog.emit('saveChange');
@@ -201,7 +201,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     expect(wrapper.emitted('saveQueryToCollectionChange')).toBeTruthy();
     expect(wrapper.emitted('saveQueryToCollectionChange')![0][0]).toEqual({
       queryName: 'my query name',
-      collectionId: 2,
+      collectionId: '2',
     });
   });
 });

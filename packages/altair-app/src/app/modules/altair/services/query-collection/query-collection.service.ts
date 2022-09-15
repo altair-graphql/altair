@@ -418,7 +418,7 @@ export class QueryCollectionService {
     }
   }
 
-  async getAll(includeRemote = false) {
+  async getAll(includeRemote = true) {
     const localCollections = await this.storage.queryCollections.toArray();
 
     if (includeRemote && (await this.canApplyRemote())) {

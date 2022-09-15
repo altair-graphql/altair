@@ -433,9 +433,7 @@ export class WindowService {
         switchMap((data) => {
           if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
             return from(
-              this.collectionService.getLocalCollectionByID(
-                data.layout.collectionId
-              )
+              this.collectionService.getCollectionByID(data.layout.collectionId)
             ).pipe(
               map((collection) => {
                 if (collection) {
