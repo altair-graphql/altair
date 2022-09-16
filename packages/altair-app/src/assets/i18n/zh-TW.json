@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "歷史記錄",
   "HISTORY_CLEAR_TEXT": "清除歷史記錄",
   "HISTORY_SUB_TEXT": "你可以從歷史紀錄中回復你過去的查詢",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "刪除",
   "COLLECTIONS_MENU_DELETE": "刪除",
   "COLLECTIONS_MENU_EDIT": "編輯",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "匯出",
   "COLLECTIONS_IMPORT_TEXT": "匯入",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Update window in collection",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "依最舊排序",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
   "COLLECTION_TITLE_LABEL": "Collection title",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
   "PLUGIN_REMOVE_BUTTON": "Remove",
-  "PLUGIN_CREATE_BUTTON": "建立外掛"
+  "PLUGIN_CREATE_BUTTON": "建立外掛",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
