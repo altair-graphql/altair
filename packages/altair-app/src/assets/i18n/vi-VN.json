@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "Lịch sử",
   "HISTORY_CLEAR_TEXT": "Xóa lịch sử",
   "HISTORY_SUB_TEXT": "Bạn có thể chọn một mục từ lịch sử để khôi phục",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Xoá",
   "COLLECTIONS_MENU_DELETE": "Xoá",
   "COLLECTIONS_MENU_EDIT": "Chỉnh sửa",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Xuất",
   "COLLECTIONS_IMPORT_TEXT": "Nhập",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Cập nhật trong collection",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Cũ nhất",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Truy vấn này đã cũ và không tương thích. Vui lòng xóa và tạo lại để tránh mất dữ liệu.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Chỉnh sửa Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Cập nhật chi tiết collection",
   "COLLECTION_TITLE_LABEL": "Tiêu đề collection",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Tên Plugin duy nhất",
   "PLUGIN_ADD_BUTTON": "Thêm vào Altair",
   "PLUGIN_REMOVE_BUTTON": "Xóa",
-  "PLUGIN_CREATE_BUTTON": "Create Plugin"
+  "PLUGIN_CREATE_BUTTON": "Create Plugin",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
