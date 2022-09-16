@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "Historie",
   "HISTORY_CLEAR_TEXT": "Vymazat historii",
   "HISTORY_SUB_TEXT": "Můžete vybrat položku z historie pro její obnovení",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Odstranit",
   "COLLECTIONS_MENU_DELETE": "Odstranit",
   "COLLECTIONS_MENU_EDIT": "Upravit",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Exportovat",
   "COLLECTIONS_IMPORT_TEXT": "Importovat",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Update window in collection",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Nejstarší",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Upravit sbírku",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
   "COLLECTION_TITLE_LABEL": "Název sbírky",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
   "PLUGIN_REMOVE_BUTTON": "Remove",
-  "PLUGIN_CREATE_BUTTON": "Create Plugin"
+  "PLUGIN_CREATE_BUTTON": "Create Plugin",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
