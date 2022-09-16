@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "Tarihçe",
   "HISTORY_CLEAR_TEXT": "Geçmişi Sil",
   "HISTORY_SUB_TEXT": "Geçmişten geri yüklemek için bir öğe seçebilirsiniz",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Sil",
   "COLLECTIONS_MENU_DELETE": "Sil",
   "COLLECTIONS_MENU_EDIT": "Düzenle",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Dışa aktar",
   "COLLECTIONS_IMPORT_TEXT": "İçe aktar",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Koleksiyondaki pencereyi güncelle",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "En eski",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Bu sorgu eski ve uyumlu değil. Veri kaybını önlemek için lütfen silin ve yeniden oluşturun.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "Bir koleksiyondan",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Koleksiyonu düzenle",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Koleksiyon ayrıntılarınızı güncelleyin",
   "COLLECTION_TITLE_LABEL": "Koleksiyon başlığı",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Benzersiz Eklenti Adı",
   "PLUGIN_ADD_BUTTON": "Altair'e ekle",
   "PLUGIN_REMOVE_BUTTON": "Kaldır",
-  "PLUGIN_CREATE_BUTTON": "Eklenti oluştur"
+  "PLUGIN_CREATE_BUTTON": "Eklenti oluştur",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
