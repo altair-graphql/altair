@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "Historique",
   "HISTORY_CLEAR_TEXT": "Nettoyer L'historique",
   "HISTORY_SUB_TEXT": "Vous pouvez sélectionner un élément de l’historique à restaurer",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Supprimer",
   "COLLECTIONS_MENU_DELETE": "Supprimer",
   "COLLECTIONS_MENU_EDIT": "Modifier",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Exporter",
   "COLLECTIONS_IMPORT_TEXT": "Importer",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Mise à jour de la fenêtre dans la collection",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Le plus ancien",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Cette requête est ancienne et non compatible. Veuillez la supprimer et la créer à nouveau pour éviter la perte de données.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "À partir d'une collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Modifier la collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Mettre à jour les détails de votre collection",
   "COLLECTION_TITLE_LABEL": "Titre de la collection",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Nom unique du plugin",
   "PLUGIN_ADD_BUTTON": "Ajouter à Altair",
   "PLUGIN_REMOVE_BUTTON": "Retirer",
-  "PLUGIN_CREATE_BUTTON": "Créer un plugin"
+  "PLUGIN_CREATE_BUTTON": "Créer un plugin",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
