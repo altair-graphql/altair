@@ -8,7 +8,7 @@ exports[`HeaderComponent should render correctly 1`] = `
     <img
       alt="logo"
       class="header__logo"
-      src="assets/img/logo.svg"
+      src="assets/img/altair_logo.svg"
     />
   </div>
   <app-window-switcher />
