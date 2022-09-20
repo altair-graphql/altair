@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "Історія",
   "HISTORY_CLEAR_TEXT": "Очистити історію",
   "HISTORY_SUB_TEXT": "Ви можете вибрати та відновити запис з історії",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_EDIT": "Редагувати",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Експорт",
   "COLLECTIONS_IMPORT_TEXT": "Імпорт",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Оновити вікно в колекції",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Найдавніші",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Цей запит старий і не є сумісним. Будь ласка, видаліть і створіть його знову, щоб запобігти втраті даних.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Змінити колекцію",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Оновлення деталей колекції",
   "COLLECTION_TITLE_LABEL": "Назва колекції",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Унікальна назва додатку",
   "PLUGIN_ADD_BUTTON": "Додати до Altair",
   "PLUGIN_REMOVE_BUTTON": "Видалити",
-  "PLUGIN_CREATE_BUTTON": "Create Plugin"
+  "PLUGIN_CREATE_BUTTON": "Create Plugin",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }

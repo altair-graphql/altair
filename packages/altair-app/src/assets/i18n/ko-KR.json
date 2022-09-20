@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "웹소켓 (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "SSE를 통한 Graphql",
   "HISTORY_TEXT": "작업 내역",
   "HISTORY_CLEAR_TEXT": "작업 내역 지우기",
   "HISTORY_SUB_TEXT": "작업 내역에서 복구할 항목을 선택할 수 있습니다",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "제거",
   "COLLECTIONS_MENU_DELETE": "제거",
   "COLLECTIONS_MENU_EDIT": "편집",
+  "COLLECTIONS_MENU_SYNC": "리모트에 동기화",
   "COLLECTIONS_MENU_EXPORT": "내보내기",
   "COLLECTIONS_IMPORT_TEXT": "불러오기",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "콜랙션의 창 업데이트",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "오래된 순",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "이 쿼리는 오래되어 호환성이 없습니다. 삭제하고 다시 작성해 데이터 손실을 방지하세요.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "컬랙션에서",
+  "COLLECTION_SYNC_TEXT": "새로고침",
   "EDIT_COLLECTION_TITLE_TEXT": "컬렉션 편집",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "컬렉션 정보를 수정합니다",
   "COLLECTION_TITLE_LABEL": "컬렉션 제목",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "유일한 플러그인 이름",
   "PLUGIN_ADD_BUTTON": "Altair에 추가",
   "PLUGIN_REMOVE_BUTTON": "제거",
-  "PLUGIN_CREATE_BUTTON": "플러그인 만들기"
+  "PLUGIN_CREATE_BUTTON": "플러그인 만들기",
+  "ACCOUNT_TITLE": "계정",
+  "LOGIN_TAB": "로그인",
+  "REGISTER_TAB": "회원가입",
+  "CLOUD_SYNC_TEXT": "클라우드와 동기화됨"
 }

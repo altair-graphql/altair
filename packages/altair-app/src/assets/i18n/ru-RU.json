@@ -66,6 +66,7 @@
   "SUBSCRIPTION_PROVIDER_GRAPHQL_WS": "Websocket (graphql-ws)",
   "SUBSCRIPTION_PROVIDER_APP_SYNC": "AWS AppSync",
   "SUBSCRIPTION_PROVIDER_ACTION_CABLE": "Rails ActionCable",
+  "SUBSCRIPTION_PROVIDER_GRAPHQL_SSE": "Graphql over SSE",
   "HISTORY_TEXT": "История",
   "HISTORY_CLEAR_TEXT": "Очистить историю",
   "HISTORY_SUB_TEXT": "Вы можете выбрать элемент из истории для восстановления",
@@ -113,6 +114,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Удалить",
   "COLLECTIONS_MENU_DELETE": "Удалить",
   "COLLECTIONS_MENU_EDIT": "Редактировать",
+  "COLLECTIONS_MENU_SYNC": "Sync to remote",
   "COLLECTIONS_MENU_EXPORT": "Экспорт",
   "COLLECTIONS_IMPORT_TEXT": "Импорт",
   "COLLECTION_UPDATE_WINDOW_IN_COLLECTION": "Обновить окно коллекции",
@@ -123,6 +125,7 @@
   "COLLECTIONS_SORT_BY_OLDEST": "Старые",
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Этот запрос устарел и не совместим. Пожалуйста, удалите и создайте его снова, чтобы предотвратить потерю данных.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "Из коллекции",
+  "COLLECTION_SYNC_TEXT": "Refresh",
   "EDIT_COLLECTION_TITLE_TEXT": "Редактировать коллекцию",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Обновить детали коллекции",
   "COLLECTION_TITLE_LABEL": "Заголовок коллекции",
@@ -155,5 +158,9 @@
   "PLUGIN_UNIQUE_NAME_TEXT": "Уникальное имя плагина",
   "PLUGIN_ADD_BUTTON": "Добавить в Альтаир",
   "PLUGIN_REMOVE_BUTTON": "Удалить",
-  "PLUGIN_CREATE_BUTTON": "Создать плагин"
+  "PLUGIN_CREATE_BUTTON": "Создать плагин",
+  "ACCOUNT_TITLE": "Account",
+  "LOGIN_TAB": "Login",
+  "REGISTER_TAB": "Register",
+  "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
