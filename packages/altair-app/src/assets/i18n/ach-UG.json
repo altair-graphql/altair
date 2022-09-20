@@ -162,5 +162,7 @@
   "ACCOUNT_TITLE": "crwdns1258:0crwdne1258:0",
   "LOGIN_TAB": "crwdns1260:0crwdne1260:0",
   "REGISTER_TAB": "crwdns1262:0crwdne1262:0",
+  "LOGOUT_TEXT": "crwdns1266:0crwdne1266:0",
+  "SIGNIN_WITH_GOOGLE": "crwdns1268:0crwdne1268:0",
   "CLOUD_SYNC_TEXT": "crwdns1264:0crwdne1264:0"
 }
