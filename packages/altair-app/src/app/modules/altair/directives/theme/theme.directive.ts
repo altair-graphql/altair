@@ -59,6 +59,7 @@ export class ThemeDirective implements OnInit, OnChanges {
       --blue-color: ${theme.colors.blue};
       --cerise-color: ${theme.colors.cerise};
       --red-color: ${theme.colors.red};
+      --rose-color: ${theme.colors.rose};
       --orange-color: ${theme.colors.orange};
       --yellow-color: ${theme.colors.yellow};
       --light-red-color: ${theme.colors.lightRed};
@@ -66,6 +67,7 @@ export class ThemeDirective implements OnInit, OnChanges {
 
       --primary-color: ${theme.colors.primary};
       --secondary-color: ${theme.colors.secondary};
+      --tertiary-color: ${theme.colors.tertiary};
 
       --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${
       theme.shadow.opacity

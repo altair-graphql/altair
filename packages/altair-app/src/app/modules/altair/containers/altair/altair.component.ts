@@ -760,6 +760,10 @@ export class AltairComponent {
     this.store.dispatch(new accountActions.LoginAccountAction());
   }
 
+  logout() {
+    this.store.dispatch(new accountActions.LogoutAccountAction());
+  }
+
   createCollectionAndSaveQueryToCollection({
     queryName = '',
     collectionName = '',
