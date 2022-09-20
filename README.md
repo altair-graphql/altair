@@ -16,7 +16,7 @@
 
 <div align="center" style="text-align: center;">
 
-<img src="packages/altair-app/src/assets/img/altair_logo_128.png" alt="Altair GraphQL Client">
+<img src="icons/android-icon-192x192.png" alt="Altair GraphQL Client">
 
 <h1><a href="https://altairgraphql.dev/" target="_blank">Altair GraphQL Client</a></h1>
 

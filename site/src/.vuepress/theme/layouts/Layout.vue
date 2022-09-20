@@ -62,7 +62,7 @@ if (typeof window !== 'undefined') {
         text: "#404040"
       },
       button: {
-        background: "#8ec760",
+        background: "#64CB29",
         text: "#ffffff"
       }
     }

@@ -101,6 +101,41 @@ export class AccountEffects {
     { dispatch: false }
   );
 
+  logout$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(accountActions.LOGOUT_ACCOUNT),
+        withLatestFrom(
+          this.store,
+          (action: accountActions.LogoutAccountAction, state) => {
+            return { state, action };
+          }
+        ),
+        switchMap(({ action }) => {
+          return from(this.accountService.logout());
+        }),
+        switchMap(() => {
+          this.notifyService.success(`You're logged out`);
+          this.store.dispatch(new accountActions.AccountLoggedOutAction());
+          this.store.dispatch(
+            new windowsMetaActions.ShowAccountDialogAction({ value: false })
+          );
+
+          return EMPTY;
+        }),
+        catchError((error) => {
+          console.error(error);
+          this.notifyService.error(
+            'Sorry, we could not log you out. Please try again.'
+          );
+          return EMPTY;
+        }),
+        repeat()
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,

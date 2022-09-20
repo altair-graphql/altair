@@ -24,6 +24,8 @@ export function accountReducer(
         loggedIn: true,
         ...payload,
       };
+    case account.ACCOUNT_LOGGED_OUT:
+      return getInitialState();
     default:
       return state;
   }
