@@ -162,5 +162,7 @@
   "ACCOUNT_TITLE": "계정",
   "LOGIN_TAB": "로그인",
   "REGISTER_TAB": "회원가입",
+  "LOGOUT_TEXT": "Logout",
+  "SIGNIN_WITH_GOOGLE": "Signin with Google",
   "CLOUD_SYNC_TEXT": "클라우드와 동기화됨"
 }
