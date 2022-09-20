@@ -162,5 +162,7 @@
   "ACCOUNT_TITLE": "Account",
   "LOGIN_TAB": "Login",
   "REGISTER_TAB": "Register",
+  "LOGOUT_TEXT": "Logout",
+  "SIGNIN_WITH_GOOGLE": "Signin with Google",
   "CLOUD_SYNC_TEXT": "Synced to the cloud"
 }
