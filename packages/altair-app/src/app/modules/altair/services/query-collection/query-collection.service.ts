@@ -97,7 +97,7 @@ export class QueryCollectionService {
     // Delete local collection
     const localCollection = await this.mustGetLocalCollection(collectionId);
     await this.createRemoteCollection(localCollection);
-    this.deleteLocalCollection(collectionId);
+    await this.deleteLocalCollection(collectionId);
   }
 
   async addQuery(collectionId: CollectionID, query: IQuery | IRemoteQuery) {
