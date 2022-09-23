@@ -43,7 +43,7 @@ export class AuthServer {
 
     this.port = await this.getAvailablePort();
     this.server = app.listen(this.port, () => {
-      console.log(`auth server listening at port ${this.port}`);
+      // console.log(`auth server listening at port ${this.port}`);
     });
   }
 
@@ -96,12 +96,12 @@ export class AuthServer {
                   INLINE,
                   "strict-dynamic",
                   "https://www.gstatic.com",
-                  "https://apis.google.com",
-                ],
-              },
-            }),
-          ],
-        },
+                  "https://apis.google.com"
+                ]
+              }
+            })
+          ]
+        }
       });
     });
 
