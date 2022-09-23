@@ -25,15 +25,14 @@
   },
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "devDependencies": {
-    "typescript": "4.0.7"
+    "typescript": "4.7.4"
   },
   "dependencies": {
     "altair-express-middleware": "^4.6.4"
   },
   "funding": {
     "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
+    "url": "https://opencollective.com/altair"
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
 }
