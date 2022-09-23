@@ -68,7 +68,12 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import { externalLink, mapToKeyValueList, openFile } from '../../utils';
+import {
+  externalLink,
+  isExtension,
+  mapToKeyValueList,
+  openFile,
+} from '../../utils';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { catchUselessObservableError } from '../../utils/errors';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -98,6 +103,7 @@ export class AltairComponent {
   isElectron = isElectron;
   isWebApp: boolean;
   serverReady = environment.serverReady;
+  authEnabled = !isExtension;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 

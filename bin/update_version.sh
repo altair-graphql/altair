@@ -40,7 +40,7 @@ sed -i '' "s|$XML_OLD_BASE|$XML_NEW_BASE|g" ./chocolatey/altair-graphql.nuspec
 # Update version in altair-graphql.nuspec
 sed -i '' "s|$PS1_OLD_BASE|$PS1_NEW_BASE|g" ./chocolatey/tools/chocolateyInstall.ps1
 
-if (lerna --version); then
+if (yarn lerna --version); then
   # Set the lerna packages versions as well
-  lerna version $NEW_VERSION --force-publish=* --no-git-tag-version --no-push --yes;
+  yarn lerna version $NEW_VERSION --force-publish=* --no-git-tag-version --no-push --yes;
 fi

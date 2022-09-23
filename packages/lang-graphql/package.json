@@ -1,6 +1,6 @@
 {
   "name": "altair-codemirror-graphql",
-  "version": "4.6.4",
+  "version": "5.0.0",
   "description": "GraphQL language support for CodeMirror",
   "scripts": {
     "test": "mocha test/test.js",
