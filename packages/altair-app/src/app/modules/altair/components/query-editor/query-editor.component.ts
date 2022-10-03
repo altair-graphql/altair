@@ -59,7 +59,7 @@ import { Compartment, EditorState, Extension } from '@codemirror/state';
 import { getCodemirrorGraphqlExtensions, noOpCommand } from './gql-extensions';
 import { Position, posToOffset } from '../../utils/editor/helpers';
 import { startCompletion } from '@codemirror/autocomplete';
-import { Command, EditorView, keymap } from '@codemirror/view';
+import { Command, EditorView, keymap, lineNumbers } from '@codemirror/view';
 import { toggleComment } from '@codemirror/commands';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
 import { indentUnit } from '@codemirror/language';
@@ -79,6 +79,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
+  @Input() disableLineNumbers = false;
 
   @Input() variables: VariableState;
   @Input() showVariableDialog = false;
@@ -144,13 +145,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   tabSizeCompartment = new Compartment();
   extraKeysCompartment = new Compartment();
+  lineNumbersCompartment = new Compartment();
 
   editorExtensions: Extension[] = this.graphqlExtension();
 
   editorConfig = <any>{
     mode: 'graphql',
     lineWrapping: true,
-    lineNumbers: true,
+    lineNumbers: !this.disableLineNumbers,
     foldGutter: true,
     tabSize: this.tabSize,
     indentUnit: this.tabSize,
@@ -299,6 +301,17 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
 
+    if (changes?.disableLineNumbers?.currentValue) {
+      this.editorConfig.lineNumbers = !this.disableLineNumbers;
+      if (this.newEditor?.view) {
+        this.newEditor.view.dispatch({
+          effects: this.lineNumbersCompartment.reconfigure(
+            this.setLineNumbers(this.disableLineNumbers)
+          ),
+        });
+      }
+    }
+
     if (changes?.query?.currentValue) {
       // Set current tab to Query if query is updated
       this.selectedIndex = 0;
@@ -319,6 +332,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       indentUnit.of(' '.repeat(tabSize)),
       EditorState.tabSize.of(tabSize),
     ];
+  }
+
+  setLineNumbers(disableLineNumbers: boolean) {
+    if(disableLineNumbers){
+      return [];
+    }
+    else{
+      return lineNumbers();
+    }
   }
 
   buildExtraKeysExtension(extraKeys?: Record<string, string>) {
@@ -552,7 +574,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.extraKeysCompartment.of(
         this.buildExtraKeysExtension(this.extraKeys)
       ),
-      this.editorStateListener(),
+      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers)),
+      this.editorStateListener()
     ];
   }
   /**
