@@ -62,7 +62,7 @@
     "@webcomponents/custom-elements": "1.4.1",
     "abab": "2.0.6",
     "actioncable": "5.2.8",
-    "altair-codemirror-graphql": "^5.0.1",
+    "altair-codemirror-graphql": "^5.0.0",
     "altair-graphql-core": "^5.0.1",
     "angular-feather": "6.0.10",
     "angular-resizable-element": "^6.0.0",

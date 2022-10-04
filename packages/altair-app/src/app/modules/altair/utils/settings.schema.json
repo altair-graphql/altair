@@ -82,6 +82,10 @@
             "description": "Editor tab size",
             "type": "number"
         },
+       "disableLineNumbers":{
+            "description": "Disable Line Numbers",
+            "type": "boolean"
+        },
         "theme": {
             "description": "Theme",
             "type": "string"

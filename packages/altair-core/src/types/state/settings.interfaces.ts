@@ -90,6 +90,11 @@ export interface SettingsState {
   historyDepth?: number;
 
   /**
+   * Disable line numbers
+   */
+  disableLineNumbers?: boolean;
+
+  /**
    * Theme config object
    */
   themeConfig?: ICustomTheme;
