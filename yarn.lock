@@ -24728,9 +24728,9 @@ snapdragon@^0.8.1:
     use "^3.1.0"
 
 snyk@^1.774.0:
-  version "1.774.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.774.0.tgz#42243b1b5fe6f4a98be2a286de491188aa17e2e2"
-  integrity sha512-DOvzvkRStlTRPAD2L8PkVPpwWop4Akl4bVcx33QUz9++CMGQm0P8bxZbpLjDiNVLm+67YOlvXzUEH+KTHVi/2Q==
+  version "1.996.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.996.0.tgz#0369ca9e6a3a148751294c1320f59a79d5eb3c88"
+  integrity sha512-nq//Ely0bSt50LzX9Er5lCQNqTpaKn7I7xkhUB3Z+8rs8Jqha360HeQwhbVzsuQS3xT/1+36zt6CcgyLPM1QbA==
 
 sockjs@^0.3.21:
   version "0.3.24"
@@ -27913,15 +27913,10 @@ xxhashjs@~0.2.2:
   dependencies:
     cuint "^0.2.2"
 
-y18n@^4.0.0:
+y18n@4.0.1, y18n@^4.0.0, y18n@^5.0.5:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"
   integrity sha512-wNcy4NvjMYL8gogWWYAO7ZFWFfHcbdbE57tZO8e4cbpj8tfUcwrwqSl3ad8HxpYWCdXcJUCeKKZS62Av1affwQ==
-
-y18n@^5.0.5:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
-  integrity sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==
 
 yaeti@^0.0.6:
   version "0.0.6"
