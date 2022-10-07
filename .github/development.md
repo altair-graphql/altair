@@ -1,7 +1,7 @@
 ## Development
 
-Navigate to the `packages/altair-app` directory, run `yarn` to install dependencies.
-Run `yarn start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `yarn` from the root of the repository to install dependencies.
+Run `yarn start:app` to start the local dev server of the web app. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Build
 
@@ -21,4 +21,4 @@ Run `bundle exec jekyll serve`.
 
 ### Running tests
 
-Run `yarn test` to execute the unit tests via [Karma](https://karma-runner.github.io) and the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `yarn test` to execute tests across all packages.
