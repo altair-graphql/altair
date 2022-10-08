@@ -98,7 +98,7 @@
     >
       <CarbonAds />
       <p>
-        Made by <a href="https://twitter.com/imolorhe" target="_blank">Samuel</a> with ❤️
+        Made by <a href="https://twitter.com/imolorhe" target="_blank">Samuel</a> with ❤️🇳🇬
       </p>
     </div>
   </main>
