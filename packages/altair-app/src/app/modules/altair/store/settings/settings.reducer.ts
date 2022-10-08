@@ -23,10 +23,15 @@ export function settingsReducer(
   action: settings.Action
 ): SettingsState {
   switch (action.type) {
-    case settings.SET_SETTINGS_JSON:
+    case settings.SET_SETTINGS_JSON: {
       const newState = { ...getInitialState(), ...jsonc(action.payload.value) };
 
       return newState;
+    }
+    case settings.UPDATE_SETTINGS: {
+      const newState = { ...state, ...action.payload };
+      return newState;
+    }
     default:
       return state;
   }

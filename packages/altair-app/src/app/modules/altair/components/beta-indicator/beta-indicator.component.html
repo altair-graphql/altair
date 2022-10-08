@@ -1,0 +1,24 @@
+<div
+  class="beta-indicator-wrapper"
+>
+  <div
+    class="beta-indicator"
+    nz-popover
+    [nzPopoverTitle]="'Beta - ' + title"
+    [nzPopoverContent]="contentTemplate"
+    [nzPopoverTrigger]="'click'"
+    [nzPopoverOverlayStyle]="{ 'font-size': '12px', width: '300px' }"
+  >
+    <span>Beta</span>
+</div>
+  <ng-template #contentTemplate>
+    {{ description }}
+    <div class="beta-indicator__section">
+      Please report any bugs/improvements you find on <a href="https://github.com/altair-graphql/altair/issues/new/choose" target="_blank">GitHub</a>.
+    </div>
+    <div class="beta-indicator__section">
+      <nz-switch nzSize="small" [ngModel]="value$ | async" (ngModelChange)="setValue($event)"></nz-switch>
+      Toggle this feature
+    </div>
+  </ng-template>
+</div>
