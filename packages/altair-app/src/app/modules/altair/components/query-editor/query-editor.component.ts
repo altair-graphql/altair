@@ -65,6 +65,9 @@ import { CodemirrorComponent } from '../codemirror/codemirror.component';
 import { indentUnit } from '@codemirror/language';
 import { ResizeEvent } from 'angular-resizable-element';
 import { openSearchPanel } from '@codemirror/search';
+import { updateGqlVariables, updateWindowId } from './upload-widget';
+import { Store } from '@ngrx/store';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -74,7 +77,8 @@ const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
   styleUrls: ['./query-editor.component.scss'],
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() activeWindowId = null;
+  @Input() windowId = '';
+  @Input() activeWindowId = '';
   @Input() query = '';
   @Input() gqlSchema: GraphQLSchema;
   @Input() tabSize = 2;
@@ -100,7 +104,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() queryChange = new EventEmitter<string>();
   @Output() variablesChange = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
-  @Output() addFileVariableChange = new EventEmitter();
+  @Output() addFileVariableChange = new EventEmitter<{
+    name: string;
+    data: File[];
+    isMultiple: boolean;
+  }>();
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter();
@@ -213,6 +221,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(
     private gqlService: GqlService,
     private notifyService: NotifyService,
+    private store: Store<RootState>,
     private zone: NgZone
   ) {}
 
@@ -225,10 +234,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
       this.updateEditorSchema(this.gqlSchema);
       this.updateNewEditorSchema(this.gqlSchema);
+      this.updateNewEditorVariableState(this.variables);
+      this.updateNewEditorWindowId(this.windowId);
     }
   }
 
   ngAfterViewInit() {
+    this.editorExtensions = this.graphqlExtension();
     if (this.editor?.codeMirror) {
       (this.editor.codeMirror as any).on(
         'keyup',
@@ -259,6 +271,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       );
     }
     this.updateNewEditorSchema(this.gqlSchema);
+    this.updateNewEditorVariableState(this.variables);
+    this.updateNewEditorWindowId(this.windowId);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -325,6 +339,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.activeWindowId?.currentValue) {
       handleEditorRefresh(this.editor?.codeMirror);
     }
+
+    if (changes?.variables?.currentValue && this.newEditor?.view) {
+      this.updateNewEditorVariableState(changes.variables.currentValue);
+    }
+
+    if (changes?.windowId?.currentValue && this.newEditor?.view) {
+      this.updateNewEditorWindowId(changes.windowId.currentValue);
+    }
   }
 
   setTabSizeExtension(tabSize: number) {
@@ -335,10 +357,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   setLineNumbers(disableLineNumbers: boolean) {
-    if(disableLineNumbers){
+    if (disableLineNumbers) {
       return [];
-    }
-    else{
+    } else {
       return lineNumbers();
     }
   }
@@ -529,6 +550,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   graphqlExtension() {
     return [
       ...getCodemirrorGraphqlExtensions({
+        store: this.store,
+        windowId: this.windowId,
         onShowInDocs: (field, type, parentType) => {
           this.zone.run(() => {
             if (field && parentType) {
@@ -569,13 +592,24 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         onRunActionClick: (operationType, operationName) => {
           this.zone.run(() => this.sendRequest.next({ operationName }));
         },
+        onSelectFiles: (variableName, files, isMultiple) => {
+          this.zone.run(() =>
+            this.addFileVariableChange.emit({
+              name: variableName,
+              data: files,
+              isMultiple,
+            })
+          );
+        },
       }),
       this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize)),
       this.extraKeysCompartment.of(
         this.buildExtraKeysExtension(this.extraKeys)
       ),
-      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers)),
-      this.editorStateListener()
+      this.lineNumbersCompartment.of(
+        this.setLineNumbers(this.disableLineNumbers)
+      ),
+      this.editorStateListener(),
     ];
   }
   /**
@@ -596,6 +630,18 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (schema && this.newEditor?.view) {
       debug.log('Updating schema for new editor...', schema);
       updateSchema(this.newEditor.view, schema);
+    }
+  }
+
+  updateNewEditorWindowId(windowId: string) {
+    if (this.newEditor?.view) {
+      updateWindowId(this.newEditor.view, windowId);
+    }
+  }
+
+  updateNewEditorVariableState(variables: VariableState) {
+    if (this.newEditor?.view) {
+      updateGqlVariables(this.newEditor.view, variables);
     }
   }
 

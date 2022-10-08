@@ -16,8 +16,18 @@ import { debug } from '../../utils/logger';
 import { getRunActionPlugin, RunActionWidgetOptions } from './run-widget';
 import { CompletionContext } from '@codemirror/autocomplete';
 import { syntaxTree } from '@codemirror/language';
+import {
+  getUploadActionPlugin,
+  UploadActionWidgetOptions,
+  gqlVariablesStateField,
+  windowIdStateField,
+} from './upload-widget';
+import { Store } from '@ngrx/store';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 export interface ExtensionsOptions {
+  store: Store<RootState>;
+  windowId: string;
   onShowInDocs?: (field?: string, type?: string, parentType?: string) => void;
   onFillAllFields?: (
     view: EditorView,
@@ -27,11 +37,12 @@ export interface ExtensionsOptions {
     token: ContextToken
   ) => void;
   onRunActionClick?: RunActionWidgetOptions['onClick'];
+  onSelectFiles?: UploadActionWidgetOptions['onSelectFiles'];
 }
 
 const noOp = () => {};
 
-export const getCodemirrorGraphqlExtensions = (opts?: ExtensionsOptions) => {
+export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
   const extensions = [
     graphql(undefined, {
       onShowInDocs: opts?.onShowInDocs,
@@ -112,6 +123,13 @@ export const getCodemirrorGraphqlExtensions = (opts?: ExtensionsOptions) => {
       ])
     ),
     getRunActionPlugin(opts?.onRunActionClick || noOp),
+    getUploadActionPlugin(
+      opts?.onSelectFiles || noOp,
+      opts?.windowId,
+      opts?.store
+    ),
+    gqlVariablesStateField,
+    windowIdStateField,
     graphqlLanguage.data.of({
       autocomplete: (context: CompletionContext) => {
         const nodeBefore = syntaxTree(context.state).resolveInner(

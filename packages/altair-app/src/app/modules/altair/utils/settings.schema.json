@@ -39,6 +39,10 @@
             "description": "Disable warning alerts",
             "type": "boolean"
         },
+        "disableLineNumbers": {
+            "description": "Disable line numbers",
+            "type": "boolean"
+        },
         "disablePushNotification": {
             "description": "Disable push notifications",
             "type": "boolean"
@@ -81,10 +85,6 @@
         "tabSize": {
             "description": "Editor tab size",
             "type": "number"
-        },
-       "disableLineNumbers":{
-            "description": "Disable Line Numbers",
-            "type": "boolean"
         },
         "theme": {
             "description": "Theme",

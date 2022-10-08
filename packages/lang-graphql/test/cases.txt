@@ -93,4 +93,8 @@ mutation c($val: String!) {
 
 ==>
 
-Document(OperationDefinition(OperationType,Name,SelectionSet("{",Selection(Field(FieldName)),"}")),OperationDefinition(OperationType,Name,SelectionSet("{",Selection(Field(FieldName)),"}")),OperationDefinition(OperationType,Name,VariableDefinitions("(",VariableDefinition(Variable,NonNullType(NamedType(Name))),")"),SelectionSet("{",Selection(Field(FieldName,Arguments("(",Argument(ArgumentAttributeName,Variable),")"),SelectionSet("{",Selection(Field(FieldName)),"}"))),"}")))
+Document(
+  OperationDefinition(OperationType,Name,SelectionSet("{",Selection(Field(FieldName)),"}")),
+  OperationDefinition(OperationType,Name,SelectionSet("{",Selection(Field(FieldName)),"}")),
+  OperationDefinition(OperationType,Name,VariableDefinitions("(",VariableDefinition(Variable,NonNullType(NamedType(Name))),")"),SelectionSet("{",Selection(Field(FieldName,Arguments("(",Argument(ArgumentAttributeName,Variable),")"),SelectionSet("{",Selection(Field(FieldName)),"}"))),"}"))
+)

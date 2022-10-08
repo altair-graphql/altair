@@ -60,6 +60,21 @@ app-query-editor {
   }
 }
 
+.query-editor__upload-action {
+  // background-color: var(--theme-bg-color);
+  background: rgba(var(--rgb-primary), .15);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  // line-height: 1;
+  padding: 0 2px;
+  font-size: smaller;
+
+  &--selected {
+    font-weight: bold;
+  }
+}
+
 .query-editor__autocomplete-item {
   display: flex;
   justify-content: space-between;

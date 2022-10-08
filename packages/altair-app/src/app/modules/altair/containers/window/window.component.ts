@@ -493,9 +493,13 @@ export class WindowComponent implements OnInit {
     );
   }
 
-  addFileVariable() {
+  addFileVariable(fileVariable?: {
+    name: string;
+    data: File[];
+    isMultiple: boolean;
+  }) {
     this.store.dispatch(
-      new variableActions.AddFileVariableAction(this.windowId)
+      new variableActions.AddFileVariableAction(this.windowId, fileVariable)
     );
   }
   updateFileVariableName({ index, name }: { index: number; name: string }) {

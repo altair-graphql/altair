@@ -1,13 +1,22 @@
 import { Action } from '@ngrx/store';
 
 import * as variables from './variables.action';
-import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import {
+  FileVariable,
+  VariableState,
+} from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { v4 as uuid } from 'uuid';
 
-const initialFileVariableState = () => ({
+const initialFileVariableState = (
+  name = 'file',
+  data: File[] | undefined = undefined,
+  isMultiple = false
+): FileVariable => ({
   id: uuid(),
-  name: 'file',
+  name,
+  data,
+  isMultiple,
 });
 
 export const getInitialState = (): VariableState => {
@@ -32,13 +41,35 @@ export function variableReducer(
       // TODO: Backward compatibility check:
       state.files = state.files || [];
 
+      // overwrite existing if it matches namme
+      if (
+        action.payload?.name &&
+        state.files.find((f) => f.name === action.payload?.name)
+      ) {
+        return {
+          ...state,
+          files: state.files.map((f) => {
+            if (f.name === action.payload?.name) {
+              return {
+                ...f,
+                ...action.payload,
+              };
+            }
+
+            return f;
+          }),
+        };
+      }
+
       return {
         ...state,
         files: [
           ...state.files,
-          {
-            ...initialFileVariableState(),
-          },
+          initialFileVariableState(
+            action.payload?.name,
+            action.payload?.data,
+            action.payload?.isMultiple
+          ),
         ],
       };
     case variables.DELETE_FILE_VARIABLE:
