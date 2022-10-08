@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from './icon/icon.component';
 
-import { FeatherModule } from 'angular-feather';
 import {
+  LucideAngularModule,
   AlertTriangle,
   AlertCircle,
   Archive,
@@ -60,7 +60,7 @@ import {
   XCircle,
   XSquare,
   Zap,
-} from 'angular-feather/icons';
+} from 'lucide-angular';
 
 const icons = {
   AlertTriangle,
@@ -123,7 +123,7 @@ const icons = {
 
 @NgModule({
   declarations: [IconComponent],
-  imports: [CommonModule, FeatherModule.pick(icons)],
-  exports: [IconComponent, FeatherModule],
+  imports: [CommonModule, LucideAngularModule.pick(icons)],
+  exports: [IconComponent, LucideAngularModule],
 })
 export class IconsModule {}
