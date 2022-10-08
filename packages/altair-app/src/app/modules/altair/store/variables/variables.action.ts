@@ -19,7 +19,10 @@ export class UpdateVariablesAction implements NGRXAction {
 export class AddFileVariableAction implements NGRXAction {
   readonly type = ADD_FILE_VARIABLE;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(
+    public windowId: string,
+    public payload?: { name: string; data: File[]; isMultiple: boolean }
+  ) {}
 }
 
 export class DeleteFileVariableAction implements NGRXAction {

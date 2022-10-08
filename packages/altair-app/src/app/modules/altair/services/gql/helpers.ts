@@ -435,3 +435,6 @@ export const refactorArgumentsToVariables = (
     ),
   };
 };
+
+// Cleans out getType() names to contain only the type name itself
+export const cleanTypeName = (name: string) => name.replace(/[\[\]!]/g, '');
