@@ -39,6 +39,10 @@
             "description": "Disable warning alerts",
             "type": "boolean"
         },
+        "beta.disable.newEditor": {
+            "description": "Disable new editor beta",
+            "type": "boolean"
+        },
         "disableLineNumbers": {
             "description": "Disable line numbers",
             "type": "boolean"

@@ -98,6 +98,7 @@ export class WindowComponent implements OnInit {
   tabSize$: Observable<number>;
   disableLineNumbers$: Observable<boolean | undefined>;
   enableExperimental$: Observable<boolean | undefined>;
+  betaDisableNewEditor$: Observable<boolean | undefined>;
   autoscrollSubscriptionResponses$: Observable<boolean>;
 
   collections$: Observable<IQueryCollection[]>;
@@ -146,6 +147,9 @@ export class WindowComponent implements OnInit {
     this.tabSize$ = this.store.pipe(select((state) => state.settings.tabSize));
     this.enableExperimental$ = this.store.pipe(
       select((state) => state.settings.enableExperimental)
+    );
+    this.betaDisableNewEditor$ = this.store.pipe(
+      select((state) => state.settings['beta.disable.newEditor'])
     );
     this.disableLineNumbers$ = this.store.pipe(
       select((state) => state.settings.disableLineNumbers)

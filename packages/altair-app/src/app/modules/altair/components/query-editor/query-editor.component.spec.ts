@@ -50,9 +50,9 @@ describe('QueryEditorComponent', () => {
   });
 
   it('should pass editor config to codemirror instance as options', () => {
-    expect(wrapper.find('ngx-codemirror').props('options').mode).toBe(
-      'graphql'
-    );
+    expect(
+      wrapper.find('app-codemirror').props('extensions').length
+    ).toBeGreaterThan(1);
   });
 
   it('should pass tabSize to variable editor component', async () => {

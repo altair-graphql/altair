@@ -91,6 +91,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() shortcutMapping: IDictionary = {};
   @Input() enableExperimental = false;
+  @Input() betaDisableNewEditor = true;
 
   @Input() preRequest: any = {};
   @Output() preRequestScriptChange = new EventEmitter();

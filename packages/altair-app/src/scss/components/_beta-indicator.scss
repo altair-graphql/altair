@@ -1,0 +1,29 @@
+.beta-indicator-wrapper {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 7;
+  opacity: .3;
+  transition: all .3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.beta-indicator {
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(var(--rgb-tertiary), .15);
+  color: var(--theme-font-color);
+  border: 1px solid var(--tertiary-color);
+  border-radius: 4px;
+  line-height: 1;
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.beta-indicator__section {
+  margin: 4px 0;
+}

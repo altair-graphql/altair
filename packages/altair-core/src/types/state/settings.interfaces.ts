@@ -6,7 +6,6 @@ const config = getAltairConfig();
 export type SettingsLanguage = keyof typeof config.languages;
 
 export interface SettingsState {
-
   /**
    * Theme
    */
@@ -113,4 +112,9 @@ export interface SettingsState {
    * Contains shortcut to action mapping
    */
   'editor.shortcuts'?: Record<string, string>;
+
+  /**
+   * Disable new editor beta
+   */
+  'beta.disable.newEditor'?: boolean;
 }

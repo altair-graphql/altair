@@ -340,3 +340,18 @@
 .ant-table-tbody > tr.ant-table-row:hover > td {
   background-color: var(--theme-off-bg-color);
 }
+
+.ant-popover-inner {
+  background: var(--theme-bg-color);
+  color: var(--theme-font-color);
+}
+.ant-popover-title {
+  border-color: var(--theme-border-color);
+  color: var(--theme-font-color);
+}
+.ant-popover-inner-content {
+  color: var(--theme-font-color);
+}
+.ant-popover-arrow-content {
+  background-color: var(--theme-bg-color);
+}

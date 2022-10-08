@@ -48,7 +48,7 @@ export class NgxTestWrapper<C> {
   }
 
   exists() {
-    return !!this._mainComponentDebugEl.nativeNode;
+    return !!this._mainComponentDebugEl?.nativeNode;
   }
 
   find<SC = unknown>(selector: string) {
