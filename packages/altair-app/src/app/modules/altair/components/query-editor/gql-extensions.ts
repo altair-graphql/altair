@@ -120,6 +120,10 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
           key: 'Cmd-Enter',
           run: noOpCommand,
         },
+        {
+          key: 'Ctrl-Enter',
+          run: noOpCommand,
+        },
       ])
     ),
     getRunActionPlugin(opts?.onRunActionClick || noOp),
