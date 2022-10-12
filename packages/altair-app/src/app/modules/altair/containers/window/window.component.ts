@@ -61,6 +61,7 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { GraphQLSchema } from 'graphql';
+import { str } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -217,7 +218,8 @@ export class WindowComponent implements OnInit {
           return this.collections$.pipe(
             map((collections) => {
               return collections.find(
-                (collection) => collection.id === data.layout.collectionId
+                (collection) =>
+                  str(collection.id) === str(data.layout.collectionId)
               );
             })
           );
