@@ -9,9 +9,10 @@ import { DocViewerFieldComponent } from './doc-viewer-field/doc-viewer-field.com
 import { DocViewerTypeComponent } from './doc-viewer-type/doc-viewer-type.component';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results/doc-viewer-search-results.component';
 import { ComponentModule } from '../components.module';
+import { PipesModule } from '../../pipes';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, SharedModule, ComponentModule],
+  imports: [CommonModule, FormsModule, SharedModule, ComponentModule, PipesModule],
   declarations: [
     DocViewerComponent,
     DocViewerFieldComponent,
@@ -25,4 +26,4 @@ import { ComponentModule } from '../components.module';
     DocViewerSearchResultsComponent,
   ],
 })
-export class DocViewerModule {}
+export class DocViewerModule { }
