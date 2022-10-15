@@ -140,7 +140,7 @@ export class EnvironmentService {
         (key) => {
           return {
             key: this.hydrate(key, options),
-            value: this.hydrate(environmentHeadersMap[key], options),
+            value: this.hydrate(environmentHeadersMap[key] || '', options),
             enabled: true,
           };
         }
