@@ -29,12 +29,21 @@ export class QueryCollectionService {
     private accountService: AccountService
   ) {}
 
+  /**
+   *
+   * @param collection
+   * @param collectionId collection ID to use when creating collection. This is used for cases where we have already generated a unique ID
+   * @param parentCollectionId
+   * @returns
+   */
   async createCollection(
     collection: IQueryCollection,
+    collectionId?: string,
     parentCollectionId?: CollectionID
   ) {
     const newCollectionId = await this.createLocalCollection(
       collection,
+      collectionId,
       parentCollectionId
     );
 
@@ -66,6 +75,7 @@ export class QueryCollectionService {
 
   private async createLocalCollection(
     collection: IQueryCollection,
+    collectionId?: string,
     parentCollectionId?: CollectionID
   ) {
     const now = this.storage.now();
@@ -80,7 +90,7 @@ export class QueryCollectionService {
 
     return this.storage.queryCollections.add({
       ...collection,
-      id: uuid(),
+      id: collectionId ?? uuid(),
       parentPath,
       created_at: now,
       updated_at: now,
@@ -320,6 +330,13 @@ export class QueryCollectionService {
     await this.storage.queryCollections.delete(
       this.getAlternateCollectionID(collectionId)
     );
+    const subcollections = await this.getSubcollections(collectionId);
+    for (let i = 0; i < subcollections.length; i++) {
+      const subcollection = subcollections[i];
+      if (subcollection.id) {
+        await this.storage.queryCollections.delete(subcollection.id);
+      }
+    }
   }
 
   async updateCollection(
@@ -363,6 +380,13 @@ export class QueryCollectionService {
     const collectionTree = await this.getCollectionTreeByCollectionId(
       collectionId
     );
+
+    return this.getExportCollectionDataFromCollectionTree(collectionTree);
+  }
+
+  getExportCollectionDataFromCollectionTree(
+    collectionTree: IQueryCollectionTree
+  ) {
     const exportCollectionData: ExportCollectionState = {
       version: 1,
       type: 'collection',
@@ -395,9 +419,12 @@ export class QueryCollectionService {
       }
 
       const collections = this.remapCollectionIDsToCollectionList(data);
-      for (let i = 0; i < collections.length; i++) {
-        const collection = collections[i];
-        await this.createCollection(collection);
+      for (const collection of collections) {
+        await this.createCollection(
+          collection,
+          collection.id,
+          this.getParentCollectionId(collection)
+        );
       }
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);

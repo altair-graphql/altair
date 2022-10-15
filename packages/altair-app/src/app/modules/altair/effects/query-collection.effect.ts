@@ -81,6 +81,7 @@ export class QueryCollectionEffects {
                 enabled: false,
               },
             },
+            undefined,
             res.action.payload.parentCollectionId
           );
         }),
@@ -296,14 +297,18 @@ export class QueryCollectionEffects {
       switchMap(() => {
         return from(openFiles({ accept: '.agc' }));
       }),
-      tap((data) => {
-        data.forEach((elem) =>
+      switchMap((data) => {
+        const res = data.map((elem) =>
           this.collectionService.importCollectionDataFromJson(elem)
         );
+
+        return from(Promise.all(res).then(() => true));
       }),
-      tap(() =>
-        this.notifyService.success('Successfully imported collection.')
-      ),
+      map((res) => {
+        if (res) {
+          this.notifyService.success('Successfully imported collection.');
+        }
+      }),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
         const errorMessage = error.message ? error.message : error.toString();

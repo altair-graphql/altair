@@ -112,6 +112,7 @@ describe('QueryCollectionService', () => {
           const pair = collectionPairs[i];
           await service.createCollection(
             pair.collection,
+            undefined,
             pair.parentCollectionId
           );
         }
@@ -157,7 +158,7 @@ describe('QueryCollectionService', () => {
             queries: [],
           },
         ];
-        const trees = await service.getCollectionTrees(collections);
+        const trees = service.getCollectionTrees(collections);
         expect(trees).toHaveLength(2);
         expect(trees[0]).toEqual({
           id: '1',
@@ -232,6 +233,43 @@ describe('QueryCollectionService', () => {
             parentPath: `/${remapped[0].id}/${remapped[1].id}`,
           },
         ]);
+      }
+    ));
+  });
+
+  describe('import/export', () => {
+    it('should import nested collection correctly', inject(
+      [QueryCollectionService],
+      async (service: QueryCollectionService) => {
+        const data = {
+          id: '1',
+          title: 'Collection 1',
+          queries: [],
+          collections: [
+            {
+              id: '2',
+              title: 'Collection 2',
+              queries: [],
+              parentPath: '/1',
+              collections: [
+                {
+                  id: '3',
+                  title: 'Collection 3',
+                  queries: [],
+                  parentPath: '/1/2',
+                  collections: [],
+                },
+              ],
+            },
+          ],
+        };
+
+        const exportData =
+          service.getExportCollectionDataFromCollectionTree(data);
+        const remapped = service.remapCollectionIDsToCollectionList(exportData);
+        const tree = service.getCollectionTrees(remapped);
+
+        expect(tree.length).toEqual(1);
       }
     ));
   });
