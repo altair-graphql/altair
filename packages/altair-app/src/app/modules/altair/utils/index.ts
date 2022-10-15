@@ -273,9 +273,19 @@ export const externalLink = (e: Event, url: string) => {
   e.preventDefault();
 
   // If electron app
-  if ((window as any).process && (window as any).process.versions.electron) {
+  if (
+    (window as any).process &&
+    (window as any).process.versions.electron &&
+    isElectron
+  ) {
     const electron = (window as any).require('electron');
-    electron.shell.openExternal(url);
+    if (electron) {
+      electron.shell.openExternal(url);
+    } else {
+      console.log(
+        'cannot open link. Somehow electron is undefined. Please report this issue.'
+      );
+    }
   } else {
     const win = window.open(url, '_blank');
     if (win) {

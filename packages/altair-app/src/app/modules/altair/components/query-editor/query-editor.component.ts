@@ -348,6 +348,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.windowId?.currentValue && this.newEditor?.view) {
       this.updateNewEditorWindowId(changes.windowId.currentValue);
     }
+
+    if (changes?.betaDisableNewEditor?.currentValue) {
+      this.updateNewEditorSchema(this.gqlSchema);
+    }
   }
 
   setTabSizeExtension(tabSize: number) {
