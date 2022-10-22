@@ -29,7 +29,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <version>5.0.3</version>
     <packageSourceUrl>https://github.com/altair-graphql/altair</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
-    <owners>Daniel Richter&lt;danielrichter@posteo.de&gt;, Samuel Imolorhe</owners>
+    <owners>Daniel Richter, Samuel Imolorhe</owners>
     <!-- ============================== -->
 
     <!-- == SOFTWARE SPECIFIC SECTION == -->
@@ -50,7 +50,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <tags>altair-graphql graphql graphql-client altair opensource graphql-editor graphql-ide graphiql graphql-subscriptions</tags>
     <summary>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altairgraphql.dev/</summary>
     <description>✨⚡️ A beautiful feature-rich GraphQL Client for all platforms. https://altairgraphql.dev/</description>
-    <!-- <releaseNotes>__REPLACE_OR_REMOVE__MarkDown_Okay</releaseNotes> -->
+    <releaseNotes>https://altairgraphql.dev/updated.html</releaseNotes>
     <!-- =============================== -->      
 
     <!-- Specifying dependencies and version ranges? https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files -->
