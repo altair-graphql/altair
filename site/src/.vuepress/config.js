@@ -107,5 +107,18 @@ module.exports = {
         repo: 'altair',
       }
     ],
+    [
+      'vuepress-plugin-canonical',
+      {
+        baseURL: 'https://altairgraphql.dev', // base url for your canonical link, optional, default: ''
+        stripExtension: true // strip '.html' , optional, default: false
+      }
+    ],
+    [
+      'vuepress-plugin-sitemap',
+      {
+        hostname: 'https://altairgraphql.dev'
+      }
+    ],
   ]
 }
