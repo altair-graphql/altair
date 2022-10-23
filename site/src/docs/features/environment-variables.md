@@ -4,7 +4,7 @@ parent: Features
 
 # Environment Variables
 
-Environment variables (URLs, authentication tokens, some other headers, etc) can be used to easily switch between various working environments (e.g. switching between local, staging and production environments).
+Environment variables (URLs, authentication tokens, some other headers, etc) can be used to easily switch between various working environments (e.g. switching between local, QA, staging and production environments).
 
 ![](https://miro.medium.com/max/5756/1*eCxSCJadudYfUYoPRpkSkA.png)
 

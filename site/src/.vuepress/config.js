@@ -68,7 +68,7 @@ module.exports = {
         link: 'https://twitter.com/AltairGraphQL'
       },
       {
-        text: 'Donate',
+        text: 'Support',
         link: 'https://opencollective.com/altair/donate'
       },
     ],
