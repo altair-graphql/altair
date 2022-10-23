@@ -4,6 +4,8 @@ title: Learn GraphQL
 
 # Learn about GraphQL
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png" width="200" height="200">
+
 [GraphQL](https://graphql.org/) is an alternative to [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) for fetching data from a server. Traditionally, the de-facto interface for fetching data from a server to a client is using RESTful APIs to fetch data. However there are a few challenges with using RESTful APIs including uncertain type safety, overfetching or underfetching, out-of-sync documentation, rapid product development cycle, etc. There are ways to address each of these concerns but all that requires extra work and have to be built by the developers. However GraphQL solves these issues natively without extra work required.
 
 GraphQL (short for _Graph Query Language_) is a declarative query language for gatting and updating data from your APIs. It was developed and [opensourced](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) by Facebook in 2015 (although it was already in use internally for several years before that).
@@ -165,4 +167,4 @@ type Image {
 ## Conclusion
 GraphQL is a powerful tool and has a lot of potential. This gives you a brief introduction into what GraphQL has to offer but it definitely does not cover it all. GraphQL is still evolving everyday with the community constantly working to improve the existing standards. There are several other features in GraphQL like [directives](https://graphql.org/learn/queries/#directives) that are not covered here.
 
-To learn more about all the features of GraphQL, take a look at the [graphql docs](https://graphql.org/learn/). You can also explore the GraphQL features within Altair GraphQL client. [Download it today](/#download) and try it out with a public GraphQL API (e.g. Rick and Morty [https://rickandmortyapi.graphcdn.app/]).
+To learn more about all the features of GraphQL, take a look at the [graphql docs](https://graphql.org/learn/). You can also explore the GraphQL features within Altair GraphQL client. [Download it today](/#download) and try it out with a public GraphQL API (e.g. Rick and Morty [https://rickandmortyapi.graphcdn.app/](https://rickandmortyapi.graphcdn.app/)).
