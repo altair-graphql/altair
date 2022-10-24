@@ -42,17 +42,18 @@ const getGithubMetadata = async ({ owner = '', repo = '' }) => {
       }
       return data;
     },
-    releases: async () => {
-      const fromCache = myCache.get('releases');
-      if (fromCache) {
-        return fromCache;
-      }
-      const { data } = await octokit.rest.repos.listReleases({ owner, repo });
-      if (data) {
-        myCache.set('releases', data);
-      }
-      return data;
-    },
+    // This is greatly increasing the bundle size, but we are not using it!
+    // releases: async () => {
+    //   const fromCache = myCache.get('releases');
+    //   if (fromCache) {
+    //     return fromCache;
+    //   }
+    //   const { data } = await octokit.rest.repos.listReleases({ owner, repo });
+    //   if (data) {
+    //     myCache.set('releases', data);
+    //   }
+    //   return data;
+    // },
     releases_url: async () => `${repoUrl}/releases`,
   }
   const keys = Object.keys(resolvers);
