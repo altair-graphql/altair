@@ -218,7 +218,8 @@ export class QueryEffects {
                     { selectedOperation: '' }
                   )
                 );
-                this.notifyService.error(err.message);
+                debug.error(err);
+                this.notifyService.error('Could not select operation');
                 return EMPTY;
               }
 
@@ -449,12 +450,7 @@ export class QueryEffects {
               })
               .catch((error) => {
                 debug.error(error);
-                const errorMessage = error.message
-                  ? error.message
-                  : error.toString();
-                this.notifyService.error(
-                  `Could not set schema SDL. Error: ${errorMessage}`
-                );
+                this.notifyService.error(`Could not set schema SDL.`);
               });
           }
 
@@ -480,11 +476,9 @@ export class QueryEffects {
                 );
               }
             } catch (error) {
-              const errorMessage = error.message
-                ? error.message
-                : error.toString();
+              debug.error(error);
               this.notifyService.error(
-                `There was a problem loading the schema. Error: ${errorMessage}`
+                `There was a problem loading the schema.`
               );
               debug.error('Error while loading schema', error);
             }
@@ -601,11 +595,10 @@ export class QueryEffects {
                     Please check with the server administrator.
                   `);
                 } else {
+                  debug.error(err);
                   this.notifyService.error(`
                     Seems like something is broken. Please check that the URL is valid,
                     and the server is up and running properly.
-                    <br>
-                    ${errorMessage}
                   `);
                 }
                 return of(null);
@@ -684,7 +677,9 @@ export class QueryEffects {
               }),
               catchError((error: UnknownError) => {
                 debug.error(error);
-                this.notifyService.error(error.message);
+                this.notifyService.error(
+                  'Error getting the introspection results.'
+                );
                 return EMPTY;
               })
             );
@@ -844,7 +839,6 @@ export class QueryEffects {
           this.notifyService.error(
             [
               'Check that your subscription endpoint, connection params are correct. Check that the subscription endpoint is working properly.',
-              `Error: ${errMsg}`,
             ].join('<br><br>'),
             'Subscription error'
           );
@@ -890,7 +884,8 @@ export class QueryEffects {
               selectedOperation: '',
             })
           );
-          this.notifyService.error(err.message);
+          debug.error(err);
+          this.notifyService.error(`Could not select operation.`);
           return EMPTY;
         }
 
@@ -1081,8 +1076,9 @@ export class QueryEffects {
               const errorMessage = error.message
                 ? error.message
                 : error.toString();
+              debug.error(error);
               this.notifyService.error(
-                `Your query does not appear to be valid. Please check it. Error: ${errorMessage}`
+                `Your query does not appear to be valid. Please check it`
               );
             });
 
@@ -1122,8 +1118,9 @@ export class QueryEffects {
               const errorMessage = error.message
                 ? error.message
                 : error.toString();
+              debug.error(error);
               this.notifyService.error(
-                `Your query does not appear to be valid. Please check it. Error: ${errorMessage}`
+                `Your query does not appear to be valid. Please check it.`
               );
             });
 
@@ -1161,8 +1158,9 @@ export class QueryEffects {
                 const errorMessage = error.message
                   ? error.message
                   : error.toString();
+                debug.error(error);
                 this.notifyService.error(
-                  `Could not export SDL. Your schema might be invalid. Error: ${errorMessage}`
+                  `Could not export SDL. Your schema might be invalid.`
                 );
               });
           }
@@ -1275,7 +1273,7 @@ export class QueryEffects {
           debug.log(error);
           const errorMessage = error.message ? error.message : error.toString();
           this.notifyService.error(
-            `Your query does not appear to be valid. Please check it. Error: ${errorMessage}`
+            `Your query does not appear to be valid. Please check it.`
           );
         }
 
@@ -1340,7 +1338,7 @@ export class QueryEffects {
           debug.log(error);
           const errorMessage = error.message ? error.message : error.toString();
           this.notifyService.error(
-            `Your query does not appear to be valid. Please check it. Error: ${errorMessage}`
+            `Your query does not appear to be valid. Please check it.`
           );
         }
 

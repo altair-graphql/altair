@@ -143,7 +143,7 @@ export class PreRequestService {
           );
         } catch (error) {
           this.notifyService.error(
-            `Could not update active environment variables. ${error.message}`,
+            `Could not update active environment variables.`,
             'Request script'
           );
         }

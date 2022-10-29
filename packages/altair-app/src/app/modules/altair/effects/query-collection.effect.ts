@@ -88,7 +88,8 @@ export class QueryCollectionEffects {
         tap(() => this.notifyService.success('Created collection.')),
         map(() => new collectionActions.LoadCollectionsAction()),
         catchError((err: UnknownError) => {
-          this.notifyService.error(err.message || err);
+          debug.error(err);
+          this.notifyService.error('Could not create collection');
           return EMPTY;
         }),
         repeat()
@@ -132,7 +133,8 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Added query to collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not add query to collection');
         return EMPTY;
       }),
       repeat()
@@ -187,7 +189,8 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Updated query in collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not update query in collection');
         return EMPTY;
       }),
       repeat()
@@ -203,7 +206,8 @@ export class QueryCollectionEffects {
           new collectionActions.SetCollectionsAction({ collections })
       ),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not load collection');
         return EMPTY;
       }),
       repeat()
@@ -222,7 +226,8 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Deleted query from collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not delete query from collection');
         return EMPTY;
       }),
       repeat()
@@ -241,7 +246,8 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Updated collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not update collection');
         return EMPTY;
       }),
       repeat()
@@ -259,7 +265,8 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Deleted query from collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
-        this.notifyService.error(err.message || err);
+        debug.error(err);
+        this.notifyService.error('Could not delete query from collection');
         return EMPTY;
       }),
       repeat()
@@ -282,7 +289,8 @@ export class QueryCollectionEffects {
           return EMPTY;
         }),
         catchError((err: UnknownError) => {
-          this.notifyService.error(err.message || err);
+          debug.error(err);
+          this.notifyService.error('Could not export collection');
           return EMPTY;
         }),
         repeat()
@@ -311,10 +319,8 @@ export class QueryCollectionEffects {
       }),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
-        const errorMessage = error.message ? error.message : error.toString();
-        this.notifyService.error(
-          `Something went wrong importing collection. Error: ${errorMessage}`
-        );
+        debug.error(error);
+        this.notifyService.error(`Something went wrong importing collection`);
         return EMPTY;
       }),
       repeat()
@@ -333,9 +339,9 @@ export class QueryCollectionEffects {
       tap(() => this.notifyService.success('Successfully synced collections')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
-        const errorMessage = error.message ? error.message : error.toString();
+        debug.error(error);
         this.notifyService.error(
-          `Something went wrong syncing remote collections. Error: ${errorMessage}`
+          `Something went wrong syncing remote collections.`
         );
         return EMPTY;
       }),
@@ -353,9 +359,9 @@ export class QueryCollectionEffects {
         return new collectionActions.LoadCollectionsAction();
       }),
       catchError((error) => {
-        const errorMessage = error.message ? error.message : error.toString();
+        debug.error(error);
         this.notifyService.error(
-          `Something went wrong syncing remote collections. Error: ${errorMessage}`
+          `Something went wrong syncing remote collections.`
         );
         return EMPTY;
       }),
@@ -384,7 +390,7 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error(err.message || err);
+        this.notifyService.error('Could not sync collection');
         return EMPTY;
       }),
       repeat()

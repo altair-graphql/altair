@@ -82,7 +82,6 @@ export class QueryService {
       };
     } catch (err) {
       debug.error(err);
-      this.notifyService.error(err.message, 'Pre-request error');
 
       return preTransformedData;
     }
@@ -158,7 +157,6 @@ export class QueryService {
       };
     } catch (err) {
       debug.error(err);
-      this.notifyService.error(err.message, 'Post-request error');
 
       return preTransformedData;
     }

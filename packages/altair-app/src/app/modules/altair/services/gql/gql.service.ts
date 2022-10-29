@@ -263,7 +263,6 @@ export class GqlService {
         this.notifyService.error(`
             Looks like the GraphQL schema is invalid.
             Please check that your schema in your GraphQL server conforms to the latest GraphQL spec.
-            Error message: ${errorMessage}.
           `);
       }
 
