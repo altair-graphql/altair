@@ -220,16 +220,16 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   updateEnvVarHighlights(view: EditorView, activeEnvironment: IEnvironment) {
     const value = view.state.doc.toString();
-    const effects: StateEffect<unknown>[] = this.getRanges(value).map(
-      ({ from, to, value }) => {
+    const effects: StateEffect<unknown>[] = this.getRanges(value)
+      .filter((r) => r.from !== r.to)
+      .map(({ from, to, value }) => {
         return this.highlightEnvVariable.of({
           from,
           to,
           value,
           found: value in activeEnvironment,
         });
-      }
-    );
+      });
 
     if (!effects.length) {
       return;
