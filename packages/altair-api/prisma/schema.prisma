@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+model Request {
+  id             String            @id @default(cuid())
+  requestVersion Int               @default(1)
+  name           String
+  collectionId   String
+  collection     RequestCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  content        Json
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+// TODO: alter table requests enable row level security;
+
+model RequestCollection {
+  id                 String              @id @default(cuid())
+  name               String
+  workspaceId        String
+  workspace          Workspace           @relation(fields: [workspaceId], references: [id])
+  parentCollectionId String?
+  parentCollection   RequestCollection?  @relation(name: "ParentCollection", fields: [parentCollectionId], references: [id], onDelete: Cascade)
+  requests           Request[]
+  requestCollections RequestCollection[] @relation("ParentCollection")
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model Workspace {
+  id                String              @id @default(cuid())
+  RequestCollection RequestCollection[]
+  name              String
+  ownerId           String
+  owner             User                @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model User {
+  id            String      @id @default(cuid())
+  firstName     String?
+  lastName      String?
+  email         String      @unique
+  emailVerified DateTime?
+  password      String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  Workspace     Workspace[]
+}
