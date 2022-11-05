@@ -1,12 +1,10 @@
-const toSnakeCase = require('to-snake-case'); // TODO: Check that this still works
 import FileSaver from 'file-saver';
-const commentRegex = require('comment-regex');
-const validUrl = require('valid-url');
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
 import { VARIABLE_REGEX } from '../services/environment/environment.service';
+import { commentRegex } from './comment-regex';
 
 /**
  * Download the specified data with the provided options
@@ -182,7 +180,7 @@ export const getFullUrl = (url: string, protocol = location.protocol) => {
     return url;
   }
 
-  if (!validUrl.isUri(url)) {
+  if (!isValidUrl(url)) {
     if (url.trim() === '*') {
       return location.href;
     }
@@ -196,6 +194,13 @@ export const getFullUrl = (url: string, protocol = location.protocol) => {
   }
 
   return url;
+};
+export const isValidUrl = (urlString: string) => {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (e) {
+    return false;
+  }
 };
 
 export function parseDotNotationKey(key: string) {
@@ -325,4 +330,11 @@ export const isElectronApp = () => {
   }
 
   return true;
+};
+
+const toSnakeCase = (str = '') => {
+  return str
+    .replace(/[^a-z0-9]/gi, ' ')
+    .toLowerCase()
+    .replace(/\s/g, '_');
 };

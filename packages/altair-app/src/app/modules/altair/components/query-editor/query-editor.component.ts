@@ -232,6 +232,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
       this.editorConfig.tabSize = this.tabSize || 2;
       this.editorConfig.indentUnit = this.tabSize || 2;
+      this.updateNewEditorTabSize(this.tabSize || 2);
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
 
       this.updateEditorSchema(this.gqlSchema);
       this.updateNewEditorSchema(this.gqlSchema);
@@ -274,6 +276,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.updateNewEditorSchema(this.gqlSchema);
     this.updateNewEditorVariableState(this.variables);
     this.updateNewEditorWindowId(this.windowId);
+    this.updateNewEditorTabSize(this.tabSize);
+    this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -307,24 +311,12 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes?.tabSize?.currentValue) {
       this.editorConfig.tabSize = this.tabSize;
       this.editorConfig.indentUnit = this.tabSize;
-      if (this.newEditor?.view) {
-        this.newEditor.view.dispatch({
-          effects: this.tabSizeCompartment.reconfigure(
-            this.setTabSizeExtension(this.tabSize)
-          ),
-        });
-      }
+      this.updateNewEditorTabSize(changes.tabSize.currentValue);
     }
 
     if (changes?.disableLineNumbers?.currentValue) {
       this.editorConfig.lineNumbers = !this.disableLineNumbers;
-      if (this.newEditor?.view) {
-        this.newEditor.view.dispatch({
-          effects: this.lineNumbersCompartment.reconfigure(
-            this.setLineNumbers(this.disableLineNumbers)
-          ),
-        });
-      }
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
     }
 
     if (changes?.query?.currentValue) {
@@ -647,6 +639,26 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   updateNewEditorVariableState(variables: VariableState) {
     if (this.newEditor?.view) {
       updateGqlVariables(this.newEditor.view, variables);
+    }
+  }
+
+  updateNewEditorTabSize(tabSize: number) {
+    if (this.newEditor?.view) {
+      this.newEditor.view.dispatch({
+        effects: this.tabSizeCompartment.reconfigure(
+          this.setTabSizeExtension(tabSize)
+        ),
+      });
+    }
+  }
+
+  updateNewEditorDisableLineNumber(disableLineNumbers: boolean) {
+    if (this.newEditor?.view) {
+      this.newEditor.view.dispatch({
+        effects: this.lineNumbersCompartment.reconfigure(
+          this.setLineNumbers(disableLineNumbers)
+        ),
+      });
     }
   }
 
