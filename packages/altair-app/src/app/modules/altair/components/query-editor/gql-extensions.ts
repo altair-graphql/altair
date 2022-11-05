@@ -176,7 +176,7 @@ export const noOpCommand = () => {
 };
 
 const getDescriptionFromContext = (ctx: CompletionItem) => {
-  const maxDescriptionLength = 70;
+  const maxDescriptionLength = 150;
 
   let description = 'Self descriptive.';
   let appendEllipsis = false;
