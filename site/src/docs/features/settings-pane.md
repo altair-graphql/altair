@@ -54,7 +54,7 @@ Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version
 - `<plugin-source>` _(Optional)_ specifies the source of the plugin. Options include `npm`, `url`, `github`.
 - `<plugin-name>` **_Required_** specifies the name of the plugin. Plugin names must begin with `altair-graphql-plugin-`.
 - `<version>` _(Optional)_ specifies the version of the plugin.
-- `[<opt>]->[<opt-value>]` _(Optional)_ specifies an extran option for the plugin. This is used when you specify the source as `url`. In that case, you need to specify the URL where the plugin would be sourced from.
+- `[<opt>]->[<opt-value>]` _(Optional)_ specifies an extra option for the plugin. This is used when you specify the source as `url`. In that case, you need to specify the URL where the plugin would be sourced from.
 
 Valid plugins in string format include: `altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin@0.3.4`, `url:altair-graphql-plugin-some-plugin@0.3.4::[url]->[http://example.com/some-plugin]`
 

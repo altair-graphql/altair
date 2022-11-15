@@ -9,7 +9,7 @@ Altair makes it very easy and delightful to test your GraphQL queries and server
 
 ![Altair GraphQL](/assets/img/app-shot.png)
 
-Altair (also _Altaïr_) is a free feature packed GraphQL IDE that helps you with things like running GraphQL queries, mutations and subscriptions, prettifying or minifying queries, uploading files with the [multipart specification](https://github.com/jaydenseric/graphql-multipart-request-spec), downloading queries and schemas, sxporting collections of queries, and [many more](/docs/features). It provides all that in a simple but powerful editor and an easy-to-use UI interface.
+Altair (also _Altaïr_) is a free feature packed GraphQL IDE that helps you with things like running GraphQL queries, mutations and subscriptions, prettifying or minifying queries, uploading files with the [multipart specification](https://github.com/jaydenseric/graphql-multipart-request-spec), downloading queries and schemas, exporting collections of queries, and [many more](/docs/features). It provides all that in a simple but powerful editor and an easy-to-use UI interface.
 
 It is an indispensable tool in the tool belt of any GraphQL developer or team!
 
