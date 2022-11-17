@@ -13,7 +13,7 @@ Fix: Use `take(1)` instead of `first()`.
 ### Firebase: The caller does not have permission
 `The caller does not have permission; Please refer to https://firebase.google.com/docs/auth/admin/create-custom-tokens for more details on how to use and troubleshoot this feature.`
 
-For this error, you need to your Google Cloud Console and add `Service Account Token Creator` role to your:
+For this error, you need to open your Google Cloud Console and add `Service Account Token Creator` role to your:
 - `App Engine default service account` (this is the one that worked for me)
 - `Firebase service account`
 - `Google Cloud Functions Service Agent`
