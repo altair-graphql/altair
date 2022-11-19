@@ -40,11 +40,13 @@ exports[`QueryEditorComponent should render correctly 1`] = `
     </nz-tab>
     
     <nz-tab>
+      
       <app-pre-request-editor />
       
     </nz-tab>
     
     <nz-tab>
+      
       <app-post-request-editor />
       
     </nz-tab>
