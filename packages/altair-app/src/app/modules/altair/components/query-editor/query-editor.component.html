@@ -84,14 +84,24 @@
       </div>
     </div>
   </nz-tab>
-  <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
+  <nz-tab [nzTitle]="preRequestTitleTemplate">
+    <ng-template #preRequestTitleTemplate>
+      <span [ngClass]="{'ant-tabs--status-enabled': preRequest.enabled}">
+        {{ 'PRE_REQUEST_TAB' | translate }}
+      </span>
+    </ng-template>
     <app-pre-request-editor
       [preRequest]="preRequest"
       (preRequestScriptChange)="preRequestScriptChange.emit($event)"
       (preRequestEnabledChange)="preRequestEnabledChange.emit($event)"
     ></app-pre-request-editor>
   </nz-tab>
-  <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
+  <nz-tab [nzTitle]="postRequestTitleTemplate">
+    <ng-template #postRequestTitleTemplate>
+      <span [ngClass]="{'ant-tabs--status-enabled': postRequest.enabled}">
+        {{ 'POST_REQUEST_TAB' | translate }}
+      </span>
+    </ng-template>
     <app-post-request-editor
       [postRequest]="postRequest"
       (postRequestScriptChange)="postRequestScriptChange.emit($event)"

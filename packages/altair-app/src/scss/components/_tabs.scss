@@ -12,6 +12,14 @@
     padding: 5px 8px;
     font-size: fontsize(13);
   }
+  .ant-tabs--status-enabled {
+    &::after {
+      content: " \2219";
+      font-weight: bold;
+      color: var(--primary-color);
+      text-shadow: 0 0 3px var(--primary-color);
+    }
+  }
 
   .ant-tabs-tab:not(.ant-tabs-tab-disabled):hover,
   .ant-tabs-tab-active .ant-tabs-tab-btn {

@@ -46,6 +46,7 @@ export const getInitialState = (): QueryState => {
     queryEditorState: {
       isFocused: false,
     },
+    requestScriptLogs: [],
   };
 };
 
@@ -123,6 +124,8 @@ export function queryReducer(
       });
     case query.SET_QUERY_EDITOR_STATE:
       return { ...state, queryEditorState: action.payload };
+    case query.SET_REQUEST_SCRIPT_LOGS:
+      return { ...state, requestScriptLogs: action.payload };
     default:
       return state;
   }

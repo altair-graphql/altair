@@ -11,7 +11,10 @@ import {
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
-import { SubscriptionResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
+import {
+  LogLine,
+  SubscriptionResponse,
+} from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { TrackByIdItem } from '../../interfaces/shared';
 import { EditorState, Extension } from '@codemirror/state';
@@ -29,6 +32,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
   @Input() responseHeaders = {};
+  @Input() requestScriptLogs: LogLine[] = [];
   @Input() isSubscribed = false;
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() subscriptionUrl = '';
@@ -60,8 +64,6 @@ export class QueryResultComponent implements OnChanges {
     indentUnit.of(' '.repeat(this.tabSize)),
     EditorState.tabSize.of(this.tabSize),
   ];
-
-  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.subscriptionResponses?.currentValue) {

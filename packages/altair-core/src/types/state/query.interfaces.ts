@@ -13,6 +13,12 @@ export interface SubscriptionResponse {
   responseTime: number;
 }
 
+export interface LogLine {
+  time: number;
+  text: string;
+  source: string;
+}
+
 export type SelectedOperation = string | null;
 
 export interface QueryState {
@@ -44,6 +50,7 @@ export interface QueryState {
   isSubscribed: boolean;
   subscriptionResponseList: SubscriptionResponse[];
   autoscrollSubscriptionResponse: boolean;
+  requestScriptLogs?: LogLine[];
 
   queryEditorState: QueryEditorState;
 }

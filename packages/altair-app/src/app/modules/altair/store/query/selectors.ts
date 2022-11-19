@@ -44,3 +44,7 @@ export const getQueryOperations = createSelector(
   getQueryState,
   (state) => state.operations || []
 );
+export const getRequestScriptLogs = createSelector(
+  getQueryState,
+  (state) => state.requestScriptLogs || []
+);

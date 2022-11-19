@@ -42,6 +42,7 @@ import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import {
+  LogLine,
   QueryEditorState,
   QueryState,
   SelectedOperation,
@@ -86,6 +87,7 @@ export class WindowComponent implements OnInit {
   responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<SubscriptionResponse[]>;
+  requestScriptLogs$: Observable<LogLine[]>;
   selectedOperation$?: Observable<SelectedOperation>;
   queryOperations$: Observable<any[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
@@ -199,6 +201,9 @@ export class WindowComponent implements OnInit {
     );
     this.subscriptionResponses$ = this.getWindowState().pipe(
       select(fromRoot.getSubscriptionResponses)
+    );
+    this.requestScriptLogs$ = this.getWindowState().pipe(
+      select(fromRoot.getRequestScriptLogs)
     );
     this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(
       select(fromRoot.getAutoscrollSubscriptionResponse)
