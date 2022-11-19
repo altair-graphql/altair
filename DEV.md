@@ -20,3 +20,8 @@ For this error, you need to your Google Cloud Console and add `Service Account T
 
 https://dev.to/wceolin/permission-error-when-generating-a-custom-token-on-cloud-functions-1e6c
 https://firebase.google.com/docs/auth/admin/create-custom-tokens#service_account_does_not_have_required_permissions
+
+### Something weird is broken, with no obvious way to fix
+Delete all node_modules
+Remove node_modules/.cache/nx
+Remove angular cache (packages/altair-app/.angular)
