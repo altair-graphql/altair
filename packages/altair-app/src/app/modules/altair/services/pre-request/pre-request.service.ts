@@ -15,7 +15,6 @@ import { SendRequestResponse } from '../gql/gql.service';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { RequestScriptError } from './errors';
-import 'ses';
 import { LogLine } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 export enum RequestType {
