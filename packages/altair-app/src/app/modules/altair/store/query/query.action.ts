@@ -1,6 +1,9 @@
 import { Action as NGRXAction } from '@ngrx/store';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
-import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
+import {
+  LogLine,
+  QueryEditorState,
+} from 'altair-graphql-core/build/types/state/query.interfaces';
 import { IDictionary } from '../../interfaces/shared';
 
 export const SET_URL = 'SET_URL';
@@ -51,6 +54,8 @@ export const SHOW_EDITOR_ALERT = 'SHOW_EDITOR_ALERT';
 
 export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
+
+export const SET_REQUEST_SCRIPT_LOGS = 'SET_REQUEST_SCRIPT_LOGS';
 
 export class SetUrlAction implements NGRXAction {
   readonly type = SET_URL;
@@ -266,6 +271,12 @@ export class SetQueryEditorStateAction implements NGRXAction {
   constructor(public windowId: string, public payload: QueryEditorState) {}
 }
 
+export class SetRequestScriptLogsAction implements NGRXAction {
+  readonly type = SET_REQUEST_SCRIPT_LOGS;
+
+  constructor(public windowId: string, public payload: LogLine[]) {}
+}
+
 export type Action =
   | SetUrlAction
   | SetUrlFromDbAction
@@ -296,4 +307,5 @@ export type Action =
   | CancelQueryRequestAction
   | SetHTTPMethodAction
   | SetQueryOperationsAction
-  | SetQueryEditorStateAction;
+  | SetQueryEditorStateAction
+  | SetRequestScriptLogsAction;

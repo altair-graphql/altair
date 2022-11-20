@@ -129,6 +129,37 @@ app-query-result {
   overflow: auto;
 }
 
+.request-script-logs {
+  height: 100%;
+  position: relative;
+  overflow: auto;
+}
+
+.request-script-logs__list {
+  padding: 10px;
+}
+
+.request-script-logs__line {
+  position: relative;
+  font-size: fontsize(12);
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--theme-off-bg-color);
+  border-radius: 4px;
+}
+
+.request-script-logs__line-time {
+  margin-bottom: 10px;
+}
+
+.request-script-logs__line-text {
+  white-space: pre-wrap;
+  padding: 10px;
+  border-radius: 4px;
+  background: var(--theme-bg-color);
+  font-size: fontsize(14);
+}
+
 .query-result__none {
   display: flex;
   align-items: center;
@@ -363,6 +394,7 @@ app-query-result {
   display: flex;
   flex-direction: column;
   max-height: 50%;
+  border-top: 1px solid var(--theme-border-color);
 
   &.show-variables {
     min-height: 50%;

@@ -8,6 +8,9 @@ app-post-request-editor {
   flex-direction: column;
   height: 100%;
 }
+.request-script-editor__toggle-wrapper {
+  padding: 0 5px;
+}
 
 .request-script-textarea {
   flex: 1;

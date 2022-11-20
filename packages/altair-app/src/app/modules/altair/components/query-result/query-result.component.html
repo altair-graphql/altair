@@ -63,18 +63,13 @@
             [fullHeight]="true"
             [extensions]="editorExtensions"
           ></app-codemirror>
-          <!-- <ngx-codemirror
-            #editor
-            class="app-query-result-textarea"
-            [options]="resultEditorConfig"
-            [ngModel]="queryResult | json"
-          ></ngx-codemirror> -->
         </div>
       </div>
     </div>
   </nz-tab>
   <nz-tab
     [nzTitle]="'SUBSCRIPTION_RESULT_TAB' | translate"
+    *ngIf="!(!isSubscribed && !subscriptionResponses?.length)"
     [nzDisabled]="!isSubscribed && !subscriptionResponses?.length"
   >
     <div class="query-result-container">
@@ -113,6 +108,21 @@
               {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab
+    [nzTitle]="'REQUEST_SCRIPT_LOGS_TAB' | translate"
+    *ngIf="!(isSubscribed || !requestScriptLogs?.length)"
+    [nzDisabled]="isSubscribed || !requestScriptLogs?.length"
+  >
+    <div class="request-script-logs">
+      <div class="request-script-logs__list">
+        <div class="request-script-logs__line" *ngFor="let item of requestScriptLogs">
+          <div class="request-script-logs__line-time">{{ item.time | date: 'mediumTime' }}</div>
+          <!-- <div class="request-script-logs__line-source">{{ item.source }}</div> -->
+          <div class="request-script-logs__line-text">{{ item.text }}</div>
         </div>
       </div>
     </div>

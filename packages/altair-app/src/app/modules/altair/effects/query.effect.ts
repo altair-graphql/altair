@@ -20,8 +20,6 @@ import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
-const validUrl = require('valid-url');
-
 import {
   GqlService,
   NotifyService,
@@ -51,6 +49,7 @@ import {
   downloadData,
   copyToClipboard,
   openFile,
+  isValidUrl,
 } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
@@ -137,6 +136,7 @@ export class QueryEffects {
                 return EMPTY;
               }
 
+              const preRequestScriptLogs = transformedData?.requestScriptLogs;
               const { url, variables, headers, query } =
                 this.queryService.hydrateAllHydratables(
                   response.data,
@@ -145,7 +145,7 @@ export class QueryEffects {
               let selectedOperation = response.data.query.selectedOperation;
 
               // If the URL is not set or is invalid, just return
-              if (!url || !validUrl.isUri(url)) {
+              if (!url || !isValidUrl(url)) {
                 this.notifyService.error('The URL is invalid!');
                 this.store.dispatch(
                   new layoutActions.StopLoadingAction(response.windowId)
@@ -301,15 +301,13 @@ export class QueryEffects {
                     }
                     requestStatusCode = res.data.response.status;
                     requestStatusText = res.data.response.statusText;
-                    return res.data;
+                    return res;
                   }),
                   map((result) => {
-                    const responseBody = result?.response.body
-                      ? { ...result?.response.body }
-                      : result?.response.body;
+                    const responseBody = result?.data?.response.body;
 
                     if (
-                      responseBody &&
+                      responseBody?.extensions &&
                       response.state.settings['response.hideExtensions']
                     ) {
                       Reflect.deleteProperty(responseBody, 'extensions');
@@ -322,9 +320,18 @@ export class QueryEffects {
                       )
                     );
                     this.store.dispatch(
+                      new queryActions.SetRequestScriptLogsAction(
+                        response.windowId,
+                        [
+                          ...(preRequestScriptLogs || []),
+                          ...(result?.transformedData?.requestScriptLogs || []),
+                        ]
+                      )
+                    );
+                    this.store.dispatch(
                       new queryActions.SetQueryResultResponseHeadersAction(
                         response.windowId,
-                        { headers: result?.meta.headers }
+                        { headers: result?.data?.meta.headers }
                       )
                     );
                     return result;
@@ -361,9 +368,15 @@ export class QueryEffects {
                         response.windowId,
                         {
                           responseStatus: requestStatusCode,
-                          responseTime: res ? res.meta.responseTime : 0,
-                          requestStartTime: res ? res.meta.requestStartTime : 0,
-                          requestEndTime: res ? res.meta.requestEndTime : 0,
+                          responseTime: res?.data
+                            ? res.data.meta.responseTime
+                            : 0,
+                          requestStartTime: res?.data
+                            ? res.data.meta.requestStartTime
+                            : 0,
+                          requestEndTime: res?.data
+                            ? res.data.meta.requestEndTime
+                            : 0,
                           responseStatusText: requestStatusText,
                         }
                       )
@@ -397,7 +410,7 @@ export class QueryEffects {
         switchMap((data: queryActions.Action) => {
           const url = this.environmentService.hydrate(data.payload.url);
           // If the URL is not valid
-          if (!validUrl.isUri(url)) {
+          if (!isValidUrl(url)) {
             this.notifyService.error('The URL is invalid!');
           } else {
             this.notifyService.success('URL has been set.');

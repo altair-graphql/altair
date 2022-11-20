@@ -15,6 +15,7 @@ import { SendRequestResponse } from '../gql/gql.service';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { RequestScriptError } from './errors';
+import { LogLine } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 export enum RequestType {
   INTROSPECTION = 'introspection',
@@ -33,6 +34,7 @@ export interface ScriptContextData {
   variables: string;
   query: string;
   environment: IDictionary;
+  requestScriptLogs?: LogLine[];
   response?: SendRequestResponse;
   requestType?: RequestType;
   __toSetActiveEnvironment?: IDictionary;
@@ -49,6 +51,7 @@ interface GlobalHelperContext {
   data: ScriptContextData;
   helpers: ScriptContextHelpers;
   importModule: (moduleName: string) => any;
+  log: (d: any) => void;
   response?: ScriptContextResponse;
 }
 
@@ -102,6 +105,7 @@ export class PreRequestService {
     });
     interpreter.import({
       altair: this.getGlobalContext(clonedMutableData),
+      alert: (msg: string) => this.notifyService.info(`Alert: ${msg}`),
     });
     interpreter.run(`
       const program = async() => {
@@ -129,9 +133,15 @@ export class PreRequestService {
             ...JSON.parse(activeEnvState.variablesJson),
             ...clonedMutableData.__toSetActiveEnvironment,
           };
+          const activeEnvStateId = activeEnvState.id;
+
+          if (!activeEnvStateId) {
+            throw new RequestScriptError('Invalid active environment state ID');
+          }
+
           this.store.dispatch(
             new environmentsActions.UpdateSubEnvironmentJsonAction({
-              id: activeEnvState.id!,
+              id: activeEnvStateId,
               value: JSON.stringify(envVariables, null, 2),
             })
           );
@@ -192,12 +202,22 @@ export class PreRequestService {
       },
       importModule: (moduleName: string) => this.importModuleHelper(moduleName),
       response: this.buildContextResponse(data),
+      log: (d: any) => {
+        data.requestScriptLogs = data.requestScriptLogs || [];
+        data.requestScriptLogs.push({
+          time: Date.now(),
+          text: JSON.stringify(d, null, 2),
+          source: 'Request script',
+        });
+      },
     };
   }
 
   async importModuleHelper(moduleName: string) {
     if (!Object.keys(ModuleImports).includes(moduleName)) {
-      throw new Error(`No pre request module found matching "${moduleName}"`);
+      throw new Error(
+        `No request script module found matching "${moduleName}"`
+      );
     }
 
     return ModuleImports[moduleName].exec();
