@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
   GraphQLInterfaceType,
   GraphQLObjectType,
@@ -23,11 +24,11 @@ import {
 export class DocViewerTypeComponent {
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
+  @Input() sortByOption: SortByOptions = 'none';
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
-
-  constructor() {}
+  @Output() sortFieldsByChange = new EventEmitter();
 
   /**
    * Check if the current type is a root type
@@ -99,5 +100,44 @@ export class DocViewerTypeComponent {
       return JSON.stringify(arg.defaultValue);
     }
     return;
+  }
+
+  setSortBy(v: SortByOptions) {
+    this.sortFieldsByChange.emit(v);
+  }
+
+  sortFieldsTransformer(fields: any[], sortByOption: SortByOptions) {
+    if (sortByOption === 'none') {
+      return fields;
+    }
+
+    switch (sortByOption) {
+      case 'a-z':
+        return fields.sort((a, b) => {
+          const aName = a.name.toLowerCase() || '';
+          const bName = b.name.toLowerCase() || '';
+
+          if (aName > bName) {
+            return 1;
+          }
+          if (aName < bName) {
+            return -1;
+          }
+          return 0;
+        });
+      case 'z-a':
+        return fields.sort((a, b) => {
+          const aName = a.name.toLowerCase() || '';
+          const bName = b.name.toLowerCase() || '';
+
+          if (aName > bName) {
+            return -1;
+          }
+          if (aName < bName) {
+            return 1;
+          }
+          return 0;
+        });
+    }
   }
 }

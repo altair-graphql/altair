@@ -1,10 +1,10 @@
-import { PostrequestState } from "./postrequest.interfaces";
-import { PrerequestState } from "./prerequest.interfaces";
-import { ExportWindowState } from "./window.interfaces";
+import { PostrequestState } from './postrequest.interfaces';
+import { PrerequestState } from './prerequest.interfaces';
+import { ExportWindowState } from './window.interfaces';
 
-export type SortByOptions = "a-z" | "z-a" | "newest" | "oldest";
+export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest' | 'none';
 
-export type EntityStorageType = "local" | "firestore";
+export type EntityStorageType = 'local' | 'firestore';
 
 export interface CollectionState {
   list: IQueryCollection[];
@@ -46,7 +46,7 @@ export interface IQueryCollection {
 }
 
 export interface IRemoteQueryCollection
-  extends Omit<IQueryCollection, "parentPath" | "queries"> {
+  extends Omit<IQueryCollection, 'parentPath' | 'queries'> {
   id?: string;
   parentCollectionId?: string;
   ownerUid: string;
@@ -59,5 +59,5 @@ export interface IQueryCollectionTree extends IQueryCollection {
 
 export interface ExportCollectionState extends IQueryCollectionTree {
   version: 1;
-  type: "collection";
+  type: 'collection';
 }

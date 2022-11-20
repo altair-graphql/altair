@@ -285,11 +285,17 @@ app-doc-viewer {
 }
 
 .doc-viewer-section-title {
+  display: flex;
+  justify-content: space-between;
   font-size: fontsize(10);
   color: var(--theme-off-font-color);
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 10px;
+
+  .icon-button {
+    font-size: fontsize(12);
+  }
 }
 
 .doc-viewer-item {
