@@ -40,6 +40,7 @@
   "DOCS_IMPLEMENTS_TEXT": "實現",
   "DOCS_LAST_UPDATED": "上次更新於",
   "QUERY_RESULT_TAB": "结果",
+  "REQUEST_SCRIPT_LOGS_TAB": "Logs",
   "SUBSCRIPTION_RESULT_TAB": "Subscription 結果",
   "RESPONSE_HEADERS_TAB": "回應標頭",
   "QUERY_RESULT_NO_RESULT_TEXT": "我的朋友Ezio，我可以幫到你嗎？",
