@@ -40,6 +40,7 @@
   "DOCS_IMPLEMENTS_TEXT": "Реализует",
   "DOCS_LAST_UPDATED": "Последнее обновление",
   "QUERY_RESULT_TAB": "Результат",
+  "REQUEST_SCRIPT_LOGS_TAB": "Logs",
   "SUBSCRIPTION_RESULT_TAB": "Результат подписки",
   "RESPONSE_HEADERS_TAB": "Заголовок ответа",
   "QUERY_RESULT_NO_RESULT_TEXT": "Привет мой друг, чем могу быть полезным?",
