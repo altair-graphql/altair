@@ -40,6 +40,7 @@
   "DOCS_IMPLEMENTS_TEXT": "实现",
   "DOCS_LAST_UPDATED": "Last updated",
   "QUERY_RESULT_TAB": "响应结果",
+  "REQUEST_SCRIPT_LOGS_TAB": "Logs",
   "SUBSCRIPTION_RESULT_TAB": "订阅结果",
   "RESPONSE_HEADERS_TAB": "响应头",
   "QUERY_RESULT_NO_RESULT_TEXT": "Ezio my friend, how may I be of service?",
