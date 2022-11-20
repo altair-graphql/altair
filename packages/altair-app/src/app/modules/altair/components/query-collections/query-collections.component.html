@@ -32,10 +32,10 @@
             class="icon-button"
           >
             <ng-container [ngSwitch]="sortBy">
-              <ng-container *ngSwitchCase="'a-z'">{{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'z-a'">{{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'newest'">{{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'oldest'">{{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'newest'">{{ 'SORT_BY_NEWEST' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'oldest'">{{ 'SORT_BY_OLDEST' | translate }}</ng-container>
             </ng-container>
           </button>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
@@ -44,25 +44,25 @@
                 nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'a-z' })"
               >
-                {{ 'COLLECTIONS_SORT_BY_A_Z' | translate }}
+                {{ 'SORT_BY_A_Z' | translate }}
               </li>
               <li
                 nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'z-a' })"
               >
-                {{ 'COLLECTIONS_SORT_BY_Z_A' | translate }}
+                {{ 'SORT_BY_Z_A' | translate }}
               </li>
               <li
                 nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'newest' })"
               >
-                {{ 'COLLECTIONS_SORT_BY_NEWEST' | translate }}
+                {{ 'SORT_BY_NEWEST' | translate }}
               </li>
               <li
                 nz-menu-item
                 (click)="sortCollectionsChange.next({ sortBy: 'oldest' })"
               >
-                {{ 'COLLECTIONS_SORT_BY_OLDEST' | translate }}
+                {{ 'SORT_BY_OLDEST' | translate }}
               </li>
             </ul>
           </nz-dropdown-menu>

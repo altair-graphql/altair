@@ -28,6 +28,7 @@ import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
 import marked from 'marked';
+import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @UntilDestroy()
 @Component({
@@ -74,6 +75,8 @@ export class DocViewerComponent implements OnChanges {
   searchTerm = '';
 
   docUtilWorker: any;
+
+  sortFieldsByOption: SortByOptions = 'none';
 
   constructor(
     private gqlService: GqlService,
@@ -248,6 +251,10 @@ export class DocViewerComponent implements OnChanges {
 
   onResize(resizeFactor: number) {
     this.resizeFactor = resizeFactor;
+  }
+
+  setSortFieldsByOption(v: SortByOptions) {
+    this.sortFieldsByOption = v;
   }
 
   rootTypeTrackBy(index: number, type: GraphQLObjectType) {

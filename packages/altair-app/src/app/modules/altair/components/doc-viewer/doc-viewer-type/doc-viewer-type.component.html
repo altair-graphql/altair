@@ -56,8 +56,53 @@
   </div>
   
   <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields && (data.getFields() | values)?.length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_FIELDS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of (data.getFields() | values | sort: 'name'); trackBy:schemaItemTrackBy;">
+    <div class="doc-viewer-section-title">
+      <span>
+        {{ 'DOCS_FIELDS_TEXT' | translate }}
+      </span>
+      <div class="doc-viewer-fields-actions">
+        <button
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="docViewerMenu"
+            type="button"
+            class="icon-button"
+          >
+            <app-icon name="list"></app-icon>
+            <ng-container [ngSwitch]="sortByOption">
+              <ng-container *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</ng-container>
+              <ng-container *ngSwitchCase="'none'">{{ 'SORT_BY_NONE' | translate }}</ng-container>
+            </ng-container>
+          </button>
+          <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                (click)="setSortBy('none')"
+              >
+                {{ 'SORT_BY_NONE' | translate }}
+              </li>
+              <li
+                nz-menu-item
+                (click)="setSortBy('a-z')"
+              >
+                {{ 'SORT_BY_A_Z' | translate }}
+              </li>
+              <li
+                nz-menu-item
+                (click)="setSortBy('z-a')"
+              >
+                {{ 'SORT_BY_Z_A' | translate }}
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+      </div>
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="let item of (data.getFields() | values | collectionTransform: sortFieldsTransformer:sortByOption); trackBy:schemaItemTrackBy;"
+    >
       <div class="doc-viewer-item-query-inner">
         <span class="no-link-link"
          (click)="goToField(item.name, data.name)"

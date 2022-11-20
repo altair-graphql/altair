@@ -3,14 +3,18 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from './icon/icon.component';
 
 import {
+  // module
   LucideAngularModule,
-  AlertTriangle,
+
+  // icons
   AlertCircle,
+  AlertTriangle,
   Archive,
   ArrowLeft,
   Book,
   Box,
   Briefcase,
+  Camera,
   CheckCircle,
   ChevronDown,
   Circle,
@@ -19,7 +23,6 @@ import {
   Code,
   Copy,
   Cpu,
-  Camera,
   Disc,
   Download,
   Edit,
@@ -36,23 +39,24 @@ import {
   Heart,
   Home,
   Info,
-  MoreVertical,
-  MoreHorizontal,
-  Paperclip,
-  RefreshCcw,
-  Settings,
-  Save,
-  Trash2,
+  List,
   Loader,
   LogIn,
   Minimize2,
-  PlusSquare,
+  MoreHorizontal,
+  MoreVertical,
+  Paperclip,
   PlusCircle,
+  PlusSquare,
+  RefreshCcw,
   Repeat,
+  Save,
+  Settings,
   Sidebar,
   Sun,
-  Terminal,
   Tag,
+  Terminal,
+  Trash2,
   User,
   UserCheck,
   Watch,
@@ -62,6 +66,7 @@ import {
   Zap,
 } from 'lucide-angular';
 
+// https://lucide.dev/
 const icons = {
   AlertTriangle,
   AlertCircle,
@@ -104,6 +109,7 @@ const icons = {
   Trash2,
   Loader,
   LogIn,
+  List,
   Minimize2,
   PlusSquare,
   PlusCircle,
