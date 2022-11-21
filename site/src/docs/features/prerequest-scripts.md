@@ -140,3 +140,7 @@ The available modules are:
 - [atob](https://www.npmjs.com/package/abab)
 - [btoa](https://www.npmjs.com/package/abab)
 - [crypto-js](https://www.npmjs.com/package/crypto-js)
+
+### altair.log
+
+Allows you to log an output from any of the request scripts to the Log tab. Usage: `altair.log(myData)`.
