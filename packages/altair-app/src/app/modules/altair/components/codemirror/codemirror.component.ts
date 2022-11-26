@@ -43,6 +43,7 @@ import {
   HighlightStyle,
   foldGutter,
   bracketMatching,
+  foldKeymap,
 } from '@codemirror/language';
 
 import { tags as t } from '@lezer/highlight';
@@ -356,6 +357,7 @@ export class CodemirrorComponent
           ...completionKeymap,
           ...closeBracketsKeymap,
           ...searchKeymap,
+          ...foldKeymap,
           indentWithTab,
         ])
       ),
