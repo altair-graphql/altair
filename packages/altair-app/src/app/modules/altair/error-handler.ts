@@ -27,7 +27,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       debug.error('Application error:', error);
       notifyService.error(`An error occured: ${this.getErrorMessage(error)}`);
       notifyService.warning(
-        `If you think this is a bug, click here to report the bug.`,
+        `If this happens multiple times, please click here to report this issue.`,
         'Altair',
         {
           disableTimeOut: true,

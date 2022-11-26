@@ -341,8 +341,18 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.updateNewEditorWindowId(changes.windowId.currentValue);
     }
 
-    if (changes?.betaDisableNewEditor?.currentValue) {
-      this.updateNewEditorSchema(this.gqlSchema);
+    if (changes?.betaDisableNewEditor) {
+      // Using timeout to wait for editor to be initialized.
+      // This is hacky but should be fine since the beta should be temporary
+      setTimeout(() => {
+        if (this.newEditor?.view) {
+          this.updateNewEditorSchema(this.gqlSchema);
+          this.updateNewEditorVariableState(this.variables);
+          this.updateNewEditorWindowId(this.windowId);
+          this.updateNewEditorTabSize(this.tabSize);
+          this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+        }
+      }, 10);
     }
   }
 
