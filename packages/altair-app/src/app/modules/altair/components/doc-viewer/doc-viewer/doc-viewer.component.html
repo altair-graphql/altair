@@ -91,9 +91,11 @@
          [data]="gqlSchema.getType(docView.parentType) && gqlSchema.getType(docView.parentType).getFields()[docView.name]"
          [gqlSchema]="gqlSchema"
          [parentType]="docView.parentType"
+         [sortByOption]="sortFieldsByOption"
          (goToFieldChange)="goToField($event.name, $event.parentType)"
          (goToTypeChange)="goToType($event.name)"
          (addToEditorChange)="addToEditor($event.name, $event.parentType)"
+         (sortFieldsByChange)="setSortFieldsByOption($event)"
         ></app-doc-viewer-field>
       </ng-container>
       <ng-container *ngSwitchCase="'search'">

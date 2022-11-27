@@ -53,8 +53,10 @@
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
     [gqlSchema]="gqlSchema"
+    [sortByOption]="sortFieldsByOption"
     (goToFieldChange)="goToField($event.name, $event.parentType)"
     (goToTypeChange)="goToType($event.name)"
     (addToEditorChange)="addToEditor($event)"
+    (sortFieldsByChange)="sortFieldsByChange.emit($event)"
   ></app-doc-viewer-type>
 </ng-container>

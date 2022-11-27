@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
   GraphQLSchema,
   GraphQLType,
@@ -22,9 +23,11 @@ export class DocViewerFieldComponent {
   @Input() data: any = {};
   @Input() gqlSchema: GraphQLSchema;
   @Input() parentType = '';
+  @Input() sortByOption: SortByOptions = 'none';
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
+  @Output() sortFieldsByChange = new EventEmitter();
 
   constructor() {}
 
