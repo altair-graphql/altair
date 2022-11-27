@@ -27,13 +27,21 @@
       </div>
 
       <div class="app-dialog-section" *ngIf="!showForm">
-        <ngx-codemirror
+        <app-codemirror
+          #editor
+          class="settings-editor-textarea"
+          [fullHeight]="true"
+          [extensions]="editorExtensions"
+          [ngModel]="jsonSettings"
+          (ngModelChange)="onSettingsChange($event)"
+        ></app-codemirror>
+        <!-- <ngx-codemirror
           #editor
           class="settings-editor-textarea"
           [options]="jsonEditorConfig"
           [ngModel]="jsonSettings"
           (ngModelChange)="onSettingsChange($event)"
-        ></ngx-codemirror>
+        ></ngx-codemirror> -->
         <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
         <small><a target="_blank" href="http://altairgraphql.dev/docs/features/settings-pane" rel="noopener">Click here for available settings options</a></small>
       </div>

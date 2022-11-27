@@ -110,7 +110,7 @@ export const getPropertyRef = (
   }
 };
 
-function getPropertyType(property: any, schema: any) {
+export function getPropertyType(property: any, schema: any) {
   if (property.type) {
     return property.type;
   }

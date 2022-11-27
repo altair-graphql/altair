@@ -281,8 +281,8 @@ const syncStateUpdate = async () => {
     );
   } catch (error) {
     if (error.name !== 'AbortError') {
-      console.error(new Error('Cannot sync state update :('));
-      console.error(error);
+      debug.error(new Error('Cannot sync state update :('));
+      debug.error(error);
     }
   }
 };
@@ -460,12 +460,12 @@ export const asyncStorageSync =
           debouncedSyncStateUpdate();
         }
       } catch (error) {
-        console.error(
+        debug.error(
           new Error(
             'Encountered an error while reducing state in async-storage-sync meta-reducer! :('
           )
         );
-        console.error(error);
+        debug.error(error);
       }
 
       return nextState;

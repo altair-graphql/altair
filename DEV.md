@@ -22,6 +22,6 @@ https://dev.to/wceolin/permission-error-when-generating-a-custom-token-on-cloud-
 https://firebase.google.com/docs/auth/admin/create-custom-tokens#service_account_does_not_have_required_permissions
 
 ### Something weird is broken, with no obvious way to fix
-Delete all node_modules
+Delete all node_modules (rm -rf node_modules && rm -rf packages/*/node_modules)
 Remove node_modules/.cache/nx
 Remove angular cache (packages/altair-app/.angular)

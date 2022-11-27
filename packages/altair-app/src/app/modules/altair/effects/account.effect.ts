@@ -16,6 +16,7 @@ import { AccountService, NotifyService } from '../services';
 import * as accountActions from '../store/account/account.action';
 import { APP_INIT_ACTION } from '../store/action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import { debug } from '../utils/logger';
 
 @Injectable()
 export class AccountEffects {
@@ -89,7 +90,7 @@ export class AccountEffects {
           return EMPTY;
         }),
         catchError((error) => {
-          console.error(error);
+          debug.error(error);
           this.notifyService.error(
             'Sorry, we could not log you in. Please check that your username and password are correct'
           );
@@ -124,7 +125,7 @@ export class AccountEffects {
           return EMPTY;
         }),
         catchError((error) => {
-          console.error(error);
+          debug.error(error);
           this.notifyService.error(
             'Sorry, we could not log you out. Please try again.'
           );

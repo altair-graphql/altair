@@ -1,4 +1,4 @@
-import { CompletionContext } from '@codemirror/autocomplete';
+import { CompletionContext, CompletionSource } from '@codemirror/autocomplete';
 import { syntaxTree } from '@codemirror/language';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
@@ -27,7 +27,9 @@ const completeProperties = (from: number, object: IDictionary) => {
   };
 };
 
-export const getGlobalScopeAutocompletion = (globalObj: any = window) => {
+export const getGlobalScopeAutocompletion = (
+  globalObj: any = window
+): CompletionSource => {
   return (context: CompletionContext) => {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
 

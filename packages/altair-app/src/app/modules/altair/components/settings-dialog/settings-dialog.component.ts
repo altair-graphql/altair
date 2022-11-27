@@ -4,11 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
-  AfterViewInit,
   SimpleChanges,
   OnChanges,
-  ElementRef,
 } from '@angular/core';
 
 import { debug } from '../../utils/logger';
@@ -27,7 +24,6 @@ import {
   registerSettingsLinter,
   getHint,
   validateSettings,
-  settingsSchema,
 } from '../../utils/settings_addons';
 import {
   NotifyService,
@@ -35,9 +31,11 @@ import {
   StorageService,
 } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
-import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { Extension } from '@codemirror/state';
+import settingsSchema from '../../utils/settings.schema.json';
+import { getEditorExtensions } from './extensions';
 
 registerSettingsLinter(Codemirror);
 
@@ -46,9 +44,7 @@ registerSettingsLinter(Codemirror);
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss'],
 })
-export class SettingsDialogComponent
-  implements OnInit, AfterViewInit, OnChanges
-{
+export class SettingsDialogComponent implements OnInit, OnChanges {
   @Input() settings: SettingsState;
   @Input() appVersion: string;
   @Input() showSettingsDialog = false;
@@ -61,9 +57,6 @@ export class SettingsDialogComponent
   settingsSchema = settingsSchema;
   showForm = true;
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & {
-    codeMirror: CodeMirror.Editor;
-  };
   jsonSettings = '';
   localSettings = null;
 
@@ -85,6 +78,8 @@ export class SettingsDialogComponent
     },
   };
 
+  editorExtensions: Extension[] = getEditorExtensions();
+
   constructor(
     private notifyService: NotifyService,
     private keybinderService: KeybinderService,
@@ -96,21 +91,7 @@ export class SettingsDialogComponent
     this.shortcutCategories = this.keybinderService.getShortcuts();
   }
 
-  ngAfterViewInit() {
-    if (this.editor) {
-      this.editor.codeMirror.on(
-        'keyup',
-        (cm: CodeMirror.Editor, event: KeyboardEvent) =>
-          /^[a-zA-Z0-9_@(]$/.test(event.key) && this.showHint(cm)
-      );
-      this.editor.codeMirror.refresh();
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    // Refresh the query result editor view when there are any changes
-    // to fix any broken UI issues in it
-    handleEditorRefresh(this.editor?.codeMirror);
     if (changes?.settings?.currentValue) {
       this.updateLocalSettings(
         JSON.stringify(changes.settings.currentValue, null, 2)
