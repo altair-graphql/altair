@@ -338,3 +338,7 @@ const toSnakeCase = (str = '') => {
     .toLowerCase()
     .replace(/\s/g, '_');
 };
+
+// Generate a random number between min and max
+export const rand = (min = 0, max = Infinity) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
