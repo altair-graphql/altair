@@ -1,0 +1,22 @@
+<div class="window-loader" *ngIf="loading" [@fadeInOutAnimation]>
+  <div class="window-loader__content">
+    <div class="window-loader__loader-section">
+      <div class="window-loader__image-container loader__rotating-border">
+        <img src="assets/img/logo.svg" alt="" class="loader-img anim">
+      </div>
+    </div>
+    <fieldset class="window-loader__tips" *ngIf="currentTip">
+      <legend class="window-loader__tips-title">Tips</legend>
+      {{ currentTip.text }}
+      <div *ngIf="currentTip.link">
+        <a [href]="currentTip.link" target="_blank" rel="noopener">
+          <app-icon name="info"></app-icon>
+          {{ 'LEARN_MORE_TEXT' | translate }}
+        </a>
+      </div>
+    </fieldset>
+    <div class="window-loader__actions">
+      <button class="app-button cancel-request-button" (click)="cancelChange.emit()" track-id="cancel_request">{{ 'CANCEL_TEXT' | translate }}</button>
+    </div>
+  </div>
+</div>
