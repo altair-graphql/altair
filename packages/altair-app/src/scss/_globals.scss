@@ -45,6 +45,10 @@ input[type="url"] {
   background: var(--theme-font-color);
 }
 
+:root {
+  accent-color: var(--primary-color);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
