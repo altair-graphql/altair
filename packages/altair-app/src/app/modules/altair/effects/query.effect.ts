@@ -15,6 +15,7 @@ import {
   withLatestFrom,
   switchMap,
   map,
+  takeUntil,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
@@ -336,6 +337,11 @@ export class QueryEffects {
                     );
                     return result;
                   }),
+                  takeUntil(
+                    this.actions$.pipe(
+                      ofType(queryActions.CANCEL_QUERY_REQUEST)
+                    )
+                  ),
                   catchError((error) => {
                     let output =
                       'Server Error. Check that your server is up and running.' +
