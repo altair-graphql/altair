@@ -13,7 +13,7 @@ Altair comes with several other little editor features to give you all the tools
 Altair provides several in-context actions for easily accessing several available functionalities. This includes:
 
 ### Sending query
-This action appears above each query, allowing you to easily send that query even if you have multiple queries in your editor.
+This action appears above each query, allowing you to easily select the query operation that is sent, even if you have multiple queries in your editor. Altair sends the entire document to the server and specifies the [`operationName`](https://graphql.org/learn/queries/#operation-name) for the current query.
 
 ### Selecting upload files (beta)
 This action is available only in the new editor (still in beta). It appears inline when you have a variable with the [`Upload`](https://github.com/jaydenseric/graphql-upload) scalar type. It allows you to easily select the files you want to [upload](/docs/features/file-upload) without having to add it in the variable section manually.
