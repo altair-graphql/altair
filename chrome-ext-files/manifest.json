@@ -19,7 +19,7 @@
       "storage",
       "notifications"
   ],
-  "content_security_policy": "script-src 'self' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:*; object-src 'self';",
+  "content_security_policy": "script-src 'self' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';",
   "background": {
       "scripts": [
         "js/background.js"
