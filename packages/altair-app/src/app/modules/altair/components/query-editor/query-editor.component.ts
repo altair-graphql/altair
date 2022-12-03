@@ -588,12 +588,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             );
 
             this.queryChange.next(updatedQuery.result);
-            const setCursorTimeout = setTimeout(() => {
-              view.dispatch({
-                selection: { anchor: posToOffset(view.state.doc, cursor) },
-              });
-              clearTimeout(setCursorTimeout);
-            }, 1);
+            view.dispatch({
+              selection: { anchor: posToOffset(view.state.doc, cursor) },
+            });
           });
         },
         onRunActionClick: (operationType, operationName) => {
