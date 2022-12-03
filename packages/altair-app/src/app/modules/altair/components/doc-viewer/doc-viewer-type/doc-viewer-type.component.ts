@@ -107,10 +107,6 @@ export class DocViewerTypeComponent {
   }
 
   sortFieldsTransformer(fields: any[], sortByOption: SortByOptions) {
-    if (sortByOption === 'none') {
-      return fields;
-    }
-
     switch (sortByOption) {
       case 'a-z':
         return fields.sort((a, b) => {
@@ -139,5 +135,6 @@ export class DocViewerTypeComponent {
           return 0;
         });
     }
+    return fields;
   }
 }
