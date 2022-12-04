@@ -1,8 +1,8 @@
 ---
-title: Learn GraphQL
+title: GraphQL
 ---
 
-# Learn about GraphQL
+# What is GraphQL
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png" width="200" height="200">
 
