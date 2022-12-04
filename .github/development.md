@@ -9,7 +9,7 @@ Run `yarn build` to build the project. The build artifacts will be stored in the
 
 ### Generate chrome extension files
 
-Run `yarn build-ext2` to build the chrome extension files. The extension files will be stored in the `chrome-extension/` directory.
+Run `yarn build-ext` to build the chrome extension files. The extension files will be stored in the `chrome-extension/` directory.
 
 ### Generate electron app
 

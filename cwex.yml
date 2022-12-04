@@ -5,6 +5,7 @@ exclude:
   - dist\/stats\.json
   - dist\/assets\/img\/readme
 outDir: extension-builds
+outFile: build.zip
 beforeCompile: bin/ext-update-index.js
 manifestOptions:
   name: Altair GraphQL Client

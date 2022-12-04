@@ -139,7 +139,7 @@ const runTests = async() => {
 };
 
 const buildExtensions = async() => {
-  return exec('yarn', ['build-ext2']);
+  return exec('yarn', ['build-ext']);
 };
 
 const updateVersion = async(version) => {
