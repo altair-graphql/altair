@@ -81,7 +81,7 @@
     "deepmerge": "4.2.2",
     "dexie": "3.2.2",
     "emotion": "10.0.27",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "file-dialog": "0.0.8",
     "file-saver": "2.0.2",
     "firebase": "^9.9.2",
