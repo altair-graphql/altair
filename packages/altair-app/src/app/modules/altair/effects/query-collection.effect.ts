@@ -20,6 +20,7 @@ import * as accountActions from '../store/account/account.action';
 import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as localActions from '../store/local/local.action';
+import * as layoutActions from '../store/layout/layout.action';
 import {
   QueryCollectionService,
   WindowService,
@@ -28,6 +29,7 @@ import {
 } from '../services';
 import { downloadJson, openFile, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { IQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { UnknownError } from '../interfaces/shared';
 import { debug } from '../utils/logger';
 
@@ -68,21 +70,32 @@ export class QueryCollectionEffects {
             query.windowName = res.action.payload.windowTitle;
           }
 
-          return this.collectionService.createCollection(
-            {
-              title: res.action.payload.collectionTitle,
-              queries: [query],
-              preRequest: {
-                script: '',
-                enabled: false,
+          return from(
+            this.collectionService.createCollection(
+              {
+                title: res.action.payload.collectionTitle,
+                queries: [],
+                preRequest: {
+                  script: '',
+                  enabled: false,
+                },
+                postRequest: {
+                  script: '',
+                  enabled: false,
+                },
               },
-              postRequest: {
-                script: '',
-                enabled: false,
-              },
-            },
-            undefined,
-            res.action.payload.parentCollectionId
+              undefined,
+              res.action.payload.parentCollectionId
+            )
+          ).pipe(
+            switchMap((collectionId) => {
+              return this.saveExistingWindowToCollection(
+                res.windowId,
+                collectionId.toString(),
+                query,
+                res.action.payload.windowTitle
+              );
+            })
           );
         }),
         tap(() => this.notifyService.success('Created collection.')),
@@ -125,9 +138,11 @@ export class QueryCollectionEffects {
         if (res.action.payload.windowTitle) {
           query.windowName = res.action.payload.windowTitle;
         }
-        return this.collectionService.addQuery(
-          res.action.payload.collectionId,
-          query
+        return this.saveExistingWindowToCollection(
+          res.windowId,
+          res.action.payload.collectionId.toString(),
+          query,
+          res.action.payload.windowTitle
         );
       }),
       tap(() => this.notifyService.success('Added query to collection.')),
@@ -405,4 +420,32 @@ export class QueryCollectionEffects {
     private windowService: WindowService,
     private notifyService: NotifyService
   ) {}
+
+  saveExistingWindowToCollection(
+    windowId: string,
+    collectionId: string,
+    query: IQuery,
+    title?: string
+  ) {
+    return from(this.collectionService.addQuery(collectionId, query)).pipe(
+      switchMap((queryId) => {
+        this.store.dispatch(
+          new layoutActions.SetWindowIdInCollectionAction(windowId, {
+            collectionId: collectionId.toString(),
+            windowIdInCollection: queryId,
+          })
+        );
+        if (title) {
+          this.store.dispatch(
+            new layoutActions.SetWindowNameAction(windowId, {
+              title: title,
+              setByUser: true,
+            })
+          );
+        }
+
+        return of(true);
+      })
+    );
+  }
 }

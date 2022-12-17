@@ -51,6 +51,7 @@ import {
   copyToClipboard,
   openFile,
   isValidUrl,
+  parseJson,
 } from '../utils';
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
@@ -1252,7 +1253,7 @@ export class QueryEffects {
               }, {} as any),
               data: {
                 query,
-                variables: JSON.parse(variables),
+                variables: parseJson(variables),
               },
             });
             debug.log(curlCommand);
@@ -1260,6 +1261,7 @@ export class QueryEffects {
             this.notifyService.success('Copied cURL command to clipboard.');
           } catch (err) {
             debug.log('Error while copying as curl', err);
+            this.notifyService.error('Error while copying as curl');
           }
           return EMPTY;
         })

@@ -148,6 +148,14 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
+export const parseJson = (str: string, defaultValue = {}) => {
+  try {
+    return JSON.parse(str);
+  } catch {
+    debug.error('Could not parse JSON. Using default instead.');
+    return defaultValue;
+  }
+};
 export const copyToClipboard = (str: string) => {
   const el = document.createElement('textarea'); // Create a <textarea> element
   el.value = str; // Set its value to the string that you want copied
