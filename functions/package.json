@@ -14,7 +14,7 @@
     "test:rules:dev": "yarn jest --watch"
   },
   "engines": {
-    "node": "16"
+    "node": "18"
   },
   "main": "lib/index.js",
   "dependencies": {

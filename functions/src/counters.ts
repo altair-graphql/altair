@@ -74,8 +74,11 @@ export const updateQueryCollectionUpdatedAt = functions.firestore
     }
 
     for (const collectionId of collectionIds) {
-      await firestore().doc(`query_collections/${collectionId}`).set({
-        updatedAt: Date.now(),
-      });
+      await firestore().doc(`query_collections/${collectionId}`).set(
+        {
+          updatedAt: Date.now(),
+        },
+        { merge: true }
+      );
     }
   });

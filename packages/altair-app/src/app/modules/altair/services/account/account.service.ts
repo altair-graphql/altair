@@ -55,10 +55,14 @@ export class AccountService {
       return null;
     }
 
-    return new Promise<User | null>((resolve) => {
-      const cleanup = onAuthStateChanged(auth, (user) => {
-        resolve(user);
-      });
+    return new Promise<User | null>((resolve, reject) => {
+      const cleanup = onAuthStateChanged(
+        auth,
+        (user) => {
+          resolve(user);
+        },
+        (error) => reject(error)
+      );
 
       return cleanup();
     });

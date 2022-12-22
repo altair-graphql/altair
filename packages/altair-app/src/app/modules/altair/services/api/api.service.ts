@@ -17,6 +17,7 @@ import {
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { Observable, from, fromEventPattern, merge } from 'rxjs';
 import { mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { debug } from '../../utils/logger';
 import { AccountService } from '../account/account.service';
 import {
   addDocument,
@@ -154,6 +155,7 @@ export class ApiService {
 
     const queryCollections = querySnapshot.docs;
 
+    debug.log('Getting collection queries...', queryCollections.length);
     // TODO: Verify that the data() has the ID
     const collectionQueries = await Promise.allSettled(
       queryCollections.map(async (col) => {
@@ -190,6 +192,7 @@ export class ApiService {
   listenForCollectionChanges() {
     return from(this.accountService.mustGetUser()).pipe(
       switchMap((user) => {
+        debug.log('to listen for collection changes...');
         // Get query collections where owner == uid
         // Get queries where collectionId in collection IDs
         const collectionQ = query(
