@@ -16,6 +16,13 @@ import {
 } from 'firebase/firestore';
 import firebaseJson from '../../firebase.json';
 
+// Setup
+// - create at least 2 users
+// - use actual methods used in the application
+
+// Tests
+// - create query, collection
+// - update query, collection
 describe('firestore rules', () => {
   let testEnv: RulesTestEnvironment;
 
@@ -25,7 +32,7 @@ describe('firestore rules', () => {
     testEnv = await initializeTestEnvironment({
       projectId: 'demo-test',
       firestore: {
-        host: 'localhost',
+        host: '127.0.0.1',
         port: firebaseJson.emulators.firestore.port,
         rules: fs.readFileSync(path.resolve('..', 'firestore.rules'), 'utf8'),
       },

@@ -6,6 +6,9 @@ on:
     - '**'
   workflow_dispatch:
 
+env:
+  NODE_VERSION: 18
+
 # TODO: Handle browser extension release
 jobs:
   prepare-release:
@@ -27,7 +30,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [16]
+        node-version: [${{ env.NODE_VERSION }}]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2

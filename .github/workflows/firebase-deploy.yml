@@ -7,6 +7,9 @@ on:
   workflow_dispatch:
   # pull_request: # Temporary dev trigger
 
+env:
+  NODE_VERSION: 18
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,7 +20,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
       - run: yarn --cwd ./functions --frozen-lockfile --network-timeout 1000000
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master

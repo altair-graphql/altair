@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  NODE_VERSION: 18
+
 jobs:
   translate:
     runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 16
+        node-version: ${{ env.NODE_VERSION }}
     - run: yarn --frozen-lockfile --network-timeout 1000000
     - run: yarn build:ci
     - name: Deploy to translate surge.sh

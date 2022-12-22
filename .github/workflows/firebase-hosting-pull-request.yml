@@ -3,6 +3,10 @@
 
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
+
+env:
+  NODE_VERSION: 18
+
 jobs:
   build_and_preview:
     if: github.event.pull_request.head.repo.full_name == github.repository
@@ -12,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
       - run: yarn --network-timeout 1000000
       - run: yarn build:ci
       - uses: FirebaseExtended/action-hosting-deploy@v0

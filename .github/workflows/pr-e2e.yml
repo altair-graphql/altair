@@ -6,12 +6,15 @@ on:
       - master
   pull_request:
 
+env:
+  NODE_VERSION: 18
+
 jobs:
   test:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        node-version: [16]
+        node-version: [${{ env.NODE_VERSION }}]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
