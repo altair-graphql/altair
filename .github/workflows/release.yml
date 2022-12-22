@@ -8,6 +8,7 @@ on:
 
 env:
   NODE_VERSION: 18
+  NODE_OPTIONS: --openssl-legacy-provider
 
 # TODO: Handle browser extension release
 jobs:
