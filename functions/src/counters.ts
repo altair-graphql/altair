@@ -1,8 +1,9 @@
 import * as functions from 'firebase-functions';
-import { firestore } from 'firebase-admin';
+import { firestore as firestoreFn } from 'firebase-functions';
+import { firestore as firestoreAdmin } from 'firebase-admin';
 
 const getCounterFunctions = (documentType: string) => {
-  const incrementCounter = functions.firestore
+  const incrementCounter = firestoreFn
     .document(`${documentType}/{itemId}`)
     .onCreate(async (snapshot) => {
       const uid = snapshot.data().ownerUid;
@@ -13,17 +14,17 @@ const getCounterFunctions = (documentType: string) => {
         return;
       }
       console.log(`incrementing ${documentType} for ${uid}`);
-      await firestore()
+      await firestoreAdmin()
         .doc(`users/${uid}/counters/${documentType}`)
         .set(
           {
-            val: firestore.FieldValue.increment(1),
+            val: firestoreAdmin.FieldValue.increment(1),
           },
           { merge: true }
         );
     });
 
-  const decrementCounter = functions.firestore
+  const decrementCounter = firestoreFn
     .document(`${documentType}/{itemId}`)
     .onDelete(async (snapshot) => {
       const uid = snapshot.data().ownerUid;
@@ -34,11 +35,11 @@ const getCounterFunctions = (documentType: string) => {
         return;
       }
       console.log(`decrementing ${documentType} for ${uid}`);
-      await firestore()
+      await firestoreAdmin()
         .doc(`users/${uid}/counters/${documentType}`)
         .set(
           {
-            val: firestore.FieldValue.increment(-1),
+            val: firestoreAdmin.FieldValue.increment(-1),
           },
           { merge: true }
         );
@@ -56,7 +57,7 @@ export const [
 ] = getCounterFunctions('query_collections');
 
 // update the updatedAt value of the query collection after updating a query that belongs to the collection
-export const updateQueryCollectionUpdatedAt = functions.firestore
+export const updateQueryCollectionUpdatedAt = firestoreFn
   .document(`queries/{queryId}`)
   .onUpdate(async (change) => {
     const before = change.before.exists ? change.before.data() : undefined;
@@ -74,7 +75,7 @@ export const updateQueryCollectionUpdatedAt = functions.firestore
     }
 
     for (const collectionId of collectionIds) {
-      await firestore().doc(`query_collections/${collectionId}`).set(
+      await firestoreAdmin().doc(`query_collections/${collectionId}`).set(
         {
           updatedAt: Date.now(),
         },
