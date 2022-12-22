@@ -7,7 +7,7 @@ on:
 
 env:
   NODE_VERSION: 18
-  NODE_OPTIONS: --openssl-legacy-provider
+  # NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
   translate:
