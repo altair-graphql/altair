@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
       - run: yarn --network-timeout 1000000
       - run: yarn build:ci
       - uses: FirebaseExtended/action-hosting-deploy@v0
