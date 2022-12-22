@@ -30,14 +30,13 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [${{ env.NODE_VERSION }}]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.NODE_VERSION }}
     - run: yarn --frozen-lockfile --network-timeout 1000000
     - uses: nick-invision/retry@v2
       with:
