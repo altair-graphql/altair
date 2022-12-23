@@ -10,7 +10,7 @@
   "repository": "/altair",
   "scripts": {
     "dev": "vuepress dev src",
-    "build": "vuepress build src"
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build src"
   },
   "license": "MIT",
   "devDependencies": {
