@@ -28,13 +28,13 @@ service cloud.firestore {
     // Needed for collection group queries?
     match /{path=**}/query_collections/{collectionId} {
       allow create: if requestBelongsToUser();
-      allow read: if resourceBelongsToUser();
-      allow update, delete: if resourceBelongsToUser();
+      allow read: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
+      allow update, delete: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
     }
     match /{path=**}/queries/{queryId} {
       allow create: if isValidSignedInUser() && requestBelongsToUser() && getQueriesCount() < getMaximumAllowedQueriesCount();
-      allow read: if resourceBelongsToUser();
-      allow update, delete: if resourceBelongsToUser();
+      allow read: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
+      allow update, delete: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
     }
 
     match /teams/{teamId} {
@@ -87,6 +87,14 @@ service cloud.firestore {
 
     function resourceBelongsToUser() {
       return isValidSignedInUser() && request.auth.uid == resource.data.ownerUid;
+    }
+
+    function resourceBelongsToTeam(teamId) {
+      return resource.data.teamUid == teamId;
+    }
+
+    function resourceBelongsToUsersTeam() {
+      return resource.data.teamUid != null && resource.data.teamUid != '' && exists(/databases/$(database)/documents/teams/$(resource.data.teamUid)/memberships/$(request.auth.uid));
     }
 
     function isSignedIn() {
