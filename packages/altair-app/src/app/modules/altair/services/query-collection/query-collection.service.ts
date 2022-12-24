@@ -13,6 +13,7 @@ import { debug } from '../../utils/logger';
 import { getFileStr, str } from '../../utils';
 import { ApiService } from '../api/api.service';
 import { AccountService } from '../account/account.service';
+import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 
 type CollectionID = number | string;
 type QueryID = string;
@@ -37,7 +38,7 @@ export class QueryCollectionService {
    * @returns
    */
   async createCollection(
-    collection: IQueryCollection,
+    collection: CreateDTO<IQueryCollection>,
     collectionId?: string,
     parentCollectionId?: CollectionID
   ) {
@@ -74,7 +75,7 @@ export class QueryCollectionService {
   }
 
   private async createLocalCollection(
-    collection: IQueryCollection,
+    collection: CreateDTO<IQueryCollection>,
     collectionId?: string,
     parentCollectionId?: CollectionID
   ) {

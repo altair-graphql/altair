@@ -31,11 +31,9 @@ import {
 import { debug } from '../../utils/logger';
 import { AccountService } from '../account/account.service';
 import {
-  addDocument,
-  db,
+  firebaseClient,
   queriesRef,
   queryCollectionsRef,
-  updateDocument,
 } from '../firebase/firebase';
 
 @Injectable({
@@ -50,7 +48,7 @@ export class ApiService {
 
   private async ctx() {
     const user = await this.accountService.mustGetUser();
-    return createUtilsContext(user, db);
+    return createUtilsContext(user, firebaseClient.db);
   }
 
   async createQueryCollection(

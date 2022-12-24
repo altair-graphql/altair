@@ -12,7 +12,7 @@ import { environment } from 'environments/environment';
 import { from } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { auth, updateDocument, usersRef } from '../firebase/firebase';
+import { firebaseClient, updateDocument, usersRef } from '../firebase/firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -27,11 +27,11 @@ export class AccountService {
   private async signin() {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
-      return signInWithCustomToken(auth, authToken);
+      return signInWithCustomToken(firebaseClient.auth, authToken);
     }
 
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(firebaseClient.auth, provider);
   }
   async accountLogin() {
     const cred = await this.signin();
@@ -55,17 +55,7 @@ export class AccountService {
       return null;
     }
 
-    return new Promise<User | null>((resolve, reject) => {
-      const cleanup = onAuthStateChanged(
-        auth,
-        (user) => {
-          resolve(user);
-        },
-        (error) => reject(error)
-      );
-
-      return cleanup();
-    });
+    return await firebaseClient.getUser();
   }
 
   async mustGetUser() {
@@ -80,7 +70,7 @@ export class AccountService {
   }
 
   async logout() {
-    return signOut(auth);
+    return signOut(firebaseClient.auth);
   }
 
   async isUserSignedIn() {

@@ -2,6 +2,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
+      // default rules applied to all documents and collections, unless an explicit rule is added
+      // https://firebase.google.com/docs/firestore/security/rules-structure#recursive_wildcards
       allow read, write: if false;
     }
 
@@ -37,19 +39,28 @@ service cloud.firestore {
       allow update, delete: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
     }
 
+    // flat - for collection group queries
+    // member ID == user ID who is the member
+    match /{path=**}/memberships/{memberId} {
+      allow read: if resourceBelongsToUser() || currentUserIsTeamMember(resource.data.teamUid);
+    }
+
     match /teams/{teamId} {
+      allow create: if isValidSignedInUser() && requestBelongsToUser(); // TODO: && maximum team count (requires team count)
+      allow read: if resourceBelongsToUser() || currentUserIsTeamMember(teamId);
+      allow update: if resourceBelongsToUser();
 
       // member ID == user ID who is the member
-      match /memberships/{memberId} {
-        // TODO:
-        allow read, write: if false;
+      match /{path=**}/memberships/{memberId} {
+        allow write: if (requestBelongsToUser() || isUser(memberId)) && resource.data.teamUid == teamId;
       }
 
-      match /invitations/{invitationId} {
+      match /{path=**}/invitations/{invitationId} {
         // TODO:
         allow read, write: if false;
       }
     }
+
 
     match /product_configs/{id} {
       allow read: if true;
@@ -67,10 +78,6 @@ service cloud.firestore {
 
     function isValidSignedInUser() {
       return isSignedIn() && userExists();
-    }
-
-    function belongsTo(userId) {
-      return request.auth.uid == userId;
     }
 
     function requestMatchesUID() {
@@ -93,8 +100,16 @@ service cloud.firestore {
       return resource.data.teamUid == teamId;
     }
 
+    function isTeamMember(userId, teamId) {
+      return teamId != null && teamId != '' && exists(/databases/$(database)/documents/teams/$(teamId)/memberships/$(userId));
+    }
+
+    function currentUserIsTeamMember(teamId) {
+      return isTeamMember(request.auth.uid, teamId);
+    }
+
     function resourceBelongsToUsersTeam() {
-      return resource.data.teamUid != null && resource.data.teamUid != '' && exists(/databases/$(database)/documents/teams/$(resource.data.teamUid)/memberships/$(request.auth.uid));
+      return currentUserIsTeamMember(resource.data.teamUid);
     }
 
     function isSignedIn() {
