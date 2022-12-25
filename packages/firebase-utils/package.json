@@ -4,8 +4,8 @@
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
-    "declarations": "tsc --declaration",
-    "prepare": "npm run declarations"
+    "build": "tsc --build",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "typescript": "^4.9.4"

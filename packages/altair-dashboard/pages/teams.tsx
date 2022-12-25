@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { createTeam, FirebaseUtilsContext, getTeams, updateTeam } from 'altair-firebase-utils';
 import useUser from '../lib/useUser';
-import { Team } from 'altair-firebase-utils/build/interfaces';
 import { notify } from '../lib/notify';
+import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 interface TeamsStackProps {
   teams: Team[];

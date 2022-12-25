@@ -35,6 +35,8 @@ import {
   queriesRef,
   queryCollectionsRef,
 } from '../firebase/firebase';
+import { CreateDTO } from 'altair-graphql-core/build/types/shared';
+import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -42,23 +44,21 @@ import {
 export class ApiService {
   constructor(private accountService: AccountService) {}
 
-  private now() {
-    return Date.now();
-  }
-
   private async ctx() {
     const user = await this.accountService.mustGetUser();
     return createUtilsContext(user, firebaseClient.db);
   }
 
   async createQueryCollection(
-    queryCollection: IQueryCollection,
-    parentCollectionId?: string
+    queryCollection: CreateDTO<IQueryCollection>,
+    parentCollectionId?: string,
+    teamId?: TeamId
   ) {
     return createQueryCollection(
       await this.ctx(),
       queryCollection,
-      parentCollectionId
+      parentCollectionId,
+      teamId
     );
   }
 

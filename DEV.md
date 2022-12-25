@@ -25,3 +25,9 @@ https://firebase.google.com/docs/auth/admin/create-custom-tokens#service_account
 Delete all node_modules (rm -rf node_modules && rm -rf packages/*/node_modules)
 Remove node_modules/.cache/nx
 Remove angular cache (packages/altair-app/.angular)
+
+### TSC CLI and VS Code showing different behavior for typescript errors
+Check that the typescript versions in all the relevant packages are the same (use `yarn why typescript`)
+
+### Typescript is not detecting possibly undefined issues
+Check that you have `strictNullChecks` option enabled in tsconfig.json

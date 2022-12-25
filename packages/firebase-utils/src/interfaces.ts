@@ -11,11 +11,6 @@ export interface UserDocument extends BaseDocument {
   email: string;
 }
 
-export interface Team extends BaseOwnableDocument {
-  name: string;
-  description?: string;
-}
-
 export interface TeamMembership extends BaseOwnableDocument {
   teamUid: string;
   role: TeamRole;

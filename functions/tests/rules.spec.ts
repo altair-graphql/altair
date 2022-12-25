@@ -179,6 +179,7 @@ describe('firestore rules', () => {
         createQueryCollection(
           ctx,
           {
+            id: '1234',
             queries: [],
             title: 'Collection 1',
           },

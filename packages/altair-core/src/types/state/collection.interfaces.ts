@@ -20,10 +20,9 @@ export interface IQuery extends ExportWindowState {
   updated_at?: number;
 }
 
-export interface IRemoteQuery extends IQuery {
+export interface IRemoteQuery extends IQuery, BaseOwnableDocument {
   id: string;
   collectionId: string;
-  ownerUid: string;
 }
 
 export interface IQueryCollection extends BaseDocument {

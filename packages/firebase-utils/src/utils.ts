@@ -1,6 +1,5 @@
 import {
   addDoc,
-  doc,
   collection,
   collectionGroup,
   CollectionReference,
@@ -9,22 +8,20 @@ import {
   PartialWithFieldValue,
   QueryDocumentSnapshot,
   setDoc,
-  WithFieldValue,
-  writeBatch
+  WithFieldValue
 } from "firebase/firestore";
 import {
   IRemoteQuery,
   IRemoteQueryCollection
 } from "altair-graphql-core/build/types/state/collection.interfaces";
 import { User } from "firebase/auth";
-import { Team, UserDocument } from "./interfaces";
-import {
-  BaseDocument,
-  CreateDTO
-} from "altair-graphql-core/build/types/shared";
+import { UserDocument } from "./interfaces";
+import { BaseDocument } from "altair-graphql-core/build/types/shared";
+import { Team } from "altair-graphql-core/build/types/state/account.interfaces";
 
 const converter = <T>() => ({
-  toFirestore: (data: T) => data,
+  toFirestore: (data: PartialWithFieldValue<T>) =>
+    typeof data === "undefined" || data === null ? {} : data,
   fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({ id: snap.id, ...snap.data() } as T & { id: string })
 });

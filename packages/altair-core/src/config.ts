@@ -1,4 +1,7 @@
-import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './subscriptions';
+import {
+  SubscriptionProviderIds,
+  WEBSOCKET_PROVIDER_ID,
+} from './subscriptions';
 import { IDictionary } from './types/shared';
 import { IInitialEnvironments } from './types/state/environments.interfaces';
 import { HttpVerb } from './types/state/query.interfaces';
@@ -8,7 +11,6 @@ import isElectron from './utils/is_electron';
 const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
 
 export interface AltairWindowOptions {
-
   /**
    * Initial name of the window
    */
@@ -17,11 +19,11 @@ export interface AltairWindowOptions {
   /**
    * URL to set as the server endpoint
    */
-   endpointURL?: string;
+  endpointURL?: string;
 
   /**
-  * URL to set as the subscription endpoint. This can be relative or absolute.
-  */
+   * URL to set as the subscription endpoint. This can be relative or absolute.
+   */
   subscriptionsEndpoint?: string;
 
   /**
@@ -31,32 +33,32 @@ export interface AltairWindowOptions {
   subscriptionsProtocol?: string;
 
   /**
-  * Initial query to be added
-  */
+   * Initial query to be added
+   */
   initialQuery?: string;
 
   /**
-  * Initial variables to be added
-  */
+   * Initial variables to be added
+   */
   initialVariables?: string;
 
   /**
-  * Initial pre-request script to be added
-  */
+   * Initial pre-request script to be added
+   */
   initialPreRequestScript?: string;
 
   /**
-  * Initial post-request script to be added
-  */
+   * Initial post-request script to be added
+   */
   initialPostRequestScript?: string;
 
   /**
-  * Initial headers object to be added
-  * @example
-  * {
-  *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
-  * }
-  */
+   * Initial headers object to be added
+   * @example
+   * {
+   *  'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+   * }
+   */
   initialHeaders?: IDictionary;
 
   /**
@@ -78,7 +80,6 @@ export interface AltairWindowOptions {
 }
 
 export interface AltairConfigOptions extends AltairWindowOptions {
-
   /**
    * Initial Environments to be added
    * @example
@@ -126,7 +127,7 @@ export interface AltairConfigOptions extends AltairWindowOptions {
 export class AltairConfig {
   donation = {
     url: 'https://opencollective.com/altair/donate',
-    action_count_threshold: 50
+    action_count_threshold: 50,
   };
   ga = 'UA-41432833-6';
   add_query_depth_limit = 3;
@@ -154,7 +155,7 @@ export class AltairConfig {
   query_history_depth = isElectron ? 100 : 15;
   disableLineNumbers = false;
   defaultTheme = 'system';
-  themes = [ 'light', 'dark', 'dracula', 'system' ];
+  themes = ['light', 'dark', 'dracula', 'system'];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as any).__ALTAIR_WEB_APP__;
   initialData = {
@@ -164,12 +165,12 @@ export class AltairConfig {
     query: '',
     variables: '',
     // Force type of header, since initial value inference is wrong
-    headers: (null as unknown as IDictionary),
-    environments: ({} as IInitialEnvironments),
+    headers: (null as unknown) as IDictionary,
+    environments: {} as IInitialEnvironments,
     preRequestScript: '',
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
-    settings: (undefined as unknown as AltairConfigOptions['initialSettings']),
+    settings: (undefined as unknown) as AltairConfigOptions['initialSettings'],
     initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
     initialSubscriptionsPayload: {} as IDictionary,
     initialHttpMethod: 'POST' as HttpVerb,
@@ -194,16 +195,29 @@ export class AltairConfig {
     preserveState = true,
     initialWindows = [],
   }: AltairConfigOptions = {}) {
-    this.initialData.url = (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
-    this.initialData.subscriptionsEndpoint = (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ || subscriptionsEndpoint || '';
-    this.initialData.subscriptionsProtocol = subscriptionsProtocol;
-    this.initialData.query = (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
-    this.initialData.variables = (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
-    this.initialData.headers = (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
+    this.initialData.url =
+      (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
+    this.initialData.subscriptionsEndpoint =
+      (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ||
+      subscriptionsEndpoint ||
+      '';
+    this.initialData.subscriptionsProtocol = subscriptionsProtocol || '';
+    this.initialData.query =
+      (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
+    this.initialData.variables =
+      (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
+    this.initialData.headers =
+      (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
     this.initialData.environments = initialEnvironments || {};
-    this.initialData.preRequestScript = (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ || initialPreRequestScript || '';
+    this.initialData.preRequestScript =
+      (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ||
+      initialPreRequestScript ||
+      '';
     this.initialData.postRequestScript = initialPostRequestScript;
-    this.initialData.instanceStorageNamespace = (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ || instanceStorageNamespace || 'altair_';
+    this.initialData.instanceStorageNamespace =
+      (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ||
+      instanceStorageNamespace ||
+      'altair_';
     this.initialData.settings = initialSettings;
     this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;

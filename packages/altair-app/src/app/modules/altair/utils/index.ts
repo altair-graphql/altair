@@ -350,3 +350,7 @@ const toSnakeCase = (str = '') => {
 // Generate a random number between min and max
 export const rand = (min = 0, max = Infinity) =>
   Math.floor(Math.random() * (max - min + 1) + min);
+
+export const capitalize = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

@@ -27,7 +27,7 @@
       </nz-form-control>
     </div>
     <ng-container
-      *ngIf="collectionId === -1"
+      *ngIf="isNewCollection()"
     >
       <div class="app-dialog-section">
         {{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}
@@ -53,6 +53,15 @@
             [(ngModel)]="newCollectionParentCollectionId"
             (ngModelChange)="newCollectionParentCollectionIdChange.emit($event)"
           ></nz-tree-select>
+        </nz-form-control>
+      </div>
+      <!-- if logged in, and not saving to a parent collection, then show workspaces option -->
+      <div class="app-dialog-section" *ngIf="loggedIn && newCollectionParentCollectionId === parentCollectionRootId">
+        <nz-form-label>{{ 'SAVE_TO_COLLECTION_SELECT_WORKSPACE' | translate }}</nz-form-label>
+        <nz-form-control>
+          <nz-select class="dialog-block" [(ngModel)]="workspaceId" name="workspace" nzPlaceHolder="Choose">
+            <nz-option *ngFor="let workspace of workspacesOptions(); trackBy:trackById" [nzValue]="workspace.id" [nzLabel]="workspace.label"></nz-option>
+          </nz-select>
         </nz-form-control>
       </div>
     </ng-container>

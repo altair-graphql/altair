@@ -1,4 +1,5 @@
 import { CreateDTO, UpdateDTO } from "altair-graphql-core/build/types/shared";
+import { Team } from "altair-graphql-core/build/types/state/account.interfaces";
 import {
   writeBatch,
   doc,
@@ -8,7 +9,7 @@ import {
   getDocs,
   documentId
 } from "firebase/firestore";
-import { Team, TeamMembership } from "./interfaces";
+import { TeamMembership } from "./interfaces";
 import {
   collectionNames,
   FirebaseUtilsContext,

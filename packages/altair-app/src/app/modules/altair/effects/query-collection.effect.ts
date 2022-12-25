@@ -84,11 +84,15 @@ export class QueryCollectionEffects {
                   enabled: false,
                 },
               },
+              res.action.payload.workspaceId,
               undefined,
               res.action.payload.parentCollectionId
             )
           ).pipe(
             switchMap((collectionId) => {
+              if (typeof collectionId === 'undefined') {
+                throw new Error('Created collection ID cannot be undefined!');
+              }
               return this.saveExistingWindowToCollection(
                 res.windowId,
                 collectionId.toString(),
@@ -215,7 +219,7 @@ export class QueryCollectionEffects {
   loadCollections$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(collectionActions.LOAD_COLLECTIONS),
-      switchMap((action) => this.collectionService.getAll()),
+      switchMap(() => this.collectionService.getAll()),
       map(
         (collections) =>
           new collectionActions.SetCollectionsAction({ collections })

@@ -6,11 +6,13 @@ import { environment } from 'environments/environment';
 import { EMPTY, from } from 'rxjs';
 import {
   catchError,
+  map,
   repeat,
   switchMap,
   take,
   withLatestFrom,
 } from 'rxjs/operators';
+import { UnknownError } from '../interfaces/shared';
 import { AccountService, NotifyService } from '../services';
 
 import * as accountActions from '../store/account/account.action';
@@ -136,6 +138,20 @@ export class AccountEffects {
     },
     { dispatch: false }
   );
+
+  loadTeamsOnLoggedIn$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+      switchMap((action) => this.accountService.getTeams()),
+      map((teams) => new accountActions.SetTeamsAction({ teams })),
+      catchError((err: UnknownError) => {
+        debug.error(err);
+        this.notifyService.error('Could not load teams');
+        return EMPTY;
+      }),
+      repeat()
+    );
+  });
 
   constructor(
     private actions$: Actions,

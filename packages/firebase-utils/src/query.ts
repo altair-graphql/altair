@@ -22,20 +22,22 @@ import {
   queryCollectionsRef,
   updateDocument
 } from "./utils";
+import { CreateDTO } from "altair-graphql-core/build/types/shared";
+import { TeamId } from "altair-graphql-core/build/types/state/account.interfaces";
 
 export const createQueryCollection = async (
   ctx: FirebaseUtilsContext,
-  queryCollection: IQueryCollection,
-  parentCollectionId?: string
+  queryCollection: CreateDTO<IQueryCollection>,
+  parentCollectionId?: string,
+  teamId?: TeamId
 ) => {
-  // TODO: Team collection
-
   const batch = writeBatch(ctx.db);
   const newCollectionRef = doc(queryCollectionsRef(ctx.db));
   batch.set(newCollectionRef, {
     title: queryCollection.title,
     parentCollectionId: parentCollectionId,
     ownerUid: ctx.user.uid,
+    teamOwnerUid: teamId?.value(),
     id: newCollectionRef.id,
     created_at: now(),
     updated_at: now()
@@ -178,8 +180,8 @@ export const getCollection = async (
   const queries = sn.docs.map(_ => ({ ..._.data(), id: _.id }));
 
   return {
-    id: queryCollectionSnapshot.id,
     ...queryCollectionSnapshot.data(),
+    id: queryCollectionSnapshot.id,
     queries,
     storageType: "firestore"
   };
@@ -221,8 +223,8 @@ export const getCollections = async (
   return queryCollections.map((col, idx) => {
     const queriesResult = collectionQueries[idx];
     return {
-      id: col.id,
       ...col.data(),
+      id: col.id,
       queries: queriesResult.status === "fulfilled" ? queriesResult.value : [],
       storageType: "firestore"
     };

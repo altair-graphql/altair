@@ -1,36 +1,36 @@
-import deepmerge from "deepmerge";
-const convertCssColorNameToHex = require("convert-css-color-name-to-hex");
+import deepmerge from 'deepmerge';
+const convertCssColorNameToHex = require('convert-css-color-name-to-hex');
 
 export const foundations = {
-  easing: "ease",
+  easing: 'ease',
   colors: {
-    black: "#201e1f",
-    darkGray: "#a6a6a6",
-    gray: "#eaeaea",
-    lightGray: "#f0f0f0",
-    white: "#ffffff",
-    green: "#64CB29",
-    blue: "#2d9ee0",
-    rose: "#f45b69",
-    cerise: "#f00faa",
-    red: "#ed6a5a",
-    orange: "#edae49",
-    yellow: "#e4ce44",
-    lightRed: "#cc998d",
-    darkPurple: "#303965"
+    black: '#201e1f',
+    darkGray: '#a6a6a6',
+    gray: '#eaeaea',
+    lightGray: '#f0f0f0',
+    white: '#ffffff',
+    green: '#64CB29',
+    blue: '#2d9ee0',
+    rose: '#f45b69',
+    cerise: '#f00faa',
+    red: '#ed6a5a',
+    orange: '#edae49',
+    yellow: '#e4ce44',
+    lightRed: '#cc998d',
+    darkPurple: '#303965',
   },
   type: {
     fontSize: {
       base: 24,
       remBase: 24,
       body: 13,
-      bodySmaller: 12
+      bodySmaller: 12,
     },
     fontFamily: {
       default:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-    }
-  }
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    },
+  },
 };
 
 const theme = deepmerge(foundations, {
@@ -47,15 +47,15 @@ const theme = deepmerge(foundations, {
     border: foundations.colors.gray,
     offBorder: foundations.colors.lightGray,
 
-    headerBg: foundations.colors.white
+    headerBg: foundations.colors.white,
   },
   shadow: {
     color: foundations.colors.black,
-    opacity: 0.1
+    opacity: 0.1,
   },
   editor: {
     fontFamily: {
-      default: "JetBrains Mono"
+      default: 'JetBrains Mono',
     },
     fontSize: foundations.type.fontSize.bodySmaller,
     colors: {
@@ -70,9 +70,9 @@ const theme = deepmerge(foundations, {
       punctuation: foundations.colors.blue,
       definition: foundations.colors.orange,
       builtin: foundations.colors.orange,
-      cursor: foundations.colors.blue
-    }
-  }
+      cursor: foundations.colors.blue,
+    },
+  },
 });
 
 type RecursivePartial<T> = {
@@ -100,21 +100,21 @@ const colorToRGBA = (color: string): RGBA => {
   }
 
   // Strip everything except the integers eg. "rgb(" and ")" and " "
-  const rgbStr = color.split(/\(([^)]+)\)/)[1].replace(/ /g, "");
+  const rgbStr = color.split(/\(([^)]+)\)/)[1].replace(/ /g, '');
 
   // map RGB values to variables
-  const r = parseInt(rgbStr.split(",")[0], 10);
-  const g = parseInt(rgbStr.split(",")[1], 10);
-  const b = parseInt(rgbStr.split(",")[2], 10);
+  const r = parseInt(rgbStr.split(',')[0], 10);
+  const g = parseInt(rgbStr.split(',')[1], 10);
+  const b = parseInt(rgbStr.split(',')[2], 10);
   const a =
-    typeof rgbStr.split(",")[3] !== null
-      ? parseInt(rgbStr.split(",")[3], 10)
+    typeof rgbStr.split(',')[3] !== null
+      ? parseInt(rgbStr.split(',')[3], 10)
       : undefined;
 
   return { r, g, b, a };
 };
 
-const contrast = (color = "") => {
+const contrast = (color = '') => {
   // map RGB values to variables
   const { r, g, b } = colorToRGBA(color);
 
@@ -124,7 +124,7 @@ const contrast = (color = "") => {
   );
 };
 
-const hexToRgb = (hex: string): RGBA => {
+const hexToRgb = (hex: string): RGBA | undefined => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
     convertCssColorNameToHex(hex)
   );
@@ -132,19 +132,19 @@ const hexToRgb = (hex: string): RGBA => {
     ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
+        b: parseInt(result[3], 16),
       }
     : undefined;
 };
 
 export const hexToRgbStr = (hex: string) => {
   if (!hex) {
-    return "";
+    return '';
   }
 
   const rgb = hexToRgb(hex);
   if (!rgb) {
-    return "";
+    return '';
   }
 
   const { r, g, b } = rgb;
@@ -158,7 +158,7 @@ const rgbShade = (rgb: RGBA, i: number) => {
   return {
     r: rgb.r * (1 - 0.1 * i),
     g: rgb.g * (1 - 0.1 * i),
-    b: rgb.b * (1 - 0.1 * i)
+    b: rgb.b * (1 - 0.1 * i),
   };
 };
 
@@ -168,7 +168,7 @@ const rgbTint = (rgb: RGBA, i: number) => {
   return {
     r: rgb.r + (255 - rgb.r) * i * 0.1,
     g: rgb.g + (255 - rgb.g) * i * 0.1,
-    b: rgb.b + (255 - rgb.b) * i * 0.1
+    b: rgb.b + (255 - rgb.b) * i * 0.1,
   };
 };
 

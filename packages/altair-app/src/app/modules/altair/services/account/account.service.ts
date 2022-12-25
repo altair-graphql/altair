@@ -8,6 +8,7 @@ import {
   User,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
+import { createUtilsContext, getTeams } from 'altair-firebase-utils';
 import { environment } from 'environments/environment';
 import { from } from 'rxjs';
 import { isElectronApp } from '../../utils';
@@ -75,5 +76,14 @@ export class AccountService {
 
   async isUserSignedIn() {
     return !!(await this.getUser());
+  }
+
+  async getTeams() {
+    return getTeams(await this.ctx());
+  }
+
+  private async ctx() {
+    const user = await this.mustGetUser();
+    return createUtilsContext(user, firebaseClient.db);
   }
 }

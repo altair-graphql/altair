@@ -14,6 +14,11 @@ import { getFileStr, str } from '../../utils';
 import { ApiService } from '../api/api.service';
 import { AccountService } from '../account/account.service';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
+import {
+  WorkspaceId,
+  WORKSPACES,
+} from 'altair-graphql-core/build/types/state/workspace.interface';
+import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 type CollectionID = number | string;
 type QueryID = string;
@@ -39,33 +44,46 @@ export class QueryCollectionService {
    */
   async createCollection(
     collection: CreateDTO<IQueryCollection>,
+    workspaceId = new WorkspaceId(),
     collectionId?: string,
     parentCollectionId?: CollectionID
   ) {
-    const newCollectionId = await this.createLocalCollection(
-      collection,
-      collectionId,
-      parentCollectionId
-    );
+    if (workspaceId.value() === WORKSPACES.LOCAL) {
+      return this.createLocalCollection(
+        collection,
+        collectionId,
+        parentCollectionId
+      );
+    }
 
-    // Remote - don't add to remote yet, until user explicitly syncs
+    // workspaceId = remote means we create collection in the user's personal space
+    const teamId =
+      workspaceId.value() === WORKSPACES.REMOTE
+        ? undefined
+        : new TeamId(workspaceId.value());
 
-    return newCollectionId;
+    return this.createRemoteCollection(collection, teamId);
   }
 
   private async canApplyRemote() {
     return !!(await this.accountService.getUser());
   }
 
-  async createRemoteCollection(collection: IQueryCollection) {
+  async createRemoteCollection(
+    collection: CreateDTO<IQueryCollection>,
+    teamId?: TeamId
+  ) {
     if (!(await this.canApplyRemote())) {
       // not logged in
       return;
     }
 
-    // TODO: Handle parent collection ID
-
-    const res = await this.api.createQueryCollection(collection);
+    // TODO: Handle parent collection ID - at the moment, we don't know the parent collection server ID
+    const res = await this.api.createQueryCollection(
+      collection,
+      undefined,
+      teamId
+    );
 
     if (!res) {
       throw new Error('could not create the collection');
@@ -423,6 +441,7 @@ export class QueryCollectionService {
       for (const collection of collections) {
         await this.createCollection(
           collection,
+          new WorkspaceId(),
           collection.id,
           this.getParentCollectionId(collection)
         );

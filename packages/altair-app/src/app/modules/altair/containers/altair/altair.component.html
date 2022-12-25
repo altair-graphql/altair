@@ -250,6 +250,8 @@
               [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
               [windowTitle]="(activeWindow$ | async)?.layout.title"
               [collections]="(collection$ | async)?.list"
+              [loggedIn]="(account$ | async)?.loggedIn"
+              [teams]="(account$ | async)?.teams"
               (toggleDialogChange)="setShowAddToCollectionDialog($event)"
               (saveQueryToCollectionChange)="saveQueryToCollection($event)"
               (createCollectionAndSaveQueryToCollectionChange)="createCollectionAndSaveQueryToCollection($event)"
