@@ -5,9 +5,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { createTeam, FirebaseUtilsContext, getTeams, updateTeam } from 'altair-firebase-utils';
-import useUser from '../lib/useUser';
-import { notify } from '../lib/notify';
+import useUser from '../../lib/useUser';
+import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
+import Link from 'next/link';
 
 interface TeamsStackProps {
   teams: Team[];
@@ -107,7 +108,9 @@ function TeamsStack({ teams, onEditTeam }: TeamsStackProps) {
         <Group spacing="sm">
           <div>
             <Text size="sm" weight={500}>
-              {team.name}
+              <Link href={`/teams/${team.id}`}>
+                {team.name}
+              </Link>
             </Text>
             <Text color="dimmed" size="xs">
               {team.description}

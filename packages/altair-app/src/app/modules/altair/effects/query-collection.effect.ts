@@ -372,9 +372,12 @@ export class QueryCollectionEffects {
     return this.actions$.pipe(
       ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
       switchMap(() => {
-        return this.apiService.listenForCollectionChanges();
+        return from(this.apiService.listenForCollectionChanges()).pipe(
+          // unwrap observable
+          switchMap((x) => x)
+        );
       }),
-      map(() => {
+      map((x) => {
         return new collectionActions.LoadCollectionsAction();
       }),
       catchError((error) => {

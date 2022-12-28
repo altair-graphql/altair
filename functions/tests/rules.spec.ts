@@ -4,6 +4,7 @@ import http from 'http';
 import {
   assertSucceeds,
   initializeTestEnvironment,
+  RulesTestContext,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
 import { expect } from '@jest/globals';
@@ -23,7 +24,12 @@ import {
   collectionNames,
   getQuery,
   createQueryCollection,
+  getTeams,
+  getFirestoreSettings,
 } from 'altair-firebase-utils';
+
+const getFirestore = (ctx: RulesTestContext) =>
+  ctx.firestore({ ...getFirestoreSettings(), merge: true });
 
 // Setup
 // - create at least 2 users
@@ -86,31 +92,32 @@ describe('firestore rules', () => {
 
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
       const queries = await getDocs(
-        collection(ctx.firestore(), `/${collectionNames.queries}`)
+        collection(getFirestore(ctx), `/${collectionNames.queries}`)
       );
       expect(queries.size).toBe(0);
     });
 
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
       const queries = await getDocs(
-        collection(ctx.firestore(), `/${collectionNames.queryCollections}`)
+        collection(getFirestore(ctx), `/${collectionNames.queryCollections}`)
       );
       expect(queries.size).toBe(0);
     });
 
     // setup firestore
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
-      await setDoc(doc(ctx.firestore(), `/plan_configs/free`), {
+      await setDoc(doc(getFirestore(ctx), `/plan_configs/free`), {
         max_query_count: 100,
       });
     });
   });
 
   const setupUser = async (uid: string) => {
+    const email = `${uid}@test.com`;
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
-      await setDoc(doc(ctx.firestore(), `/users/${uid}`), {
+      await setDoc(doc(getFirestore(ctx), `/users/${uid}`), {
         name: uid,
-        email: `${uid}@test.com`,
+        email,
       });
     });
     const testCtx = testEnv.authenticatedContext(uid, {
@@ -118,18 +125,18 @@ describe('firestore rules', () => {
       // stripeRole: 'free',
     });
 
-    return { testCtx, user: { uid } };
+    return { testCtx, user: { uid, email } };
   };
 
   describe('query', () => {
     it('owner can read it', async () => {
       // setup authenticated test user
       const { user, testCtx } = await setupUser('alice');
-      const db = testCtx.firestore();
+      const db = getFirestore(testCtx);
       // TODO: Figure out the typing
       const ctx = createUtilsContext(user as any, db as any);
       await testEnv.withSecurityRulesDisabled(async (ctx) => {
-        await setDoc(doc(ctx.firestore(), '/queries/query_1'), {
+        await setDoc(doc(getFirestore(ctx), '/queries/query_1'), {
           ownerUid: 'alice',
         });
       });
@@ -139,7 +146,7 @@ describe('firestore rules', () => {
 
     it('user can create query', async () => {
       const { user, testCtx } = await setupUser('alice');
-      const db = testCtx.firestore();
+      const db = getFirestore(testCtx);
       // TODO: Figure out the typing
       const ctx = createUtilsContext(user as any, db as any);
 
@@ -161,7 +168,7 @@ describe('firestore rules', () => {
 
       await testEnv.withSecurityRulesDisabled(async (ctx) => {
         const queries = await getDocs(
-          collection(ctx.firestore(), `/${collectionNames.queries}`)
+          collection(getFirestore(ctx), `/${collectionNames.queries}`)
         );
         expect(queries.size).toBe(1);
       });
@@ -171,7 +178,7 @@ describe('firestore rules', () => {
   describe('query collection', () => {
     it('user can create query collection', async () => {
       const { user, testCtx } = await setupUser('alice');
-      const db = testCtx.firestore();
+      const db = getFirestore(testCtx);
       // TODO: Figure out the typing
       const ctx = createUtilsContext(user as any, db as any);
 
@@ -179,7 +186,6 @@ describe('firestore rules', () => {
         createQueryCollection(
           ctx,
           {
-            id: '1234',
             queries: [],
             title: 'Collection 1',
           },
@@ -189,10 +195,20 @@ describe('firestore rules', () => {
 
       await testEnv.withSecurityRulesDisabled(async (ctx) => {
         const queries = await getDocs(
-          collection(ctx.firestore(), `/${collectionNames.queryCollections}`)
+          collection(getFirestore(ctx), `/${collectionNames.queryCollections}`)
         );
         expect(queries.size).toBe(1);
       });
+    });
+  });
+
+  describe('team', () => {
+    it('owners can get teams', async () => {
+      const { user, testCtx } = await setupUser('alice');
+      const db = getFirestore(testCtx);
+      // TODO: Figure out the typing
+      const ctx = createUtilsContext(user as any, db as any);
+      await assertSucceeds(getTeams(ctx));
     });
   });
 });

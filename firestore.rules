@@ -8,52 +8,41 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow create: if isUser(userId);
-      allow read: if isUser(userId);
-      allow update: if isUser(userId);
+      allow create: if isCurrentUser(userId);
+      allow read: if isValidSignedInUser();
+      allow update: if isCurrentUser(userId);
       
       match /counters/{counterId} {
-        allow read: if isUser(userId);
+        allow read: if isCurrentUser(userId);
       }
 
       match /checkout_sessions/{id} {
-        allow read, write: if isUser(userId);
+        allow read, write: if isCurrentUser(userId);
       }
       match /subscriptions/{id} {
-        allow read: if isUser(userId);
+        allow read: if isCurrentUser(userId);
       }
       match /payments/{id} {
-        allow read: if isUser(userId);
+        allow read: if isCurrentUser(userId);
       }
     }
 
     // Needed for collection group queries?
     match /{path=**}/query_collections/{collectionId} {
-      allow create: if requestBelongsToUser();
-      allow read: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
-      allow update, delete: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
+      allow create: if requestBelongsToCurrentUser();
+      allow read: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
+      allow update, delete: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
     }
     match /{path=**}/queries/{queryId} {
-      allow create: if isValidSignedInUser() && requestBelongsToUser() && getQueriesCount() < getMaximumAllowedQueriesCount();
-      allow read: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
-      allow update, delete: if resourceBelongsToUser() || resourceBelongsToUsersTeam();
-    }
-
-    // flat - for collection group queries
-    // member ID == user ID who is the member
-    match /{path=**}/memberships/{memberId} {
-      allow read: if resourceBelongsToUser() || currentUserIsTeamMember(resource.data.teamUid);
+      allow create: if isValidSignedInUser() && requestBelongsToCurrentUser() && getQueriesCount() < getMaximumAllowedQueriesCount();
+      allow read: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
+      allow update, delete: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
     }
 
     match /teams/{teamId} {
-      allow create: if isValidSignedInUser() && requestBelongsToUser(); // TODO: && maximum team count (requires team count)
-      allow read: if resourceBelongsToUser() || currentUserIsTeamMember(teamId);
-      allow update: if resourceBelongsToUser();
-
-      // member ID == user ID who is the member
-      match /{path=**}/memberships/{memberId} {
-        allow write: if (requestBelongsToUser() || isUser(memberId)) && resource.data.teamUid == teamId;
-      }
+      allow create: if isValidSignedInUser() && requestBelongsToCurrentUser(); // TODO: && maximum team count (requires team count)
+      allow read: if resourceBelongsToCurrentUser() || currentUserIsTeamMember(teamId);
+      allow update: if resourceBelongsToCurrentUser();
 
       match /{path=**}/invitations/{invitationId} {
         // TODO:
@@ -61,6 +50,12 @@ service cloud.firestore {
       }
     }
 
+    match /team_memberships/{membershipId} {
+      allow create: if isValidSignedInUser() && (currentUserIsTeamMember(request.resource.data.teamUid) || isTeamOwner(request.auth.uid, request.resource.data.teamUid)) && userDataExists(request.resource.data.uid) && getUserData(request.resource.data.uid).email == request.resource.data.email; // TODO: only allow admins
+      allow read: if request.auth.uid == resource.data.uid || currentUserIsTeamMember(resource.data.teamUid) || isTeamOwner(request.auth.uid, resource.data.teamUid);
+      allow update: if isTeamOwner(request.auth.uid, resource.data.teamUid); // TODO: Allow admins
+      allow delete: if false; // TODO: Handle. Owner can delete anyone but themself. Admin can delete anyone but owner.
+    }
 
     match /product_configs/{id} {
       allow read: if true;
@@ -76,8 +71,12 @@ service cloud.firestore {
 
     // --- Helper functions --- //
 
+    function nonEmptyStr(val) {
+      return val != null && val != '';
+    }
+
     function isValidSignedInUser() {
-      return isSignedIn() && userExists();
+      return isSignedIn() && currentUserDataExists();
     }
 
     function requestMatchesUID() {
@@ -88,12 +87,16 @@ service cloud.firestore {
       return request.auth.uid == resource.data.uid;
     }
 
-    function requestBelongsToUser() {
+    function requestBelongsToCurrentUser() {
       return isValidSignedInUser() && request.auth.uid == request.resource.data.ownerUid;
     }
 
-    function resourceBelongsToUser() {
-      return isValidSignedInUser() && request.auth.uid == resource.data.ownerUid;
+    function resourceBelongsToCurrentUser() {
+      return isValidSignedInUser() && resourceBelongsToUser(request.auth.uid);
+    }
+
+    function resourceBelongsToUser(userId) {
+      return userId == resource.data.ownerUid;
     }
 
     function resourceBelongsToTeam(teamId) {
@@ -101,7 +104,11 @@ service cloud.firestore {
     }
 
     function isTeamMember(userId, teamId) {
-      return teamId != null && teamId != '' && exists(/databases/$(database)/documents/teams/$(teamId)/memberships/$(userId));
+      return nonEmptyStr(teamId) && nonEmptyStr(userId) && exists(/databases/$(database)/documents/team_memberships/$(teamMembershipId(teamId, userId))); // TODO: check user's team list in user/x/teams subcollection list (maybe hold off on this for now since the current approach works)
+    }
+
+    function isTeamOwner(userId, teamId) {
+      return nonEmptyStr(teamId) && nonEmptyStr(userId) && get(/databases/$(database)/documents/teams/$(teamId)).data.ownerUid == userId;
     }
 
     function currentUserIsTeamMember(teamId) {
@@ -112,14 +119,21 @@ service cloud.firestore {
       return currentUserIsTeamMember(resource.data.teamUid);
     }
 
+    function teamMembershipId(teamId, userId) {
+      return teamId + ':' + userId;
+    }
+
     function isSignedIn() {
       return request.auth != null;
     }
     function emailVerified() {
       return request.auth.token.email_verified;
     }
-    function userExists() {
-      return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    function currentUserDataExists() {
+      return request.auth != null && userDataExists(request.auth.uid);
+    }
+    function userDataExists(userId) {
+      return nonEmptyStr(userId) && exists(/databases/$(database)/documents/users/$(userId));
     }
 
     // [READ] Data that exists on the Firestore document
@@ -132,13 +146,13 @@ service cloud.firestore {
     }
 
     // Does the logged-in user match the requested userId?
-    function isUser(userId) {
+    function isCurrentUser(userId) {
       return request.auth != null && request.auth.uid == userId;
     }
 
     // Fetch a user from Firestore
-    function getUserData() {
-      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+    function getUserData(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data;
     }
 
     function getCounterValue(counterId) {

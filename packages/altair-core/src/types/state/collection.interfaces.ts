@@ -23,6 +23,7 @@ export interface IQuery extends ExportWindowState {
 export interface IRemoteQuery extends IQuery, BaseOwnableDocument {
   id: string;
   collectionId: string;
+  teamUid?: string;
 }
 
 export interface IQueryCollection extends BaseDocument {
@@ -46,7 +47,7 @@ export interface IRemoteQueryCollection
   extends Omit<IQueryCollection, 'parentPath' | 'queries'>,
     BaseOwnableDocument {
   parentCollectionId?: string;
-  teamOwnerUid?: string;
+  teamUid?: string;
 }
 
 export interface IQueryCollectionTree extends IQueryCollection {

@@ -10,7 +10,7 @@ import {
 import { doc } from '@firebase/firestore';
 import { createUtilsContext, getTeams } from 'altair-firebase-utils';
 import { environment } from 'environments/environment';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { firebaseClient, updateDocument, usersRef } from '../firebase/firebase';
@@ -49,6 +49,15 @@ export class AccountService {
 
   accountLogin$() {
     return from(this.accountLogin());
+  }
+  observeSignout() {
+    return new Observable((sub) => {
+      onAuthStateChanged(firebaseClient.auth, (user) => {
+        if (!user) {
+          sub.next(true);
+        }
+      });
+    });
   }
 
   async getUser() {

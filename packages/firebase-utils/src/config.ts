@@ -1,4 +1,5 @@
 import { FirebaseOptions } from "firebase/app";
+import { FirestoreSettings } from "firebase/firestore";
 export type ClientEnvironment = "development" | "production" | "testing";
 
 export const getClientConfig = (
@@ -28,3 +29,7 @@ export const getClientConfig = (
     appId: "1:584169952184:web:8884e50761ca87622c754d"
   };
 };
+
+export const getFirestoreSettings = (): FirestoreSettings => ({
+  ignoreUndefinedProperties: true
+});

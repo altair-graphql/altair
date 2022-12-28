@@ -11,7 +11,8 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "emulators:start": "firebase emulators:start",
-    "test:rules:dev": "yarn jest --watch"
+    "test": "firebase emulators:exec 'yarn jest'",
+    "test:rules:dev": "firebase emulators:exec 'yarn jest --watch'"
   },
   "engines": {
     "node": "18"

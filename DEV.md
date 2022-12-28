@@ -31,3 +31,7 @@ Check that the typescript versions in all the relevant packages are the same (us
 
 ### Typescript is not detecting possibly undefined issues
 Check that you have `strictNullChecks` option enabled in tsconfig.json
+
+### Firestore getDocs() failing with permission denied
+https://firebase.google.com/docs/firestore/security/rules-query#rules_are_not_filters
+Firestore compares the condition added to the query with the security rules, and they have to match. Otherwise it fails, even if the actual data set that would be returned would have met the conditions.

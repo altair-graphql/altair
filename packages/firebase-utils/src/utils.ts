@@ -15,7 +15,7 @@ import {
   IRemoteQueryCollection
 } from "altair-graphql-core/build/types/state/collection.interfaces";
 import { User } from "firebase/auth";
-import { UserDocument } from "./interfaces";
+import { TeamMembership, UserDocument } from "./interfaces";
 import { BaseDocument } from "altair-graphql-core/build/types/shared";
 import { Team } from "altair-graphql-core/build/types/state/account.interfaces";
 
@@ -43,7 +43,7 @@ export const collectionNames = {
   queries: "queries",
   users: "users",
   teams: "teams",
-  memberships: "memberships"
+  memberships: "team_memberships"
 };
 
 export const usersRef = (db: Firestore) =>
@@ -57,6 +57,9 @@ export const queriesRef = (db: Firestore) =>
 
 export const teamsRef = (db: Firestore) =>
   dataPoint<Team>(db, collectionNames.teams);
+
+export const teamMembersRef = (db: Firestore) =>
+  dataPoint<TeamMembership>(db, collectionNames.memberships);
 
 export const now = () => Date.now();
 

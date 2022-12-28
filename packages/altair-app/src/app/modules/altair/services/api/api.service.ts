@@ -16,7 +16,7 @@ import {
   IRemoteQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { Observable, from, fromEventPattern, merge } from 'rxjs';
-import { mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import {
   createQueries,
   createQueryCollection,
@@ -25,16 +25,15 @@ import {
   deleteQuery,
   getCollection,
   getCollections,
+  getTeams,
+  queriesRef,
+  queryCollectionsRef,
   updateCollection,
   updateQuery,
 } from 'altair-firebase-utils';
 import { debug } from '../../utils/logger';
 import { AccountService } from '../account/account.service';
-import {
-  firebaseClient,
-  queriesRef,
-  queryCollectionsRef,
-} from '../firebase/firebase';
+import { firebaseClient } from '../firebase/firebase';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 
@@ -97,20 +96,22 @@ export class ApiService {
     return getCollection(await this.ctx(), collectionServerId);
   }
 
-  // TODO: Handle team collections
   async getCollections(): Promise<IQueryCollection[]> {
     return getCollections(await this.ctx());
   }
 
-  // TODO: Make sure to unsubscribe observables when user logs out
-  listenForCollectionChanges() {
+  // TODO: Handle team collections
+  async listenForCollectionChanges() {
+    const ctx = await this.ctx();
+    const teams = await getTeams(ctx);
     return from(this.accountService.mustGetUser()).pipe(
       switchMap((user) => {
         debug.log('to listen for collection changes...');
+        const listeners = [];
         // Get query collections where owner == uid
         // Get queries where collectionId in collection IDs
         const collectionQ = query(
-          queryCollectionsRef(),
+          queryCollectionsRef(ctx.db),
           where('ownerUid', '==', user.uid)
         );
 
@@ -118,15 +119,40 @@ export class ApiService {
           (handler) => onSnapshot(collectionQ, handler),
           (handler, unsubscribe) => unsubscribe()
         );
+        listeners.push(collectionListener);
 
-        const docQ = query(queriesRef(), where('ownerUid', '==', user.uid));
+        if (teams.length) {
+          const teamCollectionQ = query(
+            queryCollectionsRef(ctx.db),
+            where(
+              'teamOwnerUid',
+              'in',
+              teams.map((t) => t.id)
+            )
+          );
+
+          const teamCollectionListener = fromEventPattern(
+            (handler) => onSnapshot(teamCollectionQ, handler),
+            (handler, unsubscribe) => unsubscribe()
+          );
+          listeners.push(teamCollectionListener);
+        }
+
+        const docQ = query(
+          queriesRef(ctx.db),
+          where('ownerUid', '==', user.uid)
+        );
 
         const docListener = fromEventPattern(
           (handler) => onSnapshot(docQ, handler),
           (handler, unsubscribe) => unsubscribe()
         );
+        listeners.push(docListener);
 
-        return merge(collectionListener, docListener);
+        // Unsubscribe observables when user logs out
+        return merge(listeners).pipe(
+          takeUntil(this.accountService.observeSignout())
+        );
       })
     );
   }

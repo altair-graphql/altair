@@ -1,7 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User, Auth } from "firebase/auth";
-import { ClientEnvironment, getClientConfig } from "./config";
+import {
+  ClientEnvironment,
+  getClientConfig,
+  getFirestoreSettings
+} from "./config";
 
 export const getUser = (auth: Auth) => {
   return new Promise<User | null>((resolve, reject) => {
@@ -21,7 +25,7 @@ export const initializeClient = (env: ClientEnvironment = "development") => {
   const config = getClientConfig(env);
   const app = initializeApp(config);
 
-  const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
+  const db = initializeFirestore(app, getFirestoreSettings());
   const auth = getAuth(app);
 
   return {
