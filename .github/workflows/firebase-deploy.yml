@@ -29,4 +29,4 @@ jobs:
       - name: Export credentials
         run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
       - name: Deploy firebase services
-        run: yarn deploy:firebase
+        run: yarn deploy:firebase --json
