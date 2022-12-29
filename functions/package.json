@@ -10,7 +10,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "prepare": "npm run build",
+    "prepare": "./scripts/prepare.sh",
     "emulators:start": "firebase emulators:start",
     "test": "firebase emulators:exec 'yarn jest'",
     "test:rules:dev": "firebase emulators:exec 'yarn jest --watch'"

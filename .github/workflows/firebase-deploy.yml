@@ -27,4 +27,4 @@ jobs:
       - name: Create Firebase deploy service account key locally
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MAIN }}' > $HOME/gcloud.json
       - name: Deploy firebase services
-        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && yarn deploy:firebase --json
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && yarn deploy:firebase
