@@ -110,6 +110,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Назва запиту",
   "SAVE_TO_COLLECTION_COLLECTION_NAME": "Назва колекції",
   "CREATE_COLLECTION_BUTTON": "Створити колекцію",
+  "SAVE_TO_COLLECTION_SELECT_WORKSPACE": "Choose a space",
   "NUMBER_OF_QUERIES": "Кількість запитів:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Кількість запитів:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Видалити",
