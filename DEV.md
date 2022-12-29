@@ -34,4 +34,34 @@ Check that you have `strictNullChecks` option enabled in tsconfig.json
 
 ### Firestore getDocs() failing with permission denied
 https://firebase.google.com/docs/firestore/security/rules-query#rules_are_not_filters
+https://stackoverflow.com/a/71948534/3929126
 Firestore compares the condition added to the query with the security rules, and they have to match. Otherwise it fails, even if the actual data set that would be returned would have met the conditions.
+
+### Colorize firestore rules coverage
+https://github.com/firebase/firebase-tools/issues/1289
+```css
+.coverage-expr:hover {
+    border-bottom: 3px dashed rgb(0, 0, 0);
+    cursor: default;
+}
+
+.coverage-expr[title="Expression never evaluated"] {
+    background: lightyellow;
+}
+
+.coverage-expr[title^="Value true returned"] {
+    background: lightgreen;
+}
+
+.coverage-expr[title^="Value false returned"] {
+    background: lightcoral;
+}
+
+.coverage-expr[title^="Expression short-circuited"] {
+    background: lightgrey;
+}
+
+.coverage-expr[title^="Error"] {
+    background: red;
+}
+```

@@ -30,7 +30,7 @@ service cloud.firestore {
     // Needed for collection group queries?
     match /{path=**}/query_collections/{collectionId} {
       allow create: if requestBelongsToCurrentUser();
-      allow read: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
+      allow read: if resource == null || resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
       allow update, delete: if resourceBelongsToCurrentUser() || resourceBelongsToUsersTeam();
     }
     match /{path=**}/queries/{queryId} {

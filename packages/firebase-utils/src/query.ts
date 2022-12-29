@@ -174,17 +174,21 @@ const getRemoteCollection = async (
     where("ownerUid", "==", ctx.user.uid),
     where(documentId(), "==", collectionServerId)
   );
-  const querySnapshot = await getDocs(q);
+  const querySnapshot = await getDoc(
+    doc(queryCollectionsRef(ctx.db), collectionServerId)
+  );
 
-  const queryCollectionSnapshot = querySnapshot.docs[0];
-
-  if (!queryCollectionSnapshot) {
+  if (!querySnapshot) {
+    return;
+  }
+  const data = querySnapshot.data();
+  if (!data) {
     return;
   }
 
   return {
-    ...queryCollectionSnapshot.data(),
-    id: queryCollectionSnapshot.id
+    ...data,
+    id: querySnapshot.id
   };
 };
 
