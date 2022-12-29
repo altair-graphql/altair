@@ -114,6 +114,7 @@ describe('QueryCollectionService', () => {
           await service.createCollection(
             pair.collection,
             undefined,
+            undefined,
             pair.parentCollectionId
           );
         }
