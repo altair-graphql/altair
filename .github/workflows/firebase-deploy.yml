@@ -5,7 +5,7 @@ on:
     branches:
       - master
   workflow_dispatch:
-  # pull_request: # Temporary dev trigger
+  pull_request: # Temporary dev trigger
 
 env:
   NODE_VERSION: 18
@@ -22,11 +22,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn --cwd ./functions --frozen-lockfile --network-timeout 1000000
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only functions,firestore
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - run: yarn build:ci
+      — name: Create Firebase deploy service account key locally
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MAIN }}' > $HOME/gcloud.json
+      — run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
+      — name: Deploy firebase services
+        run: yarn deploy:firebase
