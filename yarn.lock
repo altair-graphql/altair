@@ -24662,9 +24662,9 @@ smartwrap@^1.2.3:
     yargs "^15.1.0"
 
 snyk@^1.774.0:
-  version "1.774.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.774.0.tgz#42243b1b5fe6f4a98be2a286de491188aa17e2e2"
-  integrity sha512-DOvzvkRStlTRPAD2L8PkVPpwWop4Akl4bVcx33QUz9++CMGQm0P8bxZbpLjDiNVLm+67YOlvXzUEH+KTHVi/2Q==
+  version "1.1064.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.1064.0.tgz#e73b3a1aff585f6266f73ddd498c5cfd5e67aff0"
+  integrity sha512-f9mNO5rUc5nVVZ1sN+do2i5/RGHKlOQoNk5HiEO9WkPEn2pFllJv2XAw5Bn7sFj1eLXNFVUOUlo6SVqGnX7lXw==
 
 sockjs@^0.3.21:
   version "0.3.24"
