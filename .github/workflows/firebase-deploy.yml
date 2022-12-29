@@ -24,8 +24,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn --frozen-lockfile --network-timeout 1000000
       - run: yarn build:ci
-      — name: Create Firebase deploy service account key locally
+      - name: Create Firebase deploy service account key locally
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MAIN }}' > $HOME/gcloud.json
-      — run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
-      — name: Deploy firebase services
+      - name: Export credentials
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
+      - name: Deploy firebase services
         run: yarn deploy:firebase
