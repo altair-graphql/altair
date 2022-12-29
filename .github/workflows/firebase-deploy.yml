@@ -5,7 +5,7 @@ on:
     branches:
       - master
   workflow_dispatch:
-  pull_request: # Temporary dev trigger
+  # pull_request: # Temporary dev trigger
 
 env:
   NODE_VERSION: 18
