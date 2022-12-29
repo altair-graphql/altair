@@ -168,6 +168,7 @@ describe('AddCollectionQueryDialogComponent', () => {
       queryName: 'my query name',
       collectionName: 'my new collection name',
       parentCollectionId: 0,
+      workspaceId: 'local',
     });
   });
 

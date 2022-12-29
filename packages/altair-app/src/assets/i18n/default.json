@@ -125,6 +125,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Name of query",
   "SAVE_TO_COLLECTION_COLLECTION_NAME": "Name of collection",
   "CREATE_COLLECTION_BUTTON": "Create collection",
+  "SAVE_TO_COLLECTION_SELECT_WORKSPACE": "Choose a space",
   "NUMBER_OF_QUERIES": "Number of queries:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Delete",

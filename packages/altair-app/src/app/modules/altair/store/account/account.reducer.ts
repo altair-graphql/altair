@@ -9,6 +9,7 @@ export const getInitialState = (): AccountState => {
     email: '',
     firstName: '',
     lastName: '',
+    teams: [],
   };
 };
 
@@ -26,6 +27,11 @@ export function accountReducer(
       };
     case account.ACCOUNT_LOGGED_OUT:
       return getInitialState();
+    case account.SET_TEAMS:
+      return {
+        ...state,
+        teams: action.payload.teams,
+      };
     default:
       return state;
   }

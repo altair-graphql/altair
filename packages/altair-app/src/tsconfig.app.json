@@ -5,7 +5,8 @@
     "baseUrl": "",
     "types": [],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictNullChecks": true,
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true

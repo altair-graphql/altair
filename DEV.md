@@ -25,3 +25,43 @@ https://firebase.google.com/docs/auth/admin/create-custom-tokens#service_account
 Delete all node_modules (rm -rf node_modules && rm -rf packages/*/node_modules)
 Remove node_modules/.cache/nx
 Remove angular cache (packages/altair-app/.angular)
+
+### TSC CLI and VS Code showing different behavior for typescript errors
+Check that the typescript versions in all the relevant packages are the same (use `yarn why typescript`)
+
+### Typescript is not detecting possibly undefined issues
+Check that you have `strictNullChecks` option enabled in tsconfig.json
+
+### Firestore getDocs() failing with permission denied
+https://firebase.google.com/docs/firestore/security/rules-query#rules_are_not_filters
+https://stackoverflow.com/a/71948534/3929126
+Firestore compares the condition added to the query with the security rules, and they have to match. Otherwise it fails, even if the actual data set that would be returned would have met the conditions.
+
+### Colorize firestore rules coverage
+https://github.com/firebase/firebase-tools/issues/1289
+```css
+.coverage-expr:hover {
+    border-bottom: 3px dashed rgb(0, 0, 0);
+    cursor: default;
+}
+
+.coverage-expr[title="Expression never evaluated"] {
+    background: lightyellow;
+}
+
+.coverage-expr[title^="Value true returned"] {
+    background: lightgreen;
+}
+
+.coverage-expr[title^="Value false returned"] {
+    background: lightcoral;
+}
+
+.coverage-expr[title^="Expression short-circuited"] {
+    background: lightgrey;
+}
+
+.coverage-expr[title^="Error"] {
+    background: red;
+}
+```

@@ -3,3 +3,4 @@ initializeApp();
 
 export * from './api';
 export * from './counters';
+export * from './updatedAt';

@@ -77,6 +77,10 @@ import {
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { catchUselessObservableError } from '../../utils/errors';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import {
+  WorkspaceId,
+  WORKSPACES,
+} from 'altair-graphql-core/build/types/state/workspace.interface';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -774,6 +778,7 @@ export class AltairComponent {
     queryName = '',
     collectionName = '',
     parentCollectionId = 0,
+    workspaceId = WORKSPACES.LOCAL,
   }) {
     this.store.dispatch(
       new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
@@ -781,6 +786,7 @@ export class AltairComponent {
         windowTitle: queryName,
         collectionTitle: collectionName,
         parentCollectionId: parentCollectionId || undefined,
+        workspaceId: new WorkspaceId(workspaceId),
       })
     );
 

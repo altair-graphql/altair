@@ -92,6 +92,7 @@ describe('QueryCollectionService', () => {
       [QueryCollectionService],
       async (service: QueryCollectionService) => {
         const collection: IQueryCollection = {
+          id: '123',
           queries: [],
           title: 'Collection 1',
         };
@@ -99,7 +100,7 @@ describe('QueryCollectionService', () => {
         expect(result).toBeTruthy();
 
         // cleanup
-        await service.deleteCollection(result);
+        await service.deleteCollection(result!);
       }
     ));
   });
@@ -112,6 +113,7 @@ describe('QueryCollectionService', () => {
           const pair = collectionPairs[i];
           await service.createCollection(
             pair.collection,
+            undefined,
             undefined,
             pair.parentCollectionId
           );

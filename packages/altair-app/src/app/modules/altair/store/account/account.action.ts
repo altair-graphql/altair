@@ -1,9 +1,11 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 export const ACCOUNT_IS_LOGGED_IN = 'ACCOUNT_IS_LOGGED_IN';
 export const LOGOUT_ACCOUNT = 'LOGOUT_ACCOUNT';
 export const ACCOUNT_LOGGED_OUT = 'ACCOUNT_LOGGED_OUT';
+export const SET_TEAMS = 'SET_TEAMS';
 
 export class LoginAccountAction implements NGRXAction {
   readonly type = LOGIN_ACCOUNT;
@@ -29,8 +31,15 @@ export class AccountLoggedOutAction implements NGRXAction {
   readonly type = ACCOUNT_LOGGED_OUT;
 }
 
+export class SetTeamsAction implements NGRXAction {
+  readonly type = SET_TEAMS;
+
+  constructor(public payload: { teams: Team[] }) {}
+}
+
 export type Action =
   | LoginAccountAction
   | AccountIsLoggedInAction
   | LogoutAccountAction
-  | AccountLoggedOutAction;
+  | AccountLoggedOutAction
+  | SetTeamsAction;

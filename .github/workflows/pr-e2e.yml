@@ -6,19 +6,22 @@ on:
       - master
   pull_request:
 
+env:
+  NODE_VERSION: 18
+  # NODE_OPTIONS: --openssl-legacy-provider
+
 jobs:
   test:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        node-version: [16]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.NODE_VERSION }}
     - name: restore lerna
       uses: actions/cache@v2
       with:

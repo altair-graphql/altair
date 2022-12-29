@@ -6,6 +6,8 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
+import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import {
   IQueryCollection,
   IQueryCollectionTree,
@@ -13,6 +15,7 @@ import {
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { Observable } from 'rxjs';
 import { QueryCollectionService } from '../../services';
+import { capitalize } from '../../utils';
 
 @Component({
   selector: 'app-add-collection-query-dialog',
@@ -23,17 +26,23 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   @Input() showDialog = false;
   @Input() windowTitle = '';
   @Input() collections: IQueryCollection[] = [];
+  @Input() loggedIn = false;
+  @Input() teams: Team[] = [];
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter();
   @Output() saveQueryToCollectionChange = new EventEmitter();
   @Output() newCollectionParentCollectionIdChange = new EventEmitter();
 
+  get parentCollectionRootId() {
+    return 0; // 0 for root
+  }
   newCollectionQueryTitle = this.windowTitle;
   newCollectionTitle = '';
   collectionId = null;
-  newCollectionParentCollectionId = 0; // 0 for root
+  newCollectionParentCollectionId = this.parentCollectionRootId;
   collectionNodes: NzTreeNodeOptions[];
+  workspaceId = WORKSPACES.LOCAL;
 
   constructor(private collectionService: QueryCollectionService) {}
   ngOnChanges(changes: SimpleChanges) {
@@ -51,6 +60,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
       queryName: this.newCollectionQueryTitle,
       collectionName: this.newCollectionTitle,
       parentCollectionId: this.newCollectionParentCollectionId,
+      workspaceId: this.workspaceId,
     });
 
     this.reset();
@@ -65,16 +75,42 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
     this.reset();
   }
 
+  isNewCollection() {
+    return this.collectionId === -1;
+  }
+
   onSaveChange() {
-    if (this.collectionId && this.collectionId !== -1) {
+    if (this.isNewCollection()) {
+      return this.createCollectionAndSaveQueryToCollection();
+    }
+
+    if (this.collectionId) {
       return this.saveQueryToCollection();
     }
-    return this.createCollectionAndSaveQueryToCollection();
   }
 
   reset() {
     this.newCollectionQueryTitle = this.windowTitle;
     this.newCollectionTitle = '';
+  }
+
+  workspacesOptions() {
+    const defaultWorkspacesOptions = [
+      {
+        id: WORKSPACES.LOCAL,
+        label: capitalize(WORKSPACES.LOCAL),
+      },
+      {
+        id: WORKSPACES.REMOTE,
+        label: capitalize(WORKSPACES.REMOTE),
+      },
+    ];
+    const teamOptions = this.teams.map((team) => ({
+      id: team.id,
+      label: `${capitalize(WORKSPACES.REMOTE)} - ${team.name}`,
+    }));
+
+    return [...defaultWorkspacesOptions, ...teamOptions];
   }
 
   trackById(index: number, item: { id: string }) {

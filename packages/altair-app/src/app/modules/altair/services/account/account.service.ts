@@ -8,11 +8,12 @@ import {
   User,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
+import { createUtilsContext, getTeams } from 'altair-firebase-utils';
 import { environment } from 'environments/environment';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { auth, updateDocument, usersRef } from '../firebase/firebase';
+import { firebaseClient, updateDocument, usersRef } from '../firebase/firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -27,11 +28,11 @@ export class AccountService {
   private async signin() {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
-      return signInWithCustomToken(auth, authToken);
+      return signInWithCustomToken(firebaseClient.auth, authToken);
     }
 
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(firebaseClient.auth, provider);
   }
   async accountLogin() {
     const cred = await this.signin();
@@ -49,19 +50,22 @@ export class AccountService {
   accountLogin$() {
     return from(this.accountLogin());
   }
+  observeSignout() {
+    return new Observable((sub) => {
+      onAuthStateChanged(firebaseClient.auth, (user) => {
+        if (!user) {
+          sub.next(true);
+        }
+      });
+    });
+  }
 
   async getUser() {
     if (!environment.serverReady) {
       return null;
     }
 
-    return new Promise<User | null>((resolve) => {
-      const cleanup = onAuthStateChanged(auth, (user) => {
-        resolve(user);
-      });
-
-      return cleanup();
-    });
+    return await firebaseClient.getUser();
   }
 
   async mustGetUser() {
@@ -76,10 +80,19 @@ export class AccountService {
   }
 
   async logout() {
-    return signOut(auth);
+    return signOut(firebaseClient.auth);
   }
 
   async isUserSignedIn() {
     return !!(await this.getUser());
+  }
+
+  async getTeams() {
+    return getTeams(await this.ctx());
+  }
+
+  private async ctx() {
+    const user = await this.mustGetUser();
+    return createUtilsContext(user, firebaseClient.db);
   }
 }

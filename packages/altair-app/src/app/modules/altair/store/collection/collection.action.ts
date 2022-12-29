@@ -4,6 +4,7 @@ import {
   IQueryCollection,
   SortByOptions,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { WorkspaceId } from 'altair-graphql-core/build/types/state/workspace.interface';
 
 export const CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION =
   'CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION';
@@ -38,6 +39,7 @@ export class CreateCollectionAndSaveQueryToCollectionAction
       windowId: string;
       windowTitle?: string;
       parentCollectionId?: number;
+      workspaceId: WorkspaceId;
     }
   ) {}
 }

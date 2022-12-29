@@ -1,3 +1,4 @@
+import { BaseDocument, BaseOwnableDocument } from '../shared';
 import { PostrequestState } from './postrequest.interfaces';
 import { PrerequestState } from './prerequest.interfaces';
 import { ExportWindowState } from './window.interfaces';
@@ -19,14 +20,13 @@ export interface IQuery extends ExportWindowState {
   updated_at?: number;
 }
 
-export interface IRemoteQuery extends IQuery {
-  id?: string;
+export interface IRemoteQuery extends IQuery, BaseOwnableDocument {
+  id: string;
   collectionId: string;
-  ownerUid: string;
+  teamUid?: string;
 }
 
-export interface IQueryCollection {
-  id?: string;
+export interface IQueryCollection extends BaseDocument {
   title: string;
   queries: IQuery[];
   description?: string;
@@ -41,15 +41,13 @@ export interface IQueryCollection {
   parentPath?: string;
 
   storageType?: EntityStorageType;
-  created_at?: number;
-  updated_at?: number;
 }
 
 export interface IRemoteQueryCollection
-  extends Omit<IQueryCollection, 'parentPath' | 'queries'> {
-  id?: string;
+  extends Omit<IQueryCollection, 'parentPath' | 'queries'>,
+    BaseOwnableDocument {
   parentCollectionId?: string;
-  ownerUid: string;
+  teamUid?: string;
 }
 
 export interface IQueryCollectionTree extends IQueryCollection {
