@@ -49,6 +49,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
+    - uses: actions/setup-java@v3
+      with:
+        java-version: '11'
     - uses: nrwl/nx-set-shas@v2
       with:
         main-branch-name: master
