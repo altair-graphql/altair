@@ -1,6 +1,6 @@
 {
   "name": "altair-firebase-utils",
-  "version": "5.0.9",
+  "version": "5.0.10",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "altair-graphql-core": "^5.0.9",
+    "altair-graphql-core": "^5.0.10",
     "firebase": "^9.15.0"
   },
   "private": true
