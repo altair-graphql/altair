@@ -43,6 +43,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: altair-dashboard
           directory: packages/altair-dashboard/out
+          gitHubToken: ${{ github.token }}
   test:
     strategy:
       matrix:
