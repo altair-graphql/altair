@@ -28,6 +28,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
+      - run: |
+          export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          cd site
+          npx wrangler@2 pages publish "src/.vuepress/dist" --project-name="altair-site"
       - name: Publish to cloudflare pages ✨
         uses: cloudflare/pages-action@1
         with:
@@ -36,6 +41,8 @@ jobs:
           projectName: altair-site
           directory: site/src/.vuepress/dist
           gitHubToken: ${{ github.token }}
+        env:
+          WRANGLER_LOG: debug
       - name: Publish to cloudflare pages (dashboard app)
         uses: cloudflare/pages-action@1
         with:
@@ -44,6 +51,8 @@ jobs:
           projectName: altair-dashboard
           directory: packages/altair-dashboard/out
           gitHubToken: ${{ github.token }}
+        env:
+          WRANGLER_LOG: debug
   test:
     strategy:
       matrix:
