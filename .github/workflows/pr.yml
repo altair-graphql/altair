@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
       - run: yarn build-docs
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -35,6 +36,13 @@ jobs:
           projectName: altair-site
           directory: site/src/.vuepress/dist
           gitHubToken: ${{ github.token }}
+      - name: Publish to cloudflare pages (dashboard app)
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: altair-dashboard
+          directory: packages/altair-dashboard/out
   test:
     strategy:
       matrix:
