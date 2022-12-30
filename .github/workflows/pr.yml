@@ -22,19 +22,23 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
       - run: yarn build-docs
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
-      - name: Publish to cloudflare pages ✨
-        uses: cloudflare/pages-action@1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: altair-site
-          directory: site/src/.vuepress/dist
-          gitHubToken: ${{ github.token }}
+      # TODO: Make this reusable
+      - run: |
+          export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          cd site
+          npx wrangler@2 pages publish "src/.vuepress/dist" --project-name="altair-site"
+      - run: |
+          export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          cd packages/altair-dashboard
+          npx wrangler@2 pages publish "out" --project-name="altair-dashboard"
   test:
     strategy:
       matrix:
