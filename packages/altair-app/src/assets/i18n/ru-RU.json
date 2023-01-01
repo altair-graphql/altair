@@ -110,6 +110,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Имя запроса",
   "SAVE_TO_COLLECTION_COLLECTION_NAME": "Название коллекции",
   "CREATE_COLLECTION_BUTTON": "Создать коллекцию",
+  "SAVE_TO_COLLECTION_SELECT_WORKSPACE": "Choose a space",
   "NUMBER_OF_QUERIES": "Количество запросов:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Количество запросов:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Удалить",

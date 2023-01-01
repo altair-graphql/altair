@@ -110,6 +110,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Nome della query",
   "SAVE_TO_COLLECTION_COLLECTION_NAME": "Nome della collection",
   "CREATE_COLLECTION_BUTTON": "Crea collection",
+  "SAVE_TO_COLLECTION_SELECT_WORKSPACE": "Choose a space",
   "NUMBER_OF_QUERIES": "Numero di query:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Numero di richieste:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Elimina",

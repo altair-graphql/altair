@@ -110,6 +110,7 @@
   "SAVE_TO_COLLECTION_NAME_OF_QUERY": "Sorgunun adı",
   "SAVE_TO_COLLECTION_COLLECTION_NAME": "Koleksiyonun adı",
   "CREATE_COLLECTION_BUTTON": "Koleksiyon oluştur",
+  "SAVE_TO_COLLECTION_SELECT_WORKSPACE": "Choose a space",
   "NUMBER_OF_QUERIES": "Sorguların sayısı:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "İsteklerin sayısı:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Sil",
