@@ -13,7 +13,7 @@ import {
   documentId
 } from "firebase/firestore";
 import { TeamMembership } from "./interfaces";
-import { getUserByEmail } from "./user";
+import { getUserDataByEmail } from "./user";
 import {
   collectionNames,
   FirebaseUtilsContext,
@@ -34,7 +34,7 @@ export const createTeam = async (
   batch.set(newTeamRef, {
     ...data,
     id: newTeamRef.id,
-    ownerUid: ctx.user.uid,
+    ownerUid: ctx.uid,
     created_at: now(),
     updated_at: now()
   });
@@ -58,15 +58,12 @@ export const deleteTeam = async (ctx: FirebaseUtilsContext, teamId: string) => {
 
 export const getTeams = async (ctx: FirebaseUtilsContext) => {
   // Get all teams where user is a member/owner
-  const ownerQ = query(teamsRef(ctx.db), where("ownerUid", "==", ctx.user.uid));
+  const ownerQ = query(teamsRef(ctx.db), where("ownerUid", "==", ctx.uid));
 
   const ownerTeamsSnapshot = await getDocs(ownerQ);
   const ownerTeams = ownerTeamsSnapshot.docs.map(_ => _.data());
 
-  const memberQ = query(
-    teamMembersRef(ctx.db),
-    where("uid", "==", ctx.user.uid)
-  );
+  const memberQ = query(teamMembersRef(ctx.db), where("uid", "==", ctx.uid));
 
   const membershipsSnapshot = await getDocs(memberQ);
   // Extract team IDs from memberships. Filter out owned teams (since we already fetched them above)
@@ -87,14 +84,14 @@ export const getTeams = async (ctx: FirebaseUtilsContext) => {
   return sn.docs.map(_ => _.data()).concat(ownerTeams);
 };
 
-const getTeamMembershipId = (teamId: string, userId: string) =>
+export const getTeamMembershipId = (teamId: string, userId: string) =>
   `${teamId}:${userId}`;
 
 export const addTeamMember = async (
   ctx: FirebaseUtilsContext,
   data: Omit<CreateDTO<TeamMembership>, "uid">
 ) => {
-  const user = await getUserByEmail(ctx, data.email);
+  const user = await getUserDataByEmail(ctx, data.email);
   if (!user) {
     throw new Error("User not found!");
   }

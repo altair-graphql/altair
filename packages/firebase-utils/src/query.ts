@@ -17,6 +17,7 @@ import {
 } from "altair-graphql-core/build/types/state/collection.interfaces";
 import {
   FirebaseUtilsContext,
+  getDocument,
   now,
   queriesRef,
   queryCollectionsRef,
@@ -37,7 +38,7 @@ export const createQueryCollection = async (
   batch.set(newCollectionRef, {
     title: queryCollection.title,
     parentCollectionId: parentCollectionId,
-    ownerUid: ctx.user.uid,
+    ownerUid: ctx.uid,
     teamUid: teamId?.value(),
     id: newCollectionRef.id,
     created_at: now(),
@@ -84,7 +85,7 @@ const createQueriesToBatch = async (
       windowName: query.windowName,
       version: query.version,
       collectionId: collectionServerId,
-      ownerUid: ctx.user.uid,
+      ownerUid: ctx.uid,
       teamUid: extractedTeamId,
       created_at: now(),
       updated_at: now()
@@ -136,11 +137,7 @@ export const getQuery = async (
   ctx: FirebaseUtilsContext,
   queryServerId: string
 ) => {
-  const snapshot = await getDoc(doc(queriesRef(ctx.db), queryServerId));
-  return {
-    id: snapshot.id,
-    ...snapshot.data()
-  };
+  return getDocument(ctx, queriesRef(ctx.db), queryServerId);
 };
 
 export const updateCollection = async (
@@ -153,6 +150,7 @@ export const updateCollection = async (
     doc(queryCollectionsRef(ctx.db), collectionServerId),
     {
       title: collection.title,
+      description: collection.description,
       parentCollectionId: parentCollectionServerId
     }
   );
@@ -171,7 +169,7 @@ const getRemoteCollection = async (
 ): Promise<IRemoteQueryCollection | undefined> => {
   const q = query(
     queryCollectionsRef(ctx.db),
-    where("ownerUid", "==", ctx.user.uid),
+    where("ownerUid", "==", ctx.uid),
     where(documentId(), "==", collectionServerId)
   );
   const querySnapshot = await getDoc(
@@ -198,7 +196,7 @@ const getCollectionQueries = async (
 ): Promise<IRemoteQuery[]> => {
   const docQ = query(
     queriesRef(ctx.db),
-    where("ownerUid", "==", ctx.user.uid),
+    where("ownerUid", "==", ctx.uid),
     where("collectionId", "==", collectionServerId)
   );
 
@@ -231,7 +229,7 @@ export const getCollections = async (
   // Get queries where collectionId in collection IDs
   const q = query(
     queryCollectionsRef(ctx.db),
-    where("ownerUid", "==", ctx.user.uid)
+    where("ownerUid", "==", ctx.uid)
   );
   const querySnapshot = await getDocs(q);
 
@@ -259,7 +257,7 @@ export const getCollections = async (
     queryCollections.map(async col => {
       const docQ = query(
         queriesRef(ctx.db),
-        where("ownerUid", "==", ctx.user.uid),
+        where("ownerUid", "==", ctx.uid),
         where("collectionId", "==", col.id)
       );
 

@@ -17,3 +17,8 @@ export interface TeamMembership extends BaseDocument {
   teamUid: string;
   role: TeamRole;
 }
+
+export interface PlanConfig {
+  max_query_count: number;
+  max_team_count: number;
+}

@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "altair-graphql-core": "^5.0.10",
-    "firebase": "^9.15.0"
+    "firebase": "^9.15.0",
+    "firebase-admin": "^11.4.1"
   },
   "private": true
 }

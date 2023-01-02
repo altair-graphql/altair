@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions';
 import { firestore as firestoreFn } from 'firebase-functions';
 import { firestore as firestoreAdmin } from 'firebase-admin';
 
