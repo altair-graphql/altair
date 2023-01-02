@@ -21,4 +21,5 @@ export interface TeamMembership extends BaseDocument {
 export interface PlanConfig {
   max_query_count: number;
   max_team_count: number;
+  max_team_member_count: number;
 }

@@ -52,7 +52,7 @@ service cloud.firestore {
     }
 
     match /team_memberships/{membershipId} {
-      allow create: if isValidSignedInUser() && (isTeamAdmin(request.auth.uid, request.resource.data.teamUid) || isTeamOwner(request.auth.uid, request.resource.data.teamUid)) && userDataExists(request.resource.data.uid) && getUserData(request.resource.data.uid).email == request.resource.data.email; // TODO: only allow admins
+      allow create: if isValidSignedInUser() && (isTeamAdmin(request.auth.uid, request.resource.data.teamUid) || isTeamOwner(request.auth.uid, request.resource.data.teamUid)) && userDataExists(request.resource.data.uid) && getUserData(request.resource.data.uid).email == request.resource.data.email && getTeamMembershipsCount(request.resource.data.teamUid) < getCurrentPlanConfig().max_team_member_count; // TODO: only allow admins
       allow read: if request.auth.uid == resource.data.uid || currentUserIsTeamMember(resource.data.teamUid) || isTeamOwner(request.auth.uid, resource.data.teamUid);
       allow update: if isTeamOwner(request.auth.uid, resource.data.teamUid); // TODO: Allow admins
       allow delete: if false; // TODO: Handle. Owner can delete anyone but themself. Admin can delete anyone but owner.
@@ -164,12 +164,20 @@ service cloud.firestore {
       return !exists(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)) ? 0 : get(/databases/$(database)/documents/users/$(request.auth.uid)/counters/$(counterId)).data.val;
     }
 
+    function getTeamCounterValue(teamId, counterId) {
+      return !exists(/databases/$(database)/documents/teams/$(teamId)/counters/$(counterId)) ? 0 : get(/databases/$(database)/documents/teams/$(teamId)/counters/$(counterId)).data.val;
+    }
+
     function getQueriesCount() {
       return getCounterValue('queries');
     }
 
     function getTeamsCount() {
       return getCounterValue('teams');
+    }
+
+    function getTeamMembershipsCount(teamId) {
+      return getCounterValue(teamId, 'teams');
     }
 
     function getMaximumAllowedQueriesCount() {

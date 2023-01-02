@@ -14,18 +14,12 @@ export const onCreateTeam = firestoreFn
   .onCreate(async (snapshot, ctx) => {
     const id = snapshot.id;
     const data = snapshot.data() as Team;
-    const uid = ctx.auth?.uid; // data.ownerUid;
+    const uid = data.ownerUid;
 
     // add team owner as first team member
     if (!uid) {
       throw new Error(
         `team with id: ${snapshot.id} was created without an authenticated user.`
-      );
-    }
-
-    if (uid !== data.ownerUid) {
-      throw new Error(
-        `team with id: ${snapshot.id} was created by user (${uid}) but with ownerUid set to ${data.ownerUid}`
       );
     }
 
