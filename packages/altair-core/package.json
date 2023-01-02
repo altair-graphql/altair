@@ -6,8 +6,8 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "declarations": "tsc --declaration",
-    "prepare": "npm run declarations"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "prepare": "npm run build"
   },
   "engines": {
     "node": ">= 12"

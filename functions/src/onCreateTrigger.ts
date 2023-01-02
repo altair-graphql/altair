@@ -6,7 +6,7 @@ import {
   getUserData,
 } from 'altair-firebase-utils';
 import { getFirestore } from 'firebase/firestore';
-import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
+import type { Team } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
 
 // when a team is created
 export const onCreateTeam = firestoreFn
