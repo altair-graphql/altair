@@ -3,13 +3,16 @@ import {
   collection,
   collectionGroup,
   CollectionReference,
+  doc,
   DocumentReference,
   Firestore,
+  getDoc,
   PartialWithFieldValue,
   QueryDocumentSnapshot,
   setDoc,
   WithFieldValue
 } from "firebase/firestore";
+import { getFirestore } from "firebase-admin/firestore";
 import {
   IRemoteQuery,
   IRemoteQueryCollection
@@ -19,7 +22,7 @@ import { TeamMembership, UserDocument } from "./interfaces";
 import { BaseDocument } from "altair-graphql-core/build/types/shared";
 import { Team } from "altair-graphql-core/build/types/state/account.interfaces";
 
-const converter = <T>() => ({
+export const converter = <T>() => ({
   toFirestore: (data: PartialWithFieldValue<T>) =>
     typeof data === "undefined" || data === null ? {} : data,
   fromFirestore: (snap: QueryDocumentSnapshot) =>
@@ -64,7 +67,7 @@ export const teamMembersRef = (db: Firestore) =>
 export const now = () => Date.now();
 
 export interface FirebaseUtilsContext {
-  user: User;
+  uid: string;
   db: Firestore;
 }
 
@@ -72,7 +75,7 @@ export const createUtilsContext = (
   user: User,
   db: Firestore
 ): FirebaseUtilsContext => ({
-  user,
+  uid: user.uid,
   db
 });
 
@@ -88,4 +91,22 @@ export const updateDocument = <T extends BaseDocument>(
   data: PartialWithFieldValue<T>
 ) => {
   return setDoc(docRef, { ...data, updated_at: now() }, { merge: true });
+};
+
+export const getDocument = async <T extends BaseDocument>(
+  ctx: FirebaseUtilsContext,
+  collectionRef: CollectionReference<T>,
+  id: string
+): Promise<T | undefined> => {
+  const snapshot = await getDoc(doc(collectionRef, id));
+  const data = snapshot.data();
+
+  if (!data) {
+    return;
+  }
+
+  return {
+    ...data,
+    id: snapshot.id
+  };
 };

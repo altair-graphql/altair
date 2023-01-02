@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions';
 import { firestore as firestoreFn } from 'firebase-functions';
 import { firestore as firestoreAdmin } from 'firebase-admin';
 
@@ -6,7 +5,9 @@ const getCounterFunctions = (documentType: string) => {
   const incrementCounter = firestoreFn
     .document(`${documentType}/{itemId}`)
     .onCreate(async (snapshot) => {
-      const uid = snapshot.data().ownerUid;
+      const id = snapshot.id;
+      const data = snapshot.data();
+      const uid = data.ownerUid;
       if (!uid) {
         console.warn(
           `${documentType} with id: ${snapshot.id} was created without an authenticated user.`
@@ -22,12 +23,35 @@ const getCounterFunctions = (documentType: string) => {
           },
           { merge: true }
         );
+      await firestoreAdmin()
+        .doc(`users/${uid}/meta/${documentType}`)
+        .set(
+          {
+            items: firestoreAdmin.FieldValue.arrayUnion(id),
+          },
+          { merge: true }
+        );
+
+      if (data.teamUid) {
+        const teamUid = data.teamUid;
+        console.log(`adding ${documentType} to team ${teamUid}`);
+        await firestoreAdmin()
+          .doc(`teams/${teamUid}/meta/${documentType}`)
+          .set(
+            {
+              items: firestoreAdmin.FieldValue.arrayUnion(id),
+            },
+            { merge: true }
+          );
+      }
     });
 
   const decrementCounter = firestoreFn
     .document(`${documentType}/{itemId}`)
     .onDelete(async (snapshot) => {
-      const uid = snapshot.data().ownerUid;
+      const id = snapshot.id;
+      const data = snapshot.data();
+      const uid = data.ownerUid;
       if (!uid) {
         console.warn(
           `${documentType} with id: ${snapshot.id} was created without an authenticated user.`
@@ -43,6 +67,27 @@ const getCounterFunctions = (documentType: string) => {
           },
           { merge: true }
         );
+      await firestoreAdmin()
+        .doc(`users/${uid}/meta/${documentType}`)
+        .set(
+          {
+            items: firestoreAdmin.FieldValue.arrayRemove(id),
+          },
+          { merge: true }
+        );
+
+      if (data.teamUid) {
+        const teamUid = data.teamUid;
+        console.log(`adding ${documentType} to team ${teamUid}`);
+        await firestoreAdmin()
+          .doc(`teams/${teamUid}/meta/${documentType}`)
+          .set(
+            {
+              items: firestoreAdmin.FieldValue.arrayRemove(id),
+            },
+            { merge: true }
+          );
+      }
     });
 
   return [incrementCounter, decrementCounter];
@@ -55,3 +100,6 @@ export const [
   incrementQueryCollectionCounter,
   decrementQueryCollectionCounter,
 ] = getCounterFunctions('query_collections');
+
+export const [incrementTeamCounter, decrementTeamCounter] =
+  getCounterFunctions('teams');

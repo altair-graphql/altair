@@ -40,9 +40,10 @@ service cloud.firestore {
     }
 
     match /teams/{teamId} {
-      allow create: if isValidSignedInUser() && requestBelongsToCurrentUser(); // TODO: && maximum team count (requires team count)
+      allow create: if isValidSignedInUser() && requestBelongsToCurrentUser() && getTeamsCount() < getCurrentPlanConfig().max_team_count;
       allow read: if resourceBelongsToCurrentUser() || currentUserIsTeamMember(teamId);
       allow update: if resourceBelongsToCurrentUser();
+      allow delete: if resourceBelongsToCurrentUser();
 
       match /{path=**}/invitations/{invitationId} {
         // TODO:
@@ -51,7 +52,7 @@ service cloud.firestore {
     }
 
     match /team_memberships/{membershipId} {
-      allow create: if isValidSignedInUser() && (currentUserIsTeamMember(request.resource.data.teamUid) || isTeamOwner(request.auth.uid, request.resource.data.teamUid)) && userDataExists(request.resource.data.uid) && getUserData(request.resource.data.uid).email == request.resource.data.email; // TODO: only allow admins
+      allow create: if isValidSignedInUser() && (isTeamAdmin(request.auth.uid, request.resource.data.teamUid) || isTeamOwner(request.auth.uid, request.resource.data.teamUid)) && userDataExists(request.resource.data.uid) && getUserData(request.resource.data.uid).email == request.resource.data.email; // TODO: only allow admins
       allow read: if request.auth.uid == resource.data.uid || currentUserIsTeamMember(resource.data.teamUid) || isTeamOwner(request.auth.uid, resource.data.teamUid);
       allow update: if isTeamOwner(request.auth.uid, resource.data.teamUid); // TODO: Allow admins
       allow delete: if false; // TODO: Handle. Owner can delete anyone but themself. Admin can delete anyone but owner.
@@ -105,6 +106,10 @@ service cloud.firestore {
 
     function isTeamMember(userId, teamId) {
       return nonEmptyStr(teamId) && nonEmptyStr(userId) && exists(/databases/$(database)/documents/team_memberships/$(teamMembershipId(teamId, userId))); // TODO: check user's team list in user/x/teams subcollection list (maybe hold off on this for now since the current approach works)
+    }
+
+    function isTeamAdmin(userId, teamId) {
+      return nonEmptyStr(teamId) && nonEmptyStr(userId) && get(/databases/$(database)/documents/team_memberships/$(teamMembershipId(teamId, userId))).data.role == 'admin'; // TODO: check user's team list in user/x/teams subcollection list (maybe hold off on this for now since the current approach works)
     }
 
     function isTeamOwner(userId, teamId) {
@@ -161,6 +166,10 @@ service cloud.firestore {
 
     function getQueriesCount() {
       return getCounterValue('queries');
+    }
+
+    function getTeamsCount() {
+      return getCounterValue('teams');
     }
 
     function getMaximumAllowedQueriesCount() {

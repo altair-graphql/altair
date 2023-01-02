@@ -1,7 +1,11 @@
 import { getDocs, query, where } from "firebase/firestore";
-import { FirebaseUtilsContext, usersRef } from "./utils";
+import { FirebaseUtilsContext, getDocument, usersRef } from "./utils";
 
-export const getUserByEmail = async (
+export const getUserData = async (ctx: FirebaseUtilsContext, uid: string) => {
+  return getDocument(ctx, usersRef(ctx.db), uid);
+};
+
+export const getUserDataByEmail = async (
   ctx: FirebaseUtilsContext,
   email: string
 ) => {
