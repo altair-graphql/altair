@@ -99,6 +99,10 @@ jobs:
     needs: electron
     steps:
     - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
     - name: Authenticate with Registry
       run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
       env:
