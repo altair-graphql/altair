@@ -1,12 +1,12 @@
 import { firestore as firestoreFn } from 'firebase-functions';
-import {
-  collectionNames,
-  addTeamMember,
-  FirebaseUtilsContext,
-  getUserData,
-} from 'altair-firebase-utils';
-import { getFirestore } from 'firebase/firestore';
+import { firestore as firestoreAdmin } from 'firebase-admin';
+import { collectionNames, getTeamMembershipId } from 'altair-firebase-utils';
 import type { Team } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
+import { getDocument } from './utils';
+import {
+  TeamMembership,
+  UserDocument,
+} from 'altair-firebase-utils/build/interfaces';
 
 // when a team is created
 export const onCreateTeam = firestoreFn
@@ -23,22 +23,23 @@ export const onCreateTeam = firestoreFn
       );
     }
 
-    const utilsCtx: FirebaseUtilsContext = {
-      uid,
-      db: getFirestore(),
-    };
-
-    const user = await getUserData(utilsCtx, uid);
-
+    const user = await getDocument<UserDocument>(
+      firestoreAdmin().doc(`${collectionNames.users}/${uid}`)
+    );
     if (!user) {
       throw new Error(
         `Cannot find user with id: ${uid}, that owns team (${id})`
       );
     }
 
-    await addTeamMember(utilsCtx, {
-      teamUid: id,
-      role: 'owner',
-      email: user.email,
-    });
+    await firestoreAdmin()
+      .doc(`${collectionNames.memberships}/${getTeamMembershipId(id, uid)}`)
+      .set(
+        <TeamMembership>{
+          teamUid: id,
+          role: 'owner',
+          email: user.email,
+        },
+        { merge: true }
+      );
   });
