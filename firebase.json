@@ -22,7 +22,7 @@
       "yarn --cwd \"$RESOURCE_DIR\" lint",
       "yarn --cwd \"$RESOURCE_DIR\" build"
     ],
-    "source": "functions"
+    "source": "packages/firebase-functions"
   },
   "emulators": {
     "auth": {
@@ -32,7 +32,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8080
+      "port": 8081
     },
     "hosting": {
       "port": 4002

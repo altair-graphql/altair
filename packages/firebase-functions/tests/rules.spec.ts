@@ -15,7 +15,7 @@ import {
   collection,
   Firestore,
 } from 'firebase/firestore';
-import firebaseJson from '../../firebase.json';
+import firebaseJson from '../../../firebase.json';
 import {
   createQueries,
   collectionNames,
@@ -69,7 +69,10 @@ describe('firestore rules', () => {
       firestore: {
         host: '127.0.0.1',
         port: firebaseJson.emulators.firestore.port,
-        rules: fs.readFileSync(path.resolve('..', 'firestore.rules'), 'utf8'),
+        rules: fs.readFileSync(
+          path.resolve(__dirname, '../../..', 'firestore.rules'),
+          'utf8'
+        ),
       },
     });
   });
@@ -128,7 +131,8 @@ describe('firestore rules', () => {
       // setup plan config
       await setDoc(doc(getFirestore(ctx), `/plan_configs/free`), <PlanConfig>{
         max_query_count: 100,
-        max_team_count: 2,
+        max_team_count: 1,
+        max_team_member_count: 2,
       });
     });
   });

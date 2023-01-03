@@ -15,8 +15,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "libs/*",
-      "functions"
+      "libs/*"
     ]
   },
   "scripts": {

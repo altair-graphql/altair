@@ -177,7 +177,7 @@ service cloud.firestore {
     }
 
     function getTeamMembershipsCount(teamId) {
-      return getCounterValue(teamId, 'teams');
+      return getTeamCounterValue(teamId, 'teams');
     }
 
     function getMaximumAllowedQueriesCount() {
