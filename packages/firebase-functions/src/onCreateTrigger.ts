@@ -1,12 +1,27 @@
 import { firestore as firestoreFn } from 'firebase-functions';
 import { firestore as firestoreAdmin } from 'firebase-admin';
-import { collectionNames, getTeamMembershipId } from 'altair-firebase-utils';
+import {
+  PartialWithFieldValue,
+  QueryDocumentSnapshot,
+} from 'firebase-admin/firestore';
+import {
+  collectionNames,
+  getTeamMembershipId,
+  now,
+} from 'altair-firebase-utils';
 import type { Team } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
 import { getDocument } from './utils';
 import {
   TeamMembership,
   UserDocument,
 } from 'altair-firebase-utils/build/interfaces';
+
+const converter = <T>() => ({
+  toFirestore: (data: PartialWithFieldValue<T>) =>
+    typeof data === 'undefined' || data === null ? {} : data,
+  fromFirestore: (snap: QueryDocumentSnapshot) =>
+    ({ id: snap.id, ...snap.data() } as T & { id: string }),
+});
 
 // when a team is created
 export const onCreateTeam = firestoreFn
@@ -32,14 +47,17 @@ export const onCreateTeam = firestoreFn
       );
     }
 
+    const membershipId = getTeamMembershipId(id, uid);
     await firestoreAdmin()
-      .doc(`${collectionNames.memberships}/${getTeamMembershipId(id, uid)}`)
-      .set(
-        <TeamMembership>{
-          teamUid: id,
-          role: 'owner',
-          email: user.email,
-        },
-        { merge: true }
-      );
+      .doc(`${collectionNames.memberships}/${membershipId}`)
+      .withConverter(converter<TeamMembership>())
+      .create({
+        id: membershipId,
+        teamUid: id,
+        role: 'owner',
+        email: user.email,
+        uid,
+        created_at: now(),
+        updated_at: now(),
+      });
   });
