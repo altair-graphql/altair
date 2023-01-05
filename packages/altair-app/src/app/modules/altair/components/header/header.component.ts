@@ -4,6 +4,8 @@ import {
   EnvironmentsState,
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { externalLink } from '../../utils';
 
 @Component({
@@ -13,9 +15,9 @@ import { externalLink } from '../../utils';
 })
 export class HeaderComponent {
   @Input() experimentalEnabled = false;
-  @Input() windows = {};
-  @Input() windowIds = [];
-  @Input() closedWindows = [];
+  @Input() windows: WindowState = {};
+  @Input() windowIds: string[] = [];
+  @Input() closedWindows: PerWindowState[] = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Input() headerPanels: AltairPanel[] = [];
@@ -51,7 +53,7 @@ export class HeaderComponent {
     externalLink(e, url);
   }
 
-  trackById(index: number, item: { id: string }) {
+  trackById<T extends { id?: string }>(index: number, item: T) {
     return item.id;
   }
 }

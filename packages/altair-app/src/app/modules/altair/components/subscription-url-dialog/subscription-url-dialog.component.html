@@ -28,7 +28,7 @@
           <nz-option
             *ngFor="let provider of subscriptionProviders; trackBy:trackById"
             [nzValue]="provider.id"
-            [nzLabel]="provider.copyTag | translate"
+            [nzLabel]="(provider.copyTag || '') | translate"
           ></nz-option>
         </nz-select>
       </div>

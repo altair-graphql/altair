@@ -8,16 +8,16 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-interface PluginEventData {
-  event: PluginEvent;
-  payload: any;
+interface PluginEventData<E extends PluginEvent> {
+  event: E;
+  payload: PluginEventPayloadMap[E];
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class PluginEventService {
-  private eventStream = new Subject<PluginEventData>();
+  private eventStream = new Subject<PluginEventData<PluginEvent>>();
 
   constructor(private errorHandler: ErrorHandler) {}
 
@@ -43,7 +43,7 @@ export class PluginEventService {
    */
   on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
     return this.eventStream
-      .pipe(filter((_) => _.event === event))
+      .pipe(filter((_): _ is PluginEventData<E> => _.event === event))
       .subscribe((evtData) => {
         try {
           callback(evtData.payload);

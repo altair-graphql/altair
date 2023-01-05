@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js';
 import { GraphQLSchema } from 'graphql/type/schema';
-import { DocumentIndexEntry } from './models';
+import { DocumentIndexEntry, DocumentIndexFieldEntry } from './models';
 import { buildSchema } from 'graphql/utilities';
 import getRootTypes from '../../utils/get-root-types';
 import { GraphQLObjectType, GraphQLFieldMap, GraphQLType } from 'graphql';
@@ -75,16 +75,17 @@ export class DocUtils {
       const field = fields[fieldKey];
 
       // For each field, create an entry in the index
-      const fieldIndex = {
+      const fieldIndex: DocumentIndexFieldEntry = {
         search: field.name,
         name: field.name,
         description: field.description ? field.description : '',
-        args: field.args
-          ? field.args.map((arg) => ({
-              name: arg.name,
-              description: arg.description,
-            }))
-          : [],
+        // We cannot use the GraphQLArgument objects directly since
+        //  those can't be cloned using the structured cloning algorithm when
+        // sent to the worker. So we just use the required fields
+        args: field.args.map((arg) => ({
+          name: arg.name,
+          description: arg.description ?? '',
+        })),
         cat: 'field',
         type: (type as GraphQLObjectType).name,
         isQuery,
@@ -134,7 +135,7 @@ export class DocUtils {
     isRoot: boolean,
     curIndexStack: DocumentIndexEntry[]
   ): DocumentIndexEntry[] {
-    let fields = null;
+    let fields: GraphQLFieldMap<any, any> | undefined;
 
     // If a type does not have a name, don't process it
     if (!(type as GraphQLObjectType).name) {
@@ -150,7 +151,7 @@ export class DocUtils {
       fields = type.getFields();
     }
 
-    const _index = [
+    const _index: DocumentIndexEntry[] = [
       {
         search: type.name,
         name: type.name,
@@ -193,56 +194,10 @@ export class DocUtils {
 
   /**
    * Generate the query for the specified field
-   * @param name name of the current field
+   * @param field name of the current field
    * @param parentType parent type of the current field
    * @param parentFields preceding parent field and type combinations
    */
-  generateQuery(
-    name: string,
-    parentType: string,
-    opts: { tabSize?: number; addQueryDepthLimit?: number }
-  ) {
-    let query = '';
-    let hasArgs = false;
-
-    if (!this.schema) {
-      return;
-    }
-
-    // Add the root type of the query
-    switch (parentType) {
-      case this.schema.getQueryType() && this.schema.getQueryType()!.name:
-        query += 'query';
-        break;
-      case this.schema.getMutationType() && this.schema.getMutationType()!.name:
-        query += 'mutation';
-        break;
-      case this.schema.getSubscriptionType() &&
-        this.schema.getSubscriptionType()!.name:
-        query += 'subscription';
-        break;
-      default:
-        query += `fragment _____ on ${parentType}`;
-        hasArgs = true;
-    }
-
-    const fieldData = this.generateFieldData(name, parentType, [], 1, opts);
-
-    if (!fieldData) {
-      return;
-    }
-
-    // Add the query fields
-    query += `{\n${fieldData.query}\n}`;
-
-    const meta = { ...fieldData.meta };
-
-    // Update hasArgs option
-    meta.hasArgs = hasArgs || meta.hasArgs;
-
-    return { query, meta };
-  }
-
   async generateQueryV2(
     field: string,
     parentType: string,
@@ -268,121 +223,5 @@ export class DocUtils {
    */
   cleanName(name: string) {
     return name.replace(/[\[\]!]/g, '');
-  }
-
-  /**
-   * Generate the query for the specified field
-   * @param name name of the current field
-   * @param parentType parent type of the current field
-   * @param parentFields preceding parent field and type combinations
-   * @param level current depth level of the current field
-   */
-  private generateFieldData(
-    name: string,
-    parentType: string,
-    parentFields: { name: string; type: string }[],
-    level: number,
-    opts: { tabSize?: number; addQueryDepthLimit?: number } = {}
-  ): { query: string; meta: { hasArgs?: boolean } } {
-    if (!name || !parentType || !parentFields || !this.schema) {
-      return { query: '', meta: {} };
-    }
-    const tabSize = opts.tabSize || 2;
-    const parentTypeObject = this.schema.getType(parentType) as
-      | GraphQLObjectType
-      | undefined;
-    const field = parentTypeObject && parentTypeObject.getFields()[name];
-
-    if (!field) {
-      return { query: '', meta: {} };
-    }
-    const meta = {
-      hasArgs: false,
-    };
-
-    // Start the query with the field name
-    let fieldStr: string = ' '.repeat(level * tabSize) + field.name;
-
-    // If the field has arguments, add them
-    if (field.args && field.args.length) {
-      meta.hasArgs = true;
-
-      const argsList = field.args
-        .reduce((acc, cur) => {
-          return acc + ', ' + cur.name + ': ______';
-        }, '')
-        .substring(2);
-
-      fieldStr += `(${argsList})`;
-    }
-
-    // Retrieve the current field type
-    const curTypeName = this.cleanName(field.type.inspect());
-    const curType = this.schema.getType(curTypeName) as
-      | GraphQLObjectType
-      | undefined;
-
-    // Don't add a field if it has been added in the query already.
-    // This happens when there is a recursive field
-    if (parentFields.filter((x) => x.type === curTypeName).length) {
-      return { query: '', meta: {} };
-    }
-
-    // Stop adding new fields once the specified level depth limit is reached
-    if (level >= (opts.addQueryDepthLimit || 0)) {
-      return { query: '', meta: {} };
-    }
-
-    // Get all the fields of the field type, if available
-    const innerFields = curType && curType.getFields && curType.getFields();
-    let innerFieldsData = '';
-    if (innerFields) {
-      innerFieldsData = Object.keys(innerFields)
-        .reduce((acc, cur) => {
-          // Don't add a field if it has been added in the query already.
-          // This happens when there is a recursive field
-          if (
-            parentFields.filter((x) => x.name === cur && x.type === curTypeName)
-              .length
-          ) {
-            return '';
-          }
-
-          const curInnerFieldData = this.generateFieldData(
-            cur,
-            curTypeName,
-            [...parentFields, { name, type: curTypeName }],
-            level + 1,
-            opts
-          );
-          if (!curInnerFieldData) {
-            return acc;
-          }
-
-          const curInnerFieldStr: string = curInnerFieldData.query;
-
-          // Set the hasArgs meta if the inner field has args
-          meta.hasArgs =
-            meta.hasArgs || curInnerFieldData.meta.hasArgs || false;
-
-          // Don't bother adding the field if there was nothing generated.
-          // This should fix the empty line issue in the inserted queries
-          if (!curInnerFieldStr) {
-            return acc;
-          }
-
-          // Join all the fields together
-          return acc + '\n' + curInnerFieldStr;
-        }, '')
-        .substring(1);
-    }
-
-    // Add the inner fields with braces if available
-    if (innerFieldsData) {
-      fieldStr += `{\n${innerFieldsData}\n`;
-      fieldStr += ' '.repeat(level * tabSize) + `}`;
-    }
-
-    return { query: fieldStr, meta };
   }
 }

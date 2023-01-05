@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 Object.defineProperty(window, 'crypto', {
   value: {
-    getRandomValues: (arr: any[]) => crypto.randomBytes(arr.length),
+    getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
   },
 });
 jest.mock(

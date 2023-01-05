@@ -2,6 +2,7 @@ import { Action as NGRXAction } from '@ngrx/store';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 export const PUSH_CLOSED_WINDOW_TO_LOCAL = 'PUSH_CLOSED_WINDOW_TO_LOCAL';
 export const POP_FROM_CLOSED_WINDOWS = 'POP_FROM_CLOSED_WINDOWS';
@@ -16,7 +17,7 @@ export const REMOVE_UI_ACTION = 'REMOVE_UI_ACTION';
 export class PushClosedWindowToLocalAction implements NGRXAction {
   readonly type = PUSH_CLOSED_WINDOW_TO_LOCAL;
 
-  constructor(public payload: { window: any }) {}
+  constructor(public payload: { window: PerWindowState }) {}
 }
 
 export class PopFromClosedWindowsAction implements NGRXAction {

@@ -20,6 +20,8 @@ import { TrackByIdItem } from '../../interfaces/shared';
 import { EditorState, Extension } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
 import { indentUnit } from '@codemirror/language';
+import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
   selector: 'app-query-result',
@@ -31,7 +33,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
-  @Input() responseHeaders = {};
+  @Input() responseHeaders: IDictionary<string> = {};
   @Input() requestScriptLogs: LogLine[] = [];
   @Input() isSubscribed = false;
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
@@ -40,8 +42,8 @@ export class QueryResultComponent implements OnChanges {
   @Input() autoscrollSubscriptionResponses = false;
   @Input() windowId = '';
   @Input() activeWindowId = '';
-  @Input() uiActions = [];
-  @Input() bottomPanels = [];
+  @Input() uiActions: AltairUiAction[] = [];
+  @Input() bottomPanels: AltairPanel[] = [];
 
   @Output() downloadResultChange = new EventEmitter();
   @Output() clearResultChange = new EventEmitter();

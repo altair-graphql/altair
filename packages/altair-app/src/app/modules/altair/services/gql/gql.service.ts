@@ -35,7 +35,7 @@ import { debug } from '../../utils/logger';
 
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import * as fromVariables from '../../store/variables/variables.reducer';
-import { fillAllFields } from './fillFields';
+import { fillAllFields, FillAllFieldsOptions } from './fillFields';
 import { setByDotNotation } from '../../utils';
 import { Token } from 'codemirror';
 import { IDictionary, Omit } from '../../interfaces/shared';
@@ -170,7 +170,7 @@ export class GqlService {
     return this;
   }
 
-  getParamsFromData(data: { [key: string]: any }) {
+  getParamsFromData(data: IDictionary) {
     return Object.keys(data).reduce(
       (params, key) =>
         data[key]
@@ -280,7 +280,7 @@ export class GqlService {
     query: string,
     cursor: Position,
     token: ContextToken,
-    opts: any
+    opts: FillAllFieldsOptions
   ) {
     return fillAllFields(schema, query, cursor, token, opts);
   }
@@ -319,7 +319,7 @@ export class GqlService {
    * Check if the schema is a valid GraphQL schema
    * @param schema The schema object instance
    */
-  isSchema(schema: any) {
+  isSchema(schema: unknown) {
     return schema instanceof GraphQLSchema;
   }
 
@@ -654,7 +654,7 @@ export class GqlService {
       const { resolvedFiles } = this.normalizeFiles(files);
       if (resolvedFiles && resolvedFiles.length) {
         // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
-        const fileMap: any = {};
+        const fileMap: IDictionary<string[]> = {};
         data.variables = data.variables || {};
         resolvedFiles.forEach((file, i) => {
           setByDotNotation(data.variables, file.name, null);

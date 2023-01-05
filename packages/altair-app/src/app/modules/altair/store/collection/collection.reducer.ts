@@ -6,7 +6,6 @@ import * as collectionActions from '../../store/collection/collection.action';
 export const getInitialState = (): CollectionState => {
   return {
     list: [],
-    activeCollection: null,
     sortBy: 'newest',
   };
 };

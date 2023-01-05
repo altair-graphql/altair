@@ -3,6 +3,7 @@ import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { RemotePluginListItem } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 
 @Component({
   selector: 'app-plugin-manager',
@@ -16,8 +17,8 @@ export class PluginManagerComponent {
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
 
-  remotePlugins$: Observable<[]>;
-  selectedPluginItem: any;
+  remotePlugins$: Observable<RemotePluginListItem[]>;
+  selectedPluginItem: RemotePluginListItem;
 
   shouldRestart = false;
 
@@ -26,15 +27,17 @@ export class PluginManagerComponent {
       catchError((error) => {
         return of(null);
       }),
-      map((data: any) => {
+      map((data) => {
         if (data) {
           return data.items;
         }
+
+        return [];
       })
     );
   }
 
-  onSelectPlugin(pluginItem: any) {
+  onSelectPlugin(pluginItem: RemotePluginListItem) {
     this.selectedPluginItem = pluginItem;
   }
 
@@ -65,7 +68,7 @@ export class PluginManagerComponent {
     location.reload();
   }
 
-  trackByName(index: number, item: { name: string }) {
+  trackByName<T extends { name: string | null }>(index: number, item: T) {
     return item.name;
   }
 }

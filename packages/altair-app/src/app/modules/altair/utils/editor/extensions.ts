@@ -12,7 +12,7 @@ export const baseJavascriptExtensions: Extension[] = [
   globalJavaScriptCompletions,
 ];
 
-export const getRequestScriptExtensions = (altairObj: any) => {
+export const getRequestScriptExtensions = (altairObj: unknown) => {
   const requestScriptTheme = EditorView.theme({
     '&': {
       backgroundColor: 'var(--theme-off-bg-color)',

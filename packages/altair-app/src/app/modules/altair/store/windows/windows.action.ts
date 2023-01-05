@@ -43,8 +43,6 @@ export class ExportWindowAction implements NGRXAction {
 
 export class ImportWindowAction implements NGRXAction {
   readonly type = IMPORT_WINDOW;
-
-  constructor(public payload?: any) {}
 }
 
 export class ImportWindowFromCurlAction implements NGRXAction {

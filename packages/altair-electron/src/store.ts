@@ -1,7 +1,7 @@
 import ElectronStore from "electron-store";
 
 export class InMemoryStore {
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 
   constructor() {
     this.data = {};
@@ -18,7 +18,7 @@ export class InMemoryStore {
    * @param {string} key key of item
    * @param {any} val value of item
    */
-  set(key: string, val: any) {
+  set(key: string, val: unknown) {
     this.data[key] = val;
   }
 

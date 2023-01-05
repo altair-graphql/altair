@@ -6,7 +6,6 @@ export const getInitialState = (): StreamState => {
     url: '',
     type: '',
     isConnected: false,
-    failed: null,
   };
 };
 

@@ -1,9 +1,11 @@
 import { Action as NGRXAction } from '@ngrx/store';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import {
+  HttpVerb,
   LogLine,
   QueryEditorState,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { OperationDefinitionNode } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
 
 export const SET_URL = 'SET_URL';
@@ -66,7 +68,10 @@ export class SetUrlAction implements NGRXAction {
 export class SetHTTPMethodAction implements NGRXAction {
   readonly type = SET_HTTP_VERB;
 
-  constructor(public payload: { httpVerb: string }, public windowId: string) {}
+  constructor(
+    public payload: { httpVerb: HttpVerb },
+    public windowId: string
+  ) {}
 }
 
 export class SetUrlFromDbAction implements NGRXAction {
@@ -87,7 +92,7 @@ export class SetSubscriptionUrlAction implements NGRXAction {
 export class SendIntrospectionQueryRequestAction implements NGRXAction {
   readonly type = SEND_INTROSPECTION_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SetQueryAction implements NGRXAction {
@@ -105,7 +110,7 @@ export class SetQueryFromDbAction implements NGRXAction {
 export class SetQueryResultAction implements NGRXAction {
   readonly type = SET_QUERY_RESULT;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(public payload: string, public windowId: string) {}
 }
 
 export class SetQueryResultResponseHeadersAction implements NGRXAction {
@@ -120,37 +125,37 @@ export class SetQueryResultResponseHeadersAction implements NGRXAction {
 export class PrettifyQueryAction implements NGRXAction {
   readonly type = PRETTIFY_QUERY;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class CompressQueryAction implements NGRXAction {
   readonly type = COMPRESS_QUERY;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class CopyAsCurlAction implements NGRXAction {
   readonly type = COPY_AS_CURL;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class ConvertToNamedQueryAction implements NGRXAction {
   readonly type = CONVERT_TO_NAMED_QUERY;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class RefactorQueryAction implements NGRXAction {
   readonly type = REFACTOR_QUERY;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SendQueryRequestAction implements NGRXAction {
   readonly type = SEND_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SetSelectedOperationAction implements NGRXAction {
@@ -180,13 +185,13 @@ export class SetResponseStatsAction implements NGRXAction {
 export class StartSubscriptionAction implements NGRXAction {
   readonly type = START_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class StopSubscriptionAction implements NGRXAction {
   readonly type = STOP_SUBSCRIPTION;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SetSubscriptionConnectionParamsAction implements NGRXAction {
@@ -223,7 +228,7 @@ export class AddSubscriptionResponseAction implements NGRXAction {
     public windowId: string,
     public payload: {
       response: string;
-      responseObj?: any;
+      responseObj?: unknown;
       responseTime: number;
     }
   ) {}
@@ -238,31 +243,34 @@ export class SetSubscriptionResponseListAction implements NGRXAction {
 export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
   readonly type = TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class ClearResultAction implements NGRXAction {
   readonly type = CLEAR_RESULT;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class DownloadResultAction implements NGRXAction {
   readonly type = DOWNLOAD_RESULT;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class CancelQueryRequestAction implements NGRXAction {
   readonly type = CANCEL_QUERY_REQUEST;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SetQueryOperationsAction implements NGRXAction {
   readonly type = SET_QUERY_OPERATIONS;
 
-  constructor(public windowId: string, public payload: { operations: any[] }) {}
+  constructor(
+    public windowId: string,
+    public payload: { operations: OperationDefinitionNode[] }
+  ) {}
 }
 
 export class SetQueryEditorStateAction implements NGRXAction {

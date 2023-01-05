@@ -11,6 +11,8 @@ import {
   GraphQLType,
   GraphQLArgs,
   GraphQLArgument,
+  GraphQLField,
+  GraphQLInputField,
 } from 'graphql';
 
 @Component({
@@ -20,7 +22,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerFieldComponent {
-  @Input() data: any = {};
+  @Input() data: GraphQLField<any, any>;
   @Input() gqlSchema: GraphQLSchema;
   @Input() parentType = '';
   @Input() sortByOption: SortByOptions = 'none';

@@ -70,7 +70,7 @@ const getRenderedAltairOpts = (renderOptions: RenderOptions, keys: (keyof Altair
 
     return [ '{', ...optProps, '}'].join('\n');
 };
-function getObjectPropertyForOption(option: any, propertyName: keyof AltairConfigOptions) {
+function getObjectPropertyForOption(option: unknown, propertyName: keyof AltairConfigOptions) {
     if (typeof option !== 'undefined') {
         switch (typeof option) {
             case 'object':

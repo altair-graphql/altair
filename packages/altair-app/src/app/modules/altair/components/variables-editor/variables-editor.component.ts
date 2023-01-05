@@ -28,6 +28,7 @@ import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
 import { gqlVariables, updateVariableToType } from './extensions';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
+import { TODO } from 'altair-graphql-core/build/types/shared';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_\"\']$/;
 
@@ -66,9 +67,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     extraKeys: {
       'Ctrl-Enter': (_cm: CodeMirror.Editor) => {},
       'Cmd-Enter': (_cm: CodeMirror.Editor) => {},
-      'Cmd-Space': (cm: any) => cm.showHint({ completeSingle: false }),
-      'Ctrl-Space': (cm: any) => cm.showHint({ completeSingle: false }),
-      'Alt-Space': (cm: any) => cm.showHint({ completeSingle: false }),
+      'Cmd-Space': (cm: TODO) => cm.showHint({ completeSingle: false }),
+      'Ctrl-Space': (cm: TODO) => cm.showHint({ completeSingle: false }),
+      'Alt-Space': (cm: TODO) => cm.showHint({ completeSingle: false }),
     },
     theme: 'default variable-editor mousetrap',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],

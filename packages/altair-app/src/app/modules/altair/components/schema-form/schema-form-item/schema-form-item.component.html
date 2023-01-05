@@ -12,14 +12,17 @@
         <nz-switch [(ngModel)]="data" [name]="item.key" (ngModelChange)="onInput($event, item)"></nz-switch>
       </nz-form-control>
     </ng-container>
-    <app-schema-form-item-input
-      *ngSwitchCase="'string'"
-      [item]="item"
-      [(data)]="data"
-      (dataChange)="onInput($event, item)"
-    ></app-schema-form-item-input>
+    <ng-container *ngSwitchCase="'string'">
+      <app-schema-form-item-input
+        *ngIf="isString(data)"
+        [item]="item"
+        [(data)]="data"
+        (dataChange)="onInput($event, item)"
+      ></app-schema-form-item-input>
+    </ng-container>
     <ng-container *ngSwitchCase="'array'">
       <app-schema-form-item-list
+        *ngIf="isArray(data)"
         [item]="item"
         [(data)]="data"
         (dataChange)="onInput($event, item)"

@@ -6,6 +6,12 @@ import fileDialog from 'file-dialog';
 import { VARIABLE_REGEX } from '../services/environment/environment.service';
 import { commentRegex } from './comment-regex';
 
+interface DownloadDataOptions {
+  mimeType?: string;
+  dataUriAttr?: string;
+  fileType?: string;
+}
+
 /**
  * Download the specified data with the provided options
  * @param data data string to download
@@ -19,7 +25,7 @@ export const downloadData = (
     mimeType = 'text/plain',
     dataUriAttr = 'text/plain;charset=utf-8',
     fileType = 'txt',
-  } = {}
+  }: DownloadDataOptions = {}
 ) => {
   const dataStr = `data:${dataUriAttr},${data}`;
   const fileNameWithExt = `${toSnakeCase(fileName)}.${fileType}`;
@@ -33,9 +39,9 @@ export const downloadData = (
  * @param fileName The name the file will be called
  */
 export const downloadJson = (
-  obj: any,
+  obj: unknown,
   fileName = 'response',
-  opts: any = undefined
+  opts?: DownloadDataOptions
 ) => {
   let _opts = {
     mimeType: 'text/json',
@@ -51,21 +57,34 @@ export const downloadJson = (
   downloadData(dataStr, fileName, _opts);
 };
 
+const readFile = (file: File) => {
+  return new Promise<string | ArrayBuffer | null | undefined>(
+    (resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => resolve(e.target?.result);
+      fileReader.onerror = (e) => reject(e.target?.error);
+      fileReader.readAsText(file);
+    }
+  );
+};
+
 /**
  * Get file data as string
  * @param files FileList object
  */
-export const getFileStr = (files: FileList) => {
-  return new Promise<string>((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.onload = function (e: any) {
-      const contents: string = e.target.result;
+export const getFileStr = async (file: File): Promise<string> => {
+  const content = await readFile(file);
 
-      // Resolve file content
-      resolve(contents);
-    };
-    fileReader.readAsText(files[0]);
-  });
+  if (content) {
+    if (content instanceof ArrayBuffer) {
+      const decoder = new TextDecoder();
+      return decoder.decode(content);
+    }
+
+    return content;
+  }
+
+  return '';
 };
 interface FileDialogOptions {
   readonly multiple?: boolean;
@@ -74,30 +93,17 @@ interface FileDialogOptions {
 export const openFile = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog(opts);
-    return getFileStr(files);
+    return getFileStr(files[0]);
   } catch (err) {
     debug.log('There was an issue while opening the file: ', err);
   }
-};
-
-export const getFileContent = async (file: File) => {
-  return new Promise<string>((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.onload = function (e: any) {
-      const contents: string = e.target.result;
-
-      // Resolve file content
-      resolve(contents);
-    };
-    fileReader.readAsText(file);
-  });
 };
 
 export const openFiles = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog({ ...opts, multiple: true });
 
-    return Promise.all([...files].map((file) => getFileContent(file)));
+    return Promise.all([...files].map((file) => getFileStr(file)));
   } catch (err) {
     debug.log('There was an issue while opening the files: ', err);
 

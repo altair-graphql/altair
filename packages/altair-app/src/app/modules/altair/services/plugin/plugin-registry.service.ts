@@ -11,6 +11,7 @@ import {
   createPlugin,
   PluginManifest,
   PluginSource,
+  RemotePluginListResponse,
 } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
@@ -68,7 +69,7 @@ export class PluginRegistryService {
   }
 
   getRemotePluginList() {
-    return this.http.get(
+    return this.http.get<RemotePluginListResponse>(
       'https://altair-plugin-server.sirmuel.workers.dev/list?v=2'
     );
   }
@@ -318,7 +319,7 @@ export class PluginRegistryService {
       script.type = 'text/javascript';
       script.src = url;
       script.onload = () => resolve(null);
-      script.onerror = (err: any) => reject(err);
+      script.onerror = (err: Event) => reject(err);
       head.appendChild(script);
     });
   }
@@ -330,7 +331,7 @@ export class PluginRegistryService {
       style.rel = 'stylesheet';
       style.href = url;
       style.onload = () => resolve(null);
-      style.onerror = (err: any) => reject(err);
+      style.onerror = (err: Event) => reject(err);
       head.appendChild(style);
     });
   }
@@ -362,7 +363,7 @@ export class PluginRegistryService {
     return pluginBaseUrl;
   }
 
-  private getURLPluginBaseURL(name: string, opts: any) {
+  private getURLPluginBaseURL(name: string, opts: PluginInfo) {
     return opts.url;
   }
 

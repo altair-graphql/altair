@@ -39,7 +39,7 @@ async function nextTick<C>(fixture: ComponentFixture<C>) {
 export function setProps<C>(
   fixture: ComponentFixture<C>,
   debugEl: DebugElement,
-  valueObj: any = {}
+  valueObj: IDictionary = {}
 ) {
   Object.keys(valueObj).forEach((key) => {
     debugEl.componentInstance[key] = valueObj[key];
@@ -51,7 +51,7 @@ export function setProps<C>(
 export function setValue<C>(
   fixture: ComponentFixture<C>,
   debugEl: DebugElement,
-  value: any = ''
+  value = ''
 ) {
   const nativeElement: HTMLElement = debugEl.nativeElement;
 
@@ -127,7 +127,7 @@ export async function mount(mountOptions: TestMountOptions) {
   }
   props.outputs.forEach((prop) => {
     // Set output listeners
-    (X.prototype as any)[prop] = function (...args: any[]) {
+    (X.prototype as any)[prop] = function (...args: unknown[]) {
       this.mock[prop] = this.mock[prop] || { calls: [] };
       this.mock[prop].calls.push(args);
     };

@@ -104,7 +104,7 @@ export class SmartInputComponent implements AfterViewInit {
     ];
   }
 
-  deleteBlock(data: any, { lineIndex, blockIndex }: BlockOption) {
+  deleteBlock(data: null, { lineIndex, blockIndex }: BlockOption) {
     this.state.lines[lineIndex].blocks = this.state.lines[
       lineIndex
     ].blocks.filter((block, i) => {
@@ -393,7 +393,7 @@ export class SmartInputComponent implements AfterViewInit {
   }
 
   @HostListener('input', ['$event'])
-  onInput(e: any) {
+  onInput(e: InputEvent) {
     debug.log('input', e.data);
     e.preventDefault();
     e.stopPropagation();

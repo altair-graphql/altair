@@ -25,11 +25,11 @@ export class QueryCollectionItemComponent {
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{
-    collectionId: number | string;
+    collectionId: string;
     query: IQuery;
   }> = new EventEmitter();
   @Output() deleteCollectionChange: EventEmitter<{
-    collectionId: number | string;
+    collectionId: string;
   }> = new EventEmitter();
   @Output() editCollectionChange: EventEmitter<{
     collection: IQueryCollectionTree;
@@ -153,7 +153,7 @@ export class QueryCollectionItemComponent {
     }
   }
 
-  trackById(index: number, collection: IQueryCollection) {
-    return collection.id;
+  trackById<T extends { id?: string }>(index: number, item: T) {
+    return item.id;
   }
 }

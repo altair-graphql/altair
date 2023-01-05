@@ -7,8 +7,6 @@ export const getInitialState = (): DocsState => {
     isLoading: false,
     docView: {
       view: 'root',
-      parentType: 'Query',
-      name: '',
     },
   };
 };

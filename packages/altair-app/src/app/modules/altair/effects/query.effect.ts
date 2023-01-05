@@ -414,7 +414,7 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.SET_URL),
-        switchMap((data: queryActions.Action) => {
+        switchMap((data: queryActions.SetUrlAction) => {
           const url = this.environmentService.hydrate(data.payload.url);
           // If the URL is not valid
           if (!isValidUrl(url)) {
@@ -437,7 +437,7 @@ export class QueryEffects {
         gqlSchemaActions.SET_INTROSPECTION,
         gqlSchemaActions.SET_INTROSPECTION_FROM_DB
       ),
-      switchMap((data: queryActions.Action) => {
+      switchMap((data: gqlSchemaActions.SetIntrospectionAction) => {
         const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
         if (schema) {
@@ -582,47 +582,54 @@ export class QueryEffects {
                   })
                 );
               }),
-              catchError((err: UnknownError) => {
-                this.store.dispatch(
-                  new docsAction.StopLoadingDocsAction(response.windowId)
-                );
-                const errorObj = err.error || err;
-                const errorMessage = errorObj.message
-                  ? errorObj.message
-                  : err.message
-                  ? err.message
-                  : errorObj.toString();
-                let allowsIntrospection = true;
-
-                if (errorObj.errors) {
-                  errorObj.errors.forEach((error: UnknownError) => {
-                    if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
-                      allowsIntrospection = false;
-                    }
-                  });
-                }
-
-                // If the server does not support introspection
-                if (!allowsIntrospection) {
+              catchError(
+                (
+                  err: UnknownError<
+                    { error: Error } | { errors: { code: string }[] }
+                  >
+                ) => {
                   this.store.dispatch(
-                    new gqlSchemaActions.SetAllowIntrospectionAction(
-                      false,
-                      response.windowId
-                    )
+                    new docsAction.StopLoadingDocsAction(response.windowId)
                   );
-                  this.notifyService.error(`
+                  // const errorMessage = typeof err === 'string' ? err : 'error' in err ? err.error?.message
+                  let allowsIntrospection = true;
+                  if (typeof err === 'object') {
+                    const errorObj = 'error' in err ? err.error : err;
+                    // const errorMessage = errorObj?.message
+                    //   ? errorObj.message
+                    //   : errorObj.toString();
+
+                    if ('errors' in errorObj) {
+                      errorObj.errors.forEach((error) => {
+                        if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
+                          allowsIntrospection = false;
+                        }
+                      });
+                    }
+                  }
+
+                  // If the server does not support introspection
+                  if (!allowsIntrospection) {
+                    this.store.dispatch(
+                      new gqlSchemaActions.SetAllowIntrospectionAction(
+                        false,
+                        response.windowId
+                      )
+                    );
+                    this.notifyService.error(`
                     Looks like this server does not support introspection.
                     Please check with the server administrator.
                   `);
-                } else {
-                  debug.error(err);
-                  this.notifyService.error(`
+                  } else {
+                    debug.error(err);
+                    this.notifyService.error(`
                     Seems like something is broken. Please check that the URL is valid,
                     and the server is up and running properly.
                   `);
+                  }
+                  return of(null);
                 }
-                return of(null);
-              }),
+              ),
               map((postRequestTransformData) => {
                 this.store.dispatch(
                   new docsAction.StopLoadingDocsAction(response.windowId)
@@ -1388,7 +1395,7 @@ export class QueryEffects {
       ofType(streamActions.START_STREAM_CLIENT),
       withLatestFrom(
         this.store,
-        (action: streamActions.Action, state: RootState) => {
+        (action: streamActions.StartStreamClientAction, state: RootState) => {
           return {
             data: state.windows[action.windowId],
             windowId: action.windowId,
@@ -1446,7 +1453,7 @@ export class QueryEffects {
               // Clear error state
               this.store.dispatch(
                 new streamActions.SetStreamFailedAction(res.windowId, {
-                  failed: null,
+                  failed: undefined,
                 })
               );
               this.store.dispatch(
@@ -1516,7 +1523,7 @@ export class QueryEffects {
         }
         return observableOf(
           new streamActions.SetStreamClientAction(res.windowId, {
-            streamClient: null,
+            streamClient: undefined,
           })
         );
       })

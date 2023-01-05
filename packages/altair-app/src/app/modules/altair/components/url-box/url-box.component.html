@@ -132,9 +132,9 @@
         <li
           nz-menu-item
           *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;"
-          (click)="selectedOperationChange.emit(operation.name.value)"
+          (click)="selectedOperationChange.emit(operation.name?.value)"
         >
-          {{ operation.name.value }}
+          {{ operation.name?.value }}
         </li>
       </ul>
     </nz-dropdown-menu>

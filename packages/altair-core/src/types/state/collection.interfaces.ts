@@ -9,7 +9,7 @@ export type EntityStorageType = 'local' | 'firestore';
 
 export interface CollectionState {
   list: IQueryCollection[];
-  activeCollection: any;
+  activeCollection?: IQueryCollection;
   sortBy: SortByOptions;
 }
 

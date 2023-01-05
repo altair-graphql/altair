@@ -5,7 +5,8 @@
     class="ui-form__list-wrapper"
   >
     <app-schema-form-item
-      [item]="item.items"
+      *ngIf="isJsonSchema(item.items)"
+      [item]="getSchemaFormPropertyForListItem(index, item.items)"
       [(data)]="data[index]"
       (dataChange)="dataChange.next(data)"
     ></app-schema-form-item>

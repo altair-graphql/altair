@@ -43,7 +43,7 @@ import { DocumentIndexEntry } from '../models';
   ],
 })
 export class DocViewerSearchResultsComponent {
-  @Input() results = [];
+  @Input() results: DocumentIndexEntry[] = [];
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
@@ -56,13 +56,13 @@ export class DocViewerSearchResultsComponent {
    * @param parentType
    * @param cat
    */
-  goToItem(name: string, parentType: string, cat: string) {
-    switch (cat) {
+  goToItem(item: DocumentIndexEntry) {
+    switch (item.cat) {
       case 'field':
-        this.goToField(name, parentType);
+        this.goToField(item.name, item.type);
         break;
       case 'type':
-        this.goToType(name);
+        this.goToType(item.name);
     }
   }
 
@@ -94,10 +94,10 @@ export class DocViewerSearchResultsComponent {
     return name;
   }
 
-  resultTrackBy(index: string, result: DocumentIndexEntry) {
+  resultTrackBy(index: number, result: DocumentIndexEntry) {
     return `${result.name}.${result.type}.${result.cat}`;
   }
-  resultArgTrackBy(index: string, arg: GraphQLArgument) {
+  resultArgTrackBy<T extends { name: string }>(index: number, arg: T) {
     return arg.name;
   }
 }

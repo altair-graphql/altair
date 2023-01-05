@@ -10,9 +10,11 @@ import {
 } from '@angular/core';
 import {
   getPropertyRef,
+  getSchemaFormProperty,
   SchemaFormProperty,
 } from '../../../utils/settings_addons';
 import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
   selector: 'app-schema-form',
@@ -24,12 +26,10 @@ export class SchemaFormComponent implements OnInit, OnChanges {
   @Input() schema = {};
   @Input() data = null;
 
-  @Output() dataChange = new EventEmitter();
+  @Output() dataChange = new EventEmitter<IDictionary>();
 
   schemaProperties: SchemaFormProperty[] = [];
-  formData: object;
-
-  constructor() {}
+  formData: IDictionary;
 
   ngOnInit() {
     // console.log('SCHEMA:', this.schema);
@@ -47,28 +47,15 @@ export class SchemaFormComponent implements OnInit, OnChanges {
 
   updateSchemaProperties(schema: JSONSchema6) {
     this.schemaProperties = Object.entries(schema.properties || {})
-      .map(([key, pty]) => {
-        if (typeof pty !== 'object') {
-          return { key };
-        }
-        return { ...pty, key };
-      })
-      .sort((a, b) => (a.key > b.key ? 1 : -1))
-      .map((pty: SchemaFormProperty) => {
-        if (pty.$ref) {
-          pty.ref = getPropertyRef(pty, schema);
-          if (pty.ref && pty.ref.enum) {
-            pty.refType = `enum.${pty.ref.type}`;
-          }
-        }
-        return pty;
-      });
+      .map(([key, pty]) => getSchemaFormProperty(key, pty))
+      .sort((a, b) => (a.key > b.key ? 1 : -1));
+
     this.formData = JSON.parse(JSON.stringify(this.data));
     // console.log('PROPERTIES:', this.schemaProperties);
     // console.log('DATA:', this.data);
   }
 
-  onInput(event: Event, item: any) {
+  onInput(event: Event, item: SchemaFormProperty) {
     // console.log(event, item);
     this.dataChange.next(this.formData);
   }

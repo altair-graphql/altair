@@ -53,7 +53,7 @@
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
     [gqlSchema]="gqlSchema"
-    [sortByOption]="sortFieldsByOption"
+    [sortByOption]="sortByOption"
     (goToFieldChange)="goToField($event.name, $event.parentType)"
     (goToTypeChange)="goToType($event.name)"
     (addToEditorChange)="addToEditor($event)"

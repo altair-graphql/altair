@@ -142,7 +142,7 @@ export class KeybinderService {
 
   bindShortcut(
     keys: string[],
-    callback: (...args: any[]) => any,
+    callback: (...args: unknown[]) => unknown,
     description = 'TODO - Add description'
   ) {
     this.shortcuts.push({

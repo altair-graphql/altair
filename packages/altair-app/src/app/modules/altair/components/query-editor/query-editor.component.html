@@ -2,7 +2,7 @@
   class="main-view-tabs"
   [nzAnimated]="false"
   nzSize="small"
-  nzTabBarGutter="16"
+  [nzTabBarGutter]="16"
   [(nzSelectedIndex)]="selectedIndex"
 >
   <nz-tab [nzTitle]="'QUERY_TAB' | translate">
@@ -54,7 +54,7 @@
         ></div>
         <div class="variables-editor-input-container">
           <app-variables-editor
-            [variables]="variables?.variables"
+            [variables]="variables.variables"
             [variableToType]="variableToType"
             [tabSize]="tabSize"
             [showVariableDialog]="showVariableDialog"

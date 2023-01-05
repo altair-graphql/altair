@@ -7,8 +7,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { SortableEvent } from 'sortablejs';
 
 import { debug } from '../../utils/logger';
 
@@ -18,9 +21,9 @@ import { debug } from '../../utils/logger';
   styleUrls: ['./window-switcher.component.scss'],
 })
 export class WindowSwitcherComponent implements OnInit {
-  @Input() windows = {};
-  @Input() windowIds = [];
-  @Input() closedWindows = [];
+  @Input() windows: WindowState = {};
+  @Input() windowIds: string[] = [];
+  @Input() closedWindows: PerWindowState[] = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Output() activeWindowChange = new EventEmitter();
@@ -45,8 +48,8 @@ export class WindowSwitcherComponent implements OnInit {
 
   ngOnInit() {
     this.sortableOptions = {
-      onUpdate: (event: any) => {
-        this.moveWindow(event.oldIndex, event.newIndex);
+      onUpdate: (event: SortableEvent) => {
+        this.moveWindow(event.oldIndex || 0, event.newIndex || 0);
       },
     };
   }

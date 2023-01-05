@@ -151,9 +151,9 @@ const settingsLintSource: LintSource = (view) => {
       diagnostics = diagnostics.concat(
         settingsValidator.errors.map((error) => {
           debug.log('settings lint error', error);
-          let message = `[${error.keyword}] '${(
-            error as any
-          ).dataPath?.substring(1)}' ${error.message}`;
+          let message = `[${error.keyword}] '${error.instancePath?.substring(
+            1
+          )}' ${error.message}`;
 
           if (error.params && error.params['allowedValues']) {
             message += `\nAllowed values: [${error.params['allowedValues'].join(

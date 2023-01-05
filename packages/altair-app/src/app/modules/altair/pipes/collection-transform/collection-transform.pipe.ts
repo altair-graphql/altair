@@ -4,10 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'collectionTransform',
 })
 export class CollectionTransformPipe implements PipeTransform {
-  transform(
-    list: any[],
-    transformer: (list: any[], ...args: any[]) => any[],
-    ...args: any[]
+  transform<I = unknown, R = unknown>(
+    list: I[],
+    transformer: (list: I[], ...args: unknown[]) => R[],
+    ...args: unknown[]
   ) {
     return transformer([...list], ...args);
   }

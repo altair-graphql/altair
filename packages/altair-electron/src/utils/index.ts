@@ -11,8 +11,8 @@ export const getDirectoriesInDirectory = (path: string) => {
         ? reject(err)
         : resolve(
             dirents
-              .filter((dirent) => dirent.isDirectory())
-              .map((dirent) => dirent.name)
+              .filter(dirent => dirent.isDirectory())
+              .map(dirent => dirent.name)
           )
     );
   });
@@ -20,7 +20,7 @@ export const getDirectoriesInDirectory = (path: string) => {
 
 export const deleteFolderRecursive = (path: string) => {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach((file) => {
+    fs.readdirSync(path).forEach(file => {
       const curPath = join(path, file);
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
@@ -44,13 +44,16 @@ const encodeError = (e: Error) => {
 
 export const handleWithCustomErrors = (
   channel: string,
-  handler: (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any
+  handler: (event: Electron.IpcMainInvokeEvent, ...args: unknown[]) => unknown
 ) => {
   ipcMain.handle(channel, async (...args) => {
     try {
       return { result: await Promise.resolve(handler(...args)) };
-    } catch (e: any) {
-      return { error: encodeError(e) };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { error: encodeError(e) };
+      }
+      return { error: { name: "unknown error", message: "unknown error" } };
     }
   });
 };

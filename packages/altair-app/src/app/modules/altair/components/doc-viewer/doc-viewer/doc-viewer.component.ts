@@ -46,13 +46,11 @@ export class DocViewerComponent implements OnChanges {
   @Input() tabSize = this.altairConfig.tab_size;
   @Input() docView: DocView = {
     view: 'root', // type, field, root, search
-    parentType: 'Query', // used by field views
-    name: 'FieldName', // identifies type/field
   };
   @Input() lastUpdatedAt: number;
 
   @Output() toggleDocsChange = new EventEmitter();
-  @Output() setDocViewChange = new EventEmitter<Partial<DocView>>();
+  @Output() setDocViewChange = new EventEmitter<DocView>();
   @Output() addQueryToEditorChange = new EventEmitter();
   @Output() exportSDLChange = new EventEmitter();
   @Output() loadSchemaChange = new EventEmitter();
@@ -131,7 +129,7 @@ export class DocViewerComponent implements OnChanges {
     this.searchDocs(term);
   }
 
-  setDocView(docView: Partial<DocView> | undefined) {
+  setDocView(docView?: DocView) {
     this.setDocViewChange.next(docView);
     this.docViewerRef.nativeElement.scrollTop = 0;
   }
@@ -227,6 +225,18 @@ export class DocViewerComponent implements OnChanges {
     );
     if (generatedQuery) {
       this.addQueryToEditorChange.next(generatedQuery);
+    }
+  }
+
+  getField(docView: DocView) {
+    if (docView.view === 'field') {
+      const type = this.gqlSchema.getType(docView.parentType);
+      if (type) {
+        if (type instanceof GraphQLObjectType) {
+          const fieldMap = type.getFields();
+          return fieldMap[docView.name];
+        }
+      }
     }
   }
 

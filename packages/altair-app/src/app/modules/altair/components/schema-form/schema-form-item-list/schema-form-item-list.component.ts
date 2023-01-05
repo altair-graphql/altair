@@ -1,4 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
+import {
+  getSchemaFormProperty,
+  SchemaFormProperty,
+} from 'app/modules/altair/utils/settings_addons';
+import { JSONSchema6 } from 'json-schema';
 
 @Component({
   selector: 'app-schema-form-item-list',
@@ -6,12 +12,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styles: [],
 })
 export class SchemaFormItemListComponent {
-  @Input() item: any;
-  @Input() data: any;
+  @Input() item: SchemaFormProperty;
+  @Input() data: unknown[] = [];
 
   @Output() dataChange = new EventEmitter();
-
-  constructor() {}
 
   addField() {
     if (!this.data || !Array.isArray(this.data)) {
@@ -27,6 +31,25 @@ export class SchemaFormItemListComponent {
       this.data = this.data.filter((_, i) => i !== index);
       this.dataChange.next(this.data);
     }
+  }
+
+  getSchemaFormPropertyForListItem(index: number, schema: JSONSchema6) {
+    return getSchemaFormProperty(`${this.item.key}[${index}]`, schema);
+  }
+
+  isJsonSchema(p: JSONSchema6['items']): p is JSONSchema6 {
+    if (!p) {
+      return false;
+    }
+    if (Array.isArray(p)) {
+      return false;
+    }
+
+    if (typeof p === 'boolean') {
+      return false;
+    }
+
+    return true;
   }
 
   trackByIndex(index: number) {

@@ -18,7 +18,7 @@ export class SetVariableDialogComponent {
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() variablesChange = new EventEmitter();
 
-  trackByFn(index: number, item: any) {
+  trackByFn<T>(index: number, item: T) {
     return index;
   }
 }

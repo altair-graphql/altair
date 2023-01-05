@@ -50,7 +50,7 @@ import '../../utils/codemirror/graphql-hint';
 import { GqlService, NotifyService } from '../../services';
 import { debug } from '../../utils/logger';
 import { onHasCompletion } from '../../utils/codemirror/graphql-has-completion';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema, Location, OperationTypeNode } from 'graphql';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
 import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
@@ -68,6 +68,9 @@ import { openSearchPanel } from '@codemirror/search';
 import { updateGqlVariables, updateWindowId } from './upload-widget';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { TODO } from 'altair-graphql-core/build/types/shared';
+import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
+import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -93,11 +96,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() enableExperimental = false;
   @Input() betaDisableNewEditor = true;
 
-  @Input() preRequest: any = {};
+  @Input() preRequest: PrerequestState;
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
-  @Input() postRequest: any = {};
+  @Input() postRequest: PostrequestState;
   @Output() postRequestScriptChange = new EventEmitter();
   @Output() postRequestEnabledChange = new EventEmitter();
 
@@ -131,7 +134,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   variableEditorHeight = '50%';
 
   actionToFn: Record<string, string | ((cm: CodeMirror.Editor) => void)> = {
-    showAutocomplete: (cm: any) => cm.showHint({ completeSingle: true }),
+    showAutocomplete: (cm: TODO) => cm.showHint({ completeSingle: true }),
     toggleComment: (cm: CodeMirror.Editor) => cm.execCommand('toggleComment'),
     showFinder: 'findPersistent',
     showInDocs: (cm: CodeMirror.Editor) =>
@@ -191,7 +194,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     lint: {},
     hintOptions: {
       completeSingle: false,
-      render: (elt: Element, data: any, cur: any) => {
+      render: (elt: Element, data: TODO, cur: TODO) => {
         elt.classList.add('query-editor__autocomplete-item');
         const content = `
           <span class="query-editor__autocomplete-item__text">${cur.text}</span>
@@ -204,20 +207,20 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       },
     },
     info: {
-      onClick: (reference: any) =>
+      onClick: (reference: TODO) =>
         this.zone.run(() => this.onShowInDocsByReference(reference)),
       render() {
         /** Disable rendering of info addon */
       },
     },
     jump: {
-      onClick: (reference: any) =>
+      onClick: (reference: TODO) =>
         this.zone.run(() => this.onShowInDocsByReference(reference)),
     },
   };
 
   widgets: CodeMirror.LineWidget[] = [];
-  updateWidgetTimeout: any = null;
+  updateWidgetTimeout: ReturnType<typeof setTimeout>;
 
   constructor(
     private gqlService: GqlService,
@@ -251,18 +254,15 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       );
       (this.editor.codeMirror as any).on(
         'focus',
-        (cm: CodeMirror.Editor, event: Event) =>
-          this.onEditorStateChange(cm, event)
+        (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm)
       );
       (this.editor.codeMirror as any).on(
         'blur',
-        (cm: CodeMirror.Editor, event: Event) =>
-          this.onEditorStateChange(cm, event)
+        (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm)
       );
       (this.editor.codeMirror as any).on(
         'cursorActivity',
-        (cm: CodeMirror.Editor, event: Event) =>
-          this.onEditorStateChange(cm, event)
+        (cm: CodeMirror.Editor, event: Event) => this.onEditorStateChange(cm)
       );
       (this.editor.codeMirror as any).on(
         'hasCompletion',
@@ -270,7 +270,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       );
       (this.editor.codeMirror as any).on(
         'change',
-        (cm: CodeMirror.Editor, event: Event) => this.updateWidgets(cm, event)
+        (cm: CodeMirror.Editor, event: Event) => this.updateWidgets(cm)
       );
     }
     this.updateNewEditorSchema(this.gqlSchema);
@@ -413,7 +413,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  onEditorStateChange(cm: CodeMirror.Editor, event: Event) {
+  onEditorStateChange(cm: CodeMirror.Editor) {
     const cursor = cm.getDoc().getCursor();
     const cursorIndex = cm.getDoc().indexFromPos(cursor);
     const isFocused = cm.hasFocus();
@@ -440,7 +440,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.editor.codeMirror.getInputField().blur();
   }
 
-  onShowInDocsByReference(reference: any) {
+  onShowInDocsByReference(reference: TODO) {
     if (reference.field && reference.type) {
       this.showTokenInDocsChange.next({
         view: 'field',
@@ -496,9 +496,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  updateWidgets(cm: CodeMirror.Editor, event: any) {
+  updateWidgets(cm: CodeMirror.Editor) {
     this.zone.runOutsideAngular(() => {
-      const definitionsInfo: any[] = [];
+      const definitionsInfo: {
+        operation: OperationTypeNode;
+        location?: Location;
+        operationName: string;
+      }[] = [];
       clearTimeout(this.updateWidgetTimeout);
       this.updateWidgetTimeout = setTimeout(() => {
         try {
@@ -538,9 +542,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
                 };
 
                 this.widgets.push(
-                  cm.addLineWidget(location.startToken.line - 1, widgetEl, {
-                    above: true,
-                  })
+                  cm.addLineWidget(
+                    location ? location.startToken.line - 1 : 0,
+                    widgetEl,
+                    {
+                      above: true,
+                    }
+                  )
                 );
               }
             );

@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-type AnyFunction = (...args: any[]) => any;
+type AnyFunction = (...args: unknown[]) => unknown;
 export const anyFn = () => jest.fn() as AnyFunction;
 export function mock<T>(obj: Partial<T> = {}): T {
   return obj as T;

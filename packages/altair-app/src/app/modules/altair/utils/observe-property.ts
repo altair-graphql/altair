@@ -70,7 +70,7 @@ export function observeProperty<T, K extends keyof T>(
  * @returns      The descriptor for the specified property or `undefined` if no such property exists on the target object.
  */
 function getPropertyDescriptor(
-  target: any,
+  target: unknown,
   key: PropertyKey
 ): PropertyDescriptor | undefined {
   if (target === null || target === undefined) {

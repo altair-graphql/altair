@@ -28,7 +28,7 @@ const completeProperties = (from: number, object: IDictionary) => {
 };
 
 export const getGlobalScopeAutocompletion = (
-  globalObj: any = window
+  globalObj: IDictionary = window
 ): CompletionSource => {
   return (context: CompletionContext) => {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
@@ -43,8 +43,8 @@ export const getGlobalScopeAutocompletion = (
           ? nodeBefore.to
           : nodeBefore.from;
         const variableName = context.state.sliceDoc(object.from, object.to);
-        if (typeof (globalObj as any)[variableName] === 'object') {
-          return completeProperties(from, (globalObj as any)[variableName]);
+        if (typeof globalObj[variableName] === 'object') {
+          return completeProperties(from, globalObj[variableName]);
         }
       }
     } else if (nodeBefore.name === 'VariableName') {

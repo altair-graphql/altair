@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 type CompilerOptions = Partial<{
-  providers: any[];
+  providers: unknown[];
   useJit: boolean;
   preserveWhitespaces: boolean;
 }>;

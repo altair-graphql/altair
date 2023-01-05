@@ -76,7 +76,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="'type'">
         <app-doc-viewer-type
-         *ngIf="gqlSchema.getType(docView.name)"
+         *ngIf="docView.view === 'type' && gqlSchema.getType(docView.name)"
          [data]="gqlSchema.getType(docView.name)"
          [gqlSchema]="gqlSchema"
          [sortByOption]="sortFieldsByOption"
@@ -88,7 +88,8 @@
       </ng-container>
       <ng-container *ngSwitchCase="'field'">
         <app-doc-viewer-field
-         [data]="gqlSchema.getType(docView.parentType) && gqlSchema.getType(docView.parentType).getFields()[docView.name]"
+          *ngIf="docView.view === 'field'"
+         [data]="getField(docView)"
          [gqlSchema]="gqlSchema"
          [parentType]="docView.parentType"
          [sortByOption]="sortFieldsByOption"

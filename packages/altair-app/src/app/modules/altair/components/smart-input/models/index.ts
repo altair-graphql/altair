@@ -1,7 +1,7 @@
 import { Cursor } from './cursor';
 
 export interface BlockEvent {
-  value: any;
+  value: string;
   cursor: Cursor;
   isFocused: boolean;
 }

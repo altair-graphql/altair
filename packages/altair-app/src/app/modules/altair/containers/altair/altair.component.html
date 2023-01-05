@@ -170,11 +170,11 @@
                   (click)="setShowAccountDialog(true)"
                   attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
                   track-id="show_collections"
-                  [ngClass]="{ 'side-menu-item--active': (account$ | async).loggedIn }"
+                  [ngClass]="{ 'side-menu-item--active': (account$ | async)?.loggedIn }"
                 >
                   <div class="side-menu-item-icon">
-                    <app-icon name="user" *ngIf="!(account$ | async).loggedIn"></app-icon>
-                    <app-icon name="user-check" *ngIf="(account$ | async).loggedIn"></app-icon>
+                    <app-icon name="user" *ngIf="!(account$ | async)?.loggedIn"></app-icon>
+                    <app-icon name="user-check" *ngIf="(account$ | async)?.loggedIn"></app-icon>
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'ACCOUNT_TITLE' | translate }}
@@ -187,7 +187,7 @@
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
                 [sortBy]="(collection$ | async)?.sortBy"
-                [loggedIn]="(account$ | async).loggedIn"
+                [loggedIn]="(account$ | async)?.loggedIn"
     
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
@@ -248,7 +248,7 @@
             ></app-import-curl-dialog>
             <app-add-collection-query-dialog
               [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
-              [windowTitle]="(activeWindow$ | async)?.layout.title"
+              [windowTitle]="(activeWindow$ | async)?.layout?.title"
               [collections]="(collection$ | async)?.list"
               [loggedIn]="(account$ | async)?.loggedIn"
               [teams]="(account$ | async)?.teams"
@@ -263,7 +263,7 @@
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
             <app-account-dialog
-            [showDialog]="(windowsMeta$ | async).showAccountDialog"
+            [showDialog]="(windowsMeta$ | async)?.showAccountDialog"
             [account]="account$ | async"
             (toggleDialogChange)="setShowAccountDialog($event)"
             (handleLoginChange)="accountLogin()"
