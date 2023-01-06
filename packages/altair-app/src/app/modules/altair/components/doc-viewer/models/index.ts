@@ -24,13 +24,3 @@ export interface DocumentIndexTypeEntry extends BaseDocumentIndexEntry {
 export type DocumentIndexEntry =
   | DocumentIndexFieldEntry
   | DocumentIndexTypeEntry;
-// export interface DocumentIndexEntry extends DocumentIndexFieldEntry, Docu {
-//   search: string;
-//   name: string;
-//   description: string;
-//   cat: 'type' | 'field';
-//   highlight: string;
-//   args?: { name: string; description?: string | null }[];
-//   type?: string;
-//   isQuery?: boolean;
-// }

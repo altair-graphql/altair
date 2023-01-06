@@ -30,8 +30,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerTypeComponent {
-  @Input() data: GraphQLNamedType;
-  @Input() gqlSchema: GraphQLSchema;
+  @Input() data?: GraphQLNamedType;
+  @Input() gqlSchema?: GraphQLSchema;
   @Input() sortByOption: SortByOptions = 'none';
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
@@ -87,7 +87,7 @@ export class DocViewerTypeComponent {
    */
   getTypeImplementations(type: GraphQLType) {
     if (isInterfaceType(type)) {
-      return this.gqlSchema.getPossibleTypes(type as GraphQLAbstractType) || [];
+      return this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || [];
     }
     return [];
   }

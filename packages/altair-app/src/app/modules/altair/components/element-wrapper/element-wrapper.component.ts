@@ -15,7 +15,7 @@ import {
   styles: [],
 })
 export class ElementWrapperComponent implements AfterViewInit, OnChanges {
-  @Input() element: HTMLElement;
+  @Input() element?: HTMLElement;
   @Input() windowId = '';
   @Input() activeWindowId = '';
 

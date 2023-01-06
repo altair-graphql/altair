@@ -1,4 +1,4 @@
-<nz-form-item class="ui-form__item">
+<nz-form-item *ngIf="item" class="ui-form__item">
   <ng-container [ngSwitch]="item.type">
     <ng-container *ngSwitchCase="'number'">
       <nz-form-label>{{ item.description }}</nz-form-label>

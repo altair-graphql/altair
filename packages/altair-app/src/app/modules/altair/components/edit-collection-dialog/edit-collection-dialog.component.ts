@@ -17,7 +17,7 @@ import { PrerequestState } from 'altair-graphql-core/build/types/state/prereques
 })
 export class EditCollectionDialogComponent implements OnChanges {
   @Input() showEditCollectionDialog = true;
-  @Input() collection: IQueryCollection;
+  @Input() collection?: IQueryCollection;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
   @Output() updateCollectionChange = new EventEmitter<{
@@ -42,6 +42,9 @@ export class EditCollectionDialogComponent implements OnChanges {
   }
 
   updateCollection() {
+    if (!this.collection) {
+      throw new Error('this should never happen');
+    }
     const collection = {
       ...this.collection,
       title: this.title,

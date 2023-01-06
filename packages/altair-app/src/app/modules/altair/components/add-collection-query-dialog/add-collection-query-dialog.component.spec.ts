@@ -113,7 +113,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     });
 
     const select = wrapper.find('nz-select');
-    select.setValue(-1);
+    select.setValue('-1');
 
     await wrapper.nextTick();
 
@@ -121,7 +121,7 @@ describe('AddCollectionQueryDialogComponent', () => {
       '[data-test-id="new-collection-name"]'
     );
 
-    expect(wrapper.componentInstance.collectionId).toBe(-1);
+    expect(wrapper.componentInstance.collectionId).toBe('-1');
     expect(newCollectionName.exists()).toBeTruthy();
   });
 
@@ -147,7 +147,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
-    select.setValue(-1);
+    select.setValue('-1');
 
     await wrapper.nextTick();
 

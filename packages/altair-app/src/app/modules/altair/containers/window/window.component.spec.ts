@@ -41,7 +41,7 @@ describe('WindowComponent', () => {
           uiActions: [],
         },
         collection: {
-          activeCollection: null,
+          activeCollection: undefined,
           list: [],
           sortBy: 'a-z',
         },

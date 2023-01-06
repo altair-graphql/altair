@@ -44,7 +44,7 @@ import { Options as SortableOptions, SortableEvent } from 'sortablejs';
   styleUrls: ['./environment-manager.component.scss'],
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
-  @Input() environments: EnvironmentsState;
+  @Input() environments?: EnvironmentsState;
   @Input() showEnvironmentManager = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
@@ -113,6 +113,9 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   }
 
   selectEnvironment(id?: string) {
+    if (!this.environments) {
+      throw new Error('should never happen');
+    }
     this.selectedEnvironmentId = id || 'base';
 
     if (this.selectedEnvironmentId === 'base') {

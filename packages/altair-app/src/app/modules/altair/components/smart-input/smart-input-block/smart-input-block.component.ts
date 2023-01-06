@@ -25,7 +25,7 @@ import { BlockState } from '../models';
 export class SmartInputBlockComponent
   implements OnInit, AfterViewInit, OnChanges
 {
-  @Input() block: BlockState;
+  @Input() block?: BlockState;
 
   @HostBinding('class.special-block') isSpecialBlock = false;
 
@@ -38,18 +38,22 @@ export class SmartInputBlockComponent
   }
 
   ngOnInit() {
-    this.isSpecialBlock = this.block && this.block.type === 'special';
+    if (this.block) {
+      this.isSpecialBlock = this.block.type === 'special';
+    }
   }
 
   renderUIChanges() {
-    if (
-      this.block.caretOffset !== null &&
-      this.block.caretOffset !== undefined
-    ) {
-      this.setCaretPosition(this.block.caretOffset);
-    }
-    if (this.block.isFocused) {
-      this.element.nativeElement.focus();
+    if (this.block) {
+      if (
+        this.block.caretOffset !== null &&
+        this.block.caretOffset !== undefined
+      ) {
+        this.setCaretPosition(this.block.caretOffset);
+      }
+      if (this.block.isFocused) {
+        this.element.nativeElement.focus();
+      }
     }
   }
 

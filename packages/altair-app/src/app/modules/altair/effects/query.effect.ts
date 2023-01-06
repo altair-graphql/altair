@@ -591,13 +591,9 @@ export class QueryEffects {
                   this.store.dispatch(
                     new docsAction.StopLoadingDocsAction(response.windowId)
                   );
-                  // const errorMessage = typeof err === 'string' ? err : 'error' in err ? err.error?.message
                   let allowsIntrospection = true;
                   if (typeof err === 'object') {
                     const errorObj = 'error' in err ? err.error : err;
-                    // const errorMessage = errorObj?.message
-                    //   ? errorObj.message
-                    //   : errorObj.toString();
 
                     if ('errors' in errorObj) {
                       errorObj.errors.forEach((error) => {

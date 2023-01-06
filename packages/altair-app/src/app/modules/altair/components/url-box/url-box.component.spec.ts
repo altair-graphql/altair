@@ -7,6 +7,7 @@ import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { OperationDefinitionNode } from 'graphql';
 
 describe('UrlBoxComponent', () => {
   let wrapper: NgxTestWrapper<UrlBoxComponent>;
@@ -33,8 +34,12 @@ describe('UrlBoxComponent', () => {
   it('should render correctly with queryOperations > 1', async () => {
     wrapper.setProps({
       queryOperations: [
-        { name: { value: 'operation 1' } },
-        { name: { value: 'operation 2' } },
+        {
+          name: { value: 'operation 1', kind: 'Name' },
+        } as OperationDefinitionNode,
+        {
+          name: { value: 'operation 2', kind: 'Name' },
+        } as OperationDefinitionNode,
       ],
     });
     await wrapper.nextTick();

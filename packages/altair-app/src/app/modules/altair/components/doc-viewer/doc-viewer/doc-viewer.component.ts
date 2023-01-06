@@ -39,7 +39,7 @@ import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.
   // styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnChanges {
-  @Input() gqlSchema: GraphQLSchema;
+  @Input() gqlSchema?: GraphQLSchema;
   @Input() allowIntrospection = true;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = this.altairConfig.add_query_depth_limit;
@@ -47,7 +47,7 @@ export class DocViewerComponent implements OnChanges {
   @Input() docView: DocView = {
     view: 'root', // type, field, root, search
   };
-  @Input() lastUpdatedAt: number;
+  @Input() lastUpdatedAt?: number;
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() setDocViewChange = new EventEmitter<DocView>();
@@ -230,7 +230,7 @@ export class DocViewerComponent implements OnChanges {
 
   getField(docView: DocView) {
     if (docView.view === 'field') {
-      const type = this.gqlSchema.getType(docView.parentType);
+      const type = this.gqlSchema?.getType(docView.parentType);
       if (type) {
         if (type instanceof GraphQLObjectType) {
           const fieldMap = type.getFields();

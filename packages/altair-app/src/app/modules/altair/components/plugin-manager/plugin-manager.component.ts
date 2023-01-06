@@ -12,7 +12,7 @@ import { RemotePluginListItem } from 'altair-graphql-core/build/plugin/plugin.in
 })
 export class PluginManagerComponent {
   @Input() showPluginManager = false;
-  @Input() settings: SettingsState;
+  @Input() settings?: SettingsState;
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
@@ -42,7 +42,7 @@ export class PluginManagerComponent {
   }
 
   isPluginInstalled(pluginName: string) {
-    if (this.settings['plugin.list']) {
+    if (this.settings?.['plugin.list']) {
       return this.settings['plugin.list'].some((item) => {
         const pluginInfo = this.pluginRegistry.getPluginInfoFromString(item);
         if (pluginInfo) {

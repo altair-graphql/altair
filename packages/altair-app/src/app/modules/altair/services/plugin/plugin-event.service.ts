@@ -8,7 +8,7 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-interface PluginEventData<E extends PluginEvent> {
+interface PluginEventData<E extends PluginEvent = PluginEvent> {
   event: E;
   payload: PluginEventPayloadMap[E];
 }
@@ -17,7 +17,7 @@ interface PluginEventData<E extends PluginEvent> {
   providedIn: 'root',
 })
 export class PluginEventService {
-  private eventStream = new Subject<PluginEventData<PluginEvent>>();
+  private eventStream = new Subject<PluginEventData>();
 
   constructor(private errorHandler: ErrorHandler) {}
 

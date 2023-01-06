@@ -16,7 +16,7 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchemaFormItemComponent {
-  @Input() item: SchemaFormProperty;
+  @Input() item?: SchemaFormProperty;
   @Input() data: unknown = {};
 
   @Output() dataChange = new EventEmitter();

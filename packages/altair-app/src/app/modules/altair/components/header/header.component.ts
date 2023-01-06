@@ -21,8 +21,8 @@ export class HeaderComponent {
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Input() headerPanels: AltairPanel[] = [];
-  @Input() activeEnvironment: EnvironmentState;
-  @Input() environments: EnvironmentsState;
+  @Input() activeEnvironment?: EnvironmentState;
+  @Input() environments?: EnvironmentsState;
   @Output() activeWindowChange = new EventEmitter<string>();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter<string>();

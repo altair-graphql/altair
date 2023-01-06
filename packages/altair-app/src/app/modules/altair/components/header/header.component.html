@@ -78,8 +78,8 @@
           <li
             nz-menu-item
             (click)="selectActiveEnvironmentChange.emit(environment.id)"
-            *ngFor="let environment of environments.subEnvironments; trackBy:trackById;"
-            [ngClass]="{ 'active': environment.id === activeEnvironment.id }"
+            *ngFor="let environment of environments?.subEnvironments; trackBy:trackById;"
+            [ngClass]="{ 'active': environment.id === activeEnvironment?.id }"
           >
             {{ environment.title }}
           </li>

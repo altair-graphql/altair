@@ -54,7 +54,7 @@
         ></div>
         <div class="variables-editor-input-container">
           <app-variables-editor
-            [variables]="variables.variables"
+            [variables]="variables?.variables"
             [variableToType]="variableToType"
             [tabSize]="tabSize"
             [showVariableDialog]="showVariableDialog"
@@ -86,7 +86,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="preRequestTitleTemplate">
     <ng-template #preRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': preRequest.enabled}">
+      <span [ngClass]="{'ant-tabs--status-enabled': preRequest?.enabled}">
         {{ 'PRE_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
@@ -98,7 +98,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': postRequest.enabled}">
+      <span [ngClass]="{'ant-tabs--status-enabled': postRequest?.enabled}">
         {{ 'POST_REQUEST_TAB' | translate }}
       </span>
     </ng-template>

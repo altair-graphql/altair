@@ -47,7 +47,7 @@ describe('query effects', () => {
   });
   describe('.convertToNamedQuery', () => {
     it('should dispatch set query action with named query', (done) => {
-      actions$ = of(new ConvertToNamedQueryAction('window1', {}));
+      actions$ = of(new ConvertToNamedQueryAction('window1'));
       mockGqlService = mock({
         nameQuery() {
           return 'query named {}';

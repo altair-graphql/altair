@@ -82,7 +82,7 @@ export class DocUtils {
         // We cannot use the GraphQLArgument objects directly since
         //  those can't be cloned using the structured cloning algorithm when
         // sent to the worker. So we just use the required fields
-        args: field.args.map((arg) => ({
+        args: field.args?.map((arg) => ({
           name: arg.name,
           description: arg.description ?? '',
         })),

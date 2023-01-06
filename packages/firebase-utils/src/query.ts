@@ -272,7 +272,6 @@ export const getCollections = async (
         );
 
         const teamSn = await getDocs(teamDocQ);
-        console.log("teams!", teamSn.docs);
 
         queries = mergeList(queries, teamSn.docs);
       }

@@ -112,7 +112,7 @@ export class WindowComponent implements OnInit {
 
   editorShortcutMapping$: Observable<IDictionary>;
 
-  @Input() windowId: string;
+  @Input() windowId = '';
 
   isElectron = isElectron;
   apiUrl = '';

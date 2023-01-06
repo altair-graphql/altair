@@ -20,7 +20,7 @@ import { memoize } from '../../utils/memoize';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryCollectionItemComponent {
-  @Input() collectionTree: IQueryCollectionTree;
+  @Input() collectionTree?: IQueryCollectionTree;
   @Input() loggedIn = false;
 
   @Output() selectQueryChange = new EventEmitter();
@@ -54,33 +54,48 @@ export class QueryCollectionItemComponent {
   }
 
   deleteQuery(query: IQuery) {
-    if (
-      confirm('Are you sure you want to delete this query from the collection?')
-    ) {
-      this.deleteQueryChange.next({
-        query,
-        collectionId: this.collectionTree.id,
-      });
+    if (this.collectionTree) {
+      if (
+        confirm(
+          'Are you sure you want to delete this query from the collection?'
+        )
+      ) {
+        this.deleteQueryChange.next({
+          query,
+          collectionId: this.collectionTree.id,
+        });
+      }
     }
   }
 
   deleteCollection() {
-    if (confirm('Are you sure you want to delete this collection?')) {
-      this.deleteCollectionChange.next({
-        collectionId: this.collectionTree.id,
-      });
+    if (this.collectionTree) {
+      if (confirm('Are you sure you want to delete this collection?')) {
+        this.deleteCollectionChange.next({
+          collectionId: this.collectionTree.id,
+        });
+      }
     }
   }
 
   editCollection() {
+    if (!this.collectionTree) {
+      throw new Error('should never happen');
+    }
     this.editCollectionChange.next({ collection: this.collectionTree });
   }
 
   syncCollection() {
+    if (!this.collectionTree) {
+      throw new Error('should never happen');
+    }
     this.syncCollectionChange.next({ collection: this.collectionTree });
   }
 
   exportCollection() {
+    if (!this.collectionTree) {
+      throw new Error('should never happen');
+    }
     this.exportCollectionChange.next({
       collectionId: this.collectionTree.id,
     });

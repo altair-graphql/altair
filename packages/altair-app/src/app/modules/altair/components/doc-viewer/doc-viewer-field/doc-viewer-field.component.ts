@@ -22,8 +22,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerFieldComponent {
-  @Input() data: GraphQLField<any, any>;
-  @Input() gqlSchema: GraphQLSchema;
+  @Input() data?: GraphQLField<any, any>;
+  @Input() gqlSchema?: GraphQLSchema;
   @Input() parentType = '';
   @Input() sortByOption: SortByOptions = 'none';
   @Output() goToFieldChange = new EventEmitter();

@@ -39,7 +39,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   }
   newCollectionQueryTitle = this.windowTitle;
   newCollectionTitle = '';
-  collectionId = null;
+  collectionId = '';
   newCollectionParentCollectionId = this.parentCollectionRootId;
   collectionNodes: NzTreeNodeOptions[];
   workspaceId = WORKSPACES.LOCAL;
@@ -76,7 +76,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   }
 
   isNewCollection() {
-    return this.collectionId === -1;
+    return this.collectionId === '-1';
   }
 
   onSaveChange() {

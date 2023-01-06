@@ -12,7 +12,7 @@ import { JSONSchema6 } from 'json-schema';
   styles: [],
 })
 export class SchemaFormItemListComponent {
-  @Input() item: SchemaFormProperty;
+  @Input() item?: SchemaFormProperty;
   @Input() data: unknown[] = [];
 
   @Output() dataChange = new EventEmitter();
@@ -34,7 +34,7 @@ export class SchemaFormItemListComponent {
   }
 
   getSchemaFormPropertyForListItem(index: number, schema: JSONSchema6) {
-    return getSchemaFormProperty(`${this.item.key}[${index}]`, schema);
+    return getSchemaFormProperty(`${this.item?.key}[${index}]`, schema);
   }
 
   isJsonSchema(p: JSONSchema6['items']): p is JSONSchema6 {

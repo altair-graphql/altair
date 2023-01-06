@@ -20,7 +20,7 @@ import { truncateText } from '../../utils';
   styles: [],
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
-  @Input() fileVariable: FileVariable;
+  @Input() fileVariable?: FileVariable;
 
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter<{
@@ -40,18 +40,20 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   constructor(private storageService: StorageService) {}
 
   async ngOnInit() {
-    this.updateLocalState(this.fileVariable);
-    if (this.invalidFileData) {
-      if (this.fileVariable.id) {
-        const selectedFiles = await this.storageService.selectedFiles.get(
-          this.fileVariable.id
-        );
+    if (this.fileVariable) {
+      this.updateLocalState(this.fileVariable);
+      if (this.invalidFileData) {
+        if (this.fileVariable.id) {
+          const selectedFiles = await this.storageService.selectedFiles.get(
+            this.fileVariable.id
+          );
 
-        if (selectedFiles) {
-          return this.fileVariableDataChange.emit({
-            files: Array.from(selectedFiles.data),
-            fromCache: true,
-          });
+          if (selectedFiles) {
+            return this.fileVariableDataChange.emit({
+              files: Array.from(selectedFiles.data),
+              fromCache: true,
+            });
+          }
         }
       }
     }
@@ -81,8 +83,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
     this.invalidFileData =
       (this.fileVariable?.data as [])?.length > this.validFileData.length;
     this.showWarning = Boolean(
-      !this.fileVariable?.isMultiple &&
-        (this.fileVariable.data as [])?.length > 1
+      !fileVariable?.isMultiple && (fileVariable.data as [])?.length > 1
     );
 
     if (this.invalidFileData) {

@@ -46,8 +46,8 @@ registerSettingsLinter(Codemirror);
   styleUrls: ['./settings-dialog.component.scss'],
 })
 export class SettingsDialogComponent implements OnInit, OnChanges {
-  @Input() settings: SettingsState;
-  @Input() appVersion: string;
+  @Input() settings?: SettingsState;
+  @Input() appVersion = '';
   @Input() showSettingsDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();

@@ -71,6 +71,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { TODO } from 'altair-graphql-core/build/types/shared';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
+import { getInitialState } from '../../store/variables/variables.reducer';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -83,24 +84,24 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() windowId = '';
   @Input() activeWindowId = '';
   @Input() query = '';
-  @Input() gqlSchema: GraphQLSchema;
+  @Input() gqlSchema?: GraphQLSchema;
   @Input() tabSize = 2;
   @Input() addQueryDepthLimit = 2;
   @Input() disableLineNumbers = false;
 
-  @Input() variables: VariableState;
+  @Input() variables?: VariableState;
   @Input() showVariableDialog = false;
-  @Input() variableToType: IDictionary;
+  @Input() variableToType?: IDictionary;
 
   @Input() shortcutMapping: IDictionary = {};
   @Input() enableExperimental = false;
   @Input() betaDisableNewEditor = true;
 
-  @Input() preRequest: PrerequestState;
+  @Input() preRequest?: PrerequestState;
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
-  @Input() postRequest: PostrequestState;
+  @Input() postRequest?: PostrequestState;
   @Output() postRequestScriptChange = new EventEmitter();
   @Output() postRequestEnabledChange = new EventEmitter();
 
@@ -638,7 +639,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  updateNewEditorSchema(schema: GraphQLSchema) {
+  updateNewEditorSchema(schema?: GraphQLSchema) {
     if (schema && this.newEditor?.view) {
       debug.log('Updating schema for new editor...', schema);
       updateSchema(this.newEditor.view, schema);
@@ -651,7 +652,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  updateNewEditorVariableState(variables: VariableState) {
+  updateNewEditorVariableState(variables?: VariableState) {
     if (this.newEditor?.view) {
       updateGqlVariables(this.newEditor.view, variables);
     }
