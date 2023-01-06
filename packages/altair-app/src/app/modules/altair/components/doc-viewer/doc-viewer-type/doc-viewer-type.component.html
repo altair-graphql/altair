@@ -1,10 +1,10 @@
-<ng-container>
+<ng-container *ngIf="data">
   <div class="doc-viewer-section">
     <!--Type name and description-->
     <div class="doc-viewer-item doc-viewer-item-field">
       <div class="doc-viewer-item-query-inner">
         {{ data.name }}
-        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="data && data.getTypes">{{ 'DOCS_UNION_TEXT' | translate }}</span>
+        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLUnion(data)">{{ 'DOCS_UNION_TEXT' | translate }}</span>
         <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
       </div>
       <div
@@ -16,9 +16,9 @@
     </div>
   </div>
 
-  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data?.getValues && data.getValues() && data.getValues()?.length">
+  <div class="doc-viewer-section doc-viewer-enum-values" *ngIf="getTypeEnumValues(data).length">
     <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getValues(); trackBy:schemaItemTrackBy;">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeEnumValues(data); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value">
           {{ item.name }}
@@ -37,9 +37,9 @@
     </div>
   </div>
   
-  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="data?.getTypes && data.getTypes() && data.getTypes()?.length">
+  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="getSubtypes(data).length">
     <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of data.getTypes(); trackBy:schemaItemTrackBy;">
+    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getSubtypes(data); trackBy:schemaItemTrackBy;">
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
           {{ item.name }}
@@ -55,7 +55,7 @@
     </div>
   </div>
   
-  <div class="doc-viewer-section doc-viewer-fields" *ngIf="data && data.getFields && (data.getFields() | values)?.length">
+  <div class="doc-viewer-section doc-viewer-fields" *ngIf="getTypeFields(data).length">
     <div class="doc-viewer-section-title">
       <span>
         {{ 'DOCS_FIELDS_TEXT' | translate }}
@@ -101,7 +101,7 @@
     </div>
     <div
       class="doc-viewer-item doc-viewer-item-query"
-      *ngFor="let item of (data.getFields() | values | collectionTransform: sortFieldsTransformer:sortByOption); trackBy:schemaItemTrackBy;"
+      *ngFor="let item of (getTypeFields(data) | collectionTransform: sortFieldsTransformer:sortByOption); trackBy:schemaItemTrackBy;"
     >
       <div class="doc-viewer-item-query-inner">
         <span class="no-link-link"

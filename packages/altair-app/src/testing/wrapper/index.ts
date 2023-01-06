@@ -135,7 +135,7 @@ export class NgxTestWrapper<C> {
     );
   }
 
-  setValue(value: any = '') {
+  setValue(value = '') {
     return setValue(this._testHostFixture, this._mainComponentDebugEl, value);
   }
 

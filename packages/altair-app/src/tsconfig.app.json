@@ -8,9 +8,6 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
   },
-  "angularCompilerOptions": {
-    "preserveWhitespaces": true
-  },
   "files": [
     "main.ts",
     "polyfills.ts"

@@ -1,4 +1,7 @@
-import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
+import {
+  SubscriptionProvider,
+  SubscriptionProviderExecuteOptions,
+} from '../subscription-provider';
 import { Observable } from 'rxjs';
 import { createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
@@ -35,17 +38,17 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
 
     const client = new ApolloClient({
       link,
-      cache: new InMemoryCache()
+      cache: new InMemoryCache(),
     });
 
     const subscription = client.subscribe({
       query: parse(options.query),
-      variables: options.variables
-    })
-    return new Observable((subscriber) => {
+      variables: options.variables,
+    });
+    return new Observable(subscriber => {
       this.subscription = subscription.subscribe({
-        next: (...args: any[]) =>  subscriber.next(...args),
-        error: (...args: any[]) => subscriber.error(...args),
+        next: (...args: unknown[]) => subscriber.next(...args),
+        error: (...args: unknown[]) => subscriber.error(...args),
         complete: () => subscriber.complete(),
       });
     });

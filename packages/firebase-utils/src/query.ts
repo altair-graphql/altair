@@ -272,7 +272,6 @@ export const getCollections = async (
         );
 
         const teamSn = await getDocs(teamDocQ);
-        console.log("teams!", teamSn.docs);
 
         queries = mergeList(queries, teamSn.docs);
       }
@@ -298,7 +297,7 @@ export const getCollections = async (
   });
 };
 
-const mergeList = <T extends { id: any }>(list1: T[], list2: T[]) => {
+const mergeList = <T extends { id: string }>(list1: T[], list2: T[]) => {
   const seenIds = new Set(list1.map(d => d.id));
 
   return [...list1, ...list2.filter(d => !seenIds.has(d.id))];

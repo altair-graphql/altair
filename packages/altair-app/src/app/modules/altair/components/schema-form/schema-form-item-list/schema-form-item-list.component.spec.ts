@@ -27,7 +27,6 @@ describe('SchemaFormItemListComponent', () => {
     fixture = TestBed.createComponent(SchemaFormItemListComponent);
     component = fixture.componentInstance;
     component.data = [];
-    component.item = {};
     fixture.detectChanges();
   });
 

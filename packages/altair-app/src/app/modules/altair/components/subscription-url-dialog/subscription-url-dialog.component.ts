@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Extension } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
+import { SubscriptionProviderData } from 'altair-graphql-core/build/subscriptions';
 
 @Component({
   selector: 'app-subscription-url-dialog',
@@ -11,7 +12,7 @@ export class SubscriptionUrlDialogComponent {
   @Input() subscriptionUrl = '';
   @Input() subscriptionConnectionParams = '';
   @Input() selectedSubscriptionProviderId = '';
-  @Input() subscriptionProviders = [];
+  @Input() subscriptionProviders: SubscriptionProviderData[] = [];
   @Input() showDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() subscriptionUrlChange = new EventEmitter();
@@ -32,7 +33,7 @@ export class SubscriptionUrlDialogComponent {
     this.subscriptionProviderIdChange.emit(providerId);
   }
 
-  trackById(index: number, item: any) {
+  trackById(index: number, item: SubscriptionProviderData) {
     return item.id;
   }
 }

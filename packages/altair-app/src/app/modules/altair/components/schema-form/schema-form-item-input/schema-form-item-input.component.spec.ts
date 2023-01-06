@@ -24,8 +24,7 @@ describe('SchemaFormItemInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemInputComponent);
     component = fixture.componentInstance;
-    component.data = {};
-    component.item = {};
+    component.data = '';
     fixture.detectChanges();
   });
 

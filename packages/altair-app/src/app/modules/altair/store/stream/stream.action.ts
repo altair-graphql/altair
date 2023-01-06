@@ -16,7 +16,10 @@ export class SetStreamSettingAction implements NGRXAction {
 export class SetStreamClientAction implements NGRXAction {
   readonly type = SET_STREAM_CLIENT;
 
-  constructor(public windowId: string, public payload: { streamClient: any }) {}
+  constructor(
+    public windowId: string,
+    public payload: { streamClient?: EventSource }
+  ) {}
 }
 
 export class StartStreamClientAction implements NGRXAction {
@@ -28,13 +31,13 @@ export class StartStreamClientAction implements NGRXAction {
 export class StopStreamClientAction implements NGRXAction {
   readonly type = STOP_STREAM_CLIENT;
 
-  constructor(public windowId: string, public payload?: any) {}
+  constructor(public windowId: string) {}
 }
 
 export class SetStreamFailedAction implements NGRXAction {
   readonly type = SET_STREAM_FAILED;
 
-  constructor(public windowId: string, public payload: { failed: any }) {}
+  constructor(public windowId: string, public payload: { failed?: Event }) {}
 }
 
 export class SetStreamConnectedAction implements NGRXAction {

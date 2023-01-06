@@ -1,5 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema, IntrospectionQuery } from 'graphql';
 
 export const SET_INTROSPECTION = 'SET_INTROSPECTION';
 export const SET_INTROSPECTION_FROM_DB = 'SET_INTROSPECTION_FROM_DB';
@@ -16,13 +16,13 @@ export const LOAD_SDL_SCHEMA = 'LOAD_SDL_SCHEMA';
 export class SetIntrospectionAction implements NGRXAction {
   readonly type = SET_INTROSPECTION;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(public payload: IntrospectionQuery, public windowId: string) {}
 }
 
 export class SetIntrospectionFromDbAction implements NGRXAction {
   readonly type = SET_INTROSPECTION_FROM_DB;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(public payload: IntrospectionQuery, public windowId: string) {}
 }
 
 export class SetSchemaAction implements NGRXAction {
@@ -40,7 +40,7 @@ export class SetSchemaSDLAction implements NGRXAction {
 export class SetAllowIntrospectionAction implements NGRXAction {
   readonly type = SET_ALLOW_INTROSPECTION;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(public payload: boolean, public windowId: string) {}
 }
 
 export class SetIntrospectionLastUpdatedAtAction implements NGRXAction {

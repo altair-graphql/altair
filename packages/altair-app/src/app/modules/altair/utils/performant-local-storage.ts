@@ -64,33 +64,35 @@ export class PerformantLocalStorage implements Storage {
     }
   }
 
-  private runSetItem(key: string, value: any) {
+  private runSetItem(key: string, value: string) {
+    const itemHandle = this.setItemHandles[key];
     // Using requestIdleCallback to set only when the UI is idle
-    if (this.setItemHandles[key]) {
+    if (itemHandle) {
       // Cancel any previous callbacks
-      (window as any).cancelIdleCallback(this.setItemHandles[key]);
+      cancelIdleCallback(itemHandle);
     }
-    this.setItemHandles[key] = (window as any).requestIdleCallback(
-      (deadline: any) => {
-        if (deadline.timeRemaining()) {
-          try {
-            (window as any).cancelIdleCallback(this.setItemHandles[key]);
-            this.setItemHandles[key] = undefined;
-            return this.storage.setItem(key, value);
-          } catch (error) {
-            if (
-              ['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(
-                error.name
-              )
-            ) {
-              // handle quota limit exceeded error
-            }
+    this.setItemHandles[key] = requestIdleCallback((deadline) => {
+      if (deadline.timeRemaining()) {
+        try {
+          const itemHandle = this.setItemHandles[key];
+          if (itemHandle) {
+            cancelIdleCallback(itemHandle);
           }
+          this.setItemHandles[key] = undefined;
           return this.storage.setItem(key, value);
+        } catch (error) {
+          if (
+            ['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(
+              error.name
+            )
+          ) {
+            // handle quota limit exceeded error
+          }
         }
-        // return runSetItem();
+        return this.storage.setItem(key, value);
       }
-    );
+      // return runSetItem();
+    });
   }
 }
 

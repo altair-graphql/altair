@@ -212,7 +212,7 @@ export const buildSelectionNode = (
 // Generate default values based on the GraphQL type
 const buildDefaultArgumentValueNode = (
   argumentType: GraphQLInputType,
-  defaultValue?: any,
+  defaultValue?: unknown,
   { currentDepth = 0, maxDepth = 2 } = {}
 ): ValueNode => {
   return (
@@ -224,7 +224,7 @@ const buildDefaultArgumentValueNode = (
 };
 const maybeBuildDefaultArgumentValueNode = (
   type: GraphQLInputType,
-  defaultValue?: any,
+  defaultValue?: unknown,
   { currentDepth = 0, maxDepth = 2 } = {}
 ): ValueNode | undefined | null => {
   const defaultValueNode = astFromValue(defaultValue, type);

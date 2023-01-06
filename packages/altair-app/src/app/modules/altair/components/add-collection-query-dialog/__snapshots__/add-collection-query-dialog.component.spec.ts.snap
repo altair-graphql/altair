@@ -49,6 +49,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
+                    
+    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -56,6 +58,10 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                       style="opacity: 0;"
                     />
                     
+    
+                    
+                    
+  
                   </nz-select-search>
                   
                   
@@ -65,15 +71,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                     Choose 
+                    
+    
+                    
+      Choose
+    
                     
                     
+                    
+  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
+                  
+    
+                  
+      
+                  
+        
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -95,11 +113,23 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   </i>
                   
                   
+        
+                  
+                  
+      
                   
                   
                   
+      
                   
                   
+    
+                  
+                  
+    
+                  
+                  
+  
                 </nz-select-arrow>
                 
                 
@@ -171,6 +201,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
+                    
+    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -178,6 +210,10 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                       style="opacity: 0;"
                     />
                     
+    
+                    
+                    
+  
                   </nz-select-search>
                   
                   
@@ -187,15 +223,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                     Choose 
+                    
+    
+                    
+      Choose
+    
                     
                     
+                    
+  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
+                  
+    
+                  
+      
+                  
+        
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -217,11 +265,23 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   </i>
                   
                   
+        
+                  
+                  
+      
                   
                   
                   
+      
                   
                   
+    
+                  
+                  
+    
+                  
+                  
+  
                 </nz-select-arrow>
                 
                 
@@ -293,6 +353,8 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
+                    
+    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -300,6 +362,10 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                       style="opacity: 0;"
                     />
                     
+    
+                    
+                    
+  
                   </nz-select-search>
                   
                   
@@ -309,15 +375,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                     Choose 
+                    
+    
+                    
+      Choose
+    
                     
                     
+                    
+  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
+                  
+    
+                  
+      
+                  
+        
                   <i
                     class="anticon anticon-down"
                     nz-icon=""
@@ -339,11 +417,23 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   </i>
                   
                   
+        
+                  
+                  
+      
                   
                   
                   
+      
                   
                   
+    
+                  
+                  
+    
+                  
+                  
+  
                 </nz-select-arrow>
                 
                 

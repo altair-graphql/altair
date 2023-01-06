@@ -21,7 +21,7 @@ export const getInitialState = (): QueryState => {
     selectedOperation: null,
     operations: [],
     httpVerb: initialData.initialHttpMethod || 'POST',
-    response: null,
+    response: '',
     responseTime: 0,
     requestStartTime: 0,
     requestEndTime: 0,
@@ -57,34 +57,34 @@ export function queryReducer(
   switch (action.type) {
     case query.SET_QUERY:
     case query.SET_QUERY_FROM_DB:
-      return Object.assign({}, state, { query: action.payload || '' });
+      return {
+        ...state,
+        query: action.payload || '',
+      };
     case query.SET_URL:
     case query.SET_URL_FROM_DB:
-      return Object.assign({}, state, { url: action.payload.url });
+      return { ...state, url: action.payload.url };
     case query.SET_SUBSCRIPTION_URL:
-      return Object.assign({}, state, {
-        subscriptionUrl: action.payload.subscriptionUrl,
-      });
+      return { ...state, subscriptionUrl: action.payload.subscriptionUrl };
     case query.SET_QUERY_RESULT:
-      return Object.assign({}, state, { response: action.payload });
+      return { ...state, response: action.payload };
     case query.SET_QUERY_RESULT_RESPONSE_HEADERS:
       return { ...state, responseHeaders: action.payload.headers };
     case query.SET_SELECTED_OPERATION:
-      return Object.assign({}, state, {
-        selectedOperation: action.payload.selectedOperation,
-      });
+      return { ...state, selectedOperation: action.payload.selectedOperation };
     case query.SET_RESPONSE_STATS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         requestStartTime: action.payload.requestStartTime,
         requestEndTime: action.payload.requestEndTime,
         responseTime: action.payload.responseTime,
         responseStatus: action.payload.responseStatus,
         responseStatusText: action.payload.responseStatusText,
-      });
+      };
     case query.START_SUBSCRIPTION:
-      return Object.assign({}, state, { isSubscribed: true });
+      return { ...state, isSubscribed: true };
     case query.STOP_SUBSCRIPTION:
-      return Object.assign({}, state, { isSubscribed: false });
+      return { ...state, isSubscribed: false };
     case query.SET_SUBSCRIPTION_CONNECTION_PARAMS:
       return {
         ...state,
@@ -93,11 +93,13 @@ export function queryReducer(
     case query.SET_SUBSCRIPTION_PROVIDER_ID:
       return { ...state, subscriptionProviderId: action.payload.providerId };
     case query.SET_SUBSCRIPTION_CLIENT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         subscriptionClient: action.payload.subscriptionClient,
-      });
+      };
     case query.ADD_SUBSCRIPTION_RESPONSE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         subscriptionResponseList: [
           ...state.subscriptionResponseList,
           {
@@ -106,22 +108,18 @@ export function queryReducer(
             responseObj: action.payload.responseObj,
           },
         ],
-      });
+      };
     case query.SET_SUBSCRIPTION_RESPONSE_LIST:
-      return Object.assign({}, state, {
-        subscriptionResponseList: action.payload.list,
-      });
+      return { ...state, subscriptionResponseList: action.payload.list };
     case query.TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE:
       return {
         ...state,
         autoscrollSubscriptionResponse: !state.autoscrollSubscriptionResponse,
       };
     case query.SET_HTTP_VERB:
-      return Object.assign({}, state, { httpVerb: action.payload.httpVerb });
+      return { ...state, httpVerb: action.payload.httpVerb };
     case query.SET_QUERY_OPERATIONS:
-      return Object.assign({}, state, {
-        operations: action.payload.operations,
-      });
+      return { ...state, operations: action.payload.operations };
     case query.SET_QUERY_EDITOR_STATE:
       return { ...state, queryEditorState: action.payload };
     case query.SET_REQUEST_SCRIPT_LOGS:

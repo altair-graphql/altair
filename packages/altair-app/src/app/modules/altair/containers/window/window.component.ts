@@ -42,6 +42,7 @@ import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import {
+  HttpVerb,
   LogLine,
   QueryEditorState,
   QueryState,
@@ -61,7 +62,7 @@ import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema, OperationDefinitionNode } from 'graphql';
 import { str } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
@@ -89,7 +90,7 @@ export class WindowComponent implements OnInit {
   subscriptionResponses$: Observable<SubscriptionResponse[]>;
   requestScriptLogs$: Observable<LogLine[]>;
   selectedOperation$?: Observable<SelectedOperation>;
-  queryOperations$: Observable<any[]>;
+  queryOperations$: Observable<OperationDefinitionNode[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<IQueryCollection | undefined>;
   preRequest$: Observable<PrerequestState>;
@@ -111,7 +112,7 @@ export class WindowComponent implements OnInit {
 
   editorShortcutMapping$: Observable<IDictionary>;
 
-  @Input() windowId: string;
+  @Input() windowId = '';
 
   isElectron = isElectron;
   apiUrl = '';
@@ -319,7 +320,7 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  setApiMethod(httpVerb: string) {
+  setApiMethod(httpVerb: HttpVerb) {
     this.store.dispatch(
       new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId)
     );
@@ -388,7 +389,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
   }
 
-  toggleHeader(isOpen = undefined) {
+  toggleHeader(isOpen: boolean | undefined = undefined) {
     if (this.showHeaderDialog !== isOpen) {
       this.store.dispatch(
         new dialogsActions.ToggleHeaderDialogAction(this.windowId)

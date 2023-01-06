@@ -15,3 +15,8 @@ export class SaveQuerySuccessAction implements NGRXAction {
 export class SaveIntrospectionSuccessAction implements NGRXAction {
   readonly type = SAVE_INTROSPECTION_SUCCESS;
 }
+
+export type Action =
+  | SaveUrlSuccessAction
+  | SaveQuerySuccessAction
+  | SaveIntrospectionSuccessAction;

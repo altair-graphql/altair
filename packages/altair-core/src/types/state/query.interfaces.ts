@@ -1,3 +1,4 @@
+import { OperationDefinitionNode } from 'graphql';
 import { SubscriptionProvider } from '../../subscriptions/subscription-provider';
 import { IDictionary } from '../shared';
 
@@ -9,7 +10,7 @@ export interface QueryEditorState {
 
 export interface SubscriptionResponse {
   response: string;
-  responseObj: any;
+  responseObj: unknown;
   responseTime: number;
 }
 
@@ -29,9 +30,9 @@ export interface QueryState {
   // Adding undefined for backward compatibility
   selectedOperation?: SelectedOperation;
   // Adding undefined for backward compatibility
-  operations?: any[];
+  operations?: OperationDefinitionNode[];
   httpVerb: HttpVerb;
-  response: any;
+  response?: string;
   requestStartTime: number;
   requestEndTime: number;
   responseTime: number;

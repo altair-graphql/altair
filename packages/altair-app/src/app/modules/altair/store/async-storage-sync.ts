@@ -7,7 +7,7 @@ import {
   LocalStorageConfig,
   rehydrateApplicationState,
 } from 'ngrx-store-localstorage';
-import { ActionWithPayload, AppInitAction, APP_INIT_ACTION } from './action';
+import { AllActions, AppInitAction, APP_INIT_ACTION } from './action';
 import { StorageService } from '../services/storage/storage.service';
 import { IDictionary } from '../interfaces/shared';
 import { debug } from '../utils/logger';
@@ -422,7 +422,7 @@ export const asyncStorageSync =
     const storageNamespace =
       getAltairConfig().initialData.instanceStorageNamespace;
 
-    return function (state: any, action: ActionWithPayload) {
+    return function (state: any, action: AllActions) {
       let nextState: any;
 
       try {

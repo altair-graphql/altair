@@ -19,8 +19,8 @@ import { ThemeRegistryService } from '../../services';
   selector: '[appTheme]',
 })
 export class ThemeDirective implements OnInit, OnChanges {
-  @Input() appTheme: ICustomTheme;
-  @Input() appDarkTheme: ICustomTheme;
+  @Input() appTheme: ICustomTheme = {};
+  @Input() appDarkTheme: ICustomTheme = {};
 
   private className = '';
 

@@ -1,6 +1,6 @@
 <div class="app-window__content">
   <app-loader
-    [loading]="(layout$ | async)?.isLoading"
+    [loading]="!!(layout$ | async)?.isLoading"
     (cancelChange)="cancelRequest()"
   ></app-loader>
   <app-url-box

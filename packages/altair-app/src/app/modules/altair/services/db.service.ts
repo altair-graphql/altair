@@ -5,9 +5,6 @@ import { Injectable } from '@angular/core';
 export class DbService {
   storagePrefix = 'altair:';
   servicePrefix = 'db:';
-  db$: Observable<any>;
-
-  constructor() {}
 
   /**
    * Gets the item with the exact name specified
@@ -44,16 +41,13 @@ export class DbService {
    * @param key
    * @param value
    */
-  setItem(key: string, value: any): Observable<any> {
-    const dbValue = {
-      value: null,
-    };
-
+  setItem(key: string, value: unknown): Observable<any> {
     if (key && value) {
-      dbValue.value = value;
+      const dbValue = {
+        value,
+      };
+      localStorage.setItem(this.getItemName(key), JSON.stringify(dbValue));
     }
-
-    localStorage.setItem(this.getItemName(key), JSON.stringify(dbValue));
 
     return new Observable((obs) => obs.next(null));
   }

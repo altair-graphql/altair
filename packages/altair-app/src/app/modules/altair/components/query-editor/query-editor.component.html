@@ -2,7 +2,7 @@
   class="main-view-tabs"
   [nzAnimated]="false"
   nzSize="small"
-  nzTabBarGutter="16"
+  [nzTabBarGutter]="16"
   [(nzSelectedIndex)]="selectedIndex"
 >
   <nz-tab [nzTitle]="'QUERY_TAB' | translate">
@@ -86,7 +86,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="preRequestTitleTemplate">
     <ng-template #preRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': preRequest.enabled}">
+      <span [ngClass]="{'ant-tabs--status-enabled': preRequest?.enabled}">
         {{ 'PRE_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
@@ -98,7 +98,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': postRequest.enabled}">
+      <span [ngClass]="{'ant-tabs--status-enabled': postRequest?.enabled}">
         {{ 'POST_REQUEST_TAB' | translate }}
       </span>
     </ng-template>

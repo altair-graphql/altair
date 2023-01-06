@@ -8,7 +8,7 @@ import windowStateKeeper from "electron-window-state";
 import {
   getDistDirectory,
   renderAltair,
-  renderInitialOptions,
+  renderInitialOptions
 } from "altair-static";
 
 import { checkMultipleDataVersions } from "../utils/check-multi-data-versions";
@@ -16,7 +16,7 @@ import { createSha256CspHash } from "../utils/csp-hash";
 import { initMainProcessStoreEvents } from "../electron-store-adapter/main-store-events";
 import {
   initSettingsStoreEvents,
-  initUpdateAvailableEvent,
+  initUpdateAvailableEvent
 } from "../settings/main/events";
 
 import { ElectronApp } from "./index";
@@ -49,7 +49,7 @@ export class WindowManager {
     // Load the previous state with fallback to defaults
     this.mainWindowState = windowStateKeeper({
       defaultWidth: 1280,
-      defaultHeight: 800,
+      defaultHeight: 800
     });
 
     // Create the browser window.
@@ -73,8 +73,8 @@ export class WindowManager {
         // TODO: Migrate current preload/IPC usage to use contextBridge instead
         contextIsolation: false,
         // enableRemoteModule: process.env.NODE_ENV === "test", // remote required for spectron tests to work
-        preload: path.join(__dirname, "../preload", "index.js"),
-      },
+        preload: path.join(__dirname, "../preload", "index.js")
+      }
       // titleBarStyle: 'hidden-inset'
     });
 
@@ -95,7 +95,7 @@ export class WindowManager {
       url.format({
         pathname: "-",
         protocol: "altair:",
-        slashes: true,
+        slashes: true
       })
     );
     // instance.loadURL('http://localhost:4200/');
@@ -114,7 +114,7 @@ export class WindowManager {
     initSettingsStoreEvents();
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on("will-navigate", (e) => e.preventDefault());
+    this.instance.webContents.on("will-navigate", e => e.preventDefault());
 
     // instance.webContents.once('dom-ready', () => {
     //   instance.webContents.openDevTools();
@@ -141,12 +141,12 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         console.log("Before request:", details);
         if (details.uploadData) {
-          details.uploadData.forEach((uploadData) => {
+          details.uploadData.forEach(uploadData => {
             console.log("Data sent:", uploadData.bytes.toString());
           });
         }
         callback({
-          cancel: false,
+          cancel: false
         });
       });
     }
@@ -158,20 +158,20 @@ export class WindowManager {
         // console.log(this.requestHeaders);
         // console.log('sending headers', details.requestHeaders);
         // Set the request headers
-        Object.keys(this.requestHeaders).forEach((key) => {
+        Object.keys(this.requestHeaders).forEach(key => {
           details.requestHeaders[key] = this.requestHeaders[key];
         });
         callback({
           cancel: false,
-          requestHeaders: details.requestHeaders,
+          requestHeaders: details.requestHeaders
         });
       }
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders((details) => {
+      session.defaultSession.webRequest.onSendHeaders(details => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach((headerKey) => {
+          Object.keys(details.requestHeaders).forEach(headerKey => {
             console.log(
               "Header sent:",
               headerKey,
@@ -191,17 +191,17 @@ export class WindowManager {
         `https://cdn.jsdelivr.net`,
         `https://apis.google.com`,
         `localhost:*`,
-        `file:`,
+        `file:`
       ];
       callback({
         responseHeaders: Object.assign({}, details.responseHeaders, {
           // Setting CSP
           // TODO: Figure out why an error from this breaks devtools
           "Content-Security-Policy": [
-            `script-src ${scriptSrc.join(" ")}; object-src 'self';`,
+            `script-src ${scriptSrc.join(" ")}; object-src 'self';`
             // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
-          ],
-        }),
+          ]
+        })
       });
     });
 
@@ -214,10 +214,10 @@ export class WindowManager {
     // Get 'set headers' instruction from app
     ipcMain.on(
       "set-headers-sync",
-      (e, headers: { key: string; value: any; enabled?: boolean }[]) => {
+      (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
         this.requestHeaders = {};
 
-        headers.forEach((header) => {
+        headers.forEach(header => {
           if (
             HEADERS_TO_SET.includes(header.key) &&
             header.key &&
@@ -248,12 +248,12 @@ export class WindowManager {
       this.electronApp.store.delete("file-opened");
     });
 
-    ipcMain.handle("reload-window", (e) => {
+    ipcMain.handle("reload-window", e => {
       e.sender.reload();
     });
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors("get-auth-token", async (e) => {
+    handleWithCustomErrors("get-auth-token", async e => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error("untrusted source trying to get auth token");
       }
@@ -279,7 +279,7 @@ export class WindowManager {
         .then(({ mimeType, data }) => {
           callback({ mimeType, data });
         })
-        .catch((error) => {
+        .catch(error => {
           error.message = `Failed to register protocol. ${error.message}`;
           console.error(error);
         });
@@ -323,7 +323,7 @@ export class WindowManager {
         mimeType: "text/plain",
         data: Buffer.from(
           '{"version": 3, "file": "index.module.js", "sources": [], "sourcesContent": [], "names": [], "mappings":""}'
-        ),
+        )
       };
     }
 
@@ -338,7 +338,7 @@ export class WindowManager {
     // Using the mime package to get the mime type for the file, based on the file name
     return {
       mimeType: mime.lookup(filePath) || "",
-      data: data,
+      data: data
     };
   }
 }

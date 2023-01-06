@@ -54,6 +54,10 @@ export const withInsertions = (
   return edited;
 };
 
+export interface FillAllFieldsOptions {
+  maxDepth?: number;
+}
+
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
 export const fillAllFields = (
@@ -61,9 +65,9 @@ export const fillAllFields = (
   query: string,
   cursor: Position,
   token: ContextToken,
-  { maxDepth = 1 } = {}
+  { maxDepth = 1 }: FillAllFieldsOptions = {}
 ) => {
-  const insertions: any[] = [];
+  const insertions: { index: number; string: string }[] = [];
   if (!schema) {
     return { insertions, result: query };
   }

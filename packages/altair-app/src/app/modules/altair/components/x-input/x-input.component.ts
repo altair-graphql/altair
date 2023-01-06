@@ -252,7 +252,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     // https://codemirror.net/examples/tooltip/
     return hoverTooltip((view, pos, side) => {
       const { from, to, text } = view.state.doc.lineAt(pos);
-      let start = pos,
+      let start: number = pos,
         end = pos;
       while (start > from && /\w/.test(text[start - from - 1])) start--;
       while (end < to && /\w/.test(text[end - from])) end++;
@@ -290,12 +290,12 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   }
 
   // get accessor
-  get value(): any {
+  get value() {
     return this.innerValue;
   }
 
   // set accessor including call the onchange callback
-  set value(v: any) {
+  set value(v: string) {
     if (v !== this.innerValue) {
       this.innerValue = v;
       this.onChangeCallback(v);
@@ -303,19 +303,19 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   }
 
   // From ControlValueAccessor interface
-  writeValue(value: any) {
+  writeValue(value: string) {
     if (value !== this.innerValue) {
       this.innerValue = value;
     }
   }
 
   // From ControlValueAccessor interface
-  registerOnChange(fn: any) {
+  registerOnChange(fn: (_: unknown) => void) {
     this.onChangeCallback = fn;
   }
 
   // From ControlValueAccessor interface
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: (_: unknown) => void) {
     this.onTouchedCallback = fn;
   }
 
@@ -343,6 +343,6 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     return ranges;
   }
 
-  private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
+  private onTouchedCallback: (_: unknown) => void = () => {};
+  private onChangeCallback: (_: unknown) => void = () => {};
 }

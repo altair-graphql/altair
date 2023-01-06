@@ -28,8 +28,7 @@ export type PluginCapabilities =
   | 'header:read'
   | 'header:write'
   | 'environment:read'
-  | 'environment:write'
-  ;
+  | 'environment:write';
 
 /**
  * Plugin Manifest Structure
@@ -60,13 +59,39 @@ export interface AltairPlugin {
   manifest: PluginManifest;
 }
 
-export const createPlugin = (name: string, manifest: PluginManifest): AltairPlugin => {
+export const createPlugin = (
+  name: string,
+  manifest: PluginManifest
+): AltairPlugin => {
   return {
     name,
     manifest,
     type: manifest.type,
     display_name: manifest.display_name || name,
     plugin_class: manifest.plugin_class,
-    capabilities: Array.from(new Set([ ...(manifest.capabilities || []), ...([ 'query:read', 'query:write' ] as PluginCapabilities[]) ])),
+    capabilities: Array.from(
+      new Set([
+        ...(manifest.capabilities || []),
+        ...(['query:read', 'query:write'] as PluginCapabilities[]),
+      ])
+    ),
   };
 };
+
+export interface RemotePluginListItem {
+  name: string;
+  version: string;
+  description: string;
+  author: string | null;
+  created_at: number;
+  updated_at: number;
+  homepage: string | null;
+  summary: string | null;
+  manifest: PluginManifest;
+}
+
+export interface RemotePluginListResponse {
+  page: number;
+  total: number;
+  items: RemotePluginListItem[];
+}

@@ -9,7 +9,15 @@ import { first, take } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ConfirmToastComponent } from '../../components/confirm-toast/confirm-toast.component';
 
-type NotifyOptions = Partial<IndividualConfig & { data: any }>;
+interface PushNotifyOptions {
+  onclick?: () => void;
+}
+
+interface NotifyData {
+  url?: string;
+  action?: () => void;
+}
+type NotifyOptions = Partial<IndividualConfig & { data?: NotifyData }>;
 type NotifyType = 'success' | 'error' | 'warning' | 'info';
 @Injectable()
 export class NotifyService {
@@ -45,14 +53,16 @@ export class NotifyService {
     opts: NotifyOptions = {}
   ) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
-    if (opts.data && opts.data.action) {
+    if (opts?.data?.action) {
+      const action = opts.data.action;
       toast.onTap.pipe(take(1)).subscribe((_toast) => {
-        opts.data.action();
+        action();
       });
     }
-    if (opts.data && opts.data.url) {
+    if (opts?.data?.url) {
+      const url = opts.data.url;
       toast.onTap.pipe(take(1)).subscribe((_toast) => {
-        window.open(opts.data.url, '_blank');
+        window.open(url, '_blank');
       });
     }
     return toast;
@@ -71,7 +81,7 @@ export class NotifyService {
     // })
   }
 
-  pushNotify(message: string, title = 'Altair', opts: any = {}) {
+  pushNotify(message: string, title = 'Altair', opts: PushNotifyOptions = {}) {
     if (isExtension) {
       return this.extensionPushNotify(message, title, opts);
     } else {
@@ -79,7 +89,11 @@ export class NotifyService {
     }
   }
 
-  electronPushNotify(message: string, title = 'Altair', opts: any = {}) {
+  electronPushNotify(
+    message: string,
+    title = 'Altair',
+    opts: PushNotifyOptions = {}
+  ) {
     this.store
       .select((state) => state.settings.disablePushNotification)
       .pipe(take(1))
@@ -92,7 +106,7 @@ export class NotifyService {
         const myNotification = new Notification(title, {
           body: message,
         });
-        if (opts) {
+        if (opts.onclick) {
           myNotification.onclick = opts.onclick;
         }
 
@@ -100,7 +114,11 @@ export class NotifyService {
       });
   }
 
-  extensionPushNotify(message: string, title = 'Altair', opts: any = {}) {
+  extensionPushNotify(
+    message: string,
+    title = 'Altair',
+    opts: PushNotifyOptions = {}
+  ) {
     this.store
       .select((state) => state.settings.disablePushNotification)
       .pipe(take(1))

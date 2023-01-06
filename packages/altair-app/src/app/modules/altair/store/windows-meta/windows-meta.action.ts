@@ -25,14 +25,10 @@ export class SetActiveWindowIdAction implements NGRXAction {
 
 export class SetNextWindowActiveAction implements NGRXAction {
   readonly type = SET_NEXT_WINDOW_ACTIVE;
-
-  constructor(public payload?: any) {}
 }
 
 export class SetPreviousWindowAction implements NGRXAction {
   readonly type = SET_PREVIOUS_WINDOW_ACTIVE;
-
-  constructor(public payload?: any) {}
 }
 
 export class SetWindowIdsAction implements NGRXAction {
@@ -87,14 +83,10 @@ export class ShowPluginManagerAction implements NGRXAction {
 
 export class ExportBackupDataAction implements NGRXAction {
   readonly type = EXPORT_BACKUP_DATA;
-
-  constructor(public payload?: any) {}
 }
 
 export class ImportBackupDataAction implements NGRXAction {
   readonly type = IMPORT_BACKUP_DATA;
-
-  constructor(public payload?: any) {}
 }
 
 export class ShowAccountDialogAction implements NGRXAction {

@@ -102,7 +102,7 @@ export class AltairComponent {
 
   windowIds: string[] = [];
   windows: WindowState = {};
-  closedWindows: any[] = [];
+  closedWindows: PerWindowState[] = [];
   activeWindowId = '';
   isElectron = isElectron;
   isWebApp: boolean;
@@ -693,7 +693,7 @@ export class AltairComponent {
     collectionId,
     query,
   }: {
-    collectionId: number;
+    collectionId: string;
     query: IQuery;
   }) {
     this.store.dispatch(
@@ -704,7 +704,7 @@ export class AltairComponent {
     );
   }
 
-  deleteCollection({ collectionId }: { collectionId: number }) {
+  deleteCollection({ collectionId }: { collectionId: string }) {
     this.store.dispatch(
       new collectionActions.DeleteCollectionAction({ collectionId })
     );
@@ -805,11 +805,7 @@ export class AltairComponent {
     this.setShowAddToCollectionDialog(false);
   }
 
-  updateCollection({
-    collection,
-  }: {
-    collection: IQueryCollection & { id: number };
-  }) {
+  updateCollection({ collection }: { collection: IQueryCollection }) {
     this.store.dispatch(
       new collectionActions.UpdateCollectionAction({
         collectionId: collection.id,
@@ -867,7 +863,7 @@ export class AltairComponent {
     );
   }
 
-  trackById(index: number, item: any) {
+  trackById<T extends { id: unknown }>(index: number, item: T) {
     return item.id;
   }
 }

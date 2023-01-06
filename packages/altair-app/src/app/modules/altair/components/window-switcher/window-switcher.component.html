@@ -13,7 +13,7 @@
     (dblclick)="editWindowNameInput(windowId, wTitle)"
   >
     <app-icon
-      *ngIf="windows[windowId].layout.windowIdInCollection"
+      *ngIf="windows[windowId]?.layout?.windowIdInCollection"
       name="folder"
       nz-tooltip
       [nzTooltipTitle]="'COLLECTION_OPEN_QUERY_TOOLTIP' | translate"
@@ -26,7 +26,7 @@
       [attr.contenteditable]="windowId === windowIdEditing"
       (blur)="saveWindowName(windowId, wTitle.innerText)"
       (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
-    >{{ windows[windowId].layout.title }}</div>
+    >{{ windows[windowId]?.layout?.title || '' }}</div>
     <div track-id="close_window_tab" class="window-switcher__close" *ngIf="windowIds.length > 1" (click)="closeWindow(windowId)">&#x00D7;</div>
   </li>
   <li
@@ -55,7 +55,7 @@
       {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
     </span>
   </ng-template>
-  <ng-template contextMenuItem divider="true"></ng-template>
+  <ng-template contextMenuItem [divider]="true"></ng-template>
   <ng-template contextMenuItem (execute)="closeWindow($event.item.windowId)">
     <span class="menu-icon">
       <app-icon name="x-square"></app-icon>

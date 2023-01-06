@@ -23,13 +23,19 @@ export class RemoveHeaderAction implements NGRXAction {
 export class EditHeaderKeyAction implements NGRXAction {
   readonly type = EDIT_HEADER_KEY;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(
+    public payload: { val: string; i: number },
+    public windowId: string
+  ) {}
 }
 
 export class EditHeaderValueAction implements NGRXAction {
   readonly type = EDIT_HEADER_VALUE;
 
-  constructor(public payload: any, public windowId: string) {}
+  constructor(
+    public payload: { val: string; i: number },
+    public windowId: string
+  ) {}
 }
 
 export class EditHeaderEnabledAction implements NGRXAction {

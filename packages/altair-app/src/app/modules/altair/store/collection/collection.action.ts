@@ -64,12 +64,12 @@ export class UpdateQueryInCollectionAction implements NGRXAction {
 
 export class DeleteQueryFromCollectionAction implements NGRXAction {
   readonly type = DELETE_QUERY_FROM_COLLECTION;
-  constructor(public payload: { collectionId: number; query: IQuery }) {}
+  constructor(public payload: { collectionId: string; query: IQuery }) {}
 }
 
 export class DeleteCollectionAction implements NGRXAction {
   readonly type = DELETE_COLLECTION;
-  constructor(public payload: { collectionId: number }) {}
+  constructor(public payload: { collectionId: string }) {}
 }
 
 export class SetCollectionsAction implements NGRXAction {
@@ -88,7 +88,7 @@ export class UpdateCollectionAction implements NGRXAction {
   readonly type = UPDATE_COLLECTION;
 
   constructor(
-    public payload: { collectionId: number; collection: IQueryCollection }
+    public payload: { collectionId: string; collection: IQueryCollection }
   ) {}
 }
 

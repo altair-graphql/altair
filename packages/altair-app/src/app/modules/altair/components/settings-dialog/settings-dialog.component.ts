@@ -36,6 +36,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 import { Extension } from '@codemirror/state';
 import settingsSchema from '../../utils/settings.schema.json';
 import { getEditorExtensions } from './extensions';
+import { IDictionary, TODO } from 'altair-graphql-core/build/types/shared';
 
 registerSettingsLinter(Codemirror);
 
@@ -45,8 +46,8 @@ registerSettingsLinter(Codemirror);
   styleUrls: ['./settings-dialog.component.scss'],
 })
 export class SettingsDialogComponent implements OnInit, OnChanges {
-  @Input() settings: SettingsState;
-  @Input() appVersion: string;
+  @Input() settings?: SettingsState;
+  @Input() appVersion = '';
   @Input() showSettingsDialog = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
@@ -99,7 +100,7 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
     }
   }
 
-  showHint(cm: any) {
+  showHint(cm: TODO) {
     cm.showHint({ hint: getHint, completeSingle: false });
   }
 
@@ -116,7 +117,7 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
     }
   }
 
-  onFormDataChange(data: any) {
+  onFormDataChange(data: IDictionary) {
     debug.log(data);
     this.onSettingsChange(JSON.stringify(data, null, 2));
   }

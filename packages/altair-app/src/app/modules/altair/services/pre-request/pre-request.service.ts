@@ -44,14 +44,14 @@ interface ScriptContextResponse {
   requestType: RequestType;
   responseTime: number;
   statusCode: number;
-  body: any;
+  body: unknown;
   headers: IDictionary;
 }
-interface GlobalHelperContext {
+export interface GlobalHelperContext {
   data: ScriptContextData;
   helpers: ScriptContextHelpers;
   importModule: (moduleName: string) => any;
-  log: (d: any) => void;
+  log: (d: unknown) => void;
   response?: ScriptContextResponse;
 }
 
@@ -181,7 +181,11 @@ export class PreRequestService {
          * @param val value to set
          * @param activeEnvironment if the value should be replaced in the currently active environment after execution
          */
-        setEnvironment: (key: string, val: any, activeEnvironment = false) => {
+        setEnvironment: (
+          key: string,
+          val: unknown,
+          activeEnvironment = false
+        ) => {
           data.environment[key] = val;
           if (activeEnvironment) {
             data.__toSetActiveEnvironment = data.__toSetActiveEnvironment || {};
@@ -191,7 +195,7 @@ export class PreRequestService {
         getCookie: (key: string) => {
           return self.cookieService.get(key);
         },
-        request: async (arg1: any, arg2: any, arg3: any) => {
+        request: async (arg1, arg2, arg3) => {
           // https://angular.io/api/common/http/HttpClient#request
           try {
             return self.http.request(arg1, arg2, arg3).toPromise();
@@ -202,7 +206,7 @@ export class PreRequestService {
       },
       importModule: (moduleName: string) => this.importModuleHelper(moduleName),
       response: this.buildContextResponse(data),
-      log: (d: any) => {
+      log: (d) => {
         data.requestScriptLogs = data.requestScriptLogs || [];
         data.requestScriptLogs.push({
           time: Date.now(),

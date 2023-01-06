@@ -5,7 +5,6 @@ exports[`QueryEditorComponent should render correctly 1`] = `
   <nz-tabset
     class="main-view-tabs"
     nzsize="small"
-    nztabbargutter="16"
   >
     <nz-tab>
       <div

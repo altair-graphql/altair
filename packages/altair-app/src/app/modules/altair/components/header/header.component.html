@@ -74,12 +74,12 @@
     </li>
     <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
       <ul nz-menu class="environments-dropdown__list">
-        <ng-container *ngIf="environments?.subEnvironments.length">
+        <ng-container *ngIf="environments?.subEnvironments?.length">
           <li
             nz-menu-item
             (click)="selectActiveEnvironmentChange.emit(environment.id)"
-            *ngFor="let environment of environments.subEnvironments; trackBy:trackById;"
-            [ngClass]="{ 'active': environment.id === activeEnvironment }"
+            *ngFor="let environment of environments?.subEnvironments; trackBy:trackById;"
+            [ngClass]="{ 'active': environment.id === activeEnvironment?.id }"
           >
             {{ environment.title }}
           </li>

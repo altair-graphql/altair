@@ -29,5 +29,10 @@
       "esnext.asynciterable"
     ],
     "module": "es2020"
-  }
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": true,
+    "strictTemplates": true,
+    "strictNullInputTypes": false,
+  },
 }

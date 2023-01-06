@@ -39,12 +39,14 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
     // appRef.tick();
   }
-  getErrorMessage(error: any) {
-    return error.message
-      ? (error.message as string)
-      : (error.toString() as string);
+  getErrorMessage(error: UnknownError) {
+    if (error instanceof Error) {
+      return error.message;
+    }
+
+    return JSON.stringify(error);
   }
-  isUncaughtPromiseError(error: any) {
+  isUncaughtPromiseError(error: UnknownError) {
     const errorMessage = this.getErrorMessage(error);
     return errorMessage.startsWith('Uncaught (in promise):');
   }

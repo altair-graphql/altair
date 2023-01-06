@@ -19,6 +19,7 @@ import { StorageService } from '../storage/storage.service';
 import { downloadData, isElectronApp } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -56,11 +57,11 @@ export class ElectronAppService {
       return;
     }
 
-    this.ipc.on('file-opened', (evt: any, content: string) => {
+    this.ipc.on('file-opened', (evt: Event, content: string) => {
       this.zone.run(() => importFileContent(content));
     });
 
-    this.ipc.on('certificate-error', (evt: any, error: Error) => {
+    this.ipc.on('certificate-error', (evt: Event, error: Error) => {
       this.zone.run(() =>
         this.notifyService.warning(`
         Your request has an invalid certificate.
@@ -69,7 +70,7 @@ export class ElectronAppService {
       );
     });
 
-    this.ipc.on('import-app-data', (evt: any, content: string) => {
+    this.ipc.on('import-app-data', (evt: Event, content: string) => {
       this.zone.run(() => this.importBackupData(content));
     });
 
@@ -265,7 +266,11 @@ export class ElectronAppService {
     });
   }
 
-  private decodeError(errObj: { name: string; message: string; extra: any }) {
+  private decodeError(errObj: {
+    name: string;
+    message: string;
+    extra?: IDictionary;
+  }) {
     const e = new Error(errObj.message);
     e.name = errObj.name;
     Object.assign(e, errObj.extra);
@@ -273,7 +278,7 @@ export class ElectronAppService {
   }
 
   // TODO: Create an electron-interop package and move this there
-  private async invokeWithCustomErrors(channel: string, ...args: any[]) {
+  private async invokeWithCustomErrors(channel: string, ...args: unknown[]) {
     if (!isElectronApp() || !this.ipc) {
       return;
     }

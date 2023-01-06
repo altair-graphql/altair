@@ -13,6 +13,14 @@ import {
   GraphQLType,
   GraphQLAbstractType,
   GraphQLArgument,
+  GraphQLField,
+  GraphQLNamedType,
+  GraphQLUnionType,
+  GraphQLEnumType,
+  isUnionType,
+  isInterfaceType,
+  GraphQLInputObjectType,
+  isInputType,
 } from 'graphql';
 
 @Component({
@@ -22,8 +30,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerTypeComponent {
-  @Input() data: any = {};
-  @Input() gqlSchema: GraphQLSchema;
+  @Input() data?: GraphQLNamedType;
+  @Input() gqlSchema?: GraphQLSchema;
   @Input() sortByOption: SortByOptions = 'none';
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
@@ -64,10 +72,13 @@ export class DocViewerTypeComponent {
   }
 
   // TODO: Move to service
-  isGraphQLInterface(type: GraphQLType) {
+  isGraphQLInterface(type: GraphQLType): type is GraphQLInterfaceType {
     return type instanceof GraphQLInterfaceType;
   }
-  isGraphQLObject(type: GraphQLType) {
+  isGraphQLUnion(type: GraphQLType): type is GraphQLUnionType {
+    return type instanceof GraphQLUnionType;
+  }
+  isGraphQLObject(type: GraphQLType): type is GraphQLObjectType {
     return type instanceof GraphQLObjectType;
   }
   /**
@@ -75,8 +86,8 @@ export class DocViewerTypeComponent {
    * @param type
    */
   getTypeImplementations(type: GraphQLType) {
-    if (this.isGraphQLInterface(type)) {
-      return this.gqlSchema.getPossibleTypes(type as GraphQLAbstractType) || [];
+    if (isInterfaceType(type)) {
+      return this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || [];
     }
     return [];
   }
@@ -84,14 +95,41 @@ export class DocViewerTypeComponent {
    * Returns an array of all the interfaces implemented by type
    * @param type
    */
-  getTypeImplements(type: GraphQLType & { getInterfaces: any }) {
+  getTypeImplements(type: GraphQLType) {
     if (this.isGraphQLObject(type)) {
       return type.getInterfaces() || [];
     }
     return [];
   }
 
-  schemaItemTrackBy(index: number, schemaItem: any) {
+  getTypeEnumValues(type: GraphQLType) {
+    if (type instanceof GraphQLEnumType) {
+      return type.getValues();
+    }
+
+    return [];
+  }
+
+  getSubtypes(type: GraphQLType) {
+    if (isUnionType(type)) {
+      return type.getTypes();
+    }
+
+    return [];
+  }
+
+  getTypeFields(type: GraphQLType) {
+    if (isInputType(type)) {
+      return [];
+    }
+    if ('getFields' in type) {
+      return Object.values(type.getFields());
+    }
+
+    return [];
+  }
+
+  schemaItemTrackBy<T extends { name: string }>(index: number, schemaItem: T) {
     return schemaItem.name;
   }
 
@@ -106,7 +144,10 @@ export class DocViewerTypeComponent {
     this.sortFieldsByChange.emit(v);
   }
 
-  sortFieldsTransformer(fields: any[], sortByOption: SortByOptions) {
+  sortFieldsTransformer(
+    fields: GraphQLField<any, any>[],
+    sortByOption: SortByOptions
+  ) {
     switch (sortByOption) {
       case 'a-z':
         return fields.sort((a, b) => {

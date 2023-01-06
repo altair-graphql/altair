@@ -29,6 +29,7 @@ export interface HighlightSection {
   content: string;
   type?: string;
 }
+type Range = [number, number];
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -46,12 +47,12 @@ export interface HighlightSection {
 })
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
   // get accessor
-  get value(): any {
+  get value(): string {
     return this.innerValue;
   }
 
   // set accessor including call the onchange callback
-  set value(v: any) {
+  set value(v: string) {
     if (v !== this.innerValue) {
       this.innerValue = v;
       this.onChangeCallback(v);
@@ -73,7 +74,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   private innerValue = '';
 
-  private activeEnvironment = {};
+  activeEnvironment = {};
 
   constructor(
     private store: Store<RootState>,
@@ -94,19 +95,19 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   // From ControlValueAccessor interface
-  writeValue(value: any) {
+  writeValue(value: string) {
     if (value !== this.innerValue) {
       this.innerValue = value;
     }
   }
 
   // From ControlValueAccessor interface
-  registerOnChange(fn: any) {
+  registerOnChange(fn: (_: unknown) => void) {
     this.onChangeCallback = fn;
   }
 
   // From ControlValueAccessor interface
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: () => void) {
     this.onTouchedCallback = fn;
   }
 
@@ -166,7 +167,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
   fixFirefox() {}
   getRanges(val: string, highlight: RegExp) {
-    const ranges: any[] = [];
+    const ranges: Range[] = [];
     let match;
     while (((match = highlight.exec(val)), match !== null)) {
       ranges.push([match.index, match.index + match[0].length]);
@@ -180,9 +181,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   // Prevent overlapping ranges
-  removeStaggeredRanges(ranges: any) {
-    const unstaggeredRanges: any[] = [];
-    ranges.forEach((range: any) => {
+  removeStaggeredRanges(ranges: Range[]) {
+    const unstaggeredRanges: Range[] = [];
+    ranges.forEach((range) => {
       const isStaggered = unstaggeredRanges.some((unstaggeredRange) => {
         const isStartInside =
           range[0] > unstaggeredRange[0] && range[0] < unstaggeredRange[1];
@@ -197,13 +198,13 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     return unstaggeredRanges;
   }
 
-  getBoundaries(ranges: any[]) {
+  getBoundaries(ranges: Range[]) {
     const boundaries: BoundaryMarker[] = [];
     ranges.forEach((range) => {
       boundaries.push({
         type: 'start',
         index: range[0],
-        className: range.className,
+        // className: range.className,
       });
       boundaries.push({
         type: 'stop',
@@ -272,5 +273,5 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     return index;
   }
   private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
+  private onChangeCallback: (_: unknown) => void = () => {};
 }

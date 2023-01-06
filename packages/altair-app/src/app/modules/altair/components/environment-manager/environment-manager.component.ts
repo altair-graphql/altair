@@ -16,6 +16,7 @@ import {
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { Options as SortableOptions, SortableEvent } from 'sortablejs';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: {
     parse: function (str: string) {
@@ -43,7 +44,7 @@ import { json, jsonParseLinter } from '@codemirror/lang-json';
   styleUrls: ['./environment-manager.component.scss'],
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
-  @Input() environments: EnvironmentsState;
+  @Input() environments?: EnvironmentsState;
   @Input() showEnvironmentManager = false;
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
@@ -65,16 +66,14 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   editorContent = '{}';
   editorTitle = '';
 
-  sortableOptions = {};
-
-  constructor() {}
+  sortableOptions: SortableOptions;
 
   ngOnInit() {
     if (this.environments) {
       this.selectEnvironment(this.environments.activeSubEnvironment);
     }
     this.sortableOptions = {
-      onUpdate: (event: any) => {
+      onUpdate: (event: SortableEvent) => {
         this.repositionSubEnvironmentsChange.emit({
           currentPosition: event.oldIndex,
           newPosition: event.newIndex,
@@ -114,6 +113,9 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   }
 
   selectEnvironment(id?: string) {
+    if (!this.environments) {
+      throw new Error('should never happen');
+    }
     this.selectedEnvironmentId = id || 'base';
 
     if (this.selectedEnvironmentId === 'base') {
@@ -141,7 +143,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
     }
   }
 
-  trackById(index: number, item: any) {
+  trackById<T extends { id?: string }>(index: number, item: T) {
     return item.id;
   }
 }

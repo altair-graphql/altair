@@ -22,7 +22,7 @@
       <nz-form-control>
         <nz-select class="dialog-block" [(ngModel)]="collectionId" name="collection" nzPlaceHolder="Choose">
           <nz-option *ngFor="let collection of collections; trackBy:trackById" [nzValue]="collection.id" [nzLabel]="collection.title"></nz-option>
-          <nz-option [nzValue]="-1" [nzLabel]="'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate"></nz-option>
+          <nz-option nzValue="-1" [nzLabel]="'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate"></nz-option>
         </nz-select>
       </nz-form-control>
     </div>

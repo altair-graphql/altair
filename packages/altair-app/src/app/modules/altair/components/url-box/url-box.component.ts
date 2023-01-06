@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 
@@ -7,15 +8,15 @@ import { OperationDefinitionNode } from 'graphql';
   templateUrl: './url-box.component.html',
 })
 export class UrlBoxComponent {
-  @Input() apiUrl: string;
-  @Input() httpVerb: string;
+  @Input() apiUrl = '';
+  @Input() httpVerb = 'POST';
   @Input() isSubscribed = false;
   @Input() isLoading = false;
   @Input() showDocs = false;
   @Input() selectedOperation = '';
-  @Input() queryOperations: any[] = [];
+  @Input() queryOperations: OperationDefinitionNode[] = [];
   @Input() streamState = '';
-  @Input() currentCollection = null;
+  @Input() currentCollection?: IQueryCollection;
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();

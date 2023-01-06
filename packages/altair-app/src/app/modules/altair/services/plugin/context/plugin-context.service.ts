@@ -239,7 +239,7 @@ export class PluginContextService implements PluginContextGenerator {
       preRequestScript: data.preRequest.script,
       preRequestScriptEnabled: data.preRequest.enabled,
       sdl: data.schema.sdl,
-      queryResult: data.query.response,
+      queryResult: data.query.response || '',
       requestStartTime: data.query.requestStartTime,
       requestEndTime: data.query.requestEndTime,
       responseTime: data.query.responseTime,

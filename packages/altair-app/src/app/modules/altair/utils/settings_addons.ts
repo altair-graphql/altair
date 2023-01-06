@@ -2,14 +2,15 @@ import * as Codemirror from 'codemirror';
 import { jsonc } from '../utils';
 import { debug } from './logger';
 import { ValidateFunction } from 'ajv';
-import { JSONSchema6 } from 'json-schema';
+import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
 import { UnknownError } from '../interfaces/shared';
 
 const settingsValidator =
   require('./validate_settings_schema') as ValidateFunction;
 
 export interface SchemaFormProperty extends JSONSchema6 {
-  ref?: any; // TODO:
+  key: string;
+  ref?: JSONSchema6; // TODO:
   refType?: string;
 }
 
@@ -21,6 +22,23 @@ export const validateSettings = (settings: string) => {
   return valid;
 };
 
+export const getSchemaFormProperty = (
+  key: string,
+  schema: JSONSchema6Definition
+) => {
+  if (typeof schema !== 'object') {
+    return { key };
+  }
+  const pty: SchemaFormProperty = { ...schema, key };
+  if (pty.$ref) {
+    pty.ref = getPropertyRef(pty, schema);
+    if (pty.ref && pty.ref.enum) {
+      pty.refType = `enum.${pty.ref.type}`;
+    }
+  }
+  return pty;
+};
+
 export const registerSettingsLinter = (CM: typeof Codemirror) => {
   CM.registerHelper('lint', 'json', function (text: string) {
     let found: any[] = [];
@@ -28,8 +46,8 @@ export const registerSettingsLinter = (CM: typeof Codemirror) => {
       if (!validateSettings(text) && settingsValidator.errors) {
         found = [
           ...found,
-          ...settingsValidator.errors.map((error: UnknownError) => {
-            let message = `[${error.keyword}] '${error.dataPath.substring(
+          ...settingsValidator.errors.map((error) => {
+            let message = `[${error.keyword}] '${error.instancePath.substring(
               1
             )}' ${error.message}`;
 

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 import { ThemeRegistryService } from '../../../services';
 
 @Component({
@@ -7,14 +8,14 @@ import { ThemeRegistryService } from '../../../services';
   styles: [],
 })
 export class SchemaFormItemInputComponent {
-  @Input() item: any;
-  @Input() data: any;
+  @Input() item?: SchemaFormProperty;
+  @Input() data = '';
 
   @Output() dataChange = new EventEmitter();
 
   constructor(private themeRegistry: ThemeRegistryService) {}
 
-  getAutocompleteOptions(item: any) {
+  getAutocompleteOptions(item: SchemaFormProperty) {
     switch (item?.key) {
       case 'theme':
       case 'theme.dark':

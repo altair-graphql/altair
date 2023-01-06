@@ -458,7 +458,7 @@ export class QueryCollectionService {
 
   async handleImportedFile(files: FileList) {
     try {
-      const dataStr = await getFileStr(files);
+      const dataStr = await getFileStr(files[0]);
       return this.importCollectionDataFromJson(dataStr);
     } catch (error) {
       debug.log('There was an issue importing the file.', error);
