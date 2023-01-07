@@ -1,4 +1,7 @@
-import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
+import {
+  SubscriptionProvider,
+  SubscriptionProviderExecuteOptions,
+} from '../subscription-provider';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { Observable } from 'rxjs';
 
@@ -10,7 +13,7 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
     this.client = new SubscriptionClient(this.subscriptionUrl, {
       reconnect: true,
       connectionParams: this.connectionParams,
-      connectionCallback: this.extraOptions?.onConnected
+      connectionCallback: this.extraOptions?.onConnected,
     });
   }
 
@@ -27,7 +30,7 @@ export class WebsocketSubscriptionProvider extends SubscriptionProvider {
         variables: options.variables,
         operationName: options.operationName,
       }).subscribe({
-        next: (...args) =>  subscriber.next(...args),
+        next: (...args) => subscriber.next(...args),
         error: (...args) => subscriber.error(...args),
         complete: () => subscriber.complete(),
       });

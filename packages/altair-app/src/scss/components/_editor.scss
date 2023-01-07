@@ -1,5 +1,5 @@
 app-query-editor {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -19,8 +19,8 @@ app-query-editor {
   top: 5px;
   right: 3px;
   z-index: 7;
-  opacity: .2;
-  transition: all .3s ease;
+  opacity: 0.2;
+  transition: all 0.3s ease;
 
   &:hover {
     opacity: 1;
@@ -51,7 +51,7 @@ app-query-editor {
   padding: 4px;
   line-height: 1;
   border-radius: 4px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   user-select: none;
   margin: 0 4px;
 
@@ -62,7 +62,7 @@ app-query-editor {
 
 .query-editor__upload-action {
   // background-color: var(--theme-bg-color);
-  background: rgba(var(--rgb-primary), .15);
+  background: rgba(var(--rgb-primary), 0.15);
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
   border-radius: 4px;
@@ -188,7 +188,7 @@ app-query-result {
   height: 20px;
   // background: darken($theme-off-bg-color, 5%);
   background: var(--theme-bg-color);
-  opacity: .8;
+  opacity: 0.8;
   border-radius: 5px;
 
   &.send {
@@ -210,8 +210,8 @@ app-query-result {
 .query-result__clear-button {
   background: var(--theme-off-bg-color);
   color: var(--primary-color);
-  opacity: .5;
-  transition: all .3s ease;
+  opacity: 0.5;
+  transition: all 0.3s ease;
   border: 1px solid var(--primary-color);
   text-transform: uppercase;
   font-size: fontsize(12);
@@ -233,8 +233,8 @@ app-query-result {
 .query-result__download-button {
   background: var(--theme-off-bg-color);
   color: var(--primary-color);
-  opacity: .5;
-  transition: all .3s ease;
+  opacity: 0.5;
+  transition: all 0.3s ease;
   border: 1px solid var(--primary-color);
   text-transform: uppercase;
   font-size: fontsize(12);
@@ -291,8 +291,8 @@ app-query-result {
 .subscription-result__float-action-button {
   background: var(--theme-off-bg-color);
   color: var(--theme-off-font-color);
-  opacity: .5;
-  transition: all .3s ease;
+  opacity: 0.5;
+  transition: all 0.3s ease;
   border: 1px solid var(--theme-off-font-color);
   text-transform: uppercase;
   font-size: fontsize(12);
@@ -358,7 +358,7 @@ app-query-result {
   text-align: center;
   margin: 10px;
   font-size: fontsize(13);
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .query-result__bottom-pane {
@@ -416,13 +416,13 @@ app-query-result {
   height: var(--resizer-width);
   width: 60px;
   border-radius: 4px;
-  transition: all .3s ease;
-  opacity: .5;
+  transition: all 0.3s ease;
+  opacity: 0.5;
   cursor: row-resize;
   z-index: 5;
 
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
 
@@ -435,7 +435,7 @@ app-query-result {
     cursor: pointer;
   }
   // &-inner {
-    // height: 0;
+  // height: 0;
   // }
 }
 
@@ -527,7 +527,7 @@ app-query-result {
   line-height: 1;
   border: 0;
   border-bottom: 2px solid var(--theme-border-color);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:focus {
     border-color: var(--primary-color);

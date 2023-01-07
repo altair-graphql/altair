@@ -1,4 +1,7 @@
-import { SubscriptionProvider, SubscriptionProviderExecuteOptions } from '../subscription-provider';
+import {
+  SubscriptionProvider,
+  SubscriptionProviderExecuteOptions,
+} from '../subscription-provider';
 import { Observable } from 'rxjs';
 import { Client, createClient } from 'graphql-ws';
 
@@ -20,8 +23,8 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
         },
         error: (err) => {
           this.extraOptions?.onConnected?.(err, undefined);
-        }
-      }
+        },
+      },
     });
   }
 
@@ -33,15 +36,18 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
     }
 
     return new Observable((subscriber) => {
-      this.cleanup = this.client!.subscribe({
-        query: options.query,
-        variables: options.variables,
-        operationName: options.operationName,
-      }, {
-        next: (...args) =>  subscriber.next(...args),
-        error: (...args) => subscriber.error(...args),
-        complete: () => subscriber.complete(),
-      });
+      this.cleanup = this.client!.subscribe(
+        {
+          query: options.query,
+          variables: options.variables,
+          operationName: options.operationName,
+        },
+        {
+          next: (...args) => subscriber.next(...args),
+          error: (...args) => subscriber.error(...args),
+          complete: () => subscriber.complete(),
+        }
+      );
     });
   }
 

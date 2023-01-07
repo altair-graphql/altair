@@ -10,23 +10,23 @@ import {
   PartialWithFieldValue,
   QueryDocumentSnapshot,
   setDoc,
-  WithFieldValue
-} from "firebase/firestore";
-import { getFirestore } from "firebase-admin/firestore";
+  WithFieldValue,
+} from 'firebase/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 import {
   IRemoteQuery,
-  IRemoteQueryCollection
-} from "altair-graphql-core/build/types/state/collection.interfaces";
-import { User } from "firebase/auth";
-import { TeamMembership, UserDocument } from "./interfaces";
-import { BaseDocument } from "altair-graphql-core/build/types/shared";
-import { Team } from "altair-graphql-core/build/types/state/account.interfaces";
+  IRemoteQueryCollection,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { User } from 'firebase/auth';
+import { TeamMembership, UserDocument } from './interfaces';
+import { BaseDocument } from 'altair-graphql-core/build/types/shared';
+import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 export const converter = <T>() => ({
   toFirestore: (data: PartialWithFieldValue<T>) =>
-    typeof data === "undefined" || data === null ? {} : data,
+    typeof data === 'undefined' || data === null ? {} : data,
   fromFirestore: (snap: QueryDocumentSnapshot) =>
-    ({ id: snap.id, ...snap.data() } as T & { id: string })
+    ({ id: snap.id, ...snap.data() } as T & { id: string }),
 });
 
 const dataPoint = <T>(
@@ -42,11 +42,11 @@ export const groupDataPoint = <T>(db: Firestore, path: string) =>
   collectionGroup(db, path).withConverter(converter<T>());
 
 export const collectionNames = {
-  queryCollections: "query_collections",
-  queries: "queries",
-  users: "users",
-  teams: "teams",
-  memberships: "team_memberships"
+  queryCollections: 'query_collections',
+  queries: 'queries',
+  users: 'users',
+  teams: 'teams',
+  memberships: 'team_memberships',
 };
 
 export const usersRef = (db: Firestore) =>
@@ -76,7 +76,7 @@ export const createUtilsContext = (
   db: Firestore
 ): FirebaseUtilsContext => ({
   uid: user.uid,
-  db
+  db,
 });
 
 export const addDocument = <T>(
@@ -107,6 +107,6 @@ export const getDocument = async <T extends BaseDocument>(
 
   return {
     ...data,
-    id: snapshot.id
+    id: snapshot.id,
   };
 };

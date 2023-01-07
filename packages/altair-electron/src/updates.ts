@@ -1,8 +1,8 @@
-import fs from "fs";
-import { app, dialog, MenuItem } from "electron";
+import fs from 'fs';
+import { app, dialog, MenuItem } from 'electron';
 
-import { autoUpdater } from "electron-updater";
-import log from "electron-log";
+import { autoUpdater } from 'electron-updater';
+import log from 'electron-log';
 
 // const server = 'https://hazel-server-gufzwmrois.now.sh';
 // const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
@@ -13,18 +13,18 @@ let updater: MenuItem | undefined;
 let isSilentCheck = true;
 autoUpdater.autoDownload = false;
 
-autoUpdater.on("error", error => {
+autoUpdater.on('error', (error) => {
   dialog.showErrorBox(
-    "Error: ",
-    !!error === null ? "unknown" : (error.stack || error).toString()
+    'Error: ',
+    !!error === null ? 'unknown' : (error.stack || error).toString()
   );
 });
 
-autoUpdater.on("update-not-available", () => {
+autoUpdater.on('update-not-available', () => {
   if (!isSilentCheck) {
     dialog.showMessageBox({
-      title: "No Updates",
-      message: "Current version is up-to-date."
+      title: 'No Updates',
+      message: 'Current version is up-to-date.',
     });
   }
   if (updater) {
@@ -33,11 +33,11 @@ autoUpdater.on("update-not-available", () => {
   }
 });
 
-autoUpdater.on("update-downloaded", () => {
+autoUpdater.on('update-downloaded', () => {
   dialog
     .showMessageBox({
-      title: "Install Updates",
-      message: "Updates downloaded, application will now exit to update."
+      title: 'Install Updates',
+      message: 'Updates downloaded, application will now exit to update.',
     })
     .then(() => {
       setImmediate(() => autoUpdater.quitAndInstall());
@@ -61,7 +61,7 @@ export const setupAutoUpdates = () => {
     return;
   }
 
-  log.transports.file.level = "info";
+  log.transports.file.level = 'info';
   autoUpdater.logger = log;
   // autoUpdater.checkForUpdatesAndNotify();
   autoUpdater.checkForUpdates();

@@ -9,8 +9,12 @@ const helpers = {
   async newAltairWindow(window: Page) {
     const windowSwitcherElements = await window.$$(SELECTORS.WINDOW_SWITCHER);
     await window.click('text=Add new');
-    const newWindowSwitcherElements = await window.$$(SELECTORS.WINDOW_SWITCHER);
-    expect(newWindowSwitcherElements.length).toBe(windowSwitcherElements.length + 1);
+    const newWindowSwitcherElements = await window.$$(
+      SELECTORS.WINDOW_SWITCHER
+    );
+    expect(newWindowSwitcherElements.length).toBe(
+      windowSwitcherElements.length + 1
+    );
   },
   async closeLastAltairWindow(window: Page) {
     await helpers.closeAnyOpenToast(window);
@@ -18,8 +22,12 @@ const helpers = {
     const closeButtons = await window.$$(SELECTORS.WINDOW_SWITCHER_CLOSE);
     expect(closeButtons.length).toBeTruthy();
     await closeButtons.pop().click();
-    const newWindowSwitcherElements = await window.$$(SELECTORS.WINDOW_SWITCHER);
-    expect(newWindowSwitcherElements.length).toBe(windowSwitcherElements.length - 1);
+    const newWindowSwitcherElements = await window.$$(
+      SELECTORS.WINDOW_SWITCHER
+    );
+    expect(newWindowSwitcherElements.length).toBe(
+      windowSwitcherElements.length - 1
+    );
   },
   async setTestGraphQLServerUrl(window: Page) {
     const urlboxInput = await window.$(SELECTORS.VISIBLE_WINDOW_URL_INPUT);
@@ -28,8 +36,13 @@ const helpers = {
   },
   async writeQueryInEditor(window: Page, query: string) {
     const queryEditor = await window.$(SELECTORS.VISIBLE_WINDOW_QUERY_EDITOR);
-    const codemirror = window.locator(SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR);
-    await codemirror.evaluate((node, q) => (node as any).CodeMirror.setValue(q), query);
+    const codemirror = window.locator(
+      SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR
+    );
+    await codemirror.evaluate(
+      (node, q) => (node as any).CodeMirror.setValue(q),
+      query
+    );
     await queryEditor.click();
     await queryEditor.type(`\n`);
     // Clear editor
@@ -39,34 +52,56 @@ const helpers = {
     // await queryEditor.type(`${query}`);
   },
   async getQueryResultData(window: Page) {
-    return await window.$eval(`${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .cm-editor`, (el: any) => el.textContent);
+    return await window.$eval(
+      `${SELECTORS.VISIBLE_WINDOW} app-query-result .app-result .cm-editor`,
+      (el: any) => el.textContent
+    );
   },
   async getQueryEditorContent(window: Page) {
     await window.waitForTimeout(1000);
-    return await window.$eval(SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR, (el: any) => el.CodeMirror.getValue());
+    return await window.$eval(
+      SELECTORS.VISIBLE_WINDOW_QUERY_CODEMIRROR,
+      (el: any) => el.CodeMirror.getValue()
+    );
   },
   async showDocs(window: Page) {
-    const showDocs = await window.$(`${SELECTORS.VISIBLE_WINDOW} button[track-id="show_docs"]`);
+    const showDocs = await window.$(
+      `${SELECTORS.VISIBLE_WINDOW} button[track-id="show_docs"]`
+    );
     await showDocs.click();
-    const docViewer = await window.$(`${SELECTORS.VISIBLE_WINDOW} .app-doc-viewer`);
+    const docViewer = await window.$(
+      `${SELECTORS.VISIBLE_WINDOW} .app-doc-viewer`
+    );
     expect(await docViewer.isVisible()).toBeTruthy();
 
     return docViewer;
   },
   async addHeader(window: Page, key: string, value: string) {
-    const showHeaderElement = await window.$('.side-menu-item[track-id="show_set_headers"]');
+    const showHeaderElement = await window.$(
+      '.side-menu-item[track-id="show_set_headers"]'
+    );
     await showHeaderElement.click();
-    const addHeaderElement = await window.$('nz-modal-container [track-id="add_header"]');
+    const addHeaderElement = await window.$(
+      'nz-modal-container [track-id="add_header"]'
+    );
     await addHeaderElement.click();
-    const emptyHeaderKey = await window.$('input[placeholder="Header key"]:empty');
+    const emptyHeaderKey = await window.$(
+      'input[placeholder="Header key"]:empty'
+    );
     await emptyHeaderKey.fill(key);
-    const emptyHeaderValue = await window.$('input[placeholder="Header value"]:empty');
+    const emptyHeaderValue = await window.$(
+      'input[placeholder="Header value"]:empty'
+    );
     await emptyHeaderValue.fill(value);
-    const saveHeaderModal = await window.$('nz-modal-container .app-button.active-primary');
+    const saveHeaderModal = await window.$(
+      'nz-modal-container .app-button.active-primary'
+    );
     await saveHeaderModal.click();
   },
   async sendRequest(window: Page) {
-    const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button`);
+    const sendRequestButton = await window.$(
+      `${SELECTORS.VISIBLE_WINDOW} .send-request__button`
+    );
     await sendRequestButton.click();
   },
   async closeAnyOpenToast(window: Page) {
@@ -97,7 +132,7 @@ test.beforeEach(async () => {
     return app.getAppPath();
   });
   console.log(appPath);
-  
+
   // Get the first window that the app opens, wait if necessary.
   window = await app.firstWindow();
 
@@ -113,7 +148,6 @@ test.afterEach(async () => {
   // Exit app.
   await app.close();
 });
-
 
 test('loads window successfully', async () => {
   const windowSwitcher = await window.$(SELECTORS.WINDOW_SWITCHER);
@@ -136,7 +170,9 @@ test('can send a request and receive response from server', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
   await helpers.writeQueryInEditor(window, `{ hello }`);
-  const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button`);
+  const sendRequestButton = await window.$(
+    `${SELECTORS.VISIBLE_WINDOW} .send-request__button`
+  );
   await sendRequestButton.click();
   await window.waitForTimeout(1000);
   const result = await helpers.getQueryResultData(window);
@@ -160,15 +196,20 @@ test('can send a request with keyboard shortcuts', async () => {
 test('can send a request with multiple queries and see request dropdown', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
-  await helpers.writeQueryInEditor(window, `
+  await helpers.writeQueryInEditor(
+    window,
+    `
     query A{ hello }
     query B{ bye }
-  `);
+  `
+  );
   await window.press(SELECTORS.VISIBLE_WINDOW_QUERY_EDITOR, 'Control+Enter');
 
   await window.waitForTimeout(1000);
 
-  const sendRequestButton = await window.$(`${SELECTORS.VISIBLE_WINDOW} .send-request__button.ant-dropdown-trigger`);
+  const sendRequestButton = await window.$(
+    `${SELECTORS.VISIBLE_WINDOW} .send-request__button.ant-dropdown-trigger`
+  );
   expect(sendRequestButton).toBeTruthy();
 
   await helpers.closeLastAltairWindow(window);
@@ -176,7 +217,9 @@ test('can send a request with multiple queries and see request dropdown', async 
 
 test('can change the HTTP method', async () => {
   await helpers.newAltairWindow(window);
-  const httpVerbDropdown = await window.$(`${SELECTORS.VISIBLE_WINDOW} [track-id="http_verb"]`);
+  const httpVerbDropdown = await window.$(
+    `${SELECTORS.VISIBLE_WINDOW} [track-id="http_verb"]`
+  );
   const httpVerb = await httpVerbDropdown.textContent();
   expect(httpVerb).toContain('POST');
   await httpVerbDropdown.click();
@@ -191,7 +234,7 @@ test('can change the HTTP method', async () => {
 
 // test('can prettify the query', async () => {
 //   await helpers.newAltairWindow(window);
-  
+
 //   await helpers.writeQueryInEditor(window, `
 //     { hello }
 //   `);
@@ -209,16 +252,25 @@ test('can change the HTTP method', async () => {
 test('can copy the query as cURL', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
-  await helpers.writeQueryInEditor(window, `
+  await helpers.writeQueryInEditor(
+    window,
+    `
     { hello }
-  `);
-  const toolsMenuItem = await window.$('.side-menu-item app-icon[name="briefcase"]');
+  `
+  );
+  const toolsMenuItem = await window.$(
+    '.side-menu-item app-icon[name="briefcase"]'
+  );
   await toolsMenuItem.click();
-  const prettifyMenuItem = await window.$('.side-menu-item [track-id="copy_as_curl"]');
+  const prettifyMenuItem = await window.$(
+    '.side-menu-item [track-id="copy_as_curl"]'
+  );
   await prettifyMenuItem.click();
 
-  const clipboardText = await app.evaluate(({ clipboard }) => clipboard.readText());
-  expect(clipboardText).toContain('curl \'http://localhost:5400/graphql\'');
+  const clipboardText = await app.evaluate(({ clipboard }) =>
+    clipboard.readText()
+  );
+  expect(clipboardText).toContain("curl 'http://localhost:5400/graphql'");
 
   await helpers.closeLastAltairWindow(window);
 });
@@ -227,13 +279,15 @@ test('can add query from doc to query editor', async () => {
   await helpers.newAltairWindow(window);
   await helpers.setTestGraphQLServerUrl(window);
   const docViewer = await helpers.showDocs(window);
-  
+
   await window.waitForTimeout(1000);
   const QueryDoc = await docViewer.$('span:has-text("Query")');
   await QueryDoc.click();
 
   await window.waitForTimeout(1000);
-  const helloQuery = await docViewer.$('.doc-viewer-item-query:has-text("hello")');
+  const helloQuery = await docViewer.$(
+    '.doc-viewer-item-query:has-text("hello")'
+  );
   const addHelloQuery = await helloQuery.$('.doc-viewer-item-query-add-btn');
   await addHelloQuery.click();
   const result = await helpers.getQueryEditorContent(window);

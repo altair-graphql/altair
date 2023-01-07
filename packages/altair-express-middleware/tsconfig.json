@@ -8,12 +8,7 @@
     "skipLibCheck": true,
     "target": "es2020",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node"
-    ]
+    "lib": ["dom", "esnext"],
+    "types": ["node"]
   }
 }

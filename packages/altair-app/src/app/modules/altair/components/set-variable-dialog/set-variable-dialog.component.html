@@ -24,7 +24,13 @@
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" track-id="close_set_variables_dialog" (click)="toggleVariableDialog.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
+      <button
+        class="app-button active-primary right"
+        track-id="close_set_variables_dialog"
+        (click)="toggleVariableDialog.next($event)"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

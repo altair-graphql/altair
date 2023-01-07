@@ -1,5 +1,5 @@
-import { app, Menu, MenuItemConstructorOptions, shell } from "electron";
-import { ActionManager } from "./actions";
+import { app, Menu, MenuItemConstructorOptions, shell } from 'electron';
+import { ActionManager } from './actions';
 
 export class MenuManager {
   constructor(private actionManager: ActionManager) {
@@ -7,75 +7,75 @@ export class MenuManager {
   }
 
   createMenu() {
-    const isMac = process.platform === "darwin";
+    const isMac = process.platform === 'darwin';
 
     const template: MenuItemConstructorOptions[] = [
       {
         label: app.getName(),
         submenu: [
-          { role: "about" },
+          { role: 'about' },
           {
-            label: "Check for Updates...",
+            label: 'Check for Updates...',
             click: (menuItem) => this.actionManager.checkForUpdates(menuItem),
           },
           {
-            label: "Preferences",
-            accelerator: "Cmd+,",
+            label: 'Preferences',
+            accelerator: 'Cmd+,',
             click: () => this.actionManager.showSettings(),
           },
           {
-            label: "Desktop settings...",
+            label: 'Desktop settings...',
             click: () => this.actionManager.showPreferences(),
           },
           ...(isMac
             ? ([
-                { type: "separator" },
-                { role: "services", submenu: [] },
-                { type: "separator" },
-                { role: "hide" },
-                { role: "hideothers" },
-                { role: "unhide" },
+                { type: 'separator' },
+                { role: 'services', submenu: [] },
+                { type: 'separator' },
+                { role: 'hide' },
+                { role: 'hideothers' },
+                { role: 'unhide' },
               ] as MenuItemConstructorOptions[])
             : []),
-          { type: "separator" },
-          { role: "quit" },
+          { type: 'separator' },
+          { role: 'quit' },
         ],
       },
       {
-        label: "Edit",
+        label: 'Edit',
         submenu: [
           {
-            label: "New Tab",
-            accelerator: "CmdOrCtrl+T",
+            label: 'New Tab',
+            accelerator: 'CmdOrCtrl+T',
             click: () => this.actionManager.createTab(),
           },
           {
-            label: "Close Tab",
-            accelerator: "CmdOrCtrl+W",
+            label: 'Close Tab',
+            accelerator: 'CmdOrCtrl+W',
             click: () => this.actionManager.closeTab(),
           },
           {
-            label: "Reopen Closed Tab",
-            accelerator: "CmdOrCtrl+Shift+T",
+            label: 'Reopen Closed Tab',
+            accelerator: 'CmdOrCtrl+Shift+T',
             click: () => this.actionManager.reopenClosedTab(),
           },
-          { role: "undo" },
-          { role: "redo" },
-          { type: "separator" },
-          { role: "cut" },
-          { role: "copy" },
-          { role: "paste" },
-          { role: "pasteAndMatchStyle" },
-          { role: "delete" },
-          { role: "selectAll" },
+          { role: 'undo' },
+          { role: 'redo' },
+          { type: 'separator' },
+          { role: 'cut' },
+          { role: 'copy' },
+          { role: 'paste' },
+          { role: 'pasteAndMatchStyle' },
+          { role: 'delete' },
+          { role: 'selectAll' },
           ...(isMac
             ? ([
-                { type: "separator" },
+                { type: 'separator' },
                 {
-                  label: "Speech",
+                  label: 'Speech',
                   submenu: [
-                    { role: "startspeaking" },
-                    { role: "stopspeaking" },
+                    { role: 'startspeaking' },
+                    { role: 'stopspeaking' },
                   ],
                 },
               ] as MenuItemConstructorOptions[])
@@ -83,59 +83,59 @@ export class MenuManager {
         ],
       },
       {
-        label: "View",
+        label: 'View',
         submenu: [
           {
-            label: "Next Tab",
-            accelerator: "Ctrl+Tab",
+            label: 'Next Tab',
+            accelerator: 'Ctrl+Tab',
             click: () => this.actionManager.nextTab(),
           },
           {
-            label: "Previous Tab",
-            accelerator: "Ctrl+Shift+Tab",
+            label: 'Previous Tab',
+            accelerator: 'Ctrl+Shift+Tab',
             click: () => this.actionManager.previousTab(),
           },
-          { role: "reload" },
-          { role: "forceReload" },
-          { role: "toggleDevTools" },
-          { type: "separator" },
-          { role: "togglefullscreen" },
+          { role: 'reload' },
+          { role: 'forceReload' },
+          { role: 'toggleDevTools' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' },
         ],
       },
       {
-        role: "window",
+        role: 'window',
         submenu: [
-          { role: "minimize" },
-          { role: "close" },
+          { role: 'minimize' },
+          { role: 'close' },
           ...(isMac
             ? ([
-                { role: "minimize" },
-                { type: "separator" },
-                { role: "front" },
+                { role: 'minimize' },
+                { type: 'separator' },
+                { role: 'front' },
               ] as const)
-            : ([{ role: "about" }] as const)),
+            : ([{ role: 'about' }] as const)),
         ],
       },
       {
-        label: "Data",
+        label: 'Data',
         submenu: [
           {
-            label: "Export backup data...",
+            label: 'Export backup data...',
             click: () => this.actionManager.exportAppData(),
           },
           {
-            label: "Import backup data...",
+            label: 'Import backup data...',
             click: () => this.actionManager.importAppData(),
           },
         ],
       },
       {
-        label: "Help",
+        label: 'Help',
         submenu: [
           {
-            label: "Open documentation",
+            label: 'Open documentation',
             click: async () => {
-              await shell.openExternal("https://altairgraphql.dev/docs/");
+              await shell.openExternal('https://altairgraphql.dev/docs/');
             },
           },
         ],

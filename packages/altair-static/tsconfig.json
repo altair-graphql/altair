@@ -9,13 +9,7 @@
     "module": "commonjs",
     "sourceMap": true,
     // "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node",
-      "jest"
-    ]
+    "lib": ["dom", "esnext"],
+    "types": ["node", "jest"]
   }
 }

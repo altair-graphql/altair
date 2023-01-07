@@ -1,8 +1,8 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 
-export const createSha256CspHash = function(content: string) {
+export const createSha256CspHash = function (content: string) {
   return `sha256-${crypto
-    .createHash("sha256")
+    .createHash('sha256')
     .update(content)
-    .digest("base64")}`;
+    .digest('base64')}`;
 };

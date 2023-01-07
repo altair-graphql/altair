@@ -14,7 +14,8 @@ export const SUBSCRIPTION_PROVIDER_IDS = {
   GRAPHQL_SSE: GRAPHQL_SSE_ID,
 } as const;
 
-export type SubscriptionProviderIds = typeof SUBSCRIPTION_PROVIDER_IDS[keyof typeof SUBSCRIPTION_PROVIDER_IDS];
+export type SubscriptionProviderIds =
+  typeof SUBSCRIPTION_PROVIDER_IDS[keyof typeof SUBSCRIPTION_PROVIDER_IDS];
 
 export interface SubscriptionProviderData {
   id: string;

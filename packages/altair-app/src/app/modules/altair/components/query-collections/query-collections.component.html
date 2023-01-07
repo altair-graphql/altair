@@ -1,76 +1,89 @@
-<div class="query-collections-wrapper" [ngClass]="{ 'query-collections-wrapper--close': !showCollections }">
+<div
+  class="query-collections-wrapper"
+  [ngClass]="{ 'query-collections-wrapper--close': !showCollections }"
+>
   <div class="query-collections__inner" *ngIf="showCollections">
-    <div class="query-collections__title">{{ 'COLLECTIONS_TEXT' | translate }}</div>
+    <div class="query-collections__title">
+      {{ 'COLLECTIONS_TEXT' | translate }}
+    </div>
     <div class="query-collections__actions clearfix">
+      <button
+        type="button"
+        class="icon-button"
+        data-test-id="import-collection"
+        [popper]="'COLLECTIONS_IMPORT_TEXT' | translate"
+        [popperPlacement]="'bottom'"
+        (click)="importCollectionsChange.next()"
+      >
+        <app-icon name="log-in"></app-icon>
+      </button>
+      <button
+        *ngIf="loggedIn"
+        type="button"
+        class="icon-button"
+        data-test-id="sync-collection"
+        [popper]="'COLLECTION_SYNC_TEXT' | translate"
+        [popperPlacement]="'bottom'"
+        (click)="syncCollectionsChange.next()"
+      >
+        <app-icon name="refresh-ccw"></app-icon>
+      </button>
+      <div class="query-collections__actions--right">
         <button
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="docViewerMenu"
           type="button"
           class="icon-button"
-          data-test-id="import-collection"
-          [popper]="'COLLECTIONS_IMPORT_TEXT' | translate"
-          [popperPlacement]="'bottom'"
-          (click)="importCollectionsChange.next()"
         >
-          <app-icon name="log-in"></app-icon>
+          <ng-container [ngSwitch]="sortBy">
+            <ng-container *ngSwitchCase="'a-z'">{{
+              'SORT_BY_A_Z' | translate
+            }}</ng-container>
+            <ng-container *ngSwitchCase="'z-a'">{{
+              'SORT_BY_Z_A' | translate
+            }}</ng-container>
+            <ng-container *ngSwitchCase="'newest'">{{
+              'SORT_BY_NEWEST' | translate
+            }}</ng-container>
+            <ng-container *ngSwitchCase="'oldest'">{{
+              'SORT_BY_OLDEST' | translate
+            }}</ng-container>
+          </ng-container>
         </button>
-        <button
-          *ngIf="loggedIn"
-          type="button"
-          class="icon-button"
-          data-test-id="sync-collection"
-          [popper]="'COLLECTION_SYNC_TEXT' | translate"
-          [popperPlacement]="'bottom'"
-          (click)="syncCollectionsChange.next()"
-        >
-          <app-icon name="refresh-ccw"></app-icon>
-        </button>
-        <div class="query-collections__actions--right">
-          <button
-            nz-dropdown
-            nzTrigger="click"
-            [nzDropdownMenu]="docViewerMenu"
-            type="button"
-            class="icon-button"
-          >
-            <ng-container [ngSwitch]="sortBy">
-              <ng-container *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'newest'">{{ 'SORT_BY_NEWEST' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'oldest'">{{ 'SORT_BY_OLDEST' | translate }}</ng-container>
-            </ng-container>
-          </button>
-          <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
-            <ul nz-menu>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next({ sortBy: 'a-z' })"
-              >
-                {{ 'SORT_BY_A_Z' | translate }}
-              </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next({ sortBy: 'z-a' })"
-              >
-                {{ 'SORT_BY_Z_A' | translate }}
-              </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next({ sortBy: 'newest' })"
-              >
-                {{ 'SORT_BY_NEWEST' | translate }}
-              </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next({ sortBy: 'oldest' })"
-              >
-                {{ 'SORT_BY_OLDEST' | translate }}
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-        </div>
+        <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li
+              nz-menu-item
+              (click)="sortCollectionsChange.next({ sortBy: 'a-z' })"
+            >
+              {{ 'SORT_BY_A_Z' | translate }}
+            </li>
+            <li
+              nz-menu-item
+              (click)="sortCollectionsChange.next({ sortBy: 'z-a' })"
+            >
+              {{ 'SORT_BY_Z_A' | translate }}
+            </li>
+            <li
+              nz-menu-item
+              (click)="sortCollectionsChange.next({ sortBy: 'newest' })"
+            >
+              {{ 'SORT_BY_NEWEST' | translate }}
+            </li>
+            <li
+              nz-menu-item
+              (click)="sortCollectionsChange.next({ sortBy: 'oldest' })"
+            >
+              {{ 'SORT_BY_OLDEST' | translate }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
     </div>
     <div class="query-collections__items-wrapper">
       <app-query-collection-item
-        *ngFor="let collectionTree of collectionTrees; trackBy:trackById;"
+        *ngFor="let collectionTree of collectionTrees; trackBy: trackById"
         [collectionTree]="collectionTree"
         [loggedIn]="loggedIn"
         (selectQueryChange)="selectQueryChange.next($event)"
@@ -80,7 +93,7 @@
         (exportCollectionChange)="exportCollectionChange.next($event)"
         (syncCollectionChange)="syncCollectionChange.next($event)"
       ></app-query-collection-item>
-      <div class="query-collections__empty" *ngIf="!(collectionTrees?.length)">
+      <div class="query-collections__empty" *ngIf="!collectionTrees?.length">
         <div class="query-collections__empty-icon">
           <app-icon name="sidebar" size="40"></app-icon>
         </div>

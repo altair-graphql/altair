@@ -15,15 +15,18 @@ app-window-switcher {
 
   background:
       //Left start and right start 'inside' container colors (they overlap the shadows)
-      linear-gradient(90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)),
-      linear-gradient(-90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)) 100% 0,
-      //Left and right scroll shadows
-      linear-gradient(90deg, var(--shadow-bg), rgba(0, 0, 0, 0)),
-      linear-gradient(-90deg, var(--shadow-bg), rgba(0, 0, 0, 0)) 100% 0;
+    linear-gradient(90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)),
+    linear-gradient(-90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0))
+      100% 0,
+    //Left and right scroll shadows
+    linear-gradient(90deg, var(--shadow-bg), rgba(0, 0, 0, 0)),
+    linear-gradient(-90deg, var(--shadow-bg), rgba(0, 0, 0, 0)) 100% 0;
 
   background-repeat: no-repeat;
   background-color: var(--header-bg-color);
-  background-size: 100px 100%, 100px 100%, var(--shadow-weight) var(--shadow-height), var(--shadow-weight) var(--shadow-height);
+  background-size: 100px 100%, 100px 100%,
+    var(--shadow-weight) var(--shadow-height),
+    var(--shadow-weight) var(--shadow-height);
   background-attachment: local, local, scroll, scroll;
 
   scrollbar-width: none;
@@ -62,10 +65,10 @@ app-window-switcher {
   gap: 4px;
   cursor: pointer;
   white-space: nowrap;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(var(--rgb-theme-font), .05);
+    background: rgba(var(--rgb-theme-font), 0.05);
 
     .window-switcher__close {
       opacity: 1;
@@ -74,7 +77,7 @@ app-window-switcher {
 }
 
 .window-switcher__item--active {
-  background: rgba(var(--rgb-theme-font), .05);
+  background: rgba(var(--rgb-theme-font), 0.05);
   color: var(--primary-color);
 }
 
@@ -85,12 +88,12 @@ app-window-switcher {
   width: 16px;
   aspect-ratio: 1;
   line-height: 1;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   border-radius: 4px;
   opacity: 0.3;
 
   &:hover {
-    background: rgba(var(--rgb-theme-font), .15);
+    background: rgba(var(--rgb-theme-font), 0.15);
     color: var(--red-color);
   }
 }

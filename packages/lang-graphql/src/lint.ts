@@ -1,11 +1,11 @@
-import { Diagnostic, linter } from "@codemirror/lint";
-import { getDiagnostics } from "graphql-language-service-interface";
-import { Position, posToOffset } from "./helpers";
-import { getSchema } from "./state";
+import { Diagnostic, linter } from '@codemirror/lint';
+import { getDiagnostics } from 'graphql-language-service-interface';
+import { Position, posToOffset } from './helpers';
+import { getSchema } from './state';
 
-const SEVERITY = ["error", "warning", "info"] as const;
+const SEVERITY = ['error', 'warning', 'info'] as const;
 
-export const lint = linter(view => {
+export const lint = linter((view) => {
   const schema = getSchema(view.state);
   if (!schema) {
     return [];
@@ -37,7 +37,7 @@ export const lint = linter(view => {
         severity: SEVERITY[item.severity - 1],
         // source: item.source, // TODO:
         message: item.message,
-        actions: [] // TODO:
+        actions: [], // TODO:
       };
     })
     .filter((_): _ is Diagnostic => Boolean(_));

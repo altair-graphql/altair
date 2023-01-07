@@ -58,10 +58,10 @@ app-header {
   gap: 4px;
   cursor: pointer;
   white-space: nowrap;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(var(--rgb-theme-font), .05);
+    background: rgba(var(--rgb-theme-font), 0.05);
   }
 }
 

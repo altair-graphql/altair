@@ -39,7 +39,7 @@
     animation: 1.5s loading-indicator-blink infinite linear;
 
     &:nth-child(1) {
-      animation-delay: .5s;
+      animation-delay: 0.5s;
     }
 
     &:nth-child(2) {
@@ -52,7 +52,7 @@
   }
 }
 
-@keyframes loading-indicator-blink{
+@keyframes loading-indicator-blink {
   0% {
     opacity: 1;
   }

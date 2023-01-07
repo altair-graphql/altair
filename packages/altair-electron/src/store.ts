@@ -1,4 +1,4 @@
-import ElectronStore from "electron-store";
+import ElectronStore from 'electron-store';
 
 export class InMemoryStore {
   data: Record<string, unknown>;

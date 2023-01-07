@@ -11,23 +11,23 @@
 // The loaded page will not be able to access this, it is only available
 // in this context
 // window.bar = 'bar'
-import { ipcRenderer as ipc } from "electron";
+import { ipcRenderer as ipc } from 'electron';
 (window as any).ipc = ipc;
-import { ElectronStoreAdapter } from "../electron-store-adapter/electron-store-adapter";
+import { ElectronStoreAdapter } from '../electron-store-adapter/electron-store-adapter';
 
 const reload = async () => {
-  await ipc.invoke("reload-window");
+  await ipc.invoke('reload-window');
 };
 
-if (process.env.NODE_ENV === "development") {
-  console.log("installing devtron", require("devtron"));
-  require("devtron").install();
+if (process.env.NODE_ENV === 'development') {
+  console.log('installing devtron', require('devtron'));
+  require('devtron').install();
   (window as any).__devtron = { require, process };
 }
 
-process.once("loaded", () => {
+process.once('loaded', () => {
   // Giving access to spectron to run tests successfully
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === 'test') {
     (window as any).electronRequire = require;
   }
 
@@ -36,7 +36,7 @@ process.once("loaded", () => {
   // Check if data is stored in electron store
   if (!store.length && window.localStorage.length) {
     // Else, copy content of localstorage into electron store and reload.
-    Object.keys(window.localStorage).forEach(key => {
+    Object.keys(window.localStorage).forEach((key) => {
       const val = window.localStorage.getItem(key);
       if (val) {
         store.setItem(key, val);

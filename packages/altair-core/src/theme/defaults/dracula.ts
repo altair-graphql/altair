@@ -22,8 +22,8 @@ const theme: ICustomTheme = {
       property: '#bd93f9',
       punctuation: '#f8f8f2',
       cursor: '#f8f8f2',
-    }
-  }
+    },
+  },
 };
 
 export default theme;

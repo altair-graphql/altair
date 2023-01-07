@@ -1,5 +1,5 @@
-import { getDocs, query, where } from "firebase/firestore";
-import { FirebaseUtilsContext, getDocument, usersRef } from "./utils";
+import { getDocs, query, where } from 'firebase/firestore';
+import { FirebaseUtilsContext, getDocument, usersRef } from './utils';
 
 export const getUserData = async (ctx: FirebaseUtilsContext, uid: string) => {
   return getDocument(ctx, usersRef(ctx.db), uid);
@@ -10,7 +10,7 @@ export const getUserDataByEmail = async (
   email: string
 ) => {
   const snapshots = await getDocs(
-    query(usersRef(ctx.db), where("email", "==", email))
+    query(usersRef(ctx.db), where('email', '==', email))
   );
   if (snapshots.empty) {
     return;
@@ -20,6 +20,6 @@ export const getUserDataByEmail = async (
 
   return {
     ...snapshot.data(),
-    id: snapshot.id
+    id: snapshot.id,
   };
 };

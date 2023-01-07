@@ -5,13 +5,8 @@
     "rootDir": "./src",
     "target": "es2020",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node"
-    ],
-    "skipLibCheck": true,
-  },
+    "lib": ["dom", "esnext"],
+    "types": ["node"],
+    "skipLibCheck": true
+  }
 }

@@ -4,21 +4,37 @@
     <div class="doc-viewer-item doc-viewer-item-field">
       <div class="doc-viewer-item-query-inner">
         {{ data.name }}
-        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLUnion(data)">{{ 'DOCS_UNION_TEXT' | translate }}</span>
-        <span class="doc-viewer-item-type doc-viewer-item-query-type" *ngIf="isGraphQLInterface(data)">{{ 'DOCS_INTERFACE_TEXT' | translate }}</span>
+        <span
+          class="doc-viewer-item-type doc-viewer-item-query-type"
+          *ngIf="isGraphQLUnion(data)"
+          >{{ 'DOCS_UNION_TEXT' | translate }}</span
+        >
+        <span
+          class="doc-viewer-item-type doc-viewer-item-query-type"
+          *ngIf="isGraphQLInterface(data)"
+          >{{ 'DOCS_INTERFACE_TEXT' | translate }}</span
+        >
       </div>
       <div
         *ngIf="data.description"
         class="doc-viewer-item-query-description"
         markdown
-        [data]="data.description || ''">
-      </div>
+        [data]="data.description || ''"
+      ></div>
     </div>
   </div>
 
-  <div class="doc-viewer-section doc-viewer-enum-values" *ngIf="getTypeEnumValues(data).length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_VALUES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeEnumValues(data); trackBy:schemaItemTrackBy;">
+  <div
+    class="doc-viewer-section doc-viewer-enum-values"
+    *ngIf="getTypeEnumValues(data).length"
+  >
+    <div class="doc-viewer-section-title">
+      {{ 'DOCS_VALUES_TEXT' | translate }}
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="let item of getTypeEnumValues(data); trackBy: schemaItemTrackBy"
+    >
       <div class="doc-viewer-item-query-inner">
         <span class="doc-viewer-item-field doc-viewer-item-value">
           {{ item.name }}
@@ -32,16 +48,26 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="item.description || ''"
-      >
-      </div>
+      ></div>
     </div>
   </div>
-  
-  <div class="doc-viewer-section doc-viewer-subtypes" *ngIf="getSubtypes(data).length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_SUBTYPES_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getSubtypes(data); trackBy:schemaItemTrackBy;">
+
+  <div
+    class="doc-viewer-section doc-viewer-subtypes"
+    *ngIf="getSubtypes(data).length"
+  >
+    <div class="doc-viewer-section-title">
+      {{ 'DOCS_SUBTYPES_TEXT' | translate }}
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="let item of getSubtypes(data); trackBy: schemaItemTrackBy"
+    >
       <div class="doc-viewer-item-query-inner">
-        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        <span
+          class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+          (click)="goToType(item.inspect())"
+        >
           {{ item.name }}
         </span>
       </div>
@@ -50,80 +76,93 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="item.description || ''"
-      >
-      </div>
+      ></div>
     </div>
   </div>
-  
-  <div class="doc-viewer-section doc-viewer-fields" *ngIf="getTypeFields(data).length">
+
+  <div
+    class="doc-viewer-section doc-viewer-fields"
+    *ngIf="getTypeFields(data).length"
+  >
     <div class="doc-viewer-section-title">
       <span>
         {{ 'DOCS_FIELDS_TEXT' | translate }}
       </span>
       <div class="doc-viewer-fields-actions">
         <button
-            nz-dropdown
-            nzTrigger="click"
-            [nzDropdownMenu]="docViewerMenu"
-            type="button"
-            class="icon-button"
-          >
-            <app-icon name="list"></app-icon>
-            <ng-container [ngSwitch]="sortByOption">
-              <ng-container *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</ng-container>
-              <ng-container *ngSwitchCase="'none'">{{ 'SORT_BY_NONE' | translate }}</ng-container>
-            </ng-container>
-          </button>
-          <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
-            <ul nz-menu>
-              <li
-                nz-menu-item
-                (click)="setSortBy('none')"
-              >
-                {{ 'SORT_BY_NONE' | translate }}
-              </li>
-              <li
-                nz-menu-item
-                (click)="setSortBy('a-z')"
-              >
-                {{ 'SORT_BY_A_Z' | translate }}
-              </li>
-              <li
-                nz-menu-item
-                (click)="setSortBy('z-a')"
-              >
-                {{ 'SORT_BY_Z_A' | translate }}
-              </li>
-            </ul>
-          </nz-dropdown-menu>
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="docViewerMenu"
+          type="button"
+          class="icon-button"
+        >
+          <app-icon name="list"></app-icon>
+          <ng-container [ngSwitch]="sortByOption">
+            <ng-container *ngSwitchCase="'a-z'">{{
+              'SORT_BY_A_Z' | translate
+            }}</ng-container>
+            <ng-container *ngSwitchCase="'z-a'">{{
+              'SORT_BY_Z_A' | translate
+            }}</ng-container>
+            <ng-container *ngSwitchCase="'none'">{{
+              'SORT_BY_NONE' | translate
+            }}</ng-container>
+          </ng-container>
+        </button>
+        <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="setSortBy('none')">
+              {{ 'SORT_BY_NONE' | translate }}
+            </li>
+            <li nz-menu-item (click)="setSortBy('a-z')">
+              {{ 'SORT_BY_A_Z' | translate }}
+            </li>
+            <li nz-menu-item (click)="setSortBy('z-a')">
+              {{ 'SORT_BY_Z_A' | translate }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
       </div>
     </div>
     <div
       class="doc-viewer-item doc-viewer-item-query"
-      *ngFor="let item of (getTypeFields(data) | collectionTransform: sortFieldsTransformer:sortByOption); trackBy:schemaItemTrackBy;"
+      *ngFor="
+        let item of getTypeFields(data)
+          | collectionTransform: sortFieldsTransformer:sortByOption;
+        trackBy: schemaItemTrackBy
+      "
     >
       <div class="doc-viewer-item-query-inner">
-        <span class="no-link-link"
-         (click)="goToField(item.name, data.name)"
-         track-id="gotofield_docs"
+        <span
+          class="no-link-link"
+          (click)="goToField(item.name, data.name)"
+          track-id="gotofield_docs"
         >
           {{ item.name }}
         </span>
         <ng-container *ngIf="item?.args?.length">
           (
-          <span *ngFor="let arg of item.args; trackBy: schemaItemTrackBy; let last = last">
+          <span
+            *ngFor="
+              let arg of item.args;
+              trackBy: schemaItemTrackBy;
+              let last = last
+            "
+          >
             <span
-             class="doc-viewer-item-field no-link-link"
-             (click)="goToType(arg.type.inspect())"
+              class="doc-viewer-item-field no-link-link"
+              (click)="goToType(arg.type.inspect())"
             >
               {{ arg.name }}
-              <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)">= {{ getDefaultValue(arg) }}</span>
+              <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)"
+                >= {{ getDefaultValue(arg) }}</span
+              >
             </span>
             <span
-             class="doc-viewer-item-type no-link-link"
-             (click)="goToType(arg.type.inspect())"
-            >{{ arg.type.inspect() }}</span><span *ngIf="!last">,</span>
+              class="doc-viewer-item-type no-link-link"
+              (click)="goToType(arg.type.inspect())"
+              >{{ arg.type.inspect() }}</span
+            ><span *ngIf="!last">,</span>
           </span>
           )
         </ng-container>
@@ -134,36 +173,49 @@
           {{ item.type.inspect() }}
         </span>
       </div>
-      <div
-        *ngIf="item.isDeprecated"
-        class="doc-viewer-item-query-deprecated"
-        >
-          {{ 'DOCS_DEPRECATED_TEXT' | translate }}:
-        <span
-          markdown
-          [data]="item.deprecationReason || ''"
-        >
-        </span>
+      <div *ngIf="item.isDeprecated" class="doc-viewer-item-query-deprecated">
+        {{ 'DOCS_DEPRECATED_TEXT' | translate }}:
+        <span markdown [data]="item.deprecationReason || ''"> </span>
       </div>
       <div
         class="doc-viewer-item-query-description"
         markdown
         [data]="item.description || ''"
+      ></div>
+      <button
+        class="doc-viewer-item-query-add-btn"
+        (click)="addToEditor(item.name, data.name)"
+        track-id="add_query"
       >
-      </div>
-      <button class="doc-viewer-item-query-add-btn"
-       (click)="addToEditor(item.name, data.name)" track-id="add_query">
-        <ng-container *ngIf="isRootType(data.name)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
-        <ng-container *ngIf="!isRootType(data.name)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
+        <ng-container *ngIf="isRootType(data.name)">{{
+          'DOCS_ADD_QUERY_TEXT' | translate
+        }}</ng-container>
+        <ng-container *ngIf="!isRootType(data.name)">{{
+          'DOCS_ADD_FRAGMENT_TEXT' | translate
+        }}</ng-container>
       </button>
     </div>
   </div>
-  
-  <div class="doc-viewer-section doc-viewer-implementations" *ngIf="getTypeImplementations(data).length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplementations(data); trackBy:schemaItemTrackBy;">
+
+  <div
+    class="doc-viewer-section doc-viewer-implementations"
+    *ngIf="getTypeImplementations(data).length"
+  >
+    <div class="doc-viewer-section-title">
+      {{ 'DOCS_IMPLEMENTATIONS_TEXT' | translate }}
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="
+        let item of getTypeImplementations(data);
+        trackBy: schemaItemTrackBy
+      "
+    >
       <div class="doc-viewer-item-query-inner">
-        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        <span
+          class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+          (click)="goToType(item.inspect())"
+        >
           {{ item.name }}
         </span>
       </div>
@@ -171,16 +223,26 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="item.description || ''"
-      >
-      </div>
+      ></div>
     </div>
   </div>
-  
-  <div class="doc-viewer-section doc-viewer-implements" *ngIf="getTypeImplements(data).length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_IMPLEMENTS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let item of getTypeImplements(data); trackBy:schemaItemTrackBy;">
+
+  <div
+    class="doc-viewer-section doc-viewer-implements"
+    *ngIf="getTypeImplements(data).length"
+  >
+    <div class="doc-viewer-section-title">
+      {{ 'DOCS_IMPLEMENTS_TEXT' | translate }}
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="let item of getTypeImplements(data); trackBy: schemaItemTrackBy"
+    >
       <div class="doc-viewer-item-query-inner">
-        <span class="doc-viewer-item-field doc-viewer-item-value no-link-link" (click)="goToType(item.inspect())">
+        <span
+          class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+          (click)="goToType(item.inspect())"
+        >
           {{ item.name }}
         </span>
       </div>
@@ -188,8 +250,7 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="item.description || ''"
-      >
-      </div>
+      ></div>
     </div>
   </div>
 </ng-container>

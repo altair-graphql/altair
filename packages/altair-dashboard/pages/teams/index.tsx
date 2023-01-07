@@ -1,10 +1,24 @@
-import { Table, Group, Text, ActionIcon, ScrollArea, Title, Button, Modal, TextInput, Textarea } from '@mantine/core';
 import {
-  IconPencil,
-} from '@tabler/icons';
+  Table,
+  Group,
+  Text,
+  ActionIcon,
+  ScrollArea,
+  Title,
+  Button,
+  Modal,
+  TextInput,
+  Textarea,
+} from '@mantine/core';
+import { IconPencil } from '@tabler/icons';
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { createTeam, FirebaseUtilsContext, getTeams, updateTeam } from 'altair-firebase-utils';
+import {
+  createTeam,
+  FirebaseUtilsContext,
+  getTeams,
+  updateTeam,
+} from 'altair-firebase-utils';
 import useUser from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -16,7 +30,7 @@ interface TeamsStackProps {
 }
 
 interface TeamData {
-  name: string; 
+  name: string;
   description: string;
 }
 interface TeamFormProps {
@@ -32,8 +46,8 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       description: team?.description ?? '',
     },
     validate: {
-      name: (val) => !val ? 'Name is required' : null,
-    }
+      name: (val) => (!val ? 'Name is required' : null),
+    },
   });
   const { ctx } = useUser();
   const isCreate = !team;
@@ -48,7 +62,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       await createTeam(ctx, val);
       notify.success('Your team has been created');
       onComplete(true);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       notify.error('An error occurred while creating your team');
       onComplete(false);
@@ -64,10 +78,10 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
     }
     setLoading(true);
     try {
-      await updateTeam(ctx, team.id, {id: team.id, ...val});
+      await updateTeam(ctx, team.id, { id: team.id, ...val });
       notify.success('Your team has been updated');
       onComplete(true);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       notify.error('An error occurred while updating your team');
       onComplete(false);
@@ -78,23 +92,33 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
 
   return (
     <>
-      <form onSubmit={form.onSubmit((val) => isCreate ? onCreateTeam(val) : onUpdateTeam(val))}>
+      <form
+        onSubmit={form.onSubmit((val) =>
+          isCreate ? onCreateTeam(val) : onUpdateTeam(val)
+        )}
+      >
         <TextInput
           label="Team name"
           withAsterisk
           value={form.values.name}
-          onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+          onChange={(event) =>
+            form.setFieldValue('name', event.currentTarget.value)
+          }
           {...form.getInputProps('name')}
         />
         <Textarea
           label="Description"
           value={form.values.description}
-          onChange={(event) => form.setFieldValue('description', event.currentTarget.value)}
+          onChange={(event) =>
+            form.setFieldValue('description', event.currentTarget.value)
+          }
           {...form.getInputProps('description')}
         />
 
         <Group position="right" mt="xl">
-          <Button type="submit" loading={loading}>{isCreate ? 'Create team' : 'Update team'}</Button>
+          <Button type="submit" loading={loading}>
+            {isCreate ? 'Create team' : 'Update team'}
+          </Button>
         </Group>
       </form>
     </>
@@ -108,9 +132,7 @@ function TeamsStack({ teams, onEditTeam }: TeamsStackProps) {
         <Group spacing="sm">
           <div>
             <Text size="sm" weight={500}>
-              <Link href={`/teams/${team.id}`}>
-                {team.name}
-              </Link>
+              <Link href={`/teams/${team.id}`}>{team.name}</Link>
             </Text>
             <Text color="dimmed" size="xs">
               {team.description}
@@ -138,7 +160,10 @@ function TeamsStack({ teams, onEditTeam }: TeamsStackProps) {
 }
 
 export default function Teams() {
-  const [{ team, teamModalOpened }, setTeamModalState] = useState<{team?: Team; teamModalOpened: boolean}>({ team: undefined, teamModalOpened: false });
+  const [{ team, teamModalOpened }, setTeamModalState] = useState<{
+    team?: Team;
+    teamModalOpened: boolean;
+  }>({ team: undefined, teamModalOpened: false });
   const [teams, setTeams] = useState<Team[]>([]);
   const { ctx } = useUser();
 
@@ -146,7 +171,7 @@ export default function Teams() {
     try {
       const teams = await getTeams(ctx);
       setTeams(teams);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       notify.error('Could not load teams');
     }
@@ -164,7 +189,7 @@ export default function Teams() {
   }
   const onCompleteCreateTeam = async (success: boolean) => {
     if (success) {
-      setTeamModalState({ team: undefined, teamModalOpened: false});
+      setTeamModalState({ team: undefined, teamModalOpened: false });
       await loadTeam(ctx);
     }
   };
@@ -173,19 +198,29 @@ export default function Teams() {
     <>
       <Modal
         opened={teamModalOpened}
-        onClose={() => setTeamModalState({ team: undefined, teamModalOpened: false})}
-        title={team ? "Edit team" : "New team"}
+        onClose={() =>
+          setTeamModalState({ team: undefined, teamModalOpened: false })
+        }
+        title={team ? 'Edit team' : 'New team'}
       >
-        <TeamForm
-          onComplete={onCompleteCreateTeam}
-          team={team}
-        />
+        <TeamForm onComplete={onCompleteCreateTeam} team={team} />
       </Modal>
       <Group position="apart">
         <Title>Teams</Title>
-        <Button onClick={() => setTeamModalState({ team: undefined, teamModalOpened: true})}>Create team</Button>
+        <Button
+          onClick={() =>
+            setTeamModalState({ team: undefined, teamModalOpened: true })
+          }
+        >
+          Create team
+        </Button>
       </Group>
-      <TeamsStack teams={teams} onEditTeam={(team) => setTeamModalState({ team, teamModalOpened: true})} />
+      <TeamsStack
+        teams={teams}
+        onEditTeam={(team) =>
+          setTeamModalState({ team, teamModalOpened: true })
+        }
+      />
     </>
-  )
+  );
 }

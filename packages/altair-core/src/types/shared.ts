@@ -15,12 +15,9 @@ export interface BaseOwnableDocument extends BaseDocument {
 }
 
 type TypedOmit<T, K extends keyof T> = Omit<T, K>;
-export type CreateDTO<
-  T extends BaseDocument | BaseOwnableDocument
-> = T extends BaseOwnableDocument
-  ? TypedOmit<T, keyof BaseOwnableDocument>
-  : TypedOmit<T, keyof BaseDocument>;
-export type UpdateDTO<T extends BaseDocument | BaseOwnableDocument> = CreateDTO<
-  T
-> &
-  Pick<T, 'id'>;
+export type CreateDTO<T extends BaseDocument | BaseOwnableDocument> =
+  T extends BaseOwnableDocument
+    ? TypedOmit<T, keyof BaseOwnableDocument>
+    : TypedOmit<T, keyof BaseDocument>;
+export type UpdateDTO<T extends BaseDocument | BaseOwnableDocument> =
+  CreateDTO<T> & Pick<T, 'id'>;

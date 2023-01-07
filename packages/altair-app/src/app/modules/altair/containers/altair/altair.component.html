@@ -5,11 +5,11 @@
   appFileDrop
   (fileDroppedChange)="fileDropped($event)"
 >
-<nz-layout class="main-container">
+  <nz-layout class="main-container">
     <div class="loading-screen styled" *ngIf="!isReady">
       <div class="loading-screen-inner">
         <div class="loading-screen-logo-container">
-          <img src="assets/img/altair_logo.svg" alt="Altair">
+          <img src="assets/img/altair_logo.svg" alt="Altair" />
         </div>
         <div class="loading-screen-loading-indicator">
           <span class="loading-indicator-dot"></span>
@@ -21,7 +21,7 @@
     <app-header
       [experimentalEnabled]="(settings$ | async)?.enableExperimental"
       [windows]="windows"
-      [windowIds] = "windowIds"
+      [windowIds]="windowIds"
       [activeWindowId]="activeWindowId"
       [closedWindows]="closedWindows"
       [isElectron]="isElectron"
@@ -45,18 +45,35 @@
       (importBackupDataChange)="importBackupData()"
     ></app-header>
     <nz-layout>
-      <nz-alert nzBanner [nzMessage]="webappLimitation" *ngIf="isWebApp"></nz-alert>
+      <nz-alert
+        nzBanner
+        [nzMessage]="webappLimitation"
+        *ngIf="isWebApp"
+      ></nz-alert>
       <ng-template #webappLimitation>
         <span class="alert-text">
-          Disclaimer: The web app has limitations enforced by the WHATWG spec. For the best experience and functionality, use the desktop app or browser extensions instead.
+          Disclaimer: The web app has limitations enforced by the WHATWG spec.
+          For the best experience and functionality, use the desktop app or
+          browser extensions instead.
         </span>
-        <button class="btn alert-action" (click)="openWebAppLimitationPost($event)" track-id="web_app_disclaimer_learn_more">Learn more</button>
+        <button
+          class="btn alert-action"
+          (click)="openWebAppLimitationPost($event)"
+          track-id="web_app_disclaimer_learn_more"
+        >
+          Learn more
+        </button>
       </ng-template>
       <nz-layout class="inner-layout">
         <nz-content class="main-container-inner">
           <div class="app-side-menu">
             <div class="side-menu__main">
-              <a class="side-menu-item" (click)="toggleHeader(true)" attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}" track-id="show_set_headers">
+              <a
+                class="side-menu-item"
+                (click)="toggleHeader(true)"
+                attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}"
+                track-id="show_set_headers"
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="loader"></app-icon>
                 </div>
@@ -64,7 +81,12 @@
                   {{ 'SET_HEADERS_BUTTON' | translate }}
                 </div>
               </a>
-              <a class="side-menu-item" (click)="toggleSubscriptionUrlDialog(true)" attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}" track-id="show_set_subscription_url">
+              <a
+                class="side-menu-item"
+                (click)="toggleSubscriptionUrlDialog(true)"
+                attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}"
+                track-id="show_set_subscription_url"
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="repeat"></app-icon>
                 </div>
@@ -72,7 +94,12 @@
                   {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
                 </div>
               </a>
-              <a class="side-menu-item" (click)="toggleHistoryDialog(true)" attr.aria-label="{{ 'HISTORY_TEXT' | translate }}" track-id="show_history">
+              <a
+                class="side-menu-item"
+                (click)="toggleHistoryDialog(true)"
+                attr.aria-label="{{ 'HISTORY_TEXT' | translate }}"
+                track-id="show_history"
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="watch"></app-icon>
                 </div>
@@ -86,7 +113,12 @@
                   <app-icon name="briefcase"></app-icon>
                 </div>
                 <div class="side-menu-item-submenu">
-                  <a class="submenu-item" (click)="prettifyCode()" attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}" track-id="prettify">
+                  <a
+                    class="submenu-item"
+                    (click)="prettifyCode()"
+                    attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}"
+                    track-id="prettify"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="sun"></app-icon>
                     </div>
@@ -94,7 +126,12 @@
                       {{ 'PRETTIFY_BUTTON' | translate }}
                     </div>
                   </a>
-                  <a class="submenu-item" (click)="compressQuery()" attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}" track-id="compress_query">
+                  <a
+                    class="submenu-item"
+                    (click)="compressQuery()"
+                    attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}"
+                    track-id="compress_query"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="minimize-2"></app-icon>
                     </div>
@@ -102,7 +139,12 @@
                       {{ 'COMPRESS_QUERY_BUTTON' | translate }}
                     </div>
                   </a>
-                  <a class="submenu-item" (click)="clearEditor()" attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}" track-id="clear">
+                  <a
+                    class="submenu-item"
+                    (click)="clearEditor()"
+                    attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}"
+                    track-id="clear"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="trash-2"></app-icon>
                     </div>
@@ -110,7 +152,12 @@
                       {{ 'CLEAR_BUTTON' | translate }}
                     </div>
                   </a>
-                  <a class="submenu-item" (click)="copyAsCurl()" attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}" track-id="copy_as_curl">
+                  <a
+                    class="submenu-item"
+                    (click)="copyAsCurl()"
+                    attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}"
+                    track-id="copy_as_curl"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="terminal"></app-icon>
                     </div>
@@ -118,7 +165,14 @@
                       {{ 'COPY_AS_CURL_BUTTON' | translate }}
                     </div>
                   </a>
-                  <a class="submenu-item" (click)="convertToNamedQuery()" attr.aria-label="{{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}" track-id="convert_to_named_query">
+                  <a
+                    class="submenu-item"
+                    (click)="convertToNamedQuery()"
+                    attr.aria-label="{{
+                      'CONVERT_TO_NAMED_QUERY_BUTTON' | translate
+                    }}"
+                    track-id="convert_to_named_query"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="tag"></app-icon>
                     </div>
@@ -126,7 +180,11 @@
                       {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
                     </div>
                   </a>
-                  <a class="submenu-item" (click)="refactorQuery()" attr.aria-label="{{ 'REFACTOR_QUERY_BUTTON' | translate }}">
+                  <a
+                    class="submenu-item"
+                    (click)="refactorQuery()"
+                    attr.aria-label="{{ 'REFACTOR_QUERY_BUTTON' | translate }}"
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="disc"></app-icon>
                     </div>
@@ -137,13 +195,16 @@
                 </div>
               </div>
               <div class="side-menu-divider"></div>
-    
+
               <div class="side-menu__panels">
                 <a
-                  *ngFor="let panel of (sidebarPanels$ | async); trackBy:trackById"
+                  *ngFor="
+                    let panel of sidebarPanels$ | async;
+                    trackBy: trackById
+                  "
                   class="side-menu-item"
                   (click)="togglePanelActive(panel)"
-                  attr.aria-label="{{ panel.title}}"
+                  attr.aria-label="{{ panel.title }}"
                   [ngClass]="{ 'side-menu-item--active': panel.isActive }"
                 >
                   <div class="side-menu-item-icon">
@@ -154,9 +215,15 @@
                   </div>
                 </a>
               </div>
-    
+
               <div class="side-menu__main-bottom">
-                <a class="side-menu-item" (click)="toggleCollections()" attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}" track-id="show_collections" [ngClass]="{ 'side-menu-item--active': showCollections }">
+                <a
+                  class="side-menu-item"
+                  (click)="toggleCollections()"
+                  attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}"
+                  track-id="show_collections"
+                  [ngClass]="{ 'side-menu-item--active': showCollections }"
+                >
                   <div class="side-menu-item-icon">
                     <app-icon name="folder"></app-icon>
                   </div>
@@ -165,16 +232,28 @@
                   </div>
                 </a>
                 <a
-                  *ngIf="(settings$ | async)?.enableExperimental && serverReady && authEnabled"
+                  *ngIf="
+                    (settings$ | async)?.enableExperimental &&
+                    serverReady &&
+                    authEnabled
+                  "
                   class="side-menu-item"
                   (click)="setShowAccountDialog(true)"
                   attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
                   track-id="show_collections"
-                  [ngClass]="{ 'side-menu-item--active': (account$ | async)?.loggedIn }"
+                  [ngClass]="{
+                    'side-menu-item--active': (account$ | async)?.loggedIn
+                  }"
                 >
                   <div class="side-menu-item-icon">
-                    <app-icon name="user" *ngIf="!(account$ | async)?.loggedIn"></app-icon>
-                    <app-icon name="user-check" *ngIf="(account$ | async)?.loggedIn"></app-icon>
+                    <app-icon
+                      name="user"
+                      *ngIf="!(account$ | async)?.loggedIn"
+                    ></app-icon>
+                    <app-icon
+                      name="user-check"
+                      *ngIf="(account$ | async)?.loggedIn"
+                    ></app-icon>
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'ACCOUNT_TITLE' | translate }}
@@ -188,7 +267,6 @@
                 [collections]="sortedCollections$ | async"
                 [sortBy]="(collection$ | async)?.sortBy"
                 [loggedIn]="(account$ | async)?.loggedIn"
-    
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
                 (deleteQueryChange)="deleteQueryFromCollection($event)"
@@ -203,7 +281,7 @@
             </div>
             <div class="sidebar__panels">
               <ng-container
-                *ngFor="let panel of (sidebarPanels$ | async); trackBy:trackById"
+                *ngFor="let panel of sidebarPanels$ | async; trackBy: trackById"
               >
                 <app-element-wrapper
                   *ngIf="panel.isActive"
@@ -213,12 +291,17 @@
             </div>
           </div>
           <ng-container *ngFor="let windowId of windowIds">
-            <app-window [windowId]="windowId" [class.hide]="windowId !== activeWindowId"></app-window>
+            <app-window
+              [windowId]="windowId"
+              [class.hide]="windowId !== activeWindowId"
+            ></app-window>
           </ng-container>
         </nz-content>
         <div class="dialogs">
           <app-environment-manager
-            [showEnvironmentManager]="(windowsMeta$ | async)?.showEnvironmentManager"
+            [showEnvironmentManager]="
+              (windowsMeta$ | async)?.showEnvironmentManager
+            "
             [environments]="environments$ | async"
             (toggleDialogChange)="toggleEnvironmentManager(!!$event)"
             (baseEnvironmentJsonChange)="updateBaseEnvironmentJson($event)"
@@ -226,7 +309,9 @@
             (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
             (addSubEnvironmentChange)="addNewSubEnvironment()"
             (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
-            (repositionSubEnvironmentsChange)="repositionSubEnvironments($event)"
+            (repositionSubEnvironmentsChange)="
+              repositionSubEnvironments($event)
+            "
           ></app-environment-manager>
           <app-plugin-manager
             [showPluginManager]="(windowsMeta$ | async)?.showPluginManager"
@@ -238,31 +323,35 @@
             [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
             [settings]="settings$ | async"
             [appVersion]="appVersion"
-            (toggleDialogChange)="$event ? showSettingsDialog() : hideSettingsDialog()"
+            (toggleDialogChange)="
+              $event ? showSettingsDialog() : hideSettingsDialog()
+            "
             (settingsJsonChange)="setSettingsJson($event)"
           ></app-settings-dialog>
           <app-import-curl-dialog
             [showImportCurlDialog]="showImportCurlDialog"
             (toggleDialogChange)="setShowImportCurlDialog($event)"
             (importCurlChange)="importWindowFromCurl($event)"
-            ></app-import-curl-dialog>
-            <app-add-collection-query-dialog
-              [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
-              [windowTitle]="(activeWindow$ | async)?.layout?.title"
-              [collections]="(collection$ | async)?.list"
-              [loggedIn]="(account$ | async)?.loggedIn"
-              [teams]="(account$ | async)?.teams"
-              (toggleDialogChange)="setShowAddToCollectionDialog($event)"
-              (saveQueryToCollectionChange)="saveQueryToCollection($event)"
-              (createCollectionAndSaveQueryToCollectionChange)="createCollectionAndSaveQueryToCollection($event)"
-            ></app-add-collection-query-dialog>
-            <app-edit-collection-dialog
+          ></app-import-curl-dialog>
+          <app-add-collection-query-dialog
+            [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
+            [windowTitle]="(activeWindow$ | async)?.layout?.title"
+            [collections]="(collection$ | async)?.list"
+            [loggedIn]="(account$ | async)?.loggedIn"
+            [teams]="(account$ | async)?.teams"
+            (toggleDialogChange)="setShowAddToCollectionDialog($event)"
+            (saveQueryToCollectionChange)="saveQueryToCollection($event)"
+            (createCollectionAndSaveQueryToCollectionChange)="
+              createCollectionAndSaveQueryToCollection($event)
+            "
+          ></app-add-collection-query-dialog>
+          <app-edit-collection-dialog
             [showEditCollectionDialog]="showEditCollectionDialog"
             [collection]="(collection$ | async)?.activeCollection"
             (toggleDialogChange)="setShowEditCollectionDialog($event)"
             (updateCollectionChange)="updateCollection($event)"
           ></app-edit-collection-dialog>
-            <app-account-dialog
+          <app-account-dialog
             [showDialog]="(windowsMeta$ | async)?.showAccountDialog"
             [account]="account$ | async"
             (toggleDialogChange)="setShowAccountDialog($event)"
@@ -280,9 +369,16 @@
         ></nz-alert>
         <ng-template #supportDevelopment>
           <span class="alert-text">
-              Do you find this app useful? Would you mind supporting its development?
+            Do you find this app useful? Would you mind supporting its
+            development?
           </span>
-          <button class="btn alert-action" (click)="openDonationPage($event)" track-id="donate">Donate</button>
+          <button
+            class="btn alert-action"
+            (click)="openDonationPage($event)"
+            track-id="donate"
+          >
+            Donate
+          </button>
         </ng-template>
       </nz-layout>
     </nz-layout>

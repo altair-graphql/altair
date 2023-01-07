@@ -36,7 +36,9 @@
       class="variables-editor-container"
       [ngClass]="{ 'show-variables': showVariableDialog }"
       mwlResizable
-      [ngStyle]="{minHeight: showVariableDialog ? variableEditorHeight : undefined }"
+      [ngStyle]="{
+        minHeight: showVariableDialog ? variableEditorHeight : undefined
+      }"
       [enableGhostResize]="true"
       [validateResize]="validate"
       (resizeEnd)="onResizeEnd($event)"
@@ -45,8 +47,14 @@
         class="variables-editor--title"
         track-id="toggle_variables"
         (click)="toggleVariableDialog.next($event)"
-      >{{ 'VARIABLES_TEXT' | translate }}</div>
-      <div class="variables-editor-inner" *ngIf="showVariableDialog" [ngClass]="{ 'hide': !showVariableDialog }">
+      >
+        {{ 'VARIABLES_TEXT' | translate }}
+      </div>
+      <div
+        class="variables-editor-inner"
+        *ngIf="showVariableDialog"
+        [ngClass]="{ hide: !showVariableDialog }"
+      >
         <div
           class="variable-editor-resizer"
           mwlResizeHandle
@@ -63,21 +71,50 @@
           ></app-variables-editor>
         </div>
         <div class="variables-files-container">
-          <button class="variables-add-files-button" track-id="add_file_variable" (click)="addFileVariableChange.next()">{{ 'ADD_FILES_TEXT' | translate }}</button>
+          <button
+            class="variables-add-files-button"
+            track-id="add_file_variable"
+            (click)="addFileVariableChange.next()"
+          >
+            {{ 'ADD_FILES_TEXT' | translate }}
+          </button>
 
-          <a href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f" target="_blank" rel="noopener">
+          <a
+            href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f"
+            target="_blank"
+            rel="noopener"
+          >
             <app-icon name="info"></app-icon>
             {{ 'LEARN_MORE_TEXT' | translate }}
           </a>
 
           <div class="variables-files-list">
             <app-variable-file-item
-              *ngFor="let file of variables?.files; trackBy:trackByIndex; let index = index;"
+              *ngFor="
+                let file of variables?.files;
+                trackBy: trackByIndex;
+                let index = index
+              "
               [fileVariable]="file"
-              (fileVariableNameChange)="fileVariableNameChange.emit({ index: index, name: $event })"
-              (fileVariableDataChange)="fileVariableDataChange.emit({ index: index, fileData: $event.files, fromCache: $event.fromCache })"
-              (fileVariableIsMultipleChange)="fileVariableIsMultipleChange.emit({ index: index, isMultiple: $event })"
-              (deleteFileVariableChange)="deleteFileVariableChange.emit({ index: index })"
+              (fileVariableNameChange)="
+                fileVariableNameChange.emit({ index: index, name: $event })
+              "
+              (fileVariableDataChange)="
+                fileVariableDataChange.emit({
+                  index: index,
+                  fileData: $event.files,
+                  fromCache: $event.fromCache
+                })
+              "
+              (fileVariableIsMultipleChange)="
+                fileVariableIsMultipleChange.emit({
+                  index: index,
+                  isMultiple: $event
+                })
+              "
+              (deleteFileVariableChange)="
+                deleteFileVariableChange.emit({ index: index })
+              "
             ></app-variable-file-item>
           </div>
         </div>
@@ -86,7 +123,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="preRequestTitleTemplate">
     <ng-template #preRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': preRequest?.enabled}">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': preRequest?.enabled }">
         {{ 'PRE_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
@@ -98,7 +135,7 @@
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
-      <span [ngClass]="{'ant-tabs--status-enabled': postRequest?.enabled}">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': postRequest?.enabled }">
         {{ 'POST_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
@@ -109,4 +146,7 @@
     ></app-post-request-editor>
   </nz-tab>
 </nz-tabset>
-<app-flex-resizer [resizeDirection]="'right'" (resizeChange)="onResize($event)"></app-flex-resizer>
+<app-flex-resizer
+  [resizeDirection]="'right'"
+  (resizeChange)="onResize($event)"
+></app-flex-resizer>

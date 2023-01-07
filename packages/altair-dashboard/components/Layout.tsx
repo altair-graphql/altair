@@ -1,4 +1,9 @@
-import { AppShell, Container, createStyles, useMantineTheme } from '@mantine/core';
+import {
+  AppShell,
+  Container,
+  createStyles,
+  useMantineTheme,
+} from '@mantine/core';
 import { PropsWithChildren, useState } from 'react';
 import { NavbarSimple } from './Navbar';
 
@@ -18,19 +23,20 @@ export function Layout({ children }: PropsWithChildren) {
       <AppShell
         styles={{
           main: {
-            background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+            background:
+              theme.colorScheme === 'dark'
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
           },
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        navbar={
-          <NavbarSimple />
-        }
+        navbar={<NavbarSimple />}
       >
         <Container size="lg" className={classes.wrapper}>
           {children}
         </Container>
       </AppShell>
     </>
-  )
+  );
 }

@@ -4,13 +4,15 @@ const fs = require('fs');
 
 ncp.limit = 16;
 
-const deleteFolderRecursive = function(path) {
+const deleteFolderRecursive = function (path) {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index){
-      var curPath = path + "/" + file;
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+    fs.readdirSync(path).forEach(function (file, index) {
+      var curPath = path + '/' + file;
+      if (fs.lstatSync(curPath).isDirectory()) {
+        // recurse
         deleteFolderRecursive(curPath);
-      } else { // delete file
+      } else {
+        // delete file
         fs.unlinkSync(curPath);
       }
     });
@@ -47,15 +49,18 @@ ncp(distSrc, distDestination, function (err) {
 
   // Adjust the base URL to be relative to the current path
   // indexHtmlStr = indexHtmlStr.replace('<base href="/">', '<base href="https://cdn.jsdelivr.net/npm/altair-static/dist/">'
-    // /*'<base href="./">'*/);
+  // /*'<base href="./">'*/);
 
   // Write the new string back to file
   // fs.writeFileSync(indexHtmlFile, indexHtmlStr, 'utf8');
 
   try {
-    const stats = JSON.parse(fs.readFileSync(path.resolve(distSrc, 'stats.json')));
+    const stats = JSON.parse(
+      fs.readFileSync(path.resolve(distSrc, 'stats.json'))
+    );
 
-    let htmlString = fs.readFileSync(path.resolve(srcDir, 'index.html'), 'utf8')
+    let htmlString = fs
+      .readFileSync(path.resolve(srcDir, 'index.html'), 'utf8')
       // Set base to ./
       .replace('<base href="/">', '<base href="./">')
       // Set scripts and styles
@@ -71,8 +76,7 @@ ncp(distSrc, distDestination, function (err) {
 
     // Remove README assets
     deleteFolderRecursive(path.join(distDestination, 'assets/img/readme'));
-
-  } catch(err) {
+  } catch (err) {
     console.error('stats.json not found', err);
   }
 });

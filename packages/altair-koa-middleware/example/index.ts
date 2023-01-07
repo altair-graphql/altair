@@ -20,8 +20,6 @@ createRouteExplorer({
   },
 });
 
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

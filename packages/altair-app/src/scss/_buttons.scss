@@ -1,4 +1,3 @@
-
 button {
   cursor: pointer;
 
@@ -12,7 +11,7 @@ button {
   border-radius: 4px;
   background: var(--theme-bg-color);
   color: var(--theme-font-color);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     background: var(--theme-off-bg-color);
@@ -33,7 +32,7 @@ button {
   text-transform: none;
   font-weight: normal;
   border-radius: 4px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   img {
     vertical-align: middle;
@@ -71,7 +70,7 @@ button {
         rgba(255, 255, 255, 0.2),
         rgba(255, 255, 255, 0.2)
       );
-      content: "";
+      content: '';
       height: 100%;
       left: 0;
       opacity: 0;
@@ -112,7 +111,7 @@ button {
 .subscription-button--stop {
   background: var(--red-color);
   color: var(--white-color);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     // TODO: Figure out how to transition CSS gradients for the button hover effect

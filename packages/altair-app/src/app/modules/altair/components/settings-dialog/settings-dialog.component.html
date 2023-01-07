@@ -1,4 +1,3 @@
-
 <nz-modal
   [nzVisible]="showSettingsDialog"
   (nzVisibleChange)="toggleDialogChange.next($event)"
@@ -17,7 +16,15 @@
 
   <ng-template #modalContent>
     <div class="app-dialog-body">
-      <small><a href="#" (click)="$event.preventDefault();$event.stopPropagation();onToggleView();">{{ 'SETTINGS_TOGGLE_ADVANCED_MODE' | translate }}</a></small>
+      <small
+        ><a
+          href="#"
+          (click)="
+            $event.preventDefault(); $event.stopPropagation(); onToggleView()
+          "
+          >{{ 'SETTINGS_TOGGLE_ADVANCED_MODE' | translate }}</a
+        ></small
+      >
       <div class="app-dialog-section" *ngIf="showForm">
         <app-schema-form
           [schema]="settingsSchema"
@@ -43,7 +50,14 @@
           (ngModelChange)="onSettingsChange($event)"
         ></ngx-codemirror> -->
         <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
-        <small><a target="_blank" href="http://altairgraphql.dev/docs/features/settings-pane" rel="noopener">Click here for available settings options</a></small>
+        <small
+          ><a
+            target="_blank"
+            href="http://altairgraphql.dev/docs/features/settings-pane"
+            rel="noopener"
+            >Click here for available settings options</a
+          ></small
+        >
       </div>
 
       <div class="app-dialog-section">
@@ -54,19 +68,30 @@
             <div>
               <nz-collapse [nzBordered]="false">
                 <nz-collapse-panel
-                  *ngFor="let category of shortcutCategories; trackBy:trackByIndex;"
+                  *ngFor="
+                    let category of shortcutCategories;
+                    trackBy: trackByIndex
+                  "
                   [nzHeader]="category.title"
                 >
-                  <nz-list [nzDataSource]="category.shortcuts" nzBordered [nzRenderItem]="shortcutItem">
+                  <nz-list
+                    [nzDataSource]="category.shortcuts"
+                    nzBordered
+                    [nzRenderItem]="shortcutItem"
+                  >
                     <ng-template #shortcutItem let-shortcut>
                       <nz-list-item>
                         <span class="settings-shortcut-description">
-                            {{ shortcut.description }}
+                          {{ shortcut.description }}
                         </span>
                         <span
                           class="settings-shortcut-key"
-                          *ngFor="let key of shortcut.keys; trackBy:trackByIndex;"
-                        >{{ key }}</span>
+                          *ngFor="
+                            let key of shortcut.keys;
+                            trackBy: trackByIndex
+                          "
+                          >{{ key }}</span
+                        >
                       </nz-list-item>
                     </ng-template>
                   </nz-list>
@@ -76,7 +101,15 @@
           </nz-collapse-panel>
         </nz-collapse>
         <div>
-          <small><a href="#" class="settings__reset-link" (click)="onResetApplicationData($event)" track-id="reset_application_data">{{ 'SETTINGS_RESET_APPLICATION_DATA' | translate }}</a></small>
+          <small
+            ><a
+              href="#"
+              class="settings__reset-link"
+              (click)="onResetApplicationData($event)"
+              track-id="reset_application_data"
+              >{{ 'SETTINGS_RESET_APPLICATION_DATA' | translate }}</a
+            ></small
+          >
         </div>
       </div>
     </div>
@@ -85,12 +118,28 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <div class="left text-align-left">
-        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
+        <label
+          >{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label
+        >
         <div>
-          <small>{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }} <a href="https://altair-gql-translate.surge.sh/" target="_blank" track-id="go_to_translate_link">{{ 'CLICK_HERE_TEXT' | translate }}</a></small>
+          <small
+            >{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }}
+            <a
+              href="https://altair-gql-translate.surge.sh/"
+              target="_blank"
+              track-id="go_to_translate_link"
+              >{{ 'CLICK_HERE_TEXT' | translate }}</a
+            ></small
+          >
         </div>
       </div>
-      <button track-id="save_settings" class="app-button active-primary right" (click)="saveSettings()">{{ 'SAVE_BUTTON' | translate }}</button>
+      <button
+        track-id="save_settings"
+        class="app-button active-primary right"
+        (click)="saveSettings()"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

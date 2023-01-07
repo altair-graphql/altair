@@ -4,7 +4,8 @@
       nz-checkbox
       [ngModel]="postRequest?.enabled"
       (ngModelChange)="postRequestEnabledChange.next($event)"
-    >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label>
+      >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label
+    >
   </div>
   <app-codemirror
     [extensions]="editorExtensions"
@@ -12,9 +13,13 @@
     [ngModel]="postRequest.script"
     (ngModelChange)="postRequestScriptChange.emit($event)"
   ></app-codemirror>
-  
+
   <small>
-    <a href="https://altairgraphql.dev/docs/features/prerequest-scripts.html" target="_blank" aria-label="learn more">
+    <a
+      href="https://altairgraphql.dev/docs/features/prerequest-scripts.html"
+      target="_blank"
+      aria-label="learn more"
+    >
       <app-icon name="info"></app-icon>
       {{ 'LEARN_MORE_TEXT' | translate }}
     </a>

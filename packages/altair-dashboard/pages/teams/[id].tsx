@@ -1,15 +1,38 @@
-import { Table, Group, Text, ActionIcon, ScrollArea, Title, Button, Modal, TextInput, Textarea, Select } from '@mantine/core';
 import {
-  IconPencil, IconTrash,
-} from '@tabler/icons';
+  Table,
+  Group,
+  Text,
+  ActionIcon,
+  ScrollArea,
+  Title,
+  Button,
+  Modal,
+  TextInput,
+  Textarea,
+  Select,
+} from '@mantine/core';
+import { IconPencil, IconTrash } from '@tabler/icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { addTeamMember, createTeam, FirebaseUtilsContext, getTeamMembers, getTeams, updateTeam } from 'altair-firebase-utils';
+import {
+  addTeamMember,
+  createTeam,
+  FirebaseUtilsContext,
+  getTeamMembers,
+  getTeams,
+  updateTeam,
+} from 'altair-firebase-utils';
 import useUser from '../../lib/useUser';
 import { notify } from '../../lib/notify';
-import { Team, TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
+import {
+  Team,
+  TeamId,
+} from 'altair-graphql-core/build/types/state/account.interfaces';
 import Link from 'next/link';
-import { TeamMembership, TeamRole } from 'altair-firebase-utils/build/interfaces';
+import {
+  TeamMembership,
+  TeamRole,
+} from 'altair-firebase-utils/build/interfaces';
 import { TEAM_ROLES } from 'altair-firebase-utils/build/constants';
 import { useRouter } from 'next/router';
 
@@ -34,8 +57,8 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
       role: TEAM_ROLES.MEMBER,
     },
     validate: {
-      email: (val) => !val ? 'Email is required' : null,
-    }
+      email: (val) => (!val ? 'Email is required' : null),
+    },
   });
   const { ctx } = useUser();
 
@@ -46,10 +69,10 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
   const onCreateMember = async (val: MembershipData) => {
     setLoading(true);
     try {
-      await addTeamMember(ctx, {...val, teamUid: teamId});
+      await addTeamMember(ctx, { ...val, teamUid: teamId });
       notify.success('Your team member has been added');
       onComplete(true);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       notify.error('An error occurred while adding your team member');
       onComplete(false);
@@ -65,7 +88,9 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
           label="Email address"
           withAsterisk
           value={form.values.email}
-          onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+          onChange={(event) =>
+            form.setFieldValue('email', event.currentTarget.value)
+          }
           {...form.getInputProps('email')}
         />
         <Select
@@ -76,12 +101,16 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
             { value: TEAM_ROLES.ADMIN, label: 'Admin' },
           ]}
           value={form.values.role}
-          onChange={(value) => form.setFieldValue('role', value as TeamRole ?? TEAM_ROLES.MEMBER)}
+          onChange={(value) =>
+            form.setFieldValue('role', (value as TeamRole) ?? TEAM_ROLES.MEMBER)
+          }
           {...form.getInputProps('role')}
         />
 
         <Group position="right" mt="xl">
-          <Button type="submit" loading={loading}>{'Create member'}</Button>
+          <Button type="submit" loading={loading}>
+            {'Create member'}
+          </Button>
         </Group>
       </form>
     </>
@@ -105,7 +134,12 @@ function MembersStack({ members }: MembersStackProps) {
       </td>
       <td>
         <Group spacing={0} position="right">
-          <ActionIcon color="red" onClick={() => {/* TODO: */}}>
+          <ActionIcon
+            color="red"
+            onClick={() => {
+              /* TODO: */
+            }}
+          >
             <IconTrash size={16} stroke={1.5} />
           </ActionIcon>
         </Group>
@@ -125,22 +159,25 @@ function MembersStack({ members }: MembersStackProps) {
 export default function TeamPage() {
   const router = useRouter();
   const { id } = router.query;
-  const [ memberModalOpened, setMemberModalOpened ] = useState(false);
+  const [memberModalOpened, setMemberModalOpened] = useState(false);
   const [members, setMembers] = useState<TeamMembership[]>([]);
   const { ctx } = useUser();
 
-  const loadTeam = useCallback(async (ctx: FirebaseUtilsContext) => {
-    try {
-      if (!id) {
-        throw new Error('Team ID cannot be undefined');
+  const loadTeam = useCallback(
+    async (ctx: FirebaseUtilsContext) => {
+      try {
+        if (!id) {
+          throw new Error('Team ID cannot be undefined');
+        }
+        const teams = await getTeamMembers(ctx, new TeamId(id.toString()));
+        setMembers(teams);
+      } catch (err) {
+        console.error(err);
+        notify.error('Could not load team members');
       }
-      const teams = await getTeamMembers(ctx, new TeamId(id.toString()));
-      setMembers(teams);
-    } catch(err) {
-      console.error(err);
-      notify.error('Could not load team members');
-    }
-  }, [id]);
+    },
+    [id]
+  );
 
   useEffect(() => {
     if (!ctx) {
@@ -164,12 +201,9 @@ export default function TeamPage() {
       <Modal
         opened={memberModalOpened}
         onClose={() => setMemberModalOpened(false)}
-        title={"New member"}
+        title={'New member'}
       >
-        <MemberForm
-          onComplete={onCompleteAddMember}
-          teamId={id.toString()}
-        />
+        <MemberForm onComplete={onCompleteAddMember} teamId={id.toString()} />
       </Modal>
       <Group position="apart">
         <Title>Members</Title>
@@ -177,5 +211,5 @@ export default function TeamPage() {
       </Group>
       <MembersStack members={members} />
     </>
-  )
+  );
 }

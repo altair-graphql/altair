@@ -1,4 +1,12 @@
-import { createStyles, Grid, Group, Paper, SimpleGrid, Text, Title } from '@mantine/core';
+import {
+  createStyles,
+  Grid,
+  Group,
+  Paper,
+  SimpleGrid,
+  Text,
+  Title,
+} from '@mantine/core';
 import {
   IconUserPlus,
   IconDiscount2,
@@ -7,7 +15,7 @@ import {
   IconArrowUpRight,
   IconArrowDownRight,
 } from '@tabler/icons';
-import useUser from '../lib/useUser'
+import useUser from '../lib/useUser';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -27,7 +35,10 @@ const useStyles = createStyles((theme) => ({
   },
 
   icon: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[3]
+        : theme.colors.gray[4],
   },
 
   title: {
@@ -44,7 +55,7 @@ const icons = {
 };
 
 interface StatsGridProps {
-  data: { title: string; icon: keyof typeof icons; value: string; }[];
+  data: { title: string; icon: keyof typeof icons; value: string }[];
 }
 
 // Overview - # of teams, collections, queries
@@ -54,7 +65,7 @@ export function StatsGrid({ data }: StatsGridProps) {
     const Icon = icons[stat.icon];
 
     return (
-      <Grid.Col  md={6} lg={3} key={stat.title}>
+      <Grid.Col md={6} lg={3} key={stat.title}>
         <Paper withBorder p="md" radius="md">
           <Group position="apart">
             <Text size="xs" color="dimmed" className={classes.title}>
@@ -72,9 +83,7 @@ export function StatsGrid({ data }: StatsGridProps) {
   });
   return (
     <div className={classes.root}>
-      <Grid grow>
-        {stats}
-      </Grid>
+      <Grid grow>{stats}</Grid>
     </div>
   );
 }
@@ -89,23 +98,25 @@ export default function Home() {
   return (
     <>
       <Title order={3}>Welcome back, {user.displayName}!</Title>
-      <StatsGrid data={[
-        {
-          title: 'Queries',
-          value: '2',
-          icon: 'user'
-        },
-        {
-          title: 'Collections',
-          value: '1',
-          icon: 'user'
-        },
-        {
-          title: 'Teams',
-          value: '2',
-          icon: 'user'
-        },
-      ]}/>
+      <StatsGrid
+        data={[
+          {
+            title: 'Queries',
+            value: '2',
+            icon: 'user',
+          },
+          {
+            title: 'Collections',
+            value: '1',
+            icon: 'user',
+          },
+          {
+            title: 'Teams',
+            value: '2',
+            icon: 'user',
+          },
+        ]}
+      />
     </>
-  )
+  );
 }

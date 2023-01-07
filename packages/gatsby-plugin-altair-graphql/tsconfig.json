@@ -7,13 +7,8 @@
     "target": "es2020",
     "module": "commonjs",
     "sourceMap": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node"
-    ]
+    "lib": ["dom", "esnext"],
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": []

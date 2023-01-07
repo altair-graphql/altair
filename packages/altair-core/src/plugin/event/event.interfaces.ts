@@ -1,8 +1,8 @@
 export interface PluginEventPayloadMap {
   'app-ready': boolean;
-  'current-window.change': { windowId: string; };
-  'query.change': { windowId: string; data: string; };
-  'query-result.change': { windowId: string; data: any; };
+  'current-window.change': { windowId: string };
+  'query.change': { windowId: string; data: string };
+  'query-result.change': { windowId: string; data: any };
   'query-result-meta.change': {
     windowId: string;
     data: {
@@ -11,9 +11,11 @@ export interface PluginEventPayloadMap {
       responseTime: number;
       responseStatus: number;
     };
-  }
-  'sdl.change': { windowId: string; data: string; };
-};
+  };
+  'sdl.change': { windowId: string; data: string };
+}
 
 export type PluginEvent = keyof PluginEventPayloadMap;
-export type PluginEventCallback<T extends PluginEvent> = (payload: PluginEventPayloadMap[T]) => void;
+export type PluginEventCallback<T extends PluginEvent> = (
+  payload: PluginEventPayloadMap[T]
+) => void;

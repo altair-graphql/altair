@@ -1,4 +1,3 @@
-
 .settings-shortcut-category-title {
   text-transform: uppercase;
 }
@@ -18,10 +17,10 @@
 .settings__reset-link:visited,
 .settings__reset-link:link {
   color: var(--theme-font-color);
-  opacity: .1;
+  opacity: 0.1;
 
   &:hover {
-    transition: .3s all 1s ease;
+    transition: 0.3s all 1s ease;
     opacity: 1;
     color: var(--red-color);
   }

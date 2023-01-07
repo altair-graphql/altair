@@ -2,7 +2,6 @@
   [showDialog]="showDialog"
   [heading]="'SAVE_TO_COLLECTION_HEADER' | translate"
   [subheading]="'SAVE_TO_COLLCTION_SUBTEXT' | translate"
-
   (toggleDialog)="toggleDialogChange.emit($event)"
   (saveChange)="onSaveChange()"
 >
@@ -15,20 +14,34 @@
         [(ngModel)]="newCollectionQueryTitle"
         attr.aria-label="{{ 'SAVE_TO_COLLECTION_NAME_OF_QUERY' | translate }}"
         data-test-id="collection-query-name"
-      >
+      />
     </div>
     <div class="app-dialog-section">
-      <nz-form-label>{{ 'SAVE_TO_COLLECTION_SELECT_COLLECTION' | translate }}</nz-form-label>
+      <nz-form-label>{{
+        'SAVE_TO_COLLECTION_SELECT_COLLECTION' | translate
+      }}</nz-form-label>
       <nz-form-control>
-        <nz-select class="dialog-block" [(ngModel)]="collectionId" name="collection" nzPlaceHolder="Choose">
-          <nz-option *ngFor="let collection of collections; trackBy:trackById" [nzValue]="collection.id" [nzLabel]="collection.title"></nz-option>
-          <nz-option nzValue="-1" [nzLabel]="'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate"></nz-option>
+        <nz-select
+          class="dialog-block"
+          [(ngModel)]="collectionId"
+          name="collection"
+          nzPlaceHolder="Choose"
+        >
+          <nz-option
+            *ngFor="let collection of collections; trackBy: trackById"
+            [nzValue]="collection.id"
+            [nzLabel]="collection.title"
+          ></nz-option>
+          <nz-option
+            nzValue="-1"
+            [nzLabel]="
+              'SAVE_TO_COLLECTION_OR_CREATE_NEW_COLLECTION_LABEL' | translate
+            "
+          ></nz-option>
         </nz-select>
       </nz-form-control>
     </div>
-    <ng-container
-      *ngIf="isNewCollection()"
-    >
+    <ng-container *ngIf="isNewCollection()">
       <div class="app-dialog-section">
         {{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}
         <input
@@ -36,14 +49,14 @@
           class="dialog-input"
           [(ngModel)]="newCollectionTitle"
           placeholder="Collection name"
-          attr.aria-label="{{ 'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate }}"
+          attr.aria-label="{{
+            'SAVE_TO_COLLECTION_COLLECTION_NAME' | translate
+          }}"
           data-test-id="new-collection-name"
-        >
+        />
       </div>
       <div class="app-dialog-section">
-        <nz-form-label>
-          Save collection to
-        </nz-form-label>
+        <nz-form-label> Save collection to </nz-form-label>
         <nz-form-control>
           <nz-tree-select
             [nzNodes]="collectionNodes"
@@ -56,11 +69,27 @@
         </nz-form-control>
       </div>
       <!-- if logged in, and not saving to a parent collection, then show workspaces option -->
-      <div class="app-dialog-section" *ngIf="loggedIn && newCollectionParentCollectionId === parentCollectionRootId">
-        <nz-form-label>{{ 'SAVE_TO_COLLECTION_SELECT_WORKSPACE' | translate }}</nz-form-label>
+      <div
+        class="app-dialog-section"
+        *ngIf="
+          loggedIn && newCollectionParentCollectionId === parentCollectionRootId
+        "
+      >
+        <nz-form-label>{{
+          'SAVE_TO_COLLECTION_SELECT_WORKSPACE' | translate
+        }}</nz-form-label>
         <nz-form-control>
-          <nz-select class="dialog-block" [(ngModel)]="workspaceId" name="workspace" nzPlaceHolder="Choose">
-            <nz-option *ngFor="let workspace of workspacesOptions(); trackBy:trackById" [nzValue]="workspace.id" [nzLabel]="workspace.label"></nz-option>
+          <nz-select
+            class="dialog-block"
+            [(ngModel)]="workspaceId"
+            name="workspace"
+            nzPlaceHolder="Choose"
+          >
+            <nz-option
+              *ngFor="let workspace of workspacesOptions(); trackBy: trackById"
+              [nzValue]="workspace.id"
+              [nzLabel]="workspace.label"
+            ></nz-option>
           </nz-select>
         </nz-form-control>
       </div>

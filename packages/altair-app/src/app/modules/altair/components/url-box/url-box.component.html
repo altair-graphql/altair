@@ -12,7 +12,7 @@
       {{ httpVerb }}
       <!-- &#9660; -->
     </button>
-    
+
     <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
       <ul nz-menu>
         <li
@@ -21,7 +21,7 @@
           [value]="method"
           (click)="setVerb(method)"
         >
-          {{method}}
+          {{ method }}
         </li>
       </ul>
     </nz-dropdown-menu>
@@ -71,18 +71,14 @@
           nz-menu-item
           (click)="updateQueryInCollectionChange.emit()"
         >
-          {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{ currentCollection.title }})
+          {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{
+            currentCollection.title
+          }})
         </li>
-        <li
-          nz-menu-item
-          (click)="addToCollectionChange.emit()"
-        >
+        <li nz-menu-item (click)="addToCollectionChange.emit()">
           {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
         </li>
-        <li
-          nz-menu-item
-          (click)="exportWindowChange.emit()"
-        >
+        <li nz-menu-item (click)="exportWindowChange.emit()">
           {{ 'EXPORT_WINDOW_TEXT' | translate }}
         </li>
       </ul>
@@ -97,7 +93,13 @@
     >
       <app-icon name="refresh-ccw"></app-icon>
     </button>
-    <button type="button" class="url-box__button" (click)="toggleDocsChange.emit()" [ngClass]="{'url-box__button--active': showDocs}" track-id="show_docs">
+    <button
+      type="button"
+      class="url-box__button"
+      (click)="toggleDocsChange.emit()"
+      [ngClass]="{ 'url-box__button--active': showDocs }"
+      track-id="show_docs"
+    >
       {{ 'DOCS_TEXT' | translate }}
     </button>
   </div>
@@ -131,7 +133,10 @@
       <ul nz-menu>
         <li
           nz-menu-item
-          *ngFor="let operation of queryOperations; trackBy:queryOperationTrackBy;"
+          *ngFor="
+            let operation of queryOperations;
+            trackBy: queryOperationTrackBy
+          "
           (click)="selectedOperationChange.emit(operation.name?.value)"
         >
           {{ operation.name?.value }}

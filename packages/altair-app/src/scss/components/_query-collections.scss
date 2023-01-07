@@ -61,7 +61,7 @@ app-query-collections {
 
 .query-collections__empty-icon {
   margin-bottom: 10px;
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .query-collections__item-details-wrapper {
@@ -70,10 +70,10 @@ app-query-collections {
   padding: 5px 10px;
   border-bottom: 1px solid var(--theme-border-color);
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(var(--rgb-theme-font), .05);
+    background: rgba(var(--rgb-theme-font), 0.05);
 
     .query-collections__item-icon {
       opacity: 1;
@@ -92,7 +92,7 @@ app-query-collections {
 
 .query-collections__item-icon {
   opacity: 0;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .query-collections__item-icon__button {
@@ -121,7 +121,7 @@ app-query-collections {
 .query-collections__item-content-wrapper {
   overflow: hidden;
   max-height: 9999em;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding-left: 10px;
 }
 
@@ -134,10 +134,10 @@ app-query-collections {
   display: flex;
   padding: 10px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(var(--rgb-theme-font), .05);
+    background: rgba(var(--rgb-theme-font), 0.05);
 
     .query-collections__item-queries-item-icon {
       opacity: 1;
@@ -155,5 +155,5 @@ app-query-collections {
 .query-collections__item-queries-item-icon {
   opacity: 0;
   // transform: translateX(-50%);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }

@@ -10,13 +10,16 @@
     (keydown)="handleKeydown()"
     (blur)="handleBlur()"
     (keydown.enter)="handleSubmit()"
-  >
+  />
   <div class="fancy-input-backdrop">
-    <div class="fancy-input-content fancy-input-highlights" #fancyInputHighlightsEl>
-      <ng-container *ngFor="let section of highlightData.sections; trackBy:trackByIndex;">
-        <span
-          *ngIf="!section.type"
-        >{{ section.content }}</span>
+    <div
+      class="fancy-input-content fancy-input-highlights"
+      #fancyInputHighlightsEl
+    >
+      <ng-container
+        *ngFor="let section of highlightData.sections; trackBy: trackByIndex"
+      >
+        <span *ngIf="!section.type">{{ section.content }}</span>
         <app-fancy-input-marker
           *ngIf="section.type === 'mark'"
           [section]="section"

@@ -11,11 +11,11 @@ export interface GqlExtensionsOptions {
     schema: GraphQLSchema,
     query: string,
     cursor: Position,
-    token: ContextToken,
+    token: ContextToken
   ) => void;
   onCompletionInfoRender?: (
     gqlCompletionItem: CompletionItem,
     ctx: CompletionContext,
-    item: Completion,
+    item: Completion
   ) => Node | Promise<Node | null> | null;
 }

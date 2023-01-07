@@ -53,5 +53,5 @@ export const getOpts = (state: EditorState) => {
 
 export const stateExtensions = (
   schema?: GraphQLSchema,
-  opts?: GqlExtensionsOptions,
+  opts?: GqlExtensionsOptions
 ) => [schemaStateField.init(() => schema), optionsStateField.init(() => opts)];

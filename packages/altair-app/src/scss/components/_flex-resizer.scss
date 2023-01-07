@@ -17,8 +17,8 @@ app-flex-resizer {
   width: var(--resizer-width);
   height: 60px;
   border-radius: 4px;
-  transition: all .3s ease;
-  opacity: .5;
+  transition: all 0.3s ease;
+  opacity: 0.5;
   cursor: col-resize;
   z-index: 5;
 
@@ -28,6 +28,6 @@ app-flex-resizer {
   }
 
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }

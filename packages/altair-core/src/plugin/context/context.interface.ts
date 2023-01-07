@@ -46,7 +46,10 @@ export interface PluginContext {
      *
      * returns panel instance (includes destroy() method)
      */
-    createPanel(element: HTMLElement, options?: CreatePanelOptions): AltairPanel;
+    createPanel(
+      element: HTMLElement,
+      options?: CreatePanelOptions
+    ): AltairPanel;
     destroyPanel(panel: AltairPanel): void;
 
     /**
@@ -69,7 +72,10 @@ export interface PluginContext {
     executeCommand(): void; // TODO: To be defined
   };
   events: {
-    on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>): {
+    on<E extends PluginEvent>(
+      event: E,
+      callback: PluginEventCallback<E>
+    ): {
       unsubscribe: () => void;
     };
     off(): void;

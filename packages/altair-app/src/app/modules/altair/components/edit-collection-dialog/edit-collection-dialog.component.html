@@ -9,7 +9,9 @@
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
-      <div class="app-dialog-title">{{ 'EDIT_COLLECTION_TITLE_TEXT' | translate }}</div>
+      <div class="app-dialog-title">
+        {{ 'EDIT_COLLECTION_TITLE_TEXT' | translate }}
+      </div>
       {{ 'EDIT_COLLECTION_TITLE_SUBTEXT' | translate }}
     </div>
   </ng-template>
@@ -19,15 +21,11 @@
       <div class="app-dialog-section">
         <div class="form-group">
           {{ 'COLLECTION_TITLE_LABEL' | translate }}
-          <input type="text" class="dialog-input" [(ngModel)]="title">
+          <input type="text" class="dialog-input" [(ngModel)]="title" />
         </div>
       </div>
       <div class="app-dialog-section">
-        <nz-tabset
-          [nzAnimated]="false"
-          nzSize="small"
-          [nzTabBarGutter]="16"
-        >
+        <nz-tabset [nzAnimated]="false" nzSize="small" [nzTabBarGutter]="16">
           <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
             <app-pre-request-editor
               [preRequest]="preRequest"
@@ -49,7 +47,13 @@
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" track-id="" (click)="updateCollection()">{{ 'SAVE_BUTTON' | translate }}</button>
+      <button
+        class="app-button active-primary right"
+        track-id=""
+        (click)="updateCollection()"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

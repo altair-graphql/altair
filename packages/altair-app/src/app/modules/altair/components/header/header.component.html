@@ -2,16 +2,12 @@
   class="header__logo-wrapper"
   [ngClass]="{ 'header__logo-wrapper--experimental': experimentalEnabled }"
 >
-  <img
-    src="assets/img/altair_logo.svg"
-    alt="logo"
-    class="header__logo"
-  >
+  <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
 
 <app-window-switcher
   [windows]="windows"
-  [windowIds] = "windowIds"
+  [windowIds]="windowIds"
   [activeWindowId]="activeWindowId"
   [closedWindows]="closedWindows"
   [isElectron]="isElectron"
@@ -27,7 +23,7 @@
 <div class="header__actions">
   <ul class="header__menu">
     <li
-      *ngFor="let panel of headerPanels trackBy:trackById"
+      *ngFor="let panel of headerPanels; trackBy: trackById"
       (click)="togglePanelActiveChange.emit(panel)"
       [popper]="panel.title"
       [popperPlacement]="'bottom'"
@@ -50,9 +46,7 @@
         </ng-template>
 
         <ng-template #modalContent>
-          <app-element-wrapper
-            [element]="panel.element"
-          ></app-element-wrapper>
+          <app-element-wrapper [element]="panel.element"></app-element-wrapper>
         </ng-template>
       </nz-modal>
     </li>
@@ -78,8 +72,11 @@
           <li
             nz-menu-item
             (click)="selectActiveEnvironmentChange.emit(environment.id)"
-            *ngFor="let environment of environments?.subEnvironments; trackBy:trackById;"
-            [ngClass]="{ 'active': environment.id === activeEnvironment?.id }"
+            *ngFor="
+              let environment of environments?.subEnvironments;
+              trackBy: trackById
+            "
+            [ngClass]="{ active: environment.id === activeEnvironment?.id }"
           >
             {{ environment.title }}
           </li>
@@ -91,10 +88,7 @@
           </li>
           <li nz-menu-divider></li>
         </ng-container>
-        <li
-          nz-menu-item
-          (click)="toggleEnvironmentManagerChange.emit(true)"
-        >
+        <li nz-menu-item (click)="toggleEnvironmentManagerChange.emit(true)">
           {{ 'ENVIRONMENTS_BUTTON' | translate }}...
         </li>
       </ul>
@@ -109,13 +103,38 @@
     </li>
     <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li nz-menu-item (click)="importWindowChange.emit()">{{ 'IMPORT_WINDOW_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="showImportCurlDialogChange.emit(true)">{{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="showSettingsDialogChange.emit()">{{ 'SETTINGS_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="openLink($event, 'https://github.com/altair-graphql/altair')">{{ 'STAR_ON_GITHUB_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="openLink($event, 'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md')">{{ 'REPORT_BUG_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="exportBackupDataChange.emit()">{{ 'EXPORT_BACKUP_DATA_TEXT' | translate }}</li>
-        <li nz-menu-item (click)="importBackupDataChange.emit()">{{ 'IMPORT_BACKUP_DATA_TEXT' | translate }}</li>
+        <li nz-menu-item (click)="importWindowChange.emit()">
+          {{ 'IMPORT_WINDOW_TEXT' | translate }}
+        </li>
+        <li nz-menu-item (click)="showImportCurlDialogChange.emit(true)">
+          {{ 'IMPORT_WINDOW_FROM_CURL_TEXT' | translate }}
+        </li>
+        <li nz-menu-item (click)="showSettingsDialogChange.emit()">
+          {{ 'SETTINGS_TEXT' | translate }}
+        </li>
+        <li
+          nz-menu-item
+          (click)="openLink($event, 'https://github.com/altair-graphql/altair')"
+        >
+          {{ 'STAR_ON_GITHUB_TEXT' | translate }}
+        </li>
+        <li
+          nz-menu-item
+          (click)="
+            openLink(
+              $event,
+              'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md'
+            )
+          "
+        >
+          {{ 'REPORT_BUG_TEXT' | translate }}
+        </li>
+        <li nz-menu-item (click)="exportBackupDataChange.emit()">
+          {{ 'EXPORT_BACKUP_DATA_TEXT' | translate }}
+        </li>
+        <li nz-menu-item (click)="importBackupDataChange.emit()">
+          {{ 'IMPORT_BACKUP_DATA_TEXT' | translate }}
+        </li>
       </ul>
     </nz-dropdown-menu>
   </ul>

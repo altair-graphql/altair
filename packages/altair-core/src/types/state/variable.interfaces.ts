@@ -1,4 +1,3 @@
-
 export interface FileVariable {
   id?: string; // optional for backward compatibility
   name: string;

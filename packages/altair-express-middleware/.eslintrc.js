@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ["altair"],
+  extends: ['altair'],
 };
