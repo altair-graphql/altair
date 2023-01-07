@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { renderAltair, renderInitialOptions } from './index';
 import * as getAltairHtml from './get-altair-html';
 
-const translateRenderedStrToObj = (result) => {
+const translateRenderedStrToObj = (result: string) => {
   const resultObj = Function(`
   let __options;
   const AltairGraphQL = { init: (options) => { __options = options; } };
