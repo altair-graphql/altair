@@ -30,7 +30,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
           class="variables-editor--title"
           track-id="toggle_variables"
         >
-          
+            
         </div>
         
       </div>

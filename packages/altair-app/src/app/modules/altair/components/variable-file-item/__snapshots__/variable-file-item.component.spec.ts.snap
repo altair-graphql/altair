@@ -50,7 +50,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
     <div
       class="variables-file-item-input-delete"
     >
-      ×
+       × 
     </div>
   </div>
 </app-variable-file-item>

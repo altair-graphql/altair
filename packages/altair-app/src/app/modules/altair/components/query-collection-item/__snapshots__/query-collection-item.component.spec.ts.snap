@@ -31,7 +31,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
         <div
           class="query-collections__item-meta"
         >
-           3
+            3 
         </div>
       </div>
       
@@ -355,7 +355,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
         <div
           class="query-collections__item-meta"
         >
-           3
+            3 
         </div>
       </div>
       

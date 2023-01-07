@@ -68,43 +68,43 @@ exports[`HeaderComponent should render correctly 1`] = `
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
           <li
             nz-menu-item=""
           >
-            
+              
           </li>
           
         </ul>
