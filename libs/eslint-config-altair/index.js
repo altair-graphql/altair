@@ -17,5 +17,6 @@ module.exports = {
     'prettier/prettier': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     'import/no-unresolved': 0,
+    'require-jsdoc': 'off',
   },
 };
