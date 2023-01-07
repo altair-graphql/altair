@@ -7,25 +7,25 @@ import {
   where,
   getDoc,
   getDocs,
-  documentId
-} from "firebase/firestore";
+  documentId,
+} from 'firebase/firestore';
 import {
   IQuery,
   IQueryCollection,
   IRemoteQuery,
-  IRemoteQueryCollection
-} from "altair-graphql-core/build/types/state/collection.interfaces";
+  IRemoteQueryCollection,
+} from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
   FirebaseUtilsContext,
   getDocument,
   now,
   queriesRef,
   queryCollectionsRef,
-  updateDocument
-} from "./utils";
-import { CreateDTO } from "altair-graphql-core/build/types/shared";
-import { TeamId } from "altair-graphql-core/build/types/state/account.interfaces";
-import { getTeams } from "./team";
+  updateDocument,
+} from './utils';
+import { CreateDTO } from 'altair-graphql-core/build/types/shared';
+import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
+import { getTeams } from './team';
 
 export const createQueryCollection = async (
   ctx: FirebaseUtilsContext,
@@ -42,7 +42,7 @@ export const createQueryCollection = async (
     teamUid: teamId?.value(),
     id: newCollectionRef.id,
     created_at: now(),
-    updated_at: now()
+    updated_at: now(),
   });
 
   const { queryIds } = await createQueriesToBatch(
@@ -57,7 +57,7 @@ export const createQueryCollection = async (
 
   return {
     collectionId: newCollectionRef.id,
-    queryIds
+    queryIds,
   };
 };
 
@@ -88,7 +88,7 @@ const createQueriesToBatch = async (
       ownerUid: ctx.uid,
       teamUid: extractedTeamId,
       created_at: now(),
-      updated_at: now()
+      updated_at: now(),
     });
 
     queryRes.push(newQueryRef.id);
@@ -151,7 +151,7 @@ export const updateCollection = async (
     {
       title: collection.title,
       description: collection.description,
-      parentCollectionId: parentCollectionServerId
+      parentCollectionId: parentCollectionServerId,
     }
   );
 };
@@ -169,8 +169,8 @@ const getRemoteCollection = async (
 ): Promise<IRemoteQueryCollection | undefined> => {
   const q = query(
     queryCollectionsRef(ctx.db),
-    where("ownerUid", "==", ctx.uid),
-    where(documentId(), "==", collectionServerId)
+    where('ownerUid', '==', ctx.uid),
+    where(documentId(), '==', collectionServerId)
   );
   const querySnapshot = await getDoc(
     doc(queryCollectionsRef(ctx.db), collectionServerId)
@@ -186,7 +186,7 @@ const getRemoteCollection = async (
 
   return {
     ...data,
-    id: querySnapshot.id
+    id: querySnapshot.id,
   };
 };
 
@@ -196,12 +196,12 @@ const getCollectionQueries = async (
 ): Promise<IRemoteQuery[]> => {
   const docQ = query(
     queriesRef(ctx.db),
-    where("ownerUid", "==", ctx.uid),
-    where("collectionId", "==", collectionServerId)
+    where('ownerUid', '==', ctx.uid),
+    where('collectionId', '==', collectionServerId)
   );
 
   const sn = await getDocs(docQ);
-  return sn.docs.map(_ => ({ ..._.data(), id: _.id }));
+  return sn.docs.map((_) => ({ ..._.data(), id: _.id }));
 };
 
 export const getCollection = async (
@@ -218,7 +218,7 @@ export const getCollection = async (
   return {
     ...collection,
     queries,
-    storageType: "firestore"
+    storageType: 'firestore',
   };
 };
 
@@ -229,7 +229,7 @@ export const getCollections = async (
   // Get queries where collectionId in collection IDs
   const q = query(
     queryCollectionsRef(ctx.db),
-    where("ownerUid", "==", ctx.uid)
+    where('ownerUid', '==', ctx.uid)
   );
   const querySnapshot = await getDocs(q);
 
@@ -237,11 +237,11 @@ export const getCollections = async (
 
   // check for team collections
   const teams = await getTeams(ctx);
-  const teamIds = teams.map(t => t.id);
+  const teamIds = teams.map((t) => t.id);
   if (teams.length) {
     const teamCollectionQ = query(
       queryCollectionsRef(ctx.db),
-      where("teamUid", "in", teamIds)
+      where('teamUid', 'in', teamIds)
     );
 
     const teamCollectionQSnapshot = await getDocs(teamCollectionQ);
@@ -254,11 +254,11 @@ export const getCollections = async (
   }
 
   const collectionQueries = await Promise.allSettled(
-    queryCollections.map(async col => {
+    queryCollections.map(async (col) => {
       const docQ = query(
         queriesRef(ctx.db),
-        where("ownerUid", "==", ctx.uid),
-        where("collectionId", "==", col.id)
+        where('ownerUid', '==', ctx.uid),
+        where('collectionId', '==', col.id)
       );
 
       const sn = await getDocs(docQ);
@@ -267,8 +267,8 @@ export const getCollections = async (
       if (teamIds.length) {
         const teamDocQ = query(
           queriesRef(ctx.db),
-          where("collectionId", "==", col.id),
-          where("teamUid", "in", teamIds)
+          where('collectionId', '==', col.id),
+          where('teamUid', 'in', teamIds)
         );
 
         const teamSn = await getDocs(teamDocQ);
@@ -280,7 +280,7 @@ export const getCollections = async (
         (doc): IQuery => ({
           ...doc.data(),
           id: doc.id,
-          storageType: "firestore"
+          storageType: 'firestore',
         })
       );
     })
@@ -291,14 +291,14 @@ export const getCollections = async (
     return {
       ...col.data(),
       id: col.id,
-      queries: queriesResult.status === "fulfilled" ? queriesResult.value : [],
-      storageType: "firestore"
+      queries: queriesResult.status === 'fulfilled' ? queriesResult.value : [],
+      storageType: 'firestore',
     };
   });
 };
 
 const mergeList = <T extends { id: string }>(list1: T[], list2: T[]) => {
-  const seenIds = new Set(list1.map(d => d.id));
+  const seenIds = new Set(list1.map((d) => d.id));
 
-  return [...list1, ...list2.filter(d => !seenIds.has(d.id))];
+  return [...list1, ...list2.filter((d) => !seenIds.has(d.id))];
 };

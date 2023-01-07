@@ -1,4 +1,3 @@
-
 .CodeMirror {
   --result-default: var(--theme-font-color);
   --result-string: var(--red-color);
@@ -24,14 +23,14 @@
 }
 
 .CodeMirror-gutters {
-  background: rgba(var(--rgb-theme-off-bg), .5);
+  background: rgba(var(--rgb-theme-off-bg), 0.5);
   border: 0;
 }
 
 .CodeMirror-linenumber {
   user-select: none;
   color: var(--theme-font-color);
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .CodeMirror-foldmarker {
@@ -54,7 +53,7 @@
 
 .CodeMirror-jump-token {
   cursor: pointer;
-  background: rgba(var(--rgb-yellow), .3);
+  background: rgba(var(--rgb-yellow), 0.3);
   border-radius: 4px;
 }
 
@@ -84,7 +83,7 @@
 .CodeMirror-lint-tooltip {
   background: var(--theme-bg-color);
   border: 1px solid var(--theme-off-border-color);
-  box-shadow: 0 2px 12px -2px rgba(var(--rgb-black), .05);
+  box-shadow: 0 2px 12px -2px rgba(var(--rgb-black), 0.05);
   border-radius: 5px;
   color: var(--theme-font-color);
   padding: 10px;
@@ -129,7 +128,8 @@
   flex-direction: column;
   font-family: inherit;
   // box-shadow: 0 0 5px rgba(var(--rgb-black), .1);
-  box-shadow: rgba(var(--rgb-black), 0.1) 0px 10px 15px -3px, rgba(var(--rgb-black), 0.05) 0px 4px 6px -2px;
+  box-shadow: rgba(var(--rgb-black), 0.1) 0px 10px 15px -3px,
+    rgba(var(--rgb-black), 0.05) 0px 4px 6px -2px;
   z-index: 1050;
   min-width: 175px;
   max-width: 300px;
@@ -137,7 +137,7 @@
   font-size: fontsize(14);
   background: var(--theme-bg-color);
   color: var(--theme-font-color);
-  
+
   p {
     line-height: inherit;
     color: inherit;
@@ -147,7 +147,7 @@
     margin: 0;
     color: var(--theme-font-color);
   }
-  
+
   li {
     color: var(--theme-font-color);
   }

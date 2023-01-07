@@ -12,7 +12,13 @@ import { ComponentModule } from '../components.module';
 import { PipesModule } from '../../pipes';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, SharedModule, ComponentModule, PipesModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SharedModule,
+    ComponentModule,
+    PipesModule,
+  ],
   declarations: [
     DocViewerComponent,
     DocViewerFieldComponent,
@@ -26,4 +32,4 @@ import { PipesModule } from '../../pipes';
     DocViewerSearchResultsComponent,
   ],
 })
-export class DocViewerModule { }
+export class DocViewerModule {}

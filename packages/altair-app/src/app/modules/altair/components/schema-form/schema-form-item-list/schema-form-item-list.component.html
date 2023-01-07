@@ -2,7 +2,7 @@
   <nz-form-label>{{ item.description }}</nz-form-label>
   <ng-container *ngIf="data">
     <div
-      *ngFor="let subdata of data; let index = index; trackBy: trackByIndex;"
+      *ngFor="let subdata of data; let index = index; trackBy: trackByIndex"
       class="ui-form__list-wrapper"
     >
       <app-schema-form-item
@@ -11,7 +11,9 @@
         [(data)]="data[index]"
         (dataChange)="dataChange.next(data)"
       ></app-schema-form-item>
-      <span class="ui-form__list-item-close" (click)="removeField(index)">&#215; {{ 'SCHEMA_FORM_LIST_REMOVE' | translate }}</span>
+      <span class="ui-form__list-item-close" (click)="removeField(index)"
+        >&#215; {{ 'SCHEMA_FORM_LIST_REMOVE' | translate }}</span
+      >
     </div>
   </ng-container>
   <nz-form-item>

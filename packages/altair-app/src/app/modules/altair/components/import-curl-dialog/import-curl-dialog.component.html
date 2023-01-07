@@ -8,7 +8,9 @@
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
-      <div class="app-dialog-title">{{ 'IMPORT_CURL_TITLE_TEXT' | translate }}</div>
+      <div class="app-dialog-title">
+        {{ 'IMPORT_CURL_TITLE_TEXT' | translate }}
+      </div>
       {{ 'IMPORT_CURL_TITLE_SUBTEXT' | translate }}
     </div>
   </ng-template>
@@ -16,14 +18,26 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="form-group">
-        <textarea class="dialog-textarea" aria-label="text input" cols="30" rows="10" [(ngModel)]="textAreaInput"></textarea>
+        <textarea
+          class="dialog-textarea"
+          aria-label="text input"
+          cols="30"
+          rows="10"
+          [(ngModel)]="textAreaInput"
+        ></textarea>
       </div>
     </div>
   </ng-template>
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" track-id="close_import_from_curl_dialog" (click)="importInput()">{{ 'IMPORT_BUTTON' | translate }}</button>
+      <button
+        class="app-button active-primary right"
+        track-id="close_import_from_curl_dialog"
+        (click)="importInput()"
+      >
+        {{ 'IMPORT_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

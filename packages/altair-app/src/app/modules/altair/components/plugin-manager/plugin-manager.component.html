@@ -20,9 +20,12 @@
         <div class="plugin-manager-wrapper">
           <div class="plugin-manager__list">
             <div
-            *ngFor="let item of (remotePlugins$ | async);trackBy: trackByName;"
+              *ngFor="let item of remotePlugins$ | async; trackBy: trackByName"
               class="plugin-manager__list-item"
-              [ngClass]="{ 'plugin-manager__list-item--selected': selectedPluginItem && selectedPluginItem.name === item.name }"
+              [ngClass]="{
+                'plugin-manager__list-item--selected':
+                  selectedPluginItem && selectedPluginItem.name === item.name
+              }"
               (click)="onSelectPlugin(item)"
             >
               <div class="plugin-manager__list-item-name">
@@ -37,11 +40,12 @@
             </div>
           </div>
           <div class="plugin-manager__item-details">
-            <ng-container
-              *ngIf="selectedPluginItem"
-            >
+            <ng-container *ngIf="selectedPluginItem">
               <div class="plugin-manager__item-details-name">
-                {{ selectedPluginItem?.manifest?.display_name || selectedPluginItem.name }}
+                {{
+                  selectedPluginItem?.manifest?.display_name ||
+                    selectedPluginItem.name
+                }}
                 <div
                   class="plugin-manager__item-details-unique-name"
                   [attr.title]="'PLUGIN_UNIQUE_NAME_TEXT' | translate"
@@ -88,8 +92,18 @@
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <a href="https://altairgraphql.dev/docs/plugins/writing-plugin.html" target="_blank" class="app-button left">{{ 'PLUGIN_CREATE_BUTTON' | translate }}</a>
-      <button class="app-button active-primary right" (click)="toggleDialogChange.next(false);">{{ 'SAVE_BUTTON' | translate }}</button>
+      <a
+        href="https://altairgraphql.dev/docs/plugins/writing-plugin.html"
+        target="_blank"
+        class="app-button left"
+        >{{ 'PLUGIN_CREATE_BUTTON' | translate }}</a
+      >
+      <button
+        class="app-button active-primary right"
+        (click)="toggleDialogChange.next(false)"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

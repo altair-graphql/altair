@@ -4,22 +4,14 @@
     "outDir": "./out-tsc/spec",
     // "target": "es2020",
     "baseUrl": "./src",
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "allowJs": true
   },
-  "files": [
-    "polyfills.ts"
-  ],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ],
+  "files": ["polyfills.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"],
   "angularCompilerOptions": {
     "enableIvy": false
   }

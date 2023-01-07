@@ -1,8 +1,8 @@
 /* eslint-disable no-sync */
-import { readdir } from "fs";
-import fs from "fs";
-import { join } from "path";
-import { ipcMain } from "electron";
+import { readdir } from 'fs';
+import fs from 'fs';
+import { join } from 'path';
+import { ipcMain } from 'electron';
 
 export const getDirectoriesInDirectory = (path: string) => {
   return new Promise<string[]>((resolve, reject) => {
@@ -11,8 +11,8 @@ export const getDirectoriesInDirectory = (path: string) => {
         ? reject(err)
         : resolve(
             dirents
-              .filter(dirent => dirent.isDirectory())
-              .map(dirent => dirent.name)
+              .filter((dirent) => dirent.isDirectory())
+              .map((dirent) => dirent.name)
           )
     );
   });
@@ -20,7 +20,7 @@ export const getDirectoriesInDirectory = (path: string) => {
 
 export const deleteFolderRecursive = (path: string) => {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(file => {
+    fs.readdirSync(path).forEach((file) => {
       const curPath = join(path, file);
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
@@ -35,7 +35,7 @@ export const deleteFolderRecursive = (path: string) => {
 };
 
 export const getStaticDirectory = () => {
-  return join(__dirname, "../../static");
+  return join(__dirname, '../../static');
 };
 
 const encodeError = (e: Error) => {
@@ -53,7 +53,7 @@ export const handleWithCustomErrors = (
       if (e instanceof Error) {
         return { error: encodeError(e) };
       }
-      return { error: { name: "unknown error", message: "unknown error" } };
+      return { error: { name: 'unknown error', message: 'unknown error' } };
     }
   });
 };

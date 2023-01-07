@@ -9,30 +9,45 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="data.description || ''"
-      >
-      </div>
+      ></div>
       <div class="doc-viewer-item-query-inner">
-        <button class="doc-viewer-item-query-add-btn"
-        (click)="addToEditor({ name: data.name, parentType: parentType })" track-id="add_query">
-          <ng-container *ngIf="isRootType(parentType)">{{ 'DOCS_ADD_QUERY_TEXT' | translate }}</ng-container>
-          <ng-container *ngIf="!isRootType(parentType)">{{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}</ng-container>
+        <button
+          class="doc-viewer-item-query-add-btn"
+          (click)="addToEditor({ name: data.name, parentType: parentType })"
+          track-id="add_query"
+        >
+          <ng-container *ngIf="isRootType(parentType)">{{
+            'DOCS_ADD_QUERY_TEXT' | translate
+          }}</ng-container>
+          <ng-container *ngIf="!isRootType(parentType)">{{
+            'DOCS_ADD_FRAGMENT_TEXT' | translate
+          }}</ng-container>
         </button>
       </div>
     </div>
   </div>
   <!--Field arguments-->
-  <div class="doc-viewer-section doc-viewer-arguments" *ngIf="data.args && data.args.length">
-    <div class="doc-viewer-section-title">{{ 'DOCS_ARGUMENTS_TEXT' | translate }}</div>
-    <div class="doc-viewer-item doc-viewer-item-query" *ngFor="let arg of data.args; trackBy: argTrackBy">
+  <div
+    class="doc-viewer-section doc-viewer-arguments"
+    *ngIf="data.args && data.args.length"
+  >
+    <div class="doc-viewer-section-title">
+      {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
+    </div>
+    <div
+      class="doc-viewer-item doc-viewer-item-query"
+      *ngFor="let arg of data.args; trackBy: argTrackBy"
+    >
       <div class="doc-viewer-item-query-inner">
-        <span class="no-link-link"
-         (click)="goToType(arg.type.inspect())"
-        >
+        <span class="no-link-link" (click)="goToType(arg.type.inspect())">
           {{ arg.name }}
-          <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)">= {{ getDefaultValue(arg) }}</span>
+          <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)"
+            >= {{ getDefaultValue(arg) }}</span
+          >
         </span>
-        <span class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-         (click)="goToType(arg.type.inspect())"
+        <span
+          class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+          (click)="goToType(arg.type.inspect())"
         >
           {{ arg.type.inspect() }}
         </span>
@@ -41,15 +56,16 @@
         class="doc-viewer-item-query-description"
         markdown
         [data]="arg.description || ''"
-      >
-      </div>
+      ></div>
     </div>
   </div>
 </ng-container>
 
 <!--Field type-->
 <div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
-<ng-container *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))">
+<ng-container
+  *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))"
+>
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
     [gqlSchema]="gqlSchema"

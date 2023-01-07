@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { createUtilsContext, initializeClient } from "altair-firebase-utils";
-import { Auth, onAuthStateChanged, User } from "firebase/auth";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { createUtilsContext, initializeClient } from 'altair-firebase-utils';
+import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 
 export const firebaseClient = initializeClient();
 
 const useAuthState = (auth: Auth) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, user => {
+    const cleanup = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
       } else {
@@ -23,8 +23,8 @@ const useAuthState = (auth: Auth) => {
 };
 
 export default function useUser({
-  redirectTo = "/login",
-  redirectIfFound = false
+  redirectTo = '/login',
+  redirectIfFound = false,
 } = {}) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -53,6 +53,6 @@ export default function useUser({
 
   return {
     user,
-    ctx: user ? createUtilsContext(user, firebaseClient.db) : null
+    ctx: user ? createUtilsContext(user, firebaseClient.db) : null,
   };
 }

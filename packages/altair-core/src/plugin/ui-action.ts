@@ -10,7 +10,7 @@ export class AltairUiAction {
   constructor(
     public title: string,
     public location: AltairUiActionLocation,
-    public callback: () => void,
+    public callback: () => void
   ) {}
 
   execute() {

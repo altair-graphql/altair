@@ -9,14 +9,14 @@ export enum AltairPanelLocation {
 /**
  * Used for dynamic panel elements. Can also be used for angular components in the future.
  */
- export class AltairPanel {
+export class AltairPanel {
   public id = uuid();
   public isActive = false;
 
   constructor(
     public title: string,
     public element: HTMLElement,
-    public location: AltairPanelLocation,
+    public location: AltairPanelLocation
   ) {}
 
   destroy() {

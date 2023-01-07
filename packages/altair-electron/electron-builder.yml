@@ -4,7 +4,7 @@ directories:
   buildResources: resources
   output: out
 files:
-  - "**/*"
+  - '**/*'
 afterSign: electron-builder-notarize # scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}

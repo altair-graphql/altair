@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build/",
     "rootDir": "./src",
@@ -6,13 +7,8 @@
     "declarationMap": true,
     "target": "es2020",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["dom", "esnext"],
+    "types": ["node"],
     "noImplicitAny": true,
     "skipLibCheck": true
   }

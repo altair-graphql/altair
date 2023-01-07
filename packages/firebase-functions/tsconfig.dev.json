@@ -1,7 +1,3 @@
 {
-  "include": [
-    ".eslintrc.js",
-    "jest.config.js",
-    "tests/**/*"
-  ]
+  "include": [".eslintrc.js", "jest.config.js", "tests/**/*"]
 }

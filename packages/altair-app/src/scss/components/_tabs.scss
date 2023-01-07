@@ -14,7 +14,7 @@
   }
   .ant-tabs--status-enabled {
     &::after {
-      content: " \2219";
+      content: ' \2219';
       font-weight: bold;
       color: var(--primary-color);
       text-shadow: 0 0 3px var(--primary-color);
@@ -62,6 +62,6 @@
 
   .ant-tabs-tab.ant-tabs-tab-disabled {
     color: var(--theme-font-color);
-    opacity: .3;
+    opacity: 0.3;
   }
 }

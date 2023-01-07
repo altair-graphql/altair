@@ -10,18 +10,16 @@ import { ReactElement, ReactNode } from 'react';
 interface PageLayoutProps {
   page: ReactElement;
 }
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   PageLayout?: (props: PageLayoutProps) => JSX.Element;
-}
+};
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+  Component: NextPageWithLayout;
+};
 
-const getDefaultLayout = ({page}: PageLayoutProps) => {
-  return (
-    <Layout>{page}</Layout>
-  );
+const getDefaultLayout = ({ page }: PageLayoutProps) => {
+  return <Layout>{page}</Layout>;
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
@@ -34,7 +32,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>Altair Cloud Sync</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
       </Head>
 
       <MantineProvider
@@ -45,7 +46,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           colorScheme: 'light',
         }}
       >
-        <NotificationsProvider position='top-center'>
+        <NotificationsProvider position="top-center">
           <PageLayout page={<Component {...pageProps} />} />
         </NotificationsProvider>
       </MantineProvider>

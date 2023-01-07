@@ -8,95 +8,93 @@ app-fancy-input,
 }
 
 .fancy-input-backdrop {
-	position: absolute !important;
-	top: 0 !important;
-	right: -99px !important;
-	bottom: 0 !important;
-	left: 0 !important;
-	padding-right: 99px !important;
-	overflow-x: hidden !important;
-	overflow-y: auto !important;
-	pointer-events: none;
+  position: absolute !important;
+  top: 0 !important;
+  right: -99px !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  padding-right: 99px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  pointer-events: none;
 }
 
 .fancy-input-highlights {
-	// width: auto !important;
-	height: auto !important;
-	border-color: transparent !important;
-	// white-space: pre-wrap !important;
+  // width: auto !important;
+  height: auto !important;
+  border-color: transparent !important;
+  // white-space: pre-wrap !important;
   // word-wrap: break-word !important;
   white-space: pre;
-	color: transparent !important;
-	overflow: hidden !important;
+  color: transparent !important;
+  overflow: hidden !important;
 }
 
 .fancy-input-element {
-	display: block !important;
-	position: relative !important;
-	// padding: 0;
-	border-radius: 0;
-	font: inherit;
-	overflow-x: hidden !important;
-	overflow-y: auto !important;
+  display: block !important;
+  position: relative !important;
+  // padding: 0;
+  border-radius: 0;
+  font: inherit;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 .fancy-input-content {
   margin: 0;
   width: inherit;
   padding: 0;
-	border: 0;
+  border: 0;
   background: none transparent !important;
 }
 
 app-fancy-input-marker {
-	display: inline-block;
-	position: relative;
+  display: inline-block;
+  position: relative;
 
+  mark {
+    // background: var(--cerise-color);
+    // background: rgba(var(--rgb-cerise), .5);
+    color: var(--primary-color);
+    background: transparent;
+    border-radius: 4px;
+    padding: 0 !important;
+    // TODO: When we introduce popover for mark, uncomment the pointer events
+    // pointer-events: all;
+    // color: var(--white-color);
+  }
 
-	mark {
-		// background: var(--cerise-color);
-		// background: rgba(var(--rgb-cerise), .5);
-		color: var(--primary-color);
-		background: transparent;
-		border-radius: 4px;
-		padding: 0 !important;
-		// TODO: When we introduce popover for mark, uncomment the pointer events
-		// pointer-events: all;
-		// color: var(--white-color);
-	}
+  .fancy-input-marker__invalid {
+    color: var(--red-color);
+  }
 
-	.fancy-input-marker__invalid {
-		color: var(--red-color);
-	}
-
-	.value-indicator__wrapper {
-		display: flex;
-		position: absolute;
+  .value-indicator__wrapper {
+    display: flex;
+    position: absolute;
     top: 50%;
     right: -5%;
     // width: 4px;
     line-height: 1;
     transform: translateY(-50%);
-		color: transparent;
-	}
+    color: transparent;
+  }
 
-	.value-indicator {
-		position: absolute;
-		top: -10%;
-		right: 0;
-		width: 7px;
-		height: 7px;
-		background-color: var(--theme-font-color);
-		// border: 1px solid var(--theme-font-color);
-		border-radius: 50%;
-		pointer-events: all;
-		opacity: .5;
-		transition: all .3s ease;
+  .value-indicator {
+    position: absolute;
+    top: -10%;
+    right: 0;
+    width: 7px;
+    height: 7px;
+    background-color: var(--theme-font-color);
+    // border: 1px solid var(--theme-font-color);
+    border-radius: 50%;
+    pointer-events: all;
+    opacity: 0.5;
+    transition: all 0.3s ease;
 
-		&:hover {
-			opacity: 1;
-			transform: scale(1.2);
-		}
-	}
+    &:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
 }
-

@@ -1,38 +1,29 @@
 {
+  "extends": "../../tsconfig.json",
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
+    "declarationMap": false,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es2020",
     "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
     // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "../../node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
     "types": ["jest"],
     "downlevelIteration": true,
-    "lib": [
-      "es2017",
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "esnext.asynciterable"
-    ],
+    "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
     "module": "es2020"
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true,
     "strictTemplates": true,
-    "strictNullInputTypes": false,
-  },
+    "strictNullInputTypes": false
+  }
 }

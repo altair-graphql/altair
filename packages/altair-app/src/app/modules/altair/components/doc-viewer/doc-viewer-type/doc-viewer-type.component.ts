@@ -87,7 +87,9 @@ export class DocViewerTypeComponent {
    */
   getTypeImplementations(type: GraphQLType) {
     if (isInterfaceType(type)) {
-      return this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || [];
+      return (
+        this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || []
+      );
     }
     return [];
   }

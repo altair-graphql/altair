@@ -7,16 +7,11 @@
     "target": "es2020",
     "module": "ES2020",
     "moduleResolution": "node",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["dom", "esnext"],
+    "types": ["node"],
     "noImplicitAny": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   }
 }

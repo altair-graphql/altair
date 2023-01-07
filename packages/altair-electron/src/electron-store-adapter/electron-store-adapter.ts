@@ -1,5 +1,5 @@
-import { IpcRenderer } from "electron";
-import { EVENTS } from "./constants";
+import { IpcRenderer } from 'electron';
+import { EVENTS } from './constants';
 
 // An interface between localStorage and electron-store
 // Used in renderer process

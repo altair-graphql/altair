@@ -24,7 +24,7 @@ export const jump = EditorView.domEventHandlers({
       opts.onShowInDocs(
         tInfo.fieldDef?.name,
         tInfo.type?.toString(),
-        tInfo.parentType?.toString(),
+        tInfo.parentType?.toString()
       );
     }
   },

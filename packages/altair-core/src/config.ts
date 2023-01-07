@@ -165,13 +165,14 @@ export class AltairConfig {
     query: '',
     variables: '',
     // Force type of header, since initial value inference is wrong
-    headers: (null as unknown) as IDictionary,
+    headers: null as unknown as IDictionary,
     environments: {} as IInitialEnvironments,
     preRequestScript: '',
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
-    settings: (undefined as unknown) as AltairConfigOptions['initialSettings'],
-    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    settings: undefined as unknown as AltairConfigOptions['initialSettings'],
+    initialSubscriptionsProvider:
+      undefined as AltairConfigOptions['initialSubscriptionsProvider'],
     initialSubscriptionsPayload: {} as IDictionary,
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
@@ -219,7 +220,8 @@ export class AltairConfig {
       instanceStorageNamespace ||
       'altair_';
     this.initialData.settings = initialSettings;
-    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
+    this.initialData.initialSubscriptionsProvider =
+      initialSubscriptionsProvider;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
     this.initialData.initialHttpMethod = initialHttpMethod;
     this.initialData.preserveState = preserveState;

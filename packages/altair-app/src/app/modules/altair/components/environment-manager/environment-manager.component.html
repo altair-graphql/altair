@@ -9,7 +9,9 @@
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
-      <div class="app-dialog-title">{{ 'ENVIRONMENTS_MANAGER_TEXT' | translate }}</div>
+      <div class="app-dialog-title">
+        {{ 'ENVIRONMENTS_MANAGER_TEXT' | translate }}
+      </div>
       {{ 'ENVIRONMENTS_SUB_TEXT' | translate }}
     </div>
   </ng-template>
@@ -23,22 +25,36 @@
               <div
                 class="environment-manager__list-item"
                 (click)="selectEnvironment('base')"
-                [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === 'base' }"
-              >{{ 'BASE_ENVIRONMENT_TEXT' | translate }}</div>
+                [ngClass]="{
+                  'environment-manager__list-item--selected':
+                    selectedEnvironmentId === 'base'
+                }"
+              >
+                {{ 'BASE_ENVIRONMENT_TEXT' | translate }}
+              </div>
             </div>
             <div class="environment-manager__list">
-              <div class="environment-manager__list-title">{{ 'SUB_ENVIRONMENTS_HEADER' | translate }}</div>
-              <div class="environment-manager__list-inner"
+              <div class="environment-manager__list-title">
+                {{ 'SUB_ENVIRONMENTS_HEADER' | translate }}
+              </div>
+              <div
+                class="environment-manager__list-inner"
                 sortablejs
                 [sortablejsOptions]="sortableOptions"
               >
                 <ng-container *ngIf="environments?.subEnvironments?.length">
                   <div
                     class="environment-manager__list-item"
-                    *ngFor="let item of environments?.subEnvironments; trackBy: trackById;"
+                    *ngFor="
+                      let item of environments?.subEnvironments;
+                      trackBy: trackById
+                    "
                     (click)="selectEnvironment(item.id)"
                     (dblclick)="setFocusOnEnvironmentTitle()"
-                    [ngClass]="{ 'environment-manager__list-item--selected': selectedEnvironmentId === item.id }"
+                    [ngClass]="{
+                      'environment-manager__list-item--selected':
+                        selectedEnvironmentId === item.id
+                    }"
                   >
                     <app-icon name="more-vertical"></app-icon>
                     {{ item.title }}
@@ -47,22 +63,36 @@
               </div>
             </div>
             <div class="environment-manager__list-actions">
-              <button class="app-button full-width" (click)="addSubEnvironmentChange.next()">{{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}</button>
+              <button
+                class="app-button full-width"
+                (click)="addSubEnvironmentChange.next()"
+              >
+                {{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}
+              </button>
             </div>
           </div>
           <div class="environment-manager__editor-wrapper">
-            <div class="environment-manager__editor-meta" *ngIf="selectedEnvironmentId !== 'base'">
+            <div
+              class="environment-manager__editor-meta"
+              *ngIf="selectedEnvironmentId !== 'base'"
+            >
               <div class="environment-manager__editor-meta-input-wrapper">
                 <input
                   #subEnvironmentTitle
                   type="text"
                   class="environment-manager__editor-meta-input"
-                  placeholder="{{ 'SUB_ENVIRONMENT_TITLE_PLACEHOLDER' | translate }}"
+                  placeholder="{{
+                    'SUB_ENVIRONMENT_TITLE_PLACEHOLDER' | translate
+                  }}"
                   [(ngModel)]="editorTitle"
-                  (ngModelChange)="onTitleChange($event)">
+                  (ngModelChange)="onTitleChange($event)"
+                />
               </div>
               <div class="environment-manager__editor-meta-actions">
-                <button class="app-button icon-button active-destructive" (click)="onDeleteSubEnvironment()">
+                <button
+                  class="app-button icon-button active-destructive"
+                  (click)="onDeleteSubEnvironment()"
+                >
                   <app-icon name="trash-2"></app-icon>
                   {{ 'DELETE_TEXT' | translate }}
                 </button>
@@ -91,8 +121,16 @@
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <div class="environment-manager__tips left">{{ 'ENVIRONMENT_VARIABLE_TIP' | translate }}</div>
-      <button track-id="save_environments" class="app-button active-primary right" (click)="toggleDialogChange.next(false);">{{ 'SAVE_BUTTON' | translate }}</button>
+      <div class="environment-manager__tips left">
+        {{ 'ENVIRONMENT_VARIABLE_TIP' | translate }}
+      </div>
+      <button
+        track-id="save_environments"
+        class="app-button active-primary right"
+        (click)="toggleDialogChange.next(false)"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

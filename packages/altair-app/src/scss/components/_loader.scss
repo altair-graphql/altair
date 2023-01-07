@@ -7,13 +7,13 @@
   top: 100px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(var(--rgb-theme-bg), .8);
+  background: rgba(var(--rgb-theme-bg), 0.8);
   z-index: 50;
   padding: 10px;
   min-width: 200px;
   border-radius: 4px;
   text-align: center;
-  backdrop-filter: blur(3px) saturate(.5);
+  backdrop-filter: blur(3px) saturate(0.5);
 
   .loader-img {
     vertical-align: middle;
@@ -48,13 +48,18 @@
 }
 
 .window-loader__content {
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color)
+  );
   background-size: 200% 200%;
   background-clip: text;
   color: transparent;
   position: relative;
   // animation: bg-gradient 5s ease infinite;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   will-change: background;
 }
 .window-loader__loading-text {
@@ -76,27 +81,36 @@
 }
 @keyframes pulse {
   0% {
-    opacity: .7;
+    opacity: 0.7;
   }
   50% {
-    opacity: .3;
+    opacity: 0.3;
   }
   100% {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
 
 @keyframes spin {
-  from {transform: translate(-50%, -50%) rotate(0);}
-  to   {transform: translate(-50%, -50%) rotate(360deg);}
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .loader__rotating-border {
   --padding: 10px;
   --border-radius: 100%;
   --border-size: 2px;
-  --border-bg: conic-gradient(var(--primary-color), var(--secondary-color), var(--tertiary-color), var(--primary-color));
-  
+  --border-bg: conic-gradient(
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color),
+    var(--primary-color)
+  );
+
   position: relative;
   overflow: hidden;
   font-size: 2rem;
@@ -106,7 +120,7 @@
   align-items: center;
   justify-content: center;
   aspect-ratio: 1;
-  
+
   &::before {
     content: '';
     display: block;
@@ -121,10 +135,10 @@
     z-index: -2;
     animation: spin 5s linear infinite;
   }
-  &--reverse::before{
+  &--reverse::before {
     animation-direction: reverse;
   }
-  &::after{
+  &::after {
     content: '';
     position: absolute;
     inset: var(--border-size);

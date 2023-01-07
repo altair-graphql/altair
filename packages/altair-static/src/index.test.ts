@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { renderAltair, renderInitialOptions } from './index';
 import * as getAltairHtml from './get-altair-html';
 
-const translateRenderedStrToObj = (result) => {
+const translateRenderedStrToObj = (result: string) => {
   const resultObj = Function(`
   let __options;
   const AltairGraphQL = { init: (options) => { __options = options; } };
@@ -22,24 +22,24 @@ describe('renderInitialOptions', () => {
       }`,
       endpointURL: 'https://example.com/graphql',
       initialHeaders: {
-        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
-        theme: 'dark'
-      }
+        theme: 'dark',
+      },
     });
-    
+
     expect(translateRenderedStrToObj(result)).toEqual({
       initialQuery: `query {
         Hello
       }`,
       endpointURL: 'https://example.com/graphql',
       initialHeaders: {
-        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4'
+        'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
-        theme: 'dark'
-      }
+        theme: 'dark',
+      },
     });
 
     expect(result).toMatchSnapshot();
@@ -51,21 +51,25 @@ describe('renderInitialOptions', () => {
 
     expect(translateRenderedStrToObj(result)).toEqual({
       preserveState: false,
-    })
+    });
   });
 });
 
 describe('renderAltair', () => {
   it('should return expected string', () => {
     (getAltairHtml as any).default = jest.fn();
-    (getAltairHtml as any).default.mockReturnValue(readFileSync(resolve(__dirname, 'index.html'), 'utf8'));
-    expect(renderAltair({
-      baseURL: '/',
-      initialQuery: `query {
+    (getAltairHtml as any).default.mockReturnValue(
+      readFileSync(resolve(__dirname, 'index.html'), 'utf8')
+    );
+    expect(
+      renderAltair({
+        baseURL: '/',
+        initialQuery: `query {
         Hello
       }`,
-      endpointURL: 'https://example.com/graphql',
-      initialVariables: '{ variable: 1 }'
-    })).toMatchSnapshot();
+        endpointURL: 'https://example.com/graphql',
+        initialVariables: '{ variable: 1 }',
+      })
+    ).toMatchSnapshot();
   });
 });

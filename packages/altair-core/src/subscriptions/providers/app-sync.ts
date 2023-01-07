@@ -45,7 +45,7 @@ export class AppSyncSubscriptionProvider extends SubscriptionProvider {
       query: parse(options.query),
       variables: options.variables,
     });
-    return new Observable(subscriber => {
+    return new Observable((subscriber) => {
       this.subscription = subscription.subscribe({
         next: (...args: unknown[]) => subscriber.next(...args),
         error: (...args: unknown[]) => subscriber.error(...args),

@@ -9,7 +9,7 @@ import { stateExtensions } from './state';
 
 export function graphql(
   schema?: GraphQLSchema,
-  opts?: GqlExtensionsOptions,
+  opts?: GqlExtensionsOptions
 ): Extension[] {
   return [
     graphqlLanguageSupport(),

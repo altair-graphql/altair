@@ -1,0 +1,14 @@
+// NOTE: No trailing commas in this file, otherwise nx will throw an error
+// https://github.com/nrwl/nx/issues/10393
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "noImplicitAny": true,
+    // "esModuleInterop": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

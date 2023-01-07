@@ -1,44 +1,44 @@
-import { Server } from "http";
-import express from "express";
-import bodyParser from "body-parser";
-import { EventEmitter } from "events";
-import path from "path";
-import {} from "crypto";
-import { getStaticDirectory } from "../../utils";
-import { session, shell } from "electron";
-import { getCSP, INLINE, SELF } from "csp-header";
-import { v4 as uuid } from "uuid";
+import { Server } from 'http';
+import express from 'express';
+import bodyParser from 'body-parser';
+import { EventEmitter } from 'events';
+import path from 'path';
+import {} from 'crypto';
+import { getStaticDirectory } from '../../utils';
+import { session, shell } from 'electron';
+import { getCSP, INLINE, SELF } from 'csp-header';
+import { v4 as uuid } from 'uuid';
 
-export const IPC_SET_CUSTOM_TOKEN_EVENT = "auth:set-custom-token";
+export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
 export class AuthServer {
   private port = 3000; // default port. Might be different at runtime.
   private server?: Server;
-  private sessionPartition = "persist:auth";
+  private sessionPartition = 'persist:auth';
   private nonce = uuid();
   private emitter = new EventEmitter();
   private ttlSeconds = 10 * 60; // 10m
 
   async start() {
     const app = express();
-    app.use(express.static(path.resolve(getStaticDirectory(), "auth/dist")));
+    app.use(express.static(path.resolve(getStaticDirectory(), 'auth/dist')));
     app.use(bodyParser.json());
 
-    app.use("/login", (req, res) => {
+    app.use('/login', (req, res) => {
       return res.sendFile(
-        path.resolve(getStaticDirectory(), "auth/dist/index.html")
+        path.resolve(getStaticDirectory(), 'auth/dist/index.html')
       );
     });
-    app.use("/callback", (req, res) => {
+    app.use('/callback', (req, res) => {
       // TODO: Verify ttl
       if (req.body.nonce !== this.nonce) {
         return res
           .status(400)
-          .send({ status: "error", message: "invalid request" });
+          .send({ status: 'error', message: 'invalid request' });
       }
 
-      this.emitter.emit("token", req.body.token);
-      return res.send({ status: "success" });
+      this.emitter.emit('token', req.body.token);
+      return res.send({ status: 'success' });
     });
 
     this.port = await this.getAvailablePort();
@@ -48,7 +48,7 @@ export class AuthServer {
   }
 
   terminate() {
-    this.emitter.removeAllListeners("token");
+    this.emitter.removeAllListeners('token');
     if (this.server) {
       this.server.close();
     }
@@ -72,9 +72,9 @@ export class AuthServer {
 
   private listenForToken() {
     return new Promise<string>((resolve, reject) => {
-      this.emitter.once("token", (token: string) => {
+      this.emitter.once('token', (token: string) => {
         if (!token) {
-          return reject("Could not get token");
+          return reject('Could not get token');
         }
         return resolve(token);
       });
@@ -87,21 +87,21 @@ export class AuthServer {
       callback({
         responseHeaders: {
           ...details.responseHeaders,
-          "Content-Security-Policy": [
+          'Content-Security-Policy': [
             getCSP({
               directives: {
                 // "default-src": ["none"],
-                "script-src": [
+                'script-src': [
                   SELF,
                   INLINE,
-                  "strict-dynamic",
-                  "https://www.gstatic.com",
-                  "https://apis.google.com"
-                ]
-              }
-            })
-          ]
-        }
+                  'strict-dynamic',
+                  'https://www.gstatic.com',
+                  'https://apis.google.com',
+                ],
+              },
+            }),
+          ],
+        },
       });
     });
 
@@ -109,7 +109,7 @@ export class AuthServer {
   }
 
   private async getAvailablePort() {
-    const getPort = await import("get-port");
+    const getPort = await import('get-port');
     return getPort.default({ port: this.port });
   }
 }

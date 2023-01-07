@@ -1,61 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Altair</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Altair</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A beautiful feature-rich GraphQL Client IDE for all platforms. Available for MacOS, Windows, Linux, Chrome, Firefox. Enables you interact with any GraphQL server you are authorized to access from any platform you are on. Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations. You also have several features to make your GraphQL development process much easier including subscriptions, query scaffolding, formatting, multiple languages, themes, and many more.">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-oPmnC5nXVn+02vhnLdwVkTp/s4vphtZzgjwEBldwPHs=' 'sha256-I9mRIuFvittlnAABX/bWvVih++ioTekeCFcwe4j3YTo=' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <script>
-    if (/altair-gql-translate/.test(location.host)) {
-      // Insert crowdin translation script.
-      var _jipt = [];
-      _jipt.push(['project', 'altair-gql']);
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A beautiful feature-rich GraphQL Client IDE for all platforms. Available for MacOS, Windows, Linux, Chrome, Firefox. Enables you interact with any GraphQL server you are authorized to access from any platform you are on. Much like Postman for GraphQL, you can easily test and optimize your GraphQL implementations. You also have several features to make your GraphQL development process much easier including subscriptions, query scaffolding, formatting, multiple languages, themes, and many more."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <script>
+      if (/altair-gql-translate/.test(location.host)) {
+        // Insert crowdin translation script.
+        var _jipt = [];
+        _jipt.push(['project', 'altair-gql']);
 
-      // Insert script tag
-      var head = document.getElementsByTagName('head')[0];
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = '//cdn.crowdin.com/jipt/jipt.js';
-      head.appendChild(script);
-      window.__ALTAIR_TRANSLATE__ = 1;
-    }
-
-    if (/altair-gql.sirmuel.design/.test(location.host)) {
-      window.__ALTAIR_WEB_APP__ = 1;
-    }
-  </script>
-  <app-root>
-    <style>
-      .loading-screen{
-        /*Prevents the loading screen from showing until CSS is downloaded*/
-        display: none;
+        // Insert script tag
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '//cdn.crowdin.com/jipt/jipt.js';
+        head.appendChild(script);
+        window.__ALTAIR_TRANSLATE__ = 1;
       }
-    </style>
-    <div class="loading-screen styled">
-      <div class="loading-screen-inner">
-        <div class="loading-screen-logo-container">
-          <img src="assets/img/altair_logo.svg" alt="Altair">
-        </div>
-        <div class="loading-screen-loading-indicator">
-          <span class="loading-indicator-dot"></span>
-          <span class="loading-indicator-dot"></span>
-          <span class="loading-indicator-dot"></span>
+
+      if (/altair-gql.sirmuel.design/.test(location.host)) {
+        window.__ALTAIR_WEB_APP__ = 1;
+      }
+    </script>
+    <app-root>
+      <style>
+        .loading-screen {
+          /*Prevents the loading screen from showing until CSS is downloaded*/
+          display: none;
+        }
+      </style>
+      <div class="loading-screen styled">
+        <div class="loading-screen-inner">
+          <div class="loading-screen-logo-container">
+            <img src="assets/img/altair_logo.svg" alt="Altair" />
+          </div>
+          <div class="loading-screen-loading-indicator">
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
+          </div>
         </div>
       </div>
-    </div>
-  </app-root>
-  <script>
-    // Angular appends the app script to the bottom.
-    // This ensures the code is run after the assets have been added.
-    document.addEventListener('DOMContentLoaded', () => {
-      AltairGraphQL.init();
-    });
-  </script>
-</body>
+    </app-root>
+    <script>
+      // Angular appends the app script to the bottom.
+      // This ensures the code is run after the assets have been added.
+      document.addEventListener('DOMContentLoaded', () => {
+        AltairGraphQL.init();
+      });
+    </script>
+  </body>
 </html>

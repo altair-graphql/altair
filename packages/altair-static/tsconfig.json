@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build/",
     "rootDir": "src",
@@ -8,13 +9,7 @@
     "module": "commonjs",
     "sourceMap": true,
     // "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node",
-      "jest"
-    ]
+    "lib": ["dom", "esnext"],
+    "types": ["node", "jest"]
   }
 }

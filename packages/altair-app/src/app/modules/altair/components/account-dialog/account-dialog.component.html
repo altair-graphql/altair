@@ -13,13 +13,17 @@
           *ngIf="!account?.loggedIn"
           class="app-button active-primary"
           (click)="submitLogin()"
-        >{{ 'SIGNIN_WITH_GOOGLE' | translate }}</button>
+        >
+          {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+        </button>
 
         <button
           *ngIf="account?.loggedIn"
           class="app-button active-primary"
           (click)="logoutChange.emit()"
-        >{{ 'LOGOUT_TEXT' | translate }}</button>
+        >
+          {{ 'LOGOUT_TEXT' | translate }}
+        </button>
       </div>
     </div>
   </ng-template>

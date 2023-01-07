@@ -8,7 +8,9 @@
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
-      <div class="app-dialog-title">{{ 'SUBSCRIPTION_URL_TEXT' | translate }}</div>
+      <div class="app-dialog-title">
+        {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
+      </div>
       {{ 'SET_SUBSCRIPTION_URL_TEXT' | translate }}
     </div>
   </ng-template>
@@ -16,25 +18,35 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="app-dialog-section">
-        <input type="url" class="dialog-input" [value]="subscriptionUrl" (input)="subscriptionUrlInput($event)" placeholder="ws://example.com/subscriptions" />
+        <input
+          type="url"
+          class="dialog-input"
+          [value]="subscriptionUrl"
+          (input)="subscriptionUrlInput($event)"
+          placeholder="ws://example.com/subscriptions"
+        />
       </div>
       <div class="subscription-params-section">
-        <div class="subscription-params-title">{{ 'SUBSCRIPTION_TYPE_TITLE' | translate }}</div>
+        <div class="subscription-params-title">
+          {{ 'SUBSCRIPTION_TYPE_TITLE' | translate }}
+        </div>
         <nz-select
           class="dialog-select"
           [ngModel]="selectedSubscriptionProviderId"
           (ngModelChange)="updateSubscriptionProviderId($event)"
         >
           <nz-option
-            *ngFor="let provider of subscriptionProviders; trackBy:trackById"
+            *ngFor="let provider of subscriptionProviders; trackBy: trackById"
             [nzValue]="provider.id"
-            [nzLabel]="(provider.copyTag || '') | translate"
+            [nzLabel]="provider.copyTag || '' | translate"
           ></nz-option>
         </nz-select>
       </div>
 
       <div class="subscription-params-section">
-        <div class="subscription-params-title">{{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}</div>
+        <div class="subscription-params-title">
+          {{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}
+        </div>
         <div class="subscription-params-editor-wrapper">
           <app-codemirror
             class="subscription-params__input"
@@ -51,7 +63,13 @@
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
-      <button class="app-button active-primary right" track-id="close_set_subscription_dialog" (click)="toggleDialogChange.next($event)">{{ 'SAVE_BUTTON' | translate }}</button>
+      <button
+        class="app-button active-primary right"
+        track-id="close_set_subscription_dialog"
+        (click)="toggleDialogChange.next($event)"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
     </div>
   </ng-template>
 </nz-modal>

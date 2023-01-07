@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitReturns": true,
@@ -8,10 +9,7 @@
     "target": "es2017",
     "esModuleInterop": true,
     "types": ["jest"],
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

@@ -11,7 +11,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
       <div
         class="query-collections__title"
       >
-        
+          
       </div>
       <div
         class="query-collections__actions clearfix"

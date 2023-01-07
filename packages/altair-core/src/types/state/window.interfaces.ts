@@ -1,6 +1,6 @@
-import { GraphQLSchema } from "graphql";
-import { SubscriptionProviderIds } from "../../subscriptions";
-import { PerWindowState } from "./per-window.interfaces";
+import { GraphQLSchema } from 'graphql';
+import { SubscriptionProviderIds } from '../../subscriptions';
+import { PerWindowState } from './per-window.interfaces';
 
 export interface WindowState {
   [id: string]: PerWindowState | undefined;
@@ -11,7 +11,7 @@ export interface WindowState {
  */
 export interface ExportWindowState {
   version: 1;
-  type: "window";
+  type: 'window';
   windowName: string;
   apiUrl: string;
   query: string;

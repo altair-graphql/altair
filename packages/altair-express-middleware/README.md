@@ -5,6 +5,7 @@
 This is an express middleware for mounting an instance of altair GraphQL client.
 
 ### Installation
+
 This is a node module and can be installed using npm:
 
 ```
@@ -29,16 +30,23 @@ import { schema } from './schema';
 const server = express();
 
 // Mount your graphQL server endpoint
-server.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema
-}));
+server.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress({
+    schema,
+  })
+);
 
 // Mount your altair GraphQL client
-server.use('/altair', altairExpress({
-  endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
-  initialQuery: `{ getData { id name surname } }`,
-}));
+server.use(
+  '/altair',
+  altairExpress({
+    endpointURL: '/graphql',
+    subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
+    initialQuery: `{ getData { id name surname } }`,
+  })
+);
 
 // ... the rest of your code ...
 ```
@@ -46,6 +54,7 @@ server.use('/altair', altairExpress({
 An instance of Altair GraphQL Client would be available at `/altair` of your server.
 
 ### Contributing
+
 Everyone is welcome to contribute. See anything that needs improving, create an issue. And if you're up for it, create a PR! :D
 
 ### License

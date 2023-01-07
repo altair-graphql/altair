@@ -1,5 +1,5 @@
-import { TouchBar } from "electron";
-import { ActionManager } from "./actions";
+import { TouchBar } from 'electron';
+import { ActionManager } from './actions';
 
 const { TouchBarButton, TouchBarSpacer } = TouchBar;
 
@@ -8,23 +8,23 @@ export class TouchbarManager {
 
   createTouchBar() {
     const sendRequestButton = new TouchBarButton({
-      label: "Send Request",
-      backgroundColor: "#7EBC59",
-      click: () => this.actionManager.sendRequest()
+      label: 'Send Request',
+      backgroundColor: '#7EBC59',
+      click: () => this.actionManager.sendRequest(),
     });
 
     const reloadDocsButton = new TouchBarButton({
-      label: "Reload Docs",
-      click: () => this.actionManager.reloadDocs()
+      label: 'Reload Docs',
+      click: () => this.actionManager.reloadDocs(),
     });
 
     const showDocsButton = new TouchBarButton({
-      label: "Show Docs",
-      click: () => this.actionManager.showDocs()
+      label: 'Show Docs',
+      click: () => this.actionManager.showDocs(),
     });
 
     const spacer = new TouchBarSpacer({
-      size: "flexible"
+      size: 'flexible',
     });
 
     const touchBar = new TouchBar({
@@ -33,8 +33,8 @@ export class TouchbarManager {
         sendRequestButton,
         spacer,
         reloadDocsButton,
-        showDocsButton
-      ]
+        showDocsButton,
+      ],
     });
 
     return touchBar;

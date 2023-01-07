@@ -1,27 +1,27 @@
-import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, User, Auth } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { initializeFirestore } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged, User, Auth } from 'firebase/auth';
 import {
   ClientEnvironment,
   getClientConfig,
-  getFirestoreSettings
-} from "./config";
+  getFirestoreSettings,
+} from './config';
 
 export const getUser = (auth: Auth) => {
   return new Promise<User | null>((resolve, reject) => {
     const cleanup = onAuthStateChanged(
       auth,
-      user => {
+      (user) => {
         resolve(user);
       },
-      error => reject(error)
+      (error) => reject(error)
     );
 
     return cleanup();
   });
 };
 
-export const initializeClient = (env: ClientEnvironment = "development") => {
+export const initializeClient = (env: ClientEnvironment = 'development') => {
   const config = getClientConfig(env);
   const app = initializeApp(config);
 
@@ -34,6 +34,6 @@ export const initializeClient = (env: ClientEnvironment = "development") => {
     auth,
     getUser() {
       return getUser(auth);
-    }
+    },
   };
 };

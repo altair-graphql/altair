@@ -1,10 +1,8 @@
-<mark
-  [ngClass]="{ 'fancy-input-marker__invalid': !resolvedValue }"
->{{ section.content }}</mark>
-<div
-  *ngIf="resolvedValue"
-  class="value-indicator__wrapper"
->.
+<mark [ngClass]="{ 'fancy-input-marker__invalid': !resolvedValue }">{{
+  section.content
+}}</mark>
+<div *ngIf="resolvedValue" class="value-indicator__wrapper">
+  .
   <div
     nz-tooltip
     [nzTooltipTitle]="resolvedValue"

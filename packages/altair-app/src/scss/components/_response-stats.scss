@@ -17,38 +17,38 @@
   border-radius: 2px;
   margin-right: 5px;
 
-  &[data-status-code^="1"] {
+  &[data-status-code^='1'] {
     background: var(--orange-color);
     color: var(--white-color);
   }
 
-  &[data-status-code^="2"] {
+  &[data-status-code^='2'] {
     background: var(--green-color);
     color: var(--white-color);
   }
 
-  &[data-status-code^="3"] {
+  &[data-status-code^='3'] {
     background: var(--orange-color);
     color: var(--white-color);
   }
 
-  &[data-status-code^="4"] {
+  &[data-status-code^='4'] {
     background: var(--red-color);
     color: var(--white-color);
   }
 
-  &[data-status-code^="5"] {
+  &[data-status-code^='5'] {
     background: var(--red-color);
     color: var(--white-color);
   }
 }
 
 .response-status-code {
-  background: rgba(var(--rgb-blue), .1);
+  background: rgba(var(--rgb-blue), 0.1);
 }
 
 .response-time {
-  background: rgba(var(--rgb-black), .5);
+  background: rgba(var(--rgb-black), 0.5);
   color: var(--white-color);
   display: inline-block;
 }

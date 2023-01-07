@@ -1,4 +1,3 @@
-
 export interface History {
   query: string;
 }

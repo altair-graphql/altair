@@ -41,14 +41,13 @@ app-url-box {
   height: calc(var(--url-box-height) - 16px);
   line-height: calc(var(--url-box-height) - 16px);
   font-size: fontsize(12);
-  box-shadow: 0 4px 30px rgba(var(--rgb-black), .05);
+  box-shadow: 0 4px 30px rgba(var(--rgb-black), 0.05);
   padding: 0 8px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   background-color: var(--theme-off-bg-color);
   width: 100%;
   display: block;
   // padding-right: 150px;
-
 }
 
 .url-box__input-prepend {
@@ -89,7 +88,7 @@ app-url-box {
   line-height: 1;
   padding: 8px;
   white-space: nowrap;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &--send {
     border-radius: 0 4px 4px 0;
@@ -101,7 +100,7 @@ app-url-box {
   }
 
   &:hover {
-    background: rgba(var(--rgb-primary), .15);
+    background: rgba(var(--rgb-primary), 0.15);
     color: var(--primary-color);
   }
 }
@@ -113,13 +112,13 @@ app-url-box {
 
 .url-box__button--method {
   min-width: 75px;
-  background: rgba(var(--rgb-primary), .15);
+  background: rgba(var(--rgb-primary), 0.15);
   color: var(--primary-color);
   font-size: fontsize(12);
   border: 1px solid transparent;
   border-radius: 4px;
   font-weight: 700;
-  opacity: .9;
+  opacity: 0.9;
 
   &:hover {
     border-color: var(--primary-color);
@@ -156,8 +155,8 @@ app-url-box {
 
 .url-box__connection-indicator {
   display: inline-block;
-  opacity: .6;
-  transition: all .3s ease;
+  opacity: 0.6;
+  transition: all 0.3s ease;
 
   &:hover {
     opacity: 1;

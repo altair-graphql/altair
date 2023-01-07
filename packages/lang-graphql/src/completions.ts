@@ -34,7 +34,7 @@ export const completion = graphqlLanguage.data.of({
 
     return {
       from: word.from,
-      options: results.map(item => {
+      options: results.map((item) => {
         return {
           label: item.label,
           detail: item.detail || '',
