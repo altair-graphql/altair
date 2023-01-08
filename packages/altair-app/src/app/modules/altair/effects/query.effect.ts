@@ -1554,8 +1554,8 @@ export class QueryEffects {
             )
             .map((definition) => definition.name!.value);
 
-          if (currentDefinitionNames.length) {
-            const dynamicName = currentDefinitionNames[0];
+          const dynamicName = currentDefinitionNames[0];
+          if (currentDefinitionNames.length && dynamicName) {
             return of(
               new layoutActions.SetWindowNameAction(res.windowId, {
                 title: dynamicName,

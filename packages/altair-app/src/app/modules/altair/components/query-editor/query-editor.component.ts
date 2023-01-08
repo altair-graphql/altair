@@ -380,7 +380,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       Object.entries(extraKeys).map(([key, actionStr]) => {
         return {
           key,
-          run: this.getCm6ShortcutFn(actionStr),
+          run: this.getCm6ShortcutFn(actionStr) ?? noOpCommand,
         };
       })
     );
@@ -691,8 +691,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   updateEditorShortcuts(extraKeys: Record<string, string>) {
-    const normalized = Object.keys(extraKeys).reduce(
-      (acc, cur) => ({ ...acc, [cur]: this.getShortcutFn(extraKeys[cur]) }),
+    const normalized = Object.entries(extraKeys).reduce(
+      (acc, [cur, actionName]) => ({
+        ...acc,
+        [cur]: this.getShortcutFn(actionName),
+      }),
       {}
     );
 

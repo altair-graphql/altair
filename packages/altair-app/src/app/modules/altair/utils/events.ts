@@ -14,12 +14,8 @@ export const on = <
   fn: (this: T, e: HTMLElementEventMap[E]) => void
 ) => {
   document.body.addEventListener(eventName, function (e) {
-    if (
-      e.target &&
-      'matches' in e.target &&
-      (e.target as T).matches(elSelector)
-    ) {
-      fn.apply(e.target, [e]);
+    if (e.target && (e.target as T).matches(elSelector)) {
+      fn.apply(e.target as T, [e]);
     }
   });
 };

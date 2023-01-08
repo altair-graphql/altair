@@ -224,7 +224,7 @@ export class PreRequestService {
       );
     }
 
-    return ModuleImports[moduleName].exec();
+    return ModuleImports[moduleName]!.exec();
   }
 
   private buildContextResponse(

@@ -104,6 +104,9 @@ export class EnvironmentService {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
+        if (!variable) {
+          return '';
+        }
         if (activeEnvironment[variable]) {
           return activeEnvironment[variable];
         }

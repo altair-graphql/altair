@@ -254,8 +254,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       const { from, to, text } = view.state.doc.lineAt(pos);
       let start: number = pos,
         end = pos;
-      while (start > from && /\w/.test(text[start - from - 1])) start--;
-      while (end < to && /\w/.test(text[end - from])) end++;
+      while (start > from && /\w/.test(text[start - from - 1] || '')) start--;
+      while (end < to && /\w/.test(text[end - from] || '')) end++;
       if ((start == pos && side < 0) || (end == pos && side > 0)) {
         return null;
       }
@@ -331,8 +331,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     while (((match = highlight.exec(val)), match !== null)) {
       ranges.push({
         from: match.index,
-        to: match.index + match[0].length,
-        value: match[1],
+        to: match.index + match[0]!.length,
+        value: match[1] || '',
       });
       if (!highlight.global) {
         // non-global regexes do not increase lastIndex, causing an infinite loop,

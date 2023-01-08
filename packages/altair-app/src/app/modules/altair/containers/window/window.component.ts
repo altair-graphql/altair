@@ -668,7 +668,7 @@ export class WindowComponent implements OnInit {
     if (this.historyList[index]) {
       this.store.dispatch(
         new queryActions.SetQueryAction(
-          this.historyList[index].query,
+          this.historyList[index]?.query || '',
           this.windowId
         )
       );

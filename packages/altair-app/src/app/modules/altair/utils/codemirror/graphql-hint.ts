@@ -61,7 +61,7 @@ CodeMirror.registerHelper(
      */
 
     const tokenStart =
-      token.type !== null && /"|\w/.test(token.string[0])
+      token.type !== null && /"|\w/.test(token.string[0] || '')
         ? token.start
         : token.end;
     const results = {

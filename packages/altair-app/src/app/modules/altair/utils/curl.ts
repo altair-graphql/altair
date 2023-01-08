@@ -25,7 +25,7 @@ const buildUrl = (url: string, params?: { [key: string]: string }) => {
           '=' +
           euc(
             typeof params[key] === 'string'
-              ? params[key]
+              ? params[key]!
               : JSON.stringify(params[key])
           )
       )

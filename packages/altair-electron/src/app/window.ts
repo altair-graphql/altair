@@ -1,4 +1,4 @@
-import { BrowserWindow, protocol, ipcMain, session, app } from 'electron';
+import { BrowserWindow, app, ipcMain, protocol, session } from 'electron';
 import path from 'path';
 import url from 'url';
 import { promises as fs } from 'fs';
@@ -30,11 +30,15 @@ const HEADERS_TO_SET = ['Origin', 'Cookie'];
 
 export class WindowManager {
   instance?: BrowserWindow;
+
   mainWindowState?: windowStateKeeper.State;
+
   requestHeaders: Record<string, string> = {};
 
   actionManager?: ActionManager;
+
   menuManager?: MenuManager;
+
   touchbarManager?: TouchbarManager;
 
   constructor(private electronApp: ElectronApp) {}
@@ -114,7 +118,7 @@ export class WindowManager {
     initSettingsStoreEvents();
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
+    this.instance.webContents.on('will-navigate', e => e.preventDefault());
 
     // instance.webContents.once('dom-ready', () => {
     //   instance.webContents.openDevTools();
@@ -141,7 +145,7 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         console.log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach((uploadData) => {
+          details.uploadData.forEach(uploadData => {
             console.log('Data sent:', uploadData.bytes.toString());
           });
         }
@@ -158,8 +162,8 @@ export class WindowManager {
         // console.log(this.requestHeaders);
         // console.log('sending headers', details.requestHeaders);
         // Set the request headers
-        Object.keys(this.requestHeaders).forEach((key) => {
-          details.requestHeaders[key] = this.requestHeaders[key];
+        Object.entries(this.requestHeaders).forEach(([key, header]) => {
+          details.requestHeaders[key] = header;
         });
         callback({
           cancel: false,
@@ -169,9 +173,9 @@ export class WindowManager {
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders((details) => {
+      session.defaultSession.webRequest.onSendHeaders(details => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach((headerKey) => {
+          Object.keys(details.requestHeaders).forEach(headerKey => {
             console.log(
               'Header sent:',
               headerKey,
@@ -217,7 +221,7 @@ export class WindowManager {
       (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
         this.requestHeaders = {};
 
-        headers.forEach((header) => {
+        headers.forEach(header => {
           if (
             HEADERS_TO_SET.includes(header.key) &&
             header.key &&
@@ -239,7 +243,7 @@ export class WindowManager {
       if (!this.instance) {
         throw new Error('instance not created!');
       }
-      let openedFileContent = this.electronApp.store.get('file-opened');
+      const openedFileContent = this.electronApp.store.get('file-opened');
       if (!openedFileContent) {
         return;
       }
@@ -248,12 +252,12 @@ export class WindowManager {
       this.electronApp.store.delete('file-opened');
     });
 
-    ipcMain.handle('reload-window', (e) => {
+    ipcMain.handle('reload-window', e => {
       e.sender.reload();
     });
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors('get-auth-token', async (e) => {
+    handleWithCustomErrors('get-auth-token', async e => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error('untrusted source trying to get auth token');
       }
@@ -279,7 +283,7 @@ export class WindowManager {
         .then(({ mimeType, data }) => {
           callback({ mimeType, data });
         })
-        .catch((error) => {
+        .catch(error => {
           error.message = `Failed to register protocol. ${error.message}`;
           console.error(error);
         });
@@ -338,7 +342,7 @@ export class WindowManager {
     // Using the mime package to get the mime type for the file, based on the file name
     return {
       mimeType: mime.lookup(filePath) || '',
-      data: data,
+      data,
     };
   }
 }

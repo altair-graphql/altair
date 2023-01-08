@@ -67,7 +67,7 @@ export const _normalizeToResolvedKeyPartsValuePairs = (
     return res;
   }
 
-  if (!patternParts.length) {
+  if (!currentKey || !patternParts.length) {
     return [
       {
         keyParts: patternParts,
@@ -166,7 +166,7 @@ export const prepareValueToStore = (key: string, data: any) => {
     const purgePathParts = path.split('.');
     // key parts exist in purge path
     const keyExistsinPurgePath = keyParts.every((part, i) =>
-      _partMatches(purgePathParts[i], part)
+      _partMatches(purgePathParts[i] || '', part)
     );
 
     if (keyExistsinPurgePath) {
@@ -195,7 +195,7 @@ export const _setValueInPath = (
   object: any,
   value: any
 ) => {
-  const [curPart, ...restParts] =
+  const [curPart = '', ...restParts] =
     typeof pathParts === 'string' ? pathParts.split('.') : pathParts;
 
   if (typeof object === 'undefined') {

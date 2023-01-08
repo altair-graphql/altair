@@ -159,8 +159,7 @@ export const buildSelectionSet = (
   }
 
   const fields = namedType && namedType.getFields();
-  selectionSet.selections = Object.keys(fields).map((fieldName) => {
-    const field = fields[fieldName];
+  selectionSet.selections = Object.entries(fields).map(([fieldName, field]) => {
     const { node, metas } = buildSelectionNode(field, {
       maxDepth,
       currentDepth,
@@ -280,6 +279,10 @@ const maybeBuildDefaultArgumentValueNode = (
 
   if (type instanceof GraphQLEnumType) {
     const defaultValue = type.getValues()[0];
+
+    if (!defaultValue) {
+      return;
+    }
 
     return astFromValue(defaultValue.name, type);
   }

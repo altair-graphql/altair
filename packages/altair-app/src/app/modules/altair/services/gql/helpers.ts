@@ -73,7 +73,7 @@ export const getFragmentDefinitionFromRefactorMap = (
   refactorMap: FragmentRefactorMap,
   schema: GraphQLSchema
 ): FragmentDefinitionNode[] => {
-  return Object.keys(refactorMap).map((typeName) => {
+  return Object.entries(refactorMap).map(([typeName, fieldList]) => {
     const type = schema.getType(typeName);
     const fieldsMap: GraphQLFieldMap<any, any> =
       type && (type as any).getFields();
@@ -93,7 +93,7 @@ export const getFragmentDefinitionFromRefactorMap = (
       },
       selectionSet: {
         kind: Kind.SELECTION_SET,
-        selections: refactorMap[typeName].map((field) => {
+        selections: fieldList.map((field) => {
           const fieldValue = fieldsMap && fieldsMap[field];
           return {
             kind: Kind.FIELD,
@@ -189,15 +189,15 @@ export const generateTypeUsageEntries = (
   function createTypeMapEntry(type: GraphQLType) {
     const namedType = getNamedType(type);
     const namedTypeStr = namedType.toString();
-    typesMap[namedTypeStr] = typesMap[namedTypeStr] || {
+    const res = (typesMap[namedTypeStr] ||= {
       name: namedTypeStr,
       count: 0,
       type: namedType,
       fields: [],
       children: {},
-    };
+    });
 
-    return typesMap[namedTypeStr];
+    return res;
   }
 
   const innerVisitor: Visitor<any> = {
@@ -278,11 +278,10 @@ export const generateFragmentRefactorMap = (typeUsageEntries: {
   Object.values(typeUsageEntries.map).forEach((typeMap) => {
     if (typeMap.count >= 2) {
       if (typeMap.fields.length) {
-        typeMap.fields[0].forEach((field) => {
+        typeMap.fields[0]?.forEach((field) => {
           if (typeMap.fields.slice(1).every((list) => list.includes(field))) {
-            fragmentRefactorMap[typeMap.name] =
-              fragmentRefactorMap[typeMap.name] || [];
-            fragmentRefactorMap[typeMap.name].push(field);
+            const fieldList = (fragmentRefactorMap[typeMap.name] ||= []);
+            fieldList.push(field);
           }
         });
       }
@@ -428,9 +427,9 @@ export const refactorArgumentsToVariables = (
   });
   return {
     document: edited,
-    variables: Object.keys(variablesMap).reduce(
-      (result: IDictionary, variableName) => {
-        result[variableName] = variablesMap[variableName].value;
+    variables: Object.entries(variablesMap).reduce(
+      (result: IDictionary, [variableName, res]) => {
+        result[variableName] = res.value;
         return result;
       },
       {}

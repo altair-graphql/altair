@@ -65,12 +65,13 @@ export class SmartInputComponent implements AfterViewInit {
     };
   }
   getBlock({ lineIndex, blockIndex }: BlockOption) {
-    return this.state.lines[lineIndex].blocks[blockIndex];
+    return this.state.lines[lineIndex]?.blocks[blockIndex];
   }
   updateBlock(data: BlockState, { lineIndex, blockIndex }: BlockOption) {
     debug.log('updating..', data, lineIndex, blockIndex);
-    this.state.lines[lineIndex].blocks = this.state.lines[lineIndex].blocks.map(
-      (block, i) => {
+    const lineState = this.state.lines[lineIndex];
+    if (lineState) {
+      lineState.blocks = lineState.blocks.map((block, i) => {
         if (i === blockIndex) {
           return { ...block, ...data };
         }
@@ -82,32 +83,28 @@ export class SmartInputComponent implements AfterViewInit {
         }
 
         return block;
-      }
-    );
+      });
+    }
   }
 
   replaceBlock(
     newBlocks: BlockState[],
     { lineIndex, blockIndex }: BlockOption
   ) {
-    const beforeBlocks = this.state.lines[lineIndex].blocks.slice(
-      0,
-      blockIndex
-    );
-    const afterBlocks = this.state.lines[lineIndex].blocks.slice(
-      blockIndex + 1
-    );
-    this.state.lines[lineIndex].blocks = [
-      ...beforeBlocks,
-      ...newBlocks,
-      ...afterBlocks,
-    ];
+    const lineState = this.state.lines[lineIndex];
+    if (lineState) {
+      const beforeBlocks = lineState.blocks.slice(0, blockIndex);
+      const afterBlocks = lineState.blocks.slice(blockIndex + 1);
+      lineState.blocks = [...beforeBlocks, ...newBlocks, ...afterBlocks];
+    }
   }
 
   deleteBlock(data: null, { lineIndex, blockIndex }: BlockOption) {
-    this.state.lines[lineIndex].blocks = this.state.lines[
-      lineIndex
-    ].blocks.filter((block, i) => {
+    const lineState = this.state.lines[lineIndex];
+    if (!lineState) {
+      return;
+    }
+    lineState.blocks = lineState.blocks.filter((block, i) => {
       return i !== blockIndex;
     });
   }
@@ -117,6 +114,9 @@ export class SmartInputComponent implements AfterViewInit {
     const { curBlockEl, lineIndex, blockIndex } =
       this.getBlockInfoFromData(data);
     const curBlock = this.getBlock({ lineIndex, blockIndex });
+    if (!curBlock) {
+      throw new Error('this should never happen!');
+    }
     const originalContent = curBlock.content;
     const output = [
       originalContent.slice(0, data.cursor.offset),
@@ -172,6 +172,9 @@ export class SmartInputComponent implements AfterViewInit {
       lineIndex,
       blockIndex: blockIndex - 1,
     });
+    if (!curBlock) {
+      throw new Error('this should never happen!');
+    }
     const originalContent = curBlock.content;
     if (data.cursor.offset) {
       const output = [
@@ -227,6 +230,9 @@ export class SmartInputComponent implements AfterViewInit {
         return;
       case KEYS.LEFT: {
         const curBlock = this.getBlock({ lineIndex, blockIndex });
+        if (!curBlock) {
+          throw new Error('this should never happen!');
+        }
         const previousBlock = this.getBlock({
           lineIndex,
           blockIndex: blockIndex - 1,
@@ -248,6 +254,9 @@ export class SmartInputComponent implements AfterViewInit {
       }
       case KEYS.RIGHT: {
         const curBlock = this.getBlock({ lineIndex, blockIndex });
+        if (!curBlock) {
+          throw new Error('this should never happen!');
+        }
         const nextBlock = this.getBlock({
           lineIndex,
           blockIndex: blockIndex + 1,

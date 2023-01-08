@@ -352,7 +352,7 @@ export class QueryCollectionService {
     const subcollections = await this.getSubcollections(collectionId);
     for (let i = 0; i < subcollections.length; i++) {
       const subcollection = subcollections[i];
-      if (subcollection.id) {
+      if (subcollection?.id) {
         await this.storage.queryCollections.delete(subcollection.id);
       }
     }
@@ -399,6 +399,10 @@ export class QueryCollectionService {
     const collectionTree = await this.getCollectionTreeByCollectionId(
       collectionId
     );
+
+    if (!collectionTree) {
+      throw new Error('Collection not found!');
+    }
 
     return this.getExportCollectionDataFromCollectionTree(collectionTree);
   }
@@ -458,7 +462,12 @@ export class QueryCollectionService {
 
   async handleImportedFile(files: FileList) {
     try {
-      const dataStr = await getFileStr(files[0]);
+      const file = files[0];
+      if (!file) {
+        debug.log('No file specified');
+        return;
+      }
+      const dataStr = await getFileStr(file);
       return this.importCollectionDataFromJson(dataStr);
     } catch (error) {
       debug.log('There was an issue importing the file.', error);

@@ -59,7 +59,7 @@ export function localReducer(
         installedPlugins: {
           ...state.installedPlugins,
           [action.payload.pluginName]: {
-            ...state.installedPlugins[action.payload.pluginName],
+            ...state.installedPlugins[action.payload.pluginName]!,
             isActive: action.payload.isActive,
           },
         },

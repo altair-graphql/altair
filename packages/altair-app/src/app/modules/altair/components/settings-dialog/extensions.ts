@@ -48,13 +48,16 @@ const schemaCompletionSource: CompletionSource = (ctx) => {
   const pathSegments = [];
   for (let i = 0; i < x.length; i++) {
     const curNodeVal = x[i];
-    switch (curNodeVal.type) {
+    switch (curNodeVal?.type) {
       case 'JsonText':
         continue;
       case 'Object':
         // for objects, look ahead for property name
         const nextNodeVal = x[i + 1];
-        if (['Property', 'PropertyName'].includes(nextNodeVal?.type)) {
+        if (
+          nextNodeVal &&
+          ['Property', 'PropertyName'].includes(nextNodeVal?.type)
+        ) {
           pathSegments.push({ type: 'PropertyName', val: nextNodeVal.val });
         }
         // increment i since we are consuming the next node val here as well

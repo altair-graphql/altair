@@ -16,8 +16,15 @@ export class SortPipe implements PipeTransform {
       return list.sort();
     }
 
-    return list.sort((a, b) =>
-      a[key].toLowerCase() > b[key].toLowerCase() ? 1 : -1
-    );
+    return list.sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+
+      if (typeof aValue !== 'string' || typeof bValue !== 'string') {
+        return 0;
+      }
+
+      return aValue.toLowerCase() > bValue.toLowerCase() ? 1 : -1;
+    });
   }
 }

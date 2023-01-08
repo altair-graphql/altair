@@ -102,7 +102,7 @@ export function environmentsReducer(
         newPos < state.subEnvironments.length
       ) {
         const arr = [...state.subEnvironments];
-        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]);
+        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]!);
 
         return { ...state, subEnvironments: [...arr] };
       }

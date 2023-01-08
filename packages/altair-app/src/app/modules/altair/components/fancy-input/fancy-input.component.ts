@@ -170,7 +170,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const ranges: Range[] = [];
     let match;
     while (((match = highlight.exec(val)), match !== null)) {
-      ranges.push([match.index, match.index + match[0].length]);
+      ranges.push([match.index, match.index + match[0]!.length]);
       if (!highlight.global) {
         // non-global regexes do not increase lastIndex, causing an infinite loop,
         // but we can just break manually after the first match

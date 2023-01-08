@@ -18,6 +18,10 @@ export const getUserDataByEmail = async (
 
   const snapshot = snapshots.docs[0];
 
+  if (!snapshot) {
+    return;
+  }
+
   return {
     ...snapshot.data(),
     id: snapshot.id,

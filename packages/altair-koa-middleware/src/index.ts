@@ -20,12 +20,15 @@ export const createRouteExplorer = ({
   });
 
   // Use the main favicon for my API subdomain.
-  router.get(`${url}/favicon.ico`, (ctx) => {
+  router.get(`${url}/favicon.ico`, ctx => {
     ctx.status = 301;
     ctx.redirect(`/favicon.ico`);
   });
 
-  router.get(`${url}/:path+`, async (ctx) => {
-    await send(ctx, ctx.params.path, { root: getDistDirectory() });
+  router.get(`${url}/:path+`, async ctx => {
+    const path = ctx.params.path;
+    if (path) {
+      await send(ctx, path, { root: getDistDirectory() });
+    }
   });
 };

@@ -30,9 +30,9 @@ export function windowsMetaReducer(
       );
       let newActiveWindowId = '';
       if (idx >= state.windowIds.length - 1) {
-        newActiveWindowId = state.windowIds[0];
+        newActiveWindowId = state.windowIds[0] ?? '';
       } else {
-        newActiveWindowId = state.windowIds[idx + 1];
+        newActiveWindowId = state.windowIds[idx + 1] ?? '';
       }
       return { ...state, activeWindowId: newActiveWindowId };
     }
@@ -42,9 +42,9 @@ export function windowsMetaReducer(
       );
       let newActiveWindowId = '';
       if (idx <= 0) {
-        newActiveWindowId = state.windowIds[state.windowIds.length - 1];
+        newActiveWindowId = state.windowIds[state.windowIds.length - 1] ?? '';
       } else {
-        newActiveWindowId = state.windowIds[idx - 1];
+        newActiveWindowId = state.windowIds[idx - 1] ?? '';
       }
       return { ...state, activeWindowId: newActiveWindowId };
     }
@@ -63,7 +63,7 @@ export function windowsMetaReducer(
         newPos < state.windowIds.length
       ) {
         const arr = [...state.windowIds];
-        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]);
+        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]!);
 
         return { ...state, windowIds: [...arr] };
       }
