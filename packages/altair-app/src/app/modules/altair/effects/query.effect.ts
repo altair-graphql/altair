@@ -841,14 +841,14 @@ export class QueryEffects {
         // For electron app, send the instruction to set headers
         this.electronAppService.setHeaders(headers);
 
-        const subscriptionErrorHandler = (
-          err: Error | Error[],
-          errMsg?: string
-        ) => {
+        const subscriptionErrorHandler = (err: unknown, errMsg?: string) => {
           if (Array.isArray(err)) {
             err = err[0];
           }
-          errMsg = errMsg || err.message || err.stack;
+
+          if (err instanceof Error) {
+            errMsg = errMsg || err?.message || err?.stack;
+          }
           if (!errMsg) {
             if (err instanceof Event && err.type === 'error') {
               if (err.target && err.target instanceof WebSocket) {
@@ -1295,7 +1295,6 @@ export class QueryEffects {
           }
         } catch (error) {
           debug.log(error);
-          const errorMessage = error.message ? error.message : error.toString();
           this.notifyService.error(
             `Your query does not appear to be valid. Please check it.`
           );
@@ -1360,7 +1359,6 @@ export class QueryEffects {
           }
         } catch (error) {
           debug.log(error);
-          const errorMessage = error.message ? error.message : error.toString();
           this.notifyService.error(
             `Your query does not appear to be valid. Please check it.`
           );

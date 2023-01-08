@@ -8,12 +8,12 @@ import {
   User,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
-import { createUtilsContext, getTeams } from 'altair-firebase-utils';
+import { createUtilsContext, getTeams, usersRef } from 'altair-firebase-utils';
 import { environment } from 'environments/environment';
 import { from, Observable } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { firebaseClient, updateDocument, usersRef } from '../firebase/firebase';
+import { firebaseClient, updateDocument } from '../firebase/firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class AccountService {
   async accountLogin() {
     const cred = await this.signin();
 
-    await updateDocument(doc(usersRef(), cred.user.uid), {
+    await updateDocument(doc(usersRef(firebaseClient.db), cred.user.uid), {
       name: cred.user.displayName || cred.user.email || '',
       email: cred.user.email || '',
       created_at: this.now(),

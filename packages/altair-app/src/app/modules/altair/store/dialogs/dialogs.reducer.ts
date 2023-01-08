@@ -1,5 +1,6 @@
 import { DialogState } from 'altair-graphql-core/build/types/state/dialog.interfaces';
 import * as dialogs from '../../store/dialogs/dialogs.action';
+import { AllActions } from '../action';
 
 export const getInitialState = (): DialogState => {
   return {
@@ -13,7 +14,7 @@ export const getInitialState = (): DialogState => {
 
 export function dialogReducer(
   state = getInitialState(),
-  action: dialogs.Action
+  action: AllActions
 ): DialogState {
   switch (action.type) {
     case dialogs.TOGGLE_HEADER_DIALOG:

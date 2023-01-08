@@ -10,9 +10,10 @@ interface ISelectedFile {
 
 @Injectable()
 export class StorageService extends Dexie {
-  queryCollections: Dexie.Table<IQueryCollection, number | string>;
-  appState: Dexie.Table<{ key: string; value: unknown }, string>;
-  selectedFiles: Dexie.Table<ISelectedFile, string>;
+  // (just to inform Typescript. Instanciated by Dexie in stores() method)
+  queryCollections!: Dexie.Table<IQueryCollection, number | string>;
+  appState!: Dexie.Table<{ key: string; value: unknown }, string>;
+  selectedFiles!: Dexie.Table<ISelectedFile, string>;
 
   constructor() {
     super('AltairDB');

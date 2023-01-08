@@ -86,7 +86,7 @@ export class GqlService {
     Accept: 'application/json',
   };
 
-  headers: HttpHeaders;
+  headers = new HttpHeaders();
   introspectionData = {};
 
   private api_url = localStorage.getItem('altair:url');
@@ -259,7 +259,6 @@ export class GqlService {
         return schema;
       } catch (err) {
         debug.log('Bad introspection data.', err);
-        const errorMessage = err.message ? err.message : err.toString();
         this.notifyService.error(`
             Looks like the GraphQL schema is invalid.
             Please check that your schema in your GraphQL server conforms to the latest GraphQL spec.

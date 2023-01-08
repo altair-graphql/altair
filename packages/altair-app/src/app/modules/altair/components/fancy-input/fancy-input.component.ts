@@ -64,9 +64,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 
-  @ViewChild('fancyInputEl', { static: true }) fancyInputEl: ElementRef;
+  @ViewChild('fancyInputEl', { static: true }) fancyInputEl?: ElementRef;
   @ViewChild('fancyInputHighlightsEl', { static: true })
-  fancyInputHighlightsEl: ElementRef;
+  fancyInputHighlightsEl?: ElementRef;
 
   highlightData = {
     sections: [] as HighlightSection[],
@@ -122,7 +122,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   handleInput() {
-    const val = this.fancyInputEl.nativeElement.value;
+    const val: string = this.fancyInputEl?.nativeElement?.value ?? '';
     const ranges = this.getRanges(val, VARIABLE_REGEX);
     const unstaggeredRanges = this.removeStaggeredRanges(ranges);
     const boundaries = this.getBoundaries(unstaggeredRanges);
@@ -256,6 +256,9 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   updateHighlighterScroll() {
     const updateHighlighterScrollTimeout = setTimeout(() => {
+      if (!this.fancyInputHighlightsEl || !this.fancyInputEl) {
+        return;
+      }
       this.fancyInputHighlightsEl.nativeElement.scrollLeft =
         this.fancyInputEl.nativeElement.scrollLeft;
       this.fancyInputHighlightsEl.nativeElement.scrollTop =

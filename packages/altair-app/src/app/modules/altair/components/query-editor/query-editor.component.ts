@@ -121,14 +121,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() queryEditorStateChange = new EventEmitter<QueryEditorState>();
   @Output() showTokenInDocsChange = new EventEmitter();
 
-  @ViewChild('editor') editor: ElementRef & {
+  @ViewChild('editor') editor?: ElementRef & {
     codeMirror: CodeMirror.Editor;
   };
 
   // TODO: Add static: true
   @ViewChild('newEditor') newEditor: CodemirrorComponent | undefined;
 
-  @HostBinding('style.flex-grow') public resizeFactor: number;
+  @HostBinding('style.flex-grow') public resizeFactor = 1;
 
   selectedIndex = 0;
 
@@ -221,7 +221,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   widgets: CodeMirror.LineWidget[] = [];
-  updateWidgetTimeout: ReturnType<typeof setTimeout>;
+  updateWidgetTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(
     private gqlService: GqlService,
@@ -410,7 +410,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
    */
   onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
-      this.editor.codeMirror.execCommand('autocomplete');
+      if (this.editor) {
+        this.editor.codeMirror.execCommand('autocomplete');
+      }
     }
   }
 
@@ -438,7 +440,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         name: typeInfo.type.inspect(),
       });
     }
-    this.editor.codeMirror.getInputField().blur();
+    if (this.editor) {
+      this.editor.codeMirror.getInputField().blur();
+    }
   }
 
   onShowInDocsByReference(reference: TODO) {

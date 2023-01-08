@@ -2,20 +2,20 @@ import { Action, ActionReducer, INIT } from '@ngrx/store';
 
 import * as windowsActions from './windows.action';
 import { IDictionary } from '../../interfaces/shared';
-import { AllActions, INIT_WINDOW } from '../action';
+import { AllActions, InitWindowAction, INIT_WINDOW } from '../action';
 import { normalize } from '../compatibility-normalizer';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 export const getInitWindowState = (
-  perWindowReducer: ActionReducer<PerWindowState>
-) => perWindowReducer(undefined, { type: INIT_WINDOW });
+  perWindowReducer: ActionReducer<PerWindowState, AllActions>
+) => perWindowReducer(undefined, new InitWindowAction());
 
 /**
  * Metareducer to add new window and pass the correct window state to the main reducer
  * @param reducer
  */
-export function windows(reducer: ActionReducer<PerWindowState>) {
+export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
   const initialState: WindowState = {};
 
   return function (state = initialState, action: AllActions) {

@@ -29,7 +29,7 @@ export const converter = <T>() => ({
     ({ id: snap.id, ...snap.data() } as T & { id: string }),
 });
 
-const dataPoint = <T>(
+export const dataPoint = <T>(
   db: Firestore,
   path: string,
   ...collectionPaths: string[]

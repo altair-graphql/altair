@@ -96,6 +96,7 @@ export const openFile = async (opts: FileDialogOptions = {}) => {
     return getFileStr(files[0]);
   } catch (err) {
     debug.log('There was an issue while opening the file: ', err);
+    return '';
   }
 };
 

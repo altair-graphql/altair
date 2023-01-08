@@ -76,7 +76,7 @@ export class CodemirrorComponent
 
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 
-  view: EditorView;
+  view?: EditorView;
   private value = '';
   private onTouched = () => {};
   private onChange = (s: string) => {};
@@ -108,11 +108,15 @@ export class CodemirrorComponent
   }
 
   ngOnDestroy() {
-    this.view.destroy();
+    this.view?.destroy();
   }
 
   writeValue(value: string) {
     if (value === null || value === undefined) {
+      return;
+    }
+
+    if (!this.view) {
       return;
     }
 

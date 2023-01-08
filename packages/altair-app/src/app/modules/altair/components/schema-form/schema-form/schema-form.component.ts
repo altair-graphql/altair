@@ -29,7 +29,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
   @Output() dataChange = new EventEmitter<IDictionary>();
 
   schemaProperties: SchemaFormProperty[] = [];
-  formData: IDictionary;
+  formData: IDictionary = {};
 
   ngOnInit() {
     // console.log('SCHEMA:', this.schema);

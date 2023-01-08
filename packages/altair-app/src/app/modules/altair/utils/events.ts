@@ -5,20 +5,27 @@
  * @param fn
  * @example on('click', '.el', fn);
  */
-export const on = (
-  eventName: string,
+export const on = <
+  T extends Element,
+  E extends keyof HTMLElementEventMap = 'click'
+>(
+  eventName: E,
   elSelector: string,
-  fn: (e: Event) => void
+  fn: (this: T, e: HTMLElementEventMap[E]) => void
 ) => {
-  document.body.addEventListener(eventName, function (e: Event) {
-    if (e.target && (e.target as Element).matches(elSelector)) {
+  document.body.addEventListener(eventName, function (e) {
+    if (
+      e.target &&
+      'matches' in e.target &&
+      (e.target as T).matches(elSelector)
+    ) {
       fn.apply(e.target, [e]);
     }
   });
 };
 
 export const handleExternalLinks = () => {
-  on('click', 'a', function (e: Event) {
+  on<HTMLAnchorElement>('click', 'a', function (e) {
     const url = this.href || '';
 
     if (!url.replace(/#.*$/, '')) {

@@ -135,7 +135,8 @@ export const refactorFieldsWithFragmentSpread = (
               refactorFields.every(
                 (field) =>
                   !!node.selectionSet!.selections.find(
-                    (selection: FieldNode) => selection.name.value === field
+                    (selection) =>
+                      'name' in selection && selection.name.value === field
                   )
               )
             ) {
@@ -145,7 +146,8 @@ export const refactorFieldsWithFragmentSpread = (
                   ...node.selectionSet,
                   selections: [
                     ...node.selectionSet.selections.filter(
-                      (selection: FieldNode) =>
+                      (selection) =>
+                        'name' in selection &&
                         !refactorFields.includes(selection.name.value)
                     ),
                     getFragmentSpreadNode(getRefactoredFragmentName(typeName)),

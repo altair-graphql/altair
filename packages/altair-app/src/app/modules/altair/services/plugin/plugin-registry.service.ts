@@ -319,7 +319,7 @@ export class PluginRegistryService {
       script.type = 'text/javascript';
       script.src = url;
       script.onload = () => resolve(null);
-      script.onerror = (err: Event) => reject(err);
+      script.onerror = (err) => reject(err);
       head.appendChild(script);
     });
   }
@@ -331,7 +331,7 @@ export class PluginRegistryService {
       style.rel = 'stylesheet';
       style.href = url;
       style.onload = () => resolve(null);
-      style.onerror = (err: Event) => reject(err);
+      style.onerror = (err) => reject(err);
       head.appendChild(style);
     });
   }

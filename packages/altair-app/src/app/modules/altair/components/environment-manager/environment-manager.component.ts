@@ -17,8 +17,9 @@ import {
 import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { Options as SortableOptions, SortableEvent } from 'sortablejs';
+import { TODO } from 'altair-graphql-core/build/types/shared';
 (window as any).jsonlint = (window as any).jsonlint || {
-  parser: {
+  parser: <TODO>{
     parse: function (str: string) {
       try {
         return JSON.parse(str);
@@ -54,7 +55,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Output() deleteSubEnvironmentChange = new EventEmitter();
   @Output() repositionSubEnvironmentsChange = new EventEmitter();
 
-  @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl: ElementRef;
+  @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl?: ElementRef;
 
   editorExtensions: Extension[] = [
     json(),
@@ -68,10 +69,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   sortableOptions: SortableOptions;
 
-  ngOnInit() {
-    if (this.environments) {
-      this.selectEnvironment(this.environments.activeSubEnvironment);
-    }
+  constructor() {
     this.sortableOptions = {
       onUpdate: (event: SortableEvent) => {
         this.repositionSubEnvironmentsChange.emit({
@@ -80,6 +78,12 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
         });
       },
     };
+  }
+
+  ngOnInit() {
+    if (this.environments) {
+      this.selectEnvironment(this.environments.activeSubEnvironment);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -133,7 +137,9 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   }
 
   setFocusOnEnvironmentTitle() {
-    this.subEnvironmentTitleEl.nativeElement.focus();
+    if (this.subEnvironmentTitleEl) {
+      this.subEnvironmentTitleEl.nativeElement.focus();
+    }
   }
 
   onDeleteSubEnvironment() {

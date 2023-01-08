@@ -81,6 +81,7 @@ export const getPropertyRef = (
     const refPath = property.$ref.split('/');
     return getReference(schema, refPath);
   }
+  return;
 };
 
 // FIXME: Might be buggy. Still unused. Check before use.

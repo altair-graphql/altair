@@ -280,7 +280,11 @@ const syncStateUpdate = async () => {
       }
     );
   } catch (error) {
-    if (error.name !== 'AbortError') {
+    if (
+      error instanceof Error &&
+      'name' in error &&
+      error.name !== 'AbortError'
+    ) {
       debug.error(new Error('Cannot sync state update :('));
       debug.error(error);
     }

@@ -1,4 +1,5 @@
 import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
+import { AllActions } from '../action';
 
 import * as windowsMeta from './windows-meta.action';
 
@@ -18,7 +19,7 @@ export const getInitialState = (): WindowsMetaState => {
 
 export function windowsMetaReducer(
   state = getInitialState(),
-  action: windowsMeta.Action
+  action: AllActions
 ): WindowsMetaState {
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:

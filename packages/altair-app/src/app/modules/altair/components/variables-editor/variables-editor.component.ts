@@ -46,7 +46,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() variablesChange = new EventEmitter();
 
-  @ViewChild('editor', { static: true }) editor: ElementRef & {
+  @ViewChild('editor', { static: true }) editor?: ElementRef & {
     codeMirror: CodeMirror.Editor;
   };
 
@@ -117,7 +117,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
 
   onKeyUp(cm: CodeMirror.Editor, event: KeyboardEvent) {
     if (AUTOCOMPLETE_CHARS.test(event.key)) {
-      this.editor.codeMirror.execCommand('autocomplete');
+      if (this.editor) {
+        this.editor.codeMirror.execCommand('autocomplete');
+      }
     }
   }
 
@@ -125,7 +127,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     if (variableToType) {
       this.variableEditorConfig.lint.variableToType = variableToType;
       this.variableEditorConfig.hintOptions.variableToType = variableToType;
-      if (this.newEditor) {
+      if (this.newEditor?.view) {
         updateVariableToType(this.newEditor.view, variableToType);
       }
     }

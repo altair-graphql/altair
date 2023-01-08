@@ -19,7 +19,7 @@
     "types": ["jest"],
     "downlevelIteration": true,
     "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
-    "module": "es2020"
+    "module": "es2020",
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true,

@@ -5,6 +5,7 @@ import {
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import * as environmentsAction from './environments.action';
+import { AllActions } from '../action';
 
 export const getInitialEnvironmentState = (): EnvironmentState => {
   const {
@@ -42,7 +43,7 @@ export const getInitialState = (): EnvironmentsState => {
 
 export function environmentsReducer(
   state = getInitialState(),
-  action: environmentsAction.Action
+  action: AllActions
 ): EnvironmentsState {
   switch (action.type) {
     case environmentsAction.ADD_SUB_ENVIRONMENT:

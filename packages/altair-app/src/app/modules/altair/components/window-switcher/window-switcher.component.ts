@@ -35,7 +35,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() reopenClosedWindowChange = new EventEmitter();
 
   @ViewChild(ContextMenuComponent, { static: true })
-  public windowTabMenu: ContextMenuComponent;
+  public windowTabMenu?: ContextMenuComponent;
 
   windowTabMenuData = [{ name: 'Edit' }];
 

@@ -54,7 +54,7 @@ export class QueryResultComponent implements OnChanges {
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
   @ViewChild('subscriptionResponseList', { static: true })
-  subscriptionResponseList: ElementRef;
+  subscriptionResponseList?: ElementRef;
 
   isElectron = isElectron;
 

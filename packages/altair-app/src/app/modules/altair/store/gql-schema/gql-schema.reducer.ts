@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GQLSchemaState } from 'altair-graphql-core/build/types/state/gql-schema.interfaces';
+import { AllActions } from '../action';
 
 import * as gqlSchema from './gql-schema.action';
 
@@ -12,7 +13,7 @@ export const getInitialState = (): GQLSchemaState => {
 
 export function gqlSchemaReducer(
   state = getInitialState(),
-  action: gqlSchema.Action
+  action: AllActions
 ): GQLSchemaState {
   switch (action.type) {
     case gqlSchema.SET_INTROSPECTION:

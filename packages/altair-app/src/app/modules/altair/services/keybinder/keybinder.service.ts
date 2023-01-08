@@ -26,7 +26,7 @@ export interface KeyboardShortcut {
 
 @Injectable()
 export class KeybinderService {
-  windowIds: string[];
+  windowIds: string[] = [];
   activeWindowId = '';
 
   private shortcuts: KeyboardShortcut[] = [];

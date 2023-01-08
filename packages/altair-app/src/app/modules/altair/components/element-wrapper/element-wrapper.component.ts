@@ -19,7 +19,7 @@ export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   @Input() windowId = '';
   @Input() activeWindowId = '';
 
-  @ViewChild('elRef', { static: true }) elRef: ElementRef<HTMLDivElement>;
+  @ViewChild('elRef', { static: true }) elRef?: ElementRef<HTMLDivElement>;
 
   constructor() {}
 
@@ -32,10 +32,11 @@ export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   }
 
   handleRender() {
-    if (this.element) {
+    if (this.element && this.elRef) {
       if (this.windowId && this.windowId !== this.activeWindowId) {
         return;
       }
+
       this.elRef.nativeElement.appendChild(this.element);
     }
   }

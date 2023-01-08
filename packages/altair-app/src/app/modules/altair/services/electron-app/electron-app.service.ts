@@ -31,7 +31,7 @@ interface ConnectOptions {
   providedIn: 'root',
 })
 export class ElectronAppService {
-  windowIds: string[];
+  windowIds: string[] = [];
   activeWindowId = '';
 
   private ipc: IpcRenderer | undefined = (window as any).ipc;
@@ -142,7 +142,7 @@ export class ElectronAppService {
         (state: RootState) => state.settings['alert.disableUpdateNotification']
       )
       .pipe(take(1))
-      .subscribe((disableUpdateNotification: boolean) => {
+      .subscribe((disableUpdateNotification) => {
         if (!disableUpdateNotification) {
           this.initUpdateAvailableHandler();
         }

@@ -18,7 +18,7 @@ export class PluginManagerComponent {
   @Output() settingsJsonChange = new EventEmitter();
 
   remotePlugins$: Observable<RemotePluginListItem[]>;
-  selectedPluginItem: RemotePluginListItem;
+  selectedPluginItem?: RemotePluginListItem;
 
   shouldRestart = false;
 

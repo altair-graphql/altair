@@ -1,4 +1,5 @@
 import { StreamState } from 'altair-graphql-core/build/types/state/stream.interfaces';
+import { AllActions } from '../action';
 import * as stream from './stream.action';
 
 export const getInitialState = (): StreamState => {
@@ -11,7 +12,7 @@ export const getInitialState = (): StreamState => {
 
 export function streamReducer(
   state = getInitialState(),
-  action: stream.Action
+  action: AllActions
 ): StreamState {
   switch (action.type) {
     case stream.SET_STREAM_SETTING:

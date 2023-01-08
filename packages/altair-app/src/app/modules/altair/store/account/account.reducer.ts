@@ -1,6 +1,7 @@
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 import * as account from '../../store/account/account.action';
+import { AllActions } from '../action';
 
 export const getInitialState = (): AccountState => {
   return {
@@ -15,7 +16,7 @@ export const getInitialState = (): AccountState => {
 
 export function accountReducer(
   state = getInitialState(),
-  action: account.Action
+  action: AllActions
 ): AccountState {
   switch (action.type) {
     case account.ACCOUNT_IS_LOGGED_IN:

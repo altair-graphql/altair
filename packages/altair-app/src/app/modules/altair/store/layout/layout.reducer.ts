@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
 
 import * as layout from '../../store/layout/layout.action';
+import { AllActions } from '../action';
 
 export const getInitialState = (): LayoutState => {
   return {
@@ -13,7 +14,7 @@ export const getInitialState = (): LayoutState => {
 
 export function layoutReducer(
   state = getInitialState(),
-  action: layout.Action
+  action: AllActions
 ): LayoutState {
   switch (action.type) {
     case layout.START_LOADING:
