@@ -260,7 +260,7 @@ export function setByDotNotation<TResult = any>(
   }
 
   const currentPath = path[0];
-  if (!currentPath) {
+  if (typeof currentPath === 'undefined') {
     return;
   }
   const currentValue = obj[currentPath];

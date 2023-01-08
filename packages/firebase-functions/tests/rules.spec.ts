@@ -202,7 +202,7 @@ describe('firestore rules', () => {
 
       const ctx = createUtilsContext(user.uid, getFirestore(testCtx));
       const collectionServerId = '1234';
-      const [queryId] = await createQueries(ctx, collectionServerId, [
+      const [queryId = ''] = await createQueries(ctx, collectionServerId, [
         {
           version: 1,
           apiUrl: '',
@@ -238,7 +238,7 @@ describe('firestore rules', () => {
 
       const ctx = createUtilsContext(user.uid, getFirestore(testCtx));
       const collectionServerId = '1234';
-      const [queryId] = await createQueries(ctx, collectionServerId, [
+      const [queryId = ''] = await createQueries(ctx, collectionServerId, [
         {
           version: 1,
           apiUrl: '',
@@ -360,7 +360,7 @@ describe('firestore rules', () => {
       const teams = await assertSucceeds(getTeams(ctx));
 
       expect(teams.length).toBe(1);
-      const t = teams[0];
+      const t = teams[0]!;
 
       expect(t).not.toBeUndefined();
       expect(t.id).toBe(teamId);
@@ -390,7 +390,7 @@ describe('firestore rules', () => {
       const teams = await assertSucceeds(getTeams(ctx));
 
       expect(teams.length).toBe(1);
-      const t = teams[0];
+      const t = teams[0]!;
 
       expect(t).not.toBeUndefined();
       expect(t.id).toBe(teamId);
@@ -440,7 +440,7 @@ describe('firestore rules', () => {
         getTeamMembers(ctx, new TeamId(teamId))
       );
       expect(members.length).toBe(1);
-      expect(members[0].uid).toBe(bobUser.uid);
+      expect(members[0]!.uid).toBe(bobUser.uid);
     });
 
     it('team admins can add team members', async () => {

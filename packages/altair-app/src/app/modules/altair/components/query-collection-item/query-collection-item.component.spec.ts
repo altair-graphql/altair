@@ -143,9 +143,9 @@ describe('QueryCollectionItemComponent', () => {
     const queryItemTitles = wrapper.findAll(
       '[data-test-id="query-item-title"]'
     );
-    expect(queryItemTitles[0].html()).toContain('Another Query');
-    expect(queryItemTitles[1].html()).toContain('Query 1');
-    expect(queryItemTitles[2].html()).toContain('Zap Query');
+    expect(queryItemTitles[0]!.html()).toContain('Another Query');
+    expect(queryItemTitles[1]!.html()).toContain('Query 1');
+    expect(queryItemTitles[2]!.html()).toContain('Zap Query');
   });
 
   it('should sort rendered queries when sortBy (z-a) is clicked', async () => {
@@ -157,9 +157,9 @@ describe('QueryCollectionItemComponent', () => {
     const queryItemTitles = wrapper.findAll(
       '[data-test-id="query-item-title"]'
     );
-    expect(queryItemTitles[0].html()).toContain('Zap Query');
-    expect(queryItemTitles[1].html()).toContain('Query 1');
-    expect(queryItemTitles[2].html()).toContain('Another Query');
+    expect(queryItemTitles[0]!.html()).toContain('Zap Query');
+    expect(queryItemTitles[1]!.html()).toContain('Query 1');
+    expect(queryItemTitles[2]!.html()).toContain('Another Query');
   });
 
   it('should sort rendered queries when sortBy (newest) is clicked', async () => {
@@ -171,9 +171,9 @@ describe('QueryCollectionItemComponent', () => {
     const queryItemTitles = wrapper.findAll(
       '[data-test-id="query-item-title"]'
     );
-    expect(queryItemTitles[0].html()).toContain('Another Query');
-    expect(queryItemTitles[1].html()).toContain('Zap Query');
-    expect(queryItemTitles[2].html()).toContain('Query 1');
+    expect(queryItemTitles[0]!.html()).toContain('Another Query');
+    expect(queryItemTitles[1]!.html()).toContain('Zap Query');
+    expect(queryItemTitles[2]!.html()).toContain('Query 1');
   });
 
   it('should sort rendered queries when sortBy (oldest) is clicked', async () => {
@@ -185,9 +185,9 @@ describe('QueryCollectionItemComponent', () => {
     const queryItemTitles = wrapper.findAll(
       '[data-test-id="query-item-title"]'
     );
-    expect(queryItemTitles[0].html()).toContain('Query 1');
-    expect(queryItemTitles[1].html()).toContain('Zap Query');
-    expect(queryItemTitles[2].html()).toContain('Another Query');
+    expect(queryItemTitles[0]!.html()).toContain('Query 1');
+    expect(queryItemTitles[1]!.html()).toContain('Zap Query');
+    expect(queryItemTitles[2]!.html()).toContain('Another Query');
   });
 
   it('should render collapsed collection correctly', async () => {

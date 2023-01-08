@@ -88,9 +88,9 @@ function getComponentMeta(compType: any) {
 }
 
 export class BaseTestHostComponent {
-  mock: IDictionary<{ calls: any[] }>;
-  inputs: IDictionary;
-  outputList: string[];
+  mock!: IDictionary<{ calls: any[] }>;
+  inputs!: IDictionary;
+  outputList!: string[];
 }
 
 interface TestMountOptions extends TestModuleMetadata {
@@ -149,7 +149,11 @@ export async function mount(mountOptions: TestMountOptions) {
   try {
     testHostFixture.detectChanges();
   } catch (error) {
-    error.message = `There was an error while creating the test component.\n${error.message}`;
+    (
+      error as Error
+    ).message = `There was an error while creating the test component.\n${
+      (error as Error).message
+    }`;
     throw error;
   }
 
