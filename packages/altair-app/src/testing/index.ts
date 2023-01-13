@@ -11,8 +11,17 @@ export function mock<T>(obj: Partial<T> = {}): T {
 export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   const store = of(obj);
   (store as any).dispatch = jest.fn();
-  (store as any).select = (...args: any[]) =>
-    Store.prototype.select.apply(store, args);
+  (store as any).select = (
+    ...args: [
+      key1: string | number | symbol,
+      key2: string | number | symbol,
+      key3: string | number | symbol,
+      key4: string | number | symbol,
+      key5: string | number | symbol,
+      key6: string | number | symbol,
+      ...paths: string[]
+    ]
+  ) => Store.prototype.select.apply(store, args);
   return store as Store<T>;
 }
 

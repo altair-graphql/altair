@@ -1,4 +1,5 @@
 import { WindowsMetaState } from 'altair-graphql-core/build/types/state/windows-meta.interfaces';
+import { AllActions } from '../action';
 
 import * as windowsMeta from './windows-meta.action';
 
@@ -18,7 +19,7 @@ export const getInitialState = (): WindowsMetaState => {
 
 export function windowsMetaReducer(
   state = getInitialState(),
-  action: windowsMeta.Action
+  action: AllActions
 ): WindowsMetaState {
   switch (action.type) {
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
@@ -29,9 +30,9 @@ export function windowsMetaReducer(
       );
       let newActiveWindowId = '';
       if (idx >= state.windowIds.length - 1) {
-        newActiveWindowId = state.windowIds[0];
+        newActiveWindowId = state.windowIds[0] ?? '';
       } else {
-        newActiveWindowId = state.windowIds[idx + 1];
+        newActiveWindowId = state.windowIds[idx + 1] ?? '';
       }
       return { ...state, activeWindowId: newActiveWindowId };
     }
@@ -41,9 +42,9 @@ export function windowsMetaReducer(
       );
       let newActiveWindowId = '';
       if (idx <= 0) {
-        newActiveWindowId = state.windowIds[state.windowIds.length - 1];
+        newActiveWindowId = state.windowIds[state.windowIds.length - 1] ?? '';
       } else {
-        newActiveWindowId = state.windowIds[idx - 1];
+        newActiveWindowId = state.windowIds[idx - 1] ?? '';
       }
       return { ...state, activeWindowId: newActiveWindowId };
     }
@@ -62,7 +63,7 @@ export function windowsMetaReducer(
         newPos < state.windowIds.length
       ) {
         const arr = [...state.windowIds];
-        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]);
+        arr.splice(newPos, 0, arr.splice(curPos, 1)[0]!);
 
         return { ...state, windowIds: [...arr] };
       }

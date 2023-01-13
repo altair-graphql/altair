@@ -55,8 +55,8 @@ export class DocViewerComponent implements OnChanges {
   @Output() exportSDLChange = new EventEmitter();
   @Output() loadSchemaChange = new EventEmitter();
 
-  @HostBinding('style.flex-grow') public resizeFactor: number;
-  @ViewChild('docViewer') docViewerRef: ElementRef;
+  @HostBinding('style.flex-grow') public resizeFactor?: number;
+  @ViewChild('docViewer') docViewerRef?: ElementRef;
 
   rootTypes: GraphQLObjectType[] = [];
   index: DocumentIndexEntry[] = [];
@@ -131,7 +131,9 @@ export class DocViewerComponent implements OnChanges {
 
   setDocView(docView?: DocView) {
     this.setDocViewChange.next(docView);
-    this.docViewerRef.nativeElement.scrollTop = 0;
+    if (this.docViewerRef) {
+      this.docViewerRef.nativeElement.scrollTop = 0;
+    }
   }
 
   /**

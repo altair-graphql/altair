@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DonationState } from 'altair-graphql-core/build/types/state/donation.interfaces';
+import { AllActions } from '../action';
 
 import * as donation from './donation.action';
 
@@ -11,7 +12,7 @@ export const getInitialState = (): DonationState => {
 
 export function donationReducer(
   state = getInitialState(),
-  action: donation.Action
+  action: AllActions
 ): DonationState {
   switch (action.type) {
     case donation.SHOW_DONATION_ALERT:

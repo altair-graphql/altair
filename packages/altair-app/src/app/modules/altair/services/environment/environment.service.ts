@@ -28,7 +28,7 @@ interface HydrateEnvironmentOptions {
   providedIn: 'root',
 })
 export class EnvironmentService {
-  environmentsState: EnvironmentsState;
+  environmentsState?: EnvironmentsState;
 
   constructor(private store: Store<RootState>) {
     this.store.subscribe({
@@ -42,14 +42,19 @@ export class EnvironmentService {
     let baseEnvironment = {};
     let subEnvironment = {};
 
+    if (!this.environmentsState) {
+      return {};
+    }
+
     try {
       baseEnvironment = JSON.parse(this.environmentsState.base.variablesJson);
     } catch (ex) {}
 
     if (this.environmentsState.activeSubEnvironment) {
+      const activeSubEnvironment = this.environmentsState.activeSubEnvironment;
       const activeSubEnvState = this.environmentsState.subEnvironments.find(
         (env) => {
-          return env.id === this.environmentsState.activeSubEnvironment;
+          return env.id === activeSubEnvironment;
         }
       );
 
@@ -99,6 +104,9 @@ export class EnvironmentService {
       const matches = match.match(/[\w\.]+/);
       if (matches) {
         const variable = matches[0];
+        if (!variable) {
+          return '';
+        }
         if (activeEnvironment[variable]) {
           return activeEnvironment[variable];
         }

@@ -5,6 +5,7 @@ import {
   SettingsState,
 } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { AllActions } from '../action';
 
 export const getInitialState = (): SettingsState => {
   const altairConfig = getAltairConfig();
@@ -20,7 +21,7 @@ export const getInitialState = (): SettingsState => {
 
 export function settingsReducer(
   state = getInitialState(),
-  action: settings.Action
+  action: AllActions
 ): SettingsState {
   switch (action.type) {
     case settings.SET_SETTINGS_JSON: {

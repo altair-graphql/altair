@@ -18,16 +18,12 @@ const getCurlHeaderString = (header: { key: string; value: string }) => {
 const buildUrl = (url: string, params?: { [key: string]: string }) => {
   const euc = encodeURIComponent;
   if (params) {
-    const queryParams = Object.keys(params)
+    const queryParams = Object.entries(params)
       .map(
-        (key) =>
+        ([key, param]) =>
           euc(key) +
           '=' +
-          euc(
-            typeof params[key] === 'string'
-              ? params[key]
-              : JSON.stringify(params[key])
-          )
+          euc(typeof param === 'string' ? param : JSON.stringify(param))
       )
       .join('&');
 

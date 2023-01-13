@@ -145,11 +145,11 @@ export class PluginRegistryService {
       return false;
     }
 
-    if (!approvedMap[opts.pluginSource][opts.name]) {
+    if (!approvedMap[opts.pluginSource]?.[opts.name]) {
       return false;
     }
 
-    return approvedMap[opts.pluginSource][opts.name].includes(opts.version);
+    return approvedMap[opts.pluginSource]?.[opts.name]?.includes(opts.version);
   }
 
   async addPluginToApprovedMap(opts: PluginInfo) {
@@ -169,18 +169,11 @@ export class PluginRegistryService {
       approvedMap = retrievedApprovedMap;
     }
 
-    if (!approvedMap[opts.pluginSource]) {
-      approvedMap[opts.pluginSource] = {};
-    }
+    const pluginsApprovedMap = (approvedMap[opts.pluginSource] ||= {});
 
-    if (!approvedMap[opts.pluginSource][opts.name]) {
-      approvedMap[opts.pluginSource][opts.name] = [];
-    }
+    const currentPluginApprovals = (pluginsApprovedMap[opts.name] ||= []);
 
-    approvedMap[opts.pluginSource][opts.name] = [
-      ...approvedMap[opts.pluginSource][opts.name],
-      opts.version,
-    ];
+    currentPluginApprovals.push(opts.version);
 
     await this.db
       .setItem(PLUGIN_APPROVED_MAP_STORAGE_KEY, approvedMap)
@@ -315,23 +308,29 @@ export class PluginRegistryService {
   private injectPluginScript(url: string) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
+      if (!head) {
+        return reject(new Error('No head found!'));
+      }
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = url;
       script.onload = () => resolve(null);
-      script.onerror = (err: Event) => reject(err);
+      script.onerror = (err) => reject(err);
       head.appendChild(script);
     });
   }
   private injectPluginStylesheet(url: string) {
     return new Promise((resolve, reject) => {
       const head = document.getElementsByTagName('head')[0];
+      if (!head) {
+        return reject(new Error('No head found!'));
+      }
       const style = document.createElement('link');
       style.type = 'text/css';
       style.rel = 'stylesheet';
       style.href = url;
       style.onload = () => resolve(null);
-      style.onerror = (err: Event) => reject(err);
+      style.onerror = (err) => reject(err);
       head.appendChild(style);
     });
   }
@@ -364,7 +363,7 @@ export class PluginRegistryService {
   }
 
   private getURLPluginBaseURL(name: string, opts: PluginInfo) {
-    return opts.url;
+    return opts.url || '';
   }
 
   private resolveURL(baseURL: string, path: string) {

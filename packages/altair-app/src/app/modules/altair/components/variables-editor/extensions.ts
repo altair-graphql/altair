@@ -66,7 +66,7 @@ export const gqlVariables = () => {
           curNode = curNode.parent;
         }
 
-        if (nodeNames[0].type === 'JsonText') {
+        if (nodeNames[0]?.type === 'JsonText') {
           if (ctx.explicit) {
             return {
               from: ctx.pos,
@@ -120,7 +120,7 @@ export const gqlVariables = () => {
             options: variableNames.map((name): Completion => {
               return {
                 label: `"${name}": `,
-                detail: dataSource[name].toString(),
+                detail: dataSource[name]?.toString(),
               };
             }),
           };
@@ -132,7 +132,7 @@ export const gqlVariables = () => {
             options: variableNames.map((name): Completion => {
               return {
                 label: name,
-                detail: dataSource[name].toString(),
+                detail: dataSource[name]?.toString(),
               };
             }),
           };

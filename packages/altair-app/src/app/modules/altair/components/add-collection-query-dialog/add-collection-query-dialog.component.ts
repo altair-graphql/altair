@@ -41,7 +41,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   newCollectionTitle = '';
   collectionId = '';
   newCollectionParentCollectionId = this.parentCollectionRootId;
-  collectionNodes: NzTreeNodeOptions[];
+  collectionNodes?: NzTreeNodeOptions[];
   workspaceId = WORKSPACES.LOCAL;
 
   constructor(private collectionService: QueryCollectionService) {}

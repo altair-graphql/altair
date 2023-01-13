@@ -110,7 +110,7 @@ describe('QueryCollectionService', () => {
       [QueryCollectionService],
       async (service: QueryCollectionService) => {
         for (let i = 0; i < collectionPairs.length; i++) {
-          const pair = collectionPairs[i];
+          const pair = collectionPairs[i]!;
           await service.createCollection(
             pair.collection,
             undefined,
@@ -212,7 +212,7 @@ describe('QueryCollectionService', () => {
           },
         ];
         const trees = service.getCollectionTrees(collections);
-        const remapped = service.remapCollectionIDsToCollectionList(trees[0]);
+        const remapped = service.remapCollectionIDsToCollectionList(trees[0]!);
         const uuidRegex =
           /[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}-[a-z0-9]{4,}/;
         expect(remapped).toEqual([
@@ -226,13 +226,13 @@ describe('QueryCollectionService', () => {
             id: expect.stringMatching(uuidRegex),
             title: 'Collection 2',
             queries: [],
-            parentPath: `/${remapped[0].id}`,
+            parentPath: `/${remapped[0]!.id}`,
           },
           {
             id: expect.stringMatching(uuidRegex),
             title: 'Collection 3',
             queries: [],
-            parentPath: `/${remapped[0].id}/${remapped[1].id}`,
+            parentPath: `/${remapped[0]!.id}/${remapped[1]!.id}`,
           },
         ]);
       }

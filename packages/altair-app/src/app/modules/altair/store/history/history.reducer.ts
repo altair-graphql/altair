@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
+import { AllActions } from '../action';
 
 import * as history from './history.action';
 
@@ -12,7 +13,7 @@ export const getInitialState = (): HistoryState => {
 
 export function historyReducer(
   state = getInitialState(),
-  action: history.Action
+  action: AllActions
 ): HistoryState {
   switch (action.type) {
     case history.ADD_HISTORY:

@@ -1,5 +1,6 @@
 import { DocsState } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import * as docs from '../../store/docs/docs.action';
+import { AllActions } from '../action';
 
 export const getInitialState = (): DocsState => {
   return {
@@ -13,7 +14,7 @@ export const getInitialState = (): DocsState => {
 
 export function docsReducer(
   state = getInitialState(),
-  action: docs.Action
+  action: AllActions
 ): DocsState {
   switch (action.type) {
     case docs.TOGGLE_DOCS_VIEW:

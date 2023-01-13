@@ -37,19 +37,23 @@ export class SchemaFormItemComponent {
       const itemEnum = itemRef.enum ?? [];
       switch (item?.key) {
         case 'language':
-          return itemEnum.map((content: string) => {
-            return {
-              label: (this.altairConfig.languages as any)[content] || content,
-              value: content,
-            };
-          });
+          return itemEnum
+            .filter((content): content is string => typeof content === 'string')
+            .map((content) => {
+              return {
+                label: (this.altairConfig.languages as any)[content] || content,
+                value: content,
+              };
+            });
       }
-      return itemEnum.map((content: string) => {
-        return {
-          label: content,
-          value: content,
-        };
-      });
+      return itemEnum
+        .filter((content): content is string => typeof content === 'string')
+        .map((content: string) => {
+          return {
+            label: content,
+            value: content,
+          };
+        });
     }
 
     return [];

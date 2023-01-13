@@ -75,14 +75,16 @@ export class LoaderComponent implements AfterViewInit, OnChanges, OnDestroy {
     const idx = rand(0, this.tips.length - 1);
     this.currentTip = this.tips[idx];
 
-    // Compute and cache interval if not available
-    if (!this.currentTip.interval) {
-      const words = this.currentTip.text.split(' ');
-      const calculatedInterval = (words.length / WPM) * 60 * 1000;
-      this.currentTip.interval = Math.max(
-        calculatedInterval,
-        DEFAULT_TIP_INTERVAL
-      );
+    if (this.currentTip) {
+      // Compute and cache interval if not available
+      if (!this.currentTip.interval) {
+        const words = this.currentTip.text.split(' ');
+        const calculatedInterval = (words.length / WPM) * 60 * 1000;
+        this.currentTip.interval = Math.max(
+          calculatedInterval,
+          DEFAULT_TIP_INTERVAL
+        );
+      }
     }
 
     this.setupTipInterval();

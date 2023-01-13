@@ -95,7 +95,7 @@ export class NgxTestWrapper<C> {
         })
         .filter((_) => _.calls && _.calls.length)
         .reduce((acc, cur) => {
-          acc[cur.event] = cur.calls;
+          acc[cur.event] = cur.calls!;
           return acc;
         }, {} as IDictionary<any[]>);
 

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitReturns": true,
+    // "rootDir": "./src",
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
@@ -11,5 +12,5 @@
     "types": ["jest"],
     "resolveJsonModule": true
   },
-  "include": ["src"]
+  // "include": ["src"]
 }

@@ -71,9 +71,7 @@ export class DocUtils {
   ): DocumentIndexEntry[] {
     let index: DocumentIndexEntry[] = [];
 
-    Object.keys(fields).forEach((fieldKey) => {
-      const field = fields[fieldKey];
-
+    Object.entries(fields).forEach(([fieldKey, field]) => {
       // For each field, create an entry in the index
       const fieldIndex: DocumentIndexFieldEntry = {
         search: field.name,

@@ -2,6 +2,7 @@
 
 import * as local from './local.action';
 import { LocalState } from 'altair-graphql-core/build/types/state/local.interfaces';
+import { AllActions } from '../action';
 
 const MAX_CLOSED_WINDOWS_LENGTH = 50;
 
@@ -16,7 +17,7 @@ export const getInitialState = (): LocalState => {
 
 export function localReducer(
   state = getInitialState(),
-  action: local.Action
+  action: AllActions
 ): LocalState {
   const len = state.closedWindows.length;
   switch (action.type) {
@@ -58,7 +59,7 @@ export function localReducer(
         installedPlugins: {
           ...state.installedPlugins,
           [action.payload.pluginName]: {
-            ...state.installedPlugins[action.payload.pluginName],
+            ...state.installedPlugins[action.payload.pluginName]!,
             isActive: action.payload.isActive,
           },
         },

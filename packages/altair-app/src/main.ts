@@ -41,7 +41,9 @@ let initialized = false;
         const applicationRef = moduleRef.injector.get(ApplicationRef);
         const componentRef = applicationRef.components[0];
 
-        enableDebugTools(componentRef);
+        if (componentRef) {
+          enableDebugTools(componentRef);
+        }
       })
       .catch((err) => debug.log('Error bootstrapping application:', err));
 

@@ -32,6 +32,7 @@ import { debug } from '../utils/logger';
 import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { AllActions } from './action';
 
 export const getPerWindowReducer = () => {
   const perWindowReducers = {
@@ -46,15 +47,17 @@ export const getPerWindowReducer = () => {
     stream: fromStream.streamReducer,
     preRequest: fromPreRequest.preRequestReducer,
     postRequest: fromPostRequest.postRequestReducer,
-    windowId: (_: string) => _,
+    windowId: (_ = '') => _,
   };
 
   return perWindowReducers;
 };
 
 // Meta reducer to log actions
-export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
-  return (state: RootState, action: Action) => {
+export function log(
+  _reducer: ActionReducer<any, AllActions>
+): ActionReducer<any, AllActions> {
+  return (state: RootState, action: AllActions) => {
     if (!environment.production || (window as any).__ENABLE_DEBUG_MODE__) {
       debug.log(action.type, action);
     }
@@ -69,18 +72,18 @@ export function log(_reducer: ActionReducer<any>): ActionReducer<any> {
 }
 
 export function asyncStorageSyncReducer(
-  _reducer: ActionReducer<any>
-): ActionReducer<any> {
+  _reducer: ActionReducer<unknown, AllActions>
+): ActionReducer<unknown, AllActions> {
   return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
-export const metaReducers: MetaReducer<any>[] = [
+export const metaReducers: MetaReducer<unknown, AllActions>[] = [
   asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log,
 ];
 
-export const getReducer = (): ActionReducerMap<RootState> => {
+export const getReducer = (): ActionReducerMap<RootState, AllActions> => {
   return {
     windows: fromWindows.windows(combineReducers(getPerWindowReducer())),
     windowsMeta: fromWindowsMeta.windowsMetaReducer,
@@ -101,8 +104,9 @@ export const reducerProvider = [
   { provide: reducerToken, useValue: getReducer() },
 ];
 
-export const selectWindowState = (windowId: string) => (state: RootState) =>
-  state.windows[windowId];
+export const selectWindowState = (windowId: string) => (state: RootState) => {
+  return state.windows[windowId];
+};
 
 export * from './query/selectors';
 export * from './docs/selectors';

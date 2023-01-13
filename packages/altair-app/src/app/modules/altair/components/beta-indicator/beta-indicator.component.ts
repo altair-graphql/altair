@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   templateUrl: './beta-indicator.component.html',
   styles: [],
 })
-export class BetaIndicatorComponent implements OnInit {
+export class BetaIndicatorComponent {
   @Input() title = '';
   @Input() description = '';
 
@@ -19,9 +19,7 @@ export class BetaIndicatorComponent implements OnInit {
 
   value$: Observable<boolean>;
 
-  constructor(private store: Store<RootState>) {}
-
-  ngOnInit() {
+  constructor(private store: Store<RootState>) {
     this.value$ = this.store.select(
       (state) => !state.settings[this.getSettingKey()]
     );

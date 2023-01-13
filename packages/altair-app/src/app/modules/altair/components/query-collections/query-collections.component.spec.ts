@@ -89,19 +89,19 @@ describe('QueryCollectionsComponent', () => {
       'app-query-collection-item'
     );
     expect(collectionItems.length).toBe(3);
-    expect(collectionItems[0].componentInstance.collectionTree).toEqual({
+    expect(collectionItems[0]!.componentInstance.collectionTree).toEqual({
       id: '1',
       title: 'Collection 1',
       queries: [],
       collections: [],
     });
-    expect(collectionItems[1].componentInstance.collectionTree).toEqual({
+    expect(collectionItems[1]!.componentInstance.collectionTree).toEqual({
       id: '2',
       title: 'Collection 2',
       queries: [],
       collections: [],
     });
-    expect(collectionItems[2].componentInstance.collectionTree).toEqual({
+    expect(collectionItems[2]!.componentInstance.collectionTree).toEqual({
       id: '3',
       title: 'Collection 3',
       queries: [],

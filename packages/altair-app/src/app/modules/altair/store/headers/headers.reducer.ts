@@ -1,6 +1,7 @@
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { headerMapToList } from '../../utils/headers';
+import { AllActions } from '../action';
 import * as headers from './headers.action';
 
 export const getInitialHeadersState = () => {
@@ -16,7 +17,7 @@ export const getInitialHeadersState = () => {
 
 export function headerReducer(
   state = getInitialHeadersState(),
-  action: headers.Action
+  action: AllActions
 ): HeaderState {
   switch (action.type) {
     case headers.ADD_HEADER:

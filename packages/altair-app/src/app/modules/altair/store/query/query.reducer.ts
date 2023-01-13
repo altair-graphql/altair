@@ -5,6 +5,7 @@ import { getFullUrl } from '../../utils';
 import { QueryState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { AllActions } from '../action';
 
 export const getInitialState = (): QueryState => {
   const { initialData } = getAltairConfig();
@@ -52,7 +53,7 @@ export const getInitialState = (): QueryState => {
 
 export function queryReducer(
   state = getInitialState(),
-  action: query.Action
+  action: AllActions
 ): QueryState {
   switch (action.type) {
     case query.SET_QUERY:

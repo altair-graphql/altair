@@ -32,7 +32,7 @@ export class LocalEffects {
             return EMPTY;
           }
           const fileVariable = data.variables.files[idx];
-          if (!action.payload.fromCache) {
+          if (fileVariable && !action.payload.fromCache) {
             if (fileVariable.id && Array.isArray(fileVariable.data)) {
               const putPromise = this.storageService.selectedFiles.put({
                 id: fileVariable.id,

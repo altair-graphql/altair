@@ -30,7 +30,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
 
-  @ViewChild('fileEl', { static: true }) fileEl: ElementRef<HTMLInputElement>;
+  @ViewChild('fileEl', { static: true }) fileEl?: ElementRef<HTMLInputElement>;
 
   validFileData: File[] = [];
   invalidFileData = false;
@@ -66,6 +66,10 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   }
 
   onSelectFiles() {
+    if (!this.fileEl) {
+      return;
+    }
+
     const files = this.fileEl.nativeElement.files;
     if (!files) {
       return;

@@ -111,21 +111,22 @@ export const getPropertyRef = (
   property: SchemaFormProperty,
   schema: JSONSchema6
 ) => {
-  if (property.$ref) {
-    const refPath = property.$ref.split('/');
-    let curRef: any = schema;
-    refPath.forEach((path) => {
-      if (path === '#') {
-        curRef = schema;
-      } else {
-        if (curRef) {
-          curRef = curRef[path] as JSONSchema6 | undefined;
-        }
-      }
-    });
-
-    return curRef as JSONSchema6 | undefined;
+  if (!property.$ref) {
+    return;
   }
+  const refPath = property.$ref.split('/');
+  let curRef: any = schema;
+  refPath.forEach((path) => {
+    if (path === '#') {
+      curRef = schema;
+    } else {
+      if (curRef) {
+        curRef = curRef[path] as JSONSchema6 | undefined;
+      }
+    }
+  });
+
+  return curRef as JSONSchema6 | undefined;
 };
 
 export function getPropertyType(property: any, schema: any) {

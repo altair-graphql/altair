@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QueryEditorComponent should render correctly 1`] = `
-<app-query-editor>
+<app-query-editor
+  style="flex-grow: 1;"
+>
   <nz-tabset
     class="main-view-tabs"
     nzsize="small"

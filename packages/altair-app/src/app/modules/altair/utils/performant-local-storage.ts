@@ -82,6 +82,7 @@ export class PerformantLocalStorage implements Storage {
           return this.storage.setItem(key, value);
         } catch (error) {
           if (
+            error instanceof Error &&
             ['QuotaExceededError', 'NS_ERROR_DOM_QUOTA_REACHED'].includes(
               error.name
             )

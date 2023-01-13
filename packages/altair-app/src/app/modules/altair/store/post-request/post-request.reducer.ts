@@ -1,5 +1,6 @@
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
+import { AllActions } from '../action';
 import * as postRequest from '../post-request/post-request.action';
 
 export const getInitialState = (): PostrequestState => {
@@ -14,7 +15,7 @@ export const getInitialState = (): PostrequestState => {
 
 export function postRequestReducer(
   state = getInitialState(),
-  action: postRequest.Action
+  action: AllActions
 ): PostrequestState {
   switch (action.type) {
     case postRequest.SET_POSTREQUEST_SCRIPT:

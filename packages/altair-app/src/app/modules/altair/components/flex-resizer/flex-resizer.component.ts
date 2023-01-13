@@ -33,11 +33,11 @@ export class FlexResizerComponent implements OnInit {
   resizeElement: Element;
   resizeContainer: Element | null;
   draggingMode = false;
-  px: number;
-  py: number;
-  originalX: number;
-  originalWidth: number;
-  diffX: number;
+  px = 0;
+  py = 0;
+  originalX = 0;
+  originalWidth = 0;
+  diffX = 0;
 
   /**
    * Stores the total growth factor for all the siblings of resize element
@@ -46,14 +46,14 @@ export class FlexResizerComponent implements OnInit {
 
   throttleMs = 100;
 
-  documentMouseUp$ = fromEvent(this.document, 'mouseup');
-  documentMouseMove$ = fromEvent(this.document, 'mousemove').pipe(
+  documentMouseUp$ = fromEvent<MouseEvent>(this.document, 'mouseup');
+  documentMouseMove$ = fromEvent<MouseEvent>(this.document, 'mousemove').pipe(
     throttleTime(this.throttleMs)
   );
-  elMouseMove$ = fromEvent(this.el.nativeElement, 'mousemove').pipe(
+  elMouseMove$ = fromEvent<MouseEvent>(this.el.nativeElement, 'mousemove').pipe(
     throttleTime(this.throttleMs)
   );
-  elMouseDown$ = fromEvent(this.el.nativeElement, 'mousedown');
+  elMouseDown$ = fromEvent<MouseEvent>(this.el.nativeElement, 'mousedown');
 
   constructor(
     private el: ElementRef,
@@ -73,19 +73,19 @@ export class FlexResizerComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       this.documentMouseUp$
         .pipe(untilDestroyed(this))
-        .subscribe((evt: MouseEvent) => this.onMouseUp());
+        .subscribe((evt) => this.onMouseUp());
 
       this.documentMouseMove$
         .pipe(untilDestroyed(this))
-        .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+        .subscribe((evt) => this.onResizerMove(evt));
 
       this.elMouseMove$
         .pipe(untilDestroyed(this))
-        .subscribe((evt: MouseEvent) => this.onResizerMove(evt));
+        .subscribe((evt) => this.onResizerMove(evt));
 
       this.elMouseDown$
         .pipe(untilDestroyed(this))
-        .subscribe((evt: MouseEvent) => this.onResizerPress(evt));
+        .subscribe((evt) => this.onResizerPress(evt));
     });
   }
 

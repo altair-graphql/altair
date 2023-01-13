@@ -1,3 +1,11 @@
+## Manual testing flows
+We don't have as much unit tests in place as I would like (while there are extensive unit tests for some flows, a lot of components just have one unit test which just checks that the component can be created). These manual testing flows tests the critical flows as well. These should be migrated to automated integration testing where possible, and just the flows that can't be automated should be tested manually.
+
+1. Create new window
+1. Send request with pre- and post-request scripts.
+1. Manage collection (create, open query, create nested, delete).
+
+
 ## Troubleshooting
 
 I've encountered some weird specific behavior that occur often, so documenting here when I see such what to do

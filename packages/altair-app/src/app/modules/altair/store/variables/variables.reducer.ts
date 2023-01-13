@@ -7,6 +7,7 @@ import {
 } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { v4 as uuid } from 'uuid';
+import { AllActions } from '../action';
 
 const initialFileVariableState = (
   name = 'file',
@@ -31,7 +32,7 @@ export const getInitialState = (): VariableState => {
 
 export function variableReducer(
   state = getInitialState(),
-  action: variables.Action
+  action: AllActions
 ): VariableState {
   switch (action.type) {
     case variables.UPDATE_VARIABLES:

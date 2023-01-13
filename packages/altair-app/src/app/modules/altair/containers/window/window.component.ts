@@ -1,4 +1,11 @@
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -35,7 +42,14 @@ import {
   SubscriptionProviderRegistryService,
   ElectronAppService,
 } from '../../services';
-import { Observable, EMPTY } from 'rxjs';
+import {
+  Observable,
+  EMPTY,
+  Subject,
+  combineLatest,
+  of,
+  BehaviorSubject,
+} from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debug } from '../../utils/logger';
 import { fadeInOutAnimationTrigger } from '../../animations';
@@ -112,7 +126,18 @@ export class WindowComponent implements OnInit {
 
   editorShortcutMapping$: Observable<IDictionary>;
 
-  @Input() windowId = '';
+  // Using getter/setter for the windowId to update the windowId$ subject.
+  // We need the windowId$ subject to update the getWindowState observable
+  // whenever the windowId changes, in order to get the right window state.
+  private _windowId = '';
+  @Input() set windowId(val: string) {
+    this._windowId = val;
+    this.windowId$.next(val);
+  }
+  get windowId() {
+    return this._windowId;
+  }
+  windowId$ = new BehaviorSubject(this._windowId);
 
   isElectron = isElectron;
   apiUrl = '';
@@ -126,7 +151,7 @@ export class WindowComponent implements OnInit {
 
   gqlSchema: GraphQLSchema | undefined;
 
-  variableToType: IDictionary;
+  variableToType: IDictionary = {};
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
@@ -142,9 +167,7 @@ export class WindowComponent implements OnInit {
     private store: Store<RootState>,
     private windowService: WindowService,
     private subscriptionProviderRegistry: SubscriptionProviderRegistryService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.addQueryDepthLimit$ = this.store.pipe(
       select((state) => state.settings.addQueryDepthLimit)
     );
@@ -252,7 +275,9 @@ export class WindowComponent implements OnInit {
     this.editorShortcutMapping$ = this.store.select(
       (state) => state.settings['editor.shortcuts'] ?? {}
     );
+  }
 
+  ngOnInit() {
     this.store
       .pipe(
         untilDestroyed(this),
@@ -643,7 +668,7 @@ export class WindowComponent implements OnInit {
     if (this.historyList[index]) {
       this.store.dispatch(
         new queryActions.SetQueryAction(
-          this.historyList[index].query,
+          this.historyList[index]?.query || '',
           this.windowId
         )
       );
@@ -692,7 +717,13 @@ export class WindowComponent implements OnInit {
   }
 
   getWindowState() {
-    return this.store.pipe(select(fromRoot.selectWindowState(this.windowId)));
+    return this.store.pipe(
+      withLatestFrom(this.windowId$),
+      switchMap(([state, windowId]) => {
+        return select(fromRoot.selectWindowState(windowId))(of(state));
+      }),
+      filter((res): res is PerWindowState => !!res)
+    );
   }
 
   trackById(index: number, item: TrackByIdItem) {

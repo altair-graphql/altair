@@ -414,7 +414,12 @@ export class WindowService {
    * Handle the imported file
    */
   async handleImportedFile(files: FileList) {
-    const dataStr = await getFileStr(files[0]);
+    const file = files[0];
+    if (!file) {
+      debug.log('No file specified.');
+      return;
+    }
+    const dataStr = await getFileStr(file);
     try {
       this.importStringData(dataStr);
     } catch (error) {

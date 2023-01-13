@@ -33,7 +33,8 @@ export class ObjectLocalStorage implements Storage {
    */
   // key(index: number): string | null;
   key(index: number) {
-    return Object.keys(this.data)[index];
+    const key = Object.keys(this.data)[index];
+    return key ? key : null;
   }
   /**
    * Removes the key/value pair with the given key from the list associated with the object, if a key/value pair with the given key exists.

@@ -345,11 +345,14 @@ export class AltairComponent {
         this.windowIds.length &&
         (!this.activeWindowId || !data.windows[this.activeWindowId])
       ) {
-        this.store.dispatch(
-          new windowsMetaActions.SetActiveWindowIdAction({
-            windowId: this.windowIds[0],
-          })
-        );
+        const firstWindowId = this.windowIds[0];
+        if (firstWindowId) {
+          this.store.dispatch(
+            new windowsMetaActions.SetActiveWindowIdAction({
+              windowId: firstWindowId,
+            })
+          );
+        }
       }
     });
 
@@ -671,7 +674,7 @@ export class AltairComponent {
     collectionId: string;
     windowIdInCollection: string;
   }) {
-    const matchingOpenQueryWindowIds = Object.keys(this.windows).filter(
+    const matchingOpenQueryWindowId = Object.keys(this.windows).find(
       (windowId) => {
         return (
           this.windows[windowId]?.layout.windowIdInCollection ===
@@ -679,8 +682,8 @@ export class AltairComponent {
         );
       }
     );
-    if (matchingOpenQueryWindowIds.length) {
-      this.setActiveWindow(matchingOpenQueryWindowIds[0]);
+    if (matchingOpenQueryWindowId) {
+      this.setActiveWindow(matchingOpenQueryWindowId);
       return;
     }
     this.windowService.importWindowData(

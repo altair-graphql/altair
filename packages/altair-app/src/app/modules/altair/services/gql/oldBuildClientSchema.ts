@@ -349,26 +349,39 @@ export function buildClientSchema(
   }
 
   function buildDirective(
-    directiveIntrospection: IntrospectionDirective & {
-      onField: any;
-      onOperation: any;
-      onFragment: any;
-    }
+    directiveIntrospection:
+      | IntrospectionDirective
+      | (IntrospectionDirective & {
+          onField: any;
+          onOperation: any;
+          onFragment: any;
+        })
   ) {
     // Support deprecated `on****` fields for building `locations`, as this
     // is used by GraphiQL which may need to support outdated servers.
     const locations = directiveIntrospection.locations
       ? directiveIntrospection.locations.slice()
       : ([] as any[]).concat(
-          !directiveIntrospection.onField ? [] : [DirectiveLocation.FIELD],
-          !directiveIntrospection.onOperation
+          !(
+            'onField' in directiveIntrospection &&
+            directiveIntrospection.onField
+          )
+            ? []
+            : [DirectiveLocation.FIELD],
+          !(
+            'onOperation' in directiveIntrospection &&
+            directiveIntrospection.onOperation
+          )
             ? []
             : [
                 DirectiveLocation.QUERY,
                 DirectiveLocation.MUTATION,
                 DirectiveLocation.SUBSCRIPTION,
               ],
-          !directiveIntrospection.onFragment
+          !(
+            'onFragment' in directiveIntrospection &&
+            directiveIntrospection.onFragment
+          )
             ? []
             : [
                 DirectiveLocation.FRAGMENT_DEFINITION,

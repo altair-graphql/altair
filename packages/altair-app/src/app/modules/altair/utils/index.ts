@@ -93,9 +93,14 @@ interface FileDialogOptions {
 export const openFile = async (opts: FileDialogOptions = {}) => {
   try {
     const files = await fileDialog(opts);
-    return getFileStr(files[0]);
+    const file = files[0];
+    if (file) {
+      return getFileStr(file);
+    }
+    return '';
   } catch (err) {
     debug.log('There was an issue while opening the file: ', err);
+    return '';
   }
 };
 
@@ -255,6 +260,9 @@ export function setByDotNotation<TResult = any>(
   }
 
   const currentPath = path[0];
+  if (typeof currentPath === 'undefined') {
+    return;
+  }
   const currentValue = obj[currentPath];
 
   if (path.length === 1) {
@@ -276,7 +284,7 @@ export function setByDotNotation<TResult = any>(
 export const mapToKeyValueList = (obj: Record<string, string>) => {
   return Object.keys(obj)
     .filter((key) => !!key)
-    .map((key) => ({ key, value: obj[key] }));
+    .map((key) => ({ key, value: obj[key] || '' }));
 };
 
 export function truncateText(text: string, maxLength = 70) {
