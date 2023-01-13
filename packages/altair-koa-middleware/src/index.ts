@@ -27,8 +27,6 @@ export const createRouteExplorer = ({
 
   router.get(`${url}/:path+`, async ctx => {
     const path = ctx.params.path;
-    if (path) {
-      await send(ctx, path, { root: getDistDirectory() });
-    }
+    await send(ctx, path || '', { root: getDistDirectory() });
   });
 };
