@@ -7,3 +7,4 @@ export * from './api';
 export * from './counters';
 export * from './updatedAt';
 export * from './onCreateTrigger';
+export * from './onDeleteTrigger';
