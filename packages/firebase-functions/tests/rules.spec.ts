@@ -385,6 +385,14 @@ describe('firestore rules', () => {
       const collections = await assertSucceeds(getCollections(ctx));
 
       expect(collections.length).toBe(2);
+
+      const bobsCollections = await assertSucceeds(
+        getCollections(
+          createUtilsContext(bobUser.uid, getFirestore(bobTestCtx))
+        )
+      );
+
+      expect(bobsCollections.length).toBe(1);
     });
   });
 
