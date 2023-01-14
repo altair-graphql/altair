@@ -30,7 +30,7 @@ import {
   queryCollectionsRef,
   updateCollection,
   updateQuery,
-} from 'altair-firebase-utils';
+} from '@altairgraphql/firebase-utils';
 import { debug } from '../../utils/logger';
 import { AccountService } from '../account/account.service';
 import { firebaseClient } from '../firebase/firebase';

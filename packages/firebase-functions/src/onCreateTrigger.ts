@@ -8,13 +8,13 @@ import {
   collectionNames,
   getTeamMembershipId,
   now,
-} from 'altair-firebase-utils';
+} from '@altairgraphql/firebase-utils';
 import type { Team } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
 import { getDocument } from './utils';
 import {
   TeamMembership,
   UserDocument,
-} from 'altair-firebase-utils/build/interfaces';
+} from '@altairgraphql/firebase-utils/build/interfaces';
 
 const converter = <T>() => ({
   toFirestore: (data: PartialWithFieldValue<T>) =>

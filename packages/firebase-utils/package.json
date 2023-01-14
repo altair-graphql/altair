@@ -1,5 +1,5 @@
 {
-  "name": "altair-firebase-utils",
+  "name": "@altairgraphql/firebase-utils",
   "version": "5.0.10",
   "main": "build/index.js",
   "license": "MIT",

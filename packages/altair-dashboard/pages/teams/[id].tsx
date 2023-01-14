@@ -21,7 +21,7 @@ import {
   getTeamMembers,
   getTeams,
   updateTeam,
-} from 'altair-firebase-utils';
+} from '@altairgraphql/firebase-utils';
 import useUser from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import {
@@ -32,8 +32,8 @@ import Link from 'next/link';
 import {
   TeamMembership,
   TeamRole,
-} from 'altair-firebase-utils/build/interfaces';
-import { TEAM_ROLES } from 'altair-firebase-utils/build/constants';
+} from '@altairgraphql/firebase-utils/build/interfaces';
+import { TEAM_ROLES } from '@altairgraphql/firebase-utils/build/constants';
 import { useRouter } from 'next/router';
 
 interface MembersStackProps {

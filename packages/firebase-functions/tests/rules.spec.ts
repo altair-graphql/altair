@@ -35,8 +35,8 @@ import {
   addTeamMember,
   getTeamMembers,
   getCollections,
-} from 'altair-firebase-utils';
-import { PlanConfig } from 'altair-firebase-utils/build/interfaces';
+} from '@altairgraphql/firebase-utils';
+import { PlanConfig } from '@altairgraphql/firebase-utils/build/interfaces';
 import { TeamId } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
 
 const getFirestore = (ctx: RulesTestContext) =>

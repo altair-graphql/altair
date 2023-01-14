@@ -31,7 +31,7 @@
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "devDependencies": {
     "@types/jest": "^24.0.23",
-    "altair-app": "^5.0.10",
+    "@altairgraphql/app": "^5.0.10",
     "altair-graphql-core": "^5.0.10",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",

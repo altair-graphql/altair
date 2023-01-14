@@ -8,7 +8,11 @@ import {
   User,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
-import { createUtilsContext, getTeams, usersRef } from 'altair-firebase-utils';
+import {
+  createUtilsContext,
+  getTeams,
+  usersRef,
+} from '@altairgraphql/firebase-utils';
 import { environment } from 'environments/environment';
 import { from, Observable } from 'rxjs';
 import { isElectronApp } from '../../utils';
