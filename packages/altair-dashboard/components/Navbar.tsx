@@ -97,8 +97,8 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 const data = [
-  { link: '/', label: 'Overview', icon: IconHome2 },
-  { link: '/teams', label: 'Teams', icon: IconBellRinging },
+  // { link: '/', label: 'Overview', icon: IconHome2 },
+  { link: '/', label: 'Teams', icon: IconBellRinging },
   // { link: '/', label: 'Billing', icon: IconReceipt2 },
   // { link: '/', label: 'Other Settings', icon: IconSettings },
 ];
