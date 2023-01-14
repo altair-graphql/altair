@@ -167,11 +167,6 @@ const getRemoteCollection = async (
   ctx: FirebaseUtilsContext,
   collectionServerId: string
 ): Promise<IRemoteQueryCollection | undefined> => {
-  const q = query(
-    queryCollectionsRef(ctx.db),
-    where('ownerUid', '==', ctx.uid),
-    where(documentId(), '==', collectionServerId)
-  );
   const querySnapshot = await getDoc(
     doc(queryCollectionsRef(ctx.db), collectionServerId)
   );

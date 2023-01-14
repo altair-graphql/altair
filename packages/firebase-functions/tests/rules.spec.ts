@@ -34,6 +34,7 @@ import {
   deleteTeam,
   addTeamMember,
   getTeamMembers,
+  getCollections,
 } from 'altair-firebase-utils';
 import { PlanConfig } from 'altair-firebase-utils/build/interfaces';
 import { TeamId } from 'altair-graphql-core/build/cjs/types/state/account.interfaces';
@@ -334,6 +335,64 @@ describe('firestore rules', () => {
       const collection = await assertSucceeds(getCollection(ctx, collectionId));
 
       expect(collection).toBeUndefined();
+    });
+
+    it('user can get collections (owned and team owned)', async () => {
+      const { user, testCtx } = await setupUser('alice');
+      const { user: bobUser, testCtx: bobTestCtx } = await setupUser('bob');
+      const { user: chrisUser } = await setupUser('chris');
+      // alice creates collection
+      // alice creates collection query
+      // bob creates team
+      // bob creates collection and query for team
+      // alice gets collections
+      const db = getFirestore(testCtx);
+      const ctx = createUtilsContext(user.uid, db);
+      const teamId = await createTeam(ctx, {
+        name: 'Team 1',
+        description: 'Team 1 description',
+      });
+
+      await addTeamMember(ctx, {
+        email: bobUser.email,
+        role: 'member',
+        teamUid: teamId,
+      });
+
+      await assertSucceeds(
+        createQueryCollection(
+          ctx,
+          {
+            queries: [],
+            title: 'Collection 1',
+          },
+          '',
+          new TeamId(teamId)
+        )
+      );
+
+      await assertSucceeds(
+        createQueryCollection(
+          ctx,
+          {
+            queries: [],
+            title: 'Collection 2',
+          },
+          ''
+        )
+      );
+
+      const collections = await assertSucceeds(getCollections(ctx));
+
+      expect(collections.length).toBe(2);
+
+      const bobsCollections = await assertSucceeds(
+        getCollections(
+          createUtilsContext(bobUser.uid, getFirestore(bobTestCtx))
+        )
+      );
+
+      expect(bobsCollections.length).toBe(1);
     });
   });
 
