@@ -19,13 +19,14 @@ export function accountReducer(
   action: AllActions
 ): AccountState {
   switch (action.type) {
-    case account.ACCOUNT_IS_LOGGED_IN:
+    case account.ACCOUNT_IS_LOGGED_IN: {
       const payload = action.payload;
       return {
         ...state,
         loggedIn: true,
         ...payload,
       };
+    }
     case account.ACCOUNT_LOGGED_OUT:
       return getInitialState();
     case account.SET_TEAMS:

@@ -20,5 +20,6 @@ module.exports = {
     'require-jsdoc': 'off',
     'valid-jsdoc': 'off',
     'no-console': 'error',
+    'new-cap': 'off',
   },
 };

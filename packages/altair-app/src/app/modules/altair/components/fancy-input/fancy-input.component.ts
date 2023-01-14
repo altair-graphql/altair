@@ -18,7 +18,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 // import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 // TODO: Duplicating for now after changing to use lookahead in environment service variable regex
-export const VARIABLE_REGEX = /{{\s*([\w\.]+)\s*}}/g;
+export const VARIABLE_REGEX = /{{\s*([\w.]+)\s*}}/g;
 interface BoundaryMarker {
   index: number;
   type: 'start' | 'stop';
@@ -153,7 +153,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const ua = window.navigator.userAgent.toLowerCase();
     if (ua.indexOf('firefox') !== -1) {
       return 'firefox';
-    } else if (!!ua.match(/msie|trident\/7|edge/)) {
+    } else if (ua.match(/msie|trident\/7|edge/)) {
       return 'ie';
     } else if (
       !!ua.match(/ipad|iphone|ipod/) &&

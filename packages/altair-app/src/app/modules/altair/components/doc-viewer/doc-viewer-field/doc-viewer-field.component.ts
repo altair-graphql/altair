@@ -34,7 +34,7 @@ export class DocViewerFieldComponent {
   constructor() {}
 
   cleanName(name: string) {
-    return name.replace(/[\[\]!]/g, '');
+    return name.replace(/[[\]!]/g, '');
   }
 
   /**

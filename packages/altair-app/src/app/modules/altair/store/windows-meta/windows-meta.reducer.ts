@@ -48,11 +48,9 @@ export function windowsMetaReducer(
       }
       return { ...state, activeWindowId: newActiveWindowId };
     }
-    case windowsMeta.SET_ACTIVE_WINDOW_ID:
-      return { ...state, activeWindowId: action.payload.windowId };
     case windowsMeta.SET_WINDOW_IDS:
       return { ...state, windowIds: action.payload.ids };
-    case windowsMeta.REPOSITION_WINDOW:
+    case windowsMeta.REPOSITION_WINDOW: {
       const curPos = action.payload.currentPosition;
       const newPos = action.payload.newPosition;
 
@@ -68,6 +66,7 @@ export function windowsMetaReducer(
         return { ...state, windowIds: [...arr] };
       }
       return state;
+    }
     case windowsMeta.SHOW_IMPORT_CURL_DIALOG:
       if (action.payload) {
         return { ...state, showImportCurlDialog: action.payload.value };

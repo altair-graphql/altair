@@ -327,7 +327,9 @@ export class WindowComponent implements OnInit {
               this.gqlSchema,
               this.gql.parseQuery(query)
             );
-          } catch (error) {}
+          } catch (error) {
+            //
+          }
         }
       });
 

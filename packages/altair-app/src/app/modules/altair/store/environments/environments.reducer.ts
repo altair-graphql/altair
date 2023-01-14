@@ -66,10 +66,11 @@ export function environmentsReducer(
         ),
       };
     }
-    case environmentsAction.UPDATE_BASE_ENVIRONMENT_JSON:
+    case environmentsAction.UPDATE_BASE_ENVIRONMENT_JSON: {
       const base = state.base;
       base.variablesJson = action.payload.value;
       return { ...state, base };
+    }
     case environmentsAction.UPDATE_SUB_ENVIRONMENT_JSON: {
       const subEnvironments = state.subEnvironments.map((env) => {
         if (env.id === action.payload.id) {

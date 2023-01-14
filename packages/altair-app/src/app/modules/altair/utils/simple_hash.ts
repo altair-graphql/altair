@@ -1,12 +1,12 @@
 export const hash = (s: string) => {
   /* Simple hash function. */
-  let a = 1,
-    c = 0,
-    h,
-    o;
+  let a = 1;
+  let c = 0;
+  let h;
+  let o;
   if (s) {
     a = 0;
-    /*jshint plusplus:false bitwise:false*/
+    /* jshint plusplus:false bitwise:false*/
     /* eslint-disable */
     for (h = s.length - 1; h >= 0; h--) {
       o = s.charCodeAt(h);

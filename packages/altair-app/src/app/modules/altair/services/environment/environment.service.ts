@@ -16,7 +16,7 @@ import { merge } from 'lodash-es';
 // So have to go with an alternative approach using lookahead instead
 // export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
 export const VARIABLE_REGEX =
-  /(^{{\s*[\w\.]+\s*}})|((?!\\)(.){{\s*[\w\.]+\s*}})/g;
+  /(^{{\s*[\w.]+\s*}})|((?!\\)(.){{\s*[\w.]+\s*}})/g;
 export interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
 }
@@ -48,7 +48,9 @@ export class EnvironmentService {
 
     try {
       baseEnvironment = JSON.parse(this.environmentsState.base.variablesJson);
-    } catch (ex) {}
+    } catch (ex) {
+      //
+    }
 
     if (this.environmentsState.activeSubEnvironment) {
       const activeSubEnvironment = this.environmentsState.activeSubEnvironment;
@@ -61,7 +63,9 @@ export class EnvironmentService {
       if (activeSubEnvState) {
         try {
           subEnvironment = JSON.parse(activeSubEnvState.variablesJson);
-        } catch (ex) {}
+        } catch (ex) {
+          //
+        }
       }
     }
 
@@ -92,7 +96,7 @@ export class EnvironmentService {
 
     const escaped: IDictionary = {};
     // Keep escaped variable regex aside, replacing with non-variable values
-    content = content.replace(/\\{{\s*[\w\.]+\s*}}/g, (match) => {
+    content = content.replace(/\\{{\s*[\w.]+\s*}}/g, (match) => {
       const escapedId = uuid();
       // remove the escape character when hydrating
       escaped[escapedId] = match.replace(/^\\/, '');
@@ -100,8 +104,8 @@ export class EnvironmentService {
     });
 
     // Replace variable regex
-    content = content.replace(/{{\s*[\w\.]+\s*}}/g, (match) => {
-      const matches = match.match(/[\w\.]+/);
+    content = content.replace(/{{\s*[\w.]+\s*}}/g, (match) => {
+      const matches = match.match(/[\w.]+/);
       if (matches) {
         const variable = matches[0];
         if (!variable) {

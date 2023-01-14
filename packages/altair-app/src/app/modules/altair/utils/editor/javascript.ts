@@ -12,13 +12,12 @@ const dontCompleteIn = [
 ];
 
 const completeProperties = (from: number, object: IDictionary) => {
-  const options = [];
-  for (const name in object) {
-    options.push({
+  const options = Object.entries(object).map(([name, val]) => {
+    return {
       label: name,
-      type: typeof object[name] === 'function' ? 'function' : 'variable',
-    });
-  }
+      type: typeof val === 'function' ? 'function' : 'variable',
+    };
+  });
 
   return {
     from,

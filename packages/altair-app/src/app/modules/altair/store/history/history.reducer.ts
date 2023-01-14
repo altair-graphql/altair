@@ -16,7 +16,7 @@ export function historyReducer(
   action: AllActions
 ): HistoryState {
   switch (action.type) {
-    case history.ADD_HISTORY:
+    case history.ADD_HISTORY: {
       const _state = { ...state };
       const limit =
         typeof action.payload.limit !== 'undefined'
@@ -36,6 +36,7 @@ export function historyReducer(
           ..._state.list,
         ],
       };
+    }
     case history.CLEAR_HISTORY:
       return { list: [] };
     default:

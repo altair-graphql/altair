@@ -94,7 +94,7 @@ export const gqlVariables = () => {
               return;
             case 'Object':
               return;
-            case 'Property':
+            case 'Property': {
               const propName = nodeName.name;
               if (!propName) {
                 return;
@@ -107,6 +107,7 @@ export const gqlVariables = () => {
 
               dataSource = typeToVTT(curType);
               return;
+            }
           }
         });
 

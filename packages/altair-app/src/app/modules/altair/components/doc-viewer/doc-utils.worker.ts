@@ -1,4 +1,4 @@
-/// <reference lib="webworker" />
+// / <reference lib="webworker" />
 import * as Comlink from 'comlink';
 import { DocUtils } from './doc-utils';
 

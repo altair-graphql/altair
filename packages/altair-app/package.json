@@ -167,6 +167,7 @@
     "eslint": "8.18.0",
     "eslint-config-altair": "^1.0.0",
     "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-prettier": "4.0.0",
     "fake-indexeddb": "3.1.7",
     "jasmine-core": "~3.6.0",

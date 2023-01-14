@@ -22,6 +22,7 @@ export const on = <
 
 export const handleExternalLinks = () => {
   on<HTMLAnchorElement>('click', 'a', function (e) {
+    // eslint-disable-next-line no-invalid-this
     const url = this.href || '';
 
     if (!url.replace(/#.*$/, '')) {

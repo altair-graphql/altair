@@ -22,7 +22,7 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
     const _state = Object.assign({}, state);
 
     switch (action.type) {
-      case windowsActions.ADD_WINDOW:
+      case windowsActions.ADD_WINDOW: {
         const {
           windowId,
           title,
@@ -55,7 +55,8 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
         _state[windowId] = newWindow;
 
         return _state;
-      case windowsActions.SET_WINDOWS:
+      }
+      case windowsActions.SET_WINDOWS: {
         const _windows = action.payload;
 
         const newWindowsState: IDictionary<PerWindowState> = {};
@@ -71,7 +72,8 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
         });
 
         return newWindowsState;
-      case windowsActions.REMOVE_WINDOW:
+      }
+      case windowsActions.REMOVE_WINDOW: {
         const _windowId = action.payload.windowId;
 
         if (_state[_windowId]) {
@@ -79,7 +81,8 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
         }
 
         return Object.assign({}, _state);
-      default:
+      }
+      default: {
         const _action: AllActions = action;
 
         if (_action.type === INIT) {
@@ -105,6 +108,7 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
         _state[_action.windowId] = { ...reduced, windowId: _action.windowId };
 
         return _state;
+      }
     }
   };
 }

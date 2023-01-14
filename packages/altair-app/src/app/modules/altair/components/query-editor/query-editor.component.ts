@@ -559,7 +559,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             );
           });
         } catch (error) {
-          console.error(error);
+          debug.error(error);
         } finally {
           clearTimeout(this.updateWidgetTimeout);
         }
