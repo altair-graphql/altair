@@ -67,8 +67,7 @@ CodeMirror.registerHelper(
     const results = {
       list: rawResults.map((item) => ({
         text: item.label,
-        type:
-          item.detail && schema.getType(item.detail.replace(/[\[\]!]/g, '')),
+        type: item.detail && schema.getType(item.detail.replace(/[[\]!]/g, '')),
         description: item.documentation,
         isDeprecated: item.isDeprecated,
         deprecationReason: item.deprecationReason,

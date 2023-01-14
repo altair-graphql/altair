@@ -14,7 +14,7 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
-/***************************************************************************************************
+/** *************************************************************************************************
  * BROWSER POLYFILLS
  */
 
@@ -36,7 +36,7 @@
 /** Evergreen browsers require these. **/
 import 'core-js/es/reflect';
 
-/***************************************************************************************************
+/** *************************************************************************************************
  * Zone JS is required by Angular itself.
  */
 // (window as any).__zone_symbol__DISABLE_WRAPPING_UNCAUGHT_PROMISE_REJECTION = true;
@@ -44,7 +44,7 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 // import 'zone.js/dist/zone-error';
 // import 'zone.js/dist/long-stack-trace-zone';
 
-/***************************************************************************************************
+/** *************************************************************************************************
  * APPLICATION IMPORTS
  */
 

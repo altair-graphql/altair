@@ -27,7 +27,6 @@ import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
-import marked from 'marked';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @UntilDestroy()
@@ -159,7 +158,7 @@ export class DocViewerComponent implements OnChanges {
    * @param name
    */
   cleanName(name: string) {
-    return name.replace(/[\[\]!]/g, '');
+    return name.replace(/[[\]!]/g, '');
   }
 
   /**
@@ -194,7 +193,7 @@ export class DocViewerComponent implements OnChanges {
    */
   goToType(name: string) {
     this.updateDocHistory();
-    this.setDocView({ view: 'type', name: name.replace(/[\[\]!]/g, '') });
+    this.setDocView({ view: 'type', name: name.replace(/[[\]!]/g, '') });
   }
 
   /**
@@ -206,8 +205,8 @@ export class DocViewerComponent implements OnChanges {
     this.updateDocHistory();
     this.setDocView({
       view: 'field',
-      name: name.replace(/[\[\]!]/g, ''),
-      parentType: parentType.replace(/[\[\]!]/g, ''),
+      name: name.replace(/[[\]!]/g, ''),
+      parentType: parentType.replace(/[[\]!]/g, ''),
     });
   }
 

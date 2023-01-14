@@ -9,10 +9,13 @@ const DEPRECATED_WINDOW_CONFIG = [
 ];
 
 const logDeprecatedMessage = (key: string) => {
+  // eslint-disable-next-line no-console
   console.warn(
     `DEPRECATION NOTICE: Configuring altair using global variables is deprecated, and will be removed in a future version.`
   );
+  // eslint-disable-next-line no-console
   console.warn(`You set [window.${key}], which is deprecated.`);
+  // eslint-disable-next-line no-console
   console.warn(`Use 'AltairGraphQL.init(opts)' instead.`);
 };
 

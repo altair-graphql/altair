@@ -218,7 +218,7 @@ export class SmartInputComponent implements AfterViewInit {
     const { curBlockEl, lineIndex, blockIndex } =
       this.getBlockInfoFromData(data);
     switch (data.value) {
-      case KEYS.UP:
+      case KEYS.UP: {
         // Handle up
         const curLine = this.state.lines[lineIndex - 1];
         // if (curLine) {
@@ -228,6 +228,7 @@ export class SmartInputComponent implements AfterViewInit {
         //   }
         // }
         return;
+      }
       case KEYS.LEFT: {
         const curBlock = this.getBlock({ lineIndex, blockIndex });
         if (!curBlock) {

@@ -126,7 +126,9 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
     this.jsonSettings = settingsStr;
     try {
       this.localSettings = JSON.parse(this.jsonSettings);
-    } catch (error) {}
+    } catch (error) {
+      //
+    }
   }
 
   onToggleView() {

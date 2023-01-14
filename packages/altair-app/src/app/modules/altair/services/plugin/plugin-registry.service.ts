@@ -94,7 +94,7 @@ export class PluginRegistryService {
    */
   getPluginInfoFromString(pluginStr: string): PluginInfo | undefined {
     const matches = pluginStr.match(
-      /(([A-Za-z_]*)\:)?(.[A-Za-z0-9\-]*)(@([^#\:\[\]]*))?(\:\:\[(.*)\]->\[(.*)\])?/
+      /(([A-Za-z_]*):)?(.[A-Za-z0-9-]*)(@([^#:[\]]*))?(::\[(.*)\]->\[(.*)\])?/
     );
     if (matches && matches.length) {
       const [

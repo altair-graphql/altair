@@ -11,7 +11,10 @@ import keyMap from 'graphql/jsutils/keyMap';
 import keyValMap from 'graphql/jsutils/keyValMap';
 import { valueFromAST } from 'graphql/utilities/valueFromAST';
 import { parseValue } from 'graphql/language/parser';
-import { GraphQLSchema } from 'graphql/type/schema';
+import {
+  GraphQLSchema,
+  GraphQLSchemaValidationOptions,
+} from 'graphql/type/schema';
 
 import { DirectiveLocation } from 'graphql/language/directiveLocation';
 
@@ -29,9 +32,6 @@ import {
   assertNullableType,
   assertObjectType,
   assertInterfaceType,
-} from 'graphql/type/definition';
-
-import {
   GraphQLType,
   GraphQLInputType,
   GraphQLOutputType,
@@ -63,8 +63,6 @@ import {
   IntrospectionDirective,
   GraphQLSchemaConfig,
 } from 'graphql';
-
-import { GraphQLSchemaValidationOptions } from 'graphql/type/schema';
 
 type Options = GraphQLSchemaValidationOptions;
 

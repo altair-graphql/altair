@@ -14,6 +14,7 @@ module.exports = {
         'plugin:@angular-eslint/template/process-inline-templates',
         'plugin:@typescript-eslint/recommended',
         'prettier',
+        'altair',
       ],
       plugins: ['prettier'],
       rules: {

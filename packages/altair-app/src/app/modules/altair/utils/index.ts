@@ -309,7 +309,7 @@ export const externalLink = (e: Event, url: string) => {
     if (electron) {
       electron.shell.openExternal(url);
     } else {
-      console.log(
+      debug.log(
         'cannot open link. Somehow electron is undefined. Please report this issue.'
       );
     }

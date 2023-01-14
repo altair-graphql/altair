@@ -172,8 +172,9 @@ export class WindowService {
         return this.importWindowData(JSON.parse(decodeURIComponent(data)), {
           fixedTitle: true,
         });
-      } catch (err) {}
-      debug.log('The file is invalid.', err);
+      } catch (err) {
+        debug.log('The file is invalid.', err);
+      }
     }
   }
 
@@ -389,23 +390,19 @@ export class WindowService {
         throw invalidFileError;
       } catch (sdlError) {
         debug.log('Invalid SDL file.', sdlError);
-        try {
-          // Else check if graphql query
-          const operations = this.gqlService.getOperations(dataStr);
-          debug.log(operations);
-          if (operations && operations.length) {
-            // Import only query
-            return this.importWindowData({
-              ...emptyWindowData,
-              version: 1,
-              type: 'window',
-              query: dataStr,
-            });
-          }
-          throw invalidFileError;
-        } catch (queryError) {
-          throw queryError;
+        // Else check if graphql query
+        const operations = this.gqlService.getOperations(dataStr);
+        debug.log(operations);
+        if (operations && operations.length) {
+          // Import only query
+          return this.importWindowData({
+            ...emptyWindowData,
+            version: 1,
+            type: 'window',
+            query: dataStr,
+          });
         }
+        throw invalidFileError;
       }
     }
   }

@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import {
   DebugElement,
-  ɵReflectionCapabilities,
-  Component,
+  ɵReflectionCapabilities as ReflectionCapabilities,
+  Component as componentDecorator,
 } from '@angular/core';
 import {
   TestBed,
@@ -66,7 +66,7 @@ export function setValue<C>(
 }
 
 function getComponentMeta(compType: any) {
-  const rc = new ɵReflectionCapabilities();
+  const rc = new ReflectionCapabilities();
   const props =
     compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
   const inputs: string[] = [];
@@ -133,7 +133,7 @@ export async function mount(mountOptions: TestMountOptions) {
     };
   });
 
-  const TestHostComponent = Component({ template: template })(X);
+  const TestHostComponent = componentDecorator({ template: template })(X);
 
   const moduleDef: TestModuleMetadata = {
     ...mountOptions,

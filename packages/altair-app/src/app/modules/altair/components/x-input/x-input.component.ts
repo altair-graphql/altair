@@ -37,7 +37,7 @@ import {
   IEnvironment,
 } from '../../services/environment/environment.service';
 
-const VariableRegex = /{{\s*([\w\.]+)\s*}}/g;
+const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 
 @Component({
   selector: 'app-x-input',
@@ -252,8 +252,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     // https://codemirror.net/examples/tooltip/
     return hoverTooltip((view, pos, side) => {
       const { from, to, text } = view.state.doc.lineAt(pos);
-      let start: number = pos,
-        end = pos;
+      let start: number = pos;
+      let end = pos;
       while (start > from && /\w/.test(text[start - from - 1] || '')) start--;
       while (end < to && /\w/.test(text[end - from] || '')) end++;
       if ((start == pos && side < 0) || (end == pos && side > 0)) {
@@ -263,7 +263,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       const foundVariableName = text.slice(start - from, end - from);
       const variableNameWrapper = text.slice(start - from - 2, end - from + 2);
 
-      if (!/{{\s*([\w\.]+)\s*}}/.test(variableNameWrapper)) {
+      if (!/{{\s*([\w.]+)\s*}}/.test(variableNameWrapper)) {
         return null;
       }
 

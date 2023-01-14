@@ -51,7 +51,7 @@ const schemaCompletionSource: CompletionSource = (ctx) => {
     switch (curNodeVal?.type) {
       case 'JsonText':
         continue;
-      case 'Object':
+      case 'Object': {
         // for objects, look ahead for property name
         const nextNodeVal = x[i + 1];
         if (
@@ -63,9 +63,11 @@ const schemaCompletionSource: CompletionSource = (ctx) => {
         // increment i since we are consuming the next node val here as well
         i++;
         continue;
+      }
       case 'Array':
         // set the index of the node val
         pathSegments.push({ type: 'Array', val: curNodeVal.listIdx });
+        continue;
       default:
     }
   }

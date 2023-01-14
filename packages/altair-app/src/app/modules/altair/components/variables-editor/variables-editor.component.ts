@@ -30,7 +30,7 @@ import { gqlVariables, updateVariableToType } from './extensions';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
 import { TODO } from 'altair-graphql-core/build/types/shared';
 
-const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_\"\']$/;
+const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_"']$/;
 
 @Component({
   selector: 'app-variables-editor',
