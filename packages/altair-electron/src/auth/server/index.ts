@@ -11,6 +11,8 @@ import { v4 as uuid } from 'uuid';
 
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
+const authClientStaticDirectory = () =>
+  path.resolve(require.resolve('electron-auth-client'), '..');
 export class AuthServer {
   private port = 3000; // default port. Might be different at runtime.
   private server?: Server;
@@ -21,12 +23,12 @@ export class AuthServer {
 
   async start() {
     const app = express();
-    app.use(express.static(path.resolve(getStaticDirectory(), 'auth/dist')));
+    app.use(express.static(authClientStaticDirectory()));
     app.use(bodyParser.json());
 
     app.use('/login', (req, res) => {
       return res.sendFile(
-        path.resolve(getStaticDirectory(), 'auth/dist/index.html')
+        path.resolve(authClientStaticDirectory(), 'index.html')
       );
     });
     app.use('/callback', (req, res) => {
@@ -74,7 +76,7 @@ export class AuthServer {
     return new Promise<string>((resolve, reject) => {
       this.emitter.once('token', (token: string) => {
         if (!token) {
-          return reject('Could not get token');
+          return reject(new Error('Could not get token'));
         }
         return resolve(token);
       });

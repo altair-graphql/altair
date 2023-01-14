@@ -1,6 +1,10 @@
 {
-  "name": "auth-client",
+  "name": "electron-auth-client",
   "version": "0.0.0",
+  "main": "dist/index.html",
+  "targets": {
+    "main": false
+  },
   "devDependencies": {
     "parcel": "^2.7.0",
     "typescript": "^4.9.4"
@@ -11,6 +15,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
+    "altair-firebase-utils": "^5.0.10",
     "firebase": "^9.9.2"
   }
 }

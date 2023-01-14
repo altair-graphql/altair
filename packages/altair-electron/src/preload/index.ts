@@ -36,7 +36,7 @@ process.once('loaded', () => {
   // Check if data is stored in electron store
   if (!store.length && window.localStorage.length) {
     // Else, copy content of localstorage into electron store and reload.
-    Object.keys(window.localStorage).forEach((key) => {
+    Object.keys(window.localStorage).forEach(key => {
       const val = window.localStorage.getItem(key);
       if (val) {
         store.setItem(key, val);
@@ -46,5 +46,5 @@ process.once('loaded', () => {
   }
   // If so, then add electron localstorage to window and continue
   (global as any).electronLocalStorage = store;
-  (global as any).localStorage = store;
+  // (global as any).localStorage = store;
 });

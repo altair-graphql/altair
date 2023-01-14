@@ -43,7 +43,7 @@ const init = async () => {
     body: JSON.stringify({ id_token: token }),
   });
   const json = await response.json();
-  console.log(json);
+  // console.log(json);
 
   if (json.status === 'success') {
     await sendToken(json.auth_token);
@@ -53,7 +53,9 @@ const init = async () => {
 
   try {
     window.close();
-  } catch {}
+  } catch {
+    // ignore
+  }
 };
 
 const sendToken = async (token: string) => {

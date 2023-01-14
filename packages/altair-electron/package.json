@@ -15,12 +15,13 @@
     "compile": "tsc",
     "build": "yarn compile && electron-builder",
     "dev": "yarn compile && electron ./dist/",
-    "prepare": "yarn compile && yarn --cwd static/auth install"
+    "prepare": "yarn compile"
   },
   "dependencies": {
     "altair-static": "^5.0.10",
     "body-parser": "^1.20.0",
     "csp-header": "^5.1.0",
+    "electron-auth-client": "^0.0.0",
     "electron-debug": "^3.0.1",
     "electron-is-dev": "^1.2.0",
     "electron-log": "^3.0.6",
@@ -31,7 +32,7 @@
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
     "express": "^4.18.1",
-    "get-port": "^6.1.2",
+    "get-port": "^5.1.1",
     "mime-types": "^2.1.29",
     "uuid": "^8.3.2"
   },

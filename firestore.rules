@@ -97,7 +97,7 @@ service cloud.firestore {
     }
 
     function resourceBelongsToUser(userId) {
-      return userId == resource.data.ownerUid;
+      return 'ownerUid' in resource.data ? userId == resource.data.ownerUid : false;
     }
 
     function resourceBelongsToTeam(teamId) {
@@ -105,7 +105,7 @@ service cloud.firestore {
     }
 
     function isTeamMember(userId, teamId) {
-      return nonEmptyStr(teamId) && nonEmptyStr(userId) && exists(/databases/$(database)/documents/team_memberships/$(teamMembershipId(teamId, userId))); // TODO: check user's team list in user/x/teams subcollection list (maybe hold off on this for now since the current approach works)
+      return nonEmptyStr(teamId) && nonEmptyStr(userId) && exists(/databases/$(database)/documents/team_memberships/$(teamMembershipId(teamId, userId))); // teamId in get(/databases/$(database)/documents/users/$(userId)/meta/teams).data.items; // TODO: check user's team list in user/x/teams subcollection list (maybe hold off on this for now since the current approach works)
     }
 
     function isTeamAdmin(userId, teamId) {
@@ -113,7 +113,8 @@ service cloud.firestore {
     }
 
     function isTeamOwner(userId, teamId) {
-      return nonEmptyStr(teamId) && nonEmptyStr(userId) && get(/databases/$(database)/documents/teams/$(teamId)).data.ownerUid == userId;
+      let teamData = get(/databases/$(database)/documents/teams/$(teamId)).data;
+      return nonEmptyStr(teamId) && nonEmptyStr(userId) && 'ownerUid' in teamData && teamData.ownerUid == userId;
     }
 
     function currentUserIsTeamMember(teamId) {
@@ -121,7 +122,7 @@ service cloud.firestore {
     }
 
     function resourceBelongsToUsersTeam() {
-      return currentUserIsTeamMember(resource.data.teamUid);
+      return isTeamOwner(request.auth.uid, resource.data.teamUid) || currentUserIsTeamMember(resource.data.teamUid);
     }
 
     function teamMembershipId(teamId, userId) {
