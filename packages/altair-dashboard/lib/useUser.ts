@@ -8,7 +8,7 @@ export const firebaseClient = initializeClient();
 const useAuthState = (auth: Auth) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, (user) => {
+    const cleanup = onAuthStateChanged(auth, user => {
       if (user) {
         setUser(user);
       } else {
@@ -44,7 +44,7 @@ export default function useUser({
         (redirectIfFound && user)
       ) {
         if (router.pathname !== redirectTo) {
-          console.log(router.pathname, redirectTo);
+          // console.log(router.pathname, redirectTo);
           router.push(redirectTo);
         }
       }

@@ -63,7 +63,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       notify.success('Your team has been created');
       onComplete(true);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       notify.error('An error occurred while creating your team');
       onComplete(false);
     } finally {
@@ -82,7 +82,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       notify.success('Your team has been updated');
       onComplete(true);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       notify.error('An error occurred while updating your team');
       onComplete(false);
     } finally {
@@ -172,7 +172,7 @@ export default function Teams() {
       const teams = await getTeams(ctx);
       setTeams(teams);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       notify.error('Could not load teams');
     }
   };

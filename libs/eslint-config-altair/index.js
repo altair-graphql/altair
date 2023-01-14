@@ -19,5 +19,6 @@ module.exports = {
     'import/no-unresolved': 0,
     'require-jsdoc': 'off',
     'valid-jsdoc': 'off',
+    'no-console': 'error',
   },
 };

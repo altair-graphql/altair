@@ -73,7 +73,7 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
       notify.success('Your team member has been added');
       onComplete(true);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       notify.error('An error occurred while adding your team member');
       onComplete(false);
     } finally {
@@ -172,7 +172,7 @@ export default function TeamPage() {
         const teams = await getTeamMembers(ctx, new TeamId(id.toString()));
         setMembers(teams);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
         notify.error('Could not load team members');
       }
     },
