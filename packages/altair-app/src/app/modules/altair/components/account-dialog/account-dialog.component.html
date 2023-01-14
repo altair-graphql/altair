@@ -17,13 +17,24 @@
           {{ 'SIGNIN_WITH_GOOGLE' | translate }}
         </button>
 
-        <button
+        <ng-container
           *ngIf="account?.loggedIn"
-          class="app-button active-primary"
-          (click)="logoutChange.emit()"
         >
-          {{ 'LOGOUT_TEXT' | translate }}
-        </button>
+        <h3><app-icon name="flask-conical"></app-icon> {{ 'ACCOUNT_TITLE' | translate }} (Beta)</h3>
+          <p>Hello, {{ account?.firstName }}</p>
+          <p>
+            <a target="_blank" href="https://dash.altairgraphql.dev">
+              Manage teams
+              <app-icon name="external-link"></app-icon>
+            </a>
+          </p>
+          <button
+            class="app-button active-primary"
+            (click)="logoutChange.emit()"
+          >
+            {{ 'LOGOUT_TEXT' | translate }}
+          </button>
+        </ng-container>
       </div>
     </div>
   </ng-template>
