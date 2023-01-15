@@ -8,7 +8,7 @@ import {
 } from '@codemirror/view';
 import { syntaxTree } from '@codemirror/language';
 import { EditorState, Range, StateEffect, StateField } from '@codemirror/state';
-import { getSchema } from 'altair-codemirror-graphql';
+import { getSchema } from 'cm6-graphql';
 import { cleanTypeName } from '../../services/gql/helpers';
 import { GraphQLScalarType } from 'graphql';
 import {
