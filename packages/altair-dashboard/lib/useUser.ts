@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { createUtilsContext, initializeClient } from 'altair-firebase-utils';
+import {
+  createUtilsContext,
+  initializeClient,
+} from '@altairgraphql/firebase-utils';
 import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 
 export const firebaseClient = initializeClient();

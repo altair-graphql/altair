@@ -19,7 +19,7 @@
     ]
   },
   "scripts": {
-    "build-app": "nx build altair-app",
+    "build-app": "nx build @altairgraphql/app",
     "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build",
     "build-electron": "lerna bootstrap && nx build altair",
     "build-ext": "yarn build-app && cwex build",
@@ -35,7 +35,7 @@
     "publish-packages": "lerna bootstrap && yarn lerna-publish",
     "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",
-    "start:app": "nx start altair-app",
+    "start:app": "nx start @altairgraphql/app",
     "test:ci-test-only": "nx affected --target=test --parallel=3",
     "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",

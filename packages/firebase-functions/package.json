@@ -1,5 +1,5 @@
 {
-  "name": "firebase-functions",
+  "name": "@altairgraphql/functions",
   "version": "5.0.10",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
@@ -20,7 +20,7 @@
   },
   "main": "dist/bundle.js",
   "dependencies": {
-    "altair-firebase-utils": "file:../firebase-utils",
+    "@altairgraphql/firebase-utils": "file:../firebase-utils",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",

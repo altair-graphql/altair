@@ -42,8 +42,8 @@ jobs:
       with:
         timeout_minutes: 15
         max_attempts: 3
-        command: yarn lerna run --scope altair-app webdriver-update-ci
+        command: yarn lerna run --scope @altairgraphql/app webdriver-update-ci
     - name: Run headless e2e test
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: yarn lerna run --scope altair-app e2e:ci
+        run: yarn lerna run --scope @altairgraphql/app e2e:ci

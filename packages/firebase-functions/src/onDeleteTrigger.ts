@@ -4,7 +4,7 @@ import {
   PartialWithFieldValue,
   QueryDocumentSnapshot,
 } from 'firebase-admin/firestore';
-import { collectionNames } from 'altair-firebase-utils';
+import { collectionNames } from '@altairgraphql/firebase-utils';
 import { IRemoteQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 const converter = <T>() => ({

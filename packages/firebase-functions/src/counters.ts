@@ -1,6 +1,6 @@
 import { firestore as firestoreFn } from 'firebase-functions';
 import { firestore as firestoreAdmin } from 'firebase-admin';
-import { collectionNames } from 'altair-firebase-utils';
+import { collectionNames } from '@altairgraphql/firebase-utils';
 
 const getCounterFunctions = (documentType: string) => {
   const incrementCounter = firestoreFn

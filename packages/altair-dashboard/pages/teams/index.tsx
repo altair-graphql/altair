@@ -18,7 +18,7 @@ import {
   FirebaseUtilsContext,
   getTeams,
   updateTeam,
-} from 'altair-firebase-utils';
+} from '@altairgraphql/firebase-utils';
 import useUser from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';

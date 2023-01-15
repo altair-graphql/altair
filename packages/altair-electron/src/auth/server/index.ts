@@ -12,7 +12,7 @@ import { v4 as uuid } from 'uuid';
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
 const authClientStaticDirectory = () =>
-  path.resolve(require.resolve('electron-auth-client'), '..');
+  path.resolve(require.resolve('@altairgraphql/electron-auth-client'), '..');
 export class AuthServer {
   private port = 3000; // default port. Might be different at runtime.
   private server?: Server;
