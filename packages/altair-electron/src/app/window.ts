@@ -26,7 +26,10 @@ import { TouchbarManager } from './touchbar';
 import { handleWithCustomErrors } from '../utils/index';
 import { AuthServer } from '../auth/server/index';
 
-const HEADERS_TO_SET = ['Origin', 'Cookie'];
+// https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
+const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map(_ =>
+  _.toLowerCase()
+);
 
 export class WindowManager {
   instance?: BrowserWindow;
@@ -222,13 +225,14 @@ export class WindowManager {
         this.requestHeaders = {};
 
         headers.forEach(header => {
+          const normalizedKey = header.key.toLowerCase();
           if (
-            HEADERS_TO_SET.includes(header.key) &&
+            HEADERS_TO_SET.includes(normalizedKey) &&
             header.key &&
             header.value &&
             header.enabled
           ) {
-            this.requestHeaders[header.key] = header.value;
+            this.requestHeaders[normalizedKey] = header.value;
           }
         });
 
