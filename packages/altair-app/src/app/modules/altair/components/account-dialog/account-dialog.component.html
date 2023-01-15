@@ -9,13 +9,16 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="account-signin-wrapper">
-        <button
+        <ng-container
           *ngIf="!account?.loggedIn"
-          class="app-button active-primary"
-          (click)="submitLogin()"
         >
-          {{ 'SIGNIN_WITH_GOOGLE' | translate }}
-        </button>
+          <button
+            class="app-button active-primary"
+            (click)="submitLogin()"
+          >
+            {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+          </button>
+        </ng-container>
 
         <ng-container
           *ngIf="account?.loggedIn"
@@ -35,6 +38,13 @@
             {{ 'LOGOUT_TEXT' | translate }}
           </button>
         </ng-container>
+        <nz-collapse style="margin-top: 10px;">
+          <nz-collapse-panel
+            [nzHeader]="'Subscribe to the newsletter'"
+          >
+            <iframe src="https://altairgraphql.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:var(--theme-bg-color);" frameborder="0" scrolling="no"></iframe>
+          </nz-collapse-panel>
+        </nz-collapse>
       </div>
     </div>
   </ng-template>
