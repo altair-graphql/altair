@@ -5,9 +5,9 @@ import {
   fillAllFieldsCommands,
   showInDocsCommand,
   graphqlLanguage,
-} from 'altair-codemirror-graphql';
+} from 'cm6-graphql';
 import { getNamedType, GraphQLSchema, GraphQLType } from 'graphql';
-import { ContextToken } from 'graphql-language-service-parser';
+import { ContextToken } from 'graphql-language-service';
 import { CompletionItem } from 'graphql-language-service-types';
 import { Position } from '../../utils/editor/helpers';
 import { marked } from 'marked';

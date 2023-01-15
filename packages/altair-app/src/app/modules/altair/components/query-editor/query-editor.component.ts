@@ -18,7 +18,7 @@ import {
   updateSchema,
   showInDocsCommand,
   fillAllFieldsCommands,
-} from 'altair-codemirror-graphql';
+} from 'cm6-graphql';
 
 // Import the codemirror packages
 import 'codemirror/addon/comment/comment';

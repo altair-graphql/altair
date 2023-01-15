@@ -24,7 +24,7 @@ import {
   OperationDefinitionNode,
   IntrospectionQuery,
 } from 'graphql';
-import { ContextToken } from 'graphql-language-service-parser';
+import { ContextToken } from 'graphql-language-service';
 import compress from 'graphql-query-compress';
 
 import { NotifyService } from '../notify/notify.service';
