@@ -1,7 +1,6 @@
 {
   "name": "@altairgraphql/electron-auth-client",
   "version": "5.0.11",
-  "main": "dist/index.html",
   "targets": {
     "main": false
   },

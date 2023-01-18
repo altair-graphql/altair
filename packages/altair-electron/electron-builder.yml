@@ -5,6 +5,9 @@ directories:
   output: out
 files:
   - '**/*'
+  - '!**/*.ts'
+  - '!**/*.ts.map'
+  - '!**/*.js.map'
 afterSign: electron-builder-notarize # scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}

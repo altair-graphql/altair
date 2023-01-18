@@ -12,7 +12,6 @@ import {
   setDoc,
   WithFieldValue,
 } from 'firebase/firestore';
-import { getFirestore } from 'firebase-admin/firestore';
 import {
   IRemoteQuery,
   IRemoteQueryCollection,

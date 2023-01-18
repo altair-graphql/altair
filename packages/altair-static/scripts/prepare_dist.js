@@ -7,7 +7,7 @@ ncp.limit = 16;
 const deleteFolderRecursive = function(path) {
   if (fs.existsSync(path)) {
     fs.readdirSync(path).forEach(function(file, index) {
-      var curPath = path + '/' + file;
+      const curPath = path + '/' + file;
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
         deleteFolderRecursive(curPath);
@@ -59,7 +59,7 @@ ncp(distSrc, distDestination, function(err) {
       fs.readFileSync(path.resolve(distSrc, 'stats.json'))
     );
 
-    let htmlString = fs
+    const htmlString = fs
       .readFileSync(path.resolve(srcDir, 'index.html'), 'utf8')
       // Set base to ./
       .replace('<base href="/">', '<base href="./">')
