@@ -121,9 +121,6 @@ export class DocViewerTypeComponent {
   }
 
   getTypeFields(type: GraphQLType) {
-    if (isInputType(type)) {
-      return [];
-    }
     if ('getFields' in type) {
       return Object.values(type.getFields());
     }
