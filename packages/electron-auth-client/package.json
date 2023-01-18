@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/electron-auth-client",
-  "version": "5.0.11",
+  "version": "5.0.12",
   "targets": {
     "main": false
   },
@@ -14,7 +14,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.11",
+    "@altairgraphql/firebase-utils": "^5.0.12",
     "firebase": "^9.9.2"
   }
 }

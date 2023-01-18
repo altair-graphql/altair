@@ -1,6 +1,6 @@
 {
   "name": "altair-graphql-core",
-  "version": "5.0.11",
+  "version": "5.0.12",
   "description": "Several of the core logic for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
