@@ -6,6 +6,7 @@ import {
   signInWithCustomToken,
   signOut,
   User,
+  signInWithCredential,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
 import {
@@ -15,7 +16,7 @@ import {
 } from '@altairgraphql/firebase-utils';
 import { environment } from 'environments/environment';
 import { from, Observable } from 'rxjs';
-import { isElectronApp } from '../../utils';
+import { isElectronApp, isFirefoxExtension } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { firebaseClient, updateDocument } from '../firebase/firebase';
 
@@ -33,6 +34,21 @@ export class AccountService {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
       return signInWithCustomToken(firebaseClient.auth, authToken);
+    }
+
+    const oauthClientId =
+      '584169952184-t8ma7o379v9e2v0pptb47qrg2q9biehh.apps.googleusercontent.com';
+    if (isFirefoxExtension) {
+      const nonce = Math.floor(Math.random() * 1000);
+      const responseUrl = await browser.identity.launchWebAuthFlow({
+        url: `https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token&nonce=${nonce}&scope=openid%20profile&client_id=${oauthClientId}&redirect_uri=${browser.identity.getRedirectURL()}`,
+        interactive: true,
+      });
+      // Parse the response url for the id token
+      const idToken = responseUrl.split('id_token=')[1]?.split('&')[0];
+
+      const credential = GoogleAuthProvider.credential(idToken);
+      await signInWithCredential(firebaseClient.auth, credential);
     }
 
     const provider = new GoogleAuthProvider();

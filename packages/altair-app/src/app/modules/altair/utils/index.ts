@@ -116,14 +116,8 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
   }
 };
 
-export const isExtension = !!(
-  (window as any).chrome &&
-  (window as any).chrome.runtime &&
-  (window as any).chrome.runtime.id
-);
-export const isFirefoxExtension = !!(
-  (window as any).chrome && (window as any).chrome.geckoProfiler
-);
+export const isExtension = !!chrome?.runtime?.id;
+export const isFirefoxExtension = location.protocol === 'moz-extension:';
 
 export const detectEnvironment = () => {
   if (isElectron) {
