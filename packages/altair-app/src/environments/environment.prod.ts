@@ -6,4 +6,5 @@ export const environment = {
   version: pkg.version,
   serverReady: true,
   firebaseConfig: getClientConfig('production'),
+  authPopupUrl: 'https://redir.altairgraphql.dev',
 };

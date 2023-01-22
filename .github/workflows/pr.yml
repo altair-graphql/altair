@@ -39,6 +39,11 @@ jobs:
           export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           cd packages/altair-dashboard
           npx wrangler@2 pages publish "out" --project-name="altair-dashboard"
+      - run: |
+          export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          cd packages/login-redirect
+          npx wrangler@2 pages publish "dist" --project-name="altair-login-redirect"
   test:
     strategy:
       matrix:

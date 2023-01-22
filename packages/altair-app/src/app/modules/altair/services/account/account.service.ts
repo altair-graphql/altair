@@ -5,8 +5,6 @@ import {
   signInWithPopup,
   signInWithCustomToken,
   signOut,
-  User,
-  signInWithCredential,
 } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
 import {
@@ -16,9 +14,10 @@ import {
 } from '@altairgraphql/firebase-utils';
 import { environment } from 'environments/environment';
 import { from, Observable } from 'rxjs';
-import { isElectronApp, isFirefoxExtension } from '../../utils';
+import { isElectronApp, isExtension } from '../../utils';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { firebaseClient, updateDocument } from '../firebase/firebase';
+import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/firebase-utils/build/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -30,25 +29,70 @@ export class AccountService {
     return Date.now();
   }
 
+  private nonce() {
+    const validChars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let array = new Uint8Array(40);
+    crypto.getRandomValues(array);
+    array = array.map((x) => validChars.charCodeAt(x % validChars.length));
+    return String.fromCharCode(...array);
+  }
+
+  private getPopupUrl(nonce: string) {
+    const url = new URL(environment.authPopupUrl);
+    url.searchParams.append('nonce', nonce);
+    url.searchParams.append('source', location.origin);
+
+    return url.href;
+  }
+
+  private async getTokenFromPopup() {
+    const nonce = this.nonce();
+    const popup = window.open(this.getPopupUrl(nonce), 'Altair GraphQL');
+    if (!popup) {
+      throw new Error('Could not create signin popup!');
+    }
+    // TODO: set timeout
+    return new Promise<string>((resolve, reject) => {
+      const listener = (message: MessageEvent) => {
+        try {
+          const type = message?.data?.type;
+          if (type === OAUTH_POPUP_CALLBACK_MESSAGE_TYPE) {
+            if (
+              new URL(message.origin).href !==
+              new URL(environment.authPopupUrl).href
+            ) {
+              return reject(new Error('origin does not match!'));
+            }
+
+            // Verify returned nonce
+            if (nonce !== message?.data?.payload?.nonce) {
+              window.removeEventListener('message', listener);
+              return reject(new Error('nonce does not match!'));
+            }
+
+            const token = message?.data?.payload?.token;
+            window.removeEventListener('message', listener);
+            return resolve(token);
+          }
+        } catch (err) {
+          reject(err);
+        }
+      };
+
+      window.addEventListener('message', listener);
+    });
+  }
+
   private async signin() {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
       return signInWithCustomToken(firebaseClient.auth, authToken);
     }
 
-    const oauthClientId =
-      '584169952184-t8ma7o379v9e2v0pptb47qrg2q9biehh.apps.googleusercontent.com';
-    if (isFirefoxExtension) {
-      const nonce = Math.floor(Math.random() * 1000);
-      const responseUrl = await browser.identity.launchWebAuthFlow({
-        url: `https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token&nonce=${nonce}&scope=openid%20profile&client_id=${oauthClientId}&redirect_uri=${browser.identity.getRedirectURL()}`,
-        interactive: true,
-      });
-      // Parse the response url for the id token
-      const idToken = responseUrl.split('id_token=')[1]?.split('&')[0];
-
-      const credential = GoogleAuthProvider.credential(idToken);
-      await signInWithCredential(firebaseClient.auth, credential);
+    if (isExtension) {
+      const token = await this.getTokenFromPopup();
+      return signInWithCustomToken(firebaseClient.auth, token);
     }
 
     const provider = new GoogleAuthProvider();
