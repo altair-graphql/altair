@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/functions",
-  "version": "5.0.12",
+  "version": "5.0.13",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "node esbuild.config.js",

@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "5.0.12",
+  "version": "5.0.13",
   "source": "src/index.html",
   "targets": {
     "main": false
@@ -15,7 +15,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.12",
+    "@altairgraphql/firebase-utils": "^5.0.13",
     "firebase": "^9.9.2"
   }
 }
