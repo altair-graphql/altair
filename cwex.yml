@@ -24,7 +24,6 @@ manifestOptions:
     - tabs
     - storage
     - notifications
-    - identity
   content_security_policy: "script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';"
   background:
     scripts:
