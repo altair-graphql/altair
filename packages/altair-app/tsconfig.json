@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
-    "types": ["jest", "chrome", "firefox-webext-browser"],
+    "types": ["jest", "node", "chrome", "firefox-webext-browser"],
     "downlevelIteration": true,
     "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
     "module": "es2020",

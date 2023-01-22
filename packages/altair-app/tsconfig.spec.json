@@ -4,7 +4,6 @@
     "outDir": "./out-tsc/spec",
     // "target": "es2020",
     "baseUrl": "./src",
-    "types": ["node", "jest"],
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
