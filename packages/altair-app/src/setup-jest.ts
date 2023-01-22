@@ -4,6 +4,8 @@ import 'jest-preset-angular/setup-jest';
 import 'fake-indexeddb/auto';
 const crypto = require('crypto');
 
+Object.assign(global, require('jest-chrome'));
+
 Object.defineProperty(window, 'crypto', {
   value: {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
