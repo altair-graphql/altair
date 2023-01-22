@@ -1,6 +1,7 @@
 {
-  "name": "@altairgraphql/electron-auth-client",
+  "name": "@altairgraphql/login-redirect",
   "version": "5.0.12",
+  "source": "src/index.html",
   "targets": {
     "main": false
   },
@@ -10,7 +11,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html && cp src/robots.txt dist",
     "prepare": "yarn build"
   },
   "dependencies": {

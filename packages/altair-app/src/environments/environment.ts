@@ -10,4 +10,5 @@ export const environment = {
   version: pkg.version,
   serverReady: true,
   firebaseConfig: getClientConfig(),
+  authPopupUrl: 'http://localhost:1234',
 };

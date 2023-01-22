@@ -107,7 +107,7 @@ export class AltairComponent {
   isElectron = isElectron;
   isWebApp: boolean;
   serverReady = environment.serverReady;
-  authEnabled = !isExtension;
+  authEnabled = true;
   isReady = false; // determines if the app is fully loaded. Assets, translations, etc.
   showDonationAlert = false;
 

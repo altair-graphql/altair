@@ -98,7 +98,7 @@ export default function Home() {
   return (
     <>
       <Title order={3}>Welcome back, {user.displayName}!</Title>
-      <StatsGrid
+      {/* <StatsGrid
         data={[
           {
             title: 'Queries',
@@ -116,7 +116,7 @@ export default function Home() {
             icon: 'user',
           },
         ]}
-      />
+      /> */}
     </>
   );
 }

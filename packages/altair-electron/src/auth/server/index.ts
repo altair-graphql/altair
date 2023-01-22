@@ -3,21 +3,28 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { EventEmitter } from 'events';
 import path from 'path';
-import {} from 'crypto';
+import { randomBytes } from 'crypto';
 import { getStaticDirectory } from '../../utils';
 import { session, shell } from 'electron';
 import { getCSP, INLINE, SELF } from 'csp-header';
-import { v4 as uuid } from 'uuid';
 
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
+const newNonce = () => {
+  const validChars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const array = randomBytes(40).map(x =>
+    validChars.charCodeAt(x % validChars.length)
+  );
+  return String.fromCharCode(...array);
+};
 const authClientStaticDirectory = () =>
-  path.resolve(require.resolve('@altairgraphql/electron-auth-client'), '..');
+  path.resolve(require.resolve('@altairgraphql/login-redirect'), '..');
 export class AuthServer {
   private port = 3000; // default port. Might be different at runtime.
   private server?: Server;
   private sessionPartition = 'persist:auth';
-  private nonce = uuid();
+  private nonce = newNonce();
   private emitter = new EventEmitter();
   private ttlSeconds = 10 * 60; // 10m
 
