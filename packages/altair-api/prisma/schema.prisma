@@ -110,3 +110,10 @@ model TeamMembership {
 
   @@id([userId, teamId])
 }
+
+model PlanConfig {
+  id                 String @unique
+  maxQueryCount      Int
+  maxTeamCount       Int
+  maxTeamMemberCount Int
+}

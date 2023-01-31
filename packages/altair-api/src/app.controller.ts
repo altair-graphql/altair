@@ -2,6 +2,7 @@ import { Controller, Get, Req, Sse, UseGuards } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { PrismaService } from 'nestjs-prisma';
 import { interval, map, Subject } from 'rxjs';
 import { AppService } from './app.service';
 import { GoogleOAuthGuard } from './auth/guards/google-oauth.guard';
@@ -13,7 +14,8 @@ import { EVENTS } from './common/events';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly eventService: EventEmitter2
+    private readonly eventService: EventEmitter2,
+    private readonly prisma: PrismaService
   ) {}
 
   @Get()
@@ -28,9 +30,53 @@ export class AppController {
 
     // TODO: Create events
     // TODO: Emit events from prisma middleware
-    // TODO: Check if event is relevant for user
-    this.eventService.on([EVENTS.COLLECTION_UPDATE], (data) => {
-      subject$.next({ uid: req.user.id, data });
+    this.eventService.on([EVENTS.COLLECTION_UPDATE], async ({ id }) => {
+      // check collection workspace owner
+      const userIds = await this.prisma.user.findMany({
+        select: {
+          id: true,
+        },
+        where: {
+          Workspace: {
+            some: {
+              QueryCollection: {
+                some: {
+                  id,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (userIds.find((uidd) => uidd.id === id)) {
+        subject$.next({ uid: req.user.id, collectionId: id });
+      }
+    });
+    this.eventService.on([EVENTS.QUERY_UPDATE], async ({ id }) => {
+      // check query workspace owner
+      const userIds = await this.prisma.user.findMany({
+        select: {
+          id: true,
+        },
+        where: {
+          Workspace: {
+            some: {
+              QueryCollection: {
+                some: {
+                  queries: {
+                    some: {
+                      id,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      if (userIds.find((uidd) => uidd.id === id)) {
+        subject$.next({ uid: req.user.id, queryId: id });
+      }
     });
 
     return subject$.pipe(map((data) => ({ data })));

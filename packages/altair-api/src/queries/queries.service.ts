@@ -1,5 +1,5 @@
 import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/firebase-utils';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { EVENTS } from 'src/common/events';
@@ -12,7 +12,38 @@ export class QueriesService {
   ) {}
 
   async create(userId: string, createQueryDto: CreateQueryDto) {
-    // TODO: Verify collectionId
+    const basicPlan = await this.prisma.planConfig.findUnique({
+      where: {
+        id: 'basic',
+      },
+    });
+    const queryCount = await this.prisma.queryItem.count({
+      where: {
+        collection: {
+          workspace: {
+            ownerId: userId,
+          },
+        },
+      },
+    });
+    if (queryCount >= basicPlan.maxQueryCount) {
+      throw new ForbiddenException();
+    }
+
+    // specified collection is owned by the user
+    const validCollection = await this.prisma.queryCollection.findMany({
+      where: {
+        id: createQueryDto.collectionId,
+        workspace: {
+          ownerId: userId,
+        },
+      },
+    });
+
+    if (!validCollection.length) {
+      throw new ForbiddenException();
+    }
+
     const res = await this.prisma.queryItem.create({
       data: {
         collectionId: createQueryDto.collectionId,

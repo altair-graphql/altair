@@ -31,6 +31,13 @@ export interface CreateTeamDto {
 
 export type UpdateTeamDto = Partial<CreateTeamDto>;
 
+export interface CreateTeamMembershipDto {
+  userId: string;
+  teamId: string;
+}
+
+export type UpdateTeamMembershipDto = Partial<CreateTeamMembershipDto>;
+
 export const createTeam = async (
   ctx: FirebaseUtilsContext,
   data: CreateDTO<Team>

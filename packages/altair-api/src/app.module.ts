@@ -10,6 +10,7 @@ import { QueryCollectionsModule } from './query-collections/query-collections.mo
 import { TeamsModule } from './teams/teams.module';
 import config from './common/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TeamMembershipsModule } from './team-memberships/team-memberships.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     QueriesModule,
     QueryCollectionsModule,
     TeamsModule,
+    TeamMembershipsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService],

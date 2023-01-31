@@ -1,12 +1,27 @@
 import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/firebase-utils';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class TeamsService {
   constructor(private prisma: PrismaService) {}
 
-  create(userId: string, createTeamDto: CreateTeamDto) {
+  async create(userId: string, createTeamDto: CreateTeamDto) {
+    const basicPlan = await this.prisma.planConfig.findUnique({
+      where: {
+        id: 'basic',
+      },
+    });
+    const teamCount = await this.prisma.team.count({
+      where: {
+        ownerId: userId,
+      },
+    });
+
+    if (teamCount >= basicPlan.maxTeamCount) {
+      throw new ForbiddenException();
+    }
+
     return this.prisma.team.create({
       data: {
         ...createTeamDto,
