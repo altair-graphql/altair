@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RequestsModule } from './requests/requests.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from 'nestjs-prisma';
 import { ConfigModule } from '@nestjs/config';
 import { PasswordService } from './auth/password/password.service';
+import { QueriesModule } from './queries/queries.module';
+import { QueryCollectionsModule } from './query-collections/query-collections.module';
+import { TeamsModule } from './teams/teams.module';
 import config from './common/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -17,8 +20,11 @@ import config from './common/config';
         middlewares: [], // configure your prisma middleware
       },
     }),
-    RequestsModule,
+    EventEmitterModule.forRoot(),
     AuthModule,
+    QueriesModule,
+    QueryCollectionsModule,
+    TeamsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService],

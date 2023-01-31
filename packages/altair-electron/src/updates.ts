@@ -46,14 +46,6 @@ autoUpdater.on('update-downloaded', () => {
 
 const canUpdate = () => {
   return app.isPackaged;
-  // // TODO: Figure out how to resolve the protected app access error
-  // const _au = autoUpdater;
-  // // Don't check for updates if update config is not found (auto-update via electron is not supported)
-  // return (
-  //   _au.app &&
-  //   _au.app.appUpdateConfigPath &&
-  //   fs.existsSync(_au.app.appUpdateConfigPath)
-  // );
 };
 
 export const setupAutoUpdates = () => {

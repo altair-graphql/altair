@@ -167,7 +167,7 @@
           </popper-content>
         </span>
         <span
-          *ngIf="loggedIn && query.storageType === 'firestore'"
+          *ngIf="loggedIn && (query.storageType === 'firestore' || query.storageType === 'api')"
           class="query-collections__item-queries-item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
         >

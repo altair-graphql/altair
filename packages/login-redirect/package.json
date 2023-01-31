@@ -6,12 +6,14 @@
     "main": false
   },
   "devDependencies": {
-    "parcel": "^2.7.0",
-    "typescript": "^4.9.4"
+    "rimraf": "^4.1.2",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
   },
   "license": "MIT",
   "scripts": {
-    "build": "parcel build src/index.html && cp src/robots.txt dist",
+    "dev": "vite --port 1234",
+    "build": "rimraf dist && vite build",
     "prepare": "yarn build"
   },
   "dependencies": {

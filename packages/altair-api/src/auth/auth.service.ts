@@ -7,15 +7,16 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
+import { User, IdentityProvider } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'nestjs-prisma';
 import { SecurityConfig } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
+import { ProviderInfo } from './models/provider-info.dto';
 import { SignupInput } from './models/signup.input';
-import { Token } from './models/token';
 import { UpdateUserInput } from './models/update-user.input';
 import { PasswordService } from './password/password.service';
+import { Token } from 'altair-graphql-core/build/types/api';
 
 @Injectable()
 export class AuthService {
@@ -26,27 +27,41 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  async createUser(payload: SignupInput): Promise<Token> {
-    const hashedPassword = await this.passwordService.hashPassword(
-      payload.password
-    );
+  async createUser(
+    payload: SignupInput,
+    providerInfo?: ProviderInfo
+  ): Promise<User> {
+    // const hashedPassword = await this.passwordService.hashPassword(
+    //   payload.password
+    // );
 
     try {
       const user = await this.prisma.user.create({
         data: {
           ...payload,
-          password: hashedPassword,
+          // password: hashedPassword,
           Workspace: {
             create: {
               name: 'My workspace',
             },
           },
+          ...(providerInfo
+            ? {
+                UserCredential: {
+                  create: {
+                    provider: providerInfo.provider,
+                    providerUserId: providerInfo.providerUserId,
+                  },
+                },
+              }
+            : {}),
         },
       });
 
-      return this.generateTokens({
-        userId: user.id,
-      });
+      return user;
+      // return this.generateTokens({
+      //   userId: user.id,
+      // });
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') {
         throw new ConflictException(`Email ${payload.email} already used.`);
@@ -55,7 +70,7 @@ export class AuthService {
     }
   }
 
-  async login(email: string, password: string): Promise<Token> {
+  async passwordLogin(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -71,8 +86,23 @@ export class AuthService {
       throw new BadRequestException('Invalid password');
     }
 
-    return this.generateTokens({
-      userId: user.id,
+    return this.getLoginResponse(user);
+  }
+
+  googleLogin(req) {
+    if (!req.user) {
+      throw new BadRequestException('No user from google');
+    }
+
+    return this.getLoginResponse(req.user);
+  }
+
+  getUserCredential(providerUserId: string, provider: IdentityProvider) {
+    return this.prisma.userCredential.findFirst({
+      where: {
+        providerUserId,
+        provider,
+      },
     });
   }
 
@@ -120,11 +150,35 @@ export class AuthService {
     });
   }
 
+  getLoginResponse(user: User) {
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      picture: user.picture,
+      tokens: this.generateTokens({ userId: user.id }),
+    };
+  }
+
   generateTokens(payload: { userId: string }): Token {
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),
     };
+  }
+
+  /**
+   * Generates a short-lived token for the purpose of event connection
+   */
+  getShortLivedToken(userId: string): string {
+    const securityConfig = this.configService.get<SecurityConfig>('security');
+    return this.jwtService.sign(
+      { userId },
+      {
+        expiresIn: securityConfig.shortExpiresIn,
+      }
+    );
   }
 
   private generateAccessToken(payload: { userId: string }): string {
@@ -151,5 +205,17 @@ export class AuthService {
     } catch (e) {
       throw new UnauthorizedException();
     }
+  }
+
+  getUserTeams(userId: string) {
+    return this.prisma.team.findMany({
+      where: {
+        TeamMemberships: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
   }
 }

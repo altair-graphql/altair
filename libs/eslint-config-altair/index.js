@@ -12,7 +12,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  plugins: ['@typescript-eslint', 'import', 'prettier'],
+  plugins: ['@typescript-eslint', 'import', 'prettier', 'no-unsanitized'],
   rules: {
     'prettier/prettier': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',

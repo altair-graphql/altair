@@ -6,6 +6,9 @@ import { SecurityConfig } from 'src/common/config';
 import { AuthService } from './auth.service';
 import { PasswordService } from './password/password.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthController } from './auth.controller';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { ShortJwtStrategy } from './strategies/jwt-short.strategy';
 
 @Module({
   imports: [
@@ -23,6 +26,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, JwtStrategy, PasswordService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    ShortJwtStrategy,
+    GoogleStrategy,
+    PasswordService,
+  ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

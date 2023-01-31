@@ -4,7 +4,8 @@
     "outDir": "build",
     "rootDir": "./src",
     "target": "es2020",
-    "module": "commonjs",
+    "module": "ES2020",
+    "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "types": ["node"],
     "skipLibCheck": true

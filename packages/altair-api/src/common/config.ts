@@ -13,7 +13,8 @@ const config = {
     path: 'swagger',
   },
   security: {
-    expiresIn: '2m',
+    shortExpiresIn: '30s',
+    expiresIn: '1d',
     refreshIn: '7d',
     bcryptSaltOrRound: 10,
   },

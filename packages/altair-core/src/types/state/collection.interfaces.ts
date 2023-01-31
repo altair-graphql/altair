@@ -5,7 +5,7 @@ import { ExportWindowState } from './window.interfaces';
 
 export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest' | 'none';
 
-export type EntityStorageType = 'local' | 'firestore';
+export type EntityStorageType = 'local' | 'firestore' | 'api' | 'remote';
 
 export interface CollectionState {
   list: IQueryCollection[];

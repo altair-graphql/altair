@@ -32,7 +32,7 @@ async function main() {
 
 // execute the main function
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })

@@ -1,10 +1,5 @@
+import { Team } from '@prisma/client';
 import { ValueObject } from '../../utils/value-object';
-import { BaseOwnableDocument } from '../shared';
-
-export interface Team extends BaseOwnableDocument {
-  name: string;
-  description?: string;
-}
 
 export interface AccountState {
   loggedIn: boolean;
@@ -15,4 +10,5 @@ export interface AccountState {
   teams: Team[];
 }
 
+export { Team } from '@prisma/client';
 export class TeamId extends ValueObject<string> {}

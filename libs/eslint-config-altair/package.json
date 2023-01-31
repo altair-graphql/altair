@@ -16,5 +16,8 @@
     "prettier-config-altair": "^5.0.14",
     "typescript": "^4.8.2"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "eslint-plugin-no-unsanitized": "^4.0.2"
+  }
 }

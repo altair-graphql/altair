@@ -27,6 +27,21 @@ import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { getTeams } from './team';
 
+export interface CreateQueryCollectionDto {
+  name: string;
+  queries?: CreateQueryDto[];
+}
+
+export type UpdateQueryCollectionDto = Partial<CreateQueryCollectionDto>;
+
+export interface CreateQueryDto {
+  name: string;
+  collectionId: string;
+  content: Omit<CreateDTO<IRemoteQuery>, 'gqlSchema'>;
+}
+
+export type UpdateQueryDto = Partial<CreateQueryDto>;
+
 export const createQueryCollection = async (
   ctx: FirebaseUtilsContext,
   queryCollection: CreateDTO<IQueryCollection>,
@@ -196,7 +211,7 @@ const getCollectionQueries = async (
   );
 
   const sn = await getDocs(docQ);
-  return sn.docs.map(_ => ({ ..._.data(), id: _.id }));
+  return sn.docs.map((_) => ({ ..._.data(), id: _.id }));
 };
 
 export const getCollection = async (
@@ -232,7 +247,7 @@ export const getCollections = async (
 
   // check for team collections
   const teams = await getTeams(ctx);
-  const teamIds = teams.map(t => t.id);
+  const teamIds = teams.map((t) => t.id);
   if (teams.length) {
     const teamCollectionQ = query(
       queryCollectionsRef(ctx.db),
@@ -249,7 +264,7 @@ export const getCollections = async (
   }
 
   const collectionQueries = await Promise.allSettled(
-    queryCollections.map(async col => {
+    queryCollections.map(async (col) => {
       const docQ = query(
         queriesRef(ctx.db),
         where('ownerUid', '==', ctx.uid),
@@ -293,7 +308,7 @@ export const getCollections = async (
 };
 
 const mergeList = <T extends { id: string }>(list1: T[], list2: T[]) => {
-  const seenIds = new Set(list1.map(d => d.id));
+  const seenIds = new Set(list1.map((d) => d.id));
 
-  return [...list1, ...list2.filter(d => !seenIds.has(d.id))];
+  return [...list1, ...list2.filter((d) => !seenIds.has(d.id))];
 };

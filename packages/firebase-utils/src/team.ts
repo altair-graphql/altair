@@ -24,6 +24,13 @@ import {
   updateDocument,
 } from './utils';
 
+export interface CreateTeamDto {
+  name: string;
+  description?: string;
+}
+
+export type UpdateTeamDto = Partial<CreateTeamDto>;
+
 export const createTeam = async (
   ctx: FirebaseUtilsContext,
   data: CreateDTO<Team>
@@ -34,9 +41,9 @@ export const createTeam = async (
   batch.set(newTeamRef, {
     ...data,
     id: newTeamRef.id,
-    ownerUid: ctx.uid,
-    created_at: now(),
-    updated_at: now(),
+    // ownerUid: ctx.uid,
+    // created_at: now(),
+    // updated_at: now(),
   });
 
   await batch.commit();

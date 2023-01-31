@@ -19,7 +19,7 @@ import {
   getTeams,
   updateTeam,
 } from '@altairgraphql/firebase-utils';
-import useUser from '../../lib/useUser';
+import useUser, { firebaseClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import Link from 'next/link';
@@ -59,7 +59,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
   const onCreateTeam = async (val: TeamData) => {
     setLoading(true);
     try {
-      await createTeam(ctx, val);
+      await firebaseClient.apiClient.createTeam(val);
       notify.success('Your team has been created');
       onComplete(true);
     } catch (err) {
@@ -78,7 +78,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
     }
     setLoading(true);
     try {
-      await updateTeam(ctx, team.id, { id: team.id, ...val });
+      await firebaseClient.apiClient.updateTeam(team.id, val);
       notify.success('Your team has been updated');
       onComplete(true);
     } catch (err) {
