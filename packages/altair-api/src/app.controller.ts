@@ -1,12 +1,9 @@
 import { Controller, Get, Req, Sse, UseGuards } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
-import { interval, map, Subject } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { AppService } from './app.service';
-import { GoogleOAuthGuard } from './auth/guards/google-oauth.guard';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ShortJwtAuthGuard } from './auth/guards/short-jwt-auth.guard';
 import { EVENTS } from './common/events';
 
@@ -48,7 +45,7 @@ export class AppController {
           },
         },
       });
-      if (userIds.find((uidd) => uidd.id === id)) {
+      if (userIds.find((uidd) => uidd.id === req.user.id)) {
         subject$.next({ uid: req.user.id, collectionId: id });
       }
     });
@@ -74,7 +71,8 @@ export class AppController {
           },
         },
       });
-      if (userIds.find((uidd) => uidd.id === id)) {
+
+      if (userIds.find((uidd) => uidd.id === req.user.id)) {
         subject$.next({ uid: req.user.id, queryId: id });
       }
     });

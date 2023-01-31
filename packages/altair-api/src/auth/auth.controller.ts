@@ -21,7 +21,6 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleOAuthGuard)
   googleSigninCallback(@Req() req: Request, @Res() res: Response) {
-    console.log(req.query);
     const result = this.authService.googleLogin(req);
     if (req.query.state && typeof req.query.state === 'string') {
       const origin = new URL(req.query.state);

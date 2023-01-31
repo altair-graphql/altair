@@ -54,6 +54,7 @@ const serverQueryToLocalQuery = (query: QueryItem): IQuery => {
     id: query.id,
     created_at: +query.createdAt,
     updated_at: +query.updatedAt,
+    storageType: 'api',
   };
 };
 const serverCollectionToLocalCollection = (
