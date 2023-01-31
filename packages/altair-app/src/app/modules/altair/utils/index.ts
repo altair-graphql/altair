@@ -116,7 +116,7 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
   }
 };
 
-export const isExtension = !!chrome?.runtime?.id;
+export const isExtension = !!window.chrome?.runtime?.id;
 export const isFirefoxExtension = location.protocol === 'moz-extension:';
 
 export const detectEnvironment = () => {
