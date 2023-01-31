@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-altair",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "description": "ESlint configurations",
   "main": "index.js",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.1",
-    "prettier-config-altair": "^5.0.13",
+    "prettier-config-altair": "^5.0.14",
     "typescript": "^4.8.2"
   },
   "private": true

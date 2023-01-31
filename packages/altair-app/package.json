@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/app",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "description": "Contains the altair app",
   "main": "dist/main.js",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=108.0.5359.94"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.13",
+    "@altairgraphql/firebase-utils": "^5.0.14",
     "@angular/animations": "14.0.3",
     "@angular/cdk": "12.2.6",
     "@angular/cli": "14.0.3",
@@ -64,7 +64,7 @@
     "abab": "2.0.6",
     "actioncable": "5.2.8",
     "ajv": "^8.11.2",
-    "altair-graphql-core": "^5.0.13",
+    "altair-graphql-core": "^5.0.14",
     "angular-resizable-element": "^6.0.0",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-link": "1.2.14",
@@ -167,7 +167,7 @@
     "chai-as-promised": "7.1.1",
     "electron": "19.0.6",
     "eslint": "8.18.0",
-    "eslint-config-altair": "^5.0.13",
+    "eslint-config-altair": "^5.0.14",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-prettier": "4.0.0",
@@ -181,7 +181,7 @@
     "ncp": "2.0.0",
     "ng-mocks": "14.0.1",
     "ngrx-store-freeze": "0.2.4",
-    "prettier-config-altair": "^5.0.13",
+    "prettier-config-altair": "^5.0.14",
     "protractor": "7.0.0",
     "react": "17.0.1",
     "rxjs-tslint-rules": "4.32.0",

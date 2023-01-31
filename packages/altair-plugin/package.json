@@ -1,6 +1,6 @@
 {
   "name": "altair-graphql-plugin",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "description": "Plugin helper for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "dependencies": {
-    "altair-graphql-core": "^5.0.13"
+    "altair-graphql-core": "^5.0.14"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",

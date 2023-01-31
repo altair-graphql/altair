@@ -11,7 +11,7 @@ manifestOptions:
   name: Altair GraphQL Client
   short_name: Altair
   description: A beautiful feature-rich GraphQL client for all platforms
-  version: 5.0.13
+  version: 5.0.14
   icons:
     16: assets/img/altair_logo_128.png
     48: assets/img/altair_logo_128.png

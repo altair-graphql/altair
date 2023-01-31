@@ -1,6 +1,6 @@
 {
   "name": "altair-express-middleware",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "description": "Express middleware for altair graphql client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -31,13 +31,13 @@
   },
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "dependencies": {
-    "altair-static": "^5.0.13",
+    "altair-static": "^5.0.14",
     "express": "^4.16.2"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
     "@types/node": "^14.14.41",
-    "eslint-config-altair": "^5.0.13",
+    "eslint-config-altair": "^5.0.14",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^4.9.4"

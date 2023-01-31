@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "productName": "Altair GraphQL Client",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "description": "Electron wrapper for Altair",
   "main": "dist/index.js",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
@@ -18,8 +18,8 @@
     "prepare": "yarn compile"
   },
   "dependencies": {
-    "@altairgraphql/login-redirect": "^5.0.13",
-    "altair-static": "^5.0.13",
+    "@altairgraphql/login-redirect": "^5.0.14",
+    "altair-static": "^5.0.14",
     "body-parser": "^1.20.0",
     "csp-header": "^5.1.0",
     "electron-debug": "^3.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/dashboard",
-  "version": "5.0.13",
+  "version": "5.0.14",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.13",
+    "@altairgraphql/firebase-utils": "^5.0.14",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.9.5",
