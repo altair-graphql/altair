@@ -1,4 +1,4 @@
-import { getClientConfig, initializeClient } from '@altairgraphql/api-utils';
+import { initializeClient } from '@altairgraphql/api-utils';
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
 
 const validOrigins = [
@@ -7,11 +7,6 @@ const validOrigins = [
   'moz-extension://567d7e27-43b8-994e-ab50-e770fa7eab4b', // firefox extension
   'http://localhost:4200', // local altair app
 ];
-
-const firebaseConfig = getClientConfig();
-
-const firebaseDomain = () =>
-  `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net`;
 
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
 
@@ -27,11 +22,12 @@ const getRedirectResult = () => {
   };
 };
 
-const signInWithRedirect = () => {
+const signInWithRedirect = (apiBaseUrl: string) => {
   const state = encodeURIComponent(location.href);
-  const loginUrl = `http://localhost:3000/auth/google/login?state=${state}`;
+  const loginUrl = new URL('/auth/google/login', apiBaseUrl);
+  loginUrl.searchParams.append('state', state);
 
-  return location.replace(loginUrl);
+  return location.replace(loginUrl.href);
 };
 const init = async () => {
   // TODO: Call the login endpoint
@@ -46,7 +42,7 @@ const init = async () => {
 
     sessionStorage.setItem(OAUTH_NONCE_KEY, nonce);
 
-    return signInWithRedirect();
+    return signInWithRedirect(client.options.apiBaseUrl);
   }
 
   await sendToken(result.accessToken);

@@ -1,4 +1,4 @@
-import { IdentityProvider } from '@prisma/client';
+import { IdentityProvider } from '@altairgraphql/db';
 
 export interface ProviderInfo {
   provider: IdentityProvider;

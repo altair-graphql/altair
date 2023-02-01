@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IAuthModuleOptions, PassportStrategy } from '@nestjs/passport';
-import { IdentityProvider, User } from '@prisma/client';
+import { IdentityProvider, User } from '@altairgraphql/db';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { Profile, Strategy } from 'passport-google-oauth20';

@@ -1,26 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { initializeClient, UserProfile } from '@altairgraphql/api-utils';
-import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 
-export const firebaseClient = initializeClient();
-
-const useAuthState = (auth: Auth) => {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, user => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      cleanup();
-    };
-  }, [auth]);
-};
+export const apiClient = initializeClient();
 
 export default function useUser({
   redirectTo = '/login',
@@ -31,7 +13,7 @@ export default function useUser({
 
   useEffect(() => {
     (async () => {
-      const user = await firebaseClient.apiClient.getUser();
+      const user = await apiClient.getUser();
       setUser(user);
       // if no redirect needed, just return (example: already on /dashboard)
       // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet

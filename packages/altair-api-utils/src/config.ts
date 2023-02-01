@@ -1,5 +1,3 @@
-import { FirebaseOptions } from 'firebase/app';
-import { FirestoreSettings } from 'firebase/firestore';
 export type ClientEnvironment = 'development' | 'production' | 'testing';
 export interface APIClientOptions {
   apiBaseUrl: string;

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { from } from 'rxjs';
 import { isElectronApp } from '../../utils';
+import { apiClient } from '../api/api.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { firebaseClient } from '../firebase/firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +14,10 @@ export class AccountService {
   private async signin() {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
-      return firebaseClient.apiClient.signInWithCustomToken(authToken);
+      return apiClient.signInWithCustomToken(authToken);
     }
 
-    return firebaseClient.apiClient.signinWithPopup();
+    return apiClient.signinWithPopup();
   }
   async accountLogin() {
     return this.signin();
@@ -32,7 +32,7 @@ export class AccountService {
       return null;
     }
 
-    return await firebaseClient.apiClient.getUser();
+    return await apiClient.getUser();
   }
 
   async mustGetUser() {
@@ -47,7 +47,7 @@ export class AccountService {
   }
 
   async logout() {
-    return firebaseClient.apiClient.signOut();
+    return apiClient.signOut();
   }
 
   async isUserSignedIn() {
@@ -55,6 +55,6 @@ export class AccountService {
   }
 
   async getTeams() {
-    return firebaseClient.apiClient.getTeams();
+    return apiClient.getTeams();
   }
 }

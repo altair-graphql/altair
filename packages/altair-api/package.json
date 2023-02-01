@@ -10,12 +10,8 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "env": "sync-dotenv",
-    "prepare": "yarn env && yarn prisma:generate",
+    "prepare": "yarn env",
     "nest:generate:resource": "nest g resource",
-    "prisma:seed": "prisma db seed",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -29,6 +25,7 @@
   },
   "dependencies": {
     "@altairgraphql/api-utils": "^5.0.13",
+    "@altairgraphql/db": "^5.0.13",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
@@ -37,7 +34,6 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.3",
-    "@prisma/client": "^4.9.0",
     "altair-graphql-core": "^5.0.13",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
@@ -99,8 +95,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
   }
+  
 }

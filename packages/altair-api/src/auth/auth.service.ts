@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { User, IdentityProvider } from '@prisma/client';
+import { User, IdentityProvider } from '@altairgraphql/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'nestjs-prisma';
 import { SecurityConfig } from 'src/common/config';

@@ -13,10 +13,10 @@ import {
 import { IconTrash } from '@tabler/icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { firebaseClient } from '../../lib/useUser';
+import { apiClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { useRouter } from 'next/router';
-import { TeamMemberRole, TeamMembership } from '@prisma/client';
+import { TeamMemberRole, TeamMembership } from '@altairgraphql/db';
 
 interface MembersStackProps {
   members: TeamMembership[];
@@ -46,7 +46,7 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
   const onCreateMember = async (val: MembershipData) => {
     setLoading(true);
     try {
-      await firebaseClient.apiClient.addTeamMember({ ...val, teamId });
+      await apiClient.addTeamMember({ ...val, teamId });
       notify.success('Your team member has been added');
       onComplete(true);
     } catch (err) {
@@ -147,9 +147,7 @@ export default function TeamPage() {
       if (!id) {
         throw new Error('Team ID cannot be undefined');
       }
-      const members = await firebaseClient.apiClient.getTeamMembers(
-        id.toString()
-      );
+      const members = await apiClient.getTeamMembers(id.toString());
       setMembers(members);
     } catch (err) {
       // console.error(err);

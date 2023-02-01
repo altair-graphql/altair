@@ -15,8 +15,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { signOut } from 'firebase/auth';
-import { firebaseClient } from '../lib/useUser';
+import { apiClient } from '../lib/useUser';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
@@ -140,7 +139,7 @@ export function NavbarSimple() {
         <a
           href="#"
           className={classes.link}
-          onClick={() => firebaseClient.apiClient.signOut()}
+          onClick={() => apiClient.signOut()}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

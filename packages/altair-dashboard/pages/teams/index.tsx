@@ -13,7 +13,7 @@ import {
 import { IconPencil } from '@tabler/icons';
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import useUser, { firebaseClient } from '../../lib/useUser';
+import useUser, { apiClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import Link from 'next/link';
@@ -48,7 +48,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
   const onCreateTeam = async (val: TeamData) => {
     setLoading(true);
     try {
-      await firebaseClient.apiClient.createTeam(val);
+      await apiClient.createTeam(val);
       notify.success('Your team has been created');
       onComplete(true);
     } catch (err) {
@@ -67,7 +67,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
     }
     setLoading(true);
     try {
-      await firebaseClient.apiClient.updateTeam(team.id, val);
+      await apiClient.updateTeam(team.id, val);
       notify.success('Your team has been updated');
       onComplete(true);
     } catch (err) {
@@ -157,7 +157,7 @@ export default function Teams() {
 
   const loadTeam = async () => {
     try {
-      const teams = await firebaseClient.apiClient.getTeams();
+      const teams = await apiClient.getTeams();
       setTeams(
         teams.map((t) => ({
           id: t.id,

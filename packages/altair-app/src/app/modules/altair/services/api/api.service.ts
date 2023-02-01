@@ -4,13 +4,19 @@ import {
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { map } from 'rxjs/operators';
-import { FullQueryCollection } from '@altairgraphql/api-utils';
+import {
+  FullQueryCollection,
+  initializeClient,
+} from '@altairgraphql/api-utils';
 import { AccountService } from '../account/account.service';
-import { firebaseClient } from '../firebase/firebase';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
-import { QueryItem } from '@prisma/client';
+import { QueryItem } from '@altairgraphql/db';
+import { environment } from 'environments/environment';
 
+export const apiClient = initializeClient(
+  environment.production ? 'production' : 'development'
+);
 const serverQueryToLocalQuery = (query: QueryItem): IQuery => {
   return {
     ...(query.content as unknown as IQuery),
@@ -41,7 +47,7 @@ export class ApiService {
     parentCollectionId?: string,
     teamId?: TeamId
   ) {
-    return await firebaseClient.apiClient.createQueryCollection({
+    return await apiClient.createQueryCollection({
       name: queryCollection.title,
       queries: queryCollection.queries.map((q) => ({
         name: q.windowName,
@@ -55,7 +61,7 @@ export class ApiService {
   }
 
   async createQuery(collectionServerId: string, query: IQuery) {
-    return await firebaseClient.apiClient.createQuery({
+    return await apiClient.createQuery({
       collectionId: collectionServerId,
       name: query.windowName,
       content: {
@@ -66,7 +72,7 @@ export class ApiService {
   }
 
   async updateQuery(queryServerId: string, query: IQuery) {
-    return await firebaseClient.apiClient.updateQuery(queryServerId, {
+    return await apiClient.updateQuery(queryServerId, {
       name: query.windowName,
       content: {
         ...query,
@@ -76,7 +82,7 @@ export class ApiService {
   }
 
   async deleteQuery(queryServerId: string) {
-    return await firebaseClient.apiClient.deleteQuery(queryServerId);
+    return await apiClient.deleteQuery(queryServerId);
   }
 
   async updateCollection(
@@ -84,7 +90,7 @@ export class ApiService {
     collection: IQueryCollection,
     parentCollectionServerId?: string
   ) {
-    return await firebaseClient.apiClient.updateCollection(collectionServerId, {
+    return await apiClient.updateCollection(collectionServerId, {
       name: collection.title,
       queries: collection.queries.map((q) => ({
         name: q.windowName,
@@ -98,15 +104,13 @@ export class ApiService {
   }
 
   async deleteCollection(collectionServerId: string) {
-    return await firebaseClient.apiClient.deleteCollection(collectionServerId);
+    return await apiClient.deleteCollection(collectionServerId);
   }
 
   async getCollection(
     collectionServerId: string
   ): Promise<IQueryCollection | undefined> {
-    const res = await firebaseClient.apiClient.getCollection(
-      collectionServerId
-    );
+    const res = await apiClient.getCollection(collectionServerId);
     if (!res) {
       return;
     }
@@ -115,13 +119,13 @@ export class ApiService {
   }
 
   async getCollections(): Promise<IQueryCollection[]> {
-    const collections = await firebaseClient.apiClient.getCollections();
+    const collections = await apiClient.getCollections();
     return collections.map(serverCollectionToLocalCollection);
   }
 
   // TODO: Handle team collections
   listenForCollectionChanges() {
-    return firebaseClient.apiClient.listenForEvents().pipe(
+    return apiClient.listenForEvents().pipe(
       map((x) => {
         return x;
       })

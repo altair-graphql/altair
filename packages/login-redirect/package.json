@@ -17,8 +17,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/api-utils": "^5.0.14",
-    "firebase": "^9.9.2"
+    "@altairgraphql/api-utils": "^5.0.14"
   },
   "private": true
 }

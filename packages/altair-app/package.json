@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@altairgraphql/api-utils": "^5.0.14",
+    "@altairgraphql/db": "^5.0.14",
     "@angular/animations": "14.0.3",
     "@angular/cdk": "12.2.6",
     "@angular/cli": "14.0.3",
@@ -59,7 +60,6 @@
     "@ngui/auto-complete": "3.0.0",
     "@ngx-translate/core": "12.1.2",
     "@ngx-translate/http-loader": "4.0.0",
-    "@prisma/client": "^4.9.0",
     "@supabase/supabase-js": "1.29.1",
     "@webcomponents/custom-elements": "1.4.1",
     "abab": "2.0.6",
@@ -86,7 +86,6 @@
     "express": "4.17.1",
     "file-dialog": "0.0.8",
     "file-saver": "2.0.2",
-    "firebase": "^9.15.0",
     "fuse.js": "6.4.6",
     "graphql": "15.5.1",
     "graphql-language-service": "^5.0.6",

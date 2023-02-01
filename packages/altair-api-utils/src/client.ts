@@ -1,4 +1,3 @@
-import { onAuthStateChanged, User, Auth } from 'firebase/auth';
 import { APIClientOptions, ClientEnvironment, getClientConfig } from './config';
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from './constants';
 import ky from 'ky';
@@ -14,7 +13,7 @@ import {
   QueryCollection,
   Team,
   TeamMembership,
-} from '@prisma/client';
+} from '@altairgraphql/db';
 import { UserProfile } from './user';
 import { CreateTeamDto, CreateTeamMembershipDto, UpdateTeamDto } from './team';
 import { from, Observable } from 'rxjs';
@@ -36,33 +35,19 @@ const timeout = <T>(
   ]).finally(() => clearTimeout(timer));
 };
 
-export const getUser = (auth: Auth) => {
-  return new Promise<User | null>((resolve, reject) => {
-    const cleanup = onAuthStateChanged(
-      auth,
-      (user) => {
-        resolve(user);
-      },
-      (error) => reject(error)
-    );
-
-    return cleanup();
-  });
-};
-
 export class APIClient {
   ky: KyInstance;
   authToken?: string;
   user?: UserProfile;
 
-  constructor(private options: APIClientOptions) {
+  constructor(public options: APIClientOptions) {
     // TODO: Check for user access token in local storage
     // const userInfoText = localStorage.getItem('ALTAIR-API-USER-INFO');
     // this.user = userInfoText ? JSON.parse(userInfoText) : undefined;
     this.ky = ky.extend({
       prefixUrl: options.apiBaseUrl,
       hooks: {
-        beforeRequest: [(req) => this.setAuthHeaderBeforeRequest(req)],
+        beforeRequest: [req => this.setAuthHeaderBeforeRequest(req)],
       },
     });
   }
@@ -78,7 +63,7 @@ export class APIClient {
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let array = new Uint8Array(40);
     crypto.getRandomValues(array);
-    array = array.map((x) => validChars.charCodeAt(x % validChars.length));
+    array = array.map(x => validChars.charCodeAt(x % validChars.length));
     return String.fromCharCode(...array);
   }
 
@@ -229,10 +214,10 @@ export class APIClient {
   }
 
   private fromEventSource(url: string) {
-    return new Observable((subscriber) => {
+    return new Observable(subscriber => {
       const eventSource = new EventSource(url);
-      eventSource.onmessage = (x) => subscriber.next(x.data);
-      eventSource.onerror = (x) => subscriber.error(x);
+      eventSource.onmessage = x => subscriber.next(x.data);
+      eventSource.onerror = x => subscriber.error(x);
 
       return () => {
         eventSource?.close();
@@ -243,14 +228,14 @@ export class APIClient {
   listenForEvents() {
     return from(this.getSLT()).pipe(
       take(1),
-      map((res) => {
+      map(res => {
         const url = new URL('/events', this.options.apiBaseUrl);
 
         url.searchParams.append('slt', res.slt);
 
         return url.href;
       }),
-      switchMap((url) => this.fromEventSource(url))
+      switchMap(url => this.fromEventSource(url))
     );
   }
 }
@@ -260,7 +245,5 @@ export const initializeClient = (env: ClientEnvironment = 'development') => {
 
   const apiClient = new APIClient(config);
 
-  return {
-    apiClient,
-  };
+  return apiClient;
 };

@@ -1,4 +1,4 @@
-import { TeamMemberRole } from '@prisma/client';
+import { TeamMemberRole } from '@altairgraphql/db';
 
 export interface CreateTeamDto {
   name: string;

@@ -1,12 +1,12 @@
 import { Text, Paper, Group, Button, Container, AppShell } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { firebaseClient } from '../lib/useUser';
+import { apiClient } from '../lib/useUser';
 import { NextPageWithLayout } from './_app';
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
   const onSigninWithGoogle = async () => {
-    await firebaseClient.apiClient.signinWithPopup();
+    await apiClient.signinWithPopup();
     router.push('/');
   };
   return (
