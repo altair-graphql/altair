@@ -1,6 +1,6 @@
 {
-  "name": "altair-api",
-  "version": "0.0.1",
+  "name": "@altairgraphql/api",
+  "version": "5.0.13",
   "description": "",
   "author": "",
   "private": true,
@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "env": "sync-dotenv",
-    "prepare": "yarn env",
+    "prepare": "yarn env && yarn prisma:generate",
     "nest:generate:resource": "nest g resource",
     "prisma:seed": "prisma db seed",
     "prisma:generate": "prisma generate",
@@ -28,7 +28,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.13",
+    "@altairgraphql/api-utils": "^5.0.13",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",

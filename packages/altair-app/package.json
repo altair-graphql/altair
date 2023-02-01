@@ -25,7 +25,7 @@
     "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=108.0.5359.94"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.14",
+    "@altairgraphql/api-utils": "^5.0.14",
     "@angular/animations": "14.0.3",
     "@angular/cdk": "12.2.6",
     "@angular/cli": "14.0.3",

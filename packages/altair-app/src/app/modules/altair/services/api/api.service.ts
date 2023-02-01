@@ -4,7 +4,7 @@ import {
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { map } from 'rxjs/operators';
-import { FullQueryCollection } from '@altairgraphql/firebase-utils';
+import { FullQueryCollection } from '@altairgraphql/api-utils';
 import { AccountService } from '../account/account.service';
 import { firebaseClient } from '../firebase/firebase';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';

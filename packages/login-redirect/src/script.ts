@@ -1,8 +1,5 @@
-import {
-  getClientConfig,
-  initializeClient,
-} from '@altairgraphql/firebase-utils';
-import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/firebase-utils/build/constants';
+import { getClientConfig, initializeClient } from '@altairgraphql/api-utils';
+import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
 
 const validOrigins = [
   'chrome-extension://flnheeellpciglgpaodhkhmapeljopja', // chrome extension

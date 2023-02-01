@@ -1,4 +1,4 @@
-import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/firebase-utils';
+import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/api-utils';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 

@@ -7,7 +7,7 @@ import {
   DocumentReference,
   PartialWithFieldValue,
 } from 'firebase/firestore';
-import { initializeClient } from '@altairgraphql/firebase-utils';
+import { initializeClient } from '@altairgraphql/api-utils';
 
 export const firebaseClient = initializeClient(
   environment.production ? 'production' : 'development'

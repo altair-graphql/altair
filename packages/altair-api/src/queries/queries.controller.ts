@@ -12,7 +12,7 @@ import {
 import { QueriesService } from './queries.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
-import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/firebase-utils';
+import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/api-utils';
 
 @Controller('queries')
 @UseGuards(JwtAuthGuard)

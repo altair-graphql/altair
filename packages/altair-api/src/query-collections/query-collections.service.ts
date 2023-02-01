@@ -3,7 +3,7 @@ import { PrismaService } from 'nestjs-prisma';
 import {
   CreateQueryCollectionDto,
   UpdateQueryCollectionDto,
-} from '@altairgraphql/firebase-utils';
+} from '@altairgraphql/api-utils';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/events';
 

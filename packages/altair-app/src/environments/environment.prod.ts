@@ -1,4 +1,4 @@
-import { getClientConfig } from '@altairgraphql/firebase-utils';
+import { getClientConfig } from '@altairgraphql/api-utils';
 import pkg from '../../package.json';
 
 export const environment = {

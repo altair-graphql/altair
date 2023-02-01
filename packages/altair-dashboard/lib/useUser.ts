@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { initializeClient, UserProfile } from '@altairgraphql/firebase-utils';
+import { initializeClient, UserProfile } from '@altairgraphql/api-utils';
 import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 
 export const firebaseClient = initializeClient();
@@ -8,7 +8,7 @@ export const firebaseClient = initializeClient();
 const useAuthState = (auth: Auth) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, (user) => {
+    const cleanup = onAuthStateChanged(auth, user => {
       if (user) {
         setUser(user);
       } else {

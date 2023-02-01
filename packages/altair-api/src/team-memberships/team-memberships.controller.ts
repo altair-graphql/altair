@@ -15,7 +15,7 @@ import { Request } from 'express';
 import {
   CreateTeamMembershipDto,
   UpdateTeamMembershipDto,
-} from '@altairgraphql/firebase-utils';
+} from '@altairgraphql/api-utils';
 
 @Controller('team-memberships')
 @UseGuards(JwtAuthGuard)

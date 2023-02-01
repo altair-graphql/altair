@@ -15,7 +15,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreateQueryCollectionDto,
   UpdateQueryCollectionDto,
-} from '@altairgraphql/firebase-utils';
+} from '@altairgraphql/api-utils';
 
 @Controller('query-collections')
 @UseGuards(JwtAuthGuard)

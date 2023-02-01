@@ -1,7 +1,7 @@
 import {
   CreateTeamMembershipDto,
   UpdateTeamMembershipDto,
-} from '@altairgraphql/firebase-utils';
+} from '@altairgraphql/api-utils';
 import {
   BadRequestException,
   ForbiddenException,

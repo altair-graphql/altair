@@ -1,4 +1,4 @@
-import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/firebase-utils';
+import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/api-utils';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';

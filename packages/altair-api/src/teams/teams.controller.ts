@@ -12,7 +12,7 @@ import {
 import { TeamsService } from './teams.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
-import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/firebase-utils';
+import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/api-utils';
 
 @Controller('teams')
 @UseGuards(JwtAuthGuard)
