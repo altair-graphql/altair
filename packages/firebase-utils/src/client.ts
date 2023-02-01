@@ -1,11 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { initializeFirestore } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged, User, Auth } from 'firebase/auth';
-import {
-  ClientEnvironment,
-  getClientConfig,
-  getFirestoreSettings,
-} from './config';
+import { onAuthStateChanged, User, Auth } from 'firebase/auth';
+import { APIClientOptions, ClientEnvironment, getClientConfig } from './config';
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from './constants';
 import ky from 'ky';
 import { KyInstance } from 'ky/distribution/types/ky';
@@ -15,11 +9,16 @@ import {
   UpdateQueryCollectionDto,
   UpdateQueryDto,
 } from './query';
-import { QueryItem, QueryCollection, Team } from '@prisma/client';
+import {
+  QueryItem,
+  QueryCollection,
+  Team,
+  TeamMembership,
+} from '@prisma/client';
 import { UserProfile } from './user';
-import { CreateTeamDto, UpdateTeamDto } from './team';
-import { from, Observable, throwError } from 'rxjs';
-import { catchError, map, share, switchMap, take } from 'rxjs/operators';
+import { CreateTeamDto, CreateTeamMembershipDto, UpdateTeamDto } from './team';
+import { from, Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -51,10 +50,6 @@ export const getUser = (auth: Auth) => {
   });
 };
 
-interface APIClientOptions {
-  apiBaseUrl: string;
-  loginClientUrl: string;
-}
 export class APIClient {
   ky: KyInstance;
   authToken?: string;
@@ -150,6 +145,11 @@ export class APIClient {
     });
   }
 
+  signOut() {
+    this.authToken = undefined;
+    this.user = undefined;
+  }
+
   createQuery(queryInput: CreateQueryDto) {
     return this.ky.post('queries', { json: queryInput }).json<QueryItem>();
   }
@@ -211,6 +211,18 @@ export class APIClient {
     return this.ky.get(`teams`).json<Team[]>();
   }
 
+  addTeamMember(input: CreateTeamMembershipDto) {
+    return this.ky
+      .post('team-memberships', { json: input })
+      .json<TeamMembership>();
+  }
+
+  getTeamMembers(teamId: string) {
+    return this.ky
+      .get(`team-memberships/team/${teamId}`)
+      .json<TeamMembership[]>();
+  }
+
   // short-lived-token for events
   private getSLT() {
     return this.ky.get(`auth/slt`).json<{ slt: string }>();
@@ -245,24 +257,10 @@ export class APIClient {
 
 export const initializeClient = (env: ClientEnvironment = 'development') => {
   const config = getClientConfig(env);
-  const app = initializeApp(config);
 
-  const db = initializeFirestore(app, getFirestoreSettings());
-  const auth = getAuth(app);
-
-  // TODO: Get config the right way!
-  const apiClient = new APIClient({
-    apiBaseUrl: 'http://localhost:3000',
-    loginClientUrl: 'http://localhost:1234',
-  });
+  const apiClient = new APIClient(config);
 
   return {
-    app,
-    db,
-    auth,
-    getUser() {
-      return getUser(auth);
-    },
     apiClient,
   };
 };

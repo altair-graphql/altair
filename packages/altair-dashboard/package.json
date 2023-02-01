@@ -22,6 +22,7 @@
     "@mantine/notifications": "^5.9.5",
     "@mantine/spotlight": "^5.9.5",
     "@next/font": "13.1.0",
+    "@prisma/client": "^4.9.0",
     "@tabler/icons": "^1.118.0",
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",

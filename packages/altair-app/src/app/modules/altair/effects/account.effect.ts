@@ -141,7 +141,16 @@ export class AccountEffects {
     return this.actions$.pipe(
       ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
       switchMap((action) => this.accountService.getTeams()),
-      map((teams) => new accountActions.SetTeamsAction({ teams })),
+      map(
+        (teams) =>
+          new accountActions.SetTeamsAction({
+            teams: teams.map((t) => ({
+              id: t.id,
+              name: t.name,
+              description: t.description ? t.description : undefined,
+            })),
+          })
+      ),
       catchError((err: UnknownError) => {
         debug.error(err);
         this.notifyService.error('Could not load teams');

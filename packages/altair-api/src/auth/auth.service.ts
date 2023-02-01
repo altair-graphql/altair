@@ -206,16 +206,4 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
-
-  getUserTeams(userId: string) {
-    return this.prisma.team.findMany({
-      where: {
-        TeamMemberships: {
-          some: {
-            userId,
-          },
-        },
-      },
-    });
-  }
 }

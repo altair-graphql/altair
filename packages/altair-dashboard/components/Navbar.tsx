@@ -140,7 +140,7 @@ export function NavbarSimple() {
         <a
           href="#"
           className={classes.link}
-          onClick={() => signOut(firebaseClient.auth)}
+          onClick={() => firebaseClient.apiClient.signOut()}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

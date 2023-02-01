@@ -1,51 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
-  doc,
-  deleteDoc,
-  getDocs,
-  query,
-  where,
-  FieldPath,
-  documentId,
-  onSnapshot,
-} from '@firebase/firestore';
-import {
   IQuery,
   IQueryCollection,
-  IRemoteQuery,
-  IRemoteQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { Observable, from, fromEventPattern, merge, EMPTY } from 'rxjs';
-import {
-  map,
-  mergeMap,
-  switchMap,
-  takeUntil,
-  withLatestFrom,
-} from 'rxjs/operators';
-import ky from 'ky';
-import {
-  createQueries,
-  createQueryCollection,
-  createUtilsContext,
-  deleteCollection,
-  deleteQuery,
-  getCollection,
-  getCollections,
-  getTeams,
-  queriesRef,
-  queryCollectionsRef,
-  updateCollection,
-  updateQuery,
-  FullQueryCollection,
-} from '@altairgraphql/firebase-utils';
-import { debug } from '../../utils/logger';
+import { map } from 'rxjs/operators';
+import { FullQueryCollection } from '@altairgraphql/firebase-utils';
 import { AccountService } from '../account/account.service';
 import { firebaseClient } from '../firebase/firebase';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
-import { environment } from 'environments/environment';
-import { KyInstance } from 'ky/distribution/types/ky';
 import { QueryItem } from '@prisma/client';
 
 const serverQueryToLocalQuery = (query: QueryItem): IQuery => {
@@ -164,59 +127,5 @@ export class ApiService {
       })
       // takeUntil(this.accountService.observeSignout())
     );
-    // const ctx = await this.ctx();
-    // const teams = await getTeams(ctx);
-    // return from(this.accountService.mustGetUser()).pipe(
-    //   switchMap((user) => {
-    //     debug.log('to listen for collection changes...');
-    //     const listeners = [];
-    //     // Get query collections where owner == uid
-    //     // Get queries where collectionId in collection IDs
-    //     const collectionQ = query(
-    //       queryCollectionsRef(ctx.db),
-    //       where('ownerUid', '==', user.uid)
-    //     );
-
-    //     const collectionListener = fromEventPattern(
-    //       (handler) => onSnapshot(collectionQ, handler),
-    //       (handler, unsubscribe) => unsubscribe()
-    //     );
-    //     listeners.push(collectionListener);
-
-    //     if (teams.length) {
-    //       const teamCollectionQ = query(
-    //         queryCollectionsRef(ctx.db),
-    //         where(
-    //           'teamOwnerUid',
-    //           'in',
-    //           teams.map((t) => t.id)
-    //         )
-    //       );
-
-    //       const teamCollectionListener = fromEventPattern(
-    //         (handler) => onSnapshot(teamCollectionQ, handler),
-    //         (handler, unsubscribe) => unsubscribe()
-    //       );
-    //       listeners.push(teamCollectionListener);
-    //     }
-
-    //     const docQ = query(
-    //       queriesRef(ctx.db),
-    //       where('ownerUid', '==', user.uid)
-    //     );
-
-    //     const docListener = fromEventPattern(
-    //       (handler) => onSnapshot(docQ, handler),
-    //       (handler, unsubscribe) => unsubscribe()
-    //     );
-    //     listeners.push(docListener);
-
-    //     // Unsubscribe observables when user logs out
-    //     return merge(listeners).pipe(
-    //       takeUntil(this.accountService.observeSignout())
-    //     );
-    //   })
-    // );
-    // return EMPTY;
   }
 }

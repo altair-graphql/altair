@@ -1,5 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { Team } from '@prisma/client';
+import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 
 export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 export const ACCOUNT_IS_LOGGED_IN = 'ACCOUNT_IS_LOGGED_IN';

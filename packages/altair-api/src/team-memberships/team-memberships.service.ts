@@ -48,9 +48,20 @@ export class TeamMembershipsService {
       throw new ForbiddenException();
     }
 
+    const validMember = await this.prisma.user.findFirst({
+      where: {
+        email: createTeamMembershipDto.email,
+      },
+    });
+
+    if (!validMember) {
+      throw new BadRequestException();
+    }
+
     return this.prisma.teamMembership.create({
       data: {
-        ...createTeamMembershipDto,
+        teamId: createTeamMembershipDto.teamId,
+        userId: validMember.id,
       },
     });
   }

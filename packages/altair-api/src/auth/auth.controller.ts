@@ -38,12 +38,6 @@ export class AuthController {
     return this.authService.googleLogin(req);
   }
 
-  @Get('me/teams')
-  @UseGuards(JwtAuthGuard)
-  getUserTeams(@Req() req: Request) {
-    return this.authService.getUserTeams(req.user.id);
-  }
-
   @Get('slt')
   @UseGuards(JwtAuthGuard)
   getShortlivedToken(@Req() req: Request) {

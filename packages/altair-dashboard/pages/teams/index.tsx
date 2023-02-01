@@ -13,12 +13,6 @@ import {
 import { IconPencil } from '@tabler/icons';
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import {
-  createTeam,
-  FirebaseUtilsContext,
-  getTeams,
-  updateTeam,
-} from '@altairgraphql/firebase-utils';
 import useUser, { firebaseClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -49,12 +43,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       name: (val) => (!val ? 'Name is required' : null),
     },
   });
-  const { ctx } = useUser();
   const isCreate = !team;
-
-  if (!ctx) {
-    return null;
-  }
 
   const onCreateTeam = async (val: TeamData) => {
     setLoading(true);
@@ -165,12 +154,17 @@ export default function Teams() {
     teamModalOpened: boolean;
   }>({ team: undefined, teamModalOpened: false });
   const [teams, setTeams] = useState<Team[]>([]);
-  const { ctx } = useUser();
 
-  const loadTeam = async (ctx: FirebaseUtilsContext) => {
+  const loadTeam = async () => {
     try {
-      const teams = await getTeams(ctx);
-      setTeams(teams);
+      const teams = await firebaseClient.apiClient.getTeams();
+      setTeams(
+        teams.map((t) => ({
+          id: t.id,
+          name: t.name,
+          description: t.description ? t.description : undefined,
+        }))
+      );
     } catch (err) {
       // console.error(err);
       notify.error('Could not load teams');
@@ -178,19 +172,13 @@ export default function Teams() {
   };
 
   useEffect(() => {
-    if (!ctx) {
-      return;
-    }
-    loadTeam(ctx);
-  }, [ctx]);
+    loadTeam();
+  }, []);
 
-  if (!ctx) {
-    return null;
-  }
   const onCompleteCreateTeam = async (success: boolean) => {
     if (success) {
       setTeamModalState({ team: undefined, teamModalOpened: false });
-      await loadTeam(ctx);
+      await loadTeam();
     }
   };
 

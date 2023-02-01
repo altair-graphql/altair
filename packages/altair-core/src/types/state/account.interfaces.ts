@@ -1,5 +1,9 @@
-import { Team } from '@prisma/client';
 import { ValueObject } from '../../utils/value-object';
+export interface Team {
+  id: string;
+  name: string;
+  description?: string;
+}
 
 export interface AccountState {
   loggedIn: boolean;
@@ -10,5 +14,4 @@ export interface AccountState {
   teams: Team[];
 }
 
-export { Team } from '@prisma/client';
 export class TeamId extends ValueObject<string> {}
