@@ -16,7 +16,7 @@ import { ProviderInfo } from './models/provider-info.dto';
 import { SignupInput } from './models/signup.input';
 import { UpdateUserInput } from './models/update-user.input';
 import { PasswordService } from './password/password.service';
-import { Token } from 'altair-graphql-core/build/types/api';
+import { Token } from '@altairgraphql/api-utils';
 
 @Injectable()
 export class AuthService {
