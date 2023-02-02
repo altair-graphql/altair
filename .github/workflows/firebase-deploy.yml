@@ -11,6 +11,7 @@ env:
   NODE_VERSION: 18
   # NODE_OPTIONS: --openssl-legacy-provider
 
+# TODO: Delete
 jobs:
   deploy:
     runs-on: ubuntu-latest

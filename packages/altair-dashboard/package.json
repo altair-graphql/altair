@@ -10,7 +10,8 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/firebase-utils": "^5.0.14",
+    "@altairgraphql/api": "^5.0.14",
+    "@altairgraphql/api-utils": "^5.0.14",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.9.5",
@@ -22,6 +23,7 @@
     "@mantine/notifications": "^5.9.5",
     "@mantine/spotlight": "^5.9.5",
     "@next/font": "13.1.0",
+    "@prisma/client": "^4.9.0",
     "@tabler/icons": "^1.118.0",
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",
@@ -29,7 +31,6 @@
     "dayjs": "^1.11.7",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.0",
-    "firebase": "^9.15.0",
     "next": "13.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

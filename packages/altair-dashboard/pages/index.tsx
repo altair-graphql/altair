@@ -97,7 +97,7 @@ export default function Home() {
 
   return (
     <>
-      <Title order={3}>Welcome back, {user.displayName}!</Title>
+      <Title order={3}>Welcome back, {user.firstName}!</Title>
       {/* <StatsGrid
         data={[
           {

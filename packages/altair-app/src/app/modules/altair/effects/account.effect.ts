@@ -40,7 +40,7 @@ export class AccountEffects {
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
               email: user?.email || '',
-              firstName: user?.displayName || user?.email || '',
+              firstName: user?.firstName || user?.email || '',
               lastName: '',
             })
           );
@@ -65,8 +65,8 @@ export class AccountEffects {
         switchMap(({ action }) => {
           return this.accountService.accountLogin$().pipe(take(1));
         }),
-        switchMap((data) => {
-          if (!data.user) {
+        switchMap((user) => {
+          if (!user) {
             this.notifyService.error(
               'Sorry, we could not log you in. Please check that your credentials are correct.'
             );
@@ -74,14 +74,12 @@ export class AccountEffects {
           }
 
           this.notifyService.success(
-            `You're logged in. Welcome back, ${
-              data.user.displayName || data.user.email
-            }`
+            `You're logged in. Welcome back, ${user.firstName || user.email}`
           );
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
-              email: data.user.email || '',
-              firstName: data.user.displayName || data.user.email || '',
+              email: user.email || '',
+              firstName: user.firstName || user.email || '',
               lastName: '',
             })
           );
@@ -143,7 +141,16 @@ export class AccountEffects {
     return this.actions$.pipe(
       ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
       switchMap((action) => this.accountService.getTeams()),
-      map((teams) => new accountActions.SetTeamsAction({ teams })),
+      map(
+        (teams) =>
+          new accountActions.SetTeamsAction({
+            teams: teams.map((t) => ({
+              id: t.id,
+              name: t.name,
+              description: t.description ? t.description : undefined,
+            })),
+          })
+      ),
       catchError((err: UnknownError) => {
         debug.error(err);
         this.notifyService.error('Could not load teams');

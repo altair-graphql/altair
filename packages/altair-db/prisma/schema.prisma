@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+model QueryItem {
+  id           String          @id @default(cuid())
+  queryVersion Int             @default(1)
+  name         String
+  collectionId String
+  collection   QueryCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  content      Json
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+// TODO: alter table queries enable row level security;
+
+model QueryCollection {
+  id                       String            @id @default(cuid())
+  name                     String
+  description              String?
+  preRequestScript         String?
+  preRequestScriptEnabled  Boolean           @default(true)
+  postRequestScript        String?
+  postRequestScriptEnabled Boolean           @default(true)
+  workspaceId              String
+  workspace                Workspace         @relation(fields: [workspaceId], references: [id])
+  parentCollectionId       String?
+  parentCollection         QueryCollection?  @relation(name: "ParentCollection", fields: [parentCollectionId], references: [id], onDelete: Cascade)
+  queries                  QueryItem[]
+  queryCollections         QueryCollection[] @relation("ParentCollection")
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+}
+
+model Workspace {
+  id              String            @id @default(cuid())
+  QueryCollection QueryCollection[]
+  name            String
+  ownerId         String
+  owner           User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model User {
+  id             String           @id @default(cuid())
+  firstName      String?
+  lastName       String?
+  email          String           @unique
+  emailVerified  DateTime?
+  password       String?
+  picture        String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Workspace      Workspace[]
+  UserCredential UserCredential[]
+  TeamMembership TeamMembership[]
+  Team           Team[]
+}
+
+enum IdentityProvider {
+  GOOGLE
+}
+
+model UserCredential {
+  id             String           @id @default(cuid())
+  provider       IdentityProvider
+  providerUserId String
+  userId         String
+  user           User             @relation(fields: [userId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@unique([userId, provider])
+}
+
+model Team {
+  id              String           @id @default(cuid())
+  name            String
+  description     String?
+  ownerId         String
+  owner           User             @relation(fields: [ownerId], references: [id])
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  TeamMemberships TeamMembership[]
+}
+
+enum TeamMemberRole {
+  ADMIN
+  MEMBER
+}
+
+model TeamMembership {
+  userId    String
+  teamId    String
+  role      TeamMemberRole @default(MEMBER)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  user      User           @relation(fields: [userId], references: [id])
+  team      Team           @relation(fields: [teamId], references: [id])
+
+  @@id([userId, teamId])
+}
+
+model PlanConfig {
+  id                 String @unique
+  maxQueryCount      Int
+  maxTeamCount       Int
+  maxTeamMemberCount Int
+}

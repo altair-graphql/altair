@@ -1,0 +1,20 @@
+{
+  "name": "@altairgraphql/api-utils",
+  "version": "5.0.14",
+  "main": "build/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "prepare": "yarn build"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@altairgraphql/db": "^5.0.14",
+    "altair-graphql-core": "^5.0.14",
+    "ky": "^0.33.2",
+    "rxjs": "^6.6.7"
+  },
+  "private": true
+}

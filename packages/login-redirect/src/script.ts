@@ -1,12 +1,5 @@
-import { getClientConfig } from '@altairgraphql/firebase-utils';
-import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/firebase-utils/build/constants';
-import { initializeApp } from 'firebase/app';
-import {
-  GoogleAuthProvider,
-  getAuth,
-  getRedirectResult,
-  signInWithRedirect,
-} from 'firebase/auth';
+import { initializeClient } from '@altairgraphql/api-utils';
+import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
 
 const validOrigins = [
   'chrome-extension://flnheeellpciglgpaodhkhmapeljopja', // chrome extension
@@ -15,19 +8,32 @@ const validOrigins = [
   'http://localhost:4200', // local altair app
 ];
 
-const firebaseConfig = getClientConfig();
-
-const firebaseDomain = () =>
-  `https://us-central1-${firebaseConfig.projectId}.cloudfunctions.net`;
-
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
 
-const init = async () => {
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const getRedirectResult = () => {
+  const params = new URLSearchParams(location.search);
+  const accessToken = params.get('access_token');
+  if (!accessToken) {
+    return;
+  }
 
-  const result = await getRedirectResult(auth);
+  return {
+    accessToken,
+  };
+};
+
+const signInWithRedirect = (apiBaseUrl: string) => {
+  const state = encodeURIComponent(location.href);
+  const loginUrl = new URL('/auth/google/login', apiBaseUrl);
+  loginUrl.searchParams.append('state', state);
+
+  return location.replace(loginUrl.href);
+};
+const init = async () => {
+  // TODO: Call the login endpoint
+  const client = initializeClient();
+
+  const result = getRedirectResult();
   if (!result) {
     const nonce = getNonce();
     if (!nonce) {
@@ -36,25 +42,10 @@ const init = async () => {
 
     sessionStorage.setItem(OAUTH_NONCE_KEY, nonce);
 
-    const provider = new GoogleAuthProvider();
-    return signInWithRedirect(auth, provider);
+    return signInWithRedirect(client.options.apiBaseUrl);
   }
 
-  const token = await result.user.getIdToken();
-
-  const response = await fetch(`${firebaseDomain()}/api/token`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id_token: token }),
-  });
-  const json = await response.json();
-  // console.log(json);
-
-  if (json.status === 'success') {
-    await sendToken(json.auth_token);
-  }
+  await sendToken(result.accessToken);
 
   cleanup();
   document.body.innerText = 'You can now close this window.';
@@ -91,7 +82,7 @@ const isValidOpener = (opener: unknown): opener is Window => !!opener;
 
 const getValidSource = () => {
   const params = new URLSearchParams(window.location.search);
-  const source = params.get('source');
+  const source = params.get('sc');
 
   if (!source) {
     return;

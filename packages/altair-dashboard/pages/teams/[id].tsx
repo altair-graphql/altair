@@ -8,33 +8,15 @@ import {
   Button,
   Modal,
   TextInput,
-  Textarea,
   Select,
 } from '@mantine/core';
-import { IconPencil, IconTrash } from '@tabler/icons';
+import { IconTrash } from '@tabler/icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import {
-  addTeamMember,
-  createTeam,
-  FirebaseUtilsContext,
-  getTeamMembers,
-  getTeams,
-  updateTeam,
-} from '@altairgraphql/firebase-utils';
-import useUser from '../../lib/useUser';
+import { apiClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
-import {
-  Team,
-  TeamId,
-} from 'altair-graphql-core/build/types/state/account.interfaces';
-import Link from 'next/link';
-import {
-  TeamMembership,
-  TeamRole,
-} from '@altairgraphql/firebase-utils/build/interfaces';
-import { TEAM_ROLES } from '@altairgraphql/firebase-utils/build/constants';
 import { useRouter } from 'next/router';
+import { TeamMemberRole, TeamMembership } from '@altairgraphql/db';
 
 interface MembersStackProps {
   members: TeamMembership[];
@@ -42,7 +24,7 @@ interface MembersStackProps {
 
 interface MembershipData {
   email: string;
-  role: TeamRole;
+  role: TeamMemberRole;
 }
 interface MemberFormProps {
   teamId: string;
@@ -54,22 +36,17 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
   const form = useForm<MembershipData>({
     initialValues: {
       email: '',
-      role: TEAM_ROLES.MEMBER,
+      role: TeamMemberRole.MEMBER,
     },
     validate: {
       email: (val) => (!val ? 'Email is required' : null),
     },
   });
-  const { ctx } = useUser();
-
-  if (!ctx) {
-    return null;
-  }
 
   const onCreateMember = async (val: MembershipData) => {
     setLoading(true);
     try {
-      await addTeamMember(ctx, { ...val, teamUid: teamId });
+      await apiClient.addTeamMember({ ...val, teamId });
       notify.success('Your team member has been added');
       onComplete(true);
     } catch (err) {
@@ -97,12 +74,15 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
           label="Role"
           placeholder="Pick one"
           data={[
-            { value: TEAM_ROLES.MEMBER, label: 'Member' },
-            { value: TEAM_ROLES.ADMIN, label: 'Admin' },
+            { value: TeamMemberRole.MEMBER, label: 'Member' },
+            { value: TeamMemberRole.ADMIN, label: 'Admin' },
           ]}
           value={form.values.role}
           onChange={(value) =>
-            form.setFieldValue('role', (value as TeamRole) ?? TEAM_ROLES.MEMBER)
+            form.setFieldValue(
+              'role',
+              (value as TeamMemberRole) ?? TeamMemberRole.MEMBER
+            )
           }
           {...form.getInputProps('role')}
         />
@@ -119,12 +99,12 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
 
 function MembersStack({ members }: MembersStackProps) {
   const rows = members.map((member) => (
-    <tr key={member.id}>
+    <tr key={member.userId}>
       <td>
         <Group spacing="sm">
           <div>
             <Text size="sm" weight={500}>
-              {member.email}
+              {member.userId}
             </Text>
             <Text color="dimmed" size="xs">
               {member.role}
@@ -161,38 +141,31 @@ export default function TeamPage() {
   const { id } = router.query;
   const [memberModalOpened, setMemberModalOpened] = useState(false);
   const [members, setMembers] = useState<TeamMembership[]>([]);
-  const { ctx } = useUser();
 
-  const loadTeam = useCallback(
-    async (ctx: FirebaseUtilsContext) => {
-      try {
-        if (!id) {
-          throw new Error('Team ID cannot be undefined');
-        }
-        const teams = await getTeamMembers(ctx, new TeamId(id.toString()));
-        setMembers(teams);
-      } catch (err) {
-        // console.error(err);
-        notify.error('Could not load team members');
+  const loadTeam = useCallback(async () => {
+    try {
+      if (!id) {
+        throw new Error('Team ID cannot be undefined');
       }
-    },
-    [id]
-  );
+      const members = await apiClient.getTeamMembers(id.toString());
+      setMembers(members);
+    } catch (err) {
+      // console.error(err);
+      notify.error('Could not load team members');
+    }
+  }, [id]);
 
   useEffect(() => {
-    if (!ctx) {
-      return;
-    }
-    loadTeam(ctx);
-  }, [ctx, loadTeam]);
+    loadTeam();
+  }, [loadTeam]);
 
-  if (!ctx || !id) {
+  if (!id) {
     return null;
   }
   const onCompleteAddMember = async (success: boolean) => {
     if (success) {
       setMemberModalOpened(false);
-      await loadTeam(ctx);
+      await loadTeam();
     }
   };
 

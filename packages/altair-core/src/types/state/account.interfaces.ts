@@ -1,7 +1,6 @@
 import { ValueObject } from '../../utils/value-object';
-import { BaseOwnableDocument } from '../shared';
-
-export interface Team extends BaseOwnableDocument {
+export interface Team {
+  id: string;
   name: string;
   description?: string;
 }

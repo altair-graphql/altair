@@ -13,13 +13,7 @@ import {
 import { IconPencil } from '@tabler/icons';
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import {
-  createTeam,
-  FirebaseUtilsContext,
-  getTeams,
-  updateTeam,
-} from '@altairgraphql/firebase-utils';
-import useUser from '../../lib/useUser';
+import useUser, { apiClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import Link from 'next/link';
@@ -49,17 +43,12 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
       name: (val) => (!val ? 'Name is required' : null),
     },
   });
-  const { ctx } = useUser();
   const isCreate = !team;
-
-  if (!ctx) {
-    return null;
-  }
 
   const onCreateTeam = async (val: TeamData) => {
     setLoading(true);
     try {
-      await createTeam(ctx, val);
+      await apiClient.createTeam(val);
       notify.success('Your team has been created');
       onComplete(true);
     } catch (err) {
@@ -78,7 +67,7 @@ function TeamForm({ onComplete, team }: TeamFormProps) {
     }
     setLoading(true);
     try {
-      await updateTeam(ctx, team.id, { id: team.id, ...val });
+      await apiClient.updateTeam(team.id, val);
       notify.success('Your team has been updated');
       onComplete(true);
     } catch (err) {
@@ -165,12 +154,17 @@ export default function Teams() {
     teamModalOpened: boolean;
   }>({ team: undefined, teamModalOpened: false });
   const [teams, setTeams] = useState<Team[]>([]);
-  const { ctx } = useUser();
 
-  const loadTeam = async (ctx: FirebaseUtilsContext) => {
+  const loadTeam = async () => {
     try {
-      const teams = await getTeams(ctx);
-      setTeams(teams);
+      const teams = await apiClient.getTeams();
+      setTeams(
+        teams.map((t) => ({
+          id: t.id,
+          name: t.name,
+          description: t.description ? t.description : undefined,
+        }))
+      );
     } catch (err) {
       // console.error(err);
       notify.error('Could not load teams');
@@ -178,19 +172,13 @@ export default function Teams() {
   };
 
   useEffect(() => {
-    if (!ctx) {
-      return;
-    }
-    loadTeam(ctx);
-  }, [ctx]);
+    loadTeam();
+  }, []);
 
-  if (!ctx) {
-    return null;
-  }
   const onCompleteCreateTeam = async (success: boolean) => {
     if (success) {
       setTeamModalState({ team: undefined, teamModalOpened: false });
-      await loadTeam(ctx);
+      await loadTeam();
     }
   };
 

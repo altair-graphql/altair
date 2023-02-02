@@ -89,7 +89,7 @@ export class QueryCollectionService {
       throw new Error('could not create the collection');
     }
 
-    return res.collectionId;
+    return res.id;
   }
 
   private async createLocalCollection(
@@ -136,7 +136,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (collection.storageType === 'firestore') {
+    if (
+      collection.storageType === 'api' ||
+      collection.storageType === 'firestore'
+    ) {
       if (!collection.id) {
         return;
       }
@@ -145,11 +148,8 @@ export class QueryCollectionService {
         return;
       }
 
-      const [retrievedId] = await this.api.createQueries(
-        collection.id.toString(),
-        [query]
-      );
-      return retrievedId;
+      const res = await this.api.createQuery(collection.id.toString(), query);
+      return res?.id;
     }
 
     return await this.addLocalQuery(collectionId, query);
@@ -177,7 +177,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (collection.storageType === 'firestore') {
+    if (
+      collection.storageType === 'api' ||
+      collection.storageType === 'firestore'
+    ) {
       if (!collection.id) {
         return;
       }
@@ -287,7 +290,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (collection.storageType === 'firestore') {
+    if (
+      collection.storageType === 'api' ||
+      collection.storageType === 'firestore'
+    ) {
       if (!query.id) {
         return;
       }
@@ -330,7 +336,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (collection.storageType === 'firestore') {
+    if (
+      collection.storageType === 'api' ||
+      collection.storageType === 'firestore'
+    ) {
       if (!collection.id) {
         return;
       }
@@ -368,7 +377,10 @@ export class QueryCollectionService {
       return;
     }
 
-    if (collection.storageType === 'firestore') {
+    if (
+      collection.storageType === 'api' ||
+      collection.storageType === 'firestore'
+    ) {
       if (!collection.id) {
         return;
       }
