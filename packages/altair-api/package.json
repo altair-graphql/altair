@@ -36,7 +36,7 @@
     "altair-graphql-core": "^5.0.13",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
+    "class-validator": "^0.14.0",
     "google-auth-library": "^8.7.0",
     "nestjs-prisma": "^0.19.0",
     "passport": "^0.6.0",
