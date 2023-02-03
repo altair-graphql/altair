@@ -59,9 +59,6 @@ export class AuthService {
       });
 
       return user;
-      // return this.generateTokens({
-      //   userId: user.id,
-      // });
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') {
         throw new ConflictException(`Email ${payload.email} already used.`);
