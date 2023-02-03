@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "touch /app/predeploy.test"
+      "predeploy": "yarn build-api"
     }
   }
 }
