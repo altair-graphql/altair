@@ -1,7 +1,6 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "yarn build-api"
     }
   }
 }
