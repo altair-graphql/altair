@@ -1,1 +1,1 @@
-web: yarn start:api:prod
+web: node packages/altair-api/dist/main
