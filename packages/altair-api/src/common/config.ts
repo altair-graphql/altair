@@ -1,6 +1,6 @@
 const config = {
   nest: {
-    port: 3000,
+    port: 5000,
   },
   cors: {
     enabled: true,
