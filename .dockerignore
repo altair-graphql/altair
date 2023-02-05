@@ -1,0 +1,7 @@
+.git
+
+**/node_modules
+packages/altair-app
+packages/altair-electron
+packages/altaur-dashboard
+site
