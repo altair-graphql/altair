@@ -23,6 +23,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/full/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY turbo.json turbo.json
+COPY nx.json nx.json
 COPY tsconfig.json tsconfig.json
 RUN yarn install
 

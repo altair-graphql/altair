@@ -29,7 +29,7 @@
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "local-verify": "yarn build-app && lerna bootstrap",
     "postinstall": "opencollective postinstall || true",
-    "prepare": "turbo prepare",
+    "prepare": "nx run-many --target=prepare --all --output-style=stream",
     "publish-packages": "lerna bootstrap && yarn lerna-publish",
     "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",

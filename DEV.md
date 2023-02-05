@@ -78,3 +78,5 @@ https://github.com/firebase/firebase-tools/issues/1289
 
 docker build  --platform=linux/amd64 -t test-demo .
 docker run -p 3000:3000 test-demo
+
+git push dokku HEAD:master
