@@ -68,6 +68,7 @@
     "wrangler": "^2.0.27"
   },
   "resolutions": {
+    "**/oauth": "0.10.0",
     "y18n": "4.0.1"
   },
   "repository": {

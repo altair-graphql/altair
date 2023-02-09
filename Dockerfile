@@ -26,6 +26,7 @@ COPY turbo.json turbo.json
 COPY nx.json nx.json
 COPY tsconfig.json tsconfig.json
 RUN yarn install
+RUN yarn --cwd packages/altair-db prisma migrate deploy
 
 # Build the project and its dependencies
 # COPY --from=builder /app/out/full/ .

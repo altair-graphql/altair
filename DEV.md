@@ -79,4 +79,4 @@ https://github.com/firebase/firebase-tools/issues/1289
 docker build  --platform=linux/amd64 -t test-demo .
 docker run -p 3000:3000 test-demo
 
-git push dokku HEAD:master
+### Adding resolution for `oauth` package to fix [this issue](https://github.com/jaredhanson/passport-google-oauth2/issues/87) as the passport-google-oauth20 uses an older version with the issue

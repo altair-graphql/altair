@@ -8,7 +8,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "prepare": "yarn build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "env": "sync-dotenv",
     "nest:generate:resource": "nest g resource",

@@ -23,7 +23,7 @@ const getRedirectResult = () => {
 };
 
 const signInWithRedirect = (apiBaseUrl: string) => {
-  const state = encodeURIComponent(location.href);
+  const state = location.href;
   const loginUrl = new URL('/auth/google/login', apiBaseUrl);
   loginUrl.searchParams.append('state', state);
 
@@ -31,7 +31,9 @@ const signInWithRedirect = (apiBaseUrl: string) => {
 };
 const init = async () => {
   // TODO: Call the login endpoint
-  const client = initializeClient();
+  const client = initializeClient(
+    import.meta.env.DEV ? 'development' : 'production'
+  );
 
   const result = getRedirectResult();
   if (!result) {
