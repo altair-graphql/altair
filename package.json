@@ -19,7 +19,6 @@
     ]
   },
   "scripts": {
-    "build": "yarn build-api",
     "build-app": "nx build @altairgraphql/app",
     "build-api": "yarn --cwd packages/altair-api build",
     "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build",
