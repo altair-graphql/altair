@@ -1,4 +1,11 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -23,10 +30,13 @@ export class AuthController {
   googleSigninCallback(@Req() req: Request, @Res() res: Response) {
     const result = this.authService.googleLogin(req);
     if (req.query.state && typeof req.query.state === 'string') {
-      const origin = new URL(req.query.state);
-      origin.searchParams.set('access_token', result.tokens.accessToken);
-
-      return res.redirect(origin.href);
+      try {
+        const origin = new URL(req.query.state);
+        origin.searchParams.set('access_token', result.tokens.accessToken);
+        return res.redirect(origin.href);
+      } catch (err) {
+        throw new BadRequestException('Invalid state provided');
+      }
     }
 
     return res.redirect('https://altairgraphql.dev');

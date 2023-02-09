@@ -1,5 +1,8 @@
 import { APIClientOptions, ClientEnvironment, getClientConfig } from './config';
-import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from './constants';
+import {
+  ALTAIR_API_USER_TOKEN_STORAGE_KEY,
+  OAUTH_POPUP_CALLBACK_MESSAGE_TYPE,
+} from './constants';
 import ky from 'ky';
 import { KyInstance } from 'ky/distribution/types/ky';
 import {
@@ -16,7 +19,7 @@ import {
 } from '@altairgraphql/db';
 import { UserProfile } from './user';
 import { CreateTeamDto, CreateTeamMembershipDto, UpdateTeamDto } from './team';
-import { from, Observable } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
@@ -38,18 +41,48 @@ const timeout = <T>(
 export class APIClient {
   ky: KyInstance;
   authToken?: string;
-  user?: UserProfile;
+
+  user$ = new Subject<UserProfile>();
+  private _user?: UserProfile;
+  get user() {
+    return this._user;
+  }
+  set user(val) {
+    this._user = val;
+    this.user$.next(val);
+  }
 
   constructor(public options: APIClientOptions) {
-    // TODO: Check for user access token in local storage
-    // const userInfoText = localStorage.getItem('ALTAIR-API-USER-INFO');
-    // this.user = userInfoText ? JSON.parse(userInfoText) : undefined;
     this.ky = ky.extend({
       prefixUrl: options.apiBaseUrl,
       hooks: {
         beforeRequest: [req => this.setAuthHeaderBeforeRequest(req)],
       },
     });
+
+    // Check for user access token in local storage
+    const cachedToken = this.getCachedToken();
+    if (cachedToken) {
+      this.signInWithCustomToken(cachedToken).catch(() => {
+        this.signOut();
+      });
+    }
+  }
+
+  private setCachedToken(token: string) {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(ALTAIR_API_USER_TOKEN_STORAGE_KEY, token);
+    }
+  }
+  private getCachedToken() {
+    if (typeof window !== 'undefined') {
+      return window.localStorage.getItem(ALTAIR_API_USER_TOKEN_STORAGE_KEY);
+    }
+  }
+  private clearCachedToken() {
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(ALTAIR_API_USER_TOKEN_STORAGE_KEY);
+    }
   }
 
   private setAuthHeaderBeforeRequest(req: Request) {
@@ -75,11 +108,16 @@ export class APIClient {
     return url.href;
   }
 
+  observeUser() {
+    return this.user$.asObservable();
+  }
+
   async getUser() {
     return this.user;
   }
   async signInWithCustomToken(token: string) {
     this.authToken = token;
+    this.setCachedToken(token);
 
     const user = await this.ky.get('auth/me').json<UserProfile>();
 
@@ -133,6 +171,7 @@ export class APIClient {
   signOut() {
     this.authToken = undefined;
     this.user = undefined;
+    this.clearCachedToken();
   }
 
   createQuery(queryInput: CreateQueryDto) {

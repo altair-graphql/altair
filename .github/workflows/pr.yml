@@ -58,10 +58,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - uses: actions/setup-java@v3 # needed to run firebase emulator for firebase unit tests
-      with:
-        java-version: '11'
-        distribution: 'temurin'
     - uses: nrwl/nx-set-shas@v2
       with:
         main-branch-name: master

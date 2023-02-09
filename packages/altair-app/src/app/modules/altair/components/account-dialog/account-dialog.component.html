@@ -23,7 +23,9 @@
         <ng-container
           *ngIf="account?.loggedIn"
         >
-        <h3><app-icon name="flask-conical"></app-icon> {{ 'ACCOUNT_TITLE' | translate }} (Alpha)</h3>
+          <h3>
+            <app-icon name="flask-conical"></app-icon> {{ 'ACCOUNT_TITLE' | translate }} (Alpha)
+          </h3>
           <p>Hello, {{ account?.firstName }}</p>
           <p>
             <a target="_blank" href="https://dash.altairgraphql.dev">
@@ -38,13 +40,12 @@
             {{ 'LOGOUT_TEXT' | translate }}
           </button>
         </ng-container>
-        <nz-collapse style="margin-top: 10px;">
-          <nz-collapse-panel
-            [nzHeader]="'Subscribe to the newsletter'"
-          >
-            <iframe src="https://altairgraphql.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:var(--theme-bg-color);" frameborder="0" scrolling="no"></iframe>
-          </nz-collapse-panel>
-        </nz-collapse>
+        <p>
+          <a target="_blank" href="https://altairgraphql.substack.com">
+            Subscribe to the newsletter
+            <app-icon name="external-link"></app-icon>
+          </a>
+        </p>
       </div>
     </div>
   </ng-template>
