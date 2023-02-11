@@ -80,3 +80,6 @@ docker build  --platform=linux/amd64 -t test-demo .
 docker run -p 3000:3000 test-demo
 
 ### Adding resolution for `oauth` package to fix [this issue](https://github.com/jaredhanson/passport-google-oauth2/issues/87) as the passport-google-oauth20 uses an older version with the issue
+
+### SSL too many redirects
+If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mode
