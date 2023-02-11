@@ -1,6 +1,7 @@
 {
   "name": "@altairgraphql/login-redirect",
   "version": "5.0.14",
+  "main": "index.js",
   "source": "src/index.html",
   "targets": {
     "main": false

@@ -8,7 +8,7 @@ export const getClientConfig = (env: ClientEnvironment = 'development') => {
     case 'production':
       return {
         apiBaseUrl: 'https://api.altairgraphql.dev',
-        loginClientUrl: 'http://redir.altairgraphql.dev',
+        loginClientUrl: 'https://redir.altairgraphql.dev',
       };
   }
 

@@ -19,7 +19,8 @@ const newNonce = () => {
   return String.fromCharCode(...array);
 };
 const authClientStaticDirectory = () =>
-  path.resolve(require.resolve('@altairgraphql/login-redirect'), '..');
+  path.resolve(require.resolve('@altairgraphql/login-redirect'), '..', 'dist');
+
 export class AuthServer {
   private port = 3000; // default port. Might be different at runtime.
   private server?: Server;
