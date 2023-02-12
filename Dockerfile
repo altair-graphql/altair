@@ -46,9 +46,9 @@ ARG PORT=3000
 ENV PORT=${PORT}
 
 # Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-USER nodejs
+# RUN addgroup --system --gid 1001 nodejs
+# RUN adduser --system --uid 1001 nodejs
+# USER nodejs
 COPY --from=installer /app .
 
 # EXPOSE ${PORT}
