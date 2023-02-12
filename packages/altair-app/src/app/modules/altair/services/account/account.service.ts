@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import { from } from 'rxjs';
+import { EMPTY, from } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { apiClient } from '../api/api.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
@@ -25,6 +25,14 @@ export class AccountService {
 
   accountLogin$() {
     return from(this.accountLogin());
+  }
+
+  observeUser() {
+    if (!environment.serverReady) {
+      return EMPTY;
+    }
+
+    return apiClient.observeUser();
   }
 
   async getUser() {

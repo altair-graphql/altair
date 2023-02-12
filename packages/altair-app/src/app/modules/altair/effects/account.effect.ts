@@ -30,7 +30,7 @@ export class AccountEffects {
           if (!environment.serverReady) {
             return EMPTY;
           }
-          return from(this.accountService.getUser()).pipe(take(1));
+          return this.accountService.observeUser().pipe(take(1));
         }),
         switchMap((user) => {
           if (!user) {
