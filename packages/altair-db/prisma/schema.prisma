@@ -3,6 +3,9 @@
 
 generator client {
   provider = "prisma-client-js"
+
+  // Needed to prevent segmentation fault crashes https://github.com/prisma/prisma/issues/10649#issuecomment-1249209025
+  engineType = "binary"
 }
 
 datasource db {
