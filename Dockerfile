@@ -52,6 +52,5 @@ USER nodejs
 COPY --from=installer /app .
 
 # EXPOSE ${PORT}
-RUN yarn --cwd packages/altair-db prisma migrate deploy
 
-CMD ["node", "packages/altair-api/dist/main"]
+CMD ["yarn", "start:api:prod"]
