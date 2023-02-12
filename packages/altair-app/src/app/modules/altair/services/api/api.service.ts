@@ -53,9 +53,7 @@ export class ApiService {
         name: q.windowName,
         content: {
           ...q,
-          collectionId: '',
         },
-        collectionId: '',
       })),
     });
   }
@@ -66,7 +64,6 @@ export class ApiService {
       name: query.windowName,
       content: {
         ...query,
-        collectionId: collectionServerId,
       },
     });
   }
@@ -76,7 +73,6 @@ export class ApiService {
       name: query.windowName,
       content: {
         ...query,
-        collectionId: query.collectionId || '',
       },
     });
   }

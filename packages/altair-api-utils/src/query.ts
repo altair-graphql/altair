@@ -3,7 +3,7 @@ import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 
 export interface CreateQueryCollectionDto {
   name: string;
-  queries?: CreateQueryDto[];
+  queries?: Omit<CreateQueryDto, 'collectionId'>[];
 }
 
 export type UpdateQueryCollectionDto = Partial<CreateQueryCollectionDto>;
@@ -11,7 +11,7 @@ export type UpdateQueryCollectionDto = Partial<CreateQueryCollectionDto>;
 export interface CreateQueryDto {
   name: string;
   collectionId: string;
-  content: Omit<CreateDTO<IRemoteQuery>, 'gqlSchema'>;
+  content: Omit<CreateDTO<IRemoteQuery>, 'gqlSchema' | 'collectionId'>;
 }
 
 export type UpdateQueryDto = Partial<CreateQueryDto>;
