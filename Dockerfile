@@ -45,6 +45,10 @@ ENV NODE_ENV=${NODE_ENV}
 ARG PORT=3000
 ENV PORT=${PORT}
 
+ENV NEW_RELIC_NO_CONFIG_FILE=true
+ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+ENV NEW_RELIC_LOG=stdout
+
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
