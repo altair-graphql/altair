@@ -6,6 +6,10 @@ import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 import { CorsConfig, NestConfig, SwaggerConfig } from './common/config';
 
+if (process.env.NEW_RELIC_APP_NAME) {
+  require('newrelic');
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
