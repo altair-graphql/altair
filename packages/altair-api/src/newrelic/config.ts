@@ -4,7 +4,7 @@
  * See lib/config/default.js in the agent distribution for a more complete
  * description of configuration variables and their potential values.
  */
-exports.config = {
+export const config = {
   /**
    * Array of application names.
    */
@@ -36,6 +36,11 @@ exports.config = {
      * production applications.
      */
     level: 'trace',
+  },
+  application_logging: {
+    forwarding: {
+      enabled: true,
+    },
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
