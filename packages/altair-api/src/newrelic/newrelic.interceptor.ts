@@ -5,8 +5,10 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
-import util from 'util';
-import newrelic from 'newrelic';
+import { inspect } from 'util';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const newrelic = require('newrelic');
 
 @Injectable()
 export class NewrelicInterceptor implements NestInterceptor {
@@ -15,16 +17,14 @@ export class NewrelicInterceptor implements NestInterceptor {
       return next.handle();
     }
     console.log(
-      `Parent Interceptor before: ${util.inspect(context.getHandler().name)}`
+      `Newrelic Interceptor before: ${inspect(context.getHandler().name)}`
     );
     return newrelic.startWebTransaction(context.getHandler().name, function () {
       const transaction = newrelic.getTransaction();
       return next.handle().pipe(
         tap(() => {
           console.log(
-            `Parent Interceptor after: ${util.inspect(
-              context.getHandler().name
-            )}`
+            `Newrelic Interceptor after: ${inspect(context.getHandler().name)}`
           );
           return transaction.end();
         })
