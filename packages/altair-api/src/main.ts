@@ -5,16 +5,16 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 import { CorsConfig, NestConfig, SwaggerConfig } from './common/config';
-
-if (process.env.NEW_RELIC_APP_NAME) {
-  require('newrelic');
-}
+import { NewrelicInterceptor } from './newrelic/newrelic.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Validation
   app.useGlobalPipes(new ValidationPipe());
+
+  // Interceptors
+  app.useGlobalInterceptors(new NewrelicInterceptor());
 
   // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);
