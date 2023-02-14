@@ -25,6 +25,7 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY turbo.json turbo.json
 COPY nx.json nx.json
 COPY tsconfig.json tsconfig.json
+COPY CHECKS CHECKS
 RUN yarn install
 
 # Build the project and its dependencies
