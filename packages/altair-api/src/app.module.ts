@@ -11,9 +11,11 @@ import { TeamsModule } from './teams/teams.module';
 import config from './common/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TeamMembershipsModule } from './team-memberships/team-memberships.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
+    LoggerModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule.forRoot({
       isGlobal: true,
