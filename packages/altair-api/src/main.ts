@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger } from 'nestjs-pino';
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 import { CorsConfig, NestConfig, SwaggerConfig } from './common/config';
@@ -24,6 +24,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // Interceptors
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalInterceptors(new NewrelicInterceptor());
 
   // enable shutdown hook
