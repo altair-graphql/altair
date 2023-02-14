@@ -4273,6 +4273,11 @@
     nan "^2.16.0"
     semver "^5.5.1"
 
+"@newrelic/pino-enricher@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@newrelic/pino-enricher/-/pino-enricher-1.1.1.tgz#10a4a0042afce859cd3b8f22d5c9cbb51446aa62"
+  integrity sha512-OF7goQG+QYltboNf/UEeM2LUpxB/nmaFq3APqxhzpVART0tHFrLunuukpeb23j6rGtqo9sj6fIgUdBYhADdSKw==
+
 "@newrelic/superagent@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@newrelic/superagent/-/superagent-6.0.0.tgz#8aee871547ebea90fcb37f98ea38d820cc1bc67b"

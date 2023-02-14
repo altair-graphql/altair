@@ -12,10 +12,18 @@ import config from './common/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TeamMembershipsModule } from './team-memberships/team-memberships.module';
 import { LoggerModule } from 'nestjs-pino';
+import pino from 'pino';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const newrelicPino = require('@newrelic/pino-enricher');
 
 @Module({
   imports: [
-    LoggerModule.forRoot(),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        logger: pino(newrelicPino()),
+      },
+    }),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule.forRoot({
       isGlobal: true,
