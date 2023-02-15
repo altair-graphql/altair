@@ -73,11 +73,10 @@ export class TeamMembershipsService {
         userId,
       },
     });
-    const validOwner = await this.prisma.teamMembership.findFirst({
+    const validOwner = await this.prisma.team.findFirst({
       where: {
-        team: {
-          ownerId: userId,
-        },
+        id: teamId,
+        ownerId: userId,
       },
     });
 
@@ -88,6 +87,15 @@ export class TeamMembershipsService {
     return this.prisma.teamMembership.findMany({
       where: {
         teamId,
+      },
+      include: {
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
       },
     });
   }

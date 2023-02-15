@@ -16,10 +16,11 @@ import { useForm } from '@mantine/form';
 import { apiClient } from '../../lib/useUser';
 import { notify } from '../../lib/notify';
 import { useRouter } from 'next/router';
-import { TeamMemberRole, TeamMembership } from '@altairgraphql/db';
+import { TeamMemberRole } from '@altairgraphql/db';
+import { ReturnedTeamMembership } from '@altairgraphql/api-utils';
 
 interface MembersStackProps {
-  members: TeamMembership[];
+  members: ReturnedTeamMembership[];
 }
 
 interface MembershipData {
@@ -104,7 +105,7 @@ function MembersStack({ members }: MembersStackProps) {
         <Group spacing="sm">
           <div>
             <Text size="sm" weight={500}>
-              {member.userId}
+              {member.user.firstName}
             </Text>
             <Text color="dimmed" size="xs">
               {member.role}
@@ -140,9 +141,9 @@ export default function TeamPage() {
   const router = useRouter();
   const { id } = router.query;
   const [memberModalOpened, setMemberModalOpened] = useState(false);
-  const [members, setMembers] = useState<TeamMembership[]>([]);
+  const [members, setMembers] = useState<ReturnedTeamMembership[]>([]);
 
-  const loadTeam = useCallback(async () => {
+  const loadTeam = useCallback(async (id: string) => {
     try {
       if (!id) {
         throw new Error('Team ID cannot be undefined');
@@ -153,11 +154,13 @@ export default function TeamPage() {
       // console.error(err);
       notify.error('Could not load team members');
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
-    loadTeam();
-  }, [loadTeam]);
+    if (id) {
+      loadTeam(id.toString());
+    }
+  }, [id, loadTeam]);
 
   if (!id) {
     return null;
@@ -165,7 +168,9 @@ export default function TeamPage() {
   const onCompleteAddMember = async (success: boolean) => {
     if (success) {
       setMemberModalOpened(false);
-      await loadTeam();
+      if (id) {
+        await loadTeam(id.toString());
+      }
     }
   };
 

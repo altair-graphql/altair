@@ -3,7 +3,7 @@
   "version": "5.0.15",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",

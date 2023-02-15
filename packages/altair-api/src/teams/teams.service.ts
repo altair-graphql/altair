@@ -33,14 +33,18 @@ export class TeamsService {
   findAll(userId: string) {
     return this.prisma.team.findMany({
       where: {
-        OR: {
-          ownerId: userId,
-          TeamMemberships: {
-            some: {
-              userId,
+        OR: [
+          {
+            ownerId: userId,
+          },
+          {
+            TeamMemberships: {
+              some: {
+                userId,
+              },
             },
           },
-        },
+        ],
       },
     });
   }
@@ -49,16 +53,20 @@ export class TeamsService {
     return this.prisma.team.findFirst({
       where: {
         id,
-        OR: {
-          // owner
-          ownerId: userId,
-          // member
-          TeamMemberships: {
-            some: {
-              userId,
+        OR: [
+          {
+            // owner
+            ownerId: userId,
+          },
+          {
+            TeamMemberships: {
+              some: {
+                // member
+                userId,
+              },
             },
           },
-        },
+        ],
       },
     });
   }

@@ -16,6 +16,7 @@ import {
   QueryCollection,
   Team,
   TeamMembership,
+  TeamMemberRole,
 } from '@altairgraphql/db';
 import { UserProfile } from './user';
 import { CreateTeamDto, CreateTeamMembershipDto, UpdateTeamDto } from './team';
@@ -24,6 +25,10 @@ import { map, switchMap, take } from 'rxjs/operators';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
+export type ReturnedTeamMembership = TeamMembership & {
+  user: Pick<UserProfile, 'firstName' | 'lastName' | 'email'>;
+};
+
 const SignInTimeout = 15 * 60 * 1000; // 15m
 
 const timeout = <T>(
@@ -60,13 +65,22 @@ export class APIClient {
       },
     });
 
+    this.checkCachedUser();
+  }
+
+  private async checkCachedUser() {
+    if (this.user) {
+      // No need to do anything if the user is already set
+      return;
+    }
     // Check for user access token in local storage
     const cachedToken = this.getCachedToken();
     if (cachedToken) {
-      this.signInWithCustomToken(cachedToken).catch(() => {
+      return this.signInWithCustomToken(cachedToken).catch(() => {
         this.signOut();
       });
     }
+    this.user = undefined;
   }
 
   private setCachedToken(token: string) {
@@ -109,11 +123,16 @@ export class APIClient {
   }
 
   observeUser() {
+    // check user and force the value to be emitted
+    // Forcing the value to be emitted triggers the observable at least once
+    this.checkCachedUser().then(() => this.user$.next(this.user));
     return this.user$.asObservable();
   }
 
   async getUser() {
-    return this.user;
+    return this.observeUser()
+      .pipe(take(1))
+      .toPromise();
   }
   async signInWithCustomToken(token: string) {
     this.authToken = token;
@@ -244,7 +263,7 @@ export class APIClient {
   getTeamMembers(teamId: string) {
     return this.ky
       .get(`team-memberships/team/${teamId}`)
-      .json<TeamMembership[]>();
+      .json<ReturnedTeamMembership[]>();
   }
 
   // short-lived-token for events

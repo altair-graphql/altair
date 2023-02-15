@@ -139,7 +139,11 @@ export function NavbarSimple() {
         <a
           href="#"
           className={classes.link}
-          onClick={() => apiClient.signOut()}
+          onClick={(e) => {
+            e.preventDefault();
+            apiClient.signOut();
+            router.push('/');
+          }}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
