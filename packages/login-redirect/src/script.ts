@@ -6,6 +6,8 @@ const validOrigins = [
   'chrome-extension://aiopipphfnlndegenpkclffgaiillbdd', // unpacked chrome extension
   'moz-extension://567d7e27-43b8-994e-ab50-e770fa7eab4b', // firefox extension
   'http://localhost:4200', // local altair app
+  'https://dash.altairgraphql.dev',
+  'https://altair-gql.sirmuel.design',
 ];
 
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
