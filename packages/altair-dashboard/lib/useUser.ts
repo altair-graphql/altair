@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { initializeClient, UserProfile } from '@altairgraphql/api-utils';
 
-export const apiClient = initializeClient();
+export const apiClient = initializeClient(
+  process.env.NODE_ENV === 'production' ? 'production' : 'development'
+);
 
 export default function useUser({
   redirectTo = '/login',
