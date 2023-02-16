@@ -26,6 +26,12 @@ export class TeamsService {
       data: {
         ...createTeamDto,
         ownerId: userId,
+        Workspace: {
+          create: {
+            name: `${createTeamDto.name} Workspace`,
+            ownerId: userId,
+          },
+        },
       },
     });
   }

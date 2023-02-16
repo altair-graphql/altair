@@ -50,6 +50,8 @@ model Workspace {
   name            String
   ownerId         String
   owner           User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  teamId          String?
+  team            Team?             @relation(fields: [teamId], references: [id], onDelete: Cascade)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 }
@@ -95,6 +97,7 @@ model Team {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   TeamMemberships TeamMembership[]
+  Workspace       Workspace[]
 }
 
 enum TeamMemberRole {
@@ -109,7 +112,7 @@ model TeamMembership {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   user      User           @relation(fields: [userId], references: [id])
-  team      Team           @relation(fields: [teamId], references: [id])
+  team      Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@id([userId, teamId])
 }
