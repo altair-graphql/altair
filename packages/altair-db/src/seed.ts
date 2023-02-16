@@ -19,7 +19,7 @@ async function main() {
 
 // execute the main function
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(1);
   })
@@ -27,3 +27,29 @@ main()
     // close Prisma Client at the end
     await prisma.$disconnect();
   });
+
+async function createTeamWorkspaces() {
+  const teamsWithoutWorkspace = await prisma.team.findMany({
+    where: {
+      Workspace: {
+        none: {},
+      },
+    },
+  });
+
+  console.log('teams without workspaces', teamsWithoutWorkspace);
+
+  if (teamsWithoutWorkspace.length) {
+    const proms = teamsWithoutWorkspace.map(({ id, name, ownerId }) => {
+      return prisma.workspace.create({
+        data: {
+          name: `${name} Workspace`,
+          ownerId,
+          teamId: id,
+        },
+      });
+    });
+    const res = await Promise.all(proms);
+    console.log('result', res);
+  }
+}
