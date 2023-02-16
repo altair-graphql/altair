@@ -49,11 +49,10 @@ export class ApiService {
   ) {
     return await apiClient.createQueryCollection({
       name: queryCollection.title,
+      teamId: teamId?.value(),
       queries: queryCollection.queries.map((q) => ({
         name: q.windowName,
-        content: {
-          ...q,
-        },
+        content: q,
       })),
     });
   }

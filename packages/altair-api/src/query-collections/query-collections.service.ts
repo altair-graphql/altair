@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import {
   CreateQueryCollectionDto,
@@ -6,11 +6,13 @@ import {
 } from '@altairgraphql/api-utils';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/events';
+import { TeamsService } from 'src/teams/teams.service';
 
 @Injectable()
 export class QueryCollectionsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly teamsService: TeamsService,
     private readonly eventService: EventEmitter2
   ) {}
 
@@ -24,10 +26,37 @@ export class QueryCollectionsService {
       },
     });
 
+    let workspaceId = userWorkspace.id;
+
+    const teamId = createQueryCollectionDto.teamId;
+    if (teamId) {
+      // check team workspace
+      // Verify that user can create for team
+      const validTeam = await this.teamsService.findOne(userId, teamId);
+
+      if (!validTeam) {
+        throw new BadRequestException(
+          'You cannot create a collection for this teaam'
+        );
+      }
+
+      const teamWorkspace = await this.prisma.workspace.findFirst({
+        where: {
+          teamId: validTeam.id,
+        },
+      });
+
+      workspaceId = teamWorkspace.id;
+    }
+
+    if (!workspaceId) {
+      throw new BadRequestException();
+    }
+
     const res = await this.prisma.queryCollection.create({
       data: {
         name: createQueryCollectionDto.name,
-        workspaceId: userWorkspace.id,
+        workspaceId,
         queries: {
           create: createQueryCollectionDto.queries,
         },
@@ -41,9 +70,26 @@ export class QueryCollectionsService {
   findAll(userId: string) {
     return this.prisma.queryCollection.findMany({
       where: {
-        workspace: {
-          ownerId: userId,
-        },
+        OR: [
+          {
+            // queries user owns
+            workspace: {
+              ownerId: userId,
+            },
+          },
+          {
+            // queries owned by user's team
+            workspace: {
+              team: {
+                TeamMemberships: {
+                  some: {
+                    userId,
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       include: {
         queries: true,

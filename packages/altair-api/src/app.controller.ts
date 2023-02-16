@@ -27,6 +27,7 @@ export class AppController {
 
     // TODO: Create events
     // TODO: Emit events from prisma middleware
+    // TODO: Handle team collection/query changes
     this.eventService.on([EVENTS.COLLECTION_UPDATE], async ({ id }) => {
       // check collection workspace owner
       const userIds = await this.prisma.user.findMany({

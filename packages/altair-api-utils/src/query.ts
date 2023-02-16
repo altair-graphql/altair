@@ -4,6 +4,7 @@ import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 export interface CreateQueryCollectionDto {
   name: string;
   queries?: Omit<CreateQueryDto, 'collectionId'>[];
+  teamId?: string;
 }
 
 export type UpdateQueryCollectionDto = Partial<CreateQueryCollectionDto>;
