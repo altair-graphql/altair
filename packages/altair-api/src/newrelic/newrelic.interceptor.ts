@@ -7,15 +7,14 @@ import {
 import { Observable, tap } from 'rxjs';
 import { inspect } from 'util';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const newrelic = require('newrelic');
-
 @Injectable()
 export class NewrelicInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     if (!process.env.NEW_RELIC_APP_NAME) {
       return next.handle();
     }
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const newrelic = require('newrelic');
     console.log(
       `Newrelic Interceptor before: ${inspect(context.getHandler().name)}`
     );
