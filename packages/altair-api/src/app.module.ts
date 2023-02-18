@@ -19,11 +19,7 @@ const newrelicPino = require('@newrelic/pino-enricher');
 
 @Module({
   imports: [
-    LoggerModule.forRoot({
-      pinoHttp: {
-        logger: pino(newrelicPino()),
-      },
-    }),
+    LoggerModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule.forRoot({
       isGlobal: true,
