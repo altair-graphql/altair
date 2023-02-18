@@ -24,8 +24,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // Interceptors
-  app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalInterceptors(new NewrelicInterceptor());
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
   // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);
