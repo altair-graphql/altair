@@ -101,9 +101,26 @@ export class QueryCollectionsService {
     return this.prisma.queryCollection.findFirst({
       where: {
         id,
-        workspace: {
-          ownerId: userId,
-        },
+        OR: [
+          {
+            // queries user owns
+            workspace: {
+              ownerId: userId,
+            },
+          },
+          {
+            // queries owned by user's team
+            workspace: {
+              team: {
+                TeamMemberships: {
+                  some: {
+                    userId,
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       include: {
         queries: true,
@@ -119,9 +136,26 @@ export class QueryCollectionsService {
     const res = await this.prisma.queryCollection.updateMany({
       where: {
         id,
-        workspace: {
-          ownerId: userId,
-        },
+        OR: [
+          {
+            // queries user owns
+            workspace: {
+              ownerId: userId,
+            },
+          },
+          {
+            // queries owned by user's team
+            workspace: {
+              team: {
+                TeamMemberships: {
+                  some: {
+                    userId,
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       data: {
         name: updateQueryCollectionDto.name,

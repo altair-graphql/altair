@@ -62,9 +62,26 @@ export class QueriesService {
     return this.prisma.queryItem.findMany({
       where: {
         collection: {
-          workspace: {
-            ownerId: userId,
-          },
+          OR: [
+            {
+              // queries user owns
+              workspace: {
+                ownerId: userId,
+              },
+            },
+            {
+              // queries owned by user's team
+              workspace: {
+                team: {
+                  TeamMemberships: {
+                    some: {
+                      userId,
+                    },
+                  },
+                },
+              },
+            },
+          ],
         },
       },
     });
@@ -76,9 +93,26 @@ export class QueriesService {
         AND: {
           id,
           collection: {
-            workspace: {
-              ownerId: userId,
-            },
+            OR: [
+              {
+                // queries user owns
+                workspace: {
+                  ownerId: userId,
+                },
+              },
+              {
+                // queries owned by user's team
+                workspace: {
+                  team: {
+                    TeamMemberships: {
+                      some: {
+                        userId,
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
         },
       },
@@ -92,9 +126,26 @@ export class QueriesService {
         AND: {
           id,
           collection: {
-            workspace: {
-              ownerId: userId,
-            },
+            OR: [
+              {
+                // queries user owns
+                workspace: {
+                  ownerId: userId,
+                },
+              },
+              {
+                // queries owned by user's team
+                workspace: {
+                  team: {
+                    TeamMemberships: {
+                      some: {
+                        userId,
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
         },
       },
