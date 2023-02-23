@@ -1,6 +1,6 @@
-import { Controller, Get, Req, Sse, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, Sse, UseGuards } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { map, Subject } from 'rxjs';
 import { AppService } from './app.service';
@@ -16,64 +16,83 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  goHome(@Res() res: Response) {
+    return res.redirect('https://altairgraphql.dev');
   }
 
   @UseGuards(ShortJwtAuthGuard)
   @Sse('events')
   handleUserEvents(@Req() req: Request) {
     const subject$ = new Subject();
+    const userId = req.user.id;
 
     // TODO: Create events
     // TODO: Emit events from prisma middleware
-    // TODO: Handle team collection/query changes
     this.eventService.on([EVENTS.COLLECTION_UPDATE], async ({ id }) => {
-      // check collection workspace owner
-      const userIds = await this.prisma.user.findMany({
+      const validUserCollection = await this.prisma.queryCollection.findFirst({
         select: {
           id: true,
         },
         where: {
-          Workspace: {
-            some: {
-              QueryCollection: {
-                some: {
-                  id,
-                },
+          id,
+          OR: [
+            {
+              // queries user owns
+              workspace: {
+                ownerId: userId,
               },
             },
-          },
-        },
-      });
-      if (userIds.find((uidd) => uidd.id === req.user.id)) {
-        subject$.next({ uid: req.user.id, collectionId: id });
-      }
-    });
-    this.eventService.on([EVENTS.QUERY_UPDATE], async ({ id }) => {
-      // check query workspace owner
-      const userIds = await this.prisma.user.findMany({
-        select: {
-          id: true,
-        },
-        where: {
-          Workspace: {
-            some: {
-              QueryCollection: {
-                some: {
-                  queries: {
+            {
+              // queries owned by user's team
+              workspace: {
+                team: {
+                  TeamMemberships: {
                     some: {
-                      id,
+                      userId,
                     },
                   },
                 },
               },
             },
+          ],
+        },
+      });
+      if (validUserCollection) {
+        subject$.next({ uid: userId, collectionId: id });
+      }
+    });
+    this.eventService.on([EVENTS.QUERY_UPDATE], async ({ id }) => {
+      // check query workspace owner
+      const validQueryItem = await this.prisma.queryItem.findFirst({
+        where: {
+          AND: {
+            id,
+            collection: {
+              OR: [
+                {
+                  // queries user owns
+                  workspace: {
+                    ownerId: userId,
+                  },
+                },
+                {
+                  // queries owned by user's team
+                  workspace: {
+                    team: {
+                      TeamMemberships: {
+                        some: {
+                          userId,
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
           },
         },
       });
-
-      if (userIds.find((uidd) => uidd.id === req.user.id)) {
+      if (validQueryItem) {
         subject$.next({ uid: req.user.id, queryId: id });
       }
     });
