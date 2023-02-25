@@ -13,5 +13,15 @@ services:
     ports:
       - '5432:5432'
 
+  postgres-shadow:
+    image: postgres:13.5
+    restart: always
+    environment:
+      - POSTGRES_DB=altairgraphql-shadow-db
+      - POSTGRES_USER=my_db_user
+      - POSTGRES_PASSWORD=db_password
+    ports:
+      - '5433:5432'
+
 volumes:
   postgres:
