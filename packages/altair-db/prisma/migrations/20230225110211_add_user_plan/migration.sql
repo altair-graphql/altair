@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - A unique constraint covering the columns `[stripeCustomerId]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-
-*/
 -- AlterTable
 ALTER TABLE "PlanConfig" ADD COLUMN     "allowMoreTeamMembers" BOOLEAN NOT NULL DEFAULT false,
 ADD COLUMN     "stripeProductId" TEXT;
@@ -20,9 +14,6 @@ CREATE TABLE "UserPlan" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserPlan_userId_key" ON "UserPlan"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_stripeCustomerId_key" ON "User"("stripeCustomerId");
 
 -- AddForeignKey
 ALTER TABLE "UserPlan" ADD CONSTRAINT "UserPlan_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
