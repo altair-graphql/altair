@@ -9,6 +9,9 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { ShortJwtStrategy } from './strategies/jwt-short.strategy';
+import { StripeService } from 'src/stripe/stripe.service';
+import { UserService } from './user/user.service';
+import { UserController } from './user/user.controller';
 
 @Module({
   imports: [
@@ -32,7 +35,10 @@ import { ShortJwtStrategy } from './strategies/jwt-short.strategy';
     ShortJwtStrategy,
     GoogleStrategy,
     PasswordService,
+    StripeService,
+    UserService,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, UserController],
+  exports: [UserService],
 })
 export class AuthModule {}

@@ -83,3 +83,7 @@ docker run -p 3000:3000 test-demo
 
 ### SSL too many redirects
 If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mode
+
+### Stripe product requirements
+- Product should have `role` metadata that corresponds to `PlanConfig` id in the database
+- Product should have recurring pricing

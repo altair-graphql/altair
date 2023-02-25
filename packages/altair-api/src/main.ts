@@ -12,7 +12,10 @@ import { CorsConfig, NestConfig, SwaggerConfig } from './common/config';
 import { NewrelicInterceptor } from './newrelic/newrelic.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+    rawBody: true,
+  });
 
   // Logger
   if (process.env.NODE_ENV === 'production') {
