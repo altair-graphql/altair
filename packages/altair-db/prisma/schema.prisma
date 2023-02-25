@@ -125,7 +125,7 @@ model PlanConfig {
   maxQueryCount        Int
   maxTeamCount         Int
   maxTeamMemberCount   Int
-  allowMoreTeamMembers Boolean
+  allowMoreTeamMembers Boolean    @default(false)
   UserPlan             UserPlan[]
 }
 
