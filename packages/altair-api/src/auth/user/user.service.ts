@@ -143,17 +143,35 @@ export class UserService {
     });
   }
 
-  async getBillingUrl(userId: string, returnUrl?: string) {
+  async getStripeCustomerId(userId: string) {
     const user = await this.getUser(userId);
-    let customerId = user.stripeCustomerId;
 
-    if (!customerId) {
-      const res = await this.stripeService.connectOrCreateCustomer(user.email);
-      customerId = res.id;
+    if (user.stripeCustomerId) {
+      return user.stripeCustomerId;
     }
 
+    // retrieve customer ID from Stripe
+    const res = await this.stripeService.connectOrCreateCustomer(user.email);
+    const customerId = res.id;
+
+    // update user with customer ID
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        stripeCustomerId: customerId,
+      },
+    });
+
+    return customerId;
+  }
+
+  async getBillingUrl(userId: string, returnUrl?: string) {
+    const customerId = await this.getStripeCustomerId(userId);
+
     const session = await this.stripeService.createBillingSession(
-      user.stripeCustomerId,
+      customerId,
       returnUrl
     );
 
