@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,15 +7,12 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User, IdentityProvider } from '@altairgraphql/db';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'nestjs-prisma';
 import { SecurityConfig } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
-import { ProviderInfo } from './models/provider-info.dto';
-import { SignupInput } from './models/signup.input';
-import { UpdateUserInput } from './models/update-user.input';
 import { PasswordService } from './password/password.service';
 import { Token } from '@altairgraphql/api-utils';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -26,46 +22,6 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService
   ) {}
-
-  async createUser(
-    payload: SignupInput,
-    providerInfo?: ProviderInfo
-  ): Promise<User> {
-    // const hashedPassword = await this.passwordService.hashPassword(
-    //   payload.password
-    // );
-
-    try {
-      const user = await this.prisma.user.create({
-        data: {
-          ...payload,
-          // password: hashedPassword,
-          Workspace: {
-            create: {
-              name: 'My workspace',
-            },
-          },
-          ...(providerInfo
-            ? {
-                UserCredential: {
-                  create: {
-                    provider: providerInfo.provider,
-                    providerUserId: providerInfo.providerUserId,
-                  },
-                },
-              }
-            : {}),
-        },
-      });
-
-      return user;
-    } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') {
-        throw new ConflictException(`Email ${payload.email} already used.`);
-      }
-      throw new Error(e);
-    }
-  }
 
   async passwordLogin(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
@@ -86,7 +42,7 @@ export class AuthService {
     return this.getLoginResponse(user);
   }
 
-  googleLogin(req) {
+  googleLogin(req: Request) {
     if (!req.user) {
       throw new BadRequestException('No user from google');
     }
@@ -110,15 +66,6 @@ export class AuthService {
   getUserFromToken(token: string): Promise<User> {
     const id = this.jwtService.decode(token)['userId'];
     return this.prisma.user.findUnique({ where: { id } });
-  }
-
-  updateUser(userId: string, newUserData: UpdateUserInput) {
-    return this.prisma.user.update({
-      data: newUserData,
-      where: {
-        id: userId,
-      },
-    });
   }
 
   async changePassword(

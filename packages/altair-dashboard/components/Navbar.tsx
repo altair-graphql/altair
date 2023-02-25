@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { createStyles, Navbar, Group, Code } from '@mantine/core';
+import {
+  createStyles,
+  Navbar,
+  Group,
+  Code,
+  useMantineColorScheme,
+  Button,
+  UnstyledButton,
+} from '@mantine/core';
 import {
   IconBellRinging,
   IconFingerprint,
@@ -11,6 +19,10 @@ import {
   IconSwitchHorizontal,
   IconLogout,
   IconHome2,
+  IconUsers,
+  IconSun,
+  IconMoonStars,
+  IconBug,
 } from '@tabler/icons';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -46,6 +58,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
       alignItems: 'center',
       textDecoration: 'none',
       fontSize: theme.fontSizes.sm,
+      width: '100%',
       color:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[1]
@@ -95,59 +108,93 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
+const openBillingPage = async () => {
+  const res = await apiClient.getBillingUrl();
+
+  window.open(res.url, '_blank');
+};
+
 const data = [
   // { link: '/', label: 'Overview', icon: IconHome2 },
-  { link: '/teams', label: 'Teams', icon: IconBellRinging },
-  // { link: '/', label: 'Billing', icon: IconReceipt2 },
+  { link: '/teams', label: 'Teams', icon: IconUsers },
+  {
+    link: '/billing',
+    label: 'Billing',
+    icon: IconReceipt2,
+    onClick: () => openBillingPage(),
+  },
   // { link: '/', label: 'Other Settings', icon: IconSettings },
 ];
 
 export function NavbarSimple() {
   const { classes, cx } = useStyles();
   const router = useRouter();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const links = data.map((item) => (
-    <Link
-      className={cx(classes.link, {
-        [classes.linkActive]: item.link === router.pathname,
-      })}
-      href={item.link}
-      key={item.label}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ));
+  const links = data.map((item) => {
+    const Component = item.onClick ? UnstyledButton : Link;
+    return (
+      <Component
+        className={cx(classes.link, {
+          [classes.linkActive]: router.pathname.startsWith(item.link),
+        })}
+        href={item.link}
+        key={item.label}
+        onClick={item.onClick}
+      >
+        <item.icon className={classes.linkIcon} stroke={1.5} />
+        <span>{item.label}</span>
+      </Component>
+    );
+  });
 
   return (
     <Navbar width={{ sm: 300 }} p="md">
       <Navbar.Section grow>
-        <Group className={classes.header} position="apart">
+        <Group className={classes.header} position="left">
           <Image
             src="/logo.svg"
-            alt="Vercel Logo"
+            alt="Altair GraphQL Logo"
             width={60}
             height={60}
             priority
           />
-          Cloud
+          Altair GraphQL Cloud
         </Group>
         {links}
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a
-          href="#"
+        <UnstyledButton
           className={classes.link}
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => toggleColorScheme()}
+        >
+          {colorScheme === 'dark' ? (
+            <IconSun className={classes.linkIcon} stroke={1.5} />
+          ) : (
+            <IconMoonStars className={classes.linkIcon} stroke={1.5} />
+          )}
+          <span>Toggle theme</span>
+        </UnstyledButton>
+        <a
+          href="https://github.com/altair-graphql/altair/issues/new/choose"
+          className={classes.link}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconBug className={classes.linkIcon} stroke={1.5} />
+          <span>Report issues</span>
+        </a>
+        <UnstyledButton
+          className={classes.link}
+          onClick={() => {
             apiClient.signOut();
             router.push('/');
           }}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
-        </a>
+        </UnstyledButton>
       </Navbar.Section>
     </Navbar>
   );

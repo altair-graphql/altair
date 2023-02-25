@@ -2,21 +2,19 @@ import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/api-utils';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
+import { UserService } from 'src/auth/user/user.service';
 import { EVENTS } from 'src/common/events';
 
 @Injectable()
 export class QueriesService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly userService: UserService,
     private readonly eventService: EventEmitter2
   ) {}
 
   async create(userId: string, createQueryDto: CreateQueryDto) {
-    const basicPlan = await this.prisma.planConfig.findUnique({
-      where: {
-        id: 'basic',
-      },
-    });
+    const userPlanConfig = await this.userService.getPlanConfig(userId);
     const queryCount = await this.prisma.queryItem.count({
       where: {
         collection: {
@@ -26,7 +24,7 @@ export class QueriesService {
         },
       },
     });
-    if (queryCount >= basicPlan.maxQueryCount) {
+    if (queryCount >= userPlanConfig.maxQueryCount) {
       throw new ForbiddenException();
     }
 

@@ -266,6 +266,10 @@ export class APIClient {
       .json<ReturnedTeamMembership[]>();
   }
 
+  getBillingUrl() {
+    return this.ky.get('user/billing').json<{ url: string }>();
+  }
+
   // short-lived-token for events
   private getSLT() {
     return this.ky.get(`auth/slt`).json<{ slt: string }>();

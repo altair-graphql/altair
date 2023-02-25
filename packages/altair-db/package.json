@@ -9,6 +9,7 @@
     "prisma:seed": "prisma db seed",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio"
   },
   "devDependencies": {

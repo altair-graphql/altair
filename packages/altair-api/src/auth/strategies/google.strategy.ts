@@ -10,6 +10,7 @@ import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
+import { UserService } from '../user/user.service';
 
 // https://www.jeansnyman.com/posts/authentication-in-express-with-google-and-facebook-using-passport-and-jwt/
 // https://www.passportjs.org/concepts/authentication/google/
@@ -18,6 +19,7 @@ import { AuthService } from '../auth.service';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
+    private readonly userService: UserService,
     private readonly authService: AuthService,
     readonly configService: ConfigService
   ) {
@@ -50,7 +52,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         IdentityProvider.GOOGLE
       );
       if (!identity) {
-        return this.authService.createUser(
+        return this.userService.createUser(
           {
             email: profile.emails[0].value,
             firstName: profile.name.givenName || profile.displayName,

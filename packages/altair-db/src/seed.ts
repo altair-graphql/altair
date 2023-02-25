@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { BASIC_PLAN_ID } from './constants';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -7,10 +8,11 @@ async function main() {
   // create the basic plan config
   const basicPlan = await prisma.planConfig.create({
     data: {
-      id: 'basic',
+      id: BASIC_PLAN_ID,
       maxQueryCount: 20,
       maxTeamCount: 1,
       maxTeamMemberCount: 2,
+      allowMoreTeamMembers: false,
     },
   });
 

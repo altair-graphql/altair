@@ -9,8 +9,9 @@ import {
   Modal,
   TextInput,
   Select,
+  Alert,
 } from '@mantine/core';
-import { IconTrash } from '@tabler/icons';
+import { IconAlertCircle, IconTrash } from '@tabler/icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { apiClient } from '../../lib/useUser';
@@ -52,7 +53,9 @@ function MemberForm({ onComplete, teamId }: MemberFormProps) {
       onComplete(true);
     } catch (err) {
       // console.error(err);
-      notify.error('An error occurred while adding your team member');
+      notify.error(
+        'An error occurred while adding your team member. Please make sure that user already exists before trying to add as a team member.'
+      );
       onComplete(false);
     } finally {
       setLoading(false);
@@ -181,6 +184,9 @@ export default function TeamPage() {
         onClose={() => setMemberModalOpened(false)}
         title={'New member'}
       >
+        <Alert color="yellow">
+          The user must already exist to add them as a team member
+        </Alert>
         <MemberForm onComplete={onCompleteAddMember} teamId={id.toString()} />
       </Modal>
       <Group position="apart">

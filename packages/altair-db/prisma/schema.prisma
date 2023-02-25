@@ -57,19 +57,21 @@ model Workspace {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  firstName      String?
-  lastName       String?
-  email          String           @unique
-  emailVerified  DateTime?
-  password       String?
-  picture        String?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  Workspace      Workspace[]
-  UserCredential UserCredential[]
-  TeamMembership TeamMembership[]
-  Team           Team[]
+  id               String           @id @default(cuid())
+  firstName        String?
+  lastName         String?
+  email            String           @unique
+  emailVerified    DateTime?
+  password         String?
+  picture          String?
+  stripeCustomerId String?          @unique
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  Workspace        Workspace[]
+  UserCredential   UserCredential[]
+  TeamMembership   TeamMembership[]
+  Team             Team[]
+  UserPlan         UserPlan?
 }
 
 enum IdentityProvider {
@@ -118,8 +120,19 @@ model TeamMembership {
 }
 
 model PlanConfig {
-  id                 String @unique
-  maxQueryCount      Int
-  maxTeamCount       Int
-  maxTeamMemberCount Int
+  id                   String     @unique
+  stripeProductId      String?
+  maxQueryCount        Int
+  maxTeamCount         Int
+  maxTeamMemberCount   Int
+  allowMoreTeamMembers Boolean
+  UserPlan             UserPlan[]
+}
+
+model UserPlan {
+  userId     String     @unique
+  planRole   String // as defined in the Stripe product role metadata
+  quantity   Int
+  user       User       @relation(fields: [userId], references: [id])
+  planConfig PlanConfig @relation(fields: [planRole], references: [id])
 }

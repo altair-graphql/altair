@@ -8,20 +8,20 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
+import { UserService } from 'src/auth/user/user.service';
 
 @Injectable()
 export class TeamMembershipsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private userService: UserService
+  ) {}
 
   async create(
     userId: string,
     createTeamMembershipDto: CreateTeamMembershipDto
   ) {
-    const basicPlan = await this.prisma.planConfig.findUnique({
-      where: {
-        id: 'basic',
-      },
-    });
+    const userPlanConfig = await this.userService.getPlanConfig(userId);
 
     const teamMembershipCount = await this.prisma.teamMembership.count({
       where: {
@@ -32,8 +32,19 @@ export class TeamMembershipsService {
       },
     });
 
-    if (teamMembershipCount >= basicPlan.maxTeamMemberCount) {
-      throw new ForbiddenException();
+    if (
+      !userPlanConfig.allowMoreTeamMembers &&
+      teamMembershipCount >= userPlanConfig.maxTeamMemberCount
+    ) {
+      throw new ForbiddenException('Maximum allowed team members reached.');
+    }
+
+    // Update stripe subscription item quantity
+    if (userPlanConfig.allowMoreTeamMembers) {
+      await this.userService.updateAllowedTeamMemberCount(
+        userId,
+        teamMembershipCount + 1 // increment team membership count
+      );
     }
 
     // Verify team owner is adding member
