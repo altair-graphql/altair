@@ -65,7 +65,7 @@ export class UserService {
   }
 
   getUserByStripeCustomerId(stripeCustomerId: string) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: {
         stripeCustomerId,
       },
