@@ -2,11 +2,10 @@
   Warnings:
 
   - A unique constraint covering the columns `[stripeCustomerId]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `allowMoreTeamMembers` to the `PlanConfig` table without a default value. This is not possible if the table is not empty.
 
 */
 -- AlterTable
-ALTER TABLE "PlanConfig" ADD COLUMN     "allowMoreTeamMembers" BOOLEAN NOT NULL,
+ALTER TABLE "PlanConfig" ADD COLUMN     "allowMoreTeamMembers" BOOLEAN NOT NULL DEFAULT false,
 ADD COLUMN     "stripeProductId" TEXT;
 
 -- AlterTable
