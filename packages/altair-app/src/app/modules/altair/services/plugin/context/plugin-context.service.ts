@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   CreateActionOptions,
   CreatePanelOptions,
+  PluginContext,
   PluginContextGenerator,
   PluginWindowState,
 } from 'altair-graphql-core/build/plugin/context/context.interface';
@@ -24,6 +25,7 @@ import * as fromRoot from '../../../store';
 
 import * as queryActions from '../../../store/query/query.action';
 import * as variablesActions from '../../../store/variables/variables.action';
+import * as headersActions from '../../../store/headers/headers.action';
 import * as localActions from '../../../store/local/local.action';
 import * as settingsActions from '../../../store/settings/settings.action';
 
@@ -32,6 +34,7 @@ import { first, take } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
+import { headerListToMap, headerMapToList } from '../../../utils/headers';
 import {
   AltairPanel,
   AltairPanelLocation,
@@ -54,7 +57,7 @@ export class PluginContextService implements PluginContextGenerator {
     private notifyService: NotifyService
   ) {}
 
-  createContext(pluginName: string, plugin: AltairPlugin) {
+  createContext(pluginName: string, plugin: AltairPlugin): PluginContext {
     const self = this;
     const log = (msg: string) => debug.log(`PLUGIN[${pluginName}]: ${msg}`);
     const eventBus = this.pluginEventService.group();
@@ -159,6 +162,20 @@ export class PluginContextService implements PluginContextGenerator {
           self.store.dispatch(new queryActions.SetUrlAction({ url }, windowId));
           self.store.dispatch(
             new queryActions.SendIntrospectionQueryRequestAction(windowId)
+          );
+        },
+        async setHeader(windowId, key, value) {
+          log(`setting header: ${key}`);
+          const state = await this.getWindowState(windowId);
+          const headers = state?.headers ?? [];
+          const obj = headerListToMap(headers);
+
+          obj[key] = value;
+          self.store.dispatch(
+            new headersActions.SetHeadersAction(
+              { headers: headerMapToList(obj) },
+              windowId
+            )
           );
         },
         addSubscriptionProvider(providerData: SubscriptionProviderData) {
