@@ -107,6 +107,27 @@ describe('PluginContextService', () => {
       });
     });
 
+    describe('setHeader', () => {
+      it('should dispatch set header action', async () => {
+        const ctx = createContext();
+        const windowState = await ctx.app.getCurrentWindowState();
+        const currentWindowId = windowState!.windowId;
+        await ctx.app.setHeader(currentWindowId, 'x-test-header', 'test-value');
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: {
+              headers: [
+                { enabled: true, key: '', value: '' },
+                { enabled: true, key: 'x-test-header', value: 'test-value' },
+              ],
+            },
+            type: 'SET_HEADERS',
+            windowId: 'def-456',
+          })
+        );
+      });
+    });
+
     describe('createPanel', () => {
       it('should return new panel', () => {
         const ctx = createContext();

@@ -67,6 +67,7 @@ export interface PluginContext {
     createWindow(data: ExportWindowState): void;
     setQuery(windowId: string, query: string): void;
     setVariables(windowId: string, variables: string): void;
+    setHeader(windowId: string, key: string, value: string): void;
     setEndpoint(windowId: string, url: string): void;
     addSubscriptionProvider(providerData: SubscriptionProviderData): void;
     executeCommand(): void; // TODO: To be defined
