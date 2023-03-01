@@ -10,6 +10,7 @@ import {
   GraphQLInputObjectType,
   GraphQLInputType,
   GraphQLInt,
+  GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
@@ -146,7 +147,12 @@ export const buildSelectionSet = (
   }
   const namedType = getNamedType(type);
 
-  if (!(namedType instanceof GraphQLObjectType)) {
+  if (
+    !(
+      namedType instanceof GraphQLObjectType ||
+      namedType instanceof GraphQLInterfaceType
+    )
+  ) {
     return { selectionSet, metas: setMetas };
   }
 
