@@ -1,4 +1,5 @@
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -125,6 +126,7 @@ export class WindowComponent implements OnInit {
   resultPaneBottomPanels$: Observable<AltairPanel[]>;
 
   editorShortcutMapping$: Observable<IDictionary>;
+  variableToType$: Observable<IDictionary>;
 
   // Using getter/setter for the windowId to update the windowId$ subject.
   // We need the windowId$ subject to update the getWindowState observable
@@ -150,8 +152,6 @@ export class WindowComponent implements OnInit {
   showPreRequestDialog = true;
 
   gqlSchema: GraphQLSchema | undefined;
-
-  variableToType: IDictionary = {};
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
@@ -275,6 +275,16 @@ export class WindowComponent implements OnInit {
     this.editorShortcutMapping$ = this.store.select(
       (state) => state.settings['editor.shortcuts'] ?? {}
     );
+
+    this.variableToType$ = combineLatest([
+      this.query$.pipe(select((q) => q.query || '')),
+      this.getWindowState().pipe(select(fromRoot.getSchema)),
+    ]).pipe(
+      map(([query, schema]) => {
+        return collectVariables(schema, this.gql.parseQuery(query));
+      }),
+      catchError(() => EMPTY)
+    );
   }
 
   ngOnInit() {
@@ -288,7 +298,6 @@ export class WindowComponent implements OnInit {
         if (!data) {
           return false;
         }
-        const previousQuery = this.query;
 
         this.apiUrl = data.query.url;
         const query = data.query.query || '';
@@ -318,17 +327,6 @@ export class WindowComponent implements OnInit {
             this.store.dispatch(
               new schemaActions.SetSchemaAction(this.windowId, schema)
             );
-          }
-        }
-
-        if (previousQuery !== this.query && this.gqlSchema) {
-          try {
-            this.variableToType = collectVariables(
-              this.gqlSchema,
-              this.gql.parseQuery(query)
-            );
-          } catch (error) {
-            //
           }
         }
       });
