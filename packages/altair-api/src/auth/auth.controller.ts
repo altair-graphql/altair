@@ -50,7 +50,7 @@ export class AuthController {
 
   @Get('slt')
   @UseGuards(JwtAuthGuard)
-  getShortlivedToken(@Req() req: Request) {
-    return { slt: this.authService.getShortLivedToken(req.user.id) };
+  getShortlivedEventsToken(@Req() req: Request) {
+    return { slt: this.authService.getShortLivedEventsToken(req.user.id) };
   }
 }

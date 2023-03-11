@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { map, Subject } from 'rxjs';
 import { AppService } from './app.service';
-import { ShortJwtAuthGuard } from './auth/guards/short-jwt-auth.guard';
+import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
 
 @Controller()
@@ -20,7 +20,7 @@ export class AppController {
     return res.redirect('https://altairgraphql.dev');
   }
 
-  @UseGuards(ShortJwtAuthGuard)
+  @UseGuards(EventsJwtAuthGuard)
   @Sse('events')
   handleUserEvents(@Req() req: Request) {
     const subject$ = new Subject();
