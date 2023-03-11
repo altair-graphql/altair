@@ -3,7 +3,7 @@ import { IDictionary } from '../interfaces/shared';
 
 export const headerListToMap = (headers: HeaderState): IDictionary => {
   return headers.reduce((res, cur) => {
-    if (cur.enabled) {
+    if (cur.key && cur.value && cur.enabled) {
       res[cur.key] = cur.value;
     }
 
