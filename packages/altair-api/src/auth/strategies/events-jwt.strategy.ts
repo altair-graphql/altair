@@ -7,14 +7,17 @@ import { AuthService } from '../auth.service';
 import { JwtDto } from '../models/jwt.dto';
 
 @Injectable()
-export class ShortJwtStrategy extends PassportStrategy(Strategy, 'short-jwt') {
+export class EventsJwtStrategy extends PassportStrategy(
+  Strategy,
+  'events-jwt'
+) {
   constructor(
     private readonly authService: AuthService,
     readonly configService: ConfigService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromUrlQueryParameter('slt'),
-      secretOrKey: configService.get('JWT_ACCESS_SECRET'),
+      secretOrKey: configService.get('EVENTS_JWT_ACCESS_SECRET'),
     });
   }
 

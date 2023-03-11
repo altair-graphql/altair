@@ -8,7 +8,7 @@ import { PasswordService } from './password/password.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
-import { ShortJwtStrategy } from './strategies/jwt-short.strategy';
+import { EventsJwtStrategy } from './strategies/events-jwt.strategy';
 import { StripeService } from 'src/stripe/stripe.service';
 import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
@@ -32,7 +32,7 @@ import { UserController } from './user/user.controller';
   providers: [
     AuthService,
     JwtStrategy,
-    ShortJwtStrategy,
+    EventsJwtStrategy,
     GoogleStrategy,
     PasswordService,
     StripeService,

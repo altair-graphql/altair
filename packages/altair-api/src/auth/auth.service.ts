@@ -113,13 +113,14 @@ export class AuthService {
   }
 
   /**
-   * Generates a short-lived token for the purpose of event connection
+   * Generates a short-lived events token for the purpose of event connection
    */
-  getShortLivedToken(userId: string): string {
+  getShortLivedEventsToken(userId: string): string {
     const securityConfig = this.configService.get<SecurityConfig>('security');
     return this.jwtService.sign(
       { userId },
       {
+        secret: this.configService.get<string>('EVENTS_JWT_ACCESS_SECRET'),
         expiresIn: securityConfig.shortExpiresIn,
       }
     );
