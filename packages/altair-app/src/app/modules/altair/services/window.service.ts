@@ -13,6 +13,7 @@ import * as fromRoot from '../store';
 import * as queryActions from '../store/query/query.action';
 import * as headerActions from '../store/headers/headers.action';
 import * as variableActions from '../store/variables/variables.action';
+import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as windowActions from '../store/windows/windows.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as preRequestActions from '../store/pre-request/pre-request.action';
@@ -138,8 +139,8 @@ export class WindowService {
         // TODO: Check that there is data to be exported
 
         return {
-          version: 1 as const,
-          type: 'window' as const,
+          version: 1,
+          type: 'window',
           query: clonedWindow.query.query || '',
           apiUrl: clonedWindow.query.url,
           variables: clonedWindow.variables.variables,
@@ -268,6 +269,9 @@ export class WindowService {
         if (data.variables) {
           this.store.dispatch(
             new variableActions.UpdateVariablesAction(data.variables, windowId)
+          );
+          this.store.dispatch(
+            new dialogsActions.ToggleVariableDialogAction(windowId)
           );
         }
 
