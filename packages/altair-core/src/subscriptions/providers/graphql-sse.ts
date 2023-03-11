@@ -23,7 +23,7 @@ export class GraphQLSSESubscriptionProvider extends SubscriptionProvider {
       throw new Error('Could not create subscription client!');
     }
 
-    return new Observable((subscriber) => {
+    return new Observable(subscriber => {
       this.cleanup = this.client!.subscribe(
         {
           query: options.query,
