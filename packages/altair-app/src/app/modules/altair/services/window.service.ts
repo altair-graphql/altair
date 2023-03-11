@@ -139,8 +139,8 @@ export class WindowService {
         // TODO: Check that there is data to be exported
 
         return {
-          version: 1,
-          type: 'window',
+          version: 1 as const,
+          type: 'window' as const,
           query: clonedWindow.query.query || '',
           apiUrl: clonedWindow.query.url,
           variables: clonedWindow.variables.variables,
