@@ -117,7 +117,6 @@ describe('PluginContextService', () => {
           expect.objectContaining({
             payload: {
               headers: [
-                { enabled: true, key: '', value: '' },
                 { enabled: true, key: 'x-test-header', value: 'test-value' },
               ],
             },
