@@ -1,27 +1,21 @@
-import { browser, element, by, ExpectedConditions } from 'protractor';
+import { Page } from '@playwright/test';
 
 export class AltairPage {
-  constructor() {
-    browser.waitForAngularEnabled(false);
-  }
+  constructor(private page: Page) {}
   async navigateTo() {
-    await browser.get('/');
-    const EC = ExpectedConditions;
-    await browser.wait(
-      ExpectedConditions.elementToBeClickable(element(by.css('app-window'))),
-      5000
-    );
+    await this.page.goto('/');
+    await this.page.waitForSelector('app-window');
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return this.page.locator('app-root h1').textContent();
   }
 
   getWindows() {
-    return element(by.css('app-window'));
+    return this.page.locator('app-window');
   }
 
   title() {
-    return browser.getTitle();
+    return this.page.title();
   }
 }

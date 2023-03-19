@@ -1,14 +1,11 @@
+import { test, expect } from '@playwright/test';
 import { AltairPage } from './app.po';
 
-describe('altair App', () => {
-  let page: AltairPage;
+test.describe('altair App', () => {
+  test('should have at lease one window', async ({ page }) => {
+    const altairPage = new AltairPage(page);
+    await altairPage.navigateTo();
 
-  beforeEach(() => {
-    page = new AltairPage();
-  });
-
-  it('should have at lease one window', async () => {
-    await page.navigateTo();
-    expect(await page.getWindows().isDisplayed()).toBe(true);
+    expect(await altairPage.getWindows()).toBeVisible();
   });
 });

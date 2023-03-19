@@ -72,12 +72,12 @@ export function log(
 }
 
 export function asyncStorageSyncReducer(
-  _reducer: ActionReducer<unknown, AllActions>
-): ActionReducer<unknown, AllActions> {
+  _reducer: ActionReducer<RootState, AllActions>
+): ActionReducer<RootState, AllActions> {
   return asyncStorageSync(localStorageSyncConfig)(_reducer);
 }
 
-export const metaReducers: MetaReducer<unknown, AllActions>[] = [
+export const metaReducers: MetaReducer<RootState, AllActions>[] = [
   asyncStorageSyncReducer,
   // !environment.production ? storeFreeze : null,
   log,
