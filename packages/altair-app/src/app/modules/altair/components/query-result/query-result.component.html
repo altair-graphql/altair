@@ -83,7 +83,7 @@
   <nz-tab
     [nzTitle]="'SUBSCRIPTION_RESULT_TAB' | translate"
     *ngIf="!(!isSubscribed && !subscriptionResponses?.length)"
-    [nzDisabled]="!isSubscribed && !subscriptionResponses?.length"
+    [nzDisabled]="!isSubscribed && !subscriptionResponses.length"
   >
     <div class="query-result-container">
       <div class="query-result__subscription-container">
@@ -146,7 +146,7 @@
   <nz-tab
     [nzTitle]="'REQUEST_SCRIPT_LOGS_TAB' | translate"
     *ngIf="!(isSubscribed || !requestScriptLogs?.length)"
-    [nzDisabled]="isSubscribed || !requestScriptLogs?.length"
+    [nzDisabled]="isSubscribed || !requestScriptLogs.length"
   >
     <div class="request-script-logs">
       <div class="request-script-logs__list">
