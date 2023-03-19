@@ -37,6 +37,7 @@ jobs:
         timeout_minutes: 15
         max_attempts: 3
         command: yarn build:ci
+    - run: npx playwright install
     - name: Update webdriver (with retries)
       uses: nick-invision/retry@v2
       with:
