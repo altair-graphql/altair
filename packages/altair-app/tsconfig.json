@@ -12,6 +12,7 @@
     "experimentalDecorators": true,
     "target": "ES2022",
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -19,9 +20,10 @@
     "types": ["jest", "node", "chrome", "firefox-webext-browser"],
     "downlevelIteration": true,
     "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
-    "module": "es2020",
+    "module": "es2022",
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true,

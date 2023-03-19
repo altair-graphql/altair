@@ -4,12 +4,12 @@ exports[`renderAltair should return expected string 1`] = `
 "<!DOCTYPE html>
 <html>
   <head>
-    <meta charset=\\"utf-8\\" />
+    <meta charset="utf-8" />
     <title>Altair</title>
-    <base href=\\"/\\">
-    <meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\" />
-    <link rel=\\"icon\\" type=\\"image/x-icon\\" href=\\"favicon.ico\\" />
-    <link href=\\"[% STYLES_FILE %]\\" rel=\\"stylesheet\\" />
+    <base href="/">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="[% STYLES_FILE %]" rel="stylesheet" />
   </head>
 
   <body>
@@ -20,36 +20,36 @@ exports[`renderAltair should return expected string 1`] = `
           display: none;
         }
       </style>
-      <div class=\\"loading-screen styled\\">
-        <div class=\\"loading-screen-inner\\">
-          <div class=\\"loading-screen-logo-container\\">
-            <img src=\\"assets/img/logo_350.svg\\" alt=\\"Altair\\" />
+      <div class="loading-screen styled">
+        <div class="loading-screen-inner">
+          <div class="loading-screen-logo-container">
+            <img src="assets/img/logo_350.svg" alt="Altair" />
           </div>
-          <div class=\\"loading-screen-loading-indicator\\">
-            <span class=\\"loading-indicator-dot\\"></span>
-            <span class=\\"loading-indicator-dot\\"></span>
-            <span class=\\"loading-indicator-dot\\"></span>
+          <div class="loading-screen-loading-indicator">
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
           </div>
         </div>
       </div>
     </app-root>
     <script
-      rel=\\"preload\\"
-      as=\\"script\\"
-      type=\\"text/javascript\\"
-      src=\\"[% RUNTIME_SCRIPT %]\\"
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% RUNTIME_SCRIPT %]"
     ></script>
     <script
-      rel=\\"preload\\"
-      as=\\"script\\"
-      type=\\"text/javascript\\"
-      src=\\"[% POLYFILLS_SCRIPT %]\\"
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% POLYFILLS_SCRIPT %]"
     ></script>
     <script
-      rel=\\"preload\\"
-      as=\\"script\\"
-      type=\\"text/javascript\\"
-      src=\\"[% MAIN_SCRIPT %]\\"
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% MAIN_SCRIPT %]"
     ></script>
   <script>
         AltairGraphQL.init({
@@ -71,8 +71,8 @@ initialQuery: \`query {
         Hello
       }\`,
 endpointURL: \`https://example.com/graphql\`,
-initialHeaders: {\\"X-GraphQL-Token\\":\\"asd7-237s-2bdk-nsdk4\\"},
-initialSettings: {\\"theme\\":\\"dark\\"},
+initialHeaders: {"X-GraphQL-Token":"asd7-237s-2bdk-nsdk4"},
+initialSettings: {"theme":"dark"},
 });
     "
 `;
