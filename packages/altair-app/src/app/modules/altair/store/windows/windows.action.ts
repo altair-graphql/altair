@@ -1,4 +1,6 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 export const ADD_WINDOW = 'ADD_WINDOW';
 export const SET_WINDOWS = 'SET_WINDOWS';
@@ -7,8 +9,8 @@ export const REMOVE_WINDOW = 'REMOVE_WINDOW';
 export const EXPORT_WINDOW = 'EXPORT_WINDOW';
 export const IMPORT_WINDOW = 'IMPORT_WINDOW';
 export const IMPORT_WINDOW_FROM_CURL = 'IMPORT_WINDOW_FROM_CURL';
-
 export const REOPEN_CLOSED_WINDOW = 'REOPEN_CLOSED_WINDOW';
+export const RELOAD_COLLECTION_WINDOWS = 'RELOAD_COLLECTION_WINDOWS';
 
 interface AddWindowPayload {
   windowId: string;
@@ -26,7 +28,7 @@ export class AddWindowAction implements NGRXAction {
 export class SetWindowsAction implements NGRXAction {
   readonly type = SET_WINDOWS;
 
-  constructor(public payload: Array<any>) {}
+  constructor(public payload: PerWindowState[]) {}
 }
 
 export class RemoveWindowAction implements NGRXAction {
@@ -55,6 +57,10 @@ export class ReopenClosedWindowAction implements NGRXAction {
   readonly type = REOPEN_CLOSED_WINDOW;
 }
 
+export class ReloadCollectionWindowsAction implements NGRXAction {
+  readonly type = RELOAD_COLLECTION_WINDOWS;
+}
+
 export type Action =
   | AddWindowAction
   | SetWindowsAction
@@ -62,4 +68,5 @@ export type Action =
   | ExportWindowAction
   | ImportWindowAction
   | ImportWindowFromCurlAction
-  | ReopenClosedWindowAction;
+  | ReopenClosedWindowAction
+  | ReloadCollectionWindowsAction;

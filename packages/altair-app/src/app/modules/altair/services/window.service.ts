@@ -242,99 +242,7 @@ export class WindowService {
       }).subscribe((newWindow) => {
         const windowId = newWindow.windowId;
 
-        if (data.apiUrl) {
-          this.store.dispatch(
-            new queryActions.SetUrlAction({ url: data.apiUrl }, windowId)
-          );
-          this.store.dispatch(
-            new queryActions.SendIntrospectionQueryRequestAction(windowId)
-          );
-        }
-
-        if (data.query) {
-          this.store.dispatch(
-            new queryActions.SetQueryAction(data.query, windowId)
-          );
-        }
-
-        if (data.headers.length) {
-          this.store.dispatch(
-            new headerActions.SetHeadersAction(
-              { headers: data.headers },
-              windowId
-            )
-          );
-        }
-
-        if (data.variables) {
-          this.store.dispatch(
-            new variableActions.UpdateVariablesAction(data.variables, windowId)
-          );
-          this.store.dispatch(
-            new dialogsActions.ToggleVariableDialogAction(windowId)
-          );
-        }
-
-        if (data.subscriptionUrl) {
-          this.store.dispatch(
-            new queryActions.SetSubscriptionUrlAction(
-              { subscriptionUrl: data.subscriptionUrl },
-              windowId
-            )
-          );
-        }
-
-        if (data.subscriptionConnectionParams) {
-          this.store.dispatch(
-            new queryActions.SetSubscriptionConnectionParamsAction(windowId, {
-              connectionParams: data.subscriptionConnectionParams,
-            })
-          );
-        }
-
-        if (data.subscriptionProvider) {
-          this.store.dispatch(
-            new queryActions.SetSubscriptionProviderIdAction(windowId, {
-              providerId: data.subscriptionProvider,
-            })
-          );
-        }
-
-        if (data.preRequestScriptEnabled) {
-          this.store.dispatch(
-            new preRequestActions.SetPreRequestEnabledAction(windowId, {
-              enabled: data.preRequestScriptEnabled,
-            })
-          );
-        }
-        if (data.preRequestScript) {
-          this.store.dispatch(
-            new preRequestActions.SetPreRequestScriptAction(windowId, {
-              script: data.preRequestScript,
-            })
-          );
-        }
-
-        if (data.postRequestScriptEnabled) {
-          this.store.dispatch(
-            new postRequestActions.SetPostRequestEnabledAction(windowId, {
-              enabled: data.postRequestScriptEnabled,
-            })
-          );
-        }
-        if (data.postRequestScript) {
-          this.store.dispatch(
-            new postRequestActions.SetPostRequestScriptAction(windowId, {
-              script: data.postRequestScript,
-            })
-          );
-        }
-
-        if (data.gqlSchema) {
-          this.store.dispatch(
-            new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema)
-          );
-        }
+        this.updateWindowState(windowId, data);
 
         this.store.dispatch(
           new windowsMetaActions.SetActiveWindowIdAction({ windowId })
@@ -343,6 +251,111 @@ export class WindowService {
     } catch (err) {
       debug.log('Something went wrong while importing the data.', err);
     }
+  }
+
+  updateWindowState(windowId: string, data: ExportWindowState) {
+    this.getWindowState(windowId).subscribe((window) => {
+      this.store.dispatch(
+        new layoutActions.SetWindowNameAction(windowId, {
+          title: data.windowName,
+          setByUser: true,
+        })
+      );
+
+      if (data.apiUrl && data.apiUrl !== window?.query.url) {
+        this.store.dispatch(
+          new queryActions.SetUrlAction({ url: data.apiUrl }, windowId)
+        );
+        this.store.dispatch(
+          new queryActions.SendIntrospectionQueryRequestAction(windowId)
+        );
+      }
+
+      if (data.query) {
+        this.store.dispatch(
+          new queryActions.SetQueryAction(data.query, windowId)
+        );
+      }
+
+      if (data.headers.length) {
+        this.store.dispatch(
+          new headerActions.SetHeadersAction(
+            { headers: data.headers },
+            windowId
+          )
+        );
+      }
+
+      if (data.variables) {
+        this.store.dispatch(
+          new variableActions.UpdateVariablesAction(data.variables, windowId)
+        );
+        this.store.dispatch(
+          new dialogsActions.ToggleVariableDialogAction(windowId)
+        );
+      }
+
+      if (data.subscriptionUrl) {
+        this.store.dispatch(
+          new queryActions.SetSubscriptionUrlAction(
+            { subscriptionUrl: data.subscriptionUrl },
+            windowId
+          )
+        );
+      }
+
+      if (data.subscriptionConnectionParams) {
+        this.store.dispatch(
+          new queryActions.SetSubscriptionConnectionParamsAction(windowId, {
+            connectionParams: data.subscriptionConnectionParams,
+          })
+        );
+      }
+
+      if (data.subscriptionProvider) {
+        this.store.dispatch(
+          new queryActions.SetSubscriptionProviderIdAction(windowId, {
+            providerId: data.subscriptionProvider,
+          })
+        );
+      }
+
+      if (data.preRequestScriptEnabled) {
+        this.store.dispatch(
+          new preRequestActions.SetPreRequestEnabledAction(windowId, {
+            enabled: data.preRequestScriptEnabled,
+          })
+        );
+      }
+      if (data.preRequestScript) {
+        this.store.dispatch(
+          new preRequestActions.SetPreRequestScriptAction(windowId, {
+            script: data.preRequestScript,
+          })
+        );
+      }
+
+      if (data.postRequestScriptEnabled) {
+        this.store.dispatch(
+          new postRequestActions.SetPostRequestEnabledAction(windowId, {
+            enabled: data.postRequestScriptEnabled,
+          })
+        );
+      }
+      if (data.postRequestScript) {
+        this.store.dispatch(
+          new postRequestActions.SetPostRequestScriptAction(windowId, {
+            script: data.postRequestScript,
+          })
+        );
+      }
+
+      if (data.gqlSchema) {
+        this.store.dispatch(
+          new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema)
+        );
+      }
+    });
   }
 
   /**

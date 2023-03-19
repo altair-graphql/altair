@@ -132,7 +132,7 @@ model PlanConfig {
 model UserPlan {
   userId     String     @unique
   planRole   String // as defined in the Stripe product role metadata
-  quantity   Int
+  quantity   Int // indicates number of seats (used for determine maximum team member count)
   user       User       @relation(fields: [userId], references: [id])
   planConfig PlanConfig @relation(fields: [planRole], references: [id])
 }
