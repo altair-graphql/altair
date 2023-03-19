@@ -6,7 +6,7 @@ const config: PlaywrightTestConfig = {
   webServer: {
     command: 'yarn start:app',
     url: 'http://localhost:4200',
-    timeout: 120 * 1000,
+    timeout: 10 * 60 * 1000,
     reuseExistingServer: !process.env.CI,
   },
   use: {

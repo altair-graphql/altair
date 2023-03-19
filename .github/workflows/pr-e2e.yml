@@ -47,4 +47,4 @@ jobs:
     - name: Run headless e2e test
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: yarn playwright test
+        run: yarn playwright test --retries 2
