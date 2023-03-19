@@ -4,6 +4,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { EVENTS } from 'src/common/events';
+import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 
 @Injectable()
 export class QueriesService {
@@ -25,7 +26,7 @@ export class QueriesService {
       },
     });
     if (queryCount >= userPlanConfig.maxQueryCount) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
     }
 
     // specified collection is owned by the user
@@ -39,7 +40,10 @@ export class QueriesService {
     });
 
     if (!validCollection.length) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException(
+        'ERR_PERM_DENIED',
+        'You do not have the permission to add a query to this collection'
+      );
     }
 
     const res = await this.prisma.queryItem.create({

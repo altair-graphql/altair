@@ -20,6 +20,8 @@
     "downlevelIteration": true,
     "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
     "module": "es2020",
+    "esModuleInterop": true,
+    "strictNullChecks": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": true,

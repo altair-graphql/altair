@@ -7,6 +7,7 @@ import {
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/events';
 import { TeamsService } from 'src/teams/teams.service';
+import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 
 @Injectable()
 export class QueryCollectionsService {
@@ -35,8 +36,9 @@ export class QueryCollectionsService {
       const validTeam = await this.teamsService.findOne(userId, teamId);
 
       if (!validTeam) {
-        throw new BadRequestException(
-          'You cannot create a collection for this teaam'
+        throw new InvalidRequestException(
+          'ERR_PERM_DENIED',
+          'You cannot create a collection for this teaam.'
         );
       }
 
@@ -50,7 +52,7 @@ export class QueryCollectionsService {
     }
 
     if (!workspaceId) {
-      throw new BadRequestException();
+      throw new BadRequestException('Workspace is not valid.');
     }
 
     const res = await this.prisma.queryCollection.create({

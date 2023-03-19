@@ -91,7 +91,8 @@ export class AccountEffects {
         }),
         catchError((error) => {
           debug.error(error);
-          this.notifyService.error(
+          this.notifyService.errorWithError(
+            error,
             'Sorry, we could not log you in. Please check that your username and password are correct'
           );
           return EMPTY;
@@ -126,7 +127,8 @@ export class AccountEffects {
         }),
         catchError((error) => {
           debug.error(error);
-          this.notifyService.error(
+          this.notifyService.errorWithError(
+            error,
             'Sorry, we could not log you out. Please try again.'
           );
           return EMPTY;
@@ -153,7 +155,7 @@ export class AccountEffects {
       ),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not load teams');
+        this.notifyService.errorWithError(err, 'Could not load teams');
         return EMPTY;
       }),
       repeat()
