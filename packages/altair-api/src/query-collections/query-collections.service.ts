@@ -8,11 +8,13 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/events';
 import { TeamsService } from 'src/teams/teams.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
+import { UserService } from 'src/auth/user/user.service';
 
 @Injectable()
 export class QueryCollectionsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly userService: UserService,
     private readonly teamsService: TeamsService,
     private readonly eventService: EventEmitter2
   ) {}
@@ -21,6 +23,7 @@ export class QueryCollectionsService {
     userId: string,
     createQueryCollectionDto: CreateQueryCollectionDto
   ) {
+    const userPlanConfig = await this.userService.getPlanConfig(userId);
     const userWorkspace = await this.prisma.workspace.findFirst({
       where: {
         ownerId: userId,
@@ -53,6 +56,39 @@ export class QueryCollectionsService {
 
     if (!workspaceId) {
       throw new BadRequestException('Workspace is not valid.');
+    }
+
+    // Count number of queries
+    const queryItems = await this.prisma.queryItem.findMany({
+      where: {
+        AND: {
+          collection: {
+            OR: [
+              {
+                // queries user owns
+                workspace: {
+                  ownerId: userId,
+                },
+              },
+              {
+                // queries owned by user's team
+                workspace: {
+                  team: {
+                    ownerId: userId,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    if (
+      queryItems.length + createQueryCollectionDto.queries.length >
+      userPlanConfig.maxQueryCount
+    ) {
+      throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
     }
 
     const res = await this.prisma.queryCollection.create({

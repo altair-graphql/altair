@@ -182,6 +182,46 @@ export class WindowsEffects {
     { dispatch: false }
   );
 
+  reloadCollectionWindows$: Observable<Action> = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(windowActions.RELOAD_COLLECTION_WINDOWS),
+        withLatestFrom(
+          this.store,
+          (action: windowActions.ReloadCollectionWindowsAction, state) => {
+            return {
+              windows: state.windows,
+              collection: state.collection,
+              action,
+            };
+          }
+        ),
+        switchMap((data) => {
+          Object.values(data.windows).forEach((window) => {
+            if (
+              !window.layout.collectionId ||
+              !window.layout.windowIdInCollection
+            ) {
+              return;
+            }
+            const collection = data.collection.list.find(
+              (c) => c.id === window.layout.collectionId
+            );
+            const payload = collection?.queries.find(
+              (q) => q.id === window.layout.windowIdInCollection
+            );
+
+            if (payload) {
+              this.windowService.updateWindowState(window.windowId, payload);
+            }
+          });
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,

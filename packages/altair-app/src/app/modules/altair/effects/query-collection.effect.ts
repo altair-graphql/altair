@@ -19,6 +19,7 @@ import * as collectionActions from '../store/collection/collection.action';
 import * as accountActions from '../store/account/account.action';
 import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
+import * as windowsActions from '../store/windows/windows.action';
 import * as localActions from '../store/local/local.action';
 import * as layoutActions from '../store/layout/layout.action';
 import {
@@ -230,6 +231,9 @@ export class QueryCollectionEffects {
         (collections) =>
           new collectionActions.SetCollectionsAction({ collections })
       ),
+      tap(() => {
+        this.store.dispatch(new windowsActions.ReloadCollectionWindowsAction());
+      }),
       catchError((err: UnknownError) => {
         debug.error(err);
         this.notifyService.errorWithError(err, 'Could not load collection');
