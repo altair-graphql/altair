@@ -2,6 +2,7 @@ import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/api-utils';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 
 @Injectable()
 export class TeamsService {
@@ -19,7 +20,10 @@ export class TeamsService {
     });
 
     if (teamCount >= userPlanConfig.maxTeamCount) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException(
+        'ERR_MAX_TEAM_COUNT',
+        'You have reached the limit of the number of teams for your plan.'
+      );
     }
 
     return this.prisma.team.create({

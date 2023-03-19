@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 
 @Injectable()
 export class TeamMembershipsService {
@@ -36,7 +37,7 @@ export class TeamMembershipsService {
       !userPlanConfig.allowMoreTeamMembers &&
       teamMembershipCount >= userPlanConfig.maxTeamMemberCount
     ) {
-      throw new ForbiddenException('Maximum allowed team members reached.');
+      throw new InvalidRequestException('ERR_MAX_TEAM_MEMBER_COUNT');
     }
 
     // Update stripe subscription item quantity
@@ -56,7 +57,10 @@ export class TeamMembershipsService {
     });
 
     if (!validTeam) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException(
+        'ERR_PERM_DENIED',
+        'You are not permitted to add a team member to this team.'
+      );
     }
 
     const validMember = await this.prisma.user.findFirst({
@@ -66,6 +70,7 @@ export class TeamMembershipsService {
     });
 
     if (!validMember) {
+      console.error('The user does not exist.');
       throw new BadRequestException();
     }
 
@@ -92,7 +97,10 @@ export class TeamMembershipsService {
     });
 
     if (!validMember && !validOwner) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException(
+        'ERR_PERM_DENIED',
+        'You do not have permission to access the team members.'
+      );
     }
 
     return this.prisma.teamMembership.findMany({
@@ -133,7 +141,10 @@ export class TeamMembershipsService {
     });
 
     if (!validOwner) {
-      throw new ForbiddenException();
+      throw new InvalidRequestException(
+        'ERR_PERM_DENIED',
+        'You are not permitted to remove this team membership.'
+      );
     }
 
     return this.prisma.teamMembership.delete({

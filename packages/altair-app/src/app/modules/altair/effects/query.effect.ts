@@ -221,7 +221,10 @@ export class QueryEffects {
                   )
                 );
                 debug.error(err);
-                this.notifyService.error('Could not select operation');
+                this.notifyService.errorWithError(
+                  err,
+                  'Could not select operation'
+                );
                 return EMPTY;
               }
 
@@ -237,7 +240,8 @@ export class QueryEffects {
                   JSON.parse(variables);
                 }
               } catch (err) {
-                this.notifyService.error(
+                this.notifyService.errorWithError(
+                  err,
                   'Looks like your variables is not a valid JSON string.'
                 );
                 this.store.dispatch(
@@ -470,7 +474,10 @@ export class QueryEffects {
               })
               .catch((error) => {
                 debug.error(error);
-                this.notifyService.error(`Could not set schema SDL.`);
+                this.notifyService.errorWithError(
+                  error,
+                  `Could not set schema SDL.`
+                );
               });
           }
 
@@ -497,7 +504,8 @@ export class QueryEffects {
               }
             } catch (error) {
               debug.error(error);
-              this.notifyService.error(
+              this.notifyService.errorWithError(
+                error,
                 `There was a problem loading the schema.`
               );
               debug.error('Error while loading schema', error);
@@ -617,11 +625,13 @@ export class QueryEffects {
                     Please check with the server administrator.
                   `);
                   } else {
-                    debug.error(err);
-                    this.notifyService.error(`
+                    this.notifyService.errorWithError(
+                      err,
+                      `
                     Seems like something is broken. Please check that the URL is valid,
                     and the server is up and running properly.
-                  `);
+                  `
+                    );
                   }
                   return of(null);
                 }
@@ -700,7 +710,8 @@ export class QueryEffects {
               }),
               catchError((error: UnknownError) => {
                 debug.error(error);
-                this.notifyService.error(
+                this.notifyService.errorWithError(
+                  error,
                   'Error getting the introspection results.'
                 );
                 return EMPTY;
@@ -908,7 +919,7 @@ export class QueryEffects {
             })
           );
           debug.error(err);
-          this.notifyService.error(`Could not select operation.`);
+          this.notifyService.errorWithError(err, `Could not select operation.`);
           return EMPTY;
         }
 
@@ -1099,8 +1110,8 @@ export class QueryEffects {
               const errorMessage = error.message
                 ? error.message
                 : error.toString();
-              debug.error(error);
-              this.notifyService.error(
+              this.notifyService.errorWithError(
+                error,
                 `Your query does not appear to be valid. Please check it`
               );
             });
@@ -1137,12 +1148,8 @@ export class QueryEffects {
               }
             })
             .catch((error) => {
-              debug.log(error);
-              const errorMessage = error.message
-                ? error.message
-                : error.toString();
-              debug.error(error);
-              this.notifyService.error(
+              this.notifyService.errorWithError(
+                error,
                 `Your query does not appear to be valid. Please check it.`
               );
             });
@@ -1178,11 +1185,8 @@ export class QueryEffects {
                 }
               })
               .catch((error) => {
-                const errorMessage = error.message
-                  ? error.message
-                  : error.toString();
-                debug.error(error);
-                this.notifyService.error(
+                this.notifyService.errorWithError(
+                  error,
                   `Could not export SDL. Your schema might be invalid.`
                 );
               });
@@ -1263,8 +1267,10 @@ export class QueryEffects {
             copyToClipboard(curlCommand);
             this.notifyService.success('Copied cURL command to clipboard.');
           } catch (err) {
-            debug.log('Error while copying as curl', err);
-            this.notifyService.error('Error while copying as curl');
+            this.notifyService.errorWithError(
+              err,
+              'Error while copying as curl'
+            );
           }
           return EMPTY;
         })
@@ -1294,8 +1300,8 @@ export class QueryEffects {
             );
           }
         } catch (error) {
-          debug.log(error);
-          this.notifyService.error(
+          this.notifyService.errorWithError(
+            error,
             `Your query does not appear to be valid. Please check it.`
           );
         }
@@ -1344,7 +1350,8 @@ export class QueryEffects {
                   )
                 );
               } catch (err) {
-                this.notifyService.error(
+                this.notifyService.errorWithError(
+                  err,
                   'Looks like your variables are not formatted properly'
                 );
                 return EMPTY;
@@ -1358,8 +1365,8 @@ export class QueryEffects {
             }
           }
         } catch (error) {
-          debug.log(error);
-          this.notifyService.error(
+          this.notifyService.errorWithError(
+            error,
             `Your query does not appear to be valid. Please check it.`
           );
         }

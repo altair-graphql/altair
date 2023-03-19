@@ -106,7 +106,7 @@ export class QueryCollectionEffects {
         map(() => new collectionActions.LoadCollectionsAction()),
         catchError((err: UnknownError) => {
           debug.error(err);
-          this.notifyService.error('Could not create collection');
+          this.notifyService.errorWithError(err, 'Could not create collection');
           return EMPTY;
         }),
         repeat()
@@ -153,7 +153,10 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not add query to collection');
+        this.notifyService.errorWithError(
+          err,
+          'Could not add query to collection'
+        );
         return EMPTY;
       }),
       repeat()
@@ -209,7 +212,10 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not update query in collection');
+        this.notifyService.errorWithError(
+          err,
+          'Could not update query in collection'
+        );
         return EMPTY;
       }),
       repeat()
@@ -226,7 +232,7 @@ export class QueryCollectionEffects {
       ),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not load collection');
+        this.notifyService.errorWithError(err, 'Could not load collection');
         return EMPTY;
       }),
       repeat()
@@ -246,7 +252,10 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not delete query from collection');
+        this.notifyService.errorWithError(
+          err,
+          'Could not delete query from collection'
+        );
         return EMPTY;
       }),
       repeat()
@@ -266,7 +275,7 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not update collection');
+        this.notifyService.errorWithError(err, 'Could not update collection');
         return EMPTY;
       }),
       repeat()
@@ -285,7 +294,10 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not delete query from collection');
+        this.notifyService.errorWithError(
+          err,
+          'Could not delete query from collection'
+        );
         return EMPTY;
       }),
       repeat()
@@ -309,7 +321,7 @@ export class QueryCollectionEffects {
         }),
         catchError((err: UnknownError) => {
           debug.error(err);
-          this.notifyService.error('Could not export collection');
+          this.notifyService.errorWithError(err, 'Could not export collection');
           return EMPTY;
         }),
         repeat()
@@ -339,7 +351,10 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
         debug.error(error);
-        this.notifyService.error(`Something went wrong importing collection`);
+        this.notifyService.errorWithError(
+          error,
+          `Something went wrong importing collection`
+        );
         return EMPTY;
       }),
       repeat()
@@ -359,7 +374,8 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
         debug.error(error);
-        this.notifyService.error(
+        this.notifyService.errorWithError(
+          error,
           `Something went wrong syncing remote collections.`
         );
         return EMPTY;
@@ -379,7 +395,8 @@ export class QueryCollectionEffects {
       }),
       catchError((error) => {
         debug.error(error);
-        this.notifyService.error(
+        this.notifyService.errorWithError(
+          error,
           `Something went wrong syncing remote collections.`
         );
         return EMPTY;
@@ -409,7 +426,7 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.error('Could not sync collection');
+        this.notifyService.errorWithError(err, 'Could not sync collection');
         return EMPTY;
       }),
       repeat()

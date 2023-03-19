@@ -8,6 +8,8 @@ import { IDictionary } from '../../interfaces/shared';
 import { first, take } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ConfirmToastComponent } from '../../components/confirm-toast/confirm-toast.component';
+import sanitize from 'sanitize-html';
+import { debug } from '../../utils/logger';
 
 interface PushNotifyOptions {
   onclick?: () => void;
@@ -32,6 +34,16 @@ export class NotifyService {
   }
   error(message: string, title = '', opts: NotifyOptions = {}) {
     this.exec('error', message, title, opts);
+  }
+
+  errorWithError(
+    err: unknown,
+    message: string,
+    title = '',
+    opts: NotifyOptions = {}
+  ) {
+    debug.error(err);
+    this.exec('error', this.calculateErrorMessage(err) ?? message, title, opts);
   }
   warning(message: string, title = '', opts: NotifyOptions = {}) {
     this.store
@@ -197,5 +209,28 @@ export class NotifyService {
         }
       }
     );
+  }
+
+  private calculateErrorMessage(err: unknown) {
+    if (!err) {
+      return;
+    }
+    if (typeof err === 'string') {
+      return sanitize(err);
+    }
+
+    if (typeof err === 'object') {
+      if ('error' in err && err.error && typeof err.error === 'object') {
+        if ('code' in err.error && 'message' in err.error) {
+          if (typeof err.error.message === 'string') {
+            return sanitize(err.error.message);
+          }
+        }
+      }
+
+      if ('message' in err && typeof err.message === 'string') {
+        return sanitize(err.message);
+      }
+    }
   }
 }
