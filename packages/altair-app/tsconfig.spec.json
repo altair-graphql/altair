@@ -6,7 +6,7 @@
     "baseUrl": "./src",
     "module": "commonjs",
     "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     "allowJs": true
   },
   "files": ["polyfills.ts"],

@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2020",
+    "target": "ES2022",
     "allowSyntheticDefaultImports": true,
     // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
     "skipLibCheck": true,

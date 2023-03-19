@@ -441,7 +441,7 @@ exports[`generateQuery fragment generates expected fragment with specified tab s
 
 exports[`generateQuery query generates expected query 1`] = `
 "{
-  GOTHouses(name: \\"string\\") {
+  GOTHouses(name: "string") {
     id
     url
     name
@@ -484,7 +484,7 @@ exports[`generateQuery query generates expected query with default enum argument
 
 exports[`generateQuery query generates expected query with default string argument 1`] = `
 "{
-  GOTBooks(name: \\"my-book\\") {
+  GOTBooks(name: "my-book") {
     id
     url
     name
@@ -526,7 +526,7 @@ exports[`generateQuery query generates expected query with int argument 1`] = `
 
 exports[`generateQuery query generates expected query with list argument 1`] = `
 "{
-  withStringList(list: [\\"string\\"]) {
+  withStringList(list: ["string"]) {
     id
     url
     name
@@ -575,7 +575,7 @@ exports[`generateQuery query generates expected query with object argument 1`] =
 
 exports[`generateQuery query generates expected query with specified max depth 1`] = `
 "{
-  GOTHouses(name: \\"string\\") {
+  GOTHouses(name: "string") {
     id
     url
     name
@@ -980,7 +980,7 @@ exports[`generateQuery query generates expected query with specified max depth 1
 
 exports[`generateQuery query generates expected query with specified tab size 1`] = `
 "{
-     GOTHouses(name: \\"string\\") {
+     GOTHouses(name: "string") {
           id
           url
           name
@@ -997,7 +997,7 @@ exports[`generateQuery query generates expected query with specified tab size 1`
 
 exports[`generateQuery query generates expected query with string argument 1`] = `
 "{
-  withString(name: \\"string\\") {
+  withString(name: "string") {
     id
     url
     name

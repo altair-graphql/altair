@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GqlService .fillAllFields() should return query with fields filled 1`] = `
-Object {
-  "insertions": Array [
-    Object {
+{
+  "insertions": [
+    {
       "index": 51,
       "string": " {
             id
@@ -20,7 +20,7 @@ Object {
   ],
   "result": "
         query {
-          GOTHouses(name: \\"first\\") {
+          GOTHouses(name: "first") {
             id
             url
             name
@@ -39,18 +39,18 @@ Object {
 exports[`GqlService .getIntrospectionSchema() should return schema for introspection data 1`] = `
 GraphQLSchema {
   "__validationErrors": undefined,
-  "_directives": Array [
+  "_directives": [
     "@cacheControl",
     "@skip",
     "@include",
     "@deprecated",
   ],
-  "_implementationsMap": Object {},
+  "_implementationsMap": {},
   "_mutationType": "Mutation",
   "_queryType": "Query",
-  "_subTypeMap": Object {},
+  "_subTypeMap": {},
   "_subscriptionType": "Subscription",
-  "_typeMap": Object {
+  "_typeMap": {
     "Boolean": "Boolean",
     "CacheControlScope": "CacheControlScope",
     "File": "File",
@@ -82,36 +82,36 @@ GraphQLSchema {
 `;
 
 exports[`GqlService .parseQuery() should return GraphQL document 1`] = `
-Object {
-  "definitions": Array [
-    Object {
-      "directives": Array [],
+{
+  "definitions": [
+    {
+      "directives": [],
       "kind": "OperationDefinition",
-      "loc": Object {
+      "loc": {
         "end": 42,
         "start": 9,
       },
       "name": undefined,
       "operation": "query",
-      "selectionSet": Object {
+      "selectionSet": {
         "kind": "SelectionSet",
-        "loc": Object {
+        "loc": {
           "end": 42,
           "start": 15,
         },
-        "selections": Array [
-          Object {
+        "selections": [
+          {
             "alias": undefined,
-            "arguments": Array [],
-            "directives": Array [],
+            "arguments": [],
+            "directives": [],
             "kind": "Field",
-            "loc": Object {
+            "loc": {
               "end": 32,
               "start": 27,
             },
-            "name": Object {
+            "name": {
               "kind": "Name",
-              "loc": Object {
+              "loc": {
                 "end": 32,
                 "start": 27,
               },
@@ -121,11 +121,11 @@ Object {
           },
         ],
       },
-      "variableDefinitions": Array [],
+      "variableDefinitions": [],
     },
   ],
   "kind": "Document",
-  "loc": Object {
+  "loc": {
     "end": 49,
     "start": 0,
   },
@@ -158,7 +158,7 @@ fragment GOTHouseFields on GOTHouse {
 `;
 
 exports[`GqlService .refactorQuery() should return edited query with generated name 2`] = `
-Object {
+{
   "name": "first",
   "name2000": "second",
 }
