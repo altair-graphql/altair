@@ -1,4 +1,4 @@
-import { ErrorCode, ERRORS } from '@altairgraphql/api-utils';
+import { ErrorCode, ERRORS } from 'altair-graphql-core/build/errors';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class InvalidRequestException extends HttpException {
