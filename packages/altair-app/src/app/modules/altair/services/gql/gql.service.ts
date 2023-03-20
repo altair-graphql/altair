@@ -52,6 +52,7 @@ import { FileVariable } from 'altair-graphql-core/build/types/state/variable.int
 import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
+import { ElectronAppService } from '../electron-app/electron-app.service';
 
 interface SendRequestOptions {
   query: string;
@@ -92,7 +93,11 @@ export class GqlService {
   private api_url = localStorage.getItem('altair:url');
   private method = 'POST';
 
-  constructor(private http: HttpClient, private notifyService: NotifyService) {
+  constructor(
+    private http: HttpClient,
+    private notifyService: NotifyService,
+    private electronAppService: ElectronAppService
+  ) {
     // Set the default headers on initialization
     this.setHeaders();
   }
@@ -633,6 +638,11 @@ export class GqlService {
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
     const headers = this.headers;
+
+    // For electron app, send the instruction to set headers
+    this.electronAppService.setHeaders(
+      headers.keys().map((k) => ({ key: k, value: headers.get(k) ?? '' }))
+    );
 
     if (selectedOperation) {
       data.operationName = selectedOperation;

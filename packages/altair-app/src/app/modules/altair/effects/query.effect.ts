@@ -250,9 +250,6 @@ export class QueryEffects {
                 return EMPTY;
               }
 
-              // For electron app, send the instruction to set headers
-              this.electronAppService.setHeaders(headers);
-
               if (
                 this.gqlService.hasInvalidFileVariable(
                   response.data.variables.files
