@@ -17,12 +17,9 @@
     "test-build": "ng lint && yarn build && yarn test-single-run",
     "postinstall": "yarn generate-settings-schema-validator",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "e2e:ci": "ng e2e --webdriver-update=false",
     "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "webdriver-update-ci": "webdriver-manager update --standalone false --gecko false --versions.chrome=111.0.5563.64"
+    "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json"
   },
   "dependencies": {
     "@altairgraphql/api-utils": "^5.0.18",
@@ -144,7 +141,6 @@
     "@types/file-saver": "^2.0.1",
     "@types/firefox-webext-browser": "^109.0.0",
     "@types/graphql": "^14.5.0",
-    "@types/jasmine": "~3.6.0",
     "@types/jest": "26.0.0",
     "@types/json-schema": "^7.0.6",
     "@types/lodash-es": "^4.17.4",
@@ -174,8 +170,6 @@
     "eslint-plugin-no-unsanitized": "^4.0.2",
     "eslint-plugin-prettier": "4.0.0",
     "fake-indexeddb": "3.1.7",
-    "jasmine-core": "~3.6.0",
-    "jasmine-spec-reporter": "~5.0.0",
     "jest": "29.4.1",
     "jest-chrome": "^0.8.0",
     "jest-preset-angular": "12.2.6",
