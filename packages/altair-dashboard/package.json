@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/dashboard",
-  "version": "5.0.18",
+  "version": "5.0.19",
   "private": true,
   "scripts": {
     "dev": "next dev -p 4000",
@@ -10,8 +10,8 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/api": "^5.0.18",
-    "@altairgraphql/api-utils": "^5.0.18",
+    "@altairgraphql/api": "^5.0.19",
+    "@altairgraphql/api-utils": "^5.0.19",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.9.5",
