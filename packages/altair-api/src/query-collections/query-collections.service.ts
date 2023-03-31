@@ -1,14 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import {
-  CreateQueryCollectionDto,
-  UpdateQueryCollectionDto,
-} from '@altairgraphql/api-utils';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/events';
 import { TeamsService } from 'src/teams/teams.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 import { UserService } from 'src/auth/user/user.service';
+import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
+import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
 
 @Injectable()
 export class QueryCollectionsService {

@@ -12,10 +12,8 @@ import {
 import { TeamMembershipsService } from './team-memberships.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
-import {
-  CreateTeamMembershipDto,
-  UpdateTeamMembershipDto,
-} from '@altairgraphql/api-utils';
+import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
+import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
 
 @Controller('team-memberships')
 @UseGuards(JwtAuthGuard)

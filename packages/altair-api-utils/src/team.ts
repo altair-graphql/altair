@@ -1,16 +1,16 @@
 import { TeamMemberRole } from '@altairgraphql/db';
 
-export interface CreateTeamDto {
+export interface ICreateTeamDto {
   name: string;
   description?: string;
 }
 
-export type UpdateTeamDto = Partial<CreateTeamDto>;
+export type IUpdateTeamDto = Partial<ICreateTeamDto>;
 
-export interface CreateTeamMembershipDto {
+export interface ICreateTeamMembershipDto {
   email: string;
   teamId: string;
   role?: TeamMemberRole;
 }
 
-export type UpdateTeamMembershipDto = Partial<CreateTeamMembershipDto>;
+export type IUpdateTeamMembershipDto = Partial<ICreateTeamMembershipDto>;

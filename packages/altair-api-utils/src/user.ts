@@ -1,12 +1,12 @@
-export interface Token {
+export interface IToken {
   accessToken: string;
   refreshToken: string;
 }
-export interface UserProfile {
+export interface IUserProfile {
   id: string;
   email: string;
   firstName: string;
   lastName?: string;
   picture?: string;
-  tokens: Token;
+  tokens: IToken;
 }

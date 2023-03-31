@@ -24,7 +24,7 @@ async function bootstrap() {
   }
 
   // Validation
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   // Interceptors
   app.useGlobalInterceptors(new NewrelicInterceptor());

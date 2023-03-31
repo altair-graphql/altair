@@ -12,7 +12,8 @@ import {
 import { TeamsService } from './teams.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
-import { CreateTeamDto, UpdateTeamDto } from '@altairgraphql/api-utils';
+import { CreateTeamDto } from './dto/create-team.dto';
+import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Controller('teams')
 @UseGuards(JwtAuthGuard)

@@ -12,10 +12,8 @@ import {
 import { QueryCollectionsService } from './query-collections.service';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import {
-  CreateQueryCollectionDto,
-  UpdateQueryCollectionDto,
-} from '@altairgraphql/api-utils';
+import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
+import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
 
 @Controller('query-collections')
 @UseGuards(JwtAuthGuard)

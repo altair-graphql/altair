@@ -16,6 +16,7 @@ import { UnknownError } from '../interfaces/shared';
 import { AccountService, NotifyService } from '../services';
 
 import * as accountActions from '../store/account/account.action';
+import * as collectionActions from '../store/collection/collection.action';
 import { APP_INIT_ACTION } from '../store/action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { debug } from '../utils/logger';
@@ -122,6 +123,7 @@ export class AccountEffects {
           this.store.dispatch(
             new windowsMetaActions.ShowAccountDialogAction({ value: false })
           );
+          this.store.dispatch(new collectionActions.LoadCollectionsAction());
 
           return EMPTY;
         }),

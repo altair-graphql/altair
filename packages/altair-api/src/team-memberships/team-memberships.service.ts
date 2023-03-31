@@ -1,8 +1,4 @@
 import {
-  CreateTeamMembershipDto,
-  UpdateTeamMembershipDto,
-} from '@altairgraphql/api-utils';
-import {
   BadRequestException,
   ForbiddenException,
   Injectable,
@@ -10,6 +6,8 @@ import {
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
+import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
+import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
 
 @Injectable()
 export class TeamMembershipsService {

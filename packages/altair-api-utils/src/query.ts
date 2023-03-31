@@ -1,18 +1,22 @@
 import { IRemoteQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 
-export interface CreateQueryCollectionDto {
+export type IQueryContentDto = Omit<
+  CreateDTO<IRemoteQuery>,
+  'gqlSchema' | 'collectionId'
+>;
+export interface ICreateQueryCollectionDto {
   name: string;
-  queries?: Omit<CreateQueryDto, 'collectionId'>[];
+  queries?: Omit<ICreateQueryDto, 'collectionId'>[];
   teamId?: string;
 }
 
-export type UpdateQueryCollectionDto = Partial<CreateQueryCollectionDto>;
+export type IUpdateQueryCollectionDto = Partial<ICreateQueryCollectionDto>;
 
-export interface CreateQueryDto {
+export interface ICreateQueryDto {
   name: string;
   collectionId: string;
-  content: Omit<CreateDTO<IRemoteQuery>, 'gqlSchema' | 'collectionId'>;
+  content: IQueryContentDto;
 }
 
-export type UpdateQueryDto = Partial<CreateQueryDto>;
+export type IUpdateQueryDto = Partial<ICreateQueryDto>;

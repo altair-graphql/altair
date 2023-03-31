@@ -6,10 +6,10 @@ import {
 import ky from 'ky';
 import { KyInstance } from 'ky/distribution/types/ky';
 import {
-  CreateQueryCollectionDto,
-  CreateQueryDto,
-  UpdateQueryCollectionDto,
-  UpdateQueryDto,
+  ICreateQueryCollectionDto,
+  ICreateQueryDto,
+  IUpdateQueryCollectionDto,
+  IUpdateQueryDto,
 } from './query';
 import {
   QueryItem,
@@ -18,15 +18,19 @@ import {
   TeamMembership,
   TeamMemberRole,
 } from '@altairgraphql/db';
-import { UserProfile } from './user';
-import { CreateTeamDto, CreateTeamMembershipDto, UpdateTeamDto } from './team';
+import { IUserProfile } from './user';
+import {
+  ICreateTeamDto,
+  ICreateTeamMembershipDto,
+  IUpdateTeamDto,
+} from './team';
 import { from, Observable, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
 export type ReturnedTeamMembership = TeamMembership & {
-  user: Pick<UserProfile, 'firstName' | 'lastName' | 'email'>;
+  user: Pick<IUserProfile, 'firstName' | 'lastName' | 'email'>;
 };
 
 const SignInTimeout = 15 * 60 * 1000; // 15m
@@ -47,8 +51,8 @@ export class APIClient {
   ky: KyInstance;
   authToken?: string;
 
-  user$ = new Subject<UserProfile>();
-  private _user?: UserProfile;
+  user$ = new Subject<IUserProfile>();
+  private _user?: IUserProfile;
   get user() {
     return this._user;
   }
@@ -138,7 +142,7 @@ export class APIClient {
     this.authToken = token;
     this.setCachedToken(token);
 
-    const user = await this.ky.get('auth/me').json<UserProfile>();
+    const user = await this.ky.get('auth/me').json<IUserProfile>();
 
     this.user = user;
     return user;
@@ -193,11 +197,11 @@ export class APIClient {
     this.clearCachedToken();
   }
 
-  createQuery(queryInput: CreateQueryDto) {
+  createQuery(queryInput: ICreateQueryDto) {
     return this.ky.post('queries', { json: queryInput }).json<QueryItem>();
   }
 
-  updateQuery(id: string, queryInput: UpdateQueryDto) {
+  updateQuery(id: string, queryInput: IUpdateQueryDto) {
     return this.ky.patch(`queries/${id}`, { json: queryInput }).json();
   }
 
@@ -209,13 +213,13 @@ export class APIClient {
     return this.ky.get(`queries/${id}`).json<QueryItem | undefined>();
   }
 
-  createQueryCollection(collectionInput: CreateQueryCollectionDto) {
+  createQueryCollection(collectionInput: ICreateQueryCollectionDto) {
     return this.ky
       .post('query-collections', { json: collectionInput })
       .json<QueryCollection>();
   }
 
-  updateCollection(id: string, collectionInput: UpdateQueryCollectionDto) {
+  updateCollection(id: string, collectionInput: IUpdateQueryCollectionDto) {
     return this.ky
       .patch(`query-collections/${id}`, { json: collectionInput })
       .json();
@@ -234,11 +238,11 @@ export class APIClient {
     return this.ky.get(`query-collections`).json<FullQueryCollection[]>();
   }
 
-  createTeam(teamInput: CreateTeamDto) {
+  createTeam(teamInput: ICreateTeamDto) {
     return this.ky.post('teams', { json: teamInput }).json<Team>();
   }
 
-  updateTeam(id: string, teamInput: UpdateTeamDto) {
+  updateTeam(id: string, teamInput: IUpdateTeamDto) {
     return this.ky.patch(`teams/${id}`, { json: teamInput }).json();
   }
 
@@ -254,7 +258,7 @@ export class APIClient {
     return this.ky.get(`teams`).json<Team[]>();
   }
 
-  addTeamMember(input: CreateTeamMembershipDto) {
+  addTeamMember(input: ICreateTeamMembershipDto) {
     return this.ky
       .post('team-memberships', { json: input })
       .json<TeamMembership>();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { initializeClient, UserProfile } from '@altairgraphql/api-utils';
+import { initializeClient, IUserProfile } from '@altairgraphql/api-utils';
 
 export const apiClient = initializeClient(
   process.env.NODE_ENV === 'production' ? 'production' : 'development'
@@ -11,7 +11,7 @@ export default function useUser({
   redirectIfFound = false,
 } = {}) {
   const router = useRouter();
-  const [user, setUser] = useState<UserProfile | undefined>(undefined);
+  const [user, setUser] = useState<IUserProfile | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
