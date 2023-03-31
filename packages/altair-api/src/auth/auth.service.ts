@@ -11,7 +11,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { SecurityConfig } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
 import { PasswordService } from './password/password.service';
-import { Token } from '@altairgraphql/api-utils';
+import { IToken } from '@altairgraphql/api-utils';
 import { Request } from 'express';
 
 @Injectable()
@@ -105,7 +105,7 @@ export class AuthService {
     };
   }
 
-  generateTokens(payload: { userId: string }): Token {
+  generateTokens(payload: { userId: string }): IToken {
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),

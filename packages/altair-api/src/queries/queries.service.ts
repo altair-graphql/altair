@@ -1,10 +1,11 @@
-import { CreateQueryDto, UpdateQueryDto } from '@altairgraphql/api-utils';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { EVENTS } from 'src/common/events';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
+import { CreateQueryDto } from './dto/create-query.dto';
+import { UpdateQueryDto } from './dto/update-query.dto';
 
 @Injectable()
 export class QueriesService {
