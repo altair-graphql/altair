@@ -264,6 +264,7 @@
               <app-query-collections
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
+                [workspaces]="workspaces$ | async"
                 [sortBy]="(collection$ | async)?.sortBy"
                 [loggedIn]="(account$ | async)?.loggedIn"
                 (loadCollectionsChange)="loadCollections()"

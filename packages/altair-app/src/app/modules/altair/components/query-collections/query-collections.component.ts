@@ -11,6 +11,9 @@ import {
   IQueryCollection,
   IQueryCollectionTree,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { QueryCollectionService } from '../../services';
 
 @Component({
@@ -20,7 +23,12 @@ import { QueryCollectionService } from '../../services';
 })
 export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;
-  @Input() collections: IQueryCollection[] = [];
+  @Input() set collections(val: IQueryCollection[]) {
+    this.collections$.next(val);
+  }
+  @Input() set workspaces(val: { label: string; id: string }[]) {
+    this.workspaces$.next(val);
+  }
   @Input() sortBy = '';
   @Input() loggedIn = false;
 
@@ -41,12 +49,41 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Output() syncCollectionsChange = new EventEmitter();
   @Output() sortCollectionsChange = new EventEmitter();
 
+  collections$ = new BehaviorSubject<IQueryCollection[]>([]);
+  workspaces$ = new BehaviorSubject<{ id: string; label: string }[]>([]);
+  workspaceId$ = new BehaviorSubject('');
+
+  collectionTrees$ = combineLatest([this.collections$, this.workspaceId$]).pipe(
+    map(([collections, workspaceId]) => {
+      const trees = this.collectionService.getCollectionTrees(collections);
+      // All
+      if (!workspaceId) {
+        return trees;
+      }
+
+      if (workspaceId === WORKSPACES.LOCAL) {
+        return trees.filter((t) =>
+          ['local', undefined].includes(t.storageType)
+        );
+      }
+
+      if (workspaceId === WORKSPACES.REMOTE) {
+        return trees.filter(
+          (t) => t.storageType && ['api', 'firestore'].includes(t.storageType)
+        );
+      }
+
+      // TODO: Handle team workspaces
+      return [];
+    })
+  );
+
   collectionTrees: IQueryCollectionTree[] = [];
 
   constructor(private collectionService: QueryCollectionService) {}
 
   ngOnInit() {
-    this.loadCollectionsChange.next();
+    this.loadCollectionsChange.emit();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.collections?.currentValue) {
@@ -59,7 +96,7 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
       this.collectionService.getCollectionTrees(collections);
   }
 
-  trackById(index: number, collection: IQueryCollection) {
+  trackById<T extends { id: string }>(index: number, collection: T) {
     return collection.id;
   }
 }

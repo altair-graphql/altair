@@ -57,6 +57,14 @@ export class TeamsService {
           },
         ],
       },
+      include: {
+        Workspace: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
   }
 
@@ -78,6 +86,14 @@ export class TeamsService {
             },
           },
         ],
+      },
+      include: {
+        Workspace: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
   }

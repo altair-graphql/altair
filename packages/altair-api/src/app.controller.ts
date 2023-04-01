@@ -2,7 +2,7 @@ import { Controller, Get, Req, Res, Sse, UseGuards } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
-import { map, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { AppService } from './app.service';
 import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
@@ -22,7 +22,7 @@ export class AppController {
 
   @UseGuards(EventsJwtAuthGuard)
   @Sse('events')
-  handleUserEvents(@Req() req: Request) {
+  handleUserEvents(@Req() req: Request): Observable<unknown> {
     const subject$ = new Subject();
     const userId = req.user.id;
 
