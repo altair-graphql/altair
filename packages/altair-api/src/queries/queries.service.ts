@@ -1,3 +1,4 @@
+import { Prisma } from '@altairgraphql/db';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
@@ -64,28 +65,7 @@ export class QueriesService {
   findAll(userId: string) {
     return this.prisma.queryItem.findMany({
       where: {
-        collection: {
-          OR: [
-            {
-              // queries user owns
-              workspace: {
-                ownerId: userId,
-              },
-            },
-            {
-              // queries owned by user's team
-              workspace: {
-                team: {
-                  TeamMemberships: {
-                    some: {
-                      userId,
-                    },
-                  },
-                },
-              },
-            },
-          ],
-        },
+        ...this.ownerOrMemberWhere(userId),
       },
     });
   }
@@ -93,31 +73,8 @@ export class QueriesService {
   findOne(userId: string, id: string) {
     return this.prisma.queryItem.findFirst({
       where: {
-        AND: {
-          id,
-          collection: {
-            OR: [
-              {
-                // queries user owns
-                workspace: {
-                  ownerId: userId,
-                },
-              },
-              {
-                // queries owned by user's team
-                workspace: {
-                  team: {
-                    TeamMemberships: {
-                      some: {
-                        userId,
-                      },
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        },
+        id,
+        ...this.ownerOrMemberWhere(userId),
       },
     });
   }
@@ -126,31 +83,7 @@ export class QueriesService {
     const res = await this.prisma.queryItem.updateMany({
       where: {
         id,
-        AND: {
-          id,
-          collection: {
-            OR: [
-              {
-                // queries user owns
-                workspace: {
-                  ownerId: userId,
-                },
-              },
-              {
-                // queries owned by user's team
-                workspace: {
-                  team: {
-                    TeamMemberships: {
-                      some: {
-                        userId,
-                      },
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        },
+        ...this.ownerOrMemberWhere(userId),
       },
       data: {
         name: updateQueryDto.name,
@@ -169,14 +102,8 @@ export class QueriesService {
   async remove(userId: string, id: string) {
     const res = await this.prisma.queryItem.deleteMany({
       where: {
-        AND: {
-          id,
-          collection: {
-            workspace: {
-              ownerId: userId,
-            },
-          },
-        },
+        id,
+        ...this.ownerWhere(userId),
       },
     });
 
@@ -185,5 +112,54 @@ export class QueriesService {
     }
 
     return res;
+  }
+
+  async count(userId: string, ownOnly = true) {
+    return this.prisma.queryItem.count({
+      where: {
+        ...(ownOnly
+          ? this.ownerWhere(userId)
+          : this.ownerOrMemberWhere(userId)),
+      },
+    });
+  }
+
+  // where user is the owner of the query
+  ownerWhere(userId: string): Prisma.QueryItemWhereInput {
+    return {
+      collection: {
+        workspace: {
+          ownerId: userId,
+        },
+      },
+    };
+  }
+
+  // where user has access to the query as the owner or team member
+  ownerOrMemberWhere(userId: string): Prisma.QueryItemWhereInput {
+    return {
+      collection: {
+        OR: [
+          {
+            // queries user owns
+            workspace: {
+              ownerId: userId,
+            },
+          },
+          {
+            // queries owned by user's team
+            workspace: {
+              team: {
+                TeamMemberships: {
+                  some: {
+                    userId,
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
+    };
   }
 }

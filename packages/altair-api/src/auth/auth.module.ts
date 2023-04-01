@@ -12,6 +12,9 @@ import { EventsJwtStrategy } from './strategies/events-jwt.strategy';
 import { StripeService } from 'src/stripe/stripe.service';
 import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
+import { TeamsService } from 'src/teams/teams.service';
+import { QueriesService } from 'src/queries/queries.service';
+import { QueryCollectionsService } from 'src/query-collections/query-collections.service';
 
 @Module({
   imports: [
@@ -37,6 +40,9 @@ import { UserController } from './user/user.controller';
     PasswordService,
     StripeService,
     UserService,
+    TeamsService,
+    QueriesService,
+    QueryCollectionsService,
   ],
   controllers: [AuthController, UserController],
   exports: [UserService],

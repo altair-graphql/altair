@@ -1,3 +1,4 @@
+import { Prisma } from '@altairgraphql/db';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
@@ -44,18 +45,7 @@ export class TeamsService {
   findAll(userId: string) {
     return this.prisma.team.findMany({
       where: {
-        OR: [
-          {
-            ownerId: userId,
-          },
-          {
-            TeamMemberships: {
-              some: {
-                userId,
-              },
-            },
-          },
-        ],
+        ...this.ownerOrMemberWhere(userId),
       },
       include: {
         Workspace: {
@@ -72,20 +62,7 @@ export class TeamsService {
     return this.prisma.team.findFirst({
       where: {
         id,
-        OR: [
-          {
-            // owner
-            ownerId: userId,
-          },
-          {
-            TeamMemberships: {
-              some: {
-                // member
-                userId,
-              },
-            },
-          },
-        ],
+        ...this.ownerOrMemberWhere(userId),
       },
       include: {
         Workspace: {
@@ -102,7 +79,7 @@ export class TeamsService {
     return this.prisma.team.updateMany({
       where: {
         id,
-        ownerId: userId,
+        ...this.ownerWhere(userId),
       },
       data: {
         ...updateTeamDto,
@@ -114,8 +91,45 @@ export class TeamsService {
     return this.prisma.team.deleteMany({
       where: {
         id,
-        ownerId: userId,
+        ...this.ownerWhere(userId),
       },
     });
+  }
+
+  count(userId: string, ownOnly = true) {
+    return this.prisma.team.count({
+      where: {
+        ...(ownOnly
+          ? this.ownerWhere(userId)
+          : this.ownerOrMemberWhere(userId)),
+      },
+    });
+  }
+
+  // where user is the owner of the team
+  ownerWhere(userId: string): Prisma.TeamWhereInput {
+    return {
+      ownerId: userId,
+    };
+  }
+
+  // where user has access to the team as the owner or team member
+  ownerOrMemberWhere(userId: string): Prisma.TeamWhereInput {
+    return {
+      OR: [
+        {
+          // owner
+          ownerId: userId,
+        },
+        {
+          TeamMemberships: {
+            some: {
+              // member
+              userId,
+            },
+          },
+        },
+      ],
+    };
   }
 }

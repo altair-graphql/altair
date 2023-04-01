@@ -1,3 +1,4 @@
+import { IUserStats } from '@altairgraphql/api-utils';
 import {
   createStyles,
   Grid,
@@ -12,10 +13,14 @@ import {
   IconDiscount2,
   IconReceipt2,
   IconCoin,
+  IconArticle,
+  IconBooks,
+  IconUsers,
   IconArrowUpRight,
   IconArrowDownRight,
 } from '@tabler/icons';
-import useUser from '../lib/useUser';
+import { useEffect, useState } from 'react';
+import useUser, { apiClient } from '../lib/useUser';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -49,6 +54,9 @@ const useStyles = createStyles((theme) => ({
 
 const icons = {
   user: IconUserPlus,
+  users: IconUsers,
+  books: IconBooks,
+  article: IconArticle,
   discount: IconDiscount2,
   receipt: IconReceipt2,
   coin: IconCoin,
@@ -90,6 +98,14 @@ export function StatsGrid({ data }: StatsGridProps) {
 
 export default function Home() {
   const { user } = useUser();
+  const [userStats, setUserStats] = useState<IUserStats>();
+
+  useEffect(() => {
+    (async () => {
+      const stats = await apiClient.getUserStats();
+      setUserStats(stats);
+    })();
+  }, []);
 
   if (!user) {
     return null;
@@ -98,25 +114,26 @@ export default function Home() {
   return (
     <>
       <Title order={3}>Welcome back, {user.firstName}!</Title>
-      {/* <StatsGrid
+      {/* TODO: Tooltip: explain that this is query/collection/team that you have access to. Not that you own or manage. */}
+      <StatsGrid
         data={[
           {
             title: 'Queries',
-            value: '2',
-            icon: 'user',
+            value: `${userStats?.queries.own ?? 0}`,
+            icon: 'article',
           },
           {
             title: 'Collections',
-            value: '1',
-            icon: 'user',
+            value: `${userStats?.collections.own ?? 0}`,
+            icon: 'books',
           },
           {
             title: 'Teams',
-            value: '2',
-            icon: 'user',
+            value: `${userStats?.teams.own ?? 0}`,
+            icon: 'users',
           },
         ]}
-      /> */}
+      />
     </>
   );
 }
