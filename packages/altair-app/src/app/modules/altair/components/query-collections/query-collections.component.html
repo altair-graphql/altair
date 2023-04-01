@@ -81,9 +81,34 @@
         </nz-dropdown-menu>
       </div>
     </div>
+    <div class="query-collections__workspace-select-wrapper">
+      <nz-form-label>{{
+        'COLLECTIONS_WORKSPACES_FILTER' | translate
+      }}</nz-form-label>
+      <nz-form-control>
+        <nz-select
+          class="dialog-block"
+          [ngModel]="workspaceId$ | async"
+          (ngModelChange)="workspaceId$.next($event)"
+          name="collection"
+          nzPlaceHolder="Choose"
+        >
+          <nz-option
+            nzValue=""
+            [nzLabel]="'COLLECTIONS_WORKSPACES_SELECT_ALL' | translate"
+          ></nz-option>
+          <nz-option
+            *ngFor="let workspace of (workspaces$ | async); trackBy: trackById"
+            [nzValue]="workspace.id"
+            [nzLabel]="workspace.label"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
     <div class="query-collections__items-wrapper">
+      <!-- TODO: Group by spaces -->
       <app-query-collection-item
-        *ngFor="let collectionTree of collectionTrees; trackBy: trackById"
+        *ngFor="let collectionTree of (collectionTrees$ | async); trackBy: trackById"
         [collectionTree]="collectionTree"
         [loggedIn]="loggedIn"
         (selectQueryChange)="selectQueryChange.next($event)"

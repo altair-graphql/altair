@@ -81,6 +81,7 @@ import {
   WorkspaceId,
   WORKSPACES,
 } from 'altair-graphql-core/build/types/state/workspace.interface';
+import { getWorkspaces } from '../../store';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -98,6 +99,7 @@ export class AltairComponent {
   theme$: Observable<ICustomTheme | undefined>;
   themeDark$: Observable<ICustomTheme | undefined>;
   account$: Observable<AccountState>;
+  workspaces$: Observable<{ id: string; label: string }[]>;
   activeWindow$: Observable<PerWindowState | undefined>;
 
   windowIds: string[] = [];
@@ -222,6 +224,7 @@ export class AltairComponent {
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
     this.account$ = this.store.select('account');
+    this.workspaces$ = this.store.select(getWorkspaces);
     this.activeWindow$ = this.store.pipe(
       map((state) => {
         return state.windows[state.windowsMeta.activeWindowId];
