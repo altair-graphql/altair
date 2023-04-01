@@ -1,7 +1,6 @@
-.account-signin-wrapper {
+.account-dialog__welcome {
+  font-weight: 600;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 150px;
-  flex-direction: column;
+  gap: 10px;
 }

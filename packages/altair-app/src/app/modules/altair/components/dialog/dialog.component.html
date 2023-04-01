@@ -3,7 +3,7 @@
   (nzVisibleChange)="toggleDialog.next($event)"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
-  [nzFooter]="modalFooter"
+  [nzFooter]="showFooter ? modalFooter : null"
   (nzOnCancel)="toggleDialog.next()"
 >
   <ng-template #modalTitle>

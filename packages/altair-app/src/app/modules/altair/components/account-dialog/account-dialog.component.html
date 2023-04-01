@@ -1,52 +1,44 @@
-<nz-modal
-  [nzVisible]="showDialog"
-  (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzTitle]=""
-  [nzContent]="modalContent"
-  [nzFooter]="null"
-  (nzOnCancel)="toggleDialogChange.next($event)"
+<app-dialog
+  [showDialog]="showDialog"
+  [heading]="'ACCOUNT_TITLE' | translate"
+  [subheading]="'ACCOUNT_SUB_TEXT' | translate"
+  [showFooter]="false"
+  (toggleDialog)="toggleDialogChange.emit($event)"
 >
-  <ng-template #modalContent>
-    <div class="app-dialog-body">
-      <div class="account-signin-wrapper">
-        <ng-container
-          *ngIf="!account?.loggedIn"
-        >
-          <button
-            class="app-button active-primary"
-            (click)="submitLogin()"
-          >
-            {{ 'SIGNIN_WITH_GOOGLE' | translate }}
-          </button>
-        </ng-container>
+<div class="account-signin-wrapper">
+  <ng-container
+    *ngIf="!account?.loggedIn"
+  >
+    <p>Sign in to manage your teams, synced collections and queries.</p>
+    <button
+      class="app-button active-primary"
+      (click)="submitLogin()"
+    >
+      {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+    </button>
+  </ng-container>
 
-        <ng-container
-          *ngIf="account?.loggedIn"
-        >
-          <h3>
-            <app-icon name="flask-conical"></app-icon> {{ 'ACCOUNT_TITLE' | translate }} (Beta)
-          </h3>
-          <p>Hello, {{ account?.firstName }}</p>
-          <p>
-            <a target="_blank" [href]="dashboardUrl">
-              Manage teams
-              <app-icon name="external-link"></app-icon>
-            </a>
-          </p>
-          <button
-            class="app-button active-primary"
-            (click)="logoutChange.emit()"
-          >
-            {{ 'LOGOUT_TEXT' | translate }}
-          </button>
-        </ng-container>
-        <p>
-          <a target="_blank" href="https://altairgraphql.substack.com">
-            Subscribe to the newsletter
-            <app-icon name="external-link"></app-icon>
-          </a>
-        </p>
+  <ng-container
+    *ngIf="account?.loggedIn"
+  >
+    <div class="app-dialog-section">
+      <div class="account-dialog__welcome">
+        <nz-avatar [nzText]="account?.firstName?.at(0)" [nzSrc]="account?.picture"></nz-avatar>
+        {{ 'ACCOUNT_HELLO' | translate }}, {{ account?.firstName }}
       </div>
     </div>
-  </ng-template>
-</nz-modal>
+    <p>
+      <a class="link" target="_blank" [href]="dashboardUrl">
+        Dashboard
+        <app-icon name="external-link"></app-icon>
+      </a>
+    </p>
+    <button
+      class="app-button active-grey"
+      (click)="logoutChange.emit()"
+    >
+      {{ 'LOGOUT_TEXT' | translate }}
+    </button>
+  </ng-container>
+</div>
+</app-dialog>

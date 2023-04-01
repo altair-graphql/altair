@@ -11,6 +11,7 @@ export interface AccountState {
   firstName: string;
   lastName: string;
   email: string;
+  picture: string;
   teams: Team[];
 }
 

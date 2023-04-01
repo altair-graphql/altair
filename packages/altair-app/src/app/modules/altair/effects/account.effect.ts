@@ -43,6 +43,7 @@ export class AccountEffects {
               email: user?.email || '',
               firstName: user?.firstName || user?.email || '',
               lastName: '',
+              picture: user.picture || '',
             })
           );
 
@@ -82,6 +83,7 @@ export class AccountEffects {
               email: user.email || '',
               firstName: user.firstName || user.email || '',
               lastName: '',
+              picture: user.picture || '',
             })
           );
           this.store.dispatch(

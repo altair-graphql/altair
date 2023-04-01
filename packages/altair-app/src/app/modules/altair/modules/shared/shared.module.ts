@@ -35,6 +35,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { IconsModule } from '../icons/icons.module';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 const AntdComponentModules = [
   NzButtonModule,
@@ -59,6 +60,7 @@ const AntdComponentModules = [
   NzTableModule,
   NzTreeSelectModule,
   NzPopoverModule,
+  NzAvatarModule,
   // NgZorroAntdModule,
 ];
 

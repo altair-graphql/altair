@@ -19,6 +19,7 @@ export class AccountIsLoggedInAction implements NGRXAction {
       email: string;
       firstName: string;
       lastName: string;
+      picture: string;
     }
   ) {}
 }

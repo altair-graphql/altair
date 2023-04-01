@@ -11,6 +11,7 @@ export const getInitialState = (): AccountState => {
     firstName: '',
     lastName: '',
     teams: [],
+    picture: '',
   };
 };
 
