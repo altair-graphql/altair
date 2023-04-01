@@ -129,6 +129,8 @@
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Dieser Query ist veraltet und nicht kompatibel. Bitte lösche und erstelle ihn erneut, um Datenverlust zu verhindern.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "Aus einer Sammlung",
   "COLLECTION_SYNC_TEXT": "Aktualisieren",
+  "COLLECTIONS_WORKSPACES_SELECT_ALL": "All workspaces",
+  "COLLECTIONS_WORKSPACES_FILTER": "Filter workspaces",
   "EDIT_COLLECTION_TITLE_TEXT": "Sammlung bearbeiten",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Details der Sammlung aktualisieren",
   "COLLECTION_TITLE_LABEL": "Name der Sammlung",
