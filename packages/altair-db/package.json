@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/db",
-  "version": "5.0.19",
+  "version": "5.0.20",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
