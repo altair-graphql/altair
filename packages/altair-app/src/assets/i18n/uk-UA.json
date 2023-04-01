@@ -129,6 +129,8 @@
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "Цей запит старий і не є сумісним. Будь ласка, видаліть і створіть його знову, щоб запобігти втраті даних.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "З колекції",
   "COLLECTION_SYNC_TEXT": "Оновити",
+  "COLLECTIONS_WORKSPACES_SELECT_ALL": "All workspaces",
+  "COLLECTIONS_WORKSPACES_FILTER": "Filter workspaces",
   "EDIT_COLLECTION_TITLE_TEXT": "Змінити колекцію",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Оновлення деталей колекції",
   "COLLECTION_TITLE_LABEL": "Назва колекції",
