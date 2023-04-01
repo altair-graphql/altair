@@ -129,6 +129,8 @@
   "COLLECTIONS_DEPRECATED_QUERY_WARNING": "This query is old and not compatible. Please delete and create it again to prevent data loss.",
   "COLLECTION_OPEN_QUERY_TOOLTIP": "From a collection",
   "COLLECTION_SYNC_TEXT": "Refresh",
+  "COLLECTIONS_WORKSPACES_SELECT_ALL": "All workspaces",
+  "COLLECTIONS_WORKSPACES_FILTER": "Filter workspaces",
   "EDIT_COLLECTION_TITLE_TEXT": "Edytuj kolekcję",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Aktualizuj dane kolekcji",
   "COLLECTION_TITLE_LABEL": "Nazwa kolekcji",
