@@ -77,6 +77,28 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         </div>
       </div>
       <div
+        class="query-collections__workspace-select-wrapper"
+      >
+        <nz-form-label>
+          
+        </nz-form-label>
+        
+        <nz-form-control>
+          <nz-select
+            class="dialog-block"
+            name="collection"
+            nzplaceholder="Choose"
+          >
+            <nz-option
+              nzvalue=""
+            />
+            
+            
+          </nz-select>
+        </nz-form-control>
+        
+      </div>
+      <div
         class="query-collections__items-wrapper"
       >
         <app-query-collection-item />
