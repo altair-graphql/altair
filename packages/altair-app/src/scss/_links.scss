@@ -7,3 +7,9 @@ a {
   color: var(--blue-color);
   cursor: pointer;
 }
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

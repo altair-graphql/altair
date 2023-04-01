@@ -188,6 +188,8 @@
   "PLUGIN_CREATE_BUTTON": "Create Plugin",
 
   "ACCOUNT_TITLE": "Account (Beta)",
+  "ACCOUNT_SUB_TEXT": "Manage your account",
+  "ACCOUNT_HELLO": "Hello",
   "LOGIN_TAB": "Login",
   "REGISTER_TAB": "Register",
   "LOGOUT_TEXT": "Logout",
