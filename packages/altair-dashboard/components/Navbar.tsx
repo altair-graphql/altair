@@ -109,13 +109,11 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 const openBillingPage = async () => {
-  const res = await apiClient.getBillingUrl();
-
-  window.open(res.url, '_blank');
+  return apiClient.openBillingPage();
 };
 
 const data = [
-  // { link: '/', label: 'Overview', icon: IconHome2 },
+  { link: '/', label: 'Overview', icon: IconHome2 },
   { link: '/teams', label: 'Teams', icon: IconUsers },
   {
     link: '/billing',
@@ -136,7 +134,10 @@ export function NavbarSimple() {
     return (
       <Component
         className={cx(classes.link, {
-          [classes.linkActive]: router.pathname.startsWith(item.link),
+          [classes.linkActive]:
+            router.pathname === '/'
+              ? router.pathname === item.link
+              : item.link !== '/' && router.pathname.startsWith(item.link),
         })}
         href={item.link}
         key={item.label}

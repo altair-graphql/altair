@@ -18,7 +18,7 @@ import {
   TeamMembership,
   TeamMemberRole,
 } from '@altairgraphql/db';
-import { IUserProfile } from './user';
+import { IUserProfile, IUserStats } from './user';
 import {
   ICreateTeamDto,
   ICreateTeamMembershipDto,
@@ -272,6 +272,16 @@ export class APIClient {
 
   getBillingUrl() {
     return this.ky.get('user/billing').json<{ url: string }>();
+  }
+
+  async openBillingPage() {
+    const res = await this.getBillingUrl();
+
+    window.open(res.url, '_blank');
+  }
+
+  getUserStats() {
+    return this.ky.get('user/stats').json<IUserStats>();
   }
 
   // short-lived-token for events

@@ -10,3 +10,18 @@ export interface IUserProfile {
   picture?: string;
   tokens: IToken;
 }
+
+export interface IUserStats {
+  queries: {
+    own: number;
+    access: number;
+  };
+  collections: {
+    own: number;
+    access: number;
+  };
+  teams: {
+    own: number;
+    access: number;
+  };
+}

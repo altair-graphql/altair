@@ -7,6 +7,7 @@ import { InvalidRequestException } from 'src/exceptions/invalid-request.exceptio
 import { UserService } from 'src/auth/user/user.service';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
+import { Prisma } from '@altairgraphql/db';
 
 @Injectable()
 export class QueryCollectionsService {
@@ -106,26 +107,7 @@ export class QueryCollectionsService {
   findAll(userId: string) {
     return this.prisma.queryCollection.findMany({
       where: {
-        OR: [
-          {
-            // queries user owns
-            workspace: {
-              ownerId: userId,
-            },
-          },
-          {
-            // queries owned by user's team
-            workspace: {
-              team: {
-                TeamMemberships: {
-                  some: {
-                    userId,
-                  },
-                },
-              },
-            },
-          },
-        ],
+        ...this.ownerOrMemberWhere(userId),
       },
       include: {
         queries: true,
@@ -137,26 +119,7 @@ export class QueryCollectionsService {
     return this.prisma.queryCollection.findFirst({
       where: {
         id,
-        OR: [
-          {
-            // queries user owns
-            workspace: {
-              ownerId: userId,
-            },
-          },
-          {
-            // queries owned by user's team
-            workspace: {
-              team: {
-                TeamMemberships: {
-                  some: {
-                    userId,
-                  },
-                },
-              },
-            },
-          },
-        ],
+        ...this.ownerOrMemberWhere(userId),
       },
       include: {
         queries: true,
@@ -172,26 +135,7 @@ export class QueryCollectionsService {
     const res = await this.prisma.queryCollection.updateMany({
       where: {
         id,
-        OR: [
-          {
-            // queries user owns
-            workspace: {
-              ownerId: userId,
-            },
-          },
-          {
-            // queries owned by user's team
-            workspace: {
-              team: {
-                TeamMemberships: {
-                  some: {
-                    userId,
-                  },
-                },
-              },
-            },
-          },
-        ],
+        ...this.ownerOrMemberWhere(userId),
       },
       data: {
         name: updateQueryCollectionDto.name,
@@ -208,9 +152,7 @@ export class QueryCollectionsService {
     const res = await this.prisma.queryCollection.deleteMany({
       where: {
         id,
-        workspace: {
-          ownerId: userId,
-        },
+        ...this.ownerWhere(userId),
       },
     });
 
@@ -219,5 +161,50 @@ export class QueryCollectionsService {
     }
 
     return res;
+  }
+
+  async count(userId: string, ownOnly = true) {
+    return this.prisma.queryCollection.count({
+      where: {
+        ...(ownOnly
+          ? this.ownerWhere(userId)
+          : this.ownerOrMemberWhere(userId)),
+      },
+    });
+  }
+
+  // where user is the owner of the query collection
+  ownerWhere(userId: string): Prisma.QueryCollectionWhereInput {
+    return {
+      workspace: {
+        ownerId: userId,
+      },
+    };
+  }
+
+  // where user has access to the query collection as the owner or team member
+  ownerOrMemberWhere(userId: string): Prisma.QueryCollectionWhereInput {
+    return {
+      OR: [
+        {
+          // queries user owns
+          workspace: {
+            ownerId: userId,
+          },
+        },
+        {
+          // queries owned by user's team
+          workspace: {
+            team: {
+              TeamMemberships: {
+                some: {
+                  userId,
+                },
+              },
+            },
+          },
+        },
+      ],
+    };
   }
 }

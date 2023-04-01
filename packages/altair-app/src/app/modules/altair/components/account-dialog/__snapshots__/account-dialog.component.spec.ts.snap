@@ -2,7 +2,22 @@
 
 exports[`AccountDialogComponent should create 1`] = `
 <app-account-dialog>
-  <nz-modal />
-  
+  <app-dialog>
+    <div
+      class="account-signin-wrapper"
+    >
+      <p>
+        Sign in to manage your teams, synced collections and queries.
+      </p>
+      <button
+        class="app-button active-primary"
+      >
+         SIGNIN_WITH_GOOGLE 
+      </button>
+      
+      
+      
+    </div>
+  </app-dialog>
 </app-account-dialog>
 `;
