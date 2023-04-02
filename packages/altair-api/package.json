@@ -41,7 +41,7 @@
     "google-auth-library": "^8.7.0",
     "nestjs-pino": "^3.1.2",
     "nestjs-prisma": "^0.19.0",
-    "newrelic": "^9.10.0",
+    "newrelic": "^9.14.1",
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth20": "^2.0.0",

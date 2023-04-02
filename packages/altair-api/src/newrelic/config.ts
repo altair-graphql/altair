@@ -1,3 +1,4 @@
+// import {} from 'newrelic';
 /**
  * New Relic agent configuration.
  *
@@ -41,6 +42,9 @@ export const config = {
     forwarding: {
       enabled: true,
     },
+  },
+  error_collector: {
+    expected_status_codes: [401, 403],
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
