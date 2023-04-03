@@ -641,7 +641,9 @@ export class GqlService {
 
     // For electron app, send the instruction to set headers
     this.electronAppService.setHeaders(
-      headers.keys().map((k) => ({ key: k, value: headers.get(k) ?? '' }))
+      headers
+        .keys()
+        .map((k) => ({ key: k, value: headers.get(k) ?? '', enabled: true }))
     );
 
     if (selectedOperation) {
