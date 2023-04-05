@@ -20,7 +20,10 @@ export class TouchbarManager {
 
     const showDocsButton = new TouchBarButton({
       label: 'Show Docs',
-      click: () => this.actionManager.showDocs(),
+      click: () => {
+        this.actionManager.showDocs();
+        touchBar.escapeItem = spacer; // Set the escapeItem to spacer so the button disappears
+      },
     });
 
     const spacer = new TouchBarSpacer({
@@ -35,6 +38,7 @@ export class TouchbarManager {
         reloadDocsButton,
         showDocsButton,
       ],
+      escapeItem: showDocsButton, // Set the initial escapeItem to showDocsButton
     });
 
     return touchBar;
