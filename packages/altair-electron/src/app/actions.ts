@@ -40,6 +40,10 @@ export class ActionManager {
     this.windowInstance.webContents.send('show-docs', true);
   }
 
+  hideDocs() {
+    this.windowInstance.webContents.send('show-docs', false);
+  }
+
   showSettings() {
     this.windowInstance.webContents.send('show-settings', true);
   }

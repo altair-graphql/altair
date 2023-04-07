@@ -1,10 +1,10 @@
-import { TouchBar } from 'electron';
+import { BrowserWindow, TouchBar } from 'electron';
 import { ActionManager } from './actions';
 
 const { TouchBarButton, TouchBarSpacer } = TouchBar;
 
 export class TouchbarManager {
-  constructor(private actionManager: ActionManager) {}
+  constructor(private actionManager: ActionManager, private windowInstance: BrowserWindow) {}
 
   createTouchBar() {
     const sendRequestButton = new TouchBarButton({
@@ -20,7 +20,14 @@ export class TouchbarManager {
 
     const showDocsButton = new TouchBarButton({
       label: 'Show Docs',
+      enabled: !this.windowInstance.webContents.showDocs,
       click: () => this.actionManager.showDocs(),
+    });
+
+    const hideDocsButton = new TouchBarButton({
+      label: 'Hide Docs',
+      enabled: this.windowInstance.webContents.showDocs,
+      click: () => this.actionManager.hideDocs(),
     });
 
     const spacer = new TouchBarSpacer({
@@ -34,6 +41,7 @@ export class TouchbarManager {
         spacer,
         reloadDocsButton,
         showDocsButton,
+        hideDocsButton,
       ],
     });
 
