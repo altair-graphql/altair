@@ -1,11 +1,31 @@
 import { TouchBar } from 'electron';
-import { ActionManager } from './actions';
+
+export class ActionManager {
+  sendRequest() {
+    // Implementation of sendRequest() method...
+  }
+
+  reloadDocs() {
+    // Implementation of reloadDocs() method...
+  }
+
+  showDocs() {
+    // Implementation of showDocs() method...
+  }
+
+  hideDocs() {
+    const docsPanel = document.getElementById('docs-panel');
+    if (docsPanel) {
+      docsPanel.style.display = 'none';
+    }
+  }
+}
 
 const { TouchBarButton, TouchBarSpacer } = TouchBar;
 
 export class TouchbarManager {
-  private showDocsButton: TouchBarButton;
-  private hideDocsButton: TouchBarButton;
+  private showDocsButton: typeof TouchBarButton;
+  private hideDocsButton: typeof TouchBarButton;
 
   constructor(private actionManager: ActionManager) {}
 
