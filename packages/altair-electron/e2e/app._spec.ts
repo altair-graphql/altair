@@ -76,6 +76,18 @@ const helpers = {
 
     return docViewer;
   },
+  async hideDocs(window: Page) {
+    const hideDocs = await window.$(
+      `${SELECTORS.VISIBLE_WINDOW} button[track-id="hide_docs"]`
+    );
+    await hideDocs.click();
+    const docViewer = await window.$(
+      `${SELECTORS.VISIBLE_WINDOW} .app-doc-viewer`
+    );
+    expect(await docViewer.isVisible()).toEqual(false);
+
+    return docViewer;
+  },
   async addHeader(window: Page, key: string, value: string) {
     const showHeaderElement = await window.$(
       '.side-menu-item[track-id="show_set_headers"]'
