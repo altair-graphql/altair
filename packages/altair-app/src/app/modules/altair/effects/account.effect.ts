@@ -3,7 +3,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { environment } from 'environments/environment';
-import { EMPTY, from } from 'rxjs';
+import { EMPTY, forkJoin, from, zip } from 'rxjs';
 import {
   catchError,
   map,
@@ -20,6 +20,7 @@ import * as collectionActions from '../store/collection/collection.action';
 import { APP_INIT_ACTION } from '../store/action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { debug } from '../utils/logger';
+import { fromPromise } from '../utils';
 
 @Injectable()
 export class AccountEffects {
@@ -160,6 +161,38 @@ export class AccountEffects {
       catchError((err: UnknownError) => {
         debug.error(err);
         this.notifyService.errorWithError(err, 'Could not load teams');
+        return EMPTY;
+      }),
+      repeat()
+    );
+  });
+
+  loadUserDataOnLoggedIn$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+      switchMap((action) =>
+        forkJoin([
+          fromPromise(this.accountService.getStats()),
+          fromPromise(this.accountService.getPlan()),
+        ])
+      ),
+      map(
+        ([stats, plan]) =>
+          new accountActions.UpdateAccountAction({
+            stats: {
+              queriesCount: stats.queries.own,
+              queryCollectionsCount: stats.collections.own,
+              teamsCount: stats.teams.own,
+            },
+            plan: {
+              maxQueriesCount: plan.max_query_count,
+              maxTeamsCount: plan.max_team_count,
+            },
+          })
+      ),
+      catchError((err: UnknownError) => {
+        debug.error(err);
+        this.notifyService.errorWithError(err, 'Could not load user data');
         return EMPTY;
       }),
       repeat()

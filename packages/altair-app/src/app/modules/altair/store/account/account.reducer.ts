@@ -35,6 +35,11 @@ export function accountReducer(
         ...state,
         teams: action.payload.teams,
       };
+    case account.UPDATE_ACCOUNT:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

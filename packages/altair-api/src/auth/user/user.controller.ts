@@ -1,3 +1,4 @@
+import { IPlan } from '@altairgraphql/api-utils';
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { QueriesService } from 'src/queries/queries.service';
@@ -23,6 +24,18 @@ export class UserController {
         req.user.id,
         req.headers.referer
       ),
+    };
+  }
+
+  @Get('plan')
+  @UseGuards(JwtAuthGuard)
+  async getCurrentPlan(@Req() req: Request): Promise<IPlan> {
+    const cfg = await this.userService.getPlanConfig(req.user.id);
+
+    return {
+      max_query_count: cfg.maxQueryCount,
+      max_team_count: cfg.maxTeamCount,
+      max_team_member_count: cfg.maxTeamMemberCount,
     };
   }
 

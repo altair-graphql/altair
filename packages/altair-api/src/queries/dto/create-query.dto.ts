@@ -1,8 +1,8 @@
 import { ICreateQueryDto, IQueryContentDto } from '@altairgraphql/api-utils';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { Allow, IsString } from 'class-validator';
 
-export class CreateQuerySansCollectionIdDto {
+export class CreateQueryDto implements ICreateQueryDto {
   @IsString()
   @ApiProperty()
   name: string;
@@ -11,13 +11,12 @@ export class CreateQuerySansCollectionIdDto {
   @Allow()
   @ApiProperty()
   content: IQueryContentDto;
-}
 
-export class CreateQueryDto
-  extends CreateQuerySansCollectionIdDto
-  implements ICreateQueryDto
-{
   @IsString()
   @ApiProperty()
   collectionId: string;
 }
+
+export class CreateQuerySansCollectionIdDto extends OmitType(CreateQueryDto, [
+  'collectionId',
+] as const) {}

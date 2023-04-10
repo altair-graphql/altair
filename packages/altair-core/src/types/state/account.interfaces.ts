@@ -5,6 +5,17 @@ export interface Team {
   description?: string;
 }
 
+interface Stats {
+  queriesCount: number;
+  queryCollectionsCount: number;
+  teamsCount: number;
+}
+
+interface Plan {
+  maxQueriesCount: number;
+  maxTeamsCount: number;
+}
+
 export interface AccountState {
   loggedIn: boolean;
   accessToken: string;
@@ -13,6 +24,8 @@ export interface AccountState {
   email: string;
   picture: string;
   teams: Team[];
+  stats?: Stats;
+  plan?: Plan;
 }
 
 export class TeamId extends ValueObject<string> {}

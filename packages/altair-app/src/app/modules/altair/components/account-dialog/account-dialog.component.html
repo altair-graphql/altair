@@ -33,6 +33,13 @@
         <app-icon name="external-link"></app-icon>
       </a>
     </p>
+    <div class="account-dialog__stats">
+      <div class="account-dialog__stats-title">
+        Plan Stats <app-icon name="info" [popper]="'The stats show how much resources you have and the number of resources allowed for your current plan'"></app-icon>
+      </div>
+      <div>Queries: {{ account?.stats?.queriesCount ?? 0 }} / {{ account?.plan?.maxQueriesCount ?? 0 }}</div>
+      <div>Teams: {{ account?.stats?.teamsCount ?? 0 }} / {{ account?.plan?.maxTeamsCount ?? 0 }}</div>
+    </div>
     <button
       class="app-button active-grey"
       (click)="logoutChange.emit()"
