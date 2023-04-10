@@ -5,6 +5,8 @@ import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
 import { VARIABLE_REGEX } from '../services/environment/environment.service';
 import { commentRegex } from './comment-regex';
+import { from } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 interface DownloadDataOptions {
   mimeType?: string;
@@ -361,4 +363,8 @@ export const rand = (min = 0, max = Infinity) =>
 
 export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const fromPromise = <T = unknown>(pp: Promise<T>) => {
+  return from(pp).pipe(take(1));
 };

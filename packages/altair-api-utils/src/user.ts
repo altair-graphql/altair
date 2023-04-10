@@ -25,3 +25,9 @@ export interface IUserStats {
     access: number;
   };
 }
+
+export interface IPlan {
+  max_query_count: number;
+  max_team_count: number;
+  max_team_member_count: number;
+}

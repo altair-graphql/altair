@@ -417,7 +417,7 @@ export class QueryCollectionEffects {
           const collection = action.payload.collection;
 
           if (collection.id) {
-            return of(
+            return from(
               this.collectionService.transformCollectionToRemoteCollection(
                 collection.id
               )

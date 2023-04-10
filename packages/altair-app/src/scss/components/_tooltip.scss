@@ -4,6 +4,8 @@
     color: var(--theme-font-color);
     border-color: var(--theme-border-color);
     padding: 5px 10px;
+    font-weight: normal;
+    font-size: fontsize(12);
     z-index: 5;
     white-space: normal;
     max-width: 300px;

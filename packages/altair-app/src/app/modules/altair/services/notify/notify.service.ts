@@ -36,14 +36,19 @@ export class NotifyService {
     this.exec('error', message, title, opts);
   }
 
-  errorWithError(
+  async errorWithError(
     err: unknown,
     message: string,
     title = '',
     opts: NotifyOptions = {}
   ) {
     debug.error(err);
-    this.exec('error', this.calculateErrorMessage(err) ?? message, title, opts);
+    this.exec(
+      'error',
+      (await this.calculateErrorMessage(err)) ?? message,
+      title,
+      opts
+    );
   }
   warning(message: string, title = '', opts: NotifyOptions = {}) {
     this.store
@@ -211,7 +216,7 @@ export class NotifyService {
     );
   }
 
-  private calculateErrorMessage(err: unknown) {
+  private async calculateErrorMessage(err: unknown) {
     if (!err) {
       return;
     }
@@ -220,7 +225,17 @@ export class NotifyService {
     }
 
     if (typeof err === 'object') {
-      if ('error' in err && err.error && typeof err.error === 'object') {
+      // ky HTTP error: https://github.com/sindresorhus/ky#httperror
+      if ('name' in err && err.name === 'HTTPError' && 'response' in err) {
+        err = await (err.response as Response).json();
+      }
+      if (
+        err &&
+        typeof err === 'object' &&
+        'error' in err &&
+        err.error &&
+        typeof err.error === 'object'
+      ) {
         if ('code' in err.error && 'message' in err.error) {
           if (typeof err.error.message === 'string') {
             return sanitize(err.error.message);
@@ -228,7 +243,12 @@ export class NotifyService {
         }
       }
 
-      if ('message' in err && typeof err.message === 'string') {
+      if (
+        err &&
+        typeof err === 'object' &&
+        'message' in err &&
+        typeof err.message === 'string'
+      ) {
         return sanitize(err.message);
       }
     }

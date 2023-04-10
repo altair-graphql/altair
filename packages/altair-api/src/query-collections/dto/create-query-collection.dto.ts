@@ -1,5 +1,6 @@
 import { ICreateQueryCollectionDto } from '@altairgraphql/api-utils';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsOptional,
@@ -17,6 +18,7 @@ export class CreateQueryCollectionDto implements ICreateQueryCollectionDto {
   @IsOptional()
   @ValidateNested()
   @ApiProperty()
+  @Type(() => CreateQuerySansCollectionIdDto)
   queries?: CreateQuerySansCollectionIdDto[];
 
   @IsString()

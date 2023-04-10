@@ -4,3 +4,14 @@
   align-items: center;
   gap: 10px;
 }
+
+.account-dialog__stats {
+  letter-spacing: .5px;
+  font-size: fontsize(12);
+  margin-bottom: 16px;
+}
+
+.account-dialog__stats-title {
+  font-weight: 600;
+  font-size: fontsize(14);
+}

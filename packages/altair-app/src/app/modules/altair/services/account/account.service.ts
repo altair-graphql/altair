@@ -55,7 +55,7 @@ export class AccountService {
   }
 
   async logout() {
-    return apiClient.signOut();
+    return await apiClient.signOut();
   }
 
   async isUserSignedIn() {
@@ -64,5 +64,13 @@ export class AccountService {
 
   async getTeams() {
     return apiClient.getTeams();
+  }
+
+  async getStats() {
+    return apiClient.getUserStats();
+  }
+
+  async getPlan() {
+    return await apiClient.getUserPlan();
   }
 }

@@ -18,7 +18,7 @@ import {
   TeamMembership,
   TeamMemberRole,
 } from '@altairgraphql/db';
-import { IUserProfile, IUserStats } from './user';
+import { IPlan, IUserProfile, IUserStats } from './user';
 import {
   ICreateTeamDto,
   ICreateTeamMembershipDto,
@@ -282,6 +282,10 @@ export class APIClient {
 
   getUserStats() {
     return this.ky.get('user/stats').json<IUserStats>();
+  }
+
+  getUserPlan() {
+    return this.ky.get('user/plan').json<IPlan>();
   }
 
   // short-lived-token for events
