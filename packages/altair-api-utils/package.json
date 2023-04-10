@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/api-utils",
-  "version": "5.0.21",
+  "version": "5.0.22",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@altairgraphql/db": "^5.0.21",
-    "altair-graphql-core": "^5.0.21",
+    "@altairgraphql/db": "^5.0.22",
+    "altair-graphql-core": "^5.0.22",
     "ky": "^0.33.2",
     "rxjs": "^6.6.7"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "5.0.21",
+  "version": "5.0.22",
   "main": "index.js",
   "source": "src/index.html",
   "targets": {
@@ -18,7 +18,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/api-utils": "^5.0.21"
+    "@altairgraphql/api-utils": "^5.0.22"
   },
   "private": true
 }
