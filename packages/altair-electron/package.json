@@ -1,21 +1,13 @@
 {
   "name": "altair",
-  "productName": "Altair GraphQL Client",
-  "version": "5.0.22",
   "description": "Electron wrapper for Altair",
-  "main": "dist/index.js",
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "license": "MIT",
-  "private": true,
-  "scripts": {
-    "test": "yarn test:unit",
-    "test:unit": "jest",
-    "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
-    "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
-    "compile": "tsc",
-    "build": "yarn compile && electron-builder",
-    "dev": "yarn compile && electron ./dist/",
-    "prepare": "yarn compile"
+  "bugs": "https://github.com/altair-graphql/altair/issues",
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
   },
   "dependencies": {
     "@altairgraphql/login-redirect": "^5.0.22",
@@ -58,21 +50,24 @@
     "typescript": "4.9.5",
     "webdriverio": "^7.12.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
-  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "private": true,
+  "productName": "Altair GraphQL Client",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "build": "yarn compile && electron-builder",
+    "compile": "tsc",
+    "dev": "yarn compile && electron ./dist/",
+    "prepare": "yarn compile",
+    "test": "yarn test:unit",
+    "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
+    "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
+    "test:unit": "jest"
+  }
 }

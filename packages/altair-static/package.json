@@ -1,34 +1,9 @@
 {
   "name": "altair-static",
-  "version": "5.0.22",
   "description": "Static package for altair graphql client",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
-  "scripts": {
-    "test": "jest",
-    "prepare-dist": "node scripts/prepare_dist.js",
-    "compile": "node scripts/build.js",
-    "prepare": "yarn prepare-dist && yarn compile && yarn types",
-    "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
-  },
-  "engines": {
-    "node": ">= 6.9.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "keywords": [
-    "altair",
-    "graphql",
-    "static"
-  ],
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
-  },
-  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "bugs": "https://github.com/altair-graphql/altair/issues",
   "devDependencies": {
     "@altairgraphql/app": "^5.0.22",
     "@types/jest": "^24.0.23",
@@ -39,9 +14,29 @@
     "ts-jest": "29.0.5",
     "typescript": "4.9.5"
   },
+  "engines": {
+    "node": ">= 6.9.1"
+  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "keywords": [
+    "altair",
+    "graphql",
+    "static"
+  ],
+  "license": "MIT",
+  "main": "./build/index.js",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "compile": "node scripts/build.js",
+    "prepare": "yarn prepare-dist && yarn compile && yarn types",
+    "prepare-dist": "node scripts/prepare_dist.js",
+    "test": "jest",
+    "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
+  },
+  "types": "./build/index.d.ts"
 }

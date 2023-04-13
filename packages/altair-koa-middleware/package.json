@@ -1,34 +1,9 @@
 {
   "name": "altair-koa-middleware",
-  "version": "5.0.22",
   "description": "Koa middleware for altair graphql client",
-  "main": "./build/src/index.js",
-  "types": "./build/src/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "declarations": "tsc --declaration",
-    "prepare": "npm run declarations",
-    "example": "nodemon example/index.ts"
-  },
-  "engines": {
-    "node": ">= 12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "keywords": [
-    "altair",
-    "graphql",
-    "koa",
-    "middleware"
-  ],
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
-  },
-  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
     "@koa/router": "^10.1.1",
     "altair-static": "^5.0.22",
@@ -48,9 +23,29 @@
     "ts-node": "^10.2.1",
     "typescript": "4.9.5"
   },
+  "engines": {
+    "node": ">= 12"
+  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "keywords": [
+    "altair",
+    "graphql",
+    "koa",
+    "middleware"
+  ],
+  "license": "MIT",
+  "main": "./build/src/index.js",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "declarations": "tsc --declaration",
+    "example": "nodemon example/index.ts",
+    "prepare": "npm run declarations",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "types": "./build/src/index.d.ts"
 }

@@ -1,31 +1,9 @@
 {
   "name": "altair-graphql-plugin",
-  "version": "5.0.22",
   "description": "Plugin helper for altair graphql client",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "declarations": "tsc --declaration",
-    "prepare": "npm run declarations"
-  },
-  "engines": {
-    "node": ">= 12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "keywords": [
-    "altair",
-    "graphql"
-  ],
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
-  },
-  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
     "altair-graphql-core": "^5.0.22"
   },
@@ -34,8 +12,25 @@
     "ts-node": "^8.5.4",
     "typescript": "4.9.5"
   },
+  "engines": {
+    "node": ">= 12"
+  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
-  }
+  },
+  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "keywords": [
+    "altair",
+    "graphql"
+  ],
+  "license": "MIT",
+  "main": "./build/index.js",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "declarations": "tsc --declaration",
+    "prepare": "npm run declarations",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "types": "./build/index.d.ts"
 }

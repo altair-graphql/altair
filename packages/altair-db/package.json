@@ -1,26 +1,26 @@
 {
   "name": "@altairgraphql/db",
   "version": "5.0.22",
-  "main": "build/index.js",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc --build",
-    "prepare": "yarn prisma:generate && yarn build",
-    "prisma:seed": "prisma db seed",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:push": "prisma db push",
-    "prisma:studio": "prisma studio"
+  "dependencies": {
+    "@prisma/client": "^4.9.0"
   },
   "devDependencies": {
     "ts-node": "^10.0.0",
     "typescript": "4.9.5"
   },
-  "dependencies": {
-    "@prisma/client": "^4.9.0"
-  },
-  "private": true,
+  "license": "MIT",
+  "main": "build/index.js",
   "prisma": {
     "seed": "ts-node src/seed.ts"
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "prepare": "yarn prisma:generate && yarn build",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "prisma db seed",
+    "prisma:studio": "prisma studio"
   }
 }

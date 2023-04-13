@@ -1,40 +1,35 @@
 {
   "name": "gatsby-plugin-altair-graphql",
-  "version": "5.0.22",
   "description": "A gatsby plugin for using Altair GraphQL client",
-  "main": "gatsby-node.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "compile": "tsc --declaration",
-    "prepare": "npm run compile"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "keywords": [
-    "gatsby",
-    "gatsby-plugin",
-    "altair",
-    "graphql"
-  ],
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
+  "bugs": "https://github.com/altair-graphql/altair/issues",
+  "dependencies": {
+    "altair-express-middleware": "^5.0.22"
   },
-  "homepage": "https://github.com/altair-graphql/altair#readme",
   "devDependencies": {
     "@types/express": "^4.17.15",
     "express": "^4.18.2",
     "typescript": "4.9.5"
   },
-  "dependencies": {
-    "altair-express-middleware": "^5.0.22"
-  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46"
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "homepage": "https://github.com/altair-graphql/altair#readme",
+  "keywords": [
+    "altair",
+    "gatsby",
+    "gatsby-plugin",
+    "graphql"
+  ],
+  "license": "MIT",
+  "main": "gatsby-node.js",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "compile": "tsc --declaration",
+    "prepare": "npm run compile",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  }
 }

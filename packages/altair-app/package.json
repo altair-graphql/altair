@@ -1,26 +1,8 @@
 {
   "name": "@altairgraphql/app",
-  "version": "5.0.22",
   "description": "Contains the altair app",
-  "main": "dist/main.js",
-  "license": "MIT",
+  "version": "5.0.22",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "homepage": "https://altair-graphql.github.io/altair/",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json",
-    "test-single-run": "ng test --watch=false --code-coverage",
-    "test": "jest && ng lint",
-    "test:watch": "jest --watch",
-    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json",
-    "test-build": "ng lint && yarn build && yarn test-single-run",
-    "postinstall": "yarn generate-settings-schema-validator",
-    "lint": "ng lint",
-    "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
-    "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json"
-  },
   "dependencies": {
     "@altairgraphql/api-utils": "^5.0.22",
     "@altairgraphql/db": "^5.0.22",
@@ -188,10 +170,28 @@
     "typescript": "4.9.5",
     "typescript-json-schema": "0.50.1"
   },
+  "homepage": "https://altair-graphql.github.io/altair/",
+  "license": "MIT",
+  "main": "dist/main.js",
   "private": true,
   "resolutions": {
-    "@codemirror/view": "6.2.0",
+    "@codemirror/language": "6.2.1",
     "@codemirror/state": "6.0.0",
-    "@codemirror/language": "6.2.1"
+    "@codemirror/view": "6.2.0"
+  },
+  "scripts": {
+    "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
+    "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
+    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json",
+    "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
+    "lint": "ng lint",
+    "ng": "ng",
+    "postinstall": "yarn generate-settings-schema-validator",
+    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json",
+    "start": "ng serve",
+    "test": "jest && ng lint",
+    "test-build": "ng lint && yarn build && yarn test-single-run",
+    "test-single-run": "ng test --watch=false --code-coverage",
+    "test:watch": "jest --watch"
   }
 }

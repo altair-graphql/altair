@@ -1,10 +1,8 @@
 {
   "name": "@altairgraphql/login-redirect",
   "version": "5.0.22",
-  "main": "index.js",
-  "source": "src/index.html",
-  "targets": {
-    "main": false
+  "dependencies": {
+    "@altairgraphql/api-utils": "^5.0.22"
   },
   "devDependencies": {
     "rimraf": "^4.1.2",
@@ -12,13 +10,15 @@
     "vite": "^4.0.4"
   },
   "license": "MIT",
+  "main": "index.js",
+  "private": true,
   "scripts": {
-    "dev": "vite --port 1234",
     "build": "rimraf dist && vite build",
+    "dev": "vite --port 1234",
     "prepare": "yarn build"
   },
-  "dependencies": {
-    "@altairgraphql/api-utils": "^5.0.22"
-  },
-  "private": true
+  "source": "src/index.html",
+  "targets": {
+    "main": false
+  }
 }

@@ -1,14 +1,6 @@
 {
   "name": "@altairgraphql/dashboard",
   "version": "5.0.22",
-  "private": true,
-  "scripts": {
-    "dev": "next dev -p 4000",
-    "build": "next build && next export",
-    "start": "next start",
-    "lint": "next lint",
-    "prepare": "yarn build"
-  },
   "dependencies": {
     "@altairgraphql/api": "^5.0.22",
     "@altairgraphql/api-utils": "^5.0.22",
@@ -35,5 +27,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.5"
+  },
+  "private": true,
+  "scripts": {
+    "build": "next build && next export",
+    "dev": "next dev -p 4000",
+    "lint": "next lint",
+    "prepare": "yarn build",
+    "start": "next start"
   }
 }

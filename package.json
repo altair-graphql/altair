@@ -1,50 +1,13 @@
 {
   "name": "altair",
-  "version": "5.0.22",
-  "license": "MIT",
-  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "description": "The best graphQL client you will ever need",
-  "homepage": "https://altair-graphql.github.io/altair/",
-  "keywords": [
-    "graphql",
-    "altair",
-    "wysiwyg",
-    "editor",
-    "client"
-  ],
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "libs/*"
-    ]
-  },
-  "scripts": {
-    "build": "yarn build-api",
-    "build-app": "nx build @altairgraphql/app",
-    "build-api": "yarn --cwd packages/altair-api build",
-    "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build",
-    "build-electron": "lerna bootstrap && nx build altair",
-    "build-ext": "yarn build-app && cwex build",
-    "build:ci": "lerna bootstrap -- --frozen-lockfile",
-    "lerna-publish": "lerna publish from-git --force-publish=* --yes",
-    "local-verify": "yarn build-app && lerna bootstrap",
-    "postinstall": "opencollective postinstall || true",
-    "prepare": "nx run-many --target=prepare --all --output-style=stream",
-    "publish-packages": "lerna bootstrap && yarn lerna-publish",
-    "snyk-protect": "snyk protect",
-    "start-test-server": "./bin/start_ci_test_server.sh",
-    "start:api:dev": "nx start:dev @altairgraphql/api",
-    "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-api start:prod",
-    "start:app": "nx start @altairgraphql/app",
-    "start:dashboard": "nx dev @altairgraphql/dashboard",
-    "start:redirect": "nx dev @altairgraphql/login-redirect",
-    "test:ci-test-only": "nx affected --target=test --parallel=3",
-    "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci",
-    "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
-    "test": "nx run-many --target=test --all"
-  },
-  "engines": {
-    "node": ">= 16"
+  "version": "5.0.22",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
+  "bugs": "https://github.com/altair-graphql/altair/issues",
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
   },
   "devDependencies": {
     "@changesets/cli": "^2.18.1",
@@ -73,26 +36,58 @@
     "web-ext": "^6.5.0",
     "wrangler": "^2.0.27"
   },
-  "resolutions": {
-    "**/oauth": "0.10.0",
-    "y18n": "4.0.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/altair-graphql/altair.git"
-  },
-  "bugs": {
-    "url": "https://github.com/altair-graphql/altair/issues"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/altair",
-    "logo": "https://opencollective.com/altair/logo.txt"
+  "engines": {
+    "node": ">= 16"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
+  "homepage": "https://altair-graphql.github.io/altair/",
+  "keywords": [
+    "altair",
+    "client",
+    "editor",
+    "graphql",
+    "wysiwyg"
+  ],
+  "license": "MIT",
+  "private": true,
+  "repository": "altair-graphql/altair.git",
+  "resolutions": {
+    "**/oauth": "0.10.0",
+    "y18n": "4.0.1"
+  },
+  "scripts": {
+    "build": "yarn build-api",
+    "build-api": "yarn --cwd packages/altair-api build",
+    "build-app": "nx build @altairgraphql/app",
+    "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build",
+    "build-electron": "lerna bootstrap && nx build altair",
+    "build-ext": "yarn build-app && cwex build",
+    "build:ci": "lerna bootstrap -- --frozen-lockfile",
+    "lerna-publish": "lerna publish from-git --force-publish=* --yes",
+    "local-verify": "yarn build-app && lerna bootstrap",
+    "postinstall": "opencollective postinstall || true",
+    "prepare": "nx run-many --target=prepare --all --output-style=stream",
+    "publish-packages": "lerna bootstrap && yarn lerna-publish",
+    "snyk-protect": "snyk protect",
+    "start-test-server": "./bin/start_ci_test_server.sh",
+    "start:api:dev": "nx start:dev @altairgraphql/api",
+    "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-api start:prod",
+    "start:app": "nx start @altairgraphql/app",
+    "start:dashboard": "nx dev @altairgraphql/dashboard",
+    "start:redirect": "nx dev @altairgraphql/login-redirect",
+    "test": "nx run-many --target=test --all",
+    "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
+    "test:ci-test-only": "nx affected --target=test --parallel=3",
+    "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci"
+  },
   "snyk": true,
-  "private": true
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "libs/*"
+    ]
+  }
 }
