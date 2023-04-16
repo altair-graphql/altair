@@ -20,6 +20,7 @@ import { downloadData, isElectronApp } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
+import { getIpc } from './ipc';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -34,7 +35,7 @@ export class ElectronAppService {
   windowIds: string[] = [];
   activeWindowId = '';
 
-  private ipc: IpcRenderer | undefined = (window as any).ipc;
+  private ipc = getIpc();
 
   constructor(
     private store: Store<RootState>,
