@@ -65,7 +65,7 @@ export class APIClient {
     this.ky = ky.extend({
       prefixUrl: options.apiBaseUrl,
       hooks: {
-        beforeRequest: [req => this.setAuthHeaderBeforeRequest(req)],
+        beforeRequest: [(req) => this.setAuthHeaderBeforeRequest(req)],
       },
     });
 
@@ -114,7 +114,7 @@ export class APIClient {
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let array = new Uint8Array(40);
     crypto.getRandomValues(array);
-    array = array.map(x => validChars.charCodeAt(x % validChars.length));
+    array = array.map((x) => validChars.charCodeAt(x % validChars.length));
     return String.fromCharCode(...array);
   }
 
@@ -134,9 +134,7 @@ export class APIClient {
   }
 
   async getUser() {
-    return this.observeUser()
-      .pipe(take(1))
-      .toPromise();
+    return this.observeUser().pipe(take(1)).toPromise();
   }
   async signInWithCustomToken(token: string) {
     this.authToken = token;
@@ -294,10 +292,10 @@ export class APIClient {
   }
 
   private fromEventSource(url: string) {
-    return new Observable(subscriber => {
+    return new Observable((subscriber) => {
       const eventSource = new EventSource(url);
-      eventSource.onmessage = x => subscriber.next(x.data);
-      eventSource.onerror = x => subscriber.error(x);
+      eventSource.onmessage = (x) => subscriber.next(x.data);
+      eventSource.onerror = (x) => subscriber.error(x);
 
       return () => {
         eventSource?.close();
@@ -308,14 +306,14 @@ export class APIClient {
   listenForEvents() {
     return from(this.getSLT()).pipe(
       take(1),
-      map(res => {
+      map((res) => {
         const url = new URL('/events', this.options.apiBaseUrl);
 
         url.searchParams.append('slt', res.slt);
 
         return url.href;
       }),
-      switchMap(url => this.fromEventSource(url))
+      switchMap((url) => this.fromEventSource(url))
     );
   }
 }

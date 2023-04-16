@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-const convertCssColorNameToHex = require('convert-css-color-name-to-hex');
+import colors from 'color-name';
 
 export const foundations = {
   easing: 'ease',
@@ -92,49 +92,27 @@ interface RGBA {
   b: number;
   a?: number;
 }
-const colorToRGBA = (color: string): RGBA => {
-  const fromHex = hexToRgb(color);
 
-  if (fromHex) {
-    return fromHex;
+const colorOrHexToRgb = (hex: string): RGBA | undefined => {
+  const rgb = colors[hex as keyof typeof colors];
+  if (rgb) {
+    return {
+      r: rgb[0],
+      g: rgb[1],
+      b: rgb[2],
+    };
+  }
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+  if (!result || result.length < 4) {
+    return;
   }
 
-  // Strip everything except the integers eg. "rgb(" and ")" and " "
-  const rgbStr = color.split(/\(([^)]+)\)/)[1].replace(/ /g, '');
-
-  // map RGB values to variables
-  const r = parseInt(rgbStr.split(',')[0], 10);
-  const g = parseInt(rgbStr.split(',')[1], 10);
-  const b = parseInt(rgbStr.split(',')[2], 10);
-  const a =
-    typeof rgbStr.split(',')[3] !== null
-      ? parseInt(rgbStr.split(',')[3], 10)
-      : undefined;
-
-  return { r, g, b, a };
-};
-
-const contrast = (color = '') => {
-  // map RGB values to variables
-  const { r, g, b } = colorToRGBA(color);
-
-  // calculate contrast of color (standard grayscale algorithmic formula)
-  return (
-    (Math.round(r * 299) + Math.round(g * 587) + Math.round(b * 114)) / 1000
-  );
-};
-
-const hexToRgb = (hex: string): RGBA | undefined => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-    convertCssColorNameToHex(hex)
-  );
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
-    : undefined;
+  return {
+    r: parseInt(result[1] ?? '', 16),
+    g: parseInt(result[2] ?? '', 16),
+    b: parseInt(result[3] ?? '', 16),
+  };
 };
 
 export const hexToRgbStr = (hex: string) => {
@@ -142,7 +120,7 @@ export const hexToRgbStr = (hex: string) => {
     return '';
   }
 
-  const rgb = hexToRgb(hex);
+  const rgb = colorOrHexToRgb(hex);
   if (!rgb) {
     return '';
   }
