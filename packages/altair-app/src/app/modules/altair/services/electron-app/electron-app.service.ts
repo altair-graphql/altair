@@ -21,12 +21,28 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { getIpc } from './ipc';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
   createNewWindow: () => void;
   closeCurrentWindow: () => void;
 }
+
+interface BackupDataV1 {
+  version: 1;
+  localstore: IDictionary;
+}
+interface BackupDataV2 {
+  version: 2;
+  indexedrecords: {
+    key: string;
+    value: unknown;
+  }[];
+  collections?: IQueryCollection[];
+}
+
+const BACKUP_INTERVAL_MINUTES = 60;
 
 @Injectable({
   providedIn: 'root',
@@ -37,14 +53,29 @@ export class ElectronAppService {
 
   private ipc = getIpc();
 
+  private lastBackupTs = Date.now();
+
   constructor(
     private store: Store<RootState>,
     private notifyService: NotifyService,
+    private storageService: StorageService,
     private zone: NgZone
   ) {
     this.store.subscribe((data) => {
       this.windowIds = Object.keys(data.windows);
       this.activeWindowId = data.windowsMeta.activeWindowId;
+    });
+
+    // subscribe to storage changes
+    this.storageService.changes().subscribe(async () => {
+      const now = Date.now();
+      if (now - this.lastBackupTs >= BACKUP_INTERVAL_MINUTES * 60 * 1000) {
+        // run backup..
+        const data = await this.generateBackupData();
+        // Send to main process to store..
+        this.ipc?.send('save-auto-backup', data);
+        this.lastBackupTs = now;
+      }
     });
   }
 
@@ -154,6 +185,21 @@ export class ElectronAppService {
     return this.invokeWithCustomErrors('get-auth-token', {});
   }
 
+  getAutobackupData() {
+    return this.invokeWithCustomErrors('get-auto-backup', {});
+  }
+
+  async importAutobackupData() {
+    const data = await this.getAutobackupData();
+
+    if (!data) {
+      return;
+    }
+
+    await this.importBackupData(data);
+    return true;
+  }
+
   private initUpdateAvailableHandler() {
     if (!isElectronApp() || !this.ipc) {
       return;
@@ -226,7 +272,7 @@ export class ElectronAppService {
       // notify invalid file
       return this.notifyService.error('Invalid file');
     }
-    const fileObj = JSON.parse(fileContent);
+    const fileObj: BackupDataV1 | BackupDataV2 = JSON.parse(fileContent);
     if (fileObj.version === 1 && fileObj.localstore) {
       const localStorage = new ObjectLocalStorage(fileObj.localstore);
       // set the data to store
@@ -243,6 +289,11 @@ export class ElectronAppService {
     if (fileObj.version === 2 && fileObj.indexedrecords) {
       // Set indexedDb data
       await importIndexedRecords(fileObj.indexedrecords);
+
+      if (fileObj.collections) {
+        await this.storageService.queryCollections.bulkAdd(fileObj.collections);
+      }
+
       // reload the app
       this.restartApp();
       return location.reload();
@@ -252,17 +303,23 @@ export class ElectronAppService {
     return this.notifyService.error('Invalid file content.');
   }
 
-  async exportBackupData() {
+  async generateBackupData() {
     // get store data, in indexedrecords format
     // create data following schema
     // save stringified to file with agbkp extension
     const asyncStorage = new StorageService();
     const stateList = await asyncStorage.appState.toArray();
-    const backupData = {
+    const backupData: BackupDataV2 = {
       version: 2,
       indexedrecords: stateList,
+      collections: await asyncStorage.queryCollections.toArray(),
     };
-    downloadData(JSON.stringify(backupData), 'altair_backup', {
+
+    return JSON.stringify(backupData);
+  }
+
+  async exportBackupData() {
+    downloadData(await this.generateBackupData(), 'altair_backup', {
       fileType: 'agbkp',
     });
   }

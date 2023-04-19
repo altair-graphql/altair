@@ -24,6 +24,8 @@ const purgePaths = [
   'windows.$$.schema', // purge schema from windows.$$
 ];
 
+const asyncStorage = new StorageService();
+
 export const normalizeToKeyValue = (
   state: Partial<RootState>,
   keys: StateKey[],
@@ -240,7 +242,6 @@ const updateSyncOperations = (
 
 const syncStateUpdate = async () => {
   try {
-    const asyncStorage = new StorageService();
     if (syncTransaction) {
       debug.log('Deliberately aborting any current transaction');
       syncTransaction.abort();
@@ -315,7 +316,6 @@ export const getAppStateFromStorage = async ({
   forceUpdateFromProvidedData = false,
   storage = undefined as unknown as Storage,
 }) => {
-  const asyncStorage = new StorageService();
   let stateList = await asyncStorage.appState.toArray();
   const storageNamespace =
     getAltairConfig().initialData.instanceStorageNamespace;
@@ -404,7 +404,6 @@ export const getAppStateFromStorage = async ({
 export const importIndexedRecords = (
   records: { key: string; value: any }[]
 ) => {
-  const asyncStorage = new StorageService();
   return asyncStorage.transaction('rw', asyncStorage.appState, async () => {
     const ops: Promise<any>[] = [];
 

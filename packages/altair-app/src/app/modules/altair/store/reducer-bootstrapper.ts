@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { StorageService } from '../services';
+import { ElectronAppService, NotifyService, StorageService } from '../services';
 import { getAppStateFromStorage } from './async-storage-sync';
 
 @Injectable()
@@ -10,7 +10,9 @@ export class ReducerBootstrapper {
 
   constructor(
     private altairConfig: AltairConfig,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private electronAppService: ElectronAppService,
+    private notifyService: NotifyService
   ) {}
 
   async bootstrap() {
@@ -18,6 +20,16 @@ export class ReducerBootstrapper {
       this.initialState = await getAppStateFromStorage({
         updateFromLocalStorage: true,
       });
+
+      // try to import backup if no initial state
+      if (!this.initialState) {
+        if (await this.electronAppService.importAutobackupData()) {
+          this.notifyService.warning(
+            'Your application state has been automatically recovered.',
+            'Recovered data'
+          );
+        }
+      }
       await this.cleanSelectedFilesStorage();
     }
   }
