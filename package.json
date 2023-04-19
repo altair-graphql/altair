@@ -81,6 +81,7 @@
     "start:app": "nx start @altairgraphql/app",
     "start:dashboard": "nx dev @altairgraphql/dashboard",
     "start:redirect": "nx dev @altairgraphql/login-redirect",
+    "start:electron": "nx dev altair",
     "test": "nx run-many --target=test --all",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
     "test:ci-test-only": "nx affected --target=test --parallel=3 --output-style=stream",

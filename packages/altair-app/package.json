@@ -60,7 +60,7 @@
     "crypto-js": "3.3.0",
     "curlup": "1.0.0",
     "deepmerge": "4.2.2",
-    "dexie": "3.2.2",
+    "dexie": "3.2.3",
     "emotion": "10.0.27",
     "express": "4.17.1",
     "file-dialog": "0.0.8",

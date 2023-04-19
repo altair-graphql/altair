@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import Dexie from 'dexie';
+import Dexie, { liveQuery } from 'dexie';
+import { merge, scheduled } from 'rxjs';
 
 interface ISelectedFile {
   id: string;
@@ -31,6 +32,10 @@ export class StorageService extends Dexie {
 
   now() {
     return +new Date();
+  }
+
+  changes() {
+    return liveQuery(() => this.appState.toArray());
   }
 
   clearAllLocalData() {

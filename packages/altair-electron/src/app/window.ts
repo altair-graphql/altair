@@ -25,9 +25,11 @@ import { ActionManager } from './actions';
 import { TouchbarManager } from './touchbar';
 import { handleWithCustomErrors } from '../utils/index';
 import { AuthServer } from '../auth/server/index';
+import ElectronStore from 'electron-store';
+import { getAutobackup, setAutobackup } from '../utils/backup';
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
-const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map(_ =>
+const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map((_) =>
   _.toLowerCase()
 );
 
@@ -121,7 +123,7 @@ export class WindowManager {
     initSettingsStoreEvents();
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', e => e.preventDefault());
+    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
 
     // instance.webContents.once('dom-ready', () => {
     //   instance.webContents.openDevTools();
@@ -148,7 +150,7 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         console.log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach(uploadData => {
+          details.uploadData.forEach((uploadData) => {
             console.log('Data sent:', uploadData.bytes.toString());
           });
         }
@@ -176,9 +178,9 @@ export class WindowManager {
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders(details => {
+      session.defaultSession.webRequest.onSendHeaders((details) => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach(headerKey => {
+          Object.keys(details.requestHeaders).forEach((headerKey) => {
             console.log(
               'Header sent:',
               headerKey,
@@ -224,7 +226,7 @@ export class WindowManager {
       (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
         this.requestHeaders = {};
 
-        headers.forEach(header => {
+        headers.forEach((header) => {
           const normalizedKey = header.key.toLowerCase();
           if (
             HEADERS_TO_SET.includes(normalizedKey) &&
@@ -256,18 +258,31 @@ export class WindowManager {
       this.electronApp.store.delete('file-opened');
     });
 
-    ipcMain.handle('reload-window', e => {
+    ipcMain.handle('reload-window', (e) => {
       e.sender.reload();
     });
 
+    ipcMain.on('save-auto-backup', (e, data: string) => {
+      setAutobackup(data);
+    });
+
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors('get-auth-token', async e => {
+    // https://stackoverflow.com/questions/75844516/user-save-progress-to-file-in-electron-react-app
+    handleWithCustomErrors('get-auth-token', async (e) => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error('untrusted source trying to get auth token');
       }
 
       const authServer = new AuthServer();
       return authServer.getCustomToken();
+    });
+
+    handleWithCustomErrors('get-auto-backup', async (e) => {
+      if (!e.sender || e.sender !== this.instance?.webContents) {
+        throw new Error('untrusted source');
+      }
+
+      return getAutobackup();
     });
   }
 
@@ -287,7 +302,7 @@ export class WindowManager {
         .then(({ mimeType, data }) => {
           callback({ mimeType, data });
         })
-        .catch(error => {
+        .catch((error) => {
           error.message = `Failed to register protocol. ${error.message}`;
           console.error(error);
         });
