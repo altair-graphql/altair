@@ -18,12 +18,15 @@ import { IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { Pos, Token } from 'codemirror';
-import { anyFn } from '../../../../../testing';
+import { anyFn, mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Position } from '../../utils/editor/helpers';
+import { ElectronAppService } from '../electron-app/electron-app.service';
+import { MockProvider } from 'ng-mocks';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
+let mockElectronAppService: ElectronAppService;
 let mockStore: Store<RootState>;
 
 describe('GqlService', () => {
@@ -39,6 +42,7 @@ describe('GqlService', () => {
       error: anyFn(),
       info: anyFn(),
     } as NotifyService;
+    mockElectronAppService = mock();
     TestBed.configureTestingModule({
       providers: [
         GqlService,
@@ -50,6 +54,7 @@ describe('GqlService', () => {
           provide: NotifyService,
           useFactory: () => mockNotifyService,
         },
+        MockProvider(ElectronAppService),
         {
           provide: Store,
           useFactory: () => mockStore,

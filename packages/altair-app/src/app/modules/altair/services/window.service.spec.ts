@@ -21,6 +21,7 @@ describe('WindowService', () => {
         GqlService,
         MockProvider(QueryCollectionService),
         MockProvider(NotifyService),
+        MockProvider(services.ElectronAppService),
         services.DbService,
         {
           provide: Store,
