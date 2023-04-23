@@ -36,7 +36,7 @@ import { debug } from '../../utils/logger';
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import * as fromVariables from '../../store/variables/variables.reducer';
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';
-import { setByDotNotation } from '../../utils';
+import { parseJson, setByDotNotation } from '../../utils';
 import { Token } from 'codemirror';
 import { IDictionary, Omit } from '../../interfaces/shared';
 import {
@@ -696,8 +696,18 @@ export class GqlService {
         headers,
         observe: 'response',
         withCredentials,
+        // returning text instead of transforming to JSON automatically.
+        // Will instead transform to JSON manually to support bigint
+        responseType: 'text',
       })
       .pipe(
+        map((res) => {
+          if (res.body) {
+            return res.clone({ body: parseJson(res.body, res.body) });
+          }
+
+          return res;
+        }),
         catchError((err: HttpErrorResponse) => {
           debug.error(err);
           if (err.error instanceof ErrorEvent) {

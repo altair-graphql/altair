@@ -15,7 +15,7 @@ import {
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
-import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { json } from '@codemirror/lang-json';
 import { Options as SortableOptions, SortableEvent } from 'sortablejs';
 import { TODO } from 'altair-graphql-core/build/types/shared';
 (window as any).jsonlint = (window as any).jsonlint || {

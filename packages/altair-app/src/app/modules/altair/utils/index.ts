@@ -1,4 +1,5 @@
 import FileSaver from 'file-saver';
+import JSONBigint from 'json-bigint';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
@@ -158,7 +159,7 @@ export const jsonc = (str: string) => {
 
 export const parseJson = (str: string, defaultValue = {}) => {
   try {
-    return JSON.parse(str);
+    return JSONBigint.parse(str);
   } catch {
     debug.error('Could not parse JSON. Using default instead.');
     return defaultValue;
