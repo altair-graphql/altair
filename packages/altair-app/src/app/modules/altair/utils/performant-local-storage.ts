@@ -1,10 +1,11 @@
+import { electronLocalStorage } from '@altairgraphql/electron-interop/build/renderer/electron-local-storage';
 import { IDictionary } from '../interfaces/shared';
 
 export class PerformantLocalStorage implements Storage {
   private storage: Storage;
   private setItemHandles: IDictionary<number | undefined> = {};
   constructor() {
-    this.storage = (window as any).electronLocalStorage || localStorage;
+    this.storage = electronLocalStorage || localStorage;
   }
 
   /**
