@@ -7,6 +7,7 @@ import { VARIABLE_REGEX } from '../services/environment/environment.service';
 import { commentRegex } from './comment-regex';
 import { from } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { electronApiKey } from '@altairgraphql/electron-interop/build/constants';
 
 interface DownloadDataOptions {
   mimeType?: string;
@@ -342,8 +343,8 @@ export const isElectronApp = () => {
     return false;
   }
 
-  if (!(window as any).ipc) {
-    debug.error('Is in electron app but IPC is undefined!');
+  if (!(window as any)[electronApiKey]) {
+    debug.error('Is in electron app but electronApi is undefined!');
     return false;
   }
 

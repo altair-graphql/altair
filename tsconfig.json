@@ -5,6 +5,7 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
+    "sourceMap": true,
     // "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
      /* Type Checking */

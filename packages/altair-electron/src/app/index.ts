@@ -6,6 +6,7 @@ import { InMemoryStore } from '../store';
 import { WindowManager } from './window';
 import { store } from '../settings/main/store';
 import { AuthServer } from '../auth/server';
+import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
 
 export class ElectronApp {
   store: InMemoryStore;
@@ -114,10 +115,10 @@ export class ElectronApp {
           const instance = this.windowManager.getInstance();
 
           if (instance) {
-            instance.webContents.send('file-opened', data);
+            instance.webContents.send(IPC_EVENT_NAMES.FILE_OPENED, data);
           }
 
-          this.store.set('file-opened', data);
+          this.store.set('opened-file-data', data);
         });
       });
     });

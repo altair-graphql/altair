@@ -10,6 +10,7 @@
     "logo": "https://opencollective.com/altair/logo.txt"
   },
   "dependencies": {
+    "@altairgraphql/electron-interop": "^5.0.22",
     "@altairgraphql/login-redirect": "^5.0.22",
     "altair-static": "^5.0.22",
     "body-parser": "^1.20.0",

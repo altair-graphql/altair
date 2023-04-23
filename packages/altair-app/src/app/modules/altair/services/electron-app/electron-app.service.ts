@@ -1,7 +1,6 @@
 import { take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IpcRenderer } from 'electron';
 
 import { NotifyService } from '../notify/notify.service';
 
@@ -20,8 +19,8 @@ import { downloadData, isElectronApp } from '../../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
-import { getIpc } from './ipc';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { electronAPI } from '@altairgraphql/electron-interop/build/renderer';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -51,7 +50,7 @@ export class ElectronAppService {
   windowIds: string[] = [];
   activeWindowId = '';
 
-  private ipc = getIpc();
+  private api = electronAPI;
 
   private lastBackupTs = Date.now();
 
@@ -73,7 +72,7 @@ export class ElectronAppService {
         // run backup..
         const data = await this.generateBackupData();
         // Send to main process to store..
-        this.ipc?.send('save-auto-backup', data);
+        this.api?.actions.saveAutobackupData(data);
         this.lastBackupTs = now;
       }
     });
@@ -85,15 +84,15 @@ export class ElectronAppService {
     createNewWindow,
     closeCurrentWindow,
   }: ConnectOptions) {
-    if (!isElectronApp() || !this.ipc) {
+    if (!isElectronApp() || !this.api) {
       return;
     }
 
-    this.ipc.on('file-opened', (evt: Event, content: string) => {
+    this.api.events.onFileOpened((content) => {
       this.zone.run(() => importFileContent(content));
     });
 
-    this.ipc.on('certificate-error', (evt: Event, error: Error) => {
+    this.api.events.onCertificateError(() => {
       this.zone.run(() =>
         this.notifyService.warning(`
         Your request has an invalid certificate.
@@ -102,47 +101,49 @@ export class ElectronAppService {
       );
     });
 
-    this.ipc.on('import-app-data', (evt: Event, content: string) => {
+    this.api.events.onImportAppData((content) => {
       this.zone.run(() => this.importBackupData(content));
     });
 
-    this.ipc.on('export-app-data', () => {
+    this.api.events.onExportAppData(() => {
       this.zone.run(() => this.exportBackupData());
     });
 
-    this.ipc.on('create-tab', () => {
+    this.api.events.onCreateTab(() => {
       this.zone.run(() => createNewWindow());
     });
-    this.ipc.on('close-tab', () => {
+
+    this.api.events.onCloseTab(() => {
       this.zone.run(() => closeCurrentWindow());
     });
 
-    this.ipc.on('next-tab', () => {
+    this.api.events.onNextTab(() => {
       this.zone.run(() =>
         this.store.dispatch(new windowsMetaActions.SetNextWindowActiveAction())
       );
     });
 
-    this.ipc.on('previous-tab', () => {
+    this.api.events.onPreviousTab(() => {
       this.zone.run(() =>
         this.store.dispatch(new windowsMetaActions.SetPreviousWindowAction())
       );
     });
 
-    this.ipc.on('reopen-closed-tab', () => {
+    this.api.events.onReopenClosedTab(() => {
       this.zone.run(() =>
         this.store.dispatch(new windowsActions.ReopenClosedWindowAction())
       );
     });
 
-    this.ipc.on('send-request', () => {
+    this.api.events.onSendRequest(() => {
       this.zone.run(() =>
         this.store.dispatch(
           new queryActions.SendQueryRequestAction(this.activeWindowId)
         )
       );
     });
-    this.ipc.on('reload-docs', () => {
+
+    this.api.events.onReloadDocs(() => {
       this.zone.run(() =>
         this.store.dispatch(
           new queryActions.SendIntrospectionQueryRequestAction(
@@ -151,23 +152,26 @@ export class ElectronAppService {
         )
       );
     });
-    this.ipc.on('show-docs', () => {
+
+    this.api.events.onShowDocs(() => {
       this.zone.run(() =>
         this.store.dispatch(
           new docsActions.ToggleDocsViewAction(this.activeWindowId)
         )
       );
     });
-    this.ipc.on('show-settings', () => {
+
+    this.api.events.onShowSettings(() => {
       this.zone.run(() =>
         this.store.dispatch(
           new windowsMetaActions.ShowSettingsDialogAction({ value: true })
         )
       );
     });
+
     debug.log('Electron app connected.');
 
-    this.ipc.send('get-file-opened');
+    this.api.actions.rendererReady();
 
     this.store
       .select(
@@ -182,11 +186,11 @@ export class ElectronAppService {
   }
 
   getAuthToken() {
-    return this.invokeWithCustomErrors('get-auth-token', {});
+    return this.api?.actions.getAuthToken();
   }
 
   getAutobackupData() {
-    return this.invokeWithCustomErrors('get-auto-backup', {});
+    return this.api?.actions.getAutobackupData();
   }
 
   async importAutobackupData() {
@@ -201,21 +205,22 @@ export class ElectronAppService {
   }
 
   private initUpdateAvailableHandler() {
-    if (!isElectronApp() || !this.ipc) {
+    if (!isElectronApp() || !this.api) {
       return;
     }
     const opts = {
       disableTimeOut: true,
       data: {
         action: () => {
-          if (!isElectronApp() || !this.ipc) {
+          if (!isElectronApp() || !this.api) {
             return;
           }
-          this.ipc.send('update');
+
+          this.api.actions.performAppUpdate();
         },
       },
     };
-    this.ipc.on('update-available', () => {
+    this.api.events.onUpdateAvailable(() => {
       this.notifyService.info(
         'Click here to download the latest version!',
         'Update Found!',
@@ -225,8 +230,8 @@ export class ElectronAppService {
   }
 
   setHeaders(headers: HeaderState) {
-    if (isElectronApp() && this.ipc) {
-      this.ipc.sendSync('set-headers-sync', headers);
+    if (isElectronApp() && this.api) {
+      this.api.actions.setHeaderSync(headers);
     }
   }
 
@@ -237,7 +242,7 @@ export class ElectronAppService {
       return false;
     }
 
-    if (!this.ipc) {
+    if (!this.api) {
       debug.error('Is in electron app but IPC is undefined!');
       return false;
     }
@@ -246,8 +251,8 @@ export class ElectronAppService {
   }
 
   restartApp() {
-    if (isElectronApp() && this.ipc) {
-      this.ipc.send('restart-app');
+    if (isElectronApp() && this.api) {
+      this.api.actions.restartApp();
     }
   }
 
@@ -322,28 +327,5 @@ export class ElectronAppService {
     downloadData(await this.generateBackupData(), 'altair_backup', {
       fileType: 'agbkp',
     });
-  }
-
-  private decodeError(errObj: {
-    name: string;
-    message: string;
-    extra?: IDictionary;
-  }) {
-    const e = new Error(errObj.message);
-    e.name = errObj.name;
-    Object.assign(e, errObj.extra);
-    return e;
-  }
-
-  // TODO: Create an electron-interop package and move this there
-  private async invokeWithCustomErrors(channel: string, ...args: unknown[]) {
-    if (!isElectronApp() || !this.ipc) {
-      return;
-    }
-    const { error, result } = await this.ipc.invoke(channel, ...args);
-    if (error) {
-      throw this.decodeError(error);
-    }
-    return result;
   }
 }

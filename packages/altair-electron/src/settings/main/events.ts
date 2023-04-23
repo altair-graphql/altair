@@ -2,6 +2,7 @@ import { ipcMain, IpcRenderer, WebContents } from 'electron';
 import { store } from './store';
 import { SETTINGS_STORE_EVENTS } from '../constants';
 import { autoUpdater } from 'electron-updater';
+import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
 
 export const initSettingsStoreEvents = () => {
   ipcMain.on(SETTINGS_STORE_EVENTS.GET_SETTINGS_DATA, (e) => {
@@ -13,11 +14,11 @@ export const initSettingsStoreEvents = () => {
   });
 };
 
-export const initUpdateAvailableEvent = (ipc: WebContents) => {
+export const initUpdateAvailableEvent = (webContent: WebContents) => {
   autoUpdater.on('update-available', () => {
-    ipc.send('update-available');
+    webContent.send(IPC_EVENT_NAMES.UPDATE_AVAILABLE);
   });
-  ipcMain.on('update', () => {
+  ipcMain.on(IPC_EVENT_NAMES.RENDERER_UPDATE_APP, () => {
     autoUpdater.downloadUpdate();
   });
 };

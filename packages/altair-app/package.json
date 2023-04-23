@@ -6,6 +6,7 @@
   "dependencies": {
     "@altairgraphql/api-utils": "^5.0.22",
     "@altairgraphql/db": "^5.0.22",
+    "@altairgraphql/electron-interop": "^5.0.22",
     "@angular/animations": "15.2.3",
     "@angular/cdk": "12.2.6",
     "@angular/cli": "15.2.4",

@@ -27,6 +27,7 @@ import { handleWithCustomErrors } from '../utils/index';
 import { AuthServer } from '../auth/server/index';
 import ElectronStore from 'electron-store';
 import { getAutobackup, setAutobackup } from '../utils/backup';
+import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
 const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map((_) =>
@@ -80,9 +81,11 @@ export class WindowManager {
         nodeIntegrationInWorker: false,
         // TODO: Enable context isolation https://www.electronjs.org/docs/latest/tutorial/context-isolation
         // TODO: Migrate current preload/IPC usage to use contextBridge instead
-        contextIsolation: false,
+        contextIsolation: true,
         // enableRemoteModule: process.env.NODE_ENV === "test", // remote required for spectron tests to work
-        preload: path.join(__dirname, '../preload', 'index.js'),
+        preload: require.resolve(
+          '@altairgraphql/electron-interop/build/preload.js'
+        ), // path.join(__dirname, '../preload', 'index.js'),
       },
       // titleBarStyle: 'hidden-inset'
     });
@@ -214,7 +217,7 @@ export class WindowManager {
       });
     });
 
-    ipcMain.on('restart-app', () => {
+    ipcMain.on(IPC_EVENT_NAMES.RENDERER_RESTART_APP, () => {
       app.relaunch();
       app.exit();
     });
@@ -222,7 +225,7 @@ export class WindowManager {
     // TODO: Get type from altair-app as a devDependency
     // Get 'set headers' instruction from app
     ipcMain.on(
-      'set-headers-sync',
+      IPC_EVENT_NAMES.RENDERER_SET_HEADERS_SYNC,
       (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
         this.requestHeaders = {};
 
@@ -242,48 +245,61 @@ export class WindowManager {
       }
     );
 
-    // Listen for the `get-file-opened` instruction,
+    // Listen for the renderer ready event,
     // then retrieve the opened file from the store and send it to the instance.
     // Then remove it from the store
-    ipcMain.on('get-file-opened', () => {
+    ipcMain.on(IPC_EVENT_NAMES.RENDERER_READY, () => {
       if (!this.instance) {
         throw new Error('instance not created!');
       }
-      const openedFileContent = this.electronApp.store.get('file-opened');
+      const openedFileContent = this.electronApp.store.get(
+        'opened-file-data-opened'
+      );
       if (!openedFileContent) {
         return;
       }
 
-      this.instance.webContents.send('file-opened', openedFileContent);
-      this.electronApp.store.delete('file-opened');
+      this.instance.webContents.send(
+        IPC_EVENT_NAMES.FILE_OPENED,
+        openedFileContent
+      );
+      this.electronApp.store.delete('opened-file-data');
     });
 
     ipcMain.handle('reload-window', (e) => {
       e.sender.reload();
     });
 
-    ipcMain.on('save-auto-backup', (e, data: string) => {
-      setAutobackup(data);
-    });
+    ipcMain.on(
+      IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA,
+      (e, data: string) => {
+        setAutobackup(data);
+      }
+    );
 
     // TODO: Create an electron-interop package and move this there
-    // https://stackoverflow.com/questions/75844516/user-save-progress-to-file-in-electron-react-app
-    handleWithCustomErrors('get-auth-token', async (e) => {
-      if (!e.sender || e.sender !== this.instance?.webContents) {
-        throw new Error('untrusted source trying to get auth token');
+    handleWithCustomErrors(
+      IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
+      async (e) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source trying to get auth token');
+        }
+
+        const authServer = new AuthServer();
+        return authServer.getCustomToken();
       }
+    );
 
-      const authServer = new AuthServer();
-      return authServer.getCustomToken();
-    });
+    handleWithCustomErrors(
+      IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,
+      async (e) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source');
+        }
 
-    handleWithCustomErrors('get-auto-backup', async (e) => {
-      if (!e.sender || e.sender !== this.instance?.webContents) {
-        throw new Error('untrusted source');
+        return getAutobackup();
       }
-
-      return getAutobackup();
-    });
+    );
   }
 
   registerProtocol() {
