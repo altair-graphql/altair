@@ -2,12 +2,8 @@ import 'reflect-metadata';
 import {
   DebugElement,
   ɵReflectionCapabilities as ReflectionCapabilities,
-  Component as ComponentDecorator,
-  OnInit,
-  ChangeDetectorRef,
-  ErrorHandler,
-  TemplateRef,
-  Input,
+  Component,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   TestBed,
@@ -114,14 +110,6 @@ export async function mount(mountOptions: TestMountOptions) {
   const MainComponent = mountOptions.component;
   const propsData = mountOptions.propsData || {};
   const props = getComponentMeta(MainComponent, propsData);
-  // TODO: Only specify component props.input if propsData for input is provided, retrieve default value instead
-  // TODO: Create dummy main component (sole purpose to retrieve default input values)
-  // TODO: (Add error boundary around dummy component to catch errors: https://stackblitz.com/edit/error-boundary-angular?file=src%2Fapp%2Ferror-boundary.component.ts)
-  // TODO: Use retrieved default input values to set the input value for the real component
-  const templateInputs = props.inputs.reduce((acc, cur) => {
-    // Set initial props values
-    return { ...acc, [cur]: propsData[cur] };
-  }, {});
   const annotations = Reflect.getOwnPropertyDescriptor(
     MainComponent,
     '__annotations__'
@@ -137,11 +125,31 @@ export async function mount(mountOptions: TestMountOptions) {
     props.outputs
   );
 
+  @Component({ template: template })
   class TestHostComponent extends BaseTestHostComponent {
     mock = {};
-    inputs = templateInputs;
+    inputs: IDictionary;
     outputList = props.outputs;
+
+    constructor(private viewContainerRef: ViewContainerRef) {
+      super();
+      // create the main component to retrieve default values to be applied to the actual component instance used for testing
+      const componentRef = this.viewContainerRef.createComponent(MainComponent);
+      const newTemplateInputs = props.inputs.reduce((acc, cur) => {
+        // Set default props values
+        return {
+          ...acc,
+          [cur]:
+            propsData[cur] ??
+            (componentRef.instance as any)?.[cur] ??
+            undefined,
+        };
+      }, {});
+      this.inputs = newTemplateInputs;
+      componentRef.destroy(); // component is no longer needed
+    }
   }
+
   props.outputs.forEach((prop) => {
     // Set output listeners
     (TestHostComponent.prototype as any)[prop] = function (...args: unknown[]) {
@@ -150,21 +158,17 @@ export async function mount(mountOptions: TestMountOptions) {
     };
   });
 
-  const DecoratedTestHostComponent = ComponentDecorator({ template: template })(
-    TestHostComponent
-  );
-
   const moduleDef: TestModuleMetadata = {
     ...mountOptions,
     declarations: [
       ...(mountOptions.declarations || []),
-      DecoratedTestHostComponent,
+      TestHostComponent,
       MainComponent,
     ],
   };
 
   await TestBed.configureTestingModule(moduleDef).compileComponents();
-  const testHostFixture = TestBed.createComponent(DecoratedTestHostComponent);
+  const testHostFixture = TestBed.createComponent(TestHostComponent);
   try {
     testHostFixture.detectChanges();
   } catch (error) {
@@ -226,34 +230,3 @@ export function click(
 export function testLog(...msgs: any[]) {
   require('console').log(...msgs);
 }
-
-// @ComponentDecorator({
-//   selector: 'app-test-error-boundary',
-//   template: '<ng-container *ngTemplateOutlet="currentTemplate"></ng-container>',
-// })
-// class ErrorBoundaryComponent implements OnInit {
-//   constructor(
-//     private readonly changeDetector: ChangeDetectorRef,
-//     private readonly errorHandler: ErrorHandler
-//   ) {
-//     this.changeDetector.detach();
-//   }
-
-//   @Input() onSuccess: TemplateRef<any> | undefined;
-//   @Input() onError: TemplateRef<any> | undefined;
-
-//   currentTemplate: TemplateRef<any> | undefined;
-
-//   ngOnInit() {
-//     this.currentTemplate = this.onSuccess;
-//   }
-
-//   ngDoCheck() {
-//     try {
-//       this.changeDetector.detectChanges();
-//     } catch (e) {
-//       this.currentTemplate = this.onError;
-//       this.errorHandler.handleError(e);
-//     }
-//   }
-// }

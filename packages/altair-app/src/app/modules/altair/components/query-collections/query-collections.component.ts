@@ -24,8 +24,10 @@ import { QueryCollectionService } from '../../services';
 })
 export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;
-  @Input() set collections(val: IQueryCollection[]) {
-    this.collections$.next(val);
+  @Input() set collections(val: IQueryCollection[] | undefined) {
+    if (val) {
+      this.collections$.next(val);
+    }
   }
   @Input() set workspaces(val: { label: string; id: string }[]) {
     this.workspaces$.next(val);

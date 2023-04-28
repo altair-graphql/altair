@@ -17,10 +17,6 @@ describe('UrlBoxComponent', () => {
       component: UrlBoxComponent,
       imports: [MockModule(SharedModule)],
       schemas: [NO_ERRORS_SCHEMA],
-      propsData: {
-        queryOperations: [],
-        httpVerb: 'POST',
-      },
     });
   });
 
