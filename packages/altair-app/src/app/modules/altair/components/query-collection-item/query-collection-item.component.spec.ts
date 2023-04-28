@@ -13,11 +13,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { mock } from 'testing';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
 ngMocks.globalExclude(NzModalService);
 describe('QueryCollectionItemComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionItemComponent>;
-  const collectionData = {
-    id: 1,
+  const collectionData: IQueryCollectionTree = {
+    id: '1',
     title: 'collection-1',
     collections: [],
     queries: [
@@ -25,16 +26,37 @@ describe('QueryCollectionItemComponent', () => {
         id: 'query1',
         windowName: 'Query 1',
         updated_at: 1594249795629,
+        type: 'window',
+        apiUrl: '',
+        headers: [],
+        query: '',
+        subscriptionUrl: '',
+        variables: '',
+        version: 1,
       },
       {
         id: 'query2',
         windowName: 'Another Query',
         updated_at: 1594249790029,
+        type: 'window',
+        apiUrl: '',
+        headers: [],
+        query: '',
+        subscriptionUrl: '',
+        variables: '',
+        version: 1,
       },
       {
         id: 'query3',
         windowName: 'Zap Query',
         updated_at: 1594249790629,
+        type: 'window',
+        apiUrl: '',
+        headers: [],
+        query: '',
+        subscriptionUrl: '',
+        variables: '',
+        version: 1,
       },
     ],
   };
@@ -83,9 +105,16 @@ describe('QueryCollectionItemComponent', () => {
         id: 'query2',
         windowName: 'Another Query',
         updated_at: 1594249790029,
+        type: 'window',
+        apiUrl: '',
+        headers: [],
+        query: '',
+        subscriptionUrl: '',
+        variables: '',
+        version: 1,
       },
       windowIdInCollection: 'query2',
-      collectionId: 1,
+      collectionId: '1',
     });
   });
 
@@ -111,7 +140,7 @@ describe('QueryCollectionItemComponent', () => {
     expect(wrapper.emitted('exportCollectionChange')).toBeTruthy();
     const emittedObj = wrapper.emitted('exportCollectionChange')![0][0];
     expect(emittedObj).toEqual({
-      collectionId: 1,
+      collectionId: '1',
     });
   });
 
@@ -124,7 +153,7 @@ describe('QueryCollectionItemComponent', () => {
     expect(wrapper.emitted('deleteCollectionChange')).toBeTruthy();
     const emittedObj = wrapper.emitted('deleteCollectionChange')![0][0];
     expect(emittedObj).toEqual({
-      collectionId: 1,
+      collectionId: '1',
     });
   });
 
@@ -135,7 +164,7 @@ describe('QueryCollectionItemComponent', () => {
     expect(wrapper.emitted('deleteQueryChange')).toBeTruthy();
     const emittedObj = wrapper.emitted('deleteQueryChange')![0][0];
     expect(emittedObj).toEqual({
-      collectionId: 1,
+      collectionId: '1',
       query: collectionData.queries[0],
     });
   });

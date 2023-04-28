@@ -1,6 +1,6 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Type } from '@angular/core';
+import { DebugElement, EventEmitter, Type } from '@angular/core';
 import {
   setProps,
   setValue,
@@ -8,6 +8,10 @@ import {
   flushPromises,
 } from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
+
+type FilteredKeys<T, U> = {
+  [P in keyof T]: T[P] extends U ? P : never;
+}[keyof T];
 
 export class NgxTestWrapper<C> {
   private _mainComponentDebugEl: DebugElement;
@@ -83,8 +87,8 @@ export class NgxTestWrapper<C> {
   }
 
   emitted(): IDictionary<any[]> | undefined;
-  emitted(event: string): any[] | undefined;
-  emitted(event?: string) {
+  emitted(event: FilteredKeys<C, typeof EventEmitter>): any[] | undefined;
+  emitted(event?: FilteredKeys<C, typeof EventEmitter>) {
     if (this._isWrapper) {
       const emitted = this._testHostFixture.componentInstance.outputList
         .map((prop) => {
@@ -101,7 +105,7 @@ export class NgxTestWrapper<C> {
         }, {} as IDictionary<any[]>);
 
       if (event) {
-        return emitted[event];
+        return emitted[event as any];
       }
       return emitted;
     }
