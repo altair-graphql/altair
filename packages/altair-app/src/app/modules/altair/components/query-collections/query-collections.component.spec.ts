@@ -130,6 +130,7 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('selectQueryChange')).toBeTruthy();
   });
 
+  // TODO:
   it('should emit "deleteQueryChange" from query-collection-item', async () => {
     wrapper.setProps({
       showCollections: true,

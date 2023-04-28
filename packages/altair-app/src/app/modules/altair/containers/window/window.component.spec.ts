@@ -43,7 +43,6 @@ describe('WindowComponent', () => {
         collection: {
           activeCollection: undefined,
           list: [],
-          sortBy: 'a-z',
         },
       });
       const providers = [

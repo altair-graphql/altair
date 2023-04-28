@@ -8,10 +8,12 @@ import { NgxPopperModule } from 'ngx-popper';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockProvider, ngMocks } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
-
+import { mock } from 'testing';
+import { NzModalService } from 'ng-zorro-antd/modal';
+ngMocks.globalExclude(NzModalService);
 describe('QueryCollectionItemComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionItemComponent>;
   const collectionData = {
@@ -41,9 +43,23 @@ describe('QueryCollectionItemComponent', () => {
     wrapper = await mount({
       component: QueryCollectionItemComponent,
       imports: [MockModule(SharedModule)],
+      providers: [
+        {
+          provide: NzModalService,
+          useValue: mock<NzModalService>({
+            confirm({ nzOnOk } = {}) {
+              if (nzOnOk) {
+                (nzOnOk as any)();
+              }
+              return true as any;
+            },
+          }),
+        },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         collectionTree: collectionData,
+        queriesSortBy: 'newest',
       },
     });
   });
@@ -100,9 +116,6 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "deleteCollectionChange" when delete collection is clicked', () => {
-    const confirmSpy = jest
-      .spyOn(window, 'confirm')
-      .mockImplementation(() => true);
     const deleteCollectionButton = wrapper.find(
       '[data-test-id="delete-collection"]'
     );
@@ -113,14 +126,9 @@ describe('QueryCollectionItemComponent', () => {
     expect(emittedObj).toEqual({
       collectionId: 1,
     });
-
-    confirmSpy.mockRestore();
   });
 
   it('should emit "deleteQueryChange" when delete query is clicked', () => {
-    const confirmSpy = jest
-      .spyOn(window, 'confirm')
-      .mockImplementation(() => true);
     const deleteQueryButton = wrapper.find('[data-test-id="delete-query"]');
     deleteQueryButton.emit('click');
 
@@ -130,8 +138,6 @@ describe('QueryCollectionItemComponent', () => {
       collectionId: 1,
       query: collectionData.queries[0],
     });
-
-    confirmSpy.mockRestore();
   });
 
   it('should sort rendered queries when sortBy (a-z) is clicked', async () => {
@@ -140,54 +146,9 @@ describe('QueryCollectionItemComponent', () => {
 
     await wrapper.nextTick();
 
-    const queryItemTitles = wrapper.findAll(
-      '[data-test-id="query-item-title"]'
-    );
-    expect(queryItemTitles[0]!.html()).toContain('Another Query');
-    expect(queryItemTitles[1]!.html()).toContain('Query 1');
-    expect(queryItemTitles[2]!.html()).toContain('Zap Query');
-  });
-
-  it('should sort rendered queries when sortBy (z-a) is clicked', async () => {
-    const sortByButton = wrapper.find('[data-test-id="sort-queries-z-a"]');
-    sortByButton.emit('click');
-
-    await wrapper.nextTick();
-
-    const queryItemTitles = wrapper.findAll(
-      '[data-test-id="query-item-title"]'
-    );
-    expect(queryItemTitles[0]!.html()).toContain('Zap Query');
-    expect(queryItemTitles[1]!.html()).toContain('Query 1');
-    expect(queryItemTitles[2]!.html()).toContain('Another Query');
-  });
-
-  it('should sort rendered queries when sortBy (newest) is clicked', async () => {
-    const sortByButton = wrapper.find('[data-test-id="sort-queries-newest"]');
-    sortByButton.emit('click');
-
-    await wrapper.nextTick();
-
-    const queryItemTitles = wrapper.findAll(
-      '[data-test-id="query-item-title"]'
-    );
-    expect(queryItemTitles[0]!.html()).toContain('Another Query');
-    expect(queryItemTitles[1]!.html()).toContain('Zap Query');
-    expect(queryItemTitles[2]!.html()).toContain('Query 1');
-  });
-
-  it('should sort rendered queries when sortBy (oldest) is clicked', async () => {
-    const sortByButton = wrapper.find('[data-test-id="sort-queries-oldest"]');
-    sortByButton.emit('click');
-
-    await wrapper.nextTick();
-
-    const queryItemTitles = wrapper.findAll(
-      '[data-test-id="query-item-title"]'
-    );
-    expect(queryItemTitles[0]!.html()).toContain('Query 1');
-    expect(queryItemTitles[1]!.html()).toContain('Zap Query');
-    expect(queryItemTitles[2]!.html()).toContain('Another Query');
+    wrapper.emitted('sortCollectionQueriesChange');
+    const emittedObj = wrapper.emitted('sortCollectionQueriesChange')![0][0];
+    expect(emittedObj).toEqual('a-z');
   });
 
   it('should render collapsed collection correctly', async () => {

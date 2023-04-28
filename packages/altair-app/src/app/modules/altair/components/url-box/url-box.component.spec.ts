@@ -19,6 +19,7 @@ describe('UrlBoxComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       propsData: {
         queryOperations: [],
+        httpVerb: 'POST',
       },
     });
   });

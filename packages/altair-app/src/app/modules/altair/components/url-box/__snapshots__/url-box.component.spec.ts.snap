@@ -14,9 +14,9 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         nztrigger="click"
         track-id="http_verb"
         type="button"
-        value="undefined"
+        value="POST"
       >
-          
+         POST 
       </button>
       
       <nz-dropdown-menu>
@@ -160,9 +160,9 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         nztrigger="click"
         track-id="http_verb"
         type="button"
-        value="undefined"
+        value="POST"
       >
-          
+         POST 
       </button>
       
       <nz-dropdown-menu>
