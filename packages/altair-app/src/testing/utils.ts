@@ -102,11 +102,20 @@ export class BaseTestHostComponent {
   outputList!: string[];
 }
 
-interface TestMountOptions extends TestModuleMetadata {
-  component: any;
-  propsData?: IDictionary;
+type Ctor<C> = new (...args: any[]) => C;
+
+type FilteredNonFunctionKeys<T> = {
+  [P in keyof T]: T[P] extends (...args: any[]) => any ? never : P;
+}[keyof T];
+interface TestMountOptions<C = any> extends TestModuleMetadata {
+  component: Ctor<C>;
+  propsData?: Partial<
+    {
+      [K in FilteredNonFunctionKeys<C>]-?: C[K];
+    }
+  >;
 }
-export async function mount(mountOptions: TestMountOptions) {
+export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
   const propsData = mountOptions.propsData || {};
   const props = getComponentMeta(MainComponent, propsData);
@@ -140,7 +149,7 @@ export async function mount(mountOptions: TestMountOptions) {
         return {
           ...acc,
           [cur]:
-            propsData[cur] ??
+            propsData[cur as keyof typeof propsData] ??
             (componentRef.instance as any)?.[cur] ??
             undefined,
         };
@@ -180,10 +189,7 @@ export async function mount(mountOptions: TestMountOptions) {
     throw error;
   }
 
-  return new NgxTestWrapper<typeof MainComponent>(
-    testHostFixture,
-    MainComponent
-  );
+  return new NgxTestWrapper<C>(testHostFixture, MainComponent);
 }
 
 export function buildTestHostComponentTemplate(

@@ -14,9 +14,6 @@ describe('VariablesEditorComponent', () => {
       component: VariablesEditorComponent,
       imports: [MockModule(SharedModule)],
       schemas: [NO_ERRORS_SCHEMA],
-      propsData: {
-        queryOperations: [],
-      },
     });
   });
 

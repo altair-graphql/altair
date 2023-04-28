@@ -36,7 +36,6 @@ describe('QueryEditorComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       propsData: {
-        queryOperations: [],
         betaDisableNewEditor: false,
       },
     });
