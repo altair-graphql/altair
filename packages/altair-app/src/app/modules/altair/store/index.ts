@@ -22,6 +22,7 @@ import * as fromWindowsMeta from './windows-meta/windows-meta.reducer';
 import * as fromSettings from './settings/settings.reducer';
 import * as fromDonation from './donation/donation.reducer';
 import * as fromCollection from './collection/collection.reducer';
+import * as fromCollectionsMeta from './collections-meta/collections-meta.reducer';
 import * as fromEnvironments from './environments/environments.reducer';
 import * as fromStream from './stream/stream.reducer';
 import * as fromPreRequest from './pre-request/pre-request.reducer';
@@ -90,6 +91,7 @@ export const getReducer = (): ActionReducerMap<RootState, AllActions> => {
     settings: fromSettings.settingsReducer,
     donation: fromDonation.donationReducer,
     collection: fromCollection.collectionReducer,
+    collectionsMeta: fromCollectionsMeta.collectionsMetaReducer,
     environments: fromEnvironments.environmentsReducer,
     local: fromLocal.localReducer,
     account: fromAccount.accountReducer,
@@ -115,6 +117,7 @@ export * from './variables/selectors';
 export * from './layout/selectors';
 export * from './gql-schema/selectors';
 export * from './collection/selectors';
+export * from './collections-meta/selectors';
 export * from './pre-request/selectors';
 export * from './post-request/selectors';
 export * from './stream/selectors';

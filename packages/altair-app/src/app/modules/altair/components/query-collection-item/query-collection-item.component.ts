@@ -11,6 +11,7 @@ import {
   IQueryCollectionTree,
   SortByOptions,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { memoize } from '../../utils/memoize';
 
 @Component({
@@ -22,6 +23,7 @@ import { memoize } from '../../utils/memoize';
 export class QueryCollectionItemComponent {
   @Input() collectionTree?: IQueryCollectionTree;
   @Input() loggedIn = false;
+  @Input() queriesSortBy: SortByOptions = 'newest';
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{
@@ -38,12 +40,11 @@ export class QueryCollectionItemComponent {
     collection: IQueryCollectionTree;
   }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
-
-  sortBy: SortByOptions = 'newest';
+  @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
 
   showContent = true;
 
-  constructor() {}
+  constructor(private modal: NzModalService) {}
 
   getQueryCount(collection: IQueryCollectionTree) {
     return collection.queries && collection.queries.length;
@@ -54,18 +55,21 @@ export class QueryCollectionItemComponent {
   }
 
   deleteQuery(query: IQuery) {
-    if (this.collectionTree) {
-      if (
-        confirm(
-          'Are you sure you want to delete this query from the collection?'
-        )
-      ) {
-        this.deleteQueryChange.next({
-          query,
-          collectionId: this.collectionTree.id,
-        });
-      }
-    }
+    this.modal.confirm({
+      nzTitle:
+        'Are you sure you want to delete this query from the collection?',
+      nzContent: 'Note: This is an irreversible action.',
+      nzOkText: 'Yes',
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        if (this.collectionTree) {
+          this.deleteQueryChange.next({
+            query,
+            collectionId: this.collectionTree.id,
+          });
+        }
+      },
+    });
   }
 
   deleteCollection() {
@@ -101,7 +105,7 @@ export class QueryCollectionItemComponent {
     });
   }
   setQueriesSortBy(sortBy: SortByOptions) {
-    this.sortBy = sortBy;
+    this.sortCollectionQueriesChange.emit(sortBy);
   }
 
   @memoize()

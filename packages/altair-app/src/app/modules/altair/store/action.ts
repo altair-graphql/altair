@@ -3,6 +3,7 @@ import * as queryActions from './query/query.action';
 import * as localActions from './local/local.action';
 import * as accountActions from './account/account.action';
 import * as collectionActions from './collection/collection.action';
+import * as collectionsMetaActions from './collections-meta/collections-meta.action';
 import * as dbActions from './db/db.action';
 import * as docsActions from './docs/docs.action';
 import * as donationActions from './donation/donation.action';
@@ -43,6 +44,7 @@ export type AllActions =
   | localActions.Action
   | accountActions.Action
   | collectionActions.Action
+  | collectionsMetaActions.Action
   | dbActions.Action
   | docsActions.Action
   | donationActions.Action

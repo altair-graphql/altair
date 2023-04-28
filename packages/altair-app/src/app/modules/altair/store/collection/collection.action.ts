@@ -108,12 +108,6 @@ export class ImportCollectionsAction implements NGRXAction {
   readonly type = IMPORT_COLLECTIONS;
 }
 
-export class SortCollectionsAction implements NGRXAction {
-  readonly type = SORT_COLLECTIONS;
-
-  constructor(public payload: { sortBy: SortByOptions }) {}
-}
-
 export class SyncRemoteCollectionsToLocalAction implements NGRXAction {
   readonly type = SYNC_REMOTE_COLLECTIONS_TO_LOCAL;
 
@@ -138,6 +132,5 @@ export type Action =
   | LoadCollectionsAction
   | ExportCollectionAction
   | ImportCollectionsAction
-  | SortCollectionsAction
   | SyncRemoteCollectionsToLocalAction
   | SyncLocalCollectionToRemoteAction;

@@ -20158,10 +20158,10 @@ ng-packagr@^13.0.8:
   optionalDependencies:
     esbuild "^0.13.0"
 
-ng-zorro-antd@12.0.1:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-12.0.1.tgz#7f06e2f538f02aefc17ff307e9e19045997f066f"
-  integrity sha512-3TDqKlLD3bYuBVF4cncfyGfWWHmEmN+I2Kr6RbLfIfyNHZL3VJbtKM9rWaXD3PTrPnGoSYnOwHbOCWvSN9kocw==
+ng-zorro-antd@12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-12.1.1.tgz#20e43db3b1e2b5864b845a2259a70880ac0baf8e"
+  integrity sha512-5Pc8IZS7VCH+iJNumr84PjJY+tRcVQQ/2KihmABREXuFdYTARGPUDgZJt+v6MnMU1K926ym1sSx/cHfiRq2yiA==
   dependencies:
     "@angular/cdk" "^12.1.0"
     "@ant-design/icons-angular" "^12.0.3"

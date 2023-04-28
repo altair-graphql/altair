@@ -55,25 +55,25 @@
           <ul nz-menu>
             <li
               nz-menu-item
-              (click)="sortCollectionsChange.next({ sortBy: 'a-z' })"
+              (click)="sortCollectionsChange.next('a-z')"
             >
               {{ 'SORT_BY_A_Z' | translate }}
             </li>
             <li
               nz-menu-item
-              (click)="sortCollectionsChange.next({ sortBy: 'z-a' })"
+              (click)="sortCollectionsChange.next('z-a')"
             >
               {{ 'SORT_BY_Z_A' | translate }}
             </li>
             <li
               nz-menu-item
-              (click)="sortCollectionsChange.next({ sortBy: 'newest' })"
+              (click)="sortCollectionsChange.next('newest')"
             >
               {{ 'SORT_BY_NEWEST' | translate }}
             </li>
             <li
               nz-menu-item
-              (click)="sortCollectionsChange.next({ sortBy: 'oldest' })"
+              (click)="sortCollectionsChange.next('oldest')"
             >
               {{ 'SORT_BY_OLDEST' | translate }}
             </li>
@@ -111,12 +111,14 @@
         *ngFor="let collectionTree of (collectionTrees$ | async); trackBy: trackById"
         [collectionTree]="collectionTree"
         [loggedIn]="loggedIn"
+        [queriesSortBy]="queriesSortBy"
         (selectQueryChange)="selectQueryChange.next($event)"
         (deleteQueryChange)="deleteQueryChange.next($event)"
         (deleteCollectionChange)="deleteCollectionChange.next($event)"
         (editCollectionChange)="editCollectionChange.next($event)"
         (exportCollectionChange)="exportCollectionChange.next($event)"
         (syncCollectionChange)="syncCollectionChange.next($event)"
+        (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
       ></app-query-collection-item>
       <div class="query-collections__empty" *ngIf="!collectionTrees?.length">
         <div class="query-collections__empty-icon">

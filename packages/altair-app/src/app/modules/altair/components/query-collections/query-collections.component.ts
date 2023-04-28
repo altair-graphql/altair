@@ -10,6 +10,7 @@ import {
 import {
   IQueryCollection,
   IQueryCollectionTree,
+  SortByOptions,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -29,7 +30,8 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() set workspaces(val: { label: string; id: string }[]) {
     this.workspaces$.next(val);
   }
-  @Input() sortBy = '';
+  @Input() sortBy: SortByOptions = 'newest';
+  @Input() queriesSortBy: SortByOptions = 'newest';
   @Input() loggedIn = false;
 
   @Output() loadCollectionsChange = new EventEmitter();
@@ -47,7 +49,8 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Output() exportCollectionChange = new EventEmitter();
   @Output() importCollectionsChange = new EventEmitter();
   @Output() syncCollectionsChange = new EventEmitter();
-  @Output() sortCollectionsChange = new EventEmitter();
+  @Output() sortCollectionsChange = new EventEmitter<SortByOptions>();
+  @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
 
   collections$ = new BehaviorSubject<IQueryCollection[]>([]);
   workspaces$ = new BehaviorSubject<{ id: string; label: string }[]>([]);

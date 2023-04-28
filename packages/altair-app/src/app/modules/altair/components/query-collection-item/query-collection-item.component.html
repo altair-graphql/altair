@@ -42,7 +42,7 @@
       <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
         <ul nz-menu>
           <li
-            *ngIf="loggedIn"
+            *ngIf="loggedIn && !(collectionTree.storageType === 'firestore' || collectionTree.storageType === 'api')"
             nz-menu-item
             data-test-id="sync-collection"
             (click)="syncCollection()"
@@ -129,7 +129,7 @@
       <div
         class="query-collections__item-queries-item"
         *ngFor="
-          let query of sortedCollectionQueries(collectionTree.queries, sortBy);
+          let query of sortedCollectionQueries(collectionTree.queries, queriesSortBy);
           trackBy: trackById
         "
       >
