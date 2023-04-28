@@ -73,13 +73,19 @@ export class QueryCollectionItemComponent {
   }
 
   deleteCollection() {
-    if (this.collectionTree) {
-      if (confirm('Are you sure you want to delete this collection?')) {
-        this.deleteCollectionChange.next({
-          collectionId: this.collectionTree.id,
-        });
-      }
-    }
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this collection?',
+      nzContent: 'Note: This is an irreversible action.',
+      nzOkText: 'Yes',
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        if (this.collectionTree) {
+          this.deleteCollectionChange.next({
+            collectionId: this.collectionTree.id,
+          });
+        }
+      },
+    });
   }
 
   editCollection() {
