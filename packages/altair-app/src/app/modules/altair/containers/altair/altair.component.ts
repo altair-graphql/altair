@@ -31,6 +31,7 @@ import * as settingsActions from '../../store/settings/settings.action';
 import * as donationActions from '../../store/donation/donation.action';
 import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
+import * as collectionsMetaActions from '../../store/collections-meta/collections-meta.action';
 import * as environmentsActions from '../../store/environments/environments.action';
 import * as localActions from '../../store/local/local.action';
 import * as accountActions from '../../store/account/account.action';
@@ -82,6 +83,7 @@ import {
   WORKSPACES,
 } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { getWorkspaces } from '../../store';
+import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -92,7 +94,8 @@ export class AltairComponent {
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
-  sortedCollections$: Observable<any[]>;
+  collectionsMeta$: Observable<CollectionsMetaState>;
+  sortedCollections$: Observable<IQueryCollection[]>;
   windowsMeta$: Observable<WindowsMetaState>;
   environments$: Observable<EnvironmentsState>;
   activeEnvironment$: Observable<EnvironmentState | undefined>;
@@ -221,6 +224,7 @@ export class AltairComponent {
       })
     );
     this.collection$ = this.store.select('collection');
+    this.collectionsMeta$ = this.store.select('collectionsMeta');
     this.windowsMeta$ = this.store.select('windowsMeta');
     this.environments$ = this.store.select('environments');
     this.account$ = this.store.select('account');
@@ -820,9 +824,15 @@ export class AltairComponent {
     );
   }
 
-  sortCollections({ sortBy = '' as SortByOptions }) {
+  sortCollections(sortBy: SortByOptions) {
     this.store.dispatch(
-      new collectionActions.SortCollectionsAction({ sortBy })
+      new collectionsMetaActions.UpdateCollectionsSortByAction({ sortBy })
+    );
+  }
+
+  sortCollectionQueries(sortBy: SortByOptions) {
+    this.store.dispatch(
+      new collectionsMetaActions.UpdateQueriesSortByAction({ sortBy })
     );
   }
 

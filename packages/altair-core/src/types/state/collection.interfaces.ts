@@ -10,7 +10,6 @@ export type EntityStorageType = 'local' | 'firestore' | 'api' | 'remote';
 export interface CollectionState {
   list: IQueryCollection[];
   activeCollection?: IQueryCollection;
-  sortBy: SortByOptions;
 }
 
 export interface IQuery extends ExportWindowState {

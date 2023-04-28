@@ -28,6 +28,14 @@
   color: var(--theme-font-color);
 }
 
+.ant-modal-confirm-body .ant-modal-confirm-title,
+.ant-modal-confirm-body .ant-modal-confirm-content {
+  color: var(--theme-font-color);
+}
+.ant-btn-primary {
+  background-color: var(--primary-color);
+}
+
 .anticon {
   vertical-align: middle;
 }

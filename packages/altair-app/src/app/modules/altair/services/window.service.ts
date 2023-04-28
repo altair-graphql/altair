@@ -30,6 +30,7 @@ import { GqlService } from './gql/gql.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { QueryCollectionService } from './query-collection/query-collection.service';
+import { NotifyService } from './notify/notify.service';
 
 interface ImportWindowDataOptions {
   fixedTitle?: boolean;
@@ -40,7 +41,8 @@ export class WindowService {
   constructor(
     private store: Store<RootState>,
     private gqlService: GqlService,
-    private collectionService: QueryCollectionService
+    private collectionService: QueryCollectionService,
+    private notifyService: NotifyService
   ) {}
 
   newWindow(
@@ -389,12 +391,16 @@ export class WindowService {
         const schema = this.gqlService.sdlToSchema(dataStr);
         if (schema) {
           // Import only schema
-          return this.importWindowData({
+          this.importWindowData({
             ...emptyWindowData,
             version: 1,
             type: 'window',
             gqlSchema: schema,
           });
+          this.notifyService.success(
+            'Successfully imported GraphQL schema. Open the docs section to view it.'
+          );
+          return;
         }
         throw invalidFileError;
       } catch (sdlError) {

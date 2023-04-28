@@ -14,6 +14,7 @@ import { TeamMembershipsModule } from './team-memberships/team-memberships.modul
 import { LoggerModule } from 'nestjs-pino';
 import { StripeModule } from './stripe/stripe.module';
 import { StripeWebhookController } from './stripe-webhook/stripe-webhook.controller';
+import { WorkspacesModule } from './workspaces/workspaces.module';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const newrelicPino = require('@newrelic/pino-enricher');
@@ -35,6 +36,7 @@ const newrelicPino = require('@newrelic/pino-enricher');
     TeamsModule,
     TeamMembershipsModule,
     StripeModule,
+    WorkspacesModule,
   ],
   controllers: [AppController, StripeWebhookController],
   providers: [AppService, PasswordService],

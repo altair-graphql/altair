@@ -249,10 +249,12 @@
                       name="user"
                       *ngIf="!(account$ | async)?.loggedIn"
                     ></app-icon>
-                    <app-icon
-                      name="user-check"
+                    <nz-avatar
                       *ngIf="(account$ | async)?.loggedIn"
-                    ></app-icon>
+                      [nzText]="(account$ | async)?.firstName?.at(0)"
+                      [nzSrc]="(account$ | async)?.picture"
+                      [nzSize]="'small'"
+                    ></nz-avatar>
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'ACCOUNT_TITLE' | translate }}
@@ -265,7 +267,8 @@
                 [showCollections]="showCollections"
                 [collections]="sortedCollections$ | async"
                 [workspaces]="workspaces$ | async"
-                [sortBy]="(collection$ | async)?.sortBy"
+                [sortBy]="(collectionsMeta$ | async)?.collectionsSortBy"
+                [queriesSortBy]="(collectionsMeta$ | async)?.queriesSortBy"
                 [loggedIn]="(account$ | async)?.loggedIn"
                 (loadCollectionsChange)="loadCollections()"
                 (selectQueryChange)="selectQueryFromCollection($event)"
@@ -275,6 +278,7 @@
                 (syncCollectionChange)="syncLocalCollectionToRemote($event)"
                 (exportCollectionChange)="exportCollection($event)"
                 (importCollectionsChange)="importCollections()"
+                (sortCollectionQueriesChange)="sortCollectionQueries($event)"
                 (sortCollectionsChange)="sortCollections($event)"
                 (syncCollectionsChange)="syncCollections()"
               ></app-query-collections>
