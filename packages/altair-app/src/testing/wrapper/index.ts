@@ -78,6 +78,7 @@ export class NgxTestWrapper<C> {
   }
 
   emit(eventName: string, eventObj: any = null) {
+    this.assertExists();
     return this.component.triggerEventHandler(eventName, eventObj);
   }
 
