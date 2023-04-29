@@ -342,7 +342,7 @@
             [windowTitle]="(activeWindow$ | async)?.layout?.title"
             [collections]="(collection$ | async)?.list"
             [loggedIn]="(account$ | async)?.loggedIn"
-            [teams]="(account$ | async)?.teams"
+            [workspaces]="(workspaces$ | async)"
             (toggleDialogChange)="setShowAddToCollectionDialog($event)"
             (saveQueryToCollectionChange)="saveQueryToCollection($event)"
             (createCollectionAndSaveQueryToCollectionChange)="

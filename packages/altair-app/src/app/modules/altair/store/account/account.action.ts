@@ -8,6 +8,7 @@ export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 export const ACCOUNT_IS_LOGGED_IN = 'ACCOUNT_IS_LOGGED_IN';
 export const LOGOUT_ACCOUNT = 'LOGOUT_ACCOUNT';
 export const ACCOUNT_LOGGED_OUT = 'ACCOUNT_LOGGED_OUT';
+export const LOAD_TEAMS = 'LOAD_TEAMS';
 export const SET_TEAMS = 'SET_TEAMS';
 export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
 
@@ -36,6 +37,10 @@ export class AccountLoggedOutAction implements NGRXAction {
   readonly type = ACCOUNT_LOGGED_OUT;
 }
 
+export class LoadTeamsAction implements NGRXAction {
+  readonly type = LOAD_TEAMS;
+}
+
 export class SetTeamsAction implements NGRXAction {
   readonly type = SET_TEAMS;
 
@@ -53,5 +58,6 @@ export type Action =
   | AccountIsLoggedInAction
   | LogoutAccountAction
   | AccountLoggedOutAction
+  | LoadTeamsAction
   | SetTeamsAction
   | UpdateAccountAction;

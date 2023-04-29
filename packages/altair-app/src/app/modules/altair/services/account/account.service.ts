@@ -66,6 +66,10 @@ export class AccountService {
     return apiClient.getTeams();
   }
 
+  async getWorkspaces() {
+    return apiClient.getWorkspaces();
+  }
+
   async getStats() {
     return apiClient.getUserStats();
   }

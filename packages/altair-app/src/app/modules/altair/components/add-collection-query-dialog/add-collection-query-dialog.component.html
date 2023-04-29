@@ -86,7 +86,7 @@
             nzPlaceHolder="Choose"
           >
             <nz-option
-              *ngFor="let workspace of workspacesOptions(); trackBy: trackById"
+              *ngFor="let workspace of workspaces; trackBy: trackById"
               [nzValue]="workspace.id"
               [nzLabel]="workspace.label"
             ></nz-option>

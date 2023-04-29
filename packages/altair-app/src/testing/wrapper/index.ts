@@ -87,7 +87,7 @@ export class NgxTestWrapper<C> {
   }
 
   emitted(): IDictionary<any[]> | undefined;
-  emitted(event: FilteredKeys<C, typeof EventEmitter>): any[] | undefined;
+  emitted(event?: FilteredKeys<C, typeof EventEmitter>): any[] | undefined;
   emitted(event?: FilteredKeys<C, typeof EventEmitter>) {
     if (this._isWrapper) {
       const emitted = this._testHostFixture.componentInstance.outputList

@@ -5,7 +5,7 @@ import { ExportWindowState } from './window.interfaces';
 
 export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest' | 'none';
 
-export type EntityStorageType = 'local' | 'firestore' | 'api' | 'remote';
+export type EntityStorageType = 'local' | 'api';
 
 export interface CollectionState {
   list: IQueryCollection[];
@@ -40,6 +40,8 @@ export interface IQueryCollection extends BaseDocument {
   parentPath?: string;
 
   storageType?: EntityStorageType;
+
+  workspaceId?: string;
 }
 
 export interface IRemoteQueryCollection

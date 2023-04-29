@@ -79,10 +79,11 @@ import { AccountState } from 'altair-graphql-core/build/types/state/account.inte
 import { catchUselessObservableError } from '../../utils/errors';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import {
+  Workspace,
   WorkspaceId,
   WORKSPACES,
 } from 'altair-graphql-core/build/types/state/workspace.interface';
-import { getWorkspaces } from '../../store';
+import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 
 @UntilDestroy({ checkProperties: true })
@@ -102,7 +103,7 @@ export class AltairComponent {
   theme$: Observable<ICustomTheme | undefined>;
   themeDark$: Observable<ICustomTheme | undefined>;
   account$: Observable<AccountState>;
-  workspaces$: Observable<{ id: string; label: string }[]>;
+  workspaces$: Observable<WorkspaceOption[]>;
   activeWindow$: Observable<PerWindowState | undefined>;
 
   windowIds: string[] = [];

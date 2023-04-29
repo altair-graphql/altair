@@ -188,6 +188,7 @@
     "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json",
     "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
     "lint": "ng lint",
+    "new:component": "ng g component modules/altair/components/",
     "ng": "ng",
     "postinstall": "yarn generate-settings-schema-validator",
     "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json",

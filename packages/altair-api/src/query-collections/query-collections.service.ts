@@ -22,6 +22,8 @@ export class QueryCollectionsService {
     userId: string,
     createQueryCollectionDto: CreateQueryCollectionDto
   ) {
+    let workspaceId = createQueryCollectionDto.workspaceId;
+    const teamId = createQueryCollectionDto.teamId;
     const userPlanConfig = await this.userService.getPlanConfig(userId);
     const userWorkspace = await this.prisma.workspace.findFirst({
       where: {
@@ -29,28 +31,29 @@ export class QueryCollectionsService {
       },
     });
 
-    let workspaceId = userWorkspace.id;
+    if (!workspaceId) {
+      workspaceId = userWorkspace.id;
 
-    const teamId = createQueryCollectionDto.teamId;
-    if (teamId) {
-      // check team workspace
-      // Verify that user can create for team
-      const validTeam = await this.teamsService.findOne(userId, teamId);
+      if (teamId) {
+        // check team workspace
+        // Verify that user can create for team
+        const validTeam = await this.teamsService.findOne(userId, teamId);
 
-      if (!validTeam) {
-        throw new InvalidRequestException(
-          'ERR_PERM_DENIED',
-          'You cannot create a collection for this teaam.'
-        );
+        if (!validTeam) {
+          throw new InvalidRequestException(
+            'ERR_PERM_DENIED',
+            'You cannot create a collection for this teaam.'
+          );
+        }
+
+        const teamWorkspace = await this.prisma.workspace.findFirst({
+          where: {
+            teamId: validTeam.id,
+          },
+        });
+
+        workspaceId = teamWorkspace.id;
       }
-
-      const teamWorkspace = await this.prisma.workspace.findFirst({
-        where: {
-          teamId: validTeam.id,
-        },
-      });
-
-      workspaceId = teamWorkspace.id;
     }
 
     if (!workspaceId) {

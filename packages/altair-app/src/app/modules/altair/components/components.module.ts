@@ -44,6 +44,7 @@ import { ConfirmToastComponent } from './confirm-toast/confirm-toast.component';
 import { XInputComponent } from './x-input/x-input.component';
 import { BetaIndicatorComponent } from './beta-indicator/beta-indicator.component';
 import { LoaderComponent } from './loader/loader.component';
+import { TagComponent } from './tag/tag.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -80,6 +81,7 @@ const COMPONENTS = [
   XInputComponent,
   BetaIndicatorComponent,
   LoaderComponent,
+  TagComponent,
 ];
 
 @NgModule({

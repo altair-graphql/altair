@@ -16,6 +16,7 @@ import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.inte
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { QueryCollectionService } from '../../services';
+import { WorkspaceOption } from '../../store';
 
 @Component({
   selector: 'app-query-collections',
@@ -29,7 +30,7 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
       this.collections$.next(val);
     }
   }
-  @Input() set workspaces(val: { label: string; id: string }[]) {
+  @Input() set workspaces(val: WorkspaceOption[]) {
     this.workspaces$.next(val);
   }
   @Input() sortBy: SortByOptions = 'newest';
@@ -55,10 +56,13 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
 
   collections$ = new BehaviorSubject<IQueryCollection[]>([]);
-  workspaces$ = new BehaviorSubject<{ id: string; label: string }[]>([]);
+  workspaces$ = new BehaviorSubject<WorkspaceOption[]>([]);
   workspaceId$ = new BehaviorSubject('');
 
-  collectionTrees$ = combineLatest([this.collections$, this.workspaceId$]).pipe(
+  filteredCollectionTrees$ = combineLatest([
+    this.collections$,
+    this.workspaceId$,
+  ]).pipe(
     map(([collections, workspaceId]) => {
       const trees = this.collectionService.getCollectionTrees(collections);
       // All
@@ -72,14 +76,7 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
         );
       }
 
-      if (workspaceId === WORKSPACES.REMOTE) {
-        return trees.filter(
-          (t) => t.storageType && ['api', 'firestore'].includes(t.storageType)
-        );
-      }
-
-      // TODO: Handle team workspaces
-      return [];
+      return trees.filter((t) => t.workspaceId === workspaceId);
     })
   );
 

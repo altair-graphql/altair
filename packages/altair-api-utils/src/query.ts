@@ -8,6 +8,7 @@ export type IQueryContentDto = Omit<
 export interface ICreateQueryCollectionDto {
   name: string;
   queries?: Omit<ICreateQueryDto, 'collectionId'>[];
+  workspaceId?: string;
   teamId?: string;
 }
 

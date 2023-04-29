@@ -44,7 +44,8 @@ export class QueryCollectionService {
    */
   async createCollection(
     collection: CreateDTO<IQueryCollection>,
-    workspaceId = new WorkspaceId(),
+    workspaceId = new WorkspaceId(WORKSPACES.LOCAL),
+    teamId?: TeamId,
     collectionId?: string,
     parentCollectionId?: CollectionID
   ) {
@@ -56,13 +57,7 @@ export class QueryCollectionService {
       );
     }
 
-    // workspaceId = remote means we create collection in the user's personal space
-    const teamId =
-      workspaceId.value() === WORKSPACES.REMOTE
-        ? undefined
-        : new TeamId(workspaceId.value());
-
-    return this.createRemoteCollection(collection, teamId);
+    return this.createRemoteCollection(collection, workspaceId, teamId);
   }
 
   private async canApplyRemote() {
@@ -71,6 +66,7 @@ export class QueryCollectionService {
 
   async createRemoteCollection(
     collection: CreateDTO<IQueryCollection>,
+    workspaceId?: WorkspaceId,
     teamId?: TeamId
   ) {
     if (!(await this.canApplyRemote())) {
@@ -82,6 +78,7 @@ export class QueryCollectionService {
     const res = await this.api.createQueryCollection(
       collection,
       undefined,
+      workspaceId,
       teamId
     );
 
@@ -136,10 +133,7 @@ export class QueryCollectionService {
       return;
     }
 
-    if (
-      collection.storageType === 'api' ||
-      collection.storageType === 'firestore'
-    ) {
+    if (collection.storageType === 'api') {
       if (!collection.id) {
         return;
       }
@@ -177,10 +171,7 @@ export class QueryCollectionService {
       return;
     }
 
-    if (
-      collection.storageType === 'api' ||
-      collection.storageType === 'firestore'
-    ) {
+    if (collection.storageType === 'api') {
       if (!collection.id) {
         return;
       }
@@ -290,10 +281,7 @@ export class QueryCollectionService {
       return;
     }
 
-    if (
-      collection.storageType === 'api' ||
-      collection.storageType === 'firestore'
-    ) {
+    if (collection.storageType === 'api') {
       if (!query.id) {
         return;
       }
@@ -336,10 +324,7 @@ export class QueryCollectionService {
       return;
     }
 
-    if (
-      collection.storageType === 'api' ||
-      collection.storageType === 'firestore'
-    ) {
+    if (collection.storageType === 'api') {
       if (!collection.id) {
         return;
       }
@@ -377,10 +362,7 @@ export class QueryCollectionService {
       return;
     }
 
-    if (
-      collection.storageType === 'api' ||
-      collection.storageType === 'firestore'
-    ) {
+    if (collection.storageType === 'api') {
       if (!collection.id) {
         return;
       }
@@ -457,7 +439,8 @@ export class QueryCollectionService {
       for (const collection of collections) {
         await this.createCollection(
           collection,
-          new WorkspaceId(),
+          new WorkspaceId(WORKSPACES.LOCAL),
+          undefined,
           collection.id,
           this.getParentCollectionId(collection)
         );

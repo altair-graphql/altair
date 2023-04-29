@@ -1,3 +1,4 @@
+import { ReturnedWorkspace } from '@altairgraphql/api-utils';
 import { Prisma } from '@altairgraphql/db';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
@@ -11,25 +12,19 @@ export class WorkspacesService {
     return 'This action adds a new workspace';
   }
 
-  findAll(userId: string) {
+  findAll(userId: string): Promise<ReturnedWorkspace[]> {
     return this.prisma.workspace.findMany({
       where: {
         ...this.ownerOrMemberWhere(userId),
       },
-      include: {
-        QueryCollection: true,
-      },
     });
   }
 
-  findOne(userId: string, id: string) {
+  findOne(userId: string, id: string): Promise<ReturnedWorkspace> {
     return this.prisma.workspace.findFirst({
       where: {
         id,
         ...this.ownerOrMemberWhere(userId),
-      },
-      include: {
-        QueryCollection: true,
       },
     });
   }

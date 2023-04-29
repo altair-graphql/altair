@@ -13,6 +13,7 @@ import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { QueryItem } from '@altairgraphql/db';
 import { environment } from 'environments/environment';
+import { WorkspaceId } from 'altair-graphql-core/build/types/state/workspace.interface';
 
 export const apiClient = initializeClient(
   environment.production ? 'production' : 'development'
@@ -34,6 +35,7 @@ const serverCollectionToLocalCollection = (
     title: collection.name,
     queries: collection.queries.map(serverQueryToLocalQuery),
     storageType: 'api',
+    workspaceId: collection.workspaceId,
   };
 };
 @Injectable({
@@ -45,11 +47,13 @@ export class ApiService {
   async createQueryCollection(
     queryCollection: CreateDTO<IQueryCollection>,
     parentCollectionId?: string,
+    workspaceId?: WorkspaceId,
     teamId?: TeamId
   ) {
     return await apiClient.createQueryCollection({
       name: queryCollection.title,
       teamId: teamId?.value(),
+      workspaceId: workspaceId?.value(),
       queries: queryCollection.queries.map((q) => ({
         name: q.windowName,
         content: q,

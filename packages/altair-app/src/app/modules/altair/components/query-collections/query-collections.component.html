@@ -99,16 +99,21 @@
           ></nz-option>
           <nz-option
             *ngFor="let workspace of (workspaces$ | async); trackBy: trackById"
+            nzCustomContent
             [nzValue]="workspace.id"
             [nzLabel]="workspace.label"
-          ></nz-option>
+          >
+            <app-icon *ngIf="workspace.id !== 'local'" name="cloud" title="Remote"></app-icon>
+            <app-icon *ngIf="workspace.teamId" name="users" title="Team"></app-icon>
+            {{workspace.label}}
+          </nz-option>
         </nz-select>
       </nz-form-control>
     </div>
     <div class="query-collections__items-wrapper">
       <!-- TODO: Group by spaces -->
       <app-query-collection-item
-        *ngFor="let collectionTree of (collectionTrees$ | async); trackBy: trackById"
+        *ngFor="let collectionTree of (filteredCollectionTrees$ | async); trackBy: trackById"
         [collectionTree]="collectionTree"
         [loggedIn]="loggedIn"
         [queriesSortBy]="queriesSortBy"

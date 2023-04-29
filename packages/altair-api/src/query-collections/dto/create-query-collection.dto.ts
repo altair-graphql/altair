@@ -25,5 +25,11 @@ export class CreateQueryCollectionDto implements ICreateQueryCollectionDto {
   @IsOptional()
   @IsNotEmpty()
   @ApiProperty()
+  workspaceId?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @ApiProperty()
   teamId?: string;
 }
