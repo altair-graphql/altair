@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { describe, expect, it } from '@jest/globals';
+import { IDBFactory } from 'fake-indexeddb';
 
 import { QueryCollectionService } from './query-collection.service';
 import { StorageService } from '../storage/storage.service';
@@ -78,6 +79,7 @@ describe('QueryCollectionService', () => {
       ],
       teardown: { destroyAfterEach: false },
     });
+    new IDBFactory();
   });
 
   it('should be created', inject(
@@ -113,6 +115,7 @@ describe('QueryCollectionService', () => {
           const pair = collectionPairs[i]!;
           await service.createCollection(
             pair.collection,
+            undefined,
             undefined,
             undefined,
             pair.parentCollectionId
