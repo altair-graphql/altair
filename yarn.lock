@@ -10573,11 +10573,6 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
-core-js@^3.4:
-  version "3.24.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.24.1.tgz#cf7724d41724154010a6576b7b57d94c5d66e64f"
-  integrity sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==
-
 core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -14306,12 +14301,12 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fake-indexeddb@3.1.7:
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-3.1.7.tgz#d9efbeade113c15efbe862e4598a4b0a1797ed9f"
-  integrity sha512-CUGeCzCOVjmeKi2C0pcvSh6NDU6uQIaS+7YyR++tO/atJJujkBYVhDvfePdz/U8bD33BMVWirsr1MKczfAqbjA==
+fake-indexeddb@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-4.0.1.tgz#09bb2468e21d0832b2177e894765fb109edac8fb"
+  integrity sha512-hFRyPmvEZILYgdcLBxVdHLik4Tj3gDTu/g7s9ZDOiU3sTNiGx+vEu1ri/AMsFJUZ/1sdRbAVrEcKndh3sViBcA==
   dependencies:
-    realistic-structured-clone "^2.0.1"
+    realistic-structured-clone "^3.0.0"
 
 fast-copy@^3.0.0:
   version "3.0.0"
@@ -23164,12 +23159,11 @@ real-require@^0.2.0:
   resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.2.0.tgz#209632dea1810be2ae063a6ac084fee7e33fba78"
   integrity sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==
 
-realistic-structured-clone@^2.0.1:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/realistic-structured-clone/-/realistic-structured-clone-2.0.4.tgz#7eb4c2319fc3cb72f4c8d3c9e888b11647894b50"
-  integrity sha512-lItAdBIFHUSe6fgztHPtmmWqKUgs+qhcYLi3wTRUl4OTB3Vb8aBVSjGfQZUvkmJCKoX3K9Wf7kyLp/F/208+7A==
+realistic-structured-clone@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/realistic-structured-clone/-/realistic-structured-clone-3.0.0.tgz#7b518049ce2dad41ac32b421cd297075b00e3e35"
+  integrity sha512-rOjh4nuWkAqf9PWu6JVpOWD4ndI+JHfgiZeMmujYcPi+fvILUu7g6l26TC1K5aBIp34nV+jE1cDO75EKOfHC5Q==
   dependencies:
-    core-js "^3.4"
     domexception "^1.0.1"
     typeson "^6.1.0"
     typeson-registry "^1.0.0-alpha.20"
