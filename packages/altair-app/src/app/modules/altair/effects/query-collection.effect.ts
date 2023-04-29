@@ -86,6 +86,7 @@ export class QueryCollectionEffects {
                 },
               },
               res.action.payload.workspaceId,
+              res.action.payload.teamId,
               undefined,
               res.action.payload.parentCollectionId
             )
@@ -371,10 +372,6 @@ export class QueryCollectionEffects {
         accountActions.ACCOUNT_IS_LOGGED_IN,
         collectionActions.SYNC_REMOTE_COLLECTIONS_TO_LOCAL
       ),
-      switchMap(() => {
-        return from(this.collectionService.getAll());
-      }),
-      tap(() => this.notifyService.success('Successfully synced collections')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((error) => {
         debug.error(error);

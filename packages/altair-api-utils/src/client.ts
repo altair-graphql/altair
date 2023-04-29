@@ -26,6 +26,7 @@ import {
 } from './team';
 import { from, Observable, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { ReturnedWorkspace } from './workspace';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -266,6 +267,10 @@ export class APIClient {
     return this.ky
       .get(`team-memberships/team/${teamId}`)
       .json<ReturnedTeamMembership[]>();
+  }
+
+  getWorkspaces() {
+    return this.ky.get(`workspaces`).json<ReturnedWorkspace[]>();
   }
 
   getBillingUrl() {

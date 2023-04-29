@@ -16,6 +16,7 @@ import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { Observable } from 'rxjs';
 import { QueryCollectionService } from '../../services';
 import { capitalize } from '../../utils';
+import { WorkspaceOption } from '../../store';
 
 @Component({
   selector: 'app-add-collection-query-dialog',
@@ -27,7 +28,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   @Input() windowTitle = '';
   @Input() collections: IQueryCollection[] = [];
   @Input() loggedIn = false;
-  @Input() teams: Team[] = [];
+  @Input() workspaces: WorkspaceOption[] = [];
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter();
@@ -92,25 +93,6 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
   reset() {
     this.newCollectionQueryTitle = this.windowTitle;
     this.newCollectionTitle = '';
-  }
-
-  workspacesOptions() {
-    const defaultWorkspacesOptions = [
-      {
-        id: WORKSPACES.LOCAL,
-        label: capitalize(WORKSPACES.LOCAL),
-      },
-      {
-        id: WORKSPACES.REMOTE,
-        label: capitalize(WORKSPACES.REMOTE),
-      },
-    ];
-    const teamOptions = this.teams.map((team) => ({
-      id: team.id,
-      label: `${capitalize(WORKSPACES.REMOTE)} - ${team.name}`,
-    }));
-
-    return [...defaultWorkspacesOptions, ...teamOptions];
   }
 
   trackById(index: number, item: { id: string }) {

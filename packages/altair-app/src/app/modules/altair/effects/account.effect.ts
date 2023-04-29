@@ -10,14 +10,16 @@ import {
   repeat,
   switchMap,
   take,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { UnknownError } from '../interfaces/shared';
 import { AccountService, NotifyService } from '../services';
 
+import { APP_INIT_ACTION } from '../store/action';
 import * as accountActions from '../store/account/account.action';
 import * as collectionActions from '../store/collection/collection.action';
-import { APP_INIT_ACTION } from '../store/action';
+import * as workspaceActions from '../store/workspace/workspace.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { debug } from '../utils/logger';
 import { fromPromise } from '../utils';
@@ -144,9 +146,29 @@ export class AccountEffects {
     { dispatch: false }
   );
 
-  loadTeamsOnLoggedIn$ = createEffect(() => {
+  onLoggedIn$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+        switchMap(() => {
+          this.store.dispatch(new accountActions.LoadTeamsAction());
+          this.store.dispatch(new workspaceActions.LoadWorkspacesAction());
+          return EMPTY;
+        }),
+        catchError((err: UnknownError) => {
+          debug.error(err);
+          this.notifyService.errorWithError(err, 'Could not load teams');
+          return EMPTY;
+        }),
+        repeat()
+      );
+    },
+    { dispatch: false }
+  );
+
+  loadTeams$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+      ofType(accountActions.LOAD_TEAMS),
       switchMap((action) => this.accountService.getTeams()),
       map(
         (teams) =>

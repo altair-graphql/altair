@@ -7,6 +7,7 @@ import { LocalState } from './local.interfaces';
 import { SettingsState } from './settings.interfaces';
 import { WindowState } from './window.interfaces';
 import { WindowsMetaState } from './windows-meta.interfaces';
+import { WorkspacesState } from './workspace.interface';
 
 export interface RootState {
   windows: WindowState;
@@ -18,4 +19,5 @@ export interface RootState {
   environments: EnvironmentsState;
   local: LocalState;
   account: AccountState;
+  workspaces: WorkspacesState;
 }

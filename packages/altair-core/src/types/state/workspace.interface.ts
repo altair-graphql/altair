@@ -6,7 +6,17 @@ export const WORKSPACES = {
 } as const;
 
 export class WorkspaceId extends ValueObject<string> {
-  constructor(props = WORKSPACES.LOCAL) {
+  constructor(props: string = WORKSPACES.LOCAL) {
     super(props);
   }
+}
+
+export interface Workspace {
+  id: string;
+  name: string;
+  teamId?: string;
+}
+
+export interface WorkspacesState {
+  list: Workspace[];
 }

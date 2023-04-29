@@ -4,7 +4,6 @@ import { AltairPanel } from '../../plugin/panel';
 import { AltairPlugin } from '../../plugin/plugin.interfaces';
 import { AltairUiAction } from '../../plugin/ui-action';
 import { IDictionary } from '../shared';
-import { IRemoteQueryCollection } from './collection.interfaces';
 import { PerWindowState } from './per-window.interfaces';
 
 export interface PluginStateEntry {

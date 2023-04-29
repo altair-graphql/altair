@@ -1,4 +1,5 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
 import {
   IQuery,
   IQueryCollection,
@@ -40,6 +41,7 @@ export class CreateCollectionAndSaveQueryToCollectionAction
       windowTitle?: string;
       parentCollectionId?: number;
       workspaceId: WorkspaceId;
+      teamId?: TeamId;
     }
   ) {}
 }
