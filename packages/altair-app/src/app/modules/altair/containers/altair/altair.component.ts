@@ -140,6 +140,7 @@ export class AltairComponent {
     private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
+    this.authEnabled = !altairConfig.initialData.disableAccount;
     this.settings$ = this.store
       .pipe(select('settings'))
       .pipe(distinctUntilChanged());

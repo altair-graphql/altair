@@ -122,6 +122,11 @@ export interface AltairConfigOptions extends AltairWindowOptions {
    * List of options for windows to be loaded
    */
   initialWindows?: AltairWindowOptions[];
+
+  /**
+   * Disable the account and remote syncing functionality
+   */
+  disableAccount?: boolean;
 }
 
 export class AltairConfig {
@@ -177,6 +182,7 @@ export class AltairConfig {
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
     windows: [] as AltairWindowOptions[],
+    disableAccount: false,
   };
   constructor({
     endpointURL,
@@ -195,6 +201,7 @@ export class AltairConfig {
     initialHttpMethod = 'POST',
     preserveState = true,
     initialWindows = [],
+    disableAccount = false,
   }: AltairConfigOptions = {}) {
     this.initialData.url =
       (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
@@ -226,6 +233,7 @@ export class AltairConfig {
     this.initialData.initialHttpMethod = initialHttpMethod;
     this.initialData.preserveState = preserveState;
     this.initialData.windows = initialWindows;
+    this.initialData.disableAccount = disableAccount;
   }
 }
 

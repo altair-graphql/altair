@@ -38,6 +38,7 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
           'preserveState',
           'initialHttpMethod',
           'initialWindows',
+          'disableAccount',
         ])});
     `;
 };
