@@ -99,6 +99,10 @@
 .ant-dropdown-menu-submenu-title-divider {
   background: var(--theme-border-color);
 }
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-expand-icon .ant-dropdown-menu-submenu-arrow-icon,
+.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-expand-icon .ant-dropdown-menu-submenu-arrow-icon {
+  color: var(--theme-font-color);
+}
 
 .ant-form-item {
   color: var(--theme-font-color);
