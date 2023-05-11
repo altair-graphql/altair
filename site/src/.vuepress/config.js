@@ -1,7 +1,9 @@
 const { description } = require('../../package');
 const getConfig = require('vuepress-bar');
 
-const { sidebar: retrievedSidebar } = getConfig({ filter: (meta) => meta.sidebar !== false });
+const { sidebar: retrievedSidebar } = getConfig({
+  filter: meta => meta.sidebar !== false,
+});
 const seoTitle = 'Altair GraphQL Client';
 const seoImage = '/assets/img/app-shot.png';
 module.exports = {
@@ -22,10 +24,41 @@ module.exports = {
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap' }],
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css' }],
-    ['script', { src: 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js', 'data-cfasync': 'false' }],
+    [
+      'meta',
+      { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
+    ],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap',
+      },
+    ],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css',
+      },
+    ],
+    [
+      'script',
+      {
+        src:
+          'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js',
+        'data-cfasync': 'false',
+      },
+    ],
+    [
+      'script',
+      {
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-PEH31H4ZLH',
+        async: true,
+      },
+    ],
 
     // SEO
     ['meta', { name: 'description', content: description }],
@@ -65,11 +98,11 @@ module.exports = {
       },
       {
         text: 'Twitter',
-        link: 'https://twitter.com/AltairGraphQL'
+        link: 'https://twitter.com/AltairGraphQL',
       },
       {
         text: 'Support',
-        link: 'https://opencollective.com/altair/donate'
+        link: 'https://opencollective.com/altair/donate',
       },
     ],
     sidebar: retrievedSidebar[0].children,
@@ -97,28 +130,28 @@ module.exports = {
     [
       '@vuepress/google-analytics',
       {
-        'ga': 'UA-41432833-7',
-      }
+        ga: 'UA-41432833-7',
+      },
     ],
     [
       require('./plugins/github-metadata'),
       {
         owner: 'altair-graphql',
         repo: 'altair',
-      }
+      },
     ],
     [
       'vuepress-plugin-canonical',
       {
         baseURL: 'https://altairgraphql.dev', // base url for your canonical link, optional, default: ''
-        stripExtension: true // strip '.html' , optional, default: false
-      }
+        stripExtension: true, // strip '.html' , optional, default: false
+      },
     ],
     [
       'vuepress-plugin-sitemap',
       {
-        hostname: 'https://altairgraphql.dev'
-      }
+        hostname: 'https://altairgraphql.dev',
+      },
     ],
-  ]
-}
+  ],
+};
