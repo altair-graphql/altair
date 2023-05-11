@@ -353,15 +353,14 @@ export class QueryEffects {
                     requestStatusCode = error.status;
                     requestStatusText = error.statusText;
 
-                    if (error.status) {
-                      output = error.error;
-                    }
-                    if (error.message) {
-                      output = error.message;
-                    }
                     if (error instanceof RequestScriptError) {
                       output = `${error.name}: ${error.message}`;
+                    } else if (error.status) {
+                      output = error.error;
+                    } else if (error.message) {
+                      output = error.message;
                     }
+
                     this.store.dispatch(
                       new queryActions.SetQueryResultAction(
                         output,

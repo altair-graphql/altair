@@ -723,9 +723,11 @@ export class GqlService {
               `Backend returned code ${err.status}, ` + `body was: ${err.error}`
             );
 
+            const body = err.error || err.message;
+
             return of(
               new HttpResponse({
-                body: err.error || err.message,
+                body: parseJson(body, body),
                 headers: err.headers,
                 status: err.status,
                 statusText: err.statusText,
