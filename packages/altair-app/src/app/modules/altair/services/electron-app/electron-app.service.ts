@@ -194,14 +194,19 @@ export class ElectronAppService {
   }
 
   async importAutobackupData() {
-    const data = await this.getAutobackupData();
+    try {
+      const data = await this.getAutobackupData();
 
-    if (!data) {
-      return;
+      if (!data) {
+        return;
+      }
+
+      await this.importBackupData(data);
+      return true;
+    } catch (err) {
+      debug.error(err);
+      return false;
     }
-
-    await this.importBackupData(data);
-    return true;
   }
 
   private initUpdateAvailableHandler() {
