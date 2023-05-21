@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IconName } from '../icons';
 
 @Component({
   selector: 'app-icon',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styles: [],
 })
 export class IconComponent implements OnInit {
-  @Input() name = '';
+  @Input() name: IconName = 'box';
   @Input() size = '';
 
   styles = {};

@@ -45,6 +45,7 @@ import { XInputComponent } from './x-input/x-input.component';
 import { BetaIndicatorComponent } from './beta-indicator/beta-indicator.component';
 import { LoaderComponent } from './loader/loader.component';
 import { TagComponent } from './tag/tag.component';
+import { TeamsDialogComponent } from './teams-dialog/teams-dialog.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -82,6 +83,7 @@ const COMPONENTS = [
   BetaIndicatorComponent,
   LoaderComponent,
   TagComponent,
+  TeamsDialogComponent,
 ];
 
 @NgModule({

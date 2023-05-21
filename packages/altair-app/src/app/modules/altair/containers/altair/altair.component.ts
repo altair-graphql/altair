@@ -778,6 +778,16 @@ export class AltairComponent {
     );
   }
 
+  setShowTeamsDialog(value: boolean) {
+    this.store.dispatch(
+      new windowsMetaActions.ShowTeamsDialogAction({ value })
+    );
+  }
+
+  loadTeams() {
+    this.store.dispatch(new accountActions.LoadTeamsAction());
+  }
+
   accountLogin() {
     this.store.dispatch(new accountActions.LoginAccountAction());
   }

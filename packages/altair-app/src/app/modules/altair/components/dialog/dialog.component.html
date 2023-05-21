@@ -4,6 +4,7 @@
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="showFooter ? modalFooter : null"
+  [nzWidth]="width"
   (nzOnCancel)="toggleDialog.next()"
 >
   <ng-template #modalTitle>

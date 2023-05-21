@@ -13,6 +13,7 @@ export const SHOW_SETTINGS_DIALOG = 'SHOW_SETTINGS_DIALOG';
 export const SHOW_ENVIRONMENT_MANAGER = 'SHOW_ENVIRONMENT_MANAGER';
 export const SHOW_PLUGIN_MANAGER = 'SHOW_PLUGIN_MANAGER';
 export const SHOW_ACCOUNT_DIALOG = 'SHOW_ACCOUNT_DIALOG';
+export const SHOW_TEAMS_DIALOG = 'SHOW_TEAMS_DIALOG';
 
 export const EXPORT_BACKUP_DATA = 'EXPORT_BACKUP_DATA';
 export const IMPORT_BACKUP_DATA = 'IMPORT_BACKUP_DATA';
@@ -94,6 +95,11 @@ export class ShowAccountDialogAction implements NGRXAction {
 
   constructor(public payload?: { value: boolean }) {}
 }
+export class ShowTeamsDialogAction implements NGRXAction {
+  readonly type = SHOW_TEAMS_DIALOG;
+
+  constructor(public payload?: { value: boolean }) {}
+}
 
 export type Action =
   | SetActiveWindowIdAction
@@ -108,5 +114,6 @@ export type Action =
   | ShowEnvironmentManagerAction
   | ShowPluginManagerAction
   | ShowAccountDialogAction
+  | ShowTeamsDialogAction
   | ExportBackupDataAction
   | ImportBackupDataAction;

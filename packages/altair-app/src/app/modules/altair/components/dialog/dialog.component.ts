@@ -7,9 +7,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class DialogComponent {
   @Input() showDialog = false;
-  @Input() heading = '[DIALOG_HEADING]';
-  @Input() subheading = '[DIALOG_SUBHEADING]';
+  @Input() heading = '';
+  @Input() subheading = '';
   @Input() showFooter = true;
+  @Input() width = 520;
   @Output() toggleDialog = new EventEmitter();
   @Output() saveChange = new EventEmitter();
   constructor() {}
