@@ -80,6 +80,18 @@
   color: var(--theme-font-color);
 }
 
+.ant-list-split .ant-list-item {
+  border-color: var(--theme-border-color);
+}
+
+.ant-list-item-action-split {
+  background-color: var(--theme-border-color);
+}
+
+.ant-list-empty-text {
+  color: var(--theme-font-color);
+}
+
 .ant-dropdown-menu {
   background: var(--theme-bg-color);
   color: var(--theme-font-color);

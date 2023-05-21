@@ -14,26 +14,35 @@ const SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-
 function createLogger() {
   const ui = new inquirer.ui.BottomBar();
 
-  return function (msg) {
+  return function(msg) {
     ui.log.write(chalk.green(msg));
-  }
+  };
 }
 
 async function main() {
   try {
     const log = createLogger();
+    await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'deployedAPI',
+        message: 'Have you deployed the API service?',
+        default: true,
+      },
+    ]);
     const { haveCheckedDocs, newVersion } = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'haveCheckedDocs',
-        message: 'Have you checked that docs are up to date? (settings options, pre request script API, supported languages)',
+        message:
+          'Have you checked that docs are up to date? (settings options, pre request script API, supported languages)',
         default: false,
       },
       {
         type: 'input',
         name: 'newVersion',
         message: 'What is the new version?',
-        validate: function (value) {
+        validate: function(value) {
           if (!value.match(SEMVER_REGEX)) {
             return 'Please enter a valid version (e.g. 3.2.1)';
           }
@@ -41,7 +50,7 @@ async function main() {
           if (compareVersions(value, pkg.version) < 0) {
             return 'New version must be newer than the current version';
           }
-      
+
           return true;
         },
       },
@@ -51,7 +60,7 @@ async function main() {
       log('Check docs and try again.');
       return;
     }
-    
+
     log('Making sure local repo is up to date...');
     // TODO: checkout staging
     // await syncRepo();
@@ -61,7 +70,9 @@ async function main() {
     await updateVersion(newVersion);
     log('Building browser extensions...');
     await buildExtensions();
-    log('Now you can verify that the extensions work as expected. (You can verify firefox using ./bin/run_ext_firefox.sh)');
+    log(
+      'Now you can verify that the extensions work as expected. (You can verify firefox using ./bin/run_ext_firefox.sh)'
+    );
     const { haveVerifiedExtensions } = await inquirer.prompt([
       {
         type: 'confirm',
@@ -81,7 +92,9 @@ async function main() {
     // log('Running release command for release notes...');
     // await startReleaseNotes();
     log('Create a staging to master PR');
-    log('Now wait till all the CI builds are completed, and the binaries have been published in Github release');
+    log(
+      'Now wait till all the CI builds are completed, and the binaries have been published in Github release'
+    );
     await inquirer.prompt([
       {
         type: 'confirm',
@@ -114,15 +127,14 @@ async function main() {
         default: true,
       },
     ]);
-    log('C\'est fini! 🎉');
-    
+    log("C'est fini! 🎉");
   } catch (error) {
     console.error(error);
   }
 }
 main();
 
-const exec = async(file, arguments = [], options = {}) => {
+const exec = async (file, arguments = [], options = {}) => {
   // @ts-ignore
   const subprocess = execa(file, arguments, { stdio: 'inherit', ...options });
   // subprocess.stdout.pipe(process.stdout);
@@ -130,36 +142,44 @@ const exec = async(file, arguments = [], options = {}) => {
   await subprocess;
 };
 
-const syncRepo = async() => {
-  return exec('sh', ['-c', `until git pull --rebase && git push; do echo '\''Retrying...'\''; done`]);
+const syncRepo = async () => {
+  return exec('sh', [
+    '-c',
+    `until git pull --rebase && git push; do echo '\''Retrying...'\''; done`,
+  ]);
 };
 
-const runTests = async() => {
+const runTests = async () => {
   return exec('yarn', ['test']);
 };
 
-const buildExtensions = async() => {
+const buildExtensions = async () => {
   return exec('yarn', ['build-ext']);
 };
 
-const updateVersion = async(version) => {
+const updateVersion = async version => {
   return exec('./bin/update_version.sh', [version]);
 };
 
-const createVersionCommit = async(version) => {
-  await exec('git', [ 'add', '--all' ]);
-  await exec('git', [ 'commit', '--allow-empty', '-am', `Upgraded to v${version}` ]);
+const createVersionCommit = async version => {
+  await exec('git', ['add', '--all']);
+  await exec('git', [
+    'commit',
+    '--allow-empty',
+    '-am',
+    `Upgraded to v${version}`,
+  ]);
   await syncRepo();
 };
 
-const createReleaseTag = async(version) => {
-  return exec('./bin/create_tag.sh', [ `v${version}` ]);
+const createReleaseTag = async version => {
+  return exec('./bin/create_tag.sh', [`v${version}`]);
 };
 
-const pushReleaseTag = async() => {
-  return exec('git', [ 'push', '--tags' ]);
+const pushReleaseTag = async () => {
+  return exec('git', ['push', '--tags']);
 };
 
-const startReleaseNotes = async() => {
+const startReleaseNotes = async () => {
   return exec('release');
 };

@@ -8,4 +8,5 @@ export interface WindowsMetaState {
   showEnvironmentManager: boolean;
   showPluginManager: boolean;
   showAccountDialog: boolean;
+  showTeamsDialog: boolean;
 }

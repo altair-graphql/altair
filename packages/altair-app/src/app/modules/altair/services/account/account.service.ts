@@ -1,3 +1,7 @@
+import {
+  ICreateTeamDto,
+  ICreateTeamMembershipDto,
+} from '@altairgraphql/api-utils';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { EMPTY, from } from 'rxjs';
@@ -64,6 +68,26 @@ export class AccountService {
 
   async getTeams() {
     return apiClient.getTeams();
+  }
+
+  async createTeam(input: ICreateTeamDto) {
+    return apiClient.createTeam(input);
+  }
+
+  async updateTeam(teamId: string, input: Partial<ICreateTeamDto>) {
+    return apiClient.updateTeam(teamId, input);
+  }
+
+  async deleteTeam(teamId: string) {
+    return apiClient.deleteTeam(teamId);
+  }
+
+  async getTeamMembers(teamId: string) {
+    return apiClient.getTeamMembers(teamId);
+  }
+
+  async createTeamMember(input: ICreateTeamMembershipDto) {
+    return apiClient.addTeamMember(input);
   }
 
   async getWorkspaces() {

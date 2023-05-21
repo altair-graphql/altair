@@ -237,7 +237,6 @@
                     authEnabled
                   "
                   class="side-menu-item"
-                  (click)="setShowAccountDialog(true)"
                   attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
                   track-id="show_collections"
                   [ngClass]="{
@@ -258,6 +257,45 @@
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'ACCOUNT_TITLE' | translate }}
+                  </div>
+                  <div class="side-menu-item-submenu side-menu-item-submenu--bottom">
+                    <ng-container *ngIf="!(account$ | async)?.loggedIn">
+                      <a
+                        class="submenu-item"
+                        (click)="setShowAccountDialog(true)"
+                      >
+                        <div class="submenu-item-icon">
+                          <app-icon name="log-in"></app-icon>
+                        </div>
+                        <div class="submenu-item-label">
+                          {{ 'LOGIN_TAB' | translate }}
+                        </div>
+                      </a>
+                    </ng-container>
+                    <ng-container *ngIf="(account$ | async)?.loggedIn">
+                      <a
+                        class="submenu-item"
+                        (click)="setShowTeamsDialog(true)"
+                      >
+                        <div class="submenu-item-icon">
+                          <app-icon name="users"></app-icon>
+                        </div>
+                        <div class="submenu-item-label">
+                          {{ 'TEAMS_TEXT' | translate }}
+                        </div>
+                      </a>
+                      <a
+                        class="submenu-item"
+                        (click)="logout()"
+                      >
+                        <div class="submenu-item-icon">
+                          <app-icon name="log-out"></app-icon>
+                        </div>
+                        <div class="submenu-item-label">
+                          {{ 'LOGOUT_TEXT' | translate }}
+                        </div>
+                      </a>
+                    </ng-container>
                   </div>
                 </a>
               </div>
@@ -362,6 +400,12 @@
             (handleLoginChange)="accountLogin()"
             (logoutChange)="logout()"
           ></app-account-dialog>
+          <app-teams-dialog
+            [teams]="(account$ | async)?.teams"
+            [showDialog]="(windowsMeta$ | async)?.showTeamsDialog"
+            (toggleDialogChange)="setShowTeamsDialog($event)"
+            (reloadTeamChange)="loadTeams()"
+          ></app-teams-dialog>
         </div>
 
         <nz-alert
