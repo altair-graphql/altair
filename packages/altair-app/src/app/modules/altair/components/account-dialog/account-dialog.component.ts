@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { environment } from 'environments/environment';
 import { apiClient } from '../../services/api/api.service';
+import { externalLink } from '../../utils';
 
 @Component({
   selector: 'app-account-dialog',
@@ -20,5 +21,9 @@ export class AccountDialogComponent {
 
   submitLogin() {
     this.handleLoginChange.emit();
+  }
+  async openBillingPage(e: MouseEvent) {
+    const { url } = await apiClient.getBillingUrl();
+    return externalLink(e, url);
   }
 }
