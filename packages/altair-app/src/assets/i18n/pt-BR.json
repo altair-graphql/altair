@@ -183,5 +183,6 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
-  "EDIT_TEXT": "Edit"
+  "EDIT_TEXT": "Edit",
+  "PROFILE_TEXT": "Profile"
 }
