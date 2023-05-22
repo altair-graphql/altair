@@ -171,5 +171,17 @@
   "REGISTER_TAB": "crwdns1262:0crwdne1262:0",
   "LOGOUT_TEXT": "crwdns1266:0crwdne1266:0",
   "SIGNIN_WITH_GOOGLE": "crwdns1268:0crwdne1268:0",
-  "CLOUD_SYNC_TEXT": "crwdns1264:0crwdne1264:0"
+  "CLOUD_SYNC_TEXT": "crwdns1264:0crwdne1264:0",
+  "TEAMS_TEXT": "crwdns1295:0crwdne1295:0",
+  "BILLING_TEXT": "crwdns1297:0crwdne1297:0",
+  "TEAMS_SUB_TEXT": "crwdns1299:0crwdne1299:0",
+  "CREATE_TEAM_BUTTON": "crwdns1301:0crwdne1301:0",
+  "TEAM_TITLE_PLACEHOLDER": "crwdns1303:0crwdne1303:0",
+  "TEAM_DESCRIPTION_PLACEHOLDER": "crwdns1305:0crwdne1305:0",
+  "CREATE_TEAM_TEXT": "crwdns1307:0crwdne1307:0",
+  "UPDATE_TEAM_TEXT": "crwdns1309:0crwdne1309:0",
+  "ADD_TEAM_MEMBER_TEXT": "crwdns1311:0crwdne1311:0",
+  "UPDATE_TEAM_MEMBER_TEXT": "crwdns1313:0crwdne1313:0",
+  "TEAM_MEMBERS_TEXT": "crwdns1315:0crwdne1315:0",
+  "EDIT_TEXT": "crwdns1317:0crwdne1317:0"
 }
