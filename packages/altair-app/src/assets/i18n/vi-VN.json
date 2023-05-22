@@ -171,5 +171,17 @@
   "REGISTER_TAB": "Đăng ký",
   "LOGOUT_TEXT": "Đăng xuất",
   "SIGNIN_WITH_GOOGLE": "Đăng nhập với Google",
-  "CLOUD_SYNC_TEXT": "Đồng bộ lên Cloud"
+  "CLOUD_SYNC_TEXT": "Đồng bộ lên Cloud",
+  "TEAMS_TEXT": "Teams",
+  "BILLING_TEXT": "Billing",
+  "TEAMS_SUB_TEXT": "Manage your teams",
+  "CREATE_TEAM_BUTTON": "Create team",
+  "TEAM_TITLE_PLACEHOLDER": "Team title",
+  "TEAM_DESCRIPTION_PLACEHOLDER": "Team description",
+  "CREATE_TEAM_TEXT": "Create a new team",
+  "UPDATE_TEAM_TEXT": "Update team",
+  "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
+  "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
+  "TEAM_MEMBERS_TEXT": "Team members",
+  "EDIT_TEXT": "Edit"
 }
