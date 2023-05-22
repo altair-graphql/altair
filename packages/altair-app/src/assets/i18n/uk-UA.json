@@ -171,5 +171,17 @@
   "REGISTER_TAB": "Зареєструватись",
   "LOGOUT_TEXT": "Вийти",
   "SIGNIN_WITH_GOOGLE": "Увійдіть за допомогою Google",
-  "CLOUD_SYNC_TEXT": "Синхронізовано з хмарою"
+  "CLOUD_SYNC_TEXT": "Синхронізовано з хмарою",
+  "TEAMS_TEXT": "Teams",
+  "BILLING_TEXT": "Billing",
+  "TEAMS_SUB_TEXT": "Manage your teams",
+  "CREATE_TEAM_BUTTON": "Create team",
+  "TEAM_TITLE_PLACEHOLDER": "Team title",
+  "TEAM_DESCRIPTION_PLACEHOLDER": "Team description",
+  "CREATE_TEAM_TEXT": "Create a new team",
+  "UPDATE_TEAM_TEXT": "Update team",
+  "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
+  "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
+  "TEAM_MEMBERS_TEXT": "Team members",
+  "EDIT_TEXT": "Edit"
 }
