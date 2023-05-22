@@ -275,6 +275,17 @@
                     <ng-container *ngIf="(account$ | async)?.loggedIn">
                       <a
                         class="submenu-item"
+                        (click)="setShowAccountDialog(true)"
+                      >
+                        <div class="submenu-item-icon">
+                          <app-icon name="user"></app-icon>
+                        </div>
+                        <div class="submenu-item-label">
+                          {{ 'PROFILE_TEXT' | translate }}
+                        </div>
+                      </a>
+                      <a
+                        class="submenu-item"
                         (click)="setShowTeamsDialog(true)"
                       >
                         <div class="submenu-item-icon">
