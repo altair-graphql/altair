@@ -171,5 +171,17 @@
   "REGISTER_TAB": "회원가입",
   "LOGOUT_TEXT": "로그아웃",
   "SIGNIN_WITH_GOOGLE": "Google로 로그인",
-  "CLOUD_SYNC_TEXT": "클라우드와 동기화됨"
+  "CLOUD_SYNC_TEXT": "클라우드와 동기화됨",
+  "TEAMS_TEXT": "Teams",
+  "BILLING_TEXT": "Billing",
+  "TEAMS_SUB_TEXT": "Manage your teams",
+  "CREATE_TEAM_BUTTON": "Create team",
+  "TEAM_TITLE_PLACEHOLDER": "Team title",
+  "TEAM_DESCRIPTION_PLACEHOLDER": "Team description",
+  "CREATE_TEAM_TEXT": "Create a new team",
+  "UPDATE_TEAM_TEXT": "Update team",
+  "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
+  "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
+  "TEAM_MEMBERS_TEXT": "Team members",
+  "EDIT_TEXT": "Edit"
 }
