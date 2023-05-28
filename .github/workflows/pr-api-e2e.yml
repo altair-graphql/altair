@@ -18,16 +18,16 @@ jobs:
     services:
       # Label used to access the service container
       postgres:
-        # Docker Hub image
-        image: postgres
-        # Provide the password for postgres
+        image: postgres:13
+        restart: always
+        container_name: integration-tests-prisma
         env:
           POSTGRES_HOST: localhost
           POSTGRES_USER: prisma
           POSTGRES_PASSWORD: prisma
           POSTGRES_DB: tests
         ports:
-          - '5434:5432'
+          - 5434:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -52,9 +52,3 @@ jobs:
         # Runs a script that creates a PostgreSQL table, populates
         # the table with data, and then retrieves the data.
         run: yarn --cwd packages/altair-api test:e2e
-        # Environment variables used by the `client.js` script to create a new PostgreSQL table.
-        env:
-          # The hostname used to communicate with the PostgreSQL service container
-          POSTGRES_HOST: postgres
-          # The default PostgreSQL port
-          POSTGRES_PORT: 5432
