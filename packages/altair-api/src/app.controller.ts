@@ -16,20 +16,12 @@ import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
 
 @Controller()
-export class AppController implements OnModuleDestroy {
-  listeners: Map<string[], any> = new Map();
-
+export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly eventService: EventEmitter2,
     private readonly prisma: PrismaService
   ) {}
-
-  onModuleDestroy() {
-    this.listeners.forEach((listener, events) => {
-      this.eventService.off(events, listener);
-    });
-  }
 
   @Get()
   goHome(@Res() res: Response) {
@@ -78,7 +70,6 @@ export class AppController implements OnModuleDestroy {
       }
     };
     this.eventService.on([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
-    this.listeners.set([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
 
     const queryUpdateListener = async ({ id }: any) => {
       // check query workspace owner
@@ -116,7 +107,6 @@ export class AppController implements OnModuleDestroy {
       }
     };
     this.eventService.on([EVENTS.QUERY_UPDATE], queryUpdateListener);
-    this.listeners.set([EVENTS.QUERY_UPDATE], queryUpdateListener);
 
     return subject$.pipe(map((data) => ({ data })));
   }
