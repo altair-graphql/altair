@@ -12,6 +12,7 @@ services:
     volumes:
       - postgres-e2e:/var/lib/postgresql/data-e2e
     environment:
+      POSTGRES_HOST: localhost
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: tests
