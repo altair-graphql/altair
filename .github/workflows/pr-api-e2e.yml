@@ -25,7 +25,7 @@ jobs:
           POSTGRES_PASSWORD: prisma
           POSTGRES_DB: tests
         ports:
-          - 5432:5434
+          - 5434:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
