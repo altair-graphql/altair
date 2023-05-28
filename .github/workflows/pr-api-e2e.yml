@@ -45,7 +45,7 @@ jobs:
           command: yarn build:ci
       - name: Update env file
         run: |
-          echo API_ENDPOINT="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
+          echo DATABASE_URL="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
           cat packages/altair-api/.env.e2e
       - name: Migration
         run: yarn --cwd packages/altair-api migrate:e2e
