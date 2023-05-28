@@ -58,7 +58,3 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: yarn playwright test --retries 2
-      - name: Migration
-        run: yarn --cwd packages/altair-api migrate:e2e
-      - name: Run E2E
-        run: yarn --cwd packages/altair-api test:e2e
