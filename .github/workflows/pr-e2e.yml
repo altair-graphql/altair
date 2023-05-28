@@ -16,6 +16,22 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
+    services:
+      # Label used to access the service container
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        ports:
+          - 5434:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
@@ -42,3 +58,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: yarn playwright test --retries 2
+      - name: Migration
+        run: yarn --cwd packages/altair-api migrate:e2e
+      - name: Run E2E
+        run: yarn --cwd packages/altair-api test:e2e
