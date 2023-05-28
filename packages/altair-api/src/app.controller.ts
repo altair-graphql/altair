@@ -1,4 +1,12 @@
-import { Controller, Get, Req, Res, Sse, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  OnModuleDestroy,
+  Req,
+  Res,
+  Sse,
+  UseGuards,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
@@ -8,12 +16,20 @@ import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
 
 @Controller()
-export class AppController {
+export class AppController implements OnModuleDestroy {
+  listeners: Map<string[], any> = new Map();
+
   constructor(
     private readonly appService: AppService,
     private readonly eventService: EventEmitter2,
     private readonly prisma: PrismaService
   ) {}
+
+  onModuleDestroy() {
+    this.listeners.forEach((listener, events) => {
+      this.eventService.off(events, listener);
+    });
+  }
 
   @Get()
   goHome(@Res() res: Response) {
@@ -24,11 +40,11 @@ export class AppController {
   @Sse('events')
   handleUserEvents(@Req() req: Request): Observable<unknown> {
     const subject$ = new Subject();
-    const userId = req.user.id;
+    const userId = req?.user?.id;
 
     // TODO: Create events
     // TODO: Emit events from prisma middleware
-    this.eventService.on([EVENTS.COLLECTION_UPDATE], async ({ id }) => {
+    const collectionUpdateListener = async ({ id }: any) => {
       const validUserCollection = await this.prisma.queryCollection.findFirst({
         select: {
           id: true,
@@ -60,8 +76,11 @@ export class AppController {
       if (validUserCollection) {
         subject$.next({ uid: userId, collectionId: id });
       }
-    });
-    this.eventService.on([EVENTS.QUERY_UPDATE], async ({ id }) => {
+    };
+    this.eventService.on([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
+    this.listeners.set([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
+
+    const queryUpdateListener = async ({ id }: any) => {
       // check query workspace owner
       const validQueryItem = await this.prisma.queryItem.findFirst({
         where: {
@@ -93,9 +112,11 @@ export class AppController {
         },
       });
       if (validQueryItem) {
-        subject$.next({ uid: req.user.id, queryId: id });
+        subject$.next({ uid: req?.user?.id, queryId: id });
       }
-    });
+    };
+    this.eventService.on([EVENTS.QUERY_UPDATE], queryUpdateListener);
+    this.listeners.set([EVENTS.QUERY_UPDATE], queryUpdateListener);
 
     return subject$.pipe(map((data) => ({ data })));
   }

@@ -1,5 +1,10 @@
 import { Prisma } from '@altairgraphql/db';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
@@ -18,6 +23,7 @@ export class QueriesService {
 
   async create(userId: string, createQueryDto: CreateQueryDto) {
     const userPlanConfig = await this.userService.getPlanConfig(userId);
+    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
     const queryCount = await this.prisma.queryItem.count({
       where: {
         collection: {
@@ -27,8 +33,19 @@ export class QueriesService {
         },
       },
     });
-    if (queryCount >= userPlanConfig.maxQueryCount) {
+    if (queryCount >= userPlanMaxQueryCount) {
       throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
+    }
+
+    // TODO: validate the query content using class-validator
+    if (
+      !createQueryDto.collectionId ||
+      !createQueryDto.name ||
+      !createQueryDto.content ||
+      !createQueryDto.content.query ||
+      createQueryDto.content.version !== 1
+    ) {
+      throw new BadRequestException();
     }
 
     // specified collection is owned by the user
@@ -70,13 +87,19 @@ export class QueriesService {
     });
   }
 
-  findOne(userId: string, id: string) {
-    return this.prisma.queryItem.findFirst({
+  async findOne(userId: string, id: string) {
+    const query = await this.prisma.queryItem.findFirst({
       where: {
         id,
         ...this.ownerOrMemberWhere(userId),
       },
     });
+
+    if (!query) {
+      throw new NotFoundException();
+    }
+
+    return query;
   }
 
   async update(userId: string, id: string, updateQueryDto: UpdateQueryDto) {

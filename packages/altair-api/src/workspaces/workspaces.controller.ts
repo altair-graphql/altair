@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  NotFoundException,
 } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
@@ -31,8 +32,13 @@ export class WorkspacesController {
   }
 
   @Get(':id')
-  findOne(@Req() req: Request, @Param('id') id: string) {
-    return this.workspacesService.findOne(req.user.id, id);
+  async findOne(@Req() req: Request, @Param('id') id: string) {
+    const res = await this.workspacesService.findOne(req.user.id, id);
+    if (!res) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Patch(':id')

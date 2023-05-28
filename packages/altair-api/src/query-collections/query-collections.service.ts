@@ -25,6 +25,7 @@ export class QueryCollectionsService {
     let workspaceId = createQueryCollectionDto.workspaceId;
     const teamId = createQueryCollectionDto.teamId;
     const userPlanConfig = await this.userService.getPlanConfig(userId);
+    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
     const userWorkspace = await this.prisma.workspace.findFirst({
       where: {
         ownerId: userId,
@@ -32,7 +33,7 @@ export class QueryCollectionsService {
     });
 
     if (!workspaceId) {
-      workspaceId = userWorkspace.id;
+      workspaceId = userWorkspace?.id;
 
       if (teamId) {
         // check team workspace
@@ -52,7 +53,7 @@ export class QueryCollectionsService {
           },
         });
 
-        workspaceId = teamWorkspace.id;
+        workspaceId = teamWorkspace?.id;
       }
     }
 
@@ -86,9 +87,11 @@ export class QueryCollectionsService {
       },
     });
 
+    const createQueryCollectionDtoQueries =
+      createQueryCollectionDto.queries || [];
     if (
-      queryItems.length + createQueryCollectionDto.queries.length >
-      userPlanConfig.maxQueryCount
+      queryItems.length + createQueryCollectionDtoQueries.length >
+      userPlanMaxQueryCount
     ) {
       throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
     }
@@ -98,7 +101,7 @@ export class QueryCollectionsService {
         name: createQueryCollectionDto.name,
         workspaceId,
         queries: {
-          create: createQueryCollectionDto.queries,
+          create: createQueryCollectionDtoQueries,
         },
       },
     });

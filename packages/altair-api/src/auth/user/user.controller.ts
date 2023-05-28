@@ -19,30 +19,29 @@ export class UserController {
   @Get('billing')
   @UseGuards(JwtAuthGuard)
   async getBillingUrl(@Req() req: Request) {
+    const userId = req?.user?.id ?? '';
     return {
-      url: await this.userService.getBillingUrl(
-        req.user.id,
-        req.headers.referer
-      ),
+      url: await this.userService.getBillingUrl(userId, req.headers.referer),
     };
   }
 
   @Get('plan')
   @UseGuards(JwtAuthGuard)
   async getCurrentPlan(@Req() req: Request): Promise<IPlan> {
-    const cfg = await this.userService.getPlanConfig(req.user.id);
+    const userId = req?.user?.id ?? '';
+    const cfg = await this.userService.getPlanConfig(userId);
 
     return {
-      max_query_count: cfg.maxQueryCount,
-      max_team_count: cfg.maxTeamCount,
-      max_team_member_count: cfg.maxTeamMemberCount,
+      max_query_count: cfg?.maxQueryCount ?? 0,
+      max_team_count: cfg?.maxTeamCount ?? 0,
+      max_team_member_count: cfg?.maxTeamMemberCount ?? 0,
     };
   }
 
   @Get('stats')
   @UseGuards(JwtAuthGuard)
   async getStats(@Req() req: Request) {
-    const userId = req.user.id;
+    const userId = req?.user?.id ?? '';
 
     return {
       queries: {

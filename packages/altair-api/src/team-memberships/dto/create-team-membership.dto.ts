@@ -8,12 +8,12 @@ export class CreateTeamMembershipDto implements ICreateTeamMembershipDto {
   @IsNotEmpty()
   @IsEmail()
   @ApiProperty()
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  teamId: string;
+  teamId!: string;
 
   @IsString()
   @IsOptional()

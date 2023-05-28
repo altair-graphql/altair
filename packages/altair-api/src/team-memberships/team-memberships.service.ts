@@ -21,6 +21,7 @@ export class TeamMembershipsService {
     createTeamMembershipDto: CreateTeamMembershipDto
   ) {
     const userPlanConfig = await this.userService.getPlanConfig(userId);
+    const userPlanMaxTeamMemberCount = userPlanConfig?.maxTeamMemberCount ?? 0;
 
     const teamMembershipCount = await this.prisma.teamMembership.count({
       where: {
@@ -32,14 +33,14 @@ export class TeamMembershipsService {
     });
 
     if (
-      !userPlanConfig.allowMoreTeamMembers &&
-      teamMembershipCount >= userPlanConfig.maxTeamMemberCount
+      !userPlanConfig?.allowMoreTeamMembers &&
+      teamMembershipCount >= userPlanMaxTeamMemberCount
     ) {
       throw new InvalidRequestException('ERR_MAX_TEAM_MEMBER_COUNT');
     }
 
     // Update stripe subscription item quantity
-    if (userPlanConfig.allowMoreTeamMembers) {
+    if (userPlanConfig?.allowMoreTeamMembers) {
       await this.userService.updateAllowedTeamMemberCount(
         userId,
         teamMembershipCount + 1 // increment team membership count

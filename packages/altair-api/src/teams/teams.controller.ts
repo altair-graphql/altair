@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  NotFoundException,
 } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -22,30 +23,51 @@ export class TeamsController {
 
   @Post()
   create(@Req() req: Request, @Body() createTeamDto: CreateTeamDto) {
-    return this.teamsService.create(req.user.id, createTeamDto);
+    const userId = req?.user?.id ?? '';
+    return this.teamsService.create(userId, createTeamDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    return this.teamsService.findAll(req.user.id);
+    const userId = req?.user?.id ?? '';
+    return this.teamsService.findAll(userId);
   }
 
   @Get(':id')
-  findOne(@Req() req: Request, @Param('id') id: string) {
-    return this.teamsService.findOne(req.user.id, id);
+  async findOne(@Req() req: Request, @Param('id') id: string) {
+    const userId = req?.user?.id ?? '';
+    const res = await this.teamsService.findOne(userId, id);
+
+    if (!res) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Req() req: Request,
     @Param('id') id: string,
     @Body() updateTeamDto: UpdateTeamDto
   ) {
-    return this.teamsService.update(req.user.id, id, updateTeamDto);
+    const userId = req?.user?.id ?? '';
+    const res = await this.teamsService.update(userId, id, updateTeamDto);
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Req() req: Request, @Param('id') id: string) {
-    return this.teamsService.remove(req.user.id, id);
+  async remove(@Req() req: Request, @Param('id') id: string) {
+    const userId = req?.user?.id ?? '';
+    const res = await this.teamsService.remove(userId, id);
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 }

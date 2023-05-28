@@ -13,7 +13,7 @@ export class CreateQueryCollectionDto implements ICreateQueryCollectionDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @IsOptional()
   @ValidateNested()
