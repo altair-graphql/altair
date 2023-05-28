@@ -22,6 +22,7 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
+          POSTGRES_HOST: localhost
           POSTGRES_USER: prisma
           POSTGRES_PASSWORD: prisma
           POSTGRES_DB: tests
