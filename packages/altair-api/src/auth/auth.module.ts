@@ -25,7 +25,7 @@ import { QueryCollectionsService } from 'src/query-collections/query-collections
         return {
           secret: configService.get<string>('JWT_ACCESS_SECRET'),
           signOptions: {
-            expiresIn: securityConfig.expiresIn,
+            expiresIn: securityConfig?.expiresIn,
           },
         };
       },

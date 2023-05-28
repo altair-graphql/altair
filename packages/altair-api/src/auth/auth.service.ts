@@ -32,7 +32,7 @@ export class AuthService {
 
     const passwordValid = await this.passwordService.validatePassword(
       password,
-      user.password
+      user.password ?? ''
     );
 
     if (!passwordValid) {
@@ -59,17 +59,17 @@ export class AuthService {
     });
   }
 
-  validateUser(userId: string): Promise<User> {
+  validateUser(userId: string): Promise<User | null> {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
 
-  getUserFromToken(token: string): Promise<User> {
+  getUserFromToken(token: string): Promise<User | null> {
     const decoded = this.jwtService.decode(token);
     if (typeof decoded === 'string') {
       throw new Error('Invalid JWT token');
     }
 
-    const id = decoded['userId'];
+    const id = decoded?.['userId'];
     return this.prisma.user.findUnique({ where: { id } });
   }
 
@@ -126,7 +126,7 @@ export class AuthService {
       { userId },
       {
         secret: this.configService.get<string>('EVENTS_JWT_ACCESS_SECRET'),
-        expiresIn: securityConfig.shortExpiresIn,
+        expiresIn: securityConfig?.shortExpiresIn,
       }
     );
   }
@@ -139,7 +139,7 @@ export class AuthService {
     const securityConfig = this.configService.get<SecurityConfig>('security');
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
-      expiresIn: securityConfig.refreshIn,
+      expiresIn: securityConfig?.refreshIn,
     });
   }
 

@@ -64,6 +64,14 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
 
+  async mustGetUser(userId: string) {
+    const user = await this.getUser(userId);
+    if (!user) {
+      throw new Error(`User not found for id: ${userId}`);
+    }
+    return user;
+  }
+
   getUserByStripeCustomerId(stripeCustomerId: string) {
     return this.prisma.user.findFirst({
       where: {
@@ -115,18 +123,25 @@ export class UserService {
   }
 
   async updateAllowedTeamMemberCount(userId: string, quantity: number) {
-    const user = await this.getUser(userId);
+    const user = await this.mustGetUser(userId);
+
     // Check plan config
     const planConfig = await this.getPlanConfig(userId);
     // if allow additional team members
-    if (!planConfig.allowMoreTeamMembers) {
+    if (!planConfig?.allowMoreTeamMembers) {
       this.logger.warn(
-        `Cannot update allowed team member count since allowMoreTeamMembers is not enabled for this plan config (${planConfig.id})`
+        `Cannot update allowed team member count since allowMoreTeamMembers is not enabled for this plan config (${planConfig?.id})`
       );
       return;
     }
 
     // update stripe subscription quantity
+    if (!user.stripeCustomerId) {
+      throw new Error(
+        `Cannot update subscription quantity since user (${userId}) does not have a stripe customer ID`
+      );
+    }
+
     await this.stripeService.updateSubscriptionQuantity(
       user.stripeCustomerId,
       quantity
@@ -144,7 +159,7 @@ export class UserService {
   }
 
   async getStripeCustomerId(userId: string) {
-    const user = await this.getUser(userId);
+    const user = await this.mustGetUser(userId);
 
     if (user.stripeCustomerId) {
       return user.stripeCustomerId;

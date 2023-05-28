@@ -51,6 +51,11 @@ export class AuthController {
   @Get('slt')
   @UseGuards(JwtAuthGuard)
   getShortlivedEventsToken(@Req() req: Request) {
-    return { slt: this.authService.getShortLivedEventsToken(req.user.id) };
+    const userId = req?.user?.id;
+    if (!userId) {
+      throw new BadRequestException('User not found');
+    }
+
+    return { slt: this.authService.getShortLivedEventsToken(userId) };
   }
 }

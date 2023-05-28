@@ -52,12 +52,19 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         IdentityProvider.GOOGLE
       );
       if (!identity) {
+        const email = profile.emails?.[0]?.value;
+        if (!email) {
+          throw new UnauthorizedException(
+            'Google OAuth did not return an email address'
+          );
+        }
+
         return this.userService.createUser(
           {
-            email: profile.emails[0].value,
-            firstName: profile.name.givenName || profile.displayName,
-            lastName: profile.name.familyName,
-            picture: profile.photos[0].value,
+            email,
+            firstName: profile?.name?.givenName || profile.displayName,
+            lastName: profile?.name?.familyName,
+            picture: profile?.photos?.[0]?.value,
           },
           {
             provider: IdentityProvider.GOOGLE,

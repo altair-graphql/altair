@@ -1,24 +1,38 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import {
+  afterAllCleanup,
+  beforeAllSetup,
+  createTestApp,
+  mockUserFn,
+} from './e2e-test-utils';
+import { PrismaService } from 'nestjs-prisma';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let prismaService: PrismaService;
+
+  beforeAll(async () => {
+    await beforeAllSetup();
+    ({ app, prismaService } = await createTestApp());
+  });
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    // reset mocks
+    mockUserFn.mockReturnValue(undefined);
+  });
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
+  afterAll(async () => {
+    await afterAllCleanup(app, prismaService);
   });
 
   it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .expect(302)
+      .expect('Location', 'https://altairgraphql.dev');
   });
+
+  // TODO: add tests that check that users can only access their own data
+  // TODO: add tests for the authentication flows (use jwtService to generate tokens)
 });

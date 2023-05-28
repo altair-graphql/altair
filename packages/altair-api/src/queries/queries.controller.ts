@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  NotFoundException,
 } from '@nestjs/common';
 import { QueriesService } from './queries.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -22,30 +23,47 @@ export class QueriesController {
 
   @Post()
   create(@Req() req: Request, @Body() createQueryDto: CreateQueryDto) {
-    return this.queriesService.create(req.user.id, createQueryDto);
+    const userId = req?.user?.id ?? '';
+    return this.queriesService.create(userId, createQueryDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    return this.queriesService.findAll(req.user.id);
+    const userId = req?.user?.id ?? '';
+    return this.queriesService.findAll(userId);
   }
 
   @Get(':id')
   findOne(@Req() req: Request, @Param('id') id: string) {
-    return this.queriesService.findOne(req.user.id, id);
+    const userId = req?.user?.id ?? '';
+    return this.queriesService.findOne(userId, id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Req() req: Request,
     @Param('id') id: string,
     @Body() updateQueryDto: UpdateQueryDto
   ) {
-    return this.queriesService.update(req.user.id, id, updateQueryDto);
+    const userId = req?.user?.id ?? '';
+    const res = await this.queriesService.update(userId, id, updateQueryDto);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Req() req: Request, @Param('id') id: string) {
-    return this.queriesService.remove(req.user.id, id);
+  async remove(@Req() req: Request, @Param('id') id: string) {
+    const userId = req?.user?.id ?? '';
+    const res = await this.queriesService.remove(userId, id);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 }

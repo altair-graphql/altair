@@ -6,7 +6,7 @@ export class CreateTeamDto implements ICreateTeamDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @IsString()
   @IsOptional()

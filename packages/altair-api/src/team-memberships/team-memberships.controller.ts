@@ -27,20 +27,20 @@ export class TeamMembershipsController {
     @Req() req: Request,
     @Body() createTeamMembershipDto: CreateTeamMembershipDto
   ) {
-    return this.teamMembershipsService.create(
-      req.user.id,
-      createTeamMembershipDto
-    );
+    const userId = req?.user?.id ?? '';
+    return this.teamMembershipsService.create(userId, createTeamMembershipDto);
   }
 
   @Get('team/:id')
   findAll(@Req() req: Request, @Param('id') teamId: string) {
-    return this.teamMembershipsService.findAll(req.user.id, teamId);
+    const userId = req?.user?.id ?? '';
+    return this.teamMembershipsService.findAll(userId, teamId);
   }
 
   @Get(':id')
   findOne(@Req() req: Request, @Param('id') id: string) {
-    return this.teamMembershipsService.findOne(req.user.id, id);
+    const userId = req?.user?.id ?? '';
+    return this.teamMembershipsService.findOne(userId, id);
   }
 
   @Patch(':id')
@@ -49,8 +49,9 @@ export class TeamMembershipsController {
     @Param('id') id: string,
     @Body() updateTeamMembershipDto: UpdateTeamMembershipDto
   ) {
+    const userId = req?.user?.id ?? '';
     return this.teamMembershipsService.update(
-      req.user.id,
+      userId,
       id,
       updateTeamMembershipDto
     );
@@ -62,6 +63,7 @@ export class TeamMembershipsController {
     @Param('teamId') teamId: string,
     @Param('memberId') memberId: string
   ) {
-    return this.teamMembershipsService.remove(req.user.id, teamId, memberId);
+    const userId = req?.user?.id ?? '';
+    return this.teamMembershipsService.remove(userId, teamId, memberId);
   }
 }

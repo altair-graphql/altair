@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { QueryCollectionsService } from './query-collections.service';
 import { Request } from 'express';
@@ -27,37 +28,59 @@ export class QueryCollectionsController {
     @Req() req: Request,
     @Body() createQueryCollectionDto: CreateQueryCollectionDto
   ) {
+    const userId = req?.user?.id ?? '';
     return this.queryCollectionsService.create(
-      req.user.id,
+      userId,
       createQueryCollectionDto
     );
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    return this.queryCollectionsService.findAll(req.user.id);
+    const userId = req?.user?.id ?? '';
+    return this.queryCollectionsService.findAll(userId);
   }
 
   @Get(':id')
-  findOne(@Req() req: Request, @Param('id') id: string) {
-    return this.queryCollectionsService.findOne(req.user.id, id);
+  async findOne(@Req() req: Request, @Param('id') id: string) {
+    const userId = req?.user?.id ?? '';
+    const collection = await this.queryCollectionsService.findOne(userId, id);
+
+    if (!collection) {
+      throw new NotFoundException();
+    }
+
+    return collection;
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Req() req: Request,
     @Param('id') id: string,
     @Body() updateQueryCollectionDto: UpdateQueryCollectionDto
   ) {
-    return this.queryCollectionsService.update(
-      req.user.id,
+    const userId = req?.user?.id ?? '';
+    const res = await this.queryCollectionsService.update(
+      userId,
       id,
       updateQueryCollectionDto
     );
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Req() req: Request, @Param('id') id: string) {
-    return this.queryCollectionsService.remove(req.user.id, id);
+  async remove(@Req() req: Request, @Param('id') id: string) {
+    const userId = req?.user?.id ?? '';
+    const res = await this.queryCollectionsService.remove(userId, id);
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 }

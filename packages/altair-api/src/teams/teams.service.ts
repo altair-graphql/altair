@@ -15,13 +15,14 @@ export class TeamsService {
 
   async create(userId: string, createTeamDto: CreateTeamDto) {
     const userPlanConfig = await this.userService.getPlanConfig(userId);
+    const userPlanMaxTeamCount = userPlanConfig?.maxTeamCount ?? 0;
     const teamCount = await this.prisma.team.count({
       where: {
         ownerId: userId,
       },
     });
 
-    if (teamCount >= userPlanConfig.maxTeamCount) {
+    if (teamCount >= userPlanMaxTeamCount) {
       throw new InvalidRequestException(
         'ERR_MAX_TEAM_COUNT',
         'You have reached the limit of the number of teams for your plan.'

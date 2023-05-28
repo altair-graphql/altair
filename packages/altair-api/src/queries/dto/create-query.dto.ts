@@ -5,16 +5,16 @@ import { Allow, IsString } from 'class-validator';
 export class CreateQueryDto implements ICreateQueryDto {
   @IsString()
   @ApiProperty()
-  name: string;
+  name!: string;
 
   // TODO: Define stricter validator
   @Allow()
   @ApiProperty()
-  content: IQueryContentDto;
+  content!: IQueryContentDto;
 
   @IsString()
   @ApiProperty()
-  collectionId: string;
+  collectionId!: string;
 }
 
 export class CreateQuerySansCollectionIdDto extends OmitType(CreateQueryDto, [

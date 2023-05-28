@@ -7,7 +7,7 @@ export class StripeService {
   private readonly logger = new Logger(StripeService.name);
 
   constructor() {
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
       apiVersion: '2022-11-15',
     });
   }
@@ -45,7 +45,7 @@ export class StripeService {
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET
+      process.env.STRIPE_WEBHOOK_SECRET!
     );
   }
 
@@ -69,7 +69,14 @@ export class StripeService {
     }
 
     // update first item only
-    const itemId = res.data.at(0).items.data.at(0).id;
+    const itemId = res.data.at(0)?.items.data.at(0)?.id;
+
+    if (!itemId) {
+      throw new Error(
+        `Cannot update subscription quantity since customer (${stripeCustomerId}) does not have a subscription item ID`
+      );
+    }
+
     return this.stripe.subscriptionItems.update(itemId, {
       quantity,
     });

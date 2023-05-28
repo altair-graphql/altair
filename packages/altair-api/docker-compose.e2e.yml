@@ -1,0 +1,25 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  db:
+    image: postgres:13
+    restart: always
+    container_name: integration-tests-prisma
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres-e2e:/var/lib/postgresql/data-e2e
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests
+    networks:
+      - test-network
+
+networks:
+  test-network:
+
+volumes:
+  postgres-e2e:

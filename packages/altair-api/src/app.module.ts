@@ -16,12 +16,14 @@ import { StripeModule } from './stripe/stripe.module';
 import { StripeWebhookController } from './stripe-webhook/stripe-webhook.controller';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const newrelicPino = require('@newrelic/pino-enricher');
+if (process.env.NEW_RELIC_APP_NAME) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const newrelicPino = require('@newrelic/pino-enricher');
+}
 
 @Module({
   imports: [
-    LoggerModule.forRoot(),
+    ...(process.env.NODE_ENV !== 'test' ? [LoggerModule.forRoot()] : []),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule.forRoot({
       isGlobal: true,
@@ -29,7 +31,9 @@ const newrelicPino = require('@newrelic/pino-enricher');
         middlewares: [], // configure your prisma middleware
       },
     }),
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot({
+      verboseMemoryLeak: true,
+    }),
     AuthModule,
     QueriesModule,
     QueryCollectionsModule,
