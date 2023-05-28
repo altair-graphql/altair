@@ -20,7 +20,6 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_HOST: localhost
           POSTGRES_USER: prisma
           POSTGRES_PASSWORD: prisma
           POSTGRES_DB: tests
@@ -44,6 +43,10 @@ jobs:
           timeout_minutes: 15
           max_attempts: 3
           command: yarn build:ci
+      - name: Update env file
+        run: |
+          echo API_ENDPOINT="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
+          cat packages/altair-api/.env.e2e
       - name: Migration
         run: yarn --cwd packages/altair-api migrate:e2e
       - name: Run E2E
