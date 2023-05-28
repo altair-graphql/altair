@@ -19,7 +19,6 @@ jobs:
       # Label used to access the service container
       postgres:
         image: postgres:13
-        container_name: integration-tests-prisma
         env:
           POSTGRES_HOST: localhost
           POSTGRES_USER: prisma
