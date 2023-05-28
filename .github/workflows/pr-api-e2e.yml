@@ -12,7 +12,7 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
-    container: node:20
+    # container: node:20
 
     # Service containers to run with `container-job`
     services:
@@ -36,6 +36,17 @@ jobs:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
         uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: restore lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn --frozen-lockfile --network-timeout 1000000
       - name: Build apps (with retries)
         uses: nick-invision/retry@v2
@@ -43,13 +54,11 @@ jobs:
           timeout_minutes: 15
           max_attempts: 3
           command: yarn build:ci
-      - name: Update env file
-        run: |
-          echo DATABASE_URL="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
-          cat packages/altair-api/.env.e2e
+      # - name: Update env file
+      #   run: |
+      #     echo DATABASE_URL="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
+      #     cat packages/altair-api/.env.e2e
       - name: Migration
         run: yarn --cwd packages/altair-api migrate:e2e
       - name: Run E2E
-        # Runs a script that creates a PostgreSQL table, populates
-        # the table with data, and then retrieves the data.
         run: yarn --cwd packages/altair-api test:e2e
