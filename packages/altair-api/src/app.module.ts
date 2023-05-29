@@ -16,7 +16,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { StripeWebhookController } from './stripe-webhook/stripe-webhook.controller';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 
-if (process.env.NEW_RELIC_APP_NAME) {
+if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const newrelicPino = require('@newrelic/pino-enricher');
 }
