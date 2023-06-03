@@ -9,9 +9,6 @@ import {
   testUser,
 } from './e2e-test-utils';
 
-// - GET /user/plan (returns the plan of the user)
-// - GET /user/stats (returns the stats of the user)
-
 describe('UsersController', () => {
   let app: INestApplication;
   let prismaService: PrismaService;

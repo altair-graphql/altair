@@ -7,6 +7,7 @@ import {
   createTestApp,
   mockUserFn,
   testUser,
+  testUser2,
 } from './e2e-test-utils';
 
 describe('WorkspacesController', () => {
@@ -67,5 +68,17 @@ describe('WorkspacesController', () => {
           name: 'Test Workspace',
         });
       });
+  });
+
+  it('/workspaces/:id (GET) should return 404 when attempting to access another users workspace', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const { body: workspaces } = await request(app.getHttpServer())
+      .get('/workspaces')
+      .expect(200);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer())
+      .get(`/workspaces/${workspaces[0].id}`)
+      .expect(404);
   });
 });

@@ -8,6 +8,7 @@ import {
   createTestApp,
   mockUserFn,
   testUser,
+  testUser2,
 } from './e2e-test-utils';
 
 describe('TeamsController', () => {
@@ -62,6 +63,14 @@ describe('TeamsController', () => {
       });
   });
 
+  it('/teams/:id (GET) should return 404 when attempting to access a team not owned and not a member', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const team = await createTeam(app);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer()).get(`/teams/${team.id}`).expect(404);
+  });
+
   it('/teams (POST) should return 401 when not authenticated', () => {
     return request(app.getHttpServer()).post('/teams').expect(401);
   });
@@ -111,6 +120,17 @@ describe('TeamsController', () => {
       });
   });
 
+  it('/teams/:id (PATCH) should return 404 when attempting to update a team not owned', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const team = await createTeam(app);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer())
+      .patch(`/teams/${team.id}`)
+      .send({ name: 'new name' })
+      .expect(404);
+  });
+
   it('/teams/:id (DELETE) should return 401 when not authenticated', () => {
     return request(app.getHttpServer()).delete('/teams/1').expect(401);
   });
@@ -130,5 +150,13 @@ describe('TeamsController', () => {
       .expect((res) => {
         expect(res.body).toMatchObject({ count: 1 });
       });
+  });
+
+  it('/teams/:id (DELETE) should return 404 when attempting to delete a team not owned', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const team = await createTeam(app);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer()).delete(`/teams/${team.id}`).expect(404);
   });
 });

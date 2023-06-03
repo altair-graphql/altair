@@ -13,9 +13,9 @@ import {
   ICreateQueryDto,
   ICreateTeamDto,
   ICreateTeamMembershipDto,
-  ICreateWorkspaceDto,
 } from '@altairgraphql/api-utils';
 import { Logger as PinoLogger } from 'nestjs-pino';
+import { JwtService } from '@nestjs/jwt';
 
 const prisma = new PrismaClient();
 (prisma as any).enableShutdownHooks = () => {
@@ -35,6 +35,19 @@ export const testUser = {
     },
   },
 };
+export const testUser2 = {
+  id: 'test-user-2',
+  email: 'user2@test.com',
+  picture: 'https://example.com/picture2.png',
+  firstName: 'Test2',
+  lastName: 'User2',
+  Workspace: {
+    create: {
+      name: 'Test 2 Workspace',
+    },
+  },
+};
+export const testUsers = [testUser, testUser2];
 const defaultMockUser: any = undefined;
 export const mockUserFn = jest.fn(() => defaultMockUser);
 
@@ -91,7 +104,7 @@ export const createTeamMembership = async (
     .expect((res) => {
       expect(res.body).toMatchObject({
         teamId,
-        userId: testUser.id,
+        userId: testUsers.find((u) => u.email === email)?.id,
         role: 'MEMBER',
       });
     });
@@ -158,21 +171,37 @@ export const beforeAllSetup = async () => {
     maxTeamMemberCount: 2,
     allowMoreTeamMembers: false,
   };
+  const proPlan = {
+    id: 'pro',
+    maxQueryCount: 50,
+    maxTeamCount: 20,
+    maxTeamMemberCount: 2,
+    allowMoreTeamMembers: true,
+  };
   await prisma.planConfig.upsert({
-    update: basicPlan,
     create: basicPlan,
+    update: {},
     where: {
       id: 'basic',
     },
   });
-
-  await prisma.user.upsert({
-    update: testUser,
-    create: testUser,
+  await prisma.planConfig.upsert({
+    create: proPlan,
+    update: {},
     where: {
-      id: testUser.id,
+      id: 'pro',
     },
   });
+
+  for (const user of testUsers) {
+    await prisma.user.upsert({
+      create: user,
+      update: {},
+      where: {
+        id: user.id,
+      },
+    });
+  }
 };
 
 export const createTestApp = async () => {
@@ -208,7 +237,10 @@ export const createTestApp = async () => {
   // wait for app to be ready
   // await wait(100);
 
-  return { app, prismaService: moduleFixture.get(PrismaService) };
+  return {
+    app,
+    prismaService: moduleFixture.get(PrismaService),
+  };
 };
 
 export const afterAllCleanup = async (
@@ -218,4 +250,19 @@ export const afterAllCleanup = async (
   // await prismaService?.$disconnect();
   // await prisma.$disconnect();
   await app.close();
+};
+
+export const authedRequest = (
+  app: INestApplication,
+  method: 'get' | 'post' | 'put' | 'delete',
+  url: string,
+  userId?: string
+) => {
+  const token = app.get(JwtService).sign({ userId });
+
+  const req = request(app.getHttpServer())
+    [method](url)
+    .set('Authorization', 'bearer ' + token);
+
+  return req;
 };
