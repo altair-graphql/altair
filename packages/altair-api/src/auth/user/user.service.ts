@@ -123,8 +123,6 @@ export class UserService {
   }
 
   async updateAllowedTeamMemberCount(userId: string, quantity: number) {
-    const user = await this.mustGetUser(userId);
-
     // Check plan config
     const planConfig = await this.getPlanConfig(userId);
     // if allow additional team members
@@ -135,18 +133,6 @@ export class UserService {
       return;
     }
 
-    // update stripe subscription quantity
-    if (!user.stripeCustomerId) {
-      throw new Error(
-        `Cannot update subscription quantity since user (${userId}) does not have a stripe customer ID`
-      );
-    }
-
-    await this.stripeService.updateSubscriptionQuantity(
-      user.stripeCustomerId,
-      quantity
-    );
-
     // updte user plan with quantity
     await this.prisma.userPlan.update({
       where: {
@@ -156,6 +142,22 @@ export class UserService {
         quantity,
       },
     });
+  }
+
+  async updateSubscriptionQuantity(userId: string, quantity: number) {
+    const user = await this.mustGetUser(userId);
+
+    // update stripe subscription quantity
+    if (!user.stripeCustomerId) {
+      throw new Error(
+        `Cannot update subscription quantity since user (${userId}) does not have a stripe customer ID`
+      );
+    }
+
+    return this.stripeService.updateSubscriptionQuantity(
+      user.stripeCustomerId,
+      quantity
+    );
   }
 
   async getStripeCustomerId(userId: string) {

@@ -8,6 +8,7 @@ import {
   createTestApp,
   mockUserFn,
   testUser,
+  testUser2,
 } from './e2e-test-utils';
 
 describe('QueryCollectionsController', () => {
@@ -40,6 +41,10 @@ describe('QueryCollectionsController', () => {
   });
 
   it('/query-collections (GET) should return 200 with list of authorized query collections when authenticated', async () => {
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    await createQueryCollection(app);
+
+    // should not return another user's query collection
     mockUserFn.mockReturnValue({ id: testUser.id });
     const testQueryCollection = await createQueryCollection(app);
     return request(app.getHttpServer())
@@ -111,6 +116,16 @@ describe('QueryCollectionsController', () => {
       });
   });
 
+  it('/query-collections/:id (GET) should return 404 when attempting to access another users query collection', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const testQueryCollection = await createQueryCollection(app);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer())
+      .get(`/query-collections/${testQueryCollection.id}`)
+      .expect(404);
+  });
+
   it('/query-collections/:id (PATCH) should return 401 when not authenticated', async () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
     const testQueryCollection = await createQueryCollection(app);
@@ -150,6 +165,17 @@ describe('QueryCollectionsController', () => {
       });
   });
 
+  it('/query-collections/:id (PATCH) should return 404 when attempting to update another users query collection', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const testQueryCollection = await createQueryCollection(app);
+
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer())
+      .patch(`/query-collections/${testQueryCollection.id}`)
+      .send({ name: 'updated name' })
+      .expect(404);
+  });
+
   it('/query-collections/:id (DELETE) should return 401 when not authenticated', async () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
     const testQueryCollection = await createQueryCollection(app);
@@ -175,5 +201,14 @@ describe('QueryCollectionsController', () => {
       .expect((res) => {
         expect(res.body).toMatchObject({ count: 1 });
       });
+  });
+
+  it('/query-collections/:id (DELETE) should return 404 when attempting to delete another users query collection', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const testQueryCollection = await createQueryCollection(app);
+    mockUserFn.mockReturnValue({ id: testUser2.id });
+    return request(app.getHttpServer())
+      .delete(`/query-collections/${testQueryCollection.id}`)
+      .expect(404);
   });
 });

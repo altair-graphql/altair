@@ -39,14 +39,6 @@ export class TeamMembershipsService {
       throw new InvalidRequestException('ERR_MAX_TEAM_MEMBER_COUNT');
     }
 
-    // Update stripe subscription item quantity
-    if (userPlanConfig?.allowMoreTeamMembers) {
-      await this.userService.updateAllowedTeamMemberCount(
-        userId,
-        teamMembershipCount + 1 // increment team membership count
-      );
-    }
-
     // Verify team owner is adding member
     const validTeam = await this.prisma.team.findFirst({
       where: {
@@ -73,10 +65,37 @@ export class TeamMembershipsService {
       throw new BadRequestException();
     }
 
-    return this.prisma.teamMembership.create({
+    const res = await this.prisma.teamMembership.create({
       data: {
         teamId: createTeamMembershipDto.teamId,
         userId: validMember.id,
+      },
+    });
+
+    // Update stripe subscription item quantity
+    if (userPlanConfig?.allowMoreTeamMembers) {
+      await this.userService.updateAllowedTeamMemberCount(
+        userId,
+        teamMembershipCount + 1 // increment team membership count
+      );
+
+      // update stripe subscription item quantity. Consider all team memberships from all user's teams.
+      const memberships = await this.findAllByTeamOwner(userId);
+      await this.userService.updateSubscriptionQuantity(
+        userId,
+        memberships.length
+      );
+    }
+
+    return res;
+  }
+
+  async findAllByTeamOwner(userId: string) {
+    return this.prisma.teamMembership.findMany({
+      where: {
+        team: {
+          ownerId: userId,
+        },
       },
     });
   }

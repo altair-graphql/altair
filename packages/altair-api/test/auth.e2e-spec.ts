@@ -9,9 +9,6 @@ import {
   testUser,
 } from './e2e-test-utils';
 
-// - GET /auth/me (returns the user profile)
-// - GET /auth/slt (returns the short-lived token for events)
-
 describe('AuthController', () => {
   let app: INestApplication;
   let prismaService: PrismaService;
