@@ -129,6 +129,7 @@ model PlanConfig {
   UserPlan             UserPlan[]
 }
 
+// @deprecated  no longer used
 model UserPlan {
   userId     String     @unique
   planRole   String // as defined in the Stripe product role metadata

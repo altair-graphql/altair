@@ -34,5 +34,4 @@ describe('AppController (e2e)', () => {
   });
 
   // TODO: add tests for the authentication flows (use jwtService to generate tokens)
-  // TODO: add test for the addition of new team members when the plan allows it
 });

@@ -16,6 +16,7 @@ import {
 } from '@altairgraphql/api-utils';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { JwtService } from '@nestjs/jwt';
+import { StripeService } from 'src/stripe/stripe.service';
 
 const prisma = new PrismaClient();
 (prisma as any).enableShutdownHooks = () => {
@@ -25,6 +26,7 @@ const prisma = new PrismaClient();
 const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 export const testUser = {
   id: 'test-user',
+  stripeCustomerId: 'cus_test',
   email: 'user@test.com',
   picture: 'https://example.com/picture.png',
   firstName: 'Test',
@@ -37,6 +39,7 @@ export const testUser = {
 };
 export const testUser2 = {
   id: 'test-user-2',
+  stripeCustomerId: 'cus_test2',
   email: 'user2@test.com',
   picture: 'https://example.com/picture2.png',
   firstName: 'Test2',
@@ -47,7 +50,33 @@ export const testUser2 = {
     },
   },
 };
-export const testUsers = [testUser, testUser2];
+export const testUser3 = {
+  id: 'test-user-3',
+  stripeCustomerId: 'cus_test3',
+  email: 'user3@test.com',
+  picture: 'https://example.com/picture3.png',
+  firstName: 'Test3',
+  lastName: 'User3',
+  Workspace: {
+    create: {
+      name: 'Test 3 Workspace',
+    },
+  },
+};
+export const testUser4 = {
+  id: 'test-user-4',
+  stripeCustomerId: 'cus_test4',
+  email: 'user4@test.com',
+  picture: 'https://example.com/picture4.png',
+  firstName: 'Test4',
+  lastName: 'User4',
+  Workspace: {
+    create: {
+      name: 'Test 4 Workspace',
+    },
+  },
+};
+export const testUsers = [testUser, testUser2, testUser3, testUser4];
 const defaultMockUser: any = undefined;
 export const mockUserFn = jest.fn(() => defaultMockUser);
 
@@ -172,10 +201,10 @@ export const beforeAllSetup = async () => {
     allowMoreTeamMembers: false,
   };
   const proPlan = {
+    ...basicPlan,
     id: 'pro',
     maxQueryCount: 50,
     maxTeamCount: 20,
-    maxTeamMemberCount: 2,
     allowMoreTeamMembers: true,
   };
   await prisma.planConfig.upsert({
@@ -208,9 +237,18 @@ export const createTestApp = async () => {
   const logger = new ConsoleLogger('test', {
     logLevels: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
+  const stripeService = {
+    createCustomer: jest.fn().mockResolvedValue({
+      id: 'cus_test',
+      email: '',
+      name: '',
+    }),
+    updateSubscriptionQuantity: jest.fn().mockResolvedValue({}),
+  };
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
   })
+    // TODO: Test with real JWT strategy
     .overrideProvider(JwtStrategy)
     .useClass(
       class MockJwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -221,6 +259,8 @@ export const createTestApp = async () => {
         }
       }
     )
+    .overrideProvider(StripeService)
+    .useValue(stripeService)
     .overrideProvider(Logger)
     .useValue(logger)
     .overrideProvider(PinoLogger)
@@ -240,6 +280,7 @@ export const createTestApp = async () => {
   return {
     app,
     prismaService: moduleFixture.get(PrismaService),
+    stripeService,
   };
 };
 
