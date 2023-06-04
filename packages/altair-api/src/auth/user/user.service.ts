@@ -111,37 +111,12 @@ export class UserService {
       });
     }
 
-    const maxTeamMemberCount = Math.max(
-      res.planConfig.maxTeamMemberCount,
-      res.quantity
-    );
-
     return {
       ...res.planConfig,
-      maxTeamMemberCount,
+      maxTeamMemberCount: res.planConfig.allowMoreTeamMembers
+        ? Infinity
+        : res.planConfig.maxTeamMemberCount,
     };
-  }
-
-  async updateAllowedTeamMemberCount(userId: string, quantity: number) {
-    // Check plan config
-    const planConfig = await this.getPlanConfig(userId);
-    // if allow additional team members
-    if (!planConfig?.allowMoreTeamMembers) {
-      this.logger.warn(
-        `Cannot update allowed team member count since allowMoreTeamMembers is not enabled for this plan config (${planConfig?.id})`
-      );
-      return;
-    }
-
-    // updte user plan with quantity
-    await this.prisma.userPlan.update({
-      where: {
-        userId,
-      },
-      data: {
-        quantity,
-      },
-    });
   }
 
   async updateSubscriptionQuantity(userId: string, quantity: number) {

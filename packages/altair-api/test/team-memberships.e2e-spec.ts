@@ -1,3 +1,4 @@
+import { ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
 import { INestApplication } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import * as request from 'supertest';
@@ -9,15 +10,18 @@ import {
   createTestApp,
   mockUserFn,
   testUser,
+  testUser2,
+  testUser3,
 } from './e2e-test-utils';
 
 describe('TeamMembershipsController', () => {
   let app: INestApplication;
   let prismaService: PrismaService;
+  let stripeService: any;
 
   beforeEach(async () => {
     await beforeAllSetup();
-    ({ app, prismaService } = await createTestApp());
+    ({ app, prismaService, stripeService } = await createTestApp());
   });
 
   beforeEach(async () => {
@@ -70,6 +74,43 @@ describe('TeamMembershipsController', () => {
     const team = await createTeam(app);
 
     return createTeamMembership(app, team.id, testUser.email);
+  });
+
+  it('/team-memberships (POST) should return 400 when team membership limit is reached', async () => {
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const team = await createTeam(app);
+
+    await createTeamMembership(app, team.id, testUser.email);
+    await createTeamMembership(app, team.id, testUser2.email);
+    const data: ICreateTeamMembershipDto = {
+      teamId: team.id,
+      email: testUser3.email,
+    };
+    return request(app.getHttpServer())
+      .post('/team-memberships')
+      .send(data)
+      .expect(400);
+  });
+
+  it('/team-memberships (POST) should return 200 when team membership limit is reached but with user plan that allows more team members', async () => {
+    await prismaService.userPlan.create({
+      data: {
+        userId: testUser.id,
+        planRole: 'pro',
+        quantity: 0,
+      },
+    });
+    mockUserFn.mockReturnValue({ id: testUser.id });
+    const team = await createTeam(app);
+
+    await createTeamMembership(app, team.id, testUser.email);
+    await createTeamMembership(app, team.id, testUser2.email);
+    await createTeamMembership(app, team.id, testUser3.email);
+
+    expect(stripeService.updateSubscriptionQuantity).toBeCalledWith(
+      'cus_test',
+      3
+    );
   });
 
   it('/team-memberships/team/:teamId/member/:memberId (DELETE) should return 401 when not authenticated', () => {

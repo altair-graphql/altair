@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
@@ -32,10 +28,7 @@ export class TeamMembershipsService {
       },
     });
 
-    if (
-      !userPlanConfig?.allowMoreTeamMembers &&
-      teamMembershipCount >= userPlanMaxTeamMemberCount
-    ) {
+    if (teamMembershipCount >= userPlanMaxTeamMemberCount) {
       throw new InvalidRequestException('ERR_MAX_TEAM_MEMBER_COUNT');
     }
 
@@ -72,20 +65,7 @@ export class TeamMembershipsService {
       },
     });
 
-    // Update stripe subscription item quantity
-    if (userPlanConfig?.allowMoreTeamMembers) {
-      await this.userService.updateAllowedTeamMemberCount(
-        userId,
-        teamMembershipCount + 1 // increment team membership count
-      );
-
-      // update stripe subscription item quantity. Consider all team memberships from all user's teams.
-      const memberships = await this.findAllByTeamOwner(userId);
-      await this.userService.updateSubscriptionQuantity(
-        userId,
-        memberships.length
-      );
-    }
+    await this.updateSubscriptionQuantity(userId);
 
     return res;
   }
@@ -165,7 +145,7 @@ export class TeamMembershipsService {
       );
     }
 
-    return this.prisma.teamMembership.delete({
+    const res = await this.prisma.teamMembership.delete({
       where: {
         userId_teamId: {
           teamId,
@@ -173,5 +153,24 @@ export class TeamMembershipsService {
         },
       },
     });
+
+    await this.updateSubscriptionQuantity(ownerId);
+
+    return res;
+  }
+
+  // Update stripe subscription item quantity
+  async updateSubscriptionQuantity(userId: string) {
+    const userPlanConfig = await this.userService.getPlanConfig(userId);
+
+    // Update stripe subscription item quantity
+    if (userPlanConfig?.allowMoreTeamMembers) {
+      // update stripe subscription item quantity. Consider all team memberships from all user's teams.
+      const memberships = await this.findAllByTeamOwner(userId);
+      await this.userService.updateSubscriptionQuantity(
+        userId,
+        memberships.length
+      );
+    }
   }
 }
