@@ -5224,20 +5224,6 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@quramy/jest-prisma-core@^1.0.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@quramy/jest-prisma-core/-/jest-prisma-core-1.4.0.tgz#c6939461cb92f2f3d33db4e51b2b2a22b6a8f865"
-  integrity sha512-JMrhoGEe7GVhbQPjS4QHpToiXlP5IS1ds12PLl4yHugvwKUDuxxz43O+t2FmWSyo/isFkUN1FzWEc9W4Bnl+Jw==
-  dependencies:
-    chalk "^4.0.0"
-
-"@quramy/jest-prisma@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@quramy/jest-prisma/-/jest-prisma-1.4.0.tgz#25d2bc1c761dc38664b919e1684f95d961c5e883"
-  integrity sha512-TX34ZdBIMckmZecqhjOst9/IjtOqYeFYB0CjHjGBPMk95v7pekEU1gqeezion4gD8BuenFe/7KUSDrcW/xw/Bg==
-  dependencies:
-    "@quramy/jest-prisma-core" "^1.0.0"
-
 "@radix-ui/number@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.0.0.tgz#4c536161d0de750b3f5d55860fc3de46264f897b"

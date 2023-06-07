@@ -7,6 +7,7 @@ import {
   of,
   from,
   combineLatest,
+  zip,
 } from 'rxjs';
 
 import {
@@ -16,6 +17,8 @@ import {
   switchMap,
   map,
   takeUntil,
+  distinct,
+  mergeMap,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
@@ -63,18 +66,10 @@ import {
   ScriptContextData,
 } from '../services/pre-request/pre-request.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { RequestScriptError } from '../services/pre-request/errors';
 import { headerListToMap } from '../utils/headers';
-
-interface EffectResponseData {
-  state: RootState;
-  data?: PerWindowState;
-  windowId: string;
-  action: queryActions.Action;
-}
 
 @Injectable()
 export class QueryEffects {
@@ -414,7 +409,7 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.SET_URL),
-        switchMap((data: queryActions.SetUrlAction) => {
+        mergeMap((data: queryActions.SetUrlAction) => {
           const url = this.environmentService.hydrate(data.payload.url);
           // If the URL is not valid
           if (!isValidUrl(url)) {
@@ -437,7 +432,7 @@ export class QueryEffects {
         gqlSchemaActions.SET_INTROSPECTION,
         gqlSchemaActions.SET_INTROSPECTION_FROM_DB
       ),
-      switchMap((data: gqlSchemaActions.SetIntrospectionAction) => {
+      mergeMap((data: gqlSchemaActions.SetIntrospectionAction) => {
         const schema = this.gqlService.getIntrospectionSchema(data.payload);
 
         if (schema) {
@@ -456,7 +451,7 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(gqlSchemaActions.SET_SCHEMA),
-        switchMap((action: gqlSchemaActions.SetSchemaAction) => {
+        mergeMap((action: gqlSchemaActions.SetSchemaAction) => {
           const schema = action.payload;
           if (schema) {
             this.gqlService
@@ -488,7 +483,7 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(gqlSchemaActions.LOAD_SDL_SCHEMA),
-        switchMap((data: gqlSchemaActions.LoadSDLSchemaAction) => {
+        mergeMap((data: gqlSchemaActions.LoadSDLSchemaAction) => {
           openFile({ accept: '.gql' }).then((sdlData: string) => {
             try {
               const schema = this.gqlService.sdlToSchema(sdlData);
@@ -529,7 +524,7 @@ export class QueryEffects {
             };
           }
         ),
-        switchMap((response) => {
+        mergeMap((response) => {
           return combineLatest([
             of(response),
             from(
@@ -541,7 +536,7 @@ export class QueryEffects {
             })
           );
         }),
-        switchMap((res) => {
+        mergeMap((res) => {
           if (!res) {
             return EMPTY;
           }
