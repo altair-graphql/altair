@@ -17,6 +17,9 @@ EmptyError is thrown by the `first` pipe if the source observable is closed befo
 
 Fix: Use `take(1)` instead of `first()`.
 
+### Multiple actions/requests, only one is going through
+In the ngrx effects, use `mergeMap` instead of `switchMap`
+
 ### Firebase: The caller does not have permission
 
 `The caller does not have permission; Please refer to https://firebase.google.com/docs/auth/admin/create-custom-tokens for more details on how to use and troubleshoot this feature.`
