@@ -201,10 +201,12 @@ export class QueryCollectionEffects {
         }
 
         if (query) {
-          return this.collectionService.updateQuery(
-            res.data.layout.collectionId,
-            res.data.layout.windowIdInCollection,
-            query
+          return from(
+            this.collectionService.updateQuery(
+              res.data.layout.collectionId,
+              res.data.layout.windowIdInCollection,
+              query
+            )
           );
         }
 
@@ -224,25 +226,32 @@ export class QueryCollectionEffects {
     );
   });
 
-  loadCollections$: Observable<Action> = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(collectionActions.LOAD_COLLECTIONS),
-      switchMap(() => this.collectionService.getAll()),
-      map(
-        (collections) =>
-          new collectionActions.SetCollectionsAction({ collections })
-      ),
-      tap(() => {
-        this.store.dispatch(new windowsActions.ReloadCollectionWindowsAction());
-      }),
-      catchError((err: UnknownError) => {
-        debug.error(err);
-        this.notifyService.errorWithError(err, 'Could not load collection');
-        return EMPTY;
-      }),
-      repeat()
-    );
-  });
+  loadCollections$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(collectionActions.LOAD_COLLECTIONS),
+        switchMap(() => this.collectionService.getAll()),
+        map((collections) => {
+          this.store.dispatch(
+            new collectionActions.SetCollectionsAction({ collections })
+          );
+          return EMPTY;
+        }),
+        tap(() => {
+          this.store.dispatch(
+            new windowsActions.ReloadCollectionWindowsAction()
+          );
+        }),
+        catchError((err: UnknownError) => {
+          debug.error(err);
+          this.notifyService.errorWithError(err, 'Could not load collection');
+          return EMPTY;
+        }),
+        repeat()
+      );
+    },
+    { dispatch: false }
+  );
 
   deleteQueryFromCollection$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
