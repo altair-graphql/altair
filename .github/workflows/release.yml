@@ -84,11 +84,11 @@ jobs:
         uses: crazy-max/ghaction-chocolatey@v1.6.0
         with:
           args: pack chocolatey\altair-graphql.nuspec
-      - name: chocolatey install (test choco packaging)
-        if: startsWith(matrix.os, 'windows')
-        uses: crazy-max/ghaction-chocolatey@v1.6.0
-        with:
-          args: install altair-graphql --version="${{ steps.getversion.outputs.version }}" --source="altair-graphql.${{ steps.getversion.outputs.version }}.nupkg"
+      # - name: chocolatey install (test choco packaging)
+      #   if: startsWith(matrix.os, 'windows')
+      #   uses: crazy-max/ghaction-chocolatey@v1.6.0
+      #   with:
+      #     args: install altair-graphql --version="${{ steps.getversion.outputs.version }}" --source="altair-graphql.${{ steps.getversion.outputs.version }}.nupkg"
       - name: chocolatey push
         if: startsWith(matrix.os, 'windows')
         uses: crazy-max/ghaction-chocolatey@v1.6.0
