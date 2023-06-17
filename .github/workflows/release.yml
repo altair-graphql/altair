@@ -70,7 +70,7 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.apple_api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snap_store_login }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
 
       # chocolatey
       - name: Read VERSION file
