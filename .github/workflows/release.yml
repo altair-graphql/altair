@@ -44,11 +44,9 @@ jobs:
           timeout_minutes: 20
           max_attempts: 3
           command: yarn lerna bootstrap
-      # - name: Install Snapcraft
-      #   uses: samuelmeuli/action-snapcraft@v1
-      #   if: startsWith(matrix.os, 'ubuntu')
-      #   with:
-      #     snapcraft_token: ${{ secrets.snap_store_login }}
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v1
+        if: startsWith(matrix.os, 'ubuntu')
       - name: Prepare for app notarization
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS
