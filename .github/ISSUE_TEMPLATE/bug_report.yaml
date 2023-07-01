@@ -11,18 +11,21 @@ body:
         - label: I have searched the existing issues
           required: true
   - type: textarea
+    id: current-behavior
     attributes:
       label: Current Behavior
       description: A concise description of what you're experiencing.
     validations:
       required: false
   - type: textarea
+    id: expected-behavior
     attributes:
       label: Expected Behavior
       description: A concise description of what you expected to happen.
     validations:
       required: false
   - type: textarea
+    id: steps-to-reproduce
     attributes:
       label: Steps To Reproduce
       description: Steps to reproduce the behavior.
@@ -34,6 +37,7 @@ body:
     validations:
       required: false
   - type: textarea
+    id: environment
     attributes:
       label: Environment
       description: |
