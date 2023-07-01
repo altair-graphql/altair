@@ -18,3 +18,13 @@ ${ISSUE_TEMPLATE_ERROR_STACK_PLACEHOLDER}
 Version ${ISSUE_TEMPLATE_ALTAIR_VERSION_PLACEHOLDER}
 
 `;
+
+export const issueErrorTemplate = (message: string, stack: string) => `
+Error message: ${message}
+
+Error stack:
+
+\`\`\`
+${stack}
+\`\`\`
+`;
