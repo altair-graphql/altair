@@ -12,6 +12,7 @@ interface Stats {
 }
 
 interface Plan {
+  id: string;
   maxQueriesCount: number;
   maxTeamsCount: number;
 }

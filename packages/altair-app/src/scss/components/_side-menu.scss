@@ -129,3 +129,20 @@
     vertical-align: middle;
   }
 }
+
+.submenu-item--upgrade {
+  color: var(--primary-color);
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+
+  &:hover {
+    color: var(--primary-color);
+    -webkit-text-fill-color: unset;
+  }
+}

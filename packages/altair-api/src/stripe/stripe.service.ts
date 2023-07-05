@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Stripe } from 'stripe';
+import { PLAN_IDS } from '@altairgraphql/db';
 
 @Injectable()
 export class StripeService {
@@ -53,6 +54,76 @@ export class StripeService {
     return this.stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
       return_url: returnUrl,
+    });
+  }
+
+  createCheckoutSession(stripeCustomerId: string, priceId: string) {
+    return this.stripe.checkout.sessions.create({
+      customer: stripeCustomerId,
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+          adjustable_quantity: {
+            enabled: true,
+            minimum: 1,
+          },
+        },
+      ],
+      custom_text: {
+        submit: {
+          message:
+            'Note: The quantity determines the number of users in your team. Adding new team members will automatically increase the quantity of your subscription.',
+        },
+      },
+      mode: 'subscription',
+      success_url: `https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}`,
+    });
+  }
+
+  getProducts() {
+    return this.stripe.products.list();
+  }
+
+  getPrices() {
+    return this.stripe.prices.list();
+  }
+
+  async getPlanInfoByRole(role: typeof PLAN_IDS[keyof typeof PLAN_IDS]) {
+    const plans = await this.getPlanInfos();
+    return plans.find((plan) => plan?.role === role);
+  }
+
+  async getPlanInfos() {
+    const products = await this.getProducts();
+    const prices = await this.getPrices();
+
+    return products.data.map((product) => {
+      const price = prices.data.find((price) => price.product === product.id);
+      if (!price) {
+        return undefined;
+      }
+
+      // a valid product must have a role
+      if (!product.metadata.role) {
+        return undefined;
+      }
+
+      return {
+        /**
+         * product ID
+         */
+        id: product.id,
+        price_id: price.id,
+        role: product.metadata.role,
+        name: product.name,
+        description: product.description,
+        price: price.unit_amount,
+        currency: price.currency,
+        interval: price.recurring.interval,
+      };
     });
   }
 

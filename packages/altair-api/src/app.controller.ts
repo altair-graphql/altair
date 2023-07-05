@@ -1,3 +1,4 @@
+import { IPlanInfo } from '@altairgraphql/api-utils';
 import {
   Controller,
   Get,
@@ -14,18 +15,25 @@ import { map, Observable, Subject } from 'rxjs';
 import { AppService } from './app.service';
 import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
+import { StripeService } from './stripe/stripe.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly eventService: EventEmitter2,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly stripeService: StripeService
   ) {}
 
   @Get()
   goHome(@Res() res: Response) {
     return res.redirect('https://altairgraphql.dev');
+  }
+
+  @Get('plans')
+  getPlans(): Promise<IPlanInfo[]> {
+    return this.stripeService.getPlanInfos();
   }
 
   @UseGuards(EventsJwtAuthGuard)

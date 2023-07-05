@@ -274,6 +274,18 @@
                     </ng-container>
                     <ng-container *ngIf="(account$ | async)?.loggedIn">
                       <a
+                        *ngIf="(account$ | async)?.plan?.id !== 'pro'"
+                        class="submenu-item submenu-item--upgrade"
+                        (click)="openUpgradeProUrl($event)"
+                      >
+                        <div class="submenu-item-icon">
+                          <app-icon name="trending-up"></app-icon>
+                        </div>
+                        <div class="submenu-item-label">
+                          {{ 'UPGRADE_PRO_TEXT' | translate }}
+                        </div>
+                      </a>
+                      <a
                         class="submenu-item"
                         (click)="setShowAccountDialog(true)"
                       >

@@ -1,4 +1,4 @@
-import { BASIC_PLAN_ID, User } from '@altairgraphql/db';
+import { BASIC_PLAN_ID, PRO_PLAN_ID, User } from '@altairgraphql/db';
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -165,6 +165,29 @@ export class UserService {
     const session = await this.stripeService.createBillingSession(
       customerId,
       returnUrl
+    );
+
+    return session.url;
+  }
+
+  async getProPlanUrl(userId: string) {
+    const planConfig = await this.getPlanConfig(userId);
+    if (planConfig.id === PRO_PLAN_ID) {
+      console.warn(
+        'User is already on pro plan. Going to return billing url instead.'
+      );
+      return this.getBillingUrl(userId);
+    }
+
+    const customerId = await this.getStripeCustomerId(userId);
+    const proPlanInfo = await this.stripeService.getPlanInfoByRole(PRO_PLAN_ID);
+
+    if (!proPlanInfo) {
+      throw new Error(`No plan info found for id: ${PRO_PLAN_ID}`);
+    }
+    const session = await this.stripeService.createCheckoutSession(
+      customerId,
+      proPlanInfo.price_id
     );
 
     return session.url;

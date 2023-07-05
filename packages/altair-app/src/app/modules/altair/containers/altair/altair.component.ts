@@ -85,6 +85,7 @@ import {
 } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
+import { apiClient } from '../../services/api/api.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -846,6 +847,11 @@ export class AltairComponent {
     this.store.dispatch(
       new collectionsMetaActions.UpdateQueriesSortByAction({ sortBy })
     );
+  }
+
+  async openUpgradeProUrl(e: MouseEvent) {
+    const { url } = await apiClient.getUpgradeProUrl();
+    return externalLink(e, url);
   }
 
   togglePanelActive(panel: AltairPanel) {

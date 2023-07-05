@@ -32,6 +32,7 @@ export class UserController {
     const cfg = await this.userService.getPlanConfig(userId);
 
     return {
+      id: cfg?.id ?? '',
       max_query_count: cfg?.maxQueryCount ?? 0,
       max_team_count: cfg?.maxTeamCount ?? 0,
       max_team_member_count: cfg?.maxTeamMemberCount ?? 0,
@@ -56,6 +57,15 @@ export class UserController {
         own: await this.teamService.count(userId, true),
         access: await this.teamService.count(userId, false),
       },
+    };
+  }
+
+  @Get('upgrade-pro')
+  @UseGuards(JwtAuthGuard)
+  async getProPlanUrl(@Req() req: Request) {
+    const userId = req?.user?.id ?? '';
+    return {
+      url: await this.userService.getProPlanUrl(userId),
     };
   }
 }
