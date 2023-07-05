@@ -20074,7 +20074,7 @@ nestjs-prisma@^0.19.0:
     "@angular-devkit/schematics" "^13.3.0"
     "@schematics/angular" "~13.3.0"
 
-new-github-issue-url@0.2.1, new-github-issue-url@^0.2.1:
+new-github-issue-url@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/new-github-issue-url/-/new-github-issue-url-0.2.1.tgz#e17be1f665a92de465926603e44b9f8685630c1d"
   integrity sha512-md4cGoxuT4T4d/HDOXbrUHkTKrp/vp+m3aOA7XXVYwNsUNMK49g3SQicTSeV5GIz/5QVGAeYRAOlyp9OvlgsYA==

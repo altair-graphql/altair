@@ -18,7 +18,7 @@ import {
   TeamMembership,
   TeamMemberRole,
 } from '@altairgraphql/db';
-import { IPlan, IUserProfile, IUserStats } from './user';
+import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
 import {
   ICreateTeamDto,
   ICreateTeamMembershipDto,
@@ -277,6 +277,10 @@ export class APIClient {
     return this.ky.get('user/billing').json<{ url: string }>();
   }
 
+  getUpgradeProUrl() {
+    return this.ky.get('user/upgrade-pro').json<{ url: string }>();
+  }
+
   async openBillingPage() {
     const res = await this.getBillingUrl();
 
@@ -289,6 +293,10 @@ export class APIClient {
 
   getUserPlan() {
     return this.ky.get('user/plan').json<IPlan>();
+  }
+
+  getPlanInfos() {
+    return this.ky.get('plans').json<IPlanInfo[]>();
   }
 
   // short-lived-token for events

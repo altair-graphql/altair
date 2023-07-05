@@ -97,6 +97,7 @@ If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mod
 
 ### Stripe product requirements
 
+- Always create plan config in the database first
 - Product should have `role` metadata that corresponds to `PlanConfig` id in the database
 - Product should have recurring pricing
 

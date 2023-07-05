@@ -1,3 +1,4 @@
+import { BASIC_PLAN_ID } from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
 import {
   BadRequestException,
@@ -53,8 +54,20 @@ export class StripeWebhookController {
         // Sync user subscription status
         const status = data.status;
         const shouldCancelPlan = status === 'canceled' || status === 'unpaid';
-        const planRole = shouldCancelPlan ? undefined : data.metadata.role;
-        const quantity = data.items.data.at(0)?.quantity ?? 1;
+        const item = data.items.data.at(0);
+        if (!item) {
+          throw new BadRequestException('No item found!');
+        }
+
+        const quantity = item.quantity ?? 1;
+        const planInfos = await this.stripeService.getPlanInfos();
+        const planInfo = planInfos.find((p) => p.id === item.plan.product);
+
+        if (!planInfo) {
+          throw new BadRequestException('Plan info not found!');
+        }
+
+        const planRole = shouldCancelPlan ? BASIC_PLAN_ID : planInfo.role;
 
         await this.prisma.userPlan.upsert({
           where: {

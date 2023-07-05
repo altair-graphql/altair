@@ -27,7 +27,19 @@ export interface IUserStats {
 }
 
 export interface IPlan {
+  id: string;
   max_query_count: number;
   max_team_count: number;
   max_team_member_count: number;
+}
+
+export interface IPlanInfo {
+  id: string;
+  price_id: string;
+  role: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  interval: string;
 }

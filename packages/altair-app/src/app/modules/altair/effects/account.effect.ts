@@ -207,6 +207,7 @@ export class AccountEffects {
               teamsCount: stats.teams.own,
             },
             plan: {
+              id: plan.id,
               maxQueriesCount: plan.max_query_count,
               maxTeamsCount: plan.max_team_count,
             },
