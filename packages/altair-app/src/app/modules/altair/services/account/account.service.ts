@@ -101,4 +101,8 @@ export class AccountService {
   async getPlan() {
     return await apiClient.getUserPlan();
   }
+
+  async getPlanInfos() {
+    return await apiClient.getPlanInfos();
+  }
 }

@@ -9,4 +9,5 @@ export interface WindowsMetaState {
   showPluginManager: boolean;
   showAccountDialog: boolean;
   showTeamsDialog: boolean;
+  showUpgradeDialog: boolean;
 }

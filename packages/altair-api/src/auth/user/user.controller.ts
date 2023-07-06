@@ -33,9 +33,9 @@ export class UserController {
 
     return {
       id: cfg?.id ?? '',
-      max_query_count: cfg?.maxQueryCount ?? 0,
-      max_team_count: cfg?.maxTeamCount ?? 0,
-      max_team_member_count: cfg?.maxTeamMemberCount ?? 0,
+      maxQueriesCount: cfg?.maxQueryCount ?? 0,
+      maxTeamsCount: cfg?.maxTeamCount ?? 0,
+      maxTeamMembersCount: cfg?.maxTeamMemberCount ?? 0,
     };
   }
 

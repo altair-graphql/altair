@@ -276,7 +276,7 @@
                       <a
                         *ngIf="(account$ | async)?.plan?.id !== 'pro'"
                         class="submenu-item submenu-item--upgrade"
-                        (click)="openUpgradeProUrl($event)"
+                        (click)="setShowUpgradeDialog(true)"
                       >
                         <div class="submenu-item-icon">
                           <app-icon name="trending-up"></app-icon>
@@ -429,6 +429,12 @@
             (toggleDialogChange)="setShowTeamsDialog($event)"
             (reloadTeamChange)="loadTeams()"
           ></app-teams-dialog>
+          <app-upgrade-dialog
+            [showDialog]="(windowsMeta$ | async)?.showUpgradeDialog"
+            [userPlan]="(account$ | async)?.plan"
+            [planInfos]="(account$ | async)?.planInfos"
+            (toggleDialogChange)="setShowUpgradeDialog($event)"
+          ></app-upgrade-dialog>
         </div>
 
         <nz-alert

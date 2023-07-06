@@ -187,7 +187,7 @@ export class UserService {
     }
     const session = await this.stripeService.createCheckoutSession(
       customerId,
-      proPlanInfo.price_id
+      proPlanInfo.priceId
     );
 
     return session.url;

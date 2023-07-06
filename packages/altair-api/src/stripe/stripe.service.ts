@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Stripe } from 'stripe';
 import { PLAN_IDS } from '@altairgraphql/db';
+import { IPlanInfo } from '@altairgraphql/api-utils';
 
 @Injectable()
 export class StripeService {
@@ -96,7 +97,7 @@ export class StripeService {
     return plans.find((plan) => plan?.role === role);
   }
 
-  async getPlanInfos() {
+  async getPlanInfos(): Promise<IPlanInfo[]> {
     const products = await this.getProducts();
     const prices = await this.getPrices();
 
@@ -116,7 +117,7 @@ export class StripeService {
          * product ID
          */
         id: product.id,
-        price_id: price.id,
+        priceId: price.id,
         role: product.metadata.role,
         name: product.name,
         description: product.description,
