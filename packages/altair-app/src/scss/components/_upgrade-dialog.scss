@@ -1,0 +1,31 @@
+.upgrade-pro-title {
+  color: var(--primary-color);
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  display: inline-block;
+}
+.upgrade-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.upgrade-price-unit {
+  font-size: fontsize(20);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.upgrade-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+}
+.upgrade-pro-alert {
+  margin-bottom: 20px;
+}

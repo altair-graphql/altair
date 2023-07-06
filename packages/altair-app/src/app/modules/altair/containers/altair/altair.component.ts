@@ -785,6 +785,12 @@ export class AltairComponent {
     );
   }
 
+  setShowUpgradeDialog(value: boolean) {
+    this.store.dispatch(
+      new windowsMetaActions.ShowUpgradeDialogAction({ value })
+    );
+  }
+
   loadTeams() {
     this.store.dispatch(new accountActions.LoadTeamsAction());
   }
@@ -847,11 +853,6 @@ export class AltairComponent {
     this.store.dispatch(
       new collectionsMetaActions.UpdateQueriesSortByAction({ sortBy })
     );
-  }
-
-  async openUpgradeProUrl(e: MouseEvent) {
-    const { url } = await apiClient.getUpgradeProUrl();
-    return externalLink(e, url);
   }
 
   togglePanelActive(panel: AltairPanel) {

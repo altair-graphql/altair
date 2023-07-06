@@ -9,6 +9,7 @@ export class DialogComponent {
   @Input() showDialog = false;
   @Input() heading = '';
   @Input() subheading = '';
+  @Input() showHeader = true;
   @Input() showFooter = true;
   @Input() width = 520;
   @Output() toggleDialog = new EventEmitter();

@@ -1,7 +1,7 @@
 <nz-modal
   [nzVisible]="showDialog"
   (nzVisibleChange)="toggleDialog.next($event)"
-  [nzTitle]="modalTitle"
+  [nzTitle]="showHeader ? modalTitle : null"
   [nzContent]="modalContent"
   [nzFooter]="showFooter ? modalFooter : null"
   [nzWidth]="width"

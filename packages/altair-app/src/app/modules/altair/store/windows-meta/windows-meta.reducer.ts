@@ -15,6 +15,7 @@ export const getInitialState = (): WindowsMetaState => {
     showPluginManager: false,
     showAccountDialog: false,
     showTeamsDialog: false,
+    showUpgradeDialog: false,
   };
 };
 
@@ -106,6 +107,11 @@ export function windowsMetaReducer(
     case windowsMeta.SHOW_TEAMS_DIALOG:
       if (action.payload) {
         return { ...state, showTeamsDialog: action.payload.value };
+      }
+      return state;
+    case windowsMeta.SHOW_UPGRADE_DIALOG:
+      if (action.payload) {
+        return { ...state, showUpgradeDialog: action.payload.value };
       }
       return state;
     default:

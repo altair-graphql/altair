@@ -10,4 +10,4 @@ cd "$ROOT"
 
 yarn
 
-npx concurrently --kill-others "yarn start:app" "yarn start:api:dev" "yarn start:redirect" "yarn start:dashboard" "start:stripe:listen" --names app,api,redirect,dashboard,stripe
+npx concurrently --kill-others "yarn start:app" "yarn start:api:dev" "yarn start:redirect" "yarn start:dashboard" "yarn start:stripe:listen" --names app,api,redirect,dashboard,stripe

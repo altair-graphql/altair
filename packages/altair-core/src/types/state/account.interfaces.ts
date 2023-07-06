@@ -11,10 +11,22 @@ interface Stats {
   teamsCount: number;
 }
 
-interface Plan {
+export interface IPlan {
   id: string;
   maxQueriesCount: number;
   maxTeamsCount: number;
+  maxTeamMembersCount: number;
+}
+
+export interface IPlanInfo {
+  id: string;
+  priceId: string;
+  role: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  interval: string;
 }
 
 export interface AccountState {
@@ -26,7 +38,8 @@ export interface AccountState {
   picture: string;
   teams: Team[];
   stats?: Stats;
-  plan?: Plan;
+  plan?: IPlan;
+  planInfos?: IPlanInfo[];
 }
 
 export class TeamId extends ValueObject<string> {}

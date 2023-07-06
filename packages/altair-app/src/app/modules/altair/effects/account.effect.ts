@@ -196,21 +196,19 @@ export class AccountEffects {
         forkJoin([
           fromPromise(this.accountService.getStats()),
           fromPromise(this.accountService.getPlan()),
+          fromPromise(this.accountService.getPlanInfos()),
         ])
       ),
       map(
-        ([stats, plan]) =>
+        ([stats, plan, planInfos]) =>
           new accountActions.UpdateAccountAction({
             stats: {
               queriesCount: stats.queries.own,
               queryCollectionsCount: stats.collections.own,
               teamsCount: stats.teams.own,
             },
-            plan: {
-              id: plan.id,
-              maxQueriesCount: plan.max_query_count,
-              maxTeamsCount: plan.max_team_count,
-            },
+            plan,
+            planInfos,
           })
       ),
       catchError((err: UnknownError) => {
