@@ -33,8 +33,12 @@
     <nz-alert
       class="upgrade-pro-alert"
       nzType="warning"
-      [nzMessage]="'You are currently on the ' + userPlan?.id + ' plan. Upgrade to Pro to get access to more features.'"
+      [nzMessage]="'Users in the plan will be calculated based on the number of users across your teams.'"
     ></nz-alert>
+
+    <div class="upgrade-pro-extra-tips">
+      You are currently on the {{ userPlan?.id }} plan. Upgrade to Pro to get access to more features. Reload the app after upgrading to Pro.
+    </div>
 
     <button
       class="app-button active-primary"
