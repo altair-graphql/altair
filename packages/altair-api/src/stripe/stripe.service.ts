@@ -62,6 +62,16 @@ export class StripeService {
     return this.stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       payment_method_types: ['card'],
+      automatic_tax: {
+        enabled: true,
+      },
+      customer_update: {
+        address: 'auto',
+        name: 'auto',
+      },
+      tax_id_collection: {
+        enabled: true,
+      },
       line_items: [
         {
           price: priceId,
