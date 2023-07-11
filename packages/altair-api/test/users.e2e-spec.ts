@@ -37,9 +37,10 @@ describe('UsersController', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual({
-          max_query_count: 5,
-          max_team_count: 2,
-          max_team_member_count: 2,
+          id: 'basic',
+          maxQueriesCount: 5,
+          maxTeamMembersCount: 2,
+          maxTeamsCount: 2,
         });
       });
   });
