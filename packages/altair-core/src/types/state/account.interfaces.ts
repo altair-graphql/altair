@@ -16,6 +16,7 @@ export interface IPlan {
   maxQueriesCount: number;
   maxTeamsCount: number;
   maxTeamMembersCount: number;
+  canUpgradePro: boolean;
 }
 
 export interface IPlanInfo {

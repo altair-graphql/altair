@@ -274,7 +274,7 @@
                     </ng-container>
                     <ng-container *ngIf="(account$ | async)?.loggedIn">
                       <a
-                        *ngIf="(account$ | async)?.plan?.id !== 'pro'"
+                        *ngIf="(account$ | async)?.plan?.canUpgradePro"
                         class="submenu-item submenu-item--upgrade"
                         (click)="setShowUpgradeDialog(true)"
                       >
