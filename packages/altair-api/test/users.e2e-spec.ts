@@ -41,6 +41,7 @@ describe('UsersController', () => {
           maxQueriesCount: 5,
           maxTeamMembersCount: 2,
           maxTeamsCount: 2,
+          canUpgradePro: true,
         });
       });
   });

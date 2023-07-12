@@ -1,4 +1,5 @@
 import { IPlan } from '@altairgraphql/api-utils';
+import { BASIC_PLAN_ID } from '@altairgraphql/db';
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { QueriesService } from 'src/queries/queries.service';
@@ -36,6 +37,7 @@ export class UserController {
       maxQueriesCount: cfg?.maxQueryCount ?? 0,
       maxTeamsCount: cfg?.maxTeamCount ?? 0,
       maxTeamMembersCount: cfg?.maxTeamMemberCount ?? 0,
+      canUpgradePro: cfg?.id === BASIC_PLAN_ID,
     };
   }
 
