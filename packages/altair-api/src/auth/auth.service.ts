@@ -42,12 +42,12 @@ export class AuthService {
     return this.getLoginResponse(user);
   }
 
-  googleLogin(req: Request) {
-    if (!req.user) {
+  googleLogin(user: User) {
+    if (!user) {
       throw new BadRequestException('No user from google');
     }
 
-    return this.getLoginResponse(req.user);
+    return this.getLoginResponse(user);
   }
 
   getUserCredential(providerUserId: string, provider: IdentityProvider) {
