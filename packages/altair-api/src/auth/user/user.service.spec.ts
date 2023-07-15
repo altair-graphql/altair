@@ -57,7 +57,7 @@ describe('UserService', () => {
       const user = await service.createUser(payloadMock);
 
       // THEN
-      (expect(user) as any).toBeUser();
+      expect(user).toBeUser();
     });
 
     it('should throw and exception if the email is already taken', () => {
@@ -97,7 +97,7 @@ describe('UserService', () => {
       const user = await service.mustGetUser(userMock.id);
 
       // THEN
-      (expect(user) as any).toBeUser();
+      expect(user).toBeUser();
     });
 
     it("should throw an error if the user can't be found", () => {
@@ -124,7 +124,7 @@ describe('UserService', () => {
       const planConfig = await service.getPlanConfig(user.id);
 
       // THEN
-      (expect(planConfig) as any).toBePlanConfig();
+      expect(planConfig).toBePlanConfig();
     });
 
     it('should return the the basic plan if no plan was found for the user', async () => {
@@ -141,7 +141,7 @@ describe('UserService', () => {
       const planConfig = await service.getPlanConfig(user.id);
 
       // THEN
-      (expect(planConfig) as any).toBePlanConfig();
+      expect(planConfig).toBePlanConfig();
     });
   });
 
@@ -179,7 +179,7 @@ describe('UserService', () => {
       );
 
       // THEN
-      (expect(subscriptionItem) as any).toBeSubscriptionItem();
+      expect(subscriptionItem).toBeSubscriptionItem();
     });
   });
 
