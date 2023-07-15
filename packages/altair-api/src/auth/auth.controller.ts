@@ -28,7 +28,7 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleOAuthGuard)
   googleSigninCallback(@Req() req: Request, @Res() res: Response) {
-    const result = this.authService.googleLogin(req);
+    const result = this.authService.googleLogin(req.user);
     if (req.query.state && typeof req.query.state === 'string') {
       try {
         const origin = new URL(req.query.state);
@@ -45,7 +45,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getUserProfile(@Req() req: Request) {
-    return this.authService.googleLogin(req);
+    return this.authService.googleLogin(req.user);
   }
 
   @Get('slt')
