@@ -1,5 +1,9 @@
 import { json, jsonLanguage } from '@codemirror/lang-json';
-import { Completion, CompletionSource } from '@codemirror/autocomplete';
+import {
+  Completion,
+  CompletionContext,
+  CompletionSource,
+} from '@codemirror/autocomplete';
 import { syntaxTree } from '@codemirror/language';
 import { SyntaxNode } from '@lezer/common';
 import { getListNodeChildren } from '../../utils/editor/helpers';
@@ -10,137 +14,7 @@ import { debug } from '../../utils/logger';
 import { Diagnostic, linter, LintSource } from '@codemirror/lint';
 import { jsonc } from '../../utils';
 import settingsValidator from '../../utils/validate_settings_schema';
-
-// completable
-// - property name (enumerate parent properties)
-// - property value with enum
-// - required, open object, array
-const schemaCompletionSource: CompletionSource = (ctx) => {
-  const word = ctx.matchBefore(/[A-Za-z0-9._]*/);
-  const r = (node: SyntaxNode | null) =>
-    node ? ctx.state.doc.sliceString(node.from, node.to) : '';
-  const nodeBefore = syntaxTree(ctx.state).resolveInner(ctx.pos, -1);
-  const curNodeText = r(nodeBefore);
-  let from = word?.from || ctx.pos;
-  let to = ctx.pos;
-  let curNode = nodeBefore;
-  const nodeValues = [{ type: curNode.name, val: r(curNode), listIdx: -1 }];
-  while (curNode.parent) {
-    const propertyNameNode = curNode.parent.getChild('PropertyName');
-    let listIdx = -1;
-    if (curNode.parent.name === 'Array') {
-      const children = getListNodeChildren(curNode.parent);
-      listIdx = children.findIndex(
-        (c) => c.from === curNode.from && c.to === curNode.to
-      );
-    }
-    const propertyName = r(propertyNameNode);
-    nodeValues.push({
-      type: curNode.parent.name,
-      // trim quotes around string, since JSON property name is always quoted
-      val: propertyName.replace(/(^['"]|['"]$)/g, ''),
-      listIdx,
-    });
-    curNode = curNode.parent;
-  }
-
-  const x = [...nodeValues].reverse();
-  const pathSegments = [];
-  for (let i = 0; i < x.length; i++) {
-    const curNodeVal = x[i];
-    switch (curNodeVal?.type) {
-      case 'JsonText':
-        continue;
-      case 'Object': {
-        // for objects, look ahead for property name
-        const nextNodeVal = x[i + 1];
-        if (
-          nextNodeVal &&
-          ['Property', 'PropertyName'].includes(nextNodeVal?.type)
-        ) {
-          pathSegments.push({ type: 'PropertyName', val: nextNodeVal.val });
-        }
-        // increment i since we are consuming the next node val here as well
-        i++;
-        continue;
-      }
-      case 'Array':
-        // set the index of the node val
-        pathSegments.push({ type: 'Array', val: curNodeVal.listIdx });
-        continue;
-      default:
-    }
-  }
-
-  // if the last path segment matches the current node, remove it from the path segment
-  // REASONING: We cannot autocomplete the current node by looking at its schema.
-  // We need to look at the parent to autocomplete to the current node or its siblings.
-  if (pathSegments[0]?.type === nodeBefore.name) {
-    pathSegments.pop();
-  }
-  const subSchema = getSchema(
-    settingsSchema as JSONSchema7,
-    pathSegments.map((_) => _.val)
-  );
-  const schemaProperties =
-    typeof subSchema === 'object' ? subSchema.properties : undefined;
-  debug.log('...', nodeBefore, x, pathSegments, subSchema, ctx.pos);
-
-  let options: Completion[] = [];
-
-  // autocomplete property name
-  if (nodeBefore.name === 'PropertyName' && schemaProperties) {
-    options = Object.keys(schemaProperties).map((propName): Completion => {
-      const sch = schemaProperties[propName];
-      const description = typeof sch === 'object' ? sch.description || '' : '';
-      const type = typeof sch === 'object' ? sch.type || '' : '';
-      const typeStr = Array.isArray(type) ? type.toString() : type;
-      return {
-        label: propName,
-        info: description,
-        detail: typeStr,
-      };
-    });
-  }
-
-  const isInStringValue =
-    nodeBefore.name === 'String' &&
-    nodeBefore.from <= ctx.pos &&
-    nodeBefore.to > ctx.pos; // cur pos is not outside string
-  const isUnclosedStringValue =
-    nodeBefore.type.isError &&
-    nodeBefore.prevSibling?.name === 'PropertyName' &&
-    /^"[^"]*$/.test(curNodeText); // unclosed string
-  if (
-    (isInStringValue || isUnclosedStringValue) &&
-    typeof subSchema === 'object' &&
-    subSchema.enum?.length
-  ) {
-    // start from the found node
-    from = nodeBefore.from;
-    to = isInStringValue ? ctx.pos + 1 : ctx.pos;
-    options = subSchema.enum.map((val): Completion => {
-      const description = val?.toString();
-      const type = subSchema.type;
-      const typeStr = Array.isArray(type) ? type.toString() : type;
-      const label = val?.toString() || '';
-      return {
-        label: `"${label}"`,
-        info: description,
-        detail: typeStr,
-      };
-    });
-  }
-
-  if (options.length) {
-    return {
-      from,
-      to,
-      options,
-    };
-  }
-  return null;
-};
+import { JSONCompletion } from './json-completion';
 
 export const validateSettings = (settings: string) => {
   const data = jsonc(settings);
@@ -193,10 +67,12 @@ const settingsLintSource: LintSource = (view) => {
 export const getEditorExtensions = () => {
   // TODO: Hint on hover
 
+  const jsonCompletion = new JSONCompletion(settingsSchema as JSONSchema7);
+
   return [
     json(),
     jsonLanguage.data.of({
-      autocomplete: schemaCompletionSource,
+      autocomplete: (ctx: CompletionContext) => jsonCompletion.doComplete(ctx),
     }),
     linter(settingsLintSource),
   ];
