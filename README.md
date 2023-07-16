@@ -73,6 +73,14 @@ Become a [Gold sponsor](https://opencollective.com/altair/contribute/gold-sponso
 
 <!-- ### Bronze Sponsor -->
 
+### Other Sponsors
+
+<p>
+  <a href="https://www.digitalocean.com/">
+    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" width="201px">
+  </a>
+</p>
+
 ## Usage
 
 
