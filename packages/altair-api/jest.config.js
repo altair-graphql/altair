@@ -9,10 +9,7 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  collectCoverageFrom: [
-    'src/**/*.(t|j)s',
-    '!src/**/mocks/**',
-  ],
+  collectCoverageFrom: ['src/**/*.(t|j)s', '!src/**/mocks/**'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./custom-matchers.ts'],
