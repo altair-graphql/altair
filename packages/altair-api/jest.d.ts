@@ -3,5 +3,7 @@ declare namespace jest {
     toBeUser(): R;
     toBePlanConfig(): R;
     toBeSubscriptionItem(): R;
+    toBePlan(): R;
+    toBeUserStats(): R;
   }
 }

@@ -12,13 +12,13 @@ export function mockUser(): User {
   } as User;
 }
 
-export function mockUserPlan(): UserPlan {
+export function mockUserPlan(): UserPlan & { planConfig: PlanConfig } {
   return {
     userId: 'f7102dc9-4c0c-42b4-9a17-e2bd4af94d5a',
     planRole: 'my role',
     quantity: 1,
     planConfig: mockPlanConfig(),
-  } as UserPlan;
+  } as UserPlan & { planConfig: PlanConfig };
 }
 
 export function mockPlanConfig(): PlanConfig {
