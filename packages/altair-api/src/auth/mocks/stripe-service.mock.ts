@@ -1,3 +1,4 @@
+import { IPlanInfo } from '@altairgraphql/api-utils';
 import Stripe from 'stripe';
 
 export function mockStripeCustomer(): Stripe.Customer {
@@ -19,4 +20,10 @@ export function mockSubscriptionItem(): Stripe.Response<Stripe.SubscriptionItem>
     tax_rates: [],
     lastResponse: {},
   } as Stripe.Response<Stripe.SubscriptionItem>;
+}
+
+export function mockPlanInfo(): IPlanInfo {
+  return {
+    priceId: 'c444e512-4a6d-4b68-bb80-43c32edde415',
+  } as IPlanInfo;
 }

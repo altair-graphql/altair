@@ -10,10 +10,12 @@ import {
   mockUserPlan,
 } from '../mocks/prisma-service.mock';
 import {
+  mockPlanInfo,
   mockStripeCustomer,
   mockSubscriptionItem,
 } from '../mocks/stripe-service.mock';
 import Stripe from 'stripe';
+import { PRO_PLAN_ID } from '@altairgraphql/db';
 
 describe('UserService', () => {
   let service: UserService;
@@ -234,6 +236,92 @@ describe('UserService', () => {
 
       // THEN
       expect(url).toBe(mockUrl);
+    });
+  });
+
+  describe(`getUserByStripeCustomerId`, () => {
+    it(`should return a user object`, () => {
+      // GIVEN
+      const userMock = mockUser();
+      jest
+        .spyOn(prismaService.user, 'findFirst')
+        .mockResolvedValueOnce(userMock);
+
+      // WHEN
+      const user = service.getUserByStripeCustomerId(userMock.stripeCustomerId);
+
+      // THEN
+      expect(user).resolves.toBeUser();
+    });
+  });
+
+  describe(`getProPlanUrl`, () => {
+    const urlMock = 'https://altairgraphql.dev';
+
+    it(`should should return a pro plan URL`, async () => {
+      // GIVEN
+      const userMock = mockUser();
+      jest
+        .spyOn(prismaService.userPlan, 'findUnique')
+        .mockResolvedValueOnce(mockUserPlan());
+      jest
+        .spyOn(prismaService.user, 'findUnique')
+        .mockResolvedValueOnce(userMock);
+      jest
+        .spyOn(stripeService, 'getPlanInfoByRole')
+        .mockResolvedValueOnce(mockPlanInfo());
+      jest.spyOn(stripeService, 'createCheckoutSession').mockResolvedValueOnce({
+        url: urlMock,
+      } as Stripe.Response<Stripe.Checkout.Session>);
+
+      // WHEN
+      const url = await service.getProPlanUrl(userMock.id);
+
+      // THEN
+      expect(url).toBe(urlMock);
+    });
+
+    it(`should return the billing URL if the user is already on pro plan`, async () => {
+      // GIVEN
+      const userMock = mockUser();
+      const userPlanMock = mockUserPlan();
+      const proUrlMock = `${urlMock}/pro`;
+      userPlanMock.planConfig.id = PRO_PLAN_ID;
+
+      jest
+        .spyOn(prismaService.userPlan, 'findUnique')
+        .mockResolvedValueOnce(userPlanMock);
+      jest
+        .spyOn(prismaService.user, 'findUnique')
+        .mockResolvedValueOnce(userMock);
+      jest.spyOn(stripeService, 'createBillingSession').mockResolvedValueOnce({
+        url: proUrlMock,
+      } as Stripe.Response<Stripe.BillingPortal.Session>);
+
+      // WHEN
+      const url = await service.getProPlanUrl(userMock.id);
+
+      // THEN
+      expect(url).toBe(proUrlMock);
+    });
+
+    it(`should throw an error if the pro plan info was not found on Stripe`, () => {
+      // GIVEN
+      const userMock = mockUser();
+      jest
+        .spyOn(prismaService.userPlan, 'findUnique')
+        .mockResolvedValueOnce(mockUserPlan());
+      jest
+        .spyOn(prismaService.user, 'findUnique')
+        .mockResolvedValueOnce(userMock);
+      jest
+        .spyOn(stripeService, 'getPlanInfoByRole')
+        .mockResolvedValueOnce(null);
+
+      // THEN
+      expect(service.getProPlanUrl(userMock.id)).rejects.toThrow(
+        `No plan info found for id: ${PRO_PLAN_ID}`
+      );
     });
   });
 });

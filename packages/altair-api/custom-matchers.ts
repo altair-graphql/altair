@@ -129,8 +129,76 @@ function toBeSubscriptionItem(subItem: any) {
   };
 }
 
+function toBePlan(plan: any) {
+  let check = typeCheck('Plan.id', plan?.id, 'string');
+  if (!check.pass) return check;
+
+  check = typeCheck('Plan.maxQueriesCount', plan?.maxQueriesCount, 'number');
+  if (!check.pass) return check;
+
+  check = typeCheck('Plan.maxTeamsCount', plan?.maxTeamsCount, 'number');
+  if (!check.pass) return check;
+
+  check = typeCheck('Plan.maxTeamsCount', plan?.maxTeamsCount, 'number');
+  if (!check.pass) return check;
+
+  check = typeCheck(
+    'Plan.maxTeamMembersCount',
+    plan?.maxTeamMembersCount,
+    'number'
+  );
+  if (!check.pass) return check;
+
+  check = typeCheck('Plan.canUpgradePro', plan?.canUpgradePro, 'boolean');
+  if (!check.pass) return check;
+
+  return {
+    pass: true,
+    message: () => `expected ${plan} not to match the shape of a Plan object`,
+  };
+}
+
+function toBeUserStats(stats: any) {
+  let check = typeCheck('UserStats.queries.own', stats?.queries?.own, 'number');
+  if (!check.pass) return check;
+
+  check = typeCheck(
+    'UserStats.queries.access',
+    stats?.queries?.access,
+    'number'
+  );
+  if (!check.pass) return check;
+
+  check = typeCheck(
+    'UserStats.collections.own',
+    stats?.collections?.own,
+    'number'
+  );
+  if (!check.pass) return check;
+
+  check = typeCheck(
+    'UserStats.collections.access',
+    stats?.collections?.access,
+    'number'
+  );
+  if (!check.pass) return check;
+
+  check = typeCheck('UserStats.teams.own', stats?.teams?.own, 'number');
+  if (!check.pass) return check;
+
+  check = typeCheck('UserStats.teams.access', stats?.teams?.access, 'number');
+  if (!check.pass) return check;
+
+  return {
+    pass: true,
+    message: () => `expected ${stats} not to match the shape of a Plan object`,
+  };
+}
+
 expect.extend({
   toBeUser,
   toBePlanConfig,
   toBeSubscriptionItem,
+  toBePlan,
+  toBeUserStats,
 });
