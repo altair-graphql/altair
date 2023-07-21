@@ -12,11 +12,6 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.(t|j)s',
     '!src/**/mocks/**',
-    '!src/**/config.ts',
-    '!src/**/*.dto.ts',
-    '!src/**/*.input.ts',
-    '!src/**/*.module.ts',
-    '!src/**/*.strategy.ts',
   ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
