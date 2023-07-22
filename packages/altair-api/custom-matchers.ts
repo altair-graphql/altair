@@ -195,10 +195,24 @@ function toBeUserStats(stats: any) {
   };
 }
 
+function toBeBcryptHash(hash: string) {
+  const match = /^\$2b\$10\$.{53}$/.test(hash);
+
+  return {
+    pass: match,
+    message: () => {
+      return match
+        ? `expected ${hash} not to match the bcrypt hash format`
+        : `expected ${hash} to match the bcrypt hash format`;
+    },
+  };
+}
+
 expect.extend({
   toBeUser,
   toBePlanConfig,
   toBeSubscriptionItem,
   toBePlan,
   toBeUserStats,
+  toBeBcryptHash,
 });

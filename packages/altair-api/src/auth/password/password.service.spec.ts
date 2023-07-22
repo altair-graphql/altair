@@ -2,14 +2,15 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PasswordService } from './password.service';
 import * as bcrypt from 'bcrypt';
+import {
+  otherPasswordMock,
+  passwordHashMapping,
+  passwordMock,
+} from '../mocks/password.mock';
 
 describe('PasswordService', () => {
   let service: PasswordService;
   let configService: ConfigService;
-
-  const passwordMock = '123456';
-  const hashMock =
-    '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -41,15 +42,10 @@ describe('PasswordService', () => {
 
   describe('validatePassword', () => {
     it(`should return true if the password matches the provided hash`, async () => {
-      // GIVEN
-      jest
-        .spyOn(bcrypt, 'compare')
-        .mockImplementationOnce(() => Promise.resolve(true));
-
       // WHEN
       const validationResult = await service.validatePassword(
         passwordMock,
-        hashMock
+        passwordHashMapping[passwordMock]
       );
 
       // THEN
@@ -57,15 +53,10 @@ describe('PasswordService', () => {
     });
 
     it(`should return false if the password doesn't match the provided hash`, async () => {
-      // GIVEN
-      jest
-        .spyOn(bcrypt, 'compare')
-        .mockImplementationOnce(() => Promise.resolve(false));
-
       // WHEN
       const validationResult = await service.validatePassword(
         passwordMock,
-        `${hashMock}-test`
+        passwordHashMapping[otherPasswordMock]
       );
 
       // THEN
@@ -75,14 +66,11 @@ describe('PasswordService', () => {
 
   describe('hashPassword', () => {
     it(`should returned the hash of the password`, async () => {
-      // GIVEN
-      jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => hashMock);
-
       // WHEN
-      const hash = await service.hashPassword(passwordMock);
+      const hash = await service.hashPassword(otherPasswordMock);
 
       // THEN
-      expect(hash).toEqual(hashMock);
+      expect(hash).toBeBcryptHash();
     });
   });
 });

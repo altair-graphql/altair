@@ -5,5 +5,6 @@ declare namespace jest {
     toBeSubscriptionItem(): R;
     toBePlan(): R;
     toBeUserStats(): R;
+    toBeBcryptHash(): R;
   }
 }
