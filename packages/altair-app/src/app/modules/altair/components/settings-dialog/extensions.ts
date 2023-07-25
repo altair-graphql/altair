@@ -47,7 +47,6 @@ const settingsLintSource: LintSource = (view) => {
 
           const erroredValueBoundaries = findErrorValueBoundaries(text, error);
 
-          // TODO: Highlight only the relevant part instead of the whole text
           return {
             from: erroredValueBoundaries.start,
             to: erroredValueBoundaries.end,
