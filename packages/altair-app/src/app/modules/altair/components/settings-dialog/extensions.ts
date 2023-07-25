@@ -1,18 +1,11 @@
+import { CompletionContext } from '@codemirror/autocomplete';
 import { json, jsonLanguage } from '@codemirror/lang-json';
-import {
-  Completion,
-  CompletionContext,
-  CompletionSource,
-} from '@codemirror/autocomplete';
-import { syntaxTree } from '@codemirror/language';
-import { SyntaxNode } from '@lezer/common';
-import { getListNodeChildren } from '../../utils/editor/helpers';
-import { getSchema } from '../../utils/json-schema';
-import settingsSchema from '../../utils/settings.schema.json';
+import { Diagnostic, LintSource, linter } from '@codemirror/lint';
 import { JSONSchema7 } from 'json-schema';
-import { debug } from '../../utils/logger';
-import { Diagnostic, linter, LintSource } from '@codemirror/lint';
 import { jsonc } from '../../utils';
+import { getValueBoundariesInStringifiedJson } from '../../utils/json';
+import { debug } from '../../utils/logger';
+import settingsSchema from '../../utils/settings.schema.json';
 import settingsValidator from '../../utils/validate_settings_schema';
 import { JSONCompletion } from './json-completion';
 
@@ -22,6 +15,18 @@ export const validateSettings = (settings: string) => {
 
   return valid;
 };
+
+const findErrorValueBoundaries = (text: string, error: any) => {
+  const errorPath = error.dataPath
+    .split('.')
+    .filter((segment: string) => segment.length > 0);
+
+  return getValueBoundariesInStringifiedJson(
+    text,
+    errorPath[errorPath.length - 1]
+  );
+};
+
 const settingsLintSource: LintSource = (view) => {
   let diagnostics: Diagnostic[] = [];
   const text = view.state.doc.toString();
@@ -40,10 +45,12 @@ const settingsLintSource: LintSource = (view) => {
             )}]`;
           }
 
+          const erroredValueBoundaries = findErrorValueBoundaries(text, error);
+
           // TODO: Highlight only the relevant part instead of the whole text
           return {
-            from: 0,
-            to: text.length,
+            from: erroredValueBoundaries.start,
+            to: erroredValueBoundaries.end,
             message,
             severity: 'error',
           };
