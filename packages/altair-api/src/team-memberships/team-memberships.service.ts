@@ -167,9 +167,11 @@ export class TeamMembershipsService {
     if (userPlanConfig?.allowMoreTeamMembers) {
       // update stripe subscription item quantity. Consider all team memberships from all user's teams.
       const memberships = await this.findAllByTeamOwner(userId);
+      // only consider unique members
+      const uniqueMembers = new Set(memberships.map((m) => m.userId));
       await this.userService.updateSubscriptionQuantity(
         userId,
-        memberships.length
+        uniqueMembers.size
       );
     }
   }
