@@ -62,8 +62,8 @@ export class PreRequestService {
     data.__cookieJar = cookies;
 
     const res = await new ScriptEvaluator().executeScript(script, data, {
-      alert: (msg: string) => this.notifyService.info(`Alert: ${msg}`),
-      log: (d: unknown) => {
+      alert: async (msg: string) => this.notifyService.info(`Alert: ${msg}`),
+      log: async (d: unknown) => {
         debug.log('request script log:', d);
       },
       request: async (arg1, arg2, arg3) => {

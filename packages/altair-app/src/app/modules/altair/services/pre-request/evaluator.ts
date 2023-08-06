@@ -1,9 +1,13 @@
 import { debug } from '../../utils/logger';
+import { ScriptEvaluatorWorkerFactory } from './evaluator-worker.factory';
 import {
+  AllScriptEventHandlers,
+  getErrorEvent,
+  getResponseEvent,
   ScriptEvent,
   ScriptEventData,
   ScriptEventHandlers,
-  SCRIPT_EVENTS,
+  SCRIPT_INIT_EXECUTE,
 } from './events';
 import { ScriptContextData } from './helpers';
 
@@ -13,7 +17,7 @@ export class ScriptEvaluator {
 
   private getWorker() {
     if (!this.worker) {
-      this.worker = new Worker(new URL('./evaluator.worker', import.meta.url));
+      this.worker = new ScriptEvaluatorWorkerFactory().create();
     }
     return this.worker;
   }
@@ -32,79 +36,55 @@ export class ScriptEvaluator {
           reject(new Error('script timeout'));
         }, this.timeout);
 
-        worker.onmessage = async <T extends ScriptEvent>(
-          e: MessageEvent<ScriptEventData<T>>
-        ) => {
-          clearTimeout(handle);
+        const allHandlers: AllScriptEventHandlers = {
+          ...handlers,
+          executeComplete: (data: ScriptContextData) => {
+            clearTimeout(handle);
+            resolve(data);
+          },
+          scriptError: (err: Error) => {
+            clearTimeout(handle);
+            reject(err);
+          },
+        } as const;
 
-          const event = e.data;
-          debug.log(event.type, event);
+        // loop over all the script event handlers and create a listener for each
+        Object.entries(allHandlers).forEach(([key, fn]) => {
+          worker.addEventListener(
+            'message',
+            async <T extends ScriptEvent>(
+              e: MessageEvent<ScriptEventData<T>>
+            ) => {
+              const event = e.data;
 
-          // Handle script events
-          switch (event.type) {
-            case SCRIPT_EVENTS.SCRIPT_ERROR:
-              this.killWorker();
-              reject(event.payload.args[0]);
-              break;
-            case SCRIPT_EVENTS.ALERT:
-              handlers.alert(...event.payload.args);
-              break;
-            case SCRIPT_EVENTS.LOG:
-              handlers.log(...event.payload.args);
-              break;
-            case SCRIPT_EVENTS.REQUEST: {
-              // TODO: handle cancelling requests
-              const { id, args } = event.payload;
-              try {
-                const res = await handlers.request(...args);
-                worker.postMessage({
-                  type: SCRIPT_EVENTS.REQUEST_RESPONSE,
-                  payload: { id, response: res },
-                });
-              } catch (err) {
-                worker.postMessage({
-                  type: SCRIPT_EVENTS.REQUEST_ERROR,
-                  payload: { id, error: err },
-                });
+              // Handle script events
+              if (event.type === key) {
+                debug.log(event.type, event);
+                // TODO: handle cancelling requests
+                const { id, args } = event.payload;
+                try {
+                  const res = await fn(...args);
+                  worker.postMessage({
+                    type: getResponseEvent(key),
+                    payload: { id, response: res },
+                  });
+                } catch (err) {
+                  worker.postMessage({
+                    type: getErrorEvent(key),
+                    payload: { id, error: err },
+                  });
+                }
               }
-              break;
             }
-            case SCRIPT_EVENTS.SET_COOKIE:
-              handlers.setCookie(...event.payload.args);
-              break;
-            case SCRIPT_EVENTS.GET_STORAGE_ITEM: {
-              // TODO: handle cancelling requests
-              const { id, args } = event.payload;
-              try {
-                const res = await handlers.getStorageItem(...args);
-                worker.postMessage({
-                  type: SCRIPT_EVENTS.GET_STORAGE_ITEM_RESPONSE,
-                  payload: { id, response: res },
-                });
-              } catch (err) {
-                worker.postMessage({
-                  type: SCRIPT_EVENTS.GET_STORAGE_ITEM_ERROR,
-                  payload: { id, error: err },
-                });
-              }
-              break;
-            }
-            case SCRIPT_EVENTS.SET_STORAGE_ITEM:
-              handlers.setStorageItem(...event.payload.args);
-              break;
-            case SCRIPT_EVENTS.EXECUTE_COMPLETE:
-              resolve(e.data.payload.args[0]);
-              break;
-            default:
-              reject(new Error(`Unknown event type: ${e.data.type}`));
-          }
-        };
+          );
+        });
+
         worker.onerror = (e) => {
           clearTimeout(handle);
           reject(e);
         };
         worker.postMessage({
-          type: SCRIPT_EVENTS.INIT_EXECUTE,
+          type: SCRIPT_INIT_EXECUTE,
           payload: [script, data],
         });
       });

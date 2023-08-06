@@ -1,24 +1,13 @@
 import { CookieOptions, ScriptContextData } from './helpers';
 
-export const SCRIPT_EVENTS = {
-  INIT_EXECUTE: 'init_execute',
-  ALERT: 'alert',
-  SCRIPT_ERROR: 'script_error',
-  LOG: 'log',
-  REQUEST: 'request',
-  REQUEST_RESPONSE: 'request_response',
-  REQUEST_ERROR: 'request_error',
-  EXECUTE_COMPLETE: 'execute_complete',
-  SET_COOKIE: 'set_cookie',
-  GET_STORAGE_ITEM: 'get_storage_item',
-  GET_STORAGE_ITEM_RESPONSE: 'get_storage_item_response',
-  GET_STORAGE_ITEM_ERROR: 'get_storage_item_error',
-  SET_STORAGE_ITEM: 'set_storage_item',
-} as const;
+export const SCRIPT_INIT_EXECUTE = 'init_execute';
+
+export const getResponseEvent = (type: string) => `${type}_response`;
+export const getErrorEvent = (type: string) => `${type}_error`;
 
 export interface ScriptEventHandlers {
-  alert: (msg: string) => void;
-  log: (d: unknown) => void;
+  alert: (msg: string) => Promise<void>;
+  log: (d: unknown) => Promise<void>;
   request: (arg1: any, arg2: any, arg3: any) => Promise<any>;
   setCookie: (
     key: string,
@@ -29,40 +18,19 @@ export interface ScriptEventHandlers {
   setStorageItem: (key: string, value: unknown) => Promise<void>;
 }
 
-export interface ScriptEventPayloadMap {
-  alert: {
-    inputs: [string];
-  };
-  log: {
-    inputs: [unknown];
-  };
-  request: {
-    inputs: [any, any, any];
-    output: Promise<any>;
-  };
-  set_cookie: {
-    inputs: [string, string, CookieOptions?];
-  };
-  execute_complete: {
-    inputs: [ScriptContextData];
-  };
-  script_error: {
-    inputs: [Error];
-  };
-  get_storage_item: {
-    inputs: [string];
-    output: Promise<unknown>;
-  };
-  set_storage_item: {
-    inputs: [string, unknown];
-    output: Promise<void>;
-  };
+// Extended event handler interface to include internal native events like scriptError as well
+export interface AllScriptEventHandlers extends ScriptEventHandlers {
+  executeComplete: (data: ScriptContextData) => void;
+  scriptError: (err: Error) => void;
 }
 
-export type ScriptEvent = keyof ScriptEventPayloadMap;
+export type ScriptEvent = keyof AllScriptEventHandlers;
+export type ScriptEventParameters<T extends ScriptEvent> = Parameters<
+  AllScriptEventHandlers[T]
+>;
 export interface ScriptEventDataPayload<T extends ScriptEvent> {
   id: string;
-  args: ScriptEventPayloadMap[T]['inputs'];
+  args: ScriptEventParameters<T>;
 }
 export type ScriptEventData<T extends ScriptEvent> = T extends ScriptEvent
   ? { type: T; payload: ScriptEventDataPayload<T> }

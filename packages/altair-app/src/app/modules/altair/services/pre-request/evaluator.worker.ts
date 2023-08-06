@@ -1,19 +1,32 @@
 import { v4 as uuid } from 'uuid';
 import { ScriptEvaluator } from './evaluator';
-import { ScriptEventPayloadMap, SCRIPT_EVENTS } from './events';
-import { CookieOptions, getGlobalContext, ScriptContextData } from './helpers';
+import {
+  AllScriptEventHandlers,
+  ScriptEvent,
+  ScriptEventParameters,
+  SCRIPT_INIT_EXECUTE,
+} from './events';
+import { getGlobalContext, ScriptContextData } from './helpers';
 
 onmessage = async (e) => {
   switch (e.data.type) {
-    case SCRIPT_EVENTS.INIT_EXECUTE:
+    case SCRIPT_INIT_EXECUTE:
       try {
         await initExecute(e.data.payload);
       } catch (err) {
-        makeCall(SCRIPT_EVENTS.SCRIPT_ERROR, err as Error);
+        makeCall('scriptError', err as Error);
       }
       break;
   }
 };
+
+const workerHandlerNames = [
+  'setCookie',
+  'request',
+  'getStorageItem',
+  'setStorageItem',
+] as const;
+export type WorkerHandlerNames = typeof workerHandlerNames[number];
 
 const initExecute = async (
   payload: Parameters<ScriptEvaluator['executeScript']>
@@ -29,67 +42,22 @@ const initExecute = async (
       JSON.stringify(data)
     );
 
+    // build handlers
+    const handlers = workerHandlerNames.reduce(
+      <T extends WorkerHandlerNames>(
+        acc: Pick<AllScriptEventHandlers, WorkerHandlerNames>,
+        key: T
+      ) => {
+        acc[key] = ((...args: ScriptEventParameters<T>) => {
+          return makeCall(key, ...args);
+        }) as unknown as AllScriptEventHandlers[T]; // TODO: Look into this typing issue.
+        return acc;
+      },
+      {} as Pick<AllScriptEventHandlers, WorkerHandlerNames>
+    );
+
     const context = {
-      altair: getGlobalContext(clonedMutableData, {
-        setCookie: async (
-          key: string,
-          value: string,
-          options?: CookieOptions
-        ) => {
-          makeCall(SCRIPT_EVENTS.SET_COOKIE, key, value, options);
-        },
-        request: async (arg1, arg2, arg3) => {
-          return new Promise((resolve, reject) => {
-            const reqId = uuid();
-            // TODO: cleanup listener
-            addEventListener('message', (e) => {
-              switch (e.data.type) {
-                case SCRIPT_EVENTS.REQUEST_RESPONSE:
-                  if (e.data.payload.id !== reqId) {
-                    return;
-                  }
-                  return resolve(e.data.payload.response);
-                case SCRIPT_EVENTS.REQUEST_ERROR:
-                  if (e.data.payload.id !== reqId) {
-                    return;
-                  }
-                  return reject(e.data.payload.error);
-              }
-            });
-            self.postMessage({
-              type: SCRIPT_EVENTS.REQUEST,
-              payload: { id: reqId, args: [arg1, arg2, arg3] },
-            });
-          });
-        },
-        getStorageItem: (key: string) => {
-          return new Promise((resolve, reject) => {
-            const reqId = uuid();
-            // TODO: cleanup listener
-            addEventListener('message', (e) => {
-              switch (e.data.type) {
-                case SCRIPT_EVENTS.GET_STORAGE_ITEM_RESPONSE:
-                  if (e.data.payload.id !== reqId) {
-                    return;
-                  }
-                  return resolve(e.data.payload.response);
-                case SCRIPT_EVENTS.GET_STORAGE_ITEM_ERROR:
-                  if (e.data.payload.id !== reqId) {
-                    return;
-                  }
-                  return reject(e.data.payload.error);
-              }
-            });
-            self.postMessage({
-              type: SCRIPT_EVENTS.GET_STORAGE_ITEM,
-              payload: { id: reqId, args: [key] },
-            });
-          });
-        },
-        setStorageItem: async (key: string, value: unknown) => {
-          makeCall(SCRIPT_EVENTS.SET_STORAGE_ITEM, key, value);
-        },
-      }),
+      altair: getGlobalContext(clonedMutableData, handlers),
       alert,
     };
 
@@ -109,19 +77,38 @@ const initExecute = async (
     }
   });
 
-  makeCall(SCRIPT_EVENTS.EXECUTE_COMPLETE, res);
+  makeCall('executeComplete', res);
 };
 
-const alert = (msg: string) => makeCall(SCRIPT_EVENTS.ALERT, msg);
+const alert = (msg: string) => makeCall('alert', msg);
 
-const makeCall = <T extends keyof ScriptEventPayloadMap>(
+const makeCall = <T extends ScriptEvent>(
   type: T,
-  ...args: ScriptEventPayloadMap[T]['inputs']
+  ...args: Parameters<AllScriptEventHandlers[T]>
 ) => {
-  const id = uuid();
-  const event = {
-    type,
-    payload: { id, args },
-  };
-  self.postMessage(event);
+  return new Promise<ReturnType<AllScriptEventHandlers[T]>>(
+    (resolve, reject) => {
+      const id = uuid();
+      const event = {
+        type,
+        payload: { id, args },
+      };
+      // TODO: cleanup listener
+      addEventListener('message', (e) => {
+        switch (e.data.type) {
+          case `${type}_response`:
+            if (e.data.payload.id !== id) {
+              return;
+            }
+            return resolve(e.data.payload.response);
+          case `${type}_error`:
+            if (e.data.payload.id !== id) {
+              return;
+            }
+            return reject(e.data.payload.error);
+        }
+      });
+      self.postMessage(event);
+    }
+  );
 };

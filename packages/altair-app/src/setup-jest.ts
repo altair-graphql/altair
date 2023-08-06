@@ -1,6 +1,7 @@
 import 'core-js/es/reflect';
 import 'core-js/proposals/reflect-metadata';
 import 'jest-preset-angular/setup-jest';
+// import 'jest-preset-angular/setup-jest.mjs';
 import 'fake-indexeddb/auto';
 const crypto = require('crypto');
 
@@ -17,6 +18,28 @@ jest.mock(
     getDocUtilsWorkerAsyncClass: () => {},
   })
 );
+jest.mock(
+  './app/modules/altair/services/pre-request/evaluator-worker.factory',
+  () => ({
+    ScriptEvaluatorWorkerFactory: function () {
+      return {
+        create: () => {
+          return new Worker();
+        },
+      };
+    },
+  })
+);
+class Worker {
+  onmessage = (msg: string) => {};
+  constructor() {}
+
+  postMessage(msg: string) {
+    this.onmessage(msg);
+  }
+  terminate() {}
+  addEventListener() {}
+}
 
 /* global mocks for jsdom */
 const mock = () => {
