@@ -7,6 +7,11 @@
       >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label
     >
   </div>
+  <app-beta-indicator
+    title="Script editor v2.0"
+    description="This is a complete rewrite of the existing scripting functionality with a focus on security and performance. The  new scripting engine is based on web workers and is completely sandboxed. So direct access to global variables like `window` and `document` is no longer possible."
+    featureKey="newScript"
+  ></app-beta-indicator>
   <app-codemirror
     [extensions]="editorExtensions"
     [fullHeight]="true"

@@ -1,6 +1,5 @@
 import { getAltairConfig } from '../../config';
 import { ICustomTheme } from '../../theme';
-import { IDictionary } from '../shared';
 
 const config = getAltairConfig();
 export type SettingsLanguage = keyof typeof config.languages;
@@ -117,4 +116,16 @@ export interface SettingsState {
    * Disable new editor beta
    */
   'beta.disable.newEditor'?: boolean;
+
+  /**
+   * Disable new script beta
+   */
+  'beta.disable.newScript'?: boolean;
+
+  /**
+   * List of cookies to be accessible in the pre-request script
+   * @example ['cookie1', 'cookie2']
+   * @default []
+   */
+  'script.allowedCookies'?: string[];
 }

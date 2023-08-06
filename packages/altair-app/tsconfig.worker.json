@@ -2,8 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/worker",
-    "lib": ["es2018", "webworker"],
-    "types": []
+    "lib": [
+      "es2022",
+      "webworker",
+      // we don't use the dom in web workers but some of the imported files use it so adding it for typing purposes
+      "dom", 
+      "dom.iterable", "esnext", "esnext.asynciterable"
+    ],
+    // "types": []
   },
-  "include": ["src/**/*.worker.ts"]
+  "include": ["src/**/*.worker.ts", "**/*.d.ts"]
 }

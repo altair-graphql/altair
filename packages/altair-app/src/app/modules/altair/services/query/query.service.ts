@@ -6,14 +6,11 @@ import { debug } from '../../utils/logger';
 import { EnvironmentService } from '../environment/environment.service';
 import { SendRequestResponse } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
-import {
-  PreRequestService,
-  RequestType,
-  ScriptContextData,
-} from '../pre-request/pre-request.service';
+import { RequestType, ScriptContextData } from '../pre-request/helpers';
 import { take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { PreRequestService } from '../pre-request/pre-request.service';
 
 @Injectable({
   providedIn: 'root',
@@ -82,6 +79,7 @@ export class QueryService {
       };
     } catch (err) {
       debug.error(err);
+      this.notifyService.error(`Error executing pre-request script: ${err}`);
 
       return preTransformedData;
     }
@@ -157,6 +155,7 @@ export class QueryService {
       };
     } catch (err) {
       debug.error(err);
+      this.notifyService.error(`Error executing post-request script: ${err}`);
 
       return preTransformedData;
     }

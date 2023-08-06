@@ -61,15 +61,12 @@ import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary, UnknownError } from '../interfaces/shared';
 import { SendRequestResponse } from '../services/gql/gql.service';
-import {
-  RequestType,
-  ScriptContextData,
-} from '../services/pre-request/pre-request.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { RequestScriptError } from '../services/pre-request/errors';
 import { headerListToMap } from '../utils/headers';
+import { RequestType } from '../services/pre-request/helpers';
 
 @Injectable()
 export class QueryEffects {
