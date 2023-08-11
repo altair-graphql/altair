@@ -49,12 +49,11 @@ export class ScriptEvaluator {
         } as const;
 
         // loop over all the script event handlers and create a listener for each
+        // TODO: fn is of any type here. Figure out the typing
         Object.entries(allHandlers).forEach(([key, fn]) => {
           worker.addEventListener(
             'message',
-            async <T extends ScriptEvent>(
-              e: MessageEvent<ScriptEventData<T>>
-            ) => {
+            <T extends ScriptEvent>(e: MessageEvent<ScriptEventData<T>>) => {
               const event = e.data;
 
               // Handle script events
@@ -62,18 +61,20 @@ export class ScriptEvaluator {
                 debug.log(event.type, event);
                 // TODO: handle cancelling requests
                 const { id, args } = event.payload;
-                try {
-                  const res = await fn(...args);
-                  worker.postMessage({
-                    type: getResponseEvent(key),
-                    payload: { id, response: res },
-                  });
-                } catch (err) {
-                  worker.postMessage({
-                    type: getErrorEvent(key),
-                    payload: { id, error: err },
-                  });
-                }
+                (async () => {
+                  try {
+                    const res = await fn(...args);
+                    worker.postMessage({
+                      type: getResponseEvent(key),
+                      payload: { id, response: res },
+                    });
+                  } catch (err) {
+                    worker.postMessage({
+                      type: getErrorEvent(key),
+                      payload: { id, error: err },
+                    });
+                  }
+                })();
               }
             }
           );

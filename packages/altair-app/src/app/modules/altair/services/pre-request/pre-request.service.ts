@@ -14,6 +14,8 @@ import { CookieOptions, getGlobalContext, ScriptContextData } from './helpers';
 import { ScriptEvaluator } from './evaluator';
 import { DbService } from '../db.service';
 
+const storageNamespace = 'request-script';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -62,7 +64,8 @@ export class PreRequestService {
     data.__cookieJar = cookies;
 
     const res = await new ScriptEvaluator().executeScript(script, data, {
-      alert: async (msg: string) => this.notifyService.info(`Alert: ${msg}`),
+      alert: async (msg: string) =>
+        this.notifyService.info(`Alert: ${msg}`, 'Request script'),
       log: async (d: unknown) => {
         debug.log('request script log:', d);
       },
@@ -88,10 +91,10 @@ export class PreRequestService {
         self.cookieService.set(key, value, options);
       },
       getStorageItem: (key: string) => {
-        return this.dbService.getItem(key).pipe(take(1)).toPromise();
+        return this.getStorageItem(key);
       },
       setStorageItem: (key: string, value: unknown) => {
-        return this.dbService.setItem(key, value).pipe(take(1)).toPromise();
+        return this.setStorageItem(key, value);
       },
     });
     debug.debug('script result:', res);
@@ -132,10 +135,10 @@ export class PreRequestService {
           }
         },
         getStorageItem: (key: string) => {
-          return this.dbService.getItem(key).pipe(take(1)).toPromise();
+          return this.getStorageItem(key);
         },
         setStorageItem: (key: string, value: unknown) => {
-          return this.dbService.setItem(key, value).pipe(take(1)).toPromise();
+          return this.setStorageItem(key, value);
         },
       }),
       alert: (msg: string) => this.notifyService.info(`Alert: ${msg}`),
@@ -199,5 +202,17 @@ export class PreRequestService {
       }
     }
     return clonedMutableData;
+  }
+  private getStorageItem(key: string) {
+    return this.dbService
+      .getItem(`${storageNamespace}:${key}`)
+      .pipe(take(1))
+      .toPromise();
+  }
+  private setStorageItem(key: string, value: unknown) {
+    return this.dbService
+      .setItem(`${storageNamespace}:${key}`, value)
+      .pipe(take(1))
+      .toPromise();
   }
 }

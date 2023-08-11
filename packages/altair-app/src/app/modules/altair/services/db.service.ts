@@ -42,7 +42,7 @@ export class DbService {
    * @param value
    */
   setItem(key: string, value: unknown): Observable<any> {
-    if (key && value) {
+    if (key && typeof value !== 'undefined') {
       const dbValue = {
         value,
       };

@@ -99,8 +99,6 @@ export const buildContextResponse = (
       headers: data.response.meta.headers,
     };
   }
-
-  return;
 };
 
 export const importModuleHelper = async (moduleName: string) => {
@@ -134,7 +132,7 @@ export const getGlobalContext = (
       ) => {
         data.environment[key] = val;
         if (activeEnvironment) {
-          data.__toSetActiveEnvironment = data.__toSetActiveEnvironment || {};
+          data.__toSetActiveEnvironment = data.__toSetActiveEnvironment ?? {};
           data.__toSetActiveEnvironment[key] = val;
         }
       },
@@ -147,7 +145,6 @@ export const getGlobalContext = (
       request: async (arg1, arg2, arg3) => {
         return handlers.request(arg1, arg2, arg3);
       },
-      // TODO: Add storage API
     },
     storage: {
       get: (key: string) => {
@@ -160,7 +157,7 @@ export const getGlobalContext = (
     importModule: (moduleName: string) => importModuleHelper(moduleName),
     response: buildContextResponse(data),
     log: (d) => {
-      data.requestScriptLogs = data.requestScriptLogs || [];
+      data.requestScriptLogs = data.requestScriptLogs ?? [];
       data.requestScriptLogs.push({
         time: Date.now(),
         text: JSON.stringify(d, null, 2),
