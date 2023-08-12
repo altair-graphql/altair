@@ -6,36 +6,29 @@ import {
   OnChanges,
   SimpleChanges,
   HostBinding,
-  ChangeDetectionStrategy,
-  OnDestroy,
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { from } from 'rxjs';
 
 import { debug } from '../../../utils/logger';
-import { DomSanitizer } from '@angular/platform-browser';
-import * as fromDocs from '../../../store/docs/docs.reducer';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { DocumentIndexEntry } from '../models';
 import { fadeInOutAnimationTrigger } from '../../../animations';
-import * as Comlink from 'comlink';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { debounce } from 'lodash-es';
 
 @UntilDestroy()
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInOutAnimationTrigger],
-  // styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema?: GraphQLSchema;
@@ -70,6 +63,7 @@ export class DocViewerComponent implements OnChanges {
 
   searchResult: DocumentIndexEntry[] = [];
   searchTerm = '';
+  autocompleteOptions: DocumentIndexEntry[] = [];
 
   docUtilWorker: any;
 
@@ -77,7 +71,6 @@ export class DocViewerComponent implements OnChanges {
 
   constructor(
     private gqlService: GqlService,
-    private _sanitizer: DomSanitizer,
     private altairConfig: AltairConfig
   ) {}
 
@@ -107,26 +100,15 @@ export class DocViewerComponent implements OnChanges {
     }
   }
 
-  autocompleteSource = (term: string) =>
-    from(this.getDocUtilsWorker().then((_) => _.searchDocs(term)));
-  autocompleteListFormatter = (data: DocumentIndexEntry) => {
-    // TODO: Replace ngui/autocomplete
-    const html = `
-      <div class='doc-viewer-autocomplete-item'>
-        ${data.search}
-        <span class='doc-viewer-autocomplete-item-field'>${data.cat}</span>
-        <span class='doc-viewer-autocomplete-item-description'>${data.description}</span>
-      </div>`;
-    return html;
-  };
-
-  searchInputKeyUp(term: string, e: KeyboardEvent) {
-    if (e && e.keyCode !== 13) {
-      return;
-    }
-
-    this.searchDocs(term);
+  async filterAutocompleteOptions(event: Event) {
+    const term = (event.target as HTMLInputElement).value;
+    const docUtils = await this.getDocUtilsWorker();
+    this.autocompleteOptions = await docUtils.searchDocs(term);
   }
+  debouncedFilterAutocompleteOptions = debounce(
+    this.filterAutocompleteOptions,
+    300
+  );
 
   setDocView(docView?: DocView) {
     this.setDocViewChange.next(docView);
