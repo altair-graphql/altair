@@ -647,7 +647,7 @@ export class QueryEffects {
                   this.store.dispatch(
                     new streamActions.SetStreamSettingAction(
                       response.windowId,
-                      { streamUrl: streamUrl || '' }
+                      { streamUrl: streamUrl ?? '' }
                     )
                   );
                   if (streamUrl) {
@@ -692,6 +692,7 @@ export class QueryEffects {
                       response.windowId
                     )
                   );
+                  this.notifyService.success('Reloaded doc successfully');
                 }
 
                 return EMPTY;
