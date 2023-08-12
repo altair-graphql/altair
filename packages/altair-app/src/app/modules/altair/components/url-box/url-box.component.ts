@@ -31,11 +31,22 @@ export class UrlBoxComponent {
   methods = HTTP_VERBS;
 
   setApiUrl() {
-    this.urlChange.emit(this.apiUrl.trim());
+    this.urlChange.emit(this.sanitizeUrl(this.apiUrl));
   }
 
   setVerb(verb: string) {
     this.httpVerbChange.emit(verb);
+  }
+
+  sanitizeUrl(url: string) {
+    // trim the url and remove any spaces
+    // add http protocol if missing
+    url = url.trim();
+    if (!url.match(/^[a-zA-Z]+:\/\//)) {
+      url = 'http://' + url;
+    }
+
+    return url;
   }
 
   queryOperationTrackBy(index: number, operation: OperationDefinitionNode) {
