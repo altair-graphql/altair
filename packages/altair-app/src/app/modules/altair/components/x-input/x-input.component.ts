@@ -5,6 +5,7 @@ import {
   EventEmitter,
   forwardRef,
   Input,
+  NgZone,
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -83,7 +84,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   constructor(
     private store: Store<RootState>,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private zone: NgZone
   ) {}
   ngAfterViewInit(): void {
     this.ready = true;
@@ -126,7 +128,16 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     return [
       inputTheme,
       placeholder(this.placeholder),
-      keymap.of([...completionKeymap]),
+      keymap.of([
+        {
+          key: 'Enter',
+          run: () => {
+            this.zone.run(() => this.submitChange.emit());
+            return false;
+          },
+        },
+        ...completionKeymap,
+      ]),
       autocompletion({
         override: [
           (ctx: CompletionContext) => {

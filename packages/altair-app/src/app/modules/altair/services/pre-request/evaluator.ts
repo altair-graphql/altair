@@ -71,7 +71,7 @@ export class ScriptEvaluator {
                   } catch (err) {
                     worker.postMessage({
                       type: getErrorEvent(key),
-                      payload: { id, error: err },
+                      payload: { id, error: `${(err as any).message ?? err}` },
                     });
                   }
                 })();
