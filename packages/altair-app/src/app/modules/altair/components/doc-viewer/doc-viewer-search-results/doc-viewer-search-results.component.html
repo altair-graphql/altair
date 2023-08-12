@@ -64,8 +64,10 @@
         )
       </ng-container>
     </div>
-    <div class="doc-viewer-search-result-description">
-      {{ result.description }}
-    </div>
+    <div
+      class="doc-viewer-search-result-description"
+      markdown
+      [data]="result.description"
+    ></div>
   </div>
 </div>
