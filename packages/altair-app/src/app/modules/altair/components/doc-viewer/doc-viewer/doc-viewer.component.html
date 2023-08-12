@@ -61,17 +61,32 @@
   <div class="doc-viewer-search-wrapper">
     <input
       class="doc-viewer-search-input"
-      ngui-auto-complete
-      [(ngModel)]="searchTerm"
-      [source]="autocompleteSource"
-      [min-chars]="2"
-      [list-formatter]="autocompleteListFormatter"
-      value-property-name="search"
-      display-property-name="search"
+      nz-input
+      #autocompleteInput
       [placeholder]="'DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT' | translate"
-      (keyup)="searchInputKeyUp(searchTerm, $event)"
-      (valueChanged)="$event && searchDocs($event)"
+      [(ngModel)]="searchTerm"
+      (input)="debouncedFilterAutocompleteOptions($event)"
+      (keyup.enter)="searchDocs(autocompleteInput.value)"
+      [nzAutocomplete]="auto"
     />
+    <nz-autocomplete
+      #auto
+      nzBackfill
+      [nzDefaultActiveFirstOption]="false"
+      (selectionChange)="searchDocs(autocompleteInput.value)"
+    >
+      <nz-auto-option
+        *ngFor="let option of autocompleteOptions"
+        [nzValue]="option"
+        [nzLabel]="option.search"
+      >
+        <div class='doc-viewer-autocomplete-item'>
+          {{option.search}}
+          <span class='doc-viewer-autocomplete-item-field'>{{option.cat}}</span>
+          <span class='doc-viewer-autocomplete-item-description'>{{option.description}}</span>
+        </div>
+      </nz-auto-option>
+    </nz-autocomplete>
   </div>
   <div class="doc-viewer-items">
     <div *ngIf="gqlSchema" [ngSwitch]="docView.view">
