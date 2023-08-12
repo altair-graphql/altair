@@ -63,12 +63,18 @@ altair.helpers.setEnvironment('api_key', 'a482djksd289xxxxxxxxx');
 const sessid = altair.helpers.getCookie('sessid');
 ```
 
-**altair.helpers.request(...args)** - _[Returns a promise]_ Makes a HTTP request using the provided options. This helper simply passes on the arguments to the [HttpClient](https://angular.io/guide/http#httpclient) in angular. To know all the possible options, checkout the [Angular HttpClient API documentation](https://angular.io/api/common/http/HttpClient#request).
+**~~altair.helpers.request(...args)~~** _(deprecated, use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) instead)_ - _[Returns a promise]_ Makes a HTTP request using the provided options. This helper simply passes on the arguments to the [HttpClient](https://angular.io/guide/http#httpclient) in angular. To know all the possible options, checkout the [Angular HttpClient API documentation](https://angular.io/api/common/http/HttpClient#request).
 
 ```js
 const res = await altair.helpers.request('GET', 'https://api.agify.io/?name=michael');
 // res => {"name":"michael","age":60,"count":41938}
 ```
+
+### altair.storage
+
+**altair.storage.get(key: string): Promise<any>** - Retrieves a value persisted in storage.
+
+**altair.storage.set(key: string, value: any): Promise<void>** - Stores (persists) a value in storage for retrieval later.
 
 ## Example Use Cases
 
@@ -86,24 +92,25 @@ Below is a working example of pre-request script for persisting data between req
 
 ```js
 const nowInSeconds = () => Date.now() / 1000;
-const tokenExpiry = localStorage.getItem("token_expiry") || 0;
+const tokenExpiry = await altair.storage.get("token_expiry") || 0;
 
 if (nowInSeconds() >= Number(tokenExpiry)) {
   // If the token expiry time has passed, fetch a new token from your auth server again (take note of the await)
-  const res = await altair.helpers.request('POST', 'https://auth.example.com', { /* auth payload */ });
-  // res => { "token": "abcd", "expiry": 3600 }
+  const res = await fetch('https://auth.example.com', {method: 'post', headers: { /* auth payload */ }})
+  const data = await res.json()
+  // data => { "token": "abcd", "expiry": 3600 }
   
   // Store the received token and expiry in localStorage
   // Alternatively you can set this in the active environment
   // altair.helpers.setEnvironment("token", res.token);
   // altair.helpers.setEnvironment("token_expiry", nowInSeconds() + res.expiry);
-  localStorage.setItem("token", res.token);
-  localStorage.setItem("token_expiry", nowInSeconds() + res.expiry);
+  await altair.storage.set("token", data.token);
+  await altair.storage.set("token_expiry", nowInSeconds() + data.expiry);
 }
 
 // Retrieve the token from localStorage
 // const token = altair.helpers.getEnvironment("token");
-const token = localStorage.getItem("token");
+const token = await altair.storage.get("token");
 
 // Set the token as the `token_env` environment variable in Altair
 altair.helpers.setEnvironment('token_env', token);

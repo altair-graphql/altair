@@ -43,6 +43,10 @@
             "description": "Disable new editor beta",
             "type": "boolean"
         },
+        "beta.disable.newScript": {
+            "description": "Disable new script beta",
+            "type": "boolean"
+        },
         "disableLineNumbers": {
             "description": "Disable line numbers",
             "type": "boolean"
@@ -85,6 +89,15 @@
         "schema.reloadOnStart": {
             "description": "Reload schema on app start",
             "type": "boolean"
+        },
+        "script.allowedCookies": {
+            "default": [
+            ],
+            "description": "List of cookies to be accessible in the pre-request script",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
         },
         "tabSize": {
             "description": "Editor tab size",

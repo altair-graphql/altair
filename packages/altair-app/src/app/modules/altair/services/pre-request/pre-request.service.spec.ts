@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { anyFn, mock, mockStoreFactory } from '../../../../../testing';
+import { DbService } from '../db.service';
 
 const mockNotifyService = mock({
   error: anyFn(),
@@ -19,13 +20,19 @@ describe('PreRequestService', () => {
       providers: [
         CookieService,
         PreRequestService,
+        DbService,
         {
           provide: NotifyService,
           useFactory: () => mockNotifyService,
         },
         {
           provide: Store,
-          useFactory: () => mockStoreFactory(),
+          useFactory: () =>
+            mockStoreFactory({
+              settings: {
+                'beta.disable.newScript': true,
+              },
+            }),
         },
       ],
       teardown: { destroyAfterEach: false },
