@@ -195,26 +195,36 @@ export class WindowManager {
     }
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-      // console.log('received headers..', details.responseHeaders);
-      const scriptSrc = [
-        `'self'`,
-        `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
-        `'${createSha256CspHash(renderInitialOptions())}'`,
-        `https://cdn.jsdelivr.net`,
-        `https://apis.google.com`,
-        `localhost:*`,
-        `file:`,
-      ];
-      callback({
-        responseHeaders: Object.assign({}, details.responseHeaders, {
-          // Setting CSP
-          // TODO: Figure out why an error from this breaks devtools
-          'Content-Security-Policy': [
-            `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
-            // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
-          ],
-        }),
-      });
+      if (
+        details.resourceType === 'mainFrame' ||
+        details.resourceType === 'subFrame'
+      ) {
+        // console.log('received headers..', details.responseHeaders);
+
+        // Set the CSP
+        const scriptSrc = [
+          `'self'`,
+          `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
+          `'${createSha256CspHash(renderInitialOptions())}'`,
+          `https://cdn.jsdelivr.net`,
+          `https://apis.google.com`,
+          `localhost:*`,
+          `file:`,
+        ];
+
+        return callback({
+          responseHeaders: Object.assign({}, details.responseHeaders, {
+            // Setting CSP
+            // TODO: Figure out why an error from this breaks devtools
+            'Content-Security-Policy': [
+              `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
+              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
+            ],
+          }),
+        });
+      }
+
+      callback({ responseHeaders: details.responseHeaders });
     });
 
     ipcMain.on(IPC_EVENT_NAMES.RENDERER_RESTART_APP, () => {
