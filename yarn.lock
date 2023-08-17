@@ -10125,10 +10125,10 @@ codemirror-graphql@1.0.2:
     graphql-language-service-interface "^2.8.2"
     graphql-language-service-parser "^1.9.0"
 
-codemirror-json-schema@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/codemirror-json-schema/-/codemirror-json-schema-0.4.2.tgz#032c9557bb52abfe488f96c2b01de9003c9cb54c"
-  integrity sha512-0ifG2SVf16m9gHPORHLmM/zAKeI/wY1A1zkw1zhqO5bfS4XpTyyqKqE4YkX7acR7znawnFr8BfOTveBT5zupdg==
+codemirror-json-schema@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/codemirror-json-schema/-/codemirror-json-schema-0.4.4.tgz#8ba0379ba96ad6a02888710c161215a2302e9cb8"
+  integrity sha512-rISOVrYUzd8pihiLzl5hFBQp/9PRSofmpDOsGC4sl2z0vepFjlxvWqVUJz3arlPPg3YrQ9/6sKaRDIXu6c50UA==
   dependencies:
     "@changesets/changelog-github" "^0.4.8"
     "@sagold/json-pointer" "^5.1.1"
