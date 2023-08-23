@@ -31,7 +31,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "stripe": "^11.11.0",
+    "stripe": "^13.2.0",
     "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
