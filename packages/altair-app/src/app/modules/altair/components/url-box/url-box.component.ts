@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
+import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 
 @Component({
   selector: 'app-url-box',
@@ -42,7 +43,7 @@ export class UrlBoxComponent {
     // trim the url and remove any spaces
     // add http protocol if missing
     url = url.trim();
-    if (!url.match(/^[a-zA-Z]+:\/\//)) {
+    if (!RegExp(/^[a-zA-Z]+:\/\//).exec(url) && !VARIABLE_REGEX.test(url)) {
       url = 'http://' + url;
     }
 
@@ -50,6 +51,6 @@ export class UrlBoxComponent {
   }
 
   queryOperationTrackBy(index: number, operation: OperationDefinitionNode) {
-    return operation.name && operation.name.value;
+    return operation.name?.value;
   }
 }
