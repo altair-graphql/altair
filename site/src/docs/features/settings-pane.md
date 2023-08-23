@@ -61,3 +61,6 @@ Valid plugins in string format include: `altair-graphql-plugin-some-plugin`, `np
 ### `editor.shortcuts` - Contains shortcut to action mapping
 _Default: {}_
 You can add new editor shortcut mapping following the [CodeMirror key map pattern](https://codemirror.net/doc/manual.html#keymaps). For example, to add a new shortcut to toggle comments, you can add `{ "Ctrl-7": "toggleComment" }`. There are several editor actions you can add shortcuts for including: `showAutocomplete`, `toggleComment`, `showFinder`, `showInDocs`, `fillAllFields`, etc. If you want to disable an in-built shortcut, you can use the `noOp` action. For example to disable `Ctrl-/` from toggling comments, you can use `{ "Ctrl-/": "noOp" }`.
+
+### `script.allowedCookies` - List of cookies to be accessible in the pre-request script
+_Default: []_

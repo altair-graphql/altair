@@ -96,6 +96,9 @@ export class PreRequestService {
       setStorageItem: (key: string, value: unknown) => {
         return this.setStorageItem(key, value);
       },
+      updateActiveEnvironment: (environmentData: Record<string, unknown>) => {
+        return this.updateActiveEnvironment(environmentData);
+      },
     });
     debug.debug('script result:', res);
 
@@ -158,48 +161,9 @@ export class PreRequestService {
       throw new RequestScriptError(error);
     }
     if (clonedMutableData.__toSetActiveEnvironment) {
-      const activeEnvState = await this.store
-        .select(getActiveSubEnvironmentState)
-        .pipe(take(1))
-        .toPromise();
-
-      if (activeEnvState) {
-        try {
-          const envVariables = {
-            ...JSON.parse(activeEnvState.variablesJson),
-            ...clonedMutableData.__toSetActiveEnvironment,
-          };
-          const activeEnvStateId = activeEnvState.id;
-
-          if (!activeEnvStateId) {
-            throw new RequestScriptError('Invalid active environment state ID');
-          }
-
-          this.store.dispatch(
-            new environmentsActions.UpdateSubEnvironmentJsonAction({
-              id: activeEnvStateId,
-              value: JSON.stringify(envVariables, null, 2),
-            })
-          );
-          this.notifyService.info(
-            `Updated active environment variables: ${Object.keys(
-              clonedMutableData.__toSetActiveEnvironment
-            ).join(', ')}.`,
-            'Request script'
-          );
-        } catch (error) {
-          this.notifyService.errorWithError(
-            error,
-            `Could not update active environment variables.`,
-            'Request script'
-          );
-        }
-      } else {
-        this.notifyService.warning(
-          'No active environment selected. Cannot update environment variables',
-          'Request script'
-        );
-      }
+      await this.updateActiveEnvironment(
+        clonedMutableData.__toSetActiveEnvironment
+      );
     }
     return clonedMutableData;
   }
@@ -214,5 +178,51 @@ export class PreRequestService {
       .setItem(`${storageNamespace}:${key}`, value)
       .pipe(take(1))
       .toPromise();
+  }
+  private async updateActiveEnvironment(
+    environmentData: Record<string, unknown>
+  ) {
+    const activeEnvState = await this.store
+      .select(getActiveSubEnvironmentState)
+      .pipe(take(1))
+      .toPromise();
+
+    if (activeEnvState) {
+      try {
+        const envVariables = {
+          ...JSON.parse(activeEnvState.variablesJson),
+          ...environmentData,
+        };
+        const activeEnvStateId = activeEnvState.id;
+
+        if (!activeEnvStateId) {
+          throw new RequestScriptError('Invalid active environment state ID');
+        }
+
+        this.store.dispatch(
+          new environmentsActions.UpdateSubEnvironmentJsonAction({
+            id: activeEnvStateId,
+            value: JSON.stringify(envVariables, null, 2),
+          })
+        );
+        this.notifyService.info(
+          `Updated active environment variables: ${Object.keys(
+            environmentData
+          ).join(', ')}.`,
+          'Request script'
+        );
+      } catch (error) {
+        this.notifyService.errorWithError(
+          error,
+          `Could not update active environment variables.`,
+          'Request script'
+        );
+      }
+    } else {
+      this.notifyService.warning(
+        'No active environment selected. Cannot update environment variables',
+        'Request script'
+      );
+    }
   }
 }
