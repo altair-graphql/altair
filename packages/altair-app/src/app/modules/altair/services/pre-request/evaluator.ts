@@ -25,7 +25,7 @@ export class ScriptEvaluator {
   async executeScript(
     script: string,
     data: ScriptContextData,
-    handlers: ScriptEventHandlers
+    userAvailableHandlers: ScriptEventHandlers
   ): Promise<ScriptContextData> {
     try {
       const worker = this.getWorker();
@@ -37,7 +37,7 @@ export class ScriptEvaluator {
         }, this.timeout);
 
         const allHandlers: AllScriptEventHandlers = {
-          ...handlers,
+          ...userAvailableHandlers,
           executeComplete: (data: ScriptContextData) => {
             clearTimeout(handle);
             resolve(data);
