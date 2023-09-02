@@ -77,6 +77,10 @@ const initExecute = async (
     }
   });
 
+  if (res.__toSetActiveEnvironment) {
+    // update active environment
+    makeCall('updateActiveEnvironment', res.__toSetActiveEnvironment);
+  }
   makeCall('executeComplete', res);
 };
 

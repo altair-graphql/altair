@@ -16,6 +16,7 @@ export interface ScriptEventHandlers {
   ) => Promise<void>;
   getStorageItem: (key: string) => Promise<unknown>;
   setStorageItem: (key: string, value: unknown) => Promise<void>;
+  updateActiveEnvironment: (environmentData: Record<string, unknown>) => Promise<void>;
 }
 
 // Extended event handler interface to include internal native events like scriptError as well
