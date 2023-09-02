@@ -29,11 +29,11 @@ describe('AccountDialogComponent', () => {
     expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
 
-  it('should handle submitLogin', () => {
-    jest.spyOn(component.handleLoginChange, 'emit');
+  it('should emit "handleLoginChange" when login is clicked', () => {
+    const login = wrapper.find(".active-primary"); 
 
-    component.submitLogin();
+    login.emit('click');
 
-    expect(component.handleLoginChange.emit).toHaveBeenCalled();
+    expect(wrapper.emitted('handleLoginChange')).toBeTruthy();
   });
 });
