@@ -5,7 +5,7 @@
     "altair-graphql-core": "^5.2.2"
   },
   "devDependencies": {
-    "electron": "19.0.10",
+    "electron": "22.3.21",
     "typescript": "4.9.5"
   },
   "license": "MIT",
