@@ -28,9 +28,10 @@ import { AuthServer } from '../auth/server/index';
 import ElectronStore from 'electron-store';
 import { getAutobackup, setAutobackup } from '../utils/backup';
 import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
+import { log } from '../utils/log';
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
-const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map((_) =>
+const HEADERS_TO_SET = ['Origin', 'Cookie', 'Referer'].map(_ =>
   _.toLowerCase()
 );
 
@@ -126,7 +127,7 @@ export class WindowManager {
     initSettingsStoreEvents();
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
+    this.instance.webContents.on('will-navigate', e => e.preventDefault());
 
     // instance.webContents.once('dom-ready', () => {
     //   instance.webContents.openDevTools();
@@ -151,10 +152,10 @@ export class WindowManager {
 
     if (process.env.NODE_ENV /* === 'test'*/) {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-        console.log('Before request:', details);
+        log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach((uploadData) => {
-            console.log('Data sent:', uploadData.bytes.toString());
+          details.uploadData.forEach(uploadData => {
+            log('Data sent:', uploadData.bytes.toString());
           });
         }
         callback({
@@ -167,8 +168,8 @@ export class WindowManager {
         // Set defaults
         details.requestHeaders.Origin = 'electron://altair';
 
-        // console.log(this.requestHeaders);
-        // console.log('sending headers', details.requestHeaders);
+        // log(this.requestHeaders);
+        // log('sending headers', details.requestHeaders);
         // Set the request headers
         Object.entries(this.requestHeaders).forEach(([key, header]) => {
           details.requestHeaders[key] = header;
@@ -181,14 +182,10 @@ export class WindowManager {
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders((details) => {
+      session.defaultSession.webRequest.onSendHeaders(details => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach((headerKey) => {
-            console.log(
-              'Header sent:',
-              headerKey,
-              details.requestHeaders[headerKey]
-            );
+          Object.keys(details.requestHeaders).forEach(headerKey => {
+            log('Header sent:', headerKey, details.requestHeaders[headerKey]);
           });
         }
       });
@@ -199,7 +196,7 @@ export class WindowManager {
         details.resourceType === 'mainFrame' ||
         details.resourceType === 'subFrame'
       ) {
-        // console.log('received headers..', details.responseHeaders);
+        // log('received headers..', details.responseHeaders);
 
         // Set the CSP
         const scriptSrc = [
@@ -239,7 +236,7 @@ export class WindowManager {
       (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
         this.requestHeaders = {};
 
-        headers.forEach((header) => {
+        headers.forEach(header => {
           const normalizedKey = header.key.toLowerCase();
           if (
             HEADERS_TO_SET.includes(normalizedKey) &&
@@ -276,7 +273,7 @@ export class WindowManager {
       this.electronApp.store.delete('opened-file-data');
     });
 
-    ipcMain.handle('reload-window', (e) => {
+    ipcMain.handle('reload-window', e => {
       e.sender.reload();
     });
 
@@ -288,21 +285,18 @@ export class WindowManager {
     );
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors(
-      IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
-      async (e) => {
-        if (!e.sender || e.sender !== this.instance?.webContents) {
-          throw new Error('untrusted source trying to get auth token');
-        }
-
-        const authServer = new AuthServer();
-        return authServer.getCustomToken();
+    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async e => {
+      if (!e.sender || e.sender !== this.instance?.webContents) {
+        throw new Error('untrusted source trying to get auth token');
       }
-    );
+
+      const authServer = new AuthServer();
+      return authServer.getCustomToken();
+    });
 
     handleWithCustomErrors(
       IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,
-      async (e) => {
+      async e => {
         if (!e.sender || e.sender !== this.instance?.webContents) {
           throw new Error('untrusted source');
         }
@@ -316,7 +310,7 @@ export class WindowManager {
     /**
      * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
      */
-    protocol.registerBufferProtocol('altair', (request, callback) => {
+    protocol.handle('altair', async request => {
       const requestDirectory = getDistDirectory();
       const originalFilePath = path.join(
         requestDirectory,
@@ -324,19 +318,19 @@ export class WindowManager {
       );
       const indexPath = path.join(requestDirectory, 'index.html');
 
-      this.getFileContentData(originalFilePath, indexPath)
-        .then(({ mimeType, data }) => {
-          callback({ mimeType, data });
-        })
-        .catch((error) => {
-          error.message = `Failed to register protocol. ${error.message}`;
-          console.error(error);
-        });
+      const { mimeType, data } = await this.getFileContentData(
+        originalFilePath,
+        indexPath
+      );
+      return new Response(
+        data, // Could also be a string or ReadableStream.
+        { headers: { 'content-type': mimeType } }
+      );
     });
   }
 
   async getFilePath(filePath: string): Promise<string> {
-    console.log('file..', filePath);
+    log('file..', filePath);
 
     if (!filePath) {
       return '';
