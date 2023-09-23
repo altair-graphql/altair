@@ -16,6 +16,7 @@
     "compare-versions": "^4.1.3",
     "cwex": "^1.0.4",
     "dotenv-cli": "^7.2.1",
+    "electron": "^26.2.2",
     "eslint": "8.18.0",
     "eslint-config-altair": "^5.0.22",
     "eslint-config-prettier": "8.5.0",
