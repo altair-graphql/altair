@@ -102,3 +102,6 @@ If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mod
 - Product should have recurring pricing
 
 <!-- background:linear-gradient(135deg,#00F5A0 0%,#00D9F5 100%); -->
+
+### Signing MacOS app
+https://www.codiga.io/blog/notarize-sign-electron-app/
