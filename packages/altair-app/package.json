@@ -147,7 +147,7 @@
     "babel-preset-react": "6.24.1",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "electron": "19.0.6",
+    "electron": "^26.2.2",
     "eslint": "8.18.0",
     "eslint-config-altair": "^5.2.2",
     "eslint-config-prettier": "8.5.0",
