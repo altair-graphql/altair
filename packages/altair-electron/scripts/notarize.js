@@ -14,10 +14,8 @@ exports.default = async function notarizing(context) {
     tool: 'notarytool',
     appBundleId: 'com.xkoji.altair',
     appPath: `${appOutDir}/${appName}.app`,
-    // appleId: process.env.APPLEID,
-    // appleIdPassword: process.env.APPLEIDPASS,
-    appleApiKeyId: process.env.API_KEY_ID,
-    appleApiIssuer: process.env.API_KEY_ISSUER_ID,
+    appleId: process.env.APPLE_ID,
+    appleIdPassword: process.env.APPLE_ID_PASSWORD,
     teamId: process.env.APPLETEAMID,
   }).then(res => console.log('Notarization completed!') || res);
 };
