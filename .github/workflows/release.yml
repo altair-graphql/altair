@@ -71,10 +71,10 @@ jobs:
         env:
           # macOS notarization API key
           # https://www.codiga.io/blog/notarize-sign-electron-app/
-          APPLE_ID: ${{ secrets.apple_id }}
-          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
-          APPLEIDPASS: ${{ secrets.apple_id_password }}
-          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
 
       # chocolatey
