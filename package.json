@@ -95,9 +95,5 @@
       "packages/*",
       "libs/*"
     ]
-  },
-  "nohoist": [
-    "**/electron",
-    "**/electron/**"
-  ]
+  }
 }

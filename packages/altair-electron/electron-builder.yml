@@ -1,5 +1,6 @@
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
+electronVersion: 26.2.2
 directories:
   buildResources: resources
   output: out
