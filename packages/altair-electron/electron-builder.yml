@@ -9,7 +9,7 @@ files:
   - '!**/*.ts'
   - '!**/*.ts.map'
   - '!**/*.js.map'
-afterSign: electron-builder-notarize # scripts/notarize.js
+afterSign: electron-builder-notarize
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}
   category: public.app-category.developer-tools
