@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { notarize } = require('@electron/notarize');
+const path = require('path');
 
 exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context;
@@ -9,15 +10,17 @@ exports.default = async function notarizing(context) {
 
   const appName = context.packager.appInfo.productFilename;
 
-  console.log('Notarizing application');
+  console.log(
+    'Notarizing application',
+    process.env.APPLE_ID,
+    process.env.APPLE_TEAM_ID
+  );
   await notarize({
     tool: 'notarytool',
-    appBundleId: 'com.xkoji.altair',
-    appPath: `${appOutDir}/${appName}.app`,
-    // appleId: process.env.APPLEID,
-    // appleIdPassword: process.env.APPLEIDPASS,
-    appleApiKeyId: process.env.API_KEY_ID,
-    appleApiIssuer: process.env.API_KEY_ISSUER_ID,
-    teamId: process.env.APPLETEAMID,
+    // appBundleId: 'com.xkoji.altair',
+    appPath: path.resolve(appOutDir, `${appName}.app`),
+    appleId: process.env.APPLE_ID,
+    appleIdPassword: process.env.APPLE_ID_PASSWORD,
+    teamId: process.env.APPLE_TEAM_ID,
   }).then(res => console.log('Notarization completed!') || res);
 };

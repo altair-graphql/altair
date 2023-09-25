@@ -38,6 +38,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: startsWith(matrix.os, 'macos')
+        with:
+          xcode-version: latest-stable
       - run: yarn --frozen-lockfile --network-timeout 1000000
       - uses: nick-invision/retry@v2
         with:
@@ -66,8 +70,11 @@ jobs:
           max_attempts: 3
         env:
           # macOS notarization API key
-          API_KEY_ID: ${{ secrets.apple_api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
+          # https://www.codiga.io/blog/notarize-sign-electron-app/
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
 
       # chocolatey

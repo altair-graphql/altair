@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "description": "Electron wrapper for Altair",
-  "version": "5.2.2",
+  "version": "5.2.3",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -10,9 +10,9 @@
     "logo": "https://opencollective.com/altair/logo.txt"
   },
   "dependencies": {
-    "@altairgraphql/electron-interop": "^5.2.2",
-    "@altairgraphql/login-redirect": "^5.2.2",
-    "altair-static": "^5.2.2",
+    "@altairgraphql/electron-interop": "^5.2.3",
+    "@altairgraphql/login-redirect": "^5.2.3",
+    "altair-static": "^5.2.3",
     "body-parser": "^1.20.0",
     "csp-header": "^5.1.0",
     "electron-debug": "^3.0.1",
@@ -37,7 +37,7 @@
     "@types/mime-types": "^2.1.1",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
-    "electron": "19.0.10",
+    "electron": "^26.2.2",
     "electron-builder": "^23.6.0",
     "electron-builder-notarize": "^1.2.0",
     "electron-chromedriver": "^14.0.0",

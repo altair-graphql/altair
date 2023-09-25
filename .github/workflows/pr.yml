@@ -129,9 +129,12 @@ jobs:
         max_attempts: 3
       env:
         # macOS notarization API key
-        API_KEY_ID: ${{ secrets.apple_api_key_id }}
-        API_KEY_ISSUER_ID: ${{ secrets.apple_api_key_issuer_id }}
-        APPLETEAMID: ${{ secrets.apple_team_id }}
+        # https://www.codiga.io/blog/notarize-sign-electron-app/
+        APPLE_ID: ${{ secrets.APPLE_ID }}
+        APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+        APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
+        APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
     - name: Upload electron builds
       if: always()
       uses: actions/upload-artifact@v2

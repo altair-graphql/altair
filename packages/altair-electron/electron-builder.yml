@@ -1,5 +1,6 @@
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
+electronVersion: 26.2.2
 directories:
   buildResources: resources
   output: out
@@ -8,7 +9,7 @@ files:
   - '!**/*.ts'
   - '!**/*.ts.map'
   - '!**/*.js.map'
-afterSign: electron-builder-notarize # scripts/notarize.js
+afterSign: scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}
   category: public.app-category.developer-tools
