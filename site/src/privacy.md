@@ -91,7 +91,7 @@ The information we collect includes:
 
 **We process your personal information for a variety of reasons, depending on how you interact with our Services, including:**
 
-- **To facilitate account creation and authentication and otherwise manage user accounts.** We may process your information so you can create and log in to your account, as well as keep your account in working order.
+- **To facilitate account creation and authentication and otherwise manage user accounts.** We may process your information, so you can create and log in to your account, as well as keep your account in working order.
 - **To deliver and facilitate delivery of services to the user.** We may process your information to provide you with the requested service.
 - **To enable user-to-user communications.** We may process your information if you choose to use any of our offerings that allow for communication with another user.
 - **To save or protect an individual's vital interest.** We may process your information when necessary to save or protect an individual’s vital interest, such as to prevent harm.
@@ -135,7 +135,7 @@ In some exceptional cases, we may be legally permitted under applicable law to p
 
 - **Allow Users to Connect to Their Third-Party Accounts**
 
-Google account, Facebook account, Github account and LinkedIn account
+Google account, Facebook account, GitHub account and LinkedIn account
 
 - **Cloud Computing Services**
 

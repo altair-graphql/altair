@@ -3,7 +3,9 @@
   "description": "The best graphQL client you will ever need",
   "version": "5.2.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
-  "bugs": "https://github.com/altair-graphql/altair/issues",
+  "bugs": {
+    "url": "https://github.com/altair-graphql/altair/issues"
+  },
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/altair",
@@ -57,7 +59,10 @@
   ],
   "license": "MIT",
   "private": true,
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altair-graphql/altair.git"
+  },
   "resolutions": {
     "**/oauth": "0.10.0",
     "y18n": "4.0.1"
@@ -95,5 +100,9 @@
       "packages/*",
       "libs/*"
     ]
+  },
+  "main": ".eslintrc.js",
+  "bin": {
+    "altair": "bin/deploy.js"
   }
 }

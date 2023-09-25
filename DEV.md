@@ -51,7 +51,7 @@ Check that you have `strictNullChecks` option enabled in tsconfig.json
 
 https://firebase.google.com/docs/firestore/security/rules-query#rules_are_not_filters
 https://stackoverflow.com/a/71948534/3929126
-Firestore compares the condition added to the query with the security rules, and they have to match. Otherwise it fails, even if the actual data set that would be returned would have met the conditions.
+Firestore compares the condition added to the query with the security rules, and they have to match. Otherwise, it fails, even if the actual data set that would be returned would have met the conditions.
 
 Always check for presence of property on `resource.data` before use e.g. `'ownerUid' in resource.data ? resource.data.ownerUid : false`.
 
@@ -93,7 +93,7 @@ docker run -p 3000:3000 test-demo
 
 ### SSL too many redirects
 
-If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mode
+If using Cloudflare DNS, you need to set up full SSL mode instead of flexible mode
 
 ### Stripe product requirements
 
