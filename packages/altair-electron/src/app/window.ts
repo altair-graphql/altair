@@ -87,6 +87,7 @@ export class WindowManager {
         preload: require.resolve(
           '@altairgraphql/electron-interop/build/preload.js'
         ), // path.join(__dirname, '../preload', 'index.js'),
+        sandbox: false,
       },
       // titleBarStyle: 'hidden-inset'
     });
