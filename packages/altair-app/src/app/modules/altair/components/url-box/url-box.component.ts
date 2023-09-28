@@ -32,7 +32,8 @@ export class UrlBoxComponent {
   methods = HTTP_VERBS;
 
   setApiUrl() {
-    this.urlChange.emit(this.sanitizeUrl(this.apiUrl));
+    const sanitizedUrl = this.sanitizeUrl(this.apiUrl);
+    this.urlChange.emit(sanitizedUrl);
   }
 
   setVerb(verb: string) {
@@ -43,8 +44,10 @@ export class UrlBoxComponent {
     // trim the url and remove any spaces
     // add http protocol if missing
     url = url.trim();
-    if (!RegExp(/^[a-zA-Z]+:\/\//).exec(url) && !VARIABLE_REGEX.test(url)) {
-      url = 'http://' + url;
+    const hasProtocol = /^[a-zA-Z]+:\/\//.test(url);
+    const hasVariable = /{{.*}}/.test(url);
+    if (!(hasProtocol || hasVariable)) {
+      return 'http://' + url;
     }
 
     return url;
