@@ -80,8 +80,6 @@ export class WindowManager {
         allowRunningInsecureContent: false,
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        // TODO: Enable context isolation https://www.electronjs.org/docs/latest/tutorial/context-isolation
-        // TODO: Migrate current preload/IPC usage to use contextBridge instead
         contextIsolation: true,
         // enableRemoteModule: process.env.NODE_ENV === "test", // remote required for spectron tests to work
         preload: require.resolve(

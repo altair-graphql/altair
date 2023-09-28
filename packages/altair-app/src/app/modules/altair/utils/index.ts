@@ -345,7 +345,7 @@ export const isElectronApp = () => {
   }
 
   if (!(window as any)[electronApiKey]) {
-    debug.error('Is in electron app but electronApi is undefined!');
+    debug.error(`Is in electron app but ${electronApiKey} is undefined!`);
     return false;
   }
 
