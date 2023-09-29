@@ -297,25 +297,9 @@ export function truncateText(text: string, maxLength = 70) {
 export const externalLink = (e: Event, url: string) => {
   e.preventDefault();
 
-  // If electron app
-  if (
-    (window as any).process &&
-    (window as any).process.versions.electron &&
-    isElectron
-  ) {
-    const electron = (window as any).require('electron');
-    if (electron) {
-      electron.shell.openExternal(url);
-    } else {
-      debug.log(
-        'cannot open link. Somehow electron is undefined. Please report this issue.'
-      );
-    }
-  } else {
-    const win = window.open(url, '_blank');
-    if (win) {
-      win.focus();
-    }
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.focus();
   }
 };
 

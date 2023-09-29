@@ -136,8 +136,19 @@ export class ElectronApp {
 
     app.on('web-contents-created', (event, contents) => {
       contents.setWindowOpenHandler(details => {
-        // Ask the operating system to open this event's url in the default browser.
-        shell.openExternal(details.url);
+        try {
+          log('Opening url', details.url);
+          // Ask the operating system to open this event's url in the default browser.
+          const url = new URL(details.url);
+          const supportedProtocols = ['http:', 'https:', 'mailto:'];
+          if (!supportedProtocols.includes(url.protocol)) {
+            log('Unsupported protocol', url.protocol);
+            return { action: 'deny' };
+          }
+          shell.openExternal(url.href);
+        } catch (err) {
+          log('Error opening url', err);
+        }
         return { action: 'deny' };
       });
     });
