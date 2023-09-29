@@ -68,6 +68,7 @@ export class CodemirrorComponent
   @Input() showLineNumber = true;
   @Input() foldGutter = true;
   @Input() wrapLines = true;
+  @Input() redrawLayout = false;
 
   // Specifies the editor should not have any default extensions
   @Input() bare = false;
@@ -104,6 +105,21 @@ export class CodemirrorComponent
           Prec.high(this.getExtensions(changes.extensions.currentValue))
         ),
       });
+    }
+
+    if (changes.redrawLayout?.currentValue) {
+      // wait for animations to finish
+      setTimeout(() => {
+        if (this.view) {
+          this.view.dispatch({
+            changes: {
+              from: 0,
+              to: this.view.state.doc.length,
+              insert: this.view.state.doc.sliceString(0),
+            },
+          });
+        }
+      }, 250);
     }
   }
 

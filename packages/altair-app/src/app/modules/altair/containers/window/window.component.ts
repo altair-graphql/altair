@@ -7,15 +7,7 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import {
-  Component,
-  ViewChild,
-  Input,
-  OnInit,
-  ViewContainerRef,
-  OnDestroy,
-  NgZone,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
@@ -33,7 +25,6 @@ import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
-import * as layoutActions from '../../store/layout/layout.action';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 
 import {
@@ -41,18 +32,9 @@ import {
   NotifyService,
   WindowService,
   SubscriptionProviderRegistryService,
-  ElectronAppService,
 } from '../../services';
-import {
-  Observable,
-  EMPTY,
-  Subject,
-  combineLatest,
-  of,
-  BehaviorSubject,
-} from 'rxjs';
+import { Observable, EMPTY, combineLatest, of, BehaviorSubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { debug } from '../../utils/logger';
 import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
@@ -243,7 +225,7 @@ export class WindowComponent implements OnInit {
     );
     this.currentCollection$ = this.getWindowState().pipe(
       switchMap((data) => {
-        if (data && data.layout.collectionId) {
+        if (data?.layout?.collectionId) {
           return this.collections$.pipe(
             map((collections) => {
               return collections.find(
@@ -277,7 +259,7 @@ export class WindowComponent implements OnInit {
     );
 
     this.variableToType$ = combineLatest([
-      this.query$.pipe(select((q) => q.query || '')),
+      this.query$.pipe(select((q) => q.query ?? '')),
       this.getWindowState().pipe(select(fromRoot.getSchema)),
     ]).pipe(
       map(([query, schema]) => {
@@ -300,7 +282,7 @@ export class WindowComponent implements OnInit {
         }
 
         this.apiUrl = data.query.url;
-        const query = data.query.query || '';
+        const query = data.query.query ?? '';
         this.query = query;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
@@ -312,7 +294,7 @@ export class WindowComponent implements OnInit {
         this.subscriptionConnectionParams =
           data.query.subscriptionConnectionParams || '';
         this.selectedSubscriptionProviderId =
-          data.query.subscriptionProviderId || WEBSOCKET_PROVIDER_ID;
+          data.query.subscriptionProviderId ?? WEBSOCKET_PROVIDER_ID;
         this.historyList = data.history.list;
 
         // Schema needs to be valid instances of GQLSchema.
@@ -495,8 +477,6 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(
       new queryActions.SendIntrospectionQueryRequestAction(this.windowId)
     );
-    // const resp = await this.notifyService.confirm('Are you sure you want to install <strong>altair-graphql-plugin-graphql-explorer</strong> plugin?', 'Plugin manager');
-    // console.log('Gotten response!', resp);
   }
 
   addHeader() {
@@ -668,7 +648,7 @@ export class WindowComponent implements OnInit {
     if (this.historyList[index]) {
       this.store.dispatch(
         new queryActions.SetQueryAction(
-          this.historyList[index]?.query || '',
+          this.historyList[index]?.query ?? '',
           this.windowId
         )
       );

@@ -41,7 +41,7 @@ async function main() {
       {
         type: 'input',
         name: 'newVersion',
-        message: 'What is the new version?',
+        message: `What is the new version? (current version: ${pkg.version})`,
         validate: function(value) {
           if (!value.match(SEMVER_REGEX)) {
             return 'Please enter a valid version (e.g. 3.2.1)';
