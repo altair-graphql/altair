@@ -5,7 +5,7 @@
     "@altairgraphql/api-utils": "^5.2.5"
   },
   "devDependencies": {
-    "rimraf": "^4.1.2",
+    "rimraf": "^5.0.5",
     "typescript": "4.9.5",
     "vite": "^4.0.4"
   },

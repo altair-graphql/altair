@@ -12,7 +12,7 @@ import {
   ITheme,
 } from 'altair-graphql-core/build/theme';
 
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { ThemeRegistryService } from '../../services';
 
 @Directive({
