@@ -21945,9 +21945,9 @@ pino-abstract-transport@v0.5.0:
     split2 "^4.0.0"
 
 pino-http@^8.3.3:
-  version "8.3.3"
-  resolved "https://registry.yarnpkg.com/pino-http/-/pino-http-8.3.3.tgz#2b140e734bfc6babe0df272a43bb8f36f2b525c0"
-  integrity sha512-p4umsNIXXVu95HD2C8wie/vXH7db5iGRpc+yj1/ZQ3sRtTQLXNjoS6Be5+eI+rQbqCRxen/7k/KSN+qiZubGDw==
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/pino-http/-/pino-http-8.5.0.tgz#fe0b925686e328d7f8a420352c1b20f3b9d1cd63"
+  integrity sha512-kLGKNLyfWfdmrG1Ug0YdYpCTGbNcuD/YGC3g+elRU/Cm44UTs+tj/dZTxDN3bYauekxFxdLZhJuZdKKl0cml9w==
   dependencies:
     get-caller-file "^2.0.5"
     pino "^8.0.0"
