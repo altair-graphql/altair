@@ -78,7 +78,7 @@
     "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",
     "start:api:dev": "nx start:dev @altairgraphql/api",
-    "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-api start:prod",
+    "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-db prisma db seed && yarn --cwd packages/altair-api start:prod",
     "start:app": "nx start @altairgraphql/app",
     "start:dashboard": "nx dev @altairgraphql/dashboard",
     "start:redirect": "nx dev @altairgraphql/login-redirect",

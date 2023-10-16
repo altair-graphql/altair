@@ -5,11 +5,11 @@ import { PersistentStore } from '../store';
 export const initMainProcessStoreEvents = () => {
   const store = new PersistentStore();
 
-  ipcMain.on(STORE_EVENTS.LENGTH, (e) => {
+  ipcMain.on(STORE_EVENTS.LENGTH, e => {
     e.returnValue = store.size;
   });
 
-  ipcMain.on(STORE_EVENTS.CLEAR, (e) => {
+  ipcMain.on(STORE_EVENTS.CLEAR, e => {
     e.returnValue = store.clear();
   });
 
@@ -30,7 +30,7 @@ export const initMainProcessStoreEvents = () => {
     e.returnValue = store.set(key, value);
   });
 
-  ipcMain.on(STORE_EVENTS.GET_STORE_OBJECT, (e) => {
+  ipcMain.on(STORE_EVENTS.GET_STORE_OBJECT, e => {
     e.returnValue = store.store;
   });
 };
