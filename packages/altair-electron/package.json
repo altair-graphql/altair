@@ -27,7 +27,7 @@
     "express": "^4.18.1",
     "get-port": "^5.1.1",
     "mime-types": "^2.1.29",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@electron/notarize": "^2.1.0",
@@ -49,7 +49,7 @@
     "spectron": "^15.0.0",
     "ts-jest": "29.0.5",
     "typescript": "4.9.5",
-    "webdriverio": "^7.12.5"
+    "webdriverio": "^8.18.2"
   },
   "funding": {
     "type": "opencollective",
