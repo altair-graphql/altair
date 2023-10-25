@@ -61,13 +61,13 @@ jobs:
     - uses: nrwl/nx-set-shas@v2
       with:
         main-branch-name: master
-    - name: restore lerna
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+    # - name: restore lerna
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: |
+    #       node_modules
+    #       */*/node_modules
+    #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
     - run: yarn --frozen-lockfile --network-timeout 1000000
     - uses: browser-actions/setup-chrome@latest
     - name: Build apps (with retries)
