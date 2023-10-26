@@ -37,7 +37,7 @@ Altair provides several features that make developing with GraphQL very efficien
 
 - setting **headers**
 - setting **variables**
-- creating [**environments**](https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c)
+- creating [**environments**](https://altairgraphql.dev/docs/features/environment-variables.html)
 - viewing **response stats**
 - viewing **schema docs**
 - advanced **schema docs search**
@@ -45,13 +45,13 @@ Altair provides several features that make developing with GraphQL very efficien
 - [**file upload**](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f) via GraphQL
 - **autocompletion** of queries
 - **autofill** all query fields at cursor
-- [**automatic schema refreshing**](https://sirmuel.design/a-better-graphql-developer-experience-with-x-graphql-event-stream-1256aef96f24) using *GraphQL Event Stream* protocol
+- [**automatic schema refreshing**](https://altairgraphql.dev/docs/features/schema-auto-refresh.html) using *GraphQL Event Stream* protocol
 - **automatic refactoring** of query
-- [**prerequest**](https://sirmuel.design/pre-requests-now-available-in-altair-graphql-client-c3b28892059c) scripts
+- [**prerequest**](https://altairgraphql.dev/docs/features/prerequest-scripts.html) scripts
 - multiple **windows**, multiple **languages**
 - **importing and exporting** collections of queries
 - multiple **themes**
-- [**plugin system**](https://sirmuel.design/introducing-plugins-in-altair-still-in-beta-b7adb42b466) for extensibility
+- [**plugin system**](https://altairgraphql.dev/docs/plugins/) for extensibility
 - and many more features (really there's a **lot more!**).
 
 *See more here: https://altairgraphql.dev/docs/features*
