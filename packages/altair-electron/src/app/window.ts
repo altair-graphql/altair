@@ -25,12 +25,12 @@ import { ActionManager } from './actions';
 import { TouchbarManager } from './touchbar';
 import { handleWithCustomErrors } from '../utils/index';
 import { AuthServer } from '../auth/server/index';
-import ElectronStore from 'electron-store';
 import { getAutobackup, setAutobackup } from '../utils/backup';
 import {
   IPC_EVENT_NAMES,
   ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
 } from '@altairgraphql/electron-interop';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { log } from '../utils/log';
 
 export class WindowManager {
@@ -108,7 +108,6 @@ export class WindowManager {
         slashes: true,
       })
     );
-    // instance.loadURL('http://localhost:4200/');
 
     this.manageEvents();
   }
@@ -124,11 +123,7 @@ export class WindowManager {
     initSettingsStoreEvents();
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', e => e.preventDefault());
-
-    // instance.webContents.once('dom-ready', () => {
-    //   instance.webContents.openDevTools();
-    // });
+    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
 
     // Emitted when the window is closed.
     this.instance.on('closed', () => {
@@ -151,7 +146,7 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach(uploadData => {
+          details.uploadData.forEach((uploadData) => {
             log('Data sent:', uploadData.bytes.toString());
           });
         }
@@ -179,9 +174,9 @@ export class WindowManager {
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders(details => {
+      session.defaultSession.webRequest.onSendHeaders((details) => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach(headerKey => {
+          Object.keys(details.requestHeaders).forEach((headerKey) => {
             log('Header sent:', headerKey, details.requestHeaders[headerKey]);
           });
         }
@@ -193,8 +188,6 @@ export class WindowManager {
         details.resourceType === 'mainFrame' ||
         details.resourceType === 'subFrame'
       ) {
-        // log('received headers..', details.responseHeaders);
-
         // Set the CSP
         const scriptSrc = [
           `'self'`,
@@ -207,14 +200,14 @@ export class WindowManager {
         ];
 
         return callback({
-          responseHeaders: Object.assign({}, details.responseHeaders, {
-            // Setting CSP
+          responseHeaders: {
+            ...details.responseHeaders, // Setting CSP
             // TODO: Figure out why an error from this breaks devtools
             'Content-Security-Policy': [
               `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
               // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
             ],
-          }),
+          },
         });
       }
 
@@ -226,14 +219,13 @@ export class WindowManager {
       app.exit();
     });
 
-    // TODO: Get type from altair-app as a devDependency
     // Get 'set headers' instruction from app
     ipcMain.on(
       IPC_EVENT_NAMES.RENDERER_SET_HEADERS_SYNC,
-      (e, headers: { key: string; value: string; enabled?: boolean }[]) => {
+      (e, headers: HeaderState) => {
         this.requestHeaders = {};
 
-        headers.forEach(header => {
+        headers.forEach((header) => {
           const normalizedKey = header.key.toLowerCase();
           if (
             ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(normalizedKey) &&
@@ -270,7 +262,7 @@ export class WindowManager {
       this.electronApp.store.delete('opened-file-data');
     });
 
-    ipcMain.handle('reload-window', e => {
+    ipcMain.handle('reload-window', (e) => {
       e.sender.reload();
     });
 
@@ -282,18 +274,21 @@ export class WindowManager {
     );
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async e => {
-      if (!e.sender || e.sender !== this.instance?.webContents) {
-        throw new Error('untrusted source trying to get auth token');
-      }
+    handleWithCustomErrors(
+      IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
+      async (e) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source trying to get auth token');
+        }
 
-      const authServer = new AuthServer();
-      return authServer.getCustomToken();
-    });
+        const authServer = new AuthServer();
+        return authServer.getCustomToken();
+      }
+    );
 
     handleWithCustomErrors(
       IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,
-      async e => {
+      async (e) => {
         if (!e.sender || e.sender !== this.instance?.webContents) {
           throw new Error('untrusted source');
         }
@@ -307,7 +302,7 @@ export class WindowManager {
     /**
      * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
      */
-    protocol.handle('altair', async request => {
+    protocol.handle('altair', async (request) => {
       const requestDirectory = getDistDirectory();
       const originalFilePath = path.join(
         requestDirectory,
@@ -358,7 +353,7 @@ export class WindowManager {
     if (!filePath) {
       filePath = fallbackPath;
     }
-    if (filePath && filePath.endsWith('.map')) {
+    if (filePath?.endsWith('.map')) {
       return {
         mimeType: 'text/plain',
         data: Buffer.from(
@@ -370,7 +365,7 @@ export class WindowManager {
     // some files are binary files, eg. font, so don't encode utf8
     let data = await fs.readFile(filePath);
 
-    if (filePath && filePath.includes('index.html')) {
+    if (filePath?.includes('index.html')) {
       data = Buffer.from(renderAltair(), 'utf-8');
     }
 
