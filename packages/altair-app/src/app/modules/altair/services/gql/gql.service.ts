@@ -53,6 +53,7 @@ import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.i
 import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
+import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 
 interface SendRequestOptions {
   query: string;
@@ -156,12 +157,15 @@ export class GqlService {
       newHeaders = new HttpHeaders(this.defaultHeaders);
     }
 
-    const forbiddenHeaders = ['Origin'];
+    if (headers?.length) {
+      // For electron app, send the instruction to set headers
+      this.electronAppService.setHeaders(headers);
 
-    if (headers && headers.length) {
       headers.forEach((header) => {
         if (
-          !forbiddenHeaders.includes(header.key) &&
+          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(
+            header.key.toLowerCase()
+          ) &&
           header.enabled &&
           header.key &&
           header.value
@@ -176,18 +180,14 @@ export class GqlService {
   }
 
   getParamsFromData(data: IDictionary) {
-    return Object.keys(data).reduce(
-      (params, key) =>
-        data[key]
-          ? params.set(
-              key,
-              typeof data[key] === 'object'
-                ? JSON.stringify(data[key])
-                : data[key]
-            )
-          : params,
-      new HttpParams()
-    );
+    return Object.keys(data).reduce((params, key) => {
+      let value = data[key];
+      if (value) {
+        value = typeof value === 'object' ? JSON.stringify(value) : value;
+        params = params.set(key, value);
+      }
+      return params;
+    }, new HttpParams());
   }
 
   setUrl(url: string) {
@@ -244,7 +244,7 @@ export class GqlService {
   getIntrospectionSchema(
     introspection?: IntrospectionQuery
   ): GraphQLSchema | null {
-    if (!introspection || !introspection.__schema) {
+    if (!introspection?.__schema) {
       return null;
     }
 
@@ -373,7 +373,7 @@ export class GqlService {
     const operation = this.getOperationAtIndex(query, index);
 
     if (operation) {
-      return operation.name && operation.name.value ? operation.name.value : '';
+      return operation?.name?.value ?? '';
     }
     return '';
   }
@@ -638,13 +638,6 @@ export class GqlService {
     let body: FormData | string | undefined;
     let params: HttpParams | undefined;
     const headers = this.headers;
-
-    // For electron app, send the instruction to set headers
-    this.electronAppService.setHeaders(
-      headers
-        .keys()
-        .map((k) => ({ key: k, value: headers.get(k) ?? '', enabled: true }))
-    );
 
     if (selectedOperation) {
       data.operationName = selectedOperation;

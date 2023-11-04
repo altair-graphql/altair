@@ -33,3 +33,10 @@ export const STORE_EVENTS = {
 };
 
 export const electronApiKey = 'electronApi';
+
+// https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
+export const ELECTRON_ALLOWED_FORBIDDEN_HEADERS = [
+  'origin',
+  'cookie',
+  'referer',
+].map(_ => _.toLowerCase());
