@@ -6,7 +6,7 @@
     "@altairgraphql/api-utils": "^5.2.6",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
-    "@mantine/core": "^5.9.5",
+    "@mantine/core": "^7.2.1",
     "@mantine/dates": "^5.9.5",
     "@mantine/form": "^5.9.5",
     "@mantine/hooks": "^5.9.5",
