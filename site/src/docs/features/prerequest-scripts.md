@@ -57,7 +57,7 @@ altair.helpers.getEnvironment('api_key')
 altair.helpers.setEnvironment('api_key', 'a482djksd289xxxxxxxxx');
 ```
 
-**altair.helpers.getCookie(key: string)** - Retrieves a value stored in browser cookie.
+**altair.helpers.getCookie(key: string)** - Retrieves a value stored in browser cookie. You need to specify the list of cookies you want to grant access to in the pre request script in the `script.allowedCookies` settings.
 
 ```js
 const sessid = altair.helpers.getCookie('sessid');
