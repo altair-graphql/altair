@@ -1,6 +1,7 @@
 import { take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { init } from '@sentry/electron';
 
 import { NotifyService } from '../notify/notify.service';
 
@@ -87,6 +88,8 @@ export class ElectronAppService {
     if (!isElectronApp() || !this.api) {
       return;
     }
+
+    init({});
 
     this.api.events.onFileOpened((content) => {
       this.zone.run(() => importFileContent(content));
