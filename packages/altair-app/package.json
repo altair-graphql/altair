@@ -98,7 +98,7 @@
     "popper.js": "1.16.1",
     "prettier": "2.3.0",
     "rxjs": "6.6.7",
-    "sanitize-html": "2.7.1",
+    "sanitize-html": "2.11.0",
     "sortablejs": "1.10.2",
     "subscriptions-transport-ws": "0.9.19",
     "sval": "0.4.8",
