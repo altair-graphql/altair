@@ -1,8 +1,8 @@
 {
   "name": "@altairgraphql/electron-interop",
-  "version": "5.2.5",
+  "version": "5.2.6",
   "dependencies": {
-    "altair-graphql-core": "^5.2.5"
+    "altair-graphql-core": "^5.2.6"
   },
   "devDependencies": {
     "electron": "^26.2.2",
