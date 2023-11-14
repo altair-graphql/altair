@@ -1,9 +1,9 @@
 {
   "name": "@altairgraphql/api-utils",
-  "version": "5.2.6",
+  "version": "5.2.7",
   "dependencies": {
-    "@altairgraphql/db": "^5.2.6",
-    "altair-graphql-core": "^5.2.6",
+    "@altairgraphql/db": "^5.2.7",
+    "altair-graphql-core": "^5.2.7",
     "ky": "^0.33.2",
     "rxjs": "^6.6.7"
   },
