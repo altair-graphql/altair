@@ -34,6 +34,7 @@
     "@electron/notarize": "^2.1.0",
     "@jest/globals": "28.0.0",
     "@playwright/test": "1.31.2",
+    "@sentry/cli": "^2.21.4",
     "@sentry/wizard": "^3.16.2",
     "@types/jest": "^28.1.7",
     "@types/mime-types": "^2.1.1",
@@ -74,6 +75,7 @@
     "test": "yarn test:unit",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist && sentry-cli sourcemaps upload --org altair-graphql --project electron ./dist"
   }
 }
