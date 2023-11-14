@@ -5,6 +5,8 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
     "declarationMap": false,
     "declaration": false,
     "moduleResolution": "node",
