@@ -41,4 +41,6 @@ jobs:
       - name: Run headless e2e test
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: NODE_OPTIONS="--max_old_space_size=4096" yarn playwright test --retries 2
+          run: yarn playwright test --retries 2
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
