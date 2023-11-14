@@ -86,7 +86,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: packages/altair-electron/dist/*.js.map packages/altair-app/dist/*.js.map
+          sourcemaps: packages/altair-electron/dist/ packages/altair-app/dist/
           version: ${{ github.ref }}
 
       # chocolatey
