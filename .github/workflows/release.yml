@@ -77,18 +77,6 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
 
-      - name: Upload source maps to Sentry
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          environment: production
-          sourcemaps: packages/altair-electron/dist/ packages/altair-app/dist/
-          version: ${{ github.ref }}
-
       # chocolatey
       - name: Read VERSION file
         id: getversion
@@ -111,6 +99,18 @@ jobs:
         uses: crazy-max/ghaction-chocolatey@v1.6.0
         with:
           args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
+
+      - name: Upload source maps to Sentry
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: packages/altair-electron/dist/ packages/altair-app/dist/
+          version: ${{ steps.getversion.outputs.version }}
 
   npm-publish:
     runs-on: ubuntu-latest

@@ -52,7 +52,8 @@ export class WindowManager {
     return this.instance;
   }
 
-  createWindow() {
+  async createWindow() {
+    await app.whenReady();
     this.registerProtocol();
 
     // Load the previous state with fallback to defaults
