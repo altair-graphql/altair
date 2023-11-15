@@ -22,6 +22,7 @@ import { HeaderState } from 'altair-graphql-core/build/types/state/header.interf
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { electronAPI } from '@altairgraphql/electron-interop/build/renderer';
+import { environment } from 'environments/environment';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -89,7 +90,9 @@ export class ElectronAppService {
       return;
     }
 
-    init({});
+    init({
+      release: environment.version,
+    });
 
     this.api.events.onFileOpened((content) => {
       this.zone.run(() => importFileContent(content));
