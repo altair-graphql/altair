@@ -1,11 +1,10 @@
-import { app, BrowserWindow, protocol, session, shell } from 'electron';
+import { app, protocol, session, shell, dialog } from 'electron';
 import { readFile } from 'fs';
 import isDev from 'electron-is-dev';
 import { setupAutoUpdates } from '../updates';
 import { InMemoryStore } from '../store';
 import { WindowManager } from './window';
 import { store } from '../settings/main/store';
-import { AuthServer } from '../auth/server';
 import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
 import { log } from '../utils/log';
 
@@ -80,7 +79,16 @@ export class ElectronApp {
         );
         log(proxy, proxyConfig);
       }
-      this.windowManager.createWindow();
+      try {
+        this.windowManager.createWindow();
+      } catch (err) {
+        log('Error creating window', err);
+        dialog.showErrorBox(
+          'Error creating window. Do you know what the issue is? Feel free to create a github issue',
+          err as any
+        );
+        throw err;
+      }
 
       if (!isDev) {
         setupAutoUpdates();
@@ -135,7 +143,7 @@ export class ElectronApp {
     );
 
     app.on('web-contents-created', (event, contents) => {
-      contents.setWindowOpenHandler(details => {
+      contents.setWindowOpenHandler((details) => {
         try {
           log('Opening url', details.url);
           // Ask the operating system to open this event's url in the default browser.
