@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "description": "Electron wrapper for Altair",
-  "version": "5.2.7",
+  "version": "5.2.8",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -10,10 +10,10 @@
     "logo": "https://opencollective.com/altair/logo.txt"
   },
   "dependencies": {
-    "@altairgraphql/electron-interop": "^5.2.7",
-    "@altairgraphql/login-redirect": "^5.2.7",
+    "@altairgraphql/electron-interop": "^5.2.8",
+    "@altairgraphql/login-redirect": "^5.2.8",
     "@sentry/electron": "^4.14.0",
-    "altair-static": "^5.2.7",
+    "altair-static": "^5.2.8",
     "body-parser": "^1.20.0",
     "csp-header": "^5.1.0",
     "electron-debug": "^3.0.1",
@@ -38,7 +38,7 @@
     "@sentry/wizard": "^3.16.2",
     "@types/jest": "^28.1.7",
     "@types/mime-types": "^2.1.1",
-    "altair-graphql-core": "^5.2.7",
+    "altair-graphql-core": "^5.2.8",
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "^26.2.2",
@@ -47,7 +47,7 @@
     "electron-chromedriver": "^14.0.0",
     "electron-reloader": "^1.2.1",
     "eslint": "^7.3.1",
-    "eslint-config-altair": "^5.2.7",
+    "eslint-config-altair": "^5.2.8",
     "eslint-config-prettier": "8.5.0",
     "jest": "29.4.1",
     "jest-circus": "28.0.0",
