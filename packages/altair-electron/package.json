@@ -69,13 +69,15 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "build": "yarn compile && electron-builder",
-    "compile": "tsc",
+    "compile": "tsc && yarn sentry:sourcemaps:inject",
     "dev": "yarn compile && electron ./dist/",
     "prepare": "yarn compile",
     "test": "yarn test:unit",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",
     "test:unit": "jest",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist && sentry-cli sourcemaps upload --org altair-graphql --project electron ./dist"
+    "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist",
+    "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org altair-graphql --project electron ./dist",
+    "sentry:sourcemaps": "yarn sentry:sourcemaps:inject && yarn sentry:sourcemaps:upload"
   }
 }
