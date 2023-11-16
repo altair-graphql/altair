@@ -135,7 +135,8 @@ jobs:
         APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
         APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
-    - name: Upload source maps to Sentry
+    
+    - name: Upload source maps to Sentry (app)
       if: startsWith(matrix.os, 'ubuntu')
       uses: getsentry/action-release@v1
       env:
@@ -143,9 +144,24 @@ jobs:
         SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
         SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
       with:
-        # environment: staging
-        sourcemaps: packages/altair-electron/dist packages/altair-app/dist/
-        # version: ${{ github.ref }}
+        # environment: production
+        sourcemaps: packages/altair-app/dist/
+        # version: ${{ steps.getversion.outputs.version }}
+        url_prefix: 'altair://-'
+        finalize: false
+    - name: Upload source maps to Sentry (electron)
+      if: startsWith(matrix.os, 'ubuntu')
+      uses: getsentry/action-release@v1
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      with:
+        # environment: production
+        sourcemaps: packages/altair-electron/dist/
+        # version: ${{ steps.getversion.outputs.version }}
+        url_prefix: 'app:///dist'
+
     - name: Upload electron builds
       if: always()
       uses: actions/upload-artifact@v2

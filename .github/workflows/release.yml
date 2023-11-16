@@ -100,7 +100,7 @@ jobs:
         with:
           args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
 
-      - name: Upload source maps to Sentry
+      - name: Upload source maps to Sentry (app)
         if: startsWith(matrix.os, 'ubuntu')
         uses: getsentry/action-release@v1
         env:
@@ -109,8 +109,22 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: packages/altair-electron/dist/ packages/altair-app/dist/
+          sourcemaps: packages/altair-app/dist/
           version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'altair://-'
+          finalize: false
+      - name: Upload source maps to Sentry (electron)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: packages/altair-electron/dist/
+          version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'app:///dist'
 
   npm-publish:
     runs-on: ubuntu-latest
