@@ -1,6 +1,6 @@
 {
   "name": "prettier-config-altair",
-  "version": "5.2.8",
+  "version": "5.2.9",
   "license": "MIT",
   "main": "index.js",
   "private": true
