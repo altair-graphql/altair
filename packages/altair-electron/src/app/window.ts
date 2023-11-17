@@ -19,7 +19,6 @@ import {
   initUpdateAvailableEvent,
 } from '../settings/main/events';
 
-import { ElectronApp } from './index';
 import { MenuManager } from './menu';
 import { ActionManager } from './actions';
 import { TouchbarManager } from './touchbar';
@@ -32,9 +31,10 @@ import {
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { log } from '../utils/log';
+import { ElectronApp } from '.';
 
 export class WindowManager {
-  instance?: BrowserWindow;
+  private instance?: BrowserWindow;
 
   mainWindowState?: windowStateKeeper.State;
 
@@ -45,6 +45,9 @@ export class WindowManager {
   menuManager?: MenuManager;
 
   touchbarManager?: TouchbarManager;
+
+  private ipcEventsInitialized = false;
+  private sessionEventsInitialized = false;
 
   constructor(private electronApp: ElectronApp) {}
 
@@ -95,7 +98,7 @@ export class WindowManager {
     this.mainWindowState.manage(this.instance);
 
     // Populate the application menu
-    this.actionManager = new ActionManager(this.instance);
+    this.actionManager = new ActionManager(this);
     this.menuManager = new MenuManager(this.actionManager);
     // Set the touchbar
     this.touchbarManager = new TouchbarManager(this.actionManager);
@@ -114,106 +117,19 @@ export class WindowManager {
   }
 
   manageEvents() {
-    if (!this.instance) {
-      throw new Error(
-        'Instance must be initialized before attempting to manage events'
-      );
-    }
-
     initMainProcessStoreEvents();
     initSettingsStoreEvents();
-    initUpdateAvailableEvent(this.instance.webContents);
-    // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
+    this.initInstanceEvents();
+    this.initSessionEvents();
+    this.initIpcEvents();
+  }
 
-    // Emitted when the window is closed.
-    this.instance.on('closed', () => {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      this.instance = undefined;
-    });
-
-    this.instance.on('ready-to-show', () => {
-      if (!this.instance) {
-        throw new Error('instance not created!');
-      }
-      this.instance.show();
-      this.instance.focus();
-      checkMultipleDataVersions(this.instance);
-    });
-
-    if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-        log('Before request:', details);
-        if (details.uploadData) {
-          details.uploadData.forEach((uploadData) => {
-            log('Data sent:', uploadData.bytes.toString());
-          });
-        }
-        callback({
-          cancel: false,
-        });
-      });
+  initIpcEvents() {
+    // ipcMain events should only be initialized once
+    if (this.ipcEventsInitialized) {
+      return;
     }
-    session.defaultSession.webRequest.onBeforeSendHeaders(
-      (details, callback) => {
-        // Set defaults
-        details.requestHeaders.Origin = 'electron://altair';
-
-        // log(this.requestHeaders);
-        // log('sending headers', details.requestHeaders);
-        // Set the request headers
-        Object.entries(this.requestHeaders).forEach(([key, header]) => {
-          details.requestHeaders[key] = header;
-        });
-        callback({
-          cancel: false,
-          requestHeaders: details.requestHeaders,
-        });
-      }
-    );
-
-    if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders((details) => {
-        if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach((headerKey) => {
-            log('Header sent:', headerKey, details.requestHeaders[headerKey]);
-          });
-        }
-      });
-    }
-
-    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-      if (
-        details.resourceType === 'mainFrame' ||
-        details.resourceType === 'subFrame'
-      ) {
-        // Set the CSP
-        const scriptSrc = [
-          `'self'`,
-          `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
-          `'${createSha256CspHash(renderInitialOptions())}'`,
-          `https://cdn.jsdelivr.net`,
-          `https://apis.google.com`,
-          `localhost:*`,
-          `file:`,
-        ];
-
-        return callback({
-          responseHeaders: {
-            ...details.responseHeaders, // Setting CSP
-            // TODO: Figure out why an error from this breaks devtools
-            'Content-Security-Policy': [
-              `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
-              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
-            ],
-          },
-        });
-      }
-
-      callback({ responseHeaders: details.responseHeaders });
-    });
+    this.ipcEventsInitialized = true;
 
     ipcMain.on(IPC_EVENT_NAMES.RENDERER_RESTART_APP, () => {
       app.relaunch();
@@ -299,7 +215,119 @@ export class WindowManager {
     );
   }
 
+  initSessionEvents() {
+    // session events should only be initialized once
+    if (this.sessionEventsInitialized) {
+      return;
+    }
+    this.sessionEventsInitialized = true;
+
+    if (process.env.NODE_ENV /* === 'test'*/) {
+      session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+        log('Before request:', details);
+        if (details.uploadData) {
+          details.uploadData.forEach((uploadData) => {
+            log('Data sent:', uploadData.bytes.toString());
+          });
+        }
+        callback({
+          cancel: false,
+        });
+      });
+    }
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      (details, callback) => {
+        // Set defaults
+        details.requestHeaders.Origin = 'electron://altair';
+
+        // log(this.requestHeaders);
+        // log('sending headers', details.requestHeaders);
+        // Set the request headers
+        Object.entries(this.requestHeaders).forEach(([key, header]) => {
+          details.requestHeaders[key] = header;
+        });
+        callback({
+          cancel: false,
+          requestHeaders: details.requestHeaders,
+        });
+      }
+    );
+
+    if (process.env.NODE_ENV /* === 'test'*/) {
+      session.defaultSession.webRequest.onSendHeaders((details) => {
+        if (details.requestHeaders) {
+          Object.keys(details.requestHeaders).forEach((headerKey) => {
+            log('Header sent:', headerKey, details.requestHeaders[headerKey]);
+          });
+        }
+      });
+    }
+
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      if (
+        details.resourceType === 'mainFrame' ||
+        details.resourceType === 'subFrame'
+      ) {
+        // Set the CSP
+        const scriptSrc = [
+          `'self'`,
+          `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
+          `'${createSha256CspHash(renderInitialOptions())}'`,
+          `https://cdn.jsdelivr.net`,
+          `https://apis.google.com`,
+          `localhost:*`,
+          `file:`,
+        ];
+
+        return callback({
+          responseHeaders: {
+            ...details.responseHeaders, // Setting CSP
+            // TODO: Figure out why an error from this breaks devtools
+            'Content-Security-Policy': [
+              `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
+              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
+            ],
+          },
+        });
+      }
+
+      callback({ responseHeaders: details.responseHeaders });
+    });
+  }
+
+  initInstanceEvents() {
+    if (!this.instance) {
+      throw new Error(
+        'Instance must be initialized before attempting to manage events'
+      );
+    }
+
+    initUpdateAvailableEvent(this.instance.webContents);
+    // Prevent the app from navigating away from the app
+    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
+
+    // Emitted when the window is closed.
+    this.instance.on('closed', () => {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      this.instance = undefined;
+    });
+
+    this.instance.on('ready-to-show', () => {
+      if (!this.instance) {
+        throw new Error('instance not created!');
+      }
+      this.instance.show();
+      this.instance.focus();
+      checkMultipleDataVersions(this.instance);
+    });
+  }
+
   registerProtocol() {
+    if (protocol.isProtocolHandled('altair')) {
+      return;
+    }
     /**
      * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
      */

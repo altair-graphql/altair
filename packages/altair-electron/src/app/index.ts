@@ -38,11 +38,11 @@ export class ElectronApp {
     this.manageEvents();
   }
 
-  manageEvents() {
+  async manageEvents() {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
-    app.on('ready', async () => {
+    app.whenReady().then(async () => {
       const settings = store.get('settings');
       log(settings);
       if (settings) {
@@ -80,7 +80,7 @@ export class ElectronApp {
         log(proxy, proxyConfig);
       }
       try {
-        this.windowManager.createWindow();
+        await this.windowManager.createWindow();
       } catch (err) {
         log('Error creating window', err);
         dialog.showErrorBox(
