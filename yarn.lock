@@ -14121,10 +14121,10 @@ electron@*:
     "@types/node" "^16.11.26"
     extract-zip "^2.0.1"
 
-electron@^26.2.2:
-  version "26.4.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-26.4.1.tgz#5b8933951ddf0e11839c312bed317f3e778ddc68"
-  integrity sha512-G6Huzx2xP+Atknj68EsD/TzjpFSsl7nbfBcDqKf1p9DaPMIB5HRqpts3s/sd5daWinNrWInREEw2A4EavP59qw==
+electron@^27.1.0:
+  version "27.1.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-27.1.0.tgz#d759885e552d7d926526cfc433ab312796f74a9a"
+  integrity sha512-XPdJiO475QJ8cx59/goWNNWnlV0vab+Ut3occymos7VDxkHV5mFrlW6tcGi+M3bW6gBfwpJocWMng8tw542vww==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
