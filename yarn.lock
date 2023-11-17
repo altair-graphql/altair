@@ -11535,10 +11535,12 @@ clsx@1.1.1:
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
-cm6-graphql@0.0.2-canary-b4e661e5.0:
-  version "0.0.2-canary-b4e661e5.0"
-  resolved "https://registry.yarnpkg.com/cm6-graphql/-/cm6-graphql-0.0.2-canary-b4e661e5.0.tgz#6c3652ac35ce8cb83c35e3783805de328fb62ae1"
-  integrity sha512-NmlnERHGZVJ0RDgV4td3EEES4BoJydAi8ZddM96DXMrZU01qjpTVOD8O2XgEPkwaixZHaKJepNtbiU8sXtChvw==
+cm6-graphql@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/cm6-graphql/-/cm6-graphql-0.0.11.tgz#961d8559fc07a8e842371e31ee3144fac86303e8"
+  integrity sha512-mqQWhYHfG+rl57p2sFaWCDFEOb01HxPcVDSpPiSZgvSG5I8gzTk8Y30FeI0wnZM0BWx3iKz39G7QpyA5YXC/zQ==
+  dependencies:
+    graphql-language-service "^5.2.0"
 
 cmd-shim@^4.1.0:
   version "4.1.0"
@@ -17512,13 +17514,13 @@ graphql-language-service-utils@^2.7.1:
     graphql-language-service-types "^1.8.7"
     nullthrows "^1.0.0"
 
-graphql-language-service@^5.0.6:
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/graphql-language-service/-/graphql-language-service-5.0.6.tgz#7fd1e6479e5c3074b070c760fa961d9ad1ed7c72"
-  integrity sha512-FjE23aTy45Lr5metxCv3ZgSKEZOzN7ERR+OFC1isV5mHxI0Ob8XxayLTYjQKrs8b3kOpvgTYmSmu6AyXOzYslg==
+graphql-language-service@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/graphql-language-service/-/graphql-language-service-5.2.0.tgz#cfe22b2e911292d724451580632c67d908e5606a"
+  integrity sha512-o/ZgTS0pBxWm3hSF4+6GwiV1//DxzoLWEbS38+jqpzzy1d/QXBidwQuVYTOksclbtOJZ3KR/tZ8fi/tI6VpVMg==
   dependencies:
     nullthrows "^1.0.0"
-    vscode-languageserver-types "^3.15.1"
+    vscode-languageserver-types "^3.17.1"
 
 graphql-query-compress@1.2.3:
   version "1.2.3"
@@ -29306,6 +29308,11 @@ vscode-languageserver-types@^3.15.1:
   version "3.17.2"
   resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.17.2.tgz#b2c2e7de405ad3d73a883e91989b850170ffc4f2"
   integrity sha512-zHhCWatviizPIq9B7Vh9uvrH6x3sK8itC84HkamnBWoDFJtzBf7SWlpLCZUit72b3os45h6RWQNC9xHRDF8dRA==
+
+vscode-languageserver-types@^3.17.1:
+  version "3.17.5"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.17.5.tgz#3273676f0cf2eab40b3f44d085acbb7f08a39d8a"
+  integrity sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
