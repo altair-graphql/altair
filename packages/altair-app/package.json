@@ -54,7 +54,7 @@
     "apollo-link-http": "1.5.17",
     "aws-appsync-auth-link": "3.0.2",
     "aws-appsync-subscription-link": "3.0.3",
-    "cm6-graphql": "0.0.12-canary-7c65cc76.0",
+    "cm6-graphql": "0.0.12",
     "codemirror": "5.61.0",
     "codemirror-graphql": "1.0.2",
     "codemirror-json-schema": "^0.4.4",
