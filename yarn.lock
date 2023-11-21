@@ -11535,10 +11535,10 @@ clsx@1.1.1:
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
-cm6-graphql@0.0.12-canary-7c65cc76.0:
-  version "0.0.12-canary-7c65cc76.0"
-  resolved "https://registry.yarnpkg.com/cm6-graphql/-/cm6-graphql-0.0.12-canary-7c65cc76.0.tgz#d810009f1913b05675e378aa62c0930291ba9066"
-  integrity sha512-H0vsDG1Uz4giRRYtCuGdgHXOC2jMsWh7DA8QoZgW/MBC5Sd/6LFb+7avUozZ7cd/O7FWjt/r8hLY7LQ1XZdydg==
+cm6-graphql@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/cm6-graphql/-/cm6-graphql-0.0.12.tgz#97ba9af2b209a290342a818a4905e76f76e08805"
+  integrity sha512-IAZYegsfEjVUZju15RIU/qWaXWkntjbTCxMRqhe+cuQO2fNjJ/slWndkhCPxpdfwGq9eO5LH7clw9xXfIWIrkw==
   dependencies:
     graphql-language-service "^5.2.0"
 
