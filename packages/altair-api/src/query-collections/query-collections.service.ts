@@ -103,6 +103,13 @@ export class QueryCollectionsService {
         queries: {
           create: createQueryCollectionDtoQueries,
         },
+        description: createQueryCollectionDto.description,
+        preRequestScript: createQueryCollectionDto.preRequestScript,
+        preRequestScriptEnabled:
+          createQueryCollectionDto.preRequestScriptEnabled,
+        postRequestScript: createQueryCollectionDto.postRequestScript,
+        postRequestScriptEnabled:
+          createQueryCollectionDto.postRequestScriptEnabled,
       },
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
@@ -145,6 +152,13 @@ export class QueryCollectionsService {
       },
       data: {
         name: updateQueryCollectionDto.name,
+        description: updateQueryCollectionDto.description,
+        preRequestScript: updateQueryCollectionDto.preRequestScript,
+        preRequestScriptEnabled:
+          updateQueryCollectionDto.preRequestScriptEnabled,
+        postRequestScript: updateQueryCollectionDto.postRequestScript,
+        postRequestScriptEnabled:
+          updateQueryCollectionDto.postRequestScriptEnabled,
       },
     });
     if (res.count) {
