@@ -36,6 +36,15 @@ const serverCollectionToLocalCollection = (
     queries: collection.queries.map(serverQueryToLocalQuery),
     storageType: 'api',
     workspaceId: collection.workspaceId,
+    description: collection.description ?? '',
+    preRequest: {
+      script: collection.preRequestScript ?? '',
+      enabled: collection.preRequestScriptEnabled,
+    },
+    postRequest: {
+      script: collection.postRequestScript ?? '',
+      enabled: collection.postRequestScriptEnabled,
+    },
   };
 };
 @Injectable({
@@ -58,6 +67,11 @@ export class ApiService {
         name: q.windowName,
         content: q,
       })),
+      description: queryCollection.description,
+      preRequestScript: queryCollection.preRequest?.script,
+      preRequestScriptEnabled: queryCollection.preRequest?.enabled,
+      postRequestScript: queryCollection.postRequest?.script,
+      postRequestScriptEnabled: queryCollection.postRequest?.enabled,
     });
   }
 
@@ -91,14 +105,20 @@ export class ApiService {
   ) {
     return await apiClient.updateCollection(collectionServerId, {
       name: collection.title,
+
       queries: collection.queries.map((q) => ({
         name: q.windowName,
         content: {
           ...q,
-          collectionId: q.collectionId || '',
+          collectionId: q.collectionId ?? '',
         },
-        collectionId: q.collectionId || '',
+        collectionId: q.collectionId ?? '',
       })),
+      description: collection.description,
+      preRequestScript: collection.preRequest?.script,
+      preRequestScriptEnabled: collection.preRequest?.enabled,
+      postRequestScript: collection.postRequest?.script,
+      postRequestScriptEnabled: collection.postRequest?.enabled,
     });
   }
 

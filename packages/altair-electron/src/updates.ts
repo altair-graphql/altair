@@ -13,7 +13,7 @@ let updater: MenuItem | undefined;
 let isSilentCheck = true;
 autoUpdater.autoDownload = false;
 
-autoUpdater.on('error', error => {
+autoUpdater.on('error', (error) => {
   dialog.showErrorBox(
     'Error: ',
     !!error === null ? 'unknown' : (error.stack || error).toString()
@@ -64,7 +64,7 @@ export const setupAutoUpdates = () => {
   log.transports.file.level = 'info';
   autoUpdater.logger = log;
   // autoUpdater.checkForUpdatesAndNotify();
-  autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdates().catch((err) => console.error(err));
 };
 
 // autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
@@ -93,5 +93,5 @@ export const checkForUpdates = (menuItem: MenuItem) => {
     updater.enabled = false;
   }
   isSilentCheck = false;
-  autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdates().catch((err) => console.error(err));
 };

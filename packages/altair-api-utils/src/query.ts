@@ -10,6 +10,11 @@ export interface ICreateQueryCollectionDto {
   queries?: Omit<ICreateQueryDto, 'collectionId'>[];
   workspaceId?: string;
   teamId?: string;
+  description?: string;
+  preRequestScript?: string;
+  preRequestScriptEnabled?: boolean;
+  postRequestScript?: string;
+  postRequestScriptEnabled?: boolean;
 }
 
 export type IUpdateQueryCollectionDto = Partial<ICreateQueryCollectionDto>;
