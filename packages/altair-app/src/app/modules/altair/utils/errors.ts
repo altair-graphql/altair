@@ -9,3 +9,16 @@ export const catchUselessObservableError = catchError((err) => {
   debug.error(err);
   return EMPTY;
 });
+
+class BaseError extends Error {
+  constructor(message: string, options?: { cause: unknown }) {
+    super(message, options);
+    this.name = this.constructor.name;
+  }
+}
+
+export class InternalEditorError extends BaseError {
+  constructor(cause: unknown) {
+    super('Internal editor error occurred', { cause });
+  }
+}

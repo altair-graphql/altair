@@ -47,6 +47,7 @@ import {
 } from '@codemirror/language';
 
 import { tags as t } from '@lezer/highlight';
+import { InternalEditorError } from '../../utils/errors';
 
 @Component({
   selector: 'app-codemirror',
@@ -176,6 +177,9 @@ export class CodemirrorComponent
       if (vu.focusChanged) {
         this.zone.run(() => this.focusChanged(vu.view.hasFocus));
       }
+    });
+    const exceptionSink = EditorView.exceptionSink.of((exception) => {
+      throw new InternalEditorError(exception);
     });
     const baseTheme = EditorView.theme({
       '&.cm-editor': {
@@ -398,6 +402,7 @@ export class CodemirrorComponent
 
     return [
       updateListener,
+      exceptionSink,
       Prec.highest(extraExtensions),
       !this.bare ? [...baseExtensions] : [],
 
