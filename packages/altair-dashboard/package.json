@@ -1,9 +1,9 @@
 {
   "name": "@altairgraphql/dashboard",
-  "version": "5.2.11",
+  "version": "5.2.12",
   "dependencies": {
-    "@altairgraphql/api": "^5.2.11",
-    "@altairgraphql/api-utils": "^5.2.11",
+    "@altairgraphql/api": "^5.2.12",
+    "@altairgraphql/api-utils": "^5.2.12",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.9.5",
