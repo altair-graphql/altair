@@ -356,11 +356,19 @@ app-doc-viewer {
 }
 
 .doc-viewer-item-query-deprecated {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: fontsize(12);
   padding: 3px;
+  margin: 3px 0;
   background: rgba(var(--rgb-red), 0.05);
+  border-radius: 4px;
   color: var(--red-color);
+}
+.doc-viewer-item-query-deprecated-title {
+  font-weight: 600;
+  font-size: fontsize(10);
 }
 
 .doc-viewer-item-query-description {
