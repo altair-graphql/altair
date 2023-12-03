@@ -10,6 +10,7 @@ import { DocViewerTypeComponent } from './doc-viewer-type/doc-viewer-type.compon
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results/doc-viewer-search-results.component';
 import { ComponentModule } from '../components.module';
 import { PipesModule } from '../../pipes';
+import { DocViewerDeprecatedComponent } from './doc-viewer-deprecated/doc-viewer-deprecated.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { PipesModule } from '../../pipes';
     DocViewerFieldComponent,
     DocViewerTypeComponent,
     DocViewerSearchResultsComponent,
+    DocViewerDeprecatedComponent,
   ],
   exports: [
     DocViewerComponent,

@@ -42,6 +42,7 @@
         <span class="doc-viewer-item-type">
           {{ item.value }}
         </span>
+        <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
       </div>
       <div
         *ngIf="item.description"
@@ -173,10 +174,7 @@
           {{ item.type.inspect() }}
         </span>
       </div>
-      <div *ngIf="item.isDeprecated" class="doc-viewer-item-query-deprecated">
-        {{ 'DOCS_DEPRECATED_TEXT' | translate }}:
-        <span markdown [data]="item.deprecationReason || ''"> </span>
-      </div>
+      <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
       <div
         class="doc-viewer-item-query-description"
         markdown

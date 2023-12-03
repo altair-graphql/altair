@@ -1,0 +1,6 @@
+<div *ngIf="item?.isDeprecated" class="doc-viewer-item-query-deprecated">
+  <span class="doc-viewer-item-query-deprecated-title">
+    {{ 'DOCS_DEPRECATED_TEXT' | translate }}
+  </span>
+  <span markdown [data]="item?.deprecationReason ?? ''"> </span>
+</div>
