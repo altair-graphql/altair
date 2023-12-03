@@ -29,11 +29,13 @@ app-window-switcher {
     var(--shadow-weight) var(--shadow-height);
   background-attachment: local, local, scroll, scroll;
 
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+  &.window-switcher__no-scrollbar {
+    scrollbar-width: none;
+  
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
   }
 
   &::-webkit-scrollbar-thumb {

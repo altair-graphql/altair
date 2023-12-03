@@ -128,4 +128,9 @@ export interface SettingsState {
    * @default []
    */
   'script.allowedCookies'?: string[];
+
+  /**
+   * Enable the scrollbar in the tab list
+   */
+  enableTablistScrollbar?: boolean;
 }

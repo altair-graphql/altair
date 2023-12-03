@@ -63,6 +63,10 @@
             "description": "Enable experimental features.\nNote: Might be unstable",
             "type": "boolean"
         },
+        "enableTablistScrollbar": {
+            "description": "Enable the scrollbar in the tab list",
+            "type": "boolean"
+        },
         "historyDepth": {
             "description": "Number of items allowed in history pane",
             "type": "number"

@@ -5,6 +5,7 @@ import {
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { externalLink } from '../../utils';
 
@@ -14,7 +15,6 @@ import { externalLink } from '../../utils';
   styles: [],
 })
 export class HeaderComponent {
-  @Input() experimentalEnabled = false;
   @Input() windows: WindowState = {};
   @Input() windowIds: string[] = [];
   @Input() closedWindows: PerWindowState[] = [];
@@ -23,6 +23,7 @@ export class HeaderComponent {
   @Input() headerPanels: AltairPanel[] = [];
   @Input() activeEnvironment?: EnvironmentState;
   @Input() environments?: EnvironmentsState;
+  @Input() settings?: SettingsState;
   @Output() activeWindowChange = new EventEmitter<string>();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter<string>();
