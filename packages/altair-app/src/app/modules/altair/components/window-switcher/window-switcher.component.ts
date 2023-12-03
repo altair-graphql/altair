@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -26,6 +27,7 @@ export class WindowSwitcherComponent implements OnInit {
   @Input() closedWindows: PerWindowState[] = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
+  @Input() enableScrollbar = false;
   @Output() activeWindowChange = new EventEmitter();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter();
@@ -33,6 +35,10 @@ export class WindowSwitcherComponent implements OnInit {
   @Output() windowNameChange = new EventEmitter();
   @Output() repositionWindowChange = new EventEmitter();
   @Output() reopenClosedWindowChange = new EventEmitter();
+
+  @HostBinding('class.window-switcher__no-scrollbar') get noScrollbar() {
+    return !this.enableScrollbar;
+  }
 
   @ViewChild(ContextMenuComponent, { static: true })
   public windowTabMenu?: ContextMenuComponent;

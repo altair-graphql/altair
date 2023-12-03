@@ -1,6 +1,6 @@
 <div
   class="header__logo-wrapper"
-  [ngClass]="{ 'header__logo-wrapper--experimental': experimentalEnabled }"
+  [ngClass]="{ 'header__logo-wrapper--experimental': settings?.enableExperimental}"
 >
   <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
@@ -11,6 +11,7 @@
   [activeWindowId]="activeWindowId"
   [closedWindows]="closedWindows"
   [isElectron]="isElectron"
+  [enableScrollbar]="settings?.enableTablistScrollbar"
   (newWindowChange)="newWindowChange.emit($event)"
   (activeWindowChange)="activeWindowChange.emit($event)"
   (removeWindowChange)="removeWindowChange.emit($event)"

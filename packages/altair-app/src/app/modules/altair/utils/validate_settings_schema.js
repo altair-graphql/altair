@@ -195,139 +195,139 @@ var validate = (function() {
                         var valid1 = errors === errs_1;
                       }
                       if (valid1) {
-                        if (data.historyDepth === undefined) {
+                        if (data.enableTablistScrollbar === undefined) {
                           valid1 = true;
                         } else {
                           var errs_1 = errors;
-                          if ((typeof data.historyDepth !== "number")) {
+                          if (typeof data.enableTablistScrollbar !== "boolean") {
                             validate.errors = [{
                               keyword: 'type',
-                              dataPath: (dataPath || '') + '.historyDepth',
-                              schemaPath: '#/properties/historyDepth/type',
+                              dataPath: (dataPath || '') + '.enableTablistScrollbar',
+                              schemaPath: '#/properties/enableTablistScrollbar/type',
                               params: {
-                                type: 'number'
+                                type: 'boolean'
                               },
-                              message: 'should be number'
+                              message: 'should be boolean'
                             }];
                             return false;
                           }
                           var valid1 = errors === errs_1;
                         }
                         if (valid1) {
-                          var data1 = data.language;
-                          if (data1 === undefined) {
+                          if (data.historyDepth === undefined) {
                             valid1 = true;
                           } else {
                             var errs_1 = errors;
-                            var errs_2 = errors;
-                            if (typeof data1 !== "string") {
+                            if ((typeof data.historyDepth !== "number")) {
                               validate.errors = [{
                                 keyword: 'type',
-                                dataPath: (dataPath || '') + '.language',
-                                schemaPath: '#/definitions/SettingsLanguage/type',
+                                dataPath: (dataPath || '') + '.historyDepth',
+                                schemaPath: '#/properties/historyDepth/type',
                                 params: {
-                                  type: 'string'
+                                  type: 'number'
                                 },
-                                message: 'should be string'
+                                message: 'should be number'
                               }];
                               return false;
                             }
-                            var schema2 = refVal2.enum;
-                            var valid2;
-                            valid2 = false;
-                            for (var i2 = 0; i2 < schema2.length; i2++)
-                              if (equal(data1, schema2[i2])) {
-                                valid2 = true;
-                                break;
-                              } if (!valid2) {
-                              validate.errors = [{
-                                keyword: 'enum',
-                                dataPath: (dataPath || '') + '.language',
-                                schemaPath: '#/definitions/SettingsLanguage/enum',
-                                params: {
-                                  allowedValues: schema2
-                                },
-                                message: 'should be equal to one of the allowed values'
-                              }];
-                              return false;
-                            } else {}
-                            if (errors === errs_2) {}
-                            var valid2 = errors === errs_2;
-                            if (valid2) {}
-                            if (errors === errs_1) {}
                             var valid1 = errors === errs_1;
                           }
                           if (valid1) {
-                            var data1 = data['plugin.list'];
+                            var data1 = data.language;
                             if (data1 === undefined) {
                               valid1 = true;
                             } else {
                               var errs_1 = errors;
-                              if (Array.isArray(data1)) {
-                                var errs__1 = errors;
-                                var valid1;
-                                for (var i1 = 0; i1 < data1.length; i1++) {
-                                  var errs_2 = errors;
-                                  if (typeof data1[i1] !== "string") {
-                                    validate.errors = [{
-                                      keyword: 'type',
-                                      dataPath: (dataPath || '') + '[\'plugin.list\'][' + i1 + ']',
-                                      schemaPath: '#/properties/plugin.list/items/type',
-                                      params: {
-                                        type: 'string'
-                                      },
-                                      message: 'should be string'
-                                    }];
-                                    return false;
-                                  }
-                                  var valid2 = errors === errs_2;
-                                  if (!valid2) break;
-                                }
-                                if (errs__1 == errors) {}
-                              } else {
+                              var errs_2 = errors;
+                              if (typeof data1 !== "string") {
                                 validate.errors = [{
                                   keyword: 'type',
-                                  dataPath: (dataPath || '') + '[\'plugin.list\']',
-                                  schemaPath: '#/properties/plugin.list/type',
+                                  dataPath: (dataPath || '') + '.language',
+                                  schemaPath: '#/definitions/SettingsLanguage/type',
                                   params: {
-                                    type: 'array'
+                                    type: 'string'
                                   },
-                                  message: 'should be array'
+                                  message: 'should be string'
                                 }];
                                 return false;
                               }
+                              var schema2 = refVal2.enum;
+                              var valid2;
+                              valid2 = false;
+                              for (var i2 = 0; i2 < schema2.length; i2++)
+                                if (equal(data1, schema2[i2])) {
+                                  valid2 = true;
+                                  break;
+                                } if (!valid2) {
+                                validate.errors = [{
+                                  keyword: 'enum',
+                                  dataPath: (dataPath || '') + '.language',
+                                  schemaPath: '#/definitions/SettingsLanguage/enum',
+                                  params: {
+                                    allowedValues: schema2
+                                  },
+                                  message: 'should be equal to one of the allowed values'
+                                }];
+                                return false;
+                              } else {}
+                              if (errors === errs_2) {}
+                              var valid2 = errors === errs_2;
+                              if (valid2) {}
                               if (errors === errs_1) {}
                               var valid1 = errors === errs_1;
                             }
                             if (valid1) {
-                              if (data['request.withCredentials'] === undefined) {
+                              var data1 = data['plugin.list'];
+                              if (data1 === undefined) {
                                 valid1 = true;
                               } else {
                                 var errs_1 = errors;
-                                if (typeof data['request.withCredentials'] !== "boolean") {
+                                if (Array.isArray(data1)) {
+                                  var errs__1 = errors;
+                                  var valid1;
+                                  for (var i1 = 0; i1 < data1.length; i1++) {
+                                    var errs_2 = errors;
+                                    if (typeof data1[i1] !== "string") {
+                                      validate.errors = [{
+                                        keyword: 'type',
+                                        dataPath: (dataPath || '') + '[\'plugin.list\'][' + i1 + ']',
+                                        schemaPath: '#/properties/plugin.list/items/type',
+                                        params: {
+                                          type: 'string'
+                                        },
+                                        message: 'should be string'
+                                      }];
+                                      return false;
+                                    }
+                                    var valid2 = errors === errs_2;
+                                    if (!valid2) break;
+                                  }
+                                  if (errs__1 == errors) {}
+                                } else {
                                   validate.errors = [{
                                     keyword: 'type',
-                                    dataPath: (dataPath || '') + '[\'request.withCredentials\']',
-                                    schemaPath: '#/properties/request.withCredentials/type',
+                                    dataPath: (dataPath || '') + '[\'plugin.list\']',
+                                    schemaPath: '#/properties/plugin.list/type',
                                     params: {
-                                      type: 'boolean'
+                                      type: 'array'
                                     },
-                                    message: 'should be boolean'
+                                    message: 'should be array'
                                   }];
                                   return false;
                                 }
+                                if (errors === errs_1) {}
                                 var valid1 = errors === errs_1;
                               }
                               if (valid1) {
-                                if (data['response.hideExtensions'] === undefined) {
+                                if (data['request.withCredentials'] === undefined) {
                                   valid1 = true;
                                 } else {
                                   var errs_1 = errors;
-                                  if (typeof data['response.hideExtensions'] !== "boolean") {
+                                  if (typeof data['request.withCredentials'] !== "boolean") {
                                     validate.errors = [{
                                       keyword: 'type',
-                                      dataPath: (dataPath || '') + '[\'response.hideExtensions\']',
-                                      schemaPath: '#/properties/response.hideExtensions/type',
+                                      dataPath: (dataPath || '') + '[\'request.withCredentials\']',
+                                      schemaPath: '#/properties/request.withCredentials/type',
                                       params: {
                                         type: 'boolean'
                                       },
@@ -338,15 +338,15 @@ var validate = (function() {
                                   var valid1 = errors === errs_1;
                                 }
                                 if (valid1) {
-                                  if (data['schema.reloadOnStart'] === undefined) {
+                                  if (data['response.hideExtensions'] === undefined) {
                                     valid1 = true;
                                   } else {
                                     var errs_1 = errors;
-                                    if (typeof data['schema.reloadOnStart'] !== "boolean") {
+                                    if (typeof data['response.hideExtensions'] !== "boolean") {
                                       validate.errors = [{
                                         keyword: 'type',
-                                        dataPath: (dataPath || '') + '[\'schema.reloadOnStart\']',
-                                        schemaPath: '#/properties/schema.reloadOnStart/type',
+                                        dataPath: (dataPath || '') + '[\'response.hideExtensions\']',
+                                        schemaPath: '#/properties/response.hideExtensions/type',
                                         params: {
                                           type: 'boolean'
                                         },
@@ -357,95 +357,95 @@ var validate = (function() {
                                     var valid1 = errors === errs_1;
                                   }
                                   if (valid1) {
-                                    var data1 = data['script.allowedCookies'];
-                                    if (data1 === undefined) {
+                                    if (data['schema.reloadOnStart'] === undefined) {
                                       valid1 = true;
                                     } else {
                                       var errs_1 = errors;
-                                      if (Array.isArray(data1)) {
-                                        var errs__1 = errors;
-                                        var valid1;
-                                        for (var i1 = 0; i1 < data1.length; i1++) {
-                                          var errs_2 = errors;
-                                          if (typeof data1[i1] !== "string") {
-                                            validate.errors = [{
-                                              keyword: 'type',
-                                              dataPath: (dataPath || '') + '[\'script.allowedCookies\'][' + i1 + ']',
-                                              schemaPath: '#/properties/script.allowedCookies/items/type',
-                                              params: {
-                                                type: 'string'
-                                              },
-                                              message: 'should be string'
-                                            }];
-                                            return false;
-                                          }
-                                          var valid2 = errors === errs_2;
-                                          if (!valid2) break;
-                                        }
-                                        if (errs__1 == errors) {}
-                                      } else {
+                                      if (typeof data['schema.reloadOnStart'] !== "boolean") {
                                         validate.errors = [{
                                           keyword: 'type',
-                                          dataPath: (dataPath || '') + '[\'script.allowedCookies\']',
-                                          schemaPath: '#/properties/script.allowedCookies/type',
+                                          dataPath: (dataPath || '') + '[\'schema.reloadOnStart\']',
+                                          schemaPath: '#/properties/schema.reloadOnStart/type',
                                           params: {
-                                            type: 'array'
+                                            type: 'boolean'
                                           },
-                                          message: 'should be array'
+                                          message: 'should be boolean'
                                         }];
                                         return false;
                                       }
-                                      if (errors === errs_1) {}
                                       var valid1 = errors === errs_1;
                                     }
                                     if (valid1) {
-                                      if (data.tabSize === undefined) {
+                                      var data1 = data['script.allowedCookies'];
+                                      if (data1 === undefined) {
                                         valid1 = true;
                                       } else {
                                         var errs_1 = errors;
-                                        if ((typeof data.tabSize !== "number")) {
+                                        if (Array.isArray(data1)) {
+                                          var errs__1 = errors;
+                                          var valid1;
+                                          for (var i1 = 0; i1 < data1.length; i1++) {
+                                            var errs_2 = errors;
+                                            if (typeof data1[i1] !== "string") {
+                                              validate.errors = [{
+                                                keyword: 'type',
+                                                dataPath: (dataPath || '') + '[\'script.allowedCookies\'][' + i1 + ']',
+                                                schemaPath: '#/properties/script.allowedCookies/items/type',
+                                                params: {
+                                                  type: 'string'
+                                                },
+                                                message: 'should be string'
+                                              }];
+                                              return false;
+                                            }
+                                            var valid2 = errors === errs_2;
+                                            if (!valid2) break;
+                                          }
+                                          if (errs__1 == errors) {}
+                                        } else {
                                           validate.errors = [{
                                             keyword: 'type',
-                                            dataPath: (dataPath || '') + '.tabSize',
-                                            schemaPath: '#/properties/tabSize/type',
+                                            dataPath: (dataPath || '') + '[\'script.allowedCookies\']',
+                                            schemaPath: '#/properties/script.allowedCookies/type',
                                             params: {
-                                              type: 'number'
+                                              type: 'array'
                                             },
-                                            message: 'should be number'
+                                            message: 'should be array'
                                           }];
                                           return false;
                                         }
+                                        if (errors === errs_1) {}
                                         var valid1 = errors === errs_1;
                                       }
                                       if (valid1) {
-                                        if (data.theme === undefined) {
+                                        if (data.tabSize === undefined) {
                                           valid1 = true;
                                         } else {
                                           var errs_1 = errors;
-                                          if (typeof data.theme !== "string") {
+                                          if ((typeof data.tabSize !== "number")) {
                                             validate.errors = [{
                                               keyword: 'type',
-                                              dataPath: (dataPath || '') + '.theme',
-                                              schemaPath: '#/properties/theme/type',
+                                              dataPath: (dataPath || '') + '.tabSize',
+                                              schemaPath: '#/properties/tabSize/type',
                                               params: {
-                                                type: 'string'
+                                                type: 'number'
                                               },
-                                              message: 'should be string'
+                                              message: 'should be number'
                                             }];
                                             return false;
                                           }
                                           var valid1 = errors === errs_1;
                                         }
                                         if (valid1) {
-                                          if (data['theme.dark'] === undefined) {
+                                          if (data.theme === undefined) {
                                             valid1 = true;
                                           } else {
                                             var errs_1 = errors;
-                                            if (typeof data['theme.dark'] !== "string") {
+                                            if (typeof data.theme !== "string") {
                                               validate.errors = [{
                                                 keyword: 'type',
-                                                dataPath: (dataPath || '') + '[\'theme.dark\']',
-                                                schemaPath: '#/properties/theme.dark/type',
+                                                dataPath: (dataPath || '') + '.theme',
+                                                schemaPath: '#/properties/theme/type',
                                                 params: {
                                                   type: 'string'
                                                 },
@@ -456,15 +456,15 @@ var validate = (function() {
                                             var valid1 = errors === errs_1;
                                           }
                                           if (valid1) {
-                                            if (data['theme.editorFontFamily'] === undefined) {
+                                            if (data['theme.dark'] === undefined) {
                                               valid1 = true;
                                             } else {
                                               var errs_1 = errors;
-                                              if (typeof data['theme.editorFontFamily'] !== "string") {
+                                              if (typeof data['theme.dark'] !== "string") {
                                                 validate.errors = [{
                                                   keyword: 'type',
-                                                  dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
-                                                  schemaPath: '#/properties/theme.editorFontFamily/type',
+                                                  dataPath: (dataPath || '') + '[\'theme.dark\']',
+                                                  schemaPath: '#/properties/theme.dark/type',
                                                   params: {
                                                     type: 'string'
                                                   },
@@ -475,34 +475,34 @@ var validate = (function() {
                                               var valid1 = errors === errs_1;
                                             }
                                             if (valid1) {
-                                              if (data['theme.editorFontSize'] === undefined) {
+                                              if (data['theme.editorFontFamily'] === undefined) {
                                                 valid1 = true;
                                               } else {
                                                 var errs_1 = errors;
-                                                if ((typeof data['theme.editorFontSize'] !== "number")) {
+                                                if (typeof data['theme.editorFontFamily'] !== "string") {
                                                   validate.errors = [{
                                                     keyword: 'type',
-                                                    dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
-                                                    schemaPath: '#/properties/theme.editorFontSize/type',
+                                                    dataPath: (dataPath || '') + '[\'theme.editorFontFamily\']',
+                                                    schemaPath: '#/properties/theme.editorFontFamily/type',
                                                     params: {
-                                                      type: 'number'
+                                                      type: 'string'
                                                     },
-                                                    message: 'should be number'
+                                                    message: 'should be string'
                                                   }];
                                                   return false;
                                                 }
                                                 var valid1 = errors === errs_1;
                                               }
                                               if (valid1) {
-                                                if (data['theme.fontsize'] === undefined) {
+                                                if (data['theme.editorFontSize'] === undefined) {
                                                   valid1 = true;
                                                 } else {
                                                   var errs_1 = errors;
-                                                  if ((typeof data['theme.fontsize'] !== "number")) {
+                                                  if ((typeof data['theme.editorFontSize'] !== "number")) {
                                                     validate.errors = [{
                                                       keyword: 'type',
-                                                      dataPath: (dataPath || '') + '[\'theme.fontsize\']',
-                                                      schemaPath: '#/properties/theme.fontsize/type',
+                                                      dataPath: (dataPath || '') + '[\'theme.editorFontSize\']',
+                                                      schemaPath: '#/properties/theme.editorFontSize/type',
                                                       params: {
                                                         type: 'number'
                                                       },
@@ -513,8 +513,28 @@ var validate = (function() {
                                                   var valid1 = errors === errs_1;
                                                 }
                                                 if (valid1) {
+                                                  if (data['theme.fontsize'] === undefined) {
+                                                    valid1 = true;
+                                                  } else {
+                                                    var errs_1 = errors;
+                                                    if ((typeof data['theme.fontsize'] !== "number")) {
+                                                      validate.errors = [{
+                                                        keyword: 'type',
+                                                        dataPath: (dataPath || '') + '[\'theme.fontsize\']',
+                                                        schemaPath: '#/properties/theme.fontsize/type',
+                                                        params: {
+                                                          type: 'number'
+                                                        },
+                                                        message: 'should be number'
+                                                      }];
+                                                      return false;
+                                                    }
+                                                    var valid1 = errors === errs_1;
+                                                  }
                                                   if (valid1) {
-                                                    if (valid1) {}
+                                                    if (valid1) {
+                                                      if (valid1) {}
+                                                    }
                                                   }
                                                 }
                                               }
@@ -602,6 +622,10 @@ validate.schema = {
     },
     "enableExperimental": {
       "description": "Enable experimental features.\nNote: Might be unstable",
+      "type": "boolean"
+    },
+    "enableTablistScrollbar": {
+      "description": "Enable the scrollbar in the tab list",
       "type": "boolean"
     },
     "historyDepth": {

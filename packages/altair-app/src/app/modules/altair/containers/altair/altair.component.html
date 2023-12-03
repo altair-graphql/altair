@@ -19,7 +19,6 @@
       </div>
     </div>
     <app-header
-      [experimentalEnabled]="(settings$ | async)?.enableExperimental"
       [windows]="windows"
       [windowIds]="windowIds"
       [activeWindowId]="activeWindowId"
@@ -28,6 +27,7 @@
       [headerPanels]="headerPanels$ | async"
       [activeEnvironment]="activeEnvironment$ | async"
       [environments]="environments$ | async"
+      [settings]="settings$ | async"
       (newWindowChange)="newWindow()"
       (activeWindowChange)="setActiveWindow($event)"
       (removeWindowChange)="removeWindow($event)"

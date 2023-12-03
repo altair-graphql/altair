@@ -2,6 +2,7 @@
   sortablejs
   [sortablejsOptions]="sortableOptions"
   class="window-switcher__list"
+  [ngClass]="{'window-switcher__no-scrollbar': !enableScrollbar}"
 >
   <li
     class="window-switcher__item"
