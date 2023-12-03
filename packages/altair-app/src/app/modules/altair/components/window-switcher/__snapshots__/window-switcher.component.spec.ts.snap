@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WindowSwitcherComponent should render correctly 1`] = `
-<app-window-switcher>
+<app-window-switcher
+  class="window-switcher__no-scrollbar"
+>
   <ul
-    class="window-switcher__list"
+    class="window-switcher__list window-switcher__no-scrollbar"
     sortablejs=""
   >
     
