@@ -1,8 +1,8 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "5.2.12",
+  "version": "5.2.13",
   "dependencies": {
-    "@altairgraphql/api-utils": "^5.2.12"
+    "@altairgraphql/api-utils": "^5.2.13"
   },
   "devDependencies": {
     "rimraf": "^5.0.5",
