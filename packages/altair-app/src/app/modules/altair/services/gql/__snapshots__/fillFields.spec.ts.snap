@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fillAllFields generates expected query 1`] = `
+{
+  "insertions": [
+    {
+      "index": 20,
+      "string": " {
+    id
+    url
+    name
+    authors
+    characters {
+      id
+      book
+      url
+      name
+      gender
+      culture
+      born
+      died
+      titles
+      aliases
+      father
+      mother
+      spouse
+      allegiances
+      books
+      playedBy
+    }
+    released
+  }",
+    },
+  ],
+  "result": "{
+  hello
+  GOTBooks {
+    id
+    url
+    name
+    authors
+    characters {
+      id
+      book
+      url
+      name
+      gender
+      culture
+      born
+      died
+      titles
+      aliases
+      father
+      mother
+      spouse
+      allegiances
+      books
+      playedBy
+    }
+    released
+  } 
+}",
+}
+`;
