@@ -1,7 +1,6 @@
 import { visit, print, TypeInfo, parse, GraphQLSchema, Kind } from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
-import { Token } from 'codemirror';
 import { ContextToken } from 'graphql-language-service';
 import { buildSelectionSet } from './generateQuery';
 import { Position } from '../../utils/editor/helpers';

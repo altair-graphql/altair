@@ -72,6 +72,7 @@ import { TODO } from 'altair-graphql-core/build/types/shared';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { getInitialState } from '../../store/variables/variables.reducer';
+import { getTokenAtPosition } from 'graphql-language-service';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -588,8 +589,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             }
           });
         },
-        onFillAllFields: (view, schema, query, cursor, token) => {
+        onFillAllFields: (view, schema, query, cursor, _token) => {
           this.zone.run(() => {
+            // the token from cm6-graphql is currently not working properly (offending PR https://github.com/graphql/graphiql/pull/3149).
+            // so we generate the token from graphql-language-service ourselves with the right offset instead
+            const token = getTokenAtPosition(query, cursor, 1);
             const updatedQuery = this.gqlService.fillAllFields(
               schema,
               query,
