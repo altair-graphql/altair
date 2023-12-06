@@ -15,9 +15,10 @@ import {
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
-import { json } from '@codemirror/lang-json';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { Options as SortableOptions, SortableEvent } from 'sortablejs';
 import { TODO } from 'altair-graphql-core/build/types/shared';
+import { linter } from '@codemirror/lint';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: <TODO>{
     parse: function (str: string) {
@@ -57,10 +58,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl?: ElementRef;
 
-  editorExtensions: Extension[] = [
-    json(),
-    // jsonParseLinter,
-  ];
+  editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
   selectedEnvironmentId = 'base';
   selectedEnvironment?: EnvironmentState;
