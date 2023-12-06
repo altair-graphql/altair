@@ -22,7 +22,7 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@koa/router": "^12.0.1",
+    "@koa/router": "11 - 12",
     "koa-send": "^5.0.1"
   },
   "engines": {
