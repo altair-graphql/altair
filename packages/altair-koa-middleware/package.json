@@ -5,7 +5,8 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-static": "^5.2.14"
+    "altair-static": "^5.2.14",
+    "koa-send": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
@@ -22,8 +23,7 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@koa/router": "11 - 12",
-    "koa-send": "^5.0.1"
+    "@koa/router": "11 - 12"
   },
   "engines": {
     "node": ">= 12"
