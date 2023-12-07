@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'; # stop on all errors
 
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$fileLocation = Join-Path $toolsDir '..\bins\altair_6.0.0_x64_win.exe'
+$fileLocation = Join-Path $toolsDir '..\bins\altair_6.0.1_x64_win.exe'
 $fileHash = Get-FileHash $fileLocation
 
 $packageArgs = @{
