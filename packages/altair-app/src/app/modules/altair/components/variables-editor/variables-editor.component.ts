@@ -45,6 +45,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() tabSize = 4;
   @Input() showVariableDialog = false;
   @Input() enableExperimental = false;
+  @Input() betaDisableNewEditor = true;
 
   @Output() variablesChange = new EventEmitter();
 
@@ -114,6 +115,19 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
       changes?.showVariableDialog?.currentValue
     ) {
       handleEditorRefresh(this.editor?.codeMirror);
+    }
+
+    if (changes?.betaDisableNewEditor) {
+      // Using timeout to wait for editor to be initialized.
+      // This is hacky but should be fine since the beta should be temporary
+      setTimeout(() => {
+        if (this.newEditor?.view) {
+          updateSchema(
+            this.newEditor.view,
+            vttToJsonSchema(this.variableToType)
+          );
+        }
+      }, 10);
     }
   }
 

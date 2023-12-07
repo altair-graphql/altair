@@ -1,5 +1,5 @@
 <app-codemirror
-  *ngIf="enableExperimental"
+  *ngIf="!betaDisableNewEditor"
   #newEditor
   class="set-variable-textarea mousetrap"
   [extensions]="editorExtensions"
@@ -7,7 +7,7 @@
   (ngModelChange)="variablesChange.emit($event)"
 ></app-codemirror>
 <ngx-codemirror
-  *ngIf="!enableExperimental"
+  *ngIf="betaDisableNewEditor"
   #editor
   class="set-variable-textarea mousetrap"
   [options]="variableEditorConfig"
