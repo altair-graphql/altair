@@ -26,9 +26,11 @@ import 'codemirror-graphql/variables/lint';
 import 'codemirror-graphql/variables/mode';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
-import { gqlVariables, updateVariableToType } from './extensions';
+import { gqlVariables } from './extensions';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
 import { TODO } from 'altair-graphql-core/build/types/shared';
+import { updateSchema } from 'codemirror-json-schema';
+import { vttToJsonSchema } from './utils';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_"']$/;
 
@@ -90,7 +92,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
     }
 
     if (this.newEditor?.view && this.variableToType) {
-      updateVariableToType(this.newEditor.view, this.variableToType);
+      updateSchema(this.newEditor.view, vttToJsonSchema(this.variableToType));
     }
   }
 
@@ -128,7 +130,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
       this.variableEditorConfig.lint.variableToType = variableToType;
       this.variableEditorConfig.hintOptions.variableToType = variableToType;
       if (this.newEditor?.view) {
-        updateVariableToType(this.newEditor.view, variableToType);
+        updateSchema(this.newEditor.view, vttToJsonSchema(variableToType));
       }
     }
   }
