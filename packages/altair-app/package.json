@@ -57,7 +57,7 @@
     "cm6-graphql": "0.0.12",
     "codemirror": "5.61.0",
     "codemirror-graphql": "1.0.2",
-    "codemirror-json-schema": "^0.4.4",
+    "codemirror-json-schema": "^0.6.0",
     "comlink": "4.3.0",
     "cookie-parser": "1.4.5",
     "core-js": "3.6.5",
