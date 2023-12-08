@@ -117,6 +117,8 @@ jobs:
         mkdir -p ~/private_keys/
         echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
     - name: Build/release Electron app
+      # disable for macos not in master branch
+      if: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}}
       uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
       with:
         github_token: ${{ secrets.github_token }}
