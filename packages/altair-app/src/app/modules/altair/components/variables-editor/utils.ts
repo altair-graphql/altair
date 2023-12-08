@@ -125,7 +125,13 @@ export const graphqlInputTypeToJsonSchemaType = (
  * Converts a VariableToType object to a JSON Schema object.
  * This is used to generate a JSON Schema for the variables editor.
  */
-export const vttToJsonSchema = (vtt: VariableToType): JSONSchema7 => {
+export const vttToJsonSchema = (vtt?: VariableToType): JSONSchema7 => {
+  if (!vtt) {
+    return {
+      type: 'object',
+      properties: {},
+    };
+  }
   return {
     type: 'object',
     properties: Object.entries(vtt).reduce((acc, [key, type]) => {
