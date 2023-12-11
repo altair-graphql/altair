@@ -17527,12 +17527,12 @@ graphql-language-service@^5.2.0:
     nullthrows "^1.0.0"
     vscode-languageserver-types "^3.17.1"
 
-graphql-query-compress@1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/graphql-query-compress/-/graphql-query-compress-1.2.3.tgz#6a28c03fe56226fe26c7fe2208cca3379718f2d2"
-  integrity sha512-iSqK2PecUkGhiYyjHUS2Gftkgp9M7R+DNQfXiBuY/KJWqO5Er8nEBjscXkRtvXd4P+xwQhzeaRfW9zJ4GlO1sw==
+graphql-query-compress@1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/graphql-query-compress/-/graphql-query-compress-1.2.4.tgz#27c6a21ef4fe0dfaa2ff9d29ca8938a876a55650"
+  integrity sha512-W5SMy8/2RAsC9uMOV9VTwnUkp+8N3BZz6qef6jRCIxOVrVxRBiX2btvpaKrEnPU4nchnc1bCfmMDkEtCRzJUiw==
   dependencies:
-    tokenizr "1.5.6"
+    tokenizr "1.5.7"
 
 graphql-sse@1.2.2:
   version "1.2.2"
@@ -28305,10 +28305,10 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-tokenizr@1.5.6:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.5.6.tgz#cf87fa0db31e5418f18a5f6c8d5d9d86a2212143"
-  integrity sha512-GObgcvKW10mkuzpbpuWeALTsum4KOkHuZMpjPowsZANrMQH1hF4ZrTZHZnd/20/qLN1VQWpxXNcI4QGBXIQthg==
+tokenizr@1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.5.7.tgz#80702775ac9d61899bd3c60e4c7ac36b9845bcbf"
+  integrity sha512-w6qS6F5PNtY30DxoRD4a7nC7zOlPM2SlpQ4zLhOmqBaB1VCZrlV82bLpc/lKNOdNmrwIwcsJLDcjEJ8f7UG6Mg==
 
 tosource@1.0.0:
   version "1.0.0"

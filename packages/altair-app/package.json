@@ -73,7 +73,7 @@
     "graphql-language-service": "^5.2.0",
     "graphql-language-service-parser": "1.10.4",
     "graphql-language-service-types": "1.8.2",
-    "graphql-query-compress": "1.2.3",
+    "graphql-query-compress": "1.2.4",
     "graphql-ws": "5.9.1",
     "json-bigint": "^1.0.0",
     "lodash-es": "4.17.21",
