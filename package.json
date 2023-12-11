@@ -21,7 +21,7 @@
     "eslint-config-prettier": "8.5.0",
     "execa": "^5.0.0",
     "https-browserify": "^1.0.0",
-    "inquirer": "^7.3.3",
+    "inquirer": "^9.2.12",
     "lerna": "^4.0.0",
     "ng-packagr": "^13.0.8",
     "nx": "14.1.5",
