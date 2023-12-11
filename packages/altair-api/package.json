@@ -7,7 +7,7 @@
     "@altairgraphql/api-utils": "^6.0.2",
     "@altairgraphql/db": "^6.0.2",
     "@nestjs/common": "^9.0.0",
-    "@nestjs/config": "^2.2.0",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/event-emitter": "^2.0.2",
     "@nestjs/jwt": "^9.0.0",
