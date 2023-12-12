@@ -62,7 +62,7 @@ export class ActionManager {
     return checkForUpdates(menuItem);
   }
 
-  showPreferences() {
+  async showPreferences() {
     const prefWindow = new BrowserWindow({
       width: 600,
       height: 600,
@@ -77,12 +77,16 @@ export class ActionManager {
     });
 
     // and load the index.html of the app.
-    return prefWindow.loadURL(
-      url.format({
-        pathname: path.resolve(getStaticDirectory(), 'settings/index.html'),
-        protocol: 'file:',
-        slashes: true,
-      })
-    );
+    try {
+      return prefWindow.loadURL(
+        url.format({
+          pathname: path.resolve(getStaticDirectory(), 'settings/index.html'),
+          protocol: 'file:',
+          slashes: true,
+        })
+      );
+    } catch (err) {
+      console.log('Error loading settings window', err);
+    }
   }
 }

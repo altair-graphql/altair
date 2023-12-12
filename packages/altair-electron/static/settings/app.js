@@ -10,7 +10,7 @@ const { SETTINGS_STORE_EVENTS } = require('../../dist/settings/constants');
 const on = (selector, eventName, handler) => {
   document.addEventListener(
     eventName,
-    function(e) {
+    function (e) {
       // loop parent nodes from the target to the delegation node
       for (
         let target = e.target;
@@ -27,10 +27,10 @@ const on = (selector, eventName, handler) => {
   );
 };
 
-const serializeForm = form => {
-  let obj = {};
+const serializeForm = (form) => {
+  const obj = {};
   const data = new FormData(form);
-  for (let [key, value] of data) {
+  for (const [key, value] of data) {
     if (typeof obj[key] === 'undefined') {
       obj[key] = value;
     } else {
@@ -44,12 +44,12 @@ const serializeForm = form => {
 };
 
 const hideAllNested = () => {
-  document.querySelectorAll('.nested').forEach(el => {
+  document.querySelectorAll('.nested').forEach((el) => {
     el.classList.add('hidden');
   });
   document
     .querySelectorAll('input.js-input[type="radio"]:checked')
-    .forEach(radioEl => {
+    .forEach((radioEl) => {
       const radioContainer = radioEl.closest('.radio');
       const nested = radioContainer.querySelector('.nested');
       if (nested) {
@@ -59,13 +59,13 @@ const hideAllNested = () => {
 };
 
 // Initialize when loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // load settings
   const initialData =
     ipc.sendSync(SETTINGS_STORE_EVENTS.GET_SETTINGS_DATA) || {};
   // set selected settings
   const networkForm = document.querySelector('.js-network-form');
-  Object.keys(initialData).forEach(key => {
+  Object.keys(initialData).forEach((key) => {
     networkForm[key].value = initialData[key];
   });
   // hide nested
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hideAllNested();
   });
 
-  on('.js-network-form', 'submit', e => {
+  on('.js-network-form', 'submit', (e) => {
     e.preventDefault();
     const formData = serializeForm(e.target);
 
