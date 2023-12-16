@@ -139,7 +139,8 @@ describe('GqlService', () => {
     it('should call HttpClient with expected parameters', inject(
       [GqlService],
       (service: GqlService) => {
-        service.sendRequest('http://test.com', {
+        service.sendRequest({
+          url: 'http://test.com',
           method: 'post',
           query: '{}',
         });
@@ -162,7 +163,8 @@ describe('GqlService', () => {
     it('should call HttpClient with correct content type when file is included', inject(
       [GqlService],
       (service: GqlService) => {
-        service.sendRequest('http://test.com', {
+        service.sendRequest({
+          url: 'http://test.com',
           method: 'post',
           query: '{}',
           files: [
@@ -197,7 +199,8 @@ describe('GqlService', () => {
     it('should call HttpClient with default json content type if file passed to it is not valid', inject(
       [GqlService],
       (service: GqlService) => {
-        service.sendRequest('http://test.com', {
+        service.sendRequest({
+          url: 'http://test.com',
           method: 'post',
           query: '{}',
           files: [
@@ -254,7 +257,8 @@ describe('GqlService', () => {
           }
         };
         const res = await service
-          .getIntrospectionRequest('http://test.com', {
+          .getIntrospectionRequest({
+            url: 'http://test.com',
             method: 'GET',
           })
           .pipe(take(1))
@@ -298,7 +302,8 @@ describe('GqlService', () => {
           }
         };
         const res = await service
-          .getIntrospectionRequest('http://test.com', {
+          .getIntrospectionRequest({
+            url: 'http://test.com',
             method: 'GET',
           })
           .pipe(take(1))
@@ -342,7 +347,8 @@ describe('GqlService', () => {
 
         try {
           const res = await service
-            .getIntrospectionRequest('http://test.com', {
+            .getIntrospectionRequest({
+              url: 'http://test.com',
               method: 'GET',
             })
             .pipe(take(1))
