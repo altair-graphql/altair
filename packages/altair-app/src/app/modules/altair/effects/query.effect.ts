@@ -1,27 +1,15 @@
-import {
-  of as observableOf,
-  EMPTY,
-  Observable,
-  iif,
-  Subscriber,
-  of,
-  from,
-  combineLatest,
-  zip,
-} from 'rxjs';
+import { of as observableOf, EMPTY, of, from, combineLatest } from 'rxjs';
 
 import {
-  tap,
   catchError,
   withLatestFrom,
   switchMap,
   map,
   takeUntil,
-  distinct,
   mergeMap,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import {
@@ -31,11 +19,9 @@ import {
   DonationService,
   ElectronAppService,
   EnvironmentService,
-  PreRequestService,
   SubscriptionProviderRegistryService,
   QueryService,
 } from '../services';
-import * as fromRoot from '../store';
 
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
@@ -60,7 +46,6 @@ import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary, UnknownError } from '../interfaces/shared';
-import { SendRequestResponse } from '../services/gql/gql.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
@@ -72,6 +57,7 @@ import { RequestType } from '../services/pre-request/helpers';
 export class QueryEffects {
   // Sends the query request to the specified URL
   // with the specified headers and variables
+  // NOTE: Should use mergeMap instead of switchMap, because switchMap cancels the previous request
   sendQueryRequest$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -90,7 +76,7 @@ export class QueryEffects {
             };
           }
         ),
-        switchMap((response) => {
+        mergeMap((response) => {
           if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
             this.store.dispatch(
               new layoutActions.StopLoadingAction(response.windowId)
@@ -98,14 +84,14 @@ export class QueryEffects {
             return EMPTY;
           }
 
-          const query = (response.data?.query.query || '').trim();
+          const query = (response.data?.query.query ?? '').trim();
           if (!query) {
             return EMPTY;
           }
 
           return observableOf(response);
         }),
-        switchMap((response) => {
+        mergeMap((response) => {
           return combineLatest([
             of(response),
             from(
@@ -117,13 +103,13 @@ export class QueryEffects {
             })
           );
         }),
-        switchMap((returnedData) => {
+        mergeMap((returnedData) => {
           if (!returnedData) {
             return EMPTY;
           }
 
           return observableOf(returnedData).pipe(
-            switchMap((_returnedData) => {
+            mergeMap((_returnedData) => {
               const { response, transformedData } = _returnedData;
 
               if (!response.data) {
@@ -263,7 +249,8 @@ export class QueryEffects {
 
               debug.log('Sending..');
               return this.gqlService
-                .sendRequest(url, {
+                .sendRequest({
+                  url,
                   query,
                   variables,
                   headers,
@@ -555,7 +542,8 @@ export class QueryEffects {
             new docsAction.StartLoadingDocsAction(response.windowId)
           );
           return this.gqlService
-            .getIntrospectionRequest(url, {
+            .getIntrospectionRequest({
+              url,
               method: response.data.query.httpVerb,
               headers,
               withCredentials:
@@ -939,7 +927,7 @@ export class QueryEffects {
           }
 
           const subscriptionProviderId =
-            response.data.query.subscriptionProviderId || WEBSOCKET_PROVIDER_ID;
+            response.data.query.subscriptionProviderId ?? WEBSOCKET_PROVIDER_ID;
           const { getProviderClass } =
             this.subscriptionProviderRegistryService.getProviderData(
               subscriptionProviderId

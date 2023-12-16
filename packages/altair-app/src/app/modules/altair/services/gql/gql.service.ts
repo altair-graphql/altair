@@ -56,6 +56,7 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 
 interface SendRequestOptions {
+  url: string;
   query: string;
   method: string;
   withCredentials?: boolean;
@@ -91,9 +92,6 @@ export class GqlService {
   headers = new HttpHeaders();
   introspectionData = {};
 
-  private api_url = localStorage.getItem('altair:url');
-  private method = 'POST';
-
   constructor(
     private http: HttpClient,
     private notifyService: NotifyService,
@@ -103,28 +101,17 @@ export class GqlService {
     this.setHeaders();
   }
 
-  sendRequest(
-    url: string,
-    opts: SendRequestOptions
-  ): Observable<SendRequestResponse> {
+  sendRequest(opts: SendRequestOptions): Observable<SendRequestResponse> {
     // Only need resolvedFiles to know if valid files exist at this point
     const { resolvedFiles } = this.normalizeFiles(opts.files);
 
-    this.setUrl(url)
-      .setHTTPMethod(opts.method)
-      // Skip json default headers for files
-      .setHeaders(opts.headers, {
-        skipDefaults: this.isGETRequest(opts.method) || !!resolvedFiles.length,
-      });
+    // Skip json default headers for files
+    this.setHeaders(opts.headers, {
+      skipDefaults: this.isGETRequest(opts.method) || !!resolvedFiles.length,
+    });
 
     const requestStartTime = new Date().getTime();
-    return this._send({
-      query: opts.query,
-      variables: opts.variables,
-      selectedOperation: opts.selectedOperation,
-      files: opts.files,
-      withCredentials: opts.withCredentials,
-    }).pipe(
+    return this._send(opts).pipe(
       map((response) => {
         const requestEndTime = new Date().getTime();
         const requestElapsedTime = requestEndTime - requestStartTime;
@@ -147,7 +134,7 @@ export class GqlService {
     );
   }
 
-  isGETRequest(method = this.method) {
+  private isGETRequest(method: string) {
     return method.toLowerCase() === 'get';
   }
 
@@ -190,18 +177,9 @@ export class GqlService {
     }, new HttpParams());
   }
 
-  setUrl(url: string) {
-    this.api_url = url;
-    return this;
-  }
-
-  setHTTPMethod(httpVerb: string) {
-    this.method = httpVerb;
-    return this;
-  }
-
-  getIntrospectionRequest(url: string, opts: IntrospectionRequestOptions) {
+  getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     const requestOpts: SendRequestOptions = {
+      url: opts.url,
       query: getIntrospectionQuery(),
       headers: opts.headers,
       method: opts.method,
@@ -209,7 +187,7 @@ export class GqlService {
       variables: '{}',
       selectedOperation: 'IntrospectionQuery',
     };
-    return this.sendRequest(url, requestOpts).pipe(
+    return this.sendRequest(requestOpts).pipe(
       map((data) => {
         debug.log('introspection', data.response);
         if (!data.response.ok) {
@@ -223,7 +201,7 @@ export class GqlService {
         debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
-        return this.sendRequest(url, {
+        return this.sendRequest({
           ...requestOpts,
           query: oldIntrospectionQuery,
         }).pipe(
@@ -624,12 +602,14 @@ export class GqlService {
    * @param vars
    */
   private _send({
+    url,
+    method,
     query,
     variables,
     selectedOperation,
     files,
     withCredentials,
-  }: Omit<SendRequestOptions, 'method'>) {
+  }: SendRequestOptions) {
     const data = {
       query,
       variables: {},
@@ -654,7 +634,7 @@ export class GqlService {
       }
     }
 
-    if (!this.isGETRequest()) {
+    if (!this.isGETRequest(method)) {
       const { resolvedFiles } = this.normalizeFiles(files);
       if (resolvedFiles && resolvedFiles.length) {
         // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
@@ -678,13 +658,13 @@ export class GqlService {
     } else {
       params = this.getParamsFromData(data);
     }
-    if (!this.api_url) {
+    if (!url) {
       throw new Error('You need to have a URL for the request!');
     }
     return this.http
-      .request(this.method, this.api_url, {
+      .request(method, url, {
         // GET method uses params, while the other methods use body
-        ...(!this.isGETRequest() && { body }),
+        ...(!this.isGETRequest(method) && { body }),
         params,
         headers,
         observe: 'response',
