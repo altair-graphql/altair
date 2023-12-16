@@ -9,7 +9,7 @@ import { ThemeRegistryService } from '../../../services';
 })
 export class SchemaFormItemInputComponent {
   @Input() item?: SchemaFormProperty;
-  @Input() data = '';
+  @Input() data: string | undefined;
 
   @Output() dataChange = new EventEmitter();
 

@@ -63,8 +63,23 @@ export class SchemaFormItemComponent {
     return typeof data === 'string';
   }
 
+  isStringOrUndefined(data: unknown): data is string | undefined {
+    return typeof data === 'string' || typeof data === 'undefined';
+  }
+
   isArray(data: unknown): data is unknown[] {
     return Array.isArray(data);
+  }
+
+  isArrayOrUndefined(data: unknown): data is unknown[] | undefined {
+    return Array.isArray(data) || typeof data === 'undefined';
+  }
+
+  asArrayOrUndefined(data: unknown): unknown[] | undefined {
+    if (Array.isArray(data)) {
+      return data;
+    }
+    return undefined;
   }
 
   onInput(event: Event, item: SchemaFormProperty) {

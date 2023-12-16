@@ -1,6 +1,4 @@
 <template>
-  <iframe src="https://altairgraphql.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:var(--theme-bg-color);" frameborder="0" scrolling="no"></iframe>
-
   <div class="contributions">
 
     <template
