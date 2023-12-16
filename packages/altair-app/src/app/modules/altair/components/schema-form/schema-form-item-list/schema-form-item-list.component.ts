@@ -13,7 +13,7 @@ import { JSONSchema6 } from 'json-schema';
 })
 export class SchemaFormItemListComponent {
   @Input() item?: SchemaFormProperty;
-  @Input() data: unknown[] = [];
+  @Input() data: unknown[] | undefined;
 
   @Output() dataChange = new EventEmitter();
 

@@ -22934,10 +22934,10 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-oauth@0.9.x:
-  version "0.9.15"
-  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
-  integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
+oauth@0.10.0, oauth@0.9.x:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.10.0.tgz#3551c4c9b95c53ea437e1e21e46b649482339c58"
+  integrity sha512-1orQ9MT1vHFGQxhuy7E/0gECD3fd2fCC+PIX+/jgmU/gI3EpRocXtmtvxCO5x3WZ443FLTLFWNDjl5MPJf9u+Q==
 
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -30298,15 +30298,10 @@ xxhashjs@~0.2.2:
   dependencies:
     cuint "^0.2.2"
 
-y18n@^4.0.0:
+y18n@4.0.1, y18n@^4.0.0, y18n@^5.0.5:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"
   integrity sha512-wNcy4NvjMYL8gogWWYAO7ZFWFfHcbdbE57tZO8e4cbpj8tfUcwrwqSl3ad8HxpYWCdXcJUCeKKZS62Av1affwQ==
-
-y18n@^5.0.5:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
-  integrity sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==
 
 yaeti@^0.0.6:
   version "0.0.6"

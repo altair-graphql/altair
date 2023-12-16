@@ -22,7 +22,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="'string'">
       <app-schema-form-item-input
-        *ngIf="isString(data)"
+        *ngIf="isStringOrUndefined(data)"
         [item]="item"
         [(data)]="data"
         (dataChange)="onInput($event, item)"
@@ -30,7 +30,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="'array'">
       <app-schema-form-item-list
-        *ngIf="isArray(data)"
+        *ngIf="isArrayOrUndefined(data)"
         [item]="item"
         [(data)]="data"
         (dataChange)="onInput($event, item)"
