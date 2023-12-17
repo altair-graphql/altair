@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "Більше заголовків відповідей повертаються в настільних програмах.",
   "VARIABLES_TEXT": "Змінні",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Додавання, видалення та редагування змінні у запиті",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "Заголовки",
   "SET_HEADERS_DIALOG_SUBTEXT": "Додавання, видалення та редагування заголовків у запиті",
   "ADD_HEADER_TEXT": "Додати заголовок",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Додати нового учасника",
   "UPDATE_TEAM_MEMBER_TEXT": "Оновити учасника команди",
   "TEAM_MEMBERS_TEXT": "Учасники команди",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Редагувати",
   "PROFILE_TEXT": "Профіль",
   "UPGRADE_PRO_TEXT": "Оновити до Pro версії"
