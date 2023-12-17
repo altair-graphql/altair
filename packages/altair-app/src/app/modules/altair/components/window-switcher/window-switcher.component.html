@@ -1,10 +1,13 @@
 <ul
-  sortablejs
-  [sortablejsOptions]="sortableOptions"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
   class="window-switcher__list"
   [ngClass]="{'window-switcher__no-scrollbar': !enableScrollbar}"
+  [cdkDropListData]="windowIds"
+  (cdkDropListDropped)="onDropEnd($event)"
 >
   <li
+    cdkDrag
     class="window-switcher__item"
     [ngClass]="{ 'window-switcher__item--active': windowId === activeWindowId }"
     *ngFor="let windowId of windowIds; let index = index"

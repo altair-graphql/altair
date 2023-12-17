@@ -23,7 +23,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { SortablejsModule } from 'ngx-sortablejs';
 import { CookieService } from 'ngx-cookie-service';
 
 import { SharedModule } from './modules/shared/shared.module';
@@ -127,7 +126,6 @@ const providers = [
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule.forRoot(),
-    SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
     SchemaFormModule,

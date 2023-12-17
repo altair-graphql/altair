@@ -1,6 +1,6 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -12,7 +12,6 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 
 import { ContextMenuComponent } from 'ngx-contextmenu';
-import { SortableEvent } from 'sortablejs';
 
 import { debug } from '../../utils/logger';
 
@@ -21,7 +20,7 @@ import { debug } from '../../utils/logger';
   templateUrl: './window-switcher.component.html',
   styleUrls: ['./window-switcher.component.scss'],
 })
-export class WindowSwitcherComponent implements OnInit {
+export class WindowSwitcherComponent {
   @Input() windows: WindowState = {};
   @Input() windowIds: string[] = [];
   @Input() closedWindows: PerWindowState[] = [];
@@ -48,16 +47,10 @@ export class WindowSwitcherComponent implements OnInit {
   windowIdEditing = '';
   maxWindowCount = this.altairConfig.max_windows;
 
-  sortableOptions = {};
-
   constructor(private altairConfig: AltairConfig) {}
 
-  ngOnInit() {
-    this.sortableOptions = {
-      onUpdate: (event: SortableEvent) => {
-        this.moveWindow(event.oldIndex || 0, event.newIndex || 0);
-      },
-    };
+  onDropEnd(event: CdkDragDrop<any, any, any>) {
+    this.moveWindow(event.previousIndex || 0, event.currentIndex || 0);
   }
 
   onClickWindow(windowId: string) {

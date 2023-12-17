@@ -39,11 +39,13 @@
               </div>
               <div
                 class="environment-manager__list-inner"
-                sortablejs
-                [sortablejsOptions]="sortableOptions"
+                cdkDropList
+                cdkDropListOrientation="vertical"
+                (cdkDropListDropped)="onSortSubEnvironments($event)"
               >
                 <ng-container *ngIf="environments?.subEnvironments?.length">
                   <div
+                    cdkDrag
                     class="environment-manager__list-item"
                     *ngFor="
                       let item of environments?.subEnvironments;
