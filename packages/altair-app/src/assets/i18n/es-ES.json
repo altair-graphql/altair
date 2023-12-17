@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "Se devuelven más cabeceras de respuesta en aplicaciones de escritorio.",
   "VARIABLES_TEXT": "Variables",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Agrega, edita y elimina variables en tu solicitud",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "Encabezado",
   "SET_HEADERS_DIALOG_SUBTEXT": "Agrega, edita y elimina encabezados en tu solicitud",
   "ADD_HEADER_TEXT": "Añadir cabecera",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "Profile",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
