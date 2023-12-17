@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgPipesModule } from 'ngx-pipes';
-import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { MarkdownModule } from 'ngx-markdown';
 import { HotToastModule } from '@ngneat/hot-toast';
@@ -70,7 +69,6 @@ const AntdComponentModules = [
     TranslateModule.forRoot(),
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
-    ContextMenuModule.forRoot(),
     MarkdownModule.forRoot(),
     ResizableModule,
     IconsModule,
@@ -99,7 +97,6 @@ const AntdComponentModules = [
     DragDropModule,
     TranslateModule,
     NgPipesModule,
-    ContextMenuModule,
     NguiAutoCompleteModule,
     MarkdownModule,
     ResizableModule,

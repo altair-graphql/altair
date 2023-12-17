@@ -5,6 +5,7 @@ import { NgxTestWrapper, mount } from '../../../../../testing';
 import { MockModule } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { NzContextMenuService } from 'ng-zorro-antd/dropdown';
 
 describe('WindowSwitcherComponent', () => {
   let wrapper: NgxTestWrapper<WindowSwitcherComponent>;
@@ -18,6 +19,10 @@ describe('WindowSwitcherComponent', () => {
         {
           provide: AltairConfig,
           useValue: new AltairConfig(),
+        },
+        {
+          provide: NzContextMenuService,
+          useValue: {},
         },
       ],
       propsData: {
