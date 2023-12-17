@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "Mais cabeçalhos de resposta foram retornados em aplicativo de desktop.",
   "VARIABLES_TEXT": "Variáveis",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Adicionar, editar e remover variáveis em sua requisição",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "Cabeçalhos",
   "SET_HEADERS_DIALOG_SUBTEXT": "Adicionar, editar e remover variáveis em sua requisição",
   "ADD_HEADER_TEXT": "Adicionar cabeçalho",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Adicionar novo membro ao time",
   "UPDATE_TEAM_MEMBER_TEXT": "Atualizar membro do time",
   "TEAM_MEMBERS_TEXT": "Membros do time",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Editar",
   "PROFILE_TEXT": "Perfil",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
