@@ -17,6 +17,6 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   transformIgnorePatterns: [
-    'node_modules/(?!@angular|@firebase|@ngrx|@sentry|lodash-es|altair-graphql-core|angular-resizable-element|dexie|uuid|ngx-cookie-service|ngx-markdown|ky|color-name|json-schema-library|graphql-language-service|vscode-languageserver-types|cm6-graphql|ngx-toastr|@ngx-translate|lucide-angular|@ctrl/ngx-codemirror)',
+    'node_modules/(?!@angular|@firebase|@ngrx|@sentry|lodash-es|altair-graphql-core|angular-resizable-element|dexie|uuid|ngx-cookie-service|ngx-markdown|ky|color-name|json-schema-library|graphql-language-service|vscode-languageserver-types|cm6-graphql|ngx-toastr|@ngx-translate|lucide-angular|@ctrl/ngx-codemirror|ng-zorro-antd|@ant-design/icons-angular)',
   ],
 };

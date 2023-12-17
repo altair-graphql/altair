@@ -14,6 +14,7 @@ import {
 
 import { css } from '@emotion/css';
 import { ThemeRegistryService } from '../../services';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 @Directive({
   selector: '[appTheme]',
@@ -24,10 +25,13 @@ export class ThemeDirective implements OnInit, OnChanges {
 
   private className = '';
 
-  constructor(private themeRegistry: ThemeRegistryService) {}
+  constructor(
+    private themeRegistry: ThemeRegistryService,
+    private nzConfigService: NzConfigService
+  ) {}
 
   ngOnInit() {
-    this.addHTMLClass(this.appTheme, this.appDarkTheme);
+    this.applyTheme(this.appTheme, this.appDarkTheme);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,7 +39,7 @@ export class ThemeDirective implements OnInit, OnChanges {
       changes?.appTheme?.currentValue ||
       changes?.appDarkTheme?.currentValue
     ) {
-      this.addHTMLClass(
+      this.applyTheme(
         changes.appTheme?.currentValue,
         changes.appDarkTheme?.currentValue
       );
@@ -150,6 +154,16 @@ export class ThemeDirective implements OnInit, OnChanges {
     }
 
     return css(this.getCssString(createTheme(appTheme)));
+  }
+
+  applyTheme(theme: ICustomTheme, darkTheme?: ICustomTheme) {
+    this.nzConfigService.set('theme', {
+      primaryColor: theme.colors?.primary,
+      errorColor: theme.colors?.red,
+      warningColor: theme.colors?.yellow,
+      successColor: theme.colors?.green,
+    });
+    this.addHTMLClass(theme, darkTheme);
   }
 
   addHTMLClass(appTheme: ICustomTheme, appDarkTheme?: ICustomTheme) {

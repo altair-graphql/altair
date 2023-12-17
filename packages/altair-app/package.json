@@ -84,7 +84,7 @@
     "memoizee": "0.4.14",
     "mousetrap": "1.6.5",
     "mousetrap-global-bind": "1.1.0",
-    "ng-zorro-antd": "12.1.1",
+    "ng-zorro-antd": "^15.1.1",
     "ngrx-store-localstorage": "12.0.1",
     "ngx-cookie-service": "14.0.1",
     "ngx-markdown": "^14.0.1",

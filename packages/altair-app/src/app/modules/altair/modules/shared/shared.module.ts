@@ -98,7 +98,7 @@ const AntdComponentModules = [
     MarkdownModule,
     ResizableModule,
     IconsModule,
-    HotToastModule,
+    // HotToastModule,
     ...AntdComponentModules,
   ],
 })
