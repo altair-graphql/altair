@@ -5,8 +5,9 @@ exports[`WindowSwitcherComponent should render correctly 1`] = `
   class="window-switcher__no-scrollbar"
 >
   <ul
+    cdkdroplist=""
+    cdkdroplistorientation="horizontal"
     class="window-switcher__list window-switcher__no-scrollbar"
-    sortablejs=""
   >
     
     <li

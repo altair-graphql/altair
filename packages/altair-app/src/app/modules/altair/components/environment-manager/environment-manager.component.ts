@@ -16,9 +16,9 @@ import {
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
-import { Options as SortableOptions, SortableEvent } from 'sortablejs';
 import { TODO } from 'altair-graphql-core/build/types/shared';
 import { linter } from '@codemirror/lint';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 (window as any).jsonlint = (window as any).jsonlint || {
   parser: <TODO>{
     parse: function (str: string) {
@@ -65,19 +65,6 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   editorContent = '{}';
   editorTitle = '';
 
-  sortableOptions: SortableOptions;
-
-  constructor() {
-    this.sortableOptions = {
-      onUpdate: (event: SortableEvent) => {
-        this.repositionSubEnvironmentsChange.emit({
-          currentPosition: event.oldIndex,
-          newPosition: event.newIndex,
-        });
-      },
-    };
-  }
-
   ngOnInit() {
     if (this.environments) {
       this.selectEnvironment(this.environments.activeSubEnvironment);
@@ -88,6 +75,13 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
     if (changes?.environments?.currentValue) {
       this.selectEnvironment(this.selectedEnvironmentId);
     }
+  }
+
+  onSortSubEnvironments(event: CdkDragDrop<any, any, any>) {
+    this.repositionSubEnvironmentsChange.emit({
+      currentPosition: event.previousIndex || 0,
+      newPosition: event.currentIndex || 0,
+    });
   }
 
   onEditorChange(content: string) {

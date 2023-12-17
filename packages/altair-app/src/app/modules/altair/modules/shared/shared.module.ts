@@ -1,8 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
-import { SortablejsModule } from 'ngx-sortablejs';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
@@ -67,8 +67,8 @@ const AntdComponentModules = [
 @NgModule({
   imports: [
     CommonModule,
+    DragDropModule,
     TranslateModule.forRoot(),
-    SortablejsModule,
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
     ContextMenuModule.forRoot(),
@@ -102,8 +102,8 @@ const AntdComponentModules = [
 
   // DON'T FORGET TO EXPORT MODULE
   exports: [
+    DragDropModule,
     TranslateModule,
-    SortablejsModule,
     NgPipesModule,
     ContextMenuModule,
     NguiAutoCompleteModule,
