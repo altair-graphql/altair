@@ -340,6 +340,9 @@
   color: var(--primary-color);
   font-weight: normal;
 }
+.ant-tabs-tab+.ant-tabs-tab {
+  margin-left: 0;
+}
 
 .ant-tabs-ink-bar {
   background-color: var(--primary-color);

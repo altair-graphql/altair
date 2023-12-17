@@ -38,7 +38,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
               class="ant-form-item-control-input-content"
             >
               <nz-select
-                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
@@ -49,8 +49,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
-                    
-    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -58,10 +56,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                       style="opacity: 0;"
                     />
                     
-    
-                    
-                    
-  
                   </nz-select-search>
                   
                   
@@ -71,28 +65,16 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-    
-                    
-      Choose
-    
+                     Choose 
                     
                     
-                    
-  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-    
-                  
-      
-                  
-        
-                  <i
+                  <span
                     class="anticon anticon-down"
                     nz-icon=""
                     nztype="down"
@@ -110,37 +92,22 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                         d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
                       />
                     </svg>
-                  </i>
-                  
-                  
-        
-                  
-                  
-      
+                  </span>
                   
                   
                   
-      
                   
                   
-    
                   
                   
-    
                   
                   
-  
                 </nz-select-arrow>
                 
                 
                 
               </nz-select>
             </div>
-            <span
-              class="ant-form-item-children-icon"
-            >
-              
-            </span>
           </div>
           
           
@@ -190,7 +157,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
               class="ant-form-item-control-input-content"
             >
               <nz-select
-                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
@@ -201,8 +168,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
-                    
-    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -210,10 +175,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                       style="opacity: 0;"
                     />
                     
-    
-                    
-                    
-  
                   </nz-select-search>
                   
                   
@@ -223,28 +184,16 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-    
-                    
-      Choose
-    
+                     Choose 
                     
                     
-                    
-  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-    
-                  
-      
-                  
-        
-                  <i
+                  <span
                     class="anticon anticon-down"
                     nz-icon=""
                     nztype="down"
@@ -262,37 +211,22 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                         d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
                       />
                     </svg>
-                  </i>
-                  
-                  
-        
-                  
-                  
-      
+                  </span>
                   
                   
                   
-      
                   
                   
-    
                   
                   
-    
                   
                   
-  
                 </nz-select-arrow>
                 
                 
                 
               </nz-select>
             </div>
-            <span
-              class="ant-form-item-children-icon"
-            >
-              
-            </span>
           </div>
           
           
@@ -342,7 +276,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
               class="ant-form-item-control-input-content"
             >
               <nz-select
-                class="dialog-block ant-select ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
@@ -353,8 +287,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   <nz-select-search
                     class="ant-select-selection-search"
                   >
-                    
-    
                     <input
                       autocomplete="off"
                       class="ant-select-selection-search-input ng-untouched ng-pristine ng-valid"
@@ -362,10 +294,6 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                       style="opacity: 0;"
                     />
                     
-    
-                    
-                    
-  
                   </nz-select-search>
                   
                   
@@ -375,28 +303,16 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                   <nz-select-placeholder
                     class="ant-select-selection-placeholder"
                   >
-                    
-    
-                    
-      Choose
-    
+                     Choose 
                     
                     
-                    
-  
                   </nz-select-placeholder>
                   
                 </nz-select-top-control>
                 <nz-select-arrow
                   class="ant-select-arrow"
                 >
-                  
-    
-                  
-      
-                  
-        
-                  <i
+                  <span
                     class="anticon anticon-down"
                     nz-icon=""
                     nztype="down"
@@ -414,37 +330,22 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                         d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
                       />
                     </svg>
-                  </i>
-                  
-                  
-        
-                  
-                  
-      
+                  </span>
                   
                   
                   
-      
                   
                   
-    
                   
                   
-    
                   
                   
-  
                 </nz-select-arrow>
                 
                 
                 
               </nz-select>
             </div>
-            <span
-              class="ant-form-item-children-icon"
-            >
-              
-            </span>
           </div>
           
           
