@@ -102,6 +102,8 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       </nz-dropdown-menu>
       <button
         class="url-box__button"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
         track-id="reload_docs"
         type="button"
       >
@@ -248,6 +250,8 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       </nz-dropdown-menu>
       <button
         class="url-box__button"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
         track-id="reload_docs"
         type="button"
       >

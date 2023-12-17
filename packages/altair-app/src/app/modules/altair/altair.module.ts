@@ -52,7 +52,6 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from './overlay-container';
-import { environment } from 'environments/environment';
 import { AppInitAction } from './store/action';
 import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';

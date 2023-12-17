@@ -151,12 +151,13 @@
           <span
             *ngIf="!query.id"
             class="query-title-icon"
-            [popper]="deprecatedCollectionQuery"
-            [popperPlacement]="'bottom'"
+            nz-tooltip
+            [nzTooltipTitle]="deprecatedCollectionQuery"
+            nzTooltipPlacement="bottom"
           >
             <app-icon name="alert-triangle"></app-icon>
           </span>
-          <popper-content #deprecatedCollectionQuery>
+          <ng-template #deprecatedCollectionQuery>
             {{ 'COLLECTIONS_DEPRECATED_QUERY_WARNING' | translate }}
             <a
               target="_blank"
@@ -164,7 +165,7 @@
               rel="noopener"
               >{{ 'LEARN_MORE_TEXT' | translate }}</a
             >
-          </popper-content>
+          </ng-template>
         </span>
         <span
           *ngIf="loggedIn && (query.storageType === 'api')"

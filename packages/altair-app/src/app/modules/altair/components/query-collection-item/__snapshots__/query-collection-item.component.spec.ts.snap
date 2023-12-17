@@ -146,16 +146,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             </span>
              Another Query 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
@@ -208,16 +199,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             </span>
              Zap Query 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
@@ -270,16 +252,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             </span>
              Query 1 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
@@ -470,16 +443,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             </span>
              Another Query 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
@@ -532,16 +496,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             </span>
              Zap Query 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
@@ -594,16 +549,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             </span>
              Query 1 
             
-            <popper-content>
-                
-              <a
-                href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
-                rel="noopener"
-                target="_blank"
-              >
-                
-              </a>
-            </popper-content>
+            
           </span>
           
           <span
