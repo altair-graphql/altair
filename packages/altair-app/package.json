@@ -155,7 +155,7 @@
     "jest-preset-angular": "12.2.6",
     "karma-cli": "^2.0.0",
     "ncp": "2.0.0",
-    "ng-mocks": "14.0.1",
+    "ng-mocks": "^14.12.1",
     "ngrx-store-freeze": "0.2.4",
     "prettier-config-altair": "^6.0.2",
     "protractor": "7.0.0",
