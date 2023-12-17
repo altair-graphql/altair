@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "crwdns729:0crwdne729:0",
   "VARIABLES_TEXT": "crwdns731:0crwdne731:0",
   "SET_VARIABLES_DIALOG_SUBTEXT": "crwdns733:0crwdne733:0",
+  "VARIABLE_TOGGLE_FILE_MODE": "crwdns1322:0crwdne1322:0",
   "HEADERS_TEXT": "crwdns735:0crwdne735:0",
   "SET_HEADERS_DIALOG_SUBTEXT": "crwdns737:0crwdne737:0",
   "ADD_HEADER_TEXT": "crwdns739:0crwdne739:0",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "crwdns1311:0crwdne1311:0",
   "UPDATE_TEAM_MEMBER_TEXT": "crwdns1313:0crwdne1313:0",
   "TEAM_MEMBERS_TEXT": "crwdns1315:0crwdne1315:0",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "crwdns1324:0crwdne1324:0",
   "EDIT_TEXT": "crwdns1317:0crwdne1317:0",
   "PROFILE_TEXT": "crwdns1319:0crwdne1319:0",
   "UPGRADE_PRO_TEXT": "crwdns1321:0crwdne1321:0"
