@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "桌面的應用程式將可以顯示更多的標頭",
   "VARIABLES_TEXT": "變數",
   "SET_VARIABLES_DIALOG_SUBTEXT": "依你的指示新增、變動及移除變數",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "標頭",
   "SET_HEADERS_DIALOG_SUBTEXT": "在你的請求中新增、修改及移除標頭",
   "ADD_HEADER_TEXT": "新增標題",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "個人檔案",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
