@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "在桌面应用程序中返回更多响应头。",
   "VARIABLES_TEXT": "变量",
   "SET_VARIABLES_DIALOG_SUBTEXT": "添加、编辑或移除请求中的变量",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "设置请求头",
   "SET_HEADERS_DIALOG_SUBTEXT": "添加、编辑或移除请求中的Headers",
   "ADD_HEADER_TEXT": "添加Header",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "个人资料",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
