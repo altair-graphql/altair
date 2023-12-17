@@ -127,7 +127,7 @@ const providers = [
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule.forRoot(),
-    SortablejsModule.forRoot({ animation: 150 }),
+    // SortablejsModule.forRoot({ animation: 150 }),
     ComponentModule,
     DocViewerModule,
     SchemaFormModule,

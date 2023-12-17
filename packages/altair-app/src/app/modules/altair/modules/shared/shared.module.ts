@@ -68,15 +68,15 @@ const AntdComponentModules = [
   imports: [
     CommonModule,
     TranslateModule.forRoot(),
-    SortablejsModule,
+    // SortablejsModule,
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
     ContextMenuModule.forRoot(),
-    NgxPopperModule.forRoot({
-      // use antd
-      applyClass: 'tooltip-content',
-      trigger: 'hover',
-    }),
+    // NgxPopperModule.forRoot({
+    //   // use antd
+    //   applyClass: 'tooltip-content',
+    //   trigger: 'hover',
+    // }),
     MarkdownModule.forRoot(),
     ResizableModule,
     IconsModule,
@@ -103,7 +103,7 @@ const AntdComponentModules = [
   // DON'T FORGET TO EXPORT MODULE
   exports: [
     TranslateModule,
-    SortablejsModule,
+    // SortablejsModule,
     NgPipesModule,
     ContextMenuModule,
     NguiAutoCompleteModule,
