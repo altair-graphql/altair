@@ -22211,10 +22211,10 @@ next@13.1.0:
     "@next/swc-win32-ia32-msvc" "13.1.0"
     "@next/swc-win32-x64-msvc" "13.1.0"
 
-ng-mocks@14.0.1:
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.0.1.tgz#bdcbe624332ea1a38f383ab4ed04e91cc78c2c53"
-  integrity sha512-wwIBQimfU5cpDmpyRRYYCNf2/M+8MObOJvsrdxvlhSE2t8QAJn1bJXbyL5SFjw1T4DreHwbH3mQzUqPdPLeyBA==
+ng-mocks@^14.12.1:
+  version "14.12.1"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.12.1.tgz#a2d698c872616e0ceeefa08ecb4bd357ae85a7dd"
+  integrity sha512-5OdTYYOva7IkCCi6kTtgnII1hSfw+qYOM1ScrKhyo7iaI/ViV8xI4MGa89Ts7XnH6XqISSez2Un3zFSomkFpmg==
 
 ng-packagr@^13.0.8:
   version "13.0.8"
