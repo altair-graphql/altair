@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgPipesModule } from 'ngx-pipes';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
-import { NgxPopperModule } from 'ngx-popper';
 import { MarkdownModule } from 'ngx-markdown';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ResizableModule } from 'angular-resizable-element';
@@ -72,11 +71,6 @@ const AntdComponentModules = [
     NgPipesModule,
     NguiAutoCompleteModule, // use antd
     ContextMenuModule.forRoot(),
-    NgxPopperModule.forRoot({
-      // use antd
-      applyClass: 'tooltip-content',
-      trigger: 'hover',
-    }),
     MarkdownModule.forRoot(),
     ResizableModule,
     IconsModule,
@@ -107,7 +101,6 @@ const AntdComponentModules = [
     NgPipesModule,
     ContextMenuModule,
     NguiAutoCompleteModule,
-    NgxPopperModule,
     MarkdownModule,
     ResizableModule,
     IconsModule,

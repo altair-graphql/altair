@@ -19,6 +19,8 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         <button
           class="icon-button"
           data-test-id="import-collection"
+          nz-tooltip=""
+          nztooltipplacement="bottom"
           type="button"
         >
           <app-icon

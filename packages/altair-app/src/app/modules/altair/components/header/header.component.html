@@ -26,8 +26,9 @@
     <li
       *ngFor="let panel of headerPanels; trackBy: trackById"
       (click)="togglePanelActiveChange.emit(panel)"
-      [popper]="panel.title"
-      [popperPlacement]="'bottom'"
+      nz-tooltip
+      [nzTooltipTitle]="panel.title"
+      nzTooltipPlacement="bottom"
       class="header__menu-item"
       [ngClass]="{ 'header__menu-item--active': panel.isActive }"
     >

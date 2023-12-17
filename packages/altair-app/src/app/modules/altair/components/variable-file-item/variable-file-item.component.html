@@ -11,7 +11,8 @@
       [ngClass]="{
         'variables-file-item-switch--enabled': fileVariable?.isMultiple
       }"
-      [popper]="'Toggle single/multiple file mode'"
+      nz-tooltip
+      [nzTooltipTitle]="'VARIABLE_TOGGLE_FILE_MODE' | translate"
       (click)="fileVariableIsMultipleChange.emit(!fileVariable?.isMultiple)"
     >
       <span *ngIf="!fileVariable?.isMultiple">1</span>
@@ -34,7 +35,11 @@
       [attr.multiple]="fileVariable?.isMultiple ? '' : null"
       (change)="onSelectFiles()"
     />
-    <span class="variables-file-item-selected-total" [popper]="filesText">
+    <span
+      class="variables-file-item-selected-total"
+      nz-tooltip
+      [nzTooltipTitle]="filesText"
+    >
       {{ validFileData.length }} file(s)
     </span>
     <button

@@ -22306,13 +22306,6 @@ ngx-pipes@2.7.3:
   resolved "https://registry.yarnpkg.com/ngx-pipes/-/ngx-pipes-2.7.3.tgz#b161b1e08263886ad4706a1b34b073ab28aeebf4"
   integrity sha512-aOjOSxvIhmRjdwjZOy9tGujrz45nKEsJHDBtCjOoLuvmFxOagKXDNFNCpMJEE7wPPj65TuSMQpsOlk1lcr9vQQ==
 
-ngx-popper@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-popper/-/ngx-popper-7.0.0.tgz#4a46557f27384680a0298b395b2f296016cf3f78"
-  integrity sha512-YEp5defNRRs/vq3OaF5aosvfDQEXw0ZJytlfcEfWUu43gxs6AoQIHD82EC41MfQi6impvRie+M1ZO5KpEBH43Q==
-  dependencies:
-    tslib "^1.9.0"
-
 ngx-take-until-destroy@5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/ngx-take-until-destroy/-/ngx-take-until-destroy-5.4.0.tgz#6c8606ee956584dc947e2eb609c48b8f98b09900"
@@ -24142,11 +24135,6 @@ pluralize@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
-
-popper.js@1.16.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
-  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 posix-character-classes@^0.1.0:
   version "0.1.1"

@@ -60,6 +60,7 @@
 
   "VARIABLES_TEXT": "Variables",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Add, edit and remove variables in your request",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
 
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
@@ -206,6 +207,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
 
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "Profile",

@@ -10,6 +10,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
     >
       <span
         class="variables-file-item-switch"
+        nz-tooltip=""
       >
         <span>
           1
@@ -34,6 +35,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       />
       <span
         class="variables-file-item-selected-total"
+        nz-tooltip=""
       >
          0 file(s) 
       </span>

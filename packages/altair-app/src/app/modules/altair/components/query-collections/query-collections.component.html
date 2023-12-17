@@ -11,8 +11,9 @@
         type="button"
         class="icon-button"
         data-test-id="import-collection"
-        [popper]="'COLLECTIONS_IMPORT_TEXT' | translate"
-        [popperPlacement]="'bottom'"
+        nz-tooltip
+        [nzTooltipTitle]="'COLLECTIONS_IMPORT_TEXT' | translate"
+        nzTooltipPlacement="bottom"
         (click)="importCollectionsChange.next()"
       >
         <app-icon name="log-in"></app-icon>
@@ -22,8 +23,9 @@
         type="button"
         class="icon-button"
         data-test-id="sync-collection"
-        [popper]="'COLLECTION_SYNC_TEXT' | translate"
-        [popperPlacement]="'bottom'"
+        nz-tooltip
+        [nzTooltipTitle]="'COLLECTION_SYNC_TEXT' | translate"
+        nzTooltipPlacement="bottom"
         (click)="syncCollectionsChange.next()"
       >
         <app-icon name="refresh-ccw"></app-icon>

@@ -1,10 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { QueryCollectionItemComponent } from './query-collection-item.component';
-import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPopperModule } from 'ngx-popper';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';

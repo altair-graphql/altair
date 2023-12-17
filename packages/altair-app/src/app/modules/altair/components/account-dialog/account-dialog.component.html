@@ -35,7 +35,12 @@
     </p>
     <div class="account-dialog__stats">
       <div class="account-dialog__stats-title">
-        Plan Stats <app-icon name="info" [popper]="'The stats show how much resources you have and the number of resources allowed for your current plan'"></app-icon>
+        Plan Stats
+        <app-icon
+          name="info"
+          nz-tooltip
+          [nzTooltipTitle]="'ACCOUNT_PLAN_STATS_DESCRIPTION' | translate"
+        ></app-icon>
       </div>
       <div>Plan: {{ account?.plan?.id }}</div>
       <div>Queries: {{ account?.stats?.queriesCount ?? 0 }} / {{ account?.plan?.maxQueriesCount ?? 0 }}</div>
