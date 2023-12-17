@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "Więcej nagłówków odpowiedzi jest zwracanych w aplikacjach desktopowych.",
   "VARIABLES_TEXT": "Zmienne",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Dodaj, edytuj i usuń zmienne w zapytaniu",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "Nagłówki",
   "SET_HEADERS_DIALOG_SUBTEXT": "Dodaj, edytuj i usuń nagłówki w zapytaniu",
   "ADD_HEADER_TEXT": "Dodaj nagłówek",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "Profile",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
