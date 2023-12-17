@@ -2653,12 +2653,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@ctrl/ngx-codemirror@3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-3.1.3.tgz#6c6e918f40681d1fc1c5002e9892d3eed060044e"
-  integrity sha512-F9YjFdSt+ibght8lvQ/wvaYGRT3twXzP6Vo7moSy4Y5dEl5gIklNPnH0z0/Kp6gwABuo8vgQ6Ur+Gh7s5OmHYg==
+"@ctrl/ngx-codemirror@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-6.1.0.tgz#9324a56e4b709be9c515364d21e05e1d7589f009"
+  integrity sha512-73QeoNbnluZalWmNw+SOFctsE+oz0+4Bl9KhlJOIfbCPK/U6OIc+vQNr28hMAp15Y/Idde3LntTwLBDFW0bRVA==
   dependencies:
-    "@types/codemirror" "0.0.89"
+    "@types/codemirror" "^5.60.5"
+    tslib "^2.3.0"
 
 "@ctrl/tinycolor@^3.3.1":
   version "3.4.1"
@@ -5399,17 +5400,15 @@
   resolved "https://registry.yarnpkg.com/@ngui/auto-complete/-/auto-complete-3.0.0.tgz#961cd1bacb03a1c592310a788afbb6a6f8d23c28"
   integrity sha512-cEJHTuta1ZEAgWMTZNmFhVqTcuWIqCLUUBJWIWuIwZgVBcnM/ctn5GSyu/lP2iCV+VG34kHE8NrvTnAztagYxA==
 
-"@ngx-translate/core@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-12.1.2.tgz#0c6f24249953a79cfc2d581b2cd1b5d6d338d9db"
-  integrity sha512-ZudJsqIxTKlLmPoqK8gJY3UpMGujR0Xm7HfXL6AR79yGRS23QqpjAhMfx4v5qUCcHMmQ9/78bW8QJLfp31c7vQ==
+"@ngx-translate/core@^15.0.0":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-15.0.0.tgz#0fe55b9bd47e75b03d1123658f15fb7b5a534f3c"
+  integrity sha512-Am5uiuR0bOOxyoercDnAA3rJVizo4RRqJHo8N3RqJ+XfzVP/I845yEnMADykOHvM6HkVm4SZSnJBOiz0Anx5BA==
 
-"@ngx-translate/http-loader@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-4.0.0.tgz#8a555248ad4b7d513460fcec9da25b0447962f1d"
-  integrity sha512-x8LumqydWD7eX9yQTAVeoCM9gFUIGVTUjZqbxdAUavAA3qVnk9wCQux7iHLPXpydl8vyQmLoPQR+fFU+DUDOMA==
-  dependencies:
-    tslib "^1.9.0"
+"@ngx-translate/http-loader@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-8.0.0.tgz#e02c25dbe33c6b1edee73e3654ab8a161572cdfb"
+  integrity sha512-SFMsdUcmHF5OdZkL1CHEoSAwbP5EbAOPTLLboOCRRoOg21P4GJx+51jxGdJeGve6LSKLf4Pay7BkTwmE6vxYlg==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -7007,10 +7006,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/codemirror@0.0.89":
-  version "0.0.89"
-  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.89.tgz#c3627a8a85a2b3a61110f05ab1949f92451e8662"
-  integrity sha512-kLw8yUzz1dTAHQh+WYA/2Ka7YZUf5h3oHzgwP48xhbfmqqxrfp9lWuP9Ro26SUDHTthVl5afAa+DabsL1KD5oQ==
+"@types/codemirror@^5.60.5":
+  version "5.60.15"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-5.60.15.tgz#0f82be6f4126d1e59cf4c4830e56dcd49d3c3e8a"
+  integrity sha512-dTOvwEQ+ouKJ/rE9LT1Ue2hmP6H1mZv5+CCnNWu2qtiOe2LQa9lCprEY20HxiDmV/Bxh+dXjywmy5aKvoGjULA==
   dependencies:
     "@types/tern" "*"
 
@@ -7423,9 +7422,9 @@
   integrity sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==
 
 "@types/marked@^4.0.3":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-4.0.6.tgz#9ca544c1057f3c8b3f649b5e8e56d9241e3ca22d"
-  integrity sha512-ITAVUzsnVbhy5afxhs4PPPbrv2hKVEDH5BhhaQNQlVG0UNu+9A18XSdYr53nBdHZ0ADEQLl+ciOjXbs7eHdiQQ==
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-4.3.2.tgz#e2e0ad02ebf5626bd215c5bae2aff6aff0ce9eac"
+  integrity sha512-a79Yc3TOk6dGdituy8hmTTJXjOkZ7zsFYV10L337ttq/rec8lRMDBpV7fL3uLx6TgbFCa5DU/h8FmIBQPSbU0w==
 
 "@types/memoizee@^0.4.3":
   version "0.4.8"
@@ -21064,12 +21063,12 @@ lru_map@^0.3.3:
   resolved "https://registry.yarnpkg.com/lru_map/-/lru_map-0.3.3.tgz#b5c8351b9464cbd750335a79650a0ec0e56118dd"
   integrity sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==
 
-lucide-angular@0.84.0:
-  version "0.84.0"
-  resolved "https://registry.yarnpkg.com/lucide-angular/-/lucide-angular-0.84.0.tgz#f9483557934754b4cc77f287d5c32792d0538756"
-  integrity sha512-imY6gWkNnY4p1OjmbqH3bhiiqRjkSAsdkmHxRsatrJlQsWGmOhUL/sErRyuD74BKuuAulVswc21dvYYPSktGKA==
+lucide-angular@^0.298.0:
+  version "0.298.0"
+  resolved "https://registry.yarnpkg.com/lucide-angular/-/lucide-angular-0.298.0.tgz#2e6567b5ce753790f30fddf68ce90aab6da5cd35"
+  integrity sha512-duZzjsIUXcmSlLpln4gaPbkVyaOvtYPteT35HeMXM51+PD6n5J+OpAO8OL3N9AzIo0F1teyhiZxjRIavuFNN0A==
   dependencies:
-    tslib "^2.3.1"
+    tslib "^2.3.0"
 
 macos-release@^2.5.0:
   version "2.5.0"
@@ -21287,9 +21286,9 @@ map-visit@^1.0.0:
     object-visit "^1.0.0"
 
 marked@^4.0.17, marked@^4.0.19:
-  version "4.0.19"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.19.tgz#d36198d1ac1255525153c351c68c75bc1d7aee46"
-  integrity sha512-rgQF/OxOiLcvgUAj1Q1tAf4Bgxn5h5JZTp04Fx4XUkVhs7B+7YA9JEWJhJpoO8eJt8MkZMwqLCNeNqj1bCREZQ==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.3.0.tgz#796362821b019f734054582038b116481b456cf3"
+  integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
 
 marky@^1.2.0:
   version "1.2.1"
@@ -22306,12 +22305,12 @@ ngx-take-until-destroy@5.4.0:
   dependencies:
     tslib "^1.9.0"
 
-ngx-toastr@14.1.0:
-  version "14.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-14.1.0.tgz#b2607e358b04481b710d8f5a88179ba233ac4851"
-  integrity sha512-bDdgM7cJXGvJCEU+aggsZ58Fc4x87oH0mjsjGAPQHqJ4K6gYCWaB79i1RxVBPmoXmTGooNJeeCsSZYLoHIo2Bg==
+ngx-toastr@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-18.0.0.tgz#0016e897108817eb6b2ee16ff130b4c42fc214b0"
+  integrity sha512-jZ3rOG6kygl8ittY8OltIMSo47P1VStuS01igm3MZXK6InJwHVvxU7wDHI/HGMlXSyNvWncyOuFHnnMEAifsew==
   dependencies:
-    tslib "^2.2.0"
+    tslib "^2.3.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"

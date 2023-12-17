@@ -13,7 +13,7 @@ let mockStore: Store<RootState>;
 
 describe('NotifyService', () => {
   beforeEach(() => {
-    mockToastService = MockService(ToastrService, {
+    mockToastService = mock<ToastrService>({
       success: anyFn(),
       error: anyFn(),
       warning: anyFn(),
