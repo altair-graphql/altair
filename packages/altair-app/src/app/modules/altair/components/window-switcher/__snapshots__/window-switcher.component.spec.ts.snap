@@ -17,15 +17,5 @@ exports[`WindowSwitcherComponent should render correctly 1`] = `
     </li>
     
   </ul>
-  
-  <context-menu>
-    
-    
-    
-    
-    
-    
-    
-  </context-menu>
 </app-window-switcher>
 `;

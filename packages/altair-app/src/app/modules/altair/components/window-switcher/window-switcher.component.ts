@@ -4,14 +4,15 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
   HostBinding,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
-
-import { ContextMenuComponent } from 'ngx-contextmenu';
+import {
+  NzContextMenuService,
+  NzDropdownMenuComponent,
+} from 'ng-zorro-antd/dropdown';
 
 import { debug } from '../../utils/logger';
 
@@ -39,15 +40,13 @@ export class WindowSwitcherComponent {
     return !this.enableScrollbar;
   }
 
-  @ViewChild(ContextMenuComponent, { static: true })
-  public windowTabMenu?: ContextMenuComponent;
-
-  windowTabMenuData = [{ name: 'Edit' }];
-
   windowIdEditing = '';
   maxWindowCount = this.altairConfig.max_windows;
 
-  constructor(private altairConfig: AltairConfig) {}
+  constructor(
+    private altairConfig: AltairConfig,
+    private nzContextMenuService: NzContextMenuService
+  ) {}
 
   onDropEnd(event: CdkDragDrop<any, any, any>) {
     this.moveWindow(event.previousIndex || 0, event.currentIndex || 0);
@@ -99,6 +98,14 @@ export class WindowSwitcherComponent {
 
   reopenClosedTab() {
     this.reopenClosedWindowChange.emit();
+  }
+
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    this.nzContextMenuService.create($event, menu);
+  }
+
+  closeMenu(): void {
+    this.nzContextMenuService.close();
   }
 
   log(str: string) {

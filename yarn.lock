@@ -283,14 +283,14 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/cdk@12.2.6":
-  version "12.2.6"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.2.6.tgz#12aca217e30d96625b38ab83c0ca445f074ba41b"
-  integrity sha512-93H08rrsxJfY3ZvHINkFmCR4C0R0vFog4+uZ6PuW1YAZGClGVfivzjvMRN5hwqbANLV5xWzgsipMc2x0gIzcpg==
+"@angular/cdk@15.2.9":
+  version "15.2.9"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-15.2.9.tgz#e22df07b296fec6dccf66d569c3acc3c504c2058"
+  integrity sha512-koaM07N1AIQ5oHU27l0/FoQSSoYAwlAYwVZ4Di3bYrJsTBNCN2Xsby7wI8gZxdepMnV4Fe9si382BDBov+oO4Q==
   dependencies:
-    tslib "^2.2.0"
+    tslib "^2.3.0"
   optionalDependencies:
-    parse5 "^5.0.0"
+    parse5 "^7.1.2"
 
 "@angular/cdk@^12.1.0":
   version "12.2.13"
@@ -22273,13 +22273,6 @@ ngrx-store-localstorage@12.0.1:
     deepmerge "^4.2.2"
     tslib "^2.1.0"
 
-ngx-contextmenu@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-contextmenu/-/ngx-contextmenu-6.0.0.tgz#d06235eff42a0808c5b61df00aaadd1d19fa601c"
-  integrity sha512-y/v++xVNccz5C1NydtL5sHVZwACsKTgXbmZ76CPierv/nPAstr6rrTX37Zlwal3OnbN5XGTSKRcXZSuWUC5Z1Q==
-  dependencies:
-    tslib "^2.1.0"
-
 ngx-cookie-service@14.0.1:
   version "14.0.1"
   resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-14.0.1.tgz#0c0f8a7ba91dbb68d3f8ad0f8808bbde4f6e55aa"
@@ -23678,7 +23671,7 @@ parse5@^5.0.0:
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
   integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
 
-parse5@^7.0.0:
+parse5@^7.0.0, parse5@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.2.tgz#0736bebbfd77793823240a23b7fc5e010b7f8e32"
   integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
