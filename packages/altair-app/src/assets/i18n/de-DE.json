@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "Weitere Antwort-Header werden in den Desktop-Apps zurückgegeben.",
   "VARIABLES_TEXT": "Variablen",
   "SET_VARIABLES_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Variablen in deiner Anfrage",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "Header",
   "SET_HEADERS_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Header-Angaben in deiner Anfrage",
   "ADD_HEADER_TEXT": "Header hinzufügen",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Neues Teammitglied hinzufügen",
   "UPDATE_TEAM_MEMBER_TEXT": "Teammitglied aktualisieren",
   "TEAM_MEMBERS_TEXT": "Teammitglieder",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Bearbeiten",
   "PROFILE_TEXT": "Profil",
   "UPGRADE_PRO_TEXT": "Auf Pro upgraden"
