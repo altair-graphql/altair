@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgPipesModule } from 'ngx-pipes';
-import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { MarkdownModule } from 'ngx-markdown';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ResizableModule } from 'angular-resizable-element';
@@ -68,7 +67,6 @@ const AntdComponentModules = [
     DragDropModule,
     TranslateModule.forRoot(),
     NgPipesModule,
-    NguiAutoCompleteModule, // use antd
     MarkdownModule.forRoot(),
     ResizableModule,
     IconsModule,
@@ -97,7 +95,6 @@ const AntdComponentModules = [
     DragDropModule,
     TranslateModule,
     NgPipesModule,
-    NguiAutoCompleteModule,
     MarkdownModule,
     ResizableModule,
     IconsModule,

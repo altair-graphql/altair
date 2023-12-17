@@ -433,7 +433,7 @@ export class AltairComponent {
     const defaultLanguage = this.translate.getDefaultLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable =
-      this.checkLanguageAvailability(clientLanguage);
+      clientLanguage && this.checkLanguageAvailability(clientLanguage);
 
     return isClientLanguageAvailable && !this.altairConfig.isTranslateMode
       ? clientLanguage
