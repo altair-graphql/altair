@@ -55,6 +55,7 @@
   "RESPONSE_HEADERS_MORE_IN_APPS": "More response headers are returned in desktop apps.",
   "VARIABLES_TEXT": "変数",
   "SET_VARIABLES_DIALOG_SUBTEXT": "リクエストにある変数の追加、変更、削除",
+  "VARIABLE_TOGGLE_FILE_MODE": "Toggle single/multiple file mode",
   "HEADERS_TEXT": "ヘッダー",
   "SET_HEADERS_DIALOG_SUBTEXT": "ヘッダーにある変数の追加、変更、削除",
   "ADD_HEADER_TEXT": "ヘッダ追加",
@@ -183,6 +184,7 @@
   "ADD_TEAM_MEMBER_TEXT": "Add a new team member",
   "UPDATE_TEAM_MEMBER_TEXT": "Update team member",
   "TEAM_MEMBERS_TEXT": "Team members",
+  "ACCOUNT_PLAN_STATS_DESCRIPTION": "The stats show how much resources you have and the number of resources allowed for your current plan",
   "EDIT_TEXT": "Edit",
   "PROFILE_TEXT": "Profile",
   "UPGRADE_PRO_TEXT": "Upgrade to Pro"
