@@ -65,14 +65,6 @@ Object.defineProperty(window, 'console', {
     error: jest.fn(),
   },
 });
-Object.defineProperty(document.body.style, 'transform', {
-  value: () => {
-    return {
-      enumerable: true,
-      configurable: true,
-    };
-  },
-});
 
 Object.defineProperty(window, 'DragEvent', {
   value: class DragEvent {},
