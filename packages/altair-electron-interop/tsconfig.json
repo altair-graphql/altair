@@ -5,7 +5,7 @@
     "rootDir": "./src",
     "target": "es2020",
     "module": "Node16",
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "lib": ["dom", "esnext"],
     "types": ["node"],
     "skipLibCheck": true
