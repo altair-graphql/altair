@@ -1,147 +1,168 @@
-<div #docViewer *ngIf="allowIntrospection" class="app-doc-viewer">
-  <div class="app-doc-loader" *ngIf="isLoading" [@fadeInOutAnimation]>
-    <div class="app-doc-loader-content">
-      <img
-        src="assets/img/logo.svg"
-        alt=""
-        class="anim"
-        [ngClass]="{ 'anim-rotate': isLoading }"
-      />
-      {{ 'LOADING_INDICATOR_TEXT' | translate }}
-    </div>
-  </div>
-  <div class="doc-viewer-header">
-    <div class="doc-viewer-navigation">
-      <div class="doc-viewer-navigation--left">
-        <div
-          class="doc-viewer-navigation__option"
-          (click)="goBack()"
-          *ngIf="docView.view !== 'root' && docHistory.length"
-          track-id="go_back_docs"
-        >
-          <app-icon name="arrow-left"></app-icon>
-          <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
-        </div>
-        <div
-          class="doc-viewer-navigation__option"
-          (click)="goHome()"
-          *ngIf="docView.view !== 'root'"
-        >
-          <app-icon name="home"></app-icon>
+@if (allowIntrospection) {
+  <div #docViewer class="app-doc-viewer">
+    @if (isLoading) {
+      <div class="app-doc-loader" [@fadeInOutAnimation]>
+        <div class="app-doc-loader-content">
+          <img
+            src="assets/img/logo.svg"
+            alt=""
+            class="anim"
+            [ngClass]="{ 'anim-rotate': isLoading }"
+            />
+          {{ 'LOADING_INDICATOR_TEXT' | translate }}
         </div>
       </div>
-      <div class="doc-viewer-navigation--right">
-        <div
-          nz-dropdown
-          nzTrigger="click"
-          [nzDropdownMenu]="docViewerMenu"
-          class="doc-viewer-navigation__option"
-        >
-          <app-icon name="more-horizontal"></app-icon>
+    }
+    <div class="doc-viewer-header">
+      <div class="doc-viewer-navigation">
+        <div class="doc-viewer-navigation--left">
+          @if (docView.view !== 'root' && docHistory.length) {
+            <div
+              class="doc-viewer-navigation__option"
+              (click)="goBack()"
+              track-id="go_back_docs"
+              >
+              <app-icon name="arrow-left"></app-icon>
+              <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
+            </div>
+          }
+          @if (docView.view !== 'root') {
+            <div
+              class="doc-viewer-navigation__option"
+              (click)="goHome()"
+              >
+              <app-icon name="home"></app-icon>
+            </div>
+          }
         </div>
-        <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
-          <ul nz-menu>
-            <li *ngIf="gqlSchema" nz-menu-item (click)="exportSDL()">
-              {{ 'DOCS_EXPORT_SDL' | translate }}
-            </li>
-            <li nz-menu-item (click)="loadSchemaChange.next()">
-              {{ 'DOCS_LOAD_SCHEMA' | translate }}...
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-        <div
-          class="doc-viewer-navigation__option"
-          (click)="toggleDocsChange.next()"
-        >
-          <app-icon name="x"></app-icon>
+        <div class="doc-viewer-navigation--right">
+          <div
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="docViewerMenu"
+            class="doc-viewer-navigation__option"
+            >
+            <app-icon name="more-horizontal"></app-icon>
+          </div>
+          <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
+            <ul nz-menu>
+              @if (gqlSchema) {
+                <li nz-menu-item (click)="exportSDL()">
+                  {{ 'DOCS_EXPORT_SDL' | translate }}
+                </li>
+              }
+              <li nz-menu-item (click)="loadSchemaChange.next()">
+                {{ 'DOCS_LOAD_SCHEMA' | translate }}...
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+          <div
+            class="doc-viewer-navigation__option"
+            (click)="toggleDocsChange.next()"
+            >
+            <app-icon name="x"></app-icon>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="doc-viewer-search-wrapper">
-    <input
-      class="doc-viewer-search-input"
-      nz-input
-      #autocompleteInput
-      [placeholder]="'DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT' | translate"
-      [(ngModel)]="searchTerm"
-      (input)="debouncedFilterAutocompleteOptions($event)"
-      (keyup.enter)="searchDocs(autocompleteInput.value)"
-      [nzAutocomplete]="auto"
-    />
-    <nz-autocomplete
-      #auto
-      nzBackfill
-      [nzDefaultActiveFirstOption]="false"
-      (selectionChange)="searchDocs(autocompleteInput.value)"
-    >
-      <nz-auto-option
-        *ngFor="let option of autocompleteOptions"
-        [nzValue]="option"
-        [nzLabel]="option.search"
-      >
-        <div class='doc-viewer-autocomplete-item'>
-          {{option.search}}
-          <span class='doc-viewer-autocomplete-item-field'>{{option.cat}}</span>
-          <span class='doc-viewer-autocomplete-item-description'>{{option.description}}</span>
-        </div>
-      </nz-auto-option>
-    </nz-autocomplete>
-  </div>
-  <div class="doc-viewer-items">
-    <div *ngIf="gqlSchema" [ngSwitch]="docView.view">
-      <ng-container *ngSwitchCase="'root'">
-        <div
-          class="doc-viewer-item"
-          *ngFor="let item of rootTypes; trackBy: rootTypeTrackBy"
+    <div class="doc-viewer-search-wrapper">
+      <input
+        class="doc-viewer-search-input"
+        nz-input
+        #autocompleteInput
+        [placeholder]="'DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT' | translate"
+        [(ngModel)]="searchTerm"
+        (input)="debouncedFilterAutocompleteOptions($event)"
+        (keyup.enter)="searchDocs(autocompleteInput.value)"
+        [nzAutocomplete]="auto"
+        />
+      <nz-autocomplete
+        #auto
+        nzBackfill
+        [nzDefaultActiveFirstOption]="false"
+        (selectionChange)="searchDocs(autocompleteInput.value)"
         >
-          <span
-            class="no-link-link"
-            *ngIf="item"
-            (click)="goToType(item.name)"
-            >{{ item.name }}</span
-          >
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="'type'">
-        <app-doc-viewer-type
-          *ngIf="docView.view === 'type' && gqlSchema.getType(docView.name)"
-          [data]="gqlSchema.getType(docView.name)"
-          [gqlSchema]="gqlSchema"
-          [sortByOption]="sortFieldsByOption"
-          (goToFieldChange)="goToField($event.name, $event.parentType)"
-          (goToTypeChange)="goToType($event.name)"
-          (addToEditorChange)="addToEditor($event.name, $event.parentType)"
-          (sortFieldsByChange)="setSortFieldsByOption($event)"
-        ></app-doc-viewer-type>
-      </ng-container>
-      <ng-container *ngSwitchCase="'field'">
-        <app-doc-viewer-field
-          *ngIf="docView.view === 'field'"
-          [data]="getField(docView)"
-          [gqlSchema]="gqlSchema"
-          [parentType]="docView.parentType"
-          [sortByOption]="sortFieldsByOption"
-          (goToFieldChange)="goToField($event.name, $event.parentType)"
-          (goToTypeChange)="goToType($event.name)"
-          (addToEditorChange)="addToEditor($event.name, $event.parentType)"
-          (sortFieldsByChange)="setSortFieldsByOption($event)"
-        ></app-doc-viewer-field>
-      </ng-container>
-      <ng-container *ngSwitchCase="'search'">
-        <app-doc-viewer-search-results
-          [results]="searchResult"
-          (goToFieldChange)="goToField($event.name, $event.parentType)"
-          (goToTypeChange)="goToType($event.name)"
-        ></app-doc-viewer-search-results>
-      </ng-container>
+        @for (option of autocompleteOptions; track option) {
+          <nz-auto-option
+            [nzValue]="option"
+            [nzLabel]="option.search"
+            >
+            <div class='doc-viewer-autocomplete-item'>
+              {{option.search}}
+              <span class='doc-viewer-autocomplete-item-field'>{{option.cat}}</span>
+              <span class='doc-viewer-autocomplete-item-description'>{{option.description}}</span>
+            </div>
+          </nz-auto-option>
+        }
+      </nz-autocomplete>
     </div>
-  </div>
-</div>
-<div class="doc-viewer__last-updated" *ngIf="gqlSchema && lastUpdatedAt">
-  {{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date: 'medium' }}
-</div>
-<div class="app-doc-notice" *ngIf="!allowIntrospection">
-  {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
-</div>
-<app-flex-resizer (resizeChange)="onResize($event)"></app-flex-resizer>
+    <div class="doc-viewer-items">
+      @if (gqlSchema) {
+        <div>
+          @switch (docView.view) {
+            @case ('root') {
+              @for (item of rootTypes; track rootTypeTrackBy($index, item)) {
+                <div
+                  class="doc-viewer-item"
+                  >
+                  @if (item) {
+                    <span
+                      class="no-link-link"
+                      (click)="goToType(item.name)"
+                      >{{ item.name }}</span
+                      >
+                    }
+                  </div>
+                }
+              }
+              @case ('type') {
+                @if (docView.view === 'type' && gqlSchema.getType(docView.name)) {
+                  <app-doc-viewer-type
+                    [data]="gqlSchema.getType(docView.name)"
+                    [gqlSchema]="gqlSchema"
+                    [sortByOption]="sortFieldsByOption"
+                    (goToFieldChange)="goToField($event.name, $event.parentType)"
+                    (goToTypeChange)="goToType($event.name)"
+                    (addToEditorChange)="addToEditor($event.name, $event.parentType)"
+                    (sortFieldsByChange)="setSortFieldsByOption($event)"
+                  ></app-doc-viewer-type>
+                }
+              }
+              @case ('field') {
+                @if (docView.view === 'field') {
+                  <app-doc-viewer-field
+                    [data]="getField(docView)"
+                    [gqlSchema]="gqlSchema"
+                    [parentType]="docView.parentType"
+                    [sortByOption]="sortFieldsByOption"
+                    (goToFieldChange)="goToField($event.name, $event.parentType)"
+                    (goToTypeChange)="goToType($event.name)"
+                    (addToEditorChange)="addToEditor($event.name, $event.parentType)"
+                    (sortFieldsByChange)="setSortFieldsByOption($event)"
+                  ></app-doc-viewer-field>
+                }
+              }
+              @case ('search') {
+                <app-doc-viewer-search-results
+                  [results]="searchResult"
+                  (goToFieldChange)="goToField($event.name, $event.parentType)"
+                  (goToTypeChange)="goToType($event.name)"
+                ></app-doc-viewer-search-results>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @if (gqlSchema && lastUpdatedAt) {
+    <div class="doc-viewer__last-updated">
+      {{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date: 'medium' }}
+    </div>
+  }
+  @if (!allowIntrospection) {
+    <div class="app-doc-notice">
+      {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
+    </div>
+  }
+  <app-flex-resizer (resizeChange)="onResize($event)"></app-flex-resizer>

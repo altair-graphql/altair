@@ -1,4 +1,4 @@
-<ng-container *ngIf="data">
+@if (data) {
   <div class="doc-viewer-section">
     <!--Field name and description-->
     <div class="doc-viewer-item doc-viewer-item-field">
@@ -18,64 +18,70 @@
           class="doc-viewer-item-query-add-btn"
           (click)="addToEditor({ name: data.name, parentType: parentType })"
           track-id="add_query"
-        >
-          <ng-container *ngIf="isRootType(parentType)">{{
+          >
+          @if (isRootType(parentType)) {
+            {{
             'DOCS_ADD_QUERY_TEXT' | translate
-          }}</ng-container>
-          <ng-container *ngIf="!isRootType(parentType)">{{
+            }}
+          }
+          @if (!isRootType(parentType)) {
+            {{
             'DOCS_ADD_FRAGMENT_TEXT' | translate
-          }}</ng-container>
+            }}
+          }
         </button>
       </div>
     </div>
   </div>
   <!--Field arguments-->
-  <div
-    class="doc-viewer-section doc-viewer-arguments"
-    *ngIf="data.args && data.args.length"
-  >
-    <div class="doc-viewer-section-title">
-      {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
-    </div>
+  @if (data.args && data.args.length) {
     <div
-      class="doc-viewer-item doc-viewer-item-query"
-      *ngFor="let arg of data.args; trackBy: argTrackBy"
-    >
-      <div class="doc-viewer-item-query-inner">
-        <span class="no-link-link" (click)="goToType(arg.type.inspect())">
-          {{ arg.name }}
-          <span class="doc-viewer-item-value" *ngIf="getDefaultValue(arg)"
-            >= {{ getDefaultValue(arg) }}</span
-          >
-        </span>
-        <span
-          class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-          (click)="goToType(arg.type.inspect())"
-        >
-          {{ arg.type.inspect() }}
-        </span>
+      class="doc-viewer-section doc-viewer-arguments"
+      >
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
       </div>
-      <div
-        class="doc-viewer-item-query-description"
-        markdown
-        [data]="arg.description || ''"
-      ></div>
-    </div>
-  </div>
-</ng-container>
+      @for (arg of data.args; track argTrackBy($index, arg)) {
+        <div
+          class="doc-viewer-item doc-viewer-item-query"
+          >
+          <div class="doc-viewer-item-query-inner">
+            <span class="no-link-link" (click)="goToType(arg.type.inspect())">
+              {{ arg.name }}
+              @if (getDefaultValue(arg)) {
+                <span class="doc-viewer-item-value"
+                  >= {{ getDefaultValue(arg) }}</span
+                  >
+                }
+              </span>
+              <span
+                class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+                (click)="goToType(arg.type.inspect())"
+                >
+                {{ arg.type.inspect() }}
+              </span>
+            </div>
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="arg.description || ''"
+            ></div>
+          </div>
+        }
+      </div>
+    }
+  }
 
-<!--Field type-->
-<div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
-<ng-container
-  *ngIf="gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))"
->
-  <app-doc-viewer-type
-    [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
-    [gqlSchema]="gqlSchema"
-    [sortByOption]="sortByOption"
-    (goToFieldChange)="goToField($event.name, $event.parentType)"
-    (goToTypeChange)="goToType($event.name)"
-    (addToEditorChange)="addToEditor($event)"
-    (sortFieldsByChange)="sortFieldsByChange.emit($event)"
-  ></app-doc-viewer-type>
-</ng-container>
+  <!--Field type-->
+  <div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
+  @if (gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))) {
+    <app-doc-viewer-type
+      [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
+      [gqlSchema]="gqlSchema"
+      [sortByOption]="sortByOption"
+      (goToFieldChange)="goToField($event.name, $event.parentType)"
+      (goToTypeChange)="goToType($event.name)"
+      (addToEditorChange)="addToEditor($event)"
+      (sortFieldsByChange)="sortFieldsByChange.emit($event)"
+    ></app-doc-viewer-type>
+  }

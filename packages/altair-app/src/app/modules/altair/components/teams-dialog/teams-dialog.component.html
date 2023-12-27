@@ -4,42 +4,44 @@
   [subheading]="'TEAMS_SUB_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
->
-<div class="teams-wrapper">
-  <ul nz-list [nzDataSource]="(teams$ | async)" [nzNoResult]="'No team'">
-    <li nz-list-item *ngFor="let team of (teams$ | async)" nzNoFlex>
-      <ul nz-list-item-actions>
-        <nz-list-item-action>
-          <a (click)="selectTeam(team.id)">
-            <app-icon name="list"></app-icon>
-            {{ 'TEAM_MEMBERS_TEXT' | translate }}
-          </a>
-        </nz-list-item-action>
-        <nz-list-item-action>
-          <a (click)="onEditTeam(team.id)">
-            <app-icon name="edit"></app-icon>
-            {{ 'EDIT_TEXT' | translate }}
-          </a>
-        </nz-list-item-action>
-        <nz-list-item-action>
-          <a (click)="onDeleteTeam(team.id)">
-            <app-icon name="trash-2"></app-icon>
-            {{ 'DELETE_TEXT' | translate }}
-          </a>
-        </nz-list-item-action>
-      </ul>
-      {{ team.name }}
-    </li>
-  </ul>
-  <div class="teams__list-actions">
-    <button
-      class="app-button full-width"
-      (click)="onCreateTeam()"
-    >
-      {{ 'CREATE_TEAM_BUTTON' | translate }}
-    </button>
+  >
+  <div class="teams-wrapper">
+    <ul nz-list [nzDataSource]="(teams$ | async)" [nzNoResult]="'No team'">
+      @for (team of (teams$ | async); track team) {
+        <li nz-list-item nzNoFlex>
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <a (click)="selectTeam(team.id)">
+                <app-icon name="list"></app-icon>
+                {{ 'TEAM_MEMBERS_TEXT' | translate }}
+              </a>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <a (click)="onEditTeam(team.id)">
+                <app-icon name="edit"></app-icon>
+                {{ 'EDIT_TEXT' | translate }}
+              </a>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <a (click)="onDeleteTeam(team.id)">
+                <app-icon name="trash-2"></app-icon>
+                {{ 'DELETE_TEXT' | translate }}
+              </a>
+            </nz-list-item-action>
+          </ul>
+          {{ team.name }}
+        </li>
+      }
+    </ul>
+    <div class="teams__list-actions">
+      <button
+        class="app-button full-width"
+        (click)="onCreateTeam()"
+        >
+        {{ 'CREATE_TEAM_BUTTON' | translate }}
+      </button>
+    </div>
   </div>
-</div>
 </app-dialog>
 
 <app-dialog
@@ -47,7 +49,7 @@
   [heading]=" (editTeamId ? 'UPDATE_TEAM_TEXT' : 'CREATE_TEAM_TEXT') | translate"
   [showFooter]="false"
   (toggleDialog)="showTeamForm = $event"
->
+  >
   <form [formGroup]="teamForm" (ngSubmit)="onSubmitTeamForm()">
     <div class="app-dialog-section">
       <input
@@ -56,20 +58,20 @@
         placeholder="Team name"
         name="teamName"
         formControlName="name"
-      />
+        />
     </div>
     <div class="app-dialog-section">
       <textarea
         class="app-input"
         placeholder="Description"
         name="teamDescription"
-        formControlName="description"></textarea>
+      formControlName="description"></textarea>
     </div>
     <div class="app-dialog-section">
       <button
         class="app-button active-primary"
         type="submit"
-      >
+        >
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>
@@ -81,24 +83,26 @@
   [heading]="'TEAM_MEMBERS_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="selectTeam()"
->
+  >
   <ul nz-list [nzDataSource]="membersOfSelectedTeam" [nzNoResult]="'No team member'">
-    <li nz-list-item *ngFor="let member of membersOfSelectedTeam" nzNoFlex>
-      <ul nz-list-item-actions>
-        <nz-list-item-action>
-          <a (click)="onEditTeamMember(member.userId)">
-            <app-icon name="edit"></app-icon>
-            {{ 'EDIT_TEXT' | translate }}
-          </a>
-        </nz-list-item-action>
-      </ul>
-      {{ member.user.firstName }}
-    </li>
+    @for (member of membersOfSelectedTeam; track member) {
+      <li nz-list-item nzNoFlex>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <a (click)="onEditTeamMember(member.userId)">
+              <app-icon name="edit"></app-icon>
+              {{ 'EDIT_TEXT' | translate }}
+            </a>
+          </nz-list-item-action>
+        </ul>
+        {{ member.user.firstName }}
+      </li>
+    }
   </ul>
   <button
     class="app-button full-width"
     (click)="onAddTeamMember()"
-  >
+    >
     {{ 'ADD_TEAM_MEMBER_TEXT' | translate }}
   </button>
 </app-dialog>
@@ -108,7 +112,7 @@
   [heading]=" (editUserId ? 'UPDATE_TEAM_MEMBER_TEXT' : 'ADD_TEAM_MEMBER_TEXT') | translate"
   [showFooter]="false"
   (toggleDialog)="showMemberForm = $event"
->
+  >
   <nz-alert
     nzType="warning"
     nzMessage="The user must already exist to add them as a team member"
@@ -121,13 +125,13 @@
         placeholder="Email address"
         name="email"
         formControlName="email"
-      />
+        />
     </div>
     <div class="app-dialog-section">
       <button
         class="app-button active-primary"
         type="submit"
-      >
+        >
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>

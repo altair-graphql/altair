@@ -24,7 +24,6 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         
         
         
-        
         <app-fancy-input-marker>
           <mark
             class="fancy-input-marker__invalid"
@@ -34,11 +33,9 @@ exports[`FancyInputComponent should render the highlights correctly based on the
           
         </app-fancy-input-marker>
         
-        
         <span>
            then 
         </span>
-        
         
         
         
@@ -51,11 +48,9 @@ exports[`FancyInputComponent should render the highlights correctly based on the
           
         </app-fancy-input-marker>
         
-        
         <span>
            is next
         </span>
-        
         
         
         
@@ -86,7 +81,6 @@ exports[`FancyInputComponent should set component value when input value changes
         <span>
           some text
         </span>
-        
         
         
         

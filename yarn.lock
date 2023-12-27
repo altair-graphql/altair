@@ -7,24 +7,6 @@
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.1.1.tgz#9274ec7460652f9c632c59addf24efb1684ef876"
   integrity sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==
 
-"@altairgraphql/api-utils@file:packages/altair-api-utils":
-  version "6.1.0"
-  dependencies:
-    "@altairgraphql/db" "^6.1.0"
-    altair-graphql-core "^6.1.0"
-    ky "^0.33.2"
-    rxjs "^6.6.7"
-
-"@altairgraphql/db@file:packages/altair-db":
-  version "6.1.0"
-  dependencies:
-    "@prisma/client" "^4.9.0"
-
-"@altairgraphql/electron-interop@file:packages/altair-electron-interop":
-  version "6.1.0"
-  dependencies:
-    altair-graphql-core "^6.1.0"
-
 "@ampproject/remapping@2.2.1", "@ampproject/remapping@^2.2.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.1.tgz#99e8e11851128b8702cd57c33684f1d0f260b630"
@@ -15593,21 +15575,6 @@ escodegen@^2.1.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-"eslint-config-altair@file:libs/eslint-config-altair":
-  version "6.1.0"
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^5.48.0"
-    "@typescript-eslint/parser" "^5.48.0"
-    eslint "^8.31.0"
-    eslint-config-google "^0.14.0"
-    eslint-config-prettier "^8.6.0"
-    eslint-plugin-import "^2.26.0"
-    eslint-plugin-no-unsanitized "^4.0.2"
-    eslint-plugin-prettier "^4.2.1"
-    prettier "^2.8.1"
-    prettier-config-altair "^6.1.0"
-    typescript "4.9.5"
-
 eslint-config-google@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/eslint-config-google/-/eslint-config-google-0.14.0.tgz#4f5f8759ba6e11b424294a219dbfa18c508bcc1a"
@@ -25777,9 +25744,6 @@ prepend-http@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
-
-"prettier-config-altair@file:libs/prettier-config":
-  version "6.1.0"
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"

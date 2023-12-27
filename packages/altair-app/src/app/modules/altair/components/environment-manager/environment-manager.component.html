@@ -6,7 +6,7 @@
   [nzFooter]="modalFooter"
   [nzWidth]="870"
   (nzOnCancel)="toggleDialogChange.next($event)"
->
+  >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">
@@ -29,7 +29,7 @@
                   'environment-manager__list-item--selected':
                     selectedEnvironmentId === 'base'
                 }"
-              >
+                >
                 {{ 'BASE_ENVIRONMENT_TEXT' | translate }}
               </div>
             </div>
@@ -42,64 +42,65 @@
                 cdkDropList
                 cdkDropListOrientation="vertical"
                 (cdkDropListDropped)="onSortSubEnvironments($event)"
-              >
-                <ng-container *ngIf="environments?.subEnvironments?.length">
-                  <div
-                    cdkDrag
-                    class="environment-manager__list-item"
-                    *ngFor="
-                      let item of environments?.subEnvironments;
-                      trackBy: trackById
-                    "
-                    (click)="selectEnvironment(item.id)"
-                    (dblclick)="setFocusOnEnvironmentTitle()"
+                >
+                @if (environments?.subEnvironments?.length) {
+                  @for (
+                    item of environments?.subEnvironments; track trackById($index,
+                    item)) {
+                    <div
+                      cdkDrag
+                      class="environment-manager__list-item"
+                      (click)="selectEnvironment(item.id)"
+                      (dblclick)="setFocusOnEnvironmentTitle()"
                     [ngClass]="{
                       'environment-manager__list-item--selected':
                         selectedEnvironmentId === item.id
                     }"
-                  >
-                    <app-icon name="more-vertical"></app-icon>
-                    {{ item.title }}
-                  </div>
-                </ng-container>
+                      >
+                      <app-icon name="more-vertical"></app-icon>
+                      {{ item.title }}
+                    </div>
+                  }
+                }
               </div>
             </div>
             <div class="environment-manager__list-actions">
               <button
                 class="app-button full-width"
                 (click)="addSubEnvironmentChange.next()"
-              >
+                >
                 {{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}
               </button>
             </div>
           </div>
           <div class="environment-manager__editor-wrapper">
-            <div
-              class="environment-manager__editor-meta"
-              *ngIf="selectedEnvironmentId !== 'base'"
-            >
-              <div class="environment-manager__editor-meta-input-wrapper">
-                <input
-                  #subEnvironmentTitle
-                  type="text"
-                  class="environment-manager__editor-meta-input"
+            @if (selectedEnvironmentId !== 'base') {
+              <div
+                class="environment-manager__editor-meta"
+                >
+                <div class="environment-manager__editor-meta-input-wrapper">
+                  <input
+                    #subEnvironmentTitle
+                    type="text"
+                    class="environment-manager__editor-meta-input"
                   placeholder="{{
                     'SUB_ENVIRONMENT_TITLE_PLACEHOLDER' | translate
                   }}"
-                  [(ngModel)]="editorTitle"
-                  (ngModelChange)="onTitleChange($event)"
-                />
+                    [(ngModel)]="editorTitle"
+                    (ngModelChange)="onTitleChange($event)"
+                    />
+                </div>
+                <div class="environment-manager__editor-meta-actions">
+                  <button
+                    class="app-button icon-button active-destructive"
+                    (click)="onDeleteSubEnvironment()"
+                    >
+                    <app-icon name="trash-2"></app-icon>
+                    {{ 'DELETE_TEXT' | translate }}
+                  </button>
+                </div>
               </div>
-              <div class="environment-manager__editor-meta-actions">
-                <button
-                  class="app-button icon-button active-destructive"
-                  (click)="onDeleteSubEnvironment()"
-                >
-                  <app-icon name="trash-2"></app-icon>
-                  {{ 'DELETE_TEXT' | translate }}
-                </button>
-              </div>
-            </div>
+            }
             <app-codemirror
               #editor
               class="environments-editor-textarea"
@@ -124,7 +125,7 @@
         track-id="save_environments"
         class="app-button active-primary right"
         (click)="toggleDialogChange.next(false)"
-      >
+        >
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>

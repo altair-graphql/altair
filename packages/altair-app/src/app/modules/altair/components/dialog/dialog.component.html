@@ -6,7 +6,7 @@
   [nzFooter]="showFooter ? modalFooter : null"
   [nzWidth]="width"
   (nzOnCancel)="toggleDialog.next()"
->
+  >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ heading }}</div>
@@ -19,15 +19,15 @@
   </ng-template>
 
   <ng-template #modalFooter>
-    <ng-container *ngIf="showFooter">
+    @if (showFooter) {
       <div class="app-dialog-footer">
         <button
           class="app-button active-primary right"
           (click)="onClickSave($event)"
-        >
+          >
           {{ 'SAVE_BUTTON' | translate }}
         </button>
       </div>
-    </ng-container>
+    }
   </ng-template>
 </nz-modal>
