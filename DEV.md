@@ -105,3 +105,11 @@ If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mod
 
 ### Signing MacOS app
 https://www.codiga.io/blog/notarize-sign-electron-app/
+
+### Updating angular
+
+- Temporarily replace all local packages with their `file:` protocol versions (so that yarn doesn't fail while searching registry for them)
+- Run the update command e.g. `yarn ng update @angular/core@16 @angular/cli@16 --allow-dirty --force`
+- Run migrate only commands if not completely successful
+  - `yarn ng update @angular/core --allow-dirty --force --migrate-only --from=15 --to=16`
+  - `yarn ng update @angular/cli --allow-dirty --force --migrate-only --from=15 --to=16`
