@@ -5,7 +5,7 @@
     "module": "Node16" /* Specify what module code is generated. */,
 
     // "rootDir": "./",                                  /* Specify the root folder within your source files. */
-    "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
+    // "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
 
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
