@@ -80,7 +80,6 @@
     "start:api:dev": "nx start:dev @altairgraphql/api",
     "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-db prisma db seed && yarn --cwd packages/altair-api start:prod",
     "start:app": "nx start @altairgraphql/app",
-    "start:dashboard": "nx dev @altairgraphql/dashboard",
     "start:redirect": "nx dev @altairgraphql/login-redirect",
     "start:electron": "nx dev altair",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",
