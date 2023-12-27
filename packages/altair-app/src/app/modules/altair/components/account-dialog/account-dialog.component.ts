@@ -17,8 +17,6 @@ export class AccountDialogComponent {
   @Output() handleLoginChange = new EventEmitter();
   @Output() logoutChange = new EventEmitter();
 
-  dashboardUrl = apiClient.options.dashboardUrl;
-
   submitLogin() {
     this.handleLoginChange.emit();
   }

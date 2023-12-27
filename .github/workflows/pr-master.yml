@@ -26,7 +26,7 @@ jobs:
       - run: yarn build-docs
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
+          NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       # TODO: Make this reusable
       - run: |
@@ -34,11 +34,6 @@ jobs:
           export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           cd site
           npx wrangler@2 pages publish "src/.vuepress/dist" --project-name="altair-site"
-      - run: |
-          export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
-          export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-          cd packages/altair-dashboard
-          npx wrangler@2 pages publish "out" --project-name="altair-dashboard"
       - run: |
           export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
           export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
@@ -51,47 +46,47 @@ jobs:
         node-version: [16]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - uses: nrwl/nx-set-shas@v2
-      with:
-        main-branch-name: master
-    # - name: restore lerna
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: |
-    #       node_modules
-    #       */*/node_modules
-    #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-    - run: yarn --frozen-lockfile --network-timeout 1000000
-    - uses: browser-actions/setup-chrome@latest
-    - name: Build apps (with retries)
-      uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 15
-        max_attempts: 3
-        command: yarn build:ci
-    - name: Run headless test
-      uses: GabrielBB/xvfb-action@v1
-      with:
-        run: yarn test:ci:retries
-        # run: |
-        #   (echo "===== Headless Tests Attempt: 1 ====" && yarn test:ci) || \
-        #   (echo "===== Headless Tests Attempt: 2 ====" && yarn test:ci) || \
-        #   (echo "===== Headless Tests Attempt: 3 ====" && yarn test:ci) || \
-        #   (echo "==== Headless Tests Step Failed ====" && exit 1)
-    # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
-    - name: Upload Test Results 🗃
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: screenshots
-        path: packages/altair-electron/e2e/*.png
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: master
+      # - name: restore lerna
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       node_modules
+      #       */*/node_modules
+      #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - uses: browser-actions/setup-chrome@latest
+      - name: Build apps (with retries)
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: yarn build:ci
+      - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test:ci:retries
+          # run: |
+          #   (echo "===== Headless Tests Attempt: 1 ====" && yarn test:ci) || \
+          #   (echo "===== Headless Tests Attempt: 2 ====" && yarn test:ci) || \
+          #   (echo "===== Headless Tests Attempt: 3 ====" && yarn test:ci) || \
+          #   (echo "==== Headless Tests Step Failed ====" && exit 1)
+      # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
+      - name: Upload Test Results 🗃
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: packages/altair-electron/e2e/*.png
   electron:
     strategy:
       matrix:
@@ -99,75 +94,74 @@ jobs:
         node-version: [16]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: yarn --frozen-lockfile --network-timeout 1000000
-    - uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 20
-        max_attempts: 3
-        command: yarn lerna bootstrap
-    - name: Prepare for app notarization
-      if: startsWith(matrix.os, 'macos')
-      # Import Apple API key for app notarization on macOS
-      run: |
-        mkdir -p ~/private_keys/
-        echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
-    - name: Build/release Electron app
-      # disable for macos not in master branch
-      if: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}}
-      uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
-      with:
-        github_token: ${{ secrets.github_token }}
-        package_root: packages/altair-electron/
-        skip_build: true
-        skip_install: true
-        mac_certs: ${{ secrets.mac_certs }}
-        mac_certs_password: ${{ secrets.mac_certs_password }}
-        args: '--publish never' # Don't publish with this job since it is not in a release (more like a pre-release)
-        max_attempts: 3
-      env:
-        # macOS notarization API key
-        # https://www.codiga.io/blog/notarize-sign-electron-app/
-        APPLE_ID: ${{ secrets.APPLE_ID }}
-        APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-        APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
-        APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
-    
-    - name: Upload source maps to Sentry (app)
-      if: startsWith(matrix.os, 'ubuntu')
-      uses: getsentry/action-release@v1
-      env:
-        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-      with:
-        # environment: production
-        sourcemaps: packages/altair-app/dist/
-        # version: ${{ steps.getversion.outputs.version }}
-        url_prefix: 'altair://-'
-        finalize: false
-    - name: Upload source maps to Sentry (electron)
-      if: startsWith(matrix.os, 'ubuntu')
-      uses: getsentry/action-release@v1
-      env:
-        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-      with:
-        # environment: production
-        sourcemaps: packages/altair-electron/dist/
-        # version: ${{ steps.getversion.outputs.version }}
-        url_prefix: 'app:///dist'
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          command: yarn lerna bootstrap
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+      - name: Build/release Electron app
+        # disable for macos not in master branch
+        if: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}}
+        uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
+        with:
+          github_token: ${{ secrets.github_token }}
+          package_root: packages/altair-electron/
+          skip_build: true
+          skip_install: true
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+          args: '--publish never' # Don't publish with this job since it is not in a release (more like a pre-release)
+          max_attempts: 3
+        env:
+          # macOS notarization API key
+          # https://www.codiga.io/blog/notarize-sign-electron-app/
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
 
-    - name: Upload electron builds
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: electron-builds
-        path: packages/altair-electron/out/**
+      - name: Upload source maps to Sentry (app)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          # environment: production
+          sourcemaps: packages/altair-app/dist/
+          # version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'altair://-'
+          finalize: false
+      - name: Upload source maps to Sentry (electron)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          # environment: production
+          sourcemaps: packages/altair-electron/dist/
+          # version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'app:///dist'
 
+      - name: Upload electron builds
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: electron-builds
+          path: packages/altair-electron/out/**
