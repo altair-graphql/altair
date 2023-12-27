@@ -23,7 +23,7 @@ export class HistoryDialogComponent {
     this.clearHistoryChange.next();
   }
 
-  trackByIndex(index: number) {
+  trackByIndex(index: number, h: History) {
     return index;
   }
 }

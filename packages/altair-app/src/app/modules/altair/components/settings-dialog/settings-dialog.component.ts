@@ -170,7 +170,7 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
     return false;
   }
 
-  trackByIndex(index: number) {
+  trackByIndex(index: number, s: KeyboardShortcutCategory) {
     return index;
   }
 }

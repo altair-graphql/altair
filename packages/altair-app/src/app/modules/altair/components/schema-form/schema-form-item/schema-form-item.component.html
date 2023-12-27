@@ -1,63 +1,68 @@
-<nz-form-item *ngIf="item" class="ui-form__item">
-  <ng-container [ngSwitch]="item.type">
-    <ng-container *ngSwitchCase="'number'">
-      <nz-form-label>{{ item.description }}</nz-form-label>
-      <nz-form-control>
-        <nz-input-number
-          [(ngModel)]="data"
-          [name]="item.key"
-          (ngModelChange)="onInput($event, item)"
-        ></nz-input-number>
-      </nz-form-control>
-    </ng-container>
-    <ng-container *ngSwitchCase="'boolean'">
-      <nz-form-label>{{ item.description }}</nz-form-label>
-      <nz-form-control>
-        <nz-switch
-          [(ngModel)]="data"
-          [name]="item.key"
-          (ngModelChange)="onInput($event, item)"
-        ></nz-switch>
-      </nz-form-control>
-    </ng-container>
-    <ng-container *ngSwitchCase="'string'">
-      <app-schema-form-item-input
-        *ngIf="isStringOrUndefined(data)"
-        [item]="item"
-        [(data)]="data"
-        (dataChange)="onInput($event, item)"
-      ></app-schema-form-item-input>
-    </ng-container>
-    <ng-container *ngSwitchCase="'array'">
-      <app-schema-form-item-list
-        *ngIf="isArrayOrUndefined(data)"
-        [item]="item"
-        [(data)]="data"
-        (dataChange)="onInput($event, item)"
-      ></app-schema-form-item-list>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <ng-container *ngIf="item.ref">
-        <ng-container [ngSwitch]="item.refType">
-          <ng-container *ngSwitchCase="'enum.string'">
-            <nz-form-label>{{ item.description }}</nz-form-label>
-            <nz-form-control>
-              <nz-select
-                [(ngModel)]="data"
-                name="item.key"
-                nzPlaceHolder="Choose"
-                (ngModelChange)="onInput($event, item)"
-              >
-                <nz-option
-                  *ngFor="let option of getSelectOptions(item)"
-                  [nzValue]="option.value"
-                  [nzLabel]="option.label"
-                ></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</nz-form-item>
+@if (item) {
+  <nz-form-item class="ui-form__item">
+    @switch (item.type) {
+      @case ('number') {
+        <nz-form-label>{{ item.description }}</nz-form-label>
+        <nz-form-control>
+          <nz-input-number
+            [(ngModel)]="data"
+            [name]="item.key"
+            (ngModelChange)="onInput($event, item)"
+          ></nz-input-number>
+        </nz-form-control>
+      }
+      @case ('boolean') {
+        <nz-form-label>{{ item.description }}</nz-form-label>
+        <nz-form-control>
+          <nz-switch
+            [(ngModel)]="data"
+            [name]="item.key"
+            (ngModelChange)="onInput($event, item)"
+          ></nz-switch>
+        </nz-form-control>
+      }
+      @case ('string') {
+        @if (isStringOrUndefined(data)) {
+          <app-schema-form-item-input
+            [item]="item"
+            [(data)]="data"
+            (dataChange)="onInput($event, item)"
+          ></app-schema-form-item-input>
+        }
+      }
+      @case ('array') {
+        @if (isArrayOrUndefined(data)) {
+          <app-schema-form-item-list
+            [item]="item"
+            [(data)]="data"
+            (dataChange)="onInput($event, item)"
+          ></app-schema-form-item-list>
+        }
+      }
+      @default {
+        @if (item.ref) {
+          @switch (item.refType) {
+            @case ('enum.string') {
+              <nz-form-label>{{ item.description }}</nz-form-label>
+              <nz-form-control>
+                <nz-select
+                  [(ngModel)]="data"
+                  name="item.key"
+                  nzPlaceHolder="Choose"
+                  (ngModelChange)="onInput($event, item)"
+                  >
+                  @for (option of getSelectOptions(item); track option) {
+                    <nz-option
+                      [nzValue]="option.value"
+                      [nzLabel]="option.label"
+                    ></nz-option>
+                  }
+                </nz-select>
+              </nz-form-control>
+            }
+          }
+        }
+      }
+    }
+  </nz-form-item>
+}

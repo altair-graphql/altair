@@ -16,7 +16,6 @@ exports[`AccountDialogComponent should create 1`] = `
       </button>
       
       
-      
     </div>
   </app-dialog>
 </app-account-dialog>

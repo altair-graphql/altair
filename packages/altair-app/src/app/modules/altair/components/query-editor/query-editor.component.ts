@@ -53,7 +53,10 @@ import { onHasCompletion } from '../../utils/codemirror/graphql-has-completion';
 import { GraphQLSchema, Location, OperationTypeNode } from 'graphql';
 import { handleEditorRefresh } from '../../utils/codemirror/refresh-editor';
 import { IDictionary } from '../../interfaces/shared';
-import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import {
+  FileVariable,
+  VariableState,
+} from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { QueryEditorState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { Compartment, EditorState, Extension } from '@codemirror/state';
 import { getCodemirrorGraphqlExtensions, noOpCommand } from './gql-extensions';
@@ -743,7 +746,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  trackByIndex(index: number) {
+  trackByIndex(index: number, f: FileVariable) {
     return index;
   }
 }

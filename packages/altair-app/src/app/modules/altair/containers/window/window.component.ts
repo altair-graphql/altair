@@ -692,7 +692,7 @@ export class WindowComponent implements OnInit {
     );
   }
 
-  trackByFn(index: number) {
+  trackByIndex(index: number, s: any) {
     return index;
   }
 

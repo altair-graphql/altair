@@ -38,9 +38,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             nztrigger="click"
             type="button"
           >
-            
-            
-            
+              
             
             
             

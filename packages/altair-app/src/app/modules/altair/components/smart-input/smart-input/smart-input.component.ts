@@ -414,7 +414,7 @@ export class SmartInputComponent implements AfterViewInit {
     debug.log('textInput', e);
   }
 
-  trackByIndex(index: number) {
+  trackByIndex(index: number, b: any) {
     return index;
   }
 }

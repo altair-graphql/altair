@@ -111,7 +111,7 @@
       [nzContent]="modalContent"
       [nzFooter]="modalFooter"
       (nzOnCancel)="toggleHeader()"
-    >
+      >
       <ng-template #modalTitle>
         <div class="app-dialog-header">
           <div class="app-dialog-title">{{ 'HEADERS_TEXT' | translate }}</div>
@@ -121,107 +121,109 @@
 
       <ng-template #modalContent>
         <div class="app-dialog-body">
-          <div
-            class="set-header-input-container"
-            *ngFor="
-              let header of headers$ | async;
-              trackBy: trackByFn;
-              let i = index
-            "
+          @for (
+            header of headers$ | async; track trackByIndex(i,
+            header); let i = $index) {
+            <div
+              class="set-header-input-container"
             [ngClass]="{
               'set-header-input-container--disabled': !header.enabled
             }"
-          >
-            <label
-              nz-checkbox
-              [ngModel]="header.enabled"
-              (ngModelChange)="headerEnabledChange($event, i)"
-            ></label>
-            <div class="set-header-input-column">
-              <app-fancy-input
-                class="set-header-input"
-                placeholder="Header key"
-                [ngModel]="header.key"
-                (ngModelChange)="headerKeyChange($event, i)"
-                (submitChange)="toggleHeader()"
-              ></app-fancy-input>
+              >
+              <label
+                nz-checkbox
+                [ngModel]="header.enabled"
+                (ngModelChange)="headerEnabledChange($event, i)"
+              ></label>
+              <div class="set-header-input-column">
+                <app-fancy-input
+                  class="set-header-input"
+                  placeholder="Header key"
+                  [ngModel]="header.key"
+                  (ngModelChange)="headerKeyChange($event, i)"
+                  (submitChange)="toggleHeader()"
+                ></app-fancy-input>
+              </div>
+              <div class="set-header-input-column">
+                <app-fancy-input
+                  class="set-header-input"
+                  placeholder="Header value"
+                  [ngModel]="header.value"
+                  (ngModelChange)="headerValueChange($event, i)"
+                  (submitChange)="toggleHeader()"
+                ></app-fancy-input>
+              </div>
+              <button
+                class="header-input-remove-button"
+                (click)="removeHeader(i)"
+                >
+                &times;
+              </button>
             </div>
-            <div class="set-header-input-column">
-              <app-fancy-input
-                class="set-header-input"
-                placeholder="Header value"
-                [ngModel]="header.value"
-                (ngModelChange)="headerValueChange($event, i)"
-                (submitChange)="toggleHeader()"
-              ></app-fancy-input>
-            </div>
+          }
+          @if (!isElectron) {
+            <div class="headers__notice">
+              {{ 'HEADERS_FORBIDDEN_NOTICE' | translate }}
+              <a
+                href="https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8"
+                target="_blank"
+                rel="noopener"
+                >Learn more</a
+                >
+              </div>
+            }
+          </div>
+        </ng-template>
+
+        <ng-template #modalFooter>
+          <div class="app-dialog-footer">
             <button
-              class="header-input-remove-button"
-              (click)="removeHeader(i)"
-            >
-              &times;
+              track-id="add_header"
+              class="app-button active-grey left"
+              (click)="addHeader()"
+              >
+              {{ 'ADD_HEADER_TEXT' | translate }}
+            </button>
+            <button
+              class="app-button active-primary right"
+              (click)="toggleHeader()"
+              >
+              {{ 'SAVE_BUTTON' | translate }}
             </button>
           </div>
-          <div *ngIf="!isElectron" class="headers__notice">
-            {{ 'HEADERS_FORBIDDEN_NOTICE' | translate }}
-            <a
-              href="https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8"
-              target="_blank"
-              >Learn more</a
-            >
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template #modalFooter>
-        <div class="app-dialog-footer">
-          <button
-            track-id="add_header"
-            class="app-button active-grey left"
-            (click)="addHeader()"
-          >
-            {{ 'ADD_HEADER_TEXT' | translate }}
-          </button>
-          <button
-            class="app-button active-primary right"
-            (click)="toggleHeader()"
-          >
-            {{ 'SAVE_BUTTON' | translate }}
-          </button>
-        </div>
-      </ng-template>
-    </nz-modal>
-    <app-subscription-url-dialog
-      [subscriptionUrl]="subscriptionUrl"
-      [subscriptionConnectionParams]="subscriptionConnectionParams"
-      [subscriptionProviders]="availableSubscriptionProviders$ | async"
-      [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
-      [showDialog]="showSubscriptionUrlDialog"
-      (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
-      (subscriptionUrlChange)="updateSubscriptionUrl($event)"
+        </ng-template>
+      </nz-modal>
+      <app-subscription-url-dialog
+        [subscriptionUrl]="subscriptionUrl"
+        [subscriptionConnectionParams]="subscriptionConnectionParams"
+        [subscriptionProviders]="availableSubscriptionProviders$ | async"
+        [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
+        [showDialog]="showSubscriptionUrlDialog"
+        (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
+        (subscriptionUrlChange)="updateSubscriptionUrl($event)"
       (subscriptionConnectionParamsChange)="
         updateSubscriptionConnectionParams($event)
       "
-      (subscriptionProviderIdChange)="updateSubscriptionProviderId($event)"
-    ></app-subscription-url-dialog>
-    <app-history-dialog
-      [historyList]="historyList"
-      [showDialog]="showHistoryDialog"
-      (toggleDialogChange)="toggleHistoryDialog($event)"
-      (restoreHistoryChange)="restoreHistory($event)"
-      (clearHistoryChange)="clearHistory()"
-    ></app-history-dialog>
-    <app-dialog
-      [showDialog]="showPreRequestDialog"
-      [heading]="'PRE_REQUEST_EDITOR_HEADER' | translate"
-      [subheading]="'PRE_REQUEST_EDITOR_SUBTEXT' | translate"
-      (toggleDialog)="togglePreRequestDialog($event)"
-    >
-      <app-pre-request-editor
-        [preRequest]="preRequest$ | async"
-        (preRequestScriptChange)="updatePreRequestScript($event)"
-        (preRequestEnabledChange)="updatePreRequestEnabled($event)"
-      ></app-pre-request-editor>
-    </app-dialog>
+        (subscriptionProviderIdChange)="updateSubscriptionProviderId($event)"
+      ></app-subscription-url-dialog>
+      <app-history-dialog
+        [historyList]="historyList"
+        [showDialog]="showHistoryDialog"
+        (toggleDialogChange)="toggleHistoryDialog($event)"
+        (restoreHistoryChange)="restoreHistory($event)"
+        (clearHistoryChange)="clearHistory()"
+      ></app-history-dialog>
+      <app-dialog
+        [showDialog]="showPreRequestDialog"
+        [heading]="'PRE_REQUEST_EDITOR_HEADER' | translate"
+        [subheading]="'PRE_REQUEST_EDITOR_SUBTEXT' | translate"
+        (toggleDialog)="togglePreRequestDialog($event)"
+        >
+        <app-pre-request-editor
+          [preRequest]="preRequest$ | async"
+          (preRequestScriptChange)="updatePreRequestScript($event)"
+          (preRequestEnabledChange)="updatePreRequestEnabled($event)"
+        ></app-pre-request-editor>
+      </app-dialog>
+    </div>
   </div>
-</div>

@@ -8,45 +8,50 @@
       class="url-box__button url-box__button--method"
       [value]="httpVerb"
       track-id="http_verb"
-    >
+      >
       {{ httpVerb }}
       <!-- &#9660; -->
     </button>
 
     <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li
-          nz-menu-item
-          *ngFor="let method of methods"
-          [value]="method"
-          (click)="setVerb(method)"
-        >
-          {{ method }}
-        </li>
+        @for (method of methods; track method) {
+          <li
+            nz-menu-item
+            [value]="method"
+            (click)="setVerb(method)"
+            >
+            {{ method }}
+          </li>
+        }
       </ul>
     </nz-dropdown-menu>
   </div>
   <div class="url-box__input-container">
-    <div class="url-box__input-prepend" *ngIf="streamState">
-      <div class="url-box__connection-indicator">
-        <app-icon
-          *ngIf="streamState === 'uncertain'"
-          name="alert-circle"
-          class="connection-indicator--uncertain"
-          nz-tooltip
-          [nzTooltipTitle]="'STREAM_CONNECTION_TRYING' | translate"
-          [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
-        ></app-icon>
-        <app-icon
-          *ngIf="streamState === 'connected'"
-          name="check-circle"
-          class="connection-indicator--connected"
-          nz-tooltip
-          [nzTooltipTitle]="'STREAM_CONNECTION_CONNECTED' | translate"
-          [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
-        ></app-icon>
+    @if (streamState) {
+      <div class="url-box__input-prepend">
+        <div class="url-box__connection-indicator">
+          @if (streamState === 'uncertain') {
+            <app-icon
+              name="alert-circle"
+              class="connection-indicator--uncertain"
+              nz-tooltip
+              [nzTooltipTitle]="'STREAM_CONNECTION_TRYING' | translate"
+              [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
+            ></app-icon>
+          }
+          @if (streamState === 'connected') {
+            <app-icon
+              name="check-circle"
+              class="connection-indicator--connected"
+              nz-tooltip
+              [nzTooltipTitle]="'STREAM_CONNECTION_CONNECTED' | translate"
+              [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
+            ></app-icon>
+          }
+        </div>
       </div>
-    </div>
+    }
     <app-x-input
       class="url-box__input"
       track-id="set_url"
@@ -63,20 +68,21 @@
       nzTrigger="click"
       [nzDropdownMenu]="urlBoxActionMenu"
       class="url-box__button"
-    >
+      >
       <app-icon name="save"></app-icon>
     </button>
     <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li
-          *ngIf="currentCollection"
-          nz-menu-item
-          (click)="updateQueryInCollectionChange.emit()"
-        >
-          {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{
+        @if (currentCollection) {
+          <li
+            nz-menu-item
+            (click)="updateQueryInCollectionChange.emit()"
+            >
+            {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{
             currentCollection.title
-          }})
-        </li>
+            }})
+          </li>
+        }
         <li nz-menu-item (click)="addToCollectionChange.emit()">
           {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
         </li>
@@ -93,7 +99,7 @@
       nz-tooltip
       [nzTooltipTitle]="'RELOAD_DOCS_BUTTON' | translate"
       nzTooltipPlacement="bottom"
-    >
+      >
       <app-icon name="refresh-ccw"></app-icon>
     </button>
     <button
@@ -102,48 +108,60 @@
       (click)="toggleDocsChange.emit()"
       [ngClass]="{ 'url-box__button--active': showDocs }"
       track-id="show_docs"
-    >
+      >
       {{ 'DOCS_TEXT' | translate }}
     </button>
   </div>
   <div class="send-request__wrapper">
-    <button
-      class="app-button active-primary send-request__button"
-      (click)="!isSubscribed && this.sendRequest.emit()"
-      [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
-      track-id="set_request"
-      *ngIf="queryOperations.length < 2"
-    >
-      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-    </button>
-    <button
-      *ngIf="queryOperations.length > 1"
-      class="app-button active-primary send-request__button"
-      [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
-      track-id="send_request"
-      nz-dropdown
-      nzTrigger="click"
-      nzPlacement="bottomRight"
-      [nzDropdownMenu]="queryOperationsMenu"
-    >
-      <span *ngIf="isLoading">{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-      <span *ngIf="!isLoading">{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
-      <span *ngIf="selectedOperation">({{ selectedOperation }})</span>
-      <app-icon name="chevron-down"></app-icon>
-    </button>
+    @if (queryOperations.length < 2) {
+      <button
+        class="app-button active-primary send-request__button"
+        (click)="!isSubscribed && this.sendRequest.emit()"
+        [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
+        track-id="set_request"
+        >
+        @if (isLoading) {
+          <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+        }
+        @if (!isLoading) {
+          <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+        }
+      </button>
+    }
+    @if (queryOperations.length > 1) {
+      <button
+        class="app-button active-primary send-request__button"
+        [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
+        track-id="send_request"
+        nz-dropdown
+        nzTrigger="click"
+        nzPlacement="bottomRight"
+        [nzDropdownMenu]="queryOperationsMenu"
+        >
+        @if (isLoading) {
+          <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
+        }
+        @if (!isLoading) {
+          <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+        }
+        @if (selectedOperation) {
+          <span>({{ selectedOperation }})</span>
+        }
+        <app-icon name="chevron-down"></app-icon>
+      </button>
+    }
     <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li
-          nz-menu-item
-          *ngFor="
-            let operation of queryOperations;
-            trackBy: queryOperationTrackBy
-          "
-          (click)="selectedOperationChange.emit(operation.name?.value)"
-        >
-          {{ operation.name?.value }}
-        </li>
+        @for (
+          operation of queryOperations; track queryOperationTrackBy($index,
+          operation)) {
+          <li
+            nz-menu-item
+            (click)="selectedOperationChange.emit(operation.name?.value)"
+            >
+            {{ operation.name?.value }}
+          </li>
+        }
       </ul>
     </nz-dropdown-menu>
   </div>

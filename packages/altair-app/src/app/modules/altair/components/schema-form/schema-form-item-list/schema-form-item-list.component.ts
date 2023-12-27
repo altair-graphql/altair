@@ -52,7 +52,7 @@ export class SchemaFormItemListComponent {
     return true;
   }
 
-  trackByIndex(index: number) {
+  trackByIndex(index: number, s: any) {
     return index;
   }
 }
