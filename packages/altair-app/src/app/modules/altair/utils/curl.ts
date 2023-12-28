@@ -1,8 +1,8 @@
 import { mapToKeyValueList } from '.';
 import { IDictionary } from '../interfaces/shared';
 
-const curlup = require('curlup');
-export const parseCurlToObj = (...args: any[]) => curlup.parseCurl(...args);
+export const parseCurlToObj = async (...args: any[]) =>
+  (await import('curlup')).parseCurl(...args);
 
 interface GenerateCurlOpts {
   url: string;
