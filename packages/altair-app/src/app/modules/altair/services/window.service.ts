@@ -181,13 +181,13 @@ export class WindowService {
     }
   }
 
-  importWindowDataFromCurl(curlStr: string) {
+  async importWindowDataFromCurl(curlStr: string) {
     if (!curlStr) {
       throw new Error('String is empty.');
     }
 
     try {
-      const curlObj = parseCurlToObj(curlStr);
+      const curlObj = await parseCurlToObj(curlStr);
       const windowData: ExportWindowState = {
         version: 1,
         type: 'window',
