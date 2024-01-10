@@ -33,32 +33,7 @@ _-- the GraphQL IDE that does not require running a web server_
 
 ## Features
 
-Altair provides several features that make developing with GraphQL very efficient and friendly. These features include:
-
-- setting **headers**
-- setting **variables**
-- creating [**environments**](https://altairgraphql.dev/docs/features/environment-variables.html)
-- viewing **response stats**
-- viewing **schema docs**
-- advanced **schema docs search**
-- dynamically **adding/generating** queries and/or fragments from schema docs
-- [**file upload**](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f) via GraphQL
-- **autocompletion** of queries
-- **autofill** all query fields at cursor
-- [**automatic schema refreshing**](https://altairgraphql.dev/docs/features/schema-auto-refresh.html) using *GraphQL Event Stream* protocol
-- **automatic refactoring** of query
-- [**prerequest**](https://altairgraphql.dev/docs/features/prerequest-scripts.html) scripts
-- multiple **windows**, multiple **languages**
-- **importing and exporting** collections of queries
-- multiple **themes**
-- [**plugin system**](https://altairgraphql.dev/docs/plugins/) for extensibility
-- and many more features (really there's a **lot more!**).
-
-*See more here: https://altairgraphql.dev/docs/features*
-
-### Missing feature?
-
-Is there a feature that is missing? You can let us know by creating a [new issue](https://github.com/altair-graphql/altair/issues/new) or you can add the feature by creating a [Pull Request](https://github.com/altair-graphql/altair/blob/master/.github/CONTRIBUTING.md).
+*See details here: https://altairgraphql.dev/docs/features*
 
 ## Sponsors
 Thanks to all our sponsors for sponsoring this project! Do you use Altair GraphQL client at your company? Consider supporting this project as a major sponsor (primary, gold, silver or bronze) on [open collective](https://opencollective.com/altair/contribute).
@@ -112,23 +87,6 @@ $ choco install altair-graphql
 
 ```
 $ winget install -e --id altair-graphql.altair
-```
-
-### Usage with express
-You can use altair with an express server using [altair-express-middleware](https://www.npmjs.com/package/altair-express-middleware). Read more about how to use this [here](packages/altair-express-middleware/README.md).
-
-### Usage with koa
-You can use altair with a koa server using [altair-koa-middleware](https://www.npmjs.com/package/altair-koa-middleware). Read more about how to use this [here](https://altairgraphql.dev/docs/integrations/altair-koa-middleware).
-
-### Usage with Fastify
-
-You can use altair with a Fastify server using [altair-fastify-plugin](https://www.npmjs.com/package/altair-fastify-plugin). Read more about how to use this [here](packages/altair-fastify-plugin/README.md).
-
-### Usage with Laravel (PHP)
-You can use altair in a Laravel project using [xkojimedia/laravel-altair-graphql](https://packagist.org/packages/xkojimedia/laravel-altair-graphql):
-
-```console
-$ composer require xkojimedia/laravel-altair-graphql
 ```
 
 *You can find other available integrations here: https://altairgraphql.dev/docs/integrations*
