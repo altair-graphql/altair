@@ -199,5 +199,11 @@ Learn more about contributing to Altair [here](.github/CONTRIBUTING.md) and [her
 
 Read more [here](.github/development.md).
 
+## Deployment
+### API
+#### Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faltair-graphql%2Faltair&env=JWT_ACCESS_SECRET,EVENTS_JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,GOOGLE_OAUTH_CLIENT_ID,GOOGLE_OAUTH_CLIENT_SECRET,POSTGRES_DB,POSTGRES_USER,POSTGRES_PASSWORD,DATABASE_URL,STRIPE_SECRET_KEY&project-name=altair-graphql-api&redirect-url=https%3A%2F%2Faltairgraphql.dev%2F)
+
+
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_large)
