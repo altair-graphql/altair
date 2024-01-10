@@ -201,6 +201,9 @@ Read more [here](.github/development.md).
 
 ## Deployment
 ### API
+#### Docker
+The docker image can be built from the [Dockerfile](./Dockerfile) at the root of the repo.
+
 #### Vercel
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faltair-graphql%2Faltair&env=JWT_ACCESS_SECRET,EVENTS_JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,GOOGLE_OAUTH_CLIENT_ID,GOOGLE_OAUTH_CLIENT_SECRET,POSTGRES_DB,POSTGRES_USER,POSTGRES_PASSWORD,DATABASE_URL,STRIPE_SECRET_KEY&project-name=altair-graphql-api&redirect-url=https%3A%2F%2Faltairgraphql.dev%2F)
 
