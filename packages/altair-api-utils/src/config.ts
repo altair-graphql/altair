@@ -9,8 +9,12 @@ export const getClientConfig = (
   switch (env) {
     case 'production':
       return {
-        apiBaseUrl: 'https://api.altairgraphql.dev',
-        loginClientUrl: 'https://redir.altairgraphql.dev',
+        apiBaseUrl:
+          process.env.ALTAIR_API_CLIENT_BASE_URL ??
+          'https://api.altairgraphql.dev',
+        loginClientUrl:
+          process.env.ALTAIR_API_CLIENT_LOGIN_CLIENT_URL ??
+          'https://redir.altairgraphql.dev',
       };
   }
 

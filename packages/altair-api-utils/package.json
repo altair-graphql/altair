@@ -14,7 +14,7 @@
   "main": "build/index.js",
   "private": true,
   "scripts": {
-    "build": "tsc --build",
+    "build": "node ./scripts/build.cjs",
     "prepare": "yarn build"
   }
 }

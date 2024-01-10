@@ -3,7 +3,6 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 import pkg from '../../package.json';
-import { getClientConfig } from '@altairgraphql/api-utils';
 
 export const environment = {
   production: false,
