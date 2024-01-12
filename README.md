@@ -1,15 +1,12 @@
 <!-- [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_shield) -->
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/altair-gql/localized.svg)](https://crowdin.com/project/altair-gql)
-
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/flnheeellpciglgpaodhkhmapeljopja.svg)](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja)
 [![Mozilla Add-on](https://img.shields.io/amo/v/altair-graphql-client.svg)](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/)
 [![npm](https://img.shields.io/npm/v/altair-express-middleware.svg)](https://www.npmjs.com/package/altair-express-middleware)
 [![Altair GraphQL Client](https://snapcraft.io/altair/badge.svg)](https://snapcraft.io/altair)
 [![GitHub release](https://img.shields.io/github/release/altair-graphql/altair.svg)](https://github.com/altair-graphql/altair/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/altair-graphql/altair/total.svg)](https://github.com/altair-graphql/altair/releases)
-
 [![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
-
 ![Maintenance](https://img.shields.io/maintenance/yes/2025.svg)
 
 [Deploying?](.github/DEPLOY.md)
@@ -168,6 +165,8 @@ The docker image can be built from the [Dockerfile](./Dockerfile) at the root of
 #### Vercel
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faltair-graphql%2Faltair&env=JWT_ACCESS_SECRET,EVENTS_JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,GOOGLE_OAUTH_CLIENT_ID,GOOGLE_OAUTH_CLIENT_SECRET,POSTGRES_DB,POSTGRES_USER,POSTGRES_PASSWORD,DATABASE_URL,STRIPE_SECRET_KEY&project-name=altair-graphql-api&redirect-url=https%3A%2F%2Faltairgraphql.dev%2F)
 
+#### Render
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/altair-graphql/altair)
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fimolorhe%2Faltair?ref=badge_large)

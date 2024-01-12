@@ -1,0 +1,34 @@
+services:
+  # A Docker web service
+  - type: web
+    name: api
+    runtime: docker
+    repo: https://github.com/altair-graphql/altair.git
+    healthCheckPath: /
+    envVars:
+      - key: JWT_ACCESS_SECRET
+        sync: false
+      - key: EVENTS_JWT_ACCESS_SECRET
+        sync: false
+      - key: JWT_REFRESH_SECRET
+        sync: false
+      - key: GOOGLE_OAUTH_CLIENT_ID
+        sync: false
+      - key: GOOGLE_OAUTH_CLIENT_SECRET
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: postgresdb
+          property: connectionString
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+databases:
+  - name: postgresdb
