@@ -41,6 +41,7 @@ export class QueryCollectionItemComponent {
   }> = new EventEmitter();
   @Output() exportCollectionChange = new EventEmitter();
   @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
+  @Output() showQueryRevisionsChange = new EventEmitter<string>();
 
   showContent = true;
 
@@ -70,6 +71,10 @@ export class QueryCollectionItemComponent {
         }
       },
     });
+  }
+
+  showQueryRevisionsDialog(query: IQuery) {
+    this.showQueryRevisionsChange.next(query.id);
   }
 
   deleteCollection() {

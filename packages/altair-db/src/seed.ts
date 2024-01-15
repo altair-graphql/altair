@@ -1,5 +1,12 @@
+/* eslint-disable no-console */
 import { PrismaClient } from '@prisma/client';
-import { BASIC_PLAN_ID } from './constants';
+import {
+  BASIC_PLAN_ID,
+  DEFAULT_MAX_QUERY_COUNT,
+  DEFAULT_MAX_TEAM_COUNT,
+  DEFAULT_MAX_TEAM_MEMBER_COUNT,
+  DEFAULT_QUERY_REVISION_LIMIT,
+} from './constants';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -32,9 +39,10 @@ async function createBasicPlan() {
   const basicPlan = await prisma.planConfig.create({
     data: {
       id: BASIC_PLAN_ID,
-      maxQueryCount: 20,
-      maxTeamCount: 1,
-      maxTeamMemberCount: 2,
+      maxQueryCount: DEFAULT_MAX_QUERY_COUNT,
+      maxTeamCount: DEFAULT_MAX_TEAM_COUNT,
+      maxTeamMemberCount: DEFAULT_MAX_TEAM_MEMBER_COUNT,
+      queryRevisionLimit: DEFAULT_QUERY_REVISION_LIMIT,
       allowMoreTeamMembers: false,
     },
   });

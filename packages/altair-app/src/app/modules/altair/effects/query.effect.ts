@@ -7,6 +7,7 @@ import {
   map,
   takeUntil,
   mergeMap,
+  take,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -21,6 +22,7 @@ import {
   EnvironmentService,
   SubscriptionProviderRegistryService,
   QueryService,
+  ApiService,
 } from '../services';
 
 import * as queryActions from '../store/query/query.action';
@@ -33,6 +35,7 @@ import * as donationAction from '../store/donation/donation.action';
 import * as historyActions from '../store/history/history.action';
 import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as streamActions from '../store/stream/stream.action';
+import * as collectionActions from '../store/collection/collection.action';
 
 import {
   downloadJson,
@@ -67,7 +70,12 @@ export class QueryEffects {
         ),
         withLatestFrom(
           this.store,
-          (action: queryActions.Action, state: RootState) => {
+          (
+            action:
+              | queryActions.SendQueryRequestAction
+              | queryActions.CancelQueryRequestAction,
+            state: RootState
+          ) => {
             return {
               state,
               data: state.windows[action.windowId],
@@ -499,7 +507,10 @@ export class QueryEffects {
         ofType(queryActions.SEND_INTROSPECTION_QUERY_REQUEST),
         withLatestFrom(
           this.store,
-          (action: queryActions.Action, state: RootState) => {
+          (
+            action: queryActions.SendIntrospectionQueryRequestAction,
+            state: RootState
+          ) => {
             return {
               state,
               data: state.windows[action.windowId],
@@ -732,13 +743,16 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.CLEAR_RESULT),
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return {
-            data: state.windows[action.windowId],
-            windowId: action.windowId,
-            action,
-          };
-        }),
+        withLatestFrom(
+          this.store,
+          (action: queryActions.ClearResultAction, state) => {
+            return {
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
         switchMap((res) => {
           this.store.dispatch(
             new queryActions.SetQueryResultAction('', res.windowId)
@@ -761,13 +775,16 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.DOWNLOAD_RESULT),
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return {
-            data: state.windows[action.windowId],
-            windowId: action.windowId,
-            action,
-          };
-        }),
+        withLatestFrom(
+          this.store,
+          (action: queryActions.DownloadResultAction, state) => {
+            return {
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
         switchMap((res) => {
           downloadJson(res.data?.query.response, res.data?.layout.title);
 
@@ -783,7 +800,7 @@ export class QueryEffects {
       ofType(queryActions.START_SUBSCRIPTION),
       withLatestFrom(
         this.store,
-        (action: queryActions.Action, state: RootState) => {
+        (action: queryActions.StartSubscriptionAction, state: RootState) => {
           return {
             state,
             data: state.windows[action.windowId],
@@ -1032,13 +1049,16 @@ export class QueryEffects {
   stopSubscription$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(queryActions.STOP_SUBSCRIPTION),
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return {
-          data: state.windows[action.windowId],
-          windowId: action.windowId,
-          action,
-        };
-      }),
+      withLatestFrom(
+        this.store,
+        (action: queryActions.StopSubscriptionAction, state) => {
+          return {
+            data: state.windows[action.windowId],
+            windowId: action.windowId,
+            action,
+          };
+        }
+      ),
       switchMap((res) => {
         if (res.data?.query.subscriptionClient?.close) {
           try {
@@ -1063,7 +1083,7 @@ export class QueryEffects {
         ofType(queryActions.PRETTIFY_QUERY),
         withLatestFrom(
           this.store,
-          (action: queryActions.Action, state: RootState) => {
+          (action: queryActions.PrettifyQueryAction, state: RootState) => {
             return {
               data: state.windows[action.windowId],
               windowId: action.windowId,
@@ -1104,13 +1124,16 @@ export class QueryEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.COMPRESS_QUERY),
-        withLatestFrom(this.store, (action: queryActions.Action, state) => {
-          return {
-            data: state.windows[action.windowId],
-            windowId: action.windowId,
-            action,
-          };
-        }),
+        withLatestFrom(
+          this.store,
+          (action: queryActions.CompressQueryAction, state) => {
+            return {
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+            };
+          }
+        ),
         switchMap((res) => {
           debug.log('We compress..');
           this.gqlService
@@ -1181,7 +1204,7 @@ export class QueryEffects {
         ofType(queryActions.COPY_AS_CURL),
         withLatestFrom(
           this.store,
-          (action: queryActions.Action, state: RootState) => {
+          (action: queryActions.CopyAsCurlAction, state: RootState) => {
             return {
               data: state.windows[action.windowId],
               windowId: action.windowId,
@@ -1259,13 +1282,16 @@ export class QueryEffects {
   convertToNamedQuery$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(queryActions.CONVERT_TO_NAMED_QUERY),
-      withLatestFrom(this.store, (action: queryActions.Action, state) => {
-        return {
-          data: state.windows[action.windowId],
-          windowId: action.windowId,
-          action,
-        };
-      }),
+      withLatestFrom(
+        this.store,
+        (action: queryActions.ConvertToNamedQueryAction, state) => {
+          return {
+            data: state.windows[action.windowId],
+            windowId: action.windowId,
+            action,
+          };
+        }
+      ),
       switchMap((res) => {
         try {
           const namedQuery = this.gqlService.nameQuery(
@@ -1293,7 +1319,7 @@ export class QueryEffects {
       ofType(queryActions.REFACTOR_QUERY),
       withLatestFrom(
         this.store,
-        (action: queryActions.Action, state: RootState) => {
+        (action: queryActions.RefactorQueryAction, state: RootState) => {
           return {
             data: state.windows[action.windowId],
             windowId: action.windowId,
@@ -1513,7 +1539,12 @@ export class QueryEffects {
       ofType(queryActions.SET_QUERY, queryActions.SET_QUERY_FROM_DB),
       withLatestFrom(
         this.store,
-        (action: queryActions.Action, state: RootState) => {
+        (
+          action:
+            | queryActions.SetQueryAction
+            | queryActions.SetQueryFromDbAction,
+          state: RootState
+        ) => {
           return {
             data: state.windows[action.windowId],
             windowId: action.windowId,
@@ -1556,6 +1587,38 @@ export class QueryEffects {
     );
   });
 
+  restoreQueryRevision$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(queryActions.RESTORE_QUERY_REVISION),
+        withLatestFrom(
+          this.store,
+          (
+            action: queryActions.RestoreQueryRevisionAction,
+            state: RootState
+          ) => {
+            return {
+              action,
+            };
+          }
+        ),
+        switchMap((res) => {
+          const revisionId = res.action.payload.id;
+          const queryId = res.action.payload.queryItemId;
+          // Call API with revisionId and queryId
+          return from(
+            this.apiService.restoreQueryRevision(queryId, revisionId)
+          ).pipe(take(1));
+        }),
+        switchMap(() => {
+          this.store.dispatch(new collectionActions.LoadCollectionsAction());
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   // Get the introspection after setting the URL
   constructor(
     private actions$: Actions,
@@ -1567,6 +1630,7 @@ export class QueryEffects {
     private environmentService: EnvironmentService,
     private queryService: QueryService,
     private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
+    private apiService: ApiService,
     private store: Store<RootState>
   ) {}
 }

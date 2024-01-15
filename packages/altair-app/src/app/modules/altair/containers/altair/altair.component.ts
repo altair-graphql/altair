@@ -86,6 +86,7 @@ import {
 import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 import { apiClient } from '../../services/api/api.service';
+import { QueryItemRevision } from '@altairgraphql/db';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -121,6 +122,7 @@ export class AltairComponent {
   showImportCurlDialog = false;
   showEditCollectionDialog = false;
   showCollections = false;
+  queryRevisionQueryId = '';
 
   appVersion = environment.version;
 
@@ -771,6 +773,14 @@ export class AltairComponent {
     this.store.dispatch(
       new windowsMetaActions.ShowEditCollectionDialogAction({ value })
     );
+  }
+
+  showQueryRevisions(queryId: string) {
+    this.queryRevisionQueryId = queryId;
+  }
+
+  restoreQueryRevision(revision: QueryItemRevision) {
+    this.store.dispatch(new queryActions.RestoreQueryRevisionAction(revision));
   }
 
   setShowAccountDialog(value: boolean) {

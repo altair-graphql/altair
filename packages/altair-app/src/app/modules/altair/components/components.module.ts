@@ -47,6 +47,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { TagComponent } from './tag/tag.component';
 import { TeamsDialogComponent } from './teams-dialog/teams-dialog.component';
 import { UpgradeDialogComponent } from './upgrade-dialog/upgrade-dialog.component';
+import { QueryRevisionDialogComponent } from './query-revision-dialog/query-revision-dialog.component';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -85,6 +86,7 @@ const COMPONENTS = [
   LoaderComponent,
   TagComponent,
   TeamsDialogComponent,
+  QueryRevisionDialogComponent,
   UpgradeDialogComponent,
 ];
 

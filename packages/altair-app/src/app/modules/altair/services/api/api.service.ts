@@ -98,6 +98,14 @@ export class ApiService {
     return await apiClient.deleteQuery(queryServerId);
   }
 
+  async getQueryRevisions(queryServerId: string) {
+    return await apiClient.getQueryRevisions(queryServerId);
+  }
+
+  async restoreQueryRevision(queryServerId: string, revisionId: string) {
+    return await apiClient.restoreQueryRevision(queryServerId, revisionId);
+  }
+
   async updateCollection(
     collectionServerId: string,
     collection: IQueryCollection,

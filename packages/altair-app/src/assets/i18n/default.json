@@ -130,6 +130,7 @@
   "NUMBER_OF_QUERIES": "Number of queries:",
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Number of requests:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Delete",
+  "COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG": "Show revisions",
   "COLLECTIONS_MENU_DELETE": "Delete",
   "COLLECTIONS_MENU_EDIT": "Edit",
   "COLLECTIONS_MENU_SYNC": "Sync to remote",
@@ -147,6 +148,9 @@
   "COLLECTION_SYNC_TEXT": "Refresh",
   "COLLECTIONS_WORKSPACES_SELECT_ALL": "All workspaces",
   "COLLECTIONS_WORKSPACES_FILTER": "Filter workspaces",
+
+  "QUERY_REVISIONS_TEXT": "Query Revisions",
+  "QUERY_REVISIONS_SUB_TEXT": "You can view and restore previous versions of this query",
 
   "EDIT_COLLECTION_TITLE_TEXT": "Edit Collection",
   "EDIT_COLLECTION_TITLE_SUBTEXT": "Update your collection details",
