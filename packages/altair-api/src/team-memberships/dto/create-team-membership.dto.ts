@@ -17,6 +17,6 @@ export class CreateTeamMembershipDto implements ICreateTeamMembershipDto {
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ enum: Object.keys(TeamMemberRole) })
   role?: TeamMemberRole;
 }

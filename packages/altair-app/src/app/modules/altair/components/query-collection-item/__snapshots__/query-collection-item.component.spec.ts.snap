@@ -171,6 +171,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
@@ -224,6 +225,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
@@ -277,6 +279,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
@@ -468,6 +471,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
@@ -521,6 +525,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
@@ -574,6 +579,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               <ul
                 nz-menu=""
               >
+                
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""

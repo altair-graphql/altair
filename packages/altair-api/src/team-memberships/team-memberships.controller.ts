@@ -14,8 +14,10 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
 import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('team-memberships')
+@ApiTags('Team Memberships')
 @UseGuards(JwtAuthGuard)
 export class TeamMembershipsController {
   constructor(
