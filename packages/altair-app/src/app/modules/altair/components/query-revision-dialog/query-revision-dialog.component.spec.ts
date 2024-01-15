@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QueryRevisionDialogComponent } from './query-revision-dialog.component';
 import { MockModule, MockProviders } from 'ng-mocks';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { Store } from '@ngrx/store';
 import { ApiService } from '../../services';
 
 describe('QueryRevisionDialogComponent', () => {
