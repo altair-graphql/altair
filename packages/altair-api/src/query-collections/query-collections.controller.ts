@@ -15,8 +15,10 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('query-collections')
+@ApiTags('Query Collections')
 @UseGuards(JwtAuthGuard)
 export class QueryCollectionsController {
   constructor(

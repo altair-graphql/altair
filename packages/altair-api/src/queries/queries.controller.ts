@@ -16,8 +16,10 @@ import { Request } from 'express';
 import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
 import { QueryItem } from '@altairgraphql/db';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('queries')
+@ApiTags('Queries')
 @UseGuards(JwtAuthGuard)
 export class QueriesController {
   constructor(private readonly queriesService: QueriesService) {}
