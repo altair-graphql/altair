@@ -23,7 +23,7 @@
     "nestjs-pino": "^3.1.2",
     "nestjs-prisma": "^0.19.0",
     "newrelic": "^11.2.1",
-    "passport": "^0.6.0",
+    "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
