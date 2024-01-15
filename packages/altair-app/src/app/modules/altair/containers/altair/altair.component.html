@@ -104,7 +104,7 @@
                 track-id="show_history"
                 >
                 <div class="side-menu-item-icon">
-                  <app-icon name="watch"></app-icon>
+                  <app-icon name="history"></app-icon>
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'HISTORY_TEXT' | translate }}
@@ -349,10 +349,11 @@
                 (sortCollectionQueriesChange)="sortCollectionQueries($event)"
                 (sortCollectionsChange)="sortCollections($event)"
                 (syncCollectionsChange)="syncCollections()"
+                (showQueryRevisionsChange)="showQueryRevisions($event)"
               ></app-query-collections>
             </div>
             <div class="sidebar__panels">
-              @for (panel of sidebarPanels$ | async; track trackById($index, panel)) {
+              @for (panel of sidebarPanels$ | async; track panel.id) {
                 @if (panel.isActive) {
                   <app-element-wrapper
                     [element]="panel.element"
@@ -441,6 +442,12 @@
             [planInfos]="(account$ | async)?.planInfos"
             (toggleDialogChange)="setShowUpgradeDialog($event)"
           ></app-upgrade-dialog>
+          <app-query-revision-dialog
+            [showDialog]="!!queryRevisionQueryId"
+            [queryId]="queryRevisionQueryId"
+            (toggleDialogChange)="queryRevisionQueryId = ''"
+            (restoreRevision)="restoreQueryRevision($event)"
+          ></app-query-revision-dialog>
         </div>
 
         @if (showDonationAlert) {

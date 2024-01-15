@@ -65,7 +65,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.1.0",
-    "typescript": "5.2.2"
+    "typescript": "5.1.6"
   },
   "license": "UNLICENSED",
   "private": true,

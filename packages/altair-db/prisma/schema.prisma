@@ -14,14 +14,28 @@ datasource db {
 }
 
 model QueryItem {
-  id           String          @id @default(cuid())
-  queryVersion Int             @default(1)
-  name         String
-  collectionId String
-  collection   QueryCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  content      Json
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
+  id                String              @id @default(cuid())
+  queryVersion      Int                 @default(1)
+  name              String
+  collectionId      String
+  collection        QueryCollection     @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  content           Json
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  QueryItemRevision QueryItemRevision[]
+}
+
+// QueryItemRevision is a revision of a QueryItem. It is created when a QueryItem is updated.
+model QueryItemRevision {
+  id            String    @id @default(cuid())
+  queryItemId   String
+  queryItem     QueryItem @relation(fields: [queryItemId], references: [id], onDelete: Cascade)
+  name          String
+  collectionId  String
+  content       Json
+  createdAt     DateTime  @default(now())
+  createdById   String
+  createdByUser User      @relation(fields: [createdById], references: [id])
 }
 
 // TODO: alter table queries enable row level security;
@@ -57,21 +71,22 @@ model Workspace {
 }
 
 model User {
-  id               String           @id @default(cuid())
-  firstName        String?
-  lastName         String?
-  email            String           @unique
-  emailVerified    DateTime?
-  password         String?
-  picture          String?
-  stripeCustomerId String?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  Workspace        Workspace[]
-  UserCredential   UserCredential[]
-  TeamMembership   TeamMembership[]
-  Team             Team[]
-  UserPlan         UserPlan?
+  id                String              @id @default(cuid())
+  firstName         String?
+  lastName          String?
+  email             String              @unique
+  emailVerified     DateTime?
+  password          String?
+  picture           String?
+  stripeCustomerId  String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Workspace         Workspace[]
+  UserCredential    UserCredential[]
+  TeamMembership    TeamMembership[]
+  Team              Team[]
+  UserPlan          UserPlan?
+  QueryItemRevision QueryItemRevision[]
 }
 
 enum IdentityProvider {
@@ -125,11 +140,11 @@ model PlanConfig {
   maxQueryCount        Int
   maxTeamCount         Int
   maxTeamMemberCount   Int
+  queryRevisionLimit   Int        @default(10)
   allowMoreTeamMembers Boolean    @default(false)
   UserPlan             UserPlan[]
 }
 
-// @deprecated  no longer used
 model UserPlan {
   userId     String     @unique
   planRole   String // as defined in the Stripe product role metadata

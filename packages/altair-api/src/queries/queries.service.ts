@@ -1,7 +1,6 @@
 import { Prisma } from '@altairgraphql/db';
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -13,6 +12,8 @@ import { InvalidRequestException } from 'src/exceptions/invalid-request.exceptio
 import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
 
+const DEFAULT_QUERY_REVISION_LIMIT = 10;
+
 @Injectable()
 export class QueriesService {
   constructor(
@@ -22,7 +23,7 @@ export class QueriesService {
   ) {}
 
   async create(userId: string, createQueryDto: CreateQueryDto) {
-    const userPlanConfig = await this.userService.getPlanConfig(userId);
+    const userPlanConfig = await this.getPlanConfig(userId);
     const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
     const queryCount = await this.prisma.queryItem.count({
       where: {
@@ -74,6 +75,9 @@ export class QueriesService {
       },
     });
 
+    // add new revision
+    await this.addQueryRevision(userId, res.id);
+
     this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
 
     return res;
@@ -119,6 +123,9 @@ export class QueriesService {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
     }
 
+    // add new revision
+    await this.addQueryRevision(userId, id);
+
     return res;
   }
 
@@ -147,8 +154,57 @@ export class QueriesService {
     });
   }
 
+  listRevisions(userId: string, queryId: string) {
+    return this.prisma.queryItemRevision.findMany({
+      where: {
+        queryItem: {
+          id: queryId,
+          ...this.ownerOrMemberWhere(userId),
+        },
+      },
+      include: {
+        createdByUser: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
+  async restoreRevision(userId: string, revisionId: string) {
+    const revision = await this.prisma.queryItemRevision.findUnique({
+      where: {
+        id: revisionId,
+      },
+    });
+
+    if (!revision) {
+      throw new NotFoundException();
+    }
+
+    // check if the user has access to the query
+    const query = await this.findOne(userId, revision.queryItemId);
+    if (!query) {
+      throw new NotFoundException();
+    }
+
+    return this.prisma.queryItem.update({
+      where: {
+        id: revision.queryItemId,
+      },
+      data: {
+        name: revision.name,
+        content: revision.content,
+        collectionId: revision.collectionId,
+      },
+    });
+  }
+
   // where user is the owner of the query
-  ownerWhere(userId: string): Prisma.QueryItemWhereInput {
+  private ownerWhere(userId: string): Prisma.QueryItemWhereInput {
     return {
       collection: {
         workspace: {
@@ -159,7 +215,7 @@ export class QueriesService {
   }
 
   // where user has access to the query as the owner or team member
-  ownerOrMemberWhere(userId: string): Prisma.QueryItemWhereInput {
+  private ownerOrMemberWhere(userId: string): Prisma.QueryItemWhereInput {
     return {
       collection: {
         OR: [
@@ -184,5 +240,55 @@ export class QueriesService {
         ],
       },
     };
+  }
+
+  private async getPlanConfig(userId: string) {
+    // TODO: check the team workspace owner quota for the plan config, not the current user's quota
+    // currently the assumption is that the user is the owner of the workspace, and is the only one that can create queries
+
+    const userPlanConfig = await this.userService.getPlanConfig(userId);
+    return userPlanConfig;
+  }
+
+  private async addQueryRevision(userId: string, queryId: string) {
+    // check the query workspace owner quota for query revisions
+    // if the quota is exceeded, delete the oldest revision
+    const userPlanConfig = await this.getPlanConfig(userId);
+    const userPlanQueryRevisionLimit =
+      userPlanConfig?.queryRevisionLimit ?? DEFAULT_QUERY_REVISION_LIMIT;
+    const query = await this.findOne(userId, queryId);
+    const res = await this.prisma.queryItemRevision.create({
+      data: {
+        queryItemId: queryId,
+        createdById: userId,
+        name: query.name,
+        content: query.content,
+        collectionId: query.collectionId,
+      },
+    });
+
+    // delete the oldest revision if the limit is exceeded
+    const revisions = await this.prisma.queryItemRevision.count({
+      where: {
+        queryItemId: queryId,
+      },
+    });
+    if (revisions > userPlanQueryRevisionLimit) {
+      const oldestRevision = await this.prisma.queryItemRevision.findFirst({
+        where: {
+          queryItemId: queryId,
+        },
+        orderBy: {
+          createdAt: 'asc',
+        },
+      });
+      await this.prisma.queryItemRevision.delete({
+        where: {
+          id: oldestRevision.id,
+        },
+      });
+    }
+
+    return res;
   }
 }

@@ -141,6 +141,7 @@
             (exportCollectionChange)="exportCollectionChange.next($event)"
             (syncCollectionChange)="syncCollectionChange.next($event)"
             (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
+            (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
           ></app-query-collection-item>
         }
         @if (!collectionTrees.length) {

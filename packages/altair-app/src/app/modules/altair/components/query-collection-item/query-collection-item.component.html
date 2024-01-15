@@ -196,6 +196,14 @@
                 </span>
                 <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
                   <ul nz-menu>
+                    @if (loggedIn && (query.storageType === 'api')) {
+                      <li
+                        nz-menu-item
+                        (click)="showQueryRevisionsDialog(query)"
+                      >
+                        {{ 'COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG' | translate }}
+                    </li>
+                    }
                     <li
                       nz-menu-item
                       data-test-id="delete-query"

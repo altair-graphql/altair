@@ -7,6 +7,7 @@ import {
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
+import { QueryItemRevision } from '@altairgraphql/db';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
@@ -58,6 +59,8 @@ export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
 
 export const SET_REQUEST_SCRIPT_LOGS = 'SET_REQUEST_SCRIPT_LOGS';
+
+export const RESTORE_QUERY_REVISION = 'RESTORE_QUERY_REVISION';
 
 export class SetUrlAction implements NGRXAction {
   readonly type = SET_URL;
@@ -285,6 +288,12 @@ export class SetRequestScriptLogsAction implements NGRXAction {
   constructor(public windowId: string, public payload: LogLine[]) {}
 }
 
+export class RestoreQueryRevisionAction implements NGRXAction {
+  readonly type = RESTORE_QUERY_REVISION;
+
+  constructor(public payload: QueryItemRevision) {}
+}
+
 export type Action =
   | SetUrlAction
   | SetUrlFromDbAction
@@ -316,4 +325,5 @@ export type Action =
   | SetHTTPMethodAction
   | SetQueryOperationsAction
   | SetQueryEditorStateAction
-  | SetRequestScriptLogsAction;
+  | SetRequestScriptLogsAction
+  | RestoreQueryRevisionAction;
