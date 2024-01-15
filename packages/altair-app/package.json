@@ -58,7 +58,7 @@
     "codemirror": "5.61.0",
     "codemirror-graphql": "1.0.2",
     "codemirror-json-schema": "^0.6.0",
-    "comlink": "4.3.0",
+    "comlink": "4.4.1",
     "cookie-parser": "1.4.5",
     "core-js": "3.6.5",
     "crypto-js": "3.3.0",
