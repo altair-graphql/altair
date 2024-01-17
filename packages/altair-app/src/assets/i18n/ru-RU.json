@@ -116,6 +116,7 @@
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Количество запросов:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Удалить",
   "COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG": "Show revisions",
+  "COLLECTIONS_QUERY_MENU_COPY_SHARE_URL": "Copy share URL",
   "COLLECTIONS_MENU_DELETE": "Удалить",
   "COLLECTIONS_MENU_EDIT": "Редактировать",
   "COLLECTIONS_MENU_SYNC": "Синхронизировать с удаленным",
