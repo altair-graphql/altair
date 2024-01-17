@@ -28,6 +28,11 @@ export const electronApi = {
         cb(data)
       );
     },
+    onUrlOpened(cb: (url: string) => void) {
+      return ipcRenderer.on(IPC_EVENT_NAMES.URL_OPENED, (evt, url: string) =>
+        cb(url)
+      );
+    },
     onCertificateError(cb: (err: Error) => void) {
       return ipcRenderer.on(
         IPC_EVENT_NAMES.CERTIFICATE_ERROR,

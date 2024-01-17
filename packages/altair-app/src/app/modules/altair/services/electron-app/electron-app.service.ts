@@ -28,6 +28,7 @@ interface ConnectOptions {
   importFileContent: (content: string) => void;
   createNewWindow: () => void;
   closeCurrentWindow: () => void;
+  openUrl: (url: string) => void;
 }
 
 interface BackupDataV1 {
@@ -80,11 +81,11 @@ export class ElectronAppService {
     });
   }
 
-  // TODO: Migrate to use contextBridge instead
   connect({
     importFileContent,
     createNewWindow,
     closeCurrentWindow,
+    openUrl,
   }: ConnectOptions) {
     if (!isElectronApp() || !this.api) {
       return;
@@ -96,6 +97,9 @@ export class ElectronAppService {
 
     this.api.events.onFileOpened((content) => {
       this.zone.run(() => importFileContent(content));
+    });
+    this.api.events.onUrlOpened((url) => {
+      this.zone.run(() => openUrl(url));
     });
 
     this.api.events.onCertificateError(() => {

@@ -44,6 +44,12 @@ Become a [Gold sponsor](https://opencollective.com/altair/contribute/gold-sponso
 <!-- ### Silver Sponsor -->
 
 <!-- ### Bronze Sponsor -->
+### Bronze Sponsor
+<p>
+  <a href="https://opencollective.com/opencollective-oss-fund">
+    <img src="https://images.opencollective.com/opencollective-oss-fund/8564d37/logo/256.png" width="201px">
+  </a>
+</p>
 
 ### Other Sponsors
 

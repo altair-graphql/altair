@@ -3,6 +3,7 @@ import { readdir } from 'fs';
 import fs from 'fs';
 import { join } from 'path';
 import { ipcMain } from 'electron';
+import { ALTAIR_CUSTOM_PROTOCOL } from '@altairgraphql/electron-interop';
 
 export const getDirectoriesInDirectory = (path: string) => {
   return new Promise<string[]>((resolve, reject) => {
@@ -11,8 +12,8 @@ export const getDirectoriesInDirectory = (path: string) => {
         ? reject(err)
         : resolve(
             dirents
-              .filter((dirent) => dirent.isDirectory())
-              .map((dirent) => dirent.name)
+              .filter(dirent => dirent.isDirectory())
+              .map(dirent => dirent.name)
           )
     );
   });
@@ -20,7 +21,7 @@ export const getDirectoriesInDirectory = (path: string) => {
 
 export const deleteFolderRecursive = (path: string) => {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach((file) => {
+    fs.readdirSync(path).forEach(file => {
       const curPath = join(path, file);
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
@@ -57,3 +58,9 @@ export const handleWithCustomErrors = (
     }
   });
 };
+
+// We don't know the exact position of the URL is in argv. Chromium might inject its own arguments
+// into argv. See https://www.electronjs.org/docs/latest/api/app#event-second-instance.
+export function findCustomProtocolUrlInArgv(argv: string[]) {
+  return argv.find(arg => arg.startsWith(`${ALTAIR_CUSTOM_PROTOCOL}://`));
+}

@@ -32,6 +32,16 @@ const signInWithRedirect = (apiBaseUrl: string) => {
   return location.replace(loginUrl.href);
 };
 const init = async () => {
+  // Check for query parameter and decide action
+  const searchParams = new URLSearchParams(window.location.search);
+  const action = searchParams.get('action');
+  if (action === 'share') {
+    initShareLink();
+  } else {
+    await initLoginRedirect();
+  }
+};
+const initLoginRedirect = async () => {
   // TODO: Call the login endpoint
   const client = initializeClient(
     import.meta.env.DEV ? 'development' : 'production'
@@ -130,6 +140,17 @@ const sendToken = async (token: string) => {
     },
     body: JSON.stringify(payload),
   });
+};
+
+const initShareLink = () => {
+  const params = new URLSearchParams(window.location.search);
+  const queryId = params.get('q');
+  if (!queryId) {
+    throw new Error('No query id provided!');
+  }
+
+  // TODO: Add support for other clients (browser extensions, web clients, etc)
+  location.replace(`altair://share?q=${encodeURIComponent(queryId)}`);
 };
 
 init();

@@ -17,3 +17,4 @@ export { SubscriptionProviderRegistryService } from './subscriptions/subscriptio
 export { PluginContextService } from './plugin/context/plugin-context.service';
 export { QueryService } from './query/query.service';
 export { AccountService } from './account/account.service';
+export { SharingService } from './sharing/sharing.service';

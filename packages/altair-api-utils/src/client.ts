@@ -316,6 +316,14 @@ export class APIClient {
     return this.ky.get('plans').json<IPlanInfo[]>();
   }
 
+  getQueryShareUrl(queryId: string) {
+    const url = new URL(this.options.loginClientUrl);
+    url.searchParams.set('action', 'share');
+    url.searchParams.set('q', queryId);
+
+    return url.toString();
+  }
+
   // short-lived-token for events
   private getSLT() {
     return this.ky.get(`auth/slt`).json<{ slt: string }>();

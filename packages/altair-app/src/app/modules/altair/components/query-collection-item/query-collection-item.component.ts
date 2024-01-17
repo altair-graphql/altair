@@ -42,6 +42,7 @@ export class QueryCollectionItemComponent {
   @Output() exportCollectionChange = new EventEmitter();
   @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
   @Output() showQueryRevisionsChange = new EventEmitter<string>();
+  @Output() copyQueryShareLinkChange = new EventEmitter<string>();
 
   showContent = true;
 

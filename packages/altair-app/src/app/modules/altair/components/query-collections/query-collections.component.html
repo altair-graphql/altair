@@ -142,6 +142,7 @@
             (syncCollectionChange)="syncCollectionChange.next($event)"
             (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
             (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
+            (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"
           ></app-query-collection-item>
         }
         @if (!collectionTrees.length) {

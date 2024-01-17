@@ -14,7 +14,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { UnknownError } from '../interfaces/shared';
-import { AccountService, NotifyService } from '../services';
+import { AccountService, NotifyService, SharingService } from '../services';
 
 import { APP_INIT_ACTION } from '../store/action';
 import * as accountActions from '../store/account/account.action';
@@ -43,13 +43,18 @@ export class AccountEffects {
 
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
-              email: user?.email || '',
-              firstName: user?.firstName || user?.email || '',
+              email: user?.email ?? '',
+              firstName: user?.firstName ?? user?.email ?? '',
               lastName: '',
-              picture: user.picture || '',
+              picture: user.picture ?? '',
             })
           );
 
+          return EMPTY;
+        }),
+        switchMap(() => {
+          // account has been checked on app initialization
+          this.store.dispatch(new accountActions.AccountCheckedInitAction());
           return EMPTY;
         })
       );
@@ -220,10 +225,25 @@ export class AccountEffects {
     );
   });
 
+  onAccountCheckedInit$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+        switchMap((action) => {
+          // check for shared links
+          this.sharingService.checkForShareUrl();
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,
     private accountService: AccountService,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private sharingService: SharingService
   ) {}
 }
