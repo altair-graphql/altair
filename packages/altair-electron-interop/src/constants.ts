@@ -33,11 +33,6 @@ export const STORE_EVENTS = {
   GET_STORE_OBJECT: 'electron-store:getStoreObject',
 };
 
-export const STORE_KEYS = {
-  OPENED_FILE_DATA: 'opened-file-data',
-  OPENED_URL: 'opened-url',
-};
-
 export const ALTAIR_CUSTOM_PROTOCOL = 'altair';
 
 export const electronApiKey = 'electronApi';
