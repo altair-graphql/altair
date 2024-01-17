@@ -146,7 +146,6 @@ export class ElectronApp {
         }
         windowInstance.focus();
       }
-      // the commandLine is array of strings in which last element is deep link url
       const url = findCustomProtocolUrlInArgv(argv);
       if (url) {
         this.handleOpenUrlEvent(url);
