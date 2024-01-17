@@ -1,5 +1,4 @@
 import {
-  first,
   distinctUntilChanged,
   map,
   filter,
@@ -8,28 +7,22 @@ import {
   timeout,
   catchError,
 } from 'rxjs/operators';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject, forkJoin, of, from } from 'rxjs';
+import { Observable, forkJoin, of, from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { v4 as uuid } from 'uuid';
 
 import * as fromRoot from '../../store';
-import * as fromCollection from '../../store/collection/collection.reducer';
-import * as fromWindowsMeta from '../../store/windows-meta/windows-meta.reducer';
-import * as fromEnvironments from '../../store/environments/environments.reducer';
-import * as fromWindows from '../../store/windows/windows.reducer';
 
 import * as queryActions from '../../store/query/query.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as layoutActions from '../../store/layout/layout.action';
-import * as docsActions from '../../store/docs/docs.action';
 import * as windowsActions from '../../store/windows/windows.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as settingsActions from '../../store/settings/settings.action';
 import * as donationActions from '../../store/donation/donation.action';
-import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as collectionsMetaActions from '../../store/collections-meta/collections-meta.action';
 import * as environmentsActions from '../../store/environments/environments.action';
@@ -46,6 +39,7 @@ import {
   PluginRegistryService,
   QueryCollectionService,
   ThemeRegistryService,
+  SharingService,
 } from '../../services';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -69,23 +63,16 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import {
-  externalLink,
-  isExtension,
-  mapToKeyValueList,
-  openFile,
-} from '../../utils';
+import { externalLink, mapToKeyValueList } from '../../utils';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { catchUselessObservableError } from '../../utils/errors';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import {
-  Workspace,
   WorkspaceId,
   WORKSPACES,
 } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
-import { apiClient } from '../../services/api/api.service';
 import { QueryItemRevision } from '@altairgraphql/db';
 
 @UntilDestroy({ checkProperties: true })
@@ -140,6 +127,7 @@ export class AltairComponent {
     private pluginEvent: PluginEventService,
     private collectionService: QueryCollectionService,
     private themeRegistry: ThemeRegistryService,
+    private sharingService: SharingService,
     private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
@@ -260,7 +248,6 @@ export class AltairComponent {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    // TODO: Replace since it is deprecated
     forkJoin([
       this.translate.use(applicationLanguage),
       this.store.pipe(
@@ -285,7 +272,7 @@ export class AltairComponent {
         }),
         // Only wait 7 seconds for plugins to be ready
         timeout(7000),
-        catchError((error) => of('Plugins were not ready on time!'))
+        catchError((_error) => of('Plugins were not ready on time!'))
       ),
     ])
       .pipe(untilDestroyed(this))
@@ -316,6 +303,7 @@ export class AltairComponent {
           this.removeWindow(this.activeWindowId);
         }
       },
+      openUrl: (url) => this.sharingService.checkForShareUrl(url),
     });
     this.keybinder.connect();
 
@@ -374,15 +362,15 @@ export class AltairComponent {
           windowService.importWindowData(
             {
               version: 1,
-              windowName: windowOption.initialName || '',
+              windowName: windowOption.initialName ?? '',
               type: 'window',
-              apiUrl: windowOption.endpointURL || '',
+              apiUrl: windowOption.endpointURL ?? '',
               headers: windowOption.initialHeaders
                 ? mapToKeyValueList(windowOption.initialHeaders)
                 : [],
-              query: windowOption.initialQuery || '',
-              subscriptionUrl: windowOption.subscriptionsEndpoint || '',
-              variables: windowOption.initialVariables || '',
+              query: windowOption.initialQuery ?? '',
+              subscriptionUrl: windowOption.subscriptionsEndpoint ?? '',
+              variables: windowOption.initialVariables ?? '',
               postRequestScript: windowOption.initialPostRequestScript,
               postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
               preRequestScript: windowOption.initialPreRequestScript,
@@ -460,9 +448,7 @@ export class AltairComponent {
   }
 
   setActiveWindow(windowId: string) {
-    this.store.dispatch(
-      new windowsMetaActions.SetActiveWindowIdAction({ windowId })
-    );
+    this.windowService.setActiveWindow(windowId);
   }
 
   removeWindow(windowId: string) {
@@ -501,7 +487,7 @@ export class AltairComponent {
   }
 
   reopenClosedWindow() {
-    this.store.dispatch(new windowActions.ReopenClosedWindowAction());
+    this.store.dispatch(new windowsActions.ReopenClosedWindowAction());
   }
 
   exportBackupData() {
@@ -686,21 +672,10 @@ export class AltairComponent {
     collectionId: string;
     windowIdInCollection: string;
   }) {
-    const matchingOpenQueryWindowId = Object.keys(this.windows).find(
-      (windowId) => {
-        return (
-          this.windows[windowId]?.layout.windowIdInCollection ===
-          windowIdInCollection
-        );
-      }
-    );
-    if (matchingOpenQueryWindowId) {
-      this.setActiveWindow(matchingOpenQueryWindowId);
-      return;
-    }
-    this.windowService.importWindowData(
-      { ...query, collectionId, windowIdInCollection },
-      { fixedTitle: true }
+    this.windowService.loadQueryFromCollection(
+      query,
+      collectionId,
+      windowIdInCollection
     );
   }
 
@@ -777,6 +752,10 @@ export class AltairComponent {
 
   showQueryRevisions(queryId: string) {
     this.queryRevisionQueryId = queryId;
+  }
+
+  copyQueryShareLink(queryServerId: string) {
+    this.sharingService.copyQueryShareUrl(queryServerId);
   }
 
   restoreQueryRevision(revision: QueryItemRevision) {
@@ -908,7 +887,7 @@ export class AltairComponent {
     );
   }
 
-  trackById<T extends { id: unknown }>(index: number, item: T) {
+  trackById<T extends { id: unknown }>(_index: number, item: T) {
     return item.id;
   }
 }

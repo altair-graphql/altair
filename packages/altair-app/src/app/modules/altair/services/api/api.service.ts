@@ -85,6 +85,18 @@ export class ApiService {
     });
   }
 
+  async getQuery(queryServerId: string) {
+    const query = await apiClient.getQuery(queryServerId);
+    if (!query) {
+      return;
+    }
+
+    return {
+      query: serverQueryToLocalQuery(query),
+      collectionId: query.collectionId,
+    };
+  }
+
   async updateQuery(queryServerId: string, query: IQuery) {
     return await apiClient.updateQuery(queryServerId, {
       name: query.windowName,
@@ -158,5 +170,9 @@ export class ApiService {
       })
       // takeUntil(this.accountService.observeSignout())
     );
+  }
+
+  getQueryShareUrl(queryServerId: string) {
+    return apiClient.getQueryShareUrl(queryServerId);
   }
 }

@@ -1,5 +1,6 @@
 export const IPC_EVENT_NAMES = {
   FILE_OPENED: 'file-opened',
+  URL_OPENED: 'url-opened',
   CERTIFICATE_ERROR: 'certificate-error',
   IMPORT_APP_DATA: 'import-app-data',
   EXPORT_APP_DATA: 'export-app-data',
@@ -31,6 +32,13 @@ export const STORE_EVENTS = {
   SET_ITEM: 'electron-store:setItem',
   GET_STORE_OBJECT: 'electron-store:getStoreObject',
 };
+
+export const STORE_KEYS = {
+  OPENED_FILE_DATA: 'opened-file-data',
+  OPENED_URL: 'opened-url',
+};
+
+export const ALTAIR_CUSTOM_PROTOCOL = 'altair';
 
 export const electronApiKey = 'electronApi';
 

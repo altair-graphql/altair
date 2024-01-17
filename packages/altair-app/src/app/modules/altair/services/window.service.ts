@@ -31,6 +31,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { QueryCollectionService } from './query-collection/query-collection.service';
 import { NotifyService } from './notify/notify.service';
+import { IQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 interface ImportWindowDataOptions {
   fixedTitle?: boolean;
@@ -437,6 +438,45 @@ export class WindowService {
     } catch (error) {
       debug.log('There was an issue importing the file.', error);
     }
+  }
+
+  loadQueryFromCollection(
+    query: IQuery,
+    collectionId: string,
+    windowIdInCollection: string
+  ) {
+    this.store
+      .pipe(
+        select((state) => state.windows),
+        take(1),
+        switchMap((windows) => {
+          const matchingOpenQueryWindowId = Object.keys(windows).find(
+            (windowId) => {
+              return (
+                windows[windowId]?.layout.windowIdInCollection ===
+                windowIdInCollection
+              );
+            }
+          );
+          if (matchingOpenQueryWindowId) {
+            this.setActiveWindow(matchingOpenQueryWindowId);
+            return EMPTY;
+          }
+          this.importWindowData(
+            { ...query, collectionId, windowIdInCollection },
+            { fixedTitle: true }
+          );
+
+          return EMPTY;
+        })
+      )
+      .subscribe();
+  }
+
+  setActiveWindow(windowId: string) {
+    this.store.dispatch(
+      new windowsMetaActions.SetActiveWindowIdAction({ windowId })
+    );
   }
 
   /**

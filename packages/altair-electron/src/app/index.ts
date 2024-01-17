@@ -1,12 +1,17 @@
-import { app, protocol, session, shell, dialog } from 'electron';
+import { app, protocol, session, shell, dialog, ipcMain } from 'electron';
 import { readFile } from 'fs';
+import path from 'path';
 import isDev from 'electron-is-dev';
 import { setupAutoUpdates } from '../updates';
 import { InMemoryStore } from '../store';
 import { WindowManager } from './window';
 import { store } from '../settings/main/store';
-import { IPC_EVENT_NAMES } from '@altairgraphql/electron-interop';
+import {
+  ALTAIR_CUSTOM_PROTOCOL,
+  IPC_EVENT_NAMES,
+} from '@altairgraphql/electron-interop';
 import { log } from '../utils/log';
+import { findCustomProtocolUrlInArgv } from '../utils';
 
 export class ElectronApp {
   store: InMemoryStore;
@@ -23,9 +28,22 @@ export class ElectronApp {
       return process.exit(0);
     }
 
+    // https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+    if (process.defaultApp) {
+      if (process.argv.length >= 2) {
+        app.setAsDefaultProtocolClient(
+          ALTAIR_CUSTOM_PROTOCOL,
+          process.execPath,
+          [path.resolve(process.argv[1] ?? '')]
+        );
+      }
+    } else {
+      app.setAsDefaultProtocolClient(ALTAIR_CUSTOM_PROTOCOL);
+    }
+
     protocol.registerSchemesAsPrivileged([
       {
-        scheme: 'altair',
+        scheme: ALTAIR_CUSTOM_PROTOCOL,
         privileges: {
           standard: true,
           secure: true,
@@ -115,19 +133,33 @@ export class ElectronApp {
       }
     });
 
+    // Handle the protocol. In this case, we choose to show an Error Box.
+    app.on('open-url', (event, url) => {
+      this.handleOpenUrlEvent(url);
+    });
+    app.on('second-instance', (event, argv) => {
+      // Someone tried to run a second instance, we should focus our window.
+      const windowInstance = this.windowManager.getInstance();
+      if (windowInstance) {
+        if (windowInstance.isMinimized()) {
+          windowInstance.restore();
+        }
+        windowInstance.focus();
+      }
+      // the commandLine is array of strings in which last element is deep link url
+      const url = findCustomProtocolUrlInArgv(argv);
+      if (url) {
+        this.handleOpenUrlEvent(url);
+      }
+    });
+
     app.on('will-finish-launching', () => {
       app.on('open-file', (ev, path) => {
         readFile(path, 'utf8', (err, data) => {
           if (err) {
             return;
           }
-          const instance = this.windowManager.getInstance();
-
-          if (instance) {
-            instance.webContents.send(IPC_EVENT_NAMES.FILE_OPENED, data);
-          }
-
-          this.store.set('opened-file-data', data);
+          this.windowManager.sendMessage(IPC_EVENT_NAMES.FILE_OPENED, data);
         });
       });
     });
@@ -143,7 +175,7 @@ export class ElectronApp {
     );
 
     app.on('web-contents-created', (event, contents) => {
-      contents.setWindowOpenHandler((details) => {
+      contents.setWindowOpenHandler(details => {
         try {
           log('Opening url', details.url);
           // Ask the operating system to open this event's url in the default browser.
@@ -160,5 +192,11 @@ export class ElectronApp {
         return { action: 'deny' };
       });
     });
+  }
+
+  private handleOpenUrlEvent(url: string) {
+    log('App opened from url', url);
+
+    this.windowManager.sendMessage(IPC_EVENT_NAMES.URL_OPENED, url);
   }
 }

@@ -28,6 +28,7 @@ import { getAutobackup, setAutobackup } from '../utils/backup';
 import {
   IPC_EVENT_NAMES,
   ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
+  ALTAIR_CUSTOM_PROTOCOL,
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { log } from '../utils/log';
@@ -48,6 +49,12 @@ export class WindowManager {
 
   private ipcEventsInitialized = false;
   private sessionEventsInitialized = false;
+
+  private rendererReady = new Promise(resolve => {
+    ipcMain.once(IPC_EVENT_NAMES.RENDERER_READY, () => {
+      resolve(true);
+    });
+  });
 
   constructor(private electronApp: ElectronApp) {}
 
@@ -108,7 +115,7 @@ export class WindowManager {
     this.instance.loadURL(
       url.format({
         pathname: '-',
-        protocol: 'altair:',
+        protocol: `${ALTAIR_CUSTOM_PROTOCOL}:`,
         slashes: true,
       })
     );
@@ -116,7 +123,19 @@ export class WindowManager {
     this.manageEvents();
   }
 
-  manageEvents() {
+  sendMessage(channel: string, ...args: unknown[]) {
+    // Listen for the renderer ready event,
+    // then perform any pending actions
+    this.rendererReady.then(() => {
+      const instance = this.getInstance();
+
+      if (instance) {
+        instance.webContents.send(channel, ...args);
+      }
+    });
+  }
+
+  private manageEvents() {
     initMainProcessStoreEvents();
     initSettingsStoreEvents();
     this.initInstanceEvents();
@@ -124,7 +143,7 @@ export class WindowManager {
     this.initIpcEvents();
   }
 
-  initIpcEvents() {
+  private initIpcEvents() {
     // ipcMain events should only be initialized once
     if (this.ipcEventsInitialized) {
       return;
@@ -142,7 +161,7 @@ export class WindowManager {
       (e, headers: HeaderState) => {
         this.requestHeaders = {};
 
-        headers.forEach((header) => {
+        headers.forEach(header => {
           const normalizedKey = header.key.toLowerCase();
           if (
             ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(normalizedKey) &&
@@ -158,28 +177,7 @@ export class WindowManager {
       }
     );
 
-    // Listen for the renderer ready event,
-    // then retrieve the opened file from the store and send it to the instance.
-    // Then remove it from the store
-    ipcMain.on(IPC_EVENT_NAMES.RENDERER_READY, () => {
-      if (!this.instance) {
-        throw new Error('instance not created!');
-      }
-      const openedFileContent = this.electronApp.store.get(
-        'opened-file-data-opened'
-      );
-      if (!openedFileContent) {
-        return;
-      }
-
-      this.instance.webContents.send(
-        IPC_EVENT_NAMES.FILE_OPENED,
-        openedFileContent
-      );
-      this.electronApp.store.delete('opened-file-data');
-    });
-
-    ipcMain.handle('reload-window', (e) => {
+    ipcMain.handle('reload-window', e => {
       e.sender.reload();
     });
 
@@ -191,21 +189,18 @@ export class WindowManager {
     );
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors(
-      IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
-      async (e) => {
-        if (!e.sender || e.sender !== this.instance?.webContents) {
-          throw new Error('untrusted source trying to get auth token');
-        }
-
-        const authServer = new AuthServer();
-        return authServer.getCustomToken();
+    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async e => {
+      if (!e.sender || e.sender !== this.instance?.webContents) {
+        throw new Error('untrusted source trying to get auth token');
       }
-    );
+
+      const authServer = new AuthServer();
+      return authServer.getCustomToken();
+    });
 
     handleWithCustomErrors(
       IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,
-      async (e) => {
+      async e => {
         if (!e.sender || e.sender !== this.instance?.webContents) {
           throw new Error('untrusted source');
         }
@@ -215,7 +210,7 @@ export class WindowManager {
     );
   }
 
-  initSessionEvents() {
+  private initSessionEvents() {
     // session events should only be initialized once
     if (this.sessionEventsInitialized) {
       return;
@@ -226,7 +221,7 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach((uploadData) => {
+          details.uploadData.forEach(uploadData => {
             log('Data sent:', uploadData.bytes.toString());
           });
         }
@@ -254,9 +249,9 @@ export class WindowManager {
     );
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders((details) => {
+      session.defaultSession.webRequest.onSendHeaders(details => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach((headerKey) => {
+          Object.keys(details.requestHeaders).forEach(headerKey => {
             log('Header sent:', headerKey, details.requestHeaders[headerKey]);
           });
         }
@@ -295,7 +290,7 @@ export class WindowManager {
     });
   }
 
-  initInstanceEvents() {
+  private initInstanceEvents() {
     if (!this.instance) {
       throw new Error(
         'Instance must be initialized before attempting to manage events'
@@ -304,7 +299,7 @@ export class WindowManager {
 
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
+    this.instance.webContents.on('will-navigate', e => e.preventDefault());
 
     // Emitted when the window is closed.
     this.instance.on('closed', () => {
@@ -324,14 +319,14 @@ export class WindowManager {
     });
   }
 
-  registerProtocol() {
-    if (protocol.isProtocolHandled('altair')) {
+  private registerProtocol() {
+    if (protocol.isProtocolHandled(ALTAIR_CUSTOM_PROTOCOL)) {
       return;
     }
     /**
      * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
      */
-    protocol.handle('altair', async (request) => {
+    protocol.handle(ALTAIR_CUSTOM_PROTOCOL, async request => {
       const requestDirectory = getDistDirectory();
       const originalFilePath = path.join(
         requestDirectory,
@@ -350,7 +345,7 @@ export class WindowManager {
     });
   }
 
-  async getFilePath(filePath: string): Promise<string> {
+  private async getFilePath(filePath: string): Promise<string> {
     log('file..', filePath);
 
     if (!filePath) {
@@ -376,7 +371,10 @@ export class WindowManager {
    * @param {string} originalFilePath path to file
    * @param {string} fallbackPath usually path to index file
    */
-  async getFileContentData(originalFilePath: string, fallbackPath: string) {
+  private async getFileContentData(
+    originalFilePath: string,
+    fallbackPath: string
+  ) {
     let filePath = await this.getFilePath(originalFilePath);
 
     if (!filePath) {

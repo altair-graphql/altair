@@ -199,6 +199,12 @@
                     @if (loggedIn && (query.storageType === 'api')) {
                       <li
                         nz-menu-item
+                        (click)="copyQueryShareLinkChange.emit(query.id)"
+                      >
+                        {{ 'COLLECTIONS_QUERY_MENU_COPY_SHARE_URL' | translate }}
+                    </li>
+                      <li
+                        nz-menu-item
                         (click)="showQueryRevisionsDialog(query)"
                       >
                         {{ 'COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG' | translate }}
