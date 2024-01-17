@@ -116,6 +116,7 @@
   "COLLECTIONS_NUMBER_OF_REQUESTS": "Кількість запитів:",
   "COLLECTIONS_QUERY_MENU_DELETE": "Видалити",
   "COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG": "Show revisions",
+  "COLLECTIONS_QUERY_MENU_COPY_SHARE_URL": "Copy share URL",
   "COLLECTIONS_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_EDIT": "Редагувати",
   "COLLECTIONS_MENU_SYNC": "Синхронізація з дистанційним керуванням",
