@@ -58,6 +58,10 @@ describe('AltairComponent', () => {
         useValue: mock(),
       },
       {
+        provide: services.NotifyService,
+        useValue: mock(),
+      },
+      {
         provide: TranslateService,
         useValue: mock({
           use: () => of(),
