@@ -132,6 +132,7 @@ export class CodemirrorComponent
     if (value === null || value === undefined) {
       return;
     }
+    value = `${value}`;
 
     if (!this.view) {
       return;
