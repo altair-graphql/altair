@@ -1,25 +1,25 @@
 <div class="action-bar">
-  <button class="app-button" (click)="this.prettifyCodeChange.next()">
+  <button class="app-button prettify-button" (click)="this.prettifyCodeChange.next()">
     {{ 'PRETTIFY_BUTTON' | translate }}
   </button>
-  <button class="app-button" (click)="this.clearEditorChange.next()">
+  <button class="app-button clear-editor-button" (click)="this.clearEditorChange.next()">
     {{ 'CLEAR_BUTTON' | translate }}
   </button>
-  <button class="app-button" (click)="this.toggleHeaderDialog.next()">
+  <button class="app-button set-headers-button" (click)="this.toggleHeaderDialog.next()">
     {{ 'SET_HEADERS_BUTTON' | translate }}
   </button>
-  <button class="app-button" (click)="this.toggleVariableDialog.next()">
+  <button class="app-button set-variables-button" (click)="this.toggleVariableDialog.next()">
     {{ 'SET_VARIABLES_BUTTON' | translate }}
   </button>
-  <button class="app-button" (click)="this.toggleSubscriptionUrlDialog.next()">
+  <button class="app-button set-subscription-url-button" (click)="this.toggleSubscriptionUrlDialog.next()">
     {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
   </button>
-  <div class="actions-right right">
+  <div class="actions-right right reload-docs-button">
     <button class="app-button" (click)="reloadDocsChange.next()">
       {{ 'RELOAD_DOCS_BUTTON' | translate }}
     </button>
     <button
-      class="app-button"
+      class="app-button show-docs-button"
       (click)="toggleDocsChange.next()"
       [ngClass]="{ 'active-grey': showDocs }"
     >

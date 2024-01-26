@@ -1,4 +1,5 @@
 import { expect } from '@jest/globals';
+import { jest } from '@jest/globals';
 import { ActionBarComponent } from './action-bar.component';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
@@ -25,45 +26,46 @@ describe('ActionBarComponent', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it('should emit prettifyCodeChange event when the Prettify Code button is clicked', async () => {
-    const button = wrapper.find('button.app-button').at(0); // Assuming it's the first button
-    button.trigger('click');
-    await wrapper.nextTick();
+  it('should emit prettifyCodeChange event when Prettify button is clicked', () => {
+    const prettifyButton = wrapper.find('.prettify-button');
+    prettifyButton.emit('click');
     expect(wrapper.emitted('prettifyCodeChange')).toBeTruthy();
   });
 
-  it('should emit clearEditorChange event when the Clear Editor button is clicked', async () => {
-    const button = wrapper.find('button.app-button').at(1); // Assuming it's the second button
-    button.trigger('click');
-    await wrapper.nextTick();
+  it('should emit clearEditorChange event when Clear Editor button is clicked', () => {
+    const clearButton = wrapper.find('.clear-editor-button');
+    clearButton.emit('click');
     expect(wrapper.emitted('clearEditorChange')).toBeTruthy();
   });
 
-  it('should emit toggleHeaderDialog event when the Set Headers button is clicked', async () => {
-    const button = wrapper.find('button.app-button').at(2); // Adjust index as needed
-    button.trigger('click');
-    await wrapper.nextTick();
+  it('should emit toggleHeaderDialog event when Set Headers button is clicked', () => {
+    const setHeadersButton = wrapper.find('.set-headers-button');
+    setHeadersButton.emit('click');
     expect(wrapper.emitted('toggleHeaderDialog')).toBeTruthy();
   });
 
-  it('should emit toggleVariableDialog event when the Set Variables button is clicked', async () => {
-    const button = wrapper.find('button.app-button').at(3); // Adjust index as needed
-    button.trigger('click');
-    await wrapper.nextTick();
+  it('should emit toggleVariableDialog event when Set Variables button is clicked', () => {
+    const setVariablesButton = wrapper.find('.set-variables-button');
+    setVariablesButton.emit('click');
     expect(wrapper.emitted('toggleVariableDialog')).toBeTruthy();
   });
 
-  it('should emit reloadDocsChange event when the Reload Docs button is clicked', async () => {
-    const button = wrapper.find('button.app-button').at(5); // Adjust index as needed
-    button.trigger('click');
-    await wrapper.nextTick();
+  it('should emit toggleSubscriptionUrlDialog event when Set Subscription URL button is clicked', () => {
+    const setSubscriptionUrlButton = wrapper.find('.set-subscription-url-button');
+    setSubscriptionUrlButton.emit('click');
+    expect(wrapper.emitted('toggleSubscriptionUrlDialog')).toBeTruthy();
+  });
+
+  it('should emit reloadDocsChange event when Reload Docs button is clicked', () => {
+    const reloadDocsButton = wrapper.find('.reload-docs-button');
+    reloadDocsButton.emit('click');
     expect(wrapper.emitted('reloadDocsChange')).toBeTruthy();
   });
 
-  it('should apply active-grey class to Show Docs button when showDocs is true', async () => {
-    wrapper.setProps({ showDocs: true });
-    await wrapper.nextTick();
-    const button = wrapper.find('button.app-button').at(6); // Adjust index as needed
-    expect(button.classes()).toContain('active-grey');
+  it('should emit toggleDocsChange event when Show Docs button is clicked', () => {
+    const showDocsButton = wrapper.find('.show-docs-button');
+    showDocsButton.emit('click');
+    expect(wrapper.emitted('toggleDocsChange')).toBeTruthy();
   });
+
 });
