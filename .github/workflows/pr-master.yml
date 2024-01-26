@@ -23,7 +23,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn --frozen-lockfile --network-timeout 1000000
-      - run: yarn build-docs
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
@@ -32,8 +31,8 @@ jobs:
       - run: |
           export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
           export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-          cd site
-          npx wrangler@2 pages publish "src/.vuepress/dist" --project-name="altair-site"
+          cd packages/altair-docs
+          npx wrangler@2 pages publish ".vitepress/dist" --project-name="altair-site"
       - run: |
           export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
           export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
