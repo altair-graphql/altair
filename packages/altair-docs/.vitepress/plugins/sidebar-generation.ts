@@ -188,7 +188,7 @@ function getChildren(
         path = path.slice(0, -6) + '/';
       }
 
-      console.log('md', Object.keys(md));
+      // console.log('md', Object.keys(md));
       return {
         path,
         order: path === '' && order === undefined ? 0 : order, // index is first if it hasn't order

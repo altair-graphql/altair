@@ -16,6 +16,10 @@ hero:
     - theme: alt
       text: Get Started →
       link: /docs/
+heroSublimeAction:
+  text: Discover Altair GraphQL Cloud ✨
+  link: /cloud
+  
 # heroImage: ./assets/img/app-shot.png
 # heroText: Debugging your GraphQL server was never this easy!
 # tagline: Altair GraphQL Client helps you debug GraphQL queries and implementations - taking care of the hard part so you can focus on actually getting things done.

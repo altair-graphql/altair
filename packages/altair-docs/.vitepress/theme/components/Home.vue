@@ -5,6 +5,7 @@ import Contributions from './Contributions.vue'
 import Downloads from './Downloads.vue'
 import HomeCarbonAds from './HomeCarbonAds.vue'
 import VPButton from './VPButton.vue';
+import VPLink from './VPLink.vue';
 
 const { theme, frontmatter: fm } = useData()
 
@@ -50,7 +51,14 @@ const { theme, frontmatter: fm } = useData()
                 :href="action.link"
               />
             </p>
-
+            <div v-if="fm.heroSublimeAction" class="hero-sublime-actions">
+              <VPLink
+                :href="fm.heroSublimeAction.link"
+                class="hero-sublime-action"
+              >
+                {{ fm.heroSublimeAction.text }}
+              </VPLink>
+            </div>
           </div>
           <div class="image-wrapper">
             <img
@@ -129,7 +137,6 @@ const { theme, frontmatter: fm } = useData()
   height: auto;
   width: 100%;
   background: var(--vp-c-bg);
-  /* color: var(--vp-c-white); */
 }
 .home .hero .main-title {
   font-size: 48px;
@@ -158,6 +165,18 @@ const { theme, frontmatter: fm } = useData()
   display: flex;
   gap: 5px;
   justify-content: center;
+  margin-bottom: 10px;
+}
+.home .hero-sublime-actions {
+  font-size: 14px;
+}
+
+.hero-sublime-action {
+  text-decoration: underline;
+  text-decoration-style: dashed;
+}
+.hero-sublime-action:hover {
+  text-decoration-style: solid;
 }
 .home .hero .image-wrapper {
   margin: 30px 0;
@@ -200,9 +219,7 @@ const { theme, frontmatter: fm } = useData()
 }
 .home .footer {
   padding: 2.5rem;
-  /* border-top: 1px solid $border; */
   text-align: center;
-  /* color: lighten($text, 25%); */
 }
 .made-by {
   margin: 10px 0;
