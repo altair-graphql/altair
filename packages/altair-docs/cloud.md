@@ -25,4 +25,48 @@ features:
   - icon: 🔄
     title: Query Versioning
     details: Keep a version history of queries for easy rollback and traceability. Never worry about losing crucial information during the development process.
+  - icon: 👥
+    title: Easy Sharing
+    details: Share queries seamlessly with team members using shareable URLs. Accelerate collaboration and eliminate communication gaps.
+
+pricing:
+  - title: Basic
+    price:
+      free: true
+    features:
+    - Up to 2 team members
+    - Up to 20 queries
+    - Unlimited collections
+    - Query history (up to 10 revisions)
+    action:
+      link: /#download
+      text: Download
+  - title: Pro
+    recommended: true
+    price:
+      amount: 7.99
+      currency: $
+      frequency: month
+    features:
+    - Unlimited team members
+    - Unlimited teams
+    - Unlimited queries
+    - Unlimited collections
+    - Query history
+    action:
+      link: /#download
+      text: Try it today
+  - title: Self hosted
+    price:
+      free: true
+    features:
+    - Unlimited team members
+    - Unlimited teams
+    - Unlimited queries
+    - Unlimited collections
+    - Query history
+    - Full control
+    action:
+      link: https://github.com/altair-graphql/altair?tab=readme-ov-file#deployment
+      text: Get started
 ---
