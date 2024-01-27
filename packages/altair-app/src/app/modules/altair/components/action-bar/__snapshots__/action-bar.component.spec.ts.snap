@@ -6,27 +6,27 @@ exports[`ActionBarComponent should render correctly 1`] = `
     class="action-bar"
   >
     <button
-      class="app-button"
+      class="app-button prettify-button"
     >
         
     </button>
     <button
-      class="app-button"
+      class="app-button clear-editor-button"
     >
         
     </button>
     <button
-      class="app-button"
+      class="app-button set-headers-button"
     >
         
     </button>
     <button
-      class="app-button"
+      class="app-button set-variables-button"
     >
         
     </button>
     <button
-      class="app-button"
+      class="app-button set-subscription-url-button"
     >
         
     </button>
@@ -34,12 +34,12 @@ exports[`ActionBarComponent should render correctly 1`] = `
       class="actions-right right"
     >
       <button
-        class="app-button"
+        class="app-button reload-docs-button"
       >
           
       </button>
       <button
-        class="app-button"
+        class="app-button show-docs-button"
       >
           
       </button>
