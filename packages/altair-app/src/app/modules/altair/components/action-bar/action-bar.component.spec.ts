@@ -1,5 +1,4 @@
 import { expect } from '@jest/globals';
-import { jest } from '@jest/globals';
 import { ActionBarComponent } from './action-bar.component';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
