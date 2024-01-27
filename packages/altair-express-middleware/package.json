@@ -1,17 +1,17 @@
 {
   "name": "altair-express-middleware",
   "description": "Express middleware for altair graphql client",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-static": "^6.1.0",
+    "altair-static": "^6.2.0",
     "express": "^4.16.2"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
     "@types/node": "^14.14.41",
-    "eslint-config-altair": "^6.1.0",
+    "eslint-config-altair": "^6.2.0",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "5.2.2"
