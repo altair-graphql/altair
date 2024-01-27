@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VPHomeHero from './VPHomeHero.vue'
 import VPHomeFeatures from './VPHomeFeatures.vue'
+import Pricing from './Pricing.vue';
 </script>
 
 <template>
@@ -15,6 +16,8 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
     <slot name="home-features-before" />
     <VPHomeFeatures />
     <slot name="home-features-after" />
+
+    <Pricing />
 
     <Content />
   </div>
