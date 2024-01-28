@@ -15,9 +15,9 @@ export class ScriptEvaluator {
   timeout = 1000 * 60 * 5; // 5 minutes
   private worker?: Worker;
 
-  private getWorker() {
+  private async getWorker() {
     if (!this.worker) {
-      this.worker = new ScriptEvaluatorWorkerFactory().create();
+      this.worker = await new ScriptEvaluatorWorkerFactory().create();
     }
     return this.worker;
   }
@@ -28,7 +28,7 @@ export class ScriptEvaluator {
     userAvailableHandlers: ScriptEventHandlers
   ): Promise<ScriptContextData> {
     try {
-      const worker = this.getWorker();
+      const worker = await this.getWorker();
       const result = await new Promise<ScriptContextData>((resolve, reject) => {
         // Handle timeout
         const handle = setTimeout(() => {
