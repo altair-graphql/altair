@@ -140,6 +140,12 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           nz-menu=""
         >
           
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
+          
         </ul>
         
       </nz-dropdown-menu>
@@ -285,6 +291,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         </span>
         
         
+        
         <app-icon
           name="chevron-down"
         />
@@ -307,6 +314,12 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
              operation 2 
           </li>
           
+          
+          <li
+            nz-menu-item=""
+          >
+              
+          </li>
           
         </ul>
         
