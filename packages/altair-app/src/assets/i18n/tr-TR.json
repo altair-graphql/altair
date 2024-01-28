@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "Yeni ekle",
   "RESTART_TEXT": "Yeniden başlat",
   "DELETE_TEXT": "Delete",
+  "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Geri",
   "DOCS_EXPORT_SDL": "SDL'i dışarı aktar",
   "DOCS_LOAD_SCHEMA": "Şemayı Yükle",
