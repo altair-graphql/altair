@@ -33,11 +33,8 @@ import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
 import { debug } from '../../utils/logger';
 
-import * as fromHeaders from '../../store/headers/headers.reducer';
-import * as fromVariables from '../../store/variables/variables.reducer';
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';
 import { parseJson, setByDotNotation } from '../../utils';
-import { Token } from 'codemirror';
 import { IDictionary, Omit } from '../../interfaces/shared';
 import {
   refactorFieldsWithFragmentSpread,
@@ -64,7 +61,10 @@ interface SendRequestOptions {
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;
+  batchedRequest?: boolean;
 }
+
+export const BATCHED_REQUESTS_OPERATION = 'BatchedRequests';
 
 export interface SendRequestResponse {
   response: HttpResponse<any>;
@@ -395,7 +395,9 @@ export class GqlService {
             !availableOperationNames.includes(selectedOperation)) ||
           !selectedOperation
         ) {
-          if (operationNameAtCursorIndex) {
+          if (selectedOperation === BATCHED_REQUESTS_OPERATION) {
+            newSelectedOperation = null;
+          } else if (operationNameAtCursorIndex) {
             newSelectedOperation = operationNameAtCursorIndex;
           } else {
             newSelectedOperation = null;
@@ -609,6 +611,7 @@ export class GqlService {
     selectedOperation,
     files,
     withCredentials,
+    batchedRequest,
   }: SendRequestOptions) {
     const data = {
       query,
@@ -653,7 +656,26 @@ export class GqlService {
 
         body = formData;
       } else {
-        body = JSON.stringify(data);
+        // Handle batched requests
+        if (batchedRequest) {
+          const operations = this.getOperations(data.query);
+          if (operations.length > 1) {
+            const operationQueries = operations.map((operation) => {
+              const operationName = operation.name?.value;
+              const operationQuery = print(operation);
+              const operationVariables = data.variables;
+
+              return {
+                operationName,
+                query: operationQuery,
+                variables: operationVariables,
+              };
+            });
+
+            body = JSON.stringify(operationQueries);
+          }
+        }
+        body ??= JSON.stringify(data);
       }
     } else {
       params = this.getParamsFromData(data);

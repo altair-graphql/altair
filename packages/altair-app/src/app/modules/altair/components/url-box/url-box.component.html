@@ -144,7 +144,9 @@
         @if (!isLoading) {
           <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
         }
-        @if (selectedOperation) {
+        @if (selectedOperation === BATCHED_REQUESTS_OPERATION) {
+          <span>(Batched)</span>
+        } @else if (selectedOperation)  {
           <span>({{ selectedOperation }})</span>
         }
         <app-icon name="chevron-down"></app-icon>
@@ -152,9 +154,7 @@
     }
     <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
       <ul nz-menu>
-        @for (
-          operation of queryOperations; track queryOperationTrackBy($index,
-          operation)) {
+        @for (operation of queryOperations; track queryOperationTrackBy($index, operation)) {
           <li
             nz-menu-item
             (click)="selectedOperationChange.emit(operation.name?.value)"
@@ -162,6 +162,12 @@
             {{ operation.name?.value }}
           </li>
         }
+        <li
+            nz-menu-item
+            (click)="selectedOperationChange.emit(BATCHED_REQUESTS_OPERATION)"
+            >
+            {{ 'SEND_BATCHED_REQUEST' | translate }}
+          </li>
       </ul>
     </nz-dropdown-menu>
   </div>
