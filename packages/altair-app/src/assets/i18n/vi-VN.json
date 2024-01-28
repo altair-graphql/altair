@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Thêm mục",
   "RESTART_TEXT": "Bắt đầu lại",
   "DELETE_TEXT": "Xoá",
+  "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Quay lại",
   "DOCS_EXPORT_SDL": "Xuất SDL",
   "DOCS_LOAD_SCHEMA": "Tải lược đồ",
