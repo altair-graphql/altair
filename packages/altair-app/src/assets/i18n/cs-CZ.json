@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Nový",
   "RESTART_TEXT": "Restart",
   "DELETE_TEXT": "Delete",
+  "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Zpět",
   "DOCS_EXPORT_SDL": "Exportovat SDL",
   "DOCS_LOAD_SCHEMA": "Načíst schéma",
