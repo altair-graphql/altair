@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Добавить",
   "RESTART_TEXT": "Перезапуск",
   "DELETE_TEXT": "Удалить",
+  "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Экспорт SDL",
   "DOCS_LOAD_SCHEMA": "Загрузить схему",
