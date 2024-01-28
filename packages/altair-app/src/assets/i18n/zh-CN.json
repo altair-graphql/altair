@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ 新建窗口",
   "RESTART_TEXT": "重启",
   "DELETE_TEXT": "清除",
+  "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "返回",
   "DOCS_EXPORT_SDL": "导出 SDL文件",
   "DOCS_LOAD_SCHEMA": "加载Schema",
