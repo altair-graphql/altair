@@ -3,6 +3,7 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { VARIABLE_REGEX } from '../../services/environment/environment.service';
+import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 
 @Component({
   selector: 'app-url-box',
@@ -30,6 +31,8 @@ export class UrlBoxComponent {
   @Output() updateQueryInCollectionChange = new EventEmitter();
 
   methods = HTTP_VERBS;
+
+  BATCHED_REQUESTS_OPERATION = BATCHED_REQUESTS_OPERATION;
 
   setApiUrl() {
     const sanitizedUrl = this.sanitizeUrl(this.apiUrl);

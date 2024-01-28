@@ -55,6 +55,7 @@ import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/su
 import { RequestScriptError } from '../services/pre-request/errors';
 import { headerListToMap } from '../utils/headers';
 import { RequestType } from '../services/pre-request/helpers';
+import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 
 @Injectable()
 export class QueryEffects {
@@ -267,6 +268,9 @@ export class QueryEffects {
                   files: response.data.variables.files,
                   withCredentials:
                     response.state.settings['request.withCredentials'],
+                  batchedRequest:
+                    response.data.query.selectedOperation ===
+                    BATCHED_REQUESTS_OPERATION,
                 })
                 .pipe(
                   switchMap((res) => {
