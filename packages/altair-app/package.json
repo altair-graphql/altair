@@ -67,7 +67,7 @@
     "dexie": "3.2.3",
     "express": "4.17.1",
     "file-dialog": "0.0.8",
-    "file-saver": "2.0.2",
+    "file-saver": "2.0.5",
     "fuse.js": "6.4.6",
     "graphql": "15.5.1",
     "graphql-language-service": "^5.2.0",
