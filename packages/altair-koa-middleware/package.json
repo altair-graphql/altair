@@ -18,7 +18,7 @@
     "koa": "^2.13.1",
     "nodemon": "^2.0.12",
     "supertest": "^6.1.6",
-    "ts-jest": "29.0.5",
+    "ts-jest": "29.1.2",
     "ts-node": "^10.2.1",
     "typescript": "5.2.2"
   },

@@ -163,7 +163,7 @@
     "react": "17.0.1",
     "rxjs-tslint-rules": "4.32.0",
     "start-server-and-test": "1.11.0",
-    "ts-jest": "29.0.5",
+    "ts-jest": "29.1.2",
     "ts-mocks": "2.6.1",
     "ts-node": "9.1.1",
     "typescript": "5.2.2",
