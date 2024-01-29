@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn build-docs
+      - run: yarn
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
@@ -34,7 +34,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: altair-site
-          directory: site/src/.vuepress/dist
+          directory: packages/altair-docs/.vitepress/dist
           gitHubToken: ${{ github.token }}
   # deploy-docs:
   #   name: Deploy docs
@@ -46,14 +46,14 @@ jobs:
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: 16
-  #     - run: yarn build-docs
+  #     - run: yarn
   #       env:
   #         GITHUB_TOKEN: ${{ github.token }}
   #     - name: Deploy to github pages 🚀
   #       uses: JamesIves/github-pages-deploy-action@4.1.6
   #       with:
   #         branch: gh-pages # The branch the action should deploy to.
-  #         folder: site/src/.vuepress/dist # The folder the action should deploy.
+  #         folder: packages/altair-docs/.vitepress/dist # The folder the action should deploy.
   extension-publish:
     name: Publish firefox addon
     runs-on: ubuntu-latest

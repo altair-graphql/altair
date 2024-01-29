@@ -3,4 +3,4 @@
 **/node_modules
 packages/altair-app
 packages/altair-electron
-site
+packages/altair-docs
