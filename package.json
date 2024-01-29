@@ -66,7 +66,6 @@
     "build": "yarn build-api",
     "build-api": "yarn --cwd packages/altair-api build",
     "build-app": "nx build @altairgraphql/app",
-    "build-docs": "yarn --cwd site/src/.vuepress/plugins/github-metadata install && yarn --cwd site install && yarn --cwd site build",
     "build-electron": "lerna bootstrap && nx build altair",
     "build-ext": "yarn build-app && cwex build",
     "build:ci": "lerna bootstrap -- --frozen-lockfile",

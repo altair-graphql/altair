@@ -3,14 +3,13 @@
 # abort on errors
 set -e
 
-yarn build-docs
-# cd site
+yarn
 
 # build
 # yarn build
 
 # navigate into the build output directory
-cd site/src/.vuepress/dist
+cd packages/altair-docs/.vitepress/dist
 
 echo "Update for cloudflare pages deploy"
 exit 1
