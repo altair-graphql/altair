@@ -14704,10 +14704,15 @@ electron-is-accelerator@^0.1.0:
   resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
   integrity sha512-fLGSAjXZtdn1sbtZxx52+krefmtNuVwnJCV2gNiVt735/ARUboMl8jnNC9fZEqQdlAv2ZrETfmBUsoQci5evJA==
 
-electron-is-dev@^1.0.1, electron-is-dev@^1.1.0, electron-is-dev@^1.2.0:
+electron-is-dev@^1.1.0, electron-is-dev@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.2.0.tgz#2e5cea0a1b3ccf1c86f577cee77363ef55deb05e"
   integrity sha512-R1oD5gMBPS7PVU8gJwH6CtT0e6VSoD0+SzSnYpNm+dBkcijgA+K7VAMHDfnRq/lkKPZArpzplTW6jfiMYosdzw==
+
+electron-is-dev@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-2.0.0.tgz#833487a069b8dad21425c67a19847d9064ab19bd"
+  integrity sha512-3X99K852Yoqu9AcW50qz3ibYBWY79/pBhlMCab8ToEWS48R0T9tyxRiQhwylE7zQdXrMnx2JKqUJyMPmt5FBqA==
 
 electron-localshortcut@^3.1.0:
   version "3.2.1"
@@ -14808,15 +14813,16 @@ electron-to-chromium@^1.4.601:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.614.tgz#2fe789d61fa09cb875569f37c309d0c2701f91c0"
   integrity sha512-X4ze/9Sc3QWs6h92yerwqv7aB/uU8vCjZcrMjA8N9R1pjMFRe44dLsck5FzLilOYvcXuDn93B+bpGYyufc70gQ==
 
-electron-unhandled@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/electron-unhandled/-/electron-unhandled-3.0.2.tgz#e14a19c830ccf7b6e755191c8e78d23094d25112"
-  integrity sha512-IIqXnM5eNgV7k5sDA/GZ39ygJbpfF3WTArNGQ1TB4AI6ajQuuVztA0M6Mq9uEpmTh5gz4nR+YsTNWYsHLoM5rw==
+electron-unhandled@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/electron-unhandled/-/electron-unhandled-4.0.1.tgz#82bbcb5ee5423f611f6122e006bf4842dfd7c908"
+  integrity sha512-6BsLnBg+i96eUnbaIFZyYdyfNX3f80/Nlfqy34YEMxXT9JP3ddNsNnUeiOF8ezN4+et4t4D37gjghKTP0V3jyw==
   dependencies:
     clean-stack "^2.1.0"
-    electron-is-dev "^1.0.1"
+    electron-is-dev "^2.0.0"
     ensure-error "^2.0.0"
     lodash.debounce "^4.0.8"
+    serialize-error "^8.1.0"
 
 electron-updater@^4.6.1:
   version "4.6.5"
@@ -27670,7 +27676,7 @@ serialize-error@^7.0.1:
   dependencies:
     type-fest "^0.13.1"
 
-serialize-error@^8.0.0:
+serialize-error@^8.0.0, serialize-error@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.1.0.tgz#3a069970c712f78634942ddd50fbbc0eaebe2f67"
   integrity sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==

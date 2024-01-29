@@ -21,7 +21,7 @@
     "electron-log": "^5.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^7.0.1",
-    "electron-unhandled": "^3.0.2",
+    "electron-unhandled": "^4.0.1",
     "electron-updater": "^4.6.1",
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
