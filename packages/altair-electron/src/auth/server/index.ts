@@ -7,6 +7,7 @@ import { randomBytes } from 'crypto';
 import { getStaticDirectory } from '../../utils';
 import { session, shell } from 'electron';
 import { getCSP, INLINE, SELF } from 'csp-header';
+import getPort from 'get-port';
 
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
@@ -119,7 +120,6 @@ export class AuthServer {
   }
 
   private async getAvailablePort() {
-    const getPort = await import('get-port');
-    return getPort.default({ port: this.port });
+    return getPort({ port: this.port });
   }
 }
