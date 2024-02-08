@@ -54,7 +54,7 @@ const getGithubMetadata = async ({ owner = '', repo = '' }) => {
 
   return vls.reduce((acc, cur, i) => {
     if (cur.status === 'rejected') {
-      console.log(cur);
+      // console.log(cur);
       return acc;
     }
     return {

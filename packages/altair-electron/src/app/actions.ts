@@ -80,7 +80,9 @@ export class ActionManager {
     try {
       return prefWindow.loadURL(
         url.format({
-          pathname: path.resolve(getStaticDirectory(), 'settings/index.html'),
+          pathname: path.resolve(
+            require.resolve('@altairgraphql/electron-settings')
+          ), // path.resolve(getStaticDirectory(), 'settings/index.html'),
           protocol: 'file:',
           slashes: true,
         })
