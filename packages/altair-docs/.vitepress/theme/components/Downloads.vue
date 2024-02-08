@@ -19,7 +19,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-console.log('githubMetadata', githubMetadata);
+// console.log('githubMetadata', githubMetadata);
 const latestRelease = githubMetadata?.latest_release;
 
 const getAssetUrl = (item: DownloadData) => {

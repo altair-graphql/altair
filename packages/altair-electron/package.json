@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@altairgraphql/electron-interop": "^6.2.0",
+    "@altairgraphql/electron-settings": "^6.2.0",
     "@altairgraphql/login-redirect": "^6.2.0",
     "@sentry/electron": "^4.14.0",
     "altair-static": "^6.2.0",
@@ -26,7 +27,7 @@
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
     "express": "^4.18.1",
-    "get-port": "^5.1.1",
+    "get-port": "5.1.1",
     "mime-types": "^2.1.29",
     "uuid": "^9.0.1"
   },
