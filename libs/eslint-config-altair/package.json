@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-altair",
   "description": "ESlint configurations",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
@@ -12,7 +12,7 @@
     "eslint-plugin-no-unsanitized": "^4.0.2",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.1",
-    "prettier-config-altair": "^6.2.0",
+    "prettier-config-altair": "^6.3.0",
     "typescript": "5.2.2"
   },
   "license": "MIT",
