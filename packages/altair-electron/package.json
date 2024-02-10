@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@altairgraphql/electron-interop": "^6.3.0",
-    "@altairgraphql/electron-settings": "^6.3.0",
+    "@altairgraphql/electron-settings-static": "^6.3.0",
     "@altairgraphql/login-redirect": "^6.3.0",
     "@sentry/electron": "^4.14.0",
     "altair-static": "^6.3.0",

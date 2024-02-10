@@ -3,7 +3,7 @@ import { checkForUpdates } from '../updates';
 import { BrowserWindow, MenuItem } from 'electron';
 import url from 'url';
 import path from 'path';
-import { getStaticDirectory } from '../utils';
+import { getDistDirectory } from '@altairgraphql/electron-settings-static';
 import { WindowManager } from './window';
 
 export class ActionManager {
@@ -80,9 +80,10 @@ export class ActionManager {
     try {
       return prefWindow.loadURL(
         url.format({
-          pathname: path.resolve(
-            require.resolve('@altairgraphql/electron-settings')
-          ), // path.resolve(getStaticDirectory(), 'settings/index.html'),
+          // pathname: path.resolve(
+          //   require.resolve('@altairgraphql/electron-settings')
+          // ),
+          pathname: path.resolve(getDistDirectory(), 'index.html'),
           protocol: 'file:',
           slashes: true,
         })
