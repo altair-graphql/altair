@@ -57,7 +57,7 @@
     "pino-pretty": "^9.2.0",
     "prettier": "^2.3.2",
     "prettier-config-altair": "^6.3.0",
-    "prisma": "^4.9.0",
+    "prisma": "^5.9.1",
     "source-map-support": "^0.5.20",
     "supertest": "^6.1.3",
     "sync-dotenv": "^2.7.0",
