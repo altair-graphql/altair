@@ -103,6 +103,15 @@ app-url-box {
     background: rgba(var(--rgb-primary), 0.15);
     color: var(--primary-color);
   }
+
+  &--not-saved {
+    color: var(--tertiary-color);
+
+    &:hover {
+      background: rgba(var(--rgb-tertiary), 0.15);
+      color: var(--tertiary-color);
+    }
+  }
 }
 
 .url-box__method-wrapper {

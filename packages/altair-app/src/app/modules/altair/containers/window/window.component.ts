@@ -1,3 +1,5 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import {
   catchError,
   distinctUntilChanged,
@@ -7,37 +9,36 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Component, Input, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
 
-import * as queryActions from '../../store/query/query.action';
-import * as headerActions from '../../store/headers/headers.action';
-import * as variableActions from '../../store/variables/variables.action';
+import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import * as collectionActions from '../../store/collection/collection.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as docsActions from '../../store/docs/docs.action';
 import * as schemaActions from '../../store/gql-schema/gql-schema.action';
+import * as headerActions from '../../store/headers/headers.action';
 import * as historyActions from '../../store/history/history.action';
-import * as windowActions from '../../store/windows/windows.action';
-import * as collectionActions from '../../store/collection/collection.action';
-import * as preRequestActions from '../../store/pre-request/pre-request.action';
-import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
+import * as postRequestActions from '../../store/post-request/post-request.action';
+import * as preRequestActions from '../../store/pre-request/pre-request.action';
+import * as queryActions from '../../store/query/query.action';
+import * as variableActions from '../../store/variables/variables.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
-import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import * as windowActions from '../../store/windows/windows.action';
 
-import {
-  GqlService,
-  NotifyService,
-  WindowService,
-  SubscriptionProviderRegistryService,
-} from '../../services';
-import { Observable, EMPTY, combineLatest, of, BehaviorSubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { fadeInOutAnimationTrigger } from '../../animations';
-import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
-import collectVariables from 'codemirror-graphql/utils/collectVariables';
+import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
+import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
+import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
+import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import {
   HttpVerb,
   LogLine,
@@ -46,20 +47,19 @@ import {
   SelectedOperation,
   SubscriptionResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
-import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
-import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
-import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
-import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
-import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
-import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
-import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
-import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
-import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
-import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
+import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
+import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import { GraphQLSchema, OperationDefinitionNode } from 'graphql';
+import { BehaviorSubject, EMPTY, Observable, combineLatest, of } from 'rxjs';
+import { fadeInOutAnimationTrigger } from '../../animations';
+import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
+import {
+  GqlService,
+  NotifyService,
+  SubscriptionProviderRegistryService,
+  WindowService,
+} from '../../services';
 import { str } from '../../utils';
 
 @UntilDestroy({ checkProperties: true })
@@ -69,6 +69,7 @@ import { str } from '../../utils';
   animations: [fadeInOutAnimationTrigger],
 })
 export class WindowComponent implements OnInit {
+  queryIdInCollectionQueries: string = '';
   query$: Observable<QueryState>;
   queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
@@ -90,6 +91,7 @@ export class WindowComponent implements OnInit {
   queryOperations$: Observable<OperationDefinitionNode[]>;
   streamState$: Observable<'connected' | 'failed' | 'uncertain' | ''>;
   currentCollection$: Observable<IQueryCollection | undefined>;
+  queryMisMatchQueryInCollection$: Observable<boolean>;
   preRequest$: Observable<PrerequestState>;
   postRequest$: Observable<PostrequestState>;
   layout$: Observable<LayoutState>;
@@ -247,6 +249,20 @@ export class WindowComponent implements OnInit {
     );
     this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
+    this.queryMisMatchQueryInCollection$ = this.query$.pipe(
+      withLatestFrom(this.currentCollection$),
+      map((res) => {
+        const currentQueryContent = res[0].query;
+        const queryInCollection = res[1]?.queries.find(
+          (q) => q.id === this.queryIdInCollectionQueries
+        )?.query;
+        if (!(currentQueryContent && queryInCollection)) {
+          return false;
+        }
+        return this.queryMisMatchSaved(currentQueryContent, queryInCollection);
+      })
+    );
+
     this.resultPaneUiActions$ = this.store.select(
       fromRoot.getResultPaneUiActions
     );
@@ -282,6 +298,8 @@ export class WindowComponent implements OnInit {
         }
 
         this.apiUrl = data.query.url;
+        this.queryIdInCollectionQueries =
+          data.layout.windowIdInCollection ?? '';
         const query = data.query.query ?? '';
         this.query = query;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
@@ -314,6 +332,13 @@ export class WindowComponent implements OnInit {
       });
 
     this.windowService.setupWindow(this.windowId);
+  }
+
+  private queryMisMatchSaved(
+    currentQuery: string,
+    querySavedInCollection: string
+  ): boolean {
+    return currentQuery !== querySavedInCollection;
   }
 
   setApiUrl(url: string) {
