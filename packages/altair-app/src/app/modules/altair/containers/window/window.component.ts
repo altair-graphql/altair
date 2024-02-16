@@ -251,9 +251,9 @@ export class WindowComponent implements OnInit {
 
     this.queryMisMatchQueryInCollection$ = this.query$.pipe(
       withLatestFrom(this.currentCollection$),
-      map((res) => {
-        const currentQueryContent = res[0].query;
-        const queryInCollection = res[1]?.queries.find(
+      map(([currentQuery, currentCollection]) => {
+        const currentQueryContent = currentQuery.query;
+        const queryInCollection = currentCollection?.queries.find(
           (q) => q.id === this.queryIdInCollectionQueries
         )?.query;
         if (!(currentQueryContent && queryInCollection)) {
