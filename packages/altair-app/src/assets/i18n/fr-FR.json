@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Nouvel onglet",
   "RESTART_TEXT": "Relancer",
   "DELETE_TEXT": "Supprimer",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Retour",
   "DOCS_EXPORT_SDL": "Exporter SDL",
