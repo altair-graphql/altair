@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ 새 창",
   "RESTART_TEXT": "다시 시작",
   "DELETE_TEXT": "삭제",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "돌아가기",
   "DOCS_EXPORT_SDL": "SDL 내보내기",
