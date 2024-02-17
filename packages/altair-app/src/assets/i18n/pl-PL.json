@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Dodaj nowe",
   "RESTART_TEXT": "Uruchom ponownie",
   "DELETE_TEXT": "Usuń",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Powrót",
   "DOCS_EXPORT_SDL": "Eksportuj SDL",
