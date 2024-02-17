@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ Додати",
   "RESTART_TEXT": "Перезапустити",
   "DELETE_TEXT": "Видалити",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "Назад",
   "DOCS_EXPORT_SDL": "Експортувати SDL",
