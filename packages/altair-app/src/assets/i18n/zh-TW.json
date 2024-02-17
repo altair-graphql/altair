@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ 新增",
   "RESTART_TEXT": "重新開始",
   "DELETE_TEXT": "Delete",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "返回",
   "DOCS_EXPORT_SDL": "匯出SDL",
