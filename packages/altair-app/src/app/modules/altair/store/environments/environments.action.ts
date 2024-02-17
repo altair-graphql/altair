@@ -1,4 +1,6 @@
 import { Action as NGRXAction } from '@ngrx/store';
+import { WithRequired } from '../../interfaces/shared';
+import { InitialEnvironmentState } from 'altair-graphql-core/build/types/state/environments.interfaces';
 
 export const ADD_SUB_ENVIRONMENT = 'ADD_SUB_ENVIRONMENT';
 export const DELETE_SUB_ENVIRONMENT = 'DELETE_SUB_ENVIRONMENT';
@@ -13,7 +15,9 @@ export const REPOSITION_SUB_ENVIRONMENT = 'REPOSITION_SUB_ENVIRONMENT';
 export class AddSubEnvironmentAction implements NGRXAction {
   readonly type = ADD_SUB_ENVIRONMENT;
 
-  constructor(public payload: { id: string }) {}
+  constructor(
+    public payload: WithRequired<Partial<InitialEnvironmentState>, 'id'>
+  ) {}
 }
 
 export class DeleteSubEnvironmentAction implements NGRXAction {

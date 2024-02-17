@@ -37,6 +37,8 @@ interface ImportWindowDataOptions {
   fixedTitle?: boolean;
 }
 
+type AltairFile = ExportWindowState;
+
 @Injectable()
 export class WindowService {
   constructor(

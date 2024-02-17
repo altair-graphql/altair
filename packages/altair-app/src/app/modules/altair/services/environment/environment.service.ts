@@ -7,10 +7,17 @@ import * as fromRoot from '../../store';
 import * as fromEnvironments from '../../store/environments/environments.reducer';
 import * as fromHeaders from '../../store/headers/headers.reducer';
 import { IDictionary } from '../../interfaces/shared';
-import { EnvironmentsState } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import * as environmentsActions from '../../store/environments/environments.action';
+import {
+  EnvironmentState,
+  EnvironmentsState,
+  ExportEnvironmentState,
+} from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { merge } from 'lodash-es';
+import { downloadJson } from '../../utils';
+import { NotifyService } from '../notify/notify.service';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -30,7 +37,10 @@ interface HydrateEnvironmentOptions {
 export class EnvironmentService {
   environmentsState?: EnvironmentsState;
 
-  constructor(private store: Store<RootState>) {
+  constructor(
+    private notifyService: NotifyService,
+    private store: Store<RootState>
+  ) {
     this.store.subscribe({
       next: (data) => {
         this.environmentsState = data.environments;
@@ -162,5 +172,45 @@ export class EnvironmentService {
     }
 
     return hydratedHeaders;
+  }
+
+  importEnvironmentData(data: ExportEnvironmentState) {
+    if (!data.version || !data.type || data.type !== 'environment') {
+      throw new Error('File is not a valid Altair environment file.');
+    }
+
+    const id = uuid();
+    this.store.dispatch(
+      new environmentsActions.AddSubEnvironmentAction({
+        ...data,
+        id,
+      })
+    );
+    this.notifyService.success(
+      `${data.title ?? 'New'} environment imported successfully`
+    );
+  }
+
+  exportEnvironmentData(environment: EnvironmentState) {
+    return downloadJson(
+      this.getExportEnvironmentData(environment),
+      `${environment.title}_exported`,
+      {
+        fileType: 'agx',
+      }
+    );
+  }
+
+  getExportEnvironmentData(
+    environment: EnvironmentState
+  ): ExportEnvironmentState {
+    const exportCollectionData: ExportEnvironmentState = {
+      version: 1,
+      type: 'environment',
+      id: environment.id,
+      title: environment.title,
+      variables: JSON.parse(environment.variablesJson),
+    };
+    return exportCollectionData;
   }
 }

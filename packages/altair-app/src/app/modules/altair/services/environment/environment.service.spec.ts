@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { NotifyService } from '../notify/notify.service';
+import { MockService } from 'ng-mocks';
 
 let mockStore: Store<RootState>;
 
@@ -45,6 +47,10 @@ describe('EnvironmentService', () => {
     TestBed.configureTestingModule({
       providers: [
         EnvironmentService,
+        {
+          provide: NotifyService,
+          useValue: MockService(NotifyService),
+        },
         {
           provide: Store,
           useFactory: () => mockStore,

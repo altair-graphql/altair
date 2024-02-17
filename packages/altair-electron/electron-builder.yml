@@ -75,3 +75,6 @@ fileAssociations:
   - ext: agbkp
     description: Altair GraphQL Backup
     role: Viewer
+  - ext: agx
+    description: Altair GraphQL File
+    role: Viewer

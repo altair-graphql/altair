@@ -19,6 +19,10 @@ button {
 }
 
 .app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   font-size: fontsize(14);
   border: 0;
   padding: 0 20px;
