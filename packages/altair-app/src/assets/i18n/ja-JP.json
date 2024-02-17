@@ -20,6 +20,7 @@
   "ADD_NEW_WINDOW_TEXT": "新規追加",
   "RESTART_TEXT": "再起動",
   "DELETE_TEXT": "削除",
+  "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "DOCS_GO_BACK_TEXT": "戻る",
   "DOCS_EXPORT_SDL": "SDLをエクスポート",
