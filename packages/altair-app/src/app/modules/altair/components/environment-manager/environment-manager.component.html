@@ -67,9 +67,17 @@
             <div class="environment-manager__list-actions">
               <button
                 class="app-button full-width"
-                (click)="addSubEnvironmentChange.next()"
+                (click)="addSubEnvironmentChange.emit()"
                 >
+                <app-icon name="plus-circle"></app-icon>
                 {{ 'ADD_SUB_ENVIRONMENT_BUTTON' | translate }}
+              </button>
+              <button
+                class="app-button full-width"
+                (click)="importEnvironmentChange.emit()"
+                >
+                <app-icon name="log-in"></app-icon>
+                {{ 'IMPORT_BUTTON' | translate }}
               </button>
             </div>
           </div>
@@ -91,6 +99,13 @@
                     />
                 </div>
                 <div class="environment-manager__editor-meta-actions">
+                  <button
+                    class="app-button"
+                    (click)="exportEnvironmentChange.emit(selectedEnvironment)"
+                    >
+                    <app-icon name="file-down"></app-icon>
+                    {{ 'EXPORT_TEXT' | translate }}
+                  </button>
                   <button
                     class="app-button icon-button active-destructive"
                     (click)="onDeleteSubEnvironment()"

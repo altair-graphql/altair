@@ -9,11 +9,12 @@ import { commentRegex } from './comment-regex';
 import { from } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { electronApiKey } from '@altairgraphql/electron-interop/build/constants';
+import { SupportedFileExtensions } from '../services/files/types';
 
 interface DownloadDataOptions {
   mimeType?: string;
   dataUriAttr?: string;
-  fileType?: string;
+  fileType?: SupportedFileExtensions;
 }
 
 /**
@@ -47,7 +48,7 @@ export const downloadJson = (
   fileName = 'response',
   opts?: DownloadDataOptions
 ) => {
-  let _opts = {
+  let _opts: DownloadDataOptions = {
     mimeType: 'text/json',
     dataUriAttr: 'text/json;charset=utf-8',
     fileType: 'json',

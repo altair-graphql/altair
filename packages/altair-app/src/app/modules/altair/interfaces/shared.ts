@@ -6,6 +6,8 @@ export type TODO = any;
 
 export type UnknownError<V = unknown> = V | Error | string;
 
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+
 export interface TrackByIdItem {
   id: string;
 }

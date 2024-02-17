@@ -55,6 +55,8 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Output() addSubEnvironmentChange = new EventEmitter();
   @Output() deleteSubEnvironmentChange = new EventEmitter();
   @Output() repositionSubEnvironmentsChange = new EventEmitter();
+  @Output() importEnvironmentChange = new EventEmitter();
+  @Output() exportEnvironmentChange = new EventEmitter<EnvironmentState>();
 
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl?: ElementRef;
 

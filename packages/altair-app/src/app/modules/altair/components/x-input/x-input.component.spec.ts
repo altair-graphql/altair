@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { mockStoreFactory } from '../../../../../testing';
 
 import { XInputComponent } from './x-input.component';
+import { EnvironmentService } from '../../services';
+import { MockService } from 'ng-mocks';
 
 describe('XInputComponent', () => {
   let component: XInputComponent;
@@ -13,6 +15,10 @@ describe('XInputComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [XInputComponent],
       providers: [
+        {
+          provide: EnvironmentService,
+          useValue: MockService(EnvironmentService),
+        },
         {
           provide: Store,
           useValue: mockStore,

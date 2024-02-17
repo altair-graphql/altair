@@ -385,6 +385,8 @@
             (repositionSubEnvironmentsChange)="
               repositionSubEnvironments($event)
             "
+            (importEnvironmentChange)="importEnvironmentData()"
+            (exportEnvironmentChange)="exportEnvironment($event)"
           ></app-environment-manager>
           <app-plugin-manager
             [showPluginManager]="(windowsMeta$ | async)?.showPluginManager"

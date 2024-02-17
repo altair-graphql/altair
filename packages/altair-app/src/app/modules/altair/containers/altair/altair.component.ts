@@ -40,6 +40,9 @@ import {
   QueryCollectionService,
   ThemeRegistryService,
   SharingService,
+  FilesService,
+  EnvironmentService,
+  NotifyService,
 } from '../../services';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -63,7 +66,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
-import { externalLink, mapToKeyValueList } from '../../utils';
+import { externalLink, mapToKeyValueList, openFiles } from '../../utils';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { catchUselessObservableError } from '../../utils/errors';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -128,6 +131,9 @@ export class AltairComponent {
     private collectionService: QueryCollectionService,
     private themeRegistry: ThemeRegistryService,
     private sharingService: SharingService,
+    private filesService: FilesService,
+    private environmentService: EnvironmentService,
+    private notifyService: NotifyService,
     private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
@@ -654,6 +660,22 @@ export class AltairComponent {
       })
     );
   }
+  async importEnvironmentData() {
+    const data = await openFiles({ accept: '.agx' });
+
+    return data.map((content) => {
+      this.environmentService.importEnvironmentData(JSON.parse(content));
+    });
+  }
+  async exportEnvironment(environment: EnvironmentState) {
+    if (
+      await this.notifyService.confirm(
+        'Reminder: Your environment data may contain sensitive information. Are you sure you want to export it?'
+      )
+    ) {
+      this.environmentService.exportEnvironmentData(environment);
+    }
+  }
 
   toggleCollections() {
     this.showCollections = !this.showCollections;
@@ -854,20 +876,13 @@ export class AltairComponent {
   }
 
   async fileDropped(files: FileList) {
-    if (files && files.length) {
-      try {
-        // Handle window import
-        await this.windowService.handleImportedFile(files);
-      } catch (error) {
-        debug.log(error);
-        try {
-          // Handle collection import
-          await this.collectionService.handleImportedFile(files);
-        } catch (collectionError) {
-          debug.log(collectionError);
-        }
-      }
+    const file = files[0];
+    if (!file) {
+      debug.log('No file specified.');
+      return;
     }
+
+    await this.filesService.handleImportedFile(file);
   }
 
   hideDonationAlert() {

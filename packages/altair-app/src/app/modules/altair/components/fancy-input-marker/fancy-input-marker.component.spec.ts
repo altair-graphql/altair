@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { SharedModule } from '../../modules/shared/shared.module';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockService } from 'ng-mocks';
 import { mockStoreFactory } from '../../../../../testing';
 
 import { FancyInputMarkerComponent } from './fancy-input-marker.component';
+import { EnvironmentService } from '../../services';
 
 describe('FancyInputMarkerComponent', () => {
   let component: FancyInputMarkerComponent;
@@ -15,6 +16,10 @@ describe('FancyInputMarkerComponent', () => {
       declarations: [FancyInputMarkerComponent],
       imports: [MockModule(SharedModule)],
       providers: [
+        {
+          provide: EnvironmentService,
+          useValue: MockService(EnvironmentService),
+        },
         {
           provide: Store,
           useValue: mockStoreFactory(),

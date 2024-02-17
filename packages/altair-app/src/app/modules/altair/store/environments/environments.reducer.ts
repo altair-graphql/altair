@@ -54,7 +54,14 @@ export function environmentsReducer(
           {
             ...getInitialEnvironmentState(),
             id: action.payload.id,
-            title: `Environment ${state.subEnvironments.length + 1}`,
+            title:
+              action.payload.title ??
+              `Environment ${state.subEnvironments.length + 1}`,
+            variablesJson: JSON.stringify(
+              action.payload.variables ?? {},
+              null,
+              2
+            ),
           },
         ],
       };
