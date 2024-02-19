@@ -81,7 +81,7 @@
     "loglevel-plugin-prefix": "0.8.4",
     "lucide-angular": "^0.298.0",
     "marked": "^4.0.19",
-    "memoizee": "0.4.14",
+    "memoizee": "0.4.15",
     "mousetrap": "1.6.5",
     "mousetrap-global-bind": "1.1.0",
     "ng-zorro-antd": "^15.1.1",
