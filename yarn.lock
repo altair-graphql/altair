@@ -5386,10 +5386,10 @@
   resolved "https://registry.yarnpkg.com/@lezer/common/-/common-1.0.0.tgz#1c95ae53ec17706aa3cbcc88b52c23f22ed56096"
   integrity sha512-ohydQe+Hb+w4oMDvXzs8uuJd2NoA3D8YDcLiuDsLqH+yflDTPEpgCsWI3/6rH5C3BAedtH1/R51dxENldQceEA==
 
-"@lezer/highlight@1.0.0", "@lezer/highlight@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@lezer/highlight/-/highlight-1.0.0.tgz#1dc82300f5d39fbd67ae1194b5519b4c381878d3"
-  integrity sha512-nsCnNtim90UKsB5YxoX65v3GEIw3iCHw9RM2DtdgkiqAbKh9pCdvi8AWNwkYf10Lu6fxNhXPpkpHbW6mihhvJA==
+"@lezer/highlight@1.2.0", "@lezer/highlight@^1.0.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@lezer/highlight/-/highlight-1.2.0.tgz#e5898c3644208b4b589084089dceeea2966f7780"
+  integrity sha512-WrS5Mw51sGrpqjlh3d4/fOwpEV2Hd3YOkp9DBt4k8XZQcoTHZFB7sx030A6OcahF4J1nDQAa3jXlTVVYH50IFA==
   dependencies:
     "@lezer/common" "^1.0.0"
 
