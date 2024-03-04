@@ -30,7 +30,7 @@
     "@types/uuid": "^9.0.5",
     "ajv": "^8.11.2",
     "ajv-cli": "5.0.0",
-    "react": "17.0.2",
+    "react": "18.2.0",
     "ts-node": "9.1.1",
     "typescript": "5.2.2",
     "typescript-json-schema": "0.50.1"
