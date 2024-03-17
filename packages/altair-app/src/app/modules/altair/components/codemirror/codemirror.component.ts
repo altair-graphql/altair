@@ -48,6 +48,7 @@ import {
 
 import { tags as t } from '@lezer/highlight';
 import { InternalEditorError } from '../../utils/errors';
+import { debug } from '../../utils/logger';
 
 @Component({
   selector: 'app-codemirror',
@@ -405,9 +406,31 @@ export class CodemirrorComponent
       updateListener,
       exceptionSink,
       Prec.highest(extraExtensions),
+      // disable default behavior of used extension shortcuts
+      Prec.high(
+        keymap.of([
+          {
+            key: 'Cmd-Enter',
+            run: noOpCommand,
+          },
+          {
+            key: 'Ctrl-Enter',
+            run: noOpCommand,
+          },
+          {
+            key: 'Shift-Ctrl-p',
+            run: noOpCommand,
+          },
+        ])
+      ),
       !this.bare ? [...baseExtensions] : [],
 
       baseTheme,
     ];
   }
 }
+
+export const noOpCommand = () => {
+  debug.log('no op');
+  return true;
+};

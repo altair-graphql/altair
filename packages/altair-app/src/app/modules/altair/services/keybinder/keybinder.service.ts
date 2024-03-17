@@ -7,12 +7,14 @@ import { WindowService } from '../window.service';
 import * as windowsActions from '../../store/windows/windows.action';
 import * as dialogsActions from '../../store/dialogs/dialogs.action';
 import * as queryActions from '../../store/query/query.action';
+import * as variablesActions from '../../store/variables/variables.action';
 import * as collectionActions from '../../store/collection/collection.action';
 import * as docsActions from '../../store/docs/docs.action';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { take } from 'rxjs/operators';
 import { catchUselessObservableError } from '../../utils/errors';
 import { isElectronApp } from '../../utils';
+import { VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME } from '../../components/variables-editor/variables-editor.component';
 
 export interface KeyboardShortcutCategory {
   title: string;
@@ -83,10 +85,21 @@ export class KeybinderService {
 
     this.bindShortcut(
       ['Ctrl+Shift+P'],
-      () =>
-        this.store.dispatch(
-          new queryActions.PrettifyQueryAction(this.activeWindowId)
-        ),
+      () => {
+        if (
+          document.activeElement?.closest(
+            VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME
+          )
+        ) {
+          this.store.dispatch(
+            new variablesActions.PrettifyVariablesAction(this.activeWindowId)
+          );
+        } else {
+          this.store.dispatch(
+            new queryActions.PrettifyQueryAction(this.activeWindowId)
+          );
+        }
+      },
       'Prettify Query'
     );
 

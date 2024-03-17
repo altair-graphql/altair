@@ -1165,6 +1165,52 @@ export class QueryEffects {
     { dispatch: false }
   );
 
+  prettifyVariables$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(variablesActions.PRETTIFY_VARIABLES),
+        withLatestFrom(
+          this.store,
+          (
+            action: variablesActions.PrettifyVariablesAction,
+            state: RootState
+          ) => {
+            return {
+              data: state.windows[action.windowId],
+              windowId: action.windowId,
+              action,
+              settings: state.settings,
+            };
+          }
+        ),
+        switchMap((res) => {
+          const variables = res.data?.variables.variables ?? '';
+          try {
+            const prettified = JSON.stringify(
+              JSON.parse(variables),
+              null,
+              res.settings.tabSize
+            );
+            this.store.dispatch(
+              new variablesActions.UpdateVariablesAction(
+                prettified,
+                res.windowId
+              )
+            );
+          } catch (err) {
+            this.notifyService.errorWithError(
+              err,
+              `Your variables does not appear to be valid. Please check it`
+            );
+          }
+
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   exportSDL$ = createEffect(
     () => {
       return this.actions$.pipe(
