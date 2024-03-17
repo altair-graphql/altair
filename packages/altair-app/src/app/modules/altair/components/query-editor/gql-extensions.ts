@@ -116,14 +116,6 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
           key: 'Ctrl-d',
           run: showInDocsCommand,
         },
-        {
-          key: 'Cmd-Enter',
-          run: noOpCommand,
-        },
-        {
-          key: 'Ctrl-Enter',
-          run: noOpCommand,
-        },
       ])
     ),
     getRunActionPlugin(opts?.onRunActionClick || noOp),

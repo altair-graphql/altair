@@ -70,7 +70,8 @@ export const graphqlInputTypeToJsonSchemaType = (
     if (isSpecifiedScalarType(type)) {
       return wrapWithAnyOfNull(
         {
-          type: specifiedScalarTypeToJSONSchemaType[type.toString()] ?? 'string',
+          type:
+            specifiedScalarTypeToJSONSchemaType[type.toString()] ?? 'string',
           description: type.description ?? undefined,
           default: defaultValue,
         },

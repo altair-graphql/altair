@@ -33,9 +33,10 @@ import { updateSchema } from 'codemirror-json-schema';
 import { vttToJsonSchema } from './utils';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_"']$/;
+export const VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME = 'app-variables-editor';
 
 @Component({
-  selector: 'app-variables-editor',
+  selector: VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME,
   templateUrl: './variables-editor.component.html',
   styleUrls: ['./variables-editor.component.scss'],
 })

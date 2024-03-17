@@ -10,6 +10,8 @@ export const UPDATE_FILE_VARIABLE_IS_MULTIPLE =
   'UPDATE_FILE_VARIABLE_IS_MULTIPLE';
 export const UPDATE_FILE_VARIABLE_DATA = 'UPDATE_FILE_VARIABLE_DATA';
 
+export const PRETTIFY_VARIABLES = 'PRETTIFY_VARIABLES';
+
 export class UpdateVariablesAction implements NGRXAction {
   readonly type = UPDATE_VARIABLES;
 
@@ -58,10 +60,17 @@ export class UpdateFileVariableDataAction implements NGRXAction {
   ) {}
 }
 
+export class PrettifyVariablesAction implements NGRXAction {
+  readonly type = PRETTIFY_VARIABLES;
+
+  constructor(public windowId: string) {}
+}
+
 export type Action =
   | UpdateVariablesAction
   | AddFileVariableAction
   | DeleteFileVariableAction
   | UpdateFileVariableNameAction
   | UpdateFileVariableIsMultipleAction
-  | UpdateFileVariableDataAction;
+  | UpdateFileVariableDataAction
+  | PrettifyVariablesAction;
