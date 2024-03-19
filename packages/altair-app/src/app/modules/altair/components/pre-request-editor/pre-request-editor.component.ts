@@ -25,6 +25,7 @@ export class PreRequestEditorComponent {
       {
         headers: [],
         environment: {},
+        operationName: '',
         query: '',
         variables: '',
       },
