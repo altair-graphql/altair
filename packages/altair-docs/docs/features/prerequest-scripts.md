@@ -39,6 +39,8 @@ This contains data used to process your GraphQL request.
 
 **`altair.data.query`** - The GraphQL query sent to the server.
 
+**`altair.data.operationName`** - The GraphQL query operation name sent to the server.
+
 **`altair.data.environment`** - The formatted environment object containing the serialized set of environment data before your request is sent.
 
 ### altair.helpers
@@ -116,7 +118,6 @@ const token = await altair.storage.get("token");
 altair.helpers.setEnvironment('token_env', token);
 // You can use the environment variables in Altair after setting it by following this blog post: https://sirmuel.design/altair-becomes-environment-friendly-%EF%B8%8F-f9b4e9ef887c
 ```
-
 
 ### altair.response (Available in post request script)
 

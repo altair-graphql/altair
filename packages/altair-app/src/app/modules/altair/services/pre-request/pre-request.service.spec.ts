@@ -53,6 +53,7 @@ describe('PreRequestService', () => {
       const result = await service.executeScript(script, {
         environment: {},
         headers: [],
+        operationName: '',
         query: '',
         variables: '',
       });
@@ -60,6 +61,7 @@ describe('PreRequestService', () => {
       expect(result).toEqual({
         environment: {},
         headers: [],
+        operationName: '',
         query: '',
         variables: '',
       });
@@ -75,6 +77,7 @@ describe('PreRequestService', () => {
       const result = await service.executeScript(script, {
         environment: {},
         headers: [],
+        operationName: '',
         query: '',
         variables: '',
       });
@@ -84,6 +87,7 @@ describe('PreRequestService', () => {
           first: true,
         },
         headers: [],
+        operationName: '',
         query: '',
         variables: '',
       });
@@ -102,6 +106,7 @@ describe('PreRequestService', () => {
         const result = await service.executeScript(script, {
           environment: {},
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });
@@ -112,6 +117,7 @@ describe('PreRequestService', () => {
             encoded: 'Zmlyc3Q=',
           },
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });
@@ -129,6 +135,7 @@ describe('PreRequestService', () => {
         const result = await service.executeScript(script, {
           environment: {},
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });
@@ -139,6 +146,7 @@ describe('PreRequestService', () => {
             decoded: 'first',
           },
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });
@@ -156,6 +164,7 @@ describe('PreRequestService', () => {
         const result = await service.executeScript(script, {
           environment: {},
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });
@@ -166,6 +175,7 @@ describe('PreRequestService', () => {
             sha: 'a7937b64b8caa58f03721bb6bacf5c78cb235febe0e70b1b84cd99541461a08e',
           },
           headers: [],
+          operationName: '',
           query: '',
           variables: '',
         });

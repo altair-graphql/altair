@@ -25,6 +25,7 @@ export class PostRequestEditorComponent {
       {
         headers: [],
         environment: {},
+        operationName: '',
         query: '',
         variables: '',
       },

@@ -24,6 +24,7 @@ export interface ScriptContextStorage {
 export interface ScriptContextData {
   headers: HeaderState;
   variables: string;
+  operationName: string;
   query: string;
   environment: IDictionary;
   requestScriptLogs?: LogLine[];

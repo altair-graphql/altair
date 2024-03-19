@@ -49,6 +49,7 @@ export class QueryService {
     }
 
     const query = (preTransformedData?.query || state.query.query || '').trim();
+    const operationName = (state.query.selectedOperation || '').trim();
     const headers = preTransformedData?.headers || state.headers;
     const variables =
       preTransformedData?.variables || state.variables.variables;
@@ -67,6 +68,7 @@ export class QueryService {
         {
           environment,
           headers,
+          operationName,
           query,
           variables,
         }
@@ -128,6 +130,7 @@ export class QueryService {
     }
 
     const query = (preTransformedData?.query || state.query.query || '').trim();
+    const operationName = (state.query.selectedOperation || '').trim();
     const headers = preTransformedData?.headers || state.headers;
     const variables =
       preTransformedData?.variables || state.variables.variables;
@@ -141,6 +144,7 @@ export class QueryService {
         {
           environment,
           headers,
+          operationName,
           query,
           variables,
           requestType,
