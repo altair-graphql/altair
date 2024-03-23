@@ -68,6 +68,7 @@
       nzTrigger="click"
       [nzDropdownMenu]="urlBoxActionMenu"
       class="url-box__button"
+      [ngClass]="{ 'url-box__button--not-saved': showQueryChanged }"
       >
       <app-icon name="save"></app-icon>
     </button>

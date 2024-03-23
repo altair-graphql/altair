@@ -9,6 +9,7 @@
     [isSubscribed]="isSubscribed$ | async"
     [isLoading]="(layout$ | async)?.isLoading"
     [showDocs]="showDocs$ | async"
+    [showQueryChanged]="queryMisMatchQueryInCollection$ | async"
     [selectedOperation]="selectedOperation$ | async"
     [queryOperations]="queryOperations$ | async"
     [streamState]="streamState$ | async"
