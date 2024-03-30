@@ -18,4 +18,19 @@ describe('basic', () => {
       },
     });
   });
+
+  it('should not return headers if username or password is missing', async () => {
+    const authProvider = new BasicAuthorizationProvider((x) => x);
+
+    const res = await authProvider.execute({
+      data: {
+        username: '',
+        password: '',
+      },
+    });
+
+    expect(res).toEqual({
+      headers: {},
+    });
+  });
 });

@@ -14,11 +14,7 @@ import {
 } from '@angular/core';
 
 import sanitizeHtml from 'sanitize-html';
-import {
-  updateSchema,
-  showInDocsCommand,
-  fillAllFieldsCommands,
-} from 'cm6-graphql';
+import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
 
 // Import the codemirror packages
 import 'codemirror/addon/comment/comment';
@@ -80,6 +76,7 @@ import {
   AuthorizationState,
   AuthorizationTypes,
 } from 'altair-graphql-core/build/types/state/authorization.interface';
+import { isAuthorizationEnabled } from '../../store';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -158,6 +155,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.zone.run(() => this.onFillFields(cm)),
     noOp: (cm: CodeMirror.Editor) => {},
   };
+
+  isAuthorizationEnabled = isAuthorizationEnabled;
 
   cm6ActionToFn: Record<string, Command> = {
     showAutocomplete: startCompletion,
@@ -372,10 +371,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   setTabSizeExtension(tabSize: number) {
-    return [
-      indentUnit.of(' '.repeat(tabSize)),
-      EditorState.tabSize.of(tabSize),
-    ];
+    return [indentUnit.of(' '.repeat(tabSize)), EditorState.tabSize.of(tabSize)];
   }
 
   setLineNumbers(disableLineNumbers: boolean) {
@@ -546,31 +542,29 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
             });
             this.widgets = [];
 
-            definitionsInfo.forEach(
-              ({ operationName, operation, location }) => {
-                const widgetEl = document.createElement('div');
-                widgetEl.innerHTML = sanitizeHtml(
-                  `&#9658; (Run ${operation}${
-                    operationName ? ` ${operationName}` : ''
-                  })`
-                );
-                widgetEl.className = 'query-editor__line-widget';
-                widgetEl.onclick = () => {
-                  this.zone.run(() => this.sendRequest.next({ operationName }));
-                  debug.log('WIDGET listens');
-                };
+            definitionsInfo.forEach(({ operationName, operation, location }) => {
+              const widgetEl = document.createElement('div');
+              widgetEl.innerHTML = sanitizeHtml(
+                `&#9658; (Run ${operation}${
+                  operationName ? ` ${operationName}` : ''
+                })`
+              );
+              widgetEl.className = 'query-editor__line-widget';
+              widgetEl.onclick = () => {
+                this.zone.run(() => this.sendRequest.next({ operationName }));
+                debug.log('WIDGET listens');
+              };
 
-                this.widgets.push(
-                  cm.addLineWidget(
-                    location ? location.startToken.line - 1 : 0,
-                    widgetEl,
-                    {
-                      above: true,
-                    }
-                  )
-                );
-              }
-            );
+              this.widgets.push(
+                cm.addLineWidget(
+                  location ? location.startToken.line - 1 : 0,
+                  widgetEl,
+                  {
+                    above: true,
+                  }
+                )
+              );
+            });
           });
         } catch (error) {
           debug.error(error);
@@ -637,12 +631,8 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
         },
       }),
       this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize)),
-      this.extraKeysCompartment.of(
-        this.buildExtraKeysExtension(this.extraKeys)
-      ),
-      this.lineNumbersCompartment.of(
-        this.setLineNumbers(this.disableLineNumbers)
-      ),
+      this.extraKeysCompartment.of(this.buildExtraKeysExtension(this.extraKeys)),
+      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers)),
       this.editorStateListener(),
     ];
   }
