@@ -133,11 +133,7 @@ export const getGlobalContext = (
        * @param val value to set
        * @param activeEnvironment if the value should be replaced in the currently active environment after execution
        */
-      setEnvironment: (
-        key: string,
-        val: unknown,
-        activeEnvironment = false
-      ) => {
+      setEnvironment: (key: string, val: unknown, activeEnvironment = false) => {
         data.environment[key] = val;
         if (activeEnvironment) {
           data.__toSetActiveEnvironment = data.__toSetActiveEnvironment ?? {};

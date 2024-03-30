@@ -148,7 +148,7 @@
   <nz-tab [nzTitle]="authorizationTitleTemplate">
     <ng-template #authorizationTitleTemplate>
       <span
-        [ngClass]="{ 'ant-tabs--status-enabled': postRequest?.enabled }"
+        [ngClass]="{ 'ant-tabs--status-enabled': authorizationState && isAuthorizationEnabled(authorizationState) }"
       >
         {{ 'AUTHORIZATION_TAB' | translate }}
       </span>

@@ -19,6 +19,7 @@ import { QueryCollectionService } from '../query-collection/query-collection.ser
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { PreRequestService } from '../pre-request/pre-request.service';
 import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
+import { AUTHORIZATION_TYPES } from 'altair-graphql-core/build/types/state/authorization.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -69,16 +70,13 @@ export class QueryService {
      * The returned data is used instead of the original set of data
      */
     try {
-      const transformedData = await this.preRequestService.executeScript(
-        script,
-        {
-          environment,
-          headers,
-          operationName,
-          query,
-          variables,
-        }
-      );
+      const transformedData = await this.preRequestService.executeScript(script, {
+        environment,
+        headers,
+        operationName,
+        query,
+        variables,
+      });
 
       // merge preTransformedData with the new transformedData
       return {
@@ -104,28 +102,27 @@ export class QueryService {
       );
 
       for (const collection of collectionsWithEnabledPrerequests) {
-        preTransformedData =
-          await this.getPrerequestScriptTransformedDataForScript(
-            windowId,
-            collection.preRequest?.script ?? '',
-            preTransformedData
-          );
-      }
-
-      preTransformedData =
-        await this.getPrerequestScriptTransformedDataForScript(
+        preTransformedData = await this.getPrerequestScriptTransformedDataForScript(
           windowId,
-          state.preRequest.script,
+          collection.preRequest?.script ?? '',
           preTransformedData
         );
+      }
+
+      preTransformedData = await this.getPrerequestScriptTransformedDataForScript(
+        windowId,
+        state.preRequest.script,
+        preTransformedData
+      );
     }
 
-    if (state?.authorization.type) {
+    if (
+      state?.authorization &&
+      fromRoot.isAuthorizationEnabled(state.authorization)
+    ) {
       // Execute auth provider after pre-request script, if set
       const AuthProviderClass =
-        await AUTHORIZATION_MAPPING[
-          state.authorization.type
-        ].getProviderClass?.();
+        await AUTHORIZATION_MAPPING[state.authorization.type].getProviderClass?.();
       if (AuthProviderClass) {
         const authProvider = new AuthProviderClass((data) =>
           this.environmentService.hydrate(data, {
@@ -176,18 +173,15 @@ export class QueryService {
     );
 
     try {
-      const transformedData = await this.preRequestService.executeScript(
-        script,
-        {
-          environment,
-          headers,
-          operationName,
-          query,
-          variables,
-          requestType,
-          response: data,
-        }
-      );
+      const transformedData = await this.preRequestService.executeScript(script, {
+        environment,
+        headers,
+        operationName,
+        query,
+        variables,
+        requestType,
+        response: data,
+      });
 
       // merge preTransformedData with the new transformedData
       return {

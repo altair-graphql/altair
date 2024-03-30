@@ -12,9 +12,14 @@ export default class BasicAuthorizationProvider extends AuthorizationProvider<Ba
   async execute(
     options: AuthorizationProviderExecuteOptions<BasicAuthorizationProviderData>
   ): Promise<AuthorizationResult> {
+    if (!options.data.username || !options.data.password) {
+      return {
+        headers: {},
+      };
+    }
     return {
       headers: {
-        Authorization: `Basic ${btoa(
+        Authorization: `Basic ${(await import('abab')).btoa(
           `${options.data.username}:${options.data.password}`
         )}`,
       },
