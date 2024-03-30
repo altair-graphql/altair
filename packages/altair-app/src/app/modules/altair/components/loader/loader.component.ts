@@ -8,7 +8,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { fadeInOutAnimationTrigger } from '../../animations';
+import {
+  fadeGridGrowInOutAnimationTrigger,
+  fadeInOutAnimationTrigger,
+} from '../../animations';
 import { rand } from '../../utils';
 
 interface LoadingTip {
@@ -25,7 +28,7 @@ const DEFAULT_TIP_INTERVAL = 5000;
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  animations: [fadeInOutAnimationTrigger],
+  animations: [fadeInOutAnimationTrigger, fadeGridGrowInOutAnimationTrigger],
 })
 export class LoaderComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() loading = true;
