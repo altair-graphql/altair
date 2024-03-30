@@ -23,6 +23,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
         />
         
         
+        
       </div>
       <div
         class="variables-editor-container"
@@ -49,6 +50,12 @@ exports[`QueryEditorComponent should render correctly 1`] = `
     <nz-tab>
       
       <app-post-request-editor />
+      
+    </nz-tab>
+    
+    <nz-tab>
+      
+      <app-authorization-editor />
       
     </nz-tab>
     

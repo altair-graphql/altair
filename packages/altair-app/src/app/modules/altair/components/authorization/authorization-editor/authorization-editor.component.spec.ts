@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthorizationEditorComponent } from './authorization-editor.component';
+import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AuthorizationEditorComponent', () => {
   let component: AuthorizationEditorComponent;
@@ -8,10 +10,10 @@ describe('AuthorizationEditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthorizationEditorComponent]
-    })
-    .compileComponents();
-    
+      declarations: [AuthorizationEditorComponent],
+      imports: [SharedModule, NoopAnimationsModule],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AuthorizationEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

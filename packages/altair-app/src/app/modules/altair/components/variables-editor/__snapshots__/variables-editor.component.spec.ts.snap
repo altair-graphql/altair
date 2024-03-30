@@ -7,5 +7,6 @@ exports[`VariablesEditorComponent should render correctly 1`] = `
     class="set-variable-textarea mousetrap"
   />
   
+  
 </app-variables-editor>
 `;
