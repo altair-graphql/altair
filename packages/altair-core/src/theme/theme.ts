@@ -1,6 +1,21 @@
 import deepmerge from 'deepmerge';
 import colors from 'color-name';
 
+/*
+Some theming ideas:
+#1a1c24 - A deep charcoal gray with a subtle blue undertone.
+#181a1f - A very dark gray with a cool, slightly bluish tint.
+#212529 - A dark cool gray with a hint of blue.
+#232931 - A rich, deep blue-gray shade that pairs well with greens.
+#2d2f33 - A slightly lighter dark gray with a subtle blue cast.
+
+If the background color is #1a1c24 (deep charcoal gray), you could use #2d3138 for borders.
+For a #181a1f (very dark gray) background, consider #262a2e for borders.
+With a #212529 (dark cool gray) background, #343a40 would make a good border color.
+If you choose #232931 (rich blue-gray) as the background, #3a4149 would be a suitable border shade.
+For a #2d2f33 (slightly lighter dark gray) background, #404448 could work well for borders.
+*/
+
 export const foundations = {
   easing: 'ease',
   colors: {

@@ -12,7 +12,6 @@
     "eslint-plugin-no-unsanitized": "^4.0.2",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.1",
-    "prettier-config-altair": "^6.3.1",
     "typescript": "5.2.2"
   },
   "license": "MIT",

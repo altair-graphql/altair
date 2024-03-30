@@ -1,0 +1,14 @@
+<form nz-form nzLayout="vertical" [formGroup]="basicForm">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="username">Username</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not a valid username!">
+      <input nz-input formControlName="username" id="username" class="app-input" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not a valid password!">
+      <input nz-input formControlName="password" id="password" class="app-input" type="password" />
+    </nz-form-control>
+  </nz-form-item>
+</form>

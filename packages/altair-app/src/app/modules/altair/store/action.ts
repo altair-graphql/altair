@@ -21,6 +21,7 @@ import * as gqlSchemaActions from './gql-schema/gql-schema.action';
 import * as variablesActions from './variables/variables.action';
 import * as windowsActions from './windows/windows.action';
 import * as windowsMetaActions from './windows-meta/windows-meta.action';
+import * as authorizationActions from './authorization/authorization.action';
 import { InitAction } from '@ngrx/store-devtools/src/reducer';
 
 export const INIT_WINDOW = '___INIT_WINDOW___';
@@ -44,6 +45,7 @@ export type AllActions =
   | queryActions.Action
   | localActions.Action
   | accountActions.Action
+  | authorizationActions.Action
   | collectionActions.Action
   | collectionsMetaActions.Action
   | workspaceActions.Action

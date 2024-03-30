@@ -14,14 +14,14 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
       url: this.subscriptionUrl,
       connectionParams: this.connectionParams,
       lazy: false,
-      onNonLazyError: (err) => {
+      onNonLazyError: err => {
         this.extraOptions?.onConnected?.(err, undefined);
       },
       on: {
         connected: () => {
           this.extraOptions?.onConnected?.(undefined, undefined);
         },
-        error: (err) => {
+        error: err => {
           this.extraOptions?.onConnected?.(err, undefined);
         },
       },
@@ -35,7 +35,7 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
       throw new Error('Could not create subscription client!');
     }
 
-    return new Observable((subscriber) => {
+    return new Observable(subscriber => {
       this.cleanup = this.client!.subscribe(
         {
           query: options.query,
@@ -59,6 +59,7 @@ export class GraphQLWsSubscriptionProvider extends SubscriptionProvider {
       await this.client?.dispose();
       this.client = undefined;
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }

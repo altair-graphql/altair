@@ -1,0 +1,32 @@
+<form nz-form nzLayout="vertical" [formGroup]="typeForm">
+  <nz-form-item>
+    <nz-form-label>{{ 'AUTHORIZATION_TYPE_TEXT' | translate }}</nz-form-label>
+    <nz-form-control [nzSm]="6" nzErrorTip="The input is not a valid type!">
+      <nz-select formControlName="type">
+        @for (item of AUTH_TYPES; track $index) {
+          <nz-option [nzValue]="item" [nzLabel]="AUTH_MAPPING[item].copy | translate"></nz-option>
+        }
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+@switch (typeForm.controls.type.value) {
+  @case ('api-key') {
+    <app-authorization-apikey
+      [authData]="authorizationState?.data"
+      (authDataChange)="authDataChange.emit($event)"
+    />
+  }
+  @case ('basic') {
+    <app-authorization-basic
+      [authData]="authorizationState?.data"
+      (authDataChange)="authDataChange.emit($event)"
+    />
+  }
+  @case ('bearer') {
+    <app-authorization-bearer
+      [authData]="authorizationState?.data"
+      (authDataChange)="authDataChange.emit($event)"
+    />
+  }
+}

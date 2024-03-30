@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { IDictionary } from '../types/shared';
 
 export interface SubscriptionProviderExtraOptions {
-  onConnected?: (error: any, data: any) => void;
+  onConnected?: (error: unknown, data: unknown) => void;
   headers?: IDictionary<string>;
 }
 
@@ -27,7 +27,7 @@ export abstract class SubscriptionProvider {
 
   abstract execute(
     options: SubscriptionProviderExecuteOptions
-  ): Observable<any>;
+  ): Observable<unknown>;
 
   abstract close(): void;
 }

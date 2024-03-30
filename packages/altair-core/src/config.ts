@@ -2,13 +2,13 @@ import {
   SubscriptionProviderIds,
   WEBSOCKET_PROVIDER_ID,
 } from './subscriptions';
-import { IDictionary } from './types/shared';
+import { IDictionary, TODO } from './types/shared';
 import { IInitialEnvironments } from './types/state/environments.interfaces';
 import { HttpVerb } from './types/state/query.interfaces';
 import { SettingsState } from './types/state/settings.interfaces';
 import isElectron from './utils/is_electron';
 
-const isTranslateMode = (window as any).__ALTAIR_TRANSLATE__;
+const isTranslateMode = (window as TODO).__ALTAIR_TRANSLATE__;
 
 export interface AltairWindowOptions {
   /**
@@ -162,7 +162,7 @@ export class AltairConfig {
   defaultTheme = 'system';
   themes = ['light', 'dark', 'dracula', 'system'];
   isTranslateMode = isTranslateMode;
-  isWebApp = (window as any).__ALTAIR_WEB_APP__;
+  isWebApp = (window as TODO).__ALTAIR_WEB_APP__;
   initialData = {
     url: '',
     subscriptionsEndpoint: '',
@@ -170,14 +170,13 @@ export class AltairConfig {
     query: '',
     variables: '',
     // Force type of header, since initial value inference is wrong
-    headers: null as unknown as IDictionary,
+    headers: (null as unknown) as IDictionary,
     environments: {} as IInitialEnvironments,
     preRequestScript: '',
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
-    settings: undefined as unknown as AltairConfigOptions['initialSettings'],
-    initialSubscriptionsProvider:
-      undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    settings: (undefined as unknown) as AltairConfigOptions['initialSettings'],
+    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
     initialSubscriptionsPayload: {} as IDictionary,
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
@@ -204,31 +203,30 @@ export class AltairConfig {
     disableAccount = false,
   }: AltairConfigOptions = {}) {
     this.initialData.url =
-      (window as any).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
+      (window as TODO).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
     this.initialData.subscriptionsEndpoint =
-      (window as any).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ||
+      (window as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ||
       subscriptionsEndpoint ||
       '';
     this.initialData.subscriptionsProtocol = subscriptionsProtocol || '';
     this.initialData.query =
-      (window as any).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
+      (window as TODO).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
     this.initialData.variables =
-      (window as any).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
+      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
     this.initialData.headers =
-      (window as any).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
+      (window as TODO).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
     this.initialData.environments = initialEnvironments || {};
     this.initialData.preRequestScript =
-      (window as any).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ||
+      (window as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ||
       initialPreRequestScript ||
       '';
     this.initialData.postRequestScript = initialPostRequestScript;
     this.initialData.instanceStorageNamespace =
-      (window as any).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ||
+      (window as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ||
       instanceStorageNamespace ||
       'altair_';
     this.initialData.settings = initialSettings;
-    this.initialData.initialSubscriptionsProvider =
-      initialSubscriptionsProvider;
+    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
     this.initialData.initialHttpMethod = initialHttpMethod;
     this.initialData.preserveState = preserveState;
@@ -246,4 +244,4 @@ export const setAltairConfig = (_config: AltairConfig) => {
 export const getAltairConfig = () => {
   return config;
 };
-(window as any).getAltairConfig = getAltairConfig;
+(window as TODO).getAltairConfig = getAltairConfig;

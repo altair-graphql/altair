@@ -3,6 +3,7 @@ import type { HeaderState } from 'altair-graphql-core/build/types/state/header.i
 import type { LogLine } from 'altair-graphql-core/build/types/state/query.interfaces';
 import type { SendRequestResponse } from '../gql/gql.service';
 import { ScriptEventHandlers } from './events';
+import { IEnvironment } from '../environment/environment.service';
 
 export enum RequestType {
   INTROSPECTION = 'introspection',
@@ -48,6 +49,12 @@ export interface GlobalHelperContext {
   importModule: (moduleName: string) => any;
   log: (d: unknown) => void;
   response?: ScriptContextResponse;
+}
+
+export interface ScriptTranformResult {
+  requestScriptLogs: LogLine[];
+  environment: IEnvironment;
+  additionalHeaders: HeaderState;
 }
 
 export type SameSite = 'Lax' | 'None' | 'Strict';
