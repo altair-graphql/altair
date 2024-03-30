@@ -1,3 +1,4 @@
+import { AuthorizationState } from './authorization.interface';
 import { DialogState } from './dialog.interfaces';
 import { DocsState } from './docs.interfaces';
 import { GQLSchemaState } from './gql-schema.interfaces';
@@ -13,6 +14,7 @@ import { VariableState } from './variable.interfaces';
 export interface PerWindowState {
   layout: LayoutState;
   query: QueryState;
+  authorization: AuthorizationState;
   headers: HeaderState;
   variables: VariableState;
   dialogs: DialogState;

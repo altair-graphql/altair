@@ -3,20 +3,27 @@ import { select, Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
-import { EnvironmentService } from '../environment/environment.service';
+import {
+  EnvironmentService,
+  IEnvironment,
+} from '../environment/environment.service';
 import { SendRequestResponse } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
-import { RequestType, ScriptContextData } from '../pre-request/helpers';
+import {
+  RequestType,
+  ScriptContextData,
+  ScriptTranformResult,
+} from '../pre-request/helpers';
 import { take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { PreRequestService } from '../pre-request/pre-request.service';
+import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QueryService {
-  // TODO: Have a single method to hydrate all hydratables from the transformed data
   constructor(
     private notifyService: NotifyService,
     private environmentService: EnvironmentService,
@@ -41,18 +48,17 @@ export class QueryService {
   async getPrerequestScriptTransformedDataForScript(
     windowId: string,
     script: string,
-    preTransformedData?: ScriptContextData
+    preTransformedData?: ScriptTranformResult
   ) {
     const state = await this.getWindowState(windowId);
     if (!state) {
       return preTransformedData;
     }
 
-    const query = (preTransformedData?.query || state.query.query || '').trim();
+    const query = (state.query.query || '').trim();
     const operationName = (state.query.selectedOperation || '').trim();
-    const headers = preTransformedData?.headers || state.headers;
-    const variables =
-      preTransformedData?.variables || state.variables.variables;
+    const headers = state.headers;
+    const variables = state.variables.variables;
     const environment = this.environmentService.mergeWithActiveEnvironment(
       preTransformedData?.environment || {}
     );
@@ -87,34 +93,65 @@ export class QueryService {
     }
   }
 
-  async getPrerequestTransformedData(
-    windowId: string,
-    preTransformedData?: ScriptContextData
-  ) {
+  async getPrerequestTransformedData(windowId: string) {
     const state = await this.getWindowState(windowId);
-    if (!state || !state.preRequest.enabled) {
-      return preTransformedData;
-    }
+    let preTransformedData: ScriptTranformResult | undefined;
 
-    const collections = await this.getWindowParentCollections(state);
-    const collectionsWithEnabledPrerequests = collections.filter(
-      (collection) => collection.preRequest?.enabled
-    );
+    if (state?.preRequest.enabled) {
+      const collections = await this.getWindowParentCollections(state);
+      const collectionsWithEnabledPrerequests = collections.filter(
+        (collection) => collection.preRequest?.enabled
+      );
 
-    for (const collection of collectionsWithEnabledPrerequests) {
+      for (const collection of collectionsWithEnabledPrerequests) {
+        preTransformedData =
+          await this.getPrerequestScriptTransformedDataForScript(
+            windowId,
+            collection.preRequest?.script ?? '',
+            preTransformedData
+          );
+      }
+
       preTransformedData =
         await this.getPrerequestScriptTransformedDataForScript(
           windowId,
-          collection.preRequest?.script || '',
+          state.preRequest.script,
           preTransformedData
         );
     }
 
-    return this.getPrerequestScriptTransformedDataForScript(
-      windowId,
-      state.preRequest.script,
-      preTransformedData
-    );
+    if (state?.authorization.type) {
+      // Execute auth provider after pre-request script, if set
+      const AuthProviderClass = await AUTHORIZATION_MAPPING[
+        state.authorization.type
+      ].getProviderClass?.();
+      if (AuthProviderClass) {
+        const authProvider = new AuthProviderClass((data) =>
+          this.environmentService.hydrate(data, {
+            activeEnvironment: preTransformedData?.environment,
+          })
+        );
+        const authData = state.authorization.data;
+        const authResult = await authProvider.execute({
+          data: authData,
+        });
+        const authHeaders = Object.entries(authResult.headers).map(
+          ([key, value]) => ({ key, value, enabled: true })
+        );
+
+        preTransformedData = preTransformedData ?? {
+          additionalHeaders: [],
+          requestScriptLogs: [],
+          environment: {},
+        };
+        preTransformedData.additionalHeaders = [
+          ...(preTransformedData?.additionalHeaders || []),
+          ...authHeaders,
+        ];
+      }
+    }
+
+    return preTransformedData;
   }
 
   async getPostRequestTransformedDataForScript(
@@ -122,20 +159,19 @@ export class QueryService {
     script: string,
     requestType: RequestType,
     data: SendRequestResponse,
-    preTransformedData?: ScriptContextData
-  ) {
+    preTransformedData?: ScriptTranformResult
+  ): Promise<ScriptTranformResult | undefined> {
     const state = await this.getWindowState(windowId);
     if (!state) {
       return preTransformedData;
     }
 
-    const query = (preTransformedData?.query || state.query.query || '').trim();
-    const operationName = (state.query.selectedOperation || '').trim();
-    const headers = preTransformedData?.headers || state.headers;
-    const variables =
-      preTransformedData?.variables || state.variables.variables;
+    const query = (state.query.query ?? '').trim();
+    const operationName = (state.query.selectedOperation ?? '').trim();
+    const headers = state.headers;
+    const variables = state.variables.variables;
     const environment = this.environmentService.mergeWithActiveEnvironment(
-      preTransformedData?.environment || {}
+      preTransformedData?.environment ?? {}
     );
 
     try {
@@ -169,7 +205,7 @@ export class QueryService {
     windowId: string,
     requestType: RequestType,
     data: SendRequestResponse,
-    preTransformedData?: ScriptContextData
+    preTransformedData?: ScriptTranformResult
   ) {
     const state = await this.getWindowState(windowId);
     if (!state || !state.postRequest.enabled) {
@@ -184,7 +220,7 @@ export class QueryService {
     for (const collection of collectionsWithEnabledPostrequests) {
       preTransformedData = await this.getPostRequestTransformedDataForScript(
         windowId,
-        collection.postRequest?.script || '',
+        collection.postRequest?.script ?? '',
         requestType,
         data,
         preTransformedData
@@ -202,44 +238,48 @@ export class QueryService {
 
   hydrateAllHydratables(
     window: PerWindowState,
-    transformedData?: ScriptContextData
+    transformResult?: ScriptTranformResult
   ) {
     let url = this.environmentService.hydrate(window.query.url);
     let subscriptionUrl = this.environmentService.hydrate(
       window.query.subscriptionUrl
     );
-    let query = this.environmentService.hydrate(window.query.query || '');
+    let query = this.environmentService.hydrate(window.query.query ?? '');
     let variables = this.environmentService.hydrate(window.variables.variables);
     let subscriptionConnectionParams = this.environmentService.hydrate(
       window.query.subscriptionConnectionParams
     );
     let headers = this.environmentService.hydrateHeaders(window.headers);
 
-    if (transformedData) {
+    if (transformResult?.environment) {
+      const activeEnvironment = transformResult.environment;
       url = this.environmentService.hydrate(window.query.url, {
-        activeEnvironment: transformedData.environment,
+        activeEnvironment,
       });
       subscriptionUrl = this.environmentService.hydrate(
         window.query.subscriptionUrl,
         {
-          activeEnvironment: transformedData.environment,
+          activeEnvironment,
         }
       );
-      query = this.environmentService.hydrate(window.query.query || '', {
-        activeEnvironment: transformedData.environment,
+      query = this.environmentService.hydrate(window.query.query ?? '', {
+        activeEnvironment,
       });
       variables = this.environmentService.hydrate(window.variables.variables, {
-        activeEnvironment: transformedData.environment,
+        activeEnvironment,
       });
       subscriptionConnectionParams = this.environmentService.hydrate(
         window.query.subscriptionConnectionParams,
         {
-          activeEnvironment: transformedData.environment,
+          activeEnvironment,
         }
       );
-      headers = this.environmentService.hydrateHeaders(window.headers, {
-        activeEnvironment: transformedData.environment,
-      });
+      headers = this.environmentService.hydrateHeaders(
+        [...window.headers, ...transformResult.additionalHeaders],
+        {
+          activeEnvironment,
+        }
+      );
     }
 
     return {

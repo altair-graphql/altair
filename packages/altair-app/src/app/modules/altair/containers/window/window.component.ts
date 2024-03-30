@@ -21,6 +21,7 @@ import * as schemaActions from '../../store/gql-schema/gql-schema.action';
 import * as historyActions from '../../store/history/history.action';
 import * as windowActions from '../../store/windows/windows.action';
 import * as collectionActions from '../../store/collection/collection.action';
+import * as authorizationActions from '../../store/authorization/authorization.action';
 import * as preRequestActions from '../../store/pre-request/pre-request.action';
 import * as postRequestActions from '../../store/post-request/post-request.action';
 import * as localActions from '../../store/local/local.action';
@@ -61,6 +62,10 @@ import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { GraphQLSchema, OperationDefinitionNode } from 'graphql';
 import { str } from '../../utils';
+import {
+  AuthorizationState,
+  AuthorizationTypes,
+} from 'altair-graphql-core/build/types/state/authorization.interface';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -94,6 +99,7 @@ export class WindowComponent implements OnInit {
   postRequest$: Observable<PostrequestState>;
   layout$: Observable<LayoutState>;
   activeWindowId$: Observable<string>;
+  authorizationState$: Observable<AuthorizationState>;
 
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
@@ -256,6 +262,10 @@ export class WindowComponent implements OnInit {
 
     this.editorShortcutMapping$ = this.store.select(
       (state) => state.settings['editor.shortcuts'] ?? {}
+    );
+
+    this.authorizationState$ = this.getWindowState().pipe(
+      select(fromRoot.getAuthorizationState)
     );
 
     this.variableToType$ = combineLatest([
@@ -616,6 +626,22 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(
       new postRequestActions.SetPostRequestEnabledAction(this.windowId, {
         enabled,
+      })
+    );
+  }
+
+  updateAuthType(type: AuthorizationTypes) {
+    this.store.dispatch(
+      new authorizationActions.SelectAuthorizationTypeAction(this.windowId, {
+        type,
+      })
+    );
+  }
+
+  updateAuthData(data: unknown) {
+    this.store.dispatch(
+      new authorizationActions.UpdateAuthorizationDataAction(this.windowId, {
+        data,
       })
     );
   }

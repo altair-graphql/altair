@@ -33,6 +33,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { IconsModule } from '../icons/icons.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const AntdComponentModules = [
   NzButtonModule,
@@ -64,6 +65,8 @@ const AntdComponentModules = [
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     DragDropModule,
     TranslateModule.forRoot(),
     NgPipesModule,
@@ -92,6 +95,8 @@ const AntdComponentModules = [
 
   // DON'T FORGET TO EXPORT MODULE
   exports: [
+    FormsModule,
+    ReactiveFormsModule,
     DragDropModule,
     TranslateModule,
     NgPipesModule,

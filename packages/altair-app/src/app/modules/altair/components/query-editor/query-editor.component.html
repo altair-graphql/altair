@@ -145,6 +145,21 @@
       (postRequestEnabledChange)="postRequestEnabledChange.emit($event)"
     ></app-post-request-editor>
   </nz-tab>
+  <nz-tab [nzTitle]="authorizationTitleTemplate">
+    <ng-template #authorizationTitleTemplate>
+      <span
+        [ngClass]="{ 'ant-tabs--status-enabled': postRequest?.enabled }"
+      >
+        {{ 'AUTHORIZATION_TAB' | translate }}
+      </span>
+    </ng-template>
+    
+    <app-authorization-editor
+      [authorizationState]="authorizationState"
+      (authTypeChange)="authTypeChange.emit($event)"
+      (authDataChange)="authDataChange.emit($event)"
+    />
+  </nz-tab>
 </nz-tabset>
 <app-flex-resizer
   [resizeDirection]="'right'"

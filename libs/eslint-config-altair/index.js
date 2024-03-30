@@ -14,7 +14,23 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'import', 'prettier', 'no-unsanitized'],
   rules: {
-    'prettier/prettier': 'warn',
+    'prettier/prettier': [
+      'warn',
+      {
+        semi: true,
+        trailingComma: 'es5',
+        singleQuote: true,
+        printWidth: 85,
+        overrides: [
+          {
+            files: 'tsconfig.json',
+            options: {
+              trailingComma: 'none',
+            },
+          },
+        ],
+      },
+    ],
     '@typescript-eslint/no-unused-vars': 'warn',
     'import/no-unresolved': 0,
     'require-jsdoc': 'off',

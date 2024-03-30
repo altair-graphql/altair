@@ -10,7 +10,12 @@ import { NotifyService } from '../notify/notify.service';
 import { take } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { RequestScriptError } from './errors';
-import { CookieOptions, getGlobalContext, ScriptContextData } from './helpers';
+import {
+  CookieOptions,
+  getGlobalContext,
+  ScriptContextData,
+  ScriptTranformResult,
+} from './helpers';
 import { ScriptEvaluator } from './evaluator';
 import { DbService } from '../db.service';
 
@@ -31,7 +36,7 @@ export class PreRequestService {
   async executeScript(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptContextData> {
+  ): Promise<ScriptTranformResult> {
     const disableNewScriptLogic = await this.store
       .select((state) => state.settings['beta.disable.newScript'])
       .pipe(take(1))
@@ -46,7 +51,7 @@ export class PreRequestService {
   async executeScriptNew(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptContextData> {
+  ): Promise<ScriptTranformResult> {
     const self = this;
 
     // Use an allow list of cookies (configured in settings)
@@ -107,7 +112,7 @@ export class PreRequestService {
   async executeScriptOld(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptContextData> {
+  ): Promise<ScriptTranformResult> {
     const Sval: typeof import('sval').default = ((await import('sval')) as any)
       .default;
 
@@ -165,7 +170,11 @@ export class PreRequestService {
         clonedMutableData.__toSetActiveEnvironment
       );
     }
-    return clonedMutableData;
+    return {
+      environment: clonedMutableData.environment,
+      requestScriptLogs: clonedMutableData.requestScriptLogs ?? [],
+      additionalHeaders: [],
+    };
   }
   private getStorageItem(key: string) {
     return this.dbService

@@ -56,7 +56,6 @@
     "passport-custom": "^1.1.1",
     "pino-pretty": "^9.2.0",
     "prettier": "^2.3.2",
-    "prettier-config-altair": "^6.3.1",
     "prisma": "^4.9.0",
     "source-map-support": "^0.5.20",
     "supertest": "^6.1.3",

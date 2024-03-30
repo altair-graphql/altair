@@ -76,6 +76,10 @@ import { PrerequestState } from 'altair-graphql-core/build/types/state/prereques
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { getInitialState } from '../../store/variables/variables.reducer';
 import { getTokenAtPosition } from 'graphql-language-service';
+import {
+  AuthorizationState,
+  AuthorizationTypes,
+} from 'altair-graphql-core/build/types/state/authorization.interface';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
 
@@ -102,10 +106,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() betaDisableNewEditor = true;
 
   @Input() preRequest?: PrerequestState;
+  @Input() postRequest?: PostrequestState;
+
+  @Input() authorizationState?: AuthorizationState;
+
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
 
-  @Input() postRequest?: PostrequestState;
   @Output() postRequestScriptChange = new EventEmitter();
   @Output() postRequestEnabledChange = new EventEmitter();
 
@@ -124,6 +131,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() deleteFileVariableChange = new EventEmitter();
   @Output() queryEditorStateChange = new EventEmitter<QueryEditorState>();
   @Output() showTokenInDocsChange = new EventEmitter();
+
+  @Output() authTypeChange = new EventEmitter<AuthorizationTypes>();
+  @Output() authDataChange = new EventEmitter();
 
   @ViewChild('editor') editor?: ElementRef & {
     codeMirror: CodeMirror.Editor;

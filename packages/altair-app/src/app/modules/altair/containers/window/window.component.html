@@ -42,6 +42,8 @@
         (preRequestEnabledChange)="updatePreRequestEnabled($event)"
         (postRequestScriptChange)="updatePostRequestScript($event)"
         (postRequestEnabledChange)="updatePostRequestEnabled($event)"
+        (authTypeChange)="updateAuthType($event)"
+        (authDataChange)="updateAuthData($event)"
         [windowId]="windowId"
         [activeWindowId]="activeWindowId$ | async"
         [query]="query"
@@ -57,6 +59,7 @@
         [shortcutMapping]="editorShortcutMapping$ | async"
         [enableExperimental]="enableExperimental$ | async"
         [betaDisableNewEditor]="betaDisableNewEditor$ | async"
+        [authorizationState]="authorizationState$ | async"
       ></app-query-editor>
       <app-query-result
         [queryResult]="queryResult$ | async"

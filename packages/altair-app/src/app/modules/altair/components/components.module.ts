@@ -48,7 +48,16 @@ import { TagComponent } from './tag/tag.component';
 import { TeamsDialogComponent } from './teams-dialog/teams-dialog.component';
 import { UpgradeDialogComponent } from './upgrade-dialog/upgrade-dialog.component';
 import { QueryRevisionDialogComponent } from './query-revision-dialog/query-revision-dialog.component';
+import { AuthorizationEditorComponent } from './authorization/authorization-editor/authorization-editor.component';
+import { AuthorizationBearerComponent } from './authorization/authorization-bearer/authorization-bearer.component';
+import { AuthorizationBasicComponent } from './authorization/authorization-basic/authorization-basic.component';
+import { AuthorizationApikeyComponent } from './authorization/authorization-apikey/authorization-apikey.component';
 
+const STANDALONE_COMPONENTS = [
+  AuthorizationApikeyComponent,
+  AuthorizationBearerComponent,
+  AuthorizationBasicComponent,
+];
 const COMPONENTS = [
   HeaderComponent,
   QueryEditorComponent,
@@ -88,6 +97,7 @@ const COMPONENTS = [
   TeamsDialogComponent,
   QueryRevisionDialogComponent,
   UpgradeDialogComponent,
+  AuthorizationEditorComponent,
 ];
 
 @NgModule({
@@ -100,6 +110,7 @@ const COMPONENTS = [
     DirectivesModule,
     SharedModule,
     SchemaFormModule,
+    ...STANDALONE_COMPONENTS,
   ],
   declarations: COMPONENTS,
   exports: [...COMPONENTS],

@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import {
   combineReducers,
-  Action,
   ActionReducer,
   ActionReducerMap,
   MetaReducer,
@@ -11,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 
 import * as fromLayout from './layout/layout.reducer';
 import * as fromQuery from './query/query.reducer';
+import * as fromAuthorization from './authorization/authorization.reducer';
 import * as fromHeaders from './headers/headers.reducer';
 import * as fromVariables from './variables/variables.reducer';
 import * as fromDialogs from './dialogs/dialogs.reducer';
@@ -38,6 +38,7 @@ import { AllActions } from './action';
 
 export const getPerWindowReducer = () => {
   const perWindowReducers = {
+    authorization: fromAuthorization.authorizationReducer,
     layout: fromLayout.layoutReducer,
     query: fromQuery.queryReducer,
     headers: fromHeaders.headerReducer,
@@ -126,3 +127,5 @@ export * from './stream/selectors';
 export * from './local/selectors';
 export * from './account/selectors';
 export * from './workspace/selectors';
+export * from './environments/selectors';
+export * from './authorization/selectors';
