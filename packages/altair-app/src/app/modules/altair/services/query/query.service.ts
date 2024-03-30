@@ -122,9 +122,10 @@ export class QueryService {
 
     if (state?.authorization.type) {
       // Execute auth provider after pre-request script, if set
-      const AuthProviderClass = await AUTHORIZATION_MAPPING[
-        state.authorization.type
-      ].getProviderClass?.();
+      const AuthProviderClass =
+        await AUTHORIZATION_MAPPING[
+          state.authorization.type
+        ].getProviderClass?.();
       if (AuthProviderClass) {
         const authProvider = new AuthProviderClass((data) =>
           this.environmentService.hydrate(data, {
