@@ -2,22 +2,22 @@
   <div class="window-loader" [@fadeInOutAnimation]>
     <div class="window-loader__content">
       <div class="window-loader__loader-section">
-        <div class="window-loader__image-container loader__rotating-border">
-          <img src="assets/img/logo.svg" alt="" class="loader-img anim" />
-        </div>
+        <div class="dot-flashing"></div>
       </div>
       @if (currentTip) {
-        <fieldset class="window-loader__tips">
-          <legend class="window-loader__tips-title">Tips</legend>
-          {{ currentTip.text }}
-          @if (currentTip.link) {
-            <div>
-              <a [href]="currentTip.link" target="_blank" rel="noopener">
-                <app-icon name="info"></app-icon>
-                {{ 'LEARN_MORE_TEXT' | translate }}
-              </a>
-            </div>
-          }
+        <fieldset class="window-loader__tips" [@fadeGridGrowInOutAnimation]>
+          <div class="window-loader__tips-inner">
+            <legend class="window-loader__tips-title">Tips</legend>
+            {{ currentTip.text }}
+            @if (currentTip.link) {
+              <div>
+                <a [href]="currentTip.link" target="_blank" rel="noopener">
+                  <app-icon name="info"></app-icon>
+                  {{ 'LEARN_MORE_TEXT' | translate }}
+                </a>
+              </div>
+            }
+          </div>
         </fieldset>
       }
       <div class="window-loader__actions">
