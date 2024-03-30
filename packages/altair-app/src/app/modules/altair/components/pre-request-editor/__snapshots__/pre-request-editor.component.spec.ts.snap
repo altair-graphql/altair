@@ -13,6 +13,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       >
         
       </label>
+      
     </div>
     <app-beta-indicator
       description="This is a complete rewrite of the existing scripting functionality with a focus on security and performance. The  new scripting engine is based on web workers and is completely sandboxed. So direct access to global variables like \`window\` and \`document\` is no longer possible."
@@ -20,6 +21,7 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       title="Script editor v2.0"
     />
     <app-codemirror />
+    
     <small>
       <a
         aria-label="learn more"

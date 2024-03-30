@@ -65,6 +65,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         placeholder="Enter URL"
         track-id="set_url"
       />
+      
     </div>
     <div
       class="url-box__input-actions"
@@ -219,6 +220,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         placeholder="Enter URL"
         track-id="set_url"
       />
+      
     </div>
     <div
       class="url-box__input-actions"

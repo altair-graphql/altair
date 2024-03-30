@@ -25,6 +25,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
         placeholder=""
         type="text"
       />
+      
     </div>
     <div
       class="variables-file-item-input-wrapper"
