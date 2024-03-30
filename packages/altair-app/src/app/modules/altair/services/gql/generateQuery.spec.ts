@@ -101,12 +101,9 @@ describe('generateQuery', () => {
     });
     it('generates expected query with multiple complex arguments', async () => {
       const schema = getTestSchema();
-      const res = await generateQuery(
-        schema,
-        'withMultipleListArguments',
-        'Query',
-        { maxDepth: 2 }
-      );
+      const res = await generateQuery(schema, 'withMultipleListArguments', 'Query', {
+        maxDepth: 2,
+      });
       expect(res.generated).toMatchSnapshot();
     });
   });

@@ -4,7 +4,7 @@ export const prettify = async (query: string, tabWidth = 2) => {
   // return print(parse(query));
   return prettier.format(query, {
     parser: 'graphql',
-    plugins: [prettierGraphql.default],
+    plugins: [prettierGraphql],
     tabWidth,
   });
 };
