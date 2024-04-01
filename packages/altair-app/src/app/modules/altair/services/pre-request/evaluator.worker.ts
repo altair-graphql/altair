@@ -26,7 +26,7 @@ const workerHandlerNames = [
   'getStorageItem',
   'setStorageItem',
 ] as const;
-export type WorkerHandlerNames = typeof workerHandlerNames[number];
+export type WorkerHandlerNames = (typeof workerHandlerNames)[number];
 
 const initExecute = async (
   payload: Parameters<ScriptEvaluator['executeScript']>
@@ -38,9 +38,7 @@ const initExecute = async (
       return reject(e.reason);
     });
 
-    const clonedMutableData: ScriptContextData = JSON.parse(
-      JSON.stringify(data)
-    );
+    const clonedMutableData: ScriptContextData = JSON.parse(JSON.stringify(data));
 
     // build handlers
     const handlers = workerHandlerNames.reduce(
@@ -90,29 +88,27 @@ const makeCall = <T extends ScriptEvent>(
   type: T,
   ...args: Parameters<AllScriptEventHandlers[T]>
 ) => {
-  return new Promise<ReturnType<AllScriptEventHandlers[T]>>(
-    (resolve, reject) => {
-      const id = uuid();
-      const event = {
-        type,
-        payload: { id, args },
-      };
-      // TODO: cleanup listener
-      addEventListener('message', (e) => {
-        switch (e.data.type) {
-          case `${type}_response`:
-            if (e.data.payload.id !== id) {
-              return;
-            }
-            return resolve(e.data.payload.response);
-          case `${type}_error`:
-            if (e.data.payload.id !== id) {
-              return;
-            }
-            return reject(e.data.payload.error);
-        }
-      });
-      self.postMessage(event);
-    }
-  );
+  return new Promise<ReturnType<AllScriptEventHandlers[T]>>((resolve, reject) => {
+    const id = uuid();
+    const event = {
+      type,
+      payload: { id, args },
+    };
+    // TODO: cleanup listener
+    addEventListener('message', (e) => {
+      switch (e.data.type) {
+        case `${type}_response`:
+          if (e.data.payload.id !== id) {
+            return;
+          }
+          return resolve(e.data.payload.response);
+        case `${type}_error`:
+          if (e.data.payload.id !== id) {
+            return;
+          }
+          return reject(e.data.payload.error);
+      }
+    });
+    self.postMessage(event);
+  });
 };

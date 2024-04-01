@@ -53,11 +53,7 @@ import { AuthorizationBearerComponent } from './authorization/authorization-bear
 import { AuthorizationBasicComponent } from './authorization/authorization-basic/authorization-basic.component';
 import { AuthorizationApikeyComponent } from './authorization/authorization-apikey/authorization-apikey.component';
 
-const STANDALONE_COMPONENTS = [
-  AuthorizationApikeyComponent,
-  AuthorizationBearerComponent,
-  AuthorizationBasicComponent,
-];
+// const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
   HeaderComponent,
   QueryEditorComponent,
@@ -98,6 +94,9 @@ const COMPONENTS = [
   QueryRevisionDialogComponent,
   UpgradeDialogComponent,
   AuthorizationEditorComponent,
+  AuthorizationApikeyComponent,
+  AuthorizationBearerComponent,
+  AuthorizationBasicComponent,
 ];
 
 @NgModule({
@@ -110,7 +109,7 @@ const COMPONENTS = [
     DirectivesModule,
     SharedModule,
     SchemaFormModule,
-    ...STANDALONE_COMPONENTS,
+    // ...STANDALONE_COMPONENTS,
   ],
   declarations: COMPONENTS,
   exports: [...COMPONENTS],

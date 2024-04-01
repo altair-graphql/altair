@@ -123,6 +123,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 32px;
 }
 
+.p-5 {
+  padding: 5px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
 @keyframes anim-rotate {
   0% {
     transform: rotate(0deg) translateZ(0);

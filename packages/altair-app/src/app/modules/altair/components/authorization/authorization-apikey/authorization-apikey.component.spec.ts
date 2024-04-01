@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthorizationApikeyComponent } from './authorization-apikey.component';
+import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
+import { ComponentModule } from '../../components.module';
+import { MockModule } from 'ng-mocks';
 
 describe('AuthorizationApikeyComponent', () => {
   let component: AuthorizationApikeyComponent;
@@ -8,10 +11,10 @@ describe('AuthorizationApikeyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthorizationApikeyComponent]
-    })
-    .compileComponents();
-    
+      declarations: [AuthorizationApikeyComponent],
+      imports: [MockModule(SharedModule), MockModule(ComponentModule)],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AuthorizationApikeyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
