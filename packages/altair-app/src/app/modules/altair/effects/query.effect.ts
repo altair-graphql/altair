@@ -59,16 +59,14 @@ import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 
 @Injectable()
 export class QueryEffects {
+  // TODO: Move more logic into query service
   // Sends the query request to the specified URL
   // with the specified headers and variables
   // NOTE: Should use mergeMap instead of switchMap, because switchMap cancels the previous request
   sendQueryRequest$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(
-          queryActions.SEND_QUERY_REQUEST,
-          queryActions.CANCEL_QUERY_REQUEST
-        ),
+        ofType(queryActions.SEND_QUERY_REQUEST, queryActions.CANCEL_QUERY_REQUEST),
         withLatestFrom(
           this.store,
           (
@@ -103,9 +101,7 @@ export class QueryEffects {
         mergeMap((response) => {
           return combineLatest([
             of(response),
-            from(
-              this.queryService.getPrerequestTransformedData(response.windowId)
-            ),
+            from(this.queryService.getPrerequestTransformedData(response.windowId)),
           ]).pipe(
             map(([response, transformedData]) => {
               return { response, transformedData };
@@ -202,16 +198,12 @@ export class QueryEffects {
                 }
               } catch (err) {
                 this.store.dispatch(
-                  new queryActions.SetSelectedOperationAction(
-                    response.windowId,
-                    { selectedOperation: '' }
-                  )
+                  new queryActions.SetSelectedOperationAction(response.windowId, {
+                    selectedOperation: '',
+                  })
                 );
                 debug.error(err);
-                this.notifyService.errorWithError(
-                  err,
-                  'Could not select operation'
-                );
+                this.notifyService.errorWithError(err, 'Could not select operation');
                 return EMPTY;
               }
 
@@ -238,9 +230,7 @@ export class QueryEffects {
               }
 
               if (
-                this.gqlService.hasInvalidFileVariable(
-                  response.data.variables.files
-                )
+                this.gqlService.hasInvalidFileVariable(response.data.variables.files)
               ) {
                 this.notifyService.error(
                   `
@@ -331,9 +321,7 @@ export class QueryEffects {
                     return result;
                   }),
                   takeUntil(
-                    this.actions$.pipe(
-                      ofType(queryActions.CANCEL_QUERY_REQUEST)
-                    )
+                    this.actions$.pipe(ofType(queryActions.CANCEL_QUERY_REQUEST))
                   ),
                   catchError((error) => {
                     let output =
@@ -362,22 +350,15 @@ export class QueryEffects {
                   }),
                   map((res) => {
                     this.store.dispatch(
-                      new queryActions.SetResponseStatsAction(
-                        response.windowId,
-                        {
-                          responseStatus: requestStatusCode,
-                          responseTime: res?.data
-                            ? res.data.meta.responseTime
-                            : 0,
-                          requestStartTime: res?.data
-                            ? res.data.meta.requestStartTime
-                            : 0,
-                          requestEndTime: res?.data
-                            ? res.data.meta.requestEndTime
-                            : 0,
-                          responseStatusText: requestStatusText,
-                        }
-                      )
+                      new queryActions.SetResponseStatsAction(response.windowId, {
+                        responseStatus: requestStatusCode,
+                        responseTime: res?.data ? res.data.meta.responseTime : 0,
+                        requestStartTime: res?.data
+                          ? res.data.meta.requestStartTime
+                          : 0,
+                        requestEndTime: res?.data ? res.data.meta.requestEndTime : 0,
+                        responseStatusText: requestStatusText,
+                      })
                     );
                     this.store.dispatch(
                       new layoutActions.StopLoadingAction(response.windowId)
@@ -526,9 +507,7 @@ export class QueryEffects {
         mergeMap((response) => {
           return combineLatest([
             of(response),
-            from(
-              this.queryService.getPrerequestTransformedData(response.windowId)
-            ),
+            from(this.queryService.getPrerequestTransformedData(response.windowId)),
           ]).pipe(
             map(([response, transformedData]) => {
               return { response, transformedData };
@@ -561,8 +540,7 @@ export class QueryEffects {
               url,
               method: response.data.query.httpVerb,
               headers,
-              withCredentials:
-                response.state.settings['request.withCredentials'],
+              withCredentials: response.state.settings['request.withCredentials'],
             })
             .pipe(
               switchMap((introspectionResponse) => {
@@ -648,22 +626,17 @@ export class QueryEffects {
                   !res.response.data.stream.client
                 ) {
                   this.store.dispatch(
-                    new streamActions.SetStreamSettingAction(
-                      response.windowId,
-                      { streamUrl: streamUrl ?? '' }
-                    )
+                    new streamActions.SetStreamSettingAction(response.windowId, {
+                      streamUrl: streamUrl ?? '',
+                    })
                   );
                   if (streamUrl) {
                     this.store.dispatch(
-                      new streamActions.StartStreamClientAction(
-                        response.windowId
-                      )
+                      new streamActions.StartStreamClientAction(response.windowId)
                     );
                   } else {
                     this.store.dispatch(
-                      new streamActions.StopStreamClientAction(
-                        response.windowId
-                      )
+                      new streamActions.StopStreamClientAction(response.windowId)
                     );
                   }
                 }
@@ -762,10 +735,7 @@ export class QueryEffects {
             new queryActions.SetQueryResultAction('', res.windowId)
           );
           this.store.dispatch(
-            new queryActions.SetQueryResultResponseHeadersAction(
-              res.windowId,
-              {}
-            )
+            new queryActions.SetQueryResultResponseHeadersAction(res.windowId, {})
           );
 
           return EMPTY;
@@ -816,9 +786,7 @@ export class QueryEffects {
       switchMap((response) => {
         return combineLatest([
           of(response),
-          from(
-            this.queryService.getPrerequestTransformedData(response.windowId)
-          ),
+          from(this.queryService.getPrerequestTransformedData(response.windowId)),
         ]).pipe(
           map(([response, transformedData]) => {
             return { response, transformedData };
@@ -839,10 +807,7 @@ export class QueryEffects {
           variables,
           headers,
           subscriptionConnectionParams,
-        } = this.queryService.hydrateAllHydratables(
-          response.data,
-          transformedData
-        );
+        } = this.queryService.hydrateAllHydratables(response.data, transformedData);
         let connectionParams: IDictionary = {};
         let variablesObj: IDictionary = {};
         let selectedOperation = response.data.query.selectedOperation;
@@ -937,9 +902,7 @@ export class QueryEffects {
               : {};
           } catch (err) {
             this.store.dispatch(
-              new dialogsActions.ToggleSubscriptionUrlDialogAction(
-                response.windowId
-              )
+              new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId)
             );
             return subscriptionErrorHandler(
               err,
@@ -986,8 +949,7 @@ export class QueryEffects {
                         strData = JSON.stringify(data);
                       } catch (err) {
                         debug.error('Invalid subscription response format.');
-                        strData =
-                          'ERROR: Invalid subscription response format.';
+                        strData = 'ERROR: Invalid subscription response format.';
                       }
 
                       this.store.dispatch(
@@ -1033,12 +995,9 @@ export class QueryEffects {
               }
 
               return observableOf(
-                new queryActions.SetSubscriptionClientAction(
-                  response.windowId,
-                  {
-                    subscriptionClient: subscriptionProvider,
-                  }
-                )
+                new queryActions.SetSubscriptionClientAction(response.windowId, {
+                  subscriptionClient: subscriptionProvider,
+                })
               );
             })
           );
@@ -1108,9 +1067,7 @@ export class QueryEffects {
             })
             .catch((error) => {
               debug.log(error);
-              const errorMessage = error.message
-                ? error.message
-                : error.toString();
+              const errorMessage = error.message ? error.message : error.toString();
               this.notifyService.errorWithError(
                 error,
                 `Your query does not appear to be valid. Please check it`
@@ -1171,10 +1128,7 @@ export class QueryEffects {
         ofType(variablesActions.PRETTIFY_VARIABLES),
         withLatestFrom(
           this.store,
-          (
-            action: variablesActions.PrettifyVariablesAction,
-            state: RootState
-          ) => {
+          (action: variablesActions.PrettifyVariablesAction, state: RootState) => {
             return {
               data: state.windows[action.windowId],
               windowId: action.windowId,
@@ -1192,10 +1146,7 @@ export class QueryEffects {
               res.settings.tabSize
             );
             this.store.dispatch(
-              new variablesActions.UpdateVariablesAction(
-                prettified,
-                res.windowId
-              )
+              new variablesActions.UpdateVariablesAction(prettified, res.windowId)
             );
           } catch (err) {
             this.notifyService.errorWithError(
@@ -1265,9 +1216,7 @@ export class QueryEffects {
         switchMap((response) => {
           return combineLatest([
             of(response),
-            from(
-              this.queryService.getPrerequestTransformedData(response.windowId)
-            ),
+            from(this.queryService.getPrerequestTransformedData(response.windowId)),
           ]).pipe(
             map(([response, transformedData]) => {
               return { response, transformedData };
@@ -1283,11 +1232,10 @@ export class QueryEffects {
             return EMPTY;
           }
 
-          const { query, variables, url } =
-            this.queryService.hydrateAllHydratables(
-              response.data,
-              transformedData
-            );
+          const { query, variables, url } = this.queryService.hydrateAllHydratables(
+            response.data,
+            transformedData
+          );
           const { resolvedFiles } = this.gqlService.normalizeFiles(
             response.data.variables.files
           );
@@ -1317,10 +1265,7 @@ export class QueryEffects {
             copyToClipboard(curlCommand);
             this.notifyService.success('Copied cURL command to clipboard.');
           } catch (err) {
-            this.notifyService.errorWithError(
-              err,
-              'Error while copying as curl'
-            );
+            this.notifyService.errorWithError(err, 'Error while copying as curl');
           }
           return EMPTY;
         })
@@ -1344,9 +1289,7 @@ export class QueryEffects {
       ),
       switchMap((res) => {
         try {
-          const namedQuery = this.gqlService.nameQuery(
-            res.data?.query.query || ''
-          );
+          const namedQuery = this.gqlService.nameQuery(res.data?.query.query || '');
           if (namedQuery) {
             return observableOf(
               new queryActions.SetQueryAction(namedQuery, res.windowId)
@@ -1410,10 +1353,7 @@ export class QueryEffects {
                 return EMPTY;
               }
               return observableOf(
-                new queryActions.SetQueryAction(
-                  refactorResult.query,
-                  res.windowId
-                )
+                new queryActions.SetQueryAction(refactorResult.query, res.windowId)
               );
             }
           }
@@ -1483,9 +1423,7 @@ export class QueryEffects {
           }
           let backoffTimeout = 0;
 
-          const streamClient = this.gqlService.createStreamClient(
-            streamUrl.href
-          );
+          const streamClient = this.gqlService.createStreamClient(streamUrl.href);
           let backoff = res.action.payload.backoff || 200;
 
           streamClient.addEventListener(
@@ -1493,9 +1431,7 @@ export class QueryEffects {
             () => {
               clearTimeout(backoffTimeout);
               this.store.dispatch(
-                new queryActions.SendIntrospectionQueryRequestAction(
-                  res.windowId
-                )
+                new queryActions.SendIntrospectionQueryRequestAction(res.windowId)
               );
             },
             false
@@ -1590,9 +1526,7 @@ export class QueryEffects {
       withLatestFrom(
         this.store,
         (
-          action:
-            | queryActions.SetQueryAction
-            | queryActions.SetQueryFromDbAction,
+          action: queryActions.SetQueryAction | queryActions.SetQueryFromDbAction,
           state: RootState
         ) => {
           return {
@@ -1643,10 +1577,7 @@ export class QueryEffects {
         ofType(queryActions.RESTORE_QUERY_REVISION),
         withLatestFrom(
           this.store,
-          (
-            action: queryActions.RestoreQueryRevisionAction,
-            state: RootState
-          ) => {
+          (action: queryActions.RestoreQueryRevisionAction, state: RootState) => {
             return {
               action,
             };

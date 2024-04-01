@@ -3,23 +3,15 @@ import { select, Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
-import {
-  EnvironmentService,
-  IEnvironment,
-} from '../environment/environment.service';
+import { EnvironmentService } from '../environment/environment.service';
 import { SendRequestResponse } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
-import {
-  RequestType,
-  ScriptContextData,
-  ScriptTranformResult,
-} from '../pre-request/helpers';
+import { RequestType, ScriptTranformResult } from '../pre-request/helpers';
 import { take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { PreRequestService } from '../pre-request/pre-request.service';
 import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
-import { AUTHORIZATION_TYPES } from 'altair-graphql-core/build/types/state/authorization.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -56,12 +48,12 @@ export class QueryService {
       return preTransformedData;
     }
 
-    const query = (state.query.query || '').trim();
-    const operationName = (state.query.selectedOperation || '').trim();
+    const query = (state.query.query ?? '').trim();
+    const operationName = (state.query.selectedOperation ?? '').trim();
     const headers = state.headers;
     const variables = state.variables.variables;
     const environment = this.environmentService.mergeWithActiveEnvironment(
-      preTransformedData?.environment || {}
+      preTransformedData?.environment ?? {}
     );
 
     /**
@@ -143,7 +135,7 @@ export class QueryService {
           environment: {},
         };
         preTransformedData.additionalHeaders = [
-          ...(preTransformedData?.additionalHeaders || []),
+          ...(preTransformedData?.additionalHeaders ?? []),
           ...authHeaders,
         ];
       }
