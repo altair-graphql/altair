@@ -14,12 +14,7 @@ import {
   CompletionContext,
   completionKeymap,
 } from '@codemirror/autocomplete';
-import {
-  EditorState,
-  Extension,
-  StateEffect,
-  StateField,
-} from '@codemirror/state';
+import { EditorState, Extension, StateEffect, StateField } from '@codemirror/state';
 import {
   Decoration,
   DecorationSet,
@@ -65,13 +60,12 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   private innerValue = '';
   private activeEnvironment: IEnvironment = {};
 
-  highlightEnvVariable =
-    StateEffect.define<{
-      from: number;
-      to: number;
-      value: string;
-      found: boolean;
-    }>();
+  highlightEnvVariable = StateEffect.define<{
+    from: number;
+    to: number;
+    value: string;
+    found: boolean;
+  }>();
   envHighlightTheme = EditorView.baseTheme({
     '.cm-env-var-highlight': { color: 'var(--red-color)', cursor: 'pointer' },
     '.cm-env-var-highlight--found': {
@@ -87,7 +81,15 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     private environmentService: EnvironmentService,
     private zone: NgZone
   ) {}
+
   ngAfterViewInit(): void {
+    this.setReady();
+  }
+
+  setReady() {
+    if (this.ready) {
+      return;
+    }
     this.ready = true;
     this.extensions = this.getExtensions();
   }
@@ -248,10 +250,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
     if (view.state.field(this.highlightField, false)) {
       effects.push(
-        StateEffect.appendConfig.of([
-          this.highlightField,
-          this.envHighlightTheme,
-        ])
+        StateEffect.appendConfig.of([this.highlightField, this.envHighlightTheme])
       );
     }
 
@@ -315,6 +314,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   // From ControlValueAccessor interface
   writeValue(value: string) {
+    this.setReady();
     if (value !== this.innerValue) {
       this.innerValue = value;
     }

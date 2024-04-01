@@ -1,11 +1,8 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
-import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
 
 @Component({
   selector: 'app-authorization-bearer',
-  standalone: true,
-  imports: [SharedModule],
   templateUrl: './authorization-bearer.component.html',
   styles: ``,
 })

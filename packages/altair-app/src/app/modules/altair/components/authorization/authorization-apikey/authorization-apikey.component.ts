@@ -1,11 +1,8 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
-import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
 
 @Component({
   selector: 'app-authorization-apikey',
-  standalone: true,
-  imports: [SharedModule],
   templateUrl: './authorization-apikey.component.html',
   styles: ``,
 })

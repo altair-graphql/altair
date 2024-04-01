@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthorizationBasicComponent } from './authorization-basic.component';
+import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
+import { ComponentModule } from '../../components.module';
+import { Store } from '@ngrx/store';
+import { MockModule } from 'ng-mocks';
 
 describe('AuthorizationBasicComponent', () => {
   let component: AuthorizationBasicComponent;
@@ -8,7 +12,8 @@ describe('AuthorizationBasicComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthorizationBasicComponent],
+      declarations: [AuthorizationBasicComponent],
+      imports: [MockModule(SharedModule), MockModule(ComponentModule)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AuthorizationBasicComponent);
