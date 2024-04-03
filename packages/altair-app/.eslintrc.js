@@ -34,7 +34,7 @@ module.exports = {
             type: 'attribute',
           },
         ],
-        'prettier/prettier': 1,
+        'prettier/prettier': 0,
         'require-await': 'off',
         '@typescript-eslint/require-await': 'warn',
         '@typescript-eslint/no-explicit-any': 'off',

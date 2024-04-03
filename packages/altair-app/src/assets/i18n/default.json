@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Send Request",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Prettify",
   "COMPRESS_QUERY_BUTTON": "Compress",
   "CLEAR_BUTTON": "Clear",
@@ -68,6 +69,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
   "ADD_HEADER_TEXT": "Add header",
   "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
 
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
