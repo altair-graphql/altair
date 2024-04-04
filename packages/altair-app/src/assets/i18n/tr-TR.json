@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "İstek Gönder",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Güzelleştir",
   "COMPRESS_QUERY_BUTTON": "Sıkıştır",
   "CLEAR_BUTTON": "Temizle",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "İstediğiniz başlığı ekleyin, düzenleyin ve kaldırın",
   "ADD_HEADER_TEXT": "Başlık Ekle",
   "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Abonelik URL'si",
   "SET_SUBSCRIPTION_URL_TEXT": "Sunucunuzun abonelik URL'sini aşağıya girin",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Bağlantı Parametreleri (JSON'da)",
