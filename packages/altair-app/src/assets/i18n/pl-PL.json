@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Wyślij zapytanie",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Upiększenie",
   "COMPRESS_QUERY_BUTTON": "Skompresuj",
   "CLEAR_BUTTON": "Wyczyść",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Dodaj, edytuj i usuń nagłówki w zapytaniu",
   "ADD_HEADER_TEXT": "Dodaj nagłówek",
   "HEADERS_FORBIDDEN_NOTICE": "Zabronione nagłówki nie będą działać w środowisku przeglądarki. Jeśli chcesz z nich korzystać, użyj aplikacji komputerowych.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Adres URL subskrypcji",
   "SET_SUBSCRIPTION_URL_TEXT": "Wprowadź adres URL serwera subskrypcji",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametry połączenia (w formacie JSON)",
