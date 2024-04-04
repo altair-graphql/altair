@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Envoyer requête",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Enjoliver",
   "COMPRESS_QUERY_BUTTON": "Compresser",
   "CLEAR_BUTTON": "Nettoyer",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Ajouter, modifier et supprimer headers dans votre requête",
   "ADD_HEADER_TEXT": "Ajouter une entête",
   "HEADERS_FORBIDDEN_NOTICE": "Les en-têtes interdits ne fonctionneront pas dans l'environnement du navigateur. Si vous voulez les utiliser, utilisez les applications de bureau.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "URL pour Subscription",
   "SET_SUBSCRIPTION_URL_TEXT": "Entrer l'URL de subscription de votre serveur ci-dessous",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Paramètres de connexion (dans JSON)",
