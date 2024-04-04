@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "crwdns625:0crwdne625:0",
+  "SEND_REQUEST_BUTTON_SHORT": "crwdns1352:0crwdne1352:0",
   "PRETTIFY_BUTTON": "crwdns627:0crwdne627:0",
   "COMPRESS_QUERY_BUTTON": "crwdns629:0crwdne629:0",
   "CLEAR_BUTTON": "crwdns631:0crwdne631:0",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "crwdns737:0crwdne737:0",
   "ADD_HEADER_TEXT": "crwdns739:0crwdne739:0",
   "HEADERS_FORBIDDEN_NOTICE": "crwdns741:0crwdne741:0",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "crwdns1354:0crwdne1354:0",
   "SUBSCRIPTION_URL_TEXT": "crwdns743:0crwdne743:0",
   "SET_SUBSCRIPTION_URL_TEXT": "crwdns745:0crwdne745:0",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "crwdns747:0crwdne747:0",
