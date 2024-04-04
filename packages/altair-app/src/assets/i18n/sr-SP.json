@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Пошаљи захтев",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Форматирај",
   "COMPRESS_QUERY_BUTTON": "Компримуј",
   "CLEAR_BUTTON": "Обриши",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Dodaj, izmeni ili obrisi zaglavlja u zahtevu",
   "ADD_HEADER_TEXT": "Dodaj zaglavlje",
   "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Link za pretplatu",
   "SET_SUBSCRIPTION_URL_TEXT": "Unesite pretplatnicki link za var server ispod",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
