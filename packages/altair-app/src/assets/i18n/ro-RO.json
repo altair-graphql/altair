@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Trimite cerere",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Infrumuseteaza",
   "COMPRESS_QUERY_BUTTON": "Comprima",
   "CLEAR_BUTTON": "Curata",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Adauga, editeaza si elimina variabile in cerere",
   "ADD_HEADER_TEXT": "Adaugă antet",
   "HEADERS_FORBIDDEN_NOTICE": "Antetele interzise nu vor funcționa în mediul navigator. Dacă doriți să le utilizați, utilizați aplicațiile desktop.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "URL-ul de abonament",
   "SET_SUBSCRIPTION_URL_TEXT": "Introduceţi URL-ul de abonament pentru serverul de mai jos",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametrii de conexiune (în JSON)",
