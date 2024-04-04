@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Odeslat požadavek",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Formátovat",
   "COMPRESS_QUERY_BUTTON": "Komprimovat",
   "CLEAR_BUTTON": "Vyprázdnit",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Přidejte, upravte či odeberte proměnné v požadavku",
   "ADD_HEADER_TEXT": "Přidat hlavičku",
   "HEADERS_FORBIDDEN_NOTICE": "Forbidden headers will not work in the browser environment. If you want to use them, use the desktop apps.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Connection Parameters (in JSON)",
