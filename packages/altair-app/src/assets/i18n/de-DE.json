@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Anfrage senden",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Query formatieren",
   "COMPRESS_QUERY_BUTTON": "Query komprimieren",
   "CLEAR_BUTTON": "Query leeren",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Hinzufügen, Bearbeiten und Entfernen von Header-Angaben in deiner Anfrage",
   "ADD_HEADER_TEXT": "Header hinzufügen",
   "HEADERS_FORBIDDEN_NOTICE": "Verbotene Header werden in der Browserumgebung nicht funktionieren. Wenn du diese verwenden möchtest, verwende bitte die Desktop-Apps.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Gib unten die Subscription URL für deinen Server ein",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Verbindungsparameter (in JSON)",
