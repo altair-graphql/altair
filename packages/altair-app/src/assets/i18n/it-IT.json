@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Invia Richiesta",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Formatta",
   "COMPRESS_QUERY_BUTTON": "Comprimi",
   "CLEAR_BUTTON": "Cancella",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Aggiungere, modificare e rimuovere header dalle vostre richieste",
   "ADD_HEADER_TEXT": "Aggiungi header",
   "HEADERS_FORBIDDEN_NOTICE": "Le intestazioni proibite non funzioneranno nell'ambiente browser. Se vuoi usarle, usa le app desktop.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Url di Sottoscrizione",
   "SET_SUBSCRIPTION_URL_TEXT": "Immettere di seguito l'URL di sottoscrizione per il server",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parametri di connessione (in JSON)",
