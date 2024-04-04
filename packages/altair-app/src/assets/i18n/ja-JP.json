@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "リクエスト送信",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "整形",
   "COMPRESS_QUERY_BUTTON": "圧縮",
   "CLEAR_BUTTON": "クリア",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "ヘッダーにある変数の追加、変更、削除",
   "ADD_HEADER_TEXT": "ヘッダ追加",
   "HEADERS_FORBIDDEN_NOTICE": "禁止されたヘッダーはブラウザ環境では動作しません。使用したい場合はデスクトップアプリを使用してください。",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "サブスクリプション用URL",
   "SET_SUBSCRIPTION_URL_TEXT": "サーバーのサブスクリプション用URLを入力してください。",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "接続パラメーター（JSON)",
