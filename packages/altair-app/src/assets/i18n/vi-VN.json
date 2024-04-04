@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Gửi",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Chuẩn hoá truy vấn",
   "COMPRESS_QUERY_BUTTON": "Rút gọn",
   "CLEAR_BUTTON": "Xóa",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Thêm, sửa và xoá tiêu đề (headers) trong yêu cầu của bạn",
   "ADD_HEADER_TEXT": "Thêm tiêu đề (headers)",
   "HEADERS_FORBIDDEN_NOTICE": "Các headers bị cấm sẽ không sử dụng được trên trình duyệt. Hãy sử dụng ứng dụng trên máy tính để bàn nếu bạn muốn sử dụng chúng.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "Đăng ký socket URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Nhập URL socket đăng ký cho máy chủ của bạn dưới đây",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Tham số kết nối (JSON)",
