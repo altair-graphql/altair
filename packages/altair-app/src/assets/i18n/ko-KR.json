@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "리퀘스트 전송",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "정리하기",
   "COMPRESS_QUERY_BUTTON": "압축하기",
   "CLEAR_BUTTON": "지우기",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "리퀘스트에 담을 헤더를 추가, 편집, 삭제합니다",
   "ADD_HEADER_TEXT": "헤더 추가",
   "HEADERS_FORBIDDEN_NOTICE": "브라우져 횐경에서는 Forbidden 해더는 동작하지 않습니다. Forbidden 해더을 쓰고 싶으시면 데스크탑 앱을 사용하세요.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "섭스크립션 URL",
   "SET_SUBSCRIPTION_URL_TEXT": "밑 칸에 서버의 섭스크립션 URL을 입력하세요",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "커넥션 파라메터 (JSON)",
