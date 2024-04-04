@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Enviar requisição",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Enfeitar",
   "COMPRESS_QUERY_BUTTON": "Compactar",
   "CLEAR_BUTTON": "Limpar",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Adicionar, editar e remover variáveis em sua requisição",
   "ADD_HEADER_TEXT": "Adicionar cabeçalho",
   "HEADERS_FORBIDDEN_NOTICE": "Cabeçalhos proibidos não funcionarão no ambiente de navegação. Se deseja utiliza-los, use os aplicativos de desktop.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "URL de inscrição",
   "SET_SUBSCRIPTION_URL_TEXT": "Digite o URL de assinatura para o seu servidor abaixo",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parâmetros de conexão (em JSON)",
