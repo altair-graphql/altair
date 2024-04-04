@@ -1,5 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "Enviar petición",
+  "SEND_REQUEST_BUTTON_SHORT": "Send",
   "PRETTIFY_BUTTON": "Embellecer",
   "COMPRESS_QUERY_BUTTON": "Comprimir",
   "CLEAR_BUTTON": "Limpiar",
@@ -62,6 +63,7 @@
   "SET_HEADERS_DIALOG_SUBTEXT": "Agrega, edita y elimina encabezados en tu solicitud",
   "ADD_HEADER_TEXT": "Añadir cabecera",
   "HEADERS_FORBIDDEN_NOTICE": "Las cabeceras prohibidas no funcionarán en el entorno del navegador. Si desea usarlas, utilice las aplicaciones de escritorio.",
+  "HEADERS_GLOBAL_HEADERS_NOTICE": "Do you want to set headers globally? You can do this using the special header environment variables.",
   "SUBSCRIPTION_URL_TEXT": "URL de suscripción",
   "SET_SUBSCRIPTION_URL_TEXT": "Ingrese la URL de suscripción para su servidor a continuación",
   "SUBSCRIPTION_CONNECTION_PARAMS_TEXT": "Parámetros de conexión (en JSON)",
