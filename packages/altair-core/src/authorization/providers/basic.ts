@@ -20,7 +20,7 @@ export default class BasicAuthorizationProvider extends AuthorizationProvider<Ba
     return {
       headers: {
         Authorization: `Basic ${(await import('abab')).btoa(
-          `${options.data.username}:${options.data.password}`
+          `${this.hydrate(options.data.username)}:${this.hydrate(options.data.password)}`
         )}`,
       },
     };
