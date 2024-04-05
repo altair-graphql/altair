@@ -8,6 +8,7 @@ import { PreRequestService } from '../pre-request/pre-request.service';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 
 import { QueryService } from './query.service';
+import { GqlService } from '../gql/gql.service';
 
 describe('QueryService', () => {
   let service: QueryService;
@@ -19,6 +20,7 @@ describe('QueryService', () => {
         MockProvider(EnvironmentService),
         MockProvider(PreRequestService),
         MockProvider(QueryCollectionService),
+        MockProvider(GqlService),
         {
           provide: Store,
           useFactory: () => mockStoreFactory(),
