@@ -19,7 +19,7 @@ describe('basic', () => {
   });
   it('should return basic auth header with environment variables', async () => {
     const authProvider = new BearerAuthorizationProvider((x) =>
-      x.replace(/^{{|}}$/g, '')
+      x.replace(/(^{{)|(}}$)/g, '')
     );
 
     const res = await authProvider.execute({
