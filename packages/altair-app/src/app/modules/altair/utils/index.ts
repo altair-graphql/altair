@@ -63,14 +63,12 @@ export const downloadJson = (
 };
 
 const readFile = (file: File) => {
-  return new Promise<string | ArrayBuffer | null | undefined>(
-    (resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => resolve(e.target?.result);
-      fileReader.onerror = (e) => reject(e.target?.error);
-      fileReader.readAsText(file);
-    }
-  );
+  return new Promise<string | ArrayBuffer | null | undefined>((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => resolve(e.target?.result);
+    fileReader.onerror = (e) => reject(e.target?.error);
+    fileReader.readAsText(file);
+  });
 };
 
 /**
@@ -158,7 +156,7 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
-export const parseJson = (str: string, defaultValue = {}) => {
+export const parseJson = (str: string, defaultValue: unknown = {}) => {
   try {
     return JSONBigint.parse(str);
   } catch {
@@ -206,9 +204,7 @@ export const getFullUrl = (url: string, protocol = location.protocol) => {
     if (url.substr(0, 1) === '/') {
       url = url.substr(1);
     }
-    return `${protocol.replace(/:$/, '').toLowerCase()}://${
-      location.host
-    }/${url}`;
+    return `${protocol.replace(/:$/, '').toLowerCase()}://${location.host}/${url}`;
   }
 
   return url;
@@ -251,11 +247,7 @@ export function setByDotNotation<TResult = any>(
     return undefined;
   }
   if (typeof path === 'string') {
-    return setByDotNotation(
-      obj,
-      path.split('.').map(parseDotNotationKey),
-      value
-    );
+    return setByDotNotation(obj, path.split('.').map(parseDotNotationKey), value);
   }
 
   const currentPath = path[0];
@@ -286,13 +278,13 @@ export const mapToKeyValueList = (obj: Record<string, string>) => {
     .map((key) => ({ key, value: obj[key] || '' }));
 };
 
-export function truncateText(text: string, maxLength = 70) {
+export function truncateText(text: string, maxLength = 70, symbol = '...') {
   let appendEllipsis = false;
   if (text.length > maxLength) {
     appendEllipsis = true;
   }
 
-  return text.substring(0, maxLength) + (appendEllipsis ? '...' : '');
+  return text.substring(0, maxLength) + (appendEllipsis ? symbol : '');
 }
 
 export const externalLink = (e: Event, url: string) => {
@@ -304,9 +296,7 @@ export const externalLink = (e: Event, url: string) => {
   }
 };
 
-export const str = (
-  v: string | number | undefined | null
-): string | undefined => {
+export const str = (v: string | number | undefined | null): string | undefined => {
   switch (typeof v) {
     case 'string':
     case 'undefined':
