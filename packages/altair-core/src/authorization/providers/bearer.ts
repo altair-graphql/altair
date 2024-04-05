@@ -13,7 +13,7 @@ export default class BearerAuthorizationProvider extends AuthorizationProvider<B
   ): Promise<AuthorizationResult> {
     return {
       headers: {
-        Authorization: `Bearer ${options.data.token}`,
+        Authorization: `Bearer ${this.hydrate(options.data.token)}`,
       },
     };
   }
