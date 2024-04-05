@@ -8,6 +8,7 @@ import {
   takeUntil,
   mergeMap,
   take,
+  filter,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -57,6 +58,10 @@ import { headerListToMap } from '../utils/headers';
 import { RequestType } from '../services/pre-request/helpers';
 import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 
+function notNullOrUndefined<T>(x: T | null | undefined): x is T {
+  return x !== null && x !== undefined;
+}
+
 @Injectable()
 export class QueryEffects {
   // TODO: Move more logic into query service
@@ -83,43 +88,40 @@ export class QueryEffects {
             };
           }
         ),
-        mergeMap((response) => {
+        map((response) => {
+          // cancel requests
           if (response.action.type === queryActions.CANCEL_QUERY_REQUEST) {
             this.store.dispatch(
               new layoutActions.StopLoadingAction(response.windowId)
             );
-            return EMPTY;
+            return;
+          }
+
+          const data = response.data;
+          if (!data) {
+            return;
           }
 
           const query = (response.data?.query.query ?? '').trim();
           if (!query) {
-            return EMPTY;
+            return;
           }
 
-          return observableOf(response);
+          return {
+            ...response,
+            data,
+          };
         }),
+        filter(notNullOrUndefined),
         mergeMap((response) => {
-          return combineLatest([
-            of(response),
-            from(this.queryService.getPrerequestTransformedData(response.windowId)),
-          ]).pipe(
-            map(([response, transformedData]) => {
-              return { response, transformedData };
-            })
-          );
+          return from(
+            this.queryService.getPrerequestTransformedData(response.windowId)
+          ).pipe(map((transformedData) => ({ response, transformedData })));
         }),
         mergeMap((returnedData) => {
-          if (!returnedData) {
-            return EMPTY;
-          }
-
           return observableOf(returnedData).pipe(
             mergeMap((_returnedData) => {
               const { response, transformedData } = _returnedData;
-
-              if (!response.data) {
-                return EMPTY;
-              }
 
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
               const { url, variables, headers, query } =
@@ -127,7 +129,6 @@ export class QueryEffects {
                   response.data,
                   transformedData
                 );
-              let selectedOperation = response.data.query.selectedOperation;
 
               // If the URL is not set or is invalid, just return
               if (!url || !isValidUrl(url)) {
@@ -136,6 +137,53 @@ export class QueryEffects {
                   new layoutActions.StopLoadingAction(response.windowId)
                 );
                 return EMPTY;
+              }
+              if (!parseJson(variables, null)) {
+                this.notifyService.error(
+                  'The variables is not a valid JSON string!'
+                );
+                this.store.dispatch(
+                  new layoutActions.StopLoadingAction(response.windowId)
+                );
+                return EMPTY;
+              }
+
+              if (
+                this.gqlService.hasInvalidFileVariable(response.data.variables.files)
+              ) {
+                this.notifyService.error(
+                  `
+                    You have some invalid file variables.<br><br>
+                    You need to provide a file and file name, when uploading files.
+                    Check your files in the variables section.
+                  `,
+                  'Altair',
+                  {
+                    disableTimeOut: true,
+                  }
+                );
+                return EMPTY;
+              }
+              const {
+                selectedOperation,
+                operations,
+                error: selectedOperationError,
+              } = this.queryService.calculateSelectedOperation(response.data, query);
+              if (selectedOperationError) {
+                this.notifyService.error(selectedOperationError);
+                return EMPTY;
+              }
+              this.store.dispatch(
+                new queryActions.SetSelectedOperationAction(response.windowId, {
+                  selectedOperation: selectedOperation ?? '',
+                })
+              );
+              if (operations) {
+                this.store.dispatch(
+                  new queryActions.SetQueryOperationsAction(response.windowId, {
+                    operations,
+                  })
+                );
               }
 
               // Store the current query into the history if it does not already exist in the history
@@ -170,81 +218,12 @@ export class QueryEffects {
                 return EMPTY;
               }
 
-              try {
-                const queryEditorIsFocused =
-                  response.data.query.queryEditorState &&
-                  response.data.query.queryEditorState.isFocused;
-                const operationData = this.gqlService.getSelectedOperationData({
-                  query,
-                  selectedOperation,
-                  selectIfOneOperation: true,
-                  queryCursorIndex: queryEditorIsFocused
-                    ? response.data.query.queryEditorState.cursorIndex
-                    : undefined,
-                });
-
-                this.store.dispatch(
-                  new queryActions.SetQueryOperationsAction(response.windowId, {
-                    operations: operationData.operations,
-                  })
-                );
-                selectedOperation = operationData.selectedOperation;
-                if (operationData.requestSelectedOperationFromUser) {
-                  this.notifyService.error(
-                    `You have more than one query operations.
-                      You need to select the one you want to run from the dropdown.`
-                  );
-                  return EMPTY;
-                }
-              } catch (err) {
-                this.store.dispatch(
-                  new queryActions.SetSelectedOperationAction(response.windowId, {
-                    selectedOperation: '',
-                  })
-                );
-                debug.error(err);
-                this.notifyService.errorWithError(err, 'Could not select operation');
-                return EMPTY;
-              }
-
               this.store.dispatch(
                 new layoutActions.StartLoadingAction(response.windowId)
               );
 
               let requestStatusCode = 0;
               let requestStatusText = '';
-
-              try {
-                if (variables) {
-                  JSON.parse(variables);
-                }
-              } catch (err) {
-                this.notifyService.errorWithError(
-                  err,
-                  'Looks like your variables is not a valid JSON string.'
-                );
-                this.store.dispatch(
-                  new layoutActions.StopLoadingAction(response.windowId)
-                );
-                return EMPTY;
-              }
-
-              if (
-                this.gqlService.hasInvalidFileVariable(response.data.variables.files)
-              ) {
-                this.notifyService.error(
-                  `
-                    You have some invalid file variables.<br><br>
-                    You need to provide a file and file name, when uploading files.
-                    Check your files in the variables section.
-                  `,
-                  'Altair',
-                  {
-                    disableTimeOut: true,
-                  }
-                );
-                return EMPTY;
-              }
 
               debug.log('Sending..');
               return this.gqlService

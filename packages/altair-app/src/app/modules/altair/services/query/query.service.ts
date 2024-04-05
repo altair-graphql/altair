@@ -4,7 +4,7 @@ import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
 import { EnvironmentService } from '../environment/environment.service';
-import { SendRequestResponse } from '../gql/gql.service';
+import { GqlService, SendRequestResponse } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
 import { RequestType, ScriptTranformResult } from '../pre-request/helpers';
 import { take } from 'rxjs/operators';
@@ -21,15 +21,48 @@ export class QueryService {
     private notifyService: NotifyService,
     private environmentService: EnvironmentService,
     private preRequestService: PreRequestService,
+    private gqlService: GqlService,
     private collectionService: QueryCollectionService,
     private store: Store<RootState>
   ) {}
 
+  calculateSelectedOperation(state: PerWindowState, query: string) {
+    try {
+      const queryEditorIsFocused = state.query.queryEditorState?.isFocused;
+      const operationData = this.gqlService.getSelectedOperationData({
+        query,
+        selectedOperation: state.query.selectedOperation,
+        selectIfOneOperation: true,
+        queryCursorIndex: queryEditorIsFocused
+          ? state.query.queryEditorState.cursorIndex
+          : undefined,
+      });
+      if (operationData.requestSelectedOperationFromUser) {
+        return {
+          selectedOperation: '',
+          operations: operationData.operations,
+          error: `You have more than one query operations. You need to select the one you want to run from the dropdown.`,
+        };
+      }
+      return {
+        selectedOperation: operationData.selectedOperation,
+        operations: operationData.operations,
+      };
+    } catch (err) {
+      debug.error(err);
+      return {
+        selectedOperation: '',
+        error: 'Could not select operation',
+      };
+    }
+  }
+
+  getWindowState$(windowId: string) {
+    return this.store.pipe(select(fromRoot.selectWindowState(windowId)));
+  }
+
   async getWindowState(windowId: string) {
-    return this.store
-      .pipe(select(fromRoot.selectWindowState(windowId)))
-      .pipe(take(1))
-      .toPromise();
+    return this.getWindowState$(windowId).pipe(take(1)).toPromise();
   }
 
   /**
