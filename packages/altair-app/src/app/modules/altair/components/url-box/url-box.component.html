@@ -8,7 +8,7 @@
       class="url-box__button url-box__button--method"
       [value]="httpVerb"
       track-id="http_verb"
-      >
+    >
       {{ httpVerb }}
       <!-- &#9660; -->
     </button>
@@ -16,11 +16,7 @@
     <nz-dropdown-menu #httpVerbMenu="nzDropdownMenu">
       <ul nz-menu>
         @for (method of methods; track method) {
-          <li
-            nz-menu-item
-            [value]="method"
-            (click)="setVerb(method)"
-            >
+          <li nz-menu-item [value]="method" (click)="setVerb(method)">
             {{ method }}
           </li>
         }
@@ -68,18 +64,15 @@
       nzTrigger="click"
       [nzDropdownMenu]="urlBoxActionMenu"
       class="url-box__button"
-      >
+    >
       <app-icon name="save"></app-icon>
     </button>
     <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
       <ul nz-menu>
         @if (currentCollection) {
-          <li
-            nz-menu-item
-            (click)="updateQueryInCollectionChange.emit()"
-            >
+          <li nz-menu-item (click)="updateQueryInCollectionChange.emit()">
             {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{
-            currentCollection.title
+              currentCollection.title
             }})
           </li>
         }
@@ -99,7 +92,7 @@
       nz-tooltip
       [nzTooltipTitle]="'RELOAD_DOCS_BUTTON' | translate"
       nzTooltipPlacement="bottom"
-      >
+    >
       <app-icon name="refresh-ccw"></app-icon>
     </button>
     <button
@@ -108,7 +101,7 @@
       (click)="toggleDocsChange.emit()"
       [ngClass]="{ 'url-box__button--active': showDocs }"
       track-id="show_docs"
-      >
+    >
       {{ 'DOCS_TEXT' | translate }}
     </button>
   </div>
@@ -119,7 +112,7 @@
         (click)="!isSubscribed && this.sendRequest.emit()"
         [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
         track-id="set_request"
-        >
+      >
         @if (isLoading) {
           <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
         }
@@ -137,37 +130,45 @@
         nzTrigger="click"
         nzPlacement="bottomRight"
         [nzDropdownMenu]="queryOperationsMenu"
-        >
+      >
         @if (isLoading) {
           <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
-        }
-        @if (!isLoading) {
-          <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+        } @else {
+          @if (selectedOperation) {
+            <span>{{ 'SEND_REQUEST_BUTTON_SHORT' | translate }}</span>
+          } @else {
+            <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
+          }
         }
         @if (selectedOperation === BATCHED_REQUESTS_OPERATION) {
           <span>(Batched)</span>
-        } @else if (selectedOperation)  {
-          <span>({{ selectedOperation }})</span>
+        } @else if (selectedOperation) {
+          <span [title]="selectedOperation"
+            >({{ selectedOperation | truncate: 7 }})</span
+          >
         }
         <app-icon name="chevron-down"></app-icon>
       </button>
     }
     <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
       <ul nz-menu>
-        @for (operation of queryOperations; track queryOperationTrackBy($index, operation)) {
+        @for (
+          operation of queryOperations;
+          track queryOperationTrackBy($index, operation)
+        ) {
           <li
             nz-menu-item
             (click)="selectedOperationChange.emit(operation.name?.value)"
-            >
+          >
             {{ operation.name?.value }}
           </li>
         }
         <li
-            nz-menu-item
-            (click)="selectedOperationChange.emit(BATCHED_REQUESTS_OPERATION)"
-            >
-            {{ 'SEND_BATCHED_REQUEST' | translate }}
-          </li>
+          nz-menu-item
+          (click)="selectedOperationChange.emit(BATCHED_REQUESTS_OPERATION)"
+        >
+          {{ 'SEND_BATCHED_REQUEST' | translate }}
+        </li>
       </ul>
     </nz-dropdown-menu>
   </div>
