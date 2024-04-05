@@ -8,6 +8,7 @@ const validOrigins = [
   'http://localhost:4200', // local altair app
   'https://dash.altairgraphql.dev',
   'https://altair-gql.sirmuel.design',
+  'https://web.altairgraphql.dev',
 ];
 
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';

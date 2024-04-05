@@ -22,7 +22,6 @@ There are several options to choose from for you to use Altair, depending on you
 
 1. [Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/) for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/) users.
 
-
 For MacOS users, you can also install Altair using [cask](https://github.com/Homebrew/homebrew-cask):
 
 ```
@@ -35,14 +34,14 @@ For linux users, you can also install Altair using [snap](https://snapcraft.io/a
 $ snap install altair
 ```
 
-For quick one-time usage or to see how it works, you can also use the [web app](https://altair-gql.sirmuel.design/): [https://altair-gql.sirmuel.design/](https://altair-gql.sirmuel.design/)
+For quick one-time usage or to see how it works, you can also use the [web app](https://web.altairgraphql.dev/): [https://web.altairgraphql.dev/](https://web.altairgraphql.dev/)
 
 ::: warning Note
 It is **NOT** recommended to use the web app for full development, because there are some limitations there which might lead to frustrations if something isn't working as expected. It is preferred for you to use the desktop apps where possible, or the browser extensions for ease of use.
 :::
 
-
 ## Usage with your application
+
 You can easily integrate Altair with several application setups. Check the [available integrations](/docs/integrations/).
 
 You can also use Altair directly from a CDN e.g. https://unpkg.com/altair-static@latest/build/dist/. You can take a look at [this fiddle](https://jsfiddle.net/imolorhe/zrjh2x08/) for an example of how to integrate using the CDN.
@@ -50,6 +49,7 @@ You can also use Altair directly from a CDN e.g. https://unpkg.com/altair-static
 Checkout the features available in Altair [here](/docs/features/).
 
 ## How it's built
+
 Altair GraphQL is built on modern web technologies using [Angular](https://angular.io/) - a JavaScript web framework, and written in [Typescript](https://www.typescriptlang.org/).
 
 The desktop apps are built with [electron](https://www.electronjs.org), another awesome opensource project from the folks at [github](http://www.github.com/).
