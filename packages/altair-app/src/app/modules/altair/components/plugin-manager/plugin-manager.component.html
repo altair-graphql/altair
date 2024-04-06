@@ -6,7 +6,7 @@
   [nzFooter]="modalFooter"
   [nzWidth]="870"
   (nzOnCancel)="toggleDialogChange.next($event)"
-  >
+>
   <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">{{ 'PLUGINS_TEXT' | translate }}</div>
@@ -22,12 +22,12 @@
             @for (item of remotePlugins$ | async; track trackByName($index, item)) {
               <div
                 class="plugin-manager__list-item"
-              [ngClass]="{
-                'plugin-manager__list-item--selected':
-                  selectedPluginItem && selectedPluginItem.name === item.name
-              }"
+                [ngClass]="{
+                  'plugin-manager__list-item--selected':
+                    selectedPluginItem && selectedPluginItem.name === item.name
+                }"
                 (click)="onSelectPlugin(item)"
-                >
+              >
                 <div class="plugin-manager__list-item-name">
                   {{ item?.manifest?.display_name || item.name }}
                   <div class="plugin-manager__list-item-version">
@@ -44,40 +44,33 @@
             @if (selectedPluginItem) {
               <div class="plugin-manager__item-details-name">
                 {{
-                selectedPluginItem.manifest.display_name ||
-                selectedPluginItem.name
+                  selectedPluginItem.manifest.display_name || selectedPluginItem.name
                 }}
                 <div
                   class="plugin-manager__item-details-unique-name"
                   [attr.title]="'PLUGIN_UNIQUE_NAME_TEXT' | translate"
-                  >
+                >
                   {{ selectedPluginItem.name }}
                 </div>
               </div>
               <div class="plugin-manager__item-details-actions">
                 @if (!isPluginInstalled(selectedPluginItem.name)) {
-                  <button
-                    class="app-button active-grey"
-                    (click)="onAddPlugin(selectedPluginItem.name)"
-                    >
+                  <button class="btn" (click)="onAddPlugin(selectedPluginItem.name)">
                     <app-icon name="plus-circle"></app-icon>
                     {{ 'PLUGIN_ADD_BUTTON' | translate }}
                   </button>
                 }
                 @if (isPluginInstalled(selectedPluginItem.name)) {
                   <button
-                    class="app-button active-destructive"
+                    class="btn btn--destructive"
                     (click)="onRemovePlugin(selectedPluginItem.name)"
-                    >
+                  >
                     <app-icon name="x-circle"></app-icon>
                     {{ 'PLUGIN_REMOVE_BUTTON' | translate }}
                   </button>
                 }
                 @if (shouldRestart) {
-                  <button
-                    class="app-button"
-                    (click)="onRestartApp()"
-                    >
+                  <button class="btn" (click)="onRestartApp()">
                     {{ 'RESTART_TEXT' | translate }}
                   </button>
                 }
@@ -99,15 +92,15 @@
       <a
         href="https://altairgraphql.dev/docs/plugins/writing-plugin.html"
         target="_blank"
-        class="app-button left"
+        class="btn left"
         >{{ 'PLUGIN_CREATE_BUTTON' | translate }}</a
-        >
-        <button
-          class="app-button active-primary right"
-          (click)="toggleDialogChange.next(false)"
-          >
-          {{ 'SAVE_BUTTON' | translate }}
-        </button>
-      </div>
-    </ng-template>
-  </nz-modal>
+      >
+      <button
+        class="btn btn--orimary right"
+        (click)="toggleDialogChange.next(false)"
+      >
+        {{ 'SAVE_BUTTON' | translate }}
+      </button>
+    </div>
+  </ng-template>
+</nz-modal>

@@ -13,25 +13,26 @@ app-window-switcher {
   // --shadow-color: rgba(0, 0, 0, 0.1);
   --shadow-weight: 9px;
 
-  background:
-      //Left start and right start 'inside' container colors (they overlap the shadows)
-    linear-gradient(90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)),
-    linear-gradient(-90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0))
-      100% 0,
-    //Left and right scroll shadows
-    linear-gradient(90deg, var(--shadow-bg), rgba(0, 0, 0, 0)),
-    linear-gradient(-90deg, var(--shadow-bg), rgba(0, 0, 0, 0)) 100% 0;
+  // background:
+  //     //Left start and right start 'inside' container colors (they overlap the shadows)
+  //   linear-gradient(90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)),
+  //   linear-gradient(-90deg, var(--header-bg-color) 0%, rgba(255, 255, 255, 0)) 100% 0,
+  //   //Left and right scroll shadows
+  //   linear-gradient(90deg, var(--shadow-bg), rgba(0, 0, 0, 0)),
+  //   linear-gradient(-90deg, var(--shadow-bg), rgba(0, 0, 0, 0)) 100% 0;
 
   background-repeat: no-repeat;
-  background-color: var(--header-bg-color);
-  background-size: 100px 100%, 100px 100%,
+  // background-color: var(--header-bg-color);
+  background-size:
+    100px 100%,
+    100px 100%,
     var(--shadow-weight) var(--shadow-height),
     var(--shadow-weight) var(--shadow-height);
   background-attachment: local, local, scroll, scroll;
 
   &.window-switcher__no-scrollbar {
     scrollbar-width: none;
-  
+
     &::-webkit-scrollbar {
       width: 0;
       height: 0;
@@ -68,9 +69,11 @@ app-window-switcher {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.3s ease;
+  opacity: 0.5;
 
   &:hover {
     background: rgba(var(--rgb-theme-font), 0.05);
+    opacity: 0.7;
 
     .window-switcher__close {
       opacity: 1;
@@ -80,7 +83,11 @@ app-window-switcher {
 
 .window-switcher__item--active {
   background: rgba(var(--rgb-theme-font), 0.05);
-  color: var(--primary-color);
+  // color: var(--primary-color);
+  &,
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .window-switcher__close {

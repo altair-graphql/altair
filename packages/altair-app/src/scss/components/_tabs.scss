@@ -11,6 +11,7 @@
   .ant-tabs-tab-btn {
     padding: 5px 8px;
     font-size: fontsize(13);
+    opacity: 0.7;
   }
   .ant-tabs--status-enabled {
     &::after {
@@ -23,8 +24,11 @@
 
   .ant-tabs-tab:not(.ant-tabs-tab-disabled):hover,
   .ant-tabs-tab-active .ant-tabs-tab-btn {
-    background: var(--theme-off-bg-color);
+    // background: var(--theme-off-bg-color);
+    background: rgba(var(--rgb-theme-font), 0.05);
+    transition: all 0.3s ease;
     border-radius: 4px;
+    opacity: 1;
   }
 
   .ant-tabs-content {
@@ -57,7 +61,7 @@
     // margin-bottom: 8px;
     margin: 0;
     padding: 8px;
-    border-block-end: 1px solid var(--theme-border-color);
+    border-block-end: 1px solid rgba(var(--rgb-theme-border), 0.5);
   }
 
   .ant-tabs-tab.ant-tabs-tab-disabled {

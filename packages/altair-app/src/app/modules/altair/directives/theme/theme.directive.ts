@@ -1,10 +1,4 @@
-import {
-  Directive,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import {
   createTheme,
   hexToRgbStr,
@@ -35,10 +29,7 @@ export class ThemeDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (
-      changes?.appTheme?.currentValue ||
-      changes?.appDarkTheme?.currentValue
-    ) {
+    if (changes?.appTheme?.currentValue || changes?.appDarkTheme?.currentValue) {
       this.applyTheme(
         changes.appTheme?.currentValue,
         changes.appDarkTheme?.currentValue
@@ -73,9 +64,7 @@ export class ThemeDirective implements OnInit, OnChanges {
       --secondary-color: ${theme.colors.secondary};
       --tertiary-color: ${theme.colors.tertiary};
 
-      --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${
-      theme.shadow.opacity
-    });
+      --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${theme.shadow.opacity});
 
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
@@ -114,6 +103,7 @@ export class ThemeDirective implements OnInit, OnChanges {
       --rgb-theme-off-font: ${hexToRgbStr(theme.colors.offFont)};
       --rgb-theme-border: ${hexToRgbStr(theme.colors.border)};
       --rgb-theme-off-border: ${hexToRgbStr(theme.colors.offBorder)};
+      --rgb-header-bg: ${hexToRgbStr(theme.colors.headerBg || theme.colors.offBg)};
 
       --editor-comment-color: ${theme.editor.colors.comment};
       --editor-string-color: ${theme.editor.colors.string};

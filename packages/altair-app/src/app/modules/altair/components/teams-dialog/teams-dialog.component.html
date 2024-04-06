@@ -4,10 +4,10 @@
   [subheading]="'TEAMS_SUB_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
-  >
+>
   <div class="teams-wrapper">
-    <ul nz-list [nzDataSource]="(teams$ | async)" [nzNoResult]="'No team'">
-      @for (team of (teams$ | async); track team) {
+    <ul nz-list [nzDataSource]="teams$ | async" [nzNoResult]="'No team'">
+      @for (team of teams$ | async; track team) {
         <li nz-list-item nzNoFlex>
           <ul nz-list-item-actions>
             <nz-list-item-action>
@@ -34,10 +34,7 @@
       }
     </ul>
     <div class="teams__list-actions">
-      <button
-        class="app-button full-width"
-        (click)="onCreateTeam()"
-        >
+      <button class="btn btn--full-width" (click)="onCreateTeam()">
         {{ 'CREATE_TEAM_BUTTON' | translate }}
       </button>
     </div>
@@ -46,32 +43,30 @@
 
 <app-dialog
   [showDialog]="showTeamForm"
-  [heading]=" (editTeamId ? 'UPDATE_TEAM_TEXT' : 'CREATE_TEAM_TEXT') | translate"
+  [heading]="(editTeamId ? 'UPDATE_TEAM_TEXT' : 'CREATE_TEAM_TEXT') | translate"
   [showFooter]="false"
   (toggleDialog)="showTeamForm = $event"
-  >
+>
   <form [formGroup]="teamForm" (ngSubmit)="onSubmitTeamForm()">
     <div class="app-dialog-section">
       <input
-        class="app-input"
+        class="input"
         type="text"
         placeholder="Team name"
         name="teamName"
         formControlName="name"
-        />
+      />
     </div>
     <div class="app-dialog-section">
       <textarea
-        class="app-input"
+        class="input"
         placeholder="Description"
         name="teamDescription"
-      formControlName="description"></textarea>
+        formControlName="description"
+      ></textarea>
     </div>
     <div class="app-dialog-section">
-      <button
-        class="app-button active-primary"
-        type="submit"
-        >
+      <button class="btn btn--primary" type="submit">
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>
@@ -83,7 +78,7 @@
   [heading]="'TEAM_MEMBERS_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="selectTeam()"
-  >
+>
   <ul nz-list [nzDataSource]="membersOfSelectedTeam" [nzNoResult]="'No team member'">
     @for (member of membersOfSelectedTeam; track member) {
       <li nz-list-item nzNoFlex>
@@ -99,20 +94,19 @@
       </li>
     }
   </ul>
-  <button
-    class="app-button full-width"
-    (click)="onAddTeamMember()"
-    >
+  <button class="btn btn--full-width" (click)="onAddTeamMember()">
     {{ 'ADD_TEAM_MEMBER_TEXT' | translate }}
   </button>
 </app-dialog>
 
 <app-dialog
   [showDialog]="showMemberForm"
-  [heading]=" (editUserId ? 'UPDATE_TEAM_MEMBER_TEXT' : 'ADD_TEAM_MEMBER_TEXT') | translate"
+  [heading]="
+    (editUserId ? 'UPDATE_TEAM_MEMBER_TEXT' : 'ADD_TEAM_MEMBER_TEXT') | translate
+  "
   [showFooter]="false"
   (toggleDialog)="showMemberForm = $event"
-  >
+>
   <nz-alert
     nzType="warning"
     nzMessage="The user must already exist to add them as a team member"
@@ -120,18 +114,15 @@
   <form [formGroup]="memberForm" (ngSubmit)="onSubmitMemberForm()">
     <div class="app-dialog-section">
       <input
-        class="app-input"
+        class="input"
         type="email"
         placeholder="Email address"
         name="email"
         formControlName="email"
-        />
+      />
     </div>
     <div class="app-dialog-section">
-      <button
-        class="app-button active-primary"
-        type="submit"
-        >
+      <button class="btn btn--primary" type="submit">
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>

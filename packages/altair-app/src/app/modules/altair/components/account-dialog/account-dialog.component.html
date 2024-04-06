@@ -4,14 +4,11 @@
   [subheading]="'ACCOUNT_SUB_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
-  >
+>
   <div class="account-signin-wrapper">
     @if (!account?.loggedIn) {
       <p>Sign in to manage your teams, synced collections and queries.</p>
-      <button
-        class="app-button active-primary"
-        (click)="submitLogin()"
-        >
+      <button class="btn btn--primary" (click)="submitLogin()">
         {{ 'SIGNIN_WITH_GOOGLE' | translate }}
       </button>
     }
@@ -19,7 +16,10 @@
     @if (account?.loggedIn) {
       <div class="app-dialog-section">
         <div class="account-dialog__welcome">
-          <nz-avatar [nzText]="account?.firstName?.at(0)" [nzSrc]="account?.picture"></nz-avatar>
+          <nz-avatar
+            [nzText]="account?.firstName?.at(0)"
+            [nzSrc]="account?.picture"
+          ></nz-avatar>
           {{ 'ACCOUNT_HELLO' | translate }}, {{ account?.firstName }}
         </div>
       </div>
@@ -39,13 +39,16 @@
           ></app-icon>
         </div>
         <div>Plan: {{ account?.plan?.id }}</div>
-        <div>Queries: {{ account?.stats?.queriesCount ?? 0 }} / {{ account?.plan?.maxQueriesCount ?? 0 }}</div>
-        <div>Teams: {{ account?.stats?.teamsCount ?? 0 }} / {{ account?.plan?.maxTeamsCount ?? 0 }}</div>
+        <div>
+          Queries: {{ account?.stats?.queriesCount ?? 0 }} /
+          {{ account?.plan?.maxQueriesCount ?? 0 }}
+        </div>
+        <div>
+          Teams: {{ account?.stats?.teamsCount ?? 0 }} /
+          {{ account?.plan?.maxTeamsCount ?? 0 }}
+        </div>
       </div>
-      <button
-        class="app-button active-grey"
-        (click)="logoutChange.emit()"
-        >
+      <button class="btn" (click)="logoutChange.emit()">
         {{ 'LOGOUT_TEXT' | translate }}
       </button>
     }

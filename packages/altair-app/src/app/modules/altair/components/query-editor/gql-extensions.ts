@@ -78,9 +78,7 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
             }
 
             const descriptionContentEl = document.createElement('div');
-            descriptionContentEl.classList.add(
-              'cm-gqlCompletionDescriptionContent'
-            );
+            descriptionContentEl.classList.add('cm-gqlCompletionDescriptionContent');
             descriptionContentEl.innerHTML = sanitizeHtml(description);
 
             descriptionEl.appendChild(descriptionContentEl);
@@ -119,19 +117,12 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
       ])
     ),
     getRunActionPlugin(opts?.onRunActionClick || noOp),
-    getUploadActionPlugin(
-      opts?.onSelectFiles || noOp,
-      opts?.windowId,
-      opts?.store
-    ),
+    getUploadActionPlugin(opts?.onSelectFiles || noOp, opts?.windowId, opts?.store),
     gqlVariablesStateField,
     windowIdStateField,
     graphqlLanguage.data.of({
       autocomplete: (context: CompletionContext) => {
-        const nodeBefore = syntaxTree(context.state).resolveInner(
-          context.pos,
-          -1
-        );
+        const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
 
         // Only show if inside a field SelectionSet
         if (

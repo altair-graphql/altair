@@ -3,12 +3,17 @@
   [showHeader]="false"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
-  >
+>
   <div class="upgrade-pro-wrapper">
     @if (proPlanInfo) {
       <h2 class="upgrade-pro-title">Upgrade to Pro</h2>
       <p>Upgrade to Pro to get access to more features.</p>
-      <p class="upgrade-price"><span class="upgrade-price-unit">{{ proPlanInfo.currency }} {{ proPlanInfo.price / 100 }}</span> per user/{{ proPlanInfo.interval }}</p>
+      <p class="upgrade-price">
+        <span class="upgrade-price-unit"
+          >{{ proPlanInfo.currency }} {{ proPlanInfo.price / 100 }}</span
+        >
+        per user/{{ proPlanInfo.interval }}
+      </p>
       <h3>Highlighted features</h3>
       <ul class="upgrade-features-list">
         <li class="upgrade-features-list__item">
@@ -31,15 +36,15 @@
       <nz-alert
         class="upgrade-pro-alert"
         nzType="warning"
-        [nzMessage]="'Users in the plan will be calculated based on the number of users across your teams.'"
+        [nzMessage]="
+          'Users in the plan will be calculated based on the number of users across your teams.'
+        "
       ></nz-alert>
       <div class="upgrade-pro-extra-tips">
-        You are currently on the {{ userPlan?.id }} plan. Upgrade to Pro to get access to more features. Reload the app after upgrading to Pro.
+        You are currently on the {{ userPlan?.id }} plan. Upgrade to Pro to get
+        access to more features. Reload the app after upgrading to Pro.
       </div>
-      <button
-        class="app-button active-primary"
-        (click)="openUpgradeProUrl($event)"
-        >
+      <button class="btn btn--primary" (click)="openUpgradeProUrl($event)">
         Upgrade to Pro
       </button>
     }

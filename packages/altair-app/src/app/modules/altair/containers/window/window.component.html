@@ -108,6 +108,7 @@
     <nz-modal
       [nzVisible]="showHeaderDialog"
       (nzVisibleChange)="toggleHeader($event)"
+      [nzCloseIcon]="'close-circle'"
       [nzTitle]="modalTitle"
       [nzContent]="modalContent"
       [nzFooter]="modalFooter"
@@ -139,22 +140,22 @@
                 (ngModelChange)="headerEnabledChange($event, i)"
               ></label>
               <div class="set-header-input-column">
-                <app-fancy-input
-                  class="set-header-input"
+                <app-x-input
+                  class="input"
                   placeholder="Header key"
                   [ngModel]="header.key"
                   (ngModelChange)="headerKeyChange($event, i)"
                   (submitChange)="toggleHeader()"
-                ></app-fancy-input>
+                ></app-x-input>
               </div>
               <div class="set-header-input-column">
-                <app-fancy-input
-                  class="set-header-input"
+                <app-x-input
+                  class="input"
                   placeholder="Header value"
                   [ngModel]="header.value"
                   (ngModelChange)="headerValueChange($event, i)"
                   (submitChange)="toggleHeader()"
-                ></app-fancy-input>
+                ></app-x-input>
               </div>
               <button class="header-input-remove-button" (click)="removeHeader(i)">
                 &times;
@@ -186,15 +187,11 @@
 
       <ng-template #modalFooter>
         <div class="app-dialog-footer">
-          <button
-            track-id="add_header"
-            class="app-button active-grey left"
-            (click)="addHeader()"
-          >
+          <button track-id="add_header" class="btn left" (click)="addHeader()">
             {{ 'ADD_HEADER_TEXT' | translate }}
           </button>
-          <button class="app-button active-primary right" (click)="toggleHeader()">
-            {{ 'SAVE_BUTTON' | translate }}
+          <button class="btn btn--primary right" (click)="toggleHeader()">
+            {{ 'DONE_BUTTON' | translate }}
           </button>
         </div>
       </ng-template>

@@ -1,14 +1,34 @@
 <form nz-form nzLayout="vertical" [formGroup]="apiKeyForm">
   <nz-form-item>
     <nz-form-label nzRequired nzFor="key">Key</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not a valid key!">
-      <app-x-input nz-input formControlName="key" id="key" class="app-input" autocomplete="off" />
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is not a valid key!"
+    >
+      <app-x-input
+        nz-input
+        formControlName="key"
+        id="key"
+        class="input"
+        autocomplete="off"
+      />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzRequired nzFor="value">Value</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not a valid value!">
-      <app-x-input nz-input formControlName="value" id="value" class="app-input" autocomplete="off" />
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is not a valid value!"
+    >
+      <app-x-input
+        nz-input
+        formControlName="value"
+        id="value"
+        class="input"
+        autocomplete="off"
+      />
     </nz-form-control>
   </nz-form-item>
 </form>

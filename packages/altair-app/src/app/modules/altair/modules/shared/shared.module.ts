@@ -5,7 +5,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgPipesModule } from 'ngx-pipes';
 import { MarkdownModule } from 'ngx-markdown';
-import { HotToastModule } from '@ngneat/hot-toast';
 import { ResizableModule } from 'angular-resizable-element';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';

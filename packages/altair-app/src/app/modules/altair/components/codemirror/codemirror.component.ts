@@ -23,6 +23,7 @@ import {
   EditorView,
   keymap,
   lineNumbers,
+  tooltips,
   ViewUpdate,
 } from '@codemirror/view';
 import {
@@ -181,7 +182,8 @@ export class CodemirrorComponent
       }
     });
     const exceptionSink = EditorView.exceptionSink.of((exception) => {
-      throw new InternalEditorError(exception);
+      // throw new InternalEditorError(exception);
+      throw exception;
     });
     const baseTheme = EditorView.theme({
       '&.cm-editor': {
@@ -194,8 +196,7 @@ export class CodemirrorComponent
         background: 'var(--theme-bg-color)',
         border: '1px solid var(--theme-border-color)',
         borderRadius: '4px',
-        fontSize:
-          'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
+        fontSize: 'calc((var(--editor-font-size) / var(--baseline-size)) * 1rem)',
 
         '& > ul': {
           background: 'var(--theme-bg-color)',
@@ -400,6 +401,7 @@ export class CodemirrorComponent
         top: true,
       }),
       syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+      // tooltips({ parent: document.body }),
     ];
 
     return [

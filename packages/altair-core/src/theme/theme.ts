@@ -16,6 +16,16 @@ If you choose #232931 (rich blue-gray) as the background, #3a4149 would be a sui
 For a #2d2f33 (slightly lighter dark gray) background, #404448 could work well for borders.
 */
 
+// TODO: Introduce glassmorphism
+// https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9
+// https://codepen.io/kanishkkunal/pen/QWGzBwz
+// https://codepen.io/TurkAysenur/pen/ZEpxeYm
+// https://codepen.io/gutugaluppo/pen/MWjjWPx
+// https://codepen.io/omeal/pen/VwKKgjG
+// https://codepen.io/opeala/pen/yLaMBvN
+// https://dribbble.com/shots/16261258-Metaspark-web-site-design-landing-page-home-page-ui/attachments/8128256?mode=media
+// https://smarative.com/blog/realistic-frosted-glassmorphism-css-gradient-borders
+
 export const foundations = {
   easing: 'ease',
   colors: {
@@ -94,8 +104,8 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 export type ITheme = typeof theme;

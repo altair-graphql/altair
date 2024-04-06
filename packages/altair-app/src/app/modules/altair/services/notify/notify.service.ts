@@ -25,11 +25,14 @@ type NotifyType = 'success' | 'error' | 'warning' | 'info';
 export class NotifyService {
   extensionNotifications: IDictionary = {};
 
-  constructor(private toast: ToastrService, private store: Store<RootState>) {
+  constructor(
+    private toast: ToastrService,
+    private store: Store<RootState>
+  ) {
     this.manageExtensionNotifications();
   }
 
-  success(message: string, title = 'Altair', opts: NotifyOptions = {}) {
+  success(message: string, title = '', opts: NotifyOptions = {}) {
     this.exec('success', message, title, opts);
   }
   error(message: string, title = '', opts: NotifyOptions = {}) {
@@ -63,22 +66,17 @@ export class NotifyService {
   info(message: string, title = '', opts: NotifyOptions = {}) {
     this.exec('info', message, title, opts);
   }
-  exec(
-    type: NotifyType,
-    message: string,
-    title: string,
-    opts: NotifyOptions = {}
-  ) {
+  exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
     if (opts?.data?.action) {
       const action = opts.data.action;
-      toast.onTap.pipe(take(1)).subscribe((_toast) => {
+      toast.onTap.pipe(take(1)).subscribe(() => {
         action();
       });
     }
     if (opts?.data?.url) {
       const url = opts.data.url;
-      toast.onTap.pipe(take(1)).subscribe((_toast) => {
+      toast.onTap.pipe(take(1)).subscribe(() => {
         window.open(url, '_blank');
       });
     }
@@ -195,25 +193,21 @@ export class NotifyService {
     }
 
     // Handle click events
-    (window as any).chrome.notifications.onClicked.addListener(
-      (notifId: string) => {
-        if (
-          this.extensionNotifications[notifId] &&
-          this.extensionNotifications[notifId].onclick
-        ) {
-          this.extensionNotifications[notifId].onclick();
-        }
+    (window as any).chrome.notifications.onClicked.addListener((notifId: string) => {
+      if (
+        this.extensionNotifications[notifId] &&
+        this.extensionNotifications[notifId].onclick
+      ) {
+        this.extensionNotifications[notifId].onclick();
       }
-    );
+    });
 
     // Handle closed notifications
-    (window as any).chrome.notifications.onClosed.addListener(
-      (notifId: string) => {
-        if (this.extensionNotifications[notifId]) {
-          delete this.extensionNotifications[notifId];
-        }
+    (window as any).chrome.notifications.onClosed.addListener((notifId: string) => {
+      if (this.extensionNotifications[notifId]) {
+        delete this.extensionNotifications[notifId];
       }
-    );
+    });
   }
 
   private async calculateErrorMessage(err: unknown) {

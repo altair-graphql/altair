@@ -4,7 +4,12 @@
 }
 
 .ant-layout {
-  background: var(--theme-bg-color);
+  background: transparent;
+}
+
+.ant-modal-mask {
+  background: rgba(var(--rgb-theme-bg), 0.45);
+  backdrop-filter: blur(2px);
 }
 
 .ant-modal-footer {
@@ -13,7 +18,8 @@
 }
 
 .ant-modal-header {
-  background: var(--theme-bg-color);
+  // background: var(--theme-bg-color);
+  background: transparent;
   color: var(--theme-font-color);
   border-color: var(--theme-border-color);
 }
@@ -24,8 +30,11 @@
 }
 
 .ant-modal-content {
-  background: var(--theme-bg-color);
+  // background: var(--theme-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.5);
+  backdrop-filter: blur(10px);
   color: var(--theme-font-color);
+  border-radius: 4px;
 }
 
 .ant-modal-confirm-body .ant-modal-confirm-title,
@@ -111,8 +120,12 @@
 .ant-dropdown-menu-submenu-title-divider {
   background: var(--theme-border-color);
 }
-.ant-dropdown-menu-item .ant-dropdown-menu-submenu-expand-icon .ant-dropdown-menu-submenu-arrow-icon,
-.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-expand-icon .ant-dropdown-menu-submenu-arrow-icon {
+.ant-dropdown-menu-item
+  .ant-dropdown-menu-submenu-expand-icon
+  .ant-dropdown-menu-submenu-arrow-icon,
+.ant-dropdown-menu-submenu-title
+  .ant-dropdown-menu-submenu-expand-icon
+  .ant-dropdown-menu-submenu-arrow-icon {
   color: var(--theme-font-color);
 }
 
@@ -129,7 +142,8 @@
 }
 
 .ant-input {
-  background: var(--theme-off-bg-color);
+  // background: var(--theme-off-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.5);
   border-color: var(--theme-border-color);
   color: var(--theme-font-color);
 }
@@ -239,7 +253,9 @@
   border-color: var(--theme-border-color);
 }
 
-.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(
+    .ant-select-customize-input
+  )
   .ant-select-selector,
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
   border-color: var(--primary-color);
@@ -338,10 +354,10 @@
 
 .ant-tabs-tab:hover,
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: var(--primary-color);
+  color: var(--theme-font-color);
   font-weight: normal;
 }
-.ant-tabs-tab+.ant-tabs-tab {
+.ant-tabs-tab + .ant-tabs-tab {
   margin-left: 0;
 }
 

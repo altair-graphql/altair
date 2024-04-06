@@ -1,10 +1,10 @@
 app-doc-viewer {
   position: relative;
-  background: var(--theme-bg-color);
+  // background: var(--theme-bg-color);
   transition: all 0.5s var(--app-easing);
   line-height: 1.2;
-  border-radius: 4px;
-  border-inline-start: 1px solid var(--theme-border-color);
+  // border-radius: 4px;
+  border-inline-start: 1px solid rgba(var(--rgb-theme-border), 0.5);
 
   &.hide-doc {
     flex-grow: 0 !important;
@@ -79,11 +79,7 @@ app-doc-viewer {
   position: relative;
   color: transparent;
   transition-duration: 0.3s;
-  background: linear-gradient(
-    -45deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
+  background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
   background-size: 200% 200%;
   background-clip: text;
   // animation: bg-gradient 5s ease infinite;
@@ -123,13 +119,18 @@ app-doc-viewer {
 
 .doc-viewer-navigation__option {
   padding: 5px;
-  color: var(--blue-color);
+  color: var(--secondary-color);
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
-  background: rgba(var(--rgb-blue), 0.05);
+  background: rgba(var(--rgb-secondary), 0.05);
   border-radius: 4px;
   height: 25px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(var(--rgb-secondary), 0.1);
+  }
 
   span {
     display: inline-block;
@@ -175,7 +176,7 @@ app-doc-viewer {
 .doc-viewer-search-input {
   width: 100%;
   font-size: fontsize(14);
-  padding: 5px 0;
+  padding: 5px;
   border: 0;
   border-bottom: 1px solid var(--theme-border-color);
   transition: all 0.3s ease;
@@ -220,15 +221,15 @@ app-doc-viewer {
 
 .doc-viewer-search-result-item {
   position: relative;
-  padding: 10px 60px 10px 5px;
-  border-radius: 3px;
+  padding: 10px 60px 10px 10px;
+  border-radius: 4px;
   color: var(--theme-font-color);
   font-size: fontsize(13);
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    background: rgba(var(--rgb-grey), 0.5);
+    background: rgba(var(--rgb-theme-font), 0.1);
   }
 }
 

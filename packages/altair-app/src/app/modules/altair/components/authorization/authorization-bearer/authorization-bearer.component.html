@@ -1,8 +1,18 @@
 <form nz-form nzLayout="vertical" [formGroup]="bearerForm">
   <nz-form-item>
     <nz-form-label nzRequired nzFor="token">Bearer token</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not a valid bearer token!">
-      <app-x-input nz-input formControlName="token" id="token" class="app-input ant-input" autocomplete="off" />
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is not a valid bearer token!"
+    >
+      <app-x-input
+        nz-input
+        formControlName="token"
+        id="token"
+        class="input ant-input"
+        autocomplete="off"
+      />
     </nz-form-control>
   </nz-form-item>
 </form>

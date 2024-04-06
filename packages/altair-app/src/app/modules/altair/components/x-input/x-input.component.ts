@@ -106,15 +106,17 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
       '.cm-scroller::-webkit-scrollbar': {
         display: 'none',
       },
-      '.cm-tooltip-hover': {
-        background: 'var(--theme-bg-color)',
-        border: '1px solid var(--theme-border-color)',
+      '.cm-tooltip-hover.cm-tooltip': {
+        background: 'rgba(var(--rgb-theme-bg), 0.7)',
+        border: '0px',
         borderRadius: '4px',
         padding: '4px',
+        // zIndex: 1001,
       },
       '.cm-tooltip-variable-value': {
         lineHeight: '1.2',
         color: 'var(--theme-font-color)',
+        // background: 'var(--theme-bg-color)',
         '& .cm-tooltip-arrow:before': {
           borderTopColor: 'var(--theme-bg-color)',
         },
@@ -134,7 +136,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         {
           key: 'Enter',
           run: () => {
-            this.zone.run(() => this.submitChange.emit());
+            setTimeout(() => this.zone.run(() => this.submitChange.emit()));
             return false;
           },
         },

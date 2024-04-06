@@ -1,12 +1,13 @@
 <nz-modal
   [nzVisible]="showEditCollectionDialog"
   (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
   [nzWidth]="800"
   (nzOnCancel)="toggleDialogChange.next($event)"
-  >
+>
   <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">
@@ -22,7 +23,7 @@
         <div class="app-dialog-section">
           <div class="form-group">
             {{ 'COLLECTION_TITLE_LABEL' | translate }}
-            <input type="text" class="dialog-input" [(ngModel)]="title" />
+            <input type="text" class="input" [(ngModel)]="title" />
           </div>
         </div>
         <div class="app-dialog-section">
@@ -50,10 +51,10 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
-        class="app-button active-primary right"
+        class="btn btn--primary right"
         track-id=""
         (click)="updateCollection()"
-        >
+      >
         {{ 'SAVE_BUTTON' | translate }}
       </button>
     </div>

@@ -16,7 +16,10 @@
   overflow: auto;
 }
 .environment-manager__list-actions {
+  display: flex;
+  flex-direction: column;
   padding: 0 10px;
+  gap: 5px;
 }
 .environment-manager__list-item {
   white-space: nowrap;
