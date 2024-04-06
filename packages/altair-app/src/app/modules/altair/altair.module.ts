@@ -161,7 +161,7 @@ const providers = [
     ToastrModule.forRoot({
       newestOnTop: false,
       closeButton: true,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-bottom-right',
       enableHtml: true,
       countDuplicates: true,
       preventDuplicates: true,

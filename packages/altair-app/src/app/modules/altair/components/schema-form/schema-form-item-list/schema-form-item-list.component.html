@@ -2,9 +2,7 @@
   <nz-form-label>{{ item.description }}</nz-form-label>
   @if (data) {
     @for (subdata of data; track trackByIndex(index, subdata); let index = $index) {
-      <div
-        class="ui-form__list-wrapper"
-        >
+      <div class="ui-form__list-wrapper">
         @if (isJsonSchema(item.items)) {
           <app-schema-form-item
             [item]="getSchemaFormPropertyForListItem(index, item.items)"
@@ -14,16 +12,16 @@
         }
         <span class="ui-form__list-item-close" (click)="removeField(index)"
           >&#215; {{ 'SCHEMA_FORM_LIST_REMOVE' | translate }}</span
-          >
-        </div>
-      }
+        >
+      </div>
     }
-    <nz-form-item>
-      <nz-form-control>
-        <button class="app-button active-grey" (click)="addField()">
-          &#43;
-          {{ 'SCHEMA_FORM_LIST_ADD' | translate }}
-        </button>
-      </nz-form-control>
-    </nz-form-item>
   }
+  <nz-form-item>
+    <nz-form-control>
+      <button class="btn" (click)="addField()">
+        &#43;
+        {{ 'SCHEMA_FORM_LIST_ADD' | translate }}
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+}

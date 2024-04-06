@@ -4,18 +4,19 @@
   [subheading]="'QUERY_REVISIONS_SUB_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
-  >
+>
   <div class="query-revisions-wrapper">
     @for (item of revisions; track item.id) {
       <div class="query-revisions__item">
-        <div class="query-revisions__item-time">{{ item.createdAt | date:'medium' }}</div>
+        <div class="query-revisions__item-time">
+          {{ item.createdAt | date: 'medium' }}
+        </div>
         <div class="query-revisions__item-name">{{ item.name }}</div>
-        <div class="query-revisions__item-author">{{ item.createdByUser.firstName }} {{ item.createdByUser.lastName }}</div>
+        <div class="query-revisions__item-author">
+          {{ item.createdByUser.firstName }} {{ item.createdByUser.lastName }}
+        </div>
         <div class="query-revisions__item-actions">
-          <button
-            class="app-button active-grey"
-            (click)="restoreRevision.emit(item)"
-            >Restore</button>
+          <button class="btn" (click)="restoreRevision.emit(item)">Restore</button>
         </div>
       </div>
     }

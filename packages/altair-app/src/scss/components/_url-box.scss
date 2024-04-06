@@ -10,14 +10,17 @@ app-url-box {
   // max-width: 900px;
   // margin: 0 auto 5px;
   height: var(--url-box-height);
-  background-color: var(--theme-off-bg-color);
+  // background-color: var(--theme-off-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.7);
   // border-block-end: 1px solid var(--theme-border-color);
   width: 100%;
   display: flex;
-  border: 1px solid var(--theme-border-color);
+  border: 1px solid rgba(var(--rgb-theme-border), 0.3);
   border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(var(--rgb-black), 0.05);
+  transition: all 0.3s ease;
   &:hover {
-    border-color: var(--theme-off-border-color);
+    border-color: rgba(var(--rgb-theme-border), 0.1);
   }
 
   &:focus,
@@ -41,10 +44,11 @@ app-url-box {
   height: calc(var(--url-box-height) - 16px);
   line-height: calc(var(--url-box-height) - 16px);
   font-size: fontsize(12);
-  box-shadow: 0 4px 30px rgba(var(--rgb-black), 0.05);
+  // box-shadow: 0 4px 30px rgba(var(--rgb-black), 0.05);
   padding: 0 8px;
   transition: all 0.3s ease;
-  background-color: var(--theme-off-bg-color);
+  // background-color: var(--theme-off-bg-color);
+  background: transparent;
   width: 100%;
   display: block;
   // padding-right: 150px;

@@ -3,11 +3,14 @@ import {
   AlertCircle,
   AlertTriangle,
   Archive,
+  ArrowDownWideNarrow,
   ArrowLeft,
   Book,
   Box,
   Briefcase,
   Camera,
+  Check,
+  CheckCheck,
   CheckCircle,
   ChevronDown,
   Circle,
@@ -44,6 +47,7 @@ import {
   Minimize2,
   MoreHorizontal,
   MoreVertical,
+  Paintbrush,
   Paperclip,
   PlusCircle,
   PlusSquare,
@@ -72,11 +76,14 @@ export const icons = {
   AlertCircle,
   AlertTriangle,
   Archive,
+  ArrowDownWideNarrow,
   ArrowLeft,
   Book,
   Box,
   Briefcase,
   Camera,
+  Check,
+  CheckCheck,
   CheckCircle,
   ChevronDown,
   Circle,
@@ -113,6 +120,7 @@ export const icons = {
   Minimize2,
   MoreHorizontal,
   MoreVertical,
+  Paintbrush,
   Paperclip,
   PlusCircle,
   PlusSquare,
@@ -136,17 +144,16 @@ export const icons = {
   Zap,
 };
 
-type KebabCaseHelper<S, Acc extends string = ''> =
-  S extends `${infer C}${infer T}`
-    ? KebabCaseHelper<
-        T extends Uncapitalize<T> ? T : Uncapitalize<T>,
-        `${Acc}${Lowercase<C>}${T extends Uncapitalize<T>
-          ? T extends `${number}${string}`
-            ? '-'
-            : ''
-          : '-'}`
-      >
-    : Acc;
+type KebabCaseHelper<S, Acc extends string = ''> = S extends `${infer C}${infer T}`
+  ? KebabCaseHelper<
+      T extends Uncapitalize<T> ? T : Uncapitalize<T>,
+      `${Acc}${Lowercase<C>}${T extends Uncapitalize<T>
+        ? T extends `${number}${string}`
+          ? '-'
+          : ''
+        : '-'}`
+    >
+  : Acc;
 type KebabCase<S extends string> = KebabCaseHelper<S>;
 
 export type IconName = KebabCase<keyof typeof icons>;

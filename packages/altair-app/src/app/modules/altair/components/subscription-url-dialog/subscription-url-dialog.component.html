@@ -4,8 +4,9 @@
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
+  [nzCloseIcon]="'close-circle'"
   (nzOnCancel)="toggleDialogChange.next($event)"
-  >
+>
   <ng-template #modalTitle>
     <div class="app-dialog-header">
       <div class="app-dialog-title">
@@ -18,13 +19,13 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <div class="app-dialog-section">
-        <input
+        <app-x-input
           type="url"
-          class="dialog-input"
-          [value]="subscriptionUrl"
-          (input)="subscriptionUrlInput($event)"
+          class="input"
+          [ngModel]="subscriptionUrl"
+          (ngModelChange)="subscriptionUrlChange.emit($event)"
           placeholder="ws://example.com/subscriptions"
-          />
+        />
       </div>
       <div class="subscription-params-section">
         <div class="subscription-params-title">
@@ -34,8 +35,11 @@
           class="dialog-select"
           [ngModel]="selectedSubscriptionProviderId"
           (ngModelChange)="updateSubscriptionProviderId($event)"
-          >
-          @for (provider of subscriptionProviders; track trackById($index, provider)) {
+        >
+          @for (
+            provider of subscriptionProviders;
+            track trackById($index, provider)
+          ) {
             <nz-option
               [nzValue]="provider.id"
               [nzLabel]="provider.copyTag || '' | translate"
@@ -65,11 +69,11 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
-        class="app-button active-primary right"
+        class="btn btn--primary right"
         track-id="close_set_subscription_dialog"
         (click)="toggleDialogChange.next($event)"
-        >
-        {{ 'SAVE_BUTTON' | translate }}
+      >
+        {{ 'DONE_BUTTON' | translate }}
       </button>
     </div>
   </ng-template>

@@ -18,28 +18,33 @@
   margin-right: 5px;
 
   &[data-status-code^='1'] {
-    background: var(--orange-color);
-    color: var(--white-color);
+    // background: var(--orange-color);
+    background: rgba(var(--rgb-orange), 0.1);
+    color: var(--orange-color);
   }
 
   &[data-status-code^='2'] {
-    background: var(--green-color);
-    color: var(--white-color);
+    // background: var(--green-color);
+    background: rgba(var(--rgb-green), 0.1);
+    color: var(--green-color);
   }
 
   &[data-status-code^='3'] {
-    background: var(--orange-color);
-    color: var(--white-color);
+    // background: var(--orange-color);
+    background: rgba(var(--rgb-orange), 0.1);
+    color: var(--orange-color);
   }
 
   &[data-status-code^='4'] {
-    background: var(--red-color);
-    color: var(--white-color);
+    // background: var(--red-color);
+    background: rgba(var(--rgb-red), 0.1);
+    color: var(--red-color);
   }
 
   &[data-status-code^='5'] {
-    background: var(--red-color);
-    color: var(--white-color);
+    // background: var(--red-color);
+    background: rgba(var(--rgb-red), 0.1);
+    color: var(--red-color);
   }
 }
 

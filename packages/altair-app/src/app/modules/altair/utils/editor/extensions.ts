@@ -15,7 +15,7 @@ export const baseJavascriptExtensions: Extension[] = [
 export const getRequestScriptExtensions = (altairObj: unknown) => {
   const requestScriptTheme = EditorView.theme({
     '&': {
-      backgroundColor: 'var(--theme-off-bg-color)',
+      backgroundColor: 'rgba(var(--rgb-theme-bg), 0.15)',
       minHeight: '200px',
     },
   });

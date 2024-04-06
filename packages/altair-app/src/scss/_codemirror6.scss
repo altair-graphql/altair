@@ -23,8 +23,14 @@
   }
 
   .cm-gutters {
-    background: rgba(var(--rgb-theme-off-bg), 0.5);
+    background: rgba(var(--rgb-theme-bg), 0.05);
+    opacity: 0.8;
+    color: var(--theme-font-color);
     border: 0;
+  }
+
+  .cm-lineNumbers {
+    opacity: 0.5;
   }
 
   .cm-focused {

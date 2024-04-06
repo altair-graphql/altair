@@ -4,7 +4,7 @@
   [appDarkTheme]="themeDark$ | async"
   appFileDrop
   (fileDroppedChange)="fileDropped($event)"
-  >
+>
   <nz-layout class="main-container">
     @if (!isReady) {
       <div class="loading-screen styled">
@@ -48,22 +48,19 @@
     ></app-header>
     <nz-layout>
       @if (isWebApp) {
-        <nz-alert
-          nzBanner
-          [nzMessage]="webappLimitation"
-        ></nz-alert>
+        <nz-alert nzBanner [nzMessage]="webappLimitation"></nz-alert>
       }
       <ng-template #webappLimitation>
         <span class="alert-text">
-          Disclaimer: The web app has limitations enforced by the WHATWG spec.
-          For the best experience and functionality, use the desktop app or
-          browser extensions instead.
+          Disclaimer: The web app has limitations enforced by the WHATWG spec. For
+          the best experience and functionality, use the desktop app or browser
+          extensions instead.
         </span>
         <button
           class="btn alert-action"
           (click)="openWebAppLimitationPost($event)"
           track-id="web_app_disclaimer_learn_more"
-          >
+        >
           Learn more
         </button>
       </ng-template>
@@ -76,7 +73,7 @@
                 (click)="toggleHeader(true)"
                 attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}"
                 track-id="show_set_headers"
-                >
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="loader"></app-icon>
                 </div>
@@ -89,7 +86,7 @@
                 (click)="toggleSubscriptionUrlDialog(true)"
                 attr.aria-label="{{ 'SUBSCRIPTION_URL_TEXT' | translate }}"
                 track-id="show_set_subscription_url"
-                >
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="repeat"></app-icon>
                 </div>
@@ -102,7 +99,7 @@
                 (click)="toggleHistoryDialog(true)"
                 attr.aria-label="{{ 'HISTORY_TEXT' | translate }}"
                 track-id="show_history"
-                >
+              >
                 <div class="side-menu-item-icon">
                   <app-icon name="history"></app-icon>
                 </div>
@@ -121,9 +118,9 @@
                     (click)="prettifyCode()"
                     attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}"
                     track-id="prettify"
-                    >
+                  >
                     <div class="submenu-item-icon">
-                      <app-icon name="sun"></app-icon>
+                      <app-icon name="paintbrush"></app-icon>
                     </div>
                     <div class="submenu-item-label">
                       {{ 'PRETTIFY_BUTTON' | translate }}
@@ -134,7 +131,7 @@
                     (click)="compressQuery()"
                     attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}"
                     track-id="compress_query"
-                    >
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="minimize-2"></app-icon>
                     </div>
@@ -147,7 +144,7 @@
                     (click)="clearEditor()"
                     attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}"
                     track-id="clear"
-                    >
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="trash-2"></app-icon>
                     </div>
@@ -160,7 +157,7 @@
                     (click)="copyAsCurl()"
                     attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}"
                     track-id="copy_as_curl"
-                    >
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="terminal"></app-icon>
                     </div>
@@ -175,7 +172,7 @@
                       'CONVERT_TO_NAMED_QUERY_BUTTON' | translate
                     }}"
                     track-id="convert_to_named_query"
-                    >
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="tag"></app-icon>
                     </div>
@@ -187,7 +184,7 @@
                     class="submenu-item"
                     (click)="refactorQuery()"
                     attr.aria-label="{{ 'REFACTOR_QUERY_BUTTON' | translate }}"
-                    >
+                  >
                     <div class="submenu-item-icon">
                       <app-icon name="disc"></app-icon>
                     </div>
@@ -201,14 +198,15 @@
 
               <div class="side-menu__panels">
                 @for (
-                  panel of sidebarPanels$ | async; track trackById($index,
-                  panel)) {
+                  panel of sidebarPanels$ | async;
+                  track trackById($index, panel)
+                ) {
                   <a
                     class="side-menu-item"
                     (click)="togglePanelActive(panel)"
                     attr.aria-label="{{ panel.title }}"
                     [ngClass]="{ 'side-menu-item--active': panel.isActive }"
-                    >
+                  >
                     <div class="side-menu-item-icon">
                       <app-icon name="cpu"></app-icon>
                     </div>
@@ -226,7 +224,7 @@
                   attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}"
                   track-id="show_collections"
                   [ngClass]="{ 'side-menu-item--active': showCollections }"
-                  >
+                >
                   <div class="side-menu-item-icon">
                     <app-icon name="folder"></app-icon>
                   </div>
@@ -234,23 +232,18 @@
                     {{ 'COLLECTIONS_TEXT' | translate }}
                   </div>
                 </a>
-                @if (
-                  serverReady &&
-                  authEnabled
-                  ) {
+                @if (serverReady && authEnabled) {
                   <a
                     class="side-menu-item"
                     attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
                     track-id="show_collections"
-                  [ngClass]="{
-                    'side-menu-item--active': (account$ | async)?.loggedIn
-                  }"
-                    >
+                    [ngClass]="{
+                      'side-menu-item--active': (account$ | async)?.loggedIn
+                    }"
+                  >
                     <div class="side-menu-item-icon">
                       @if (!(account$ | async)?.loggedIn) {
-                        <app-icon
-                          name="user"
-                        ></app-icon>
+                        <app-icon name="user"></app-icon>
                       }
                       @if ((account$ | async)?.loggedIn) {
                         <nz-avatar
@@ -263,12 +256,11 @@
                     <div class="side-menu-item-label">
                       {{ 'ACCOUNT_TITLE' | translate }}
                     </div>
-                    <div class="side-menu-item-submenu side-menu-item-submenu--bottom">
+                    <div
+                      class="side-menu-item-submenu side-menu-item-submenu--bottom"
+                    >
                       @if (!(account$ | async)?.loggedIn) {
-                        <a
-                          class="submenu-item"
-                          (click)="setShowAccountDialog(true)"
-                          >
+                        <a class="submenu-item" (click)="setShowAccountDialog(true)">
                           <div class="submenu-item-icon">
                             <app-icon name="log-in"></app-icon>
                           </div>
@@ -282,7 +274,7 @@
                           <a
                             class="submenu-item submenu-item--upgrade"
                             (click)="setShowUpgradeDialog(true)"
-                            >
+                          >
                             <div class="submenu-item-icon">
                               <app-icon name="trending-up"></app-icon>
                             </div>
@@ -291,10 +283,7 @@
                             </div>
                           </a>
                         }
-                        <a
-                          class="submenu-item"
-                          (click)="setShowAccountDialog(true)"
-                          >
+                        <a class="submenu-item" (click)="setShowAccountDialog(true)">
                           <div class="submenu-item-icon">
                             <app-icon name="user"></app-icon>
                           </div>
@@ -302,10 +291,7 @@
                             {{ 'PROFILE_TEXT' | translate }}
                           </div>
                         </a>
-                        <a
-                          class="submenu-item"
-                          (click)="setShowTeamsDialog(true)"
-                          >
+                        <a class="submenu-item" (click)="setShowTeamsDialog(true)">
                           <div class="submenu-item-icon">
                             <app-icon name="users"></app-icon>
                           </div>
@@ -313,10 +299,7 @@
                             {{ 'TEAMS_TEXT' | translate }}
                           </div>
                         </a>
-                        <a
-                          class="submenu-item"
-                          (click)="logout()"
-                          >
+                        <a class="submenu-item" (click)="logout()">
                           <div class="submenu-item-icon">
                             <app-icon name="log-out"></app-icon>
                           </div>
@@ -372,9 +355,7 @@
         </nz-content>
         <div class="dialogs">
           <app-environment-manager
-            [showEnvironmentManager]="
-              (windowsMeta$ | async)?.showEnvironmentManager
-            "
+            [showEnvironmentManager]="(windowsMeta$ | async)?.showEnvironmentManager"
             [environments]="environments$ | async"
             (toggleDialogChange)="toggleEnvironmentManager(!!$event)"
             (baseEnvironmentJsonChange)="updateBaseEnvironmentJson($event)"
@@ -382,9 +363,7 @@
             (subEnvironmentTitleChange)="updateSubEnvironmentTitle($event)"
             (addSubEnvironmentChange)="addNewSubEnvironment()"
             (deleteSubEnvironmentChange)="deleteSubEnvironment($event)"
-            (repositionSubEnvironmentsChange)="
-              repositionSubEnvironments($event)
-            "
+            (repositionSubEnvironmentsChange)="repositionSubEnvironments($event)"
             (importEnvironmentChange)="importEnvironmentData()"
             (exportEnvironmentChange)="exportEnvironment($event)"
           ></app-environment-manager>
@@ -413,7 +392,7 @@
             [windowTitle]="(activeWindow$ | async)?.layout?.title"
             [collections]="(collection$ | async)?.list"
             [loggedIn]="(account$ | async)?.loggedIn"
-            [workspaces]="(workspaces$ | async)"
+            [workspaces]="workspaces$ | async"
             (toggleDialogChange)="setShowAddToCollectionDialog($event)"
             (saveQueryToCollectionChange)="saveQueryToCollection($event)"
             (createCollectionAndSaveQueryToCollectionChange)="
@@ -463,14 +442,13 @@
         }
         <ng-template #supportDevelopment>
           <span class="alert-text">
-            Do you find this app useful? Would you mind supporting its
-            development?
+            Do you find this app useful? Would you mind supporting its development?
           </span>
           <button
             class="btn alert-action"
             (click)="openDonationPage($event)"
             track-id="donate"
-            >
+          >
             Donate
           </button>
         </ng-template>
