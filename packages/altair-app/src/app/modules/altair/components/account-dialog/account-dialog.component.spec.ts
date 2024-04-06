@@ -17,7 +17,7 @@ describe('AccountDialogComponent', () => {
       component: AccountDialogComponent,
       declarations: [AccountDialogComponent],
       providers: [],
-      imports: [SharedModule, TranslateModule.forRoot(),],
+      imports: [SharedModule, TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
     });
     fixture = TestBed.createComponent(AccountDialogComponent);
@@ -30,7 +30,7 @@ describe('AccountDialogComponent', () => {
   });
 
   it('should emit "handleLoginChange" when login is clicked', () => {
-    const login = wrapper.find(".active-primary"); 
+    const login = wrapper.find('.btn--primary');
 
     login.emit('click');
 

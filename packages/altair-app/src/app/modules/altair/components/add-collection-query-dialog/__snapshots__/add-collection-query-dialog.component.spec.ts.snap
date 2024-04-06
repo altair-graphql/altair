@@ -12,7 +12,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
          SAVE_TO_COLLECTION_NAME_OF_QUERY 
         <input
           aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
-          class="dialog-input ng-untouched ng-pristine ng-valid"
+          class="input ng-untouched ng-pristine ng-valid"
           data-test-id="collection-query-name"
           type="text"
         />
@@ -131,7 +131,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
          SAVE_TO_COLLECTION_NAME_OF_QUERY 
         <input
           aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
-          class="dialog-input ng-untouched ng-pristine ng-valid"
+          class="input ng-untouched ng-pristine ng-valid"
           data-test-id="collection-query-name"
           type="text"
         />
@@ -250,7 +250,7 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
          SAVE_TO_COLLECTION_NAME_OF_QUERY 
         <input
           aria-label="SAVE_TO_COLLECTION_NAME_OF_QUERY"
-          class="dialog-input ng-untouched ng-pristine ng-valid"
+          class="input ng-untouched ng-pristine ng-valid"
           data-test-id="collection-query-name"
           type="text"
         />

@@ -10,7 +10,7 @@ exports[`AccountDialogComponent should create 1`] = `
         Sign in to manage your teams, synced collections and queries.
       </p>
       <button
-        class="app-button active-primary"
+        class="btn btn--primary"
       >
          SIGNIN_WITH_GOOGLE 
       </button>
