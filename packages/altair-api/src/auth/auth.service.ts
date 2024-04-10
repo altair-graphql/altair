@@ -12,7 +12,6 @@ import { SecurityConfig } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
 import { PasswordService } from './password/password.service';
 import { IToken } from '@altairgraphql/api-utils';
-import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +41,7 @@ export class AuthService {
     return this.getLoginResponse(user);
   }
 
-  googleLogin(user: User) {
+  googleLogin(user?: User) {
     if (!user) {
       throw new BadRequestException('No user from google');
     }

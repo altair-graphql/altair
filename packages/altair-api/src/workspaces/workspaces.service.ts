@@ -23,7 +23,7 @@ export class WorkspacesService {
     });
   }
 
-  findOne(userId: string, id: string): Promise<ReturnedWorkspace> {
+  findOne(userId: string, id: string): Promise<ReturnedWorkspace | null> {
     return this.prisma.workspace.findFirst({
       where: {
         id,

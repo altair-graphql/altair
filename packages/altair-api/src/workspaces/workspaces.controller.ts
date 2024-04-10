@@ -25,17 +25,20 @@ export class WorkspacesController {
 
   @Post()
   create(@Req() req: Request, @Body() createWorkspaceDto: CreateWorkspaceDto) {
-    return this.workspacesService.create(req.user.id, createWorkspaceDto);
+    const userId = req?.user?.id ?? '';
+    return this.workspacesService.create(userId, createWorkspaceDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    return this.workspacesService.findAll(req.user.id);
+    const userId = req?.user?.id ?? '';
+    return this.workspacesService.findAll(userId);
   }
 
   @Get(':id')
   async findOne(@Req() req: Request, @Param('id') id: string) {
-    const res = await this.workspacesService.findOne(req.user.id, id);
+    const userId = req?.user?.id ?? '';
+    const res = await this.workspacesService.findOne(userId, id);
     if (!res) {
       throw new NotFoundException();
     }
@@ -49,11 +52,13 @@ export class WorkspacesController {
     @Param('id') id: string,
     @Body() updateWorkspaceDto: UpdateWorkspaceDto
   ) {
-    return this.workspacesService.update(req.user.id, id, updateWorkspaceDto);
+    const userId = req?.user?.id ?? '';
+    return this.workspacesService.update(userId, id, updateWorkspaceDto);
   }
 
   @Delete(':id')
   remove(@Req() req: Request, @Param('id') id: string) {
-    return this.workspacesService.remove(req.user.id, id);
+    const userId = req?.user?.id ?? '';
+    return this.workspacesService.remove(userId, id);
   }
 }

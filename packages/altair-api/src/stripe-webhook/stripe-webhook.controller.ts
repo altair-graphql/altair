@@ -1,15 +1,8 @@
 import { BASIC_PLAN_ID } from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
-import {
-  BadRequestException,
-  Controller,
-  Header,
-  Post,
-  Req,
-} from '@nestjs/common';
+import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
-import { AuthService } from 'src/auth/auth.service';
 import { UserService } from 'src/auth/user/user.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Stripe } from 'stripe';

@@ -8,6 +8,7 @@ import { UserService } from 'src/auth/user/user.service';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
 import {
+  queryItemWhereOwner,
   collectionWhereOwner,
   collectionWhereOwnerOrMember,
 } from 'src/common/where-clauses';
@@ -24,8 +25,6 @@ export class QueryCollectionsService {
   async create(userId: string, createQueryCollectionDto: CreateQueryCollectionDto) {
     let workspaceId = createQueryCollectionDto.workspaceId;
     const teamId = createQueryCollectionDto.teamId;
-    const userPlanConfig = await this.userService.getPlanConfig(userId);
-    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
     const userWorkspace = await this.prisma.workspace.findFirst({
       where: {
         ownerId: userId,
@@ -61,36 +60,27 @@ export class QueryCollectionsService {
       throw new BadRequestException('Workspace is not valid.');
     }
 
+    const workspaceOwnerId = await this.getWorkspaceOwnerId(workspaceId);
+
+    if (!workspaceOwnerId) {
+      throw new BadRequestException('Workspace is not valid.');
+    }
+
     // Count number of queries
     const queryItems = await this.prisma.queryItem.findMany({
       where: {
-        AND: {
-          collection: {
-            OR: [
-              {
-                // queries user owns
-                workspace: {
-                  ownerId: userId,
-                },
-              },
-              {
-                // queries owned by user's team
-                workspace: {
-                  team: {
-                    ownerId: userId,
-                  },
-                },
-              },
-            ],
-          },
-        },
+        ...queryItemWhereOwner(workspaceOwnerId),
       },
     });
+    const workspaceOwnerPlanConfig =
+      await this.userService.getPlanConfig(workspaceOwnerId);
+    const workspaceOwnerPlanMaxQueryCount =
+      workspaceOwnerPlanConfig?.maxQueryCount ?? 0;
 
     const createQueryCollectionDtoQueries = createQueryCollectionDto.queries || [];
     if (
       queryItems.length + createQueryCollectionDtoQueries.length >
-      userPlanMaxQueryCount
+      workspaceOwnerPlanMaxQueryCount
     ) {
       throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
     }
@@ -186,5 +176,22 @@ export class QueryCollectionsService {
           : collectionWhereOwnerOrMember(userId)),
       },
     });
+  }
+
+  private async getWorkspaceOwnerId(workspaceId: string) {
+    const res = await this.prisma.workspace.findFirst({
+      where: {
+        id: workspaceId,
+      },
+      select: {
+        ownerId: true, // Team owners also own team workspaces, so this should work for both team and personal workspaces
+      },
+    });
+
+    if (!res) {
+      return;
+    }
+
+    return res.ownerId;
   }
 }

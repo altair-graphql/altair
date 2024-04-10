@@ -43,12 +43,8 @@ describe('AuthService', () => {
     it(`should return a user object on successful login`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest
-        .spyOn(prismaService.user, 'findUnique')
-        .mockResolvedValueOnce(userMock);
-      jest
-        .spyOn(passwordService, 'validatePassword')
-        .mockResolvedValueOnce(true);
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
+      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
       jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
@@ -73,17 +69,13 @@ describe('AuthService', () => {
     it(`should throw an error if the provided password is invalid`, () => {
       // GIVEN
       const userMock = mockUser();
-      jest
-        .spyOn(prismaService.user, 'findUnique')
-        .mockResolvedValueOnce(userMock);
-      jest
-        .spyOn(passwordService, 'validatePassword')
-        .mockResolvedValueOnce(false);
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
+      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
 
       // THEN
-      expect(
-        service.passwordLogin(userMock.email, passwordMock)
-      ).rejects.toThrow(`Invalid password`);
+      expect(service.passwordLogin(userMock.email, passwordMock)).rejects.toThrow(
+        `Invalid password`
+      );
     });
   });
 
@@ -103,7 +95,7 @@ describe('AuthService', () => {
 
     it(`should throw an error if the user object is missing from the request`, () => {
       // THEN
-      expect(() => service.googleLogin(undefined)).toThrow(
+      expect(() => service.googleLogin(undefined as any)).toThrow(
         'No user from google'
       );
     });
@@ -116,9 +108,7 @@ describe('AuthService', () => {
       jest.spyOn(jwtService, 'decode').mockReturnValueOnce({
         userId: 'e23b7b34-8996-45d3-9097-b14b8f451dbd',
       });
-      jest
-        .spyOn(prismaService.user, 'findUnique')
-        .mockResolvedValueOnce(userMock);
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
 
       // WHEN
       const user = await service.getUserFromToken(tokenMock);
@@ -129,14 +119,10 @@ describe('AuthService', () => {
 
     it(`should throw an error if the token is invalid`, () => {
       // GIVEN
-      jest
-        .spyOn(jwtService, 'decode')
-        .mockReturnValueOnce(`Couldn't decode token.`);
+      jest.spyOn(jwtService, 'decode').mockReturnValueOnce(`Couldn't decode token.`);
 
       // THEN
-      expect(() => service.getUserFromToken(tokenMock)).toThrow(
-        'Invalid JWT token'
-      );
+      expect(() => service.getUserFromToken(tokenMock)).toThrow('Invalid JWT token');
     });
   });
 
@@ -153,9 +139,7 @@ describe('AuthService', () => {
     it(`should return a user object on successful password change`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest
-        .spyOn(passwordService, 'validatePassword')
-        .mockResolvedValueOnce(true);
+      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
       jest
         .spyOn(passwordService, 'hashPassword')
         .mockResolvedValue(
@@ -176,17 +160,11 @@ describe('AuthService', () => {
 
     it(`should throw an error if the user password is invalid`, () => {
       // GIVEN
-      jest
-        .spyOn(passwordService, 'validatePassword')
-        .mockResolvedValueOnce(false);
+      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
 
       // THEN
       expect(
-        service.changePassword(
-          mockUser().id,
-          passwordMock,
-          changePasswordInputMock
-        )
+        service.changePassword(mockUser().id, passwordMock, changePasswordInputMock)
       ).rejects.toThrow('Invalid password');
     });
   });
@@ -243,9 +221,7 @@ describe('AuthService', () => {
       });
 
       // THEN
-      expect(() => service.refreshToken(tokenMock)).toThrow(
-        UnauthorizedException
-      );
+      expect(() => service.refreshToken(tokenMock)).toThrow(UnauthorizedException);
     });
   });
 });

@@ -1,13 +1,6 @@
-import {
-  ICreateTeamDto,
-  ReturnedTeamMembership,
-} from '@altairgraphql/api-utils';
+import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  FormControl,
-  NonNullableFormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -170,11 +163,14 @@ export class TeamsDialogComponent {
 
       if (this.editUserId) {
         // TODO: await this.accountService.updateTeamMember(this.editTeamId, teamDto);
+        this.notifyService.error('Editing team members is not supported yet');
       } else {
         await this.accountService.createTeamMember({
           email: this.memberForm.value.email ?? '',
           teamId: selectedTeamId,
         });
+
+        this.notifyService.success('Team member added');
       }
 
       this.resetMemberForm();

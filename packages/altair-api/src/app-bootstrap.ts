@@ -38,7 +38,7 @@ export const bootstrapApp = async (app: INestApplication) => {
   const swaggerConfig = configService.get<SwaggerConfig>('swagger');
 
   // Swagger Api
-  if (swaggerConfig.enabled) {
+  if (swaggerConfig?.enabled) {
     const options = new DocumentBuilder()
       .setTitle(swaggerConfig.title || 'Altair')
       .setDescription(swaggerConfig.description || 'The Altair API description')
@@ -50,7 +50,7 @@ export const bootstrapApp = async (app: INestApplication) => {
   }
 
   // Cors
-  if (corsConfig.enabled) {
+  if (corsConfig?.enabled) {
     app.enableCors();
   }
 
