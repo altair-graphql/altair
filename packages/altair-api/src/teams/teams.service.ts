@@ -1,5 +1,5 @@
 import { Prisma } from '@altairgraphql/db';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
@@ -100,9 +100,7 @@ export class TeamsService {
   count(userId: string, ownOnly = true) {
     return this.prisma.team.count({
       where: {
-        ...(ownOnly
-          ? this.ownerWhere(userId)
-          : this.ownerOrMemberWhere(userId)),
+        ...(ownOnly ? this.ownerWhere(userId) : this.ownerOrMemberWhere(userId)),
       },
     });
   }

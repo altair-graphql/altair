@@ -172,7 +172,7 @@ export class UserService {
 
   async getProPlanUrl(userId: string) {
     const planConfig = await this.getPlanConfig(userId);
-    if (planConfig.id === PRO_PLAN_ID) {
+    if (planConfig?.id === PRO_PLAN_ID) {
       console.warn(
         'User is already on pro plan. Going to return billing url instead.'
       );

@@ -5,7 +5,7 @@ export class CreateWorkspaceDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @IsString()
   @IsOptional()

@@ -13,11 +13,8 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "strictBindCallApply": false,
-    "typeRoots": [
-      "@types",
-      "node_modules/@types",
-    ],
+    "typeRoots": ["@types", "node_modules/@types"]
   }
 }

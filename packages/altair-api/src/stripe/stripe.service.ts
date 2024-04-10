@@ -102,7 +102,7 @@ export class StripeService {
     return this.stripe.prices.list();
   }
 
-  async getPlanInfoByRole(role: typeof PLAN_IDS[keyof typeof PLAN_IDS]) {
+  async getPlanInfoByRole(role: (typeof PLAN_IDS)[keyof typeof PLAN_IDS]) {
     const plans = await this.getPlanInfos();
     return plans.find((plan) => plan?.role === role);
   }
@@ -111,31 +111,33 @@ export class StripeService {
     const products = await this.getProducts();
     const prices = await this.getPrices();
 
-    return products.data.map((product) => {
-      const price = prices.data.find((price) => price.product === product.id);
-      if (!price) {
-        return undefined;
-      }
+    return products.data
+      .map((product): IPlanInfo | undefined => {
+        const price = prices.data.find((price) => price.product === product.id);
+        if (!price) {
+          return undefined;
+        }
 
-      // a valid product must have a role
-      if (!product.metadata.role) {
-        return undefined;
-      }
+        // a valid product must have a role
+        if (!product.metadata.role) {
+          return undefined;
+        }
 
-      return {
-        /**
-         * product ID
-         */
-        id: product.id,
-        priceId: price.id,
-        role: product.metadata.role,
-        name: product.name,
-        description: product.description,
-        price: price.unit_amount,
-        currency: price.currency,
-        interval: price.recurring.interval,
-      };
-    });
+        return {
+          /**
+           * product ID
+           */
+          id: product.id,
+          priceId: price.id,
+          role: product.metadata.role,
+          name: product.name,
+          description: product.description ?? '',
+          price: price.unit_amount ?? 0,
+          currency: price.currency,
+          interval: price.recurring?.interval ?? '',
+        };
+      })
+      .filter((plan) => !!plan) as IPlanInfo[];
   }
 
   async updateSubscriptionQuantity(stripeCustomerId: string, quantity: number) {

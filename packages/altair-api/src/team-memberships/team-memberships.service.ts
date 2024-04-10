@@ -12,10 +12,7 @@ export class TeamMembershipsService {
     private userService: UserService
   ) {}
 
-  async create(
-    userId: string,
-    createTeamMembershipDto: CreateTeamMembershipDto
-  ) {
+  async create(userId: string, createTeamMembershipDto: CreateTeamMembershipDto) {
     const userPlanConfig = await this.userService.getPlanConfig(userId);
     const userPlanMaxTeamMemberCount = userPlanConfig?.maxTeamMemberCount ?? 0;
 
@@ -169,10 +166,7 @@ export class TeamMembershipsService {
       const memberships = await this.findAllByTeamOwner(userId);
       // only consider unique members
       const uniqueMembers = new Set(memberships.map((m) => m.userId));
-      await this.userService.updateSubscriptionQuantity(
-        userId,
-        uniqueMembers.size
-      );
+      await this.userService.updateSubscriptionQuantity(userId, uniqueMembers.size);
     }
   }
 }

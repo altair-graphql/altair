@@ -37,7 +37,7 @@ export class QueriesService {
 
     // Create new create method that allows team members to create queries if on a pro plan
     if (
-      (await this.getPlanConfigByCollection(createQueryDto.collectionId)).id ===
+      (await this.getPlanConfigByCollection(createQueryDto.collectionId))?.id ===
       PRO_PLAN_ID
     ) {
       // Allow team members to create queries. We will apply this to pro plan users only for now and open up when it is more stable.
@@ -251,13 +251,19 @@ export class QueriesService {
       throw new NotFoundException();
     }
 
+    const revisionContent = revision.content;
+
+    if (!revisionContent) {
+      throw new BadRequestException();
+    }
+
     return this.prisma.queryItem.update({
       where: {
         id: revision.queryItemId,
       },
       data: {
         name: revision.name,
-        content: revision.content,
+        content: revisionContent,
         collectionId: revision.collectionId,
       },
     });
@@ -310,12 +316,18 @@ export class QueriesService {
     const userPlanQueryRevisionLimit =
       userPlanConfig?.queryRevisionLimit ?? DEFAULT_QUERY_REVISION_LIMIT;
     const query = await this.findOne(userId, queryId);
+    const queryContent = query.content;
+
+    if (!queryContent) {
+      throw new BadRequestException();
+    }
+
     const res = await this.prisma.queryItemRevision.create({
       data: {
         queryItemId: queryId,
         createdById: userId,
         name: query.name,
-        content: query.content,
+        content: queryContent,
         collectionId: query.collectionId,
       },
     });
@@ -335,6 +347,10 @@ export class QueriesService {
           createdAt: 'asc',
         },
       });
+
+      if (!oldestRevision) {
+        return res;
+      }
       await this.prisma.queryItemRevision.delete({
         where: {
           id: oldestRevision.id,

@@ -10,15 +10,15 @@ export function mockStripeCustomer(): Stripe.Customer {
 export function mockSubscriptionItem(): Stripe.Response<Stripe.SubscriptionItem> {
   return {
     id: 'f7102dc9-4c0c-42b4-9a17-e2bd4af94d5a',
-    object: {},
-    billing_thresholds: {},
+    object: {} as any,
+    billing_thresholds: {} as any,
     created: 1,
-    metadata: {},
-    plan: {},
-    price: {},
+    metadata: {} as any,
+    plan: {} as any,
+    price: {} as any,
     subscription: 'my sub',
-    tax_rates: [],
-    lastResponse: {},
+    tax_rates: [] as any,
+    lastResponse: {} as any,
   } as Stripe.Response<Stripe.SubscriptionItem>;
 }
 
