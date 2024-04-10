@@ -1,9 +1,12 @@
 import { ReturnedWorkspace } from '@altairgraphql/api-utils';
-import { Prisma } from '@altairgraphql/db';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import {
+  workspaceWhereOwner,
+  workspaceWhereOwnerOrMember,
+} from 'src/common/where-clauses';
 
 @Injectable()
 export class WorkspacesService {
@@ -15,7 +18,7 @@ export class WorkspacesService {
   findAll(userId: string): Promise<ReturnedWorkspace[]> {
     return this.prisma.workspace.findMany({
       where: {
-        ...this.ownerOrMemberWhere(userId),
+        ...workspaceWhereOwnerOrMember(userId),
       },
     });
   }
@@ -24,7 +27,7 @@ export class WorkspacesService {
     return this.prisma.workspace.findFirst({
       where: {
         id,
-        ...this.ownerOrMemberWhere(userId),
+        ...workspaceWhereOwnerOrMember(userId),
       },
     });
   }
@@ -41,38 +44,9 @@ export class WorkspacesService {
     return this.prisma.workspace.count({
       where: {
         ...(ownOnly
-          ? this.ownerWhere(userId)
-          : this.ownerOrMemberWhere(userId)),
+          ? workspaceWhereOwner(userId)
+          : workspaceWhereOwnerOrMember(userId)),
       },
     });
-  }
-
-  // where user is the owner of the query collection
-  ownerWhere(userId: string): Prisma.WorkspaceWhereInput {
-    return {
-      ownerId: userId,
-    };
-  }
-
-  // where user has access to the query collection as the owner or team member
-  ownerOrMemberWhere(userId: string): Prisma.WorkspaceWhereInput {
-    return {
-      OR: [
-        {
-          // workspaces user owns
-          ownerId: userId,
-        },
-        {
-          // workspaces owned by user's team
-          team: {
-            TeamMemberships: {
-              some: {
-                userId,
-              },
-            },
-          },
-        },
-      ],
-    };
   }
 }

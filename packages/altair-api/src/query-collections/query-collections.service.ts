@@ -7,7 +7,10 @@ import { InvalidRequestException } from 'src/exceptions/invalid-request.exceptio
 import { UserService } from 'src/auth/user/user.service';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
-import { Prisma } from '@altairgraphql/db';
+import {
+  collectionWhereOwner,
+  collectionWhereOwnerOrMember,
+} from 'src/common/where-clauses';
 
 @Injectable()
 export class QueryCollectionsService {
@@ -18,10 +21,7 @@ export class QueryCollectionsService {
     private readonly eventService: EventEmitter2
   ) {}
 
-  async create(
-    userId: string,
-    createQueryCollectionDto: CreateQueryCollectionDto
-  ) {
+  async create(userId: string, createQueryCollectionDto: CreateQueryCollectionDto) {
     let workspaceId = createQueryCollectionDto.workspaceId;
     const teamId = createQueryCollectionDto.teamId;
     const userPlanConfig = await this.userService.getPlanConfig(userId);
@@ -87,8 +87,7 @@ export class QueryCollectionsService {
       },
     });
 
-    const createQueryCollectionDtoQueries =
-      createQueryCollectionDto.queries || [];
+    const createQueryCollectionDtoQueries = createQueryCollectionDto.queries || [];
     if (
       queryItems.length + createQueryCollectionDtoQueries.length >
       userPlanMaxQueryCount
@@ -105,11 +104,9 @@ export class QueryCollectionsService {
         },
         description: createQueryCollectionDto.description,
         preRequestScript: createQueryCollectionDto.preRequestScript,
-        preRequestScriptEnabled:
-          createQueryCollectionDto.preRequestScriptEnabled,
+        preRequestScriptEnabled: createQueryCollectionDto.preRequestScriptEnabled,
         postRequestScript: createQueryCollectionDto.postRequestScript,
-        postRequestScriptEnabled:
-          createQueryCollectionDto.postRequestScriptEnabled,
+        postRequestScriptEnabled: createQueryCollectionDto.postRequestScriptEnabled,
       },
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
@@ -120,7 +117,7 @@ export class QueryCollectionsService {
   findAll(userId: string) {
     return this.prisma.queryCollection.findMany({
       where: {
-        ...this.ownerOrMemberWhere(userId),
+        ...collectionWhereOwnerOrMember(userId),
       },
       include: {
         queries: true,
@@ -132,7 +129,7 @@ export class QueryCollectionsService {
     return this.prisma.queryCollection.findFirst({
       where: {
         id,
-        ...this.ownerOrMemberWhere(userId),
+        ...collectionWhereOwnerOrMember(userId),
       },
       include: {
         queries: true,
@@ -148,17 +145,15 @@ export class QueryCollectionsService {
     const res = await this.prisma.queryCollection.updateMany({
       where: {
         id,
-        ...this.ownerOrMemberWhere(userId),
+        ...collectionWhereOwnerOrMember(userId),
       },
       data: {
         name: updateQueryCollectionDto.name,
         description: updateQueryCollectionDto.description,
         preRequestScript: updateQueryCollectionDto.preRequestScript,
-        preRequestScriptEnabled:
-          updateQueryCollectionDto.preRequestScriptEnabled,
+        preRequestScriptEnabled: updateQueryCollectionDto.preRequestScriptEnabled,
         postRequestScript: updateQueryCollectionDto.postRequestScript,
-        postRequestScriptEnabled:
-          updateQueryCollectionDto.postRequestScriptEnabled,
+        postRequestScriptEnabled: updateQueryCollectionDto.postRequestScriptEnabled,
       },
     });
     if (res.count) {
@@ -172,7 +167,7 @@ export class QueryCollectionsService {
     const res = await this.prisma.queryCollection.deleteMany({
       where: {
         id,
-        ...this.ownerWhere(userId),
+        ...collectionWhereOwner(userId),
       },
     });
 
@@ -187,44 +182,9 @@ export class QueryCollectionsService {
     return this.prisma.queryCollection.count({
       where: {
         ...(ownOnly
-          ? this.ownerWhere(userId)
-          : this.ownerOrMemberWhere(userId)),
+          ? collectionWhereOwner(userId)
+          : collectionWhereOwnerOrMember(userId)),
       },
     });
-  }
-
-  // where user is the owner of the query collection
-  ownerWhere(userId: string): Prisma.QueryCollectionWhereInput {
-    return {
-      workspace: {
-        ownerId: userId,
-      },
-    };
-  }
-
-  // where user has access to the query collection as the owner or team member
-  ownerOrMemberWhere(userId: string): Prisma.QueryCollectionWhereInput {
-    return {
-      OR: [
-        {
-          // queries user owns
-          workspace: {
-            ownerId: userId,
-          },
-        },
-        {
-          // queries owned by user's team
-          workspace: {
-            team: {
-              TeamMemberships: {
-                some: {
-                  userId,
-                },
-              },
-            },
-          },
-        },
-      ],
-    };
   }
 }
