@@ -1,9 +1,5 @@
-import { Prisma } from '@altairgraphql/db';
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { PRO_PLAN_ID } from '@altairgraphql/db';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
@@ -11,6 +7,11 @@ import { EVENTS } from 'src/common/events';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
+import {
+  queryItemWhereOwner,
+  queryItemWhereOwnerOrMember,
+  collectionWhereOwnerOrMember,
+} from 'src/common/where-clauses';
 
 const DEFAULT_QUERY_REVISION_LIMIT = 10;
 
@@ -23,21 +24,6 @@ export class QueriesService {
   ) {}
 
   async create(userId: string, createQueryDto: CreateQueryDto) {
-    const userPlanConfig = await this.getPlanConfig(userId);
-    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
-    const queryCount = await this.prisma.queryItem.count({
-      where: {
-        collection: {
-          workspace: {
-            ownerId: userId,
-          },
-        },
-      },
-    });
-    if (queryCount >= userPlanMaxQueryCount) {
-      throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
-    }
-
     // TODO: validate the query content using class-validator
     if (
       !createQueryDto.collectionId ||
@@ -47,6 +33,25 @@ export class QueriesService {
       createQueryDto.content.version !== 1
     ) {
       throw new BadRequestException();
+    }
+
+    // Create new create method that allows team members to create queries if on a pro plan
+    if (
+      (await this.getPlanConfigByCollection(createQueryDto.collectionId)).id ===
+      PRO_PLAN_ID
+    ) {
+      // Allow team members to create queries. We will apply this to pro plan users only for now and open up when it is more stable.
+      return this.createV2(userId, createQueryDto);
+    }
+    const userPlanConfig = await this.getPlanConfig(userId);
+    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
+    const queryCount = await this.prisma.queryItem.count({
+      where: {
+        ...queryItemWhereOwner(userId),
+      },
+    });
+    if (queryCount >= userPlanMaxQueryCount) {
+      throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
     }
 
     // specified collection is owned by the user
@@ -83,10 +88,65 @@ export class QueriesService {
     return res;
   }
 
+  async createV2(userId: string, createQueryDto: CreateQueryDto) {
+    // Use the team owner's plan config for the limit checks
+    const ownerId = await this.getCollectionOwnerId(createQueryDto.collectionId);
+    if (!ownerId) {
+      throw new InvalidRequestException('ERR_PERM_DENIED');
+    }
+
+    const userPlanConfig = await this.getPlanConfig(ownerId);
+    const userPlanMaxQueryCount = userPlanConfig?.maxQueryCount ?? 0;
+    // If the user has a pro plan, they can create unlimited queries. So skip the check for the query count.
+    // Otherwise, count the queries in the user's personal workspace and the team workspaces they own
+    if (userPlanMaxQueryCount < Infinity) {
+      // Team owners also own team workspaces, so this should work for both team and personal workspaces
+      const queryCount = await this.prisma.queryItem.count({
+        where: {
+          ...queryItemWhereOwner(ownerId),
+        },
+      });
+      if (queryCount >= userPlanMaxQueryCount) {
+        throw new InvalidRequestException('ERR_MAX_QUERY_COUNT');
+      }
+    }
+
+    // specified collection is owned by the user or the user's team
+    const validCollection = await this.prisma.queryCollection.findMany({
+      where: {
+        id: createQueryDto.collectionId,
+        ...collectionWhereOwnerOrMember(userId),
+      },
+    });
+
+    if (!validCollection.length) {
+      throw new InvalidRequestException(
+        'ERR_PERM_DENIED',
+        'You do not have the permission to add a query to this collection'
+      );
+    }
+
+    const res = await this.prisma.queryItem.create({
+      data: {
+        collectionId: createQueryDto.collectionId,
+        name: createQueryDto.name,
+        queryVersion: createQueryDto.content.version,
+        content: createQueryDto.content,
+      },
+    });
+
+    // add new revision
+    await this.addQueryRevision(userId, res.id);
+
+    this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
+
+    return res;
+  }
+
   findAll(userId: string) {
     return this.prisma.queryItem.findMany({
       where: {
-        ...this.ownerOrMemberWhere(userId),
+        ...queryItemWhereOwnerOrMember(userId),
       },
     });
   }
@@ -95,7 +155,7 @@ export class QueriesService {
     const query = await this.prisma.queryItem.findFirst({
       where: {
         id,
-        ...this.ownerOrMemberWhere(userId),
+        ...queryItemWhereOwnerOrMember(userId),
       },
     });
 
@@ -110,7 +170,7 @@ export class QueriesService {
     const res = await this.prisma.queryItem.updateMany({
       where: {
         id,
-        ...this.ownerOrMemberWhere(userId),
+        ...queryItemWhereOwnerOrMember(userId),
       },
       data: {
         name: updateQueryDto.name,
@@ -133,7 +193,7 @@ export class QueriesService {
     const res = await this.prisma.queryItem.deleteMany({
       where: {
         id,
-        ...this.ownerWhere(userId),
+        ...queryItemWhereOwner(userId),
       },
     });
 
@@ -148,8 +208,8 @@ export class QueriesService {
     return this.prisma.queryItem.count({
       where: {
         ...(ownOnly
-          ? this.ownerWhere(userId)
-          : this.ownerOrMemberWhere(userId)),
+          ? queryItemWhereOwner(userId)
+          : queryItemWhereOwnerOrMember(userId)),
       },
     });
   }
@@ -159,7 +219,7 @@ export class QueriesService {
       where: {
         queryItem: {
           id: queryId,
-          ...this.ownerOrMemberWhere(userId),
+          ...queryItemWhereOwnerOrMember(userId),
         },
       },
       include: {
@@ -203,50 +263,43 @@ export class QueriesService {
     });
   }
 
-  // where user is the owner of the query
-  private ownerWhere(userId: string): Prisma.QueryItemWhereInput {
-    return {
-      collection: {
-        workspace: {
-          ownerId: userId,
-        },
-      },
-    };
-  }
-
-  // where user has access to the query as the owner or team member
-  private ownerOrMemberWhere(userId: string): Prisma.QueryItemWhereInput {
-    return {
-      collection: {
-        OR: [
-          {
-            // queries user owns
-            workspace: {
-              ownerId: userId,
-            },
-          },
-          {
-            // queries owned by user's team
-            workspace: {
-              team: {
-                TeamMemberships: {
-                  some: {
-                    userId,
-                  },
-                },
-              },
-            },
-          },
-        ],
-      },
-    };
-  }
-
   private async getPlanConfig(userId: string) {
-    // TODO: check the team workspace owner quota for the plan config, not the current user's quota
+    // TODO: check the team workspace owner quota for the plan config, not the current user's quota (now done in createV2 method)
     // currently the assumption is that the user is the owner of the workspace, and is the only one that can create queries
 
     const userPlanConfig = await this.userService.getPlanConfig(userId);
+    return userPlanConfig;
+  }
+
+  private async getCollectionOwnerId(collectionId: string) {
+    const res = await this.prisma.queryCollection.findFirst({
+      where: {
+        id: collectionId,
+      },
+      select: {
+        workspace: {
+          select: {
+            ownerId: true, // Team owners also own team workspaces, so this should work for both team and personal workspaces
+          },
+        },
+      },
+    });
+
+    if (!res) {
+      return;
+    }
+
+    return res.workspace.ownerId;
+  }
+
+  private async getPlanConfigByCollection(collectionId: string) {
+    const ownerId = await this.getCollectionOwnerId(collectionId);
+
+    if (!ownerId) {
+      return;
+    }
+
+    const userPlanConfig = await this.getPlanConfig(ownerId);
     return userPlanConfig;
   }
 

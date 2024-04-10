@@ -152,3 +152,11 @@ model UserPlan {
   user       User       @relation(fields: [userId], references: [id])
   planConfig PlanConfig @relation(fields: [planRole], references: [id])
 }
+
+// QueryItems belong to a QueryCollection
+// QueryCollections belong to a Workspace
+// Workspaces belong to a User and optionally a Team (owned by the same User)
+// Teams belong to a User
+// QueryCollections optionally have parent QueryCollections
+
+// https://excalidraw.com/#json=ifRB0uFeTd4UpSruiBNS9,l2UH961ihHvwTHpZnzzQgg
