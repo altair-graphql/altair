@@ -6,10 +6,9 @@ app-query-collections {
   height: 100%;
   max-width: 320px;
   width: 320px;
-  background: var(--theme-off-bg-color);
-  padding: 0 5px;
   will-change: width;
   overflow: hidden;
+  border-right: 1px solid rgba(var(--rgb-theme-font), 0.1);
 
   &.query-collections-wrapper--close {
     width: 0;
@@ -25,7 +24,7 @@ app-query-collections {
 .query-collections__inner {
   height: 100%;
   overflow: auto;
-  background: var(--theme-bg-color);
+  // background: var(--theme-bg-color);
 }
 
 .query-title-icon {

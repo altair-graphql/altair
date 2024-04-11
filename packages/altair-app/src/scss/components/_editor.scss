@@ -115,10 +115,7 @@ app-query-result {
 
 .query-result-container {
   height: 100%;
-  // overflow: auto;
-  // background: var(--theme-off-bg-color);
-  // background: rgba(var(--rgb-theme-off-bg), 0.15);
-  background: transparent;
+  background: rgba(var(--rgb-theme-off-bg), 0.15);
   border-radius: 4px;
 }
 

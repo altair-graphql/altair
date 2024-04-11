@@ -17,7 +17,7 @@
   border-style: solid;
   border-width: 1px;
   border-color: var(--input-border-color, rgba(var(--rgb-theme-font), 0.04));
-  background: var(--input-bg, rgba(var(--rgb-theme-bg), 0.15));
+  background: var(--input-bg, rgba(var(--rgb-theme-off-bg), 0.2));
   padding-block: 5px;
   padding-inline: 10px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
@@ -27,12 +27,12 @@
   transition: all 0.3s ease;
 
   &:hover {
-    --input-bg: var(--input-hover-bg, rgba(var(--rgb-theme-bg), 0.2));
+    --input-bg: var(--input-hover-bg, rgba(var(--rgb-theme-off-bg), 0.3));
     border-color: var(--input-border-color, rgba(var(--rgb-theme-font), 0.05));
   }
   &:focus,
   &:focus-within {
-    --input-bg: var(--input-focus-bg, rgba(var(--rgb-theme-bg), 0.3));
+    --input-bg: var(--input-focus-bg, rgba(var(--rgb-theme-off-bg), 0.4));
     // setting border-color instead of the css variable to override the default border-color
     border-color: var(--input-border-color, rgba(var(--rgb-theme-font), 0.08));
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);

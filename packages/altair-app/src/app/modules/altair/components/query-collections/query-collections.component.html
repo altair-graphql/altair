@@ -1,7 +1,7 @@
 <div
   class="query-collections-wrapper"
   [ngClass]="{ 'query-collections-wrapper--close': !showCollections }"
-  >
+>
   @if (showCollections) {
     <div class="query-collections__inner">
       <div class="query-collections__title">
@@ -10,25 +10,25 @@
       <div class="query-collections__actions clearfix">
         <button
           type="button"
-          class="icon-button"
+          class="btn btn--small"
           data-test-id="import-collection"
           nz-tooltip
           [nzTooltipTitle]="'COLLECTIONS_IMPORT_TEXT' | translate"
           nzTooltipPlacement="bottom"
           (click)="importCollectionsChange.next()"
-          >
+        >
           <app-icon name="log-in"></app-icon>
         </button>
         @if (loggedIn) {
           <button
             type="button"
-            class="icon-button"
+            class="btn btn--small"
             data-test-id="sync-collection"
             nz-tooltip
             [nzTooltipTitle]="'COLLECTION_SYNC_TEXT' | translate"
             nzTooltipPlacement="bottom"
             (click)="syncCollectionsChange.next()"
-            >
+          >
             <app-icon name="refresh-ccw"></app-icon>
           </button>
         }
@@ -38,55 +38,35 @@
             nzTrigger="click"
             [nzDropdownMenu]="docViewerMenu"
             type="button"
-            class="icon-button"
-            >
+            class="btn btn--small"
+          >
             @switch (sortBy) {
               @case ('a-z') {
-                {{
-                'SORT_BY_A_Z' | translate
-                }}
+                {{ 'SORT_BY_A_Z' | translate }}
               }
               @case ('z-a') {
-                {{
-                'SORT_BY_Z_A' | translate
-                }}
+                {{ 'SORT_BY_Z_A' | translate }}
               }
               @case ('newest') {
-                {{
-                'SORT_BY_NEWEST' | translate
-                }}
+                {{ 'SORT_BY_NEWEST' | translate }}
               }
               @case ('oldest') {
-                {{
-                'SORT_BY_OLDEST' | translate
-                }}
+                {{ 'SORT_BY_OLDEST' | translate }}
               }
             }
           </button>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next('a-z')"
-                >
+              <li nz-menu-item (click)="sortCollectionsChange.next('a-z')">
                 {{ 'SORT_BY_A_Z' | translate }}
               </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next('z-a')"
-                >
+              <li nz-menu-item (click)="sortCollectionsChange.next('z-a')">
                 {{ 'SORT_BY_Z_A' | translate }}
               </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next('newest')"
-                >
+              <li nz-menu-item (click)="sortCollectionsChange.next('newest')">
                 {{ 'SORT_BY_NEWEST' | translate }}
               </li>
-              <li
-                nz-menu-item
-                (click)="sortCollectionsChange.next('oldest')"
-                >
+              <li nz-menu-item (click)="sortCollectionsChange.next('oldest')">
                 {{ 'SORT_BY_OLDEST' | translate }}
               </li>
             </ul>
@@ -104,24 +84,27 @@
             (ngModelChange)="workspaceId$.next($event)"
             name="collection"
             nzPlaceHolder="Choose"
-            >
+          >
             <nz-option
               nzValue=""
               [nzLabel]="'COLLECTIONS_WORKSPACES_SELECT_ALL' | translate"
             ></nz-option>
-            @for (workspace of (workspaces$ | async); track trackById($index, workspace)) {
+            @for (
+              workspace of workspaces$ | async;
+              track trackById($index, workspace)
+            ) {
               <nz-option
                 nzCustomContent
                 [nzValue]="workspace.id"
                 [nzLabel]="workspace.label"
-                >
+              >
                 @if (workspace.id !== 'local') {
                   <app-icon name="cloud" title="Remote"></app-icon>
                 }
                 @if (workspace.teamId) {
                   <app-icon name="users" title="Team"></app-icon>
                 }
-                {{workspace.label}}
+                {{ workspace.label }}
               </nz-option>
             }
           </nz-select>
@@ -129,7 +112,10 @@
       </div>
       <div class="query-collections__items-wrapper">
         <!-- TODO: Group by spaces -->
-        @for (collectionTree of (filteredCollectionTrees$ | async); track trackById($index, collectionTree)) {
+        @for (
+          collectionTree of filteredCollectionTrees$ | async;
+          track trackById($index, collectionTree)
+        ) {
           <app-query-collection-item
             [collectionTree]="collectionTree"
             [loggedIn]="loggedIn"
