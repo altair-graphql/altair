@@ -1,4 +1,4 @@
-FROM node:18.14-alpine3.16 AS builder
+FROM node:20-alpine3.16 AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed
 RUN apk add --no-cache libc6-compat
 RUN apk update
@@ -11,7 +11,7 @@ RUN turbo prune --scope=@altairgraphql/api --docker
 # ===
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:18.14-alpine3.16 AS installer
+FROM node:20-alpine3.16 AS installer
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache python3 make g++
 RUN apk update
@@ -36,7 +36,7 @@ RUN yarn turbo run build --filter=@altairgraphql/api...
 
 # ===
 
-FROM node:18.14-alpine3.16 AS runner
+FROM node:20-alpine3.16 AS runner
 WORKDIR /app
 
 
