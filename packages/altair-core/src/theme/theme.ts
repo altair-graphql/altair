@@ -65,8 +65,8 @@ const theme = deepmerge(foundations, {
     secondary: foundations.colors.blue,
     tertiary: foundations.colors.rose,
 
-    bg: foundations.colors.white,
-    offBg: foundations.colors.lightGray,
+    bg: foundations.colors.lightGray,
+    offBg: foundations.colors.white,
     font: foundations.colors.black,
     offFont: foundations.colors.darkGray,
     border: foundations.colors.gray,

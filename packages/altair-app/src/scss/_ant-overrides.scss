@@ -102,17 +102,21 @@
 }
 
 .ant-dropdown-menu {
-  background: var(--theme-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.7);
+  backdrop-filter: blur(5px);
   color: var(--theme-font-color);
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .ant-dropdown-menu-item,
 .ant-dropdown-menu-submenu-title {
   background: transparent;
   color: var(--theme-font-color);
+  border-radius: 4px;
 
   &:hover {
-    background: var(--theme-off-bg-color);
+    background: rgba(var(--rgb-theme-off-bg), 0.5);
   }
 }
 

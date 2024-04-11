@@ -122,11 +122,11 @@
     color: var(--theme-font-color);
     padding: 7px 10px;
     transition: all 0.3s ease;
+    border-radius: 4px;
 
     &:hover {
       color: var(--theme-font-color);
-      // background: var(--theme-off-bg-color);
-      background: rgba(var(--rgb-theme-font), 0.05);
+      background: rgba(var(--rgb-theme-off-bg), 0.5);
       text-decoration: none;
     }
   }
