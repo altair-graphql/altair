@@ -82,6 +82,7 @@ app-window-switcher {
 }
 
 .window-switcher__item--active {
+  @extend .glassy-border;
   background: rgba(var(--rgb-theme-font), 0.05);
   // color: var(--primary-color);
   &,

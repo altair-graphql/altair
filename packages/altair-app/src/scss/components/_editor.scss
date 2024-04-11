@@ -190,6 +190,7 @@ app-query-result {
   background: var(--theme-bg-color);
   opacity: 0.8;
   border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 
   &.send {
     background: var(--primary-color);
@@ -207,51 +208,11 @@ app-query-result {
   z-index: 3;
 }
 
-.query-result__clear-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: var(--theme-off-bg-color);
-  color: var(--primary-color);
-  opacity: 0.5;
-  transition: all 0.3s ease;
-  border: 1px solid var(--primary-color);
-  // text-transform: uppercase;
-  font-size: fontsize(12);
-  padding: 3px 10px;
-  border-radius: 4px;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
 .query-result__bottom-actions {
   position: absolute;
   bottom: 10px;
   right: 10px;
   z-index: 3;
-}
-
-.query-result__download-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: var(--theme-off-bg-color);
-  color: var(--primary-color);
-  opacity: 0.5;
-  transition: all 0.3s ease;
-  border: 1px solid var(--primary-color);
-  // text-transform: uppercase;
-  font-size: fontsize(12);
-  padding: 3px 10px;
-  border-radius: 4px;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .subscription-result {

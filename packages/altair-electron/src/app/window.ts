@@ -5,11 +5,7 @@ import { promises as fs } from 'fs';
 import mime from 'mime-types';
 import windowStateKeeper from 'electron-window-state';
 
-import {
-  getDistDirectory,
-  renderAltair,
-  renderInitialOptions,
-} from 'altair-static';
+import { getDistDirectory, renderAltair, renderInitialOptions } from 'altair-static';
 
 import { checkMultipleDataVersions } from '../utils/check-multi-data-versions';
 import { createSha256CspHash } from '../utils/csp-hash';
@@ -50,7 +46,7 @@ export class WindowManager {
   private ipcEventsInitialized = false;
   private sessionEventsInitialized = false;
 
-  private rendererReady = new Promise(resolve => {
+  private rendererReady = new Promise((resolve) => {
     ipcMain.once(IPC_EVENT_NAMES.RENDERER_READY, () => {
       resolve(true);
     });
@@ -91,9 +87,7 @@ export class WindowManager {
         nodeIntegrationInWorker: false,
         contextIsolation: true,
         // enableRemoteModule: process.env.NODE_ENV === "test", // remote required for spectron tests to work
-        preload: require.resolve(
-          '@altairgraphql/electron-interop/build/preload.js'
-        ), // path.join(__dirname, '../preload', 'index.js'),
+        preload: require.resolve('@altairgraphql/electron-interop/build/preload.js'), // path.join(__dirname, '../preload', 'index.js'),
         sandbox: false,
       },
       // titleBarStyle: 'hidden-inset'
@@ -161,7 +155,7 @@ export class WindowManager {
       (e, headers: HeaderState) => {
         this.requestHeaders = {};
 
-        headers.forEach(header => {
+        headers.forEach((header) => {
           const normalizedKey = header.key.toLowerCase();
           if (
             ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(normalizedKey) &&
@@ -177,19 +171,16 @@ export class WindowManager {
       }
     );
 
-    ipcMain.handle('reload-window', e => {
+    ipcMain.handle('reload-window', (e) => {
       e.sender.reload();
     });
 
-    ipcMain.on(
-      IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA,
-      (e, data: string) => {
-        setAutobackup(data);
-      }
-    );
+    ipcMain.on(IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA, (e, data: string) => {
+      setAutobackup(data);
+    });
 
     // TODO: Create an electron-interop package and move this there
-    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async e => {
+    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async (e) => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error('untrusted source trying to get auth token');
       }
@@ -200,7 +191,7 @@ export class WindowManager {
 
     handleWithCustomErrors(
       IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,
-      async e => {
+      async (e) => {
         if (!e.sender || e.sender !== this.instance?.webContents) {
           throw new Error('untrusted source');
         }
@@ -221,7 +212,7 @@ export class WindowManager {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         log('Before request:', details);
         if (details.uploadData) {
-          details.uploadData.forEach(uploadData => {
+          details.uploadData.forEach((uploadData) => {
             log('Data sent:', uploadData.bytes.toString());
           });
         }
@@ -230,28 +221,26 @@ export class WindowManager {
         });
       });
     }
-    session.defaultSession.webRequest.onBeforeSendHeaders(
-      (details, callback) => {
-        // Set defaults
-        details.requestHeaders.Origin = 'electron://altair';
+    session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+      // Set defaults
+      details.requestHeaders.Origin = 'electron://altair';
 
-        // log(this.requestHeaders);
-        // log('sending headers', details.requestHeaders);
-        // Set the request headers
-        Object.entries(this.requestHeaders).forEach(([key, header]) => {
-          details.requestHeaders[key] = header;
-        });
-        callback({
-          cancel: false,
-          requestHeaders: details.requestHeaders,
-        });
-      }
-    );
+      // log(this.requestHeaders);
+      // log('sending headers', details.requestHeaders);
+      // Set the request headers
+      Object.entries(this.requestHeaders).forEach(([key, header]) => {
+        details.requestHeaders[key] = header;
+      });
+      callback({
+        cancel: false,
+        requestHeaders: details.requestHeaders,
+      });
+    });
 
     if (process.env.NODE_ENV /* === 'test'*/) {
-      session.defaultSession.webRequest.onSendHeaders(details => {
+      session.defaultSession.webRequest.onSendHeaders((details) => {
         if (details.requestHeaders) {
-          Object.keys(details.requestHeaders).forEach(headerKey => {
+          Object.keys(details.requestHeaders).forEach((headerKey) => {
             log('Header sent:', headerKey, details.requestHeaders[headerKey]);
           });
         }
@@ -299,7 +288,7 @@ export class WindowManager {
 
     initUpdateAvailableEvent(this.instance.webContents);
     // Prevent the app from navigating away from the app
-    this.instance.webContents.on('will-navigate', e => e.preventDefault());
+    this.instance.webContents.on('will-navigate', (e) => e.preventDefault());
 
     // Emitted when the window is closed.
     this.instance.on('closed', () => {
@@ -326,7 +315,7 @@ export class WindowManager {
     /**
      * Using a custom buffer protocol, instead of a file protocol because of restrictions with the file protocol.
      */
-    protocol.handle(ALTAIR_CUSTOM_PROTOCOL, async request => {
+    protocol.handle(ALTAIR_CUSTOM_PROTOCOL, async (request) => {
       const requestDirectory = getDistDirectory();
       const originalFilePath = path.join(
         requestDirectory,
@@ -371,10 +360,7 @@ export class WindowManager {
    * @param {string} originalFilePath path to file
    * @param {string} fallbackPath usually path to index file
    */
-  private async getFileContentData(
-    originalFilePath: string,
-    fallbackPath: string
-  ) {
+  private async getFileContentData(originalFilePath: string, fallbackPath: string) {
     let filePath = await this.getFilePath(originalFilePath);
 
     if (!filePath) {

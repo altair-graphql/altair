@@ -30,6 +30,7 @@
 }
 
 .ant-modal-content {
+  @extend .glassy-border;
   // background: var(--theme-bg-color);
   background: rgba(var(--rgb-theme-bg), 0.5);
   backdrop-filter: blur(10px);
@@ -102,6 +103,7 @@
 }
 
 .ant-dropdown-menu {
+  @extend .glassy-border;
   background: rgba(var(--rgb-theme-bg), 0.7);
   backdrop-filter: blur(5px);
   color: var(--theme-font-color);
@@ -287,12 +289,16 @@
 }
 
 .ant-tooltip-inner {
-  background: var(--theme-off-bg-color);
+  // background: var(--theme-off-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.7);
+  backdrop-filter: blur(5px);
   color: var(--theme-font-color);
 }
 
-.ant-tooltip-arrow::before {
-  background-color: var(--theme-off-bg-color);
+.ant-tooltip-arrow::before,
+.ant-tooltip-arrow-content::before {
+  // background-color: var(--theme-off-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.7);
 }
 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,

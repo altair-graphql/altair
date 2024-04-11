@@ -17,7 +17,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         class="query-collections__actions clearfix"
       >
         <button
-          class="icon-button"
+          class="btn btn--small"
           data-test-id="import-collection"
           nz-tooltip=""
           nztooltipplacement="bottom"
@@ -33,7 +33,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
           class="query-collections__actions--right"
         >
           <button
-            class="icon-button"
+            class="btn btn--small"
             nz-dropdown=""
             nztrigger="click"
             type="button"
