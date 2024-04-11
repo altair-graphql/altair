@@ -11,11 +11,18 @@
   justify-content: space-between;
 }
 
+.response-stats__section {
+  display: flex;
+  gap: 5px;
+}
+
 .response-stats__item {
-  display: inline-block;
-  padding: 0 5px;
-  border-radius: 2px;
-  margin-right: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
 
   &[data-status-code^='1'] {
     // background: var(--orange-color);
@@ -53,7 +60,7 @@
 }
 
 .response-time {
-  background: rgba(var(--rgb-black), 0.5);
-  color: var(--white-color);
-  display: inline-block;
+  background: rgba(var(--rgb-theme-off-bg), 0.4);
+  color: var(--theme-font-color);
+  opacity: 0.8;
 }

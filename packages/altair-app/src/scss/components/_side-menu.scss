@@ -96,6 +96,7 @@
 }
 
 .side-menu-item-submenu {
+  @extend .glassy-border;
   display: none;
   position: absolute;
   top: 10px;

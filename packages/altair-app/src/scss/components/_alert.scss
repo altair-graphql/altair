@@ -61,8 +61,10 @@
     text-shadow: none;
     transition: all 0.3s ease;
     line-height: 1;
+    color: var(--theme-font-color);
+    opacity: 0.7;
     &:hover {
-      color: var(--theme-font-color);
+      opacity: 1;
     }
   }
 

@@ -31,7 +31,7 @@
         <!--We want it to be hidden in the DOM, not removed so we use hidden-->
         <div class="app-result" [ngClass]="{ hide: !queryResult }">
           <div class="response-stats">
-            <div class="l">
+            <div class="response-stats__section l">
               <span
                 class="response-status-code response-stats__item"
                 [attr.data-status-code]="responseStatus"
@@ -41,7 +41,7 @@
                 ><app-icon name="clock"></app-icon> {{ responseTime }}ms</span
               >
             </div>
-            <div class="r"></div>
+            <div class="response-stats__section r"></div>
           </div>
           <div class="query-result__top-actions">
             <button
