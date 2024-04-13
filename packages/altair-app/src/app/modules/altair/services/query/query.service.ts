@@ -4,14 +4,18 @@ import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
 import { EnvironmentService } from '../environment/environment.service';
-import { GqlService, SendRequestResponse } from '../gql/gql.service';
+import { GqlService } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
-import { RequestType, ScriptTranformResult } from '../pre-request/helpers';
 import { take } from 'rxjs/operators';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { PreRequestService } from '../pre-request/pre-request.service';
 import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
+import {
+  RequestType,
+  ScriptTranformResult,
+  SendRequestResponse,
+} from 'altair-graphql-core/build/script/types';
 
 @Injectable({
   providedIn: 'root',
