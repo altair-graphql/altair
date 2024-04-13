@@ -1,11 +1,11 @@
 {
   "name": "@altairgraphql/api",
   "description": "",
-  "version": "6.4.1",
+  "version": "6.4.2",
   "author": "",
   "dependencies": {
-    "@altairgraphql/api-utils": "^6.4.1",
-    "@altairgraphql/db": "^6.4.1",
+    "@altairgraphql/api-utils": "^6.4.2",
+    "@altairgraphql/db": "^6.4.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
@@ -15,7 +15,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.3",
     "@newrelic/pino-enricher": "^1.1.1",
-    "altair-graphql-core": "^6.4.1",
+    "altair-graphql-core": "^6.4.2",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

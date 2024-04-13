@@ -1,11 +1,11 @@
 {
   "name": "altair-koa-middleware",
   "description": "Koa middleware for altair graphql client",
-  "version": "6.4.1",
+  "version": "6.4.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-static": "^6.4.1",
+    "altair-static": "^6.4.2",
     "koa-send": "^5.0.1"
   },
   "devDependencies": {
