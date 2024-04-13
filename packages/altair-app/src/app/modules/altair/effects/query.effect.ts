@@ -55,8 +55,8 @@ import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { RequestScriptError } from '../services/pre-request/errors';
 import { headerListToMap } from '../utils/headers';
-import { RequestType } from '../services/pre-request/helpers';
 import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
+import { RequestType } from 'altair-graphql-core/build/script/types';
 
 function notNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x !== null && x !== undefined;

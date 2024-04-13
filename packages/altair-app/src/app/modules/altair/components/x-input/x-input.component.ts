@@ -28,10 +28,8 @@ import {
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Subscription } from 'rxjs';
-import {
-  EnvironmentService,
-  IEnvironment,
-} from '../../services/environment/environment.service';
+import { EnvironmentService } from '../../services/environment/environment.service';
+import { IEnvironment } from 'altair-graphql-core/build/types/state/environments.interfaces';
 
 const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 

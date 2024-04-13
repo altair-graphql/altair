@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { PreRequestService } from '../../services';
-import { getGlobalContext } from '../../services/pre-request/helpers';
 import { getRequestScriptExtensions } from '../../utils/editor/extensions';
+import { getGlobalContext } from 'altair-graphql-core/build/script/context';
 
 const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 

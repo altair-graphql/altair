@@ -2,12 +2,17 @@
   "name": "@altairgraphql/login-redirect",
   "version": "6.4.2",
   "dependencies": {
+<<<<<<< HEAD
     "@altairgraphql/api-utils": "^6.4.2"
+=======
+    "@altairgraphql/api-utils": "^6.4.1",
+    "altair-graphql-core": "^6.4.1"
+>>>>>>> 1d01a63b (Refactored request script evaluator engine)
   },
   "devDependencies": {
     "rimraf": "^5.0.5",
     "typescript": "5.2.2",
-    "vite": "^4.0.4"
+    "vite": "^5.2.0"
   },
   "license": "MIT",
   "main": "index.js",

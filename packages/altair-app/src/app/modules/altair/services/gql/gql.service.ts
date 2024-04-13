@@ -51,6 +51,7 @@ import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
+import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 
 interface SendRequestOptions {
   url: string;
@@ -65,16 +66,6 @@ interface SendRequestOptions {
 }
 
 export const BATCHED_REQUESTS_OPERATION = 'BatchedRequests';
-
-export interface SendRequestResponse {
-  response: HttpResponse<any>;
-  meta: {
-    requestStartTime: number;
-    requestEndTime: number;
-    responseTime: number;
-    headers: IDictionary;
-  };
-}
 
 interface ResolvedFileVariable {
   name: string;
@@ -150,9 +141,7 @@ export class GqlService {
 
       headers.forEach((header) => {
         if (
-          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(
-            header.key.toLowerCase()
-          ) &&
+          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
           header.enabled &&
           header.key &&
           header.value
@@ -219,9 +208,7 @@ export class GqlService {
     );
   }
 
-  getIntrospectionSchema(
-    introspection?: IntrospectionQuery
-  ): GraphQLSchema | null {
+  getIntrospectionSchema(introspection?: IntrospectionQuery): GraphQLSchema | null {
     if (!introspection?.__schema) {
       return null;
     }
@@ -340,9 +327,7 @@ export class GqlService {
   getOperationAtIndex(query: string, index: number) {
     return this.getOperations(query).find((operation) => {
       return Boolean(
-        operation.loc &&
-          operation.loc.start <= index &&
-          operation.loc.end >= index
+        operation.loc && operation.loc.start <= index && operation.loc.end >= index
       );
     });
   }

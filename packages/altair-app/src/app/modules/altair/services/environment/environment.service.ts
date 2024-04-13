@@ -12,6 +12,7 @@ import {
   EnvironmentState,
   EnvironmentsState,
   ExportEnvironmentState,
+  IEnvironment,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
@@ -22,11 +23,8 @@ import { NotifyService } from '../notify/notify.service';
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
 // export const VARIABLE_REGEX = /(?<!\\){{\s*[\w\.]+\s*}}/g;
-export const VARIABLE_REGEX =
-  /(^{{\s*[\w.]+\s*}})|((?!\\)(.){{\s*[\w.]+\s*}})/g;
-export interface IEnvironment extends IDictionary<any> {
-  headers?: IDictionary<string>;
-}
+export const VARIABLE_REGEX = /(^{{\s*[\w.]+\s*}})|((?!\\)(.){{\s*[\w.]+\s*}})/g;
+
 interface HydrateEnvironmentOptions {
   activeEnvironment?: IEnvironment;
 }
@@ -158,15 +156,13 @@ export class EnvironmentService {
     const environmentHeadersMap = activeEnvironment.headers;
 
     if (environmentHeadersMap) {
-      const environmentHeaders = Object.keys(environmentHeadersMap).map(
-        (key) => {
-          return {
-            key: this.hydrate(key, options),
-            value: this.hydrate(environmentHeadersMap[key] || '', options),
-            enabled: true,
-          };
-        }
-      );
+      const environmentHeaders = Object.keys(environmentHeadersMap).map((key) => {
+        return {
+          key: this.hydrate(key, options),
+          value: this.hydrate(environmentHeadersMap[key] || '', options),
+          enabled: true,
+        };
+      });
 
       return [...environmentHeaders, ...hydratedHeaders];
     }
@@ -201,9 +197,7 @@ export class EnvironmentService {
     );
   }
 
-  getExportEnvironmentData(
-    environment: EnvironmentState
-  ): ExportEnvironmentState {
+  getExportEnvironmentData(environment: EnvironmentState): ExportEnvironmentState {
     const exportCollectionData: ExportEnvironmentState = {
       version: 1,
       type: 'environment',

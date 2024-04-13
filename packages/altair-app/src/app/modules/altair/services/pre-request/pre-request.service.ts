@@ -9,15 +9,16 @@ import { getActiveSubEnvironmentState } from '../../store/environments/selectors
 import { NotifyService } from '../notify/notify.service';
 import { take } from 'rxjs/operators';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { RequestScriptError } from './errors';
 import {
   CookieOptions,
-  getGlobalContext,
   ScriptContextData,
   ScriptTranformResult,
-} from './helpers';
-import { ScriptEvaluator } from './evaluator';
+} from 'altair-graphql-core/build/script/types';
+import { RequestScriptError } from './errors';
 import { DbService } from '../db.service';
+import { ScriptEvaluatorClientEngine } from 'altair-graphql-core/build/script/evaluator-client-engine';
+import { getGlobalContext } from 'altair-graphql-core/build/script/context';
+import { EvaluatorClientFactory } from './evaluator-client.factory';
 
 const storageNamespace = 'request-script';
 
@@ -71,7 +72,9 @@ export class PreRequestService {
     );
     data.__cookieJar = cookies;
 
-    const res = await new ScriptEvaluator().executeScript(script, data, {
+    const res = await new ScriptEvaluatorClientEngine(
+      new EvaluatorClientFactory()
+    ).executeScript(script, data, {
       alert: async (msg: string) =>
         this.notifyService.info(`Alert: ${msg}`, 'Request script'),
       log: async (d: unknown) => {

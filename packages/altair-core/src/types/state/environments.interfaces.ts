@@ -28,3 +28,7 @@ export interface EnvironmentsState {
   // Adding undefined for backward compatibility
   activeSubEnvironment?: string;
 }
+
+export interface IEnvironment extends IDictionary<any> {
+  headers?: IDictionary<string>;
+}

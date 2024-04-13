@@ -1,15 +1,6 @@
 import { initializeClient } from '@altairgraphql/api-utils';
+import { validOrigins } from 'altair-graphql-core/build/origins';
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
-
-const validOrigins = [
-  'chrome-extension://flnheeellpciglgpaodhkhmapeljopja', // chrome extension
-  'chrome-extension://aiopipphfnlndegenpkclffgaiillbdd', // unpacked chrome extension
-  'moz-extension://567d7e27-43b8-994e-ab50-e770fa7eab4b', // firefox extension
-  'http://localhost:4200', // local altair app
-  'https://dash.altairgraphql.dev',
-  'https://altair-gql.sirmuel.design',
-  'https://web.altairgraphql.dev',
-];
 
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
 
