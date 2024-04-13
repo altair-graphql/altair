@@ -53,8 +53,8 @@ export interface GlobalHelperContext {
 
 export interface ScriptTranformResult {
   requestScriptLogs: LogLine[];
-  environment: IEnvironment;
   additionalHeaders: HeaderState;
+  environment?: IEnvironment;
 }
 
 export type SameSite = 'Lax' | 'None' | 'Strict';

@@ -165,7 +165,6 @@ export class QueryService {
         preTransformedData = preTransformedData ?? {
           additionalHeaders: [],
           requestScriptLogs: [],
-          environment: {},
         };
         preTransformedData.additionalHeaders = [
           ...(preTransformedData?.additionalHeaders ?? []),
