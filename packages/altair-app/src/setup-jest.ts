@@ -19,7 +19,7 @@ jest.mock(
   })
 );
 jest.mock(
-  './app/modules/altair/services/pre-request/evaluator-worker.factory',
+  './app/modules/altair/services/pre-request/evaluator-client.factory',
   () => ({
     ScriptEvaluatorWorkerFactory: function () {
       return {
