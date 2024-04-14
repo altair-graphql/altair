@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-
 import { SharedModule } from '../modules/shared/shared.module';
 
 import { PipesModule } from '../pipes';
@@ -104,7 +102,6 @@ const COMPONENTS = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CodemirrorModule,
     PipesModule,
     DirectivesModule,
     SharedModule,

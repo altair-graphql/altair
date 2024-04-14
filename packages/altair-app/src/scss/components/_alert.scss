@@ -32,6 +32,12 @@
     border-left: 3px solid white;
     padding: 15px;
     line-height: 1;
+    max-height: 150px;
+    overflow: hidden;
+
+    &:hover {
+      max-height: unset;
+    }
 
     &.toast-success {
       border-color: var(--green-color);

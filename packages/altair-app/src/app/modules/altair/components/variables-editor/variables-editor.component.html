@@ -1,18 +1,7 @@
-@if (!betaDisableNewEditor) {
-  <app-codemirror
-    #newEditor
-    class="set-variable-textarea mousetrap"
-    [extensions]="editorExtensions"
-    [ngModel]="variables"
-    (ngModelChange)="variablesChange.emit($event)"
-  ></app-codemirror>
-}
-@if (betaDisableNewEditor) {
-  <ngx-codemirror
-    #editor
-    class="set-variable-textarea mousetrap"
-    [options]="variableEditorConfig"
-    [ngModel]="variables"
-    (ngModelChange)="variablesChange.emit($event)"
-  ></ngx-codemirror>
-}
+<app-codemirror
+  #editor
+  class="set-variable-textarea mousetrap"
+  [extensions]="editorExtensions"
+  [ngModel]="variables"
+  (ngModelChange)="variablesChange.emit($event)"
+></app-codemirror>

@@ -233,9 +233,7 @@ export class AltairComponent {
         return state.windows[state.windowsMeta.activeWindowId];
       })
     );
-    this.sortedCollections$ = this.store.select(
-      fromRoot.selectSortedCollections
-    );
+    this.sortedCollections$ = this.store.select(fromRoot.selectSortedCollections);
     this.activeEnvironment$ = this.environments$.pipe(
       map((environments) => {
         if (environments.activeSubEnvironment) {
@@ -301,8 +299,7 @@ export class AltairComponent {
       });
 
     this.electronApp.connect({
-      importFileContent: (content) =>
-        this.windowService.importStringData(content),
+      importFileContent: (content) => this.windowService.importStringData(content),
       createNewWindow: () => this.newWindow(),
       closeCurrentWindow: () => {
         if (this.windowIds.length > 1) {
@@ -381,10 +378,9 @@ export class AltairComponent {
               postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
               preRequestScript: windowOption.initialPreRequestScript,
               preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
-              subscriptionConnectionParams:
-                windowOption.initialSubscriptionsPayload
-                  ? JSON.stringify(windowOption.initialSubscriptionsPayload)
-                  : '',
+              subscriptionConnectionParams: windowOption.initialSubscriptionsPayload
+                ? JSON.stringify(windowOption.initialSubscriptionsPayload)
+                : '',
               subscriptionProvider: windowOption.initialSubscriptionsProvider,
             },
             {
@@ -458,10 +454,12 @@ export class AltairComponent {
   }
 
   removeWindow(windowId: string) {
-    this.windowService
-      .removeWindow(windowId)
-      .pipe(untilDestroyed(this), catchUselessObservableError)
-      .subscribe();
+    if (this.windowIds.length > 1) {
+      this.windowService
+        .removeWindow(windowId)
+        .pipe(untilDestroyed(this), catchUselessObservableError)
+        .subscribe();
+    }
   }
 
   duplicateWindow(windowId: string) {
@@ -509,9 +507,7 @@ export class AltairComponent {
   }
 
   importWindowFromCurl(data: string) {
-    this.store.dispatch(
-      new windowsActions.ImportWindowFromCurlAction({ data })
-    );
+    this.store.dispatch(new windowsActions.ImportWindowFromCurlAction({ data }));
   }
 
   showSettingsDialog() {
@@ -539,21 +535,15 @@ export class AltairComponent {
   }
 
   prettifyCode() {
-    this.store.dispatch(
-      new queryActions.PrettifyQueryAction(this.activeWindowId)
-    );
+    this.store.dispatch(new queryActions.PrettifyQueryAction(this.activeWindowId));
   }
 
   compressQuery() {
-    this.store.dispatch(
-      new queryActions.CompressQueryAction(this.activeWindowId)
-    );
+    this.store.dispatch(new queryActions.CompressQueryAction(this.activeWindowId));
   }
 
   clearEditor() {
-    this.store.dispatch(
-      new queryActions.SetQueryAction(``, this.activeWindowId)
-    );
+    this.store.dispatch(new queryActions.SetQueryAction(``, this.activeWindowId));
   }
 
   copyAsCurl() {
@@ -567,9 +557,7 @@ export class AltairComponent {
   }
 
   refactorQuery() {
-    this.store.dispatch(
-      new queryActions.RefactorQueryAction(this.activeWindowId)
-    );
+    this.store.dispatch(new queryActions.RefactorQueryAction(this.activeWindowId));
   }
 
   toggleHeader(isOpen: boolean) {
@@ -636,9 +624,7 @@ export class AltairComponent {
     );
   }
   deleteSubEnvironment(opts: { id: string }) {
-    this.store.dispatch(
-      new environmentsActions.DeleteSubEnvironmentAction(opts)
-    );
+    this.store.dispatch(new environmentsActions.DeleteSubEnvironmentAction(opts));
     this.selectActiveEnvironment();
   }
   selectActiveEnvironment(id?: string) {
@@ -733,16 +719,10 @@ export class AltairComponent {
   }
 
   syncCollections() {
-    this.store.dispatch(
-      new collectionActions.SyncRemoteCollectionsToLocalAction()
-    );
+    this.store.dispatch(new collectionActions.SyncRemoteCollectionsToLocalAction());
   }
 
-  syncLocalCollectionToRemote({
-    collection,
-  }: {
-    collection: IQueryCollection;
-  }) {
+  syncLocalCollectionToRemote({ collection }: { collection: IQueryCollection }) {
     this.store.dispatch(
       new collectionActions.SyncLocalCollectionToRemoteAction({ collection })
     );
@@ -785,21 +765,15 @@ export class AltairComponent {
   }
 
   setShowAccountDialog(value: boolean) {
-    this.store.dispatch(
-      new windowsMetaActions.ShowAccountDialogAction({ value })
-    );
+    this.store.dispatch(new windowsMetaActions.ShowAccountDialogAction({ value }));
   }
 
   setShowTeamsDialog(value: boolean) {
-    this.store.dispatch(
-      new windowsMetaActions.ShowTeamsDialogAction({ value })
-    );
+    this.store.dispatch(new windowsMetaActions.ShowTeamsDialogAction({ value }));
   }
 
   setShowUpgradeDialog(value: boolean) {
-    this.store.dispatch(
-      new windowsMetaActions.ShowUpgradeDialogAction({ value })
-    );
+    this.store.dispatch(new windowsMetaActions.ShowUpgradeDialogAction({ value }));
   }
 
   loadTeams() {

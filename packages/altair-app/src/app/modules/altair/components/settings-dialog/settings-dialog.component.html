@@ -44,13 +44,6 @@
             [ngModel]="jsonSettings"
             (ngModelChange)="onSettingsChange($event)"
           ></app-codemirror>
-          <!-- <ngx-codemirror
-            #editor
-            class="settings-editor-textarea"
-            [options]="jsonEditorConfig"
-            [ngModel]="jsonSettings"
-            (ngModelChange)="onSettingsChange($event)"
-          ></ngx-codemirror> -->
           <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
           <small
             ><a

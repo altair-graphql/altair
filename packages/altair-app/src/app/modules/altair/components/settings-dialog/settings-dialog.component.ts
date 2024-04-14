@@ -10,35 +10,15 @@ import {
 
 import { debug } from '../../utils/logger';
 
-// Import the codemirror packages
-import * as Codemirror from 'codemirror';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/fold/foldcode';
-import 'codemirror/addon/fold/foldgutter';
-import 'codemirror/addon/fold/brace-fold';
-import 'codemirror/addon/fold/indent-fold';
-// import 'codemirror/addon/display/autorefresh';
-import {
-  registerSettingsLinter,
-  getHint,
-  validateSettings,
-} from '../../utils/settings_addons';
-import {
-  NotifyService,
-  KeybinderService,
-  StorageService,
-} from '../../services';
+import { validateSettings } from '../../utils/settings_addons';
+import { NotifyService, KeybinderService, StorageService } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { Extension } from '@codemirror/state';
 import settingsSchema from '../../utils/settings.schema.json';
 import { getEditorExtensions } from './extensions';
-import { IDictionary, TODO } from 'altair-graphql-core/build/types/shared';
-
-registerSettingsLinter(Codemirror);
+import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -61,24 +41,6 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
   jsonSettings = '';
   localSettings = null;
 
-  jsonEditorConfig = {
-    mode: 'application/json',
-    // json: true,
-    lint: true,
-    lineWrapping: true,
-    foldGutter: true,
-    autoRefresh: true,
-    dragDrop: false,
-    autoCloseBrackets: true,
-    theme: 'default settings-editor',
-    gutters: ['CodeMirror-lint-markers'],
-    extraKeys: {
-      'Ctrl-Space': (cm: CodeMirror.Editor) => {
-        this.showHint(cm);
-      },
-    },
-  };
-
   editorExtensions: Extension[] = getEditorExtensions();
 
   constructor(
@@ -98,10 +60,6 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
         JSON.stringify(changes.settings.currentValue, null, 2)
       );
     }
-  }
-
-  showHint(cm: TODO) {
-    cm.showHint({ hint: getHint, completeSingle: false });
   }
 
   onSettingsChange(settingsStr: string) {
