@@ -4,35 +4,18 @@
   nzSize="small"
   [nzTabBarGutter]="16"
   [(nzSelectedIndex)]="selectedIndex"
-  >
+>
   <nz-tab [nzTitle]="'QUERY_TAB' | translate">
     <div class="query-editor-container">
-      <app-beta-indicator
-        title="New editor"
-        description="This is a complete replacement of the old editor which allows more possibilities. It also comes with some new improvements and features."
-        featureKey="newEditor"
-      ></app-beta-indicator>
-      @if (!betaDisableNewEditor) {
-        <app-codemirror
-          #newEditor
-          class="query-editor__input"
-          [fullHeight]="true"
-          [extensions]="editorExtensions"
-          [ngModel]="query"
-          (ngModelChange)="queryChange.emit($event)"
-          ngDefaultControl
-        ></app-codemirror>
-      }
-      @if (betaDisableNewEditor) {
-        <ngx-codemirror
-          #editor
-          class="query-editor__input"
-          [ngModel]="query"
-          (ngModelChange)="queryChange.emit($event)"
-          ngDefaultControl
-          [options]="editorConfig"
-        ></ngx-codemirror>
-      }
+      <app-codemirror
+        #editor
+        class="query-editor__input"
+        [fullHeight]="true"
+        [extensions]="editorExtensions"
+        [ngModel]="query"
+        (ngModelChange)="queryChange.emit($event)"
+        ngDefaultControl
+      ></app-codemirror>
     </div>
     <div
       class="variables-editor-container"
@@ -44,19 +27,19 @@
       [enableGhostResize]="true"
       [validateResize]="validate"
       (resizeEnd)="onResizeEnd($event)"
-      >
+    >
       <div
         class="variables-editor--title"
         track-id="toggle_variables"
         (click)="toggleVariableDialog.next($event)"
-        >
+      >
         {{ 'VARIABLES_TEXT' | translate }}
       </div>
       @if (showVariableDialog) {
         <div
           class="variables-editor-inner"
           [ngClass]="{ hide: !showVariableDialog }"
-          >
+        >
           <div
             class="variable-editor-resizer"
             mwlResizeHandle
@@ -69,7 +52,6 @@
               [tabSize]="tabSize"
               [showVariableDialog]="showVariableDialog"
               [enableExperimental]="enableExperimental"
-              [betaDisableNewEditor]="betaDisableNewEditor"
               (variablesChange)="variablesChange.emit($event)"
             ></app-variables-editor>
           </div>
@@ -78,41 +60,44 @@
               class="variables-add-files-button"
               track-id="add_file_variable"
               (click)="addFileVariableChange.next()"
-              >
+            >
               {{ 'ADD_FILES_TEXT' | translate }}
             </button>
             <a
               href="https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f"
               target="_blank"
               rel="noopener"
-              >
+            >
               <app-icon name="info"></app-icon>
               {{ 'LEARN_MORE_TEXT' | translate }}
             </a>
             <div class="variables-files-list">
               @for (
-                file of variables?.files; track trackByIndex(index, file); let index = $index) {
+                file of variables?.files;
+                track trackByIndex(index, file);
+                let index = $index
+              ) {
                 <app-variable-file-item
                   [fileVariable]="file"
-              (fileVariableNameChange)="
-                fileVariableNameChange.emit({ index: index, name: $event })
-              "
-              (fileVariableDataChange)="
-                fileVariableDataChange.emit({
-                  index: index,
-                  fileData: $event.files,
-                  fromCache: $event.fromCache
-                })
-              "
-              (fileVariableIsMultipleChange)="
-                fileVariableIsMultipleChange.emit({
-                  index: index,
-                  isMultiple: $event
-                })
-              "
-              (deleteFileVariableChange)="
-                deleteFileVariableChange.emit({ index: index })
-              "
+                  (fileVariableNameChange)="
+                    fileVariableNameChange.emit({ index: index, name: $event })
+                  "
+                  (fileVariableDataChange)="
+                    fileVariableDataChange.emit({
+                      index: index,
+                      fileData: $event.files,
+                      fromCache: $event.fromCache
+                    })
+                  "
+                  (fileVariableIsMultipleChange)="
+                    fileVariableIsMultipleChange.emit({
+                      index: index,
+                      isMultiple: $event
+                    })
+                  "
+                  (deleteFileVariableChange)="
+                    deleteFileVariableChange.emit({ index: index })
+                  "
                 ></app-variable-file-item>
               }
             </div>
@@ -148,12 +133,15 @@
   <nz-tab [nzTitle]="authorizationTitleTemplate">
     <ng-template #authorizationTitleTemplate>
       <span
-        [ngClass]="{ 'ant-tabs--status-enabled': authorizationState && isAuthorizationEnabled(authorizationState) }"
+        [ngClass]="{
+          'ant-tabs--status-enabled':
+            authorizationState && isAuthorizationEnabled(authorizationState)
+        }"
       >
         {{ 'AUTHORIZATION_TAB' | translate }}
       </span>
     </ng-template>
-    
+
     <app-authorization-editor
       [authorizationState]="authorizationState"
       (authTypeChange)="authTypeChange.emit($event)"

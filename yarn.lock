@@ -2943,14 +2943,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@ctrl/ngx-codemirror@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-6.1.0.tgz#9324a56e4b709be9c515364d21e05e1d7589f009"
-  integrity sha512-73QeoNbnluZalWmNw+SOFctsE+oz0+4Bl9KhlJOIfbCPK/U6OIc+vQNr28hMAp15Y/Idde3LntTwLBDFW0bRVA==
-  dependencies:
-    "@types/codemirror" "^5.60.5"
-    tslib "^2.3.0"
-
 "@ctrl/tinycolor@^3.3.1":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.6.1.tgz#b6c75a56a1947cc916ea058772d666a2c8932f31"
@@ -8101,7 +8093,7 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/codemirror@^5.60.15", "@types/codemirror@^5.60.5":
+"@types/codemirror@^5.60.15":
   version "5.60.15"
   resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-5.60.15.tgz#0f82be6f4126d1e59cf4c4830e56dcd49d3c3e8a"
   integrity sha512-dTOvwEQ+ouKJ/rE9LT1Ue2hmP6H1mZv5+CCnNWu2qtiOe2LQa9lCprEY20HxiDmV/Bxh+dXjywmy5aKvoGjULA==
@@ -13430,11 +13422,6 @@ codemirror-json5@^1.0.3:
     "@lezer/highlight" "^1.0.0"
     json5 "^2.2.1"
     lezer-json5 "^2.0.2"
-
-codemirror@5.61.0:
-  version "5.61.0"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.61.0.tgz#318e5b034a707207948b92ffc2862195e8fdb08e"
-  integrity sha512-D3wYH90tYY1BsKlUe0oNj2JAhQ9TepkD51auk3N7q+4uz7A/cgJ5JsWHreT0PqieW1QhOuqxQ2reCXV1YXzecg==
 
 coffee-script@^1.12.4:
   version "1.12.7"

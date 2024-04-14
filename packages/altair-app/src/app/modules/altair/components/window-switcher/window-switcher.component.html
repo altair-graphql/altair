@@ -2,10 +2,10 @@
   cdkDropList
   cdkDropListOrientation="horizontal"
   class="window-switcher__list"
-  [ngClass]="{'window-switcher__no-scrollbar': !enableScrollbar}"
+  [ngClass]="{ 'window-switcher__no-scrollbar': !enableScrollbar }"
   [cdkDropListData]="windowIds"
   (cdkDropListDropped)="onDropEnd($event)"
-  >
+>
   @for (windowId of windowIds; track windowId; let index = $index) {
     <li
       cdkDrag
@@ -14,7 +14,7 @@
       (click)="onClickWindow(windowId)"
       (dblclick)="editWindowNameInput(windowId, wTitle)"
       (contextmenu)="contextMenu($event, tabContextMenu)"
-      >
+    >
       @if (windows[windowId]?.layout?.windowIdInCollection) {
         <app-icon
           name="folder"
@@ -26,13 +26,13 @@
       <div
         #wTitle
         class="window-switcher__input"
-      [ngClass]="{
-        'window-switcher__input--editing': windowId === windowIdEditing
-      }"
+        [ngClass]="{
+          'window-switcher__input--editing': windowId === windowIdEditing
+        }"
         [attr.contenteditable]="windowId === windowIdEditing"
         (blur)="saveWindowName(windowId, wTitle.innerText)"
         (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
-        >
+      >
         {{ windows[windowId]?.layout?.title || '' }}
       </div>
       @if (windowIds.length > 1) {
@@ -40,7 +40,7 @@
           track-id="close_window_tab"
           class="window-switcher__close"
           (click)="closeWindow(windowId)"
-          >
+        >
           &#x00D7;
         </div>
       }
@@ -68,16 +68,18 @@
           </li>
           <!-- divider -->
           <li nz-menu-divider></li>
-          <li nz-menu-item (click)="closeWindow(windowId)">
-            <div class="menu-item">
-              <span class="menu-icon">
-                <app-icon name="x-square"></app-icon>
-              </span>
-              <span class="menu-text">
-                {{ 'CLOSE_WINDOW_TEXT' | translate }}
-              </span>
-            </div>
-          </li>
+          @if (windowIds.length > 1) {
+            <li nz-menu-item (click)="closeWindow(windowId)">
+              <div class="menu-item">
+                <span class="menu-icon">
+                  <app-icon name="x-square"></app-icon>
+                </span>
+                <span class="menu-text">
+                  {{ 'CLOSE_WINDOW_TEXT' | translate }}
+                </span>
+              </div>
+            </li>
+          }
           <li nz-menu-item (click)="closeWindowsToTheRight(index)">
             <div class="menu-item">
               <span class="menu-icon">
@@ -99,10 +101,7 @@
             </div>
           </li>
           @if (closedWindows.length) {
-            <li
-              nz-menu-item
-              (click)="reopenClosedTab()"
-              >
+            <li nz-menu-item (click)="reopenClosedTab()">
               <div class="menu-item">
                 <span class="menu-icon">
                   <app-icon name="plus-square"></app-icon>
@@ -118,10 +117,7 @@
     </li>
   }
   @if (windowIds.length < maxWindowCount) {
-    <li
-      class="window-switcher__item"
-      (click)="newWindowChange.next($event)"
-      >
+    <li class="window-switcher__item" (click)="newWindowChange.next($event)">
       {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
     </li>
   }
