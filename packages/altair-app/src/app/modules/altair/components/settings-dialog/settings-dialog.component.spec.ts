@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { empty as observableEmpty } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SettingsDialogComponent } from './settings-dialog.component';
@@ -30,45 +29,42 @@ describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
   let fixture: ComponentFixture<SettingsDialogComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [SettingsDialogComponent],
-        imports: [
-          HttpClientModule,
-          NoopAnimationsModule,
-          FormsModule,
-          CodemirrorModule,
-          SharedModule,
-          TranslateModule.forRoot(),
-          SchemaFormModule,
-        ],
-        providers: [
-          MockProviders(NotifyService),
-          KeybinderService,
-          MockProviders(WindowService),
-          DbService,
-          ElectronAppService,
-          StorageService,
-          GqlService,
-          {
-            provide: Store,
-            useValue: {
-              subscribe: () => {},
-              select: () => [],
-              map: () => observableEmpty(),
-              dispatch: () => {},
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SettingsDialogComponent],
+      imports: [
+        HttpClientModule,
+        NoopAnimationsModule,
+        FormsModule,
+        SharedModule,
+        TranslateModule.forRoot(),
+        SchemaFormModule,
+      ],
+      providers: [
+        MockProviders(NotifyService),
+        KeybinderService,
+        MockProviders(WindowService),
+        DbService,
+        ElectronAppService,
+        StorageService,
+        GqlService,
+        {
+          provide: Store,
+          useValue: {
+            subscribe: () => {},
+            select: () => [],
+            map: () => observableEmpty(),
+            dispatch: () => {},
           },
-          {
-            provide: AltairConfig,
-            useValue: new AltairConfig(),
-          },
-        ],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+        },
+        {
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
+        },
+      ],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingsDialogComponent);
