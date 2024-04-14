@@ -12,17 +12,10 @@ exports[`QueryEditorComponent should render correctly 1`] = `
       <div
         class="query-editor-container"
       >
-        <app-beta-indicator
-          description="This is a complete replacement of the old editor which allows more possibilities. It also comes with some new improvements and features."
-          featurekey="newEditor"
-          title="New editor"
-        />
         <app-codemirror
           class="query-editor__input"
           ngdefaultcontrol=""
         />
-        
-        
         
       </div>
       <div

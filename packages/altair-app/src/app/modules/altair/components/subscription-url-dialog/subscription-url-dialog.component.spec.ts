@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SubscriptionUrlDialogComponent } from './subscription-url-dialog.component';
@@ -14,22 +13,19 @@ describe('SubscriptionUrlDialogComponent', () => {
   let component: SubscriptionUrlDialogComponent;
   let fixture: ComponentFixture<SubscriptionUrlDialogComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
-        imports: [
-          NoopAnimationsModule,
-          FormsModule,
-          CodemirrorModule,
-          SharedModule,
-          TranslateModule.forRoot(),
-          SharedModule,
-        ],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SubscriptionUrlDialogComponent, CodemirrorComponent],
+      imports: [
+        NoopAnimationsModule,
+        FormsModule,
+        SharedModule,
+        TranslateModule.forRoot(),
+        SharedModule,
+      ],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SubscriptionUrlDialogComponent);

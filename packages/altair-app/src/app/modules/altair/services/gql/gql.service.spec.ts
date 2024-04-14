@@ -1,23 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { expect, jest } from '@jest/globals';
-import { Mock } from 'ts-mocks';
 
-import {
-  HttpClient,
-  HttpResponse,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
-import * as fromRoot from '../../store';
 import { GqlService } from './gql.service';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
-import { empty as observableEmpty, Observable, of } from 'rxjs';
-import { first, take } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
-import { Pos, Token } from 'codemirror';
 import { anyFn, mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Position } from '../../utils/editor/helpers';
@@ -33,7 +26,7 @@ describe('GqlService', () => {
   beforeEach(() => {
     mockHttpClient = {} as HttpClient;
     mockHttpClient.request = jest.fn(() => {
-      return observableEmpty();
+      return EMPTY;
     });
     mockStore = {
       subscribe: anyFn(),
@@ -64,12 +57,9 @@ describe('GqlService', () => {
     });
   });
 
-  it('should create successfully', inject(
-    [GqlService],
-    (service: GqlService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  it('should create successfully', inject([GqlService], (service: GqlService) => {
+    expect(service).toBeTruthy();
+  }));
 
   describe('.getSelectedOperationData()', () => {
     it('should return selectedOperation as null for single queries, without requesting user selection', inject(
@@ -154,9 +144,7 @@ describe('GqlService', () => {
           variables: {},
           operationName: null,
         });
-        expect(httpConfigArg.headers.get('Content-Type')).toBe(
-          'application/json'
-        );
+        expect(httpConfigArg.headers.get('Content-Type')).toBe('application/json');
       }
     ));
 
@@ -214,9 +202,7 @@ describe('GqlService', () => {
         expect(httpClientArgs[0]).toBe('post');
         expect(httpClientArgs[1]).toBe('http://test.com');
         const httpConfigArg = httpClientArgs[2];
-        expect(httpConfigArg.headers.get('Content-Type')).toBe(
-          'application/json'
-        );
+        expect(httpConfigArg.headers.get('Content-Type')).toBe('application/json');
         expect(JSON.parse(httpConfigArg.body)).toEqual({
           query: '{}',
           variables: {},
@@ -234,9 +220,7 @@ describe('GqlService', () => {
         mockHttpClient.request = (...args: any) => {
           httpClientCallCount++;
           const [method, url, options] = args;
-          expect(options.params.get('operationName')).toEqual(
-            'IntrospectionQuery'
-          );
+          expect(options.params.get('operationName')).toEqual('IntrospectionQuery');
           switch (httpClientCallCount) {
             case 1: {
               const resp = new HttpResponse<any>({
@@ -441,9 +425,7 @@ describe('GqlService', () => {
     it('should return schema for introspection data', inject(
       [GqlService],
       async (service: GqlService) => {
-        const schema = service.getIntrospectionSchema(
-          validIntrospectionData as any
-        );
+        const schema = service.getIntrospectionSchema(validIntrospectionData as any);
 
         expect(schema).toMatchSnapshot();
       }
@@ -492,9 +474,7 @@ describe('GqlService', () => {
       [GqlService],
       (service: GqlService) => {
         expect(
-          service.hasInvalidFileVariable([
-            { name: '', data: new File([], 'file') },
-          ])
+          service.hasInvalidFileVariable([{ name: '', data: new File([], 'file') }])
         ).toBe(true);
       }
     ));
@@ -522,8 +502,7 @@ describe('GqlService', () => {
           }
         }
       `;
-        const cursor = new Pos(3);
-        const token: Token = {
+        const token: any = {
           start: 10,
           end: 11,
           string: '}',
@@ -676,15 +655,9 @@ describe('GqlService', () => {
           },
           type: 'punctuation',
         };
-        const res = service.fillAllFields(
-          schema,
-          query,
-          new Position(cursor.line, cursor.ch),
-          token,
-          {
-            maxDepth: 1,
-          }
-        );
+        const res = service.fillAllFields(schema, query, new Position(3, 0), token, {
+          maxDepth: 1,
+        });
 
         expect(res).toMatchSnapshot();
       }
@@ -763,9 +736,9 @@ describe('GqlService', () => {
     it('should return false if query is not a subscription query', inject(
       [GqlService],
       (service: GqlService) => {
-        expect(
-          service.isSubscriptionQuery('query { get { id message } }')
-        ).toBe(false);
+        expect(service.isSubscriptionQuery('query { get { id message } }')).toBe(
+          false
+        );
       }
     ));
   });
@@ -775,10 +748,7 @@ describe('GqlService', () => {
       [GqlService],
       (service: GqlService) => {
         expect(
-          service.getOperationNameAtIndex(
-            `query first { get { id message } }`,
-            2
-          )
+          service.getOperationNameAtIndex(`query first { get { id message } }`, 2)
         ).toBe('first');
       }
     ));
@@ -875,15 +845,12 @@ describe('GqlService', () => {
   });
 
   describe('.createStreamClient()', () => {
-    it('should return event source', inject(
-      [GqlService],
-      (service: GqlService) => {
-        const client = service.createStreamClient('http://example.com/stream');
+    it('should return event source', inject([GqlService], (service: GqlService) => {
+      const client = service.createStreamClient('http://example.com/stream');
 
-        expect(client.url).toBe('http://example.com/stream');
-        expect(client).toEqual(expect.any(EventSource));
-      }
-    ));
+      expect(client.url).toBe('http://example.com/stream');
+      expect(client).toEqual(expect.any(EventSource));
+    }));
   });
 
   describe('.closeStreamClient()', () => {
@@ -983,10 +950,7 @@ describe('GqlService', () => {
           },
           {
             name: 'third',
-            data: [
-              new File([''], 'third1.file'),
-              new File([''], 'third2.file'),
-            ],
+            data: [new File([''], 'third1.file'), new File([''], 'third2.file')],
           },
         ];
         const result = service.normalizeFiles(files);

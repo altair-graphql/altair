@@ -2,11 +2,9 @@
 
 exports[`VariablesEditorComponent should render correctly 1`] = `
 <app-variables-editor>
-  
-  <ngx-codemirror
+  <app-codemirror
     class="set-variable-textarea mousetrap"
   />
-  
   
 </app-variables-editor>
 `;
