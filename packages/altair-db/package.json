@@ -2,7 +2,7 @@
   "name": "@altairgraphql/db",
   "version": "6.4.2",
   "dependencies": {
-    "@prisma/client": "^4.9.0"
+    "@prisma/client": "^5.12.1"
   },
   "devDependencies": {
     "ts-node": "^10.0.0",
