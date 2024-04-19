@@ -1,8 +1,6 @@
 import { jsonc } from '../utils';
-import { ValidateFunction } from 'ajv';
 import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
-
-const settingsValidator = require('./validate_settings_schema') as ValidateFunction;
+import settingsValidator from 'altair-graphql-core/build/validate-settings';
 
 export interface SchemaFormProperty extends JSONSchema6 {
   key: string;

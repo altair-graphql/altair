@@ -16,7 +16,7 @@ import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.ser
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { Extension } from '@codemirror/state';
-import settingsSchema from '../../utils/settings.schema.json';
+import settingsSchema from 'altair-graphql-core/build/settings.schema.json';
 import { getEditorExtensions } from './extensions';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
