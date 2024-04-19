@@ -35,7 +35,7 @@ import {
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import validateAppSettings from 'altair-graphql-core/build/validate-settings';
 import { log } from '../utils/log';
-import { ElectronApp } from '.';
+import { ElectronApp } from './index';
 import {
   getAltairSettingsFromFile,
   getPersisedSettingsFromFile,
