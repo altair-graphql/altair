@@ -27,6 +27,9 @@ describe('renderInitialOptions', () => {
       initialSettings: {
         theme: 'dark',
       },
+      persistedSettings: {
+        theme: 'light',
+      },
     });
 
     expect(translateRenderedStrToObj(result)).toEqual({

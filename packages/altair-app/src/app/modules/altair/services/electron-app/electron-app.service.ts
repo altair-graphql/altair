@@ -23,6 +23,7 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { electronAPI } from '@altairgraphql/electron-interop/build/renderer';
 import { environment } from 'environments/environment';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -156,9 +157,7 @@ export class ElectronAppService {
     this.api.events.onReloadDocs(() => {
       this.zone.run(() =>
         this.store.dispatch(
-          new queryActions.SendIntrospectionQueryRequestAction(
-            this.activeWindowId
-          )
+          new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)
         )
       );
     });
@@ -342,5 +341,13 @@ export class ElectronAppService {
     downloadData(await this.generateBackupData(), 'altair_backup', {
       fileType: 'agbkp',
     });
+  }
+
+  getSettingsFromFile() {
+    return this.api?.actions.getAltairAppSettingsFromFile();
+  }
+
+  updateSettingsOnFile(settings: SettingsState) {
+    return this.api?.actions.updateAltairAppSettingsOnFile(settings);
   }
 }

@@ -1,6 +1,8 @@
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { ipcRenderer } from 'electron';
 import { IPC_EVENT_NAMES, STORE_EVENTS } from './constants';
+import { SETTINGS_STORE_EVENTS } from './settings';
 
 const decodeError = (errObj: {
   name: string;
@@ -34,15 +36,13 @@ export const electronApi = {
       );
     },
     onCertificateError(cb: (err: Error) => void) {
-      return ipcRenderer.on(
-        IPC_EVENT_NAMES.CERTIFICATE_ERROR,
-        (evt, err: Error) => cb(err)
+      return ipcRenderer.on(IPC_EVENT_NAMES.CERTIFICATE_ERROR, (evt, err: Error) =>
+        cb(err)
       );
     },
     onImportAppData(cb: (content: string) => void) {
-      return ipcRenderer.on(
-        IPC_EVENT_NAMES.IMPORT_APP_DATA,
-        (evt, data: string) => cb(data)
+      return ipcRenderer.on(IPC_EVENT_NAMES.IMPORT_APP_DATA, (evt, data: string) =>
+        cb(data)
       );
     },
     onExportAppData(cb: () => void) {
@@ -127,14 +127,19 @@ export const electronApi = {
       return invokeWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN);
     },
     getAutobackupData() {
-      return invokeWithCustomErrors(
-        IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA
-      );
+      return invokeWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA);
     },
     saveAutobackupData(data: string) {
-      return ipcRenderer.send(
-        IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA,
-        data
+      return ipcRenderer.send(IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA, data);
+    },
+
+    getAltairAppSettingsFromFile(): Promise<SettingsState | undefined> {
+      return invokeWithCustomErrors(SETTINGS_STORE_EVENTS.GET_ALTAIR_APP_SETTINGS);
+    },
+    updateAltairAppSettingsOnFile(settings: SettingsState) {
+      return invokeWithCustomErrors(
+        SETTINGS_STORE_EVENTS.SET_ALTAIR_APP_SETTINGS,
+        settings
       );
     },
   },

@@ -57,6 +57,7 @@ import { ReducerBootstrapper } from './store/reducer-bootstrapper';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AccountEffects } from './effects/account.effect';
 import { WorkspaceEffects } from './effects/workspace.effect';
+import { ElectronEffects } from './effects/electron.effect';
 
 registerLocaleData(en);
 
@@ -147,6 +148,7 @@ const providers = [
       LocalEffects,
       AccountEffects,
       WorkspaceEffects,
+      ElectronEffects,
     ]),
     // StoreDevtoolsModule.instrument({
     //   logOnly: environment.production,

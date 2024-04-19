@@ -9,7 +9,7 @@ import { AllActions } from '../action';
 
 export const getInitialState = (): SettingsState => {
   const altairConfig = getAltairConfig();
-  const initialSettings = altairConfig.initialData.settings || {};
+  const initialSettings = altairConfig.initialData.settings ?? {};
   return {
     theme: altairConfig.defaultTheme,
     language: <SettingsLanguage>altairConfig.default_language,
@@ -23,17 +23,29 @@ export function settingsReducer(
   state = getInitialState(),
   action: AllActions
 ): SettingsState {
+  const persistedSettings = getAltairConfig().initialData.persistedSettings ?? {};
   switch (action.type) {
     case settings.SET_SETTINGS_JSON: {
-      const newState = { ...getInitialState(), ...jsonc(action.payload.value) };
+      const newState = {
+        ...getInitialState(),
+        ...jsonc(action.payload.value),
+        ...persistedSettings, // apply persisted settings last
+      };
 
       return newState;
     }
     case settings.UPDATE_SETTINGS: {
-      const newState = { ...state, ...action.payload };
+      const newState = {
+        ...state,
+        ...action.payload,
+        ...persistedSettings, // apply persisted settings last
+      };
       return newState;
     }
     default:
-      return state;
+      return {
+        ...state,
+        ...persistedSettings, // apply persisted settings last
+      };
   }
 }
