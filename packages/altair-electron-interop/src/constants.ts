@@ -42,4 +42,4 @@ export const ELECTRON_ALLOWED_FORBIDDEN_HEADERS = [
   'origin',
   'cookie',
   'referer',
-].map(_ => _.toLowerCase());
+].map((_) => _.toLowerCase());

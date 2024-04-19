@@ -21,6 +21,18 @@ export class ReducerBootstrapper {
         updateFromLocalStorage: true,
       });
 
+      // Merge electron setting state with initial setting state if available
+      const settingsFromFile = await this.electronAppService.getSettingsFromFile();
+      if (settingsFromFile) {
+        this.initialState = {
+          ...this.initialState,
+          settings: {
+            ...this.initialState?.settings,
+            ...settingsFromFile,
+          },
+        };
+      }
+
       // try to import backup if no initial state
       if (!this.initialState) {
         if (await this.electronAppService.importAutobackupData()) {

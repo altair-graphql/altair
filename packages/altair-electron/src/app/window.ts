@@ -5,7 +5,13 @@ import { promises as fs } from 'fs';
 import mime from 'mime-types';
 import windowStateKeeper from 'electron-window-state';
 
-import { getDistDirectory, renderAltair, renderInitialOptions } from 'altair-static';
+import {
+  RenderOptions,
+  SettingsState,
+  getDistDirectory,
+  renderAltair,
+  renderInitialOptions,
+} from 'altair-static';
 
 import { checkMultipleDataVersions } from '../utils/check-multi-data-versions';
 import { createSha256CspHash } from '../utils/csp-hash';
@@ -25,10 +31,16 @@ import {
   IPC_EVENT_NAMES,
   ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
   ALTAIR_CUSTOM_PROTOCOL,
+  SETTINGS_STORE_EVENTS,
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { log } from '../utils/log';
 import { ElectronApp } from '.';
+import {
+  getAltairSettingsFromFile,
+  getPersisedSettingsFromFile,
+  updateAltairSettingsOnFile,
+} from '../settings/main/store';
 
 export class WindowManager {
   private instance?: BrowserWindow;
@@ -179,7 +191,6 @@ export class WindowManager {
       setAutobackup(data);
     });
 
-    // TODO: Create an electron-interop package and move this there
     handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async (e) => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error('untrusted source trying to get auth token');
@@ -197,6 +208,29 @@ export class WindowManager {
         }
 
         return getAutobackup();
+      }
+    );
+
+    handleWithCustomErrors(
+      SETTINGS_STORE_EVENTS.GET_ALTAIR_APP_SETTINGS,
+      async (e) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source');
+        }
+
+        return getAltairSettingsFromFile();
+      }
+    );
+
+    handleWithCustomErrors(
+      SETTINGS_STORE_EVENTS.SET_ALTAIR_APP_SETTINGS,
+      async (e, data) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source');
+        }
+
+        // TODO: Validate data is a SettingsState
+        return updateAltairSettingsOnFile(data as SettingsState);
       }
     );
   }
@@ -256,7 +290,7 @@ export class WindowManager {
         const scriptSrc = [
           `'self'`,
           `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
-          `'${createSha256CspHash(renderInitialOptions())}'`,
+          `'${createSha256CspHash(renderInitialOptions(this.getRenderOptions()))}'`,
           `https://cdn.jsdelivr.net`,
           `https://apis.google.com`,
           `localhost:*`,
@@ -379,7 +413,7 @@ export class WindowManager {
     let data = await fs.readFile(filePath);
 
     if (filePath?.includes('index.html')) {
-      data = Buffer.from(renderAltair(), 'utf-8');
+      data = Buffer.from(renderAltair(this.getRenderOptions()), 'utf-8');
     }
 
     // Load the data from the file into a buffer and pass it to the callback
@@ -387,6 +421,12 @@ export class WindowManager {
     return {
       mimeType: mime.lookup(filePath) || '',
       data,
+    };
+  }
+
+  private getRenderOptions(): RenderOptions {
+    return {
+      persistedSettings: getPersisedSettingsFromFile(),
     };
   }
 }

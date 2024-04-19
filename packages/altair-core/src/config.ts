@@ -1,7 +1,4 @@
-import {
-  SubscriptionProviderIds,
-  WEBSOCKET_PROVIDER_ID,
-} from './subscriptions';
+import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './subscriptions';
 import { IDictionary, TODO } from './types/shared';
 import { IInitialEnvironments } from './types/state/environments.interfaces';
 import { HttpVerb } from './types/state/query.interfaces';
@@ -124,6 +121,11 @@ export interface AltairConfigOptions extends AltairWindowOptions {
   initialWindows?: AltairWindowOptions[];
 
   /**
+   * Persisted settings for the app. The settings will be merged with the app settings.
+   */
+  persistedSettings?: Partial<SettingsState>;
+
+  /**
    * Disable the account and remote syncing functionality
    */
   disableAccount?: boolean;
@@ -170,13 +172,16 @@ export class AltairConfig {
     query: '',
     variables: '',
     // Force type of header, since initial value inference is wrong
-    headers: (null as unknown) as IDictionary,
+    headers: null as unknown as IDictionary,
     environments: {} as IInitialEnvironments,
     preRequestScript: '',
     postRequestScript: '',
     instanceStorageNamespace: 'altair_',
-    settings: (undefined as unknown) as AltairConfigOptions['initialSettings'],
-    initialSubscriptionsProvider: undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    settings: undefined as unknown as AltairConfigOptions['initialSettings'],
+    persistedSettings:
+      undefined as unknown as AltairConfigOptions['persistedSettings'],
+    initialSubscriptionsProvider:
+      undefined as AltairConfigOptions['initialSubscriptionsProvider'],
     initialSubscriptionsPayload: {} as IDictionary,
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
@@ -195,6 +200,7 @@ export class AltairConfig {
     initialPostRequestScript = '',
     instanceStorageNamespace,
     initialSettings,
+    persistedSettings,
     initialSubscriptionsProvider = WEBSOCKET_PROVIDER_ID,
     initialSubscriptionsPayload = {},
     initialHttpMethod = 'POST',
@@ -203,29 +209,30 @@ export class AltairConfig {
     disableAccount = false,
   }: AltairConfigOptions = {}) {
     this.initialData.url =
-      (window as TODO).__ALTAIR_ENDPOINT_URL__ || endpointURL || '';
+      (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? endpointURL ?? '';
     this.initialData.subscriptionsEndpoint =
-      (window as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ||
-      subscriptionsEndpoint ||
+      (window as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ??
+      subscriptionsEndpoint ??
       '';
-    this.initialData.subscriptionsProtocol = subscriptionsProtocol || '';
+    this.initialData.subscriptionsProtocol = subscriptionsProtocol ?? '';
     this.initialData.query =
-      (window as TODO).__ALTAIR_INITIAL_QUERY__ || initialQuery || '';
+      (window as TODO).__ALTAIR_INITIAL_QUERY__ ?? initialQuery ?? '';
     this.initialData.variables =
-      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ || initialVariables || '';
+      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ ?? initialVariables ?? '';
     this.initialData.headers =
-      (window as TODO).__ALTAIR_INITIAL_HEADERS__ || initialHeaders || '';
-    this.initialData.environments = initialEnvironments || {};
+      (window as TODO).__ALTAIR_INITIAL_HEADERS__ ?? initialHeaders ?? '';
+    this.initialData.environments = initialEnvironments ?? {};
     this.initialData.preRequestScript =
-      (window as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ||
-      initialPreRequestScript ||
+      (window as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ??
+      initialPreRequestScript ??
       '';
     this.initialData.postRequestScript = initialPostRequestScript;
     this.initialData.instanceStorageNamespace =
-      (window as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ||
-      instanceStorageNamespace ||
+      (window as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ??
+      instanceStorageNamespace ??
       'altair_';
     this.initialData.settings = initialSettings;
+    this.initialData.persistedSettings = persistedSettings;
     this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
     this.initialData.initialHttpMethod = initialHttpMethod;

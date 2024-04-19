@@ -1,5 +1,6 @@
 import { settingsReducer } from './settings.reducer';
 import { SET_SETTINGS_JSON, SetSettingsJsonAction } from './settings.action';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 let mockAltairConfig = {
   initialData: {},
@@ -10,6 +11,8 @@ let mockAltairConfig = {
 };
 jest.mock('altair-graphql-core/build/config', () => {
   return {
+    AltairConfig: jest.requireActual('altair-graphql-core/build/config')
+      .AltairConfig,
     getAltairConfig() {
       return mockAltairConfig;
     },
@@ -68,6 +71,32 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+    });
+  });
+
+  it('should set persistent settings after user provided settings', () => {
+    mockAltairConfig = new AltairConfig({
+      initialSettings: {
+        theme: 'dark',
+        disablePushNotification: true,
+      },
+      persistedSettings: {
+        theme: 'light',
+      },
+    });
+    const initialState = settingsReducer(undefined, {
+      type: 'UNKNOWN_ACTION',
+    } as any);
+    const newState = settingsReducer(
+      initialState,
+      new SetSettingsJsonAction({ value: JSON.stringify({ theme: 'changed' }) })
+    );
+    expect(newState).toEqual({
+      theme: 'light',
+      disablePushNotification: true,
+      language: 'en-US',
+      addQueryDepthLimit: 3,
+      tabSize: 2,
     });
   });
 
