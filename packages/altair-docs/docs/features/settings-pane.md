@@ -2,7 +2,7 @@
 parent: Features
 ---
 
-# Settings Pane
+# Settings
 
 A settings modal is available in the app to allow you customize all the various aspects of the application including the theme, language, and styling options. The settings are specified in form of a JSON object. e.g.
 
@@ -15,39 +15,50 @@ A settings modal is available in the app to allow you customize all the various 
 }
 ```
 
+In the desktop apps, the settings are stored in a `altair_settings.json` file in the app's data directory. The settings are loaded from this file when the app starts up. The settings can also be updated from the settings modal in the app.
+
 The available options are listed here:
 
 ### `theme` - Specifies the theme
+
 Options include `light`, `dark`, `dracula`, `system`.
 
 ### `language` - Specifies the language
+
 The options are any of the valid language codes according to: [https://support.crowdin.com/api/language-codes/](https://support.crowdin.com/api/language-codes/).
 
 However not all the languages are translated. The available translations are [English, French, Español, Czech, German, Brazilian, Russian, Chinese Simplified, Japanese, Serbian, Italian, Polish, Korea](https://crowdin.com/project/altair-gql).
 
 ### `addQueryDepthLimit` - Specifies how deep the 'Add query' functionality would go
+
 You can specify any valid number here.
 
 ### `tabSize` - Specifies the tab size in the editor
+
 You can specify any valid number here.
 
-
 ### `theme.fontsize` - Specifies the base font size
+
 _Default: 24_
 
 ### `theme.editorFontFamily` - Specifies the font family for the editors
+
 Any valid CSS font family combinations can be used here.
 
 ### `disablePushNotification` - Specifies if native push notifications should be disabled
+
 _Default: false_
 
 ### `enableExperimental` - Enable experimental features in Altair. Note: The features might be unstable
+
 _Default: false_
 
 ### `alert.disableWarnings` - Disable warning alerts
+
 _Default: false_
 
 ### `plugin.list` - Specifies a list of enabled plugins (requires enableExperimental to be true)
+
 _Default: []_
 Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version>::[<opt>]->[<opt-value>]`:
 
@@ -59,8 +70,23 @@ Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version
 Valid plugins in string format include: `altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin`, `npm:altair-graphql-plugin-some-plugin@0.3.4`, `url:altair-graphql-plugin-some-plugin@0.3.4::[url]->[http://example.com/some-plugin]`
 
 ### `editor.shortcuts` - Contains shortcut to action mapping
+
 _Default: {}_
 You can add new editor shortcut mapping following the [CodeMirror key map pattern](https://codemirror.net/doc/manual.html#keymaps). For example, to add a new shortcut to toggle comments, you can add `{ "Ctrl-7": "toggleComment" }`. There are several editor actions you can add shortcuts for including: `showAutocomplete`, `toggleComment`, `showFinder`, `showInDocs`, `fillAllFields`, etc. If you want to disable an in-built shortcut, you can use the `noOp` action. For example to disable `Ctrl-/` from toggling comments, you can use `{ "Ctrl-/": "noOp" }`.
 
 ### `script.allowedCookies` - List of cookies to be accessible in the pre-request script
+
 _Default: []_
+
+## Persisted settings
+
+In the desktop apps, you can specify settings that will be persisted and cannot be overridden. This can be used if you need to enforce some settings of the app.
+
+These persisted settings are retrieved from the `persisted_settings.json` file in the app's data directory. The file should contain a JSON object with the settings to be persisted. e.g.
+
+```json
+{
+  "theme": "system",
+  "language": "en-US"
+}
+```
