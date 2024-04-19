@@ -63,7 +63,7 @@
   "main": "./build/index.js",
   "repository": "altair-graphql/altair.git",
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && ./scripts/generate-settings-schema.sh",
     "prepare": "npm run build",
     "test": "jest"
   },

@@ -134,3 +134,6 @@ export interface SettingsState {
    */
   enableTablistScrollbar?: boolean;
 }
+
+// Partial settings state for generating partial validator
+type PartialSettingsState = Partial<SettingsState>;

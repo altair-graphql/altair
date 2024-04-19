@@ -7,7 +7,6 @@ import windowStateKeeper from 'electron-window-state';
 
 import {
   RenderOptions,
-  SettingsState,
   getDistDirectory,
   renderAltair,
   renderInitialOptions,
@@ -34,6 +33,7 @@ import {
   SETTINGS_STORE_EVENTS,
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import validateAppSettings from 'altair-graphql-core/build/validate-settings';
 import { log } from '../utils/log';
 import { ElectronApp } from '.';
 import {
@@ -229,8 +229,11 @@ export class WindowManager {
           throw new Error('untrusted source');
         }
 
-        // TODO: Validate data is a SettingsState
-        return updateAltairSettingsOnFile(data as SettingsState);
+        // Validate data is a SettingsState
+        if (validateAppSettings(data)) {
+          return updateAltairSettingsOnFile(data);
+        }
+        console.error('Invalid settings data, not saving to file', data);
       }
     );
   }

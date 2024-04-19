@@ -1,4 +1,4 @@
-import settingsSchema from '../../utils/settings.schema.json';
+import settingsSchema from 'altair-graphql-core/build/settings.schema.json';
 import { JSONSchema7 } from 'json-schema';
 import { jsonSchema } from 'codemirror-json-schema';
 

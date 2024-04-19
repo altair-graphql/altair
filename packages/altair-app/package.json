@@ -134,7 +134,6 @@
     "@types/zen-observable": "^0.8.1",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
-    "ajv-cli": "3.1.0",
     "babel-plugin-transform-async-to-generator": "6.24.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
@@ -162,8 +161,7 @@
     "ts-jest": "29.0.5",
     "ts-mocks": "2.6.1",
     "ts-node": "9.1.1",
-    "typescript": "5.2.2",
-    "typescript-json-schema": "0.50.1"
+    "typescript": "5.2.2"
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",
@@ -178,13 +176,11 @@
   "scripts": {
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "build": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json && yarn sentry:sourcemaps:inject",
-    "generate-settings-schema-validator": "./scripts/generate-settings-schema.sh",
+    "build": "node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json && yarn sentry:sourcemaps:inject",
     "lint": "ng lint",
     "new:component": "ng g component modules/altair/components/",
     "ng": "ng",
-    "postinstall": "yarn generate-settings-schema-validator",
-    "prepare": "yarn generate-settings-schema-validator && node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json && yarn sentry:sourcemaps:inject",
+    "prepare": "node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --output-hashing=none --aot --stats-json && yarn sentry:sourcemaps:inject",
     "start": "ng serve",
     "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist",
     "test": "jest && ng lint",

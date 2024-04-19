@@ -4,6 +4,7 @@ import {
   settingsStoreFileName,
   altairSettingsStoreFileName,
 } from '@altairgraphql/electron-interop';
+import validatePartialSettings from 'altair-graphql-core/build/validate-partial-settings';
 import { SettingsState } from 'altair-static';
 
 export const store = new ElectronStore<SettingStore>({
@@ -14,7 +15,7 @@ export const altairSettingsStore = new ElectronStore<SettingsState>({
   name: altairSettingsStoreFileName,
 });
 
-export const persistedSettingsStore = new ElectronStore<Partial<SettingsState>>({
+export const persistedSettingsStore = new ElectronStore({
   name: 'persisted_settings',
 });
 
@@ -26,9 +27,10 @@ export const getAltairSettingsFromFile = (): SettingsState | undefined => {
   return altairSettingsStore.store;
 };
 
-export const getPersisedSettingsFromFile = ():
-  | Partial<SettingsState>
-  | undefined => {
-  // TODO: Validate settings
-  return persistedSettingsStore.store;
+export const getPersisedSettingsFromFile = () => {
+  const data = persistedSettingsStore.store;
+  // Validate settings
+  if (validatePartialSettings(data)) {
+    return data;
+  }
 };
