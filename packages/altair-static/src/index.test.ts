@@ -43,6 +43,9 @@ describe('renderInitialOptions', () => {
       initialSettings: {
         theme: 'dark',
       },
+      persistedSettings: {
+        theme: 'light',
+      },
     });
 
     expect(result).toMatchSnapshot();
