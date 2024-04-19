@@ -36,6 +36,7 @@
     "@typescript-eslint/parser": "^7.4.0",
     "ajv": "^8.11.2",
     "ajv-cli": "5.0.0",
+    "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
