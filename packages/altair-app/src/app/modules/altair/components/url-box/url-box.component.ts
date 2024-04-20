@@ -19,6 +19,7 @@ export class UrlBoxComponent {
   @Input() queryOperations: OperationDefinitionNode[] = [];
   @Input() streamState = '';
   @Input() currentCollection?: IQueryCollection;
+  @Input() hasUnsavedChanges = false;
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();

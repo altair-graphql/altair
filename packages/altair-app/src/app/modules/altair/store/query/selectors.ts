@@ -1,7 +1,13 @@
 import { createSelector, Store } from '@ngrx/store';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { getInitialState } from './query.reducer';
+import { selectWindowState } from '../windows/selectors';
 
+export const selectQueryState = (windowId: string) =>
+  createSelector(
+    selectWindowState(windowId),
+    (state) => state?.query ?? getInitialState()
+  );
 export const getQueryState = (state: PerWindowState) =>
   state ? state.query : { ...getInitialState() };
 export const getQueryResult = createSelector(

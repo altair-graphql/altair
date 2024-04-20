@@ -13,6 +13,7 @@
     [queryOperations]="queryOperations$ | async"
     [streamState]="streamState$ | async"
     [currentCollection]="currentCollection$ | async"
+    [hasUnsavedChanges]="hasUnsavedChanges$ | async"
     (urlChange)="setApiUrl($event)"
     (httpVerbChange)="setApiMethod($event)"
     (sendRequest)="sendRequest()"

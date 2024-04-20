@@ -41,9 +41,7 @@ export class QueryCollectionEffects {
   createCollectionAndSaveQueryToCollection$: Observable<Action> = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(
-          collectionActions.CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION
-        ),
+        ofType(collectionActions.CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION),
         withLatestFrom(
           this.store,
           (
@@ -130,10 +128,7 @@ export class QueryCollectionEffects {
         }
       ),
       switchMap((res) =>
-        forkJoin([
-          of(res),
-          this.windowService.getWindowExportData(res.windowId),
-        ])
+        forkJoin([of(res), this.windowService.getWindowExportData(res.windowId)])
       ),
       switchMap(([res, exportData]) => {
         const query = exportData;
@@ -155,10 +150,7 @@ export class QueryCollectionEffects {
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         debug.error(err);
-        this.notifyService.errorWithError(
-          err,
-          'Could not add query to collection'
-        );
+        this.notifyService.errorWithError(err, 'Could not add query to collection');
         return EMPTY;
       }),
       repeat()
@@ -179,10 +171,7 @@ export class QueryCollectionEffects {
         }
       ),
       switchMap((res) =>
-        forkJoin([
-          of(res),
-          this.windowService.getWindowExportData(res.windowId),
-        ])
+        forkJoin([of(res), this.windowService.getWindowExportData(res.windowId)])
       ),
       switchMap(([res, exportData]) => {
         const query = exportData;
@@ -238,9 +227,7 @@ export class QueryCollectionEffects {
           return EMPTY;
         }),
         tap(() => {
-          this.store.dispatch(
-            new windowsActions.ReloadCollectionWindowsAction()
-          );
+          this.store.dispatch(new windowsActions.ReloadCollectionWindowsAction());
         }),
         catchError((err: UnknownError) => {
           debug.error(err);
@@ -300,9 +287,7 @@ export class QueryCollectionEffects {
     return this.actions$.pipe(
       ofType(collectionActions.DELETE_COLLECTION),
       switchMap((action: collectionActions.DeleteCollectionAction) => {
-        return this.collectionService.deleteCollection(
-          action.payload.collectionId
-        );
+        return this.collectionService.deleteCollection(action.payload.collectionId);
       }),
       tap(() => this.notifyService.success('Deleted query from collection.')),
       map(() => new collectionActions.LoadCollectionsAction()),
@@ -418,20 +403,18 @@ export class QueryCollectionEffects {
   syncLocalCollectionToRemote$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(collectionActions.SYNC_LOCAL_COLLECTION_TO_REMOTE),
-      switchMap(
-        (action: collectionActions.SyncLocalCollectionToRemoteAction) => {
-          const collection = action.payload.collection;
+      switchMap((action: collectionActions.SyncLocalCollectionToRemoteAction) => {
+        const collection = action.payload.collection;
 
-          if (collection.id) {
-            return from(
-              this.collectionService.transformCollectionToRemoteCollection(
-                collection.id
-              )
-            );
-          }
-          return EMPTY;
+        if (collection.id) {
+          return from(
+            this.collectionService.transformCollectionToRemoteCollection(
+              collection.id
+            )
+          );
         }
-      ),
+        return EMPTY;
+      }),
       tap(() => this.notifyService.success('Synced collection to remote.')),
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {

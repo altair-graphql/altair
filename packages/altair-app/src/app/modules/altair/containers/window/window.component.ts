@@ -116,6 +116,8 @@ export class WindowComponent implements OnInit {
   editorShortcutMapping$: Observable<IDictionary>;
   variableToType$: Observable<IDictionary>;
 
+  hasUnsavedChanges$: Observable<boolean>;
+
   // Using getter/setter for the windowId to update the windowId$ subject.
   // We need the windowId$ subject to update the getWindowState observable
   // whenever the windowId changes, in order to get the right window state.
@@ -169,17 +171,13 @@ export class WindowComponent implements OnInit {
     this.disableLineNumbers$ = this.store.pipe(
       select((state) => state.settings.disableLineNumbers)
     );
-    this.collections$ = this.store.pipe(
-      select((state) => state.collection.list)
-    );
+    this.collections$ = this.store.pipe(select((state) => state.collection.list));
     this.activeWindowId$ = this.store.pipe(
       select((state) => state.windowsMeta.activeWindowId)
     );
 
     this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
-    this.queryResult$ = this.getWindowState().pipe(
-      select(fromRoot.getQueryResult)
-    );
+    this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
     this.docsIsLoading$ = this.getWindowState().pipe(
@@ -208,9 +206,7 @@ export class WindowComponent implements OnInit {
     this.responseHeaders$ = this.getWindowState().pipe(
       select(fromRoot.getResponseHeaders)
     );
-    this.isSubscribed$ = this.getWindowState().pipe(
-      select(fromRoot.isSubscribed)
-    );
+    this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
     this.subscriptionResponses$ = this.getWindowState().pipe(
       select(fromRoot.getSubscriptionResponses)
     );
@@ -235,8 +231,7 @@ export class WindowComponent implements OnInit {
           return this.collections$.pipe(
             map((collections) => {
               return collections.find(
-                (collection) =>
-                  str(collection.id) === str(data.layout.collectionId)
+                (collection) => str(collection.id) === str(data.layout.collectionId)
               );
             })
           );
@@ -245,17 +240,11 @@ export class WindowComponent implements OnInit {
         return EMPTY;
       })
     );
-    this.preRequest$ = this.getWindowState().pipe(
-      select(fromRoot.getPreRequest)
-    );
-    this.postRequest$ = this.getWindowState().pipe(
-      select(fromRoot.getPostRequest)
-    );
+    this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
+    this.postRequest$ = this.getWindowState().pipe(select(fromRoot.getPostRequest));
     this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
 
-    this.resultPaneUiActions$ = this.store.select(
-      fromRoot.getResultPaneUiActions
-    );
+    this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
     this.resultPaneBottomPanels$ = this.store.select(
       fromRoot.getResultPaneBottomPanels
     );
@@ -276,6 +265,13 @@ export class WindowComponent implements OnInit {
         return collectVariables(schema, this.gql.parseQuery(query));
       }),
       catchError(() => EMPTY)
+    );
+
+    this.hasUnsavedChanges$ = this.store.pipe(
+      withLatestFrom(this.windowId$),
+      switchMap(([state, windowId]) => {
+        return select(fromRoot.selectHasUnsavedChanges(windowId))(of(state));
+      })
     );
   }
 
@@ -312,9 +308,7 @@ export class WindowComponent implements OnInit {
         if (this.gql.isSchema(data.schema.schema)) {
           this.gqlSchema = data.schema.schema;
         } else {
-          const schema = this.gql.getIntrospectionSchema(
-            data.schema.introspection
-          );
+          const schema = this.gql.getIntrospectionSchema(data.schema.introspection);
           if (schema) {
             this.store.dispatch(
               new schemaActions.SetSchemaAction(this.windowId, schema)
@@ -328,9 +322,7 @@ export class WindowComponent implements OnInit {
 
   setApiUrl(url: string) {
     if (url !== this.apiUrl) {
-      this.store.dispatch(
-        new queryActions.SetUrlAction({ url }, this.windowId)
-      );
+      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
       this.store.dispatch(
         new queryActions.SendIntrospectionQueryRequestAction(this.windowId)
       );
@@ -355,9 +347,7 @@ export class WindowComponent implements OnInit {
   }
 
   cancelRequest() {
-    this.store.dispatch(
-      new queryActions.CancelQueryRequestAction(this.windowId)
-    );
+    this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
   }
 
   selectOperation(selectedOperation: string) {
@@ -371,17 +361,12 @@ export class WindowComponent implements OnInit {
 
   setQueryEditorState(queryEditorState: QueryEditorState) {
     this.store.dispatch(
-      new queryActions.SetQueryEditorStateAction(
-        this.windowId,
-        queryEditorState
-      )
+      new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState)
     );
   }
 
   startSubscription() {
-    this.store.dispatch(
-      new queryActions.StartSubscriptionAction(this.windowId)
-    );
+    this.store.dispatch(new queryActions.StartSubscriptionAction(this.windowId));
   }
 
   stopSubscription() {

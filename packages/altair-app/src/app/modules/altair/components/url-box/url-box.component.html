@@ -58,32 +58,42 @@
     ></app-x-input>
   </div>
   <div class="url-box__input-actions">
+    @if (currentCollection) {
+      <button
+        type="button"
+        class="url-box__button"
+        [ngClass]="{ 'url-box__button--disabled': !hasUnsavedChanges }"
+        (click)="updateQueryInCollectionChange.emit()"
+        track-id="update_in_collection"
+        nz-tooltip
+        [nzTooltipTitle]="'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate"
+        nzTooltipPlacement="bottom"
+      >
+        <app-icon name="save"></app-icon>
+      </button>
+    }
     <button
       type="button"
-      nz-dropdown
-      nzTrigger="click"
-      [nzDropdownMenu]="urlBoxActionMenu"
       class="url-box__button"
+      (click)="addToCollectionChange.emit()"
+      track-id="save_to_collection"
+      nz-tooltip
+      [nzTooltipTitle]="'SAVE_TO_COLLECTION_BUTTON' | translate"
+      nzTooltipPlacement="bottom"
     >
-      <app-icon name="save"></app-icon>
+      <app-icon name="plus-circle"></app-icon>
     </button>
-    <nz-dropdown-menu #urlBoxActionMenu="nzDropdownMenu">
-      <ul nz-menu>
-        @if (currentCollection) {
-          <li nz-menu-item (click)="updateQueryInCollectionChange.emit()">
-            {{ 'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate }} ({{
-              currentCollection.title
-            }})
-          </li>
-        }
-        <li nz-menu-item (click)="addToCollectionChange.emit()">
-          {{ 'SAVE_TO_COLLECTION_BUTTON' | translate }}
-        </li>
-        <li nz-menu-item (click)="exportWindowChange.emit()">
-          {{ 'EXPORT_WINDOW_TEXT' | translate }}
-        </li>
-      </ul>
-    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="url-box__button"
+      (click)="exportWindowChange.emit()"
+      track-id="export_window"
+      nz-tooltip
+      [nzTooltipTitle]="'EXPORT_WINDOW_TEXT' | translate"
+      nzTooltipPlacement="bottom"
+    >
+      <app-icon name="file-down"></app-icon>
+    </button>
     <button
       type="button"
       class="url-box__button"
