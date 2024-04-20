@@ -70,37 +70,31 @@ exports[`UrlBoxComponent should render correctly 1`] = `
     <div
       class="url-box__input-actions"
     >
+      
       <button
         class="url-box__button"
-        nz-dropdown=""
-        nztrigger="click"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
+        track-id="save_to_collection"
         type="button"
       >
         <app-icon
-          name="save"
+          name="plus-circle"
         />
       </button>
       
-      <nz-dropdown-menu>
-        <ul
-          nz-menu=""
-        >
-          
-          <li
-            nz-menu-item=""
-          >
-              
-          </li>
-          
-          <li
-            nz-menu-item=""
-          >
-              
-          </li>
-          
-        </ul>
-        
-      </nz-dropdown-menu>
+      <button
+        class="url-box__button"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
+        track-id="export_window"
+        type="button"
+      >
+        <app-icon
+          name="file-down"
+        />
+      </button>
+      
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -225,37 +219,31 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
     <div
       class="url-box__input-actions"
     >
+      
       <button
         class="url-box__button"
-        nz-dropdown=""
-        nztrigger="click"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
+        track-id="save_to_collection"
         type="button"
       >
         <app-icon
-          name="save"
+          name="plus-circle"
         />
       </button>
       
-      <nz-dropdown-menu>
-        <ul
-          nz-menu=""
-        >
-          
-          <li
-            nz-menu-item=""
-          >
-              
-          </li>
-          
-          <li
-            nz-menu-item=""
-          >
-              
-          </li>
-          
-        </ul>
-        
-      </nz-dropdown-menu>
+      <button
+        class="url-box__button"
+        nz-tooltip=""
+        nztooltipplacement="bottom"
+        track-id="export_window"
+        type="button"
+      >
+        <app-icon
+          name="file-down"
+        />
+      </button>
+      
       <button
         class="url-box__button"
         nz-tooltip=""
