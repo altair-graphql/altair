@@ -103,6 +103,11 @@ app-url-box {
     color: var(--primary-color);
   }
 
+  &--disabled {
+    color: var(--theme-font-color);
+    opacity: 0.5;
+  }
+
   &:hover {
     background: rgba(var(--rgb-primary), 0.15);
     color: var(--primary-color);

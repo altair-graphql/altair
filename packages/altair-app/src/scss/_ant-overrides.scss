@@ -148,8 +148,7 @@
 }
 
 .ant-input {
-  // background: var(--theme-off-bg-color);
-  background: rgba(var(--rgb-theme-bg), 0.5);
+  background: rgba(var(--rgb-theme-off-bg), 0.5);
   border-color: var(--theme-border-color);
   color: var(--theme-font-color);
 }
@@ -194,6 +193,7 @@
 
 .ant-select {
   color: var(--theme-font-color);
+  background-color: var(--theme-off-bg-color);
   width: 100%;
   border-radius: 4px;
 }

@@ -6,3 +6,7 @@ export const selectCollections = createSelector(
   selectCollectionState,
   (collectionState) => collectionState.list || []
 );
+export const selectCollection = (collectionId: string) =>
+  createSelector(selectCollectionState, (collectionState) =>
+    collectionState.list.find((collection) => collection.id === collectionId)
+  );
