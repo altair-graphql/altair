@@ -9,6 +9,7 @@ import { QueryCollectionService } from '../query-collection/query-collection.ser
 
 import { QueryService } from './query.service';
 import { GqlService } from '../gql/gql.service';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 describe('QueryService', () => {
   let service: QueryService;
@@ -17,7 +18,14 @@ describe('QueryService', () => {
     TestBed.configureTestingModule({
       providers: [
         MockProvider(NotifyService),
-        MockProvider(EnvironmentService),
+        MockProvider(EnvironmentService, {
+          hydrate(content) {
+            return `HYDRATED[[${content}]]`;
+          },
+          hydrateHeaders(headers) {
+            return headers;
+          },
+        }),
         MockProvider(PreRequestService),
         MockProvider(QueryCollectionService),
         MockProvider(GqlService),
@@ -33,5 +41,137 @@ describe('QueryService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('hydrateAllHydratables', () => {
+    it('should hydrate all hydratables', () => {
+      const hydratedContent = service.hydrateAllHydratables({
+        query: {
+          url: 'http://localhost:3000/graphql',
+          query: 'query { hello }',
+          variables: '{ "name": "world" }',
+          subscriptionConnectionParams: '{ "name": "world" }',
+        },
+        variables: {
+          variables: '{ "name": "world" }',
+        },
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+            enabled: true,
+          },
+        ],
+      } as unknown as PerWindowState);
+      expect(hydratedContent).toEqual({
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+            enabled: true,
+          },
+        ],
+        query: 'HYDRATED[[query { hello }]]',
+        subscriptionConnectionParams: 'HYDRATED[[{ "name": "world" }]]',
+        subscriptionUrl: 'HYDRATED[[undefined]]',
+        url: 'HYDRATED[[http://localhost:3000/graphql]]',
+        variables: 'HYDRATED[[{ "name": "world" }]]',
+      });
+    });
+    it('should hydrate with environment', () => {
+      const hydratedContent = service.hydrateAllHydratables(
+        {
+          query: {
+            url: 'http://localhost:3000/graphql',
+            query: 'query { hello }',
+            variables: '{ "name": "world" }',
+            subscriptionConnectionParams: '{ "name": "world" }',
+          },
+          variables: {
+            variables: '{ "name": "world" }',
+          },
+          headers: [
+            {
+              key: 'Content-Type',
+              value: 'application/json',
+              enabled: true,
+            },
+          ],
+        } as unknown as PerWindowState,
+        {
+          additionalHeaders: [],
+          requestScriptLogs: [],
+          environment: {
+            x: 1,
+          },
+        }
+      );
+      expect(hydratedContent).toEqual({
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+            enabled: true,
+          },
+        ],
+        query: 'HYDRATED[[query { hello }]]',
+        subscriptionConnectionParams: 'HYDRATED[[{ "name": "world" }]]',
+        subscriptionUrl: 'HYDRATED[[undefined]]',
+        url: 'HYDRATED[[http://localhost:3000/graphql]]',
+        variables: 'HYDRATED[[{ "name": "world" }]]',
+      });
+    });
+    it('should hydrate with additional headers', () => {
+      const hydratedContent = service.hydrateAllHydratables(
+        {
+          query: {
+            url: 'http://localhost:3000/graphql',
+            query: 'query { hello }',
+            variables: '{ "name": "world" }',
+            subscriptionConnectionParams: '{ "name": "world" }',
+          },
+          variables: {
+            variables: '{ "name": "world" }',
+          },
+          headers: [
+            {
+              key: 'Content-Type',
+              value: 'application/json',
+              enabled: true,
+            },
+          ],
+        } as unknown as PerWindowState,
+        {
+          additionalHeaders: [
+            {
+              key: 'Authorization',
+              value: 'Bearer token',
+              enabled: true,
+            },
+          ],
+          requestScriptLogs: [],
+          environment: {},
+        }
+      );
+      expect(hydratedContent).toEqual({
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+            enabled: true,
+          },
+          {
+            key: 'Authorization',
+            value: 'Bearer token',
+            enabled: true,
+          },
+        ],
+        query: 'HYDRATED[[query { hello }]]',
+        subscriptionConnectionParams: 'HYDRATED[[{ "name": "world" }]]',
+        subscriptionUrl: 'HYDRATED[[undefined]]',
+        url: 'HYDRATED[[http://localhost:3000/graphql]]',
+        variables: 'HYDRATED[[{ "name": "world" }]]',
+      });
+    });
   });
 });

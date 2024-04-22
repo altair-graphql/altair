@@ -277,7 +277,11 @@ export class QueryService {
     let subscriptionConnectionParams = this.environmentService.hydrate(
       window.query.subscriptionConnectionParams
     );
-    let headers = this.environmentService.hydrateHeaders(window.headers);
+    const combinedHeaders = [
+      ...window.headers,
+      ...(transformResult?.additionalHeaders ?? []),
+    ];
+    let headers = this.environmentService.hydrateHeaders(combinedHeaders);
 
     if (transformResult?.environment) {
       const activeEnvironment = transformResult.environment;
@@ -308,12 +312,9 @@ export class QueryService {
           activeEnvironment,
         }
       );
-      headers = this.environmentService.hydrateHeaders(
-        [...window.headers, ...transformResult.additionalHeaders],
-        {
-          activeEnvironment,
-        }
-      );
+      headers = this.environmentService.hydrateHeaders(combinedHeaders, {
+        activeEnvironment,
+      });
     }
 
     return {
