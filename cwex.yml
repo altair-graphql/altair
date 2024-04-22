@@ -16,24 +16,31 @@ manifestOptions:
     16: assets/img/altair_logo_128.png
     48: assets/img/altair_logo_128.png
     128: assets/img/altair_logo_128.png
-  browser_action:
+  action:
     default_icon: assets/img/altair_logo_128.png
   permissions:
-    - http://*/
-    - https://*/
     - tabs
     - storage
     - notifications
-  # this CSP has been modified to allow unsafe-eval but the CSP in the index.html remains strict. This allows the web worker to have the less strict CSP.
-  # Note: firefox ignores the CSP if it contains unsafe-inline
-  content_security_policy: "script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' 'unsafe-eval' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';"
+  host_permissions:
+    - http://*/
+    - https://*/
+  content_security_policy:
+    # this CSP has been modified to allow unsafe-eval but the CSP in the index.html remains strict. This allows the web worker to have the less strict CSP.
+    # Note: firefox ignores the CSP if it contains unsafe-inline
+    # Note: Don't forget to update the CSP in the index.html file
+    sandbox: "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-btk6arYQcHAX3O853bPKjrJz/yX/iuv4n0kXWYdJlEE=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' 'unsafe-eval' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com localhost:* http://localhost:8002 http://localhost:8080; object-src 'self';"
   background:
     scripts:
       - js/background.js
+    service_worker: js/background.js
   options_ui:
     page: options.html
     open_in_tab: false
   offline_enabled: true
+  sandbox:
+    pages:
+      - index.html
   browser_specific_settings:
     gecko:
       strict_min_version: '60.0'

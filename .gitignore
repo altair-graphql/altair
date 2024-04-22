@@ -16,6 +16,7 @@ out/
 *.nex
 extension-builds/
 coverage
+.coverage/
 
 dist
 build

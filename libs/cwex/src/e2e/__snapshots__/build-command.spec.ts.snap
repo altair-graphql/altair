@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`build command builds successfully 1`] = `
+"{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test extension\\",
+  \\"version\\": \\"0.2.0\\",
+  \\"browser_action\\": {}
+}"
+`;
+
+exports[`build command builds successfully 2`] = `
+"{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test extension\\",
+  \\"version\\": \\"0.2.0\\",
+  \\"browser_action\\": {}
+}"
+`;
