@@ -104,7 +104,7 @@
     "@angular-eslint/builder": "17.1.1",
     "@angular-eslint/eslint-plugin": "17.1.1",
     "@angular-eslint/eslint-plugin-template": "17.1.1",
-    "@angular-eslint/schematics": "17.1.1",
+    "@angular-eslint/schematics": "17.3.0",
     "@angular-eslint/template-parser": "17.1.1",
     "@angular/compiler": "17.0.8",
     "@angular/compiler-cli": "17.0.8",
