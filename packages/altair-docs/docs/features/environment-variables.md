@@ -58,3 +58,13 @@ Environment variables are enabled pretty much everywhere in an Altair window. Ho
 ```
 
 For example given the environment above, every request sent in Altair would have the `X-Api-Token` header set to `12345`.
+
+**accentColor** - If you specify an `accentColor` in any of the environments (including Global environment), the color you specify there would be used as the accent color for the interface.
+
+```json
+{
+  "accentColor": "#ff0000"
+}
+```
+
+![altair](/assets/img/docs/environment-accent-color.png)
