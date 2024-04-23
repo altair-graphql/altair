@@ -2,6 +2,7 @@
   class="app-wrapper"
   [appTheme]="theme$ | async"
   [appDarkTheme]="themeDark$ | async"
+  [appAccentColor]="accentColor$ | async"
   appFileDrop
   (fileDroppedChange)="fileDropped($event)"
 >

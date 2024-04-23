@@ -19,6 +19,7 @@ import { HeaderState } from 'altair-graphql-core/build/types/state/header.interf
 import { merge } from 'lodash-es';
 import { downloadJson } from '../../utils';
 import { NotifyService } from '../notify/notify.service';
+import { getActiveEnvironment } from './helpers';
 
 // Unfortunately, Safari doesn't support lookbehind in regex: https://caniuse.com/js-regexp-lookbehind
 // So have to go with an alternative approach using lookahead instead
@@ -47,37 +48,11 @@ export class EnvironmentService {
   }
 
   getActiveEnvironment(): IEnvironment {
-    let baseEnvironment = {};
-    let subEnvironment = {};
-
     if (!this.environmentsState) {
       return {};
     }
 
-    try {
-      baseEnvironment = JSON.parse(this.environmentsState.base.variablesJson);
-    } catch (ex) {
-      //
-    }
-
-    if (this.environmentsState.activeSubEnvironment) {
-      const activeSubEnvironment = this.environmentsState.activeSubEnvironment;
-      const activeSubEnvState = this.environmentsState.subEnvironments.find(
-        (env) => {
-          return env.id === activeSubEnvironment;
-        }
-      );
-
-      if (activeSubEnvState) {
-        try {
-          subEnvironment = JSON.parse(activeSubEnvState.variablesJson);
-        } catch (ex) {
-          //
-        }
-      }
-    }
-
-    return this.mergeEnvironments(baseEnvironment, subEnvironment);
+    return getActiveEnvironment(this.environmentsState);
   }
 
   mergeWithActiveEnvironment(environment: IEnvironment) {

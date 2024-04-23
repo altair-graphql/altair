@@ -16,6 +16,7 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
 export class ThemeDirective implements OnInit, OnChanges {
   @Input() appTheme: ICustomTheme = {};
   @Input() appDarkTheme: ICustomTheme = {};
+  @Input() appAccentColor = '';
 
   private className = '';
 
@@ -25,14 +26,19 @@ export class ThemeDirective implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.applyTheme(this.appTheme, this.appDarkTheme);
+    this.applyTheme(this.appTheme, this.appDarkTheme, this.appAccentColor);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.appTheme?.currentValue || changes?.appDarkTheme?.currentValue) {
+    if (
+      changes?.appTheme?.currentValue ||
+      changes?.appDarkTheme?.currentValue ||
+      changes?.appAccentColor?.currentValue
+    ) {
       this.applyTheme(
         changes.appTheme?.currentValue,
-        changes.appDarkTheme?.currentValue
+        changes.appDarkTheme?.currentValue,
+        changes.appAccentColor?.currentValue ?? this.appAccentColor
       );
     }
   }
@@ -120,12 +126,17 @@ export class ThemeDirective implements OnInit, OnChanges {
     `;
   }
 
-  getDynamicClassName(appTheme: ICustomTheme, appDarkTheme?: ICustomTheme) {
+  getDynamicClassName(
+    appTheme: ICustomTheme,
+    appDarkTheme?: ICustomTheme,
+    accentColor?: string
+  ) {
+    const extraTheme = accentColor ? { colors: { primary: accentColor } } : {};
     if (appTheme && appDarkTheme) {
       return css(`
-        ${this.getCssString(createTheme(appTheme))}
+        ${this.getCssString(createTheme(appTheme, extraTheme))}
         @media (prefers-color-scheme: dark) {
-          ${this.getCssString(createTheme(appDarkTheme))}
+          ${this.getCssString(createTheme(appDarkTheme, extraTheme))}
         }
       `);
     }
@@ -133,35 +144,39 @@ export class ThemeDirective implements OnInit, OnChanges {
     if (!appTheme || appTheme.isSystem) {
       return css(`
         ${this.getCssString(
-          createTheme(this.themeRegistry.getTheme('light')!, appTheme)
+          createTheme(this.themeRegistry.getTheme('light')!, appTheme, extraTheme)
         )}
         @media (prefers-color-scheme: dark) {
           ${this.getCssString(
-            createTheme(this.themeRegistry.getTheme('dark')!, appTheme)
+            createTheme(this.themeRegistry.getTheme('dark')!, appTheme, extraTheme)
           )}
         }
       `);
     }
 
-    return css(this.getCssString(createTheme(appTheme)));
+    return css(this.getCssString(createTheme(appTheme, extraTheme)));
   }
 
-  applyTheme(theme: ICustomTheme, darkTheme?: ICustomTheme) {
+  applyTheme(theme: ICustomTheme, darkTheme?: ICustomTheme, accentColor?: string) {
     this.nzConfigService.set('theme', {
       primaryColor: theme.colors?.primary,
       errorColor: theme.colors?.red,
       warningColor: theme.colors?.yellow,
       successColor: theme.colors?.green,
     });
-    this.addHTMLClass(theme, darkTheme);
+    this.addHTMLClass(theme, darkTheme, accentColor);
   }
 
-  addHTMLClass(appTheme: ICustomTheme, appDarkTheme?: ICustomTheme) {
+  addHTMLClass(
+    appTheme: ICustomTheme,
+    appDarkTheme?: ICustomTheme,
+    accentColor?: string
+  ) {
     if (this.className) {
       document.documentElement.classList.remove(this.className);
     }
 
-    this.className = this.getDynamicClassName(appTheme, appDarkTheme);
+    this.className = this.getDynamicClassName(appTheme, appDarkTheme, accentColor);
     document.documentElement.classList.add(this.className);
   }
 }

@@ -50,7 +50,7 @@ This contains a number of helper methods for carrying out basic tasks, like inte
 **`altair.helpers.getEnvironment(key: string)`** - Returns the environment variable for the specified key.
 
 ```js
-altair.helpers.getEnvironment('api_key')
+altair.helpers.getEnvironment('api_key');
 ```
 
 **`altair.helpers.setEnvironment(key: string, val: any, activeEnvironment?: boolean)`** - Sets the environment variable for the specified key, overriding the environment variable for the current request. You can also pass an extra boolean parameter to indicate if the environment variable should also be set in the currently active environment.
@@ -68,7 +68,10 @@ const sessid = altair.helpers.getCookie('sessid');
 **~~`altair.helpers.request(...args)`~~** _(deprecated, use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) instead)_ - _[Returns a promise]_ Makes a HTTP request using the provided options. This helper simply passes on the arguments to the [HttpClient](https://angular.io/guide/http#httpclient) in angular. To know all the possible options, checkout the [Angular HttpClient API documentation](https://angular.io/api/common/http/HttpClient#request).
 
 ```js
-const res = await altair.helpers.request('GET', 'https://api.agify.io/?name=michael');
+const res = await altair.helpers.request(
+  'GET',
+  'https://api.agify.io/?name=michael'
+);
 // res => {"name":"michael","age":60,"count":41938}
 ```
 
@@ -94,25 +97,30 @@ Below is a working example of pre-request script for persisting data between req
 
 ```js
 const nowInSeconds = () => Date.now() / 1000;
-const tokenExpiry = await altair.storage.get("token_expiry") || 0;
+const tokenExpiry = (await altair.storage.get('token_expiry')) || 0;
 
 if (nowInSeconds() >= Number(tokenExpiry)) {
   // If the token expiry time has passed, fetch a new token from your auth server again (take note of the await)
-  const res = await fetch('https://auth.example.com', {method: 'post', headers: { /* auth payload */ }})
-  const data = await res.json()
+  const res = await fetch('https://auth.example.com', {
+    method: 'post',
+    headers: {
+      /* auth payload */
+    },
+  });
+  const data = await res.json();
   // data => { "token": "abcd", "expiry": 3600 }
-  
+
   // Store the received token and expiry in localStorage
   // Alternatively you can set this in the active environment
   // altair.helpers.setEnvironment("token", res.token);
   // altair.helpers.setEnvironment("token_expiry", nowInSeconds() + res.expiry);
-  await altair.storage.set("token", data.token);
-  await altair.storage.set("token_expiry", nowInSeconds() + data.expiry);
+  await altair.storage.set('token', data.token);
+  await altair.storage.set('token_expiry', nowInSeconds() + data.expiry);
 }
 
 // Retrieve the token from localStorage
 // const token = altair.helpers.getEnvironment("token");
-const token = await altair.storage.get("token");
+const token = await altair.storage.get('token');
 
 // Set the token as the `token_env` environment variable in Altair
 altair.helpers.setEnvironment('token_env', token);
@@ -135,7 +143,7 @@ This contains response from your GraphQL request. **Note: This is only available
 
 ### altair.importModule
 
-This allows you to import some modules that are made available in the pre request script editor. It *returns a promise* that resolves with the imported module.
+This allows you to import some modules that are made available in the pre request script editor. It _returns a promise_ that resolves with the imported module.
 
 ```js
 const btoa = await altair.importModule('btoa');
@@ -152,3 +160,5 @@ The available modules are:
 ### altair.log
 
 Allows you to log an output from any of the request scripts to the Log tab. Usage: `altair.log(myData)`.
+
+![Altair log tab](/assets/img/docs/altair-request-script-log.png)
