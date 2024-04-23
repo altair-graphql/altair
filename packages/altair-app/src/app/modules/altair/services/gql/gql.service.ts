@@ -59,7 +59,7 @@ interface SendRequestOptions {
   method: string;
   withCredentials?: boolean;
   variables?: string;
-  extensions: string;
+  extensions?: string;
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;

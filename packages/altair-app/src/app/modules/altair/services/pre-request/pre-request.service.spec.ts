@@ -56,6 +56,8 @@ describe('PreRequestService', () => {
         operationName: '',
         query: '',
         variables: '',
+        url: '',
+        requestExtensions: '',
       });
 
       expect(result).toEqual({
@@ -78,6 +80,8 @@ describe('PreRequestService', () => {
         operationName: '',
         query: '',
         variables: '',
+        url: '',
+        requestExtensions: '',
       });
 
       expect(result).toEqual({
@@ -105,6 +109,8 @@ describe('PreRequestService', () => {
           operationName: '',
           query: '',
           variables: '',
+          url: '',
+          requestExtensions: '',
         });
 
         expect(result).toEqual({
@@ -132,6 +138,8 @@ describe('PreRequestService', () => {
           operationName: '',
           query: '',
           variables: '',
+          url: '',
+          requestExtensions: '',
         });
 
         expect(result).toEqual({
@@ -159,6 +167,8 @@ describe('PreRequestService', () => {
           operationName: '',
           query: '',
           variables: '',
+          url: '',
+          requestExtensions: '',
         });
 
         expect(result).toEqual({
