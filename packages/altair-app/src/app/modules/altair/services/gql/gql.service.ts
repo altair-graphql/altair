@@ -59,6 +59,7 @@ interface SendRequestOptions {
   method: string;
   withCredentials?: boolean;
   variables?: string;
+  extensions: string;
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;
@@ -72,6 +73,13 @@ interface ResolvedFileVariable {
   data: File;
 }
 type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
+
+interface GraphQLRequestData {
+  query: string;
+  variables: Record<string, unknown>;
+  operationName?: SelectedOperation;
+  extensions?: Record<string, unknown>;
+}
 
 @Injectable()
 export class GqlService {
@@ -173,7 +181,8 @@ export class GqlService {
       headers: opts.headers,
       method: opts.method,
       withCredentials: opts.withCredentials,
-      variables: '{}',
+      variables: opts.variables,
+      extensions: opts.extensions,
       selectedOperation: 'IntrospectionQuery',
     };
     return this.sendRequest(requestOpts).pipe(
@@ -593,12 +602,13 @@ export class GqlService {
     method,
     query,
     variables,
+    extensions,
     selectedOperation,
     files,
     withCredentials,
     batchedRequest,
   }: SendRequestOptions) {
-    const data = {
+    const data: GraphQLRequestData = {
       query,
       variables: {},
       operationName: null as SelectedOperation,
@@ -617,6 +627,17 @@ export class GqlService {
         data.variables = JSON.parse(variables);
       } catch (err) {
         // Notify the user about badly written variables.
+        debug.error(err);
+        return observableThrowError(err);
+      }
+    }
+
+    // if there is an extensions option, add it to the data
+    if (extensions) {
+      try {
+        data.extensions = JSON.parse(extensions);
+      } catch (err) {
+        // Notify the user about badly written extensions.
         debug.error(err);
         return observableThrowError(err);
       }
@@ -649,11 +670,13 @@ export class GqlService {
               const operationName = operation.name?.value;
               const operationQuery = print(operation);
               const operationVariables = data.variables;
+              const operationExtensions = data.extensions;
 
               return {
                 operationName,
                 query: operationQuery,
                 variables: operationVariables,
+                extensions: operationExtensions,
               };
             });
 

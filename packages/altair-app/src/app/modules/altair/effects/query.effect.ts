@@ -124,7 +124,7 @@ export class QueryEffects {
               const { response, transformedData } = _returnedData;
 
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
-              const { url, variables, headers, query } =
+              const { url, variables, headers, extensions, query } =
                 this.queryService.hydrateAllHydratables(
                   response.data,
                   transformedData
@@ -231,6 +231,7 @@ export class QueryEffects {
                   url,
                   query,
                   variables,
+                  extensions,
                   headers,
                   method: response.data.query.httpVerb,
                   selectedOperation,
@@ -519,6 +520,8 @@ export class QueryEffects {
               url,
               method: response.data.query.httpVerb,
               headers,
+              variables: '{}',
+              extensions: '',
               withCredentials: response.state.settings['request.withCredentials'],
             })
             .pipe(

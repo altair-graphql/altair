@@ -28,6 +28,8 @@ export class PreRequestEditorComponent {
         operationName: '',
         query: '',
         variables: '',
+        url: '',
+        requestExtensions: '',
       },
       {
         setCookie: async () => {},
