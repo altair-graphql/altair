@@ -94,6 +94,7 @@ export class AltairComponent {
   activeEnvironment$: Observable<EnvironmentState | undefined>;
   theme$: Observable<ICustomTheme | undefined>;
   themeDark$: Observable<ICustomTheme | undefined>;
+  accentColor$: Observable<string | undefined>;
   account$: Observable<AccountState>;
   workspaces$: Observable<WorkspaceOption[]>;
   activeWindow$: Observable<PerWindowState | undefined>;
@@ -234,17 +235,10 @@ export class AltairComponent {
       })
     );
     this.sortedCollections$ = this.store.select(fromRoot.selectSortedCollections);
-    this.activeEnvironment$ = this.environments$.pipe(
-      map((environments) => {
-        if (environments.activeSubEnvironment) {
-          return environments.subEnvironments.find(
-            (subEnvironment) =>
-              subEnvironment.id === environments.activeSubEnvironment
-          );
-        }
-        return;
-      })
+    this.activeEnvironment$ = this.store.select(
+      fromRoot.getActiveSubEnvironmentState
     );
+    this.accentColor$ = this.store.select(fromRoot.getEnvironmentAccentColor);
     this.sidebarPanels$ = this.store.select(fromRoot.getSidebarPanels);
     this.headerPanels$ = this.store.select(fromRoot.getHeaderPanels);
 

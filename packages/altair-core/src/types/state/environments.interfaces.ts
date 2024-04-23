@@ -31,4 +31,5 @@ export interface EnvironmentsState {
 
 export interface IEnvironment extends IDictionary<any> {
   headers?: IDictionary<string>;
+  accentColor?: string;
 }
