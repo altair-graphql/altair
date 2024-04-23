@@ -133,6 +133,7 @@ describe('GqlService', () => {
           url: 'http://test.com',
           method: 'post',
           query: '{}',
+          extensions: '{}',
         });
         expect(mockHttpClient.request).toHaveBeenCalled();
         const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
@@ -142,6 +143,7 @@ describe('GqlService', () => {
         expect(JSON.parse(httpConfigArg.body)).toEqual({
           query: '{}',
           variables: {},
+          extensions: {},
           operationName: null,
         });
         expect(httpConfigArg.headers.get('Content-Type')).toBe('application/json');
