@@ -28,6 +28,8 @@ export class PostRequestEditorComponent {
         operationName: '',
         query: '',
         variables: '',
+        url: '',
+        requestExtensions: '',
       },
       {
         setCookie: async () => {},

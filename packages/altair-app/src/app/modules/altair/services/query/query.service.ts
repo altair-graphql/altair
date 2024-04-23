@@ -85,10 +85,9 @@ export class QueryService {
       return preTransformedData;
     }
 
-    const query = (state.query.query ?? '').trim();
     const operationName = (state.query.selectedOperation ?? '').trim();
-    const headers = state.headers;
-    const variables = state.variables.variables;
+    const { query, variables, headers, extensions, url } =
+      this.hydrateAllHydratables(state, preTransformedData);
     const environment = this.environmentService.mergeWithActiveEnvironment(
       preTransformedData?.environment ?? {}
     );
@@ -105,6 +104,8 @@ export class QueryService {
         operationName,
         query,
         variables,
+        url,
+        requestExtensions: extensions,
       });
 
       // merge preTransformedData with the new transformedData
@@ -192,13 +193,12 @@ export class QueryService {
       return preTransformedData;
     }
 
-    const query = (state.query.query ?? '').trim();
     const operationName = (state.query.selectedOperation ?? '').trim();
-    const headers = state.headers;
-    const variables = state.variables.variables;
     const environment = this.environmentService.mergeWithActiveEnvironment(
       preTransformedData?.environment ?? {}
     );
+    const { query, headers, variables, extensions, url } =
+      this.hydrateAllHydratables(state, preTransformedData);
 
     try {
       const transformedData = await this.preRequestService.executeScript(script, {
@@ -207,6 +207,8 @@ export class QueryService {
         operationName,
         query,
         variables,
+        url,
+        requestExtensions: extensions,
         requestType,
         response: data,
       });
@@ -267,8 +269,11 @@ export class QueryService {
     let subscriptionUrl = this.environmentService.hydrate(
       window.query.subscriptionUrl
     );
-    let query = this.environmentService.hydrate(window.query.query ?? '');
+    let query = this.environmentService.hydrate((window.query.query ?? '').trim());
     let variables = this.environmentService.hydrate(window.variables.variables);
+    let extensions = this.environmentService.hydrate(
+      window.query.requestExtensions ?? ''
+    );
     let subscriptionConnectionParams = this.environmentService.hydrate(
       window.query.subscriptionConnectionParams
     );
@@ -291,6 +296,12 @@ export class QueryService {
       variables = this.environmentService.hydrate(window.variables.variables, {
         activeEnvironment,
       });
+      extensions = this.environmentService.hydrate(
+        window.query.requestExtensions ?? '',
+        {
+          activeEnvironment,
+        }
+      );
       subscriptionConnectionParams = this.environmentService.hydrate(
         window.query.subscriptionConnectionParams,
         {
@@ -310,6 +321,7 @@ export class QueryService {
       subscriptionUrl,
       query,
       variables,
+      extensions,
       headers,
       subscriptionConnectionParams,
     };

@@ -52,9 +52,10 @@ export interface QueryState {
   subscriptionResponseList: SubscriptionResponse[];
   autoscrollSubscriptionResponse: boolean;
   requestScriptLogs?: LogLine[];
+  requestExtensions?: string;
 
   queryEditorState: QueryEditorState;
 }
 
 export const HTTP_VERBS = ['POST', 'GET', 'PUT', 'DELETE'] as const;
-export type HttpVerb = typeof HTTP_VERBS[number];
+export type HttpVerb = (typeof HTTP_VERBS)[number];

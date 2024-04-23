@@ -40,6 +40,8 @@ export interface ScriptContextData {
   operationName: string;
   query: string;
   environment: IDictionary;
+  url: string;
+  requestExtensions?: string;
   requestScriptLogs?: LogLine[];
   response?: SendRequestResponse;
   requestType?: RequestType;
