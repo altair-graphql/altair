@@ -2,7 +2,7 @@
 parent: Features
 ---
 
-# Multiple Themes
+# Customizing the theme
 
 Altair comes with a `light`, `dark` and `dracula` theme. It also allows you specify `system` which would automatically pick either `light` or `dark` theme based on your system color scheme preference. Customize this by specifying `theme` in your [settings](/docs/features/settings-pane). You can also optionally specify `theme.dark` if you want a different theme that will be used if your system color scheme is set to dark mode.
 
@@ -34,3 +34,7 @@ Here's an example theme config of a faded blue-green theme in Altair, with trans
 ![Pale blue-green Altair theme](/assets/img/docs/pale-blue-green-theme.png)
 
 That was nice and easy! And it gets better.. you can publish your theme as [a plugin](/docs/plugins/writing-plugin) so others can also enjoy it!
+
+::: tip Note
+You can also customize the accent color of Altair by specifying `accentColor` in your [environment variables](/docs/features/environment-variables#special-environment-variables). This is useful if you wish to switch the accent color based on the environment you are working with.
+:::
