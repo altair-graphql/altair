@@ -23,6 +23,8 @@
   "DELETE_TEXT": "Xoá",
   "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
+  "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
+  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
   "DOCS_GO_BACK_TEXT": "Quay lại",
   "DOCS_EXPORT_SDL": "Xuất SDL",
   "DOCS_LOAD_SCHEMA": "Tải lược đồ",
