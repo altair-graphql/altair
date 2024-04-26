@@ -64,11 +64,109 @@ initialVariables: \`{ variable: 1 }\`,
 "
 `;
 
+exports[`renderAltair should return expected string with $$ 1`] = `
+"<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Altair</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="[% STYLES_FILE %]" rel="stylesheet" />
+  </head>
+
+  <body>
+    <app-root>
+      <style>
+        .loading-screen {
+          /*Prevents the loading screen from showing until CSS is downloaded*/
+          display: none;
+        }
+      </style>
+      <div class="loading-screen styled">
+        <div class="loading-screen-inner">
+          <div class="loading-screen-logo-container">
+            <img src="assets/img/logo_350.svg" alt="Altair" />
+          </div>
+          <div class="loading-screen-loading-indicator">
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
+            <span class="loading-indicator-dot"></span>
+          </div>
+        </div>
+      </div>
+    </app-root>
+    <script
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% RUNTIME_SCRIPT %]"
+    ></script>
+    <script
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% POLYFILLS_SCRIPT %]"
+    ></script>
+    <script
+      rel="preload"
+      as="script"
+      type="text/javascript"
+      src="[% MAIN_SCRIPT %]"
+    ></script>
+  <script>
+        AltairGraphQL.init({
+initialQuery: \`{
+          MyDomains (
+            page: {start: 1, limit: 1000}
+            where: {AND: [{AND: [{myFilterA: {EQ: "$$"}} {myFilterB: {EQ: "2099-12-31T00:00:00Z"}}, {myFilterC: {EQ: "2024-04-23"}}]}]}
+          ) {
+            pages
+            total
+            select {
+             myField1
+             myField2     
+            }
+          }
+        }\`,
+endpointURL: \`https://example.com/graphql\`,
+initialVariables: \`{ variable: 1 }\`,
+});
+    </script></body>
+</html>
+"
+`;
+
 exports[`renderInitialOptions should return expected string 1`] = `
 "
         AltairGraphQL.init({
 initialQuery: \`query {
         Hello
+      }\`,
+endpointURL: \`https://example.com/graphql\`,
+initialHeaders: {"X-GraphQL-Token":"asd7-237s-2bdk-nsdk4"},
+initialSettings: {"theme":"dark"},
+persistedSettings: {"theme":"light"},
+});
+    "
+`;
+
+exports[`renderInitialOptions should return expected string with $$ 1`] = `
+"
+        AltairGraphQL.init({
+initialQuery: \`{
+        MyDomains (
+          page: {start: 1, limit: 1000}
+          where: {AND: [{AND: [{myFilterA: {EQ: "$$"}} {myFilterB: {EQ: "2099-12-31T00:00:00Z"}}, {myFilterC: {EQ: "2024-04-23"}}]}]}
+        ) {
+          pages
+          total
+          select {
+           myField1
+           myField2     
+          }
+        }
       }\`,
 endpointURL: \`https://example.com/graphql\`,
 initialHeaders: {"X-GraphQL-Token":"asd7-237s-2bdk-nsdk4"},

@@ -55,11 +55,11 @@ export const renderAltair = (options: RenderOptions = {}) => {
   if (options.serveInitialOptionsInSeperateRequest) {
     return altairHtml
       .replace(/<base.*>/, `<base href="${baseURL}">`)
-      .replace('</body>', `<script src="initial_options.js"></script></body>`);
+      .replace('</body>', () => `<script src="initial_options.js"></script></body>`);
   } else {
     return altairHtml
       .replace(/<base.*>/, `<base href="${baseURL}">`)
-      .replace('</body>', `<script>${initialOptions}</script></body>`);
+      .replace('</body>', () => `<script>${initialOptions}</script></body>`);
   }
 };
 
