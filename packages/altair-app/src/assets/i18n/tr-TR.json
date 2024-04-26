@@ -23,6 +23,8 @@
   "DELETE_TEXT": "Delete",
   "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
+  "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
+  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
   "DOCS_GO_BACK_TEXT": "Geri",
   "DOCS_EXPORT_SDL": "SDL'i dışarı aktar",
   "DOCS_LOAD_SCHEMA": "Şemayı Yükle",
