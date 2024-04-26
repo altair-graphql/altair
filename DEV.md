@@ -18,6 +18,7 @@ EmptyError is thrown by the `first` pipe if the source observable is closed befo
 Fix: Use `take(1)` instead of `first()`.
 
 ### Multiple actions/requests, only one is going through
+
 In the ngrx effects, use `mergeMap` instead of `switchMap`
 
 ### Firebase: The caller does not have permission
@@ -104,6 +105,7 @@ If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mod
 <!-- background:linear-gradient(135deg,#00F5A0 0%,#00D9F5 100%); -->
 
 ### Signing MacOS app
+
 https://www.codiga.io/blog/notarize-sign-electron-app/
 
 ### Updating angular
@@ -113,3 +115,7 @@ https://www.codiga.io/blog/notarize-sign-electron-app/
 - Run migrate only commands if not completely successful
   - `yarn ng update @angular/core --allow-dirty --force --migrate-only --from=15 --to=16`
   - `yarn ng update @angular/cli --allow-dirty --force --migrate-only --from=15 --to=16`
+
+### Stripe listen throwing api_key_expired error
+
+Login to stripe CLI using `stripe login` and it should work again

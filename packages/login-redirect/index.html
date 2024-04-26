@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,9 +7,30 @@
     <title>Login to Altair GraphQL Client</title>
   </head>
   <body>
-    <div id="root">
-      Redirecting...
-    </div>
-    <script src="./src/script.ts" type="module"></script>
+    <style>
+      @keyframes background {
+        0% {
+          background-position: 50% 0%;
+        }
+        50% {
+          background-position: 50% 100%;
+        }
+        100% {
+          background-position: 50% 0%;
+        }
+      }
+
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        background: linear-gradient(225deg, #2d9ee0, #64cb29);
+        background-size: 300% 300%;
+        animation: background 10s linear infinite;
+      }
+    </style>
+    <div id="root"></div>
+    <script src="./src/index.ts" type="module"></script>
   </body>
 </html>

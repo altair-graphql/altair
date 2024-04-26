@@ -5,7 +5,10 @@
       <nz-form-control [nzSm]="8" nzErrorTip="The input is not a valid type!">
         <nz-select formControlName="type">
           @for (item of AUTH_TYPES; track $index) {
-            <nz-option [nzValue]="item" [nzLabel]="AUTH_MAPPING[item].copy | translate"></nz-option>
+            <nz-option
+              [nzValue]="item"
+              [nzLabel]="AUTH_MAPPING[item].copy | translate"
+            ></nz-option>
           }
         </nz-select>
       </nz-form-control>
@@ -26,6 +29,12 @@
     }
     @case ('bearer') {
       <app-authorization-bearer
+        [authData]="authorizationState?.data"
+        (authDataChange)="authDataChange.emit($event)"
+      />
+    }
+    @case ('oauth2') {
+      <app-authorization-oauth2
         [authData]="authorizationState?.data"
         (authDataChange)="authDataChange.emit($event)"
       />

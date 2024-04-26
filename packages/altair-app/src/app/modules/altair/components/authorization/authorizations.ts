@@ -36,9 +36,15 @@ export const AUTHORIZATION_MAPPING: Record<
     copy: 'AUTHORIZATION_PROVIDER_API_KEY',
     async getProviderClass() {
       return (
-        await import(
-          'altair-graphql-core/build/authorization/providers/api-key'
-        )
+        await import('altair-graphql-core/build/authorization/providers/api-key')
+      ).default;
+    },
+  },
+  [AUTHORIZATION_TYPES.OAUTH2]: {
+    copy: 'AUTHORIZATION_PROVIDER_OAUTH2',
+    async getProviderClass() {
+      return (
+        await import('altair-graphql-core/build/authorization/providers/oauth2')
       ).default;
     },
   },

@@ -37,4 +37,8 @@
     border-color: var(--input-border-color, rgba(var(--rgb-theme-font), 0.08));
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
   }
+
+  &--transparent {
+    --input-bg: transparent;
+  }
 }

@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -49,6 +50,7 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   @Input() placeholder = '';
+  @Input() readonly = false;
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 
@@ -77,7 +79,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   constructor(
     private store: Store<RootState>,
     private environmentService: EnvironmentService,
-    private zone: NgZone
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngAfterViewInit(): void {
@@ -130,6 +133,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     return [
       inputTheme,
       placeholder(this.placeholder),
+      EditorState.readOnly.of(this.readonly),
       keymap.of([
         {
           key: 'Enter',
@@ -304,6 +308,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     return this.innerValue;
   }
 
+  @Input()
   // set accessor including call the onchange callback
   set value(v: string) {
     if (v !== this.innerValue) {
@@ -317,6 +322,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     this.setReady();
     if (value !== this.innerValue) {
       this.innerValue = value;
+      this.cdr.markForCheck(); // TODO: why is this needed? the underlying codemirror component refused to update immediately without this
+      this.onChangeCallback(value);
     }
   }
 
