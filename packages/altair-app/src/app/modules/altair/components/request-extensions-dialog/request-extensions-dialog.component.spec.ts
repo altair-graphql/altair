@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RequestExtensionsDialogComponent } from './request-extensions-dialog.component';
+import { MockModule } from 'ng-mocks';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 describe('RequestExtensionsDialogComponent', () => {
   let component: RequestExtensionsDialogComponent;
@@ -8,10 +10,10 @@ describe('RequestExtensionsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RequestExtensionsDialogComponent]
-    })
-    .compileComponents();
-    
+      declarations: [RequestExtensionsDialogComponent],
+      imports: [MockModule(SharedModule)],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(RequestExtensionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
