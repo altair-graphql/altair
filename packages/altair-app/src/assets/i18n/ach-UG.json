@@ -23,6 +23,8 @@
   "DELETE_TEXT": "crwdns665:0crwdne665:0",
   "EXPORT_TEXT": "crwdns1338:0crwdne1338:0",
   "SEND_BATCHED_REQUEST": "crwdns1336:0crwdne1336:0",
+  "REQUEST_EXTENSIONS_TEXT": "crwdns1358:0crwdne1358:0",
+  "REQUEST_EXTENSIONS_SUBTEXT": "crwdns1360:0crwdne1360:0",
   "DOCS_GO_BACK_TEXT": "crwdns667:0crwdne667:0",
   "DOCS_EXPORT_SDL": "crwdns669:0crwdne669:0",
   "DOCS_LOAD_SCHEMA": "crwdns671:0crwdne671:0",
