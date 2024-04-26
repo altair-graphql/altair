@@ -81,7 +81,7 @@ export class CodemirrorComponent
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 
   view?: EditorView;
-  private value = '';
+  private innerValue = '';
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
@@ -130,7 +130,21 @@ export class CodemirrorComponent
     this.view?.destroy();
   }
 
+  // get accessor
+  get value() {
+    return this.innerValue;
+  }
+
+  @Input()
+  // set accessor including call the onchange callback
+  set value(v: string) {
+    this.writeValue(v);
+  }
+
   writeValue(value: string) {
+    if (value === this.innerValue) {
+      return;
+    }
     if (value === null || value === undefined) {
       return;
     }
@@ -143,7 +157,7 @@ export class CodemirrorComponent
     const editorValue = this.view.state.doc.toString();
 
     if (editorValue !== value) {
-      this.value = value;
+      this.innerValue = value;
       this.view.dispatch({
         changes: { from: 0, to: this.view.state.doc.length, insert: value },
       });
@@ -159,8 +173,8 @@ export class CodemirrorComponent
   }
 
   codemirrorValueChanged(value: string) {
-    if (this.value !== value) {
-      this.value = value;
+    if (this.innerValue !== value) {
+      this.innerValue = value;
       this.onChange(value);
     }
   }

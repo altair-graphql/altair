@@ -6,4 +6,5 @@ export const validOrigins = [
   'https://dash.altairgraphql.dev',
   'https://altair-gql.sirmuel.design',
   'https://web.altairgraphql.dev',
+  'altair://-',
 ];

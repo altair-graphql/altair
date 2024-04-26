@@ -50,6 +50,7 @@ import { AuthorizationEditorComponent } from './authorization/authorization-edit
 import { AuthorizationBearerComponent } from './authorization/authorization-bearer/authorization-bearer.component';
 import { AuthorizationBasicComponent } from './authorization/authorization-basic/authorization-basic.component';
 import { AuthorizationApikeyComponent } from './authorization/authorization-apikey/authorization-apikey.component';
+import { AuthorizationOauth2Component } from './authorization/authorization-oauth2/authorization-oauth2.component';
 
 // const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
@@ -95,6 +96,7 @@ const COMPONENTS = [
   AuthorizationApikeyComponent,
   AuthorizationBearerComponent,
   AuthorizationBasicComponent,
+  AuthorizationOauth2Component,
 ];
 
 @NgModule({

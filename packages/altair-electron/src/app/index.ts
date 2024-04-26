@@ -1,4 +1,4 @@
-import { app, protocol, session, shell, dialog, ipcMain } from 'electron';
+import { app, protocol, session, shell, dialog } from 'electron';
 import { readFile } from 'fs';
 import path from 'path';
 import isDev from 'electron-is-dev';
@@ -31,11 +31,9 @@ export class ElectronApp {
     // https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
     if (process.defaultApp) {
       if (process.argv.length >= 2) {
-        app.setAsDefaultProtocolClient(
-          ALTAIR_CUSTOM_PROTOCOL,
-          process.execPath,
-          [path.resolve(process.argv[1] ?? '')]
-        );
+        app.setAsDefaultProtocolClient(ALTAIR_CUSTOM_PROTOCOL, process.execPath, [
+          path.resolve(process.argv[1] ?? ''),
+        ]);
       }
     } else {
       app.setAsDefaultProtocolClient(ALTAIR_CUSTOM_PROTOCOL);
@@ -92,9 +90,7 @@ export class ElectronApp {
           default:
         }
         await session.defaultSession.setProxy(proxyConfig);
-        const proxy = await session.defaultSession.resolveProxy(
-          'http://localhost'
-        );
+        const proxy = await session.defaultSession.resolveProxy('http://localhost');
         log(proxy, proxyConfig);
       }
       try {
@@ -174,7 +170,7 @@ export class ElectronApp {
     );
 
     app.on('web-contents-created', (event, contents) => {
-      contents.setWindowOpenHandler(details => {
+      contents.setWindowOpenHandler((details) => {
         try {
           log('Opening url', details.url);
           // Ask the operating system to open this event's url in the default browser.
@@ -183,6 +179,11 @@ export class ElectronApp {
           if (!supportedProtocols.includes(url.protocol)) {
             log('Unsupported protocol', url.protocol);
             return { action: 'deny' };
+          }
+
+          // Allow popups to be opened in the app
+          if (details.features.includes('popup')) {
+            return { action: 'allow' };
           }
           shell.openExternal(url.href);
         } catch (err) {
