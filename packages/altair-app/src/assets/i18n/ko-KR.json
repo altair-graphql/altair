@@ -23,6 +23,8 @@
   "DELETE_TEXT": "삭제",
   "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
+  "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
+  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
   "DOCS_GO_BACK_TEXT": "돌아가기",
   "DOCS_EXPORT_SDL": "SDL 내보내기",
   "DOCS_LOAD_SCHEMA": "스키마 로드",
