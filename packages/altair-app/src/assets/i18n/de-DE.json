@@ -23,6 +23,8 @@
   "DELETE_TEXT": "Löschen",
   "EXPORT_TEXT": "Exportieren",
   "SEND_BATCHED_REQUEST": "Batchanfrage senden",
+  "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
+  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
   "DOCS_GO_BACK_TEXT": "Zurück",
   "DOCS_EXPORT_SDL": "SDL exportieren",
   "DOCS_LOAD_SCHEMA": "Schema laden",
