@@ -17,7 +17,7 @@ export class DialogComponent {
   constructor() {}
 
   onClickSave(e: MouseEvent) {
-    this.toggleDialog.emit(e);
+    this.toggleDialog.emit(!this.showDialog);
     this.saveChange.emit(e);
   }
 }

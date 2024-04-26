@@ -229,5 +229,11 @@
         (preRequestEnabledChange)="updatePreRequestEnabled($event)"
       ></app-pre-request-editor>
     </app-dialog>
+    <app-request-extensions-dialog
+      [showDialog]="showRequestExtensionsDialog$ | async"
+      [data]="(query$ | async)?.requestExtensions"
+      (toggleDialogChange)="toggleRequestExtensionsDialog($event)"
+      (dataChange)="updateRequestExtensions($event)"
+    />
   </div>
 </div>

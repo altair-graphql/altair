@@ -639,6 +639,7 @@ export class GqlService {
       } catch (err) {
         // Notify the user about badly written extensions.
         debug.error(err);
+        this.notifyService.error('Your request extensions is not valid JSON');
         return observableThrowError(err);
       }
     }

@@ -15,8 +15,7 @@ export const SET_HTTP_VERB = 'SET_HTTP_VERB';
 
 export const SET_SUBSCRIPTION_URL = 'SET_SUBSCRIPTION_URL';
 
-export const SEND_INTROSPECTION_QUERY_REQUEST =
-  'SEND_INTROSPECTION_QUERY_REQUEST';
+export const SEND_INTROSPECTION_QUERY_REQUEST = 'SEND_INTROSPECTION_QUERY_REQUEST';
 
 export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
@@ -24,8 +23,7 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
 
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
-export const SET_QUERY_RESULT_RESPONSE_HEADERS =
-  'SET_QUERY_RESULT_RESPONSE_HEADERS';
+export const SET_QUERY_RESULT_RESPONSE_HEADERS = 'SET_QUERY_RESULT_RESPONSE_HEADERS';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
 export const COPY_AS_CURL = 'COPY_AS_CURL';
@@ -62,10 +60,15 @@ export const SET_REQUEST_SCRIPT_LOGS = 'SET_REQUEST_SCRIPT_LOGS';
 
 export const RESTORE_QUERY_REVISION = 'RESTORE_QUERY_REVISION';
 
+export const SET_REQUEST_EXTENSIONS_DATA = 'SET_REQUEST_EXTENSIONS_DATA';
+
 export class SetUrlAction implements NGRXAction {
   readonly type = SET_URL;
 
-  constructor(public payload: { url: string }, public windowId: string) {}
+  constructor(
+    public payload: { url: string },
+    public windowId: string
+  ) {}
 }
 
 export class SetHTTPMethodAction implements NGRXAction {
@@ -80,7 +83,10 @@ export class SetHTTPMethodAction implements NGRXAction {
 export class SetUrlFromDbAction implements NGRXAction {
   readonly type = SET_URL_FROM_DB;
 
-  constructor(public payload: { url: string }, public windowId: string) {}
+  constructor(
+    public payload: { url: string },
+    public windowId: string
+  ) {}
 }
 
 export class SetSubscriptionUrlAction implements NGRXAction {
@@ -101,19 +107,28 @@ export class SendIntrospectionQueryRequestAction implements NGRXAction {
 export class SetQueryAction implements NGRXAction {
   readonly type = SET_QUERY;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(
+    public payload: string,
+    public windowId: string
+  ) {}
 }
 
 export class SetQueryFromDbAction implements NGRXAction {
   readonly type = SET_QUERY_FROM_DB;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(
+    public payload: string,
+    public windowId: string
+  ) {}
 }
 
 export class SetQueryResultAction implements NGRXAction {
   readonly type = SET_QUERY_RESULT;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(
+    public payload: string,
+    public windowId: string
+  ) {}
 }
 
 export class SetQueryResultResponseHeadersAction implements NGRXAction {
@@ -240,7 +255,10 @@ export class AddSubscriptionResponseAction implements NGRXAction {
 export class SetSubscriptionResponseListAction implements NGRXAction {
   readonly type = SET_SUBSCRIPTION_RESPONSE_LIST;
 
-  constructor(public windowId: string, public payload: { list: Array<any> }) {}
+  constructor(
+    public windowId: string,
+    public payload: { list: Array<any> }
+  ) {}
 }
 
 export class ToggleAutoscrollSubscriptionResponseAction implements NGRXAction {
@@ -279,19 +297,34 @@ export class SetQueryOperationsAction implements NGRXAction {
 export class SetQueryEditorStateAction implements NGRXAction {
   readonly type = SET_QUERY_EDITOR_STATE;
 
-  constructor(public windowId: string, public payload: QueryEditorState) {}
+  constructor(
+    public windowId: string,
+    public payload: QueryEditorState
+  ) {}
 }
 
 export class SetRequestScriptLogsAction implements NGRXAction {
   readonly type = SET_REQUEST_SCRIPT_LOGS;
 
-  constructor(public windowId: string, public payload: LogLine[]) {}
+  constructor(
+    public windowId: string,
+    public payload: LogLine[]
+  ) {}
 }
 
 export class RestoreQueryRevisionAction implements NGRXAction {
   readonly type = RESTORE_QUERY_REVISION;
 
   constructor(public payload: QueryItemRevision) {}
+}
+
+export class SetRequestExtensionsDataAction implements NGRXAction {
+  readonly type = SET_REQUEST_EXTENSIONS_DATA;
+
+  constructor(
+    public windowId: string,
+    public payload: { data: string }
+  ) {}
 }
 
 export type Action =
@@ -326,4 +359,5 @@ export type Action =
   | SetQueryOperationsAction
   | SetQueryEditorStateAction
   | SetRequestScriptLogsAction
-  | RestoreQueryRevisionAction;
+  | RestoreQueryRevisionAction
+  | SetRequestExtensionsDataAction;
