@@ -64,6 +64,7 @@ describe('QueryService', () => {
         ],
       } as unknown as PerWindowState);
       expect(hydratedContent).toEqual({
+        extensions: 'HYDRATED[[]]',
         headers: [
           {
             key: 'Content-Type',
@@ -107,6 +108,7 @@ describe('QueryService', () => {
         }
       );
       expect(hydratedContent).toEqual({
+        extensions: 'HYDRATED[[]]',
         headers: [
           {
             key: 'Content-Type',
@@ -154,6 +156,7 @@ describe('QueryService', () => {
         }
       );
       expect(hydratedContent).toEqual({
+        extensions: 'HYDRATED[[]]',
         headers: [
           {
             key: 'Content-Type',
