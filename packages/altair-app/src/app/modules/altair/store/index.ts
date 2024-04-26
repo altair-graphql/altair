@@ -129,6 +129,7 @@ export * from './workspace/selectors';
 export * from './environments/selectors';
 export * from './authorization/selectors';
 export * from './windows/selectors';
+export * from './dialogs/selectors';
 
 export const selectHasUnsavedChanges = (windowId: string) => {
   return createSelector(

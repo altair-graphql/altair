@@ -4,4 +4,5 @@ export interface DialogState {
   showSubscriptionUrlDialog: boolean;
   showHistoryDialog: boolean;
   showPreRequestDialog: boolean;
+  showRequestExtensionsDialog: boolean;
 }

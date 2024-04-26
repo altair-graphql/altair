@@ -24,6 +24,9 @@
   "EXPORT_TEXT": "Export",
   "SEND_BATCHED_REQUEST": "Send batched request",
 
+  "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
+  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
+
   "DOCS_GO_BACK_TEXT": "Back",
   "DOCS_EXPORT_SDL": "Export SDL",
   "DOCS_LOAD_SCHEMA": "Load Schema",

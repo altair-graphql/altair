@@ -9,6 +9,7 @@ export const getInitialState = (): DialogState => {
     showSubscriptionUrlDialog: false,
     showHistoryDialog: false,
     showPreRequestDialog: false,
+    showRequestExtensionsDialog: false,
   };
 };
 
@@ -33,6 +34,11 @@ export function dialogReducer(
       return { ...state, showHistoryDialog: !state.showHistoryDialog };
     case dialogs.TOGGLE_PRE_REQUEST_DIALOG:
       return { ...state, showPreRequestDialog: !state.showPreRequestDialog };
+    case dialogs.TOGGLE_REQUEST_EXTENSIONS_DIALOG:
+      return {
+        ...state,
+        showRequestExtensionsDialog: action.payload.value,
+      };
     default:
       return state;
   }

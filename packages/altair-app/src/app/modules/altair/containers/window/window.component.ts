@@ -118,6 +118,8 @@ export class WindowComponent implements OnInit {
 
   hasUnsavedChanges$: Observable<boolean>;
 
+  showRequestExtensionsDialog$: Observable<boolean>;
+
   // Using getter/setter for the windowId to update the windowId$ subject.
   // We need the windowId$ subject to update the getWindowState observable
   // whenever the windowId changes, in order to get the right window state.
@@ -272,6 +274,10 @@ export class WindowComponent implements OnInit {
       switchMap(([state, windowId]) => {
         return select(fromRoot.selectHasUnsavedChanges(windowId))(of(state));
       })
+    );
+
+    this.showRequestExtensionsDialog$ = this.getWindowState().pipe(
+      select(fromRoot.getShowRequestExtensionsDialog)
     );
   }
 
@@ -438,6 +444,22 @@ export class WindowComponent implements OnInit {
         new dialogsActions.TogglePreRequestDialogAction(this.windowId)
       );
     }
+  }
+
+  toggleRequestExtensionsDialog(isOpen: boolean) {
+    this.store.dispatch(
+      new dialogsActions.ToggleRequestExtensionsDialogAction(this.windowId, {
+        value: isOpen,
+      })
+    );
+  }
+
+  updateRequestExtensions(requestExtensions: string) {
+    this.store.dispatch(
+      new queryActions.SetRequestExtensionsDataAction(this.windowId, {
+        data: requestExtensions,
+      })
+    );
   }
 
   togglePanelActive(panel: AltairPanel) {

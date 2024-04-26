@@ -48,6 +48,7 @@ export const getInitialState = (): QueryState => {
       isFocused: false,
     },
     requestScriptLogs: [],
+    requestExtensions: '',
   };
 };
 
@@ -125,6 +126,8 @@ export function queryReducer(
       return { ...state, queryEditorState: action.payload };
     case query.SET_REQUEST_SCRIPT_LOGS:
       return { ...state, requestScriptLogs: action.payload };
+    case query.SET_REQUEST_EXTENSIONS_DATA:
+      return { ...state, requestExtensions: action.payload.data };
     default:
       return state;
   }

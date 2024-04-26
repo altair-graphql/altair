@@ -578,6 +578,14 @@ export class AltairComponent {
     );
   }
 
+  toggleRequestExtensionsDialog(show: boolean) {
+    this.store.dispatch(
+      new dialogsActions.ToggleRequestExtensionsDialogAction(this.activeWindowId, {
+        value: show,
+      })
+    );
+  }
+
   togglePreRequestDialog(isOpen: boolean) {
     this.store.dispatch(
       new dialogsActions.TogglePreRequestDialogAction(this.activeWindowId)
