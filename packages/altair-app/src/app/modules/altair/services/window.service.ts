@@ -1,6 +1,6 @@
-import { EMPTY, from, Observable } from 'rxjs';
+import { EMPTY, from } from 'rxjs';
 
-import { first, tap, map, switchMap, take } from 'rxjs/operators';
+import { tap, map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
@@ -69,8 +69,7 @@ export class WindowService {
 
         const newWindow = {
           windowId: uuid(),
-          title:
-            opts.title || `Window ${Object.keys(state.windows).length + 1}`,
+          title: opts.title || `Window ${Object.keys(state.windows).length + 1}`,
           url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
@@ -217,10 +216,7 @@ export class WindowService {
    * Import the window represented by the provided data string
    * @param data window data string
    */
-  importWindowData(
-    data: ExportWindowState,
-    options: ImportWindowDataOptions = {}
-  ) {
+  importWindowData(data: ExportWindowState, options: ImportWindowDataOptions = {}) {
     try {
       // Verify file's content
       if (!data) {
@@ -277,16 +273,11 @@ export class WindowService {
           );
         }
         if (data.query) {
-          this.store.dispatch(
-            new queryActions.SetQueryAction(data.query, windowId)
-          );
+          this.store.dispatch(new queryActions.SetQueryAction(data.query, windowId));
         }
         if (data.headers.length) {
           this.store.dispatch(
-            new headerActions.SetHeadersAction(
-              { headers: data.headers },
-              windowId
-            )
+            new headerActions.SetHeadersAction({ headers: data.headers }, windowId)
           );
         }
         if (data.variables) {
@@ -452,14 +443,11 @@ export class WindowService {
         select((state) => state.windows),
         take(1),
         switchMap((windows) => {
-          const matchingOpenQueryWindowId = Object.keys(windows).find(
-            (windowId) => {
-              return (
-                windows[windowId]?.layout.windowIdInCollection ===
-                windowIdInCollection
-              );
-            }
-          );
+          const matchingOpenQueryWindowId = Object.keys(windows).find((windowId) => {
+            return (
+              windows[windowId]?.layout.windowIdInCollection === windowIdInCollection
+            );
+          });
           if (matchingOpenQueryWindowId) {
             this.setActiveWindow(matchingOpenQueryWindowId);
             return EMPTY;
