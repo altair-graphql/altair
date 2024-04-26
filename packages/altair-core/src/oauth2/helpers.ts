@@ -15,7 +15,7 @@ export const base64UrlEncode = (buffer: ArrayBuffer): string => {
   )
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
-    .replace(/=+$/, '');
+    .replace(/={1,4}$/, '');
 };
 
 export const sha256 = async (str: string) => {
