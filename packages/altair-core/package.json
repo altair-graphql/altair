@@ -30,6 +30,7 @@
     "@angular/common": "17.0.8",
     "@jest/globals": "^29.7.0",
     "@types/actioncable": "^5.2.5",
+    "@types/crypto-js": "^4.0.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^14.14.41",
     "@types/uuid": "^9.0.5",
