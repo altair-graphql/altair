@@ -17,3 +17,7 @@ Add your username and password credentials if your API supports the [basic authe
 ## Bearer token
 
 [Bearer token](https://datatracker.ietf.org/doc/html/rfc6750) is another authentication scheme supported by Altair. This is a common type of authorization used as part of the popular OAuth 2.0 protocol.
+
+## OAuth 2.0
+
+Altair supports the [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6750) authorization framework. You can specify the client ID, client secret, and other parameters required by your OAuth 2.0 provider.
