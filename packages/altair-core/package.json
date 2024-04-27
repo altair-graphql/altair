@@ -14,6 +14,7 @@
     "aws-appsync-auth-link": "3.0.4",
     "aws-appsync-subscription-link": "3.0.6",
     "color-name": "^2.0.0",
+    "crypto-js": "3.3.0",
     "deepmerge": "4.2.2",
     "graphql": "15.5.1",
     "graphql-sse": "1.2.2",
