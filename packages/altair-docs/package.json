@@ -1,6 +1,6 @@
 {
   "name": "@altair/docs",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev",
