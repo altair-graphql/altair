@@ -2,7 +2,7 @@
 parent: Features
 ---
 
-# Customizing the theme
+# Theme Customization
 
 Altair comes with a `light`, `dark` and `dracula` theme. It also allows you specify `system` which would automatically pick either `light` or `dark` theme based on your system color scheme preference. Customize this by specifying `theme` in your [settings](/docs/features/settings-pane). You can also optionally specify `theme.dark` if you want a different theme that will be used if your system color scheme is set to dark mode.
 
