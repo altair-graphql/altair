@@ -1,6 +1,6 @@
 {
   "SEND_REQUEST_BUTTON": "发送请求",
-  "SEND_REQUEST_BUTTON_SHORT": "Send",
+  "SEND_REQUEST_BUTTON_SHORT": "发送",
   "PRETTIFY_BUTTON": "美化",
   "COMPRESS_QUERY_BUTTON": "压缩",
   "CLEAR_BUTTON": "清除",
@@ -21,7 +21,7 @@
   "ADD_NEW_WINDOW_TEXT": "+ 新建窗口",
   "RESTART_TEXT": "重启",
   "DELETE_TEXT": "清除",
-  "EXPORT_TEXT": "Export",
+  "EXPORT_TEXT": "导出",
   "SEND_BATCHED_REQUEST": "Send batched request",
   "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
   "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
