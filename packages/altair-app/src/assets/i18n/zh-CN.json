@@ -22,7 +22,7 @@
   "RESTART_TEXT": "重启",
   "DELETE_TEXT": "清除",
   "EXPORT_TEXT": "导出",
-  "SEND_BATCHED_REQUEST": "Send batched request",
+  "SEND_BATCHED_REQUEST": "发送批量请求",
   "REQUEST_EXTENSIONS_TEXT": "Request Extensions",
   "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
   "DOCS_GO_BACK_TEXT": "返回",
