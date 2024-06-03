@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { PluginParentEngine } from './v3/parent-engine';
 
 export enum AltairPanelLocation {
   HEADER = 'header',
@@ -16,7 +17,9 @@ export class AltairPanel {
   constructor(
     public title: string,
     public element: HTMLElement,
-    public location: AltairPanelLocation
+    public location: AltairPanelLocation,
+    // TODO: Making this optional for now for backward compatibility. This should be required for v3 plugins.
+    public engine?: PluginParentEngine
   ) {}
 
   destroy() {

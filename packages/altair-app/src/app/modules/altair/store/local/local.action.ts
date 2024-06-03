@@ -1,7 +1,10 @@
 import { Action as NGRXAction } from '@ngrx/store';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
-import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
+import {
+  V1PluginStateEntry,
+  V3PluginStateEntry,
+} from 'altair-graphql-core/build/types/state/local.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 export const PUSH_CLOSED_WINDOW_TO_LOCAL = 'PUSH_CLOSED_WINDOW_TO_LOCAL';
@@ -27,7 +30,7 @@ export class PopFromClosedWindowsAction implements NGRXAction {
 export class AddInstalledPluginEntryAction implements NGRXAction {
   readonly type = ADD_INSTALLED_PLUGIN_ENTRY;
 
-  constructor(public payload: PluginStateEntry) {}
+  constructor(public payload: V1PluginStateEntry | V3PluginStateEntry) {}
 }
 
 export class SetPluginActiveAction implements NGRXAction {

@@ -36,7 +36,7 @@ module.exports = {
         ],
         'prettier/prettier': 0,
         'require-await': 'off',
-        '@typescript-eslint/require-await': 'warn',
+        '@typescript-eslint/require-await': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-empty-function': 'warn',
         '@typescript-eslint/no-var-requires': 'warn',

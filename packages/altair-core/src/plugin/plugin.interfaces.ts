@@ -35,7 +35,7 @@ export type PluginCapabilities =
  */
 export interface PluginManifest {
   // Version of manifest. Should be 1 or 2.
-  manifest_version: number;
+  manifest_version: 1 | 2;
   name: string;
   display_name: string;
   version: string;
@@ -50,7 +50,7 @@ export interface PluginManifest {
   capabilities?: PluginCapabilities[];
 }
 
-export interface AltairPlugin {
+export interface AltairV1Plugin {
   name: string;
   display_name: string;
   capabilities: PluginCapabilities[];
@@ -59,10 +59,10 @@ export interface AltairPlugin {
   manifest: PluginManifest;
 }
 
-export const createPlugin = (
+export const createV1Plugin = (
   name: string,
   manifest: PluginManifest
-): AltairPlugin => {
+): AltairV1Plugin => {
   return {
     name,
     manifest,
