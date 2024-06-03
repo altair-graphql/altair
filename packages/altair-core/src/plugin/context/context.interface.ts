@@ -3,7 +3,7 @@ import { ICustomTheme } from '../../theme';
 import { ExportWindowState } from '../../types/state/window.interfaces';
 import { PluginEvent, PluginEventCallback } from '../event/event.interfaces';
 import { AltairPanel, AltairPanelLocation } from '../panel';
-import { AltairPlugin } from '../plugin.interfaces';
+import { AltairV1Plugin } from '../plugin.interfaces';
 import { AltairUiAction, AltairUiActionLocation } from '../ui-action';
 
 export interface CreatePanelOptions {
@@ -46,10 +46,7 @@ export interface PluginContext {
      *
      * returns panel instance (includes destroy() method)
      */
-    createPanel(
-      element: HTMLElement,
-      options?: CreatePanelOptions
-    ): AltairPanel;
+    createPanel(element: HTMLElement, options?: CreatePanelOptions): AltairPanel;
     destroyPanel(panel: AltairPanel): void;
 
     /**
@@ -88,5 +85,5 @@ export interface PluginContext {
 }
 
 export interface PluginContextGenerator {
-  createContext(pluginName: string, plugin: AltairPlugin): PluginContext;
+  createV1Context(pluginName: string, plugin: AltairV1Plugin): PluginContext;
 }

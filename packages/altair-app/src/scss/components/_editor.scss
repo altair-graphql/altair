@@ -213,6 +213,8 @@ app-query-result {
   bottom: 10px;
   right: 10px;
   z-index: 3;
+  display: flex;
+  gap: 5px;
 }
 
 .subscription-result {

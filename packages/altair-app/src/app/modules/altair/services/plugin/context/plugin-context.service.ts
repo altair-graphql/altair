@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { v4 as uuid } from 'uuid';
 import {
   CreateActionOptions,
   CreatePanelOptions,
@@ -15,7 +16,7 @@ import {
 import { ICustomTheme } from 'altair-graphql-core/build/theme';
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { SubscriptionProviderData } from 'altair-graphql-core/build/subscriptions';
-import { AltairPlugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { AltairV1Plugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../../utils/logger';
 
@@ -30,7 +31,7 @@ import * as localActions from '../../../store/local/local.action';
 import * as settingsActions from '../../../store/settings/settings.action';
 
 import { PluginEventService } from '../plugin-event.service';
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
 import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
@@ -43,6 +44,10 @@ import {
   AltairUiAction,
   AltairUiActionLocation,
 } from 'altair-graphql-core/build/plugin/ui-action';
+import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
+import { PluginV3Context } from 'altair-graphql-core/build/plugin/v3/context';
+import { PluginParentWorker } from 'altair-graphql-core/build/plugin/v3/parent-worker';
+import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +62,7 @@ export class PluginContextService implements PluginContextGenerator {
     private notifyService: NotifyService
   ) {}
 
-  createContext(pluginName: string, plugin: AltairPlugin): PluginContext {
+  createV1Context(pluginName: string, plugin: AltairV1Plugin): PluginContext {
     const self = this;
     const log = (msg: string) => debug.log(`PLUGIN[${pluginName}]: ${msg}`);
     const eventBus = this.pluginEventService.group();
@@ -180,9 +185,7 @@ export class PluginContextService implements PluginContextGenerator {
         },
         addSubscriptionProvider(providerData: SubscriptionProviderData) {
           log(`adding subscription provider: ${providerData.id}`);
-          self.subscriptionProviderRegistryService.addProviderData(
-            providerData
-          );
+          self.subscriptionProviderRegistryService.addProviderData(providerData);
         },
         executeCommand() {
           // TODO: To be implemented...
@@ -231,6 +234,198 @@ export class PluginContextService implements PluginContextGenerator {
         },
       },
     };
+  }
+
+  createV3Context(
+    pluginName: string,
+    manifest: PluginV3Manifest,
+    pluginEntrypointUrl: string
+  ): PluginV3Context {
+    const self = this;
+    const log = (msg: string) => debug.log(`PLUGIN[${pluginName}]: ${msg}`);
+    const eventBus = this.pluginEventService.group();
+
+    log('creating context..');
+    const ctx: PluginV3Context = {
+      /**
+       * Returns an allowed set of data from the state visible to plugins
+       *
+       * Since it is a method, the state can be generated when called.
+       * So we can ensure uniqueness of the state, as well as avoid passing values by references.
+       */
+      async getWindowState(windowId: string) {
+        return self.getWindowState(windowId);
+      },
+
+      async getCurrentWindowState() {
+        return self.getCurrentWindowState();
+      },
+      /**
+       * panel has two locations: sidebar, header
+       *
+       * Each call creates a new panel. Instead, plugin should create panel only once (@initialize)
+       * Panel can be destroyed when the plugin is unused.
+       *
+       * returns panel instance (includes destroy() method)
+       */
+      async createPanel(
+        panelName: string,
+        {
+          location = AltairPanelLocation.SIDEBAR,
+          title = manifest.display_name ?? manifest.name,
+        }: CreatePanelOptions = {}
+      ) {
+        log(`Creating panel<${panelName}, ${title}>`);
+        // create and setup panel iframe
+        const id = `panel-${uuid()}`;
+        const panelWorker = new PluginParentWorker({
+          id,
+          pluginEntrypointUrl,
+          instanceType: 'panel',
+          disableAppend: true,
+          additionalParams: {
+            panelName,
+          },
+        });
+        const engine = new PluginParentEngine(panelWorker);
+        const panel = new AltairPanel(
+          panelName,
+          panelWorker.getIframe(),
+          location,
+          engine
+        );
+        engine.start(ctx);
+        self.store.dispatch(new localActions.AddPanelAction(panel));
+        return panel.id;
+      },
+      async destroyPanel(id: string) {
+        const local = await self.store.select('local').pipe(take(1)).toPromise();
+
+        const panel = local.panels.find((p) => p.id === id);
+        if (panel) {
+          log(`Destroying panel<${panel.title}:[${panel.id}]>`);
+          if (panel instanceof AltairPanel) {
+            panel.engine?.destroy();
+            panel.destroy();
+            self.store.dispatch(
+              new localActions.RemovePanelAction({ panelId: panel.id })
+            );
+          }
+        }
+      },
+      /**
+       * action has 1 location for now: resultpane
+       *
+       * Each call creates a new action. Instead, plugins should create action once, when needed
+       * Action can be destroyed when the plugin decides to.
+       *
+       * returns action instance (includes destroy() method)
+       */
+      async createAction({
+        title,
+        location = AltairUiActionLocation.RESULT_PANE,
+        execute,
+      }: CreateActionOptions) {
+        log(`Creating ui action<${title}>`);
+        const uiAction = new AltairUiAction(title, location, async () => {
+          const state = await self.getCurrentWindowState();
+          if (state) {
+            execute(state);
+          }
+        });
+
+        self.store.dispatch(new localActions.AddUiActionAction(uiAction));
+
+        return uiAction.id;
+      },
+      async destroyAction(actionId: string) {
+        log(`Destroying ui action<[${actionId}]>`);
+        self.store.dispatch(new localActions.RemoveUiActionAction({ actionId }));
+      },
+      async isElectron(): Promise<boolean> {
+        return isElectron;
+      },
+      async createWindow(data: ExportWindowState) {
+        log('creating window');
+        return self.windowService.importWindowData(data);
+      },
+      async setQuery(windowId: string, query: string) {
+        log('setting query');
+        self.store.dispatch(new queryActions.SetQueryAction(query, windowId));
+      },
+      async setVariables(windowId: string, variables: string) {
+        log('setting variables');
+        self.store.dispatch(
+          new variablesActions.UpdateVariablesAction(variables, windowId)
+        );
+      },
+      async setEndpoint(windowId: string, url: string) {
+        log('setting endpoint');
+        self.store.dispatch(new queryActions.SetUrlAction({ url }, windowId));
+        self.store.dispatch(
+          new queryActions.SendIntrospectionQueryRequestAction(windowId)
+        );
+      },
+      async setHeader(windowId, key, value) {
+        log(`setting header: ${key}`);
+        const state = await this.getWindowState(windowId);
+        const headers = state?.headers ?? [];
+        const obj = headerListToMap(headers);
+
+        obj[key] = value;
+        self.store.dispatch(
+          new headersActions.SetHeadersAction(
+            { headers: headerMapToList(obj) },
+            windowId
+          )
+        );
+      },
+      // TODO: will need an adaptation to the new plugin system. Can tackle if needed.
+      // addSubscriptionProvider(providerData: SubscriptionProviderData) {
+      //   log(`adding subscription provider: ${providerData.id}`);
+      //   self.subscriptionProviderRegistryService.addProviderData(providerData);
+      // },
+      /**
+       * subscribe to events
+       */
+      on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
+        return eventBus.on(event, callback);
+      },
+
+      /**
+       * Unsubscribe to all events
+       */
+      off() {
+        log('unsubscribing from all events');
+        return eventBus.unsubscribe();
+      },
+      async addTheme(name: string, theme: ICustomTheme) {
+        log('Adding theme: ' + name);
+        return self.themeRegistryService.addTheme(`plugin:${name}`, theme);
+      },
+      async enableTheme(name: string, darkMode = false) {
+        log('Enabling theme: ' + name);
+        const settings = {
+          ...(await self.store.select('settings').pipe(take(1)).toPromise()),
+        };
+
+        if (darkMode) {
+          settings['theme.dark'] = `plugin:${name}` as any;
+        } else {
+          settings.theme = `plugin:${name}` as any;
+        }
+        self.store.dispatch(
+          new settingsActions.SetSettingsJsonAction({
+            value: JSON.stringify(settings),
+          })
+        );
+        self.notifyService.info(
+          `Plugin "${pluginName}" has enabled the "${name}" theme`
+        );
+      },
+    };
+
+    return ctx;
   }
 
   private async getWindowState(windowId: string) {

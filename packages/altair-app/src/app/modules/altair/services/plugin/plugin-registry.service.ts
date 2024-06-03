@@ -2,22 +2,29 @@ import { Injectable } from '@angular/core';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { v4 as uuid } from 'uuid';
 
 import * as localActions from '../../store/local/local.action';
 import * as settingsActions from '../../store/settings/settings.action';
 import { PluginContextService } from './context/plugin-context.service';
 import {
-  AltairPlugin,
-  createPlugin,
+  AltairV1Plugin,
+  createV1Plugin,
   PluginManifest,
   PluginSource,
   RemotePluginListResponse,
 } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
+import { PluginParentWorker } from 'altair-graphql-core/build/plugin/v3/parent-worker';
+import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { PluginStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
+import {
+  V1PluginStateEntry,
+  V3PluginStateEntry,
+} from 'altair-graphql-core/build/types/state/local.interfaces';
 import { PluginConstructor } from 'altair-graphql-core/build/plugin/base';
 import { DbService } from '../db.service';
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { NotifyService } from '../notify/notify.service';
 import sanitize from 'sanitize-html';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
@@ -46,10 +53,11 @@ export class PluginRegistryService {
     private store: Store<RootState>
   ) {}
 
-  async add(name: string, plugin: AltairPlugin) {
-    const context = this.pluginContextService.createContext(name, plugin);
+  addV1Plugin(name: string, plugin: AltairV1Plugin) {
+    const context = this.pluginContextService.createV1Context(name, plugin);
     const RetrievedPluginClass = this.getPluginClass(plugin);
-    const pluginStateEntry: PluginStateEntry = {
+    const pluginStateEntry: V1PluginStateEntry = {
+      manifest_version: plugin.manifest.manifest_version,
       name,
       context,
       instance: RetrievedPluginClass ? new RetrievedPluginClass() : undefined,
@@ -63,6 +71,32 @@ export class PluginRegistryService {
     }
 
     pluginStateEntry.instance.initialize(context);
+    this.store.dispatch(
+      new localActions.AddInstalledPluginEntryAction(pluginStateEntry)
+    );
+  }
+
+  addV3Plugin(
+    name: string,
+    manifest: PluginV3Manifest,
+    worker: PluginParentWorker,
+    pluginEntrypointUrl: string
+  ) {
+    const engine = new PluginParentEngine(worker);
+    const context = this.pluginContextService.createV3Context(
+      name,
+      manifest,
+      pluginEntrypointUrl
+    );
+    engine.start(context);
+    const pluginStateEntry: V3PluginStateEntry = {
+      manifest_version: manifest.manifest_version,
+      name,
+      context,
+      engine,
+      manifest,
+    };
+
     this.store.dispatch(
       new localActions.AddInstalledPluginEntryAction(pluginStateEntry)
     );
@@ -159,11 +193,10 @@ export class PluginRegistryService {
       return;
     }
 
-    const retrievedApprovedMap: UserPluginApprovedMap | undefined =
-      await this.db
-        .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
-        .pipe(take(1))
-        .toPromise();
+    const retrievedApprovedMap: UserPluginApprovedMap | undefined = await this.db
+      .getItem(PLUGIN_APPROVED_MAP_STORAGE_KEY)
+      .pipe(take(1))
+      .toPromise();
 
     if (retrievedApprovedMap) {
       approvedMap = retrievedApprovedMap;
@@ -205,14 +238,12 @@ export class PluginRegistryService {
       .toPromise();
     const settings: SettingsState = JSON.parse(JSON.stringify(resp));
 
-    settings['plugin.list'] = (settings['plugin.list'] || []).filter(
-      (pluginStr) => {
-        const pluginInfo = this.getPluginInfoFromString(pluginStr);
-        if (pluginInfo) {
-          return pluginName !== pluginInfo.name;
-        }
+    settings['plugin.list'] = (settings['plugin.list'] || []).filter((pluginStr) => {
+      const pluginInfo = this.getPluginInfoFromString(pluginStr);
+      if (pluginInfo) {
+        return pluginName !== pluginInfo.name;
       }
-    );
+    });
 
     this.store.dispatch(
       new settingsActions.SetSettingsJsonAction({
@@ -241,9 +272,9 @@ export class PluginRegistryService {
 
     try {
       // Get manifest file
-      const manifest = (await this.http
-        .get(manifestUrl)
-        .toPromise()) as PluginManifest;
+      const manifest = (await this.http.get(manifestUrl).toPromise()) as
+        | PluginManifest
+        | PluginV3Manifest;
 
       const opts: PluginInfo = {
         name,
@@ -271,38 +302,64 @@ export class PluginRegistryService {
 
       debug.log('PLUGIN', manifest);
 
+      // TODO: Validate v3 manifest
       if (manifest) {
-        if (manifest.styles && manifest.styles.length) {
-          debug.log('PLUGIN styles', manifest.styles);
-
-          await Promise.all(
-            manifest.styles.map((style) => {
-              return this.injectPluginStylesheet(
-                this.resolveURL(pluginBaseUrl, style)
-              );
-            })
-          );
+        if (manifest.manifest_version === 1 || manifest.manifest_version === 2) {
+          return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
         }
-        if (manifest.scripts && manifest.scripts.length) {
-          debug.log('PLUGIN scripts', manifest.scripts);
-
-          await Promise.all(
-            manifest.scripts.map((script) => {
-              return this.injectPluginScript(
-                this.resolveURL(pluginBaseUrl, script)
-              );
-            })
-          );
+        if (manifest.manifest_version === 3) {
+          return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
         }
-        const plugin = createPlugin(name, manifest);
-        await this.add(name, plugin);
-        debug.log('PLUGIN', 'plugin scripts and styles injected and loaded.');
-
-        return plugin;
       }
     } catch (error) {
       debug.error('Error fetching plugin assets', error);
     }
+  }
+
+  private async fetchPluginV1Assets(
+    name: string,
+    manifest: PluginManifest,
+    pluginBaseUrl: string
+  ) {
+    if (manifest?.styles?.length) {
+      debug.log('V1 PLUGIN styles', manifest.styles);
+
+      await Promise.all(
+        manifest.styles.map((style) => {
+          return this.injectPluginStylesheet(this.resolveURL(pluginBaseUrl, style));
+        })
+      );
+    }
+    if (manifest?.scripts?.length) {
+      debug.log('V1 PLUGIN scripts', manifest.scripts);
+
+      await Promise.all(
+        manifest.scripts.map((script) => {
+          return this.injectPluginScript(this.resolveURL(pluginBaseUrl, script));
+        })
+      );
+    }
+    const plugin = createV1Plugin(name, manifest);
+    this.addV1Plugin(name, plugin);
+    debug.log('PLUGIN', 'V1 plugin scripts and styles injected and loaded.');
+
+    return plugin;
+  }
+
+  private fetchPluginV3Assets(
+    name: string,
+    manifest: PluginV3Manifest,
+    pluginBaseUrl: string
+  ) {
+    const id = `plugin-${uuid()}`;
+    const entry = manifest.entry;
+    if (entry.type === 'html') {
+      const pluginEntrypointUrl = this.resolveURL(pluginBaseUrl, entry.path);
+      const worker = new PluginParentWorker({ id, pluginEntrypointUrl });
+      this.addV3Plugin(name, manifest, worker, pluginEntrypointUrl);
+      debug.log('PLUGIN', 'V3 plugin loaded.');
+    }
+    return;
   }
 
   private injectPluginScript(url: string) {
@@ -370,7 +427,7 @@ export class PluginRegistryService {
     return baseURL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
   }
 
-  private getPluginClass(plugin: AltairPlugin) {
+  private getPluginClass(plugin: AltairV1Plugin) {
     if (plugin.plugin_class) {
       return (window as any)['AltairGraphQL'].plugins[
         plugin.plugin_class

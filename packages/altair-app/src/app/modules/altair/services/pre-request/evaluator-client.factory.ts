@@ -15,7 +15,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
   );
   private iframe = this.createIframe();
 
-  createIframe() {
+  private createIframe() {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     const sandboxUrl = new URL(this.config.sandboxUrl);
@@ -61,6 +61,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     this.iframe.remove();
   }
 }
+
 export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
   create() {
     if (document.baseURI && new URL(document.baseURI).origin === window.origin) {
