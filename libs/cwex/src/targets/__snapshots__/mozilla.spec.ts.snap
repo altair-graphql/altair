@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mozilla target generateExtensionInfo should generate the manifest content if manifest option provided 1`] = `
+Object {
+  "background": Object {
+    "scripts": Array [],
+  },
+  "browser_action": Object {
+    "default_icon": "",
+    "default_popup": "",
+    "default_title": "",
+  },
+  "content_security_policy": "",
+  "description": "Test extension description",
+  "icons": "",
+  "manifest_version": 2,
+  "name": "Test extension",
+  "offline_enabled": false,
+  "options_ui": Object {
+    "open_in_tab": false,
+    "page": "",
+  },
+  "permissions": Array [],
+  "short_name": "Test",
+  "version": "0.0.1",
+}
+`;
