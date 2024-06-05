@@ -1,0 +1,33 @@
+{
+  "name": "altair-cwex",
+  "version": "6.4.2",
+  "description": "A CLI tool for creating and managing cross-platform browser extensions",
+  "bin": {
+    "cwex": "dist/cli.js"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "commander": "^12.0.0",
+    "debug": "^4.3.4",
+    "find-up": "^7.0.0",
+    "fs-extra": "^11.2.0",
+    "globby": "^14.0.1",
+    "web-ext": "^7.11.0",
+    "yaml": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.2",
+    "@types/chrome": "^0.0.266",
+    "@types/debug": "^4.1.12",
+    "@types/firefox-webext-browser": "^120.0.3",
+    "@types/node": "^20.12.7"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "yarn build"
+  }
+}

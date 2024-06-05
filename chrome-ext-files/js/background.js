@@ -1,5 +1,5 @@
 /* global chrome */
-(function() {
+(function () {
   const MAX_EXT_LOAD_COUNT = 30;
   let curTab = {
     id: null,
@@ -18,7 +18,7 @@
 
   // Create a new tab for the extension
   function createNewTab() {
-    chrome.tabs.create({ url: 'index.html' }, function(tab) {
+    chrome.tabs.create({ url: 'index.html' }, function (tab) {
       curTab = {
         id: tab.id,
         url: tab.url,
@@ -32,7 +32,7 @@
   // Focus on the open extension tab
   function focusTab(tabId) {
     const updateProperties = { active: true };
-    chrome.tabs.update(tabId, updateProperties, function(tab) {});
+    chrome.tabs.update(tabId, updateProperties, function (tab) {});
   }
 
   function openChangeLog() {
@@ -40,16 +40,14 @@
       {
         showChangeLog: true,
       },
-      function(items) {
+      function (items) {
         if (items.showChangeLog) {
           chrome.tabs.create(
             {
               url: 'https://altairgraphql.dev/updated',
             },
-            function(tab) {
-              console.log(
-                'New tab launched with https://altairgraphql.dev/updated'
-              );
+            function (tab) {
+              console.log('New tab launched with https://altairgraphql.dev/updated');
             }
           );
         }
@@ -65,12 +63,12 @@
           userDonated: false,
           extLoadCount: 0,
         },
-        function(items) {
+        function (items) {
           if (!items.userDonated) {
             console.log('extension loaded count: ', items.extLoadCount);
             if (items.extLoadCount > MAX_EXT_LOAD_COUNT) {
               // show donation page
-              chrome.tabs.create({ url: 'donate.html' }, function(tab) {
+              chrome.tabs.create({ url: 'donate.html' }, function (tab) {
                 console.log('New tab launched with donation.');
               });
               chrome.storage.sync.set({
@@ -88,11 +86,11 @@
   }
 
   // Open the extension tab when the extension icon is clicked
-  chrome.browserAction.onClicked.addListener(function(tab) {
+  chrome.action.onClicked.addListener(function (tab) {
     if (!curTab || !curTab.id) {
       createNewTab();
     } else {
-      chrome.tabs.get(curTab.id, function(tab) {
+      chrome.tabs.get(curTab.id, function (tab) {
         console.log(chrome.runtime.id, tab.url);
         if (tab && tab.url && tab.url.includes(getExtensionId())) {
           focusTab(curTab.id);
@@ -104,14 +102,14 @@
   });
 
   // When a tab is closed, check if it is the extension tab that was closed, and unset curTabId
-  chrome.tabs.onRemoved.addListener(function(tabId) {
+  chrome.tabs.onRemoved.addListener(function (tabId) {
     if (tabId === curTab.id) {
       curTab = {};
     }
   });
 
   // Show the update notification after every new update
-  chrome.runtime.onInstalled.addListener(function(details) {
+  chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'update') {
       chrome.notifications.create(
         {
@@ -120,12 +118,12 @@
           title: 'Altair has been updated',
           message: 'Click to view changelog.',
         },
-        function(notifId) {}
+        function (notifId) {}
       );
     }
   });
 
-  chrome.notifications.onClicked.addListener(function(notifId) {
+  chrome.notifications.onClicked.addListener(function (notifId) {
     openChangeLog();
   });
 })();
