@@ -219,10 +219,6 @@ export class NotifyService {
     }
 
     if (typeof err === 'object') {
-      // ky HTTP error: https://github.com/sindresorhus/ky#httperror
-      if ('name' in err && err.name === 'HTTPError' && 'response' in err) {
-        err = await (err.response as Response).json();
-      }
       if (
         err &&
         typeof err === 'object' &&

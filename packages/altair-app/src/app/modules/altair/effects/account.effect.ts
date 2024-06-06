@@ -23,6 +23,7 @@ import * as workspaceActions from '../store/workspace/workspace.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { debug } from '../utils/logger';
 import { fromPromise } from '../utils';
+import { getErrorResponse } from '../utils/errors';
 
 @Injectable()
 export class AccountEffects {
@@ -101,12 +102,16 @@ export class AccountEffects {
           return EMPTY;
         }),
         catchError((error) => {
-          debug.error(error);
-          this.notifyService.errorWithError(
-            error,
-            'Sorry, we could not log you in. Please check that your username and password are correct'
+          return fromPromise(getErrorResponse(error)).pipe(
+            switchMap((error) => {
+              debug.error(error);
+              this.notifyService.errorWithError(
+                error,
+                'Sorry, we could not log you in. Please check that your username and password are correct'
+              );
+              return EMPTY;
+            })
           );
-          return EMPTY;
         }),
         repeat()
       );
@@ -138,12 +143,16 @@ export class AccountEffects {
           return EMPTY;
         }),
         catchError((error) => {
-          debug.error(error);
-          this.notifyService.errorWithError(
-            error,
-            'Sorry, we could not log you out. Please try again.'
+          return fromPromise(getErrorResponse(error)).pipe(
+            switchMap((error) => {
+              debug.error(error);
+              this.notifyService.errorWithError(
+                error,
+                'Sorry, we could not log you out. Please try again.'
+              );
+              return EMPTY;
+            })
           );
-          return EMPTY;
         }),
         repeat()
       );
@@ -161,9 +170,13 @@ export class AccountEffects {
           return EMPTY;
         }),
         catchError((err: UnknownError) => {
-          debug.error(err);
-          this.notifyService.errorWithError(err, 'Could not load teams');
-          return EMPTY;
+          return fromPromise(getErrorResponse(err)).pipe(
+            switchMap((error) => {
+              debug.error(error);
+              this.notifyService.errorWithError(err, 'Could not load teams');
+              return EMPTY;
+            })
+          );
         }),
         repeat()
       );
@@ -186,9 +199,13 @@ export class AccountEffects {
           })
       ),
       catchError((err: UnknownError) => {
-        debug.error(err);
-        this.notifyService.errorWithError(err, 'Could not load teams');
-        return EMPTY;
+        return fromPromise(getErrorResponse(err)).pipe(
+          switchMap((error) => {
+            debug.error(error);
+            this.notifyService.errorWithError(err, 'Could not load teams');
+            return EMPTY;
+          })
+        );
       }),
       repeat()
     );
@@ -217,9 +234,13 @@ export class AccountEffects {
           })
       ),
       catchError((err: UnknownError) => {
-        debug.error(err);
-        this.notifyService.errorWithError(err, 'Could not load user data');
-        return EMPTY;
+        return fromPromise(getErrorResponse(err)).pipe(
+          switchMap((error) => {
+            debug.error(error);
+            this.notifyService.errorWithError(err, 'Could not load user data');
+            return EMPTY;
+          })
+        );
       }),
       repeat()
     );
