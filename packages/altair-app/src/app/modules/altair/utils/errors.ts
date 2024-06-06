@@ -22,3 +22,30 @@ export class InternalEditorError extends BaseError {
     super('Internal editor error occurred', { cause });
   }
 }
+
+export const getErrorResponse = async (err: unknown) => {
+  if (err && typeof err === 'object') {
+    // ky HTTP error: https://github.com/sindresorhus/ky#httperror
+    if ('name' in err && err.name === 'HTTPError' && 'response' in err) {
+      return (err.response as Response).json();
+    }
+  }
+
+  return err;
+};
+
+export const getApiErrorCode = (err: unknown) => {
+  if (!err) {
+    return;
+  }
+  if (err && typeof err === 'object' && 'error' in err) {
+    if (
+      err.error &&
+      typeof err.error === 'object' &&
+      'code' in err.error &&
+      typeof err.error.code === 'string'
+    ) {
+      return err.error.code;
+    }
+  }
+};
