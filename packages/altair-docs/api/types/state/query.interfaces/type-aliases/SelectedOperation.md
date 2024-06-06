@@ -1,0 +1,3 @@
+# SelectedOperation
+
+> **SelectedOperation**: `string` \| `null`

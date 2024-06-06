@@ -36,6 +36,9 @@
     "stream-http": "^3.1.0",
     "syncpack": "^9.8.4",
     "turbo": "^1.7.3",
+    "typedoc": "^0.25.13",
+    "typedoc-plugin-markdown": "^4.0.3",
+    "typedoc-vitepress-theme": "^1.0.0",
     "typescript": "5.2.2",
     "web-ext": "^6.5.0",
     "wrangler": "^2.0.27"
