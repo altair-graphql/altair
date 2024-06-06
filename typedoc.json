@@ -1,0 +1,42 @@
+{
+  // Comments are supported, like tsconfig.json
+  "entryPoints": ["packages/altair-core/src/*"],
+  "entryPointStrategy": "expand",
+  "out": "packages/altair-docs/api",
+  "docsRoot": "./packages/altair-docs",
+  "entryFileName": "index.md",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "tsconfig": "packages/altair-core/tsconfig.json",
+  "exclude": [
+    "**/node_modules/**",
+    "**/__tests__/**",
+    "**/__mocks__/**",
+    "**/__fixtures__/**",
+    "**/__snapshots",
+    "**/*+(index|.spec|.e2e).ts"
+  ],
+  "readme": "none",
+  "githubPages": false,
+  "indexFormat": "table",
+  "hideBreadcrumbs": true,
+  "expandParameters": true,
+  "useCodeBlocks": false,
+  "disableSources": true,
+  "textContentMappings": {
+    "title.indexPage": "API Reference",
+    "title.memberPage": "{name}"
+  },
+  // "flattenOutputFiles": true,
+  "excludeGroups": true,
+  "excludePrivate": true,
+  "excludeReferences": true,
+  "excludeInternal": true,
+  // "excludeNotDocumented": true,
+
+  "sidebar": {
+    "autoConfiguration": true,
+    "format": "vitepress",
+    "pretty": true,
+    "collapsed": true
+  }
+}

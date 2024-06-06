@@ -1,23 +1,25 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
 import { getConfig } from './plugins/sidebar-generation';
+import typedocSidebar from '../api/typedoc-sidebar.json';
 
 const { sidebar: retrievedSidebar } = getConfig({
-  filter: meta => meta.sidebar !== false,
+  filter: (meta) => meta.sidebar !== false,
 });
 
 const seoTitle = 'Altair GraphQL Client';
 const seoImage = '/assets/img/app-shot.png';
-const description = 'Altair is a feature-rich GraphQL Client IDE for all platforms. Enables you interact with any GraphQL server you are authorized to access from any platform you are on.';
+const description =
+  'Altair is a feature-rich GraphQL Client IDE for all platforms. Enables you interact with any GraphQL server you are authorized to access from any platform you are on.';
 const GA = 'UA-41432833-7';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Altair GraphQL Client",
+  title: 'Altair GraphQL Client',
   description,
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     [
       'script',
-      { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${GA}` }
+      { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${GA}` },
     ],
     [
       'script',
@@ -25,40 +27,33 @@ export default defineConfig({
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '${GA}');`
+      gtag('config', '${GA}');`,
     ],
 
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    [
-      'meta',
-      { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
-    ],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
     [
       'link',
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap',
       },
     ],
     [
       'link',
       {
         rel: 'stylesheet',
-        href:
-          'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css',
+        href: 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css',
       },
     ],
     [
       'script',
       {
-        src:
-          'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js',
+        src: 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js',
         'data-cfasync': 'false',
       },
     ],
-
 
     // SEO
     ['meta', { name: 'description', content: description }],
@@ -88,7 +83,14 @@ export default defineConfig({
         link: 'https://opencollective.com/altair/donate',
       },
     ],
-    sidebar: [retrievedSidebar[0]],
+    sidebar: [
+      retrievedSidebar[0],
+      {
+        text: 'API',
+        link: '/api/',
+        items: typedocSidebar,
+      },
+    ],
     socialLinks: [
       {
         icon: 'twitter',
@@ -104,14 +106,15 @@ export default defineConfig({
       placement: 'altairsirmueldesign',
     },
     editLink: {
-      pattern: 'https://github.com/altair-graphql/altair/edit/main/packages/altair-docs/:path',
+      pattern:
+        'https://github.com/altair-graphql/altair/edit/main/packages/altair-docs/:path',
       text: 'Help us improve this page!',
     },
     lastUpdated: {
       text: 'Last Updated',
     },
     search: {
-      provider: 'local'
+      provider: 'local',
     },
   },
   transformHead({ page }) {
@@ -119,12 +122,12 @@ export default defineConfig({
     if (page !== '404.md') {
       const canonicalUrl = `https://altairgraphql.dev/${page}`
         .replace(/index\.md$/, '')
-        .replace(/\.md$/, '')
+        .replace(/\.md$/, '');
 
-      return [['link', { rel: 'canonical', href: canonicalUrl }]]
+      return [['link', { rel: 'canonical', href: canonicalUrl }]];
     }
   },
   sitemap: {
     hostname: 'https://altairgraphql.dev',
-  }
-})
+  },
+});

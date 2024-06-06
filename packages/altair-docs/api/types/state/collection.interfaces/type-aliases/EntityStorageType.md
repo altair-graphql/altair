@@ -1,0 +1,3 @@
+# EntityStorageType
+
+> **EntityStorageType**: `"local"` \| `"api"`

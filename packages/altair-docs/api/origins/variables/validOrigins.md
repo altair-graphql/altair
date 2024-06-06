@@ -1,0 +1,3 @@
+# validOrigins
+
+> `const` **validOrigins**: `string`[]
