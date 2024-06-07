@@ -4,6 +4,7 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { AccountService, NotifyService } from '../../services';
 
 import { TeamsDialogComponent } from './teams-dialog.component';
+import { Store } from '@ngrx/store';
 
 describe('TeamsDialogComponent', () => {
   let component: TeamsDialogComponent;
@@ -12,7 +13,11 @@ describe('TeamsDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TeamsDialogComponent],
-      providers: [MockProvider(AccountService), MockProvider(NotifyService)],
+      providers: [
+        MockProvider(AccountService),
+        MockProvider(NotifyService),
+        MockProvider(Store),
+      ],
       imports: [MockModule(SharedModule)],
     }).compileComponents();
 
