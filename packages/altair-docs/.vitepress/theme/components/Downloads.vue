@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { data as githubMetadata } from '../../plugins/github-metadata.data'
+import { data as githubMetadata } from '../../plugins/github-metadata.data';
 import VPButton from './VPButton.vue';
 
 interface DownloadData {
@@ -14,7 +14,7 @@ interface Props {
   downloads: {
     title: string;
     list: DownloadData[];
-  }
+  };
 }
 
 const props = defineProps<Props>();
@@ -27,15 +27,17 @@ const getAssetUrl = (item: DownloadData) => {
     return '';
   }
 
-  return item.pattern ? latestRelease.assets.find(asset => new RegExp(item.pattern).test(asset.name))?.browser_download_url ?? item.link ?? '' : item.link ?? '';
+  return item.pattern
+    ? latestRelease.assets.find((asset) => new RegExp(item.pattern).test(asset.name))
+        ?.browser_download_url ??
+        item.link ??
+        ''
+    : item.link ?? '';
 };
 </script>
 
 <template>
-  <div
-    v-if="githubMetadata"
-    class="releases"
-  >
+  <div v-if="latestRelease" class="releases">
     <h3 class="heading">
       Get Altair
       <span class="releases--latest-version">{{ latestRelease.tag_name }}</span>
@@ -56,17 +58,14 @@ const getAssetUrl = (item: DownloadData) => {
               target="_blank"
             >
               <img
-                :class="{'platform-item__unavailable': !getAssetUrl(item)}"
+                :class="{ 'platform-item__unavailable': !getAssetUrl(item) }"
                 :src="item.image"
                 :alt="item.name"
-              >
+              />
               <p class="platform-item__name">{{ item.name }}</p>
               <p v-if="!getAssetUrl(item)">coming soon</p>
             </a>
-            <div
-              v-if="item.extra"
-              class="platform-item__extra"
-            >
+            <div v-if="item.extra" class="platform-item__extra">
               {{ item.extra }}
             </div>
           </div>
@@ -85,72 +84,70 @@ const getAssetUrl = (item: DownloadData) => {
 </template>
 
 <style scoped>
+.releases {
+  background: var(--vp-c-bg-soft);
+  padding: 50px 0;
+  color: var(--vp-c-text-1);
+  text-align: center;
+}
 
-  .releases {
-    background: var(--vp-c-bg-soft);
-    padding: 50px 0;
-    color: var(--vp-c-text-1);
-    text-align: center;
-  }
+.heading {
+  padding: 10px 0px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
 
-  .heading {
-    padding: 10px 0px;
-    margin-bottom: 20px;
-    font-size: 30px;
-  }
+.releases--latest-version {
+  display: block;
+  font-size: 16px;
+  font-weight: normal;
+}
 
-  .releases--latest-version {
-    display: block;
-    font-size: 16px;
-    font-weight: normal;
-  }
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 50px;
+  margin-bottom: 30px;
+}
 
+.platform-item {
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  padding: 20px;
+  border: 3px solid transparent;
+}
+
+.platform-item:hover {
+  border-color: var(--vp-c-brand-3);
+  box-shadow: 10px 10px rgba(var(--brand-rgb), 0.25);
+}
+
+.platform-item__link {
+  text-decoration: none;
+}
+
+.platform-item__unavailable {
+  opacity: 0.4;
+}
+
+.platform-item__name {
+  text-transform: capitalize;
+}
+
+.platform-item__extra {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.platform-item img {
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
   .platforms {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 50px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(3, 1fr);
   }
-
-  .platform-item {
-    position: relative;
-    transition: all .3s ease;
-    border-radius: 10px;
-    padding: 20px;
-    border: 3px solid transparent;
-  }
-
-  .platform-item:hover {
-    border-color: var(--vp-c-brand-3);
-    box-shadow: 10px 10px rgba(var(--brand-rgb), .25);
-  }
-
-  .platform-item__link {
-    text-decoration: none;
-  }
-
-  .platform-item__unavailable {
-    opacity: .4;
-  }
-
-  .platform-item__name {
-    text-transform: capitalize;
-  }
-
-  .platform-item__extra {
-    text-align: center;
-    font-size: 14px;
-    opacity: .5;
-  }
-
-  .platform-item img {
-    margin: 0 auto;
-  }
-
-  @media (min-width: 768px){
-    .platforms {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
+}
 </style>
