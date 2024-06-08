@@ -5,6 +5,8 @@ import { DbService } from './db.service';
 import { uaSeedHash } from '../utils/simple_hash';
 import { switchMap, map } from 'rxjs/operators';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { AccountService } from './account/account.service';
+import { fromPromise } from '../utils';
 
 @Injectable()
 export class DonationService {
@@ -15,6 +17,7 @@ export class DonationService {
 
   constructor(
     private dbService: DbService,
+    private accountService: AccountService,
     private altairConfig: AltairConfig
   ) {}
 
@@ -45,9 +48,15 @@ export class DonationService {
     const actionCount$ = this.dbService.getItem(this.actionCountKey);
     const seed$ = this.dbService.getItem(this.seedKey);
     const curHash$ = this.dbService.getItem(this.hashKey);
+    const userPlan$ = fromPromise(this.accountService.getPlan());
 
-    return zip(actionCount$, seed$, curHash$).pipe(
-      map(([actionCount, seed, curHash]) => {
+    return zip(actionCount$, seed$, curHash$, userPlan$).pipe(
+      map(([actionCount, seed, curHash, userPlan]) => {
+        if (userPlan.id === 'pro') {
+          // Reset count
+          this.dbService.setItem(this.actionCountKey, 0);
+          return false;
+        }
         if (
           actionCount &&
           actionCount >= this.altairConfig.donation.action_count_threshold

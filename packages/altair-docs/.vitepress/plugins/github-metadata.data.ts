@@ -5,17 +5,21 @@ import path from 'path';
 import { Octokit } from '@octokit/rest';
 import NodeCache from 'node-cache';
 // Does the cache persist over several runs? 🤔
-const myCache = new NodeCache( { stdTTL: 600 } );
+const myCache = new NodeCache({ stdTTL: 600 });
 
 const getGithubMetadata = async ({ owner = '', repo = '' }) => {
-  
   let githubToken = '';
   try {
-    githubToken = fs.readFileSync(path.resolve(__dirname, './github-token'), 'utf-8');
-  } catch (error) {
+    githubToken = fs.readFileSync(
+      path.resolve(__dirname, './github-token'),
+      'utf-8'
+    );
+  } catch (error) {}
+  githubToken ||= process.env.GITHUB_TOKEN ?? '';
+
+  if (!githubToken) {
     console.log('no github token found');
   }
-  githubToken ||= process.env.GITHUB_TOKEN ?? '';
 
   const octokit = new Octokit({
     auth: githubToken || undefined,
@@ -25,10 +29,10 @@ const getGithubMetadata = async ({ owner = '', repo = '' }) => {
 
   const resolvers = {
     latest_release: async () => {
-      const fromCache = myCache.get('latest_release');
-      if (fromCache) {
-        return fromCache;
-      }
+      // const fromCache = myCache.get('latest_release');
+      // if (fromCache) {
+      //   return fromCache;
+      // }
       const { data } = await octokit.rest.repos.getLatestRelease({ owner, repo });
       if (data) {
         myCache.set('latest_release', data);
@@ -48,9 +52,9 @@ const getGithubMetadata = async ({ owner = '', repo = '' }) => {
     //   return data;
     // },
     releases_url: async () => `${repoUrl}/releases`,
-  }
+  };
   const keys = Object.keys(resolvers);
-  const vls = await Promise.allSettled(keys.map(_ => resolvers[_]()));
+  const vls = await Promise.allSettled(keys.map((_) => resolvers[_]()));
 
   return vls.reduce((acc, cur, i) => {
     if (cur.status === 'rejected') {
@@ -60,12 +64,12 @@ const getGithubMetadata = async ({ owner = '', repo = '' }) => {
     return {
       ...acc,
       [keys[i]]: cur.value,
-    }
+    };
   }, {});
 };
 
 declare const data: any;
-export { data }
+export { data };
 
 export default {
   async load() {
