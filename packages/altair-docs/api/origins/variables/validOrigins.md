@@ -1,3 +1,0 @@
-# validOrigins
-
-> `const` **validOrigins**: `string`[]

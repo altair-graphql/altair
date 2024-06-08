@@ -1,3 +1,0 @@
-# default
-
-> **default**: `boolean`
