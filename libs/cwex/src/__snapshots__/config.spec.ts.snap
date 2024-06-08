@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config getConfig should merge config from config file with default config 1`] = `
+Object {
+  "beforeCompile": "./new/before-compile.js",
+  "exclude": Array [
+    "new.exclude.pattern",
+  ],
+  "include": Array [
+    "file1",
+    "file2",
+  ],
+  "manifestOptions": Object {
+    "name": "New test",
+  },
+  "outDir": "out",
+  "rootDir": "./new/root",
+  "targets": Array [
+    "new-target1",
+    "new-target2",
+  ],
+}
+`;
