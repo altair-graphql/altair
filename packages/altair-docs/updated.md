@@ -14,4 +14,7 @@ import { data } from './.vitepress/plugins/github-metadata.data'
 
 # Altair has been updated! - {{ data?.latest_release?.tag_name }}
 
-<Markdown :markdown="data?.latest_release?.body" />
+<Markdown
+  v-if="data?.latest_release?.body"
+  :markdown="data?.latest_release?.body"
+/>

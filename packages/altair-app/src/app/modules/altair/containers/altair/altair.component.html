@@ -465,6 +465,16 @@
           >
             Donate
           </button>
+          @if ((account$ | async)?.plan?.canUpgradePro) {
+            or
+            <button
+              class="btn alert-action"
+              (click)="setShowUpgradeDialog(true)"
+              track-id="upgrade_pro"
+            >
+              Upgrade to Pro
+            </button>
+          }
         </ng-template>
       </nz-layout>
     </nz-layout>
