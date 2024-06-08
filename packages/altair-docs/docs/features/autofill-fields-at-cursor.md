@@ -10,8 +10,6 @@ To do this, use the keyboard shortcut (`Ctrl+Shift+Enter`) or select "Fill all f
 
 Note: You can change the autocompletion depth limit using a `"addQueryDepthLimit"` option in the settings.
 
-![Autofill shortcut displayed in autocomplete menu](/assets/img/docs/start-autofill.png)
-
-![Auto filled query after using autofill feature](/assets/img/docs/autofill-complete.png)
+![Autofill fields](/assets/img/docs/autofill-fields.gif)
 
 Note: This only works for the query fields, and not for the arguments. You can still [generate whole queriea and fragments](/docs/features/add-queries-and-fragments) directly from the docs along with their arguments filled in.

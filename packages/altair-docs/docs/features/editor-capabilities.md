@@ -8,17 +8,20 @@ Altair comes with several other little editor features to give you all the tools
 
 ![docs menu](/assets/img/docs/other-tools-menu.png)
 
-
 ## In-context actions
+
 Altair provides several in-context actions for easily accessing several available functionalities. This includes:
 
 ### Sending query
+
 This action appears above each query, allowing you to easily select the query operation that is sent, even if you have multiple queries in your editor. Altair sends the entire document to the server and specifies the [`operationName`](https://graphql.org/learn/queries/#operation-name) for the current query.
 
-### Selecting upload files (beta)
-This action is available only in the new editor (still in beta). It appears inline when you have a variable with the [`Upload`](https://github.com/jaydenseric/graphql-upload) scalar type. It allows you to easily select the files you want to [upload](/docs/features/file-upload) without having to add it in the variable section manually.
+### Selecting upload files
+
+This action is available only in the new editor. It appears inline when you have a variable with the [`Upload`](https://github.com/jaydenseric/graphql-upload) scalar type. It allows you to easily select the files you want to [upload](/docs/features/file-upload) without having to add it in the variable section manually.
 
 ## Go to docs
+
 Quickly and easily view the docs for a field or type in your editor, by holding down the `Cmd` (in MacOS) or `Ctrl` (in Windows and Linux) and clicking it in the editor.
 
 ## Compress query
@@ -44,7 +47,6 @@ This functionality goes one step further from the [named query](#convert-to-name
 ## Copy as cURL
 
 You can also easily copy your query as cURL. This is handy if you want to share the request with someone else or want to test the same request from the terminal.
-
 
 ## Clear
 

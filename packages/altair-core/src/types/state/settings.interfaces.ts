@@ -6,59 +6,72 @@ export type SettingsLanguage = keyof typeof config.languages;
 
 export interface SettingsState {
   /**
-   * Theme
+   * Specifies the theme. Themes available by default are 'light', 'dark', 'system', 'dracula'.
+   * Additional themes can be added via plugins.
+   * @default 'system'
    */
   theme: string;
 
   /**
-   * Theme for dark mode
+   * Specifies the theme for dark mode
    */
   'theme.dark'?: string;
 
   /**
-   * Set language
+   * Specifies the language
    */
   language: SettingsLanguage;
 
   /**
-   * 'Add query' functionality depth
+   * Specifies how deep the 'Add query' functionality should go. You can specify any valid positive integer.
    */
   addQueryDepthLimit: number;
 
   /**
-   * Editor tab size
+   * Specifies the tab size for the editor
    */
   tabSize: number;
 
   /**
    * Enable experimental features.
-   * Note: Might be unstable
+   * Note: The features might be unstable
+   * @default false
    */
   enableExperimental?: boolean;
 
   /**
-   * Base Font Size
-   * (Default - 24)
+   * Specifies the base font size
+   * @default 24
    */
   'theme.fontsize'?: number;
 
   /**
-   * Editor Font Family
+   * Specifies the font family for the editors. Any valid CSS font family combination can be used here
    */
   'theme.editorFontFamily'?: string;
 
   /**
-   * Editor Font Size
+   * Specifies the font size for the editors
    */
   'theme.editorFontSize'?: number;
 
   /**
-   * Disable push notifications
+   * Specifies if native push notifications should be disabled
+   * @default false
    */
   disablePushNotification?: boolean;
 
   /**
-   * Enabled plugins
+   * Specifies a list of enabled plugins.
+   *
+   * Plugins are specified in a string format `<plugin-source>:<plugin-name>@<version>::[<opt>]->[<opt-value>]`:
+   * - `<plugin-source>`: The source of the plugin. Can be 'npm', 'url' or 'github'
+   * - `<plugin-name>` (required): The name of the plugin. Plugin names must begin with `altair-graphql-plugin-`
+   * - `<version>`: The version of the plugin. If not specified, the latest version will be used
+   * - `[<opt>]->[<opt-value>]`: Additional configuration for the plugin. This is used when you specify the source as 'url'. In this case, you can specify the URL where the plugin is hosted.
+   *
+   * @example ['altair-graphql-plugin-some-plugin', 'npm:altair-graphql-plugin-some-plugin', 'npm:altair-graphql-plugin-some-plugin@0.3.4', 'url:altair-graphql-plugin-some-plugin@0.3.4::[url]->[http://example.com/some-plugin]']
+   * @default []
    */
   'plugin.list'?: string[];
 
@@ -93,7 +106,7 @@ export interface SettingsState {
   disableLineNumbers?: boolean;
 
   /**
-   * Theme config object
+   * Specify custom theme config to override the specified theme values
    */
   themeConfig?: ICustomTheme;
 

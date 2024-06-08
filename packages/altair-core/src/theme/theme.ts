@@ -58,7 +58,76 @@ export const foundations = {
   },
 };
 
-const theme = deepmerge(foundations, {
+export interface ITheme {
+  easing: string;
+  colors: {
+    black: string;
+    darkGray: string;
+    gray: string;
+    lightGray: string;
+    white: string;
+    green: string;
+    blue: string;
+    rose: string;
+    cerise: string;
+    red: string;
+    orange: string;
+    yellow: string;
+    lightRed: string;
+    darkPurple: string;
+
+    primary: string;
+    secondary: string;
+    tertiary: string;
+
+    bg: string;
+    offBg: string;
+    font: string;
+    offFont: string;
+    border: string;
+    offBorder: string;
+
+    headerBg: string;
+  };
+  type: {
+    fontSize: {
+      base: number;
+      remBase: number;
+      body: number;
+      bodySmaller: number;
+    };
+    fontFamily: {
+      default: string;
+    };
+  };
+  isSystem: boolean;
+  shadow: {
+    color: string;
+    opacity: number;
+  };
+  editor: {
+    fontFamily: {
+      default: string;
+    };
+    fontSize: number;
+    colors: {
+      comment: string;
+      string: string;
+      number: string;
+      variable: string;
+      keyword: string;
+      atom: string;
+      attribute: string;
+      property: string;
+      punctuation: string;
+      definition: string;
+      builtin: string;
+      cursor: string;
+    };
+  };
+}
+
+const theme: ITheme = deepmerge(foundations, {
   isSystem: false,
   colors: {
     primary: foundations.colors.green,
@@ -108,7 +177,6 @@ type RecursivePartial<T> = {
       : T[P];
 };
 
-export type ITheme = typeof theme;
 export type ICustomTheme = RecursivePartial<ITheme>;
 
 interface RGBA {
