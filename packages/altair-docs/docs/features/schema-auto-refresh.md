@@ -9,4 +9,4 @@ Usually you would reload the docs everytime you make a change to your schema on 
 For more information about schema auto refresh, you can check these resources:
 
 - https://github.com/graphql/graphql-over-http/issues/48
-- https://sirmuel.design/a-better-graphql-developer-experience-with-x-graphql-event-stream-1256aef96f24
+- https://medium.com/xkojimedia/a-better-graphql-developer-experience-with-x-graphql-event-stream-1256aef96f24

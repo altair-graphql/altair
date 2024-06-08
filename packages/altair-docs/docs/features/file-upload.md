@@ -2,13 +2,11 @@
 parent: Features
 ---
 
-# Variables and File Upload
+# File Upload
+
+_Originally written about [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/)._
 
 Altair provides convenient support for setting GraphQL query variables. These allow you create dynamic queries based on [provided input](https://graphql.org/graphql-js/passing-arguments/).
-
-## File Upload
-
-Originally written about [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/).
 
 You can use binary files as variables to upload them via GraphQL to server (if it implemented the [GraphQL multipart request specification](https://github.com/jaydenseric/graphql-multipart-request-spec)).
 
