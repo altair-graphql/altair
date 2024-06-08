@@ -26,5 +26,8 @@
     "vitepress": "^1.0.0-rc.39",
     "vitepress-plugin-google-analytics": "^1.0.2",
     "vue": "^3.4.15"
+  },
+  "dependencies": {
+    "medium-zoom": "^1.1.0"
   }
 }

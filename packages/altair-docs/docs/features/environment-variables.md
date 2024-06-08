@@ -2,13 +2,13 @@
 parent: Features
 ---
 
-# Environment Variables
+# Environments
 
-Environment variables (URLs, authentication tokens, some other headers, etc) can be used to easily switch between various working environments (e.g. switching between local, QA, staging and production environments).
+Environments allow you define variables (URLs, authentication tokens, some other headers, etc) that can be used to easily switch between various working environments (e.g. switching between local, QA, staging and production environments).
 
 ![](https://miro.medium.com/max/5756/1*eCxSCJadudYfUYoPRpkSkA.png)
 
-The environment variables can be defined in Environments (found in the top right corner in the header). An environment is simply a list of variables that can be used within the interface of the app. After an environment is created, you need to select it from the list of environments for it to be active.
+The environment variables can be defined in `Environments` (found in the top right corner in the header). An environment is simply a list of variables that can be used within the interface of the app. After an environment is created, you need to select it from the list of environments for it to be active.
 
 After defining your environment variables, you can use them using the double curly braces syntax <code v-pre>{{env_var}}</code>. In the screenshot below, the swapi variable is used in the URL bar using <code v-pre>{{swapi}}</code>.
 

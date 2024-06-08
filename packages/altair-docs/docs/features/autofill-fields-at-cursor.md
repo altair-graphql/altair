@@ -2,7 +2,7 @@
 parent: Features
 ---
 
-# Autofill all fields at cursor
+# Autofill fields
 
 You can easily and efficiently add all of the fields for a given type in the schema to your query. This can be especially useful when working with complex schemas that have many nested fields and types, and you want to include all of the available data in your query.
 
