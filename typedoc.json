@@ -2,7 +2,7 @@
   // Comments are supported, like tsconfig.json
   "entryPoints": ["packages/altair-core/src/*"],
   "entryPointStrategy": "expand",
-  "out": "packages/altair-docs/api",
+  "out": "packages/altair-docs/api/core",
   "docsRoot": "./packages/altair-docs",
   "entryFileName": "index.md",
   "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress';
 import { getConfig } from './plugins/sidebar-generation';
-import typedocSidebar from '../api/typedoc-sidebar.json';
+import coreApiSidebar from '../api/core/typedoc-sidebar.json';
 
 const { sidebar: retrievedSidebar } = getConfig({
   filter: (meta) => meta.sidebar !== false,
@@ -86,9 +86,10 @@ export default defineConfig({
     sidebar: [
       retrievedSidebar[0],
       {
-        text: 'API',
-        link: '/api/',
-        items: typedocSidebar,
+        text: 'Core API',
+        link: '/api/core/',
+        items: coreApiSidebar,
+        collapsed: true,
       },
     ],
     socialLinks: [

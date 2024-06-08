@@ -1,3 +1,0 @@
-# ITheme
-
-> **ITheme**: *typeof* `theme`
