@@ -307,7 +307,7 @@ export class PluginRegistryService {
         if (manifest.manifest_version === 1 || manifest.manifest_version === 2) {
           return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
         }
-        if (manifest.manifest_version === 3) {
+        if (manifest.manifest_version >= 3 && 'entry' in manifest) {
           return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
         }
       }
