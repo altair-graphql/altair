@@ -31,31 +31,18 @@ export interface PluginWindowState extends ExportWindowState {
 export interface PluginContext {
   app: {
     /**
-     * Returns an allowed set of data from the state visible to plugins
-     *
-     * Since it is a method, the state can be generated when called.
-     * So we can ensure uniqueness of the state, as well as avoid passing values by references.
+     * resolves with the state of the specified window
      */
     getWindowState(windowId: string): Promise<PluginWindowState | undefined>;
     getCurrentWindowState(): Promise<PluginWindowState | undefined>;
     /**
-     * panel has two locations: sidebar, header
-     *
-     * Each call creates a new panel. Instead, plugin should create panel only once (@initialize)
-     * Panel can be destroyed when the plugin is unused.
-     *
-     * returns panel instance (includes destroy() method)
+     * for rendering the provided DOM element in a new panel within Altair
      */
     createPanel(element: HTMLElement, options?: CreatePanelOptions): AltairPanel;
     destroyPanel(panel: AltairPanel): void;
 
     /**
-     * action has 1 location for now: resultpane
-     *
-     * Each call creates a new action. Instead, plugins should create action once, when needed
-     * Action can be destroyed when the plugin decides to.
-     *
-     * returns action instance (includes destroy() method)
+     * for rendering an action button with the specified title and the callback to execute when the button is clicked
      */
     createAction(options: CreateActionOptions): AltairUiAction;
     destroyAction(uiAction: AltairUiAction): void;
@@ -66,10 +53,17 @@ export interface PluginContext {
     setVariables(windowId: string, variables: string): void;
     setHeader(windowId: string, key: string, value: string): void;
     setEndpoint(windowId: string, url: string): void;
+
+    /**
+     * adds a provider for subscriptions
+     */
     addSubscriptionProvider(providerData: SubscriptionProviderData): void;
     executeCommand(): void; // TODO: To be defined
   };
   events: {
+    /**
+     * listens for events within Altair to perform an action within the plugin
+     */
     on<E extends PluginEvent>(
       event: E,
       callback: PluginEventCallback<E>
@@ -79,7 +73,14 @@ export interface PluginContext {
     off(): void;
   };
   theme: {
+    /**
+     * adds the provided theme to Altair's theme registry which can later be used
+     */
     add(name: string, theme: ICustomTheme): void;
+
+    /**
+     * enables the specified theme
+     */
     enable(name: string, darkMode?: boolean): Promise<void>;
   };
 }

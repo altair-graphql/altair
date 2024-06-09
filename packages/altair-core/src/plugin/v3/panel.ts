@@ -8,6 +8,10 @@ interface StylesData {
 export abstract class AltairV3Panel {
   abstract create(ctx: PluginV3Context, container: HTMLElement): void;
 
+  /**
+   * Initialize the panel with the provided data
+   * @internal
+   */
   initialize(ctx: PluginV3Context, data?: StylesData) {
     if (data) {
       this.setupStyles(data);
