@@ -9,27 +9,27 @@ interface PluginEntry {
 
 export interface PluginV3Manifest {
   /**
-   * Version of manifest (should be 3)
+   * Version of manifest (should be 3). It is a control measure for variations in the plugin versions
    */
   manifest_version: 3;
 
   /**
-   * Name of the plugin
+   * Name of the plugin.  It should be the same name you would use in your `package.json` file. It uniquely identifies your plugin. The plugin name must begin with `altair-graphql-plugin-`.
    */
   name: string;
 
   /**
-   * Display name of the plugin
+   * The name of the plugin that is displayed in the UI. It is the human readable version of your plugin name.
    */
   display_name: string;
 
   /**
-   * Version of the plugin
+   * The version of your plugin. It should be the same version you would have in your `package.json` file (except you have a good reason why they should be different).
    */
   version: string;
 
   /**
-   * Description of the plugin
+   * The description of what your plugin is about. It would be used to describe your plugin.
    */
   description: string;
 
@@ -39,7 +39,7 @@ export interface PluginV3Manifest {
   entry: PluginEntry;
 
   /**
-   * capabilities of the plugin
+   * Specifies the capabilities (functionalities) available to the plugin. In the future, this would be used to request the necessary permissions from the user
    */
   capabilities?: PluginCapabilities[];
 

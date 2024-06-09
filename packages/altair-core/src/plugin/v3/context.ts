@@ -38,7 +38,7 @@ export interface PluginV3Context {
   destroyPanel(panelId: string): Promise<void>;
 
   /**
-   * Adds a button in the app to perform an action.
+   * Adds an action button in the app to perform an action.
    * The action is defined by the plugin and is executed when the button is clicked.
    *
    * This returns the unique id of the action.
@@ -84,7 +84,7 @@ export interface PluginV3Context {
   // addSubscriptionProvider(providerData: SubscriptionProviderData): void;
 
   /**
-   * Subscribe to an event in the app
+   * Subscribe to an event in the app to perform an action within the plugin
    */
   on<E extends PluginEvent>(
     event: E,
@@ -99,7 +99,7 @@ export interface PluginV3Context {
   off(): void;
 
   /**
-   * Add a custom theme to the app
+   * Add a custom theme to Altair's theme registry which can later be used
    */
   addTheme(name: string, theme: ICustomTheme): Promise<void>;
 

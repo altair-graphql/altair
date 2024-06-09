@@ -42,11 +42,30 @@ export interface PluginManifest {
   description: string;
   author_email?: string;
   author?: string;
+
+  /**
+   * This specifies the type of plugin. This determines how the plugin would interact with Altair. For now there is just the typical plugin type (registered plugin class). In the future, this would include other plugins like themes.
+   */
   type?: PluginType;
+
+  /**
+   * This specifies the class name of the plugin, for discovery
+   */
   plugin_class?: string;
+
+  /**
+   * An array containing the list of scripts (relative to the plugin root directory) that need to be loaded for the plugin to function.
+   */
   scripts: string[];
+
+  /**
+   * An array containing the list of styles (relative to the plugin root directory) that need to be loaded for the plugin to function.
+   */
   styles?: string[];
-  // Plugin capabilities
+
+  /**
+   * Specifies the capabilities (functionalities) available to the plugin. In the future, this would be used to request the necessary permissions from the user
+   */
   capabilities?: PluginCapabilities[];
 }
 

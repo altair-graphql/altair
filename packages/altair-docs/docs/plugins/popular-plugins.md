@@ -10,11 +10,16 @@ These are a few of the most commonly used plugins.
 
 ## altair-graphql-plugin-graphql-explorer
 
+<Badge text="v2"/>
+<Badge text="v3"/>
+
 🧑‍💻 Created by [XKojiMedia](https://www.xkoji.dev/)
 
 This brings the infamous [GraphiQL explorer](https://github.com/OneGraph/graphiql-explorer) from OneGraph to Altair GraphQL Client.
 
 ## altair-graphql-plugin-json-to-csv
+
+<Badge text="v2"/>
 
 🧑‍💻 Created by [Isaac Vazquez](https://github.com/isaachvazquez)
 
@@ -22,7 +27,8 @@ Easily convert the JSON response to CSV using this plugin, which adds a "Downloa
 
 ## altair-graphql-plugin-tracing
 
+<Badge text="v2"/>
+
 🧑‍💻 Created by [XKojiMedia](https://www.xkoji.dev/)
 
 Apollo tracing visualization for Altair GraphQL client. Ported (retrofitted) from [GraphQL playground](https://github.com/graphql/graphql-playground)
-
