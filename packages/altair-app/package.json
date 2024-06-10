@@ -28,7 +28,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "6.18.0",
     "@emotion/css": "^11.11.2",
-    "@fontsource/jetbrains-mono": "4.2.2",
+    "@fontsource/jetbrains-mono": "5.0.20",
     "@lezer/highlight": "1.0.0",
     "@lezer/lr": "1.2.0",
     "@ngneat/hot-toast": "2.0.1",
