@@ -97,7 +97,7 @@
     "sval": "0.4.8",
     "tslib": "2.0.0",
     "uuid": "9.0.1",
-    "zone.js": "0.14.2"
+    "zone.js": "0.14.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "17.0.8",
