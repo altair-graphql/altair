@@ -117,9 +117,7 @@ describe('AddCollectionQueryDialogComponent', () => {
 
     await wrapper.nextTick();
 
-    const newCollectionName = wrapper.find(
-      '[data-test-id="new-collection-name"]'
-    );
+    const newCollectionName = wrapper.find('[data-test-id="new-collection-name"]');
 
     expect(wrapper.componentInstance.collectionId).toBe('-1');
     expect(newCollectionName.exists()).toBeTruthy();
@@ -141,9 +139,7 @@ describe('AddCollectionQueryDialogComponent', () => {
       ],
     });
 
-    const queryNameInput = wrapper.find(
-      '[data-test-id="collection-query-name"]'
-    );
+    const queryNameInput = wrapper.find('[data-test-id="collection-query-name"]');
     queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
@@ -167,7 +163,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     ).toEqual({
       queryName: 'my query name',
       collectionName: 'my new collection name',
-      parentCollectionId: 0,
+      parentCollectionId: '0',
       workspaceId: 'local',
     });
   });
@@ -188,9 +184,7 @@ describe('AddCollectionQueryDialogComponent', () => {
       ],
     });
 
-    const queryNameInput = wrapper.find(
-      '[data-test-id="collection-query-name"]'
-    );
+    const queryNameInput = wrapper.find('[data-test-id="collection-query-name"]');
     queryNameInput.setValue('my query name');
 
     const select = wrapper.find('nz-select');
