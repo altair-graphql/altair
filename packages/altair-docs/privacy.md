@@ -207,7 +207,7 @@ We have implemented appropriate and reasonable technical and organizational secu
 
 **_In Short:_** _We do not knowingly collect data from or market to children under 18 years of age._
 
-We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at [privacy@altairgraphql.dev](privacy@altairgraphql.dev).
+We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at [privacy@altairgraphql.dev](mailto:privacy@altairgraphql.dev).
 
 ### 11. WHAT ARE YOUR PRIVACY RIGHTS?
 
@@ -234,7 +234,7 @@ If you would at any time like to review or change the information in your accoun
 
 Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.
 
-If you have questions or comments about your privacy rights, you may email us at [privacy@altairgraphql.dev](privacy@altairgraphql.dev).
+If you have questions or comments about your privacy rights, you may email us at [privacy@altairgraphql.dev](mailto:privacy@altairgraphql.dev).
 
 ### 12. CONTROLS FOR DO-NOT-TRACK FEATURES
 
