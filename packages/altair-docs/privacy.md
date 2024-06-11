@@ -3,16 +3,16 @@ title: Privacy Policy
 sidebar: false
 ---
 
-## PRIVACY POLICY <!-- omit from toc -->
+# Privacy Policy <!-- omit from toc -->
 
 **Last updated April 28, 2023**
 
 This privacy notice for XKojiMedia (doing business as Altair GraphQL) ("**Altair GraphQL**," "**we**," "**us**," or "**our**"), describes how and why we might collect, store, use, and/or share ("**process**") your information when you use our services ("**Services**"), such as when you:
 
-- Visit our website at altairgraphql.dev, or any website of ours that links to this privacy notice
+- Visit our website at [altairgraphql.dev](https://altairgraphql.dev), or any website of ours that links to this privacy notice
 - Engage with us in other related ways, including any sales, marketing, or events
 
-**Questions or concerns?** Reading this privacy notice will help you understand your privacy rights and choices. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at info@altairgraphql.dev.
+**Questions or concerns?** Reading this privacy notice will help you understand your privacy rights and choices. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at [info@altairgraphql.dev](mailto:info@altairgraphql.dev).
 
 ### SUMMARY OF KEY POINTS <!-- omit from toc -->
 
@@ -32,11 +32,12 @@ This privacy notice for XKojiMedia (doing business as Altair GraphQL) ("**Altair
 
 **What are your rights?** Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information. Learn more about [your privacy rights](#11-what-are-your-privacy-rights).
 
-**How do you exercise your rights?** The easiest way to exercise your rights is by visiting support@altairgraphql.dev, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.
+**How do you exercise your rights?** The easiest way to exercise your rights is by visiting [support@altairgraphql.dev](mailto:support@altairgraphql.dev), or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.
 
 Want to learn more about what Altair GraphQL does with any information we collect? [Review the privacy notice in full](#table-of-contents).
 
 ### TABLE OF CONTENTS <!-- omit from toc -->
+
 - [1. WHAT INFORMATION DO WE COLLECT?](#1-what-information-do-we-collect)
 - [2. HOW DO WE PROCESS YOUR INFORMATION?](#2-how-do-we-process-your-information)
 - [3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR INFORMATION?](#3-what-legal-bases-do-we-rely-on-to-process-your-information)
@@ -206,7 +207,7 @@ We have implemented appropriate and reasonable technical and organizational secu
 
 **_In Short:_** _We do not knowingly collect data from or market to children under 18 years of age._
 
-We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at privacy@altairgraphql.dev.
+We do not knowingly solicit data from or market to children under 18 years of age. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent’s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at [privacy@altairgraphql.dev](privacy@altairgraphql.dev).
 
 ### 11. WHAT ARE YOUR PRIVACY RIGHTS?
 
@@ -233,7 +234,7 @@ If you would at any time like to review or change the information in your accoun
 
 Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.
 
-If you have questions or comments about your privacy rights, you may email us at privacy@altairgraphql.dev.
+If you have questions or comments about your privacy rights, you may email us at [privacy@altairgraphql.dev](privacy@altairgraphql.dev).
 
 ### 12. CONTROLS FOR DO-NOT-TRACK FEATURES
 
@@ -255,15 +256,8 @@ We may update this privacy notice from time to time. The updated version will be
 
 ### 15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
 
-If you have questions or comments about this notice, you may email us at privacy@altairgraphql.dev or by post to:
-
-XKojiMedia
-
----
-
-Almere, Flevoland
-Netherlands
+If you have questions or comments about this notice, you may email us at [privacy@altairgraphql.dev](mailto:privacy@altairgraphql.dev)
 
 ### 16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
 
-You have the right to request access to the personal information we collect from you, change that information, or delete it. To request to review, update, or delete your personal information, please visit: support@altairgraphql.dev.
+You have the right to request access to the personal information we collect from you, change that information, or delete it. To request to review, update, or delete your personal information, please visit: [support@altairgraphql.dev](mailto:support@altairgraphql.dev).
