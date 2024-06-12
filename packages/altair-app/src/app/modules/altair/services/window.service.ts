@@ -525,6 +525,20 @@ export class WindowService {
           );
         }
       });
+
+    // Re-format the response as string if it is an object
+    this.getWindowState(windowId)
+      .pipe(take(1))
+      .subscribe((window) => {
+        if (window?.query.response && typeof window.query.response !== 'string') {
+          this.store.dispatch(
+            new queryActions.SetQueryResultAction(
+              JSON.stringify(window.query.response, null, 2),
+              windowId
+            )
+          );
+        }
+      });
   }
 
   private getWindowState(windowId: string) {

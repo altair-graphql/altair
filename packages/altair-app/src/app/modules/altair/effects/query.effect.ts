@@ -227,7 +227,7 @@ export class QueryEffects {
 
               debug.log('Sending..');
               return this.gqlService
-                .sendRequest({
+                .sendRequestV2({
                   url,
                   query,
                   variables,
@@ -263,23 +263,29 @@ export class QueryEffects {
                     if (!res) {
                       return null;
                     }
-                    requestStatusCode = res.data.response.status;
-                    requestStatusText = res.data.response.statusText;
+                    requestStatusCode = res.data.status;
+                    requestStatusText = res.data.statusText;
                     return res;
                   }),
                   map((result) => {
-                    const responseBody = result?.data?.response.body;
+                    const responseBody = result?.data.body;
+                    // attempt to parse the response body as JSON
+                    const parsedResponseBody = responseBody
+                      ? parseJson(responseBody, responseBody)
+                      : undefined;
 
                     if (
-                      responseBody?.extensions &&
+                      parsedResponseBody?.extensions &&
                       response.state.settings['response.hideExtensions']
                     ) {
-                      Reflect.deleteProperty(responseBody, 'extensions');
+                      Reflect.deleteProperty(parsedResponseBody, 'extensions');
                     }
 
                     this.store.dispatch(
                       new queryActions.SetQueryResultAction(
-                        responseBody,
+                        typeof parsedResponseBody === 'string'
+                          ? parsedResponseBody
+                          : JSON.stringify(parsedResponseBody, null, 2),
                         response.windowId
                       )
                     );
@@ -295,7 +301,7 @@ export class QueryEffects {
                     this.store.dispatch(
                       new queryActions.SetQueryResultResponseHeadersAction(
                         response.windowId,
-                        { headers: result?.data?.meta.headers }
+                        { headers: result?.data.headers }
                       )
                     );
                     return result;
@@ -332,11 +338,9 @@ export class QueryEffects {
                     this.store.dispatch(
                       new queryActions.SetResponseStatsAction(response.windowId, {
                         responseStatus: requestStatusCode,
-                        responseTime: res?.data ? res.data.meta.responseTime : 0,
-                        requestStartTime: res?.data
-                          ? res.data.meta.requestStartTime
-                          : 0,
-                        requestEndTime: res?.data ? res.data.meta.requestEndTime : 0,
+                        responseTime: res?.data ? res.data.responseTime : 0,
+                        requestStartTime: res?.data ? res.data.requestStartTime : 0,
+                        requestEndTime: res?.data ? res.data.requestEndTime : 0,
                         responseStatusText: requestStatusText,
                       })
                     );
@@ -595,17 +599,16 @@ export class QueryEffects {
                   return EMPTY;
                 }
 
-                const introspectionData =
-                  postRequestTransformData.data.response.body?.data;
+                const introspectionData = parseJson(
+                  postRequestTransformData.data.body ?? ''
+                )?.data;
                 const streamUrl =
-                  postRequestTransformData.data.response.headers?.get(
-                    'X-GraphQL-Event-Stream'
-                  ); // || '/stream'; // For dev
+                  postRequestTransformData.data.headers['X-GraphQL-Event-Stream']; // || '/stream'; // For dev
 
                 // Check if new stream url is different from previous before setting it
                 if (
                   res.response.data?.stream.url !== streamUrl ||
-                  !res.response.data.stream.client
+                  !res.response.data?.stream.client
                 ) {
                   this.store.dispatch(
                     new streamActions.SetStreamSettingAction(response.windowId, {

@@ -128,7 +128,11 @@ const uploadActionDecorations = (
           const cleanedTypeName = cleanTypeName(extractedTypeName);
           const type = schema.getType(cleanedTypeName);
           // verify that this is the expected Upload type
-          if (type && type instanceof GraphQLScalarType && type.name === 'Upload') {
+          if (
+            type &&
+            type instanceof GraphQLScalarType &&
+            ['Upload', 'File'].includes(type.name)
+          ) {
             const existingData = fileVariables.find(
               (f) => f.name === cleanedVariableName
             )?.data;
