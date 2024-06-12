@@ -6,13 +6,15 @@ import { LogLine } from '../types/state/query.interfaces';
 import { getErrorEvent, getResponseEvent } from './events';
 
 export interface SendRequestResponse {
-  response: HttpResponse<any>;
-  meta: {
-    requestStartTime: number;
-    requestEndTime: number;
-    responseTime: number;
-    headers: IDictionary;
-  };
+  ok: boolean;
+  body: string;
+  headers: Record<string, string>;
+  status: number;
+  statusText: string;
+  url: string;
+  requestStartTime: number;
+  requestEndTime: number;
+  responseTime: number;
 }
 
 export enum RequestType {

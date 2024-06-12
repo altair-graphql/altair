@@ -20,9 +20,10 @@
     "graphql": "15.5.1",
     "graphql-sse": "1.2.2",
     "graphql-ws": "5.8.2",
+    "json-bigint": "^1.0.0",
     "loglevel": "1.8.0",
     "loglevel-plugin-prefix": "0.8.4",
-    "rxjs": "7.1.0",
+    "rxjs": "6.6.7",
     "subscriptions-transport-ws": "0.9.19",
     "util": "0.12.4",
     "uuid": "9.0.1"

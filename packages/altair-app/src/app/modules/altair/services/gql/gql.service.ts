@@ -52,6 +52,8 @@ import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
+import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
+import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
 
 interface SendRequestOptions {
   url: string;
@@ -116,18 +118,20 @@ export class GqlService {
         const requestElapsedTime = requestEndTime - requestStartTime;
 
         return {
-          response,
-          meta: {
-            requestStartTime,
-            requestEndTime,
-            responseTime: requestElapsedTime,
-            headers: response.headers
-              .keys()
-              .reduce(
-                (acc, key) => ({ ...acc, [key]: response.headers.get(key) }),
-                {}
-              ),
-          },
+          ok: response.ok,
+          body: response.body,
+          status: response.status,
+          statusText: response.statusText,
+          url: response.url ?? '',
+          requestStartTime,
+          requestEndTime,
+          responseTime: requestElapsedTime,
+          headers: response.headers
+            .keys()
+            .reduce(
+              (acc, key) => ({ ...acc, [key]: response.headers.get(key) }),
+              {}
+            ),
         };
       })
     );
@@ -185,13 +189,11 @@ export class GqlService {
       extensions: opts.extensions,
       selectedOperation: 'IntrospectionQuery',
     };
-    return this.sendRequest(requestOpts).pipe(
+    return this.sendRequestV2(requestOpts).pipe(
       map((data) => {
-        debug.log('introspection', data.response);
-        if (!data.response.ok) {
-          throw new Error(
-            `Introspection request failed with: ${data.response.status}`
-          );
+        debug.log('introspection', data.body);
+        if (!data.ok) {
+          throw new Error(`Introspection request failed with: ${data.status}`);
         }
         return data;
       }),
@@ -199,16 +201,14 @@ export class GqlService {
         debug.log('Error from first introspection query.', err);
 
         // Try the old introspection query
-        return this.sendRequest({
+        return this.sendRequestV2({
           ...requestOpts,
           query: oldIntrospectionQuery,
         }).pipe(
           map((data) => {
             debug.log('old introspection', data);
-            if (!data.response.ok) {
-              throw new Error(
-                `Introspection request failed with: ${data.response.status}`
-              );
+            if (!data.ok) {
+              throw new Error(`Introspection request failed with: ${data.status}`);
             }
             return data;
           })
@@ -740,6 +740,75 @@ export class GqlService {
             );
           }
           return observableThrowError(err);
+        })
+      );
+  }
+
+  sendRequestV2({
+    url,
+    method,
+    query,
+    variables,
+    headers,
+    extensions,
+    selectedOperation,
+    files,
+    withCredentials,
+    batchedRequest,
+  }: SendRequestOptions): Observable<SendRequestResponse> {
+    // get request handler
+    const handler: GraphQLRequestHandler = new HttpRequestHandler();
+
+    const { resolvedFiles } = this.normalizeFiles(files);
+
+    if (headers?.length) {
+      // For electron app, send the instruction to set headers
+      this.electronAppService.setHeaders(headers);
+
+      // Filter out headers that are not allowed
+      headers = headers.filter((header) => {
+        return (
+          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
+          header.enabled &&
+          header.key &&
+          header.value
+        );
+      });
+    }
+
+    return handler
+      .handle({
+        url,
+        method,
+        query,
+        variables,
+        headers,
+        extensions,
+        selectedOperation,
+        files: resolvedFiles,
+        withCredentials,
+        batchedRequest,
+      })
+      .pipe(
+        catchError((err) => {
+          if (err instanceof Error) {
+            this.notifyService.error(err.message);
+          }
+          debug.error(err);
+          throw err;
+        }),
+        map((response) => {
+          return {
+            ok: response.ok,
+            body: response.data,
+            headers: Object.fromEntries(response.headers),
+            status: response.status,
+            statusText: response.statusText,
+            url: response.url,
+            requestStartTime: response.requestStartTimestamp,
+            requestEndTime: response.requestEndTimestamp,
+            responseTime: response.resopnseTimeMs,
+          };
         })
       );
   }

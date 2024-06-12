@@ -31,11 +31,11 @@ export const buildContextResponse = (
 ): ScriptContextResponse | undefined => {
   if (data.response) {
     return {
-      body: data.response.response.body,
+      body: data.response.body,
       requestType: data.requestType ?? RequestType.QUERY,
-      responseTime: data.response.meta.responseTime,
-      statusCode: data.response.response.status,
-      headers: data.response.meta.headers,
+      responseTime: data.response.responseTime,
+      statusCode: data.response.status,
+      headers: data.response.headers,
     };
   }
 };
