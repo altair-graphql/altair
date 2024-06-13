@@ -13,6 +13,7 @@ import {
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import {
   LogLine,
+  QueryResponse,
   SubscriptionResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
@@ -37,6 +38,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() requestScriptLogs: LogLine[] = [];
   @Input() isSubscribed = false;
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
+  @Input() queryResponses: QueryResponse[] = [];
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
   @Input() autoscrollSubscriptionResponses = false;
@@ -70,10 +72,7 @@ export class QueryResultComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.subscriptionResponses?.currentValue) {
       const scrollTopTimeout = setTimeout(() => {
-        if (
-          this.subscriptionResponseList &&
-          this.autoscrollSubscriptionResponses
-        ) {
+        if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
           this.subscriptionResponseList.nativeElement.scrollTop =
             this.subscriptionResponseList.nativeElement.scrollHeight;
         }

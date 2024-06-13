@@ -1,6 +1,6 @@
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
 
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap, tap } from 'rxjs/operators';
 import {
   HttpHeaders,
   HttpClient,
@@ -53,6 +53,7 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
+import { SSERequestHandler } from 'altair-graphql-core/build/request/handlers/sse';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
 
 interface SendRequestOptions {
@@ -756,60 +757,86 @@ export class GqlService {
     withCredentials,
     batchedRequest,
   }: SendRequestOptions): Observable<SendRequestResponse> {
-    // get request handler
-    const handler: GraphQLRequestHandler = new HttpRequestHandler();
+    // wrapping rhe logic to properly handle any errors (both within and outside the observable)
+    return of(undefined).pipe(
+      switchMap(() => {
+        // get request handler
+        const handler: GraphQLRequestHandler = new HttpRequestHandler();
 
-    const { resolvedFiles } = this.normalizeFiles(files);
+        const { resolvedFiles } = this.normalizeFiles(files);
 
-    if (headers?.length) {
-      // For electron app, send the instruction to set headers
-      this.electronAppService.setHeaders(headers);
+        if (headers?.length) {
+          // For electron app, send the instruction to set headers
+          this.electronAppService.setHeaders(headers);
 
-      // Filter out headers that are not allowed
-      headers = headers.filter((header) => {
-        return (
-          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
-          header.enabled &&
-          header.key &&
-          header.value
-        );
-      });
-    }
+          // Filter out headers that are not allowed
+          headers = headers.filter((header) => {
+            return (
+              !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(
+                header.key.toLowerCase()
+              ) &&
+              header.enabled &&
+              header.key &&
+              header.value
+            );
+          });
+        }
 
-    return handler
-      .handle({
-        url,
-        method,
-        query,
-        variables,
-        headers,
-        extensions,
-        selectedOperation,
-        files: resolvedFiles,
-        withCredentials,
-        batchedRequest,
-      })
-      .pipe(
-        catchError((err) => {
-          if (err instanceof Error) {
-            this.notifyService.error(err.message);
+        // valiate variables
+        if (variables) {
+          try {
+            JSON.parse(variables);
+          } catch (err) {
+            throw new Error('Variables is not valid JSON');
           }
-          debug.error(err);
-          throw err;
-        }),
-        map((response) => {
-          return {
-            ok: response.ok,
-            body: response.data,
-            headers: Object.fromEntries(response.headers),
-            status: response.status,
-            statusText: response.statusText,
-            url: response.url,
-            requestStartTime: response.requestStartTimestamp,
-            requestEndTime: response.requestEndTimestamp,
-            responseTime: response.resopnseTimeMs,
-          };
-        })
-      );
+        }
+
+        // validate extensions
+        if (extensions) {
+          try {
+            JSON.parse(extensions);
+          } catch (err) {
+            throw new Error('Request extensions is not valid JSON');
+          }
+        }
+
+        return handler
+          .handle({
+            url,
+            method,
+            query,
+            variables: variables ? parseJson(variables, {}) : undefined,
+            headers,
+            extensions: extensions ? parseJson(extensions, {}) : undefined,
+            selectedOperation,
+            files: resolvedFiles,
+            withCredentials,
+            batchedRequest,
+          })
+          .pipe(
+            map((response) => {
+              return {
+                ok: response.ok,
+                body: response.data,
+                headers: Object.fromEntries(response.headers),
+                status: response.status,
+                statusText: response.statusText,
+                url: response.url,
+                requestStartTime: response.requestStartTimestamp,
+                requestEndTime: response.requestEndTimestamp,
+                responseTime: response.resopnseTimeMs,
+              };
+            })
+          );
+      }),
+
+      catchError((err) => {
+        if (err instanceof Error) {
+          this.notifyService.error(err.message);
+        }
+        debug.error(err);
+        throw err;
+      })
+    );
   }
 }

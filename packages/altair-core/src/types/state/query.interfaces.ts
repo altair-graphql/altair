@@ -8,6 +8,11 @@ export interface QueryEditorState {
   cursorIndex?: number;
 }
 
+export interface QueryResponse {
+  content: string;
+  timestamp: number;
+}
+
 export interface SubscriptionResponse {
   response: string;
   responseObj: unknown;
@@ -33,6 +38,7 @@ export interface QueryState {
   operations?: OperationDefinitionNode[];
   httpVerb: HttpVerb;
   response?: string;
+  responses?: QueryResponse[];
   requestStartTime: number;
   requestEndTime: number;
   responseTime: number;

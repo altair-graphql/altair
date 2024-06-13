@@ -4,6 +4,7 @@ import {
   HttpVerb,
   LogLine,
   QueryEditorState,
+  QueryResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
@@ -23,6 +24,8 @@ export const SET_QUERY_FROM_DB = 'SET_QUERY_FROM_DB';
 export const SET_SELECTED_OPERATION = 'SET_SELECTED_OPERATION';
 
 export const SET_QUERY_RESULT = 'SET_QUERY_RESULT';
+export const SET_QUERY_RESPONSES = 'SET_QUERY_RESPONSES';
+export const ADD_QUERY_RESPONSES = 'ADD_QUERY_RESPONSES';
 export const SET_QUERY_RESULT_RESPONSE_HEADERS = 'SET_QUERY_RESULT_RESPONSE_HEADERS';
 export const PRETTIFY_QUERY = 'PRETTIFY_QUERY';
 export const COMPRESS_QUERY = 'COMPRESS_QUERY';
@@ -57,6 +60,7 @@ export const SET_QUERY_OPERATIONS = 'SET_QUERY_OPERATIONS';
 export const SET_QUERY_EDITOR_STATE = 'SET_QUERY_EDITOR_STATE';
 
 export const SET_REQUEST_SCRIPT_LOGS = 'SET_REQUEST_SCRIPT_LOGS';
+export const APPEND_REQUEST_SCRIPT_LOGS = 'APPEND_REQUEST_SCRIPT_LOGS';
 
 export const RESTORE_QUERY_REVISION = 'RESTORE_QUERY_REVISION';
 
@@ -128,6 +132,24 @@ export class SetQueryResultAction implements NGRXAction {
   constructor(
     public payload: string,
     public windowId: string
+  ) {}
+}
+
+export class SetQueryResponsesAction implements NGRXAction {
+  readonly type = SET_QUERY_RESPONSES;
+
+  constructor(
+    public windowId: string,
+    public payload: { responses: QueryResponse[] }
+  ) {}
+}
+
+export class AddQueryResponsesAction implements NGRXAction {
+  readonly type = ADD_QUERY_RESPONSES;
+
+  constructor(
+    public windowId: string,
+    public payload: { responses: QueryResponse[] }
   ) {}
 }
 
@@ -312,6 +334,15 @@ export class SetRequestScriptLogsAction implements NGRXAction {
   ) {}
 }
 
+export class AppendRequestScriptLogsAction implements NGRXAction {
+  readonly type = APPEND_REQUEST_SCRIPT_LOGS;
+
+  constructor(
+    public windowId: string,
+    public payload: LogLine[]
+  ) {}
+}
+
 export class RestoreQueryRevisionAction implements NGRXAction {
   readonly type = RESTORE_QUERY_REVISION;
 
@@ -335,6 +366,8 @@ export type Action =
   | SetQueryAction
   | SetQueryFromDbAction
   | SetQueryResultAction
+  | SetQueryResponsesAction
+  | AddQueryResponsesAction
   | SetQueryResultResponseHeadersAction
   | PrettifyQueryAction
   | CompressQueryAction
@@ -359,5 +392,6 @@ export type Action =
   | SetQueryOperationsAction
   | SetQueryEditorStateAction
   | SetRequestScriptLogsAction
+  | AppendRequestScriptLogsAction
   | RestoreQueryRevisionAction
   | SetRequestExtensionsDataAction;

@@ -91,7 +91,7 @@
     "ngx-toastr": "^18.0.0",
     "object-path": "0.11.5",
     "prettier": "^3.2.5",
-    "rxjs": "6.6.7",
+    "rxjs": "^7.0.0",
     "sanitize-html": "2.7.1",
     "subscriptions-transport-ws": "0.9.19",
     "sval": "0.4.8",

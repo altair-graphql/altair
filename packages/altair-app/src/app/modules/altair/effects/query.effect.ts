@@ -9,6 +9,7 @@ import {
   mergeMap,
   take,
   filter,
+  finalize,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -57,6 +58,7 @@ import { RequestScriptError } from '../services/pre-request/errors';
 import { headerListToMap } from '../utils/headers';
 import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 import { RequestType } from 'altair-graphql-core/build/script/types';
+import { QueryResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 function notNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x !== null && x !== undefined;
@@ -200,6 +202,16 @@ export class QueryEffects {
                 );
               }
 
+              // perform some cleanup of previous state
+              this.store.dispatch(
+                new queryActions.SetRequestScriptLogsAction(response.windowId, [])
+              );
+              this.store.dispatch(
+                new queryActions.SetQueryResponsesAction(response.windowId, {
+                  responses: [],
+                })
+              );
+
               // If the query is a subscription, subscribe to the subscription URL and send the query
               if (this.gqlService.isSubscriptionQuery(query)) {
                 debug.log('Your query is a SUBSCRIPTION!!!');
@@ -224,6 +236,7 @@ export class QueryEffects {
 
               let requestStatusCode = 0;
               let requestStatusText = '';
+              const responses: string[] = [];
 
               debug.log('Sending..');
               return this.gqlService
@@ -280,17 +293,33 @@ export class QueryEffects {
                     ) {
                       Reflect.deleteProperty(parsedResponseBody, 'extensions');
                     }
+                    const responseContent =
+                      typeof parsedResponseBody === 'string'
+                        ? parsedResponseBody
+                        : JSON.stringify(parsedResponseBody, null, 2);
+
+                    responses.push(responseContent);
+
+                    // TODO: Handle multiple responses
+                    this.store.dispatch(
+                      new queryActions.AddQueryResponsesAction(response.windowId, {
+                        responses: [
+                          {
+                            content: responseContent,
+                            timestamp: result?.data.requestEndTime ?? Date.now(),
+                          },
+                        ],
+                      })
+                    );
 
                     this.store.dispatch(
                       new queryActions.SetQueryResultAction(
-                        typeof parsedResponseBody === 'string'
-                          ? parsedResponseBody
-                          : JSON.stringify(parsedResponseBody, null, 2),
+                        responseContent,
                         response.windowId
                       )
                     );
                     this.store.dispatch(
-                      new queryActions.SetRequestScriptLogsAction(
+                      new queryActions.AppendRequestScriptLogsAction(
                         response.windowId,
                         [
                           ...(preRequestScriptLogs || []),
@@ -344,15 +373,17 @@ export class QueryEffects {
                         responseStatusText: requestStatusText,
                       })
                     );
-                    this.store.dispatch(
-                      new layoutActions.StopLoadingAction(response.windowId)
-                    );
                   }),
                   catchError((error: UnknownError) => {
                     debug.error('Error sending the request', error);
                     return EMPTY;
                   })
                 );
+            }),
+            finalize(() => {
+              this.store.dispatch(
+                new layoutActions.StopLoadingAction(returnedData.response.windowId)
+              );
             }),
             catchError((error: UnknownError) => {
               debug.error('Error sending the request', error);

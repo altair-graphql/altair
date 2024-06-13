@@ -47,7 +47,7 @@
             <button
               track-id="clear_result"
               class="btn btn--small"
-              (click)="clearResultChange.next()"
+              (click)="clearResultChange.emit()"
             >
               <app-icon name="trash-2"></app-icon>
               {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
@@ -57,7 +57,7 @@
             <button
               track-id="download_result"
               class="btn btn--small"
-              (click)="downloadResultChange.next()"
+              (click)="downloadResultChange.emit()"
             >
               <app-icon name="download"></app-icon>
               {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
@@ -65,7 +65,7 @@
             @for (uiAction of uiActions; track uiAction) {
               <button
                 class="btn btn--small"
-                (click)="uiActionExecuteChange.next(uiAction)"
+                (click)="uiActionExecuteChange.emit(uiAction)"
               >
                 {{ uiAction.title }}
               </button>
@@ -99,14 +99,14 @@
                   <button
                     track-id="clear_subscription"
                     class="subscription-button"
-                    (click)="clearSubscriptionChange.next()"
+                    (click)="clearSubscriptionChange.emit()"
                   >
                     {{ 'SUBSCRIPTIONS_CLEAR_TEXT' | translate }}
                   </button>
                   <button
                     track-id="stop_subscription"
                     class="subscription-button subscription-button--stop"
-                    (click)="stopSubscriptionChange.next()"
+                    (click)="stopSubscriptionChange.emit()"
                   >
                     {{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}
                   </button>
@@ -131,7 +131,7 @@
                     'subscription-result__float-action-button--active':
                       autoscrollSubscriptionResponses
                   }"
-                  (click)="autoscrollSubscriptionResponsesChange.next()"
+                  (click)="autoscrollSubscriptionResponsesChange.emit()"
                 >
                   {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
                 </button>

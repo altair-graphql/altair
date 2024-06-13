@@ -5,7 +5,6 @@ import {
   GraphQLResponseData,
 } from '../types';
 import { Client, createClient } from 'graphql-sse';
-import { parseJson } from '../../utils/json';
 
 export class SSERequestHandler implements GraphQLRequestHandler {
   client?: Client;
@@ -33,9 +32,9 @@ export class SSERequestHandler implements GraphQLRequestHandler {
       this.cleanup = this.client!.subscribe(
         {
           query: request.query,
-          variables: request.variables ? parseJson(request.variables) : undefined,
+          variables: request.variables,
           operationName: request.selectedOperation ?? undefined,
-          extensions: request.extensions ? parseJson(request.extensions) : undefined,
+          extensions: request.extensions,
         },
         {
           next: (res) => {

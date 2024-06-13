@@ -301,7 +301,7 @@ export class PluginContextService implements PluginContextGenerator {
       async destroyPanel(id: string) {
         const local = await self.store.select('local').pipe(take(1)).toPromise();
 
-        const panel = local.panels.find((p) => p.id === id);
+        const panel = local?.panels.find((p) => p.id === id);
         if (panel) {
           log(`Destroying panel<${panel.title}:[${panel.id}]>`);
           if (panel instanceof AltairPanel) {
@@ -466,6 +466,9 @@ export class PluginContextService implements PluginContextGenerator {
       .select('windowsMeta')
       .pipe(take(1))
       .toPromise();
+    if (!windowMeta) {
+      return;
+    }
     return this.getWindowState(windowMeta.activeWindowId);
   }
 }

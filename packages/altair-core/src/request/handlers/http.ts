@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscriber, from } from 'rxjs';
 import {
   GraphQLRequestHandler,
   GraphQLRequestOptions,
@@ -8,6 +8,7 @@ import { SelectedOperation } from '../../types/state/query.interfaces';
 import { setByDotNotation } from '../../utils/dot-notation';
 import { print } from 'graphql';
 import { getOperations } from '../../utils/graphql';
+import { meros } from 'meros/browser';
 
 interface GraphQLRequestData {
   query: string;
@@ -36,33 +37,67 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
         signal: aborter.signal,
       })
         .then(async (response) => {
-          const requestEndTime = Date.now();
-
-          // TODO: Implement streaming
-          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding#chunked
-          // Keep list of chunks and concatenate them
-          // if (!response.ok || !response.body) {
-          //   // TODO: don't handle streaming
-          // }
-          // const reader = response.body?.getReader();
-          const res: GraphQLResponseData = {
-            ok: response.ok,
-            data: await response.text(),
-            headers: response.headers,
-            status: response.status,
-            statusText: response.statusText,
-            url: response.url,
-            requestStartTimestamp: requestStartTime,
-            requestEndTimestamp: requestEndTime,
-            // this is redundant data
-            resopnseTimeMs: requestEndTime - requestStartTime,
-          };
-          return res;
+          return { response, merosResponse: await meros(response) };
         })
-        .then((res) => {
-          // Send the data to the observer
-          observer.next(res);
-          observer.complete();
+        .then(async (result) => {
+          const requestEndTime = Date.now();
+          const { response, merosResponse } = result;
+
+          if (merosResponse instanceof Response) {
+            // meros couldn't handle the response, so we'll handle it ourselves
+
+            if (!merosResponse.ok || !merosResponse.body) {
+              //  don't handle streaming
+              return this.emitChunk(
+                merosResponse,
+                new Uint8Array(),
+                true,
+                observer,
+                requestStartTime,
+                requestEndTime
+              );
+            }
+
+            const reader = merosResponse.body.getReader();
+            while (true) {
+              const { done, value } = await reader.read();
+              this.emitChunk(
+                merosResponse,
+                value,
+                done,
+                observer,
+                requestStartTime,
+                requestEndTime
+              );
+              if (done) {
+                return true;
+              }
+            }
+          }
+
+          // Handle the response from meros
+          from(merosResponse).subscribe({
+            next: (chunk) => {
+              this.emitChunk(
+                response,
+                chunk.json ? JSON.stringify(chunk.body) : chunk.body,
+                false,
+                observer,
+                requestStartTime,
+                requestEndTime
+              );
+            },
+            complete: () => {
+              this.emitChunk(
+                response,
+                undefined,
+                true,
+                observer,
+                requestStartTime,
+                requestEndTime
+              );
+            },
+          });
         })
         .catch((error) => {
           // Send the error to the observer
@@ -75,6 +110,41 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
         aborter.abort();
       };
     });
+  }
+
+  private emitChunk(
+    response: Response,
+    chunk: Uint8Array | string | undefined,
+    done: boolean,
+    observer: Subscriber<GraphQLResponseData>,
+    requestStartTime: number,
+    requestEndTime: number
+  ) {
+    if (chunk) {
+      const value =
+        typeof chunk === 'string' ? chunk : new TextDecoder().decode(chunk);
+      const res: GraphQLResponseData = {
+        ok: response.ok,
+        data: value,
+        headers: response.headers,
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url,
+        requestStartTimestamp: requestStartTime,
+        requestEndTimestamp: requestEndTime,
+        // this is redundant data
+        resopnseTimeMs: requestEndTime - requestStartTime,
+      };
+
+      // Send the data to the observer
+      observer.next(res);
+    }
+
+    if (done) {
+      observer.complete();
+    }
+
+    return true;
   }
 
   private isGETRequest(method: string) {
@@ -124,30 +194,13 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
   private getData(request: GraphQLRequestOptions) {
     const data: GraphQLRequestData = {
       query: request.query,
-      variables: {},
+      variables: request.variables ?? {},
+      extensions: request.extensions,
       operationName: null,
     };
 
     if (request.selectedOperation) {
       data.operationName = request.selectedOperation;
-    }
-
-    // If there is a variables option, add it to the data
-    if (request.variables) {
-      try {
-        data.variables = JSON.parse(request.variables);
-      } catch (err) {
-        throw new Error('Variables is not valid JSON');
-      }
-    }
-
-    // if there is an extensions option, add it to the data
-    if (request.extensions) {
-      try {
-        data.extensions = JSON.parse(request.extensions);
-      } catch (err) {
-        throw new Error('Request extensions is not valid JSON');
-      }
     }
 
     return data;
