@@ -59,6 +59,7 @@ import { headerListToMap } from '../utils/headers';
 import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 import { RequestType } from 'altair-graphql-core/build/script/types';
 import { QueryResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { buildResponse } from 'altair-graphql-core/build/request/response-builder';
 
 function notNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x !== null && x !== undefined;
@@ -301,20 +302,22 @@ export class QueryEffects {
                     responses.push(responseContent);
 
                     // TODO: Handle multiple responses
+                    console.log('responses', responses);
+                    const builtResponse = buildResponse(responses);
                     this.store.dispatch(
-                      new queryActions.AddQueryResponsesAction(response.windowId, {
-                        responses: [
-                          {
-                            content: responseContent,
-                            timestamp: result?.data.requestEndTime ?? Date.now(),
-                          },
-                        ],
+                      new queryActions.SetQueryResponsesAction(response.windowId, {
+                        responses: builtResponse.map((r) => ({
+                          content: r,
+                          timestamp: result?.data.requestEndTime ?? Date.now(),
+                        })),
                       })
                     );
 
+                    // Setting the last response as the result
+                    // TODO: Remove this and use the responses array instead
                     this.store.dispatch(
                       new queryActions.SetQueryResultAction(
-                        responseContent,
+                        builtResponse[builtResponse.length - 1] ?? '',
                         response.windowId
                       )
                     );

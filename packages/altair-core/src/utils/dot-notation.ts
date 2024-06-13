@@ -21,7 +21,8 @@ function parseDotNotationKey(key: string) {
 export function setByDotNotation<TResult = any>(
   obj: Record<string, any>,
   path: Array<number | string> | number | string,
-  value: TResult
+  value: TResult,
+  merge = false
 ): TResult | undefined {
   if (typeof path === 'number') {
     path = [path];
@@ -30,7 +31,12 @@ export function setByDotNotation<TResult = any>(
     return undefined;
   }
   if (typeof path === 'string') {
-    return setByDotNotation(obj, path.split('.').map(parseDotNotationKey), value);
+    return setByDotNotation(
+      obj,
+      path.split('.').map(parseDotNotationKey),
+      value,
+      merge
+    );
   }
 
   const currentPath = path[0];
@@ -40,6 +46,15 @@ export function setByDotNotation<TResult = any>(
   const currentValue = obj[currentPath];
 
   if (path.length === 1) {
+    if (
+      merge &&
+      currentValue &&
+      typeof currentValue === 'object' &&
+      typeof value === 'object'
+    ) {
+      Object.assign(currentValue, value);
+      return currentValue;
+    }
     obj[currentPath] = value;
     return currentValue;
   }
@@ -52,5 +67,5 @@ export function setByDotNotation<TResult = any>(
     }
   }
 
-  return setByDotNotation(obj[currentPath], path.slice(1), value);
+  return setByDotNotation(obj[currentPath], path.slice(1), value, merge);
 }
