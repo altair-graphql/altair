@@ -15,7 +15,7 @@
           nz-tooltip
           [nzTooltipTitle]="'COLLECTIONS_IMPORT_TEXT' | translate"
           nzTooltipPlacement="bottom"
-          (click)="importCollectionsChange.next()"
+          (click)="importCollectionsChange.emit()"
         >
           <app-icon name="log-in"></app-icon>
         </button>
@@ -27,7 +27,7 @@
             nz-tooltip
             [nzTooltipTitle]="'COLLECTION_SYNC_TEXT' | translate"
             nzTooltipPlacement="bottom"
-            (click)="syncCollectionsChange.next()"
+            (click)="syncCollectionsChange.emit()"
           >
             <app-icon name="refresh-ccw"></app-icon>
           </button>
@@ -57,16 +57,16 @@
           </button>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item (click)="sortCollectionsChange.next('a-z')">
+              <li nz-menu-item (click)="sortCollectionsChange.emit('a-z')">
                 {{ 'SORT_BY_A_Z' | translate }}
               </li>
-              <li nz-menu-item (click)="sortCollectionsChange.next('z-a')">
+              <li nz-menu-item (click)="sortCollectionsChange.emit('z-a')">
                 {{ 'SORT_BY_Z_A' | translate }}
               </li>
-              <li nz-menu-item (click)="sortCollectionsChange.next('newest')">
+              <li nz-menu-item (click)="sortCollectionsChange.emit('newest')">
                 {{ 'SORT_BY_NEWEST' | translate }}
               </li>
-              <li nz-menu-item (click)="sortCollectionsChange.next('oldest')">
+              <li nz-menu-item (click)="sortCollectionsChange.emit('oldest')">
                 {{ 'SORT_BY_OLDEST' | translate }}
               </li>
             </ul>
@@ -120,12 +120,12 @@
             [collectionTree]="collectionTree"
             [loggedIn]="loggedIn"
             [queriesSortBy]="queriesSortBy"
-            (selectQueryChange)="selectQueryChange.next($event)"
-            (deleteQueryChange)="deleteQueryChange.next($event)"
-            (deleteCollectionChange)="deleteCollectionChange.next($event)"
-            (editCollectionChange)="editCollectionChange.next($event)"
-            (exportCollectionChange)="exportCollectionChange.next($event)"
-            (syncCollectionChange)="syncCollectionChange.next($event)"
+            (selectQueryChange)="selectQueryChange.emit($event)"
+            (deleteQueryChange)="deleteQueryChange.emit($event)"
+            (deleteCollectionChange)="deleteCollectionChange.emit($event)"
+            (editCollectionChange)="editCollectionChange.emit($event)"
+            (exportCollectionChange)="exportCollectionChange.emit($event)"
+            (syncCollectionChange)="syncCollectionChange.emit($event)"
             (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
             (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
             (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"

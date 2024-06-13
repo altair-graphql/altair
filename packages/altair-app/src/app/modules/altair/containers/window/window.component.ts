@@ -43,6 +43,7 @@ import {
   HttpVerb,
   LogLine,
   QueryEditorState,
+  QueryResponse,
   QueryState,
   SelectedOperation,
   SubscriptionResponse,
@@ -90,6 +91,7 @@ export class WindowComponent implements OnInit {
   responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
   subscriptionResponses$: Observable<SubscriptionResponse[]>;
+  queryResponses$: Observable<QueryResponse[]>;
   requestScriptLogs$: Observable<LogLine[]>;
   selectedOperation$?: Observable<SelectedOperation>;
   queryOperations$: Observable<OperationDefinitionNode[]>;
@@ -180,6 +182,9 @@ export class WindowComponent implements OnInit {
 
     this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
     this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
+    this.queryResponses$ = this.getWindowState().pipe(
+      select(fromRoot.getQueryResponses)
+    );
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
     this.docsIsLoading$ = this.getWindowState().pipe(

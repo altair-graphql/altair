@@ -179,3 +179,55 @@ app-url-box {
 .connection-indicator--uncertain {
   color: var(--orange-color);
 }
+
+// https://www.youtube.com/watch?v=rdtTCVzTwSQ
+.url-box__loader {
+  position: relative;
+}
+.url-box__loader-inner {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: white;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+  // FIXME: would be nice to have the gradient mask here to taper the ends for a nicer effect,
+  // but applying mask-image also masks off the other effects (blur, reflection)
+  // since they appear outside the bounds of the element
+  // mask-image: linear-gradient(
+  //   to right,
+  //   transparent 0%,
+  //   black 5%,
+  //   black 95%,
+  //   transparent 100%
+  // );
+}
+.url-box__loader-inner::before,
+.url-box__loader-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color),
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color),
+    /*end with the first color*/ var(--primary-color)
+  );
+  animation: loader 20s linear infinite;
+  background-size: 500%;
+}
+.url-box__loader-inner::after {
+  filter: blur(5px);
+}
+
+@keyframes loader {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 500% 0;
+  }
+}

@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import { HeaderState } from '../types/state/header.interfaces';
 import { SelectedOperation } from '../types/state/query.interfaces';
-import { FileVariable } from '../types/state/variable.interfaces';
 
 interface ResolvedFileVariable {
   name: string;
@@ -12,8 +11,8 @@ export interface GraphQLRequestOptions {
   query: string;
   method: string;
   withCredentials?: boolean;
-  variables?: string;
-  extensions?: string;
+  variables?: Record<string, unknown>;
+  extensions?: Record<string, unknown>;
   headers?: HeaderState;
   files?: ResolvedFileVariable[];
   selectedOperation?: SelectedOperation;
@@ -46,4 +45,26 @@ export interface GraphQLResponseData {
 export interface GraphQLRequestHandler {
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData>;
   destroy?(): void;
+}
+
+export enum MultiResponseStrategy {
+  /**
+   * Automatically determine the strategy based on the response
+   */
+  AUTO = 'auto',
+
+  /**
+   * Concatenate all responses
+   */
+  CONCATENATE = 'concatenate',
+
+  /**
+   * Append responses as a list
+   */
+  APPEND = 'append',
+
+  /**
+   * Patch the responses together following the GraphQL spec
+   */
+  PATCH = 'patch',
 }

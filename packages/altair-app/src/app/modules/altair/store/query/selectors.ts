@@ -14,6 +14,10 @@ export const getQueryResult = createSelector(
   getQueryState,
   (state) => state.response
 );
+export const getQueryResponses = createSelector(
+  getQueryState,
+  (state) => state.responses ?? []
+);
 export const getResponseStatus = createSelector(
   getQueryState,
   (state) => state.responseStatus

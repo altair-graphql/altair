@@ -23,6 +23,7 @@ export const getInitialState = (): QueryState => {
     operations: [],
     httpVerb: initialData.initialHttpMethod || 'POST',
     response: '',
+    responses: [],
     responseTime: 0,
     requestStartTime: 0,
     requestEndTime: 0,
@@ -40,7 +41,7 @@ export const getInitialState = (): QueryState => {
       ? JSON.stringify(initialData.initialSubscriptionsPayload)
       : '{}',
     subscriptionProviderId:
-      initialData.initialSubscriptionsProvider || WEBSOCKET_PROVIDER_ID,
+      initialData.initialSubscriptionsProvider ?? WEBSOCKET_PROVIDER_ID,
     isSubscribed: false,
     subscriptionResponseList: [],
     autoscrollSubscriptionResponse: false,
@@ -70,6 +71,13 @@ export function queryReducer(
       return { ...state, subscriptionUrl: action.payload.subscriptionUrl };
     case query.SET_QUERY_RESULT:
       return { ...state, response: action.payload };
+    case query.SET_QUERY_RESPONSES:
+      return { ...state, responses: action.payload.responses };
+    case query.ADD_QUERY_RESPONSES:
+      return {
+        ...state,
+        responses: [...(state.responses ?? []), ...action.payload.responses],
+      };
     case query.SET_QUERY_RESULT_RESPONSE_HEADERS:
       return { ...state, responseHeaders: action.payload.headers };
     case query.SET_SELECTED_OPERATION:
@@ -126,6 +134,11 @@ export function queryReducer(
       return { ...state, queryEditorState: action.payload };
     case query.SET_REQUEST_SCRIPT_LOGS:
       return { ...state, requestScriptLogs: action.payload };
+    case query.APPEND_REQUEST_SCRIPT_LOGS:
+      return {
+        ...state,
+        requestScriptLogs: [...(state.requestScriptLogs ?? []), ...action.payload],
+      };
     case query.SET_REQUEST_EXTENSIONS_DATA:
       return { ...state, requestExtensions: action.payload.data };
     default:
