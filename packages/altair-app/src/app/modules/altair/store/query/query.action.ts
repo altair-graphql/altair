@@ -298,7 +298,10 @@ export class ClearResultAction implements NGRXAction {
 export class DownloadResultAction implements NGRXAction {
   readonly type = DOWNLOAD_RESULT;
 
-  constructor(public windowId: string) {}
+  constructor(
+    public windowId: string,
+    public payload: { content: string }
+  ) {}
 }
 
 export class CancelQueryRequestAction implements NGRXAction {

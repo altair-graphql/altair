@@ -675,10 +675,15 @@ export class WindowComponent implements OnInit {
 
   clearResult() {
     this.store.dispatch(new queryActions.ClearResultAction(this.windowId));
+    this.store.dispatch(
+      new queryActions.SetQueryResponsesAction(this.windowId, { responses: [] })
+    );
   }
 
-  downloadResult() {
-    this.store.dispatch(new queryActions.DownloadResultAction(this.windowId));
+  downloadResult(content: string) {
+    this.store.dispatch(
+      new queryActions.DownloadResultAction(this.windowId, { content })
+    );
   }
 
   // Set the value of the item in the specified index of the history list

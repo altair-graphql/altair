@@ -100,6 +100,11 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
           });
         })
         .catch((error) => {
+          if (error.name === 'AbortError') {
+            // Request was aborted
+            observer.complete();
+            return;
+          }
           // Send the error to the observer
           observer.error(error);
         });

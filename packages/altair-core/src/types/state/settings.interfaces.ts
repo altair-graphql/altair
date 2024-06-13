@@ -1,4 +1,5 @@
 import { getAltairConfig } from '../../config';
+import { MultiResponseStrategy } from '../../request/types';
 import { ICustomTheme } from '../../theme';
 
 const config = getAltairConfig();
@@ -119,6 +120,11 @@ export interface SettingsState {
    * Hides extensions object
    */
   'response.hideExtensions'?: boolean;
+
+  /**
+   * Depend the handling strategy for multiple responses
+   */
+  'response.stream.strategy'?: MultiResponseStrategy;
 
   /**
    * Contains shortcut to action mapping

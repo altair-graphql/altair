@@ -527,3 +527,103 @@ app-query-result {
     color: var(--red-color);
   }
 }
+
+.new-query-result-container {
+  @include debug();
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.new-query-result__list {
+  @include debug();
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.new-query-result__list-item {
+  @include debug();
+  @extend .glassy-border;
+  position: relative;
+  flex: 1;
+  min-height: fit-content;
+}
+.new-query-result__list-item-info {
+  @include debug();
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(var(--rgb-theme-font), 0.1);
+  border-radius: 0 4px 0 4px;
+  padding: 4px;
+  font-size: fontsize(12);
+}
+.new-query-result__list-item-actions {
+  @include debug();
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+}
+.new-query-result__top {
+  @include debug();
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.new-query-result__top-section {
+  @include debug();
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.new-query-result__uri {
+  font-size: fontsize(12);
+  opacity: 0.7;
+  padding: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 50%;
+  border: 1px solid rgba(var(--rgb-theme-font), 0.1);
+  border-radius: 4px;
+}
+
+.new-query-result__none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-size: fontsize(24);
+  font-weight: bold;
+  color: var(--theme-off-font-color);
+}
+
+.new-query-result__none-subtext {
+  font-size: fontsize(16);
+  margin-bottom: 10px;
+}
+
+.new-query-result__none-inner {
+  width: 400px;
+  max-width: 90%;
+}
+
+.new-query-result__none-art-button {
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+  // background: darken($theme-off-bg-color, 5%);
+  background: var(--theme-bg-color);
+  opacity: 0.8;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+
+  &.send {
+    background: var(--primary-color);
+  }
+}

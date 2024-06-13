@@ -301,9 +301,10 @@ export class QueryEffects {
 
                     responses.push(responseContent);
 
-                    // TODO: Handle multiple responses
-                    console.log('responses', responses);
-                    const builtResponse = buildResponse(responses);
+                    const builtResponse = buildResponse(
+                      responses,
+                      response.state.settings['response.stream.strategy']
+                    );
                     this.store.dispatch(
                       new queryActions.SetQueryResponsesAction(response.windowId, {
                         responses: builtResponse.map((r) => ({
@@ -779,7 +780,10 @@ export class QueryEffects {
           }
         ),
         switchMap((res) => {
-          downloadJson(res.data?.query.response, res.data?.layout.title);
+          const content = res.action.payload.content;
+          downloadData(content, res.data?.layout.title, {
+            fileType: parseJson(content, undefined) ? 'json' : 'txt',
+          });
 
           return EMPTY;
         })

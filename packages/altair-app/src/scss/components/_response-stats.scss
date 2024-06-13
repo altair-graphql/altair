@@ -55,6 +55,47 @@
   }
 }
 
+.new-response-stats__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  height: fit-content;
+  font-size: fontsize(12);
+
+  &[data-status-code^='1'] {
+    // background: var(--orange-color);
+    background: rgba(var(--rgb-orange), 0.1);
+    color: var(--orange-color);
+  }
+
+  &[data-status-code^='2'] {
+    // background: var(--green-color);
+    background: rgba(var(--rgb-green), 0.1);
+    color: var(--green-color);
+  }
+
+  &[data-status-code^='3'] {
+    // background: var(--orange-color);
+    background: rgba(var(--rgb-orange), 0.1);
+    color: var(--orange-color);
+  }
+
+  &[data-status-code^='4'] {
+    // background: var(--red-color);
+    background: rgba(var(--rgb-red), 0.1);
+    color: var(--red-color);
+  }
+
+  &[data-status-code^='5'] {
+    // background: var(--red-color);
+    background: rgba(var(--rgb-red), 0.1);
+    color: var(--red-color);
+  }
+}
+
 .response-status-code {
   background: rgba(var(--rgb-blue), 0.1);
 }
