@@ -1,9 +1,9 @@
-import { DocumentNode, OperationDefinitionNode, parse } from 'graphql';
+import { DocumentNode, Kind, OperationDefinitionNode, parse } from 'graphql';
 
 const getEmptyDocumentNode = (): DocumentNode => {
   return {
     definitions: [],
-    kind: 'Document',
+    kind: Kind.DOCUMENT,
   };
 };
 const parseQueryOrEmptyDocument = (query: string) => {
