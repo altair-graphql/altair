@@ -197,3 +197,9 @@ h6 {
     visibility 0s var(--app-easing) 300ms,
     opacity 300ms;
 }
+
+@mixin debug() {
+  @if $debug {
+    background: rgb(random(255), random(255), random(255));
+  }
+}

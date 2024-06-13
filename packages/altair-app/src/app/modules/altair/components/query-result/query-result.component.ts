@@ -36,6 +36,7 @@ export class QueryResultComponent implements OnChanges {
   @Input() responseStatusText = '';
   @Input() responseHeaders: IDictionary<string> = {};
   @Input() requestScriptLogs: LogLine[] = [];
+  @Input() isRunning = false;
   @Input() isSubscribed = false;
   @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() queryResponses: QueryResponse[] = [];
@@ -47,10 +48,11 @@ export class QueryResultComponent implements OnChanges {
   @Input() uiActions: AltairUiAction[] = [];
   @Input() bottomPanels: AltairPanel[] = [];
 
-  @Output() downloadResultChange = new EventEmitter();
+  @Output() downloadResultChange = new EventEmitter<string>();
   @Output() clearResultChange = new EventEmitter();
   @Output() stopSubscriptionChange = new EventEmitter();
   @Output() clearSubscriptionChange = new EventEmitter();
+  @Output() cancelRequestChange = new EventEmitter();
   @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();

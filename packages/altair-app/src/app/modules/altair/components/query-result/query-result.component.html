@@ -6,77 +6,103 @@
   [(nzSelectedIndex)]="selectedIndex"
 >
   <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate" [nzDisabled]="isSubscribed">
-    <div class="query-result-container">
-      <div class="query-result__normal-container">
-        @if (!queryResult) {
-          <div class="query-result__none">
-            <div class="query-result__none-inner">
-              <div class="query-result__none-subtext">
+    <div class="new-query-result-container">
+      <div class="new-query-result__top">
+        <div class="new-query-result__top-section">
+          <span
+            class="response-status-code new-response-stats__item"
+            [attr.data-status-code]="responseStatus"
+          >
+            {{ responseStatus }} {{ responseStatusText }}
+          </span>
+          <span class="response-time new-response-stats__item">
+            <app-icon name="clock"></app-icon> {{ responseTime }}ms
+          </span>
+          @if (isSubscribed) {
+            <span class="new-query-result__uri">{{ subscriptionUrl }}</span>
+          }
+        </div>
+        <div class="new-query-result__top-section">
+          <button
+            track-id="clear_result"
+            class="btn btn--small"
+            (click)="clearResultChange.emit()"
+          >
+            <app-icon name="trash-2"></app-icon>
+            {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
+          </button>
+
+          @if (isRunning) {
+            <button
+              class="btn btn--small btn--light btn--destructive"
+              (click)="cancelRequestChange.emit()"
+            >
+              <app-icon name="x"></app-icon>
+              {{ 'CANCEL_TEXT' | translate }}
+            </button>
+          }
+        </div>
+      </div>
+      <div class="new-query-result__list">
+        @if (!queryResponses.length) {
+          <div class="new-query-result__none">
+            <div class="new-query-result__none-inner">
+              <div class="new-query-result__none-subtext">
                 {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
               </div>
-              <div class="query-result__none-art">
+              <div class="new-query-result__none-art">
                 <div class="left">
-                  <div class="query-result__none-art-button send"></div>
-                  <div class="query-result__none-art-button"></div>
-                  <div class="query-result__none-art-button"></div>
-                  <div class="query-result__none-art-button"></div>
+                  <div class="new-query-result__none-art-button send"></div>
+                  <div class="new-query-result__none-art-button"></div>
+                  <div class="new-query-result__none-art-button"></div>
+                  <div class="new-query-result__none-art-button"></div>
                 </div>
                 <div class="right">
-                  <div class="query-result__none-art-button"></div>
+                  <div class="new-query-result__none-art-button"></div>
                 </div>
               </div>
             </div>
           </div>
         }
-        <!--We want it to be hidden in the DOM, not removed so we use hidden-->
-        <div class="app-result" [ngClass]="{ hide: !queryResult }">
-          <div class="response-stats">
-            <div class="response-stats__section l">
-              <span
-                class="response-status-code response-stats__item"
-                [attr.data-status-code]="responseStatus"
-                >{{ responseStatus }} {{ responseStatusText }}</span
-              >
-              <span class="response-time response-stats__item"
-                ><app-icon name="clock"></app-icon> {{ responseTime }}ms</span
-              >
+        @for (item of queryResponses; track $index) {
+          <div class="new-query-result__list-item">
+            <app-codemirror
+              [ngModel]="item.content"
+              [fullHeight]="true"
+              [extensions]="editorExtensions"
+            ></app-codemirror>
+            <div class="new-query-result__list-item-info">
+              {{ item.timestamp | date: 'mediumTime' }}
             </div>
-            <div class="response-stats__section r"></div>
-          </div>
-          <div class="query-result__top-actions">
-            <button
-              track-id="clear_result"
-              class="btn btn--small"
-              (click)="clearResultChange.emit()"
-            >
-              <app-icon name="trash-2"></app-icon>
-              {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
-            </button>
-          </div>
-          <div class="query-result__bottom-actions">
-            <button
-              track-id="download_result"
-              class="btn btn--small"
-              (click)="downloadResultChange.emit()"
-            >
-              <app-icon name="download"></app-icon>
-              {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
-            </button>
-            @for (uiAction of uiActions; track uiAction) {
+            <div class="new-query-result__list-item-actions">
               <button
+                track-id="download_result"
                 class="btn btn--small"
-                (click)="uiActionExecuteChange.emit(uiAction)"
+                (click)="downloadResultChange.emit(item.content)"
               >
-                {{ uiAction.title }}
+                <app-icon name="download"></app-icon>
+                {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
               </button>
-            }
+              @for (uiAction of uiActions; track uiAction) {
+                <button
+                  class="btn btn--small"
+                  (click)="uiActionExecuteChange.emit(uiAction)"
+                >
+                  {{ uiAction.title }}
+                </button>
+              }
+            </div>
           </div>
-          <app-codemirror
-            [ngModel]="queryResult"
-            [fullHeight]="true"
-            [extensions]="editorExtensions"
-          ></app-codemirror>
-        </div>
+        }
+        <!-- <div class="new-query-result__list-item">2</div>
+        <div class="new-query-result__list-item">3</div>
+        <div class="new-query-result__list-item">4</div>
+        <div class="new-query-result__list-item">5</div>
+        <div class="new-query-result__list-item">6</div>
+        <div class="new-query-result__list-item">7</div>
+        <div class="new-query-result__list-item">8</div>
+        <div class="new-query-result__list-item">9</div>
+        <div class="new-query-result__list-item">10</div> -->
       </div>
     </div>
   </nz-tab>
