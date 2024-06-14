@@ -10,10 +10,6 @@ export const selectQueryState = (windowId: string) =>
   );
 export const getQueryState = (state: PerWindowState) =>
   state ? state.query : { ...getInitialState() };
-export const getQueryResult = createSelector(
-  getQueryState,
-  (state) => state.response
-);
 export const getQueryResponses = createSelector(
   getQueryState,
   (state) => state.responses ?? []
@@ -38,17 +34,13 @@ export const isSubscribed = createSelector(
   getQueryState,
   (state) => state.isSubscribed
 );
-export const getSubscriptionResponses = createSelector(
+export const getAutoscrollResponseList = createSelector(
   getQueryState,
-  (state) => state.subscriptionResponseList
-);
-export const getAutoscrollSubscriptionResponse = createSelector(
-  getQueryState,
-  (state) => state.autoscrollSubscriptionResponse
+  (state) => state.autoscrollResponseList
 );
 export const getSelectedOperation = createSelector(
   getQueryState,
-  (state) => state.selectedOperation || null
+  (state) => state.selectedOperation ?? null
 );
 export const getQueryOperations = createSelector(
   getQueryState,

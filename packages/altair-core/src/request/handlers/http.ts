@@ -87,6 +87,9 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
                 requestEndTime
               );
             },
+            error: (error) => {
+              observer.error(error);
+            },
             complete: () => {
               this.emitChunk(
                 response,
@@ -115,6 +118,13 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
         aborter.abort();
       };
     });
+  }
+
+  generateCurl(request: GraphQLRequestOptions): string {
+    throw new Error('Method not implemented.');
+  }
+  destroy() {
+    // throw new Error('Method not implemented.');
   }
 
   private emitChunk(

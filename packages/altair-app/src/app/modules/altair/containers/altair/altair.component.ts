@@ -566,9 +566,11 @@ export class AltairComponent {
     );
   }
 
-  toggleSubscriptionUrlDialog(isOpen: boolean) {
+  toggleRequestHandlerDialog(isOpen: boolean) {
     this.store.dispatch(
-      new dialogsActions.ToggleSubscriptionUrlDialogAction(this.activeWindowId)
+      new dialogsActions.ToggleRequestHandlerDialogAction(this.activeWindowId, {
+        value: isOpen,
+      })
     );
   }
 

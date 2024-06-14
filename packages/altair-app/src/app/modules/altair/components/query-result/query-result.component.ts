@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   ViewChild,
@@ -14,7 +13,6 @@ import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import {
   LogLine,
   QueryResponse,
-  SubscriptionResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import { TrackByIdItem } from '../../interfaces/shared';
@@ -30,7 +28,6 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   styleUrls: ['./query-result.component.scss'],
 })
 export class QueryResultComponent implements OnChanges {
-  @Input() queryResult = '';
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
@@ -38,11 +35,10 @@ export class QueryResultComponent implements OnChanges {
   @Input() requestScriptLogs: LogLine[] = [];
   @Input() isRunning = false;
   @Input() isSubscribed = false;
-  @Input() subscriptionResponses: SubscriptionResponse[] = [];
   @Input() queryResponses: QueryResponse[] = [];
   @Input() subscriptionUrl = '';
   @Input() tabSize = 2;
-  @Input() autoscrollSubscriptionResponses = false;
+  @Input() autoscrollResponseList = true;
   @Input() windowId = '';
   @Input() activeWindowId = '';
   @Input() uiActions: AltairUiAction[] = [];
@@ -50,15 +46,13 @@ export class QueryResultComponent implements OnChanges {
 
   @Output() downloadResultChange = new EventEmitter<string>();
   @Output() clearResultChange = new EventEmitter();
-  @Output() stopSubscriptionChange = new EventEmitter();
-  @Output() clearSubscriptionChange = new EventEmitter();
   @Output() cancelRequestChange = new EventEmitter();
-  @Output() autoscrollSubscriptionResponsesChange = new EventEmitter();
+  @Output() autoscrollResponseListChange = new EventEmitter();
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
-  @ViewChild('subscriptionResponseList', { static: true })
-  subscriptionResponseList?: ElementRef;
+  @ViewChild('queryResultList', { static: true })
+  queryResultList?: ElementRef;
 
   isElectron = isElectron;
 
@@ -72,31 +66,15 @@ export class QueryResultComponent implements OnChanges {
   ];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.subscriptionResponses?.currentValue) {
+    if (this.activeWindowId === this.windowId) {
       const scrollTopTimeout = setTimeout(() => {
-        if (this.subscriptionResponseList && this.autoscrollSubscriptionResponses) {
-          this.subscriptionResponseList.nativeElement.scrollTop =
-            this.subscriptionResponseList.nativeElement.scrollHeight;
+        if (this.queryResultList && this.autoscrollResponseList) {
+          this.queryResultList.nativeElement.scrollTop =
+            this.queryResultList.nativeElement.scrollHeight;
         }
         clearTimeout(scrollTopTimeout);
       }, 50);
     }
-
-    if (changes?.isSubscribed) {
-      if (changes.isSubscribed.currentValue) {
-        // select subscription result tab is subscribed
-        this.selectedIndex = 1;
-      } else {
-        // if unsubscribed and no subscription result yet, select initial tab instead
-        if (!this.subscriptionResponses.length) {
-          this.selectedIndex = 0;
-        }
-      }
-    }
-  }
-
-  subscriptionResponseTrackBy(index: number, response: SubscriptionResponse) {
-    return response.responseTime;
   }
 
   togglePanelActive(panel: AltairPanel) {

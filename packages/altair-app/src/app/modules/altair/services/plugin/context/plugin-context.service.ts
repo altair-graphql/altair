@@ -34,7 +34,6 @@ import { PluginEventService } from '../plugin-event.service';
 import { take } from 'rxjs/operators';
 import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
 import { NotifyService } from '../../../services/notify/notify.service';
-import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 import { headerListToMap, headerMapToList } from '../../../utils/headers';
 import {
   AltairPanel,
@@ -48,6 +47,8 @@ import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
 import { PluginV3Context } from 'altair-graphql-core/build/plugin/v3/context';
 import { PluginParentWorker } from 'altair-graphql-core/build/plugin/v3/parent-worker';
 import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
+import { RequestHandlerRegistryService } from '../../request/request-handler-registry.service';
+import { SubscriptionProviderRequestHandlerAdapter } from 'altair-graphql-core/build/request/adapters';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +59,7 @@ export class PluginContextService implements PluginContextGenerator {
     private windowService: WindowService,
     private pluginEventService: PluginEventService,
     private themeRegistryService: ThemeRegistryService,
-    private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
+    private requestHandlerRegistryService: RequestHandlerRegistryService,
     private notifyService: NotifyService
   ) {}
 
@@ -185,7 +186,16 @@ export class PluginContextService implements PluginContextGenerator {
         },
         addSubscriptionProvider(providerData: SubscriptionProviderData) {
           log(`adding subscription provider: ${providerData.id}`);
-          self.subscriptionProviderRegistryService.addProviderData(providerData);
+          // transform providerData to the new format
+          self.requestHandlerRegistryService.addHandlerData({
+            id: providerData.id,
+            async getHandler() {
+              return new SubscriptionProviderRequestHandlerAdapter(
+                await providerData.getProviderClass()
+              );
+            },
+            copyTag: providerData.copyTag,
+          });
         },
         executeCommand() {
           // TODO: To be implemented...
@@ -451,7 +461,7 @@ export class PluginContextService implements PluginContextGenerator {
       preRequestScript: data.preRequest.script,
       preRequestScriptEnabled: data.preRequest.enabled,
       sdl: data.schema.sdl,
-      queryResult: data.query.response || '',
+      queryResults: data.query.responses?.map((r) => r.content) ?? [],
       requestStartTime: data.query.requestStartTime,
       requestEndTime: data.query.requestEndTime,
       responseTime: data.query.responseTime,

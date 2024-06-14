@@ -1,3 +1,4 @@
+import { HTTP_HANDLER_ID, RequestHandlerIds } from './request/types';
 import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './subscriptions';
 import { IDictionary, TODO } from './types/shared';
 import { IInitialEnvironments } from './types/state/environments.interfaces';
@@ -69,6 +70,18 @@ export interface AltairWindowOptions {
    * Initial subscriptions connection params
    */
   initialSubscriptionsPayload?: IDictionary;
+
+  /**
+   * Initial request handler id
+   *
+   * @default "http"
+   */
+  initialRequestHandlerId?: RequestHandlerIds;
+
+  /**
+   * Additional params to be passed to the request handler
+   */
+  initialRequestHandlerAdditionalParams?: Record<string, unknown>;
 
   /**
    * HTTP method to use for making requests
@@ -183,6 +196,8 @@ export class AltairConfig {
     initialSubscriptionsProvider:
       undefined as AltairConfigOptions['initialSubscriptionsProvider'],
     initialSubscriptionsPayload: {} as IDictionary,
+    initialRequestHandlerId: HTTP_HANDLER_ID as RequestHandlerIds,
+    initialRequestHandlerAdditionalParams: {} as Record<string, unknown>,
     initialHttpMethod: 'POST' as HttpVerb,
     preserveState: true,
     windows: [] as AltairWindowOptions[],
@@ -201,6 +216,8 @@ export class AltairConfig {
     instanceStorageNamespace,
     initialSettings,
     persistedSettings,
+    initialRequestHandlerId = HTTP_HANDLER_ID,
+    initialRequestHandlerAdditionalParams = {},
     initialSubscriptionsProvider = WEBSOCKET_PROVIDER_ID,
     initialSubscriptionsPayload = {},
     initialHttpMethod = 'POST',
@@ -235,6 +252,9 @@ export class AltairConfig {
     this.initialData.persistedSettings = persistedSettings;
     this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
+    this.initialData.initialRequestHandlerId = initialRequestHandlerId;
+    this.initialData.initialRequestHandlerAdditionalParams =
+      initialRequestHandlerAdditionalParams;
     this.initialData.initialHttpMethod = initialHttpMethod;
     this.initialData.preserveState = preserveState;
     this.initialData.windows = initialWindows;

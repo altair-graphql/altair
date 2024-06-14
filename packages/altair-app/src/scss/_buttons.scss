@@ -74,6 +74,13 @@ button {
       --btn-bg: rgba(var(--rgb-red), 0.2);
     }
   }
+  &.btn--primary {
+    --btn-bg: rgba(var(--rgb-primary), 0.1);
+    --btn-font-color: var(--primary-color);
+    &:hover {
+      --btn-bg: rgba(var(--rgb-primary), 0.2);
+    }
+  }
 }
 
 .icon-button {

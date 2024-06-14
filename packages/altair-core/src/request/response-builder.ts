@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql';
 import { parseJson } from '../utils/json';
 import { MultiResponseStrategy } from './types';
 import { setByDotNotation } from '../utils/dot-notation';
+import { QueryResponse } from '../types/state/query.interfaces';
 type ErrorLike = Partial<GraphQLError> | Error;
 type Extensions = Record<string, any>;
 type Path = (string | number)[];
@@ -55,9 +56,9 @@ type ExecutionResult = InitialExecutionResult | SubsequentExecutionResult;
 // https://github.com/graphql/graphql-spec/blob/c630301560d9819d33255d3ba00f548e8abbcdc6/spec/Section%207%20--%20Response.md#incremental
 // https://github.com/graphql/defer-stream-wg/discussions/69
 export const buildResponse = (
-  responses: string[],
+  responses: QueryResponse[],
   strategy = MultiResponseStrategy.AUTO
-): string[] => {
+): QueryResponse[] => {
   switch (strategy) {
     case MultiResponseStrategy.CONCATENATE:
       return buildResponse__concatenate(responses);
@@ -67,7 +68,7 @@ export const buildResponse = (
       return buildResponse__patch(responses);
     case MultiResponseStrategy.AUTO: {
       const firstResponse = responses[0];
-      const parsedFirstResponse = parseJson(firstResponse ?? '', {
+      const parsedFirstResponse = parseJson(firstResponse?.content ?? '', {
         defaultValue: undefined,
       });
       // if response[0] is not a JSON object, then concatenate
@@ -86,20 +87,28 @@ export const buildResponse = (
   }
 };
 
-const buildResponse__concatenate = (responses: string[]): string[] => {
-  return [responses.join('')];
+const buildResponse__concatenate = (responses: QueryResponse[]): QueryResponse[] => {
+  return [
+    {
+      content: responses.map((r) => r.content).join(''),
+      timestamp: responses.at(-1)?.timestamp ?? 0,
+    },
+  ];
 };
 
-const buildResponse__append = (responses: string[]): string[] => {
+const buildResponse__append = (responses: QueryResponse[]): QueryResponse[] => {
   return responses;
 };
 
-const buildResponse__patch = (responses: string[]): string[] => {
+const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
   const response = '';
   // first response is the same shape as a standard GraphQL response
-  const obj = parseJson<InitialExecutionResult, undefined>(responses[0] ?? '', {
-    defaultValue: undefined,
-  });
+  const obj = parseJson<InitialExecutionResult, undefined>(
+    responses[0]?.content ?? '',
+    {
+      defaultValue: undefined,
+    }
+  );
 
   if (!obj) {
     throw new Error('JSON response required for patching!');
@@ -107,7 +116,7 @@ const buildResponse__patch = (responses: string[]): string[] => {
 
   for (let i = 1; i < responses.length; i++) {
     const nextObj = parseJson<SubsequentExecutionResult, undefined>(
-      responses[i] ?? '',
+      responses[i]?.content ?? '',
       { defaultValue: undefined }
     );
 
@@ -120,7 +129,12 @@ const buildResponse__patch = (responses: string[]): string[] => {
   // TODO: Handle without incremental field
 
   // return the patched response
-  return [JSON.stringify(obj, null, 2)];
+  return [
+    {
+      content: JSON.stringify(obj, null, 2),
+      timestamp: responses.at(0)?.timestamp ?? 0,
+    },
+  ];
 };
 
 const patchResponse = (

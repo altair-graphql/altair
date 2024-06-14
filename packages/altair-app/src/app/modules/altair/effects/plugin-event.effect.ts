@@ -18,17 +18,14 @@ export class PluginEventEffects {
     () => {
       return this.actions$.pipe(
         ofType(queryActions.SET_QUERY),
-        withLatestFrom(
-          this.store,
-          (action: queryActions.SetQueryAction, state) => {
-            return {
-              state,
-              data: state.windows[action.windowId],
-              windowId: action.windowId,
-              action,
-            };
-          }
-        ),
+        withLatestFrom(this.store, (action: queryActions.SetQueryAction, state) => {
+          return {
+            state,
+            data: state.windows[action.windowId],
+            windowId: action.windowId,
+            action,
+          };
+        }),
         switchMap((data) => {
           if (data.data) {
             this.pluginEventService.emit('query.change', {
@@ -101,10 +98,10 @@ export class PluginEventEffects {
   onSetQueryResult$: Observable<Action> = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(queryActions.SET_QUERY_RESULT),
+        ofType(queryActions.SET_QUERY_RESPONSES),
         withLatestFrom(
           this.store,
-          (action: queryActions.SetQueryResultAction, state) => {
+          (action: queryActions.SetQueryResponsesAction, state) => {
             return {
               state,
               data: state.windows[action.windowId],

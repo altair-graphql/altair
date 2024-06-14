@@ -5,7 +5,7 @@
   [nzTabBarGutter]="16"
   [(nzSelectedIndex)]="selectedIndex"
 >
-  <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate" [nzDisabled]="isSubscribed">
+  <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate">
     <div class="new-query-result-container">
       <div class="new-query-result__top">
         <div class="new-query-result__top-section">
@@ -18,11 +18,22 @@
           <span class="response-time new-response-stats__item">
             <app-icon name="clock"></app-icon> {{ responseTime }}ms
           </span>
-          @if (isSubscribed) {
+          @if (isSubscribed && isRunning) {
             <span class="new-query-result__uri">{{ subscriptionUrl }}</span>
           }
         </div>
         <div class="new-query-result__top-section">
+          @if (isRunning && queryResponses.length > 1) {
+            <button
+              track-id="autoscroll"
+              class="btn btn--small btn--light"
+              [ngClass]="{ 'btn--primary': autoscrollResponseList }"
+              (click)="autoscrollResponseListChange.emit()"
+            >
+              <app-icon name="arrow-down-narrow-wide"></app-icon>
+              {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
+            </button>
+          }
           <button
             track-id="clear_result"
             class="btn btn--small"
@@ -43,7 +54,7 @@
           }
         </div>
       </div>
-      <div class="new-query-result__list">
+      <div class="new-query-result__list" #queryResultList>
         @if (!queryResponses.length) {
           <div class="new-query-result__none">
             <div class="new-query-result__none-inner">
@@ -94,84 +105,13 @@
             </div>
           </div>
         }
-        <!-- <div class="new-query-result__list-item">2</div>
-        <div class="new-query-result__list-item">3</div>
-        <div class="new-query-result__list-item">4</div>
-        <div class="new-query-result__list-item">5</div>
-        <div class="new-query-result__list-item">6</div>
-        <div class="new-query-result__list-item">7</div>
-        <div class="new-query-result__list-item">8</div>
-        <div class="new-query-result__list-item">9</div>
-        <div class="new-query-result__list-item">10</div> -->
       </div>
     </div>
   </nz-tab>
-  @if (!(!isSubscribed && !subscriptionResponses.length)) {
-    <nz-tab
-      [nzTitle]="'SUBSCRIPTION_RESULT_TAB' | translate"
-      [nzDisabled]="!isSubscribed && !subscriptionResponses.length"
-    >
-      <div class="query-result-container">
-        <div class="query-result__subscription-container">
-          <div class="subscription-result">
-            <div class="subscription-result__actions">
-              <div class="subscription-result__actions-left">
-                <div class="subscription-result__actions-url">
-                  {{ subscriptionUrl }}
-                </div>
-              </div>
-              @if (isSubscribed) {
-                <div class="subscription-result__actions-right">
-                  <button
-                    track-id="clear_subscription"
-                    class="subscription-button"
-                    (click)="clearSubscriptionChange.emit()"
-                  >
-                    {{ 'SUBSCRIPTIONS_CLEAR_TEXT' | translate }}
-                  </button>
-                  <button
-                    track-id="stop_subscription"
-                    class="subscription-button subscription-button--stop"
-                    (click)="stopSubscriptionChange.emit()"
-                  >
-                    {{ 'SUBSCRIPTIONS_STOP_TEXT' | translate }}
-                  </button>
-                </div>
-              }
-            </div>
-            <div #subscriptionResponseList class="subscription-result__list-wrapper">
-              @for (
-                item of subscriptionResponses;
-                track subscriptionResponseTrackBy($index, item)
-              ) {
-                <app-subscription-result-item
-                  [data]="item"
-                ></app-subscription-result-item>
-              }
-            </div>
-            <div class="subscription-result__float-actions">
-              @if (isSubscribed) {
-                <button
-                  class="subscription-result__float-action-button"
-                  [ngClass]="{
-                    'subscription-result__float-action-button--active':
-                      autoscrollSubscriptionResponses
-                  }"
-                  (click)="autoscrollSubscriptionResponsesChange.emit()"
-                >
-                  {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
-                </button>
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </nz-tab>
-  }
-  @if (!(isSubscribed || !requestScriptLogs.length)) {
+  @if (requestScriptLogs.length) {
     <nz-tab
       [nzTitle]="'REQUEST_SCRIPT_LOGS_TAB' | translate"
-      [nzDisabled]="isSubscribed || !requestScriptLogs.length"
+      [nzDisabled]="!requestScriptLogs.length"
     >
       <div class="request-script-logs">
         <div class="request-script-logs__list">

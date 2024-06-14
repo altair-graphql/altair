@@ -10,9 +10,9 @@ export const getShowVariableDialog = createSelector(
   getDialogs,
   (state) => state.showVariableDialog
 );
-export const getShowSubscriptionUrlDialog = createSelector(
+export const getShowRequestHandlerDialog = createSelector(
   getDialogs,
-  (state) => state.showSubscriptionUrlDialog
+  (state) => state.showRequestHandlerDialog
 );
 export const getShowHistoryDialog = createSelector(
   getDialogs,

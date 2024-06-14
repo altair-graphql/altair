@@ -6,6 +6,7 @@ import { QueryState } from 'altair-graphql-core/build/types/state/query.interfac
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { AllActions } from '../action';
+import { HTTP_HANDLER_ID } from 'altair-graphql-core/build/request/types';
 
 export const getInitialState = (): QueryState => {
   const { initialData } = getAltairConfig();
@@ -22,11 +23,17 @@ export const getInitialState = (): QueryState => {
     selectedOperation: null,
     operations: [],
     httpVerb: initialData.initialHttpMethod || 'POST',
-    response: '',
     responses: [],
     responseTime: 0,
     requestStartTime: 0,
     requestEndTime: 0,
+    requestHandlerId: initialData.initialRequestHandlerId ?? HTTP_HANDLER_ID,
+    requestHandlerAdditionalParams: JSON.stringify(
+      initialData.initialRequestHandlerAdditionalParams ?? {},
+      null,
+      2
+    ),
+    subscriptionUseDefaultRequestHandler: false,
     responseStatus: 0,
     responseStatusText: '',
     responseHeaders: {},
@@ -36,15 +43,13 @@ export const getInitialState = (): QueryState => {
     showEditorAlert: false,
     editorAlertMessage: 'Query is set',
     editorAlertSuccess: true,
-    subscriptionClient: undefined,
     subscriptionConnectionParams: initialData.initialSubscriptionsPayload
       ? JSON.stringify(initialData.initialSubscriptionsPayload)
       : '{}',
     subscriptionProviderId:
       initialData.initialSubscriptionsProvider ?? WEBSOCKET_PROVIDER_ID,
     isSubscribed: false,
-    subscriptionResponseList: [],
-    autoscrollSubscriptionResponse: false,
+    autoscrollResponseList: false,
     queryEditorState: {
       isFocused: false,
     },
@@ -69,8 +74,6 @@ export function queryReducer(
       return { ...state, url: action.payload.url };
     case query.SET_SUBSCRIPTION_URL:
       return { ...state, subscriptionUrl: action.payload.subscriptionUrl };
-    case query.SET_QUERY_RESULT:
-      return { ...state, response: action.payload };
     case query.SET_QUERY_RESPONSES:
       return { ...state, responses: action.payload.responses };
     case query.ADD_QUERY_RESPONSES:
@@ -91,10 +94,6 @@ export function queryReducer(
         responseStatus: action.payload.responseStatus,
         responseStatusText: action.payload.responseStatusText,
       };
-    case query.START_SUBSCRIPTION:
-      return { ...state, isSubscribed: true };
-    case query.STOP_SUBSCRIPTION:
-      return { ...state, isSubscribed: false };
     case query.SET_SUBSCRIPTION_CONNECTION_PARAMS:
       return {
         ...state,
@@ -102,29 +101,10 @@ export function queryReducer(
       };
     case query.SET_SUBSCRIPTION_PROVIDER_ID:
       return { ...state, subscriptionProviderId: action.payload.providerId };
-    case query.SET_SUBSCRIPTION_CLIENT:
+    case query.TOGGLE_AUTOSCROLL_RESPONSE_LIST:
       return {
         ...state,
-        subscriptionClient: action.payload.subscriptionClient,
-      };
-    case query.ADD_SUBSCRIPTION_RESPONSE:
-      return {
-        ...state,
-        subscriptionResponseList: [
-          ...state.subscriptionResponseList,
-          {
-            response: action.payload.response,
-            responseTime: action.payload.responseTime,
-            responseObj: action.payload.responseObj,
-          },
-        ],
-      };
-    case query.SET_SUBSCRIPTION_RESPONSE_LIST:
-      return { ...state, subscriptionResponseList: action.payload.list };
-    case query.TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE:
-      return {
-        ...state,
-        autoscrollSubscriptionResponse: !state.autoscrollSubscriptionResponse,
+        autoscrollResponseList: !state.autoscrollResponseList,
       };
     case query.SET_HTTP_VERB:
       return { ...state, httpVerb: action.payload.httpVerb };
@@ -141,6 +121,20 @@ export function queryReducer(
       };
     case query.SET_REQUEST_EXTENSIONS_DATA:
       return { ...state, requestExtensions: action.payload.data };
+    case query.SET_REQUEST_HANDLER_INFO:
+      return {
+        ...state,
+        requestHandlerId: action.payload.requestHandlerId,
+        requestHandlerAdditionalParams: action.payload.additionalParams,
+        subscriptionUseDefaultRequestHandler:
+          action.payload.subscriptionUseDefaultRequestHandler,
+        subscriptionUrl: action.payload.subscriptionUrl ?? '',
+        subscriptionConnectionParams:
+          action.payload.subscriptionConnectionParams ?? '',
+        subscriptionRequestHandlerId: action.payload.subscriptionRequestHandlerId,
+      };
+    case query.SET_IS_SUBSCRIBED:
+      return { ...state, isSubscribed: action.payload.isSubscribed };
     default:
       return state;
   }
