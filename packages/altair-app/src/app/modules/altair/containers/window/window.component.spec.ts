@@ -18,75 +18,73 @@ describe('WindowComponent', () => {
   let fixture: ComponentFixture<WindowComponent>;
   let mockStore: Store<RootState>;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockStore = mockStoreFactory<RootState>({
-        windows: {
-          'abc-123': getInitWindowState(combineReducers(getPerWindowReducer())),
-        },
-        windowsMeta: {
-          ...windowsMetaReducer.getInitialState(),
-          activeWindowId: 'abc-123',
-        },
-        settings: {
-          theme: 'light',
-          addQueryDepthLimit: 2,
-          language: 'en-US',
-          tabSize: 2,
-        },
-        local: {
-          closedWindows: [],
-          installedPlugins: {},
-          panels: [],
-          uiActions: [],
-        },
-        collection: {
-          activeCollection: undefined,
-          list: [],
-        },
-      });
-      const providers = [
-        {
-          provide: Store,
-          useValue: mockStore,
-        },
-        {
-          provide: services.GqlService,
-          useFactory: () => mock(),
-        },
-        {
-          provide: services.NotifyService,
-          useFactory: () => mock(),
-        },
-        {
-          provide: services.WindowService,
-          useFactory: () =>
-            mock({
-              setupWindow: anyFn(),
-            }),
-        },
-        {
-          provide: services.PluginRegistryService,
-          useFactory: () => mock(),
-        },
-        {
-          provide: services.SubscriptionProviderRegistryService,
-          useFactory: () =>
-            mock<services.SubscriptionProviderRegistryService>({
-              getAllProviderData: jest.fn(),
-              getAllProviderData$: jest.fn(),
-            }),
-        },
-      ];
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        declarations: [WindowComponent],
-        providers: providers,
-        schemas: [NO_ERRORS_SCHEMA],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    mockStore = mockStoreFactory<RootState>({
+      windows: {
+        'abc-123': getInitWindowState(combineReducers(getPerWindowReducer())),
+      },
+      windowsMeta: {
+        ...windowsMetaReducer.getInitialState(),
+        activeWindowId: 'abc-123',
+      },
+      settings: {
+        theme: 'light',
+        addQueryDepthLimit: 2,
+        language: 'en-US',
+        tabSize: 2,
+      },
+      local: {
+        closedWindows: [],
+        installedPlugins: {},
+        panels: [],
+        uiActions: [],
+      },
+      collection: {
+        activeCollection: undefined,
+        list: [],
+      },
+    });
+    const providers = [
+      {
+        provide: Store,
+        useValue: mockStore,
+      },
+      {
+        provide: services.GqlService,
+        useFactory: () => mock(),
+      },
+      {
+        provide: services.NotifyService,
+        useFactory: () => mock(),
+      },
+      {
+        provide: services.WindowService,
+        useFactory: () =>
+          mock({
+            setupWindow: anyFn(),
+          }),
+      },
+      {
+        provide: services.PluginRegistryService,
+        useFactory: () => mock(),
+      },
+      {
+        provide: services.RequestHandlerRegistryService,
+        useFactory: () =>
+          mock<services.RequestHandlerRegistryService>({
+            getAllHandlerData: jest.fn(),
+            getAllHandlerData$: jest.fn(),
+          }),
+      },
+    ];
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [WindowComponent],
+      providers: providers,
+      schemas: [NO_ERRORS_SCHEMA],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WindowComponent);

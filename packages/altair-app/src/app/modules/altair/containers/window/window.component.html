@@ -63,7 +63,6 @@
         [authorizationState]="authorizationState$ | async"
       ></app-query-editor>
       <app-query-result
-        [queryResult]="queryResult$ | async"
         [queryResponses]="queryResponses$ | async"
         [responseTime]="responseTime$ | async"
         [responseStatus]="responseStatus$ | async"
@@ -72,22 +71,17 @@
         [requestScriptLogs]="requestScriptLogs$ | async"
         [isSubscribed]="isSubscribed$ | async"
         [isRunning]="(layout$ | async)?.isLoading"
-        [subscriptionResponses]="subscriptionResponses$ | async"
         [subscriptionUrl]="subscriptionUrl"
         [tabSize]="tabSize$ | async"
-        [autoscrollSubscriptionResponses]="autoscrollSubscriptionResponses$ | async"
+        [autoscrollResponseList]="autoscrollResponseList$ | async"
         [windowId]="windowId"
         [activeWindowId]="activeWindowId$ | async"
         [uiActions]="resultPaneUiActions$ | async"
         [bottomPanels]="resultPaneBottomPanels$ | async"
         (clearResultChange)="clearResult()"
         (downloadResultChange)="downloadResult($event)"
-        (stopSubscriptionChange)="stopSubscription()"
-        (clearSubscriptionChange)="clearSubscription()"
         (cancelRequestChange)="cancelRequest()"
-        (autoscrollSubscriptionResponsesChange)="
-          toggleAutoscrollSubscriptionResponses()
-        "
+        (autoscrollResponseListChange)="toggleAutoscrollSubscriptionResponses()"
         (uiActionExecuteChange)="onExecuteUiAction($event)"
         (bottomPanelActiveToggle)="togglePanelActive($event)"
       ></app-query-result>
@@ -200,19 +194,22 @@
         </div>
       </ng-template>
     </nz-modal>
-    <app-subscription-url-dialog
+    <app-request-handler-dialog
+      [requestHandlerId]="(query$ | async)?.requestHandlerId"
+      [requestHandlerAdditionalParams]="
+        (query$ | async)?.requestHandlerAdditionalParams
+      "
       [subscriptionUrl]="subscriptionUrl"
       [subscriptionConnectionParams]="subscriptionConnectionParams"
-      [subscriptionProviders]="availableSubscriptionProviders$ | async"
-      [selectedSubscriptionProviderId]="selectedSubscriptionProviderId"
-      [showDialog]="showSubscriptionUrlDialog"
-      (toggleDialogChange)="toggleSubscriptionUrlDialog($event)"
-      (subscriptionUrlChange)="updateSubscriptionUrl($event)"
-      (subscriptionConnectionParamsChange)="
-        updateSubscriptionConnectionParams($event)
+      [subscriptionUseDefaultRequestHandler]="
+        (query$ | async)?.subscriptionUseDefaultRequestHandler
       "
-      (subscriptionProviderIdChange)="updateSubscriptionProviderId($event)"
-    ></app-subscription-url-dialog>
+      [selectedSubscriptionRequestHandlerId]="selectedSubscriptionRequestHandlerId"
+      [requestHandlers]="availableRequestHandlers$ | async"
+      [showDialog]="showRequestHandlerDialog"
+      (toggleDialogChange)="toggleRequestHandlerDialog($event)"
+      (requestHandlerInfoChange)="upateRequestHandlerInfo($event)"
+    ></app-request-handler-dialog>
     <app-history-dialog
       [historyList]="historyList"
       [showDialog]="showHistoryDialog"

@@ -20,7 +20,7 @@ export interface CreateActionOptions {
 export interface PluginWindowState extends ExportWindowState {
   windowId: string;
   sdl: string;
-  queryResult: string;
+  queryResults: string[];
   requestStartTime: number;
   requestEndTime: number;
   responseTime: number;

@@ -16,29 +16,8 @@ import {
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
-import { TODO } from 'altair-graphql-core/build/types/shared';
 import { linter } from '@codemirror/lint';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-(window as any).jsonlint = (window as any).jsonlint || {
-  parser: <TODO>{
-    parse: function (str: string) {
-      try {
-        return JSON.parse(str);
-      } catch (err) {
-        if (this.parseError) {
-          this.parseError('Invalid JSON', {
-            loc: {
-              first_line: 1,
-              first_column: 1,
-              last_line: 1,
-              last_column: 1,
-            },
-          });
-        }
-      }
-    },
-  },
-};
 
 @Component({
   selector: 'app-environment-manager',

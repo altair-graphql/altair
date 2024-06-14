@@ -69,7 +69,7 @@ export class WindowService {
 
         const newWindow = {
           windowId: uuid(),
-          title: opts.title || `Window ${Object.keys(state.windows).length + 1}`,
+          title: opts.title ?? `Window ${Object.keys(state.windows).length + 1}`,
           url,
           collectionId: opts.collectionId,
           windowIdInCollection: opts.windowIdInCollection,
@@ -113,7 +113,7 @@ export class WindowService {
       const windowData: ExportWindowState = {
         version: 1,
         type: 'window',
-        query: clonedWindow.query.query || '',
+        query: clonedWindow.query.query ?? '',
         apiUrl: clonedWindow.query.url,
         variables: clonedWindow.variables.variables,
         subscriptionUrl: clonedWindow.query.subscriptionUrl,
@@ -145,7 +145,7 @@ export class WindowService {
         return {
           version: 1 as const,
           type: 'window' as const,
-          query: clonedWindow.query.query || '',
+          query: clonedWindow.query.query ?? '',
           apiUrl: clonedWindow.query.url,
           variables: clonedWindow.variables.variables,
           subscriptionUrl: clonedWindow.query.subscriptionUrl,
@@ -506,10 +506,6 @@ export class WindowService {
         }
       });
 
-    this.store.dispatch(
-      new queryActions.SetSubscriptionResponseListAction(windowId, { list: [] })
-    );
-    this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
 
@@ -525,27 +521,12 @@ export class WindowService {
           );
         }
       });
-
-    // Re-format the response as string if it is an object
-    this.getWindowState(windowId)
-      .pipe(take(1))
-      .subscribe((window) => {
-        if (window?.query.response && typeof window.query.response !== 'string') {
-          this.store.dispatch(
-            new queryActions.SetQueryResultAction(
-              JSON.stringify(window.query.response, null, 2),
-              windowId
-            )
-          );
-        }
-      });
   }
 
   private getWindowState(windowId: string) {
     return this.store.pipe(select(fromRoot.selectWindowState(windowId)));
   }
   private cleanupWindow(windowId: string) {
-    this.store.dispatch(new queryActions.StopSubscriptionAction(windowId));
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
   }
 }

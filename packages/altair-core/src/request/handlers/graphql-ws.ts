@@ -1,35 +1,50 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import {
   GraphQLRequestHandler,
   GraphQLRequestOptions,
   GraphQLResponseData,
 } from '../types';
-import { Client, createClient } from 'graphql-sse';
+import { Client, createClient } from 'graphql-ws';
 
-export class SSERequestHandler implements GraphQLRequestHandler {
+export class GraphQLWsRequestHandler implements GraphQLRequestHandler {
   client?: Client;
   cleanup?: () => void;
+  onConnected(
+    subscriber: Subscriber<GraphQLResponseData>,
+    error: unknown,
+    data: unknown
+  ) {
+    if (error) {
+      console.log('Subscription connection error', error);
+      subscriber.error(error);
+      return;
+    }
+    console.log('Connected subscription.');
+  }
 
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData> {
-    this.client = createClient({
-      url: request.url,
-      credentials: request.withCredentials ? 'include' : 'same-origin',
-      headers: request.headers?.reduce(
-        (acc, { key, value }) => {
-          acc[key] = value;
-          return acc;
-        },
-        {} as Record<string, string>
-      ),
-    });
-
-    if (!this.client) {
-      throw new Error('Could not create SSE client!');
-    }
-
     return new Observable((subscriber) => {
+      this.client = createClient({
+        url: request.url,
+        connectionParams: request.additionalParams,
+        lazy: false,
+        onNonLazyError: (err) => {
+          subscriber.error(err);
+        },
+        on: {
+          error: (err) => {
+            subscriber.error(err);
+          },
+        },
+      });
+
+      if (!this.client) {
+        throw new Error('Could not create GraphQL WS client!');
+      }
+
       const requestStartTimestamp = Date.now();
-      this.cleanup = this.client!.subscribe(
+
+      this.cleanup = this.client.subscribe(
         {
           query: request.query,
           variables: request.variables,
@@ -62,7 +77,6 @@ export class SSERequestHandler implements GraphQLRequestHandler {
       };
     });
   }
-
   generateCurl(request: GraphQLRequestOptions): string {
     throw new Error('Method not implemented.');
   }
@@ -71,9 +85,11 @@ export class SSERequestHandler implements GraphQLRequestHandler {
     try {
       this.cleanup?.();
       this.cleanup = undefined;
+      // This causes the 'Error: Uncaught (in promise): Event: {"isTrusted":true}' error
       await this.client?.dispose();
       this.client = undefined;
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }

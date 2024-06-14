@@ -250,7 +250,7 @@ describe('GqlService', () => {
           .pipe(take(1))
           .toPromise();
 
-        expect(res.response.body).toEqual({
+        expect(res?.body).toEqual({
           data: 'introspection data',
         });
       }
@@ -295,7 +295,7 @@ describe('GqlService', () => {
           .pipe(take(1))
           .toPromise();
 
-        expect(res.response.body).toEqual({
+        expect(res?.body).toEqual({
           data: 'second introspection data',
         });
       }

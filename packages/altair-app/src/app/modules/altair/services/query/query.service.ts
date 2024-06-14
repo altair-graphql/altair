@@ -16,6 +16,11 @@ import {
   ScriptTranformResult,
   SendRequestResponse,
 } from 'altair-graphql-core/build/script/types';
+import {
+  HTTP_HANDLER_ID,
+  WEBSOCKET_HANDLER_ID,
+} from 'altair-graphql-core/build/request/types';
+import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +32,7 @@ export class QueryService {
     private preRequestService: PreRequestService,
     private gqlService: GqlService,
     private collectionService: QueryCollectionService,
+    private requestHandlerRegistryService: RequestHandlerRegistryService,
     private store: Store<RootState>
   ) {}
 
@@ -277,6 +283,9 @@ export class QueryService {
     let subscriptionConnectionParams = this.environmentService.hydrate(
       window.query.subscriptionConnectionParams
     );
+    let requestHandlerAdditionalParams = this.environmentService.hydrate(
+      window.query.requestHandlerAdditionalParams ?? ''
+    );
     const combinedHeaders = [
       ...window.headers,
       ...(transformResult?.additionalHeaders ?? []),
@@ -312,6 +321,12 @@ export class QueryService {
           activeEnvironment,
         }
       );
+      requestHandlerAdditionalParams = this.environmentService.hydrate(
+        window.query.requestHandlerAdditionalParams ?? '',
+        {
+          activeEnvironment,
+        }
+      );
       headers = this.environmentService.hydrateHeaders(combinedHeaders, {
         activeEnvironment,
       });
@@ -325,7 +340,31 @@ export class QueryService {
       extensions,
       headers,
       subscriptionConnectionParams,
+      requestHandlerAdditionalParams,
     };
+  }
+
+  private getRequestHandlerId(window: PerWindowState, isSubscription: boolean) {
+    const defaultRequestHandlerId = window.query.requestHandlerId ?? HTTP_HANDLER_ID;
+
+    if (isSubscription) {
+      if (!window.query.subscriptionUseDefaultRequestHandler) {
+        return (
+          window.query.subscriptionRequestHandlerId ??
+          window.query.subscriptionProviderId ??
+          WEBSOCKET_HANDLER_ID
+        );
+      }
+    }
+
+    return defaultRequestHandlerId;
+  }
+  async getRequestHandler(window: PerWindowState, isSubscription: boolean) {
+    const requestHandlerId = this.getRequestHandlerId(window, isSubscription);
+
+    debug.log('Request handler id', requestHandlerId);
+    const data = this.requestHandlerRegistryService.getHandlerData(requestHandlerId);
+    return data.getHandler();
   }
 
   private async getWindowParentCollections(window: PerWindowState) {

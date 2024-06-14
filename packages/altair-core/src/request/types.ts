@@ -17,6 +17,7 @@ export interface GraphQLRequestOptions {
   files?: ResolvedFileVariable[];
   selectedOperation?: SelectedOperation;
   batchedRequest?: boolean;
+  additionalParams?: Record<string, unknown>;
 }
 export interface GraphQLResponseData {
   ok: boolean;
@@ -44,6 +45,7 @@ export interface GraphQLResponseData {
 
 export interface GraphQLRequestHandler {
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData>;
+  generateCurl(request: GraphQLRequestOptions): string;
   destroy?(): void;
 }
 
@@ -67,4 +69,40 @@ export enum MultiResponseStrategy {
    * Patch the responses together following the GraphQL spec
    */
   PATCH = 'patch',
+}
+
+export const HTTP_HANDLER_ID = 'http';
+export const WEBSOCKET_HANDLER_ID = 'websocket';
+export const GRAPHQL_WS_HANDLER_ID = 'graphql-ws';
+export const APP_SYNC_HANDLER_ID = 'app-sync';
+export const ACTION_CABLE_HANDLER_ID = 'action-cable';
+export const GRAPHQL_SSE_HANDLER_ID = 'graphql-sse';
+
+export const REQUEST_HANDLER_IDS = {
+  HTTP: HTTP_HANDLER_ID,
+  WEBSOCKET: WEBSOCKET_HANDLER_ID,
+  GRAPHQL_WS: GRAPHQL_WS_HANDLER_ID,
+  APP_SYNC: APP_SYNC_HANDLER_ID,
+  ACTION_CABLE: ACTION_CABLE_HANDLER_ID,
+  GRAPHQL_SSE: GRAPHQL_SSE_HANDLER_ID,
+} as const;
+
+export type RequestHandlerIds =
+  (typeof REQUEST_HANDLER_IDS)[keyof typeof REQUEST_HANDLER_IDS];
+
+export interface RequestHandlerData {
+  /**
+   * Unique identifier for the handler
+   */
+  id: string;
+
+  /**
+   * Function that returns a promise that resolves with the handler class (NOT an instance of the class)
+   */
+  getHandler: () => Promise<GraphQLRequestHandler>;
+
+  /**
+   * The text to be shown for this handler in the Altair UI
+   */
+  copyTag?: string;
 }

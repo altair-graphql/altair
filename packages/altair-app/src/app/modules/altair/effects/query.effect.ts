@@ -1,4 +1,4 @@
-import { of as observableOf, EMPTY, of, from, combineLatest } from 'rxjs';
+import { of as observableOf, EMPTY, of, from, combineLatest, forkJoin } from 'rxjs';
 
 import {
   catchError,
@@ -22,7 +22,6 @@ import {
   DonationService,
   ElectronAppService,
   EnvironmentService,
-  SubscriptionProviderRegistryService,
   QueryService,
   ApiService,
 } from '../services';
@@ -60,6 +59,7 @@ import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 import { RequestType } from 'altair-graphql-core/build/script/types';
 import { QueryResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { buildResponse } from 'altair-graphql-core/build/request/response-builder';
+import { HTTP_HANDLER_ID } from 'altair-graphql-core/build/request/types';
 
 function notNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x !== null && x !== undefined;
@@ -117,21 +117,42 @@ export class QueryEffects {
         }),
         filter(notNullOrUndefined),
         mergeMap((response) => {
-          return from(
-            this.queryService.getPrerequestTransformedData(response.windowId)
-          ).pipe(map((transformedData) => ({ response, transformedData })));
+          return forkJoin({
+            response: of(response),
+            transformedData: from(
+              this.queryService.getPrerequestTransformedData(response.windowId)
+            ),
+            // TODO: Check query under the cursor for isSubscriptionQuery
+            handler: from(
+              this.queryService.getRequestHandler(
+                response.data,
+                this.gqlService.isSubscriptionQuery(response.data.query.query ?? '')
+              )
+            ),
+          });
         }),
         mergeMap((returnedData) => {
           return observableOf(returnedData).pipe(
             mergeMap((_returnedData) => {
-              const { response, transformedData } = _returnedData;
+              const { response, transformedData, handler } = _returnedData;
 
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
-              const { url, variables, headers, extensions, query } =
-                this.queryService.hydrateAllHydratables(
-                  response.data,
-                  transformedData
-                );
+              const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
+                response.data.query.query ?? ''
+              );
+              const {
+                url,
+                variables,
+                headers,
+                extensions,
+                query,
+                subscriptionUrl,
+                subscriptionConnectionParams,
+                requestHandlerAdditionalParams,
+              } = this.queryService.hydrateAllHydratables(
+                response.data,
+                transformedData
+              );
 
               // If the URL is not set or is invalid, just return
               if (!url || !isValidUrl(url)) {
@@ -214,35 +235,37 @@ export class QueryEffects {
               );
 
               // If the query is a subscription, subscribe to the subscription URL and send the query
-              if (this.gqlService.isSubscriptionQuery(query)) {
+              if (isSubscriptionQuery) {
                 debug.log('Your query is a SUBSCRIPTION!!!');
                 // If the subscription URL is not set, show the dialog for the user to set it
                 if (!response.data.query.subscriptionUrl) {
                   this.store.dispatch(
-                    new dialogsActions.ToggleSubscriptionUrlDialogAction(
-                      response.windowId
+                    new dialogsActions.ToggleRequestHandlerDialogAction(
+                      response.windowId,
+                      { value: true }
                     )
                   );
-                } else {
-                  this.store.dispatch(
-                    new queryActions.StartSubscriptionAction(response.windowId)
-                  );
+                  return EMPTY;
                 }
-                return EMPTY;
               }
 
               this.store.dispatch(
                 new layoutActions.StartLoadingAction(response.windowId)
               );
+              this.store.dispatch(
+                new queryActions.SetIsSubscribedAction(response.windowId, {
+                  isSubscribed: isSubscriptionQuery,
+                })
+              );
 
               let requestStatusCode = 0;
               let requestStatusText = '';
-              const responses: string[] = [];
+              const responses: QueryResponse[] = [];
 
               debug.log('Sending..');
               return this.gqlService
                 .sendRequestV2({
-                  url,
+                  url: isSubscriptionQuery ? subscriptionUrl ?? url : url,
                   query,
                   variables,
                   extensions,
@@ -255,6 +278,10 @@ export class QueryEffects {
                   batchedRequest:
                     response.data.query.selectedOperation ===
                     BATCHED_REQUESTS_OPERATION,
+                  handler,
+                  additionalParams: isSubscriptionQuery
+                    ? subscriptionConnectionParams
+                    : requestHandlerAdditionalParams,
                 })
                 .pipe(
                   switchMap((res) => {
@@ -299,7 +326,10 @@ export class QueryEffects {
                         ? parsedResponseBody
                         : JSON.stringify(parsedResponseBody, null, 2);
 
-                    responses.push(responseContent);
+                    responses.push({
+                      content: responseContent,
+                      timestamp: result?.data.requestEndTime ?? Date.now(),
+                    });
 
                     const builtResponse = buildResponse(
                       responses,
@@ -307,21 +337,10 @@ export class QueryEffects {
                     );
                     this.store.dispatch(
                       new queryActions.SetQueryResponsesAction(response.windowId, {
-                        responses: builtResponse.map((r) => ({
-                          content: r,
-                          timestamp: result?.data.requestEndTime ?? Date.now(),
-                        })),
+                        responses: builtResponse,
                       })
                     );
 
-                    // Setting the last response as the result
-                    // TODO: Remove this and use the responses array instead
-                    this.store.dispatch(
-                      new queryActions.SetQueryResultAction(
-                        builtResponse[builtResponse.length - 1] ?? '',
-                        response.windowId
-                      )
-                    );
                     this.store.dispatch(
                       new queryActions.AppendRequestScriptLogsAction(
                         response.windowId,
@@ -360,10 +379,14 @@ export class QueryEffects {
                     }
 
                     this.store.dispatch(
-                      new queryActions.SetQueryResultAction(
-                        output,
-                        response.windowId
-                      )
+                      new queryActions.SetQueryResponsesAction(response.windowId, {
+                        responses: [
+                          {
+                            content: output,
+                            timestamp: Date.now(),
+                          },
+                        ],
+                      })
                     );
                     return of(null);
                   }),
@@ -527,9 +550,14 @@ export class QueryEffects {
           return combineLatest([
             of(response),
             from(this.queryService.getPrerequestTransformedData(response.windowId)),
+            from(
+              response.data
+                ? this.queryService.getRequestHandler(response.data, false)
+                : EMPTY
+            ),
           ]).pipe(
-            map(([response, transformedData]) => {
-              return { response, transformedData };
+            map(([response, transformedData, handler]) => {
+              return { response, transformedData, handler };
             })
           );
         }),
@@ -537,15 +565,16 @@ export class QueryEffects {
           if (!res) {
             return EMPTY;
           }
-          const { response, transformedData } = res;
+          const { response, transformedData, handler } = res;
+          if (!handler) {
+            return EMPTY;
+          }
           if (!response.data) {
             return EMPTY;
           }
 
-          const { url, headers } = this.queryService.hydrateAllHydratables(
-            response.data,
-            transformedData
-          );
+          const { url, headers, requestHandlerAdditionalParams } =
+            this.queryService.hydrateAllHydratables(response.data, transformedData);
 
           if (!url) {
             return EMPTY;
@@ -562,6 +591,8 @@ export class QueryEffects {
               variables: '{}',
               extensions: '',
               withCredentials: response.state.settings['request.withCredentials'],
+              handler,
+              additionalParams: requestHandlerAdditionalParams,
             })
             .pipe(
               switchMap((introspectionResponse) => {
@@ -752,7 +783,9 @@ export class QueryEffects {
         ),
         switchMap((res) => {
           this.store.dispatch(
-            new queryActions.SetQueryResultAction('', res.windowId)
+            new queryActions.SetQueryResponsesAction(res.windowId, {
+              responses: [],
+            })
           );
           this.store.dispatch(
             new queryActions.SetQueryResultResponseHeadersAction(res.windowId, {})
@@ -792,277 +825,6 @@ export class QueryEffects {
     { dispatch: false }
   );
 
-  startSubscription$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(queryActions.START_SUBSCRIPTION),
-      withLatestFrom(
-        this.store,
-        (action: queryActions.StartSubscriptionAction, state: RootState) => {
-          return {
-            state,
-            data: state.windows[action.windowId],
-            windowId: action.windowId,
-            action,
-          };
-        }
-      ),
-      switchMap((response) => {
-        return combineLatest([
-          of(response),
-          from(this.queryService.getPrerequestTransformedData(response.windowId)),
-        ]).pipe(
-          map(([response, transformedData]) => {
-            return { response, transformedData };
-          })
-        );
-      }),
-      switchMap((res) => {
-        if (!res) {
-          return EMPTY;
-        }
-        const { response, transformedData } = res;
-        if (!response.data) {
-          return EMPTY;
-        }
-        const {
-          subscriptionUrl,
-          query,
-          variables,
-          headers,
-          subscriptionConnectionParams,
-        } = this.queryService.hydrateAllHydratables(response.data, transformedData);
-        let connectionParams: IDictionary = {};
-        let variablesObj: IDictionary = {};
-        let selectedOperation = response.data.query.selectedOperation;
-
-        // For electron app, send the instruction to set headers
-        this.electronAppService.setHeaders(headers);
-
-        const subscriptionErrorHandler = (err: unknown, errMsg?: string) => {
-          if (Array.isArray(err)) {
-            err = err[0];
-          }
-
-          if (err instanceof Error) {
-            errMsg = errMsg || err?.message || err?.stack;
-          }
-          if (!errMsg) {
-            if (err instanceof Event && err.type === 'error') {
-              if (err.target && err.target instanceof WebSocket) {
-                errMsg = 'Unknown websocket error event';
-              } else {
-                errMsg = 'Unknown error event';
-              }
-            }
-          }
-
-          this.notifyService.error(
-            [
-              'Check that your subscription endpoint, connection params are correct. Check that the subscription endpoint is working properly.',
-            ].join('<br><br>'),
-            'Subscription error'
-          );
-          this.store.dispatch(
-            new queryActions.StopSubscriptionAction(response.windowId)
-          );
-          return EMPTY;
-        };
-
-        try {
-          if (variables) {
-            variablesObj = JSON.parse(variables);
-          }
-        } catch (err) {
-          return subscriptionErrorHandler(
-            err,
-            'Your variables is not a valid JSON object.'
-          );
-        }
-
-        try {
-          const queryEditorIsFocused =
-            response.data.query.queryEditorState &&
-            response.data.query.queryEditorState.isFocused;
-          const operationData = this.gqlService.getSelectedOperationData({
-            query,
-            selectedOperation,
-            queryCursorIndex: queryEditorIsFocused
-              ? response.data.query.queryEditorState.cursorIndex
-              : undefined,
-            selectIfOneOperation: true,
-          });
-
-          this.store.dispatch(
-            new queryActions.SetQueryOperationsAction(response.windowId, {
-              operations: operationData.operations,
-            })
-          );
-          selectedOperation = operationData.selectedOperation;
-        } catch (err) {
-          this.store.dispatch(
-            new queryActions.SetSelectedOperationAction(response.windowId, {
-              selectedOperation: '',
-            })
-          );
-          debug.error(err);
-          this.notifyService.errorWithError(err, `Could not select operation.`);
-          return EMPTY;
-        }
-
-        try {
-          // Stop any currently active subscription
-          if (response.data.query.subscriptionClient?.close) {
-            try {
-              response.data.query.subscriptionClient.close();
-            } catch (err) {
-              debug.log('error closing subscription client', err);
-            }
-          }
-
-          try {
-            connectionParams = subscriptionConnectionParams
-              ? JSON.parse(subscriptionConnectionParams)
-              : {};
-          } catch (err) {
-            this.store.dispatch(
-              new dialogsActions.ToggleSubscriptionUrlDialogAction(response.windowId)
-            );
-            return subscriptionErrorHandler(
-              err,
-              'Your connection parameters is not a valid JSON object.'
-            );
-          }
-
-          const subscriptionProviderId =
-            response.data.query.subscriptionProviderId ?? WEBSOCKET_PROVIDER_ID;
-          const { getProviderClass } =
-            this.subscriptionProviderRegistryService.getProviderData(
-              subscriptionProviderId
-            );
-
-          return from(getProviderClass()).pipe(
-            switchMap((SubscriptionProviderClass) => {
-              let subscriptionProvider: SubscriptionProvider;
-              try {
-                subscriptionProvider = new SubscriptionProviderClass(
-                  subscriptionUrl,
-                  connectionParams,
-                  {
-                    onConnected: (error) => {
-                      if (error) {
-                        debug.log('Subscription connection error', error);
-                        return subscriptionErrorHandler(error);
-                      }
-                      debug.log('Connected subscription.');
-                    },
-                    headers: headerListToMap(headers),
-                  }
-                );
-
-                subscriptionProvider
-                  .execute({
-                    query,
-                    variables: variablesObj,
-                    operationName: selectedOperation || undefined,
-                  })
-                  .subscribe({
-                    next: (data) => {
-                      let strData = '';
-                      try {
-                        strData = JSON.stringify(data);
-                      } catch (err) {
-                        debug.error('Invalid subscription response format.');
-                        strData = 'ERROR: Invalid subscription response format.';
-                      }
-
-                      this.store.dispatch(
-                        new queryActions.AddSubscriptionResponseAction(
-                          response.windowId,
-                          {
-                            response: strData,
-                            responseObj: data,
-                            responseTime: new Date().getTime(), // store responseTime in ms
-                          }
-                        )
-                      );
-
-                      // Send notification in electron app
-                      this.notifyService.pushNotify(
-                        strData,
-                        response.data?.layout.title,
-                        {
-                          onclick: () => {
-                            this.store.dispatch(
-                              new windowsMetaActions.SetActiveWindowIdAction({
-                                windowId: response.windowId,
-                              })
-                            );
-                          },
-                        }
-                      );
-
-                      debug.log(data);
-                    },
-                    error: (err) => {
-                      // Stop the subscription if this happens.
-                      debug.log('Err', err);
-                      return subscriptionErrorHandler(err);
-                    },
-                    complete: () => {
-                      // Not yet sure what needs to be done here.
-                      debug.log('Subscription complete.');
-                    },
-                  });
-              } catch (error) {
-                return subscriptionErrorHandler(error);
-              }
-
-              return observableOf(
-                new queryActions.SetSubscriptionClientAction(response.windowId, {
-                  subscriptionClient: subscriptionProvider,
-                })
-              );
-            })
-          );
-        } catch (err) {
-          debug.error('An error occurred starting the subscription.', err);
-          return subscriptionErrorHandler(err);
-        }
-      })
-    );
-  });
-
-  stopSubscription$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(queryActions.STOP_SUBSCRIPTION),
-      withLatestFrom(
-        this.store,
-        (action: queryActions.StopSubscriptionAction, state) => {
-          return {
-            data: state.windows[action.windowId],
-            windowId: action.windowId,
-            action,
-          };
-        }
-      ),
-      switchMap((res) => {
-        if (res.data?.query.subscriptionClient?.close) {
-          try {
-            res.data.query.subscriptionClient.close();
-          } catch (err) {
-            debug.log('error closing subscription client', err);
-          }
-        }
-
-        return observableOf(
-          new queryActions.SetSubscriptionClientAction(res.windowId, {
-            subscriptionClient: undefined,
-          })
-        );
-      })
-    );
-  });
-
   prettifyQuery$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -1080,7 +842,7 @@ export class QueryEffects {
         ),
         switchMap((res) => {
           this.gqlService
-            .prettify(res.data?.query.query || '', res.settings.tabSize)
+            .prettify(res.data?.query.query ?? '', res.settings.tabSize)
             .then((prettified) => {
               if (prettified) {
                 return this.store.dispatch(
@@ -1090,7 +852,6 @@ export class QueryEffects {
             })
             .catch((error) => {
               debug.log(error);
-              const errorMessage = error.message ? error.message : error.toString();
               this.notifyService.errorWithError(
                 error,
                 `Your query does not appear to be valid. Please check it`
@@ -1633,7 +1394,6 @@ export class QueryEffects {
     private electronAppService: ElectronAppService,
     private environmentService: EnvironmentService,
     private queryService: QueryService,
-    private subscriptionProviderRegistryService: SubscriptionProviderRegistryService,
     private apiService: ApiService,
     private store: Store<RootState>
   ) {}

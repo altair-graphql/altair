@@ -35,6 +35,8 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
           'initialSettings',
           'initialSubscriptionsProvider',
           'initialSubscriptionsPayload',
+          'initialRequestHandlerId',
+          'initialRequestHandlerAdditionalParams',
           'preserveState',
           'initialHttpMethod',
           'initialWindows',

@@ -66,7 +66,9 @@ interface SendRequestOptions {
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;
+  additionalParams: string;
   batchedRequest?: boolean;
+  handler?: GraphQLRequestHandler;
 }
 
 export const BATCHED_REQUESTS_OPERATION = 'BatchedRequests';
@@ -180,7 +182,7 @@ export class GqlService {
   }
 
   getIntrospectionRequest(opts: IntrospectionRequestOptions) {
-    const requestOpts: SendRequestOptions = {
+    const requestOpts: SendRequestOptions & { handler?: GraphQLRequestHandler } = {
       url: opts.url,
       query: getIntrospectionQuery(),
       headers: opts.headers,
@@ -189,6 +191,8 @@ export class GqlService {
       variables: opts.variables,
       extensions: opts.extensions,
       selectedOperation: 'IntrospectionQuery',
+      additionalParams: opts.additionalParams,
+      handler: opts.handler,
     };
     return this.sendRequestV2(requestOpts).pipe(
       map((data) => {
@@ -756,13 +760,12 @@ export class GqlService {
     files,
     withCredentials,
     batchedRequest,
+    additionalParams,
+    handler = new HttpRequestHandler(),
   }: SendRequestOptions): Observable<SendRequestResponse> {
     // wrapping rhe logic to properly handle any errors (both within and outside the observable)
     return of(undefined).pipe(
       switchMap(() => {
-        // get request handler
-        const handler: GraphQLRequestHandler = new HttpRequestHandler();
-
         const { resolvedFiles } = this.normalizeFiles(files);
 
         if (headers?.length) {
@@ -812,6 +815,9 @@ export class GqlService {
             files: resolvedFiles,
             withCredentials,
             batchedRequest,
+            additionalParams: additionalParams
+              ? parseJson(additionalParams, {})
+              : undefined,
           })
           .pipe(
             map((response) => {

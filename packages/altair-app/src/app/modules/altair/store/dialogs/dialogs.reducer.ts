@@ -6,7 +6,7 @@ export const getInitialState = (): DialogState => {
   return {
     showHeaderDialog: false,
     showVariableDialog: false,
-    showSubscriptionUrlDialog: false,
+    showRequestHandlerDialog: false,
     showHistoryDialog: false,
     showPreRequestDialog: false,
     showRequestExtensionsDialog: false,
@@ -26,10 +26,6 @@ export function dialogReducer(
       return Object.assign({}, state, {
         showVariableDialog: !state.showVariableDialog,
       });
-    case dialogs.TOGGLE_SUBSCRIPTION_URL_DIALOG:
-      return Object.assign({}, state, {
-        showSubscriptionUrlDialog: !state.showSubscriptionUrlDialog,
-      });
     case dialogs.TOGGLE_HISTORY_DIALOG:
       return { ...state, showHistoryDialog: !state.showHistoryDialog };
     case dialogs.TOGGLE_PRE_REQUEST_DIALOG:
@@ -38,6 +34,11 @@ export function dialogReducer(
       return {
         ...state,
         showRequestExtensionsDialog: action.payload.value,
+      };
+    case dialogs.TOGGLE_REQUEST_HANDLER_DIALOG:
+      return {
+        ...state,
+        showRequestHandlerDialog: action.payload.value,
       };
     default:
       return state;

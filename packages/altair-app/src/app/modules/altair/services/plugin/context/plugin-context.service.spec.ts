@@ -10,9 +10,9 @@ import * as windowsMetaReducer from '../../../store/windows-meta/windows-meta.re
 import { WindowService } from '../../../services/window.service';
 import { PluginEventService } from '../plugin-event.service';
 import { NotifyService } from '../../../services/notify/notify.service';
-import { SubscriptionProviderRegistryService } from '../../subscriptions/subscription-provider-registry.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AltairV1Plugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { RequestHandlerRegistryService } from '../../request/request-handler-registry.service';
 
 const createContext = () => {
   const service: PluginContextService = TestBed.inject(PluginContextService);
@@ -69,7 +69,7 @@ describe('PluginContextService', () => {
             }),
         },
         {
-          provide: SubscriptionProviderRegistryService,
+          provide: RequestHandlerRegistryService,
           useFactory: () => mock(),
         },
       ],

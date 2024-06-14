@@ -31,8 +31,8 @@ import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import {
   GqlService,
   NotifyService,
+  RequestHandlerRegistryService,
   WindowService,
-  SubscriptionProviderRegistryService,
 } from '../../services';
 import { Observable, EMPTY, combineLatest, of, BehaviorSubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -45,6 +45,7 @@ import {
   QueryEditorState,
   QueryResponse,
   QueryState,
+  RequestHandlerInfo,
   SelectedOperation,
   SubscriptionResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
@@ -67,6 +68,7 @@ import {
   AuthorizationState,
   AuthorizationTypes,
 } from 'altair-graphql-core/build/types/state/authorization.interface';
+import { RequestHandlerIds } from 'altair-graphql-core/build/request/types';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -76,7 +78,6 @@ import {
 })
 export class WindowComponent implements OnInit {
   query$: Observable<QueryState>;
-  queryResult$: Observable<any>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
   docsIsLoading$: Observable<boolean>;
@@ -90,7 +91,6 @@ export class WindowComponent implements OnInit {
   responseStatusText$: Observable<string>;
   responseHeaders$: Observable<IDictionary | undefined>;
   isSubscribed$: Observable<boolean>;
-  subscriptionResponses$: Observable<SubscriptionResponse[]>;
   queryResponses$: Observable<QueryResponse[]>;
   requestScriptLogs$: Observable<LogLine[]>;
   selectedOperation$?: Observable<SelectedOperation>;
@@ -108,7 +108,7 @@ export class WindowComponent implements OnInit {
   disableLineNumbers$: Observable<boolean | undefined>;
   enableExperimental$: Observable<boolean | undefined>;
   betaDisableNewEditor$: Observable<boolean | undefined>;
-  autoscrollSubscriptionResponses$: Observable<boolean>;
+  autoscrollResponseList$: Observable<boolean>;
 
   collections$: Observable<IQueryCollection[]>;
 
@@ -141,7 +141,7 @@ export class WindowComponent implements OnInit {
 
   showHeaderDialog = false;
   showVariableDialog = false;
-  showSubscriptionUrlDialog = false;
+  showRequestHandlerDialog = false;
   showHistoryDialog = false;
   showPreRequestDialog = true;
 
@@ -149,9 +149,8 @@ export class WindowComponent implements OnInit {
 
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
-  availableSubscriptionProviders$ =
-    this.subscriptionProviderRegistry.getAllProviderData$();
-  selectedSubscriptionProviderId = '';
+  availableRequestHandlers$ = this.requestHandlerRegistry.getAllHandlerData$();
+  selectedSubscriptionRequestHandlerId: RequestHandlerIds = WEBSOCKET_PROVIDER_ID;
 
   historyList: History[] = [];
 
@@ -160,7 +159,7 @@ export class WindowComponent implements OnInit {
     private notifyService: NotifyService,
     private store: Store<RootState>,
     private windowService: WindowService,
-    private subscriptionProviderRegistry: SubscriptionProviderRegistryService
+    private requestHandlerRegistry: RequestHandlerRegistryService
   ) {
     this.addQueryDepthLimit$ = this.store.pipe(
       select((state) => state.settings.addQueryDepthLimit)
@@ -181,9 +180,9 @@ export class WindowComponent implements OnInit {
     );
 
     this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
-    this.queryResult$ = this.getWindowState().pipe(select(fromRoot.getQueryResult));
     this.queryResponses$ = this.getWindowState().pipe(
-      select(fromRoot.getQueryResponses)
+      select(fromRoot.getQueryResponses),
+      distinctUntilChanged()
     );
     this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
     this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
@@ -214,14 +213,11 @@ export class WindowComponent implements OnInit {
       select(fromRoot.getResponseHeaders)
     );
     this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
-    this.subscriptionResponses$ = this.getWindowState().pipe(
-      select(fromRoot.getSubscriptionResponses)
-    );
     this.requestScriptLogs$ = this.getWindowState().pipe(
       select(fromRoot.getRequestScriptLogs)
     );
-    this.autoscrollSubscriptionResponses$ = this.getWindowState().pipe(
-      select(fromRoot.getAutoscrollSubscriptionResponse)
+    this.autoscrollResponseList$ = this.getWindowState().pipe(
+      select(fromRoot.getAutoscrollResponseList)
     );
     this.selectedOperation$ = this.getWindowState().pipe(
       select(fromRoot.getSelectedOperation)
@@ -303,15 +299,15 @@ export class WindowComponent implements OnInit {
         this.query = query;
         this.showHeaderDialog = data.dialogs.showHeaderDialog;
         this.showVariableDialog = data.dialogs.showVariableDialog;
-        this.showSubscriptionUrlDialog = data.dialogs.showSubscriptionUrlDialog;
+        this.showRequestHandlerDialog = data.dialogs.showRequestHandlerDialog;
         this.showHistoryDialog = data.dialogs.showHistoryDialog;
         this.showPreRequestDialog = data.dialogs.showPreRequestDialog;
 
         this.subscriptionUrl = data.query.subscriptionUrl;
         this.subscriptionConnectionParams =
           data.query.subscriptionConnectionParams || '';
-        this.selectedSubscriptionProviderId =
-          data.query.subscriptionProviderId ?? WEBSOCKET_PROVIDER_ID;
+        this.selectedSubscriptionRequestHandlerId =
+          data.query.subscriptionRequestHandlerId ?? WEBSOCKET_PROVIDER_ID;
         this.historyList = data.history.list;
 
         // Schema needs to be valid instances of GQLSchema.
@@ -376,25 +372,9 @@ export class WindowComponent implements OnInit {
     );
   }
 
-  startSubscription() {
-    this.store.dispatch(new queryActions.StartSubscriptionAction(this.windowId));
-  }
-
-  stopSubscription() {
-    this.store.dispatch(new queryActions.StopSubscriptionAction(this.windowId));
-  }
-
-  clearSubscription() {
-    this.store.dispatch(
-      new queryActions.SetSubscriptionResponseListAction(this.windowId, {
-        list: [],
-      })
-    );
-  }
-
   toggleAutoscrollSubscriptionResponses() {
     this.store.dispatch(
-      new queryActions.ToggleAutoscrollSubscriptionResponseAction(this.windowId)
+      new queryActions.ToggleAutoscrollResponseListAction(this.windowId)
     );
   }
 
@@ -418,12 +398,12 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  toggleSubscriptionUrlDialog(isOpen: boolean) {
-    if (this.showSubscriptionUrlDialog !== isOpen) {
-      this.store.dispatch(
-        new dialogsActions.ToggleSubscriptionUrlDialogAction(this.windowId)
-      );
-    }
+  toggleRequestHandlerDialog(isOpen: boolean) {
+    this.store.dispatch(
+      new dialogsActions.ToggleRequestHandlerDialogAction(this.windowId, {
+        value: isOpen,
+      })
+    );
   }
 
   toggleHistoryDialog(isOpen: boolean) {
@@ -589,26 +569,9 @@ export class WindowComponent implements OnInit {
     );
   }
 
-  updateSubscriptionUrl(url: string) {
+  upateRequestHandlerInfo(info: RequestHandlerInfo) {
     this.store.dispatch(
-      new queryActions.SetSubscriptionUrlAction(
-        { subscriptionUrl: url },
-        this.windowId
-      )
-    );
-  }
-  updateSubscriptionConnectionParams(connectionParams: string) {
-    this.store.dispatch(
-      new queryActions.SetSubscriptionConnectionParamsAction(this.windowId, {
-        connectionParams,
-      })
-    );
-  }
-  updateSubscriptionProviderId(providerId: string) {
-    this.store.dispatch(
-      new queryActions.SetSubscriptionProviderIdAction(this.windowId, {
-        providerId,
-      })
+      new queryActions.SetRequestHandlerInfoAction(this.windowId, info)
     );
   }
 
@@ -735,7 +698,7 @@ export class WindowComponent implements OnInit {
     );
   }
 
-  trackByIndex(index: number, s: any) {
+  trackByIndex(index: number, s: unknown) {
     return index;
   }
 
