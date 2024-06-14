@@ -39,7 +39,6 @@ import { CodemirrorComponent } from './codemirror/codemirror.component';
 import { ConfirmToastComponent } from './confirm-toast/confirm-toast.component';
 import { XInputComponent } from './x-input/x-input.component';
 import { BetaIndicatorComponent } from './beta-indicator/beta-indicator.component';
-import { LoaderComponent } from './loader/loader.component';
 import { TagComponent } from './tag/tag.component';
 import { TeamsDialogComponent } from './teams-dialog/teams-dialog.component';
 import { UpgradeDialogComponent } from './upgrade-dialog/upgrade-dialog.component';
@@ -86,7 +85,6 @@ const COMPONENTS = [
   ConfirmToastComponent,
   XInputComponent,
   BetaIndicatorComponent,
-  LoaderComponent,
   TagComponent,
   TeamsDialogComponent,
   QueryRevisionDialogComponent,
