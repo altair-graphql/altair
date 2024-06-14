@@ -4,9 +4,10 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  OnChanges,
   ElementRef,
-  SimpleChanges,
+  ViewChildren,
+  QueryList,
+  AfterViewInit,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -27,7 +28,7 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss'],
 })
-export class QueryResultComponent implements OnChanges {
+export class QueryResultComponent implements AfterViewInit {
   @Input() responseTime = 0;
   @Input() responseStatus = 0;
   @Input() responseStatusText = '';
@@ -51,8 +52,10 @@ export class QueryResultComponent implements OnChanges {
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
-  @ViewChild('queryResultList', { static: true })
+  @ViewChild('queryResultList', { static: false })
   queryResultList?: ElementRef;
+
+  @ViewChildren('queryResultItem') queryResultItems?: QueryList<unknown>;
 
   isElectron = isElectron;
 
@@ -65,16 +68,8 @@ export class QueryResultComponent implements OnChanges {
     EditorState.tabSize.of(this.tabSize),
   ];
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.activeWindowId === this.windowId) {
-      const scrollTopTimeout = setTimeout(() => {
-        if (this.queryResultList && this.autoscrollResponseList) {
-          this.queryResultList.nativeElement.scrollTop =
-            this.queryResultList.nativeElement.scrollHeight;
-        }
-        clearTimeout(scrollTopTimeout);
-      }, 50);
-    }
+  ngAfterViewInit(): void {
+    this.queryResultItems?.changes.subscribe(() => this.onItemElementsChanged());
   }
 
   togglePanelActive(panel: AltairPanel) {
@@ -83,5 +78,21 @@ export class QueryResultComponent implements OnChanges {
 
   trackById(index: number, item: TrackByIdItem) {
     return item.id;
+  }
+  private onItemElementsChanged(): void {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      if (this.queryResultList && this.autoscrollResponseList) {
+        const scrollTop = this.queryResultList.nativeElement.scrollHeight + 50;
+        this.queryResultList.nativeElement.scroll({
+          top: scrollTop,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, 50);
   }
 }

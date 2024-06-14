@@ -120,7 +120,7 @@
       <button
         class="app-button active-primary send-request__button"
         (click)="!isSubscribed && this.sendRequest.emit()"
-        [ngClass]="{ 'url-box__button--disabled': isSubscribed || isLoading }"
+        [ngClass]="{ 'url-box__button--disabled': isLoading }"
         track-id="set_request"
       >
         @if (isLoading) {
@@ -134,7 +134,7 @@
     @if (queryOperations.length > 1) {
       <button
         class="app-button active-primary send-request__button"
-        [ngClass]="{ 'url-box__button--disabled': isSubscribed }"
+        [ngClass]="{ 'url-box__button--disabled': isLoading }"
         track-id="send_request"
         nz-dropdown
         nzTrigger="click"

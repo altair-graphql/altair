@@ -609,8 +609,20 @@ app-query-result {
 }
 
 .new-query-result__none-inner {
+  position: relative;
   width: 400px;
   max-width: 90%;
+
+  app-tips {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    font-size: fontsize(12);
+    font-weight: normal;
+    margin-top: 10px;
+    opacity: 0.6;
+  }
 }
 
 .new-query-result__none-art-button {
