@@ -51,6 +51,7 @@ import { AuthorizationApikeyComponent } from './authorization/authorization-apik
 import { AuthorizationOauth2Component } from './authorization/authorization-oauth2/authorization-oauth2.component';
 import { RequestExtensionsDialogComponent } from './request-extensions-dialog/request-extensions-dialog.component';
 import { RequestHandlerDialogComponent } from './request-handler-dialog/request-handler-dialog.component';
+import { TipsComponent } from './tips/tips.component';
 
 // const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
@@ -92,6 +93,7 @@ const COMPONENTS = [
   UpgradeDialogComponent,
   RequestExtensionsDialogComponent,
   RequestHandlerDialogComponent,
+  TipsComponent,
   AuthorizationEditorComponent,
   AuthorizationApikeyComponent,
   AuthorizationBearerComponent,

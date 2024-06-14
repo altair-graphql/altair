@@ -1,0 +1,16 @@
+@if (currentTip) {
+  <div class="tips" [@fadeInOutAnimation]>
+    <div class="tips-inner">
+      <span class="tips-title">Tip:</span>
+      {{ currentTip.text }}
+      @if (currentTip.link) {
+        <div>
+          <a [href]="currentTip.link" target="_blank" rel="noopener">
+            <app-icon name="info"></app-icon>
+            {{ 'LEARN_MORE_TEXT' | translate }}
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+}

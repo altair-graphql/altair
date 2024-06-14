@@ -7,105 +7,113 @@
 >
   <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate">
     <div class="new-query-result-container">
-      <div class="new-query-result__top">
-        <div class="new-query-result__top-section">
-          <span
-            class="response-status-code new-response-stats__item"
-            [attr.data-status-code]="responseStatus"
-          >
-            {{ responseStatus }} {{ responseStatusText }}
-          </span>
-          <span class="response-time new-response-stats__item">
-            <app-icon name="clock"></app-icon> {{ responseTime }}ms
-          </span>
-          @if (isSubscribed && isRunning) {
-            <span class="new-query-result__uri">{{ subscriptionUrl }}</span>
-          }
-        </div>
-        <div class="new-query-result__top-section">
-          @if (isRunning && queryResponses.length > 1) {
-            <button
-              track-id="autoscroll"
-              class="btn btn--small btn--light"
-              [ngClass]="{ 'btn--primary': autoscrollResponseList }"
-              (click)="autoscrollResponseListChange.emit()"
-            >
-              <app-icon name="arrow-down-narrow-wide"></app-icon>
-              {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
-            </button>
-          }
-          <button
-            track-id="clear_result"
-            class="btn btn--small"
-            (click)="clearResultChange.emit()"
-          >
-            <app-icon name="trash-2"></app-icon>
-            {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
-          </button>
-
-          @if (isRunning) {
-            <button
-              class="btn btn--small btn--light btn--destructive"
-              (click)="cancelRequestChange.emit()"
-            >
-              <app-icon name="x"></app-icon>
-              {{ 'CANCEL_TEXT' | translate }}
-            </button>
-          }
-        </div>
-      </div>
-      <div class="new-query-result__list" #queryResultList>
-        @if (!queryResponses.length) {
-          <div class="new-query-result__none">
-            <div class="new-query-result__none-inner">
-              <div class="new-query-result__none-subtext">
-                {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
+      @if (!queryResponses.length) {
+        <div class="new-query-result__none">
+          <div class="new-query-result__none-inner">
+            <div class="new-query-result__none-subtext">
+              {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
+            </div>
+            <div class="new-query-result__none-art">
+              <div class="left">
+                <div class="new-query-result__none-art-button send"></div>
+                <div class="new-query-result__none-art-button"></div>
+                <div class="new-query-result__none-art-button"></div>
+                <div class="new-query-result__none-art-button"></div>
               </div>
-              <div class="new-query-result__none-art">
-                <div class="left">
-                  <div class="new-query-result__none-art-button send"></div>
-                  <div class="new-query-result__none-art-button"></div>
-                  <div class="new-query-result__none-art-button"></div>
-                  <div class="new-query-result__none-art-button"></div>
-                </div>
-                <div class="right">
-                  <div class="new-query-result__none-art-button"></div>
-                </div>
+              <div class="right">
+                <div class="new-query-result__none-art-button"></div>
               </div>
             </div>
+            <app-tips
+              [activeWindowId]="activeWindowId"
+              [windowId]="windowId"
+              [loading]="isRunning"
+            />
           </div>
-        }
-        @for (item of queryResponses; track $index) {
-          <div class="new-query-result__list-item">
-            <app-codemirror
-              [ngModel]="item.content"
-              [fullHeight]="true"
-              [extensions]="editorExtensions"
-            ></app-codemirror>
-            <div class="new-query-result__list-item-info">
-              {{ item.timestamp | date: 'mediumTime' }}
-            </div>
-            <div class="new-query-result__list-item-actions">
+        </div>
+      } @else {
+        <div class="new-query-result__top">
+          <div class="new-query-result__top-section">
+            <span
+              class="response-status-code new-response-stats__item"
+              [attr.data-status-code]="responseStatus"
+            >
+              {{ responseStatus }} {{ responseStatusText }}
+            </span>
+            <span class="response-time new-response-stats__item">
+              <app-icon name="clock"></app-icon> {{ responseTime }}ms
+            </span>
+            @if (isSubscribed && isRunning) {
+              <span class="new-query-result__uri">{{ subscriptionUrl }}</span>
+            }
+          </div>
+          <div class="new-query-result__top-section">
+            @if (isRunning && queryResponses.length > 1) {
               <button
-                track-id="download_result"
-                class="btn btn--small"
-                (click)="downloadResultChange.emit(item.content)"
+                track-id="autoscroll"
+                class="btn btn--small btn--light"
+                [ngClass]="{ 'btn--primary': autoscrollResponseList }"
+                (click)="autoscrollResponseListChange.emit()"
               >
-                <app-icon name="download"></app-icon>
-                {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
+                <app-icon name="arrow-down-narrow-wide"></app-icon>
+                {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
               </button>
-              @for (uiAction of uiActions; track uiAction) {
-                <button
-                  class="btn btn--small"
-                  (click)="uiActionExecuteChange.emit(uiAction)"
-                >
-                  {{ uiAction.title }}
-                </button>
-              }
-            </div>
+            }
+            @if (!isRunning && queryResponses.length) {
+              <button
+                track-id="clear_result"
+                class="btn btn--small"
+                (click)="clearResultChange.emit()"
+              >
+                <app-icon name="trash-2"></app-icon>
+                {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
+              </button>
+            }
+
+            @if (isRunning) {
+              <button
+                class="btn btn--small btn--light btn--destructive"
+                (click)="cancelRequestChange.emit()"
+              >
+                <app-icon name="x"></app-icon>
+                {{ 'CANCEL_TEXT' | translate }}
+              </button>
+            }
           </div>
-        }
-      </div>
+        </div>
+        <div class="new-query-result__list" #queryResultList>
+          @for (item of queryResponses; track $index) {
+            <div class="new-query-result__list-item" #queryResultItem>
+              <app-codemirror
+                [ngModel]="item.content"
+                [fullHeight]="true"
+                [extensions]="editorExtensions"
+              ></app-codemirror>
+              <div class="new-query-result__list-item-info">
+                {{ item.timestamp | date: 'mediumTime' }}
+              </div>
+              <div class="new-query-result__list-item-actions">
+                <button
+                  track-id="download_result"
+                  class="btn btn--small"
+                  (click)="downloadResultChange.emit(item.content)"
+                >
+                  <app-icon name="download"></app-icon>
+                  {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
+                </button>
+                @for (uiAction of uiActions; track uiAction) {
+                  <button
+                    class="btn btn--small"
+                    (click)="uiActionExecuteChange.emit(uiAction)"
+                  >
+                    {{ uiAction.title }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
     </div>
   </nz-tab>
   @if (requestScriptLogs.length) {

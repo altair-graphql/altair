@@ -341,6 +341,23 @@ export class QueryEffects {
                       })
                     );
 
+                    if (isSubscriptionQuery) {
+                      // Send notification in electron app
+                      this.notifyService.pushNotify(
+                        responseContent,
+                        response.data?.layout.title,
+                        {
+                          onclick: () => {
+                            this.store.dispatch(
+                              new windowsMetaActions.SetActiveWindowIdAction({
+                                windowId: response.windowId,
+                              })
+                            );
+                          },
+                        }
+                      );
+                    }
+
                     this.store.dispatch(
                       new queryActions.AppendRequestScriptLogsAction(
                         response.windowId,
