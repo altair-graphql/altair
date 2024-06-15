@@ -303,10 +303,10 @@ export class WindowService {
             })
           );
         }
-        if (data.subscriptionProvider) {
+        if (data.subscriptionRequestHandlerId) {
           this.store.dispatch(
-            new queryActions.SetSubscriptionProviderIdAction(windowId, {
-              providerId: data.subscriptionProvider,
+            new queryActions.SetSubscriptionRequestHandlerIdAction(windowId, {
+              handlerId: data.subscriptionRequestHandlerId,
             })
           );
         }

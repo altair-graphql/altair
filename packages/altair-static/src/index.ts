@@ -33,7 +33,7 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
           'initialEnvironments',
           'instanceStorageNamespace',
           'initialSettings',
-          'initialSubscriptionsProvider',
+          'initialSubscriptionRequestHandlerId',
           'initialSubscriptionsPayload',
           'initialRequestHandlerId',
           'initialRequestHandlerAdditionalParams',

@@ -375,7 +375,8 @@ export class AltairComponent {
               subscriptionConnectionParams: windowOption.initialSubscriptionsPayload
                 ? JSON.stringify(windowOption.initialSubscriptionsPayload)
                 : '',
-              subscriptionProvider: windowOption.initialSubscriptionsProvider,
+              subscriptionRequestHandlerId:
+                windowOption.initialSubscriptionRequestHandlerId,
             },
             {
               fixedTitle: true,

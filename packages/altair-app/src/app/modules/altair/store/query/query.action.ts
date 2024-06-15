@@ -1,5 +1,4 @@
 import { Action as NGRXAction } from '@ngrx/store';
-import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import {
   HttpVerb,
   LogLine,
@@ -10,6 +9,7 @@ import {
 import { OperationDefinitionNode } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
 import { QueryItemRevision } from '@altairgraphql/db';
+import { RequestHandlerIds } from 'altair-graphql-core/build/request/types';
 
 export const SET_URL = 'SET_URL';
 export const SET_URL_FROM_DB = 'SET_URL_FROM_DB';
@@ -40,7 +40,8 @@ export const SET_IS_SUBSCRIBED = 'SET_IS_SUBSCRIBED';
 export const SET_REQUEST_HANDLER_INFO = 'SET_REQUEST_HANDLER_INFO';
 export const SET_SUBSCRIPTION_CONNECTION_PARAMS =
   'SET_SUBSCRIPTION_CONNECTION_PARAMS';
-export const SET_SUBSCRIPTION_PROVIDER_ID = 'SET_SUBSCRIPTION_PROVIDER_ID';
+export const SET_SUBSCRIPTION_REQUEST_HANDLER_ID =
+  'SET_SUBSCRIPTION_REQUEST_HANDLER_ID';
 export const TOGGLE_AUTOSCROLL_RESPONSE_LIST =
   'TOGGLE_AUTOSCROLL_SUBSCRIPTION_RESPONSE';
 
@@ -237,12 +238,12 @@ export class SetSubscriptionConnectionParamsAction implements NGRXAction {
   ) {}
 }
 
-export class SetSubscriptionProviderIdAction implements NGRXAction {
-  readonly type = SET_SUBSCRIPTION_PROVIDER_ID;
+export class SetSubscriptionRequestHandlerIdAction implements NGRXAction {
+  readonly type = SET_SUBSCRIPTION_REQUEST_HANDLER_ID;
 
   constructor(
     public windowId: string,
-    public payload: { providerId: string }
+    public payload: { handlerId: RequestHandlerIds }
   ) {}
 }
 
@@ -344,7 +345,7 @@ export type Action =
   | SetIsSubscribedAction
   | SetRequestHandlerInfoAction
   | SetSubscriptionConnectionParamsAction
-  | SetSubscriptionProviderIdAction
+  | SetSubscriptionRequestHandlerIdAction
   | ToggleAutoscrollResponseListAction
   | SetResponseStatsAction
   | ClearResultAction

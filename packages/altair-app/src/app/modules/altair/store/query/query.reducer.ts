@@ -4,9 +4,11 @@ import * as query from '../../store/query/query.action';
 import { getFullUrl } from '../../utils';
 import { QueryState } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
-import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { AllActions } from '../action';
-import { HTTP_HANDLER_ID } from 'altair-graphql-core/build/request/types';
+import {
+  HTTP_HANDLER_ID,
+  WEBSOCKET_HANDLER_ID,
+} from 'altair-graphql-core/build/request/types';
 
 export const getInitialState = (): QueryState => {
   const { initialData } = getAltairConfig();
@@ -47,7 +49,7 @@ export const getInitialState = (): QueryState => {
       ? JSON.stringify(initialData.initialSubscriptionsPayload)
       : '{}',
     subscriptionProviderId:
-      initialData.initialSubscriptionsProvider ?? WEBSOCKET_PROVIDER_ID,
+      initialData.initialSubscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID,
     isSubscribed: false,
     autoscrollResponseList: false,
     queryEditorState: {
@@ -99,8 +101,8 @@ export function queryReducer(
         ...state,
         subscriptionConnectionParams: action.payload.connectionParams,
       };
-    case query.SET_SUBSCRIPTION_PROVIDER_ID:
-      return { ...state, subscriptionProviderId: action.payload.providerId };
+    case query.SET_SUBSCRIPTION_REQUEST_HANDLER_ID:
+      return { ...state, subscriptionRequestHandlerId: action.payload.handlerId };
     case query.TOGGLE_AUTOSCROLL_RESPONSE_LIST:
       return {
         ...state,

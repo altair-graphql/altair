@@ -4,6 +4,7 @@ import {
   GraphQLRequestOptions,
   GraphQLResponseData,
 } from '../types';
+import ActionCable from 'actioncable';
 
 export class ActionCableRequestHandler implements GraphQLRequestHandler {
   subscription?: any;

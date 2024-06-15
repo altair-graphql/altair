@@ -47,7 +47,6 @@ import {
   QueryState,
   RequestHandlerInfo,
   SelectedOperation,
-  SubscriptionResponse,
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { VariableState } from 'altair-graphql-core/build/types/state/variable.interfaces';
@@ -57,7 +56,6 @@ import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequ
 import { LayoutState } from 'altair-graphql-core/build/types/state/layout.interfaces';
 import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
@@ -68,7 +66,10 @@ import {
   AuthorizationState,
   AuthorizationTypes,
 } from 'altair-graphql-core/build/types/state/authorization.interface';
-import { RequestHandlerIds } from 'altair-graphql-core/build/request/types';
+import {
+  RequestHandlerIds,
+  WEBSOCKET_HANDLER_ID,
+} from 'altair-graphql-core/build/request/types';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -150,7 +151,7 @@ export class WindowComponent implements OnInit {
   subscriptionUrl = '';
   subscriptionConnectionParams = '';
   availableRequestHandlers$ = this.requestHandlerRegistry.getAllHandlerData$();
-  selectedSubscriptionRequestHandlerId: RequestHandlerIds = WEBSOCKET_PROVIDER_ID;
+  selectedSubscriptionRequestHandlerId: RequestHandlerIds = WEBSOCKET_HANDLER_ID;
 
   historyList: History[] = [];
 
@@ -307,7 +308,7 @@ export class WindowComponent implements OnInit {
         this.subscriptionConnectionParams =
           data.query.subscriptionConnectionParams || '';
         this.selectedSubscriptionRequestHandlerId =
-          data.query.subscriptionRequestHandlerId ?? WEBSOCKET_PROVIDER_ID;
+          data.query.subscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID;
         this.historyList = data.history.list;
 
         // Schema needs to be valid instances of GQLSchema.

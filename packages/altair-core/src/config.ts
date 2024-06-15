@@ -1,5 +1,8 @@
-import { HTTP_HANDLER_ID, RequestHandlerIds } from './request/types';
-import { SubscriptionProviderIds, WEBSOCKET_PROVIDER_ID } from './subscriptions';
+import {
+  HTTP_HANDLER_ID,
+  RequestHandlerIds,
+  WEBSOCKET_HANDLER_ID,
+} from './request/types';
 import { IDictionary, TODO } from './types/shared';
 import { IInitialEnvironments } from './types/state/environments.interfaces';
 import { HttpVerb } from './types/state/query.interfaces';
@@ -64,7 +67,7 @@ export interface AltairWindowOptions {
    *
    * @default "websocket"
    */
-  initialSubscriptionsProvider?: SubscriptionProviderIds;
+  initialSubscriptionRequestHandlerId?: RequestHandlerIds;
 
   /**
    * Initial subscriptions connection params
@@ -193,8 +196,8 @@ export class AltairConfig {
     settings: undefined as unknown as AltairConfigOptions['initialSettings'],
     persistedSettings:
       undefined as unknown as AltairConfigOptions['persistedSettings'],
-    initialSubscriptionsProvider:
-      undefined as AltairConfigOptions['initialSubscriptionsProvider'],
+    initialSubscriptionRequestHandlerId:
+      undefined as AltairConfigOptions['initialSubscriptionRequestHandlerId'],
     initialSubscriptionsPayload: {} as IDictionary,
     initialRequestHandlerId: HTTP_HANDLER_ID as RequestHandlerIds,
     initialRequestHandlerAdditionalParams: {} as Record<string, unknown>,
@@ -218,7 +221,8 @@ export class AltairConfig {
     persistedSettings,
     initialRequestHandlerId = HTTP_HANDLER_ID,
     initialRequestHandlerAdditionalParams = {},
-    initialSubscriptionsProvider = WEBSOCKET_PROVIDER_ID,
+    initialSubscriptionRequestHandlerId:
+      initialSubscriptionRequestHandler = WEBSOCKET_HANDLER_ID,
     initialSubscriptionsPayload = {},
     initialHttpMethod = 'POST',
     preserveState = true,
@@ -250,7 +254,8 @@ export class AltairConfig {
       'altair_';
     this.initialData.settings = initialSettings;
     this.initialData.persistedSettings = persistedSettings;
-    this.initialData.initialSubscriptionsProvider = initialSubscriptionsProvider;
+    this.initialData.initialSubscriptionRequestHandlerId =
+      initialSubscriptionRequestHandler;
     this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
     this.initialData.initialRequestHandlerId = initialRequestHandlerId;
     this.initialData.initialRequestHandlerAdditionalParams =
