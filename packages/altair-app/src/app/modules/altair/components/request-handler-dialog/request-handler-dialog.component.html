@@ -5,10 +5,9 @@
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="request-handlers-wrapper">
-    <!-- TODO: Add input for remaining request handler fields -->
     <div class="app-dialog-body">
-      <div class="subscription-params-section">
-        <div class="subscription-params-title">
+      <div class="request-handler-params-section">
+        <div class="request-handler-params-title">
           {{ 'DEFAULT_REQUEST_HANDLER_TITLE' | translate }}
         </div>
         <nz-select
@@ -25,13 +24,13 @@
         </nz-select>
       </div>
 
-      <div class="subscription-params-section">
-        <div class="subscription-params-title">
+      <div class="request-handler-params-section">
+        <div class="request-handler-params-title">
           {{ 'REQUEST_HANDLER_PARAMS_TEXT' | translate }}
         </div>
-        <div class="subscription-params-editor-wrapper">
+        <div class="request-handler-params-editor-wrapper">
           <app-codemirror
-            class="subscription-params__input"
+            class="request-handler-params__input"
             [ngModel]="requestHandlerAdditionalParams"
             (ngModelChange)="updateRequestHandlerInfo({ additionalParams: $event })"
             [extensions]="connectionParamsExtensions"
@@ -40,8 +39,8 @@
           ></app-codemirror>
         </div>
       </div>
-      <div class="subscription-params-section">
-        <div class="subscription-params-title">
+      <div class="request-handler-params-section">
+        <div class="request-handler-params-title">
           {{ 'SUBSCRIPTION_URL_TEXT' | translate }}
         </div>
         <app-x-input
@@ -52,7 +51,7 @@
           placeholder="ws://example.com/graphql/subscriptions"
         />
       </div>
-      <div class="subscription-params-section">
+      <div class="request-handler-params-section">
         <nz-switch
           nzSize="small"
           [ngModel]="subscriptionUseDefaultRequestHandler"
@@ -67,8 +66,8 @@
 
       @if (!subscriptionUseDefaultRequestHandler) {
         <div class="p-10 glassy-border">
-          <div class="subscription-params-section">
-            <div class="subscription-params-title">
+          <div class="request-handler-params-section">
+            <div class="request-handler-params-title">
               {{ 'SUBSCRIPTION_TYPE_TITLE' | translate }}
             </div>
             <nz-select
@@ -87,13 +86,13 @@
             </nz-select>
           </div>
 
-          <div class="subscription-params-section">
-            <div class="subscription-params-title">
+          <div class="request-handler-params-section">
+            <div class="request-handler-params-title">
               {{ 'SUBSCRIPTION_CONNECTION_PARAMS_TEXT' | translate }}
             </div>
-            <div class="subscription-params-editor-wrapper">
+            <div class="request-handler-params-editor-wrapper">
               <app-codemirror
-                class="subscription-params__input"
+                class="request-handler-params__input"
                 [ngModel]="subscriptionConnectionParams"
                 (ngModelChange)="
                   updateRequestHandlerInfo({ subscriptionConnectionParams: $event })

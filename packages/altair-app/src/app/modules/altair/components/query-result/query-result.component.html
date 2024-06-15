@@ -6,22 +6,22 @@
   [(nzSelectedIndex)]="selectedIndex"
 >
   <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate">
-    <div class="new-query-result-container">
+    <div class="query-result-container">
       @if (!queryResponses.length) {
-        <div class="new-query-result__none">
-          <div class="new-query-result__none-inner">
-            <div class="new-query-result__none-subtext">
+        <div class="query-result__none">
+          <div class="query-result__none-inner">
+            <div class="query-result__none-subtext">
               {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
             </div>
-            <div class="new-query-result__none-art">
+            <div class="query-result__none-art">
               <div class="left">
-                <div class="new-query-result__none-art-button send"></div>
-                <div class="new-query-result__none-art-button"></div>
-                <div class="new-query-result__none-art-button"></div>
-                <div class="new-query-result__none-art-button"></div>
+                <div class="query-result__none-art-button send"></div>
+                <div class="query-result__none-art-button"></div>
+                <div class="query-result__none-art-button"></div>
+                <div class="query-result__none-art-button"></div>
               </div>
               <div class="right">
-                <div class="new-query-result__none-art-button"></div>
+                <div class="query-result__none-art-button"></div>
               </div>
             </div>
             <app-tips
@@ -32,22 +32,22 @@
           </div>
         </div>
       } @else {
-        <div class="new-query-result__top">
-          <div class="new-query-result__top-section">
+        <div class="query-result__top">
+          <div class="query-result__top-section">
             <span
-              class="response-status-code new-response-stats__item"
+              class="response-status-code response-stats__item"
               [attr.data-status-code]="responseStatus"
             >
               {{ responseStatus }} {{ responseStatusText }}
             </span>
-            <span class="response-time new-response-stats__item">
+            <span class="response-time response-stats__item">
               <app-icon name="clock"></app-icon> {{ responseTime }}ms
             </span>
             @if (isSubscribed && isRunning) {
-              <span class="new-query-result__uri">{{ subscriptionUrl }}</span>
+              <span class="query-result__uri">{{ subscriptionUrl }}</span>
             }
           </div>
-          <div class="new-query-result__top-section">
+          <div class="query-result__top-section">
             @if (isRunning && queryResponses.length > 1) {
               <button
                 track-id="autoscroll"
@@ -81,18 +81,18 @@
             }
           </div>
         </div>
-        <div class="new-query-result__list" #queryResultList>
+        <div class="query-result__list" #queryResultList>
           @for (item of queryResponses; track $index) {
-            <div class="new-query-result__list-item" #queryResultItem>
+            <div class="query-result__list-item" #queryResultItem>
               <app-codemirror
                 [ngModel]="item.content"
                 [fullHeight]="true"
                 [extensions]="editorExtensions"
               ></app-codemirror>
-              <div class="new-query-result__list-item-info">
+              <div class="query-result__list-item-info">
                 {{ item.timestamp | date: 'mediumTime' }}
               </div>
-              <div class="new-query-result__list-item-actions">
+              <div class="query-result__list-item-actions">
                 <button
                   track-id="download_result"
                   class="btn btn--small"
