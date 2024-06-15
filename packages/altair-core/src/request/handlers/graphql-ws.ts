@@ -10,18 +10,6 @@ import { simpleResponseObserver } from '../utils';
 export class GraphQLWsRequestHandler implements GraphQLRequestHandler {
   client?: Client;
   cleanup?: () => void;
-  onConnected(
-    subscriber: Subscriber<GraphQLResponseData>,
-    error: unknown,
-    data: unknown
-  ) {
-    if (error) {
-      console.log('Subscription connection error', error);
-      subscriber.error(error);
-      return;
-    }
-    console.log('Connected subscription.');
-  }
 
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData> {
     return new Observable((subscriber) => {

@@ -14,12 +14,6 @@ export interface QueryResponse {
   timestamp: number;
 }
 
-export interface SubscriptionResponse {
-  response: string;
-  responseObj: unknown;
-  responseTime: number;
-}
-
 export interface LogLine {
   time: number;
   text: string;

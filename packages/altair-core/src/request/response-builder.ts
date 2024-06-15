@@ -185,7 +185,7 @@ const patchResponse = (
 
       const path = ['data', ...patch.path];
       if ('data' in patch) {
-        // defer patch
+        // @defer patch
         // set the data at the path in result
         if (patch.data) {
           result.data = result.data ?? {};
@@ -193,7 +193,7 @@ const patchResponse = (
         }
       }
       if ('items' in patch) {
-        // stream patch
+        // @stream patch
         patch.items?.forEach((item, i) => {
           const lastPathIdx = path[path.length - 1];
           if (typeof lastPathIdx !== 'number') {
