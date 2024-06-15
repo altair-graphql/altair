@@ -5,6 +5,7 @@ import {
   GraphQLResponseData,
 } from '../types';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
+import { simpleResponseObserver } from '../utils';
 
 export class WebsocketRequestHandler implements GraphQLRequestHandler {
   client?: SubscriptionClient;
@@ -38,29 +39,15 @@ export class WebsocketRequestHandler implements GraphQLRequestHandler {
       }
       const requestStartTimestamp = Date.now();
 
-      const res = this.client!.request({
-        query: request.query,
-        variables: request.variables,
-        operationName: request.selectedOperation ?? undefined,
-      }).subscribe({
-        next: (res) => {
-          const requestEndTimestamp = Date.now();
-
-          subscriber.next({
-            ok: true,
-            data: JSON.stringify(res),
-            headers: new Headers(),
-            status: 200,
-            statusText: 'OK',
-            url: request.url,
-            requestStartTimestamp,
-            requestEndTimestamp,
-            resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
-          });
-        },
-        error: (...args) => subscriber.error(...args),
-        complete: () => subscriber.complete(),
-      });
+      const res = this.client
+        .request({
+          query: request.query,
+          variables: request.variables,
+          operationName: request.selectedOperation ?? undefined,
+        })
+        .subscribe(
+          simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
+        );
       this.cleanup = res.unsubscribe;
 
       return () => {

@@ -4,7 +4,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  SimpleChanges,
 } from '@angular/core';
 import { rand } from '../../utils';
 import { fadeInOutAnimationTrigger } from '../../animations';
@@ -62,7 +61,7 @@ export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.setupTipInterval();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     // if not loading, disable interval
     // if loading, set interval
     this.setupTipInterval();
@@ -103,7 +102,6 @@ export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
   clearTipInterval() {
     clearTimeout(this.tipInterval);
     this.tipInterval = undefined;
-    // this.currentTip = undefined;
   }
 
   ngOnDestroy() {

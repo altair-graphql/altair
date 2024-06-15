@@ -8,6 +8,7 @@ import { parse } from 'graphql';
 import { AUTH_TYPE, createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { simpleResponseObserver } from '../utils';
 
 export class AppSyncRequestHandler implements GraphQLRequestHandler {
   subscription?: ZenObservable.Subscription;
@@ -63,25 +64,9 @@ export class AppSyncRequestHandler implements GraphQLRequestHandler {
           query: parse(request.query),
           variables: request.variables,
         })
-        .subscribe({
-          next: (res) => {
-            const requestEndTimestamp = Date.now();
-
-            subscriber.next({
-              ok: true,
-              data: JSON.stringify(res),
-              headers: new Headers(),
-              status: 200,
-              statusText: 'OK',
-              url: request.url,
-              requestStartTimestamp,
-              requestEndTimestamp,
-              resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
-            });
-          },
-          error: (...args) => subscriber.error(...args),
-          complete: () => subscriber.complete(),
-        });
+        .subscribe(
+          simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
+        );
 
       return () => {
         this.destroy();

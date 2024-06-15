@@ -5,56 +5,38 @@ import {
   GraphQLResponseData,
 } from '../types';
 import { Client, createClient } from 'graphql-sse';
+import { simpleResponseObserver } from '../utils';
 
 export class SSERequestHandler implements GraphQLRequestHandler {
   client?: Client;
   cleanup?: () => void;
 
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData> {
-    this.client = createClient({
-      url: request.url,
-      credentials: request.withCredentials ? 'include' : 'same-origin',
-      headers: request.headers?.reduce(
-        (acc, { key, value }) => {
-          acc[key] = value;
-          return acc;
-        },
-        {} as Record<string, string>
-      ),
-    });
-
-    if (!this.client) {
-      throw new Error('Could not create SSE client!');
-    }
-
     return new Observable((subscriber) => {
+      this.client = createClient({
+        url: request.url,
+        credentials: request.withCredentials ? 'include' : 'same-origin',
+        headers: request.headers?.reduce(
+          (acc, { key, value }) => {
+            acc[key] = value;
+            return acc;
+          },
+          {} as Record<string, string>
+        ),
+      });
+
+      if (!this.client) {
+        throw new Error('Could not create SSE client!');
+      }
       const requestStartTimestamp = Date.now();
-      this.cleanup = this.client!.subscribe(
+      this.cleanup = this.client.subscribe(
         {
           query: request.query,
           variables: request.variables,
           operationName: request.selectedOperation ?? undefined,
           extensions: request.extensions,
         },
-        {
-          next: (res) => {
-            const requestEndTimestamp = Date.now();
-
-            subscriber.next({
-              ok: true,
-              data: JSON.stringify(res),
-              headers: new Headers(),
-              status: 200,
-              statusText: 'OK',
-              url: request.url,
-              requestStartTimestamp,
-              requestEndTimestamp,
-              resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
-            });
-          },
-          error: (...args) => subscriber.error(...args),
-          complete: () => subscriber.complete(),
-        }
+        simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
       );
 
       return () => {
