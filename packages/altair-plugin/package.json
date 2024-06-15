@@ -1,11 +1,11 @@
 {
   "name": "altair-graphql-plugin",
   "description": "Plugin helper for altair graphql client",
-  "version": "7.0.1",
+  "version": "7.1.0",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-graphql-core": "^7.0.1"
+    "altair-graphql-core": "^7.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",
