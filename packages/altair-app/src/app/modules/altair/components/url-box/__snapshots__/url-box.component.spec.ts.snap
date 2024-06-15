@@ -146,6 +146,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       </nz-dropdown-menu>
     </div>
   </div>
+  
 </app-url-box>
 `;
 
@@ -318,5 +319,6 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       </nz-dropdown-menu>
     </div>
   </div>
+  
 </app-url-box>
 `;

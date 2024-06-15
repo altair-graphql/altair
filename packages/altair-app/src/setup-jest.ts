@@ -6,7 +6,9 @@ import 'fake-indexeddb/auto';
 const crypto = require('crypto');
 
 Object.assign(global, require('jest-chrome'));
+import { TextEncoder, TextDecoder } from 'util';
 
+Object.assign(global, { TextDecoder, TextEncoder });
 Object.defineProperty(window, 'crypto', {
   value: {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
