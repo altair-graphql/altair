@@ -39,7 +39,6 @@ import * as streamActions from '../store/stream/stream.action';
 import * as collectionActions from '../store/collection/collection.action';
 
 import {
-  downloadJson,
   downloadData,
   copyToClipboard,
   openFile,
@@ -49,17 +48,13 @@ import {
 import { debug } from '../utils/logger';
 import { generateCurl } from '../utils/curl';
 import { OperationDefinitionNode } from 'graphql';
-import { IDictionary, UnknownError } from '../interfaces/shared';
+import { UnknownError } from '../interfaces/shared';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { WEBSOCKET_PROVIDER_ID } from 'altair-graphql-core/build/subscriptions';
-import { SubscriptionProvider } from 'altair-graphql-core/build/subscriptions/subscription-provider';
 import { RequestScriptError } from '../services/pre-request/errors';
-import { headerListToMap } from '../utils/headers';
 import { BATCHED_REQUESTS_OPERATION } from '../services/gql/gql.service';
 import { RequestType } from 'altair-graphql-core/build/script/types';
 import { QueryResponse } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { buildResponse } from 'altair-graphql-core/build/request/response-builder';
-import { HTTP_HANDLER_ID } from 'altair-graphql-core/build/request/types';
 
 function notNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x !== null && x !== undefined;

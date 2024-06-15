@@ -1,6 +1,6 @@
 import { GraphQLSchema } from 'graphql';
-import { SubscriptionProviderIds } from '../../subscriptions';
 import { PerWindowState } from './per-window.interfaces';
+import { RequestHandlerIds } from '../../request/types';
 
 export interface WindowState {
   [id: string]: PerWindowState;
@@ -19,7 +19,10 @@ export interface ExportWindowState {
   variables: string;
   subscriptionUrl: string;
   subscriptionConnectionParams?: string;
-  subscriptionProvider?: SubscriptionProviderIds;
+  requestHandlerId?: RequestHandlerIds;
+  requestHandlerAdditionalParams?: string;
+  subscriptionUseDefaultRequestHandler?: boolean;
+  subscriptionRequestHandlerId?: RequestHandlerIds;
   preRequestScript?: string;
   preRequestScriptEnabled?: boolean;
   postRequestScript?: string;
