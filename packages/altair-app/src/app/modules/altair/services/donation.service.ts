@@ -7,6 +7,8 @@ import { switchMap, map } from 'rxjs/operators';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { AccountService } from './account/account.service';
 import { fromPromise } from '../utils';
+import { Store } from '@ngrx/store';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 @Injectable()
 export class DonationService {
@@ -17,7 +19,7 @@ export class DonationService {
 
   constructor(
     private dbService: DbService,
-    private accountService: AccountService,
+    private store: Store<RootState>,
     private altairConfig: AltairConfig
   ) {}
 
@@ -48,11 +50,11 @@ export class DonationService {
     const actionCount$ = this.dbService.getItem(this.actionCountKey);
     const seed$ = this.dbService.getItem(this.seedKey);
     const curHash$ = this.dbService.getItem(this.hashKey);
-    const userPlan$ = fromPromise(this.accountService.getPlan());
+    const account$ = this.store.select('account');
 
-    return zip(actionCount$, seed$, curHash$, userPlan$).pipe(
-      map(([actionCount, seed, curHash, userPlan]) => {
-        if (userPlan.id === 'pro') {
+    return zip(actionCount$, seed$, curHash$, account$).pipe(
+      map(([actionCount, seed, curHash, account]) => {
+        if (account.plan?.id === 'pro') {
           // Reset count
           this.dbService.setItem(this.actionCountKey, 0);
           return false;
