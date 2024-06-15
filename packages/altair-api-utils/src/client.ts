@@ -51,7 +51,7 @@ export class APIClient {
   ky: KyInstance;
   authToken?: string;
 
-  user$ = new Subject<IUserProfile>();
+  user$ = new Subject<IUserProfile | undefined>();
   private _user?: IUserProfile;
   get user() {
     return this._user;

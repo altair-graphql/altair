@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
-import { VARIABLE_REGEX } from '../../services/environment/environment.service';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 
 @Component({

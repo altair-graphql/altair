@@ -33,6 +33,9 @@ interface InitialExecutionResult {
   hasNext?: boolean;
 }
 
+interface OldSubsequentExecutionResult extends InitialExecutionResult {
+  path: Path;
+}
 interface SubsequentExecutionResultWithIncremental {
   incremental?: IncrementalResult[];
   errors?: ErrorLike[];
@@ -47,6 +50,7 @@ interface SubsequentExecutionResultFinal {
 
 type SubsequentExecutionResult =
   | SubsequentExecutionResultWithIncremental
+  | OldSubsequentExecutionResult
   | SubsequentExecutionResultFinal;
 
 type ExecutionResult = InitialExecutionResult | SubsequentExecutionResult;
@@ -113,6 +117,8 @@ const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
   if (!obj) {
     throw new Error('JSON response required for patching!');
   }
+  // remove hasNext field from obj (since it's just used for patching)
+  Reflect.deleteProperty(obj, 'hasNext');
 
   for (let i = 1; i < responses.length; i++) {
     const nextObj = parseJson<SubsequentExecutionResult, undefined>(
@@ -126,7 +132,6 @@ const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
     patchResponse(obj, nextObj);
   }
   // TODO: Handle cases with labels
-  // TODO: Handle without incremental field
 
   // return the patched response
   return [
@@ -142,8 +147,6 @@ const patchResponse = (
   nextData: SubsequentExecutionResult
 ): ExecutionResult => {
   const result = { ...obj };
-  // remove hasNext field from the result (since it's just used for patching)
-  Reflect.deleteProperty(result, 'hasNext');
   let errors = result.errors ? result.errors : [];
 
   const extensions = {
@@ -155,12 +158,22 @@ const patchResponse = (
     errors.push(...nextData.errors);
   }
 
-  if (nextData.hasNext && nextData.incremental) {
-    // TODO: NOTE: We handle the old version of the incremental delivery payloads as well
-    // if ('path' in nextResult) {
-    //   incremental = [nextResult as IncrementalPayload];
-    // }
+  if ('path' in nextData) {
+    // old version of the incremental delivery payloads
+    // https://github.com/graphql/graphql-over-http/blob/d80afd45782b40a9a8447fcff3d772689d83df56/rfcs/IncrementalDelivery.md
+    nextData = {
+      ...nextData,
+      incremental: [
+        {
+          data: nextData.data ?? null,
+          path: nextData.path,
+        },
+      ],
+      hasNext: true,
+    } satisfies SubsequentExecutionResultWithIncremental;
+  }
 
+  if (nextData.hasNext && nextData.incremental) {
     for (const patch of nextData.incremental) {
       if (Array.isArray(patch.errors)) {
         errors.push(...patch.errors);

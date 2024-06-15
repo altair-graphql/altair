@@ -5,6 +5,7 @@ import {
   GraphQLResponseData,
 } from '../types';
 import { Client, createClient } from 'graphql-ws';
+import { simpleResponseObserver } from '../utils';
 
 export class GraphQLWsRequestHandler implements GraphQLRequestHandler {
   client?: Client;
@@ -51,25 +52,7 @@ export class GraphQLWsRequestHandler implements GraphQLRequestHandler {
           operationName: request.selectedOperation ?? undefined,
           extensions: request.extensions,
         },
-        {
-          next: (res) => {
-            const requestEndTimestamp = Date.now();
-
-            subscriber.next({
-              ok: true,
-              data: JSON.stringify(res),
-              headers: new Headers(),
-              status: 200,
-              statusText: 'OK',
-              url: request.url,
-              requestStartTimestamp,
-              requestEndTimestamp,
-              resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
-            });
-          },
-          error: (...args) => subscriber.error(...args),
-          complete: () => subscriber.complete(),
-        }
+        simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
       );
 
       return () => {

@@ -10,6 +10,7 @@ import {
 } from '../subscriptions/subscription-provider';
 import { headerListToMap } from '../utils/headers';
 import { IDictionary } from '../types/shared';
+import { simpleResponseObserver } from './utils';
 
 /**
  * Adapter to convert a {@link SubscriptionProvider} to a {@link GraphQLRequestHandler}.
@@ -42,25 +43,9 @@ export class SubscriptionProviderRequestHandlerAdapter
           variables: request.variables,
           operationName: request.selectedOperation ?? undefined,
         })
-        .subscribe({
-          next: (res) => {
-            const requestEndTimestamp = Date.now();
-
-            subscriber.next({
-              ok: true,
-              data: JSON.stringify(res),
-              headers: new Headers(),
-              status: 200,
-              statusText: 'OK',
-              url: request.url,
-              requestStartTimestamp,
-              requestEndTimestamp,
-              resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
-            });
-          },
-          error: (...args) => subscriber.error(...args),
-          complete: () => subscriber.complete(),
-        });
+        .subscribe(
+          simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
+        );
       return () => {
         provider.close();
       };
