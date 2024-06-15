@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RequestHandlerDialogComponent } from './request-handler-dialog.component';
+import { MockModule } from 'ng-mocks';
+import { SharedModule } from '../../modules/shared/shared.module';
 
 describe('RequestHandlerDialogComponent', () => {
   let component: RequestHandlerDialogComponent;
@@ -8,10 +10,10 @@ describe('RequestHandlerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RequestHandlerDialogComponent]
-    })
-    .compileComponents();
-    
+      declarations: [RequestHandlerDialogComponent],
+      imports: [MockModule(SharedModule)],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(RequestHandlerDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

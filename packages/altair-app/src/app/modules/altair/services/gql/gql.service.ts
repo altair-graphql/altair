@@ -53,7 +53,6 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
-import { SSERequestHandler } from 'altair-graphql-core/build/request/handlers/sse';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
 
 interface SendRequestOptions {
@@ -66,7 +65,7 @@ interface SendRequestOptions {
   headers?: HeaderState;
   files?: FileVariable[];
   selectedOperation?: SelectedOperation;
-  additionalParams: string;
+  additionalParams?: string;
   batchedRequest?: boolean;
   handler?: GraphQLRequestHandler;
 }
@@ -105,6 +104,9 @@ export class GqlService {
     this.setHeaders();
   }
 
+  /**
+   * @deprecated use {@link sendRequestV2} instead
+   */
   sendRequest(opts: SendRequestOptions): Observable<SendRequestResponse> {
     // Only need resolvedFiles to know if valid files exist at this point
     const { resolvedFiles } = this.normalizeFiles(opts.files);
@@ -182,7 +184,7 @@ export class GqlService {
   }
 
   getIntrospectionRequest(opts: IntrospectionRequestOptions) {
-    const requestOpts: SendRequestOptions & { handler?: GraphQLRequestHandler } = {
+    const requestOpts: SendRequestOptions = {
       url: opts.url,
       query: getIntrospectionQuery(),
       headers: opts.headers,
