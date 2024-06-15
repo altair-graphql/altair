@@ -91,7 +91,7 @@
   "REQUEST_HANDLER_GRAPHQL_SSE": "Graphql over SSE",
 
   "DEFAULT_REQUEST_HANDLER_TITLE": "Default Request Handler",
-  "REQUEST_HANDLER_PARAMS_TEXT": "Parameters (in JSON",
+  "REQUEST_HANDLER_PARAMS_TEXT": "Parameters (in JSON)",
 
   "HISTORY_TEXT": "History",
   "HISTORY_CLEAR_TEXT": "Clear History",

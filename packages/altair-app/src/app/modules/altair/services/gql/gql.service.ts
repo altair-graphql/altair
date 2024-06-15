@@ -765,7 +765,7 @@ export class GqlService {
     additionalParams,
     handler = new HttpRequestHandler(),
   }: SendRequestOptions): Observable<SendRequestResponse> {
-    // wrapping rhe logic to properly handle any errors (both within and outside the observable)
+    // wrapping the logic to properly handle any errors (both within and outside the observable)
     return of(undefined).pipe(
       switchMap(() => {
         const { resolvedFiles } = this.normalizeFiles(files);
