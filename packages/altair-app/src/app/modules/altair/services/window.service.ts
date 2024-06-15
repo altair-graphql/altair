@@ -37,8 +37,6 @@ interface ImportWindowDataOptions {
   fixedTitle?: boolean;
 }
 
-type AltairFile = ExportWindowState;
-
 @Injectable()
 export class WindowService {
   constructor(
@@ -119,6 +117,13 @@ export class WindowService {
         subscriptionUrl: clonedWindow.query.subscriptionUrl,
         subscriptionConnectionParams:
           clonedWindow.query.subscriptionConnectionParams,
+        subscriptionRequestHandlerId:
+          clonedWindow.query.subscriptionRequestHandlerId,
+        subscriptionUseDefaultRequestHandler:
+          clonedWindow.query.subscriptionUseDefaultRequestHandler,
+        requestHandlerId: clonedWindow.query.requestHandlerId,
+        requestHandlerAdditionalParams:
+          clonedWindow.query.requestHandlerAdditionalParams,
         headers: clonedWindow.headers,
         windowName: `${clonedWindow.layout.title} (Copy)`,
         preRequestScript: clonedWindow.preRequest.script,
@@ -290,10 +295,9 @@ export class WindowService {
         }
         if (data.subscriptionUrl) {
           this.store.dispatch(
-            new queryActions.SetSubscriptionUrlAction(
-              { subscriptionUrl: data.subscriptionUrl },
-              windowId
-            )
+            new queryActions.SetRequestHandlerInfoAction(windowId, {
+              subscriptionUrl: data.subscriptionUrl,
+            })
           );
         }
         if (data.subscriptionConnectionParams) {
@@ -305,8 +309,30 @@ export class WindowService {
         }
         if (data.subscriptionRequestHandlerId) {
           this.store.dispatch(
-            new queryActions.SetSubscriptionRequestHandlerIdAction(windowId, {
-              handlerId: data.subscriptionRequestHandlerId,
+            new queryActions.SetRequestHandlerInfoAction(windowId, {
+              subscriptionRequestHandlerId: data.subscriptionRequestHandlerId,
+            })
+          );
+        }
+        if (data.subscriptionUseDefaultRequestHandler) {
+          this.store.dispatch(
+            new queryActions.SetRequestHandlerInfoAction(windowId, {
+              subscriptionUseDefaultRequestHandler:
+                data.subscriptionUseDefaultRequestHandler,
+            })
+          );
+        }
+        if (data.requestHandlerId) {
+          this.store.dispatch(
+            new queryActions.SetRequestHandlerInfoAction(windowId, {
+              requestHandlerId: data.requestHandlerId,
+            })
+          );
+        }
+        if (data.requestHandlerAdditionalParams) {
+          this.store.dispatch(
+            new queryActions.SetRequestHandlerInfoAction(windowId, {
+              additionalParams: data.requestHandlerAdditionalParams,
             })
           );
         }

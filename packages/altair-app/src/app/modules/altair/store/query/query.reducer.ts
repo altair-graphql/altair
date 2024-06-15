@@ -126,14 +126,33 @@ export function queryReducer(
     case query.SET_REQUEST_HANDLER_INFO:
       return {
         ...state,
-        requestHandlerId: action.payload.requestHandlerId,
-        requestHandlerAdditionalParams: action.payload.additionalParams,
-        subscriptionUseDefaultRequestHandler:
-          action.payload.subscriptionUseDefaultRequestHandler,
-        subscriptionUrl: action.payload.subscriptionUrl ?? '',
-        subscriptionConnectionParams:
-          action.payload.subscriptionConnectionParams ?? '',
-        subscriptionRequestHandlerId: action.payload.subscriptionRequestHandlerId,
+        ...(action.payload.requestHandlerId
+          ? { requestHandlerId: action.payload.requestHandlerId }
+          : {}),
+        ...(action.payload.additionalParams
+          ? { requestHandlerAdditionalParams: action.payload.additionalParams }
+          : {}),
+        ...(action.payload.subscriptionUseDefaultRequestHandler
+          ? {
+              subscriptionUseDefaultRequestHandler:
+                action.payload.subscriptionUseDefaultRequestHandler,
+            }
+          : {}),
+        ...(action.payload.subscriptionUrl
+          ? { subscriptionUrl: action.payload.subscriptionUrl }
+          : {}),
+        ...(action.payload.subscriptionConnectionParams
+          ? {
+              subscriptionConnectionParams:
+                action.payload.subscriptionConnectionParams,
+            }
+          : {}),
+        ...(action.payload.subscriptionRequestHandlerId
+          ? {
+              subscriptionRequestHandlerId:
+                action.payload.subscriptionRequestHandlerId,
+            }
+          : {}),
       };
     case query.SET_IS_SUBSCRIBED:
       return { ...state, isSubscribed: action.payload.isSubscribed };

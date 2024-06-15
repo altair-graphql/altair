@@ -29,9 +29,9 @@ export interface LogLine {
 export type SelectedOperation = string | null;
 
 export interface RequestHandlerInfo {
-  requestHandlerId: RequestHandlerIds;
-  additionalParams: string;
-  subscriptionUseDefaultRequestHandler: boolean;
+  requestHandlerId?: RequestHandlerIds;
+  additionalParams?: string;
+  subscriptionUseDefaultRequestHandler?: boolean;
   subscriptionUrl?: string;
   subscriptionConnectionParams?: string;
   subscriptionRequestHandlerId?: RequestHandlerIds;
