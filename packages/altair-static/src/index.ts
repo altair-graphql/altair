@@ -16,33 +16,60 @@ export interface RenderOptions extends AltairConfigOptions {
 }
 
 /**
+ * this type assertion is used to ensure that all properties of AltairConfigOptions are included in the RenderOptions.
+ * When new properties are added to AltairConfigOptions, this type assertion will throw an error and force the developer to update it accordingly.
+ */
+type AltairConfigOptionsObject = Record<keyof AltairConfigOptions, undefined>;
+const optionsProperties: AltairConfigOptionsObject = {
+  endpointURL: undefined,
+  subscriptionsEndpoint: undefined,
+  subscriptionsProtocol: undefined,
+  initialQuery: undefined,
+  initialVariables: undefined,
+  initialPreRequestScript: undefined,
+  initialPostRequestScript: undefined,
+  initialHeaders: undefined,
+  initialEnvironments: undefined,
+  instanceStorageNamespace: undefined,
+  initialSettings: undefined,
+  initialSubscriptionRequestHandlerId: undefined,
+  initialSubscriptionsPayload: undefined,
+  initialRequestHandlerId: undefined,
+  initialRequestHandlerAdditionalParams: undefined,
+  preserveState: undefined,
+  initialHttpMethod: undefined,
+  initialWindows: undefined,
+  disableAccount: undefined,
+  persistedSettings: undefined,
+  initialName: undefined,
+};
+const allowedProperties = Object.keys(
+  optionsProperties
+) as (keyof AltairConfigOptions)[];
+
+const getObjectPropertyForOption = (
+  option: unknown,
+  propertyName: keyof AltairConfigOptions
+) => {
+  if (typeof option !== 'undefined') {
+    switch (typeof option) {
+      case 'object':
+        return `${propertyName}: ${JSON.stringify(option)},`;
+      case 'boolean':
+        return `${propertyName}: ${option},`;
+    }
+    return `${propertyName}: \`${option}\`,`;
+  }
+  return '';
+};
+
+/**
  * Render Altair Initial options as a string using the provided renderOptions
  * @param renderOptions
  */
 export const renderInitialOptions = (options: RenderOptions = {}) => {
   return `
-        AltairGraphQL.init(${getRenderedAltairOpts(options, [
-          'endpointURL',
-          'subscriptionsEndpoint',
-          'subscriptionsProtocol',
-          'initialQuery',
-          'initialVariables',
-          'initialPreRequestScript',
-          'initialPostRequestScript',
-          'initialHeaders',
-          'initialEnvironments',
-          'instanceStorageNamespace',
-          'initialSettings',
-          'initialSubscriptionRequestHandlerId',
-          'initialSubscriptionsPayload',
-          'initialRequestHandlerId',
-          'initialRequestHandlerAdditionalParams',
-          'preserveState',
-          'initialHttpMethod',
-          'initialWindows',
-          'disableAccount',
-          'persistedSettings',
-        ])});
+        AltairGraphQL.init(${getRenderedAltairOpts(options)});
     `;
 };
 
@@ -65,33 +92,15 @@ export const renderAltair = (options: RenderOptions = {}) => {
   }
 };
 
-const getRenderedAltairOpts = (
-  renderOptions: RenderOptions,
-  keys: (keyof AltairConfigOptions)[]
-) => {
+const getRenderedAltairOpts = (renderOptions: RenderOptions) => {
   const optProps = Object.keys(renderOptions)
     .filter((key): key is keyof AltairConfigOptions =>
-      keys.includes(key as keyof AltairConfigOptions)
+      allowedProperties.includes(key as keyof AltairConfigOptions)
     )
     .map((key) => getObjectPropertyForOption(renderOptions[key], key));
 
   return ['{', ...optProps, '}'].join('\n');
 };
-function getObjectPropertyForOption(
-  option: unknown,
-  propertyName: keyof AltairConfigOptions
-) {
-  if (typeof option !== 'undefined') {
-    switch (typeof option) {
-      case 'object':
-        return `${propertyName}: ${JSON.stringify(option)},`;
-      case 'boolean':
-        return `${propertyName}: ${option},`;
-    }
-    return `${propertyName}: \`${option}\`,`;
-  }
-  return '';
-}
 
 export { getDistDirectory } from './get-dist';
 export { getAltairHtml };

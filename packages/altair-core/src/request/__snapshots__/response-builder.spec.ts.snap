@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`response-builder append strategy should append the responses 1`] = `
+[
+  {
+    "content": "{"data":{"hello":"Hello world","alphabet":[],"fastField":"This field resolves fast! ⚡️"},"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["b"],"path":["alphabet",1]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["c"],"path":["alphabet",2]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["d"],"path":["alphabet",3]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["e"],"path":["alphabet",4]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"data":{"slowField":"This field resolves slowly after 5000ms ⏳"},"path":[]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["f"],"path":["alphabet",5]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["g"],"path":["alphabet",6]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["h"],"path":["alphabet",7]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["i"],"path":["alphabet",8]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["j"],"path":["alphabet",9]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["k"],"path":["alphabet",10]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["l"],"path":["alphabet",11]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["m"],"path":["alphabet",12]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["n"],"path":["alphabet",13]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["o"],"path":["alphabet",14]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["p"],"path":["alphabet",15]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["q"],"path":["alphabet",16]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["r"],"path":["alphabet",17]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["s"],"path":["alphabet",18]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["t"],"path":["alphabet",19]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["u"],"path":["alphabet",20]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["v"],"path":["alphabet",21]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["w"],"path":["alphabet",22]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["x"],"path":["alphabet",23]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["y"],"path":["alphabet",24]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"incremental":[{"items":["z"],"path":["alphabet",25]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"hasNext":false}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder auto strategy should append the responses when the first response is a JSON object but not patchable 1`] = `
+[
+  {
+    "content": "{"hello":"Hello world","alphabet":[],"fastField":"This field resolves fast! ⚡️"}",
+    "timestamp": 1718252802585,
+  },
+  {
+    "content": "{"hi": "Hi world"}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder auto strategy should concatenate the responses when the first response is not a JSON object 1`] = `
+[
+  {
+    "content": "This is not a JSON object{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder auto strategy should patch the responses when the first response is patchable 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "hello": "Hello world",
+    "alphabet": [
+      "a"
+    ],
+    "fastField": "This field resolves fast! ⚡️"
+  }
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder concatenate strategy should concatenate the responses 1`] = `
+[
+  {
+    "content": "{"data":{"hello":"Hello world","alphabet":[],"fastField":"This field resolves fast! ⚡️"},"hasNext":true}{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}{"incremental":[{"items":["b"],"path":["alphabet",1]}],"hasNext":true}{"incremental":[{"items":["c"],"path":["alphabet",2]}],"hasNext":true}{"incremental":[{"items":["d"],"path":["alphabet",3]}],"hasNext":true}{"incremental":[{"items":["e"],"path":["alphabet",4]}],"hasNext":true}{"incremental":[{"data":{"slowField":"This field resolves slowly after 5000ms ⏳"},"path":[]}],"hasNext":true}{"incremental":[{"items":["f"],"path":["alphabet",5]}],"hasNext":true}{"incremental":[{"items":["g"],"path":["alphabet",6]}],"hasNext":true}{"incremental":[{"items":["h"],"path":["alphabet",7]}],"hasNext":true}{"incremental":[{"items":["i"],"path":["alphabet",8]}],"hasNext":true}{"incremental":[{"items":["j"],"path":["alphabet",9]}],"hasNext":true}{"incremental":[{"items":["k"],"path":["alphabet",10]}],"hasNext":true}{"incremental":[{"items":["l"],"path":["alphabet",11]}],"hasNext":true}{"incremental":[{"items":["m"],"path":["alphabet",12]}],"hasNext":true}{"incremental":[{"items":["n"],"path":["alphabet",13]}],"hasNext":true}{"incremental":[{"items":["o"],"path":["alphabet",14]}],"hasNext":true}{"incremental":[{"items":["p"],"path":["alphabet",15]}],"hasNext":true}{"incremental":[{"items":["q"],"path":["alphabet",16]}],"hasNext":true}{"incremental":[{"items":["r"],"path":["alphabet",17]}],"hasNext":true}{"incremental":[{"items":["s"],"path":["alphabet",18]}],"hasNext":true}{"incremental":[{"items":["t"],"path":["alphabet",19]}],"hasNext":true}{"incremental":[{"items":["u"],"path":["alphabet",20]}],"hasNext":true}{"incremental":[{"items":["v"],"path":["alphabet",21]}],"hasNext":true}{"incremental":[{"items":["w"],"path":["alphabet",22]}],"hasNext":true}{"incremental":[{"items":["x"],"path":["alphabet",23]}],"hasNext":true}{"incremental":[{"items":["y"],"path":["alphabet",24]}],"hasNext":true}{"incremental":[{"items":["z"],"path":["alphabet",25]}],"hasNext":true}{"hasNext":false}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder patch strategy should gather all errors from all responses 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "hello": "Hello world",
+    "alphabet": [
+      "a",
+      "b"
+    ],
+    "fastField": "This field resolves fast! ⚡️"
+  },
+  "errors": [
+    {
+      "message": "Error 1"
+    },
+    {
+      "message": "Error 2"
+    },
+    {
+      "message": "Incremental error"
+    },
+    {
+      "message": "Error 3"
+    }
+  ]
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder patch strategy should handle incremental payloads in the old format 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "hello": "Hello world",
+    "alphabet": [],
+    "fastField": "This field resolves fast! ⚡️",
+    "inner": {
+      "additionalField": "This field is added in the second response"
+    }
+  }
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder patch strategy should patch responses with extensions 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "hello": "Hello world",
+    "alphabet": [
+      "a",
+      "b"
+    ],
+    "fastField": "This field resolves fast! ⚡️"
+  }
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
+exports[`response-builder patch strategy should patch the responses 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "hello": "Hello world",
+    "alphabet": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z"
+    ],
+    "fastField": "This field resolves fast! ⚡️",
+    "slowField": "This field resolves slowly after 5000ms ⏳"
+  }
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;

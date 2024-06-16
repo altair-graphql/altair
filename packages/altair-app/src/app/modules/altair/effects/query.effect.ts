@@ -827,7 +827,7 @@ export class QueryEffects {
         switchMap((res) => {
           const content = res.action.payload.content;
           downloadData(content, res.data?.layout.title, {
-            fileType: parseJson(content, undefined) ? 'json' : 'txt',
+            fileType: parseJson(content, null) ? 'json' : 'txt',
           });
 
           return EMPTY;

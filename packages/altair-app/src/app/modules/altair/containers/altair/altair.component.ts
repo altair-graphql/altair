@@ -458,7 +458,7 @@ export class AltairComponent {
   }
 
   duplicateWindow(windowId: string) {
-    this.windowService.duplicateWindow(windowId);
+    this.windowService.duplicateWindow(windowId).subscribe();
   }
 
   setWindowName({ windowId = '', windowName = '' }) {

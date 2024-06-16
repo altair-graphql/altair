@@ -21,11 +21,12 @@ import { simpleResponseObserver } from './utils';
 export class SubscriptionProviderRequestHandlerAdapter
   implements GraphQLRequestHandler
 {
+  provider?: SubscriptionProvider;
   constructor(private providerClass: SubscriptionProviderConstructor) {}
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData> {
     return new Observable((subscriber) => {
       const requestStartTimestamp = Date.now();
-      const provider = new this.providerClass(
+      this.provider = new this.providerClass(
         request.url,
         request.additionalParams ?? {},
         {
@@ -37,7 +38,7 @@ export class SubscriptionProviderRequestHandlerAdapter
           },
         }
       );
-      provider
+      this.provider
         .execute({
           query: request.query,
           variables: request.variables,
@@ -47,7 +48,7 @@ export class SubscriptionProviderRequestHandlerAdapter
           simpleResponseObserver(subscriber, request.url, requestStartTimestamp)
         );
       return () => {
-        provider.close();
+        this.provider?.close();
       };
     });
   }
