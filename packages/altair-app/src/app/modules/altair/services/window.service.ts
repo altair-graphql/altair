@@ -101,38 +101,41 @@ export class WindowService {
   }
 
   duplicateWindow(windowId: string) {
-    return this.store.pipe(take(1)).subscribe((data) => {
-      const window = data.windows[windowId];
-      if (!window) {
-        return;
-      }
-      const clonedWindow = { ...window };
+    return this.store.pipe(
+      take(1),
+      tap((data) => {
+        const window = data.windows[windowId];
+        if (!window) {
+          return;
+        }
+        const clonedWindow = { ...window };
 
-      const windowData: ExportWindowState = {
-        version: 1,
-        type: 'window',
-        query: clonedWindow.query.query ?? '',
-        apiUrl: clonedWindow.query.url,
-        variables: clonedWindow.variables.variables,
-        subscriptionUrl: clonedWindow.query.subscriptionUrl,
-        subscriptionConnectionParams:
-          clonedWindow.query.subscriptionConnectionParams,
-        subscriptionRequestHandlerId:
-          clonedWindow.query.subscriptionRequestHandlerId,
-        subscriptionUseDefaultRequestHandler:
-          clonedWindow.query.subscriptionUseDefaultRequestHandler,
-        requestHandlerId: clonedWindow.query.requestHandlerId,
-        requestHandlerAdditionalParams:
-          clonedWindow.query.requestHandlerAdditionalParams,
-        headers: clonedWindow.headers,
-        windowName: `${clonedWindow.layout.title} (Copy)`,
-        preRequestScript: clonedWindow.preRequest.script,
-        preRequestScriptEnabled: clonedWindow.preRequest.enabled,
-        gqlSchema: clonedWindow.schema.schema,
-      };
+        const windowData: ExportWindowState = {
+          version: 1,
+          type: 'window',
+          query: clonedWindow.query.query ?? '',
+          apiUrl: clonedWindow.query.url,
+          variables: clonedWindow.variables.variables,
+          subscriptionUrl: clonedWindow.query.subscriptionUrl,
+          subscriptionConnectionParams:
+            clonedWindow.query.subscriptionConnectionParams,
+          subscriptionRequestHandlerId:
+            clonedWindow.query.subscriptionRequestHandlerId,
+          subscriptionUseDefaultRequestHandler:
+            clonedWindow.query.subscriptionUseDefaultRequestHandler,
+          requestHandlerId: clonedWindow.query.requestHandlerId,
+          requestHandlerAdditionalParams:
+            clonedWindow.query.requestHandlerAdditionalParams,
+          headers: clonedWindow.headers,
+          windowName: `${clonedWindow.layout.title} (Copy)`,
+          preRequestScript: clonedWindow.preRequest.script,
+          preRequestScriptEnabled: clonedWindow.preRequest.enabled,
+          gqlSchema: clonedWindow.schema.schema,
+        };
 
-      return this.importWindowData(windowData);
-    });
+        return this.importWindowData(windowData);
+      })
+    );
   }
 
   getWindowExportData(windowId: string) {

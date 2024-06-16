@@ -16,9 +16,7 @@ function parseDotNotationKey(key: string) {
  * { a: 1, b: { c: 2, d: { e: [3] } } };
  * ```
  */
-// TODO: Remove any
-// TODO: Copy tests as well
-export function setByDotNotation<TResult = any>(
+export function setByDotNotation<TResult = unknown>(
   obj: Record<string, any>,
   path: Array<number | string> | number | string,
   value: TResult,

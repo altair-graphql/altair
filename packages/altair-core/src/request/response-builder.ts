@@ -73,7 +73,7 @@ export const buildResponse = (
     case MultiResponseStrategy.AUTO: {
       const firstResponse = responses[0];
       const parsedFirstResponse = parseJson(firstResponse?.content ?? '', {
-        defaultValue: undefined,
+        defaultValue: null,
       });
       // if response[0] is not a JSON object, then concatenate
       if (!parsedFirstResponse || typeof parsedFirstResponse !== 'object') {
@@ -105,14 +105,13 @@ const buildResponse__append = (responses: QueryResponse[]): QueryResponse[] => {
 };
 
 const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
-  const response = '';
+  if (responses.length === 0) {
+    return [];
+  }
   // first response is the same shape as a standard GraphQL response
-  const obj = parseJson<InitialExecutionResult, undefined>(
-    responses[0]?.content ?? '',
-    {
-      defaultValue: undefined,
-    }
-  );
+  const obj = parseJson<InitialExecutionResult, null>(responses[0]?.content ?? '', {
+    defaultValue: null,
+  });
 
   if (!obj) {
     throw new Error('JSON response required for patching!');
@@ -121,9 +120,9 @@ const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
   Reflect.deleteProperty(obj, 'hasNext');
 
   for (let i = 1; i < responses.length; i++) {
-    const nextObj = parseJson<SubsequentExecutionResult, undefined>(
+    const nextObj = parseJson<SubsequentExecutionResult, null>(
       responses[i]?.content ?? '',
-      { defaultValue: undefined }
+      { defaultValue: null }
     );
 
     if (!nextObj) {
