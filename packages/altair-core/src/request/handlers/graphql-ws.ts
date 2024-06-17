@@ -48,9 +48,6 @@ export class GraphQLWsRequestHandler implements GraphQLRequestHandler {
       };
     });
   }
-  generateCurl(request: GraphQLRequestOptions): string {
-    throw new Error('Method not implemented.');
-  }
 
   async destroy() {
     try {
