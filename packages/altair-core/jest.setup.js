@@ -9,6 +9,7 @@
  */
 
 const { TextDecoder, TextEncoder } = require('node:util');
+const { ReadableStream, TransformStream } = require('node:stream/web');
 const crypto = require('node:crypto');
 const { clearImmediate } = require('node:timers');
 
@@ -26,6 +27,7 @@ Object.defineProperties(globalThis, {
   },
   TextDecoder: { value: TextDecoder },
   TextEncoder: { value: TextEncoder },
+  ReadableStream: { value: ReadableStream },
   clearImmediate: { value: clearImmediate },
 });
 

@@ -76,7 +76,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
           }
 
           // Handle the response from meros
-          from(merosResponse).subscribe({
+          return from(merosResponse).subscribe({
             next: (chunk) => {
               this.emitChunk(
                 response,
@@ -103,7 +103,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
           });
         })
         .catch((error) => {
-          if (error.name === 'AbortError') {
+          if (error?.name === 'AbortError') {
             // Request was aborted
             observer.complete();
             return;
