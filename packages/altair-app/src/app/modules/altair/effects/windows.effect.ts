@@ -1,4 +1,4 @@
-import { Observable, zip, of, EMPTY } from 'rxjs';
+import { Observable, zip, of, EMPTY, from } from 'rxjs';
 
 import { switchMap, withLatestFrom, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -13,6 +13,7 @@ import { WindowService } from '../services/window.service';
 
 import { downloadJson, openFile } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { debug } from '../utils/logger';
 
 @Injectable()
 export class WindowsEffects {
@@ -20,16 +21,13 @@ export class WindowsEffects {
   addWindowID$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(windowActions.ADD_WINDOW),
-      withLatestFrom(
-        this.store,
-        (action: windowActions.AddWindowAction, state) => {
-          return {
-            windows: state.windows,
-            windowIds: state.windowsMeta.windowIds,
-            action,
-          };
-        }
-      ),
+      withLatestFrom(this.store, (action: windowActions.AddWindowAction, state) => {
+        return {
+          windows: state.windows,
+          windowIds: state.windowsMeta.windowIds,
+          action,
+        };
+      }),
       switchMap((data) => {
         const windowIds = Object.keys(data.windows);
         const metaWindowIds = data.windowIds;
@@ -38,9 +36,7 @@ export class WindowsEffects {
           ...windowIds.filter((id) => !metaWindowIds.includes(id)),
         ];
 
-        return of(
-          new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds })
-        );
+        return of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
       })
     );
   });
@@ -62,12 +58,8 @@ export class WindowsEffects {
       switchMap((data) => {
         const windowIds = Object.keys(data.windows);
         const metaWindowIds = data.windowIds;
-        const newWindowIds = metaWindowIds.filter((id) =>
-          windowIds.includes(id)
-        );
-        return of(
-          new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds })
-        );
+        const newWindowIds = metaWindowIds.filter((id) => windowIds.includes(id));
+        return of(new windowsMetaActions.SetWindowIdsAction({ ids: newWindowIds }));
       })
     );
   });
@@ -87,8 +79,7 @@ export class WindowsEffects {
         }
       ),
       switchMap((data) => {
-        const lastClosedWindow =
-          data.closedWindows[data.closedWindows.length - 1];
+        const lastClosedWindow = data.closedWindows[data.closedWindows.length - 1];
         if (!lastClosedWindow || !lastClosedWindow.windowId) {
           return EMPTY;
         }
@@ -157,9 +148,12 @@ export class WindowsEffects {
       return this.actions$.pipe(
         ofType(windowActions.IMPORT_WINDOW),
         switchMap((action) => {
-          openFile({ accept: '.agq' }).then((data: string) => {
-            this.windowService.importWindowDataFromJson(data);
-          });
+          return from(openFile({ accept: '.agq' }));
+        }),
+        switchMap((data) => {
+          return from(this.windowService.importWindowDataFromJson(data));
+        }),
+        switchMap(() => {
           return EMPTY;
         })
       );
@@ -198,10 +192,7 @@ export class WindowsEffects {
         ),
         switchMap((data) => {
           Object.values(data.windows).forEach((window) => {
-            if (
-              !window.layout.collectionId ||
-              !window.layout.windowIdInCollection
-            ) {
+            if (!window.layout.collectionId || !window.layout.windowIdInCollection) {
               return;
             }
             const collection = data.collection.list.find(
@@ -212,7 +203,11 @@ export class WindowsEffects {
             );
 
             if (payload) {
-              this.windowService.updateWindowState(window.windowId, payload);
+              this.windowService
+                .updateWindowState(window.windowId, payload)
+                .catch((err) => {
+                  debug.error(err);
+                });
             }
           });
           return EMPTY;
