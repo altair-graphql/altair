@@ -73,9 +73,6 @@ export class AppSyncRequestHandler implements GraphQLRequestHandler {
       };
     });
   }
-  generateCurl(request: GraphQLRequestOptions): string {
-    throw new Error('Method not implemented.');
-  }
   destroy(): void {
     if (this.subscription?.closed) {
       this.subscription?.unsubscribe();

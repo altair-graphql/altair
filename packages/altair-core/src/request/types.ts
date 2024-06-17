@@ -45,7 +45,7 @@ export interface GraphQLResponseData {
 
 export interface GraphQLRequestHandler {
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData>;
-  generateCurl(request: GraphQLRequestOptions): string;
+  generateCurl?(request: GraphQLRequestOptions): string;
   destroy?(): void;
 }
 

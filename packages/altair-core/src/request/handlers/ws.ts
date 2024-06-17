@@ -56,10 +56,6 @@ export class WebsocketRequestHandler implements GraphQLRequestHandler {
     });
   }
 
-  generateCurl(request: GraphQLRequestOptions): string {
-    throw new Error('Method not implemented.');
-  }
-
   async destroy() {
     this.cleanup?.();
     this.cleanup = undefined;

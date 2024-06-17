@@ -120,9 +120,6 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
     });
   }
 
-  generateCurl(request: GraphQLRequestOptions): string {
-    throw new Error('Method not implemented.');
-  }
   destroy() {
     // throw new Error('Method not implemented.');
   }
