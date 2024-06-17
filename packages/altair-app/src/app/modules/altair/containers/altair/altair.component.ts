@@ -293,7 +293,12 @@ export class AltairComponent {
       });
 
     this.electronApp.connect({
-      importFileContent: (content) => this.windowService.importStringData(content),
+      importFileContent: (content) => {
+        return this.windowService.importStringData(content).catch((err) => {
+          debug.error(err);
+          this.notifyService.errorWithError(err, 'Error importing file content');
+        });
+      },
       createNewWindow: () => this.newWindow(),
       closeCurrentWindow: () => {
         if (this.windowIds.length > 1) {
@@ -356,32 +361,38 @@ export class AltairComponent {
     if (!this.windowIds.length) {
       if (altairConfig.initialData.windows.length) {
         altairConfig.initialData.windows.forEach((windowOption) => {
-          windowService.importWindowData(
-            {
-              version: 1,
-              windowName: windowOption.initialName ?? '',
-              type: 'window',
-              apiUrl: windowOption.endpointURL ?? '',
-              headers: windowOption.initialHeaders
-                ? mapToKeyValueList(windowOption.initialHeaders)
-                : [],
-              query: windowOption.initialQuery ?? '',
-              subscriptionUrl: windowOption.subscriptionsEndpoint ?? '',
-              variables: windowOption.initialVariables ?? '',
-              postRequestScript: windowOption.initialPostRequestScript,
-              postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
-              preRequestScript: windowOption.initialPreRequestScript,
-              preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
-              subscriptionConnectionParams: windowOption.initialSubscriptionsPayload
-                ? JSON.stringify(windowOption.initialSubscriptionsPayload)
-                : '',
-              subscriptionRequestHandlerId:
-                windowOption.initialSubscriptionRequestHandlerId,
-            },
-            {
-              fixedTitle: true,
-            }
-          );
+          windowService
+            .importWindowData(
+              {
+                version: 1,
+                windowName: windowOption.initialName ?? '',
+                type: 'window',
+                apiUrl: windowOption.endpointURL ?? '',
+                headers: windowOption.initialHeaders
+                  ? mapToKeyValueList(windowOption.initialHeaders)
+                  : [],
+                query: windowOption.initialQuery ?? '',
+                subscriptionUrl: windowOption.subscriptionsEndpoint ?? '',
+                variables: windowOption.initialVariables ?? '',
+                postRequestScript: windowOption.initialPostRequestScript,
+                postRequestScriptEnabled: !!windowOption.initialPostRequestScript,
+                preRequestScript: windowOption.initialPreRequestScript,
+                preRequestScriptEnabled: !!windowOption.initialPreRequestScript,
+                subscriptionConnectionParams:
+                  windowOption.initialSubscriptionsPayload
+                    ? JSON.stringify(windowOption.initialSubscriptionsPayload)
+                    : '',
+                subscriptionRequestHandlerId:
+                  windowOption.initialSubscriptionRequestHandlerId,
+              },
+              {
+                fixedTitle: true,
+              }
+            )
+            .catch((err) => {
+              debug.error(err);
+              this.notifyService.errorWithError(err, 'Error importing window data');
+            });
         });
       } else {
         this.newWindow();
@@ -685,11 +696,15 @@ export class AltairComponent {
     collectionId: string;
     windowIdInCollection: string;
   }) {
-    this.windowService.loadQueryFromCollection(
-      query,
-      collectionId,
-      windowIdInCollection
-    );
+    this.windowService
+      .loadQueryFromCollection(query, collectionId, windowIdInCollection)
+      .catch((err) => {
+        debug.error(err);
+        this.notifyService.errorWithError(
+          err,
+          'Error loading query from collection'
+        );
+      });
   }
 
   deleteQueryFromCollection({

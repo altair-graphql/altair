@@ -357,7 +357,7 @@ export class PluginContextService implements PluginContextGenerator {
       },
       async createWindow(data: ExportWindowState) {
         log('creating window');
-        return self.windowService.importWindowData(data);
+        await self.windowService.importWindowData(data);
       },
       async setQuery(windowId: string, query: string) {
         log('setting query');

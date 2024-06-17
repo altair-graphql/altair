@@ -50,10 +50,10 @@ export class FilesService {
       }
     } catch (err) {
       // If not JSON, try other formats..
-      if (this.trySdlImport(dataStr)) {
+      if (await this.trySdlImport(dataStr)) {
         return;
       }
-      if (this.tryQueryImport(dataStr)) {
+      if (await this.tryQueryImport(dataStr)) {
         return;
       }
       debug.log('Invalid Altair window file.', err);
@@ -70,7 +70,7 @@ export class FilesService {
     }
   }
 
-  private trySdlImport(dataStr: string): boolean {
+  private async trySdlImport(dataStr: string): Promise<boolean> {
     const emptyWindowData: ExportWindowState = {
       version: 1,
       type: 'window',
@@ -87,7 +87,7 @@ export class FilesService {
     try {
       const schema = this.gqlService.sdlToSchema(dataStr);
       // Import only schema
-      this.windowService.importWindowData({
+      await this.windowService.importWindowData({
         ...emptyWindowData,
         version: 1,
         type: 'window',
@@ -102,7 +102,7 @@ export class FilesService {
     }
   }
 
-  private tryQueryImport(dataStr: string): boolean {
+  private async tryQueryImport(dataStr: string): Promise<boolean> {
     const emptyWindowData: ExportWindowState = {
       version: 1,
       type: 'window',
@@ -119,7 +119,7 @@ export class FilesService {
     const operations = this.gqlService.getOperations(dataStr);
     if (operations && operations.length) {
       // Import only query
-      this.windowService.importWindowData({
+      await this.windowService.importWindowData({
         ...emptyWindowData,
         version: 1,
         type: 'window',

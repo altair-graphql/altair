@@ -63,7 +63,7 @@ export class SharingService {
       if (!res) {
         throw new Error('Query not found');
       }
-      this.windowService.loadQueryFromCollection(
+      await this.windowService.loadQueryFromCollection(
         res.query,
         res.collectionId,
         res.query.id ?? shareDetails.queryId
