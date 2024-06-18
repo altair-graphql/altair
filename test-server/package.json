@@ -29,7 +29,7 @@
     "graphql-ws": "^5.16.0",
     "graphql-yoga": "^5.3.1",
     "lodash": "^4.17.20",
-    "ws": "^8.13.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "@types/compression": "^1.7.0",
