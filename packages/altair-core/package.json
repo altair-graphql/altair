@@ -20,7 +20,7 @@
     "graphql": "15.5.1",
     "graphql-query-compress": "^1.2.4",
     "graphql-sse": "^2.5.3",
-    "graphql-ws": "5.8.2",
+    "graphql-ws": "5.16.0",
     "json-bigint": "^1.0.0",
     "loglevel": "1.8.0",
     "loglevel-plugin-prefix": "0.8.4",
