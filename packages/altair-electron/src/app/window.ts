@@ -285,6 +285,13 @@ export class WindowManager {
     }
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      try {
+        const u = new url.URL(details.url);
+        // we only want to set the CSP for the altair custom protocol
+        if (u.protocol !== ALTAIR_CUSTOM_PROTOCOL + ':') {
+          return callback({ responseHeaders: details.responseHeaders });
+        }
+      } catch {}
       if (
         details.resourceType === 'mainFrame' ||
         details.resourceType === 'subFrame'
