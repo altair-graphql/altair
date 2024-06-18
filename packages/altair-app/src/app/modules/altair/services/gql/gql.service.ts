@@ -1,6 +1,6 @@
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
 
-import { map, catchError, switchMap, tap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import {
   HttpHeaders,
   HttpClient,
