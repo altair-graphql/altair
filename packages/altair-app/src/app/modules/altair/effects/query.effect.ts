@@ -117,7 +117,6 @@ export class QueryEffects {
             transformedData: from(
               this.queryService.getPrerequestTransformedData(response.windowId)
             ),
-            // TODO: Check selectedOperation for isSubscriptionQuery
             handler: from(
               this.queryService.getRequestHandler(
                 response.data,

@@ -9,11 +9,4 @@ module.exports = {
   },
   coverageDirectory: '<rootDir>/.coverage',
   collectCoverage: true,
-  globals: {
-    fetch: global.fetch,
-    // Headers: global.Headers,
-    // Request: global.Request,
-    // Response: global.Response,
-    // FormData: global.FormData,
-  },
 };
