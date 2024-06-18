@@ -122,7 +122,7 @@ export interface SettingsState {
   'response.hideExtensions'?: boolean;
 
   /**
-   * Depend the handling strategy for multiple responses
+   * Determine the handling strategy for multiple responses
    */
   'response.stream.strategy'?: MultiResponseStrategy;
 
