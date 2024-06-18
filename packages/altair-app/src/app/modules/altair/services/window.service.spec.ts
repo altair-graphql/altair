@@ -1,9 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { firstValueFrom, empty as observableEmpty } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
-import { StoreModule, Store, provideStore } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Store, provideStore } from '@ngrx/store';
 
 import * as services from '../services';
 import { WindowService } from './window.service';

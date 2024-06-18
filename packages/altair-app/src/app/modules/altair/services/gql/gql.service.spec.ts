@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { expect, jest } from '@jest/globals';
 
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { GqlService } from './gql.service';
 import { NotifyService } from '../notify/notify.service';
@@ -21,7 +21,6 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
-let mockElectronAppService: ElectronAppService;
 let mockStore: Store<RootState>;
 let mockRequestHandler: GraphQLRequestHandler;
 
@@ -38,13 +37,9 @@ describe('GqlService', () => {
       error: anyFn(),
       info: anyFn(),
     } as NotifyService;
-    mockElectronAppService = mock();
     mockRequestHandler = mock({
-      handle(request) {
+      handle() {
         return EMPTY;
-      },
-      generateCurl(request) {
-        throw new Error('Method not implemented.');
       },
     });
     TestBed.configureTestingModule({
@@ -349,34 +344,34 @@ describe('GqlService', () => {
       [GqlService],
       async (service: GqlService) => {
         let httpClientCallCount = 0;
-        mockHttpClient.request = (...args: any) => {
+        mockRequestHandler.handle = () => {
           httpClientCallCount++;
           switch (httpClientCallCount) {
             case 1: {
-              const resp = new HttpErrorResponse({
-                error: 'Some network error',
-              });
-              return of(resp) as any;
+              return throwError(() => new Error('Some network error'));
             }
             case 2: {
-              const resp = new HttpErrorResponse({
-                error: 'Second network error',
-              });
-              return of(resp) as any;
+              return throwError(() => new Error('Second network error'));
             }
             default:
-              return of(
-                new HttpResponse<any>({
-                  body: {
-                    data: '',
-                  },
-                })
-              ) as any;
+              return of({
+                ok: true,
+                data: JSON.stringify({
+                  data: '',
+                }),
+                headers: new Headers(),
+                status: 200,
+                statusText: 'OK',
+                url: 'http://test.com',
+                requestStartTimestamp: 1,
+                requestEndTimestamp: 2,
+                resopnseTimeMs: 1.5,
+              });
           }
         };
 
         try {
-          const res = await service
+          await service
             .getIntrospectionRequest({
               url: 'http://test.com',
               method: 'GET',
@@ -908,7 +903,7 @@ describe('GqlService', () => {
   describe('.closeStreamClient()', () => {
     it('should close client', inject([GqlService], (service: GqlService) => {
       const client = new EventSource('http://example.com/stream');
-      const closeSpy = jest.spyOn(client, 'close');
+      jest.spyOn(client, 'close');
       service.closeStreamClient(client);
 
       expect(client.close).toHaveBeenCalled();
