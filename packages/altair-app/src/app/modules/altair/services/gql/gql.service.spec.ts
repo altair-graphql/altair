@@ -17,6 +17,7 @@ import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { MockProvider } from 'ng-mocks';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
@@ -773,7 +774,11 @@ describe('GqlService', () => {
       [GqlService],
       (service: GqlService) => {
         expect(
-          service.isSubscriptionQuery('subscription { get { id message } }')
+          service.isSubscriptionQuery('subscription { get { id message } }', {
+            query: {
+              queryEditorState: {},
+            },
+          } as unknown as PerWindowState)
         ).toBe(true);
       }
     ));
@@ -781,9 +786,11 @@ describe('GqlService', () => {
     it('should return false if query is not a subscription query', inject(
       [GqlService],
       (service: GqlService) => {
-        expect(service.isSubscriptionQuery('query { get { id message } }')).toBe(
-          false
-        );
+        expect(
+          service.isSubscriptionQuery('query { get { id message } }', {
+            query: {},
+          } as unknown as PerWindowState)
+        ).toBe(false);
       }
     ));
   });

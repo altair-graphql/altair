@@ -121,7 +121,10 @@ export class QueryEffects {
             handler: from(
               this.queryService.getRequestHandler(
                 response.data,
-                this.gqlService.isSubscriptionQuery(response.data.query.query ?? '')
+                this.gqlService.isSubscriptionQuery(
+                  response.data.query.query ?? '',
+                  response.data
+                )
               )
             ),
           });
@@ -133,7 +136,8 @@ export class QueryEffects {
 
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
               const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
-                response.data.query.query ?? ''
+                response.data.query.query ?? '',
+                response.data
               );
               const {
                 url,
@@ -187,7 +191,7 @@ export class QueryEffects {
                 selectedOperation,
                 operations,
                 error: selectedOperationError,
-              } = this.queryService.calculateSelectedOperation(response.data, query);
+              } = this.gqlService.calculateSelectedOperation(response.data, query);
               if (selectedOperationError) {
                 this.notifyService.error(selectedOperationError);
                 return EMPTY;
