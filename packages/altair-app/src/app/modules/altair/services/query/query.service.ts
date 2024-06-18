@@ -36,37 +36,6 @@ export class QueryService {
     private store: Store<RootState>
   ) {}
 
-  calculateSelectedOperation(state: PerWindowState, query: string) {
-    try {
-      const queryEditorIsFocused = state.query.queryEditorState?.isFocused;
-      const operationData = this.gqlService.getSelectedOperationData({
-        query,
-        selectedOperation: state.query.selectedOperation,
-        selectIfOneOperation: true,
-        queryCursorIndex: queryEditorIsFocused
-          ? state.query.queryEditorState.cursorIndex
-          : undefined,
-      });
-      if (operationData.requestSelectedOperationFromUser) {
-        return {
-          selectedOperation: '',
-          operations: operationData.operations,
-          error: `You have more than one query operations. You need to select the one you want to run from the dropdown.`,
-        };
-      }
-      return {
-        selectedOperation: operationData.selectedOperation,
-        operations: operationData.operations,
-      };
-    } catch (err) {
-      debug.error(err);
-      return {
-        selectedOperation: '',
-        error: 'Could not select operation',
-      };
-    }
-  }
-
   getWindowState$(windowId: string) {
     return this.store.pipe(select(fromRoot.selectWindowState(windowId)));
   }

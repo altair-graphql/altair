@@ -54,6 +54,7 @@ import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-inte
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
+import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 
 interface SendRequestOptions {
   url: string;
@@ -312,13 +313,20 @@ export class GqlService {
    * Checks if a query contains a subscription operation
    * @param query
    */
-  isSubscriptionQuery(query: string) {
-    const parsedQuery = this.parseQueryOrEmptyDocument(query);
-
-    if (!parsedQuery.definitions) {
-      return false;
+  isSubscriptionQuery(query: string, state: PerWindowState) {
+    const { operations, selectedOperation } = this.calculateSelectedOperation(
+      state,
+      query
+    );
+    if (operations?.length && selectedOperation) {
+      return operations.some((operation) => {
+        return (
+          operation.name?.value === selectedOperation &&
+          operation.operation === 'subscription'
+        );
+      });
     }
-
+    const parsedQuery = this.parseQueryOrEmptyDocument(query);
     return parsedQuery.definitions.reduce((acc, cur) => {
       return (
         acc ||
@@ -424,6 +432,37 @@ export class GqlService {
       operations,
       requestSelectedOperationFromUser,
     };
+  }
+
+  calculateSelectedOperation(state: PerWindowState, query: string) {
+    try {
+      const queryEditorIsFocused = state.query.queryEditorState?.isFocused;
+      const operationData = this.getSelectedOperationData({
+        query,
+        selectedOperation: state.query.selectedOperation,
+        selectIfOneOperation: true,
+        queryCursorIndex: queryEditorIsFocused
+          ? state.query.queryEditorState.cursorIndex
+          : undefined,
+      });
+      if (operationData.requestSelectedOperationFromUser) {
+        return {
+          selectedOperation: '',
+          operations: operationData.operations,
+          error: `You have more than one query operations. You need to select the one you want to run from the dropdown.`,
+        };
+      }
+      return {
+        selectedOperation: operationData.selectedOperation,
+        operations: operationData.operations,
+      };
+    } catch (err) {
+      debug.error(err);
+      return {
+        selectedOperation: '',
+        error: 'Could not select operation',
+      };
+    }
   }
 
   /**
