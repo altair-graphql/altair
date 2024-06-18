@@ -12,6 +12,7 @@ const { TextDecoder, TextEncoder } = require('node:util');
 const { ReadableStream, TransformStream } = require('node:stream/web');
 const crypto = require('node:crypto');
 const { clearImmediate } = require('node:timers');
+const { performance } = require('node:perf_hooks');
 
 Object.defineProperties(globalThis, {
   crypto: {
@@ -29,10 +30,11 @@ Object.defineProperties(globalThis, {
   TextEncoder: { value: TextEncoder },
   ReadableStream: { value: ReadableStream },
   clearImmediate: { value: clearImmediate },
+  performance: { value: performance },
 });
 
-const { Blob, File } = require('node:buffer');
-const { fetch, Headers, FormData, Request, Response } = require('undici');
+const { Blob } = require('node:buffer');
+const { fetch, Headers, FormData, Request, Response, File } = require('undici');
 
 Object.defineProperties(globalThis, {
   fetch: { value: fetch, writable: true },
@@ -47,9 +49,9 @@ Object.defineProperties(globalThis, {
 global.console = {
   ...console,
   // uncomment to ignore a specific log level
-  log: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
+  // log: jest.fn(),
+  // debug: jest.fn(),
+  // info: jest.fn(),
+  // warn: jest.fn(),
+  // error: jest.fn(),
 };

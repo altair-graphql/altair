@@ -9,6 +9,7 @@ import { setByDotNotation } from '../../utils/dot-notation';
 import { print } from 'graphql';
 import { getOperations } from '../../utils/graphql';
 import { meros } from 'meros/browser';
+import compress from 'graphql-query-compress';
 
 interface GraphQLRequestData {
   query: string;
@@ -234,6 +235,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
       // 3. files: the files themselves, with the key being the index of the file in the files array
       const fileMap: Record<string, string[]> = {};
       request.files.forEach((file, i) => {
+        // this mutation should be done before setting the stringified data
         setByDotNotation(data.variables, file.name, null);
         fileMap[i] = [`variables.${file.name}`];
       });
@@ -253,7 +255,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
       if (operations.length > 1) {
         const operationQueries = operations.map((operation) => {
           const operationName = operation.name?.value;
-          const operationQuery = print(operation);
+          const operationQuery = compress(print(operation));
           const operationVariables = data.variables;
           const operationExtensions = data.extensions;
 
