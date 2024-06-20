@@ -33,6 +33,7 @@ import { debounce } from 'lodash-es';
 export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema?: GraphQLSchema;
   @Input() allowIntrospection = true;
+  @Input() hideDeprecatedDocItems = false;
   @Input() isLoading = false;
   @Input() addQueryDepthLimit = this.altairConfig.add_query_depth_limit;
   @Input() tabSize = this.altairConfig.tab_size;

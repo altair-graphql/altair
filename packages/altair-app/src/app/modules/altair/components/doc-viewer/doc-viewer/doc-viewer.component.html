@@ -115,6 +115,7 @@
                   [data]="gqlSchema.getType(docView.name)"
                   [gqlSchema]="gqlSchema"
                   [sortByOption]="sortFieldsByOption"
+                  [hideDeprecatedDocItems]="hideDeprecatedDocItems"
                   (goToFieldChange)="goToField($event.name, $event.parentType)"
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
@@ -123,12 +124,13 @@
               }
             }
             @case ('field') {
-              @if (docView.view === 'field') {
+              @if (!(hideDeprecatedDocItems && getField(docView)?.isDeprecated) && docView.view === 'field') {
                 <app-doc-viewer-field
                   [data]="getField(docView)"
                   [gqlSchema]="gqlSchema"
                   [parentType]="docView.parentType"
                   [sortByOption]="sortFieldsByOption"
+                  [hideDeprecatedDocItems]="hideDeprecatedDocItems"
                   (goToFieldChange)="goToField($event.name, $event.parentType)"
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"

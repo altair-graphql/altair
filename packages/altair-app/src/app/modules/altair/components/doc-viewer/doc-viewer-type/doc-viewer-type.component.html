@@ -30,24 +30,26 @@
         {{ 'DOCS_VALUES_TEXT' | translate }}
       </div>
       @for (item of getTypeEnumValues(data); track schemaItemTrackBy($index, item)) {
-        <div class="doc-viewer-item doc-viewer-item-query">
-          <div class="doc-viewer-item-query-inner">
-            <span class="doc-viewer-item-field doc-viewer-item-value">
-              {{ item.name }}
-            </span>
-            <span class="doc-viewer-item-type">
-              {{ item.value }}
-            </span>
-            <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
+        @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
+          <div class="doc-viewer-item doc-viewer-item-query">
+            <div class="doc-viewer-item-query-inner">
+              <span class="doc-viewer-item-field doc-viewer-item-value">
+                {{ item.name }}
+              </span>
+              <span class="doc-viewer-item-type">
+                {{ item.value }}
+              </span>
+              <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
+            </div>
+            @if (item.description) {
+              <div
+                class="doc-viewer-item-query-description"
+                markdown
+                [data]="item.description || ''"
+              ></div>
+            }
           </div>
-          @if (item.description) {
-            <div
-              class="doc-viewer-item-query-description"
-              markdown
-              [data]="item.description || ''"
-            ></div>
-          }
-        </div>
+        }
       }
     </div>
   }
@@ -124,72 +126,74 @@
           | collectionTransform: sortFieldsTransformer : sortByOption;
         track schemaItemTrackBy($index, item)
       ) {
-        <div class="doc-viewer-item doc-viewer-item-query">
-          <div class="doc-viewer-item-query-inner">
-            <span
-              class="no-link-link"
-              (click)="goToField(item.name, data.name)"
-              track-id="gotofield_docs"
-            >
-              {{ item.name }}
-            </span>
-            @if (item?.args?.length) {
-              (
-              @for (
-                arg of item.args;
-                track schemaItemTrackBy($index, arg);
-                let last = $last
-              ) {
-                <span>
-                  <span
-                    class="doc-viewer-item-field no-link-link"
-                    (click)="goToType(arg.type.inspect())"
-                  >
-                    {{ arg.name }}
-                    @if (getDefaultValue(arg)) {
-                      <span class="doc-viewer-item-value"
-                        >= {{ getDefaultValue(arg) }}</span
-                      >
+        @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
+          <div class="doc-viewer-item doc-viewer-item-query">
+            <div class="doc-viewer-item-query-inner">
+              <span
+                class="no-link-link"
+                (click)="goToField(item.name, data.name)"
+                track-id="gotofield_docs"
+              >
+                {{ item.name }}
+              </span> 
+              @if (item?.args?.length) {
+                (
+                @for (
+                  arg of item.args;
+                  track schemaItemTrackBy($index, arg);
+                  let last = $last
+                ) {
+                  <span>
+                    <span
+                      class="doc-viewer-item-field no-link-link"
+                      (click)="goToType(arg.type.inspect())"
+                    >
+                      {{ arg.name }}
+                      @if (getDefaultValue(arg)) {
+                        <span class="doc-viewer-item-value"
+                          >= {{ getDefaultValue(arg) }}</span
+                        >
+                      }
+                    </span>
+                    <span
+                      class="doc-viewer-item-type no-link-link"
+                      (click)="goToType(arg.type.inspect())"
+                      >{{ arg.type.inspect() }}</span
+                    >
+                    @if (!last) {
+                      <span>,</span>
                     }
                   </span>
-                  <span
-                    class="doc-viewer-item-type no-link-link"
-                    (click)="goToType(arg.type.inspect())"
-                    >{{ arg.type.inspect() }}</span
-                  >
-                  @if (!last) {
-                    <span>,</span>
-                  }
-                </span>
+                }
+                )
               }
-              )
-            }
-            <span
-              class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-              (click)="goToType(item.type.inspect())"
+              <span
+                class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+                (click)="goToType(item.type.inspect())"
+              >
+                {{ item.type.inspect() }}
+              </span>
+            </div>
+            <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="item.description || ''"
+            ></div>
+            <button
+              class="doc-viewer-item-query-add-btn"
+              (click)="addToEditor(item.name, data.name)"
+              track-id="add_query"
             >
-              {{ item.type.inspect() }}
-            </span>
+              @if (isRootType(data.name)) {
+                {{ 'DOCS_ADD_QUERY_TEXT' | translate }}
+              }
+              @if (!isRootType(data.name)) {
+                {{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}
+              }
+            </button>
           </div>
-          <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
-          <div
-            class="doc-viewer-item-query-description"
-            markdown
-            [data]="item.description || ''"
-          ></div>
-          <button
-            class="doc-viewer-item-query-add-btn"
-            (click)="addToEditor(item.name, data.name)"
-            track-id="add_query"
-          >
-            @if (isRootType(data.name)) {
-              {{ 'DOCS_ADD_QUERY_TEXT' | translate }}
-            }
-            @if (!isRootType(data.name)) {
-              {{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}
-            }
-          </button>
-        </div>
+        }
       }
     </div>
   }
