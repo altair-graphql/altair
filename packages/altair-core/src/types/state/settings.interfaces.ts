@@ -107,6 +107,11 @@ export interface SettingsState {
   disableLineNumbers?: boolean;
 
   /**
+   * Hides deprecated Doc items
+   */
+  hideDeprecatedDocItems?: boolean;
+
+  /**
    * Specify custom theme config to override the specified theme values
    */
   themeConfig?: ICustomTheme;

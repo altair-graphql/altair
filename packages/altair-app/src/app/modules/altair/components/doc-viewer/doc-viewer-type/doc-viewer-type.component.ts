@@ -33,6 +33,8 @@ export class DocViewerTypeComponent {
   @Input() data?: GraphQLNamedType | null;
   @Input() gqlSchema?: GraphQLSchema;
   @Input() sortByOption: SortByOptions = 'none';
+  @Input() hideDeprecatedDocItems: boolean = false;
+  
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();

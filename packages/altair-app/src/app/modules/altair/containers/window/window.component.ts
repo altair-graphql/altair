@@ -107,6 +107,7 @@ export class WindowComponent implements OnInit {
   addQueryDepthLimit$: Observable<number>;
   tabSize$: Observable<number>;
   disableLineNumbers$: Observable<boolean | undefined>;
+  hideDeprecatedDocItems$: Observable<boolean | undefined>;
   enableExperimental$: Observable<boolean | undefined>;
   betaDisableNewEditor$: Observable<boolean | undefined>;
   autoscrollResponseList$: Observable<boolean>;
@@ -174,6 +175,9 @@ export class WindowComponent implements OnInit {
     );
     this.disableLineNumbers$ = this.store.pipe(
       select((state) => state.settings.disableLineNumbers)
+    );
+    this.hideDeprecatedDocItems$ = this.store.pipe(
+      select((state) => state.settings.hideDeprecatedDocItems)
     );
     this.collections$ = this.store.pipe(select((state) => state.collection.list));
     this.activeWindowId$ = this.store.pipe(

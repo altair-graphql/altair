@@ -79,6 +79,7 @@
       [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
       [gqlSchema]="gqlSchema"
       [sortByOption]="sortByOption"
+      [hideDeprecatedDocItems]="hideDeprecatedDocItems"
       (goToFieldChange)="goToField($event.name, $event.parentType)"
       (goToTypeChange)="goToType($event.name)"
       (addToEditorChange)="addToEditor($event)"

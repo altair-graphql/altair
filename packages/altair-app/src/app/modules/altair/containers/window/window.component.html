@@ -88,6 +88,7 @@
         [ngClass]="{ 'hide-doc': (showDocs$ | async) !== true }"
         [isLoading]="docsIsLoading$ | async"
         [addQueryDepthLimit]="addQueryDepthLimit$ | async"
+        [hideDeprecatedDocItems]="hideDeprecatedDocItems$ | async"
         [tabSize]="tabSize$ | async"
         [lastUpdatedAt]="schemaLastUpdatedAt$ | async"
         (setDocViewChange)="setDocView($event)"

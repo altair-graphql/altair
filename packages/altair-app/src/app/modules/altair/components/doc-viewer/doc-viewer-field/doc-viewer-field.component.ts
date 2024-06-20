@@ -26,6 +26,8 @@ export class DocViewerFieldComponent {
   @Input() gqlSchema?: GraphQLSchema;
   @Input() parentType = '';
   @Input() sortByOption: SortByOptions = 'none';
+  @Input() hideDeprecatedDocItems: boolean = false;
+
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
