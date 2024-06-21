@@ -5,7 +5,7 @@ parent: Features
 # GraphQL Subscriptions
 
 ::: warning 💡 Deprecation notice
-Choosing the subscription implementation to use has been replaced with a more general [request handlers](/docs/features/request-handlers) feature in v8.0.0. This allows you to choose the request handler to use for your queries, mutations and subscriptions. All the subscription implementations below are still available as request handlers but are no longer limited to subscriptions only.
+Choosing the subscription implementation to use has been replaced with a more general [request handlers](/docs/features/request-handlers) feature in v7.2.0. This allows you to choose the request handler to use for your queries, mutations and subscriptions. All the subscription implementations below are still available as request handlers but are no longer limited to subscriptions only.
 :::
 
 You can test your GraphQL subscriptions easily and also get a notification when you are away from the

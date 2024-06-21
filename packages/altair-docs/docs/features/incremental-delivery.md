@@ -7,7 +7,7 @@ parent: Features
 Altair supports the use of the [`@defer`](https://github.com/graphql/graphql-wg/blob/223447c39e76aedb9b7872170b3fcfd6f870e32c/rfcs/DeferStream.md#defer) and [`@stream`](https://github.com/graphql/graphql-wg/blob/223447c39e76aedb9b7872170b3fcfd6f870e32c/rfcs/DeferStream.md#stream) directives to enable incremental delivery of query results, following the specification defined [here](https://github.com/graphql/graphql-spec/pull/742). The specs are still in draft and are subject to change, but Altair aims to support the latest draft (and older drafts if possible).
 
 ::: warning
-Note: This feature is only available from v8.0.0 and above.
+Note: This feature is only available from v7.2.0 and above.
 :::
 
 ![Incremental delivery](/assets/img/docs/stream-defer-request.gif)

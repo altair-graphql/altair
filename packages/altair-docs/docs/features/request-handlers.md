@@ -9,7 +9,7 @@ Altair comes with several request handlers to support different GraphQL server i
 ![access request handlers from the side menu](/assets/img/docs/request-handlers-sidemenu.png)
 
 ::: tip
-In older versions of Altair, this was used just for configuring the subscription implementation to use. This has been replaced with request handlers in v8.0.0 which is a more general feature that allows you to choose the request handler to use for your queries, mutations and subscriptions. All the subscription implementations below are still available as request handlers but are no longer limited to subscriptions only.
+In older versions of Altair, this was used just for configuring the subscription implementation to use. This has been replaced with request handlers in v7.2.0 which is a more general feature that allows you to choose the request handler to use for your queries, mutations and subscriptions. All the subscription implementations below are still available as request handlers but are no longer limited to subscriptions only.
 :::
 
 ![request handlers dialog](/assets/img/docs/request-handlers-dialog.png)
