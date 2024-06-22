@@ -109,7 +109,7 @@ export interface SettingsState {
   /**
    * Hides deprecated Doc items
    */
-  hideDeprecatedDocItems?: boolean;
+  'doc.hideDeprecatedItems'?: boolean;
 
   /**
    * Specify custom theme config to override the specified theme values
