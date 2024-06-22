@@ -177,7 +177,7 @@ export class WindowComponent implements OnInit {
       select((state) => state.settings.disableLineNumbers)
     );
     this.hideDeprecatedDocItems$ = this.store.pipe(
-      select((state) => state.settings.hideDeprecatedDocItems)
+      select((state) => state.settings['doc.hideDeprecatedItems'])
     );
     this.collections$ = this.store.pipe(select((state) => state.collection.list));
     this.activeWindowId$ = this.store.pipe(
