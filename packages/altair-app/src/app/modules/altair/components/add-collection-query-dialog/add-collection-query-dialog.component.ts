@@ -60,7 +60,7 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
     this.createCollectionAndSaveQueryToCollectionChange.emit({
       queryName: this.newCollectionQueryTitle,
       collectionName: this.newCollectionTitle,
-      parentCollectionId: this.newCollectionParentCollectionId,
+      parentCollectionId: this.newCollectionParentCollectionId === '0' ? '' : this.newCollectionParentCollectionId,
       workspaceId: this.workspaceId,
     });
 
