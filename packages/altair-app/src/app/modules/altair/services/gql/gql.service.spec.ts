@@ -276,7 +276,7 @@ describe('GqlService', () => {
         expect(res?.body).toEqual(
           JSON.stringify({
             data: 'introspection data',
-          })
+          }, null, 2)
         );
       }
     ));
@@ -335,7 +335,7 @@ describe('GqlService', () => {
         expect(res?.body).toEqual(
           JSON.stringify({
             data: 'second introspection data',
-          })
+          }, null, 2)
         );
       }
     ));

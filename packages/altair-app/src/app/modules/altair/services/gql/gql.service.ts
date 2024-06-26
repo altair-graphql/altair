@@ -1,6 +1,6 @@
-import { throwError as observableThrowError, Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of, throwError } from 'rxjs';
 
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, toArray } from 'rxjs/operators';
 import {
   HttpHeaders,
   HttpClient,
@@ -53,8 +53,9 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
-import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
+import { GraphQLRequestHandler, MultiResponseStrategy } from 'altair-graphql-core/build/request/types';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+import { buildResponse } from 'altair-graphql-core/build/request/response-builder';
 
 interface SendRequestOptions {
   url: string;
@@ -185,6 +186,31 @@ export class GqlService {
   }
 
   getIntrospectionRequest(opts: IntrospectionRequestOptions) {
+    return this._getIntrospectionRequest(opts).pipe(
+      toArray(),
+      switchMap((resps) => {
+        const lastResponse = resps.at(-1);
+
+        if (!lastResponse) {
+          return throwError(() => new Error('No response!'));
+        }
+
+        // concatenate the responses to get the full introspection data
+        const builtResponse = buildResponse(
+          resps.map(r => ({
+            content: r.body,
+            timestamp: r.requestEndTime
+          })),
+          MultiResponseStrategy.CONCATENATE
+        );
+
+        lastResponse.body = builtResponse[0]?.content ?? '';
+        return of(lastResponse)
+      }),
+    )
+  }
+
+  private _getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     const requestOpts: SendRequestOptions = {
       url: opts.url,
       query: getIntrospectionQuery(),
