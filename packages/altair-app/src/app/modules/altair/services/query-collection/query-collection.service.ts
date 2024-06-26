@@ -591,7 +591,7 @@ export class QueryCollectionService {
       }
 
       const parentCollectionId = this.getParentCollectionId(collection);
-      if (!parentCollectionId) {
+      if (!parentCollectionId || parentCollectionId === '0') {
         roots.push(collectionTree);
         return;
       }
