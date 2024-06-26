@@ -163,7 +163,7 @@ describe('AddCollectionQueryDialogComponent', () => {
     ).toEqual({
       queryName: 'my query name',
       collectionName: 'my new collection name',
-      parentCollectionId: '0',
+      parentCollectionId: '',
       workspaceId: 'local',
     });
   });
