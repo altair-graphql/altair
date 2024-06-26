@@ -169,6 +169,17 @@ exports[`response-builder concatenate strategy should concatenate the responses 
 ]
 `;
 
+exports[`response-builder concatenate strategy should concatenate the responses and format the data if concatenated data is valid JSON 1`] = `
+[
+  {
+    "content": "{
+  "hello": "world"
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
 exports[`response-builder patch strategy should gather all errors from all responses 1`] = `
 [
   {

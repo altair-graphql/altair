@@ -92,9 +92,11 @@ export const buildResponse = (
 };
 
 const buildResponse__concatenate = (responses: QueryResponse[]): QueryResponse[] => {
+  const content = responses.map((r) => r.content).join('');
+  const parsedContent = parseJson(content, {defaultValue: null});
   return [
     {
-      content: responses.map((r) => r.content).join(''),
+      content: parsedContent ? JSON.stringify(parsedContent, null, 2) : content,
       timestamp: responses.at(-1)?.timestamp ?? 0,
     },
   ];
