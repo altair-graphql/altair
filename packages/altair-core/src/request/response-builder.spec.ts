@@ -161,6 +161,20 @@ describe('response-builder', () => {
       expect(res).toMatchSnapshot();
     });
 
+    it('should concatenate the responses and format the data if concatenated data is valid JSON', () => {
+      const res = buildResponse([
+        {
+          content: '{"hello":',
+          timestamp: 1718252802585
+        },
+        {
+          content: '"world"}',
+          timestamp: 1718252802585,
+        }
+      ])
+      expect(res).toMatchSnapshot();
+    });
+
     it('should return timestamp as 0 if no responses are provided', () => {
       const res = buildResponse([], MultiResponseStrategy.CONCATENATE);
       expect(res).toEqual([

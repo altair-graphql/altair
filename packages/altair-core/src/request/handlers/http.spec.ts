@@ -341,6 +341,57 @@ describe('HTTP handler', () => {
     ]);
   });
 
+
+  it('should properly handle normal unsuccessful HTTP GET requests', async () => {
+    const mockHandler = new MswMockRequestHandler(
+      'http://localhost:3000/graphql',
+      async () => {
+        return new Response('my data is not found', {
+          status: 404,
+        });
+      }
+    );
+    server.use(mockHandler);
+
+    const request: GraphQLRequestOptions = {
+      url: 'http://localhost:3000/graphql',
+      method: 'GET',
+      additionalParams: {
+        testData: [
+          {
+            hello: 'world',
+          },
+        ],
+      },
+      headers: [],
+      query: 'query { hello }',
+      variables: {},
+      selectedOperation: 'hello',
+    };
+
+    const httpHandler: GraphQLRequestHandler = new HttpRequestHandler();
+    const res = await testObserver(httpHandler.handle(request));
+
+    const receivedRequest = mockHandler.receivedRequest();
+    expect(receivedRequest?.url).toEqual(
+      'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello'
+    );
+    expect(receivedRequest?.body).toBeNull();
+
+    expect(res).toEqual([
+      expect.objectContaining({
+        ok: false,
+        data: 'my data is not found',
+        headers: expect.any(Object),
+        status: 404,
+        url: 'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
+        requestStartTimestamp: expect.any(Number),
+        requestEndTimestamp: expect.any(Number),
+        resopnseTimeMs: expect.any(Number),
+      }),
+    ]);
+  });
+
   it('should properly handle failed HTTP requests', async () => {
     const mockHandler = new MswMockRequestHandler(
       'http://localhost:3000/error',
