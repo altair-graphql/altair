@@ -120,7 +120,7 @@
     "@types/file-saver": "^2.0.1",
     "@types/firefox-webext-browser": "^109.0.0",
     "@types/graphql": "^14.5.0",
-    "@types/jest": "26.0.0",
+    "@types/jest": "29.5.12",
     "@types/json-bigint": "^1.0.1",
     "@types/json-schema": "^7.0.6",
     "@types/lodash-es": "^4.17.4",
