@@ -138,7 +138,7 @@ export interface ScriptWorkerMessageData {
 }
 
 export interface ScriptEvaluatorClientFactory {
-  create: () => ScriptEvaluatorClient;
+  create: () => Promise<ScriptEvaluatorClient>;
 }
 export abstract class ScriptEvaluatorClient {
   abstract subscribe<T extends ScriptEvent>(

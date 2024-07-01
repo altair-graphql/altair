@@ -11,4 +11,4 @@ cd "$ROOT"
 yarn
 
 # stripe login (if API key is expired)
-npx concurrently --kill-others "yarn start:app" "yarn start:api:dev" "yarn start:redirect" "yarn start:stripe:listen" --names app,api,redirect,stripe
+npx concurrently --kill-others "yarn start:app" "yarn start:api:dev" "yarn start:redirect" "yarn start:sandbox" "yarn start:stripe:listen" --names app,api,redirect,sandbox,stripe
