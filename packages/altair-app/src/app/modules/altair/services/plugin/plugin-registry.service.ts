@@ -342,6 +342,15 @@ export class PluginRegistryService {
     const plugin = createV1Plugin(name, manifest);
     this.addV1Plugin(name, plugin);
     debug.log('PLUGIN', 'V1 plugin scripts and styles injected and loaded.');
+    this.notifyService.warning(
+      `V1 plugins are deprecated and will be disabled in the future. If you're an owner of ${name}, consider migrating to V3.`,
+      undefined,
+      {
+        data: {
+          url: 'https://altairgraphql.dev/docs/learn/mv3',
+        },
+      }
+    );
 
     return plugin;
   }

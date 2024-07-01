@@ -459,7 +459,7 @@
             Do you find this app useful? Would you mind supporting its development?
           </span>
           <button
-            class="btn alert-action"
+            class="btn btn--primary btn--light"
             (click)="openDonationPage($event)"
             track-id="donate"
           >
@@ -468,7 +468,7 @@
           @if ((account$ | async)?.plan?.canUpgradePro) {
             or
             <button
-              class="btn alert-action"
+              class="btn btn--primary btn--light"
               (click)="setShowUpgradeDialog(true)"
               track-id="upgrade_pro"
             >

@@ -20,7 +20,7 @@ export class ScriptEvaluatorClientEngine {
   ) {}
 
   private async getClient() {
-    const client = this.client ?? this.engineFactory.create();
+    const client = this.client ?? (await this.engineFactory.create());
     this.client = client;
     return client;
   }

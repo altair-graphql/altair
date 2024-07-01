@@ -8,17 +8,19 @@ import { getClientConfig } from '@altairgraphql/api-utils';
 import { debug } from '../../utils/logger';
 import { environment } from 'environments/environment';
 import { EvaluatorWorkerClient } from './evaluator-worker-client';
+import { isExtension } from '../../utils';
 
 export class EvaluatorFrameClient extends ScriptEvaluatorClient {
-  private config = getClientConfig(
-    environment.production ? 'production' : 'development'
-  );
   private iframe = this.createIframe();
+
+  constructor(private sandboxUrl: string) {
+    super();
+  }
 
   private createIframe() {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
-    const sandboxUrl = new URL(this.config.sandboxUrl);
+    const sandboxUrl = new URL(this.sandboxUrl);
     sandboxUrl.searchParams.set('sc', window.location.origin);
     sandboxUrl.searchParams.set('action', 'evaluator');
     iframe.src = sandboxUrl.toString();
@@ -34,7 +36,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     handler: (type: T, e: ScriptEventData<T>) => void
   ): void {
     window.addEventListener('message', (e: MessageEvent<ScriptEventData<T>>) => {
-      if (e.origin !== new URL(this.config.sandboxUrl).origin) {
+      if (e.origin !== new URL(this.sandboxUrl).origin) {
         return;
       }
       const event = e.data;
@@ -48,10 +50,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
   }
   send(type: string, payload: any): void {
     this.iframe.addEventListener('load', () => {
-      this.iframe.contentWindow?.postMessage(
-        { type, payload },
-        this.config.sandboxUrl
-      );
+      this.iframe.contentWindow?.postMessage({ type, payload }, this.sandboxUrl);
     });
   }
   onError(handler: (err: any) => void): void {
@@ -63,10 +62,19 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
 }
 
 export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
-  create() {
-    if (document.baseURI && new URL(document.baseURI).origin === window.origin) {
+  async create() {
+    // If the current window is the same origin as the baseURI (except for mv3 extension), then use the worker client
+    if (
+      document.baseURI &&
+      new URL(document.baseURI).origin === window.origin &&
+      // don't use worker client for manifest v3 extensions, as they don't support unsafe-eval even in web workers
+      !(isExtension && chrome.runtime.getManifest().manifest_version === 3)
+    ) {
       return new EvaluatorWorkerClient();
     }
-    return new EvaluatorFrameClient();
+    const config = getClientConfig(
+      environment.production ? 'production' : 'development'
+    );
+    return new EvaluatorFrameClient(config.sandboxUrl);
   }
 }
