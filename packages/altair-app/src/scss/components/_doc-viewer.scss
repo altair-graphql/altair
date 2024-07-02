@@ -314,6 +314,18 @@ app-doc-viewer {
   }
 }
 
+.doc-viewer-item--deprecated {
+  // text-decoration: line-through;
+  // text-decoration-line: grammar-error;
+  text-decoration-color: rgba(var(--rgb-red), 0.5);
+  text-decoration-style: wavy;
+  opacity: 0.6;
+  transition: all 1s ease;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .doc-viewer-item-query {
   padding-left: 10px;
   padding-right: 75px;

@@ -157,6 +157,31 @@ export interface SettingsState {
    * Enable the scrollbar in the tab list
    */
   enableTablistScrollbar?: boolean;
+
+  /**
+   * Whether to include descriptions in the introspection result
+   */
+  'introspection.options.description'?: boolean;
+
+  /**
+   * Whether to include `specifiedByUrl` in the introspection result
+   */
+  'introspection.options.specifiedByUrl'?: boolean;
+
+  /**
+   * Whether to include `isRepeatable` flag on directives
+   */
+  'introspection.options.directiveIsRepeatable'?: boolean;
+
+  /**
+   * Whether to include `description` field on schema
+   */
+  'introspection.options.schemaDescription'?: boolean;
+
+  /**
+   * Whether target GraphQL server supports deprecation of input values
+   */
+  'introspection.options.inputValueDeprecation'?: boolean;
 }
 
 // Partial settings state for generating partial validator

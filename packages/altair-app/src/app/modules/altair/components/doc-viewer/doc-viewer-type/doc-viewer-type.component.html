@@ -31,7 +31,10 @@
       </div>
       @for (item of getTypeEnumValues(data); track schemaItemTrackBy($index, item)) {
         @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
-          <div class="doc-viewer-item doc-viewer-item-query">
+          <div
+            class="doc-viewer-item doc-viewer-item-query"
+            [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"
+          >
             <div class="doc-viewer-item-query-inner">
               <span class="doc-viewer-item-field doc-viewer-item-value">
                 {{ item.name }}
@@ -39,7 +42,10 @@
               <span class="doc-viewer-item-type">
                 {{ item.value }}
               </span>
-              <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
+              <app-doc-viewer-deprecated
+                [isDeprecated]="item.isDeprecated"
+                [deprecatedReason]="item.deprecationReason"
+              ></app-doc-viewer-deprecated>
             </div>
             @if (item.description) {
               <div
@@ -127,7 +133,10 @@
         track schemaItemTrackBy($index, item)
       ) {
         @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
-          <div class="doc-viewer-item doc-viewer-item-query">
+          <div
+            class="doc-viewer-item doc-viewer-item-query"
+            [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"
+          >
             <div class="doc-viewer-item-query-inner">
               <span
                 class="no-link-link"
@@ -135,7 +144,7 @@
                 track-id="gotofield_docs"
               >
                 {{ item.name }}
-              </span> 
+              </span>
               @if (item?.args?.length) {
                 (
                 @for (
@@ -143,7 +152,11 @@
                   track schemaItemTrackBy($index, arg);
                   let last = $last
                 ) {
-                  <span>
+                  <span
+                    [ngClass]="{
+                      'doc-viewer-item--deprecated': arg.deprecationReason
+                    }"
+                  >
                     <span
                       class="doc-viewer-item-field no-link-link"
                       (click)="goToType(arg.type.inspect())"
@@ -174,7 +187,10 @@
                 {{ item.type.inspect() }}
               </span>
             </div>
-            <app-doc-viewer-deprecated [item]="item"></app-doc-viewer-deprecated>
+            <app-doc-viewer-deprecated
+              [isDeprecated]="item.isDeprecated"
+              [deprecatedReason]="item.deprecationReason"
+            ></app-doc-viewer-deprecated>
             <div
               class="doc-viewer-item-query-description"
               markdown

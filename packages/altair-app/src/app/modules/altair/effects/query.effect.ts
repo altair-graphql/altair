@@ -427,7 +427,7 @@ export class QueryEffects {
               return EMPTY;
             })
           );
-        }),
+        })
       );
     },
     { dispatch: false }
@@ -598,6 +598,22 @@ export class QueryEffects {
                     response.state.settings['request.withCredentials'],
                   handler,
                   additionalParams: requestHandlerAdditionalParams,
+                  descriptions:
+                    response.state.settings['introspection.options.description'],
+                  specifiedByUrl:
+                    response.state.settings['introspection.options.specifiedByUrl'],
+                  directiveIsRepeatable:
+                    response.state.settings[
+                      'introspection.options.directiveIsRepeatable'
+                    ],
+                  schemaDescription:
+                    response.state.settings[
+                      'introspection.options.schemaDescription'
+                    ],
+                  inputValueDeprecation:
+                    response.state.settings[
+                      'introspection.options.inputValueDeprecation'
+                    ],
                 })
                 .pipe(
                   switchMap((introspectionResponse) => {
