@@ -112,6 +112,9 @@ export class QueryEffects {
         }),
         filter(notNullOrUndefined),
         mergeMap((response) => {
+          this.store.dispatch(
+            new layoutActions.StartLoadingAction(response.windowId)
+          );
           return forkJoin({
             response: of(response),
             transformedData: from(
@@ -126,13 +129,8 @@ export class QueryEffects {
                 )
               )
             ),
-          });
-        }),
-        mergeMap((returnedData) => {
-          return observableOf(returnedData).pipe(
-            mergeMap((_returnedData) => {
-              const { response, transformedData, handler } = _returnedData;
-
+          }).pipe(
+            mergeMap(({ response, transformedData, handler }) => {
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
               const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
                 response.data.query.query ?? '',
@@ -247,9 +245,6 @@ export class QueryEffects {
                 }
               }
 
-              this.store.dispatch(
-                new layoutActions.StartLoadingAction(response.windowId)
-              );
               this.store.dispatch(
                 new queryActions.SetIsSubscribedAction(response.windowId, {
                   isSubscribed: isSubscriptionQuery,
@@ -424,7 +419,7 @@ export class QueryEffects {
             }),
             finalize(() => {
               this.store.dispatch(
-                new layoutActions.StopLoadingAction(returnedData.response.windowId)
+                new layoutActions.StopLoadingAction(response.windowId)
               );
             }),
             catchError((error: UnknownError) => {
@@ -432,7 +427,7 @@ export class QueryEffects {
               return EMPTY;
             })
           );
-        })
+        }),
       );
     },
     { dispatch: false }
@@ -562,6 +557,9 @@ export class QueryEffects {
           }
         ),
         mergeMap((response) => {
+          this.store.dispatch(
+            new docsAction.StartLoadingDocsAction(response.windowId)
+          );
           return combineLatest([
             of(response),
             from(this.queryService.getPrerequestTransformedData(response.windowId)),
@@ -571,183 +569,186 @@ export class QueryEffects {
                 : EMPTY
             ),
           ]).pipe(
-            map(([response, transformedData, handler]) => {
-              return { response, transformedData, handler };
-            })
-          );
-        }),
-        mergeMap((res) => {
-          if (!res) {
-            return EMPTY;
-          }
-          const { response, transformedData, handler } = res;
-          if (!handler) {
-            return EMPTY;
-          }
-          if (!response.data) {
-            return EMPTY;
-          }
+            mergeMap(([response, transformedData, handler]) => {
+              if (!handler) {
+                return EMPTY;
+              }
+              if (!response.data) {
+                return EMPTY;
+              }
 
-          const { url, headers, requestHandlerAdditionalParams } =
-            this.queryService.hydrateAllHydratables(response.data, transformedData);
+              const { url, headers, requestHandlerAdditionalParams } =
+                this.queryService.hydrateAllHydratables(
+                  response.data,
+                  transformedData
+                );
 
-          if (!url) {
-            return EMPTY;
-          }
+              if (!url) {
+                return EMPTY;
+              }
 
-          this.store.dispatch(
-            new docsAction.StartLoadingDocsAction(response.windowId)
-          );
-          return this.gqlService
-            .getIntrospectionRequest({
-              url,
-              method: response.data.query.httpVerb,
-              headers,
-              variables: '{}',
-              extensions: '',
-              withCredentials: response.state.settings['request.withCredentials'],
-              handler,
-              additionalParams: requestHandlerAdditionalParams,
-            })
-            .pipe(
-              switchMap((introspectionResponse) => {
-                return combineLatest([
-                  of(introspectionResponse),
-                  from(
-                    this.queryService.getPostRequestTransformedData(
-                      response.windowId,
-                      RequestType.INTROSPECTION,
-                      introspectionResponse
-                    )
+              return this.gqlService
+                .getIntrospectionRequest({
+                  url,
+                  method: response.data.query.httpVerb,
+                  headers,
+                  variables: '{}',
+                  extensions: '',
+                  withCredentials:
+                    response.state.settings['request.withCredentials'],
+                  handler,
+                  additionalParams: requestHandlerAdditionalParams,
+                })
+                .pipe(
+                  switchMap((introspectionResponse) => {
+                    return combineLatest([
+                      of(introspectionResponse),
+                      from(
+                        this.queryService.getPostRequestTransformedData(
+                          response.windowId,
+                          RequestType.INTROSPECTION,
+                          introspectionResponse
+                        )
+                      ),
+                    ]).pipe(
+                      map(([data, transformedData]) => {
+                        return { data, transformedData };
+                      })
+                    );
+                  }),
+                  catchError(
+                    (
+                      err: UnknownError<
+                        { error: Error } | { errors: { code: string }[] }
+                      >
+                    ) => {
+                      this.store.dispatch(
+                        new docsAction.StopLoadingDocsAction(response.windowId)
+                      );
+                      let allowsIntrospection = true;
+                      if (typeof err === 'object') {
+                        const errorObj = 'error' in err ? err.error : err;
+
+                        if ('errors' in errorObj) {
+                          errorObj.errors.forEach((error) => {
+                            if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
+                              allowsIntrospection = false;
+                            }
+                          });
+                        }
+                      }
+
+                      // If the server does not support introspection
+                      if (!allowsIntrospection) {
+                        this.store.dispatch(
+                          new gqlSchemaActions.SetAllowIntrospectionAction(
+                            false,
+                            response.windowId
+                          )
+                        );
+                        this.notifyService.error(`
+                        Looks like this server does not support introspection.
+                        Please check with the server administrator.
+                      `);
+                      } else {
+                        this.notifyService.errorWithError(
+                          err,
+                          `
+                        Seems like something is broken. Please check that the URL is valid,
+                        and the server is up and running properly.
+                      `
+                        );
+                      }
+                      return of(null);
+                    }
                   ),
-                ]).pipe(
-                  map(([data, transformedData]) => {
-                    return { data, transformedData };
+                  map((postRequestTransformData) => {
+                    this.store.dispatch(
+                      new docsAction.StopLoadingDocsAction(response.windowId)
+                    );
+                    if (!postRequestTransformData) {
+                      return EMPTY;
+                    }
+
+                    const introspectionData = parseJson(
+                      postRequestTransformData.data.body ?? ''
+                    )?.data;
+                    const streamUrl =
+                      postRequestTransformData.data.headers[
+                        'X-GraphQL-Event-Stream'
+                      ]; // || '/stream'; // For dev
+
+                    // Check if new stream url is different from previous before setting it
+                    if (
+                      response.data?.stream.url !== streamUrl ||
+                      !response.data?.stream.client
+                    ) {
+                      this.store.dispatch(
+                        new streamActions.SetStreamSettingAction(response.windowId, {
+                          streamUrl: streamUrl ?? '',
+                        })
+                      );
+                      if (streamUrl) {
+                        this.store.dispatch(
+                          new streamActions.StartStreamClientAction(
+                            response.windowId
+                          )
+                        );
+                      } else {
+                        this.store.dispatch(
+                          new streamActions.StopStreamClientAction(response.windowId)
+                        );
+                      }
+                    }
+
+                    if (!introspectionData) {
+                      this.store.dispatch(
+                        new gqlSchemaActions.SetIntrospectionAction(
+                          introspectionData,
+                          response.windowId
+                        )
+                      );
+                    } else {
+                      this.store.dispatch(
+                        new gqlSchemaActions.SetAllowIntrospectionAction(
+                          true,
+                          response.windowId
+                        )
+                      );
+
+                      this.store.dispatch(
+                        new gqlSchemaActions.SetIntrospectionLastUpdatedAtAction(
+                          response.windowId,
+                          { epoch: Date.now() }
+                        )
+                      );
+                      this.store.dispatch(
+                        new gqlSchemaActions.SetIntrospectionAction(
+                          introspectionData,
+                          response.windowId
+                        )
+                      );
+                      this.notifyService.success('Reloaded doc successfully');
+                    }
+
+                    return EMPTY;
+                  }),
+                  catchError((error: UnknownError) => {
+                    debug.error(error);
+                    this.notifyService.errorWithError(
+                      error,
+                      'Error getting the introspection results.'
+                    );
+                    return EMPTY;
                   })
                 );
-              }),
-              catchError(
-                (
-                  err: UnknownError<
-                    { error: Error } | { errors: { code: string }[] }
-                  >
-                ) => {
-                  this.store.dispatch(
-                    new docsAction.StopLoadingDocsAction(response.windowId)
-                  );
-                  let allowsIntrospection = true;
-                  if (typeof err === 'object') {
-                    const errorObj = 'error' in err ? err.error : err;
-
-                    if ('errors' in errorObj) {
-                      errorObj.errors.forEach((error) => {
-                        if (error.code === 'GRAPHQL_VALIDATION_ERROR') {
-                          allowsIntrospection = false;
-                        }
-                      });
-                    }
-                  }
-
-                  // If the server does not support introspection
-                  if (!allowsIntrospection) {
-                    this.store.dispatch(
-                      new gqlSchemaActions.SetAllowIntrospectionAction(
-                        false,
-                        response.windowId
-                      )
-                    );
-                    this.notifyService.error(`
-                    Looks like this server does not support introspection.
-                    Please check with the server administrator.
-                  `);
-                  } else {
-                    this.notifyService.errorWithError(
-                      err,
-                      `
-                    Seems like something is broken. Please check that the URL is valid,
-                    and the server is up and running properly.
-                  `
-                    );
-                  }
-                  return of(null);
-                }
-              ),
-              map((postRequestTransformData) => {
-                this.store.dispatch(
-                  new docsAction.StopLoadingDocsAction(response.windowId)
-                );
-                if (!postRequestTransformData) {
-                  return EMPTY;
-                }
-
-                const introspectionData = parseJson(
-                  postRequestTransformData.data.body ?? ''
-                )?.data;
-                const streamUrl =
-                  postRequestTransformData.data.headers['X-GraphQL-Event-Stream']; // || '/stream'; // For dev
-
-                // Check if new stream url is different from previous before setting it
-                if (
-                  res.response.data?.stream.url !== streamUrl ||
-                  !res.response.data?.stream.client
-                ) {
-                  this.store.dispatch(
-                    new streamActions.SetStreamSettingAction(response.windowId, {
-                      streamUrl: streamUrl ?? '',
-                    })
-                  );
-                  if (streamUrl) {
-                    this.store.dispatch(
-                      new streamActions.StartStreamClientAction(response.windowId)
-                    );
-                  } else {
-                    this.store.dispatch(
-                      new streamActions.StopStreamClientAction(response.windowId)
-                    );
-                  }
-                }
-
-                if (!introspectionData) {
-                  this.store.dispatch(
-                    new gqlSchemaActions.SetIntrospectionAction(
-                      introspectionData,
-                      response.windowId
-                    )
-                  );
-                } else {
-                  this.store.dispatch(
-                    new gqlSchemaActions.SetAllowIntrospectionAction(
-                      true,
-                      response.windowId
-                    )
-                  );
-
-                  this.store.dispatch(
-                    new gqlSchemaActions.SetIntrospectionLastUpdatedAtAction(
-                      response.windowId,
-                      { epoch: Date.now() }
-                    )
-                  );
-                  this.store.dispatch(
-                    new gqlSchemaActions.SetIntrospectionAction(
-                      introspectionData,
-                      response.windowId
-                    )
-                  );
-                  this.notifyService.success('Reloaded doc successfully');
-                }
-
-                return EMPTY;
-              }),
-              catchError((error: UnknownError) => {
-                debug.error(error);
-                this.notifyService.errorWithError(
-                  error,
-                  'Error getting the introspection results.'
-                );
-                return EMPTY;
-              })
-            );
+            }),
+            finalize(() => {
+              this.store.dispatch(
+                new docsAction.StopLoadingDocsAction(response.windowId)
+              );
+            })
+          );
         })
       );
     },
