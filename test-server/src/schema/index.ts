@@ -33,7 +33,7 @@ const rootTypeDef = `#graphql
     A field that resolves slowly.
     Maybe you want to @defer this field ;)
     """
-    slowField(waitFor: Int! = 5000): String
+    slowField(waitFor: Int! = 5000, forDepth: Int @deprecated(reason: "For testing arg deprecation")): String
   }
   type Mutation
   type Subscription {

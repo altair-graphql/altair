@@ -11,23 +11,20 @@
         [data]="data.description || ''"
       ></div>
       <app-doc-viewer-deprecated
-        [item]="data"
+        [isDeprecated]="data.isDeprecated"
+        [deprecatedReason]="data.deprecationReason"
       ></app-doc-viewer-deprecated>
       <div class="doc-viewer-item-query-inner">
         <button
           class="doc-viewer-item-query-add-btn"
           (click)="addToEditor({ name: data.name, parentType: parentType })"
           track-id="add_query"
-          >
+        >
           @if (isRootType(parentType)) {
-            {{
-            'DOCS_ADD_QUERY_TEXT' | translate
-            }}
+            {{ 'DOCS_ADD_QUERY_TEXT' | translate }}
           }
           @if (!isRootType(parentType)) {
-            {{
-            'DOCS_ADD_FRAGMENT_TEXT' | translate
-            }}
+            {{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}
           }
         </button>
       </div>
@@ -35,54 +32,55 @@
   </div>
   <!--Field arguments-->
   @if (data.args && data.args.length) {
-    <div
-      class="doc-viewer-section doc-viewer-arguments"
-      >
+    <div class="doc-viewer-section doc-viewer-arguments">
       <div class="doc-viewer-section-title">
         {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
       </div>
       @for (arg of data.args; track argTrackBy($index, arg)) {
-        <div
-          class="doc-viewer-item doc-viewer-item-query"
-          >
+        <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
             <span class="no-link-link" (click)="goToType(arg.type.inspect())">
               {{ arg.name }}
               @if (getDefaultValue(arg)) {
                 <span class="doc-viewer-item-value"
                   >= {{ getDefaultValue(arg) }}</span
-                  >
-                }
-              </span>
-              <span
-                class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-                (click)="goToType(arg.type.inspect())"
                 >
-                {{ arg.type.inspect() }}
-              </span>
-            </div>
-            <div
-              class="doc-viewer-item-query-description"
-              markdown
-              [data]="arg.description || ''"
-            ></div>
+              }
+            </span>
+            <span
+              class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+              (click)="goToType(arg.type.inspect())"
+            >
+              {{ arg.type.inspect() }}
+            </span>
           </div>
-        }
-      </div>
-    }
-  }
+          <div
+            class="doc-viewer-item-query-description"
+            markdown
+            [data]="arg.description || ''"
+          ></div>
 
-  <!--Field type-->
-  <div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
-  @if (gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))) {
-    <app-doc-viewer-type
-      [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
-      [gqlSchema]="gqlSchema"
-      [sortByOption]="sortByOption"
-      [hideDeprecatedDocItems]="hideDeprecatedDocItems"
-      (goToFieldChange)="goToField($event.name, $event.parentType)"
-      (goToTypeChange)="goToType($event.name)"
-      (addToEditorChange)="addToEditor($event)"
-      (sortFieldsByChange)="sortFieldsByChange.emit($event)"
-    ></app-doc-viewer-type>
+          <app-doc-viewer-deprecated
+            [isDeprecated]="!!arg.deprecationReason"
+            [deprecatedReason]="arg.deprecationReason"
+          ></app-doc-viewer-deprecated>
+        </div>
+      }
+    </div>
   }
+}
+
+<!--Field type-->
+<div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
+@if (gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))) {
+  <app-doc-viewer-type
+    [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
+    [gqlSchema]="gqlSchema"
+    [sortByOption]="sortByOption"
+    [hideDeprecatedDocItems]="hideDeprecatedDocItems"
+    (goToFieldChange)="goToField($event.name, $event.parentType)"
+    (goToTypeChange)="goToType($event.name)"
+    (addToEditorChange)="addToEditor($event)"
+    (sortFieldsByChange)="sortFieldsByChange.emit($event)"
+  ></app-doc-viewer-type>
+}

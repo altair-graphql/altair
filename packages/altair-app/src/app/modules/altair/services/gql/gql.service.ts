@@ -1,4 +1,9 @@
-import { throwError as observableThrowError, Observable, of, throwError } from 'rxjs';
+import {
+  throwError as observableThrowError,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 
 import { map, catchError, switchMap, toArray } from 'rxjs/operators';
 import {
@@ -53,7 +58,10 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
-import { GraphQLRequestHandler, MultiResponseStrategy } from 'altair-graphql-core/build/request/types';
+import {
+  GraphQLRequestHandler,
+  MultiResponseStrategy,
+} from 'altair-graphql-core/build/request/types';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { buildResponse } from 'altair-graphql-core/build/request/response-builder';
 
@@ -78,7 +86,17 @@ interface ResolvedFileVariable {
   name: string;
   data: File;
 }
-type IntrospectionRequestOptions = Omit<SendRequestOptions, 'query'>;
+interface IntrospectionRequestOptions
+  extends Omit<
+    SendRequestOptions,
+    'query' | 'batchedRequest' | 'files' | 'selectedOperation'
+  > {
+  inputValueDeprecation?: boolean;
+  descriptions?: boolean;
+  directiveIsRepeatable?: boolean;
+  schemaDescription?: boolean;
+  specifiedByUrl?: boolean;
+}
 
 interface GraphQLRequestData {
   query: string;
@@ -197,23 +215,29 @@ export class GqlService {
 
         // concatenate the responses to get the full introspection data
         const builtResponse = buildResponse(
-          resps.map(r => ({
+          resps.map((r) => ({
             content: r.body,
-            timestamp: r.requestEndTime
+            timestamp: r.requestEndTime,
           })),
           MultiResponseStrategy.CONCATENATE
         );
 
         lastResponse.body = builtResponse[0]?.content ?? '';
-        return of(lastResponse)
-      }),
-    )
+        return of(lastResponse);
+      })
+    );
   }
 
   private _getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     const requestOpts: SendRequestOptions = {
       url: opts.url,
-      query: getIntrospectionQuery(),
+      query: getIntrospectionQuery({
+        descriptions: opts.descriptions ?? true,
+        inputValueDeprecation: opts.inputValueDeprecation,
+        directiveIsRepeatable: opts.directiveIsRepeatable,
+        schemaDescription: opts.schemaDescription,
+        specifiedByUrl: opts.specifiedByUrl,
+      }),
       headers: opts.headers,
       method: opts.method,
       withCredentials: opts.withCredentials,
