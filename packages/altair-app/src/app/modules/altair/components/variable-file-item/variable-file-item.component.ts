@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
-import * as fromVariables from '../../store/variables/variables.reducer';
 import { truncateText } from '../../utils';
 
 @Component({
@@ -77,8 +76,6 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
 
     return this.fileVariableDataChange.emit({ files: Array.from(files) });
   }
-
-  isValidFileData(fileVariable: FileVariable) {}
 
   updateLocalState(fileVariable: FileVariable) {
     this.validFileData = Array.isArray(fileVariable.data)

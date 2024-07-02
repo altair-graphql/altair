@@ -112,9 +112,6 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    if (this.detectBrowser() === 'firefox') {
-      this.fixFirefox();
-    }
     const handleInputTimeout = setTimeout(() => {
       this.handleInput();
       clearTimeout(handleInputTimeout);
@@ -126,10 +123,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
     const ranges = this.getRanges(val, VARIABLE_REGEX);
     const unstaggeredRanges = this.removeStaggeredRanges(ranges);
     const boundaries = this.getBoundaries(unstaggeredRanges);
-    this.highlightData.sections = this.generateHighlightSections(
-      val,
-      boundaries
-    );
+    this.highlightData.sections = this.generateHighlightSections(val, boundaries);
     this.updateHighlighterScroll();
   }
   handleScroll() {
@@ -148,7 +142,6 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   handleSubmit() {
     this.submitChange.next(this.innerValue);
   }
-  blockContainerScroll() {}
   detectBrowser() {
     const ua = window.navigator.userAgent.toLowerCase();
     if (ua.indexOf('firefox') !== -1) {
@@ -165,7 +158,6 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
       return 'other';
     }
   }
-  fixFirefox() {}
   getRanges(val: string, highlight: RegExp) {
     const ranges: Range[] = [];
     let match;
