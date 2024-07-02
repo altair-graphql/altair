@@ -30,7 +30,7 @@ Get started with Altair by reading the [documentation](https://altairgraphql.dev
 
 ## Sponsors
 
-Thanks to all our sponsors for sponsoring this project! Do you use Altair GraphQL client at your company? Consider supporting this project as a major sponsor (primary, gold, silver or bronze) on [open collective](https://opencollective.com/altair/contribute).
+Thanks to all our sponsors for sponsoring this project! Do you use Altair GraphQL client at your company? Consider supporting this project as a sponsor (primary, gold, silver or bronze) on [open collective](https://opencollective.com/altair/contribute).
 
 ### Primary Sponsor
 
