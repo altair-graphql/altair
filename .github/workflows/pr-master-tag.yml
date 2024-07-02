@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - master
+    tags:
+      - '**'
   pull_request:
+  workflow_dispatch:
 
 # v*.*.*
 
