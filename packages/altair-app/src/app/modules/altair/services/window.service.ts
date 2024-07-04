@@ -268,7 +268,6 @@ export class WindowService {
 
   updateWindowState$(windowId: string, data: ExportWindowState) {
     return this.getWindowState(windowId).pipe(
-      take(1),
       tap((window) => {
         this.store.dispatch(
           new layoutActions.SetWindowNameAction(windowId, {
@@ -508,7 +507,6 @@ export class WindowService {
     // Validate that query is ACTUALLY in an existing collection
     this.getWindowState(windowId)
       .pipe(
-        take(1),
         switchMap((data) => {
           if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
             return from(
@@ -556,7 +554,7 @@ export class WindowService {
   }
 
   private getWindowState(windowId: string) {
-    return this.store.pipe(select(fromRoot.selectWindowState(windowId)));
+    return this.store.pipe(select(fromRoot.selectWindowState(windowId)), take(1));
   }
   private cleanupWindow(windowId: string) {
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
