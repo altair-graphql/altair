@@ -1,15 +1,29 @@
 import { EvaluatorWorker, EventData } from '../../evaluator/worker';
 import { urlWithParams } from '../../utils/url';
-import { FrameQueryParams, InstanceType, instanceTypes } from './frame-worker';
+import { FrameOptions, InstanceType, instanceTypes } from './frame-worker';
 
-export interface PluginParentWorkerOptions {
+interface BasePluginParentWorkerOptions {
   id: string;
-  pluginEntrypointUrl: string;
   disableAppend?: boolean;
   instanceType?: InstanceType;
   additionalParams?: Record<string, string>;
   additionalSandboxAttributes?: string[];
 }
+interface PluginParentWorkerOptionsWithScripts
+  extends BasePluginParentWorkerOptions {
+  type: 'scripts';
+  sandboxUrl: string;
+  scriptUrls: string[];
+  styleUrls: string[];
+}
+
+interface PluginParentWorkerOptionsWithUrl extends BasePluginParentWorkerOptions {
+  type: 'url';
+  pluginEntrypointUrl: string;
+}
+export type PluginParentWorkerOptions =
+  | PluginParentWorkerOptionsWithScripts
+  | PluginParentWorkerOptionsWithUrl;
 export class PluginParentWorker extends EvaluatorWorker {
   constructor(private opts: PluginParentWorkerOptions) {
     super();
@@ -34,23 +48,35 @@ export class PluginParentWorker extends EvaluatorWorker {
       iframe.style.display = 'none';
     }
 
-    const params: FrameQueryParams = {
+    const params: FrameOptions = {
       ...this.opts.additionalParams,
       sc: window.location.origin,
       id: this.opts.id,
       instanceType: this.getInstanceType(),
     };
-    const url = urlWithParams(this.opts.pluginEntrypointUrl, params);
-    iframe.src = url;
 
+    // NOTE: Don't add allow-same-origin to the sandbox attribute!
     iframe.sandbox.add('allow-scripts');
-    iframe.sandbox.add('allow-same-origin');
     if (this.opts.additionalSandboxAttributes) {
       this.opts.additionalSandboxAttributes.forEach((attr) => {
         iframe.sandbox.add(attr);
       });
     }
     iframe.referrerPolicy = 'no-referrer';
+
+    if (this.opts.type === 'scripts') {
+      const url = urlWithParams(this.opts.sandboxUrl, {
+        ...params,
+        sandbox_type: 'plugin',
+        plugin_sandbox_opts: JSON.stringify(this.opts),
+      });
+      iframe.src = url;
+      // TODO: Use srcdoc instead of src
+    } else if (this.opts.type === 'url') {
+      const url = urlWithParams(this.opts.pluginEntrypointUrl, params);
+      iframe.src = url;
+    }
+
     if (!this.opts.disableAppend) {
       document.body.appendChild(iframe);
     }
@@ -75,7 +101,11 @@ export class PluginParentWorker extends EvaluatorWorker {
     window.addEventListener(
       'message',
       (e) => {
-        if (e.origin !== new URL(this.opts.pluginEntrypointUrl).origin) {
+        if (e.origin !== 'null' || e.source !== this.iframe.contentWindow) {
+          return;
+        }
+        if (e.data.frameId !== this.opts.id) {
+          console.error('Invalid frameId in data', e.data.frameId, this.opts.id);
           return;
         }
         handler(e.data);
@@ -87,7 +117,12 @@ export class PluginParentWorker extends EvaluatorWorker {
     this.frameReady().then(() => {
       this.iframe.contentWindow?.postMessage(
         { type, payload },
-        this.opts.pluginEntrypointUrl
+        // https://web.dev/articles/sandboxed-iframes#safely_sandboxing_eval
+        // Note that we're sending the message to "*", rather than some specific
+        // origin. Sandboxed iframes which lack the 'allow-same-origin' header
+        // don't have an origin which you can target: you'll have to send to any
+        // origin, which might alow some esoteric attacks. Validate your output!
+        '*'
       );
     });
   }

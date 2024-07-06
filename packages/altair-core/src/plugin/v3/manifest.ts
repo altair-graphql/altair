@@ -2,10 +2,19 @@ import { PluginCapabilities } from './capabilities';
 
 // support html and js entry points
 // js entry points will mean we create a new iframe and load the js file in it
-interface PluginEntry {
+// FIXME: HTML entry doesn't work properly yet. jsdelivr doesn't support rendering HTML files so we need to find a way to host the HTML files for this to work.
+interface PluginHtmlEntry {
   type: 'html';
   path: string;
 }
+
+interface PluginJsEntry {
+  type: 'js';
+  scripts: string[];
+  styles: string[];
+}
+
+type PluginEntry = PluginHtmlEntry | PluginJsEntry;
 
 export interface PluginV3Manifest {
   /**
