@@ -106,8 +106,9 @@ To support both v2 and v3 formats, you can add the relevant fields to the manife
   "version": "1.0.0",
   "description": "A plugin for Altair GraphQL Client",
   "entry": {
-    "type": "html",
-    "path": "index.html"
+    "type": "js",
+    "scripts": ["dist/plugin.js"],
+    "styles": ["dist/plugin.css"]
   },
 
   "//": "Adding the following for backward compatibility with older versions of Altair.",
