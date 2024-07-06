@@ -33,6 +33,10 @@ import sanitize from 'sanitize-html';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { getClientConfig } from '@altairgraphql/api-utils';
 import { environment } from 'environments/environment';
+import {
+  injectScript,
+  injectStylesheet,
+} from 'altair-graphql-core/build/utils/inject';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -331,7 +335,7 @@ export class PluginRegistryService {
 
       await Promise.all(
         manifest.styles.map((style) => {
-          return this.injectPluginStylesheet(this.resolveURL(pluginBaseUrl, style));
+          return injectStylesheet(this.resolveURL(pluginBaseUrl, style));
         })
       );
     }
@@ -340,7 +344,7 @@ export class PluginRegistryService {
 
       await Promise.all(
         manifest.scripts.map((script) => {
-          return this.injectPluginScript(this.resolveURL(pluginBaseUrl, script));
+          return injectScript(this.resolveURL(pluginBaseUrl, script));
         })
       );
     }
@@ -398,36 +402,6 @@ export class PluginRegistryService {
       this.addV3Plugin(name, manifest, worker, opts);
     }
     return;
-  }
-
-  private injectPluginScript(url: string) {
-    return new Promise((resolve, reject) => {
-      const head = document.getElementsByTagName('head')[0];
-      if (!head) {
-        return reject(new Error('No head found!'));
-      }
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = url;
-      script.onload = () => resolve(null);
-      script.onerror = (err) => reject(err);
-      head.appendChild(script);
-    });
-  }
-  private injectPluginStylesheet(url: string) {
-    return new Promise((resolve, reject) => {
-      const head = document.getElementsByTagName('head')[0];
-      if (!head) {
-        return reject(new Error('No head found!'));
-      }
-      const style = document.createElement('link');
-      style.type = 'text/css';
-      style.rel = 'stylesheet';
-      style.href = url;
-      style.onload = () => resolve(null);
-      style.onerror = (err) => reject(err);
-      head.appendChild(style);
-    });
   }
 
   private getPluginBaseURL(pluginInfo: PluginInfo) {
