@@ -45,7 +45,10 @@ import {
 } from 'altair-graphql-core/build/plugin/ui-action';
 import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
 import { PluginV3Context } from 'altair-graphql-core/build/plugin/v3/context';
-import { PluginParentWorker } from 'altair-graphql-core/build/plugin/v3/parent-worker';
+import {
+  PluginParentWorker,
+  PluginParentWorkerOptions,
+} from 'altair-graphql-core/build/plugin/v3/parent-worker';
 import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
 import { RequestHandlerRegistryService } from '../../request/request-handler-registry.service';
 import { SubscriptionProviderRequestHandlerAdapter } from 'altair-graphql-core/build/request/adapters';
@@ -249,7 +252,7 @@ export class PluginContextService implements PluginContextGenerator {
   createV3Context(
     pluginName: string,
     manifest: PluginV3Manifest,
-    pluginEntrypointUrl: string
+    parentWorkerOptions: PluginParentWorkerOptions
   ): PluginV3Context {
     const self = this;
     const log = (msg: string) => debug.log(`PLUGIN[${pluginName}]: ${msg}`);
@@ -289,8 +292,8 @@ export class PluginContextService implements PluginContextGenerator {
         // create and setup panel iframe
         const id = `panel-${uuid()}`;
         const panelWorker = new PluginParentWorker({
+          ...parentWorkerOptions,
           id,
-          pluginEntrypointUrl,
           instanceType: 'panel',
           disableAppend: true,
           additionalParams: {

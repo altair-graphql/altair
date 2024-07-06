@@ -6,27 +6,45 @@ export const instanceTypes = {
 } as const;
 export type InstanceType = (typeof instanceTypes)[keyof typeof instanceTypes];
 
-export interface FrameQueryParams {
+export interface FrameOptions {
+  /**
+   * Source origin of the parent window
+   */
   sc: string;
+
+  /**
+   * Plugin ID
+   */
   id: string;
+
+  /**
+   * Instance type of the plugin
+   */
   instanceType: InstanceType;
+
+  /**
+   * Additional parameters
+   */
   [key: string]: string;
 }
 export class PluginFrameWorker extends EvaluatorWorker {
   private origin: string;
   private id: string;
   private instanceType: InstanceType = instanceTypes.MAIN;
-  private params: FrameQueryParams;
+  private params: FrameOptions;
 
   constructor() {
     super();
-    const params: FrameQueryParams = Object.fromEntries(
+    // Check for params in special params object on the window object first. Using srcdoc, we will set the params on the window object
+    const paramFromWindow = (window as any).__ALTAIR_PLUGIN_PARAMS__ as FrameOptions;
+    const paramsFromUrl = Object.fromEntries(
       new URLSearchParams(window.location.search)
-    ) as FrameQueryParams;
+    ) as FrameOptions;
+    const params: FrameOptions = paramFromWindow ?? paramsFromUrl;
     this.params = params;
-    // Get the source origin that embeds the iframe from the URL query parameter
 
     if (!params.sc) {
+      console.log('Invalid source provided!', paramFromWindow, paramsFromUrl);
       throw new Error('Invalid source provided!');
     }
     if (!params.id) {
@@ -58,7 +76,7 @@ export class PluginFrameWorker extends EvaluatorWorker {
   }
 
   send(type: string, payload: any): void {
-    window.parent.postMessage({ type, payload }, this.origin);
+    window.parent.postMessage({ type, payload, frameId: this.id }, this.origin);
   }
 
   onError(handler: (err: any) => void): void {

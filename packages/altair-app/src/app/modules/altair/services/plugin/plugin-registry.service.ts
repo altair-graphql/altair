@@ -15,7 +15,10 @@ import {
   RemotePluginListResponse,
 } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
-import { PluginParentWorker } from 'altair-graphql-core/build/plugin/v3/parent-worker';
+import {
+  PluginParentWorker,
+  PluginParentWorkerOptions,
+} from 'altair-graphql-core/build/plugin/v3/parent-worker';
 import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import {
@@ -28,6 +31,8 @@ import { take } from 'rxjs/operators';
 import { NotifyService } from '../notify/notify.service';
 import sanitize from 'sanitize-html';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { getClientConfig } from '@altairgraphql/api-utils';
+import { environment } from 'environments/environment';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -80,13 +85,13 @@ export class PluginRegistryService {
     name: string,
     manifest: PluginV3Manifest,
     worker: PluginParentWorker,
-    pluginEntrypointUrl: string
+    parentWorkerOptions: PluginParentWorkerOptions
   ) {
     const engine = new PluginParentEngine(worker);
     const context = this.pluginContextService.createV3Context(
       name,
       manifest,
-      pluginEntrypointUrl
+      parentWorkerOptions
     );
     engine.start(context);
     const pluginStateEntry: V3PluginStateEntry = {
@@ -364,9 +369,33 @@ export class PluginRegistryService {
     const entry = manifest.entry;
     if (entry.type === 'html') {
       const pluginEntrypointUrl = this.resolveURL(pluginBaseUrl, entry.path);
-      const worker = new PluginParentWorker({ id, pluginEntrypointUrl });
-      this.addV3Plugin(name, manifest, worker, pluginEntrypointUrl);
-      debug.log('PLUGIN', 'V3 plugin loaded.');
+      const opts: PluginParentWorkerOptions = {
+        id,
+        type: 'url',
+        pluginEntrypointUrl,
+      };
+      const worker = new PluginParentWorker(opts);
+      this.addV3Plugin(name, manifest, worker, opts);
+      debug.log('PLUGIN', 'V3 plugin loaded with src.');
+    } else if (entry.type === 'js') {
+      const scriptUrls = entry.scripts.map((script) =>
+        this.resolveURL(pluginBaseUrl, script)
+      );
+      const styleUrls = entry.styles.map((style) =>
+        this.resolveURL(pluginBaseUrl, style)
+      );
+      const config = getClientConfig(
+        environment.production ? 'production' : 'development'
+      );
+      const opts: PluginParentWorkerOptions = {
+        id,
+        sandboxUrl: config.sandboxUrl,
+        type: 'scripts',
+        scriptUrls,
+        styleUrls,
+      };
+      const worker = new PluginParentWorker(opts);
+      this.addV3Plugin(name, manifest, worker, opts);
     }
     return;
   }
