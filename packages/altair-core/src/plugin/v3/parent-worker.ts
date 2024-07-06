@@ -71,7 +71,6 @@ export class PluginParentWorker extends EvaluatorWorker {
         plugin_sandbox_opts: JSON.stringify(this.opts),
       });
       iframe.src = url;
-      // TODO: Use srcdoc instead of src
     } else if (this.opts.type === 'url') {
       const url = urlWithParams(this.opts.pluginEntrypointUrl, params);
       iframe.src = url;
