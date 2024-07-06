@@ -1,34 +1,8 @@
 import { PluginParentWorkerOptions } from 'altair-graphql-core/build/plugin/v3/parent-worker';
-
-const injectPluginScript = (url: string) => {
-  return new Promise((resolve, reject) => {
-    const head = document.getElementsByTagName('head')[0];
-    if (!head) {
-      return reject(new Error('No head found!'));
-    }
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = url;
-    script.onload = () => resolve(null);
-    script.onerror = (err) => reject(err);
-    head.appendChild(script);
-  });
-};
-const injectPluginStylesheet = (url: string) => {
-  return new Promise((resolve, reject) => {
-    const head = document.getElementsByTagName('head')[0];
-    if (!head) {
-      return reject(new Error('No head found!'));
-    }
-    const style = document.createElement('link');
-    style.type = 'text/css';
-    style.rel = 'stylesheet';
-    style.href = url;
-    style.onload = () => resolve(null);
-    style.onerror = (err) => reject(err);
-    head.appendChild(style);
-  });
-};
+import {
+  injectScript,
+  injectStylesheet,
+} from 'altair-graphql-core/build/utils/inject';
 
 export const handlePluginSandbox = async () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -52,13 +26,13 @@ export const handlePluginSandbox = async () => {
   // Load plugin scripts and styles
   if (pluginSandboxOpts.styleUrls) {
     for (const style of pluginSandboxOpts.styleUrls) {
-      await injectPluginStylesheet(style);
+      await injectStylesheet(style);
     }
   }
 
   if (pluginSandboxOpts.scriptUrls) {
     for (const script of pluginSandboxOpts.scriptUrls) {
-      await injectPluginScript(script);
+      await injectScript(script);
     }
   }
 };
