@@ -648,8 +648,18 @@ export class GqlService {
       if (file.isMultiple) {
         if (Array.isArray(file.data)) {
           file.data.forEach((fileData, i) => {
+            let n = `${file.name}.${i}`;
+            // check if name contains the $$ placeholder, and replace it with the index
+            if (file.name.split('.').includes('$$')) {
+              n = file.name
+                .split('.')
+                .map((part) => {
+                  return part === '$$' ? i : part;
+                })
+                .join('.');
+            }
             const newFileVariable = {
-              name: `${file.name}.${i}`,
+              name: n,
               data: fileData,
             };
 

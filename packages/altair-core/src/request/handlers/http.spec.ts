@@ -341,7 +341,6 @@ describe('HTTP handler', () => {
     ]);
   });
 
-
   it('should properly handle normal unsuccessful HTTP GET requests', async () => {
     const mockHandler = new MswMockRequestHandler(
       'http://localhost:3000/graphql',

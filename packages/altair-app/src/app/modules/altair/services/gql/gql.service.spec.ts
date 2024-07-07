@@ -274,9 +274,13 @@ describe('GqlService', () => {
           .toPromise();
 
         expect(res?.body).toEqual(
-          JSON.stringify({
-            data: 'introspection data',
-          }, null, 2)
+          JSON.stringify(
+            {
+              data: 'introspection data',
+            },
+            null,
+            2
+          )
         );
       }
     ));
@@ -333,9 +337,13 @@ describe('GqlService', () => {
           .toPromise();
 
         expect(res?.body).toEqual(
-          JSON.stringify({
-            data: 'second introspection data',
-          }, null, 2)
+          JSON.stringify(
+            {
+              data: 'second introspection data',
+            },
+            null,
+            2
+          )
         );
       }
     ));
@@ -940,47 +948,69 @@ describe('GqlService', () => {
             name: '',
             data: new File([''], 'unknown.file'),
           },
+          {
+            name: 'input.files.$$.file',
+            isMultiple: true,
+            data: [
+              new File([''], 'file1'),
+              new File([''], 'file2'),
+              new File([''], 'file3'),
+              {} as File,
+            ],
+          },
         ];
         const result = service.normalizeFiles(files);
 
         // expect(result).toBe('');
-        expect(result.resolvedFiles.length).toBe(4);
-        expect(result.resolvedFiles).toEqual(
-          expect.arrayContaining([
-            {
-              name: 'first',
-              data: expect.any(File),
-            },
-            {
-              name: 'second.0',
-              data: expect.any(File),
-            },
-            {
-              name: 'second.1',
-              data: expect.any(File),
-            },
-            {
-              name: 'fourth.0',
-              data: expect.any(File),
-            },
-          ])
-        );
-        expect(result.erroneousFiles).toEqual(
-          expect.arrayContaining([
-            {
-              name: 'second.2',
-              data: expect.any(Object),
-            },
-            {
-              name: 'third',
-              data: expect.any(Object),
-            },
-            {
-              name: '',
-              data: expect.any(File),
-            },
-          ])
-        );
+        expect(result.resolvedFiles.length).toBe(7);
+        expect(result.resolvedFiles).toEqual([
+          {
+            name: 'first',
+            data: expect.any(File),
+          },
+          {
+            name: 'second.0',
+            data: expect.any(File),
+          },
+          {
+            name: 'second.1',
+            data: expect.any(File),
+          },
+          {
+            name: 'fourth.0',
+            data: expect.any(File),
+          },
+          {
+            name: 'input.files.0.file',
+            data: expect.any(File),
+          },
+          {
+            name: 'input.files.1.file',
+            data: expect.any(File),
+          },
+          {
+            name: 'input.files.2.file',
+            data: expect.any(File),
+          },
+        ]);
+        expect(result.erroneousFiles).toEqual([
+          {
+            name: 'second.2',
+            data: expect.any(Object),
+          },
+          {
+            name: 'third',
+            data: expect.any(Object),
+          },
+          {
+            name: '',
+            data: expect.any(File),
+          },
+          {
+            name: 'input.files.3.file',
+            data: expect.any(Object),
+          },
+        ]);
       }
     ));
     it('should return only the first file data if not multiple and has > 1 data', inject(
