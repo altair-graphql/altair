@@ -15,3 +15,30 @@ Altair supports uploading both single files and an array of files (by switching 
 ![file variables](https://i.imgur.com/dVqWVoA.png)
 
 You add your files in the variables pane, and the files are added to the request as variables when the request is sent to the server.
+
+### Handling nested multiple file upload
+
+Consider the following schema:
+
+```graphql
+input FileInput {
+  file: Upload!!
+}
+
+input MyInput {
+  images: [FileInput!]!
+}
+```
+
+And the following query:
+
+```graphql
+mutation ($input: MyInput!) {
+  uploadImages(input: $input) {
+    success
+  }
+}
+```
+
+You can upload multiple files with the single file mode by defining each file name as `input.images.0.file`, `input.images.1.file`, `input.images.2.file` and so on. This works but can be a bit daunting when you have a lot of files to upload.
+You can switch to multiple file mode to make it easier to upload multiple files. For this case, you would define the file name for the files as `input.images.$$.file` (with `$$` as a placeholder for the index of the file). Altair would automatically replace `$$` with the index of the file when sending the request.
