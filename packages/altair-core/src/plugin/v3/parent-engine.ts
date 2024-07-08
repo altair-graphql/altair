@@ -87,6 +87,9 @@ export class PluginParentEngine {
     this.worker.respond(PLUGIN_GET_APP_STYLE_URL_EVENT, async () => {
       const styleSheets = Array.from(document.styleSheets);
       // Get the style sheet URLs
+
+      // FYI for some reason I haven't figured out yet, we can't link to the stylesheets
+      // in the browser extensions directly from the sandboxed iframe.
       const styleUrls = styleSheets
         .map((sheet) => {
           if (sheet?.href) {

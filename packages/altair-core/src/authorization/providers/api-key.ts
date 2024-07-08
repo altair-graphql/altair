@@ -12,6 +12,12 @@ export default class ApiKeyAuthorizationProvider extends AuthorizationProvider<A
   async execute(
     options: AuthorizationProviderExecuteOptions<ApiKeyAuthorizationProviderData>
   ): Promise<AuthorizationResult> {
+    if (!options.data?.key || !options.data?.value) {
+      return {
+        headers: {},
+      };
+    }
+
     return {
       headers: {
         [options.data.key]: this.hydrate(options.data.value),

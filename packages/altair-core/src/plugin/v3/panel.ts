@@ -29,7 +29,8 @@ export abstract class AltairV3Panel {
     data.styleUrls.forEach((styleUrl) => {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-
+      link.type = 'text/css';
+      link.crossOrigin = 'anonymous';
       link.href = styleUrl;
       document.head.appendChild(link);
     });
