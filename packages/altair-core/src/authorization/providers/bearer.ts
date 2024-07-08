@@ -11,6 +11,11 @@ export default class BearerAuthorizationProvider extends AuthorizationProvider<B
   async execute(
     options: AuthorizationProviderExecuteOptions<BearerAuthorizationProviderData>
   ): Promise<AuthorizationResult> {
+    if (!options.data?.token) {
+      return {
+        headers: {},
+      };
+    }
     return {
       headers: {
         Authorization: `Bearer ${this.hydrate(options.data.token)}`,

@@ -12,7 +12,7 @@ export default class BasicAuthorizationProvider extends AuthorizationProvider<Ba
   async execute(
     options: AuthorizationProviderExecuteOptions<BasicAuthorizationProviderData>
   ): Promise<AuthorizationResult> {
-    if (!options.data.username || !options.data.password) {
+    if (!options.data?.username || !options.data?.password) {
       return {
         headers: {},
       };

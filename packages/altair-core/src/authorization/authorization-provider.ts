@@ -2,7 +2,7 @@ import { AuthorizationResult } from '../types/state/authorization.interface';
 
 export interface AuthorizationProviderExecuteOptions<T = unknown> {
   // The input from the user
-  data: T;
+  data: T | undefined;
 }
 
 export abstract class AuthorizationProvider<T = unknown> {
