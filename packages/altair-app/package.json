@@ -17,7 +17,7 @@
     "@angular/platform-browser-dynamic": "17.0.8",
     "@angular/platform-server": "17.0.8",
     "@angular/router": "17.0.8",
-    "@apollo/client": "3.5.6",
+    "@apollo/client": "3.10.8",
     "@codemirror/autocomplete": "6.2.0",
     "@codemirror/commands": "6.3.3",
     "@codemirror/lang-javascript": "6.1.0",
