@@ -8,7 +8,7 @@
     "@altairgraphql/db": "^7.2.3",
     "@altairgraphql/electron-interop": "^7.2.3",
     "@angular/animations": "17.0.8",
-    "@angular/cdk": "15.2.9",
+    "@angular/cdk": "18.0.6",
     "@angular/cli": "17.0.8",
     "@angular/common": "17.0.8",
     "@angular/core": "^17.0.8",
