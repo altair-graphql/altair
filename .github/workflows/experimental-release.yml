@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [Release]
     types:
-    - completed
+      - completed
   workflow_dispatch:
 
 env:
@@ -58,48 +58,62 @@ jobs:
     name: Publish firefox addon
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.3.1
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: yarn
-    - run: yarn build-ext
-    - uses: trmcnvn/firefox-addon@v1
-      with:
-        uuid: '{c336a627-bbea-4dbb-aa77-83899b52149a}'
-        xpi: extension-builds/mozilla-build/build.zip
-        manifest: extension-builds/mozilla-files/manifest.json
-        api-key: ${{ secrets.FIREFOX_API_KEY }}
-        api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-    - uses: trmcnvn/chrome-addon@v2
-      with:
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-        zip: extension-builds/chrome-build/build.zip
-        extension: flnheeellpciglgpaodhkhmapeljopja
+      - uses: actions/checkout@v2.3.1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn
+      - run: yarn build-ext
+      - uses: trmcnvn/firefox-addon@v1
+        with:
+          uuid: '{c336a627-bbea-4dbb-aa77-83899b52149a}'
+          xpi: extension-builds/mozilla-build/build.zip
+          manifest: extension-builds/mozilla-files/manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+      - uses: wdzeng/edge-addon@v1
+        with:
+          product-id: f725e625-c035-444d-b373-fba0e41855c1
+          zip-path: extension-builds/chrome-build/build.zip
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
+          access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
+      - uses: wdzeng/chrome-extension@v1
+        with:
+          extension-id: flnheeellpciglgpaodhkhmapeljopja
+          zip-path: extension-builds/chrome-build/build.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - uses: trmcnvn/chrome-addon@v2
+        with:
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          zip: extension-builds/chrome-build/build.zip
+          extension: flnheeellpciglgpaodhkhmapeljopja
   chrome-extension-upload:
     name: Publish webextension
     runs-on: ubuntu-latest
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - name: Build extensions
-      run: |
-        yarn
-        yarn lerna bootstrap
-        yarn build-ext
-    - name: Upload & release
-      uses: mnao305/chrome-extension-upload@1.1.1
-      with:
-        file-path: extension-builds/chrome-build/build.zip
-        extension-id: flnheeellpciglgpaodhkhmapeljopja
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Build extensions
+        run: |
+          yarn
+          yarn lerna bootstrap
+          yarn build-ext
+      - name: Upload & release
+        uses: mnao305/chrome-extension-upload@1.1.1
+        with:
+          file-path: extension-builds/chrome-build/build.zip
+          extension-id: flnheeellpciglgpaodhkhmapeljopja
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
   # TODO: Publish browser extensions (mozilla, edge)
   # https://github.com/fregante/web-ext-submit

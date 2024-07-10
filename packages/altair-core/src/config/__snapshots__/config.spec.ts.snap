@@ -62,5 +62,6 @@ AltairConfig {
     "dracula",
     "system",
   ],
+  "useLocalSandboxUrl": false,
 }
 `;
