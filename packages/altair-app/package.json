@@ -100,6 +100,7 @@
     "zone.js": "0.14.2"
   },
   "devDependencies": {
+    "@altairgraphql/iframe-sandbox": "^7.2.3",
     "@angular-devkit/build-angular": "17.0.8",
     "@angular-eslint/builder": "17.1.1",
     "@angular-eslint/eslint-plugin": "17.1.1",
@@ -177,7 +178,7 @@
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "ng:build": "node --max_old_space_size=8000 ../../node_modules/@angular/cli/bin/ng build --aot --stats-json --output-hashing=none",
-    "build": "yarn ng:build && yarn sentry:sourcemaps:inject",
+    "build": "node scripts/build.js",
     "lint": "ng lint",
     "new:component": "ng g component modules/altair/components/",
     "ng": "ng",

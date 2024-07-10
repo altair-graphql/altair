@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
   AccessTokenResponse,
   AuthorizationRedirectErrorResponse,
@@ -11,7 +12,7 @@ import {
   secureRandomString,
 } from 'altair-graphql-core/build/oauth2';
 import { NotifyService } from 'app/modules/altair/services';
-import { apiClientConfig } from 'app/modules/altair/services/api/api.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-authorization-oauth2',
@@ -19,11 +20,14 @@ import { apiClientConfig } from 'app/modules/altair/services/api/api.service';
   styles: ``,
 })
 export class AuthorizationOauth2Component implements OnInit {
+  urlConfig = getAltairConfig().getUrlConfig(
+    environment.production ? 'production' : 'development'
+  );
   form = this.formBuilder.group({
     type: OAuth2Type.AUTHORIZATION_CODE,
     clientId: '',
     clientSecret: '',
-    redirectUri: `${apiClientConfig.loginClientUrl}/oauth2`,
+    redirectUri: `${this.urlConfig.loginClient}/oauth2`,
     authorizationEndpoint: '',
     tokenEndpoint: '',
     scope: '',
@@ -47,7 +51,7 @@ export class AuthorizationOauth2Component implements OnInit {
   }
 
   getOAuthWindowUrl(): string {
-    return `${apiClientConfig.loginClientUrl}/oauth2?sc=${window.location.origin}`;
+    return `${this.urlConfig.loginClient}/oauth2?sc=${window.location.origin}`;
   }
 
   getOAuth2Options(): OAuth2ClientOptions {

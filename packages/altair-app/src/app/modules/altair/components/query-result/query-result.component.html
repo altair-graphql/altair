@@ -13,7 +13,7 @@
             <div class="query-result__none-subtext">
               {{ 'QUERY_RESULT_NO_RESULT_TEXT' | translate }}
             </div>
-            <div class="query-result__none-art">
+            <div class="query-result__none-art clearfix">
               <div class="left">
                 <div class="query-result__none-art-button send"></div>
                 <div class="query-result__none-art-button"></div>
@@ -29,6 +29,16 @@
               [windowId]="windowId"
               [loading]="isRunning"
             />
+
+            @if (isRunning) {
+              <button
+                class="btn btn--small btn--light btn--destructive"
+                (click)="cancelRequestChange.emit()"
+              >
+                <app-icon name="x"></app-icon>
+                {{ 'CANCEL_TEXT' | translate }}
+              </button>
+            }
           </div>
         </div>
       } @else {
