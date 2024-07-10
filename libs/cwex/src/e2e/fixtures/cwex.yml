@@ -1,0 +1,7 @@
+outDir: e2e-test-out
+rootDir: ./src/e2e
+include:
+  - fixtures/random_includes/*
+manifestOptions:
+  name: Test extension
+  version: 0.2.0
