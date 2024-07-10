@@ -1,4 +1,3 @@
-import { APIClientOptions, ClientEnvironment, getClientConfig } from './config';
 import {
   ALTAIR_API_USER_TOKEN_STORAGE_KEY,
   OAUTH_POPUP_CALLBACK_MESSAGE_TYPE,
@@ -18,11 +17,15 @@ import {
   TeamMembership,
   QueryItemRevision,
 } from '@altairgraphql/db';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
 import { ICreateTeamDto, ICreateTeamMembershipDto, IUpdateTeamDto } from './team';
 import { from, Observable, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ReturnedWorkspace } from './workspace';
+import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
+import { UrlConfig } from 'altair-graphql-core/build/config/urls';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -61,9 +64,9 @@ export class APIClient {
     this.user$.next(val);
   }
 
-  constructor(public options: APIClientOptions) {
+  constructor(public urlConfig: UrlConfig) {
     this.ky = ky.extend({
-      prefixUrl: options.apiBaseUrl,
+      prefixUrl: urlConfig.api,
       hooks: {
         beforeRequest: [(req) => this.setAuthHeaderBeforeRequest(req)],
       },
@@ -119,7 +122,7 @@ export class APIClient {
   }
 
   private getPopupUrl(nonce: string) {
-    const url = new URL(this.options.loginClientUrl);
+    const url = new URL(this.urlConfig.loginClient);
     url.searchParams.append('nonce', nonce);
     url.searchParams.append('sc', location.origin);
 
@@ -165,7 +168,7 @@ export class APIClient {
           if (type === OAUTH_POPUP_CALLBACK_MESSAGE_TYPE) {
             if (
               new URL(message.origin).href !==
-              new URL(this.options.loginClientUrl).href
+              new URL(this.urlConfig.loginClient).href
             ) {
               return reject(new Error('origin does not match!'));
             }
@@ -309,7 +312,7 @@ export class APIClient {
   }
 
   getQueryShareUrl(queryId: string) {
-    const url = new URL(this.options.loginClientUrl);
+    const url = new URL(this.urlConfig.loginClient);
     url.searchParams.set('action', 'share');
     url.searchParams.set('q', queryId);
 
@@ -337,7 +340,7 @@ export class APIClient {
     return from(this.getSLT()).pipe(
       take(1),
       map((res) => {
-        const url = new URL('/events', this.options.apiBaseUrl);
+        const url = new URL('/events', this.urlConfig.api);
 
         url.searchParams.append('slt', res.slt);
 
@@ -348,10 +351,8 @@ export class APIClient {
   }
 }
 
-export const initializeClient = (env: ClientEnvironment = 'development') => {
-  const config = getClientConfig(env);
-
-  const apiClient = new APIClient(config);
+export const initializeClient = (env: ConfigEnvironment = 'development') => {
+  const apiClient = new APIClient(getAltairConfig().getUrlConfig(env));
 
   return apiClient;
 };

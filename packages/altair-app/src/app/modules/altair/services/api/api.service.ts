@@ -4,11 +4,7 @@ import {
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { map } from 'rxjs/operators';
-import {
-  FullQueryCollection,
-  initializeClient,
-  getClientConfig,
-} from '@altairgraphql/api-utils';
+import { FullQueryCollection, initializeClient } from '@altairgraphql/api-utils';
 import { AccountService } from '../account/account.service';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -17,9 +13,6 @@ import { environment } from 'environments/environment';
 import { WorkspaceId } from 'altair-graphql-core/build/types/state/workspace.interface';
 
 export const apiClient = initializeClient(
-  environment.production ? 'production' : 'development'
-);
-export const apiClientConfig = getClientConfig(
   environment.production ? 'production' : 'development'
 );
 const serverQueryToLocalQuery = (query: QueryItem): IQuery => {

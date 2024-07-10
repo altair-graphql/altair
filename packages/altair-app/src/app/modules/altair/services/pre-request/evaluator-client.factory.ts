@@ -4,11 +4,11 @@ import {
   ScriptEvent,
   ScriptEventData,
 } from 'altair-graphql-core/build/script/types';
-import { getClientConfig } from '@altairgraphql/api-utils';
 import { debug } from '../../utils/logger';
 import { environment } from 'environments/environment';
 import { EvaluatorWorkerClient } from './evaluator-worker-client';
 import { isExtension } from '../../utils';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 export class EvaluatorFrameClient extends ScriptEvaluatorClient {
   private iframe = this.createIframe();
@@ -72,9 +72,11 @@ export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
     ) {
       return new EvaluatorWorkerClient();
     }
-    const config = getClientConfig(
-      environment.production ? 'production' : 'development'
+    return new EvaluatorFrameClient(
+      await getAltairConfig().getUrl(
+        'sandbox',
+        environment.production ? 'production' : 'development'
+      )
     );
-    return new EvaluatorFrameClient(config.sandboxUrl);
   }
 }

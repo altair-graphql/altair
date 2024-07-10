@@ -291,6 +291,10 @@ export class WindowManager {
         if (u.protocol !== ALTAIR_CUSTOM_PROTOCOL + ':') {
           return callback({ responseHeaders: details.responseHeaders });
         }
+
+        if (u.pathname.includes('/iframe-sandbox')) {
+          return callback({ responseHeaders: details.responseHeaders });
+        }
       } catch {}
       if (
         details.resourceType === 'mainFrame' ||

@@ -433,6 +433,24 @@ export class QueryEffects {
     { dispatch: false }
   );
 
+  // perform some cleanup when stopping loading
+  stopLoading$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(layoutActions.STOP_LOADING),
+        mergeMap((action: layoutActions.StopLoadingAction) => {
+          this.store.dispatch(
+            new queryActions.SetIsSubscribedAction(action.windowId, {
+              isSubscribed: false,
+            })
+          );
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   // Shows the URL set alert after the URL is set
   showUrlSetAlert$ = createEffect(
     () => {

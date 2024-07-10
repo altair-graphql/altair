@@ -3,6 +3,7 @@
   "private": true,
   "version": "7.2.3",
   "type": "module",
+  "main": "dist/index.html",
   "scripts": {
     "dev": "vite --port 5123",
     "build": "tsc && vite build",

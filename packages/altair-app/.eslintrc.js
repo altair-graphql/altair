@@ -48,5 +48,15 @@ module.exports = {
       extends: ['plugin:@angular-eslint/template/recommended'],
       rules: {},
     },
+    {
+      files: ['*.js'],
+      parserOptions: {
+        ecmaVersion: 'latest',
+      },
+
+      env: {
+        es6: true,
+      },
+    },
   ],
 };

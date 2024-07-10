@@ -31,12 +31,12 @@ import { take } from 'rxjs/operators';
 import { NotifyService } from '../notify/notify.service';
 import sanitize from 'sanitize-html';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
-import { getClientConfig } from '@altairgraphql/api-utils';
 import { environment } from 'environments/environment';
 import {
   injectScript,
   injectStylesheet,
 } from 'altair-graphql-core/build/utils/inject';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -364,7 +364,7 @@ export class PluginRegistryService {
     return plugin;
   }
 
-  private fetchPluginV3Assets(
+  private async fetchPluginV3Assets(
     name: string,
     manifest: PluginV3Manifest,
     pluginBaseUrl: string
@@ -388,12 +388,12 @@ export class PluginRegistryService {
       const styleUrls = entry.styles.map((style) =>
         this.resolveURL(pluginBaseUrl, style)
       );
-      const config = getClientConfig(
-        environment.production ? 'production' : 'development'
-      );
       const opts: PluginParentWorkerOptions = {
         id,
-        sandboxUrl: config.sandboxUrl,
+        sandboxUrl: await getAltairConfig().getUrl(
+          'sandbox',
+          environment.production ? 'production' : 'development'
+        ),
         type: 'scripts',
         scriptUrls,
         styleUrls,
