@@ -1,13 +1,8 @@
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IAuthModuleOptions, PassportStrategy } from '@nestjs/passport';
 import { IdentityProvider, User } from '@altairgraphql/db';
 import { Request } from 'express';
-import { PrismaService } from 'nestjs-prisma';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user/user.service';

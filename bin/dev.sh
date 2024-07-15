@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR=$(dirname "$0")
 ROOT=$(cd "$SCRIPT_DIR/../" && pwd)/

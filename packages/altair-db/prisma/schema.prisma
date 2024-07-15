@@ -87,6 +87,9 @@ model User {
   Team              Team[]
   UserPlan          UserPlan?
   QueryItemRevision QueryItemRevision[]
+  CreditBalance     CreditBalance?
+  CreditTransaction CreditTransaction[]
+  CreditPurchase    CreditPurchase[]
 }
 
 enum IdentityProvider {
@@ -151,6 +154,52 @@ model UserPlan {
   quantity   Int // indicates number of seats (used for determine maximum team member count)
   user       User       @relation(fields: [userId], references: [id])
   planConfig PlanConfig @relation(fields: [planRole], references: [id])
+}
+
+model CreditBalance {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  fixedCredits   Int
+  monthlyCredits Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model CreditTransaction {
+  id             String                @id @default(cuid())
+  userId         String
+  // amount is in credits
+  monthlyAmount  Int // monthly refill amount
+  fixedAmount    Int
+  type           CreditTransactionType
+  description    String
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  user           User                  @relation(fields: [userId], references: [id])
+  CreditPurchase CreditPurchase?
+}
+
+enum CreditTransactionType {
+  INITIAL
+  MONTHLY_REFILL
+  USED
+  DOWNGRADED
+  PURCHASED
+}
+
+model CreditPurchase {
+  id                String            @id @default(cuid())
+  userId            String
+  amount            Int
+  cost              Decimal
+  stripeSessionId   String
+  currency          String
+  transactionId     String            @unique
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  user              User              @relation(fields: [userId], references: [id])
+  creditTransaction CreditTransaction @relation(fields: [transactionId], references: [id])
 }
 
 // QueryItems belong to a QueryCollection
