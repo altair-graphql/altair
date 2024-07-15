@@ -3,7 +3,7 @@ import {
   MONTHLY_CREDIT_REFILL,
   PRO_PLAN_ID,
 } from '@altairgraphql/db';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
@@ -11,6 +11,7 @@ import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class CreditService {
+  private readonly logger = new Logger(CreditService.name);
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,

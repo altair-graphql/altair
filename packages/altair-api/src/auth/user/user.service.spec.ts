@@ -16,6 +16,7 @@ import {
 } from '../mocks/stripe-service.mock';
 import Stripe from 'stripe';
 import { PRO_PLAN_ID } from '@altairgraphql/db';
+// import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 describe('UserService', () => {
   let service: UserService;
@@ -250,9 +251,11 @@ describe('UserService', () => {
       jest
         .spyOn(stripeService, 'getPlanInfoByRole')
         .mockResolvedValueOnce(mockPlanInfo());
-      jest.spyOn(stripeService, 'createCheckoutSession').mockResolvedValueOnce({
-        url: urlMock,
-      } as Stripe.Response<Stripe.Checkout.Session>);
+      jest
+        .spyOn(stripeService, 'createSubscriptionCheckoutSession')
+        .mockResolvedValueOnce({
+          url: urlMock,
+        } as Stripe.Response<Stripe.Checkout.Session>);
 
       // WHEN
       const url = await service.getProPlanUrl(userMock.id);

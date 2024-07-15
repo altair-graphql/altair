@@ -1,3 +1,5 @@
+// declare global {
+// }
 declare namespace jest {
   interface Matchers<R> {
     toBeUser(): R;

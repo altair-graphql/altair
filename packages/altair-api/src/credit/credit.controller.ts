@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { BuyDto } from './dto/buy.dto';
 
-@Controller('credit')
+@Controller('credits')
 @ApiTags('Credits')
 @UseGuards(JwtAuthGuard)
 export class CreditController {

@@ -44,18 +44,10 @@ function toBePlanConfig(planConfig: any) {
   );
   if (!check.pass) return check;
 
-  check = typeCheck(
-    'PlanConfig.maxQueryCount',
-    planConfig?.maxQueryCount,
-    'number'
-  );
+  check = typeCheck('PlanConfig.maxQueryCount', planConfig?.maxQueryCount, 'number');
   if (!check.pass) return check;
 
-  check = typeCheck(
-    'PlanConfig.maxTeamCount',
-    planConfig?.maxTeamCount,
-    'number'
-  );
+  check = typeCheck('PlanConfig.maxTeamCount', planConfig?.maxTeamCount, 'number');
   if (!check.pass) return check;
 
   check = typeCheck(
@@ -142,11 +134,7 @@ function toBePlan(plan: any) {
   check = typeCheck('Plan.maxTeamsCount', plan?.maxTeamsCount, 'number');
   if (!check.pass) return check;
 
-  check = typeCheck(
-    'Plan.maxTeamMembersCount',
-    plan?.maxTeamMembersCount,
-    'number'
-  );
+  check = typeCheck('Plan.maxTeamMembersCount', plan?.maxTeamMembersCount, 'number');
   if (!check.pass) return check;
 
   check = typeCheck('Plan.canUpgradePro', plan?.canUpgradePro, 'boolean');
@@ -162,18 +150,10 @@ function toBeUserStats(stats: any) {
   let check = typeCheck('UserStats.queries.own', stats?.queries?.own, 'number');
   if (!check.pass) return check;
 
-  check = typeCheck(
-    'UserStats.queries.access',
-    stats?.queries?.access,
-    'number'
-  );
+  check = typeCheck('UserStats.queries.access', stats?.queries?.access, 'number');
   if (!check.pass) return check;
 
-  check = typeCheck(
-    'UserStats.collections.own',
-    stats?.collections?.own,
-    'number'
-  );
+  check = typeCheck('UserStats.collections.own', stats?.collections?.own, 'number');
   if (!check.pass) return check;
 
   check = typeCheck(
