@@ -1,6 +1,6 @@
-import { initializeClient } from '@altairgraphql/api-utils';
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
 import { closeWindow, getValidSource, isValidOpener } from './helpers';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
 
@@ -73,7 +73,7 @@ const signInWithRedirect = (apiBaseUrl: string) => {
 };
 
 export const initLoginRedirect = async () => {
-  const client = initializeClient(
+  const urlConfig = getAltairConfig().getUrlConfig(
     import.meta.env.DEV ? 'development' : 'production'
   );
 
@@ -86,7 +86,7 @@ export const initLoginRedirect = async () => {
 
     sessionStorage.setItem(OAUTH_NONCE_KEY, nonce);
 
-    return signInWithRedirect(client.options.apiBaseUrl);
+    return signInWithRedirect(urlConfig.api);
   }
 
   await sendToken(result.accessToken);
