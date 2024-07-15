@@ -99,7 +99,7 @@ export class StripeWebhookController {
           const creditInfo = await this.stripeService.getCreditInfo();
           const purchasedCreditsItem = checkoutSession.line_items?.data.find(
             (item) => {
-              item.price?.product === creditInfo.id;
+              return item.price?.product === creditInfo.id;
             }
           );
           if (purchasedCreditsItem) {

@@ -112,6 +112,8 @@ export class StripeService {
     return this.stripe.checkout.sessions.create({
       ...this.commonCheckoutSessionParams(stripeCustomerId, priceId, quantity),
       mode: 'payment',
+      success_url: `https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}`,
     });
   }
 

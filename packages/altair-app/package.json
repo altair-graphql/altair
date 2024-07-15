@@ -63,7 +63,7 @@
     "curlup": "1.0.0",
     "deepmerge": "4.2.2",
     "dexie": "3.2.3",
-    "express": "4.17.1",
+    "express": "^4.19.2",
     "file-dialog": "0.0.8",
     "file-saver": "2.0.2",
     "fuse.js": "6.4.6",
