@@ -51,7 +51,7 @@ export const bootstrapApp = async (app: INestApplication) => {
 
   // Cors
   if (corsConfig?.enabled) {
-    app.enableCors();
+    app.enableCors({ origin: true });
   }
 
   return app;
