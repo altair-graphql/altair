@@ -7,6 +7,7 @@ import {
   DEFAULT_MAX_TEAM_MEMBER_COUNT,
   DEFAULT_QUERY_REVISION_LIMIT,
 } from './constants';
+import { creditInitialBalance } from './seeds/credit-users';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -21,6 +22,8 @@ async function main() {
   if (!basicPlanExists) {
     await createBasicPlan();
   }
+
+  await creditInitialBalance(prisma);
 }
 
 // execute the main function

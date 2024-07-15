@@ -1,4 +1,10 @@
-import { BASIC_PLAN_ID, PRO_PLAN_ID, User } from '@altairgraphql/db';
+import {
+  BASIC_PLAN_ID,
+  CreditTransactionType,
+  INITIAL_CREDIT_BALANCE,
+  PRO_PLAN_ID,
+  User,
+} from '@altairgraphql/db';
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -33,11 +39,41 @@ export class UserService {
           ...payload,
           stripeCustomerId: stripeCustomer.id,
           // password: hashedPassword,
+
+          // create user workspace
           Workspace: {
             create: {
               name: 'My workspace',
             },
           },
+
+          // create user plan config
+          UserPlan: {
+            create: {
+              planRole: BASIC_PLAN_ID,
+              quantity: 1,
+            },
+          },
+
+          // create user credit balance
+          CreditBalance: {
+            create: {
+              fixedCredits: INITIAL_CREDIT_BALANCE,
+              monthlyCredits: 0,
+            },
+          },
+
+          // create user credit transaction
+          CreditTransaction: {
+            create: {
+              type: CreditTransactionType.INITIAL,
+              fixedAmount: INITIAL_CREDIT_BALANCE,
+              monthlyAmount: 0,
+              description: 'Initial credits',
+            },
+          },
+
+          // create user credential if provider info is provided
           ...(providerInfo
             ? {
                 UserCredential: {
@@ -185,11 +221,81 @@ export class UserService {
     if (!proPlanInfo) {
       throw new Error(`No plan info found for id: ${PRO_PLAN_ID}`);
     }
-    const session = await this.stripeService.createCheckoutSession(
+    const session = await this.stripeService.createSubscriptionCheckoutSession(
       customerId,
       proPlanInfo.priceId
     );
 
     return session.url;
+  }
+
+  async updateUserPlan(userId: string, planId: string, quantity: number) {
+    const user = await this.mustGetUser(userId);
+
+    await this.prisma.userPlan.upsert({
+      where: {
+        userId: user.id,
+      },
+      create: {
+        userId: user.id,
+        planRole: planId,
+        quantity,
+      },
+      update: {
+        planRole: planId,
+        quantity,
+      },
+    });
+
+    return this.updateSubscriptionQuantity(userId, quantity);
+  }
+
+  async toBasicPlan(userId: string) {
+    await this.updateUserPlan(userId, BASIC_PLAN_ID, 1);
+
+    // Deduct remaining monthly credits
+    const creditBalance = await this.prisma.creditBalance.findUnique({
+      where: { userId },
+    });
+
+    if (!creditBalance) {
+      throw new Error('User has no credit balance');
+    }
+
+    const remainingMonthlyCredits = creditBalance.monthlyCredits;
+
+    if (remainingMonthlyCredits > 0) {
+      await this.prisma.creditBalance.update({
+        where: { userId },
+        data: {
+          monthlyCredits: 0,
+        },
+      });
+
+      // Create CreditTransaction record (type: downgraded) with deducted amount
+      await this.prisma.creditTransaction.create({
+        data: {
+          userId,
+          monthlyAmount: remainingMonthlyCredits,
+          fixedAmount: 0,
+          type: CreditTransactionType.DOWNGRADED,
+          description: 'Downgraded to basic plan',
+        },
+      });
+    }
+  }
+
+  async toProPlan(userId: string, quantity: number) {
+    await this.updateUserPlan(userId, PRO_PLAN_ID, quantity);
+  }
+
+  async getProUsers() {
+    return this.prisma.user.findMany({
+      where: {
+        UserPlan: {
+          planRole: PRO_PLAN_ID,
+        },
+      },
+    });
   }
 }

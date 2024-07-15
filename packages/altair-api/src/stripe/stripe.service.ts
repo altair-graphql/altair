@@ -10,7 +10,7 @@ export class StripeService {
 
   constructor() {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2023-08-16',
+      apiVersion: '2024-06-20',
     });
   }
 
@@ -58,8 +58,12 @@ export class StripeService {
     });
   }
 
-  createCheckoutSession(stripeCustomerId: string, priceId: string) {
-    return this.stripe.checkout.sessions.create({
+  commonCheckoutSessionParams(
+    stripeCustomerId: string,
+    priceId: string,
+    quantity = 1
+  ): Stripe.Checkout.SessionCreateParams {
+    return {
       customer: stripeCustomerId,
       payment_method_types: ['card'],
       automatic_tax: {
@@ -75,13 +79,19 @@ export class StripeService {
       line_items: [
         {
           price: priceId,
-          quantity: 1,
+          quantity,
           adjustable_quantity: {
             enabled: true,
-            minimum: 1,
+            minimum: quantity,
           },
         },
       ],
+    };
+  }
+
+  createSubscriptionCheckoutSession(stripeCustomerId: string, priceId: string) {
+    return this.stripe.checkout.sessions.create({
+      ...this.commonCheckoutSessionParams(stripeCustomerId, priceId),
       custom_text: {
         submit: {
           message:
@@ -91,6 +101,23 @@ export class StripeService {
       mode: 'subscription',
       success_url: `https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}`,
+    });
+  }
+
+  createCreditCheckoutSession(
+    stripeCustomerId: string,
+    priceId: string,
+    quantity = 1
+  ) {
+    return this.stripe.checkout.sessions.create({
+      ...this.commonCheckoutSessionParams(stripeCustomerId, priceId, quantity),
+      mode: 'payment',
+    });
+  }
+
+  retrieveCheckoutSession(sessionId: string) {
+    return this.stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items'],
     });
   }
 
@@ -118,8 +145,8 @@ export class StripeService {
           return undefined;
         }
 
-        // a valid product must have a role
-        if (!product.metadata.role) {
+        // a valid (altair subscription) product must have a role
+        if (!product.metadata.role || product.metadata.type !== 'plan') {
           return undefined;
         }
 
@@ -138,6 +165,34 @@ export class StripeService {
         };
       })
       .filter((plan) => !!plan) as IPlanInfo[];
+  }
+
+  async getCreditInfo() {
+    const products = await this.getProducts();
+    const prices = await this.getPrices();
+
+    const product = products.data.find(
+      (product) => product.metadata.type === 'credit'
+    );
+
+    if (!product) {
+      throw new Error('Credit product not found');
+    }
+
+    const price = prices.data.find((price) => price.product === product.id);
+
+    if (!price) {
+      throw new Error('Credit price not found');
+    }
+
+    return {
+      id: product.id,
+      priceId: price.id,
+      price: price.unit_amount ?? 0,
+      currency: price.currency,
+      name: product.name,
+      description: product.description ?? '',
+    };
   }
 
   async updateSubscriptionQuantity(stripeCustomerId: string, quantity: number) {

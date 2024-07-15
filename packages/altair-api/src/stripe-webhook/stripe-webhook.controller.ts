@@ -1,4 +1,8 @@
-import { BASIC_PLAN_ID } from '@altairgraphql/db';
+import {
+  BASIC_PLAN_ID,
+  CreditTransactionType,
+  PRO_PLAN_ID,
+} from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
 import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
@@ -34,7 +38,7 @@ export class StripeWebhookController {
     switch (event.type) {
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.deleted': {
         const data = event.data.object as Stripe.Subscription;
 
         const user = await this.userService.getUserByStripeCustomerId(
@@ -62,20 +66,92 @@ export class StripeWebhookController {
 
         const planRole = shouldCancelPlan ? BASIC_PLAN_ID : planInfo.role;
 
-        await this.prisma.userPlan.upsert({
-          where: {
-            userId: user.id,
-          },
-          create: {
-            userId: user.id,
-            planRole,
-            quantity,
-          },
-          update: {
-            planRole,
-            quantity,
-          },
-        });
+        if (planRole === BASIC_PLAN_ID) {
+          await this.userService.toBasicPlan(user.id);
+        } else if (planRole === PRO_PLAN_ID) {
+          await this.userService.toProPlan(user.id, quantity);
+        }
+        break;
+      }
+      case 'checkout.session.completed':
+      case 'checkout.session.async_payment_succeeded': {
+        // TODO: Handle credit purchase
+        const data: Stripe.Checkout.Session = event.data.object;
+        const checkoutSession = await this.stripeService.retrieveCheckoutSession(
+          data.id
+        );
+        if (!checkoutSession.customer) {
+          throw new BadRequestException('No customer found!');
+        }
+
+        // Verify no credit transaction with the same session ID exists
+        if (
+          await this.prisma.creditPurchase.findFirst({
+            where: {
+              stripeSessionId: checkoutSession.id,
+            },
+          })
+        ) {
+          throw new BadRequestException('Credit purchase already exists!');
+        }
+
+        if (checkoutSession.payment_status !== 'unpaid') {
+          const creditInfo = await this.stripeService.getCreditInfo();
+          const purchasedCreditsItem = checkoutSession.line_items?.data.find(
+            (item) => {
+              item.price?.product === creditInfo.id;
+            }
+          );
+          if (purchasedCreditsItem) {
+            const user = await this.userService.getUserByStripeCustomerId(
+              checkoutSession.customer.toString()
+            );
+            if (!user) {
+              throw new BadRequestException('User not found!');
+            }
+            const quantity = purchasedCreditsItem.quantity ?? 0;
+
+            // Update user credit balance
+            await this.prisma.creditBalance.update({
+              where: {
+                userId: user.id,
+              },
+              data: {
+                fixedCredits: {
+                  increment: quantity,
+                },
+              },
+            });
+
+            // Create credit transaction
+            const transaction = await this.prisma.creditTransaction.create({
+              data: {
+                userId: user.id,
+                fixedAmount: quantity,
+                monthlyAmount: 0,
+                description: 'Purchased credits',
+                type: CreditTransactionType.PURCHASED,
+              },
+            });
+
+            // Create purchase record
+            await this.prisma.creditPurchase.create({
+              data: {
+                userId: user.id,
+                transactionId: transaction.id,
+                stripeSessionId: checkoutSession.id,
+                amount: quantity,
+                cost: creditInfo.price,
+                currency: creditInfo.currency,
+              },
+            });
+          } else {
+            throw new BadRequestException('Unknown checkout session');
+          }
+        }
+
+        break;
+      }
     }
 
     return { received: true };

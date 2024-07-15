@@ -15,6 +15,8 @@ import { LoggerModule } from 'nestjs-pino';
 import { StripeModule } from './stripe/stripe.module';
 import { StripeWebhookController } from './stripe-webhook/stripe-webhook.controller';
 import { WorkspacesModule } from './workspaces/workspaces.module';
+import { CreditModule } from './credit/credit.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -34,6 +36,7 @@ if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
     EventEmitterModule.forRoot({
       verboseMemoryLeak: true,
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     QueriesModule,
     QueryCollectionsModule,
@@ -41,6 +44,7 @@ if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
     TeamMembershipsModule,
     StripeModule,
     WorkspacesModule,
+    CreditModule,
   ],
   controllers: [AppController, StripeWebhookController],
   providers: [AppService, PasswordService],
