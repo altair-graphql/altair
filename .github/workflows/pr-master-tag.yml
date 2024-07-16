@@ -94,6 +94,18 @@ jobs:
         with:
           name: screenshots
           path: packages/altair-electron/e2e/*.png
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
   electron:
     strategy:
       matrix:
