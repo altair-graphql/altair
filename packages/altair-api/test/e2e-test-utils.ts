@@ -14,7 +14,6 @@ import {
   ICreateTeamDto,
   ICreateTeamMembershipDto,
 } from '@altairgraphql/api-utils';
-import { Logger as PinoLogger } from 'nestjs-pino';
 import { JwtService } from '@nestjs/jwt';
 import { StripeService } from 'src/stripe/stripe.service';
 
@@ -157,10 +156,7 @@ export const createQueryCollection = async (
   return res.body;
 };
 
-export const createQuery = async (
-  app: INestApplication,
-  collectionId: string
-) => {
+export const createQuery = async (app: INestApplication, collectionId: string) => {
   const data: ICreateQueryDto = {
     name: 'test query',
     collectionId,
@@ -262,8 +258,6 @@ export const createTestApp = async () => {
     .overrideProvider(StripeService)
     .useValue(stripeService)
     .overrideProvider(Logger)
-    .useValue(logger)
-    .overrideProvider(PinoLogger)
     .useValue(logger)
     .overrideProvider(PrismaService)
     .useValue(prisma)
