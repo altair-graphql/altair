@@ -11,21 +11,31 @@ import { TeamsModule } from './teams/teams.module';
 import config from './common/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TeamMembershipsModule } from './team-memberships/team-memberships.module';
-import { LoggerModule } from 'nestjs-pino';
 import { StripeModule } from './stripe/stripe.module';
 import { StripeWebhookController } from './stripe-webhook/stripe-webhook.controller';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { CreditModule } from './credit/credit.module';
 import { ScheduleModule } from '@nestjs/schedule';
-
-if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const newrelicPino = require('@newrelic/pino-enricher');
-}
+import { WinstonModule, utilities } from 'nest-winston';
+import { format, transports } from 'winston';
 
 @Module({
   imports: [
-    ...(process.env.NODE_ENV !== 'test' ? [LoggerModule.forRoot()] : []),
+    WinstonModule.forRoot({
+      level: 'debug',
+      transports: [
+        new transports.Console({
+          format: format.combine(
+            format.timestamp(),
+            format.ms(),
+            utilities.format.nestLike('AltairGraphQLApi', {
+              colors: true,
+              prettyPrint: true,
+            })
+          ),
+        }),
+      ],
+    }),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule.forRoot({
       isGlobal: true,
