@@ -2,28 +2,22 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { CorsConfig, SwaggerConfig } from './common/config';
-import { NewrelicInterceptor } from './newrelic/newrelic.interceptor';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { LoggingInterceptor } from './logging/logging.interceptor';
 
 export const bootstrapApp = async (app: INestApplication) => {
   // Logger
   if (process.env.NODE_ENV === 'production') {
-    // Use pino logger in production
-    app.useLogger(app.get(Logger));
+    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   }
 
   // Validation
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   // Interceptors
-  if (process.env.NODE_ENV === 'production') {
-    app.useGlobalInterceptors(new NewrelicInterceptor(app.get(Logger)));
-  }
-  if (process.env.NODE_ENV === 'production') {
-    app.useGlobalInterceptors(new LoggerErrorInterceptor());
-  }
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);
