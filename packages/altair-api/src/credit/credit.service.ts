@@ -71,8 +71,8 @@ export class CreditService {
     await this.prisma.creditTransaction.create({
       data: {
         userId,
-        fixedAmount: usedFixedCredits,
-        monthlyAmount: usedMonthlyCredits,
+        fixedAmount: -usedFixedCredits,
+        monthlyAmount: -usedMonthlyCredits,
         type: CreditTransactionType.USED,
         description: 'Used credits',
       },
