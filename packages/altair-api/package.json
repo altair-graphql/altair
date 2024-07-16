@@ -21,7 +21,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "google-auth-library": "^8.7.0",
-    "nestjs-pino": "^3.1.2",
+    "nestjs-pino": "^4.1.0",
     "nestjs-prisma": "^0.19.0",
     "newrelic": "^11.23.1",
     "passport": "^0.7.0",
