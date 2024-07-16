@@ -7,7 +7,7 @@ import {
 } from '@altairgraphql/db';
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { Prisma } from '@prisma/client';
 import { StripeService } from 'src/stripe/stripe.service';
 import { ProviderInfo } from '../models/provider-info.dto';
 import { SignupInput } from '../models/signup.input';
@@ -89,7 +89,7 @@ export class UserService {
 
       return user;
     } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
         throw new ConflictException(`Email ${payload.email} already used.`);
       }
       throw new Error(e as any);

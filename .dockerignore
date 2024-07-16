@@ -4,3 +4,17 @@
 packages/altair-app
 packages/altair-electron
 packages/altair-docs
+
+out/
+extension-builds/
+coverage
+
+dist
+build
+
+.turbo
+**/*.spec.ts
+**/*.test.ts
+**/*.e2e-spec.ts
+**/*.mock.ts
+**/test
