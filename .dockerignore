@@ -1,5 +1,6 @@
 .git
 
+node_modules
 **/node_modules
 packages/altair-app
 packages/altair-electron

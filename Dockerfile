@@ -32,6 +32,8 @@ COPY nx.json nx.json
 COPY tsconfig.json tsconfig.json
 COPY CHECKS CHECKS
 # build the project, running the prepare scripts
+# attempt to rebuild node_modules packages since we ignored scripts in the previous step
+RUN yarn rebuild
 RUN yarn
 RUN yarn turbo run build --filter=@altairgraphql/api...
 
