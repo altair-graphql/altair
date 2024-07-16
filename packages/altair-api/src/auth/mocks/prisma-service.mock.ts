@@ -1,5 +1,5 @@
 import { PlanConfig, User, UserPlan } from '@altairgraphql/db';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { Prisma } from '@prisma/client';
 
 export function mockUser(): User {
   return {
@@ -33,7 +33,7 @@ export function mockPlanConfig(): PlanConfig {
 }
 
 export function mockPrismaConflictError() {
-  return new PrismaClientKnownRequestError('User already exists', {
+  return new Prisma.PrismaClientKnownRequestError('User already exists', {
     code: 'P2002',
     clientVersion: '1.0.0',
   });
