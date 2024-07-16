@@ -21,10 +21,11 @@ FROM base AS installer
 WORKDIR /app
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
-# install node_modules without running scripts (scripts depend on the source files)
-RUN yarn install --ignore-scripts
+# FIXME: running yarn install with --ignore-scripts means that some packages may not get built correctly. Skipping these steps for now.
+# COPY --from=builder /app/out/json/ .
+# COPY --from=builder /app/out/yarn.lock ./yarn.lock
+# # install node_modules without running scripts (scripts depend on the source files)
+# RUN yarn install --ignore-scripts
 # Build the project and its dependencies
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
@@ -32,8 +33,6 @@ COPY nx.json nx.json
 COPY tsconfig.json tsconfig.json
 COPY CHECKS CHECKS
 # build the project, running the prepare scripts
-# attempt to rebuild node_modules packages since we ignored scripts in the previous step
-RUN yarn rebuild
 RUN yarn
 RUN yarn turbo run build --filter=@altairgraphql/api...
 
