@@ -34,6 +34,8 @@ This privacy notice for XKojiMedia (doing business as Altair GraphQL) ("**Altair
 
 **How do you exercise your rights?** The easiest way to exercise your rights is by visiting [support@altairgraphql.dev](mailto:support@altairgraphql.dev), or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.
 
+**Artificial Intelligence (AI) Usage.** We may use artificial intelligence technologies to analyze and process your information for the purposes of improving our Services, enhancing user experience, and providing personalized content. Learn more about [how we use AI](#17-artificial-intelligence-ai-usage).
+
 Want to learn more about what Altair GraphQL does with any information we collect? [Review the privacy notice in full](#table-of-contents).
 
 ### TABLE OF CONTENTS <!-- omit from toc -->
@@ -42,7 +44,6 @@ Want to learn more about what Altair GraphQL does with any information we collec
 - [2. HOW DO WE PROCESS YOUR INFORMATION?](#2-how-do-we-process-your-information)
 - [3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR INFORMATION?](#3-what-legal-bases-do-we-rely-on-to-process-your-information)
 - [4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?](#4-when-and-with-whom-do-we-share-your-personal-information)
-- [5. WHAT IS OUR STANCE ON THIRD-PARTY WEBSITES?](#5-what-is-our-stance-on-third-party-websites)
 - [6. HOW DO WE HANDLE YOUR SOCIAL LOGINS?](#6-how-do-we-handle-your-social-logins)
 - [7. IS YOUR INFORMATION TRANSFERRED INTERNATIONALLY?](#7-is-your-information-transferred-internationally)
 - [8. HOW LONG DO WE KEEP YOUR INFORMATION?](#8-how-long-do-we-keep-your-information)
@@ -54,6 +55,7 @@ Want to learn more about what Altair GraphQL does with any information we collec
 - [14. DO WE MAKE UPDATES TO THIS NOTICE?](#14-do-we-make-updates-to-this-notice)
 - [15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?](#15-how-can-you-contact-us-about-this-notice)
 - [16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?](#16-how-can-you-review-update-or-delete-the-data-we-collect-from-you)
+- [17. ARTIFICIAL INTELLIGENCE (AI) USAGE](#17-artificial-intelligence-ai-usage)
 
 ### 1. WHAT INFORMATION DO WE COLLECT?
 
@@ -166,10 +168,7 @@ We also may need to share your personal information in the following situations:
 
 - **Business Transfers.** We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.
 - **Other Users.** When you share personal information (for example, by posting comments, contributions, or other content to the Services) or otherwise interact with public areas of the Services, such personal information may be viewed by all users and may be publicly made available outside the Services in perpetuity. If you interact with other users of our Services and register for our Services through a social network (such as Facebook), your contacts on the social network will see your name, profile photo, and descriptions of your activity. Similarly, other users will be able to view descriptions of your activity, communicate with you within our Services, and view your profile.
-
-### 5. WHAT IS OUR STANCE ON THIRD-PARTY WEBSITES?
-
-**_In Short:_** _We are not responsible for the safety of any information that you share with third parties that we may link to or who advertise on our Services, but are not affiliated with, our Services._
+  **_In Short:_** _We are not responsible for the safety of any information that you share with third parties that we may link to or who advertise on our Services, but are not affiliated with, our Services._
 
 The Services may link to third-party websites, online services, or mobile applications and/or contain advertisements from third parties that are not affiliated with us and which may link to other websites, services, or applications. Accordingly, we do not make any guarantee regarding any such third parties, and we will not be liable for any loss or damage caused by the use of such third-party websites, services, or applications. The inclusion of a link towards a third-party website, service, or application does not imply an endorsement by us. We cannot guarantee the safety and privacy of data you provide to any third parties. Any data collected by third parties is not covered by this privacy notice. We are not responsible for the content or privacy and security practices and policies of any third parties, including other websites, services, or applications that may be linked to or from the Services. You should review the policies of such third parties and contact them directly to respond to your questions.
 
@@ -261,3 +260,9 @@ If you have questions or comments about this notice, you may email us at [privac
 ### 16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
 
 You have the right to request access to the personal information we collect from you, change that information, or delete it. To request to review, update, or delete your personal information, please visit: [support@altairgraphql.dev](mailto:support@altairgraphql.dev).
+
+### 17. ARTIFICIAL INTELLIGENCE (AI) USAGE
+
+**_In Short:_** _We may use artificial intelligence technologies to analyze and process your information for the purposes of improving our Services, enhancing user experience, and providing personalized content._
+
+We may use artificial intelligence technologies to analyze and process your information for the purposes of improving our Services, enhancing user experience, and providing personalized content. We may also use such technologies to ensure the security and integrity of our Services.

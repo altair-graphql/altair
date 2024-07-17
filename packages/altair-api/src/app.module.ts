@@ -18,6 +18,7 @@ import { CreditModule } from './credit/credit.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule, utilities } from 'nest-winston';
 import { format, transports } from 'winston';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { format, transports } from 'winston';
     StripeModule,
     WorkspacesModule,
     CreditModule,
+    AiModule,
   ],
   controllers: [AppController, StripeWebhookController],
   providers: [AppService, PasswordService],

@@ -140,3 +140,7 @@ yarn prisma migrate dev
 
 psql --file=data.sql --dbname=altairgraphql-db --port=5432 --host=localhost --username=my_db_user
 ```
+
+## Tips
+
+- add `&pgbouncer=true` to your connection url in order to enable pgbouncer mode in Prisma

@@ -52,8 +52,9 @@ We recommend that you print a copy of these Legal Terms for your records.
 - [25. USER DATA](#25-user-data)
 - [26. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES](#26-electronic-communications-transactions-and-signatures)
 - [27. CALIFORNIA USERS AND RESIDENTS](#27-california-users-and-residents)
-- [28. MISCELLANEOUS](#28-miscellaneous)
-- [29. CONTACT US](#29-contact-us)
+- [28. AI SERVICES](#28-ai-services)
+- [29. MISCELLANEOUS](#29-miscellaneous)
+- [30. CONTACT US](#30-contact-us)
 
 ### 1. OUR SERVICES
 
@@ -241,7 +242,7 @@ We reserve the right, but not the obligation, to: (1) monitor the Services for v
 
 ### 15. PRIVACY POLICY
 
-We care about data privacy and security. Please review our Privacy Policy: **altairgraphql.dev/privacy**. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United Kingdom. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United Kingdom, then through your continued use of the Services, you are transferring your data to the United Kingdom, and you expressly consent to have your data transferred to and processed in the United Kingdom.
+We care about data privacy and security. Please review our Privacy Policy: [**altairgraphql.dev/privacy**](https://altairgraphql.dev/privacy). By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United Kingdom. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United Kingdom, then through your continued use of the Services, you are transferring your data to the United Kingdom, and you expressly consent to have your data transferred to and processed in the United Kingdom.
 
 ### 16. COPYRIGHT INFRINGEMENTS
 
@@ -301,8 +302,7 @@ arising out of: (1) your Contributions; (2) use of the Services; (3) breach of t
 
 ### 25. USER DATA
 
-We will maintain
-certain data that you transmit to the Services for the purpose of managing the
+We will maintain certain data that you transmit to the Services for the purpose of managing the
 performance of the Services, as well as data relating to your use of the Services. Although we perform regular routine backups
 of data, you are solely responsible for all data that you transmit or that
 relates to any activity you have undertaken using the Services. You agree
@@ -316,17 +316,24 @@ Visiting the Services, sending us emails, and completing online forms constitute
 
 ### 27. CALIFORNIA USERS AND RESIDENTS
 
-If any complaint
-with us is not satisfactorily resolved, you can contact the Complaint
+If any complaint with us is not satisfactorily resolved, you can contact the Complaint
 Assistance Unit of the Division of Consumer Services of the California
 Department of Consumer Affairs in writing at 1625 North Market Blvd., Suite N
 112, Sacramento, California 95834 or by telephone at (800) 952-5210 or (916)
 445-1254.
 
-### 28. MISCELLANEOUS
+### 28. AI SERVICES
+
+We may utilize AI providers such as OpenAI and Anthropic to process user data and offer AI-related services to our users. These services may include but are not limited to data analysis, pattern recognition, and personalized recommendations. By using our Services, you acknowledge and consent to the use of AI technologies for these purposes. We take privacy and data security seriously and will handle your information in accordance with our Privacy Policy.
+
+Please note that while we strive to ensure the accuracy and reliability of AI-generated results, there may be instances where errors or inaccuracies occur. We encourage users to exercise their own judgment and discretion when relying on AI-generated content or recommendations.
+
+If you have any questions or concerns about the use of AI services in relation to your data, please contact us at [info@altairgraphql.dev](mailto:info@altairgraphql.dev).
+
+### 29. MISCELLANEOUS
 
 These Legal Terms and any policies or operating rules posted by us on the Services or in respect to the Services constitute the entire agreement and understanding between you and us. Our failure to exercise or enforce any right or provision of these Legal Terms shall not operate as a waiver of such right or provision. These Legal Terms operate to the fullest extent permissible by law. We may assign any or all of our rights and obligations to others at any time. We shall not be responsible or liable for any loss, damage, delay, or failure to act caused by any cause beyond our reasonable control. If any provision or part of a provision of these Legal Terms is determined to be unlawful, void, or unenforceable, that provision or part of the provision is deemed severable from these Legal Terms and does not affect the validity and enforceability of any remaining provisions. There is no joint venture, partnership, employment or agency relationship created between you and us as a result of these Legal Terms or use of the Services. You agree that these Legal Terms will not be construed against us by virtue of having drafted them. You hereby waive any and all defenses you may have based on the electronic form of these Legal Terms and the lack of signing by the parties hereto to execute these Legal Terms.
 
-### 29. CONTACT US
+### 30. CONTACT US
 
 In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us by email at [info@altairgraphql.dev](mailto:info@altairgraphql.dev)

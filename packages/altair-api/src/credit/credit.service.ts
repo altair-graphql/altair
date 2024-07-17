@@ -68,7 +68,7 @@ export class CreditService {
     // Deduct amount from user's FixedCredits if available
     usedFixedCredits = Math.min(credits.fixed, amount - usedMonthlyCredits);
     // Create CreditTransaction record (type: used)
-    await this.prisma.creditTransaction.create({
+    const transaction = await this.prisma.creditTransaction.create({
       data: {
         userId,
         fixedAmount: -usedFixedCredits,
@@ -78,7 +78,7 @@ export class CreditService {
       },
     });
     // Update user's CreditBalance
-    await this.prisma.creditBalance.update({
+    const balance = await this.prisma.creditBalance.update({
       where: { userId },
       data: {
         monthlyCredits: { decrement: usedMonthlyCredits },
@@ -86,7 +86,11 @@ export class CreditService {
       },
     });
 
-    return this.getAvailableCredits(userId);
+    return {
+      transactionId: transaction.id,
+      fixedCredits: balance.fixedCredits,
+      monthlyCredits: balance.monthlyCredits,
+    };
   }
 
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
