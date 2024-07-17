@@ -8,5 +8,6 @@ import { StripeService } from 'src/stripe/stripe.service';
   imports: [AuthModule],
   controllers: [CreditController],
   providers: [CreditService, StripeService],
+  exports: [CreditService],
 })
 export class CreditModule {}

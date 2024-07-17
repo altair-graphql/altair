@@ -25,7 +25,7 @@ model QueryItem {
   QueryItemRevision QueryItemRevision[]
 }
 
-// QueryItemRevision is a revision of a QueryItem. It is created when a QueryItem is updated.
+/// QueryItemRevision is a revision of a QueryItem. It is created when a QueryItem is updated.
 model QueryItemRevision {
   id            String    @id @default(cuid())
   queryItemId   String
@@ -90,6 +90,7 @@ model User {
   CreditBalance     CreditBalance?
   CreditTransaction CreditTransaction[]
   CreditPurchase    CreditPurchase[]
+  AiChatSession     AiChatSession[]
 }
 
 enum IdentityProvider {
@@ -150,8 +151,8 @@ model PlanConfig {
 
 model UserPlan {
   userId     String     @unique
-  planRole   String // as defined in the Stripe product role metadata
-  quantity   Int // indicates number of seats (used for determine maximum team member count)
+  planRole   String /// as defined in the Stripe product role metadata
+  quantity   Int /// indicates number of seats (used for determine maximum team member count)
   user       User       @relation(fields: [userId], references: [id])
   planConfig PlanConfig @relation(fields: [planRole], references: [id])
 }
@@ -169,15 +170,15 @@ model CreditBalance {
 model CreditTransaction {
   id             String                @id @default(cuid())
   userId         String
-  // amount is in credits
-  monthlyAmount  Int // monthly refill amount
-  fixedAmount    Int
+  monthlyAmount  Int /// monthly refill amount (in credits)
+  fixedAmount    Int /// fixed amount (in credits)
   type           CreditTransactionType
   description    String
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
   user           User                  @relation(fields: [userId], references: [id])
   CreditPurchase CreditPurchase?
+  AiChatMessage  AiChatMessage[]
 }
 
 enum CreditTransactionType {
@@ -191,8 +192,8 @@ enum CreditTransactionType {
 model CreditPurchase {
   id                String            @id @default(cuid())
   userId            String
-  amount            Int
-  cost              Decimal
+  amount            Int /// amount of credits purchased
+  cost              Decimal /// cost of the purchase (NOTE: this is in the currency of the Stripe product, as it is used in the Stripe API)
   stripeSessionId   String
   currency          String
   transactionId     String            @unique
@@ -200,6 +201,50 @@ model CreditPurchase {
   updatedAt         DateTime          @updatedAt
   user              User              @relation(fields: [userId], references: [id])
   creditTransaction CreditTransaction @relation(fields: [transactionId], references: [id])
+}
+
+model AiChatSession {
+  id            String          @id @default(cuid())
+  userId        String
+  title         String
+  isActive      Boolean
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  user          User            @relation(fields: [userId], references: [id])
+  AiChatMessage AiChatMessage[]
+}
+
+model AiChatMessage {
+  id            String     @id @default(cuid())
+  sessionId     String
+  message       String
+  role          AiChatRole
+  transactionId String?
+
+  // User message context
+  sdl              String? /// sdl used for additional context (specified for the user messages)
+  graphqlQuery     String? /// graphql query used for additional context (specified for the user messages)
+  graphqlVariables String? /// graphql variables used for additional context (specified for the user messages)
+
+  // Assistant message context
+  inputTokens  Int? /// number of tokens used for input (specified for the assistant messages)
+  outputTokens Int? /// number of tokens used for output (specified for the assistant messages)
+  rating       AiChatRating? /// rating given by the user (specified for the assistant messages)
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  AiChatSession     AiChatSession      @relation(fields: [sessionId], references: [id])
+  creditTransaction CreditTransaction? @relation(fields: [transactionId], references: [id])
+}
+
+enum AiChatRating {
+  GOOD
+  BAD
+}
+
+enum AiChatRole {
+  USER
+  ASSISTANT
 }
 
 // QueryItems belong to a QueryCollection
