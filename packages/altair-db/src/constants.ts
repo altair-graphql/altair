@@ -14,3 +14,4 @@ export const DEFAULT_QUERY_REVISION_LIMIT = 10;
 // 1 credit = 1 query
 export const INITIAL_CREDIT_BALANCE = 5;
 export const MONTHLY_CREDIT_REFILL = 50;
+export const MINIMUM_CREDIT_PURCHASE = 20;

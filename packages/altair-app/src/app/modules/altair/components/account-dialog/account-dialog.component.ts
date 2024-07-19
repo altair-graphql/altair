@@ -24,4 +24,10 @@ export class AccountDialogComponent {
     const { url } = await apiClient.getBillingUrl();
     return externalLink(e, url);
   }
+  async buyCredits(e: MouseEvent) {
+    const { url } = await apiClient.buyCredits();
+    if (url) {
+      return externalLink(e, url);
+    }
+  }
 }

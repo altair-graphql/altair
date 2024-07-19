@@ -8,6 +8,7 @@ interface BasePluginParentWorkerOptions {
   instanceType?: InstanceType;
   additionalParams?: Record<string, string>;
   additionalSandboxAttributes?: string[];
+  width?: number;
 }
 interface PluginParentWorkerOptionsWithScripts
   extends BasePluginParentWorkerOptions {
@@ -44,6 +45,9 @@ export class PluginParentWorker extends EvaluatorWorker {
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
+      if ('width' in this.opts && this.opts.width) {
+        iframe.style.minWidth = `${this.opts.width}px`;
+      }
     } else {
       iframe.style.display = 'none';
     }

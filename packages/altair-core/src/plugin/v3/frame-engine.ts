@@ -127,6 +127,27 @@ export class PluginFrameEngine {
       enableTheme: (...args) => {
         return this.worker.request('enableTheme', ...args);
       },
+      getUserInfo: async () => {
+        return this.worker.request('getUserInfo');
+      },
+      getAvailableCredits: async () => {
+        return this.worker.request('getAvailableCredits');
+      },
+      createAiSession: async (...args) => {
+        return this.worker.request('createAiSession', ...args);
+      },
+      getActiveAiSession: async (...args) => {
+        return this.worker.request('getActiveAiSession', ...args);
+      },
+      getAiSessionMessages: async (...args) => {
+        return this.worker.request('getAiSessionMessages', ...args);
+      },
+      sendMessageToAiSession: async (...args) => {
+        return this.worker.request('sendMessageToAiSession', ...args);
+      },
+      rateAiSessionMessage: async (...args) => {
+        return this.worker.request('rateAiSessionMessage', ...args);
+      },
     };
 
     this.ctx = ctx;

@@ -1,0 +1,3 @@
+@for (banner of banners$ | async; track $index) {
+  <app-banner [banner]="banner" (dismiss)="onDismiss($event)"></app-banner>
+}

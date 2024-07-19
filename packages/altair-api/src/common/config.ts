@@ -1,4 +1,4 @@
-export type AiModelProvider = 'anthropic' | 'openai' | 'ollama';
+export type AiModelProvider = 'anthropic' | 'openai' | 'ollama' | 'fake';
 
 const config = {
   nest: {

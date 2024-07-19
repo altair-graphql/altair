@@ -222,7 +222,13 @@
                     [ngClass]="{ 'side-menu-item--active': panel.isActive }"
                   >
                     <div class="side-menu-item-icon">
-                      <app-icon name="cpu"></app-icon>
+                      @if (panel.iconUrl) {
+                        <img [src]="panel.iconUrl" [alt]="panel.title" />
+                      } @else if (panel.iconSvg) {
+                        <app-icon [svg]="panel.iconSvg"></app-icon>
+                      } @else {
+                        <app-icon name="cpu"></app-icon>
+                      }
                     </div>
                     <div class="side-menu-item-label">
                       {{ panel.title }}
@@ -446,6 +452,7 @@
           ></app-query-revision-dialog>
         </div>
 
+        <app-banner-container></app-banner-container>
         @if (showDonationAlert) {
           <nz-alert
             nzBanner

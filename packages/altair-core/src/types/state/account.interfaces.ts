@@ -30,6 +30,12 @@ export interface IPlanInfo {
   interval: string;
 }
 
+export interface IAvailableCredits {
+  fixed: number;
+  monthly: number;
+  total: number;
+}
+
 export interface AccountState {
   loggedIn: boolean;
   accessToken: string;
@@ -41,6 +47,7 @@ export interface AccountState {
   stats?: Stats;
   plan?: IPlan;
   planInfos?: IPlanInfo[];
+  availableCredits?: IAvailableCredits;
 }
 
 export class TeamId extends ValueObject<string> {}

@@ -52,6 +52,9 @@ import {
 import { PluginParentEngine } from 'altair-graphql-core/build/plugin/v3/parent-engine';
 import { RequestHandlerRegistryService } from '../../request/request-handler-registry.service';
 import { SubscriptionProviderRequestHandlerAdapter } from 'altair-graphql-core/build/request/adapters';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { apiClient } from '../../api/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -63,7 +66,8 @@ export class PluginContextService implements PluginContextGenerator {
     private pluginEventService: PluginEventService,
     private themeRegistryService: ThemeRegistryService,
     private requestHandlerRegistryService: RequestHandlerRegistryService,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private sanitizer: DomSanitizer
   ) {}
 
   createV1Context(pluginName: string, plugin: AltairV1Plugin): PluginContext {
@@ -255,7 +259,8 @@ export class PluginContextService implements PluginContextGenerator {
     parentWorkerOptions: PluginParentWorkerOptions
   ): PluginV3Context {
     const self = this;
-    const log = (msg: string) => debug.log(`PLUGIN[${pluginName}]: ${msg}`);
+    const log = (msg: string, ...args: unknown[]) =>
+      debug.log(`PLUGIN[${pluginName}]: ${msg}`, ...args);
     const eventBus = this.pluginEventService.group();
 
     log('creating context..');
@@ -286,6 +291,7 @@ export class PluginContextService implements PluginContextGenerator {
         {
           location = AltairPanelLocation.SIDEBAR,
           title = manifest.display_name ?? manifest.name,
+          width,
         }: CreatePanelOptions = {}
       ) {
         log(`Creating panel<${panelName}, ${title}>`);
@@ -296,16 +302,26 @@ export class PluginContextService implements PluginContextGenerator {
           id,
           instanceType: 'panel',
           disableAppend: true,
+          width,
           additionalParams: {
             panelName,
           },
         });
+        const iconUrl = manifest.icon?.type === 'image' ? manifest.icon.url : '';
+        let iconSvg: SafeHtml = '';
+        if (manifest.icon?.type === 'svg') {
+          const DOMPurify = await import('dompurify');
+          const sanitized = DOMPurify.default.sanitize(manifest.icon.src);
+          iconSvg = self.sanitizer.bypassSecurityTrustHtml(sanitized);
+        }
         const engine = new PluginParentEngine(panelWorker);
         const panel = new AltairPanel(
-          panelName,
+          title,
           panelWorker.getIframe(),
           location,
-          engine
+          engine,
+          iconUrl,
+          iconSvg
         );
         engine.start(ctx);
         self.store.dispatch(new localActions.AddPanelAction(panel));
@@ -435,6 +451,36 @@ export class PluginContextService implements PluginContextGenerator {
         self.notifyService.info(
           `Plugin "${pluginName}" has enabled the "${name}" theme`
         );
+      },
+      async getUserInfo() {
+        const account = await firstValueFrom(
+          self.store.select('account').pipe(take(1))
+        );
+        return {
+          avatar: account.picture,
+          email: account.email,
+          loggedIn: account.loggedIn,
+          name: account.firstName,
+          plan: account.plan,
+        };
+      },
+      async getAvailableCredits() {
+        return await apiClient.getAvailableCredits();
+      },
+      async createAiSession() {
+        return await apiClient.createAiSession();
+      },
+      async getActiveAiSession() {
+        return await apiClient.getActiveAiSession();
+      },
+      async getAiSessionMessages(sessionId) {
+        return await apiClient.getAiSessionMessages(sessionId);
+      },
+      sendMessageToAiSession(sessionId, message) {
+        return apiClient.sendMessageToAiSession(sessionId, message);
+      },
+      rateAiSessionMessage(sessionId, messageId, rating) {
+        return apiClient.rateAiMessage(sessionId, messageId, { rating });
       },
     };
 

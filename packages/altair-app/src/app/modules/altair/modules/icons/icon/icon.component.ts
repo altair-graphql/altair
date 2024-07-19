@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SecurityContext } from '@angular/core';
 import { IconName } from '../icons';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-icon',
@@ -9,9 +10,9 @@ import { IconName } from '../icons';
 export class IconComponent implements OnInit {
   @Input() name: IconName = 'box';
   @Input() size = '';
+  @Input() svg: SafeHtml = '';
 
   styles = {};
-  constructor() {}
 
   ngOnInit() {
     if (this.size) {

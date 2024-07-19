@@ -3,7 +3,7 @@ import {
   maxGraphqlQueryChars,
   maxGraphqlVariablesChars,
   maxSdlChars,
-} from 'altair-graphql-core/build/ai/constants';
+} from 'altair-graphql-core/build/cjs/ai/constants';
 import { ISendMessageDto } from '@altairgraphql/api-utils';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';

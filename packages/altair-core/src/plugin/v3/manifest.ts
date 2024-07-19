@@ -14,7 +14,19 @@ interface PluginJsEntry {
   styles: string[];
 }
 
-type PluginEntry = PluginHtmlEntry | PluginJsEntry;
+export type PluginEntry = PluginHtmlEntry | PluginJsEntry;
+
+interface PluginIconImage {
+  type: 'image';
+  url: string;
+}
+
+interface PluginIconSvg {
+  type: 'svg';
+  src: string;
+}
+
+export type PluginIcon = PluginIconImage | PluginIconSvg;
 
 export interface PluginV3Manifest {
   /**
@@ -61,4 +73,14 @@ export interface PluginV3Manifest {
    * Name of the author of the plugin
    */
   author?: string;
+
+  /**
+   * The minimum version of Altair that the plugin is compatible with. This is useful for when the plugin uses features that are only available in a certain version of Altair
+   */
+  minimum_altair_version?: string;
+
+  /**
+   * The icon of the plugin. It can be an image or an SVG
+   */
+  icon?: PluginIcon;
 }

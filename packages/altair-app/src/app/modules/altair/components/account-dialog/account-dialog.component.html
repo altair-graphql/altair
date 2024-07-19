@@ -47,6 +47,21 @@
           Teams: {{ account?.stats?.teamsCount ?? 0 }} /
           {{ account?.plan?.maxTeamsCount ?? 0 }}
         </div>
+        <div>Fixed Credits: {{ account?.availableCredits?.fixed ?? 0 }}</div>
+        <div>
+          Monthly Credits (Pro users only):
+          {{ account?.availableCredits?.monthly ?? 0 }}
+        </div>
+        <button
+          class="btn btn--primary btn--light btn--small"
+          (click)="buyCredits($event)"
+          [disabled]="account?.plan?.canUpgradePro"
+        >
+          <app-icon name="coins"></app-icon> Buy Credits
+          @if (account?.plan?.canUpgradePro) {
+            (Pro users only)
+          }
+        </button>
       </div>
       <button class="btn" (click)="logoutChange.emit()">
         {{ 'LOGOUT_TEXT' | translate }}

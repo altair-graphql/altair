@@ -1,0 +1,97 @@
+<!--
+  NOTE: This is only used for development of the plugin, to mimic the Altair UI closely enough for standalone development.
+  Changes made here will not affect the plugin embedded within the Altair UI.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <style>
+      :root {
+        --baseline-size: 24;
+        --rem-base: 24;
+        --body-font-size: 13;
+        --app-easing: ease;
+        --black-color: #201e1f;
+        --dark-grey-color: #a6a6a6;
+        --grey-color: #eaeaea;
+        --light-grey-color: #f0f0f0;
+        --white-color: #ffffff;
+        --green-color: #64cb29;
+        --blue-color: #2d9ee0;
+        --cerise-color: #f00faa;
+        --red-color: #ed6a5a;
+        --rose-color: #f45b69;
+        --orange-color: #edae49;
+        --yellow-color: #e4ce44;
+        --light-red-color: #cc998d;
+        --dark-purple-color: #303965;
+        --primary-color: #64cb29;
+        --secondary-color: #2d9ee0;
+        --tertiary-color: #f45b69;
+        --shadow-bg: rgba(32, 30, 31, 0.3);
+        --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+          'Segoe UI Emoji', 'Segoe UI Symbol';
+        --rgb-black: 32, 30, 31;
+        --rgb-dark-grey: 166, 166, 166;
+        --rgb-grey: 234, 234, 234;
+        --rgb-light-grey: 240, 240, 240;
+        --rgb-white: 255, 255, 255;
+        --rgb-green: 100, 203, 41;
+        --rgb-blue: 45, 158, 224;
+        --rgb-cerise: 240, 15, 170;
+        --rgb-red: 237, 106, 90;
+        --rgb-orange: 237, 174, 73;
+        --rgb-yellow: 228, 206, 68;
+        --rgb-light-red: 204, 153, 141;
+        --rgb-dark-purple: 48, 57, 101;
+        --editor-font-family: JetBrains Mono;
+        --editor-font-size: 12;
+        --theme-bg-color: #201e1f;
+        --theme-off-bg-color: #343233;
+        --theme-font-color: #ffffff;
+        --theme-off-font-color: #f0f0f0;
+        --theme-border-color: #565c64;
+        --theme-off-border-color: #565656;
+        --header-bg-color: #343233;
+        --rgb-primary: 100, 203, 41;
+        --rgb-secondary: 45, 158, 224;
+        --rgb-tertiary: 244, 91, 105;
+        --rgb-theme-bg: 32, 30, 31;
+        --rgb-theme-off-bg: 52, 50, 51;
+        --rgb-theme-font: 255, 255, 255;
+        --rgb-theme-off-font: 240, 240, 240;
+        --rgb-theme-border: 86, 92, 100;
+        --rgb-theme-off-border: 86, 86, 86;
+        --rgb-header-bg: 52, 50, 51;
+        --editor-comment-color: #a6a6a6;
+        --editor-string-color: #edae49;
+        --editor-number-color: #edae49;
+        --editor-variable-color: #ffffff;
+        --editor-attribute-color: #64cb29;
+        --editor-keyword-color: #2d9ee0;
+        --editor-atom-color: #ffffff;
+        --editor-property-color: #2d9ee0;
+        --editor-punctuation-color: #2d9ee0;
+        --editor-cursor-color: #2d9ee0;
+        --editor-def-color: #edae49;
+        --editor-builtin-color: #edae49;
+      }
+      #root {
+        display: flex;
+        flex-direction: column;
+        background: rgba(var(--rgb-theme-bg), 0.8);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+    <div id="root"></div>
+    <script type="module" src="/src/dev.tsx"></script>
+  </body>
+</html>

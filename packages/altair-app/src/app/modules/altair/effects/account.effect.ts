@@ -219,10 +219,11 @@ export class AccountEffects {
           fromPromise(this.accountService.getStats()),
           fromPromise(this.accountService.getPlan()),
           fromPromise(this.accountService.getPlanInfos()),
+          fromPromise(this.accountService.getAvailableCredits()),
         ])
       ),
       map(
-        ([stats, plan, planInfos]) =>
+        ([stats, plan, planInfos, availableCredits]) =>
           new accountActions.UpdateAccountAction({
             stats: {
               queriesCount: stats.queries.own,
@@ -231,6 +232,7 @@ export class AccountEffects {
             },
             plan,
             planInfos,
+            availableCredits,
           })
       ),
       catchError((err: UnknownError) => {

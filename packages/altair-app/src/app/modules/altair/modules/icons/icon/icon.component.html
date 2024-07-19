@@ -1,1 +1,9 @@
-<i-lucide [name]="name" class="app-icon" [ngStyle]="styles"></i-lucide>
+@if (svg) {
+  <span
+    class="app-icon app-icon__injected"
+    [innerHTML]="svg"
+    [ngStyle]="styles"
+  ></span>
+} @else if (name) {
+  <i-lucide [name]="name" class="app-icon" [ngStyle]="styles"></i-lucide>
+}

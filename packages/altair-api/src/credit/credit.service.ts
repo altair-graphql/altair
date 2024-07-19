@@ -1,5 +1,6 @@
 import {
   CreditTransactionType,
+  MINIMUM_CREDIT_PURCHASE,
   MONTHLY_CREDIT_REFILL,
   PRO_PLAN_ID,
 } from '@altairgraphql/db';
@@ -18,7 +19,7 @@ export class CreditService {
     private readonly stripeService: StripeService
   ) {}
 
-  async buyCredits(userId: string, amount = 1) {
+  async buyCredits(userId: string, amount = MINIMUM_CREDIT_PURCHASE) {
     // Only pro users can buy credits
     const planConfig = await this.userService.getPlanConfig(userId);
     if (planConfig?.id !== PRO_PLAN_ID) {
@@ -31,7 +32,7 @@ export class CreditService {
     const ses = await this.stripeService.createCreditCheckoutSession(
       customerId,
       creditInfo.priceId,
-      amount
+      Math.min(amount, MINIMUM_CREDIT_PURCHASE)
     );
     return { url: ses.url };
   }

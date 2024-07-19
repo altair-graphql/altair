@@ -13,3 +13,8 @@ app-icon .app-icon,
 app-icon .app-icon svg {
   display: block;
 }
+
+.app-icon__injected svg {
+  width: 16px;
+  height: 16px;
+}

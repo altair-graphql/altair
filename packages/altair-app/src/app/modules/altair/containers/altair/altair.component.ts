@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, forkJoin, of, from } from 'rxjs';
+import { Observable, forkJoin, of, from, firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { v4 as uuid } from 'uuid';
@@ -43,6 +43,8 @@ import {
   FilesService,
   EnvironmentService,
   NotifyService,
+  BannerService,
+  DbService,
 } from '../../services';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -135,6 +137,8 @@ export class AltairComponent {
     private filesService: FilesService,
     private environmentService: EnvironmentService,
     private notifyService: NotifyService,
+    private bannerService: BannerService,
+    private dbService: DbService,
     private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
@@ -398,6 +402,8 @@ export class AltairComponent {
         this.newWindow();
       }
     }
+
+    this.showcaseAiPlugin();
   }
 
   /**
@@ -881,6 +887,41 @@ export class AltairComponent {
 
   hideDonationAlert() {
     this.store.dispatch(new donationActions.HideDonationAlertAction());
+  }
+
+  async showcaseAiPlugin() {
+    const isAiPluginInstalled = await this.pluginRegistry.isPluginInSettings(
+      'altair-graphql-plugin-ai'
+    );
+    if (isAiPluginInstalled) {
+      return;
+    }
+    const aiPluginShowcased = await firstValueFrom(
+      this.dbService.getItem('ai-plugin-showcased')
+    );
+    if (aiPluginShowcased) {
+      return;
+    }
+    this.bannerService.addBanner('install-ai-plugin', {
+      message: 'Get Altair AI Assistant today to supercharge your GraphQL workflow!',
+      dismissible: true,
+      type: 'info',
+      icon: 'sparkles',
+      onDismiss: () => {
+        this.dbService.setItem('ai-plugin-showcased', true);
+      },
+      actions: [
+        {
+          label: 'Get Altair AI',
+          handler: async () => {
+            await this.pluginRegistry.addPluginToSettings(
+              'altair-graphql-plugin-ai'
+            );
+            this.bannerService.removeBanner('install-ai-plugin');
+          },
+        },
+      ],
+    });
   }
 
   openDonationPage(e: Event) {

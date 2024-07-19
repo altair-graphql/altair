@@ -1,4 +1,6 @@
+import { IMessage, ISendMessageDto, ISession } from '../../ai/types';
 import { ICustomTheme } from '../../theme';
+import { IPlan, IAvailableCredits } from '../../types/state/account.interfaces';
 import { ExportWindowState } from '../../types/state/window.interfaces';
 import {
   CreateActionOptions,
@@ -6,6 +8,14 @@ import {
   PluginWindowState,
 } from '../context/context.interface';
 import { PluginEvent, PluginEventCallback } from '../event/event.interfaces';
+
+export interface PluginUserInfo {
+  loggedIn: boolean;
+  name: string;
+  email: string;
+  avatar: string;
+  plan?: IPlan;
+}
 
 export interface PluginV3Context {
   /**
@@ -107,4 +117,25 @@ export interface PluginV3Context {
    * Enable a theme in the app
    */
   enableTheme(name: string, darkMode?: boolean): Promise<void>;
+
+  getUserInfo(): Promise<PluginUserInfo | undefined>;
+
+  getAvailableCredits(): Promise<IAvailableCredits | undefined>;
+
+  getActiveAiSession(): Promise<ISession | undefined>;
+
+  createAiSession(): Promise<ISession | undefined>;
+
+  getAiSessionMessages(sessionId: string): Promise<IMessage[] | undefined>;
+
+  sendMessageToAiSession(
+    sessionId: string,
+    message: ISendMessageDto
+  ): Promise<{ response: string } | undefined>;
+
+  rateAiSessionMessage(
+    sessionId: string,
+    messageId: string,
+    rating: number
+  ): Promise<IMessage | undefined>;
 }
