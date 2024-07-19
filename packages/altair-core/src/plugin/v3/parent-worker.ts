@@ -45,6 +45,7 @@ export class PluginParentWorker extends EvaluatorWorker {
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
+      iframe.style.display = 'block'; // fixes issue with vertical scrollbar appearing https://stackoverflow.com/a/9131632/3929126
       if ('width' in this.opts && this.opts.width) {
         iframe.style.minWidth = `${this.opts.width}px`;
       }

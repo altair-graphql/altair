@@ -31,7 +31,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const now = Date.now();
     return next.handle().pipe(
       tap((x) => {
-        tags.duration = Date.now() - now;
+        tags.duration = `${Date.now() - now}ms`;
         this.logger.log(`POST: ${tagsToString(tags)}`);
       })
     );

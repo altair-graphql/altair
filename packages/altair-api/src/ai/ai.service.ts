@@ -16,6 +16,7 @@ import {
   maxGraphqlVariablesChars,
   maxMessageChars,
   maxSdlChars,
+  responseMaxTokens,
 } from 'altair-graphql-core/build/cjs/ai/constants';
 import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/common/config';
@@ -220,54 +221,48 @@ export class AiService {
 
     // https://platform.openai.com/docs/guides/prompt-engineering
     const systemMessageParts = [
-      'I want you to act as a friendly and helpful expert of GraphQL and Altair GraphQL Client (https://altairgraphql.dev).',
-      'Only answer questions related to GraphQL and Altair GraphQL Client.',
-      'Be concise and clear in your responses.',
-      'Write your responses in markdown format.',
-      'Always wrap GraphQL queries in ```graphql``` code blocks.',
-    ];
-    // Use additional message context to enhance the system message
-    if (messageInput.sdl) {
-      systemMessageParts.push(dedent`
-        Here is the SDL (schema) provided by the user:
+      dedent`You are an expert in GraphQL and Altair GraphQL Client (https://altairgraphql.dev). Your task is to answer user questions related to these topics professionally and concisely. Follow these instructions carefully:`,
+      dedent`1. First, review the provided SDL (Schema Definition Language):
         <sdl>
-        ${messageInput.sdl}
-        </sdl>
-      `);
-    }
-    if (messageInput.graphqlQuery) {
-      systemMessageParts.push(dedent`
-        Here is the GraphQL query provided by the user:
-        <graphql>
-        ${messageInput.graphqlQuery}
-        </graphql>
-      `);
-    }
-    if (messageInput.graphqlVariables) {
-      systemMessageParts.push(dedent`
-        Here are the GraphQL variables (in JSON) provided by the user:
-        <graphql-variables>
-        ${messageInput.graphqlVariables}
-        </graphql-variables>
-      `);
-    }
+        ${messageInput.sdl ?? ''}
+        </sdl>`,
+      dedent`2. Next, examine the GraphQL query:
+        <graphql_query>
+        ${messageInput.graphqlQuery ?? ''}
+        </graphql_query>`,
+      dedent`3. Then, look at the GraphQL variables (in JSON format):
+        <graphql_variables>
+        ${messageInput.graphqlVariables ?? ''}
+        </graphql_variables>`,
+      dedent`4. When answering the user's question, follow these guidelines:
+        - Only answer questions related to GraphQL and Altair GraphQL Client.
+        - Focus solely on the topic the user is asking about.
+        - Provide enough information to guide the user in the right direction, but not necessarily a complete solution.
+        - Be respectful and professional in your responses.
+        - Keep your responses concise and clear, using no more than 3-4 sentences.
+        - Provide a maximum of 2 code snippets in your response, if necessary.
+        - Write your responses in markdown format.
+        - Always wrap GraphQL queries in \`\`\`graphql\`\`\` code blocks.
+        - If a sdl schema is provided, only generate GraphQL queries that are valid for the provided schema.`,
+      dedent`5. If you're unsure about something or need clarification, ask the user for more information.`,
+      dedent`6. If you're unable to answer a question, respond with: "I'm not sure about that, but I can try to help you with something else."`,
+      dedent`Now, please answer the following user question:`,
+    ];
     const promptTemplate = ChatPromptTemplate.fromMessages([
-      new SystemMessage(systemMessageParts.join('\n')),
+      new SystemMessage(systemMessageParts.join('\n\n')),
       ...previousMessages.map((m) => {
         if (m.role === AiChatRole.USER) {
           return new HumanMessage(m.message);
         }
         return new AIMessage(m.message);
       }),
-      new HumanMessage('{text}'),
+      new HumanMessage(`${messageInput.message}`),
     ]);
 
     const chain = promptTemplate.pipe(model);
 
     // Pass variables to invoke (variables are wrapped in curly braces)
-    const response = await chain.invoke({
-      text: messageInput.message,
-    });
+    const response = await chain.invoke({});
     const parser = new StringOutputParser();
     const out = await parser.invoke(response);
     return {
@@ -290,6 +285,7 @@ export class AiService {
         return new ChatOpenAI({
           apiKey: this.configService.get('ai.openai.apiKey', { infer: true }),
           model: this.configService.get('ai.openai.model', { infer: true }),
+          maxTokens: responseMaxTokens,
         });
       }
       case 'ollama': {
@@ -314,6 +310,7 @@ export class AiService {
         return new ChatAnthropic({
           apiKey: this.configService.get('ai.anthropic.apiKey', { infer: true }),
           model: this.configService.get('ai.anthropic.model', { infer: true }),
+          maxTokens: responseMaxTokens,
         });
       }
     }
