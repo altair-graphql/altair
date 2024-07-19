@@ -29,7 +29,7 @@ import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment'
 import { UrlConfig } from 'altair-graphql-core/build/config/urls';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { IRateMessageDto, ISendMessageDto } from './ai';
-import { IAvailableCredits } from 'altair-graphql-core/build/ai/types';
+import { IAvailableCredits } from 'altair-graphql-core/build/types/state/account.interfaces';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
