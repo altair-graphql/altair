@@ -51,6 +51,8 @@ import { AuthorizationOauth2Component } from './authorization/authorization-oaut
 import { RequestExtensionsDialogComponent } from './request-extensions-dialog/request-extensions-dialog.component';
 import { RequestHandlerDialogComponent } from './request-handler-dialog/request-handler-dialog.component';
 import { TipsComponent } from './tips/tips.component';
+import { BannerComponent } from './banner/banner.component';
+import { BannerContainerComponent } from './banner-container/banner-container.component';
 
 // const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
@@ -97,6 +99,8 @@ const COMPONENTS = [
   AuthorizationBearerComponent,
   AuthorizationBasicComponent,
   AuthorizationOauth2Component,
+  BannerComponent,
+  BannerContainerComponent,
 ];
 
 @NgModule({

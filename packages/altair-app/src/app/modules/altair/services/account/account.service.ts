@@ -1,7 +1,4 @@
-import {
-  ICreateTeamDto,
-  ICreateTeamMembershipDto,
-} from '@altairgraphql/api-utils';
+import { ICreateTeamDto, ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { EMPTY, from } from 'rxjs';
@@ -104,5 +101,9 @@ export class AccountService {
 
   async getPlanInfos() {
     return await apiClient.getPlanInfos();
+  }
+
+  async getAvailableCredits() {
+    return await apiClient.getAvailableCredits();
   }
 }

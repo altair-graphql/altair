@@ -9,6 +9,7 @@ import { AltairUiAction, AltairUiActionLocation } from '../ui-action';
 export interface CreatePanelOptions {
   title?: string;
   location?: AltairPanelLocation;
+  width?: number;
 }
 
 export interface CreateActionOptions {

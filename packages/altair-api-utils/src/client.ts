@@ -16,6 +16,8 @@ import {
   Team,
   TeamMembership,
   QueryItemRevision,
+  AiChatSession,
+  AiChatMessage,
 } from '@altairgraphql/db';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
@@ -26,6 +28,8 @@ import { ReturnedWorkspace } from './workspace';
 import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
 import { UrlConfig } from 'altair-graphql-core/build/config/urls';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { IRateMessageDto, ISendMessageDto } from './ai';
+import { IAvailableCredits } from 'altair-graphql-core/build/ai/types';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -70,6 +74,7 @@ export class APIClient {
       hooks: {
         beforeRequest: [(req) => this.setAuthHeaderBeforeRequest(req)],
       },
+      timeout: false,
     });
 
     this.checkCachedUser();
@@ -309,6 +314,42 @@ export class APIClient {
 
   getPlanInfos() {
     return this.ky.get('plans').json<IPlanInfo[]>();
+  }
+
+  getAvailableCredits() {
+    return this.ky.get('credits').json<IAvailableCredits>();
+  }
+
+  buyCredits() {
+    return this.ky.post('credits/buy').json<{
+      url: string | null;
+    }>();
+  }
+
+  getActiveAiSession() {
+    return this.ky.get('ai/sessions/active').json<AiChatSession>();
+  }
+
+  createAiSession() {
+    return this.ky.post('ai/sessions').json<AiChatSession>();
+  }
+
+  getAiSessionMessages(sessionId: string) {
+    return this.ky.get(`ai/sessions/${sessionId}/messages`).json<AiChatMessage[]>();
+  }
+
+  sendMessageToAiSession(sessionId: string, input: ISendMessageDto) {
+    return this.ky
+      .post(`ai/sessions/${sessionId}/messages`, { json: input })
+      .json<{ response: string }>();
+  }
+
+  rateAiMessage(sessionId: string, messageId: string, input: IRateMessageDto) {
+    return this.ky
+      .post(`ai/sessions/${sessionId}/messages/${messageId}/rate`, {
+        json: input,
+      })
+      .json<AiChatMessage>();
   }
 
   getQueryShareUrl(queryId: string) {

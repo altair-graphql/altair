@@ -12,6 +12,12 @@ import { RateMessageDto } from './dto/rate-message.dto';
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
+  @Get('sessions/active')
+  async getActiveSession(@Req() req: Request) {
+    const userId = req?.user?.id ?? '';
+    return this.aiService.getActiveSession(userId);
+  }
+
   @Get('sessions')
   async getAllSessions(@Req() req: Request) {
     const userId = req?.user?.id ?? '';

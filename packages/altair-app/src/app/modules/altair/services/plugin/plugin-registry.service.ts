@@ -37,6 +37,7 @@ import {
   injectStylesheet,
 } from 'altair-graphql-core/build/utils/inject';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
+import { compare } from 'compare-versions';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -223,6 +224,24 @@ export class PluginRegistryService {
       .toPromise();
   }
 
+  async isPluginInSettings(pluginName: string) {
+    const settings = await this.store
+      .select((state) => state.settings)
+      .pipe(take(1))
+      .toPromise();
+
+    if (settings?.['plugin.list']) {
+      return settings['plugin.list'].some((item) => {
+        const pluginInfo = this.getPluginInfoFromString(item);
+        if (pluginInfo) {
+          return pluginInfo.name === pluginName;
+        }
+        return false;
+      });
+    }
+    return false;
+  }
+
   async addPluginToSettings(pluginName: string) {
     const resp = await this.store
       .select((state) => state.settings)
@@ -317,6 +336,15 @@ export class PluginRegistryService {
           return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
         }
         if (manifest.manifest_version >= 3 && 'entry' in manifest) {
+          if (
+            manifest.minimum_altair_version &&
+            compare(manifest.minimum_altair_version, environment.version, '>')
+          ) {
+            this.notifyService.warning(
+              `Plugin ${name} requires Altair version ${manifest.minimum_altair_version} or higher. Please update Altair to use this plugin.`
+            );
+            return;
+          }
           return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
         }
       }
