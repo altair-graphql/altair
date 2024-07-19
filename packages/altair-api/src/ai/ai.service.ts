@@ -19,6 +19,7 @@ import {
 } from 'altair-graphql-core/build/cjs/ai/constants';
 import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/common/config';
+import dedent from 'dedent';
 
 @Injectable()
 export class AiService {
@@ -227,24 +228,28 @@ export class AiService {
     ];
     // Use additional message context to enhance the system message
     if (messageInput.sdl) {
-      systemMessageParts.push('Here is the SDL (schema) provided by the user:');
-      systemMessageParts.push('<<<SDL\n' + messageInput.sdl + '\nSDL');
+      systemMessageParts.push(dedent`
+        Here is the SDL (schema) provided by the user:
+        <sdl>
+        ${messageInput.sdl}
+        </sdl>
+      `);
     }
     if (messageInput.graphqlQuery) {
-      systemMessageParts.push('Here is the GraphQL query provided by the user:');
-      systemMessageParts.push(
-        '<<<GraphQL_QUERY\n' + messageInput.graphqlQuery + '\nGraphQL_QUERY'
-      );
+      systemMessageParts.push(dedent`
+        Here is the GraphQL query provided by the user:
+        <graphql>
+        ${messageInput.graphqlQuery}
+        </graphql>
+      `);
     }
     if (messageInput.graphqlVariables) {
-      systemMessageParts.push(
-        'Here are the GraphQL variables (in JSON) provided by the user:'
-      );
-      systemMessageParts.push(
-        '<<<GraphQL_VARIABLES\n' +
-          messageInput.graphqlVariables +
-          '\nGraphQL_VARIABLES'
-      );
+      systemMessageParts.push(dedent`
+        Here are the GraphQL variables (in JSON) provided by the user:
+        <graphql-variables>
+        ${messageInput.graphqlVariables}
+        </graphql-variables>
+      `);
     }
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(systemMessageParts.join('\n')),

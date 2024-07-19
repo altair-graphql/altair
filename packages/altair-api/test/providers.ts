@@ -1,5 +1,7 @@
+import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
+import { AiService } from 'src/ai/ai.service';
 import { UserService } from 'src/auth/user/user.service';
 import { CreditService } from 'src/credit/credit.service';
 import { QueriesService } from 'src/queries/queries.service';
@@ -16,4 +18,6 @@ export const testProviders = [
   TeamsService,
   QueryCollectionsService,
   CreditService,
+  AiService,
+  ConfigService,
 ];

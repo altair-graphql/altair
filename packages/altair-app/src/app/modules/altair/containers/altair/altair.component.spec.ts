@@ -1,12 +1,7 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreModule, Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as services from './../../services';
-import { empty as observableEmpty, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -15,7 +10,7 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { mockStoreFactory, mock } from '../../../../../testing';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockProvider } from 'ng-mocks';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
 describe('AltairComponent', () => {
@@ -45,10 +40,11 @@ describe('AltairComponent', () => {
           connect: () => {},
         }),
       },
-      {
-        provide: services.PluginRegistryService,
-        useValue: mock(),
-      },
+      MockProvider(services.PluginRegistryService, {
+        async isPluginInSettings() {
+          return false;
+        },
+      }),
       {
         provide: services.PluginEventService,
         useValue: mock(),
@@ -92,6 +88,12 @@ describe('AltairComponent', () => {
           windowsMeta: {},
         }),
       },
+      MockProvider(services.DbService, {
+        getItem(key) {
+          return of(false);
+        },
+      }),
+      MockProvider(services.BannerService),
     ];
     wrapper = await mount({
       component: AltairComponent,

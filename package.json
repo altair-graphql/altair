@@ -75,7 +75,7 @@
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "local-verify": "yarn build-app && lerna bootstrap",
     "postinstall": "opencollective postinstall || true",
-    "prepare": "nx run-many --target=prepare --all --output-style=stream",
+    "prepare": "nx run-many --target=prepare --output-style=stream --nxBail=true",
     "publish-packages": "lerna bootstrap && yarn lerna-publish",
     "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",
@@ -86,7 +86,7 @@
     "start:sandbox": "nx dev @altairgraphql/iframe-sandbox",
     "start:electron": "nx dev altair",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",
-    "test": "nx run-many --target=test --all",
+    "test": "nx run-many --target=test",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
     "test:ci-test-only": "nx affected --target=test --parallel=3 --output-style=stream",
     "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci"
