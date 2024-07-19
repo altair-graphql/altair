@@ -912,7 +912,7 @@ export class AltairComponent {
       },
       actions: [
         {
-          label: 'Get Altair AI',
+          label: 'Try Altair AI',
           handler: async () => {
             await this.pluginRegistry.addPluginToSettings(
               'altair-graphql-plugin-ai'
