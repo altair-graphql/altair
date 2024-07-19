@@ -913,10 +913,8 @@ export class AltairComponent {
       actions: [
         {
           label: 'Try Altair AI',
-          handler: async () => {
-            await this.pluginRegistry.addPluginToSettings(
-              'altair-graphql-plugin-ai'
-            );
+          handler: () => {
+            this.pluginRegistry.addPluginToSettings('altair-graphql-plugin-ai');
             this.bannerService.removeBanner('install-ai-plugin');
           },
         },
