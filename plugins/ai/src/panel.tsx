@@ -43,8 +43,11 @@ const Panel = ({ context }: PanelProps) => {
   });
 
   const { data: messages, isLoading: messagesIsLoading } = useQuery({
-    queryKey: ['sessionMessages'],
-    queryFn: () => activeSession && context.getAiSessionMessages(activeSession.id),
+    queryKey: ['sessionMessages', activeSession?.id],
+    queryFn: () =>
+      activeSession
+        ? context.getAiSessionMessages(activeSession.id)
+        : Promise.resolve([]),
     enabled: !!activeSession?.id,
   });
 
@@ -52,9 +55,9 @@ const Panel = ({ context }: PanelProps) => {
     {
       mutationKey: ['createAiSession'],
       mutationFn: () => context.createAiSession(),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['activeSession'] });
-        queryClient.invalidateQueries({ queryKey: ['sessionMessages'] });
+      onSettled: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['activeSession'] });
+        await queryClient.invalidateQueries({ queryKey: ['sessionMessages'] });
       },
     }
   );
@@ -99,14 +102,15 @@ const Panel = ({ context }: PanelProps) => {
         'sessionMessages',
       ]);
 
+      const sessionId = activeSession?.id ?? '';
       const fakeMessage: IMessage = {
         id: Math.random().toString(),
         message: message,
         role: 'USER',
-        sessionId: activeSession?.id ?? '',
+        sessionId,
       };
       // Optimistically update to the new value
-      queryClient.setQueryData<IMessage[]>(['sessionMessages'], (old) => [
+      queryClient.setQueryData<IMessage[]>(['sessionMessages', sessionId], (old) => [
         ...(old ?? []),
         fakeMessage,
       ]);
