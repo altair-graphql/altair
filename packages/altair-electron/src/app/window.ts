@@ -370,6 +370,7 @@ export class WindowManager {
         new url.URL(request.url).pathname
       );
       const indexPath = path.join(requestDirectory, 'index.html');
+      console.log('index path', indexPath);
 
       const { mimeType, data } = await this.getFileContentData(
         originalFilePath,
@@ -426,7 +427,7 @@ export class WindowManager {
     // some files are binary files, eg. font, so don't encode utf8
     let data = await fs.readFile(filePath);
 
-    if (filePath?.includes('index.html')) {
+    if (filePath === fallbackPath) {
       data = Buffer.from(renderAltair(this.getRenderOptions()), 'utf-8');
     }
 
