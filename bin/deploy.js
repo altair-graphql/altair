@@ -7,14 +7,15 @@
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const execa = require('execa');
-const compareVersions = require('compare-versions');
+const { compareVersions } = require('compare-versions');
 const pkg = require('../package.json');
-const SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/;
+const SEMVER_REGEX =
+  /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/;
 
 function createLogger() {
   const ui = new inquirer.ui.BottomBar();
 
-  return function(msg) {
+  return function (msg) {
     ui.log.write(chalk.green(msg));
   };
 }
@@ -42,7 +43,7 @@ async function main() {
         type: 'input',
         name: 'newVersion',
         message: `What is the new version? (current version: ${pkg.version})`,
-        validate: function(value) {
+        validate: function (value) {
           if (!value.match(SEMVER_REGEX)) {
             return 'Please enter a valid version (e.g. 3.2.1)';
           }
@@ -157,22 +158,17 @@ const buildExtensions = async () => {
   return exec('yarn', ['build-ext']);
 };
 
-const updateVersion = async version => {
+const updateVersion = async (version) => {
   return exec('./bin/update_version.sh', [version]);
 };
 
-const createVersionCommit = async version => {
+const createVersionCommit = async (version) => {
   await exec('git', ['add', '--all']);
-  await exec('git', [
-    'commit',
-    '--allow-empty',
-    '-am',
-    `Upgraded to v${version}`,
-  ]);
+  await exec('git', ['commit', '--allow-empty', '-am', `Upgraded to v${version}`]);
   await syncRepo();
 };
 
-const createReleaseTag = async version => {
+const createReleaseTag = async (version) => {
   return exec('./bin/create_tag.sh', [`v${version}`]);
 };
 
