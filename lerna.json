@@ -1,6 +1,7 @@
 {
   "packages": [
-    "packages/*"
+    "packages/*",
+    "plugins/*"
   ],
   "version": "7.3.0",
   "registry": "https://registry.npmjs.org/",
