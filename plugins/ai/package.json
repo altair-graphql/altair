@@ -1,6 +1,5 @@
 {
   "name": "altair-graphql-plugin-ai",
-  "private": true,
   "version": "7.3.0",
   "type": "module",
   "scripts": {
