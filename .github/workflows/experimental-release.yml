@@ -66,6 +66,7 @@ jobs:
       - run: yarn
       - run: yarn build-ext
       - uses: trmcnvn/firefox-addon@v1
+        continue-on-error: true
         with:
           uuid: '{c336a627-bbea-4dbb-aa77-83899b52149a}'
           xpi: extension-builds/mozilla-build/build.zip
@@ -73,6 +74,7 @@ jobs:
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
       - uses: wdzeng/edge-addon@v1
+        continue-on-error: true
         with:
           product-id: f725e625-c035-444d-b373-fba0e41855c1
           zip-path: extension-builds/chrome-build/build.zip
@@ -80,6 +82,7 @@ jobs:
           client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
       - uses: wdzeng/chrome-extension@v1
+        continue-on-error: true
         with:
           extension-id: flnheeellpciglgpaodhkhmapeljopja
           zip-path: extension-builds/chrome-build/build.zip
@@ -87,6 +90,7 @@ jobs:
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
       - uses: trmcnvn/chrome-addon@v2
+        continue-on-error: true
         with:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
@@ -96,6 +100,7 @@ jobs:
   chrome-extension-upload:
     name: Publish webextension
     runs-on: ubuntu-latest
+    continue-on-error: true
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
