@@ -1,6 +1,6 @@
 {
   "name": "altair-graphql-plugin-ai",
-  "version": "7.3.1",
+  "version": "7.3.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.5",
-    "altair-graphql-core": "^7.3.1",
+    "altair-graphql-core": "^7.3.2",
     "classnames": "^2.5.1",
     "lucide-react": "^0.408.0",
     "react": "^18.3.1",
@@ -32,5 +32,11 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "^5.2.2",
     "vite": "^5.3.4"
-  }
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "manifest.json",
+    "README.md"
+  ]
 }

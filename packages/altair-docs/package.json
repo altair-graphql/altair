@@ -1,6 +1,6 @@
 {
   "name": "@altair/docs",
-  "version": "7.3.1",
+  "version": "7.3.2",
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev",
@@ -13,7 +13,7 @@
     "@octokit/rest": "^20.0.2",
     "@types/lodash.escaperegexp": "^4.1.9",
     "@types/lodash.sortby": "^4.7.9",
-    "altair-graphql-core": "^7.3.1",
+    "altair-graphql-core": "^7.3.2",
     "inflection": "^3.0.0",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.sortby": "^4.7.0",
