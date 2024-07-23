@@ -22,6 +22,27 @@ on:
         required: false
         default: true
         type: boolean
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+      deploy_docs:
+        description: 'Whether to deploy docs'
+        required: false
+        default: true
+        type: boolean
+      deploy_redirect:
+        description: 'Whether to deploy redirect'
+        required: false
+        default: true
+        type: boolean
+      deploy_sandbox:
+        description: 'Whether to deploy sandbox'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   deploy:

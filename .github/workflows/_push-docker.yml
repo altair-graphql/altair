@@ -1,0 +1,27 @@
+name: Docker push workflow
+
+on:
+  workflow_call:
+    inputs:
+      push:
+        description: 'Whether to push the Docker image'
+        required: true
+        type: boolean
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: ${{ inputs.push }}
+          tags: ${{ inputs.push && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}

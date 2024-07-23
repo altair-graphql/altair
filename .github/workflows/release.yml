@@ -37,7 +37,7 @@ jobs:
 
   electron:
     needs: vars
-    uses: ./.github/workflows/reusable-publish-electron.yml
+    uses: ./.github/workflows/_publish-electron.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit
@@ -45,7 +45,7 @@ jobs:
   npm:
     needs: [electron, vars]
     # We do not need to check out the repository to use the reusable workflow
-    uses: ./.github/workflows/reusable-publish-npm.yml
+    uses: ./.github/workflows/_publish-npm.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit
@@ -63,7 +63,7 @@ jobs:
 
   sites:
     needs: [vars, publish-release]
-    uses: ./.github/workflows/reusable-deploy-sites.yml
+    uses: ./.github/workflows/_deploy-sites.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       deploy_docs: true

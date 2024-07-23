@@ -1,0 +1,144 @@
+name: Tests workflow
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ inputs.node_version }}
+      - uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: master
+      # - name: restore lerna
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       node_modules
+      #       */*/node_modules
+      #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - uses: browser-actions/setup-chrome@latest
+      - name: Build apps (with retries)
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: yarn build:ci
+      - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test:ci:retries
+      # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
+      - name: Upload Test Results 🗃
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: packages/altair-electron/e2e/*.png
+  e2e-test:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ inputs.node_version }}
+      - name: restore lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - uses: browser-actions/setup-chrome@latest
+      - name: Build apps (with retries)
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: yarn build:ci
+      - run: npx playwright install
+      - name: Run headless e2e test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn playwright test --retries 2
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+
+  api-e2e-test:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        ports:
+          - 5434:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ inputs.node_version }}
+      - name: restore lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - name: Build apps (with retries)
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: yarn build:ci
+      # - name: Update env file
+      #   run: |
+      #     echo DATABASE_URL="postgresql://prisma:prisma@postgres:5434/tests?schema=public" >> packages/altair-api/.env.e2e
+      #     cat packages/altair-api/.env.e2e
+      - name: Migration
+        run: yarn --cwd packages/altair-api migrate:e2e
+      - name: Run E2E
+        run: yarn --cwd packages/altair-api test:e2e
