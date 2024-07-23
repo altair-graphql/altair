@@ -144,9 +144,9 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          environment: ${{ inputs.publish && 'production' }}
+          environment: ${{ inputs.publish && 'production' || '' }}
           sourcemaps: packages/altair-app/dist/
-          version: ${{ inputs.publish && steps.getversion.outputs.version }}
+          version: ${{ inputs.publish && steps.getversion.outputs.version || '' }}
           url_prefix: 'altair://-'
           finalize: false
       - name: Upload source maps to Sentry (electron)
@@ -157,9 +157,9 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          environment: ${{ inputs.publish && 'production' }}
+          environment: ${{ inputs.publish && 'production' || '' }}
           sourcemaps: packages/altair-electron/dist/
-          version: ${{ inputs.publish && steps.getversion.outputs.version }}
+          version: ${{ inputs.publish && steps.getversion.outputs.version || '' }}
           url_prefix: 'app:///dist'
 
       - name: Upload electron builds
