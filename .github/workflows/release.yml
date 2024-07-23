@@ -15,7 +15,7 @@ env:
 # TODO: Handle browser extension release
 jobs:
   vars:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       node_version: ${{ env.NODE_VERSION }}
     steps:
