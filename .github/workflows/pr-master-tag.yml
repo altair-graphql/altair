@@ -16,6 +16,12 @@ env:
   # NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
+  vars:
+    runs-on: ubuntu-22.04
+    outputs:
+      node_version: ${{ env.NODE_VERSION }}
+    steps:
+      - run: echo "Exposing env vars"
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
@@ -109,81 +115,12 @@ jobs:
           context: .
           load: true
           push: false
+
   electron:
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [16]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.NODE_VERSION }} on ${{ matrix.os }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - run: yarn --frozen-lockfile --network-timeout 1000000
-      - uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 20
-          max_attempts: 3
-          command: yarn lerna bootstrap
-      - name: Prepare for app notarization
-        if: startsWith(matrix.os, 'macos')
-        # Import Apple API key for app notarization on macOS
-        run: |
-          mkdir -p ~/private_keys/
-          echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
-      - name: Build/release Electron app
-        # disable for macos not in master branch
-        if: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}}
-        uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
-        with:
-          github_token: ${{ secrets.github_token }}
-          package_root: packages/altair-electron/
-          skip_build: true
-          skip_install: true
-          mac_certs: ${{ secrets.mac_certs }}
-          mac_certs_password: ${{ secrets.mac_certs_password }}
-          args: '--publish never' # Don't publish with this job since it is not in a release (more like a pre-release)
-          max_attempts: 3
-        env:
-          # macOS notarization API key
-          # https://www.codiga.io/blog/notarize-sign-electron-app/
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
-
-      - name: Upload source maps to Sentry (app)
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          # environment: production
-          sourcemaps: packages/altair-app/dist/
-          # version: ${{ steps.getversion.outputs.version }}
-          url_prefix: 'altair://-'
-          finalize: false
-      - name: Upload source maps to Sentry (electron)
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          # environment: production
-          sourcemaps: packages/altair-electron/dist/
-          # version: ${{ steps.getversion.outputs.version }}
-          url_prefix: 'app:///dist'
-
-      - name: Upload electron builds
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: electron-builds
-          path: packages/altair-electron/out/**
+    needs: vars
+    uses: ./.github/workflows/reusable-publish-electron.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      publish: false
+      # TODO: publish/build?: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}} # disable for macos not in master branch
+    secrets: inherit

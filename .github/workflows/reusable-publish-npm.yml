@@ -1,0 +1,43 @@
+name: NPM publish workflow
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+    outputs:
+      reusable_output:
+        description: 'Successful publish from the workflow'
+        value: ${{ jobs.npm-publish.outputs.success }}
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+
+jobs:
+  npm-publish:
+    runs-on: ubuntu-latest
+    outputs:
+      success: ${{ steps.publish.outcome != 'failure' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ inputs.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ inputs.node_version }}
+      - name: Authenticate with Registry
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: yarn --frozen-lockfile
+      - uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: yarn build:ci
+      - id: publish
+        run: yarn lerna publish from-git --force-publish=* --no-git-tag-version --no-push --no-verify-access --yes
