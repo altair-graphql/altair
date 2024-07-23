@@ -1,0 +1,152 @@
+name: Electron publish workflow
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+      publish:
+        description: 'Whether to publish'
+        required: false
+        default: true
+        type: boolean
+      publish_chocolatey:
+        description: 'Whether to publish to Chocolatey'
+        required: false
+        default: true
+        type: boolean
+    outputs:
+      # Map the workflow output(s) to job output(s)
+      version:
+        description: 'Built/published version from the workflow'
+        value: ${{ jobs.electron.outputs.version }}
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+      publish_chocolatey:
+        description: 'Whether to publish to Chocolatey'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  electron:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    # Map the job output(s) to step output(s)
+    outputs:
+      version: ${{ steps.getversion.outputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ inputs.node_version }}
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: startsWith(matrix.os, 'macos')
+        with:
+          xcode-version: latest-stable
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          command: yarn lerna bootstrap
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v1
+        if: startsWith(matrix.os, 'ubuntu')
+        with:
+          snapcraft_token: ${{ secrets.SNAPCRAFT_TOKEN }}
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+      - name: Build/release Electron app
+        if: ${{ inputs.publish }}
+        uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
+        with:
+          github_token: ${{ secrets.github_token }}
+          package_root: packages/altair-electron/
+          skip_build: true
+          skip_install: true
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+          args: ${{ inputs.publish && '--publish always' || '--publish never' }}
+          max_attempts: 3
+        env:
+          # macOS notarization API key
+          # https://www.codiga.io/blog/notarize-sign-electron-app/
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+
+      # chocolatey
+      - name: Read VERSION file
+        id: getversion
+        run: echo "::set-output name=version::$(cat VERSION)"
+      - name: Add mask
+        run: |
+          echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+      - name: chocolatey pack
+        if: startsWith(matrix.os, 'windows')
+        uses: crazy-max/ghaction-chocolatey@v1.6.0
+        with:
+          args: pack chocolatey\altair-graphql.nuspec
+      # - name: chocolatey install (test choco packaging)
+      #   if: startsWith(matrix.os, 'windows')
+      #   uses: crazy-max/ghaction-chocolatey@v1.6.0
+      #   with:
+      #     args: install altair-graphql --version="${{ steps.getversion.outputs.version }}" --source="altair-graphql.${{ steps.getversion.outputs.version }}.nupkg"
+      # FIXME: chocolatey push is failing in the CI with the "request too large" error.
+      # It is unclear to me what the payload size limit is for the choco push command (the best info I could find about this is: https://github.com/chocolatey-community/chocolatey-packages/issues/1179).
+      # If this is really a problem, someone needs to figure out a proper solution for this (most likely changing it to a non-embedded package, or some other solution I'm not aware of).
+      - name: chocolatey push
+        if: startsWith(matrix.os, 'windows') && ${{ inputs.publish_chocolatey }} && ${{ inputs.publish }}
+        continue-on-error: true
+        uses: crazy-max/ghaction-chocolatey@v1.6.0
+        with:
+          args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
+
+      - name: Upload source maps to Sentry (app)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: packages/altair-app/dist/
+          version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'altair://-'
+          finalize: false
+      - name: Upload source maps to Sentry (electron)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: packages/altair-electron/dist/
+          version: ${{ steps.getversion.outputs.version }}
+          url_prefix: 'app:///dist'
+
+      - name: Upload electron builds
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: electron-builds
+          path: packages/altair-electron/out/**
