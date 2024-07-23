@@ -99,5 +99,4 @@ jobs:
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: false
-      # TODO: publish/build?: ${{!(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master')}} # disable for macos not in master branch
     secrets: inherit
