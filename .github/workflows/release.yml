@@ -60,3 +60,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.prepare-release.outputs.release-tag }}
+
+  sites:
+    needs: [vars, publish-release]
+    uses: ./.github/workflows/reusable-deploy-sites.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      deploy_docs: true
+      deploy_redirect: false
+      deploy_sandbox: false
+    secrets: inherit
