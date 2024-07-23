@@ -7,6 +7,11 @@ on:
         description: 'Node.js version to use'
         required: true
         type: string
+      build:
+        description: 'Whether to build'
+        required: false
+        default: true
+        type: boolean
       publish:
         description: 'Whether to publish'
         required: false
@@ -28,6 +33,16 @@ on:
         description: 'Node.js version to use'
         required: true
         type: string
+      build:
+        description: 'Whether to build'
+        required: false
+        default: true
+        type: boolean
+      publish:
+        description: 'Whether to publish'
+        required: false
+        default: true
+        type: boolean
       publish_chocolatey:
         description: 'Whether to publish to Chocolatey'
         required: false
@@ -71,7 +86,8 @@ jobs:
           mkdir -p ~/private_keys/
           echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
       - name: Build/release Electron app
-        if: ${{ inputs.publish }}
+        if: ${{ inputs.build }}
+        id: build-electron
         uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
         with:
           github_token: ${{ secrets.github_token }}
