@@ -7,6 +7,22 @@ on:
         description: 'Whether to push the Docker image'
         required: true
         type: boolean
+      version:
+        description: 'Version to use'
+        required: false
+        default: ''
+        type: string
+  workflow_dispatch:
+    inputs:
+      push:
+        description: 'Whether to push the Docker image'
+        required: true
+        type: boolean
+      version:
+        description: 'Version to use'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   docker:
@@ -18,10 +34,25 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           load: true
           push: ${{ inputs.push }}
-          tags: ${{ inputs.push && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}
+          tags: |
+            ${{ inputs.push && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}
+            ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}', secrets.DOCKERHUB_USERNAME, inputs.version) || '' }}
+            ${{ inputs.push && format('ghcr.io/{0}/altairgraphqlapi:latest', github.repository_owner) || '' }}
+            ${{ inputs.push && inputs.version && format('ghcr.io/{0}/altairgraphqlapi:{1}', github.repository_owner, inputs.version) || '' }}
