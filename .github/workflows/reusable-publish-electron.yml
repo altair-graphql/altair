@@ -85,8 +85,10 @@ jobs:
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
-      - name: Build/release Electron app
-        if: ${{ inputs.build }}
+      - name:
+          Build/release Electron app
+          # disable for macos not in master branch, because code signing is skipped in pull requests
+        if: ${{ !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') && inputs.build }}
         id: build-electron
         uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
         with:
@@ -142,9 +144,9 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          environment: production
+          environment: ${{ inputs.publish && 'production' }}
           sourcemaps: packages/altair-app/dist/
-          version: ${{ steps.getversion.outputs.version }}
+          version: ${{ inputs.publish && steps.getversion.outputs.version }}
           url_prefix: 'altair://-'
           finalize: false
       - name: Upload source maps to Sentry (electron)
@@ -155,9 +157,9 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          environment: production
+          environment: ${{ inputs.publish && 'production' }}
           sourcemaps: packages/altair-electron/dist/
-          version: ${{ steps.getversion.outputs.version }}
+          version: ${{ inputs.publish && steps.getversion.outputs.version }}
           url_prefix: 'app:///dist'
 
       - name: Upload electron builds
