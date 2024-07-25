@@ -8,6 +8,8 @@
 [![GitHub release](https://img.shields.io/github/release/altair-graphql/altair.svg)](https://github.com/altair-graphql/altair/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/altair-graphql/altair/total.svg)](https://github.com/altair-graphql/altair/releases)
 [![Backers on Open Collective](https://opencollective.com/altair/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/altair/sponsors/badge.svg)](#sponsors)
+[![Discord](https://img.shields.io/discord/625400653321076807.svg)](https://discord.gg/dNNt3MU9hw)
+![API](https://img.shields.io/website?url=https%3A%2F%2Fapi.altairgraphql.dev%2F&label=api)
 ![Maintenance](https://img.shields.io/maintenance/yes/2025.svg)
 
 <div align="center" style="text-align: center;">
