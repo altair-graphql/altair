@@ -46,7 +46,6 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
-      'plugin.list': ['altair-graphql-plugin-ai'],
     });
   });
 
@@ -72,7 +71,6 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
-      'plugin.list': ['altair-graphql-plugin-ai'],
     });
   });
 
@@ -99,7 +97,6 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 3,
       tabSize: 2,
-      'plugin.list': ['altair-graphql-plugin-ai'],
     });
   });
 
@@ -115,7 +112,6 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
-      'plugin.list': ['altair-graphql-plugin-ai'],
     });
   });
 
@@ -137,7 +133,6 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
-      'plugin.list': ['altair-graphql-plugin-ai'],
     });
   });
 
