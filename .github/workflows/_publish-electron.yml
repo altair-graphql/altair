@@ -88,7 +88,7 @@ jobs:
       - name:
           Build/release Electron app
           # disable for macos not in master branch, because code signing is skipped in pull requests
-        if: ${{ !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') && inputs.build }}
+        if: ${{ inputs.publish || !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') }}
         id: build-electron
         uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
         with:
