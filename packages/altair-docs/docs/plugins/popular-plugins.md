@@ -17,6 +17,14 @@ These are a few of the most commonly used plugins.
 
 This brings the infamous [GraphiQL explorer](https://github.com/OneGraph/graphiql-explorer) from OneGraph to Altair GraphQL Client.
 
+## altair-graphql-plugin-ai
+
+<Badge text="v3"/>
+
+🧑‍💻 Created by [XKojiMedia](https://www.xkoji.dev/)
+
+This adds an AI assistant to Altair GraphQL Client. You can ask questions about your GraphQL API schema, Altair, or GraphQL in general.
+
 ## altair-graphql-plugin-json-to-csv
 
 <Badge text="v2"/>
