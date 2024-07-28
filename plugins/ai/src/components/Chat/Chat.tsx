@@ -142,7 +142,13 @@ function Chat({
           </div>
           <div className="ai-chat__disclaimer">
             Disclaimer: The information provided by this assistant can be incorrect.
-            Please verify the information before using it.
+            Please verify the information before using it.{' '}
+            <a
+              href="https://github.com/altair-graphql/altair/discussions/new?category=ideas&title=AI%20feedback"
+              target="_blank"
+            >
+              Share your feedback
+            </a>
           </div>
         </>
       )}
