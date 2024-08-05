@@ -108,7 +108,7 @@
     "@angular-eslint/eslint-plugin": "17.1.1",
     "@angular-eslint/eslint-plugin-template": "17.1.1",
     "@angular-eslint/schematics": "17.1.1",
-    "@angular-eslint/template-parser": "17.1.1",
+    "@angular-eslint/template-parser": "18.2.0",
     "@angular/compiler": "17.0.8",
     "@angular/compiler-cli": "17.0.8",
     "@briebug/jest-schematic": "2.1.1",
