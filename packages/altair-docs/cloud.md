@@ -14,6 +14,9 @@ hero:
     - theme: brand
       text: Try it for free
       link: /cloud#pricing
+    - theme: alt
+      text: See docs
+      link: /docs/cloud/
 
 features:
   - icon: 🛠️

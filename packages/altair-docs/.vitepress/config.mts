@@ -79,6 +79,10 @@ export default defineConfig({
         link: '/docs/',
       },
       {
+        text: 'Cloud ✨',
+        link: '/cloud',
+      },
+      {
         text: 'Donate',
         link: 'https://opencollective.com/altair/donate',
       },
