@@ -916,6 +916,9 @@ export class AltairComponent {
           handler: () => {
             this.pluginRegistry.addPluginToSettings('altair-graphql-plugin-ai');
             this.bannerService.removeBanner('install-ai-plugin');
+            this.notifyService.info(
+              'Altair AI Assistant has been added to your plugins! Restart Altair to see it in the sidebar. ✨'
+            );
           },
         },
       ],
