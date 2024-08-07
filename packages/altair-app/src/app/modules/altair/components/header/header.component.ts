@@ -38,9 +38,7 @@ export class HeaderComponent {
   }>();
   @Output() reopenClosedWindowChange = new EventEmitter();
   @Output() togglePanelActiveChange = new EventEmitter<AltairPanel>();
-  @Output() selectActiveEnvironmentChange = new EventEmitter<
-    string | undefined
-  >();
+  @Output() selectActiveEnvironmentChange = new EventEmitter<string | undefined>();
   @Output() toggleEnvironmentManagerChange = new EventEmitter<boolean>();
   @Output() showSettingsDialogChange = new EventEmitter();
   @Output() importWindowChange = new EventEmitter();
@@ -48,10 +46,8 @@ export class HeaderComponent {
   @Output() exportBackupDataChange = new EventEmitter();
   @Output() importBackupDataChange = new EventEmitter();
 
-  constructor() {}
-
   openLink(e: Event, url: string) {
-    externalLink(e, url);
+    externalLink(url, e);
   }
 
   trackById<T extends { id?: string }>(index: number, item: T) {

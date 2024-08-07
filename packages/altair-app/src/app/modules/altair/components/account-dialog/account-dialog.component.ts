@@ -22,12 +22,18 @@ export class AccountDialogComponent {
   }
   async openBillingPage(e: MouseEvent) {
     const { url } = await apiClient.getBillingUrl();
-    return externalLink(e, url);
+    return externalLink(url, e);
   }
+
+  async openUpgradeProUrl(e: MouseEvent) {
+    const { url } = await apiClient.getUpgradeProUrl();
+    return externalLink(url, e);
+  }
+
   async buyCredits(e: MouseEvent) {
     const { url } = await apiClient.buyCredits();
     if (url) {
-      return externalLink(e, url);
+      return externalLink(url, e);
     }
   }
 }

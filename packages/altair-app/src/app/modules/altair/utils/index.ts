@@ -287,10 +287,10 @@ export function truncateText(text: string, maxLength = 70, symbol = '...') {
   return text.substring(0, maxLength) + (appendEllipsis ? symbol : '');
 }
 
-export const externalLink = (e: Event, url: string) => {
-  e.preventDefault();
+export const externalLink = (url: string, e?: Event) => {
+  e?.preventDefault();
 
-  const win = window.open(url, '_blank');
+  const win = window.open(url, '_blank', 'noopener');
   if (win) {
     win.focus();
   }

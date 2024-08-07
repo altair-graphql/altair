@@ -22,8 +22,9 @@ import * as collectionActions from '../store/collection/collection.action';
 import * as workspaceActions from '../store/workspace/workspace.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import { debug } from '../utils/logger';
-import { fromPromise } from '../utils';
+import { externalLink, fromPromise } from '../utils';
 import { getErrorResponse } from '../utils/errors';
+import { consumeQueryParam } from '../utils/url';
 
 @Injectable()
 export class AccountEffects {
@@ -38,7 +39,15 @@ export class AccountEffects {
           return this.accountService.observeUser().pipe(take(1));
         }),
         switchMap((user) => {
+          const showLogin = consumeQueryParam('show_login');
           if (!user) {
+            // account is not logged in
+            // check query parameter and show the account dialog if necessary
+            if (showLogin === 'true') {
+              this.store.dispatch(
+                new windowsMetaActions.ShowAccountDialogAction({ value: true })
+              );
+            }
             return EMPTY;
           }
 
@@ -211,42 +220,57 @@ export class AccountEffects {
     );
   });
 
-  loadUserDataOnLoggedIn$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
-      switchMap((action) =>
-        forkJoin([
-          fromPromise(this.accountService.getStats()),
-          fromPromise(this.accountService.getPlan()),
-          fromPromise(this.accountService.getPlanInfos()),
-          fromPromise(this.accountService.getAvailableCredits()),
-        ])
-      ),
-      map(
-        ([stats, plan, planInfos, availableCredits]) =>
-          new accountActions.UpdateAccountAction({
-            stats: {
-              queriesCount: stats.queries.own,
-              queryCollectionsCount: stats.collections.own,
-              teamsCount: stats.teams.own,
-            },
-            plan,
-            planInfos,
-            availableCredits,
-          })
-      ),
-      catchError((err: UnknownError) => {
-        return fromPromise(getErrorResponse(err)).pipe(
-          switchMap((error) => {
-            debug.error(error);
-            this.notifyService.errorWithError(err, 'Could not load user data');
-            return EMPTY;
-          })
-        );
-      }),
-      repeat()
-    );
-  });
+  loadUserDataOnLoggedIn$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
+        switchMap((action) =>
+          forkJoin([
+            fromPromise(this.accountService.getStats()),
+            fromPromise(this.accountService.getPlan()),
+            fromPromise(this.accountService.getPlanInfos()),
+            fromPromise(this.accountService.getAvailableCredits()),
+          ])
+        ),
+        map(([stats, plan, planInfos, availableCredits]) => {
+          // check query parameter and show the update plan dialog if necessary
+          const selectedPlan = consumeQueryParam('plan_select');
+          if (plan.canUpgradePro && selectedPlan === 'pro') {
+            this.store.dispatch(
+              new windowsMetaActions.ShowUpgradeDialogAction({ value: true })
+            );
+            this.accountService.getUpgradeProUrl().then(({ url }) => {
+              externalLink(url);
+            });
+          }
+
+          this.store.dispatch(
+            new accountActions.UpdateAccountAction({
+              stats: {
+                queriesCount: stats.queries.own,
+                queryCollectionsCount: stats.collections.own,
+                teamsCount: stats.teams.own,
+              },
+              plan,
+              planInfos,
+              availableCredits,
+            })
+          );
+        }),
+        catchError((err: UnknownError) => {
+          return fromPromise(getErrorResponse(err)).pipe(
+            switchMap((error) => {
+              debug.error(error);
+              this.notifyService.errorWithError(err, 'Could not load user data');
+              return EMPTY;
+            })
+          );
+        }),
+        repeat()
+      );
+    },
+    { dispatch: false }
+  );
 
   onAccountCheckedInit$ = createEffect(
     () => {

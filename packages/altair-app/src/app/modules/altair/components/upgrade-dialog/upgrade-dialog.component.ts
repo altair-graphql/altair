@@ -33,6 +33,6 @@ export class UpgradeDialogComponent implements OnChanges {
 
   async openUpgradeProUrl(e: MouseEvent) {
     const { url } = await apiClient.getUpgradeProUrl();
-    return externalLink(e, url);
+    return externalLink(url, e);
   }
 }

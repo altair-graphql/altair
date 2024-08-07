@@ -7,10 +7,27 @@
 >
   <div class="account-signin-wrapper">
     @if (!account?.loggedIn) {
-      <p>Sign in to manage your teams, synced collections and queries.</p>
-      <button class="btn btn--primary" (click)="submitLogin()">
-        {{ 'SIGNIN_WITH_GOOGLE' | translate }}
-      </button>
+      <div class="account-dialog__not-logged-in">
+        <div class="account-dialog__not-logged-in__inner">
+          <nz-avatar
+            nzText="?"
+            nzSrc="assets/img/altair_logo.svg"
+            nzSize="large"
+          ></nz-avatar>
+
+          <h2>Login to get started</h2>
+          <p>
+            Sign in to manage your plans, teams, synced collections, queries, and get
+            access to even more features!
+            <a href="https://altairgraphql.dev/docs/cloud/"
+              >Learn more <app-icon name="info"
+            /></a>
+          </p>
+          <button class="btn btn--primary" (click)="submitLogin()">
+            {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+          </button>
+        </div>
+      </div>
     }
 
     @if (account?.loggedIn) {
@@ -28,6 +45,14 @@
           Billing
           <app-icon name="external-link"></app-icon>
         </a>
+        @if (account?.plan?.canUpgradePro) {
+          <button
+            class="btn btn--primary btn--light btn--small"
+            (click)="openUpgradeProUrl($event)"
+          >
+            <app-icon name="sparkles"></app-icon> Upgrade plan
+          </button>
+        }
       </p>
       <div class="account-dialog__stats">
         <div class="account-dialog__stats-title">

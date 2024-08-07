@@ -106,4 +106,8 @@ export class AccountService {
   async getAvailableCredits() {
     return await apiClient.getAvailableCredits();
   }
+
+  async getUpgradeProUrl() {
+    return await apiClient.getUpgradeProUrl();
+  }
 }

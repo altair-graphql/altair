@@ -13,7 +13,7 @@ hero:
   actions:
     - theme: brand
       text: Try it for free
-      link: /#download
+      link: /cloud#pricing
 
 features:
   - icon: 🛠️
@@ -34,13 +34,13 @@ pricing:
     price:
       free: true
     features:
-    - Up to 2 team members
-    - Up to 20 queries
-    - Unlimited collections
-    - Query history (up to 10 revisions)
+      - Up to 2 team members
+      - Up to 20 queries
+      - Unlimited collections
+      - Query history (up to 10 revisions)
     action:
-      link: /#download
-      text: Download
+      link: https://web.altairgraphql.dev/?plan_select=basic&show_login=true
+      text: Try it for free
   - title: Pro
     recommended: true
     price:
@@ -48,24 +48,37 @@ pricing:
       currency: $
       frequency: month
     features:
-    - Unlimited team members
-    - Unlimited teams
-    - Unlimited queries
-    - Unlimited collections
-    - Query history
+      - Unlimited team members
+      - Unlimited teams
+      - Unlimited queries
+      - Unlimited collections
+      - Query history
     action:
-      link: /#download
+      link: https://web.altairgraphql.dev/?plan_select=pro&show_login=true
       text: Try it today
+  - title: Enterprise
+    price:
+      text: Custom
+    features:
+      - Unlimited team members
+      - Unlimited teams
+      - Unlimited queries
+      - Unlimited collections
+      - Query history
+      - Full control
+    action:
+      link: 'mailto:info@altairgraphql.dev'
+      text: Contact us
   - title: Self hosted
     price:
       free: true
     features:
-    - Unlimited team members
-    - Unlimited teams
-    - Unlimited queries
-    - Unlimited collections
-    - Query history
-    - Full control
+      - Unlimited team members
+      - Unlimited teams
+      - Unlimited queries
+      - Unlimited collections
+      - Query history
+      - Full control
     action:
       link: https://github.com/altair-graphql/altair?tab=readme-ov-file#deployment
       text: Get started

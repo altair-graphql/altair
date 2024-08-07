@@ -7,6 +7,7 @@ export const injectScript = (url: string) => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
+    script.crossOrigin = 'anonymous';
     script.onload = () => resolve(null);
     script.onerror = (err) => reject(err);
     head.appendChild(script);
@@ -21,6 +22,7 @@ export const injectStylesheet = (url: string) => {
     const style = document.createElement('link');
     style.type = 'text/css';
     style.rel = 'stylesheet';
+    style.crossOrigin = 'anonymous';
     style.href = url;
     style.onload = () => resolve(null);
     style.onerror = (err) => reject(err);

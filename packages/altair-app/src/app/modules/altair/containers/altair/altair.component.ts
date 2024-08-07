@@ -917,7 +917,7 @@ export class AltairComponent {
             this.pluginRegistry.addPluginToSettings('altair-graphql-plugin-ai');
             this.bannerService.removeBanner('install-ai-plugin');
             this.notifyService.info(
-              'Altair AI Assistant has been added to your plugins! Restart Altair to see it in the sidebar. ✨'
+              'Altair AI Assistant has been added to your plugins! Restart Altair to complete the installation and see it in the sidebar. ✨'
             );
           },
         },
@@ -927,14 +927,14 @@ export class AltairComponent {
 
   openDonationPage(e: Event) {
     this.donationService.donated();
-    externalLink(e, this.altairConfig.donation.url);
+    externalLink(this.altairConfig.donation.url, e);
     this.hideDonationAlert();
   }
 
   openWebAppLimitationPost(e: Event) {
     externalLink(
-      e,
-      'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8'
+      'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8',
+      e
     );
   }
 

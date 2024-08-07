@@ -1,71 +1,72 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 import { useData } from '../composables/data';
 import VPIconArrowRight from './icons/VPIconArrowRight.vue';
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue';
 import VPButton from './VPButton.vue';
 
-const { frontmatter: fm } = useData()
+const { frontmatter: fm } = useData();
 
 interface Price {
-  free?: boolean
-  amount?: string
-  currency?: string
-  frequency?: string
+  text?: string;
+  free?: boolean;
+  amount?: string;
+  currency?: string;
+  frequency?: string;
 }
 export interface PricingItem {
-  title: string
-  recommended: boolean
-  price: Price
-  features: string[]
+  title: string;
+  recommended: boolean;
+  price: Price;
+  features: string[];
   action: {
-    text: string
-    link: string
-  }
+    text: string;
+    link: string;
+  };
 }
 
-const pricing = computed(() => fm.value.pricing as PricingItem[])
+const pricing = computed(() => fm.value.pricing as PricingItem[]);
 const grid = computed(() => {
-  const length = fm.value.pricing.length
+  const length = fm.value.pricing.length;
 
   if (!length) {
-    return
+    return;
   } else if (length === 2) {
-    return 'grid-2'
+    return 'grid-2';
   } else if (length === 3) {
-    return 'grid-3'
+    return 'grid-3';
   } else if (length % 3 === 0) {
-    return 'grid-6'
+    return 'grid-6';
   } else if (length > 3) {
-    return 'grid-4'
+    return 'grid-4';
   }
-})
+});
 </script>
 
 <template>
-  <div v-if="pricing" class="Pricing">
+  <div v-if="pricing" class="Pricing" id="pricing">
     <div class="container">
       <h3 class="Pricing-title">Pricing designed for you</h3>
       <div class="items">
-        <div
-          v-for="item in pricing"
-          :key="item.title"
-          class="item"
-          :class="[grid]"
-        >
+        <div v-for="item in pricing" :key="item.title" class="item" :class="[grid]">
           <div
             class="pricing-item"
             :class="{
-              'pricing-item-recommended': item.recommended
+              'pricing-item-recommended': item.recommended,
             }"
           >
             <div class="pricing-item-title">{{ item.title }}</div>
             <div class="pricing-item-price">
-              <template v-if="item.price.free">
-                Free
+              <template v-if="item.price.free"> Free </template>
+              <template v-else-if="item.price.text">
+                {{ item.price.text }}
               </template>
               <template v-else>
-                <span class="pricing-item-currency">{{ item.price.currency }}</span> {{ item.price.amount }} / user / {{ item.price.frequency }}
+                <span class="pricing-item-currency">{{ item.price.currency }}</span>
+                {{ item.price.amount }}
+                <span class="pricing-item-currency__subdued"
+                  >per user/{{ item.price.frequency }}</span
+                >
               </template>
             </div>
             <VPButton
@@ -102,11 +103,7 @@ const grid = computed(() => {
   font-weight: 600;
   text-align: center;
   color: var(--vp-c-brand-1);
-  background: linear-gradient(
-    45deg,
-    var(--vp-c-brand-1),
-    var(--vp-c-sponsor)
-  );
+  background: linear-gradient(45deg, var(--vp-c-brand-1), var(--vp-c-sponsor));
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -147,7 +144,9 @@ const grid = computed(() => {
   border-radius: 12px;
   height: 100%;
   background-color: var(--vp-c-bg-soft);
-  transition: border-color 0.25s, background-color 0.25s;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
 }
 
 .pricing-item:hover {
@@ -177,6 +176,11 @@ const grid = computed(() => {
 .pricing-item-currency {
   font-size: 20px;
   font-weight: 500;
+}
+.pricing-item-currency__subdued {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
 }
 
 .pricing-item-action {
