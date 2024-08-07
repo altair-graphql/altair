@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { normalizeLink } from '../support/utils'
-import { EXTERNAL_URL_RE } from '../utils'
+import { computed } from 'vue';
+import { normalizeLink } from '../support/utils';
+import { EXTERNAL_URL_RE } from '../utils';
 
 interface Props {
-  tag?: string
-  size?: 'medium' | 'big'
-  theme?: 'brand' | 'alt' | 'sponsor'
-  text: string
-  href?: string
+  tag?: string;
+  size?: 'medium' | 'big';
+  theme?: 'brand' | 'alt' | 'sponsor';
+  text: string;
+  href?: string;
+  trackCategory?: string;
+  trackLabel?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
-  theme: 'brand'
-})
+  theme: 'brand',
+});
 
-const isExternal = computed(
-  () => props.href && EXTERNAL_URL_RE.test(props.href)
-)
+const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href));
 
 const component = computed(() => {
-  return props.tag || props.href ? 'a' : 'button'
-})
+  return props.tag || props.href ? 'a' : 'button';
+});
 </script>
 
 <template>
@@ -32,6 +32,8 @@ const component = computed(() => {
     :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noreferrer' : undefined"
+    :track-category="trackCategory"
+    :track-label="trackLabel"
   >
     {{ text }}
   </component>
@@ -44,15 +46,22 @@ const component = computed(() => {
   text-align: center;
   font-weight: 600;
   white-space: nowrap;
-  transition: color 0.25s, border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+  transition:
+    color 0.25s,
+    border-color 0.25s,
+    background-color 0.25s,
+    box-shadow 0.25s;
 }
 
 .VPButton:active {
-  transition: color 0.1s, border-color 0.1s, background-color 0.1s;
+  transition:
+    color 0.1s,
+    border-color 0.1s,
+    background-color 0.1s;
 }
 
 .VPButton:hover {
-  box-shadow: 8px 8px 0 rgba(var(--brand-rgb), .25);
+  box-shadow: 8px 8px 0 rgba(var(--brand-rgb), 0.25);
 }
 
 .VPButton.medium {
