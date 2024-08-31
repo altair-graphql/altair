@@ -23,7 +23,7 @@
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "@koa/router": "11 - 12"
+    "@koa/router": "> 11"
   },
   "engines": {
     "node": ">= 12"
