@@ -3,7 +3,7 @@
     "packages/*",
     "plugins/*"
   ],
-  "version": "7.3.4",
+  "version": "7.3.5",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "yarn",
   "stream": true,
