@@ -12,6 +12,9 @@ import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 export class EvaluatorFrameClient extends ScriptEvaluatorClient {
   private iframe = this.createIframe();
+  private messageListeners: Array<
+    (e: MessageEvent<ScriptEventData<ScriptEvent>>) => void
+  > = [];
 
   constructor(private sandboxUrl: string) {
     super();
@@ -35,7 +38,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     type: T,
     handler: (type: T, e: ScriptEventData<T>) => void
   ): void {
-    window.addEventListener('message', (e: MessageEvent<ScriptEventData<T>>) => {
+    const listener = (e: MessageEvent<ScriptEventData<T>>) => {
       if (e.origin !== new URL(this.sandboxUrl).origin) {
         return;
       }
@@ -46,7 +49,11 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
         debug.log(event.type, event);
         handler(type, event);
       }
-    });
+    };
+
+    window.addEventListener('message', listener);
+    // FIXME: we shouldn't use any here
+    this.messageListeners.push(listener as any);
   }
   send(type: string, payload: any): void {
     this.iframe.addEventListener('load', () => {
@@ -57,6 +64,10 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     this.iframe.addEventListener('error', handler);
   }
   destroy(): void {
+    this.messageListeners.forEach((listener) => {
+      window.removeEventListener('message', listener);
+    });
+    this.iframe.removeAllListeners?.();
     this.iframe.remove();
   }
 }

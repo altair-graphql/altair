@@ -26,6 +26,7 @@ export type PluginParentWorkerOptions =
   | PluginParentWorkerOptionsWithScripts
   | PluginParentWorkerOptionsWithUrl;
 export class PluginParentWorker extends EvaluatorWorker {
+  private messageListeners: Array<(e: MessageEvent<any>) => void> = [];
   constructor(private opts: PluginParentWorkerOptions) {
     super();
   }
@@ -102,20 +103,18 @@ export class PluginParentWorker extends EvaluatorWorker {
   onMessage<T extends string, P = unknown>(
     handler: (e: EventData<T, P>) => void
   ): void {
-    window.addEventListener(
-      'message',
-      (e) => {
-        if (e.origin !== 'null' || e.source !== this.iframe.contentWindow) {
-          return;
-        }
-        if (e.data.frameId !== this.opts.id) {
-          console.error('Invalid frameId in data', e.data.frameId, this.opts.id);
-          return;
-        }
-        handler(e.data);
-      },
-      false
-    );
+    const listener = (e: MessageEvent<any>) => {
+      if (e.origin !== 'null' || e.source !== this.iframe.contentWindow) {
+        return;
+      }
+      if (e.data.frameId !== this.opts.id) {
+        console.error('Invalid frameId in data', e.data.frameId, this.opts.id);
+        return;
+      }
+      handler(e.data);
+    };
+    window.addEventListener('message', listener, false);
+    this.messageListeners.push(listener);
   }
   send<T extends string>(type: T, payload?: unknown): void {
     this.frameReady().then(() => {
@@ -134,6 +133,10 @@ export class PluginParentWorker extends EvaluatorWorker {
     this.iframe.addEventListener('error', handler);
   }
   destroy(): void {
+    // cleanup resources
+    this.messageListeners.forEach((listener) => {
+      window.removeEventListener('message', listener);
+    });
     this.iframe.remove();
   }
 }

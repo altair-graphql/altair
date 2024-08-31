@@ -16,23 +16,13 @@ If you choose #232931 (rich blue-gray) as the background, #3a4149 would be a sui
 For a #2d2f33 (slightly lighter dark gray) background, #404448 could work well for borders.
 */
 
-// TODO: Introduce glassmorphism
-// https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9
-// https://codepen.io/kanishkkunal/pen/QWGzBwz
-// https://codepen.io/TurkAysenur/pen/ZEpxeYm
-// https://codepen.io/gutugaluppo/pen/MWjjWPx
-// https://codepen.io/omeal/pen/VwKKgjG
-// https://codepen.io/opeala/pen/yLaMBvN
-// https://dribbble.com/shots/16261258-Metaspark-web-site-design-landing-page-home-page-ui/attachments/8128256?mode=media
-// https://smarative.com/blog/realistic-frosted-glassmorphism-css-gradient-borders
-
 export const foundations = {
   easing: 'ease',
   colors: {
     black: '#201e1f',
     darkGray: '#a6a6a6',
     gray: '#eaeaea',
-    lightGray: '#f0f0f0',
+    lightGray: '#fafafa',
     white: '#ffffff',
     green: '#64CB29',
     blue: '#2d9ee0',
@@ -138,8 +128,8 @@ const theme: ITheme = deepmerge(foundations, {
     offBg: foundations.colors.white,
     font: foundations.colors.black,
     offFont: foundations.colors.darkGray,
-    border: foundations.colors.gray,
-    offBorder: foundations.colors.lightGray,
+    border: foundations.colors.darkGray,
+    offBorder: foundations.colors.gray,
 
     headerBg: foundations.colors.white,
   },

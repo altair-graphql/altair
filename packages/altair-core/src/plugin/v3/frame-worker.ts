@@ -33,6 +33,8 @@ export class PluginFrameWorker extends EvaluatorWorker {
   private instanceType: InstanceType = instanceTypes.MAIN;
   private params: FrameOptions;
 
+  private messageListeners: Array<(e: MessageEvent<any>) => void> = [];
+
   constructor() {
     super();
     // Check for params in special params object on the window object first. Using srcdoc, we will set the params on the window object
@@ -67,12 +69,14 @@ export class PluginFrameWorker extends EvaluatorWorker {
   onMessage<T extends string, P = unknown>(
     handler: (e: EventData<T, P>) => void
   ): void {
-    window.addEventListener('message', (e) => {
+    const listener = (e: MessageEvent<any>) => {
       if (e.origin !== this.origin) {
         return;
       }
       handler(e.data);
-    });
+    };
+    window.addEventListener('message', listener);
+    this.messageListeners.push(listener);
   }
 
   send(type: string, payload: any): void {
@@ -89,6 +93,9 @@ export class PluginFrameWorker extends EvaluatorWorker {
 
   destroy(): void {
     // cleanup resources
+    this.messageListeners.forEach((listener) => {
+      window.removeEventListener('message', listener);
+    });
     window.close();
   }
 }
