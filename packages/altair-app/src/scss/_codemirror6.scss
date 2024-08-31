@@ -9,6 +9,9 @@
     height: 100%;
   }
 }
+.cm-panels {
+  z-index: 1;
+}
 
 .cm-editor {
   --result-default: var(--theme-font-color);
