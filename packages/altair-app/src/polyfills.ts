@@ -36,6 +36,8 @@
 /** Evergreen browsers require these. **/
 import 'core-js/es/reflect';
 
+(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['message'];
+
 /** *************************************************************************************************
  * Zone JS is required by Angular itself.
  */
