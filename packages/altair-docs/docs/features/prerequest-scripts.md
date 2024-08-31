@@ -23,6 +23,10 @@ Also collections can be nested with sub collections as well. When a query that b
 
 ![Request script execution order](/assets/img/docs/request-script-execution-order.png)
 
+::: warning Note
+You have to enable the request scripts in the window for any request scripts to be executed (including the request scripts in the collection).
+:::
+
 ### Available API for request scripts
 
 Request scripts support all JavaScript syntax supported in the latest [ecmascript 2019 (ES10) specification](https://tc39.es/ecma262/) (except **with** and **label** statements, but those are discouraged anyway). These include things like `[].flat()`, `[].flatMap()`, `Object.fromEntries()`, etc.
