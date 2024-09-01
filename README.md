@@ -16,7 +16,14 @@
 
   <img src="icons/android-icon-192x192.png" alt="Altair GraphQL Client" width="120px" height="120px">
 
-  <h1><a href="https://altairgraphql.dev/" target="_blank">Altair GraphQL Client</a></h1>
+  <h1>![Screenshot_20240901-230508_Chrome](https://github.com/user-attachments/assets/565cbe47-c61b-4440-84a4-3fcb459359eb)
+![Screenshot_20240901-231447_Chrome](https://github.com/user-attachments/assets/7bdb9b70-27bf-488f-b0b4-a912c609d964)
+![Screenshot_20240901-231455_Chrome](https://github.com/user-attachments/assets/20360542-b13b-45da-9ef4-9375086a16a0)
+![Screenshot_20240901-231502_Chrome](https://github.com/user-attachments/assets/50043718-bc29-4277-9776-fcde72dedf9d)
+![Screenshot_20240901-231510_Chrome](https://github.com/user-attachments/assets/d4543aed-7508-4ace-9d1a-fce79f50e365)
+![Screenshot_20240901-231516_Chrome](https://github.com/user-attachments/assets/e255bb0d-07de-4f58-b715-0b797a565f47)
+![Screenshot_20240901-231523_Chrome](https://github.com/user-attachments/assets/828c4479-5104-46a9-be9f-923056fb0e65)
+<a href="https://altairgraphql.dev/" target="_blank">Altair GraphQL Client</a></h1>
 
 ![set url](packages/altair-docs/public/assets/img/app-shot.png 'Altair GraphQL Client')
 
@@ -44,13 +51,16 @@ To be a primary sponsor, [reach out](mailto:sponsor@sirmuel.design) to us.
 
 Become a [Gold sponsor](https://opencollective.com/altair/contribute/gold-sponsor-27470/checkout) of Altair to appear here.
 
-<!-- ### Silver Sponsor -->
+<!-- ### Silver Sponsor ![Screenshot_20240901-230917_Chrome](https://github.com/user-attachments/assets/43e08b62-3a12-4f09-b89d-23e92fdc31cc)
+-->
 
-<!-- ### Bronze Sponsor -->
+<!-- ### Bronze Sponsor ![Screenshot_20240901-230922_Chrome](https://github.com/user-attachments/assets/d5bb06a4-26cb-44a4-b852-cafbd424907c)
+ -->
 
 ### Bronze Sponsor
 
-<p>
+<p>![Screenshot_20240901-230508_Chrome](https://github.com/user-attachments/assets/9c22385a-cc60-4d3d-944f-cf0c93b26d8e)
+
   <a href="https://opencollective.com/opencollective-oss-fund">
     <img src="https://images.opencollective.com/opencollective-oss-fund/8564d37/logo/256.png" width="201px">
   </a>
@@ -89,12 +99,15 @@ Read more [here](.github/development.md).
 ## Deployment
 
 ### API
+[fonkdiyon(2).md](https://github.com/user-attachments/files/16830702/fonkdiyon.2.md)
+[1.patch](https://github.com/user-attachments/files/16830701/1.patch)
 
 #### Docker
 
 The docker image can be built from the [Dockerfile](./Dockerfile) at the root of the repo.
 
 #### Digitalocean
+[java (2).md](https://github.com/user-attachments/files/16830699/java.2.md)
 
 [![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master)
 
