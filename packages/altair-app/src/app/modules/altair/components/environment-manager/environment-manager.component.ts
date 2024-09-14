@@ -18,6 +18,7 @@ import { Extension } from '@codemirror/state';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { NotifyService } from '../../services';
 
 @Component({
   selector: 'app-environment-manager',
@@ -46,6 +47,8 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   editorContent = '{}';
   editorTitle = '';
 
+  constructor(private notifyService: NotifyService) {}
+
   ngOnInit() {
     if (this.environments) {
       this.selectEnvironment(this.environments.activeSubEnvironment);
@@ -67,7 +70,16 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   onEditorChange(content: string) {
     try {
-      JSON.parse(content);
+      const parsed = JSON.parse(content);
+      const invalidKey = Object.keys(parsed).find(
+        (key) => !key.match(/^[a-zA-Z0-9_]+$/)
+      );
+      if (invalidKey) {
+        this.notifyService.warning(
+          `"${invalidKey}" is an invalid environment variable. Only alphanumeric characters and underscores are allowed.`
+        );
+        throw new Error('Invalid key');
+      }
 
       if (this.selectedEnvironmentId === 'base') {
         this.baseEnvironmentJsonChange.next({ value: content });
