@@ -2,15 +2,13 @@ import { debug } from './logger';
 
 export const consumeQueryParam = (key: string) => {
   try {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const value = urlSearchParams.get(key);
+    const u = new URL(window.location.href);
+    const value = u.searchParams.get(key);
     if (!value) {
       return;
     }
-    urlSearchParams.delete(key);
-    const params = urlSearchParams.toString();
-    const newUrl = `${window.location.pathname}${params ? '?' : ''}${params}${window.location.hash}`;
-    window.history.replaceState({}, '', newUrl);
+    u.searchParams.delete(key);
+    window.history.replaceState({}, '', u.href);
     return value;
   } catch (e) {
     debug.error('Error consuming query param', e);
