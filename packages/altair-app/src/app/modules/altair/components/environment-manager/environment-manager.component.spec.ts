@@ -9,7 +9,7 @@ import {
   NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
-import { MockService } from 'ng-mocks';
+import { MockProvider, MockService } from 'ng-mocks';
 import { NotifyService } from '../../services';
 
 describe('EnvironmentManagerComponent', () => {
@@ -25,7 +25,7 @@ describe('EnvironmentManagerComponent', () => {
         SharedModule,
         TranslateModule.forRoot(),
       ],
-      providers: [MockService(NotifyService)],
+      providers: [MockProvider(NotifyService)],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
