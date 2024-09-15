@@ -22,7 +22,7 @@ import {
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
 import { ICreateTeamDto, ICreateTeamMembershipDto, IUpdateTeamDto } from './team';
-import { from, Observable, Subject } from 'rxjs';
+import { firstValueFrom, from, Observable, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ReturnedWorkspace } from './workspace';
 import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
@@ -142,7 +142,7 @@ export class APIClient {
   }
 
   async getUser() {
-    return this.observeUser().pipe(take(1)).toPromise();
+    return firstValueFrom(this.observeUser().pipe(take(1)));
   }
   async signInWithCustomToken(token: string) {
     this.authToken = token;

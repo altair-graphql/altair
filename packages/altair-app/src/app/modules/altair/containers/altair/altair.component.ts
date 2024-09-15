@@ -79,6 +79,7 @@ import {
 import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 import { QueryItemRevision } from '@altairgraphql/db';
+import { consumeQueryParam } from '../../utils/url';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -309,7 +310,23 @@ export class AltairComponent {
           this.removeWindow(this.activeWindowId);
         }
       },
-      openUrl: (url) => this.sharingService.checkForShareUrl(url),
+      openUrl: (url) => {
+        const u = new URL(url);
+        switch (u.pathname) {
+          case '/share':
+            return this.sharingService.checkForShareUrl(url);
+          case '/new': {
+            const endpoint = consumeQueryParam('endpoint', url);
+            if (!endpoint) {
+              debug.error('No endpoint specified in the url', url);
+              return;
+            }
+            return this.windowService.newWindow({ url: endpoint }).subscribe();
+          }
+          default:
+            debug.error('Unknown url', url);
+        }
+      },
     });
     this.keybinder.connect();
 
