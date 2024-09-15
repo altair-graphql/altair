@@ -1,8 +1,8 @@
 import { debug } from './logger';
 
-export const consumeQueryParam = (key: string) => {
+export const consumeQueryParam = (key: string, url = window.location.href) => {
   try {
-    const u = new URL(window.location.href);
+    const u = new URL(url);
     const value = u.searchParams.get(key);
     if (!value) {
       return;

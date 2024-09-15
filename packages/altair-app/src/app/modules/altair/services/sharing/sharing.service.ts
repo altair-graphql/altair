@@ -5,6 +5,7 @@ import { NotifyService } from '../notify/notify.service';
 import { debug } from '../../utils/logger';
 import { AccountService } from '../account/account.service';
 import { copyToClipboard } from '../../utils';
+import { consumeQueryParam } from '../../utils/url';
 
 interface ShareDetails {
   queryId: string;
@@ -25,12 +26,12 @@ export class SharingService {
    */
   checkForShareUrl(url = window.location.href) {
     debug.log('Checking for shared url', url);
+    const shareDetails = this.getShareDetailsFromUrl(url);
+    if (!shareDetails) {
+      return;
+    }
     this.accountService.observeUser().subscribe((user) => {
       if (!user) {
-        return;
-      }
-      const shareDetails = this.getShareDetailsFromUrl(url);
-      if (!shareDetails) {
         return;
       }
       this.handleShareDetails(shareDetails);
@@ -43,16 +44,11 @@ export class SharingService {
   }
 
   private getShareDetailsFromUrl(url: string) {
-    const u = new URL(url);
-    const urlParams = new URLSearchParams(u.search);
-    const queryId = urlParams.get('q');
+    const queryId = consumeQueryParam('q', url);
     if (!queryId) {
       // no shared link
       return;
     }
-
-    //  Clear query parameter
-    window.history.replaceState({}, document.title, window.location.pathname);
 
     return { queryId };
   }
