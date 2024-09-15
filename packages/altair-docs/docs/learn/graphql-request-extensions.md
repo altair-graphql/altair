@@ -128,6 +128,41 @@ Extensions can be used to implement custom caching strategies, allowing clients 
 
 This can be useful for implementing client-specific caching policies, optimizing performance for different types of data, or managing cache invalidation strategies.
 
+### Internationalization and localization
+
+Extensions can be used to specify language and locale preferences, allowing for dynamic content localization without cluttering the GraphQL schema.
+
+```json
+{
+  "query": "query { product(id: 123) { name, description, price } }",
+  "extensions": {
+    "locale": "fr-FR",
+    "currency": "EUR"
+  }
+}
+```
+
+This enables serving localized content based on user preferences, dynamically formatting numbers, dates, and currencies, and switching between different sets of content without changing the query structure.
+
+### Feature flags and A/B testing
+
+Extensions can be used to implement feature flags or A/B testing in your GraphQL API, allowing for controlled rollouts of new features or experimentation.
+
+```json
+{
+  "query": "query { homepage { sections } }",
+  "extensions": {
+    "featureFlags": {
+      "newHeader": true,
+      "experimentalCheckout": false
+    },
+    "abTest": "variant_B"
+  }
+}
+```
+
+This use case supports gradual feature rollouts, A/B testing of different API behaviors or responses, and personalized experiences based on user segments. This relies on the clients configuring the feature flags and A/B test variants, which may not always be ideal for all use cases so it's important to consider the implications of this approach.
+
 ## Implementing GraphQL request extensions
 
 To implement GraphQL request extensions on the server side, your GraphQL server must be able to read and process the `extensions` field in the request object. Most GraphQL server libraries provide built-in support for extensions, allowing you to access the extensions data in your resolvers or middleware. Here's a basic example accessing the `extensions` in the [context](https://the-guild.dev/graphql/yoga-server/docs/features/context) using GraphQL yoga:
@@ -186,4 +221,4 @@ Clearly document your supported extensions and their behaviors for API consumers
 
 GraphQL request extensions offer a powerful way to enhance your API's functionality without compromising the simplicity and elegance of your GraphQL schema. From debugging and custom business logic to advanced authentication and caching strategies, extensions provide a flexible mechanism for tailoring your API to specific needs.
 
-By leveraging GraphQL request extensions, you can build more robust, efficient, and customizable APIs that can adapt to a wide range of use cases and client requirements. As you continue to explore the possibilities of GraphQL, remember that Altair GraphQL is a valuable tool in your toolkit for experimenting with request extensions and other advanced GraphQL features.
+By leveraging GraphQL request extensions, you can build more robust, efficient, and customizable APIs that can adapt to a wide range of use cases and client requirements. As with any powerful tool, it's important to use extensions judiciously and with careful consideration of their impact on your overall API design and performance. As you continue to explore the possibilities of GraphQL, remember that Altair GraphQL is a valuable tool in your toolkit for experimenting with request extensions and other advanced GraphQL features.
