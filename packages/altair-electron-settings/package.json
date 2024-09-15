@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/electron-settings",
-  "version": "7.3.5",
+  "version": "7.3.6",
   "main": "dist/index.html",
   "license": "MIT",
   "private": true,
@@ -12,7 +12,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@altairgraphql/electron-interop": "^7.3.5",
+    "@altairgraphql/electron-interop": "^7.3.6",
     "flowbite-react": "^0.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,11 +1,11 @@
 {
   "name": "@altairgraphql/api",
   "description": "",
-  "version": "7.3.5",
+  "version": "7.3.6",
   "author": "",
   "dependencies": {
-    "@altairgraphql/api-utils": "^7.3.5",
-    "@altairgraphql/db": "^7.3.5",
+    "@altairgraphql/api-utils": "^7.3.6",
+    "@altairgraphql/db": "^7.3.6",
     "@langchain/anthropic": "^0.2.4",
     "@langchain/community": "^0.2.19",
     "@langchain/openai": "^0.2.2",
@@ -18,7 +18,7 @@
     "@nestjs/platform-express": "^10.3.10",
     "@nestjs/schedule": "^4.1.0",
     "@nestjs/swagger": "^7.4.0",
-    "altair-graphql-core": "^7.3.5",
+    "altair-graphql-core": "^7.3.6",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
