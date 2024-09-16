@@ -36,7 +36,7 @@
     "@ngneat/until-destroy": "8.0.1",
     "@ngrx/effects": "15.4.0",
     "@ngrx/store": "15.4.0",
-    "@ngrx/store-devtools": "15.4.0",
+    "@ngrx/store-devtools": "18.0.2",
     "@ngui/auto-complete": "3.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
