@@ -73,10 +73,7 @@ export class MenuManager {
                 { type: 'separator' },
                 {
                   label: 'Speech',
-                  submenu: [
-                    { role: 'startspeaking' },
-                    { role: 'stopspeaking' },
-                  ],
+                  submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
                 },
               ] as MenuItemConstructorOptions[])
             : []),
@@ -107,6 +104,15 @@ export class MenuManager {
         submenu: [
           { role: 'minimize' },
           { role: 'close' },
+          {
+            label: 'Disable hardware acceleration (beta)',
+            click: () => {
+              app.commandLine.appendSwitch('ignore-gpu-blacklist');
+              app.commandLine.appendSwitch('disable-gpu');
+              app.commandLine.appendSwitch('disable-gpu-compositing');
+              app.disableHardwareAcceleration();
+            },
+          },
           ...(isMac
             ? ([
                 { role: 'minimize' },
