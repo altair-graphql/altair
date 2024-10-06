@@ -6,27 +6,27 @@ on:
       - master
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
   translate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: yarn --frozen-lockfile --network-timeout 1000000
-    - run: yarn build:ci
-    - name: Deploy to translate surge.sh
-      uses: dswistowski/surge-sh-action@v1
-      with:
-        domain: altair-gql-translate.surge.sh
-        project: ./packages/altair-app/dist
-        login: ${{ secrets.surge_login }}
-        token: ${{ secrets.surge_token }}
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - run: yarn build:ci
+      - name: Deploy to translate surge.sh
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: altair-gql-translate.surge.sh
+          project: ./packages/altair-app/dist
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}
   # todo:
   #   runs-on: ubuntu-latest
   #   steps:

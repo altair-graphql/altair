@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
 # TODO: Handle browser extension release

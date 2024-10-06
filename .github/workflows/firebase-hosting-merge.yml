@@ -8,7 +8,7 @@ name: Deploy to Firebase Hosting on merge
       - master
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
