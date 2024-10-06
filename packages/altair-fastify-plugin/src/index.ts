@@ -7,7 +7,7 @@ import {
 import fp from 'fastify-plugin';
 import fastifyStatic from '@fastify/static';
 
-import type { FastifyPluginCallback } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
 export interface AltairFastifyPluginOptions extends RenderOptions {
   /**
@@ -30,15 +30,14 @@ export interface AltairFastifyPluginOptions extends RenderOptions {
   path?: string;
 }
 
-const fastifyAltairPlugin: FastifyPluginCallback<AltairFastifyPluginOptions> = (
-  fastify,
+const fastifyAltairPluginFn = async (
+  fastify: FastifyInstance,
   {
     path = '/altair',
     baseURL = '/altair/',
     endpointURL = '/graphql',
     ...renderOptions
-  } = {},
-  done
+  }: AltairFastifyPluginOptions = {}
 ) => {
   fastify.register(fastifyStatic, {
     root: getDistDirectory(),
@@ -59,11 +58,9 @@ const fastifyAltairPlugin: FastifyPluginCallback<AltairFastifyPluginOptions> = (
       res.type('application/javascript').send(initialOptions);
     });
   }
-
-  done();
 };
 
-export default fp(fastifyAltairPlugin, {
+export const AltairFastify = fp(fastifyAltairPluginFn, {
   fastify: '>= 3.x',
   name: 'altair-fastify-plugin',
 });
