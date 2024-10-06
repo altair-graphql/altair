@@ -10,7 +10,7 @@ on:
 # v*.*.*
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
