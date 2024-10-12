@@ -1,9 +1,9 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "7.3.6",
+  "version": "8.0.0",
   "dependencies": {
-    "@altairgraphql/api-utils": "^7.3.6",
-    "altair-graphql-core": "^7.3.6"
+    "@altairgraphql/api-utils": "^8.0.0",
+    "altair-graphql-core": "^8.0.0"
   },
   "devDependencies": {
     "rimraf": "^5.0.5",

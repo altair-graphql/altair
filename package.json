@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "description": "The best graphQL client you will ever need",
-  "version": "7.3.6",
+  "version": "8.0.0",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
