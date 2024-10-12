@@ -227,7 +227,9 @@ export class DocViewerComponent implements OnChanges {
         const DocUtils: any = getDocUtilsWorkerAsyncClass();
         this.docUtilWorker = await new DocUtils();
       } catch (error) {
-        debug.error('Could not load doc utilsweb worker');
+        debug.error(
+          'Could not load doc utilsweb worker, falling back to main thread'
+        );
         debug.error(error);
         const { DocUtils: ImportedDocUtils } = await import('../doc-utils');
         this.docUtilWorker = new ImportedDocUtils();
