@@ -13,6 +13,13 @@ import { UrlConfig, urlMap } from './urls';
 
 const isTranslateMode = (window as TODO).__ALTAIR_TRANSLATE__;
 
+const parseUrl = (url: string) => {
+  try {
+    return new URL(url);
+  } catch (e) {
+    return;
+  }
+};
 export class AltairConfig {
   private localSandboxUrl: string | undefined;
   private useLocalSandboxUrl = false;
@@ -135,7 +142,10 @@ export class AltairConfig {
 
   private getPossibleLocalSandBoxUrl() {
     // check document base url
-    if (document.baseURI) {
+    if (
+      document.baseURI &&
+      parseUrl(document.baseURI)?.origin === window.location.origin
+    ) {
       // add iframe-sandbox path to base url
       if (document.baseURI.endsWith('/')) {
         return new URL(document.baseURI + 'iframe-sandbox/index.html');
