@@ -186,7 +186,13 @@ export const createQuery = async (app: INestApplication, collectionId: string) =
   return res.body;
 };
 
+const originalEnv = process.env;
 export const beforeAllSetup = async () => {
+  jest.resetModules();
+  process.env = {
+    ...originalEnv,
+    RESEND_API_KEY: 're_test',
+  };
   await cleanupDatabase(prisma);
 
   // seed e2e test database
@@ -262,10 +268,6 @@ export const createTestApp = async () => {
     .useValue(logger)
     .overrideProvider(PrismaService)
     .useValue(prisma)
-    .overrideProvider(ConfigService)
-    .useValue({
-      get: jest.fn().mockReturnValue('test'),
-    })
     .compile();
 
   expect(process.env.NODE_ENV).toBe('test');
@@ -287,6 +289,7 @@ export const afterAllCleanup = async (
   app: INestApplication,
   prismaService: PrismaService
 ) => {
+  process.env = originalEnv;
   // await prismaService?.$disconnect();
   // await prisma.$disconnect();
   await app.close();
