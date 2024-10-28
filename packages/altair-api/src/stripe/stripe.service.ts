@@ -209,6 +209,11 @@ export class StripeService {
       );
     }
 
+    if (res.data.length === 0) {
+      console.error('Customer does not have an active subscription. Exiting.');
+      return;
+    }
+
     // update first item only
     const itemId = res.data.at(0)?.items.data.at(0)?.id;
 

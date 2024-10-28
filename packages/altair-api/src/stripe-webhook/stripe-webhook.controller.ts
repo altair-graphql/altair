@@ -8,6 +8,7 @@ import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/comm
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { EmailService } from 'src/email/email.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Stripe } from 'stripe';
 
@@ -16,7 +17,8 @@ export class StripeWebhookController {
   constructor(
     private readonly stripeService: StripeService,
     private readonly userService: UserService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly emailService: EmailService
   ) {
     // TODO: Synchronise with Stripe on startup
   }
@@ -70,12 +72,18 @@ export class StripeWebhookController {
           await this.userService.toBasicPlan(user.id);
         } else if (planRole === PRO_PLAN_ID) {
           await this.userService.toProPlan(user.id, quantity);
+          // Send welcome email
+          console.log('Sending welcome email');
+          await this.emailService.sendWelcomeEmail(
+            user.email,
+            user.firstName ?? user.email
+          );
         }
         break;
       }
       case 'checkout.session.completed':
       case 'checkout.session.async_payment_succeeded': {
-        // TODO: Handle credit purchase
+        // Handle credit purchase
         const data: Stripe.Checkout.Session = event.data.object;
         const checkoutSession = await this.stripeService.retrieveCheckoutSession(
           data.id

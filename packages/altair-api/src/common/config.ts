@@ -38,6 +38,11 @@ const config = {
       model: process.env.ANTHROPIC_MODEL_NAME ?? 'claude-3-haiku-20240307',
     },
   },
+  email: {
+    resendApiKey: process.env.RESEND_API_KEY,
+    defaultFrom: 'Altair GraphQL <no-reply@mail.altairgraphql.dev>',
+    replyTo: 'reply@mail.altairgraphql.dev',
+  },
 };
 
 export type Config = typeof config;
