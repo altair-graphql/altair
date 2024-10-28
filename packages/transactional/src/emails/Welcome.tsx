@@ -6,7 +6,6 @@ import {
   Heading,
   Html,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -19,13 +18,7 @@ export interface WelcomeEmailProps {
   username: string;
 }
 
-const PropDefaults: WelcomeEmailProps = {
-  username: 'User',
-};
-
-export const WelcomeEmail = ({
-  username = PropDefaults.username,
-}: WelcomeEmailProps) => {
+export const WelcomeEmail = ({ username = 'User' }: WelcomeEmailProps) => {
   return (
     <Html>
       <Head />
@@ -81,8 +74,6 @@ export const WelcomeEmail = ({
               </Row>
             </Section>
 
-            {/* <ul>{steps?.map(({ Description }) => Description)}</ul> */}
-
             <Section className="text-center">
               <Button
                 className="bg-brand text-white rounded-md py-3 px-[18px] block"
@@ -91,34 +82,7 @@ export const WelcomeEmail = ({
                 Get Started
               </Button>
             </Section>
-
-            {/* <Section className="mt-45">
-              <Row>
-                {links?.map((link) => (
-                  <Column key={link}>
-                    <Link className="text-black underline font-bold">{link}</Link>{' '}
-                    <span className="text-green-500">→</span>
-                  </Column>
-                ))}
-              </Row>
-            </Section> */}
           </Container>
-
-          {/* <Container className="mt-20">
-            <Section>
-              <Row>
-                <Column className="text-right px-20">
-                  <Link>Unsubscribe</Link>
-                </Column>
-                <Column className="text-left">
-                  <Link>Manage Preferences</Link>
-                </Column>
-              </Row>
-            </Section>
-            <Text className="text-center text-gray-400 mb-45">
-              Netlify, 44 Montgomery Street, Suite 300 San Francisco, CA
-            </Text>
-          </Container> */}
         </Body>
       </Tailwind>
     </Html>
