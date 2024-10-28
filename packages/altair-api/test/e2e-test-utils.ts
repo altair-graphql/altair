@@ -16,6 +16,7 @@ import {
 } from '@altairgraphql/api-utils';
 import { JwtService } from '@nestjs/jwt';
 import { StripeService } from 'src/stripe/stripe.service';
+import { ConfigService } from '@nestjs/config';
 
 const prisma = new PrismaClient();
 (prisma as any).enableShutdownHooks = () => {
@@ -261,6 +262,10 @@ export const createTestApp = async () => {
     .useValue(logger)
     .overrideProvider(PrismaService)
     .useValue(prisma)
+    .overrideProvider(ConfigService)
+    .useValue({
+      get: jest.fn().mockReturnValue('test'),
+    })
     .compile();
 
   expect(process.env.NODE_ENV).toBe('test');
