@@ -22,4 +22,10 @@ export const testProviders = [
   AiService,
   ConfigService,
   EmailService,
+  {
+    provide: ConfigService,
+    useValue: {
+      get: jest.fn().mockReturnValue('test'),
+    },
+  },
 ];
