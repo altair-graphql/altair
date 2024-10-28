@@ -19,6 +19,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule, utilities } from 'nest-winston';
 import { format, transports } from 'winston';
 import { AiModule } from './ai/ai.module';
+import { EmailService } from './email/email.service';
 
 @Module({
   imports: [
@@ -59,6 +60,6 @@ import { AiModule } from './ai/ai.module';
     AiModule,
   ],
   controllers: [AppController, StripeWebhookController],
-  providers: [AppService, PasswordService],
+  providers: [AppService, PasswordService, EmailService],
 })
 export class AppModule {}

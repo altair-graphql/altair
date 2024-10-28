@@ -6,6 +6,7 @@
   "dependencies": {
     "@altairgraphql/api-utils": "^8.0.0",
     "@altairgraphql/db": "^8.0.0",
+    "@altairgraphql/emails": "^8.0.0",
     "@langchain/anthropic": "^0.2.4",
     "@langchain/community": "^0.2.19",
     "@langchain/openai": "^0.2.2",
@@ -33,6 +34,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
+    "resend": "^4.0.0",
     "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
     "stripe": "^16.2.0",
