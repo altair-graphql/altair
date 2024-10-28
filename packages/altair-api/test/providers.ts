@@ -4,6 +4,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { AiService } from 'src/ai/ai.service';
 import { UserService } from 'src/auth/user/user.service';
 import { CreditService } from 'src/credit/credit.service';
+import { EmailService } from 'src/email/email.service';
 import { QueriesService } from 'src/queries/queries.service';
 import { QueryCollectionsService } from 'src/query-collections/query-collections.service';
 import { StripeService } from 'src/stripe/stripe.service';
@@ -20,4 +21,5 @@ export const testProviders = [
   CreditService,
   AiService,
   ConfigService,
+  EmailService,
 ];
