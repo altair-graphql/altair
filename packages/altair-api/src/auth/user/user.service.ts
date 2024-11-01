@@ -125,6 +125,17 @@ export class UserService {
     });
   }
 
+  updateUserResendContactId(userId: string, resendContactId: string) {
+    return this.prisma.user.update({
+      data: {
+        resendContactId,
+      },
+      where: {
+        id: userId,
+      },
+    });
+  }
+
   async getPlanConfig(userId: string) {
     const res = await this.prisma.userPlan.findUnique({
       where: {

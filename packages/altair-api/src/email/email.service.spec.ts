@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmailService } from './email.service';
 import { ConfigService } from '@nestjs/config';
+import { testProviders } from 'test/providers';
 
 describe('EmailService', () => {
   let service: EmailService;
@@ -15,6 +16,7 @@ describe('EmailService', () => {
             get: jest.fn().mockReturnValue('test'),
           },
         },
+        ...testProviders,
       ],
     }).compile();
 
