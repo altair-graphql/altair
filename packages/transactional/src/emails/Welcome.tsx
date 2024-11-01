@@ -24,6 +24,7 @@ export const WelcomeEmail = ({ username = 'User' }: WelcomeEmailProps) => {
       <Head />
       <Preview>Welcome to Altair GraphQL Cloud</Preview>
       <Tailwind
+        // @ts-expect-error
         config={{
           theme: {
             extend: {
