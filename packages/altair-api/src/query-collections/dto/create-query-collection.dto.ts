@@ -7,6 +7,7 @@ import {
   IsString,
   IsBoolean,
   ValidateNested,
+  IsArray,
 } from 'class-validator';
 import { CreateQuerySansCollectionIdDto } from 'src/queries/dto/create-query.dto';
 
@@ -17,7 +18,8 @@ export class CreateQueryCollectionDto implements ICreateQueryCollectionDto {
   name!: string;
 
   @IsOptional()
-  @ValidateNested()
+  // @ValidateNested({ each: true })
+  @IsArray()
   @ApiProperty()
   @Type(() => CreateQuerySansCollectionIdDto)
   queries?: CreateQuerySansCollectionIdDto[];
