@@ -74,10 +74,10 @@ export class StripeWebhookController {
           await this.userService.toProPlan(user.id, quantity);
           // Send welcome email
           console.log('Sending welcome email');
-          await this.emailService.sendWelcomeEmail(
-            user.email,
-            user.firstName ?? user.email
-          );
+          await this.emailService.sendWelcomeEmail(user.id);
+          // Subscribe user
+          console.log('Subscribing user');
+          await this.emailService.subscribeUser(user.id);
         }
         break;
       }
