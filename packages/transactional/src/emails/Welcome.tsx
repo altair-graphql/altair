@@ -24,21 +24,23 @@ export const WelcomeEmail = ({ username = 'User' }: WelcomeEmailProps) => {
       <Head />
       <Preview>Welcome to Altair GraphQL Cloud</Preview>
       <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                brand: '#64CB29',
-                offwhite: '#fafbfb',
-              },
-              spacing: {
-                0: '0px',
-                20: '20px',
-                45: '45px',
+        config={
+          {
+            theme: {
+              extend: {
+                colors: {
+                  brand: '#64CB29',
+                  offwhite: '#fafbfb',
+                },
+                spacing: {
+                  0: '0px',
+                  20: '20px',
+                  45: '45px',
+                },
               },
             },
-          },
-        }}
+          } as any
+        }
       >
         <Body className="bg-offwhite text-base font-sans">
           <Img
