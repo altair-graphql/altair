@@ -1,6 +1,17 @@
 export enum OAuth2Type {
   AUTHORIZATION_CODE = 'auth_code',
   AUTHORIZATION_CODE_PKCE = 'auth_code_pkce',
+  CLIENT_CREDENTIALS = 'client_credentials',
+}
+
+export enum AuthFormat {
+  BASIC_AUTH = 'basic',
+  IN_BODY = 'body',
+}
+
+export enum RequestFormat {
+  JSON = 'json',
+  FORM = 'form',
 }
 
 export interface SimpleAuthorizationRequestParams extends Record<string, string> {
@@ -66,9 +77,20 @@ export interface AuthorizationCodePKCE_AccessTokenRequest
   extends AuthorizationCode_AccessTokenRequest {
   code_verifier: string;
 }
+
+// https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
+export interface ClientCredentials_AccessTokenRequest {
+  grant_type: 'client_credentials';
+  client_id: string;
+  client_secret: string;
+  scope?: string;
+}
+
+// https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
 export type AccessTokenRequest =
   | AuthorizationCode_AccessTokenRequest
-  | AuthorizationCodePKCE_AccessTokenRequest;
+  | AuthorizationCodePKCE_AccessTokenRequest
+  | ClientCredentials_AccessTokenRequest;
 
 export interface AccessTokenResponse {
   /**

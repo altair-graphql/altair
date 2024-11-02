@@ -2,13 +2,16 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
+  AccessTokenErrorResponse,
   AccessTokenResponse,
+  AuthFormat,
   AuthorizationRedirectErrorResponse,
   AuthorizationRedirectResponse,
   EVENT_TYPES,
   OAuth2Client,
   OAuth2ClientOptions,
   OAuth2Type,
+  RequestFormat,
   secureRandomString,
 } from 'altair-graphql-core/build/oauth2';
 import { NotifyService } from 'app/modules/altair/services';
@@ -33,9 +36,13 @@ export class AuthorizationOauth2Component implements OnInit {
     scope: '',
     codeVerifier: '',
     state: '',
+    authFormat: AuthFormat.IN_BODY,
+    requestFormat: RequestFormat.FORM,
     accessTokenResponse: undefined as unknown as AccessTokenResponse | undefined,
   });
   oauth2Type = OAuth2Type;
+  authFormat = AuthFormat;
+  requestFormat = RequestFormat;
   @Input() authData?: unknown;
   @Output() authDataChange = this.form.valueChanges;
 
@@ -65,9 +72,11 @@ export class AuthorizationOauth2Component implements OnInit {
       scope,
       codeVerifier,
       state,
+      authFormat,
+      requestFormat,
     } = this.form.value;
 
-    if (!type) {
+    if (!type || !authFormat || !requestFormat) {
       throw new Error('type is required');
     }
     const oauthWindowUrl = this.getOAuthWindowUrl();
@@ -82,12 +91,19 @@ export class AuthorizationOauth2Component implements OnInit {
       scopes: scope?.split(' ') ?? [],
       codeVerifier: codeVerifier ? codeVerifier : secureRandomString(64),
       state: state ? state : btoa(redirectUri ?? oauthWindowUrl),
+      authFormat,
+      requestFormat,
     };
   }
 
   async handleGetAccessToken(): Promise<void> {
     try {
       const accessTokenResponse = await this.getAccessToken();
+      if ('error' in accessTokenResponse) {
+        throw new Error(
+          accessTokenResponse.error_description ?? accessTokenResponse.error
+        );
+      }
       this.notifyService.success('Retrieved access token successfully');
       this.form.patchValue({
         accessTokenResponse,
@@ -98,20 +114,25 @@ export class AuthorizationOauth2Component implements OnInit {
     }
   }
 
-  async getAccessToken(): Promise<AccessTokenResponse> {
-    const authorizationCode = await this.getAuthorizationCode();
-    const client = new OAuth2Client(this.getOAuth2Options());
-    const out = await client.getAccessTokenFromCode(authorizationCode);
-    if ('error' in out) {
-      throw new Error(out.error_description ?? out.error);
+  async getAccessToken(): Promise<AccessTokenResponse | AccessTokenErrorResponse> {
+    const options = this.getOAuth2Options();
+    const client = new OAuth2Client(options);
+    if (options.type === OAuth2Type.CLIENT_CREDENTIALS) {
+      return client.getAccessTokenFromClientCredentials();
     }
-    return out;
+
+    const authorizationCode = await this.getAuthorizationCode();
+    return client.getAccessTokenFromCode(authorizationCode);
   }
 
   async getAuthorizationCode(): Promise<string> {
-    const oauthWindowUrl = this.getOAuthWindowUrl();
-
     const oauth2Options = this.getOAuth2Options();
+    if (oauth2Options.type === OAuth2Type.CLIENT_CREDENTIALS) {
+      throw new Error(
+        'Client Credentials flow not supported for authorization code'
+      );
+    }
+    const oauthWindowUrl = this.getOAuthWindowUrl();
 
     const popup = window.open(oauthWindowUrl, '_blank', 'popup');
     if (!popup) {
