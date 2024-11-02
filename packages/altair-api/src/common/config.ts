@@ -41,7 +41,7 @@ const config = {
   email: {
     resendApiKey: process.env.RESEND_API_KEY,
     audienceId: process.env.RESEND_AUDIENCE_ID,
-    defaultFrom: 'Altair GraphQL <no-reply@mail.altairgraphql.dev>',
+    defaultFrom: 'Altair GraphQL <mail@mail.altairgraphql.dev>',
     replyTo: 'info@altairgraphql.dev',
   },
 };
