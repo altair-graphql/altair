@@ -19,7 +19,7 @@
     </nz-form-control>
   </nz-form-item>
 
-  @if (form.value.type !== oauth2Type.CLIENT_CREDENTIALS) {
+  @if (isEnabledField('clientId')) {
     <nz-form-item>
       <nz-form-label nzRequired nzFor="clientId">Client ID</nz-form-label>
       <nz-form-control
@@ -36,6 +36,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('clientSecret')) {
     <nz-form-item>
       <nz-form-label nzRequired nzFor="clientSecret">Client Secret</nz-form-label>
       <nz-form-control
@@ -52,6 +54,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('redirectUri')) {
     <nz-form-item>
       <nz-form-label
         nzRequired
@@ -74,6 +78,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('authorizationEndpoint')) {
     <nz-form-item>
       <nz-form-label nzRequired nzFor="authorizationEndpoint"
         >Authorization URL</nz-form-label
@@ -92,6 +98,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('tokenEndpoint')) {
     <nz-form-item>
       <nz-form-label nzRequired nzFor="tokenEndpoint"
         >Access token URL</nz-form-label
@@ -110,10 +118,12 @@
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('scopes')) {
     <nz-form-item>
       <nz-form-label
         nzRequired
-        nzFor="scope"
+        nzFor="scopes"
         nzTooltipTitle="The scope of the request. It can contain multiple space-delimited values"
       >
         Scope
@@ -125,14 +135,16 @@
       >
         <app-x-input
           nz-input
-          formControlName="scope"
-          id="scope"
+          formControlName="scopes"
+          id="scopes"
           class="input"
           placeholder="read:users user:email"
           autocomplete="off"
         />
       </nz-form-control>
     </nz-form-item>
+  }
+  @if (isEnabledField('state')) {
     <nz-form-item>
       <nz-form-label nzFor="state">State</nz-form-label>
       <nz-form-control
@@ -149,94 +161,20 @@
         />
       </nz-form-control>
     </nz-form-item>
-    @if (form.value.type === oauth2Type.AUTHORIZATION_CODE_PKCE) {
-      <nz-form-item>
-        <nz-form-label nzFor="codeVerifier">Code verifier</nz-form-label>
-        <nz-form-control
-          [nzSm]="14"
-          [nzXs]="24"
-          nzErrorTip="The input is not a valid code verifier!"
-        >
-          <app-x-input
-            nz-input
-            formControlName="codeVerifier"
-            id="codeVerifier"
-            class="input"
-            autocomplete="off"
-          />
-        </nz-form-control>
-      </nz-form-item>
-    }
-  } @else {
+  }
+  @if (isEnabledField('codeVerifier')) {
     <nz-form-item>
-      <nz-form-label nzRequired nzFor="clientId">Client ID</nz-form-label>
+      <nz-form-label nzFor="codeVerifier">Code verifier</nz-form-label>
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not a valid client ID!"
+        nzErrorTip="The input is not a valid code verifier!"
       >
         <app-x-input
           nz-input
-          formControlName="clientId"
-          id="clientId"
+          formControlName="codeVerifier"
+          id="codeVerifier"
           class="input"
-          autocomplete="off"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="clientSecret">Client Secret</nz-form-label>
-      <nz-form-control
-        [nzSm]="14"
-        [nzXs]="24"
-        nzErrorTip="The input is not a valid client secret!"
-      >
-        <app-x-input
-          nz-input
-          formControlName="clientSecret"
-          id="clientSecret"
-          class="input"
-          autocomplete="off"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="tokenEndpoint"
-        >Access token URL</nz-form-label
-      >
-      <nz-form-control
-        [nzSm]="14"
-        [nzXs]="24"
-        nzErrorTip="The input is not a valid URL!"
-      >
-        <app-x-input
-          nz-input
-          formControlName="tokenEndpoint"
-          id="tokenEndpoint"
-          class="input"
-          autocomplete="off"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label
-        nzRequired
-        nzFor="scope"
-        nzTooltipTitle="The scope of the request. It can contain multiple space-delimited values"
-      >
-        Scope
-      </nz-form-label>
-      <nz-form-control
-        [nzSm]="14"
-        [nzXs]="24"
-        nzErrorTip="The input is not a valid scope!"
-      >
-        <app-x-input
-          nz-input
-          formControlName="scope"
-          id="scope"
-          class="input"
-          placeholder="read:users user:email"
           autocomplete="off"
         />
       </nz-form-control>

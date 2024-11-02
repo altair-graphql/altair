@@ -16,7 +16,8 @@ interface CommonOAuth2ClientOptions {
   authFormat: AuthFormat;
   requestFormat: RequestFormat;
 }
-interface AuthorizationCode_OAuth2ClientOptions extends CommonOAuth2ClientOptions {
+export interface AuthorizationCode_OAuth2ClientOptions
+  extends CommonOAuth2ClientOptions {
   type: OAuth2Type.AUTHORIZATION_CODE;
   clientId: string;
   clientSecret: string;
@@ -29,7 +30,7 @@ interface AuthorizationCode_OAuth2ClientOptions extends CommonOAuth2ClientOption
   tokenEndpoint: string;
 }
 
-interface AuthorizationCodePKCE_OAuth2ClientOptions
+export interface AuthorizationCodePKCE_OAuth2ClientOptions
   extends Omit<AuthorizationCode_OAuth2ClientOptions, 'type'> {
   type: OAuth2Type.AUTHORIZATION_CODE_PKCE;
   /**
@@ -39,7 +40,8 @@ interface AuthorizationCodePKCE_OAuth2ClientOptions
   codeVerifier: string;
 }
 
-interface ClientCredentials_OAuth2ClientOptions extends CommonOAuth2ClientOptions {
+export interface ClientCredentials_OAuth2ClientOptions
+  extends CommonOAuth2ClientOptions {
   type: OAuth2Type.CLIENT_CREDENTIALS;
   clientId: string;
   clientSecret: string;
