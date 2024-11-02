@@ -145,6 +145,7 @@ app-query-result {
 
 .response-headers__container {
   padding: 10px;
+  overflow-y: auto;
 }
 
 .response-headers__notice {
