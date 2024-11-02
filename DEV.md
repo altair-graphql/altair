@@ -144,3 +144,7 @@ psql --file=data.sql --dbname=altairgraphql-db --port=5432 --host=localhost --us
 ## Tips
 
 - add `&pgbouncer=true` to your connection url in order to enable pgbouncer mode in Prisma
+
+### Slow running development application
+
+If the local development application feels extremely slow, check if you have the [Angular DevTools extension](https://chromewebstore.google.com/detail/angular-devtools/ienfalfjdbdpebioblfackkekamfmbnh) installed on your browser and disable it. It slows down the application significantly.
