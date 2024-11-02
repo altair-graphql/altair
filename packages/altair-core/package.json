@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@angular/common": "17.0.8",
+    "@jedmao/location": "^3.0.0",
     "@jest/globals": "^29.7.0",
     "@types/actioncable": "^5.2.5",
     "@types/color-name": "^1.1.4",

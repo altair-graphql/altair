@@ -1,56 +1,10 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  jest,
-} from '@jest/globals';
-import {
-  HttpResponse,
-  http,
-  delay,
-  RequestHandler,
-  HttpResponseResolver,
-  ResponseResolver,
-} from 'msw';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from '@jest/globals';
+import { delay } from 'msw';
 import { setupServer } from 'msw/node';
 import { GraphQLRequestHandler, GraphQLRequestOptions } from '../types';
 import { HttpRequestHandler } from './http';
 import { Observable } from 'rxjs';
-import { QueryResponse } from '../../types/state/query.interfaces';
-import { i } from 'msw/lib/core/HttpResponse-B07UKAkU';
-
-class MswMockRequestHandler extends RequestHandler {
-  private lastRequest?: Request;
-  constructor(path: string, resolver: ResponseResolver) {
-    super({
-      info: {
-        header: `msw request handler-${path}`,
-      },
-      resolver,
-    });
-  }
-  parse(...args: Parameters<RequestHandler['parse']>) {
-    const [{ request }] = args;
-    this.lastRequest = request.clone();
-    return super.parse(...args);
-  }
-  predicate(args: {
-    request: Request;
-    parsedResult: any;
-    resolutionContext?: i | undefined;
-  }): boolean {
-    return true;
-  }
-  log(args: { request: Request; response: Response; parsedResult: any }): void {
-    // throw new Error('Method not implemented.');
-  }
-  receivedRequest() {
-    return this.lastRequest?.clone();
-  }
-}
+import { MswMockRequestHandler } from '../../test-helpers';
 
 const server = setupServer();
 

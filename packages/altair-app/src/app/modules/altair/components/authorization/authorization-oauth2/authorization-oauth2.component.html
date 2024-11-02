@@ -11,154 +11,277 @@
           [nzValue]="oauth2Type.AUTHORIZATION_CODE_PKCE"
           nzLabel="Authorization Code with PKCE"
         ></nz-option>
+        <nz-option
+          [nzValue]="oauth2Type.CLIENT_CREDENTIALS"
+          nzLabel="Client Credentials"
+        ></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired nzFor="clientId">Client ID</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid client ID!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="clientId"
-        id="clientId"
-        class="input"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired nzFor="clientSecret">Client Secret</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid client secret!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="clientSecret"
-        id="clientSecret"
-        class="input"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label
-      nzRequired
-      nzFor="redirectUri"
-      nzTooltipTitle="The callback (redirect) URL"
-      >Callback URL (readonly)</nz-form-label
-    >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid URL!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="redirectUri"
-        id="redirectUri"
-        class="input input--transparent"
-        autocomplete="off"
-        [readonly]="true"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired nzFor="authorizationEndpoint"
-      >Authorization URL</nz-form-label
-    >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid URL!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="authorizationEndpoint"
-        id="authorizationEndpoint"
-        class="input"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired nzFor="tokenEndpoint">Access token URL</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid URL!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="tokenEndpoint"
-        id="tokenEndpoint"
-        class="input"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label
-      nzRequired
-      nzFor="scope"
-      nzTooltipTitle="The scope of the request. It can contain multiple space-delimited values"
-    >
-      Scope
-    </nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid scope!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="scope"
-        id="scope"
-        class="input"
-        placeholder="read:users user:email"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzFor="state">State</nz-form-label>
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is not a valid state!"
-    >
-      <app-x-input
-        nz-input
-        formControlName="state"
-        id="state"
-        class="input"
-        autocomplete="off"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  @if (form.value.type === oauth2Type.AUTHORIZATION_CODE_PKCE) {
+
+  @if (form.value.type !== oauth2Type.CLIENT_CREDENTIALS) {
     <nz-form-item>
-      <nz-form-label nzFor="codeVerifier">Code verifier</nz-form-label>
+      <nz-form-label nzRequired nzFor="clientId">Client ID</nz-form-label>
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not a valid code verifier!"
+        nzErrorTip="The input is not a valid client ID!"
       >
         <app-x-input
           nz-input
-          formControlName="codeVerifier"
-          id="codeVerifier"
+          formControlName="clientId"
+          id="clientId"
           class="input"
           autocomplete="off"
         />
       </nz-form-control>
     </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="clientSecret">Client Secret</nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid client secret!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="clientSecret"
+          id="clientSecret"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label
+        nzRequired
+        nzFor="redirectUri"
+        nzTooltipTitle="The callback (redirect) URL"
+        >Callback URL (readonly)</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid URL!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="redirectUri"
+          id="redirectUri"
+          class="input input--transparent"
+          autocomplete="off"
+          [readonly]="true"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="authorizationEndpoint"
+        >Authorization URL</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid URL!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="authorizationEndpoint"
+          id="authorizationEndpoint"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="tokenEndpoint"
+        >Access token URL</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid URL!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="tokenEndpoint"
+          id="tokenEndpoint"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label
+        nzRequired
+        nzFor="scope"
+        nzTooltipTitle="The scope of the request. It can contain multiple space-delimited values"
+      >
+        Scope
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid scope!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="scope"
+          id="scope"
+          class="input"
+          placeholder="read:users user:email"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="state">State</nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid state!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="state"
+          id="state"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    @if (form.value.type === oauth2Type.AUTHORIZATION_CODE_PKCE) {
+      <nz-form-item>
+        <nz-form-label nzFor="codeVerifier">Code verifier</nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not a valid code verifier!"
+        >
+          <app-x-input
+            nz-input
+            formControlName="codeVerifier"
+            id="codeVerifier"
+            class="input"
+            autocomplete="off"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    }
+  } @else {
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="clientId">Client ID</nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid client ID!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="clientId"
+          id="clientId"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="clientSecret">Client Secret</nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid client secret!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="clientSecret"
+          id="clientSecret"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="tokenEndpoint"
+        >Access token URL</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid URL!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="tokenEndpoint"
+          id="tokenEndpoint"
+          class="input"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label
+        nzRequired
+        nzFor="scope"
+        nzTooltipTitle="The scope of the request. It can contain multiple space-delimited values"
+      >
+        Scope
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid scope!"
+      >
+        <app-x-input
+          nz-input
+          formControlName="scope"
+          id="scope"
+          class="input"
+          placeholder="read:users user:email"
+          autocomplete="off"
+        />
+      </nz-form-control>
+    </nz-form-item>
   }
+
+  <nz-collapse nzGhost class="mb-20">
+    <nz-collapse-panel [nzHeader]="'Advanced options'" [nzActive]="false">
+      <nz-form-item>
+        <nz-form-label>Authentication format</nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not a valid format!"
+        >
+          <nz-select formControlName="authFormat">
+            <nz-option
+              [nzValue]="authFormat.IN_BODY"
+              nzLabel="In body (default)"
+            ></nz-option>
+            <nz-option
+              [nzValue]="authFormat.BASIC_AUTH"
+              nzLabel="Basic Auth"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Request format</nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not a valid format!"
+        >
+          <nz-select formControlName="requestFormat">
+            <nz-option
+              [nzValue]="requestFormat.FORM"
+              nzLabel="Form encoded (default)"
+            ></nz-option>
+            <nz-option [nzValue]="requestFormat.JSON" nzLabel="JSON"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-collapse-panel>
+  </nz-collapse>
   <button class="btn btn--bordered" type="submit" (click)="handleGetAccessToken()">
     Get access token
   </button>

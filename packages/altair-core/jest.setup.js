@@ -13,6 +13,7 @@ const { ReadableStream, TransformStream } = require('node:stream/web');
 const crypto = require('node:crypto');
 const { clearImmediate } = require('node:timers');
 const { performance } = require('node:perf_hooks');
+const { LocationMock } = require('@jedmao/location');
 
 Object.defineProperties(globalThis, {
   crypto: {
@@ -44,7 +45,16 @@ Object.defineProperties(globalThis, {
   FormData: { value: FormData },
   Request: { value: Request },
   Response: { value: Response },
+
+  // Mock the location object
+  location: {
+    value: new LocationMock('http://test.com'),
+  },
 });
+
+global.structuredClone = (data) => {
+  return JSON.parse(JSON.stringify(data));
+};
 
 global.console = {
   ...console,
