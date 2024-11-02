@@ -5,8 +5,11 @@ import {
   AccessTokenErrorResponse,
   AccessTokenResponse,
   AuthFormat,
+  AuthorizationCodePKCE_OAuth2ClientOptions,
+  AuthorizationCode_OAuth2ClientOptions,
   AuthorizationRedirectErrorResponse,
   AuthorizationRedirectResponse,
+  ClientCredentials_OAuth2ClientOptions,
   EVENT_TYPES,
   OAuth2Client,
   OAuth2ClientOptions,
@@ -16,6 +19,7 @@ import {
 } from 'altair-graphql-core/build/oauth2';
 import { NotifyService } from 'app/modules/altair/services';
 import { environment } from 'environments/environment';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-authorization-oauth2',
@@ -33,7 +37,7 @@ export class AuthorizationOauth2Component implements OnInit {
     redirectUri: `${this.urlConfig.loginClient}/oauth2`,
     authorizationEndpoint: '',
     tokenEndpoint: '',
-    scope: '',
+    scopes: '',
     codeVerifier: '',
     state: '',
     authFormat: AuthFormat.IN_BODY,
@@ -43,8 +47,11 @@ export class AuthorizationOauth2Component implements OnInit {
   oauth2Type = OAuth2Type;
   authFormat = AuthFormat;
   requestFormat = RequestFormat;
+
   @Input() authData?: unknown;
   @Output() authDataChange = this.form.valueChanges;
+
+  optionsShape = this.getOptionsShape();
 
   constructor(
     private readonly formBuilder: NonNullableFormBuilder,
@@ -69,7 +76,7 @@ export class AuthorizationOauth2Component implements OnInit {
       redirectUri,
       authorizationEndpoint,
       tokenEndpoint,
-      scope,
+      scopes,
       codeVerifier,
       state,
       authFormat,
@@ -88,7 +95,7 @@ export class AuthorizationOauth2Component implements OnInit {
       redirectUri: redirectUri ?? oauthWindowUrl,
       authorizationEndpoint: authorizationEndpoint ?? '',
       tokenEndpoint: tokenEndpoint ?? '',
-      scopes: scope?.split(' ') ?? [],
+      scopes: scopes?.split(' ') ?? [],
       codeVerifier: codeVerifier ? codeVerifier : secureRandomString(64),
       state: state ? state : btoa(redirectUri ?? oauthWindowUrl),
       authFormat,
@@ -178,4 +185,60 @@ export class AuthorizationOauth2Component implements OnInit {
       window.addEventListener('message', listener);
     });
   }
+
+  getOptionsShape() {
+    const authCodeOptionsShape: Record<
+      keyof AuthorizationCode_OAuth2ClientOptions,
+      boolean
+    > = {
+      clientId: true,
+      clientSecret: true,
+      redirectUri: true,
+      authorizationEndpoint: true,
+      tokenEndpoint: true,
+      state: true,
+      type: true,
+      authFormat: true,
+      requestFormat: true,
+      scopes: true,
+    };
+
+    const authCodePkceOptionsShape: Record<
+      keyof AuthorizationCodePKCE_OAuth2ClientOptions,
+      boolean
+    > = {
+      ...authCodeOptionsShape,
+      codeVerifier: true,
+    };
+
+    const clientCredentialsOptionsShape: Record<
+      keyof ClientCredentials_OAuth2ClientOptions,
+      boolean
+    > = {
+      clientId: true,
+      clientSecret: true,
+      tokenEndpoint: true,
+      type: true,
+      authFormat: true,
+      requestFormat: true,
+      scopes: true,
+    };
+
+    return {
+      [OAuth2Type.AUTHORIZATION_CODE]: authCodeOptionsShape,
+      [OAuth2Type.AUTHORIZATION_CODE_PKCE]: authCodePkceOptionsShape,
+      [OAuth2Type.CLIENT_CREDENTIALS]: clientCredentialsOptionsShape,
+    };
+  }
+
+  isEnabledField(
+    field: KeysOfUnion<
+      ReturnType<AuthorizationOauth2Component['getOptionsShape']>[OAuth2Type]
+    >
+  ) {
+    return (
+      this.form.value.type && (this.optionsShape[this.form.value.type] as any)[field]
+    );
+  }
 }
+type KeysOfUnion<T> = T extends T ? keyof T : never;
