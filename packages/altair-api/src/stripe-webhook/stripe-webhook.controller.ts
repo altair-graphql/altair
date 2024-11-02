@@ -70,6 +70,11 @@ export class StripeWebhookController {
 
         if (planRole === BASIC_PLAN_ID) {
           await this.userService.toBasicPlan(user.id);
+          if (shouldCancelPlan) {
+            // Send goodbye email
+            console.log('Sending goodbye email');
+            await this.emailService.sendGoodbyeEmail(user.id);
+          }
         } else if (planRole === PRO_PLAN_ID) {
           await this.userService.toProPlan(user.id, quantity);
           // Send welcome email
