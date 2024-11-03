@@ -18,5 +18,6 @@
     "build": "tsc",
     "dev": "email dev",
     "prepare": "yarn build"
-  }
+  },
+  "private": true
 }
