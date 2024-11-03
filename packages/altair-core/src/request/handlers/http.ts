@@ -49,7 +49,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
 
             if (!merosResponse.ok || !merosResponse.body) {
               //  don't handle streaming
-              const buffer = await merosResponse.arrayBuffer()
+              const buffer = await merosResponse.arrayBuffer();
               return this.emitChunk(
                 merosResponse,
                 new Uint8Array(buffer),

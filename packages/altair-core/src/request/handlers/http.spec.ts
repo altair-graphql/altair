@@ -652,6 +652,89 @@ describe('HTTP handler', () => {
     ]);
   });
 
+  // https://github.com/felipe-gdr/spring-graphql-defer/issues/5
+  it('should properly handle multipart streamed responses - sample 2', async () => {
+    const mockHandler = new MswMockRequestHandler(
+      'http://localhost:3000/multipart-stream-2',
+      async () => {
+        const encoder = new TextEncoder();
+        const stream = new ReadableStream({
+          async start(controller) {
+            await delay(10);
+            // this is invalid since there is no boundary before the first content, so it should be ignored as the preamble as per the spec
+            controller.enqueue(
+              encoder.encode(
+                `\r\ncontent-type: application/json; charset=utf-8\r\n\r\n{"data":{"bookById":{"name":"Effective Java"}},"hasNext":true}\r\n---`
+              )
+            );
+            await delay(10);
+            controller.enqueue(
+              encoder.encode(
+                `\r\ncontent-type: application/json; charset=utf-8\r\n\r\n{"hasNext":true,"incremental":[{"path":["bookById"],"data":{"author":{"firstName":"Joshua"}}}]}\r\n---`
+              )
+            );
+            await delay(10);
+            controller.enqueue(
+              encoder.encode(
+                `content-type: application/json; charset=utf-8\r\n\r\n{"hasNext":false,"incremental":[{"path":[],"data":{"book2":{"name":"Hitchhiker's Guide to the Galaxy"}}}]}\r\n-----`
+              )
+            );
+            await delay(10);
+            controller.close();
+          },
+        });
+
+        return new Response(stream, {
+          headers: {
+            'content-type': 'multipart/mixed; boundary="-"',
+          },
+        });
+      }
+    );
+    server.use(mockHandler);
+    const request: GraphQLRequestOptions = {
+      url: 'http://localhost:3000/multipart-stream-2',
+      method: 'POST',
+      additionalParams: {
+        testData: [
+          {
+            hello: 'world',
+          },
+        ],
+      },
+      headers: [],
+      query: 'query { hello }',
+      variables: {},
+      selectedOperation: 'hello',
+    };
+
+    const httpHandler: GraphQLRequestHandler = new HttpRequestHandler();
+    const res = await testObserver(httpHandler.handle(request));
+
+    expect(res).toEqual([
+      expect.objectContaining({
+        ok: true,
+        data: '{"hasNext":true,"incremental":[{"path":["bookById"],"data":{"author":{"firstName":"Joshua"}}}]}',
+        headers: expect.any(Object),
+        status: 200,
+        url: 'http://localhost:3000/multipart-stream-2',
+        requestStartTimestamp: expect.any(Number),
+        requestEndTimestamp: expect.any(Number),
+        resopnseTimeMs: expect.any(Number),
+      }),
+      expect.objectContaining({
+        ok: true,
+        data: `{"hasNext":false,"incremental":[{"path":[],"data":{"book2":{"name":"Hitchhiker's Guide to the Galaxy"}}}]}`,
+        headers: expect.any(Object),
+        status: 200,
+        url: 'http://localhost:3000/multipart-stream-2',
+        requestStartTimestamp: expect.any(Number),
+        requestEndTimestamp: expect.any(Number),
+        resopnseTimeMs: expect.any(Number),
+      }),
+    ]);
+  });
+
   it('should properly handle multipart streamed responses with errors', async () => {
     const mockHandler = new MswMockRequestHandler(
       'http://localhost:3000/error-multipart-stream',

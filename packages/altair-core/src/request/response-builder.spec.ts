@@ -165,13 +165,13 @@ describe('response-builder', () => {
       const res = buildResponse([
         {
           content: '{"hello":',
-          timestamp: 1718252802585
+          timestamp: 1718252802585,
         },
         {
           content: '"world"}',
           timestamp: 1718252802585,
-        }
-      ])
+        },
+      ]);
       expect(res).toMatchSnapshot();
     });
 
@@ -377,6 +377,26 @@ describe('response-builder', () => {
         ],
         MultiResponseStrategy.AUTO
       );
+      expect(res).toMatchSnapshot();
+    });
+
+    // https://github.com/felipe-gdr/spring-graphql-defer/issues/5
+    it('should patch the responses when patchable - sample 2', () => {
+      const res = buildResponse([
+        {
+          content: `{"data":{"bookById":{"name":"Effective Java"}},"hasNext":true}`,
+          timestamp: 1718252802585,
+        },
+        {
+          content: `{"hasNext":true,"incremental":[{"path":["bookById"],"data":{"author":{"firstName":"Joshua"}}}]}`,
+          timestamp: 1718252802585,
+        },
+        {
+          content: `{"hasNext":false,"incremental":[{"path":[],"data":{"book2":{"name":"Hitchhiker's Guide to the Galaxy"}}}]}`,
+          timestamp: 1718252802585,
+        },
+      ]);
+
       expect(res).toMatchSnapshot();
     });
 

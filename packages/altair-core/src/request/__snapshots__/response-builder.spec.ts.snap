@@ -143,6 +143,24 @@ exports[`response-builder auto strategy should concatenate the responses when th
 ]
 `;
 
+exports[`response-builder auto strategy should patch the responses when patchable - sample 2 1`] = `
+[
+  {
+    "content": "{
+  "data": {
+    "bookById": {
+      "name": "Effective Java",
+      "author": {
+        "firstName": "Joshua"
+      }
+    }
+  }
+}",
+    "timestamp": 1718252802585,
+  },
+]
+`;
+
 exports[`response-builder auto strategy should patch the responses when the first response is patchable 1`] = `
 [
   {
