@@ -1,4 +1,4 @@
-import { getCodeChallenge } from './helpers';
+import { base64EncodeSafe, getCodeChallenge } from './helpers';
 import {
   AccessTokenErrorResponse,
   AccessTokenRequest,
@@ -160,7 +160,7 @@ export class OAuth2Client {
     const headers: HeadersInit = {};
     switch (this.options.authFormat) {
       case AuthFormat.BASIC_AUTH: {
-        headers.Authorization = `Basic ${btoa(
+        headers.Authorization = `Basic ${base64EncodeSafe(
           `${this.options.clientId}:${this.options.clientSecret}`
         )}`;
         break;

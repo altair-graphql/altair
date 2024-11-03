@@ -7,7 +7,11 @@ export const secureRandomString = (length = 16) => {
     .map((x) => charset[x % charset.length])
     .join('');
 };
-
+export const base64EncodeSafe = (str: string) => {
+  const bytes = new TextEncoder().encode(str);
+  const binStr = Array.from(bytes, (b) => String.fromCodePoint(b)).join('');
+  return btoa(binStr);
+};
 // https://thewoods.blog/base64url/
 export const base64UrlEncode = (buffer: ArrayBuffer): string => {
   return btoa(
