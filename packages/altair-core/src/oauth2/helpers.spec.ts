@@ -42,6 +42,16 @@ describe('oauth2 helpers', () => {
         '04aa106279f5977f59f9067fa9712afc4aedc6f5862a8defc34552d8c7206393'
       );
     });
+
+    it('should return expected hash for an empty string', async () => {
+      const out = await sha256('');
+      const hexed = hex(out);
+
+      // https://www.scivision.dev/sha256-hash-empty-file/
+      expect(hexed).toBe(
+        'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+      );
+    });
   });
 
   describe('getCodeChallenge', () => {
