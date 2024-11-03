@@ -1,10 +1,10 @@
 {
   "name": "@altairgraphql/electron-settings-static",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "private": true,
   "main": "./build/index.js",
   "devDependencies": {
-    "@altairgraphql/electron-settings": "^8.0.0",
+    "@altairgraphql/electron-settings": "^8.0.1",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",
     "typescript": "5.2.2"
