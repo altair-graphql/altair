@@ -1,4 +1,4 @@
-name: Release (experimental extras)
+name: release-extra-experimental
 
 on:
   workflow_run:

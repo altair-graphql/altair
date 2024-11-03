@@ -1,4 +1,4 @@
-name: Electron publish workflow
+name: electron-publish-workflow
 
 on:
   workflow_call:

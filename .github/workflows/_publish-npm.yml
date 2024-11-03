@@ -1,4 +1,4 @@
-name: NPM publish workflow
+name: npm-publish-workflow
 
 on:
   workflow_call:

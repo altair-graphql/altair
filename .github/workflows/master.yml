@@ -1,4 +1,4 @@
-name: Master
+name: master-workflow
 
 on:
   push:

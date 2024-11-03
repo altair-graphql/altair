@@ -1,4 +1,4 @@
-name: pr-workflow
+name: pr-and-master-workflow
 
 on:
   push:

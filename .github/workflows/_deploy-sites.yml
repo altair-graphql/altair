@@ -1,4 +1,4 @@
-name: Sites deploy workflow
+name: sites-deploy-workflow
 
 on:
   workflow_call:
