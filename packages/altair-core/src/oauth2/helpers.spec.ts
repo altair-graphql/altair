@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import {
+  base64EncodeSafe,
   base64UrlEncode,
   getCodeChallenge,
   hex,
@@ -12,6 +13,13 @@ describe('oauth2 helpers', () => {
     it('should generate a random string', () => {
       const out = secureRandomString(64);
       expect(out).toHaveLength(64);
+      const out2 = secureRandomString(64);
+      expect(out2).toHaveLength(64);
+      expect(out).not.toBe(out2);
+    });
+    it('should generate a 16 character string by default', () => {
+      const out = secureRandomString();
+      expect(out).toHaveLength(16);
     });
     it('should generate a code verifier spec compliant string', () => {
       const out = secureRandomString(128);
@@ -58,6 +66,21 @@ describe('oauth2 helpers', () => {
     ])('should encode a string to base64url', async (str, expected) => {
       const out = await getCodeChallenge(str);
       expect(out).toBe(expected);
+    });
+  });
+
+  describe('base64EncodeSafe', () => {
+    it('should encode a string to base64', () => {
+      const out = base64EncodeSafe('hello world');
+      expect(out).toBe('aGVsbG8gd29ybGQ=');
+    });
+
+    it('should encode a unicode string to base64', () => {
+      expect(base64EncodeSafe('你好，世界')).toBe('5L2g5aW977yM5LiW55WM');
+
+      expect(base64EncodeSafe('👋🌍')).toBe('8J+Ri/CfjI0=');
+
+      expect(base64EncodeSafe('a Ā 𐀀 文 🦄')).toBe('YSDEgCDwkICAIOaWhyDwn6aE');
     });
   });
 });
