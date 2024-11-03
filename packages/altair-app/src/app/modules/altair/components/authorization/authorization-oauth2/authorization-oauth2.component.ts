@@ -5,11 +5,11 @@ import {
   AccessTokenErrorResponse,
   AccessTokenResponse,
   AuthFormat,
-  AuthorizationCodePKCE_OAuth2ClientOptions,
-  AuthorizationCode_OAuth2ClientOptions,
+  AuthorizationCodePKCE_OAuth2ClientOptions as AuthCodePKCEOAuth2ClientOpts,
+  AuthorizationCode_OAuth2ClientOptions as AuthCodeOAuth2ClientOpts,
   AuthorizationRedirectErrorResponse,
   AuthorizationRedirectResponse,
-  ClientCredentials_OAuth2ClientOptions,
+  ClientCredentials_OAuth2ClientOptions as ClientCredentialsOAuth2ClientOpts,
   EVENT_TYPES,
   OAuth2Client,
   OAuth2ClientOptions,
@@ -187,10 +187,7 @@ export class AuthorizationOauth2Component implements OnInit {
   }
 
   getOptionsShape() {
-    const authCodeOptionsShape: Record<
-      keyof AuthorizationCode_OAuth2ClientOptions,
-      boolean
-    > = {
+    const authCodeOptionsShape: Record<keyof AuthCodeOAuth2ClientOpts, boolean> = {
       clientId: true,
       clientSecret: true,
       redirectUri: true,
@@ -204,7 +201,7 @@ export class AuthorizationOauth2Component implements OnInit {
     };
 
     const authCodePkceOptionsShape: Record<
-      keyof AuthorizationCodePKCE_OAuth2ClientOptions,
+      keyof AuthCodePKCEOAuth2ClientOpts,
       boolean
     > = {
       ...authCodeOptionsShape,
@@ -212,7 +209,7 @@ export class AuthorizationOauth2Component implements OnInit {
     };
 
     const clientCredentialsOptionsShape: Record<
-      keyof ClientCredentials_OAuth2ClientOptions,
+      keyof ClientCredentialsOAuth2ClientOpts,
       boolean
     > = {
       clientId: true,
