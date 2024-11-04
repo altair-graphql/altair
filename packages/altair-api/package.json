@@ -18,7 +18,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.10",
     "@nestjs/schedule": "^4.1.0",
-    "@nestjs/swagger": "^7.4.0",
+    "@nestjs/swagger": "^8.0.1",
     "altair-graphql-core": "^8.0.1",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
