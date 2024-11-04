@@ -7032,10 +7032,10 @@
   resolved "https://registry.yarnpkg.com/@react-email/body/-/body-0.0.10.tgz#bb8f0c8f6375a6e93ad841b4693807733a62709c"
   integrity sha512-dMJyL9aU25ieatdPtVjCyQ/WHZYHwNc+Hy/XpF8Cc18gu21cUynVEeYQzFSeigDRMeBQ3PGAyjVDPIob7YlGwA==
 
-"@react-email/button@0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@react-email/button/-/button-0.0.17.tgz#42f898073512edd29ca6ffe4c400eca106a4d2c3"
-  integrity sha512-ioHdsk+BpGS/PqjU6JS7tUrVy9yvbUx92Z+Cem2+MbYp55oEwQ9VHf7u4f5NoM0gdhfKSehBwRdYlHt/frEMcg==
+"@react-email/button@0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@react-email/button/-/button-0.0.18.tgz#4d580750cd956fd37bb201a3c77d4a4c5b649c92"
+  integrity sha512-uNUnpeDzz1o9HAky47JSTsUN/Ih0A3Az165AAOgAy8XOVzQJPrltUBRzHkScSVJTwRqKLASkie1yZbtNGIcRdA==
 
 "@react-email/code-block@0.0.9":
   version "0.0.9"
@@ -7054,13 +7054,13 @@
   resolved "https://registry.yarnpkg.com/@react-email/column/-/column-0.0.12.tgz#299ac8e3e6210b59aba93e7937286cd8639a8b30"
   integrity sha512-Rsl7iSdDaeHZO938xb+0wR5ud0Z3MVfdtPbNKJNojZi2hApwLAQXmDrnn/AcPDM5Lpl331ZljJS8vHTWxxkvKw==
 
-"@react-email/components@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@react-email/components/-/components-0.0.25.tgz#fcfa745db53b7dca0141ed8bd619f3454293ed87"
-  integrity sha512-lnfVVrThEcET5NPoeaXvrz9UxtWpGRcut2a07dLbyKgNbP7vj/cXTI5TuHtanCvhCddFpMDnElNRghDOfPzwUg==
+"@react-email/components@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-email/components/-/components-0.0.26.tgz#cc8c9d7402e42c155b4ff6aeb7cc332a8ba65ce6"
+  integrity sha512-FqxCGnQiI4zztEBAXPfjovIQ9e1l7NJNMgE8hSaH7slWySFn/PpPRQFYpxyCFNr9DqPVHtKYtpo8xvUYx2LdTg==
   dependencies:
     "@react-email/body" "0.0.10"
-    "@react-email/button" "0.0.17"
+    "@react-email/button" "0.0.18"
     "@react-email/code-block" "0.0.9"
     "@react-email/code-inline" "0.0.4"
     "@react-email/column" "0.0.12"
@@ -7071,13 +7071,13 @@
     "@react-email/hr" "0.0.10"
     "@react-email/html" "0.0.10"
     "@react-email/img" "0.0.10"
-    "@react-email/link" "0.0.10"
+    "@react-email/link" "0.0.11"
     "@react-email/markdown" "0.0.12"
     "@react-email/preview" "0.0.11"
-    "@react-email/render" "1.0.1"
-    "@react-email/row" "0.0.10"
-    "@react-email/section" "0.0.14"
-    "@react-email/tailwind" "0.1.0"
+    "@react-email/render" "1.0.2"
+    "@react-email/row" "0.0.11"
+    "@react-email/section" "0.0.15"
+    "@react-email/tailwind" "1.0.0"
     "@react-email/text" "0.0.10"
 
 "@react-email/container@0.0.14":
@@ -7115,10 +7115,10 @@
   resolved "https://registry.yarnpkg.com/@react-email/img/-/img-0.0.10.tgz#4d237dd269e25a269786510db81fb2be2409a0bc"
   integrity sha512-pJ8glJjDNaJ53qoM95pvX9SK05yh0bNQY/oyBKmxlBDdUII6ixuMc3SCwYXPMl+tgkQUyDgwEBpSTrLAnjL3hA==
 
-"@react-email/link@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@react-email/link/-/link-0.0.10.tgz#5f983f0f95a195da4ef06ba53671b5edad8d0ab7"
-  integrity sha512-tva3wvAWSR10lMJa9fVA09yRn7pbEki0ZZpHE6GD1jKbFhmzt38VgLO9B797/prqoDZdAr4rVK7LJFcdPx3GwA==
+"@react-email/link@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@react-email/link/-/link-0.0.11.tgz#0bddeb364ef15d185ce6d3da4dd7c0f0139e0137"
+  integrity sha512-o1/BgPn2Fi+bN4Nh+P64t4tulaOyPhkBNSpNmiYL1Ar+ilw8q0BmUAqM+lvHy8Qr/4K7BjkgFoc4GoYkoEjOig==
 
 "@react-email/markdown@0.0.12":
   version "0.0.12"
@@ -7141,29 +7141,29 @@
     js-beautify "^1.14.11"
     react-promise-suspense "0.3.4"
 
-"@react-email/render@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@react-email/render/-/render-1.0.1.tgz#5a8897a2b87c1aa41ebe5dd36233bd8d983b801a"
-  integrity sha512-W3gTrcmLOVYnG80QuUp22ReIT/xfLsVJ+n7ghSlG2BITB8evNABn1AO2rGQoXuK84zKtDAlxCdm3hRyIpZdGSA==
+"@react-email/render@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-email/render/-/render-1.0.2.tgz#9857b6febb54e94f7959135617a49f754d155da7"
+  integrity sha512-q82eBd39TepzA/xjlm8szqJlrQk/gh7mgtxXMGlJ4dcdx89go1m9YBDpZY98SFy+2r2KAOd5A1mxvUbsPwoATg==
   dependencies:
     html-to-text "9.0.5"
     js-beautify "^1.14.11"
     react-promise-suspense "0.3.4"
 
-"@react-email/row@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@react-email/row/-/row-0.0.10.tgz#c8312ba35e91f8e8c65801307a96b8a7d428b0f5"
-  integrity sha512-jPyEhG3gsLX+Eb9U+A30fh0gK6hXJwF4ghJ+ZtFQtlKAKqHX+eCpWlqB3Xschd/ARJLod8WAswg0FB+JD9d0/A==
+"@react-email/row@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@react-email/row/-/row-0.0.11.tgz#0cd13635d7608a236ea2dfa19d7a8760ef674cbf"
+  integrity sha512-ra09h7BMoGa14ds3vh7KVuj1N3astTstEC1YbMdCiHcx/nxylglNaT7qJXU74ZTzyHiGabyiNuyabTS+HLoMCA==
 
-"@react-email/section@0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@react-email/section/-/section-0.0.14.tgz#50585fe7d63da03b56c30cebbd8e9908a3256f0a"
-  integrity sha512-+fYWLb4tPU1A/+GE5J1+SEMA7/wR3V30lQ+OR9t2kAJqNrARDbMx0bLnYnR1QL5TiFRz0pCF05SQUobk6gHEDQ==
+"@react-email/section@0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@react-email/section/-/section-0.0.15.tgz#6092381d6a759efbc9c40a121239e559b2f81c0e"
+  integrity sha512-xfM3Qy5eU7fbkwvktlTeQgad7uo+1Z7YVh1aowSZaRBvKbkEXgoH/XssRYQmQL8ZrZGXbEJMujwtf4fsQL6vrg==
 
-"@react-email/tailwind@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@react-email/tailwind/-/tailwind-0.1.0.tgz#81bed368c225501dedf6385f9c7c4ebd05e83107"
-  integrity sha512-qysVUEY+M3SKUvu35XDpzn7yokhqFOT3tPU6Mj/pgc62TL5tQFj6msEbBtwoKs2qO3WZvai0DIHdLhaOxBQSow==
+"@react-email/tailwind@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-email/tailwind/-/tailwind-1.0.0.tgz#949c71ffff38b301e9fbba1274c787ad12bccdbf"
+  integrity sha512-LV0SflR0aI5Sjxyp8upyPL8Ctwj+7aqwTgCDO9yZuOI6KpXbBGaYz8bSofe8oaVc/BmymZ5O3+/7FjQexbW+Yg==
 
 "@react-email/text@0.0.10":
   version "0.0.10"
@@ -32578,7 +32578,7 @@ string-similarity@^4.0.1:
   resolved "https://registry.yarnpkg.com/string-similarity/-/string-similarity-4.0.4.tgz#42d01ab0b34660ea8a018da8f56a3309bb8b2a5b"
   integrity sha512-/q/8Q4Bl4ZKAPjj8WerIBJWALKkaPRfrvhfF8k/B23i4nzrlRj2/go1m90In7nG/3XDSbOo0+pu6RvCTM9RGMQ==
 
-"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.2.2, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -32603,6 +32603,15 @@ string-width@^1.0.1:
   dependencies:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
+
+"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.2.2, string-width@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
 
 string-width@^3.0.0:
   version "3.1.0"
@@ -32710,7 +32719,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -32744,6 +32753,13 @@ strip-ansi@^6.0.0:
   integrity sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==
   dependencies:
     ansi-regex "^5.0.0"
+
+strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1, strip-ansi@^7.1.0:
   version "7.1.0"
@@ -35697,7 +35713,7 @@ wrangler@^2.0.27:
   optionalDependencies:
     fsevents "~2.3.2"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -35710,6 +35726,15 @@ wrap-ansi@^6.0.1, wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"

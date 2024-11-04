@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "dependencies": {
-    "@react-email/components": "^0.0.25",
+    "@react-email/components": "^0.0.26",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
