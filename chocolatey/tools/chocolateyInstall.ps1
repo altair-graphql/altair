@@ -18,9 +18,5 @@ $packageArgs = @{
 
 Install-ChocolateyPackage @packageArgs
 
-try {
-  # Remove the installer
-  Remove-Item $fileLocation -Force -ErrorAction 'SilentlyContinue'
-} catch {
-  Write-Error "Failed to remove the installer: $_"
-}
+# Remove the installer
+Remove-Item $fileLocation -Force -ErrorAction 'SilentlyContinue'
