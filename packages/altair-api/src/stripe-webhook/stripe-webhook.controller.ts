@@ -77,12 +77,14 @@ export class StripeWebhookController {
           }
         } else if (planRole === PRO_PLAN_ID) {
           await this.userService.toProPlan(user.id, quantity);
-          // Send welcome email
-          console.log('Sending welcome email');
-          await this.emailService.sendWelcomeEmail(user.id);
-          // Subscribe user
-          console.log('Subscribing user');
-          await this.emailService.subscribeUser(user.id);
+          if (event.type === 'customer.subscription.created') {
+            // Send welcome email
+            console.log('Sending welcome email');
+            await this.emailService.sendWelcomeEmail(user.id);
+            // Subscribe user
+            console.log('Subscribing user');
+            await this.emailService.subscribeUser(user.id);
+          }
         }
         break;
       }
