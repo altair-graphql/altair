@@ -1,11 +1,11 @@
 {
   "name": "gatsby-plugin-altair-graphql",
   "description": "A gatsby plugin for using Altair GraphQL client",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-express-middleware": "^8.0.1"
+    "altair-express-middleware": "^8.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
