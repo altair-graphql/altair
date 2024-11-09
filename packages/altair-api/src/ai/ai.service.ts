@@ -249,7 +249,15 @@ export class AiService {
       dedent`Now, please answer the following user question:`,
     ];
     const promptTemplate = ChatPromptTemplate.fromMessages([
-      new SystemMessage(systemMessageParts.join('\n\n')),
+      new SystemMessage({
+        content: [
+          {
+            text: systemMessageParts.join('\n\n'),
+            type: 'text',
+            cache_control: { type: 'ephemeral' },
+          },
+        ],
+      }),
       ...previousMessages.map((m) => {
         if (m.role === AiChatRole.USER) {
           return new HumanMessage(m.message);
@@ -311,6 +319,11 @@ export class AiService {
           apiKey: this.configService.get('ai.anthropic.apiKey', { infer: true }),
           model: this.configService.get('ai.anthropic.model', { infer: true }),
           maxTokens: responseMaxTokens,
+          clientOptions: {
+            defaultHeaders: {
+              'anthropic-beta': 'prompt-caching-2024-07-31',
+            },
+          },
         });
       }
     }
