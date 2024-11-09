@@ -17,7 +17,7 @@
     "compare-versions": "^6.1.1",
     "cwex": "^1.0.4",
     "dotenv-cli": "^7.2.1",
-    "eslint": "8.18.0",
+    "eslint": "9.14.0",
     "eslint-config-prettier": "8.5.0",
     "execa": "^5.0.0",
     "https-browserify": "^1.0.0",
