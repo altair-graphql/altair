@@ -1,9 +1,11 @@
+import { ICustomTheme, getCSS } from '../../theme';
 import { PluginV3Context } from './context';
 
 interface StylesData {
   styleUrls: string[];
   styles: string[];
   htmlClasses: string[];
+  theme?: ICustomTheme;
 }
 export abstract class AltairV3Panel {
   abstract create(ctx: PluginV3Context, container: HTMLElement): void;
@@ -35,7 +37,11 @@ export abstract class AltairV3Panel {
       document.head.appendChild(link);
     });
 
-    this.injectCSS(data.styles.join('\n'));
+    if (data.styles.length) {
+      this.injectCSS(data.styles.join('\n'));
+    } else if (data.theme) {
+      this.injectCSS(getCSS(data.theme));
+    }
 
     // set the background color of the panel to the theme background color
     this.injectCSS(`
@@ -51,7 +57,7 @@ export abstract class AltairV3Panel {
 
   private injectCSS(css: string) {
     let el = document.createElement('style');
-    el.innerText = css;
+    el.innerText = css.replace(/[\n\r]/g, '');
     document.head.appendChild(el);
     return el;
   }
