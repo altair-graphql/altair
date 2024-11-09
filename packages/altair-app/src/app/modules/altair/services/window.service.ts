@@ -1,6 +1,6 @@
-import { EMPTY, firstValueFrom, from } from 'rxjs';
+import { EMPTY, firstValueFrom, from, of } from 'rxjs';
 
-import { tap, map, switchMap, take } from 'rxjs/operators';
+import { tap, map, switchMap, take, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
@@ -512,6 +512,11 @@ export class WindowService {
             return from(
               this.collectionService.getCollectionByID(data.layout.collectionId)
             ).pipe(
+              catchError(() => {
+                // continue to evaluation logic in map() below if collection is not found
+                // (EMPTY would stop the observable chain)
+                return of(undefined);
+              }),
               map((collection) => {
                 if (collection) {
                   const query = collection.queries.find(

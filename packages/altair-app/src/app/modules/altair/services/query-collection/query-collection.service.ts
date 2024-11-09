@@ -65,7 +65,7 @@ export class QueryCollectionService {
   }
 
   async createRemoteCollection(
-    collection: CreateDTO<IQueryCollection>,
+    collection: CreateDTO<IQueryCollection> | IQueryCollection,
     workspaceId?: WorkspaceId,
     teamId?: TeamId
   ) {
@@ -74,9 +74,9 @@ export class QueryCollectionService {
       return;
     }
 
-    // TODO: Handle parent collection ID - at the moment, we don't know the parent collection server ID
     const res = await this.api.createQueryCollection(
       collection,
+      // root collection has no parent collection ID
       undefined,
       workspaceId,
       teamId
@@ -84,6 +84,22 @@ export class QueryCollectionService {
 
     if (!res) {
       throw new Error('could not create the collection');
+    }
+
+    if ('id' in collection) {
+      // Create subcollections
+      const subcollections = await this.getSubcollections(collection.id);
+      for (let i = 0; i < subcollections.length; i++) {
+        const subcollection = subcollections[i];
+        if (subcollection?.id) {
+          await this.api.createQueryCollection(
+            subcollection,
+            res.id,
+            workspaceId,
+            teamId
+          );
+        }
+      }
     }
 
     return res.id;
@@ -122,7 +138,22 @@ export class QueryCollectionService {
     // Create remote collection
     // Delete local collection
     const localCollection = await this.mustGetLocalCollection(collectionId);
-    await this.createRemoteCollection(localCollection);
+    const resId = await this.createRemoteCollection(localCollection);
+
+    // Verify remote collection is created properly before deleting it
+    if (!resId) {
+      throw new Error('Remote collection creation failed');
+    }
+
+    // Verify all subqueries and their content
+    const remoteCollection = await this.api.getCollection(resId);
+    if (!remoteCollection) {
+      throw new Error('Failed to retrieve the remote collection');
+    }
+
+    if (remoteCollection.queries.length !== localCollection.queries.length) {
+      throw new Error('Query count mismatch');
+    }
     await this.deleteLocalCollection(collectionId);
   }
 
@@ -160,11 +191,7 @@ export class QueryCollectionService {
     return id;
   }
 
-  async updateQuery(
-    collectionId: CollectionID,
-    queryId: QueryID,
-    query: IQuery
-  ) {
+  async updateQuery(collectionId: CollectionID, queryId: QueryID, query: IQuery) {
     const collection = await this.getCollectionByID(collectionId);
 
     if (!collection) {
@@ -202,9 +229,7 @@ export class QueryCollectionService {
   }
 
   async getLocalCollectionByID(collectionId: CollectionID) {
-    const localCollection = await this.storage.queryCollections.get(
-      collectionId
-    );
+    const localCollection = await this.storage.queryCollections.get(collectionId);
     if (!localCollection) {
       collectionId = this.getAlternateCollectionID(collectionId);
     }
@@ -371,10 +396,7 @@ export class QueryCollectionService {
         return;
       }
 
-      return this.api.updateCollection(
-        collection.id.toString(),
-        modifiedCollection
-      );
+      return this.api.updateCollection(collection.id.toString(), modifiedCollection);
     }
     return this.updateLocalCollection(collectionId, modifiedCollection);
   }
@@ -390,9 +412,7 @@ export class QueryCollectionService {
   }
 
   async getExportCollectionData(collectionId: CollectionID) {
-    const collectionTree = await this.getCollectionTreeByCollectionId(
-      collectionId
-    );
+    const collectionTree = await this.getCollectionTreeByCollectionId(collectionId);
 
     if (!collectionTree) {
       throw new Error('Collection not found!');
@@ -401,9 +421,7 @@ export class QueryCollectionService {
     return this.getExportCollectionDataFromCollectionTree(collectionTree);
   }
 
-  getExportCollectionDataFromCollectionTree(
-    collectionTree: IQueryCollectionTree
-  ) {
+  getExportCollectionDataFromCollectionTree(collectionTree: IQueryCollectionTree) {
     const exportCollectionData: ExportCollectionState = {
       version: 1,
       type: 'collection',
@@ -502,10 +520,7 @@ export class QueryCollectionService {
     observableFrom(this.getSubcollections(collectionId, recursive));
   }
 
-  moveCollection(
-    collectionId: CollectionID,
-    newParentCollectionId: CollectionID
-  ) {
+  moveCollection(collectionId: CollectionID, newParentCollectionId: CollectionID) {
     return this.moveLocalCollection(collectionId, newParentCollectionId);
     // TODO: move collection remote
   }
@@ -529,14 +544,12 @@ export class QueryCollectionService {
         }
 
         // '/coll-z', id: 456
-        const newParentCollection = await this.getLocalCollectionByID(
-          newParentCollectionId
-        );
+        const newParentCollection =
+          await this.getLocalCollectionByID(newParentCollectionId);
         if (!newParentCollection) {
           throw new Error('Could not retrieve parent collection');
         }
-        const newParentCollectionParentPath =
-          newParentCollection.parentPath ?? '';
+        const newParentCollectionParentPath = newParentCollection.parentPath ?? '';
         const newParentSubcollectionParentPath = `${newParentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${newParentCollectionId}`;
 
         // '/coll-a'
@@ -700,9 +713,7 @@ export class QueryCollectionService {
    * @param parentCollectionId
    */
   private async getSubcollectionParentPath(parentCollectionId: CollectionID) {
-    const parentCollection = await this.getLocalCollectionByID(
-      parentCollectionId
-    );
+    const parentCollection = await this.getLocalCollectionByID(parentCollectionId);
     const parentCollectionParentPath = parentCollection?.parentPath ?? '';
 
     return `${parentCollectionParentPath}${COLLECTION_PATH_SEPARATOR}${parentCollectionId}`;
