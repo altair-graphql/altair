@@ -160,7 +160,7 @@
     "ngrx-store-freeze": "0.2.4",
     "protractor": "7.0.0",
     "react": "17.0.1",
-    "rxjs-tslint-rules": "4.32.0",
+    "rxjs-tslint-rules": "4.34.8",
     "start-server-and-test": "1.11.0",
     "ts-jest": "29.0.5",
     "ts-mocks": "2.6.1",
