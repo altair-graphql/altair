@@ -314,7 +314,19 @@ export class PluginContextService implements PluginContextGenerator {
           const sanitized = DOMPurify.default.sanitize(manifest.icon.src);
           iconSvg = self.sanitizer.bypassSecurityTrustHtml(sanitized);
         }
-        const engine = new PluginParentEngine(panelWorker);
+
+        const settings = await firstValueFrom(
+          self.store.select('settings').pipe(take(1))
+        );
+        const selectedTheme = self.themeRegistryService.getTheme(settings.theme) || {
+          isSystem: true,
+        };
+        const settingsThemeConfig = settings.themeConfig || {};
+        const theme = self.themeRegistryService.mergeThemes(
+          selectedTheme,
+          settingsThemeConfig
+        );
+        const engine = new PluginParentEngine(panelWorker, { theme });
         const panel = new AltairPanel(
           title,
           panelWorker.getIframe(),

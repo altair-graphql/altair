@@ -1,3 +1,4 @@
+import { ICustomTheme } from '../../theme';
 import { CreateActionOptions } from '../context/context.interface';
 import { PluginEventPayloadMap } from '../event/event.interfaces';
 import { PluginV3Context } from './context';
@@ -20,11 +21,33 @@ const mainInstanceOnlyEvents: (keyof PluginV3Context)[] = [
 // methods to be excluded from the generic listener creation since they are handled specially
 const speciallyHandledMethods: (keyof PluginV3Context)[] = ['on', 'createAction'];
 
+function getCssStyles(relevantClasses: string[]) {
+  try {
+    const styleSheets = Array.from(document.styleSheets);
+    return styleSheets
+      .map((sheet) => {
+        return Array.from(sheet.cssRules)
+          .map((rule) => rule.cssText)
+          .join('');
+      })
+      .filter((css) => {
+        return relevantClasses.some((htmlClass) => css.includes(`.${htmlClass}`));
+      });
+  } catch {
+    return [];
+  }
+}
+interface PluginParentEngineOptions {
+  theme?: ICustomTheme;
+}
 export class PluginParentEngine {
   private context?: PluginV3Context;
   subscribedEvents: string[] = [];
 
-  constructor(private worker: PluginParentWorker) {}
+  constructor(
+    private worker: PluginParentWorker,
+    private opts?: PluginParentEngineOptions
+  ) {}
 
   start(context: PluginV3Context) {
     this.context = context;
@@ -101,17 +124,10 @@ export class PluginParentEngine {
 
       const htmlClasses = Array.from(document.documentElement.classList);
       // Get the styles that are applicable to the current theme of the page
-      const styles = styleSheets
-        .map((sheet) => {
-          return Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join('');
-        })
-        .filter((css) => {
-          return htmlClasses.some((htmlClass) => css.includes(`.${htmlClass}`));
-        });
+      // Doesn't work crossorigin cases. e.g. when loading from CDN. Fallback to theme instead.
+      const styles = getCssStyles(htmlClasses);
 
-      return { styleUrls, styles, htmlClasses };
+      return { styleUrls, styles, htmlClasses, theme: this.opts?.theme };
     });
   }
 
