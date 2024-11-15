@@ -125,7 +125,7 @@ export class PluginParentEngine {
       const htmlClasses = Array.from(document.documentElement.classList);
       // Get the styles that are applicable to the current theme of the page
       // Doesn't work crossorigin cases. e.g. when loading from CDN. Fallback to theme instead.
-      const styles = getCssStyles(htmlClasses);
+      const styles = getCssStyles(htmlClasses).filter((s) => s.trim().length > 0);
 
       return { styleUrls, styles, htmlClasses, theme: this.opts?.theme };
     });

@@ -1,5 +1,7 @@
 import { app, Menu, MenuItemConstructorOptions, shell } from 'electron';
 import { ActionManager } from './actions';
+import { getStartupOption, setStartupOption } from '../utils/startup';
+import { restartApp } from '../utils';
 
 export class MenuManager {
   constructor(private actionManager: ActionManager) {
@@ -104,15 +106,21 @@ export class MenuManager {
         submenu: [
           { role: 'minimize' },
           { role: 'close' },
-          {
-            label: 'Disable hardware acceleration (beta)',
-            click: () => {
-              app.commandLine.appendSwitch('ignore-gpu-blacklist');
-              app.commandLine.appendSwitch('disable-gpu');
-              app.commandLine.appendSwitch('disable-gpu-compositing');
-              app.disableHardwareAcceleration();
-            },
-          },
+          getStartupOption('DISABLE_HARDWARE_ACCELERATION')
+            ? {
+                label: 'Enable hardware acceleration (beta)',
+                click: () => {
+                  setStartupOption('DISABLE_HARDWARE_ACCELERATION', false);
+                  restartApp(app);
+                },
+              }
+            : {
+                label: 'Disable hardware acceleration (beta)',
+                click: () => {
+                  setStartupOption('DISABLE_HARDWARE_ACCELERATION', true);
+                  restartApp(app);
+                },
+              },
           ...(isMac
             ? ([
                 { role: 'minimize' },
