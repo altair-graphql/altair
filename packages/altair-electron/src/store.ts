@@ -30,4 +30,6 @@ export class InMemoryStore {
   }
 }
 
-export class PersistentStore extends ElectronStore {}
+export class PersistentStore<
+  T extends Record<string, any> = Record<string, unknown>,
+> extends ElectronStore<T> {}
