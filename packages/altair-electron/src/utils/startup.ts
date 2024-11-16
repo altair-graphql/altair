@@ -1,32 +1,21 @@
 import { App } from 'electron';
-import { PersistentStore } from '../store';
+import { store } from '../settings/main/store';
 
-interface StartupOptionsStore {
-  DISABLE_HARDWARE_ACCELERATION: boolean;
-}
-const startupOptionsStore = new PersistentStore<StartupOptionsStore>({
-  defaults: {
-    DISABLE_HARDWARE_ACCELERATION: false,
-  },
-});
 function disableHardwareAcceleration(app: App) {
   app.commandLine.appendSwitch('ignore-gpu-blacklist');
   app.commandLine.appendSwitch('disable-gpu');
   app.commandLine.appendSwitch('disable-gpu-compositing');
   app.disableHardwareAcceleration();
 }
-export function getStartupOption<T extends keyof StartupOptionsStore>(option: T) {
-  return startupOptionsStore.get(option);
+export function getDisableHardwareAcceleration() {
+  return store.get('disable_hardware_acceleration');
 }
-export function setStartupOption<T extends keyof StartupOptionsStore>(
-  option: T,
-  value: StartupOptionsStore[T]
-) {
-  startupOptionsStore.set(option, value);
+export function setDisableHardwareAcceleration(value: boolean) {
+  store.set('disable_hardware_acceleration', value);
 }
 
 export function configureAppOnStartup(app: App) {
-  if (startupOptionsStore.get('DISABLE_HARDWARE_ACCELERATION')) {
+  if (store.get('disable_hardware_acceleration')) {
     disableHardwareAcceleration(app);
   }
 }

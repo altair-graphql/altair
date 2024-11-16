@@ -9,6 +9,12 @@ import { SettingsState } from 'altair-static';
 
 export const store = new ElectronStore<SettingStore>({
   name: settingsStoreFileName,
+  defaults: {
+    settings: {
+      proxy_setting: 'none',
+    },
+    disable_hardware_acceleration: false,
+  },
 });
 
 export const altairSettingsStore = new ElectronStore<SettingsState>({

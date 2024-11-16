@@ -1,6 +1,9 @@
 import { app, Menu, MenuItemConstructorOptions, shell } from 'electron';
 import { ActionManager } from './actions';
-import { getStartupOption, setStartupOption } from '../utils/startup';
+import {
+  getDisableHardwareAcceleration,
+  setDisableHardwareAcceleration,
+} from '../utils/startup';
 import { restartApp } from '../utils';
 
 export class MenuManager {
@@ -106,18 +109,18 @@ export class MenuManager {
         submenu: [
           { role: 'minimize' },
           { role: 'close' },
-          getStartupOption('DISABLE_HARDWARE_ACCELERATION')
+          getDisableHardwareAcceleration()
             ? {
                 label: 'Enable hardware acceleration (beta)',
                 click: () => {
-                  setStartupOption('DISABLE_HARDWARE_ACCELERATION', false);
+                  setDisableHardwareAcceleration(false);
                   restartApp(app);
                 },
               }
             : {
                 label: 'Disable hardware acceleration (beta)',
                 click: () => {
-                  setStartupOption('DISABLE_HARDWARE_ACCELERATION', true);
+                  setDisableHardwareAcceleration(true);
                   restartApp(app);
                 },
               },

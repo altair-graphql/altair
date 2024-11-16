@@ -5,6 +5,7 @@ export interface SettingStore {
     proxy_host?: string;
     proxy_port?: string;
   };
+  disable_hardware_acceleration: boolean;
 }
 
 export const settingsStoreFileName = 'desktop_settings';
