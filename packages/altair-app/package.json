@@ -144,7 +144,7 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "electron": "^27.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.15.0",
     "eslint-config-altair": "^8.0.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.27.4",
