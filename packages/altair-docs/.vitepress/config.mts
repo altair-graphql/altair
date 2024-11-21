@@ -112,7 +112,7 @@ export default defineConfig({
     },
     editLink: {
       pattern:
-        'https://github.com/altair-graphql/altair/edit/main/packages/altair-docs/:path',
+        'https://github.com/altair-graphql/altair/edit/master/packages/altair-docs/:path',
       text: 'Help us improve this page!',
     },
     lastUpdated: {

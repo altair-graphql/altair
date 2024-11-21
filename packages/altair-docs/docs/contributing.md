@@ -31,7 +31,7 @@ As more features get added regularly, the documentation of the project gets stal
 
 The documentation might not be descriptive enough. You can add more content to make it more descriptive. You could add images and video links as well to further improve the documentation.
 
-The content of this site is stored on the [repo](https://github.com/altair-graphql/altair/tree/master/site/src/docs) as well, so you can easily update the content and create a PR with your changes to be merged.
+The content of this site is stored on the [repo](https://github.com/altair-graphql/altair/tree/master/packages/altair-docs/) as well, so you can easily update the content and create a PR with your changes to be merged.
 
 ## Donate 💰
 
