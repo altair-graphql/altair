@@ -1,11 +1,20 @@
 import { AuthorizationResult } from '../types/state/authorization.interface';
 
-export interface AuthorizationProviderExecuteOptions<T = unknown> {
+export interface AuthorizationProviderExecuteOptions<
+  T extends BaseAuthorizationProviderInput = BaseAuthorizationProviderInput,
+> {
   // The input from the user
-  data: T | undefined;
+  data: T['data'] | undefined;
 }
 
-export abstract class AuthorizationProvider<T = unknown> {
+export interface BaseAuthorizationProviderInput {
+  type: string;
+  data: unknown;
+}
+
+export abstract class AuthorizationProvider<
+  T extends BaseAuthorizationProviderInput = BaseAuthorizationProviderInput,
+> {
   constructor(private hydrator: (data: string) => string) {}
   hydrate(data: string): string {
     return this.hydrator(data);

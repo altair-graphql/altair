@@ -5,12 +5,15 @@ import {
   AuthorizationProviderExecuteOptions,
 } from '../authorization-provider';
 
-export interface OAuth2AuthorizationProviderData {
-  accessTokenResponse: AccessTokenResponse;
+export interface OAuth2AuthorizationProviderInput {
+  type: 'oauth2';
+  data: {
+    accessTokenResponse: AccessTokenResponse;
+  };
 }
-export default class OAuth2AuthorizationProvider extends AuthorizationProvider<OAuth2AuthorizationProviderData> {
+export default class OAuth2AuthorizationProvider extends AuthorizationProvider<OAuth2AuthorizationProviderInput> {
   async execute(
-    options: AuthorizationProviderExecuteOptions<OAuth2AuthorizationProviderData>
+    options: AuthorizationProviderExecuteOptions<OAuth2AuthorizationProviderInput>
   ): Promise<AuthorizationResult> {
     if (!options.data?.accessTokenResponse) {
       return {

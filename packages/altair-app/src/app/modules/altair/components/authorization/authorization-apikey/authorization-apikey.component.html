@@ -1,6 +1,6 @@
 <form nz-form nzLayout="vertical" [formGroup]="apiKeyForm">
   <nz-form-item>
-    <nz-form-label nzRequired nzFor="key">Key</nz-form-label>
+    <nz-form-label nzRequired nzFor="headerName">Header name</nz-form-label>
     <nz-form-control
       [nzSm]="14"
       [nzXs]="24"
@@ -8,15 +8,15 @@
     >
       <app-x-input
         nz-input
-        formControlName="key"
-        id="key"
+        formControlName="headerName"
+        id="headerName"
         class="input"
         autocomplete="off"
       />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzRequired nzFor="value">Value</nz-form-label>
+    <nz-form-label nzRequired nzFor="headerValue">Header value</nz-form-label>
     <nz-form-control
       [nzSm]="14"
       [nzXs]="24"
@@ -24,8 +24,8 @@
     >
       <app-x-input
         nz-input
-        formControlName="value"
-        id="value"
+        formControlName="headerValue"
+        id="headerValue"
         class="input"
         autocomplete="off"
       />

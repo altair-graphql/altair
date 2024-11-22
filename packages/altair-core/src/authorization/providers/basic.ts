@@ -4,13 +4,16 @@ import {
   AuthorizationProviderExecuteOptions,
 } from '../authorization-provider';
 
-export interface BasicAuthorizationProviderData {
-  username: string;
-  password: string;
+export interface BasicAuthorizationProviderInput {
+  type: 'basic';
+  data: {
+    username: string;
+    password: string;
+  };
 }
-export default class BasicAuthorizationProvider extends AuthorizationProvider<BasicAuthorizationProviderData> {
+export default class BasicAuthorizationProvider extends AuthorizationProvider<BasicAuthorizationProviderInput> {
   async execute(
-    options: AuthorizationProviderExecuteOptions<BasicAuthorizationProviderData>
+    options: AuthorizationProviderExecuteOptions<BasicAuthorizationProviderInput>
   ): Promise<AuthorizationResult> {
     if (!options.data?.username || !options.data?.password) {
       return {

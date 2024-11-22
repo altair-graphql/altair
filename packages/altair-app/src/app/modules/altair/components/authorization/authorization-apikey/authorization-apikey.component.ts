@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { ApiKeyAuthorizationProviderInput } from 'altair-graphql-core/build/authorization/providers/api-key';
 
 @Component({
   selector: 'app-authorization-apikey',
@@ -7,9 +8,9 @@ import { NonNullableFormBuilder } from '@angular/forms';
   styles: ``,
 })
 export class AuthorizationApikeyComponent implements OnInit {
-  apiKeyForm = this.formBuilder.group({
-    key: '',
-    value: '',
+  apiKeyForm = this.formBuilder.group<ApiKeyAuthorizationProviderInput['data']>({
+    headerName: '',
+    headerValue: '',
   });
   @Input() authData?: unknown;
   @Output() authDataChange = this.apiKeyForm.valueChanges;

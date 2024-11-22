@@ -14,6 +14,24 @@ export const DEFAULT_AUTHORIZATION_TYPE = AUTHORIZATION_TYPES.NONE;
 export type AuthorizationTypes =
   (typeof AUTHORIZATION_TYPES)[keyof typeof AUTHORIZATION_TYPES];
 
+interface AuthorizationTypeToData {
+  [AUTHORIZATION_TYPES.NONE]: null;
+  [AUTHORIZATION_TYPES.BASIC]: {
+    username: string;
+    password: string;
+  };
+  [AUTHORIZATION_TYPES.BEARER]: {
+    token: string;
+  };
+  [AUTHORIZATION_TYPES.API_KEY]: {
+    headerName: string;
+    headerValue: string;
+  };
+  [AUTHORIZATION_TYPES.OAUTH2]: {
+    token: string;
+  };
+}
+
 export interface AuthorizationResult {
   headers: IDictionary<string>;
 }

@@ -42,6 +42,7 @@ const optionsProperties: AltairConfigOptionsObject = {
   disableAccount: undefined,
   persistedSettings: undefined,
   initialName: undefined,
+  initialAuthorization: undefined,
 };
 const allowedProperties = Object.keys(
   optionsProperties

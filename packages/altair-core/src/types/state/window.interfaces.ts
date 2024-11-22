@@ -28,6 +28,9 @@ export interface ExportWindowState {
   postRequestScript?: string;
   postRequestScriptEnabled?: boolean;
 
+  authorizationType?: string;
+  authorizationData?: unknown;
+
   /**
    * ID of the collection this query belongs to
    */

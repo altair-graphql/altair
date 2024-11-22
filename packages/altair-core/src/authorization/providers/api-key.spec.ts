@@ -7,8 +7,8 @@ describe('basic', () => {
 
     const res = await authProvider.execute({
       data: {
-        key: 'X-API-Key',
-        value: 'api_1a2s3d4f5g6h7j8k9l0',
+        headerName: 'X-API-Key',
+        headerValue: 'api_1a2s3d4f5g6h7j8k9l0',
       },
     });
 
@@ -25,8 +25,8 @@ describe('basic', () => {
 
     const res = await authProvider.execute({
       data: {
-        key: 'X-API-Key',
-        value: '{{api_1a2s3d4f5g6h7j8k9l0}}',
+        headerName: 'X-API-Key',
+        headerValue: '{{api_1a2s3d4f5g6h7j8k9l0}}',
       },
     });
 
