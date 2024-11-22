@@ -1,3 +1,4 @@
+import { AuthorizationProviderInput } from '../authorization/input';
 import { RequestHandlerIds } from '../request/types';
 import { IDictionary } from '../types/shared';
 import { IInitialEnvironments } from '../types/state/environments.interfaces';
@@ -83,6 +84,11 @@ export interface AltairWindowOptions {
    * HTTP method to use for making requests
    */
   initialHttpMethod?: HttpVerb;
+
+  /**
+   * Initial authorization type and data
+   */
+  initialAuthorization?: AuthorizationProviderInput;
 }
 
 export interface AltairConfigOptions extends AltairWindowOptions {

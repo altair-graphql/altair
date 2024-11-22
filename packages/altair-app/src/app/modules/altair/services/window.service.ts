@@ -22,6 +22,7 @@ import * as streamActions from '../store/stream/stream.action';
 import * as localActions from '../store/local/local.action';
 import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
 import * as layoutActions from '../store/layout/layout.action';
+import * as authorizationActions from '../store/authorization/authorization.action';
 
 import { getFileStr, mapToKeyValueList } from '../utils';
 import { parseCurlToObj } from '../utils/curl';
@@ -32,6 +33,7 @@ import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.
 import { QueryCollectionService } from './query-collection/query-collection.service';
 import { NotifyService } from './notify/notify.service';
 import { IQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { AUTHORIZATION_TYPE_LIST } from 'altair-graphql-core/build/types/state/authorization.interface';
 
 interface ImportWindowDataOptions {
   fixedTitle?: boolean;
@@ -374,6 +376,23 @@ export class WindowService {
           this.store.dispatch(
             new gqlSchemaActions.SetSchemaAction(windowId, data.gqlSchema)
           );
+        }
+        if (
+          AUTHORIZATION_TYPE_LIST.includes(data.authorizationType as unknown as any)
+        ) {
+          this.store.dispatch(
+            new authorizationActions.SelectAuthorizationTypeAction(windowId, {
+              type: data.authorizationType as any,
+            })
+          );
+
+          if (data.authorizationData) {
+            this.store.dispatch(
+              new authorizationActions.UpdateAuthorizationDataAction(windowId, {
+                data: data.authorizationData,
+              })
+            );
+          }
         }
       })
     );

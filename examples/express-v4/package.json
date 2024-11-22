@@ -1,18 +1,18 @@
 {
-  "name": "fastify-v4",
+  "name": "express-v4-example",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
     "typescript": "5.2.2"
   },
+  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "fastify": "^5.0.0"
+    "express": "^4.21.1"
   },
   "scripts": {
     "start": "ts-node index.ts"
-  },
-  "private": true
+  }
 }

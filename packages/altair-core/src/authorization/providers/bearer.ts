@@ -4,12 +4,15 @@ import {
   AuthorizationProviderExecuteOptions,
 } from '../authorization-provider';
 
-export interface BearerAuthorizationProviderData {
-  token: string;
+export interface BearerAuthorizationProviderInput {
+  type: 'bearer';
+  data: {
+    token: string;
+  };
 }
-export default class BearerAuthorizationProvider extends AuthorizationProvider<BearerAuthorizationProviderData> {
+export default class BearerAuthorizationProvider extends AuthorizationProvider<BearerAuthorizationProviderInput> {
   async execute(
-    options: AuthorizationProviderExecuteOptions<BearerAuthorizationProviderData>
+    options: AuthorizationProviderExecuteOptions<BearerAuthorizationProviderInput>
   ): Promise<AuthorizationResult> {
     if (!options.data?.token) {
       return {

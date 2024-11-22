@@ -80,6 +80,8 @@ export class AltairConfig {
     preserveState: true,
     windows: [] as AltairWindowOptions[],
     disableAccount: false,
+    initialAuthorization:
+      undefined as unknown as AltairConfigOptions['initialAuthorization'],
   };
   constructor({
     endpointURL,
@@ -102,6 +104,7 @@ export class AltairConfig {
     preserveState = true,
     initialWindows = [],
     disableAccount = false,
+    initialAuthorization,
   }: AltairConfigOptions = {}) {
     this.initialData.url =
       (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? endpointURL ?? '';
@@ -138,6 +141,7 @@ export class AltairConfig {
     this.initialData.preserveState = preserveState;
     this.initialData.windows = initialWindows;
     this.initialData.disableAccount = disableAccount;
+    this.initialData.initialAuthorization = initialAuthorization;
   }
 
   private getPossibleLocalSandBoxUrl() {
