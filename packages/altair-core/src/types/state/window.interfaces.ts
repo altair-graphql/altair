@@ -29,7 +29,7 @@ export interface ExportWindowState {
   postRequestScriptEnabled?: boolean;
 
   authorizationType?: string;
-  authorizationData?: unknown;
+  authorizationData?: any;
 
   /**
    * ID of the collection this query belongs to
