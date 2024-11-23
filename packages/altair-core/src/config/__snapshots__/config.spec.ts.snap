@@ -15,6 +15,7 @@ AltairConfig {
     "disableAccount": false,
     "environments": {},
     "headers": "",
+    "initialAuthorization": undefined,
     "initialHttpMethod": "POST",
     "initialRequestHandlerAdditionalParams": {},
     "initialRequestHandlerId": "http",

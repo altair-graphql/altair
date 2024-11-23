@@ -1,6 +1,7 @@
 import express from 'express';
 import { altairExpress } from '../../packages/altair-express-middleware/build';
 const app = express();
+app.disable('x-powered-by');
 const port = 3000;
 
 // Mount your Altair GraphQL client
