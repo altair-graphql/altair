@@ -38,7 +38,7 @@
     "@ngrx/store": "15.4.0",
     "@ngrx/store-devtools": "15.4.0",
     "@ngui/auto-complete": "3.0.0",
-    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^8.0.0",
     "@sentry/electron": "^4.14.0",
     "@supabase/supabase-js": "1.29.1",
