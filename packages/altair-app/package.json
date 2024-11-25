@@ -68,7 +68,7 @@
     "express": "^4.19.2",
     "file-dialog": "0.0.8",
     "file-saver": "2.0.2",
-    "fuse.js": "6.4.6",
+    "fuse.js": "7.0.0",
     "graphql": "15.5.1",
     "graphql-language-service": "^5.2.0",
     "graphql-language-service-parser": "1.10.4",
