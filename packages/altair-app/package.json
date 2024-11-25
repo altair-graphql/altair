@@ -90,7 +90,7 @@
     "ngx-markdown": "^14.0.1",
     "ngx-pipes": "^3.2.2",
     "ngx-take-until-destroy": "5.4.0",
-    "ngx-toastr": "^18.0.0",
+    "ngx-toastr": "^19.0.0",
     "object-path": "0.11.5",
     "prettier": "^3.2.5",
     "rxjs": "^7.0.0",
