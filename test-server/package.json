@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@types/compression": "^1.7.0",
-    "@types/express": "^4.17.13",
+    "@types/express": "4.17.13",
     "@types/graphql": "^14.2.0",
     "@types/graphql-upload": "^16.0.7",
     "@types/lodash": "^4.14.123",
