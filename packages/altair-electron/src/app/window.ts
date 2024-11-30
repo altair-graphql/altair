@@ -34,7 +34,7 @@ import {
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import validateAppSettings from 'altair-graphql-core/build/validate-settings';
-import { log } from '../utils/log';
+import { error, log } from '../utils/log';
 import { ElectronApp } from './index';
 import {
   getAltairSettingsFromFile,
@@ -296,10 +296,7 @@ export class WindowManager {
           return callback({ responseHeaders: details.responseHeaders });
         }
       } catch {}
-      if (
-        details.resourceType === 'mainFrame' ||
-        details.resourceType === 'subFrame'
-      ) {
+      if (['mainFrame', 'subFrame'].includes(details.resourceType)) {
         // Set the CSP
         const scriptSrc = [
           `'self'`,
@@ -353,6 +350,10 @@ export class WindowManager {
       this.instance.show();
       this.instance.focus();
       checkMultipleDataVersions(this.instance);
+    });
+
+    this.instance.webContents.on('render-process-gone', (e, details) => {
+      error('render process gone', details);
     });
   }
 
