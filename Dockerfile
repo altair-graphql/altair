@@ -36,7 +36,7 @@ COPY CHECKS CHECKS
 # Somehow get an unknown error if I don't install nx first
 RUN yarn add nx -W
 # yarn install 2> >(grep -v warning 1>&2)
-RUN yarn
+RUN yarn install --frozen-lockfile
 RUN yarn turbo run build --filter=@altairgraphql/api...
 
 # ===
