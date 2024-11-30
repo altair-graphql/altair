@@ -23,7 +23,7 @@ WORKDIR /app
 COPY .gitignore .gitignore
 # FIXME: running yarn install with --ignore-scripts means that some packages may not get built correctly. Skipping these steps for now.
 # COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
+# COPY --from=builder /app/out/yarn.lock ./yarn.lock
 # # install node_modules without running scripts (scripts depend on the source files)
 # RUN yarn install --ignore-scripts
 # Build the project and its dependencies
