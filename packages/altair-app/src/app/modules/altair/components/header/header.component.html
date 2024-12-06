@@ -68,7 +68,7 @@
       @if (activeEnvironment === undefined) {
         <span>
           <app-icon name="eye-off"></app-icon>
-          <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
+          <span>{{ environments?.base?.title ?? ('NO_ENVIRONMENT_TEXT' | translate) }}</span>
         </span>
       }
     </li>
@@ -90,12 +90,7 @@
             nz-menu-item
             (click)="selectActiveEnvironmentChange.emit(undefined)"
             >
-            @if (environments?.base?.title) {
-              {{ environments.base.title }}
-            }
-            @else {
-              {{ 'NO_ENVIRONMENT_TEXT' | translate }}
-            }
+            {{ environments?.base?.title ?? ('NO_ENVIRONMENT_TEXT' | translate) }}
           </li>
           <li nz-menu-divider></li>
         }
