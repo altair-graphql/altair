@@ -90,7 +90,12 @@
             nz-menu-item
             (click)="selectActiveEnvironmentChange.emit(undefined)"
             >
-            {{ 'NO_ENVIRONMENT_TEXT' | translate }}
+            @if (environments?.base?.title) {
+              {{ environments.base.title }}
+            }
+            @else {
+              {{ 'NO_ENVIRONMENT_TEXT' | translate }}
+            }
           </li>
           <li nz-menu-divider></li>
         }
