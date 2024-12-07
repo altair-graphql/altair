@@ -163,9 +163,22 @@ export class ElectronApp {
       'certificate-error',
       (event, webContents, url, error, certificate, callback) => {
         event.preventDefault();
-        callback(true);
         // Inform user of invalid certificate
         webContents.send('certificate-error', error);
+        dialog
+          .showMessageBox({
+            type: 'question',
+            title: 'Invalid Certificate',
+            message: `You are making a request with an invalid certificate. Do you want to continue? (URL: ${url}, Issuer: ${certificate.issuerName}, Subject: ${certificate.subjectName}, Error: ${error})`,
+            buttons: ['Yes', 'No'],
+          })
+          .then((result) => {
+            if (result.response === 0) {
+              callback(true);
+            } else {
+              callback(false);
+            }
+          });
       }
     );
 
