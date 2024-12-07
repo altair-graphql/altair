@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/iframe-sandbox",
   "private": true,
-  "version": "8.0.4",
+  "version": "8.0.5",
   "type": "module",
   "main": "dist/index.html",
   "scripts": {
@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "altair-graphql-core": "^8.0.4"
+    "altair-graphql-core": "^8.0.5"
   },
   "devDependencies": {
     "typescript": "5.2.2",
