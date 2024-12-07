@@ -34,10 +34,18 @@ const getInitialSubEnvironmentState = (): EnvironmentState[] => {
   });
 };
 
+const getInitialActiveSubEnvironment = (): string | undefined => {
+  const {
+    initialData: { environments },
+  } = getAltairConfig();
+  return environments.activeSubEnvironment;
+};
+
 export const getInitialState = (): EnvironmentsState => {
   return {
     base: getInitialEnvironmentState(),
     subEnvironments: getInitialSubEnvironmentState(),
+    activeSubEnvironment: getInitialActiveSubEnvironment(),
   };
 };
 
@@ -57,11 +65,7 @@ export function environmentsReducer(
             title:
               action.payload.title ??
               `Environment ${state.subEnvironments.length + 1}`,
-            variablesJson: JSON.stringify(
-              action.payload.variables ?? {},
-              null,
-              2
-            ),
+            variablesJson: JSON.stringify(action.payload.variables ?? {}, null, 2),
           },
         ],
       };

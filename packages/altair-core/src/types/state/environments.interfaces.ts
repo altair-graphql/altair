@@ -7,6 +7,7 @@ export interface InitialEnvironmentState {
 }
 
 export interface IInitialEnvironments {
+  activeSubEnvironment?: string;
   base?: InitialEnvironmentState;
   subEnvironments?: InitialEnvironmentState[];
 }
