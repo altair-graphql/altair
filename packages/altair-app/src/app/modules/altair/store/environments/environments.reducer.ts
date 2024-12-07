@@ -39,7 +39,7 @@ const getInitialActiveSubEnvironment = (): string | undefined => {
     initialData: { environments },
   } = getAltairConfig();
   return environments.activeSubEnvironment;
-};
+}
 
 export const getInitialState = (): EnvironmentsState => {
   return {
@@ -65,7 +65,11 @@ export function environmentsReducer(
             title:
               action.payload.title ??
               `Environment ${state.subEnvironments.length + 1}`,
-            variablesJson: JSON.stringify(action.payload.variables ?? {}, null, 2),
+            variablesJson: JSON.stringify(
+              action.payload.variables ?? {},
+              null,
+              2
+            ),
           },
         ],
       };
