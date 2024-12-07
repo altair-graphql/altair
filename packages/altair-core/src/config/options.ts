@@ -96,6 +96,7 @@ export interface AltairConfigOptions extends AltairWindowOptions {
    * Initial Environments to be added
    * @example
    * {
+   *   activeSubEnvironment: 'sub-1'
    *   base: {
    *     title: 'Environment',
    *     variables: {}
