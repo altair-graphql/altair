@@ -8,7 +8,7 @@ cd "$ROOT"
 
 (cd packages/altair-api; docker compose up  --no-recreate -d)
 
-yarn
+pnpm install
 
 trap_exit() {
   (cd packages/altair-api; docker compose down)
@@ -16,4 +16,4 @@ trap_exit() {
 trap trap_exit EXIT
 
 # stripe login (if API key is expired)
-npx concurrently --kill-others "yarn start:app" "yarn start:api:dev" "yarn start:redirect" "yarn start:sandbox" "yarn start:stripe:listen" --names app,api,redirect,sandbox,stripe
+npx concurrently --kill-others "pnpm start:app" "pnpm start:api:dev" "pnpm start:redirect" "pnpm start:sandbox" "pnpm start:stripe:listen" --names app,api,redirect,sandbox,stripe

@@ -3,10 +3,10 @@
 # abort on errors
 set -e
 
-yarn
+pnpm install
 
 # build
-# yarn build
+# pnpm build
 
 # navigate into the build output directory
 cd packages/altair-docs/.vitepress/dist

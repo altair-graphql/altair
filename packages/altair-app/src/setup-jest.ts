@@ -1,11 +1,14 @@
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 import 'core-js/es/reflect';
 import 'core-js/proposals/reflect-metadata';
-import 'jest-preset-angular/setup-jest';
+
+setupZoneTestEnv();
 // import 'jest-preset-angular/setup-jest.mjs';
 import 'fake-indexeddb/auto';
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-Object.assign(global, require('jest-chrome'));
+import jestChrome from 'jest-chrome';
+Object.assign(global, jestChrome);
 import { TextEncoder, TextDecoder } from 'util';
 
 Object.assign(global, { TextDecoder, TextEncoder });

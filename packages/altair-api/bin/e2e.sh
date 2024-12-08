@@ -8,10 +8,10 @@ SCRIPT_DIR=$(dirname "$0")
 docker compose -f "$SCRIPT_DIR/../docker-compose.e2e.yml" up -d --wait
 
 # migrate e2e test database
-yarn migrate:e2e
+pnpm migrate:e2e
 
 # run e2e test
-yarn test:e2e --watch
+pnpm test:e2e --watch
 
 # shutdown e2e test database
 docker compose -f "$SCRIPT_DIR/../docker-compose.e2e.yml" down -v

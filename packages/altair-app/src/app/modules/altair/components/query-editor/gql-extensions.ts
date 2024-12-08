@@ -179,7 +179,7 @@ const getDescriptionFromContext = (ctx: CompletionItem) => {
   return marked(
     `${description}`.substring(0, maxDescriptionLength) +
       (appendEllipsis ? '...' : '')
-  );
+  ) as string;
 };
 
 const getMaybeNamedType = (type?: GraphQLType) => {

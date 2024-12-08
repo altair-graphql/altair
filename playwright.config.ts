@@ -4,7 +4,7 @@ const config: PlaywrightTestConfig = {
   testDir: 'packages/altair-app/e2e',
   testMatch: '**/*.e2e-spec.ts',
   webServer: {
-    command: 'yarn start:app',
+    command: 'pnpm start:app',
     url: 'http://localhost:4200',
     timeout: 10 * 60 * 1000,
     reuseExistingServer: !process.env.CI,

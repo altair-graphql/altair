@@ -3,11 +3,12 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     // "target": "es2020",
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": false,
     "allowJs": true
+    // "types": ["jest"]
   },
   "files": ["polyfills.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"],

@@ -8,11 +8,11 @@
     "dev": "vite --port 5123",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prepare": "yarn build",
+    "prepare": "pnpm build",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
-    "altair-graphql-core": "^8.0.5"
+    "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "5.2.2",

@@ -151,11 +151,11 @@ const syncRepo = async () => {
 };
 
 const runTests = async () => {
-  return exec('yarn', ['test']);
+  return exec('pnpm', ['test']);
 };
 
 const buildExtensions = async () => {
-  return exec('yarn', ['build-ext']);
+  return exec('pnpm', ['build-ext']);
 };
 
 const updateVersion = async (version) => {

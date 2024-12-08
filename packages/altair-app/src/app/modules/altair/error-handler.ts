@@ -1,13 +1,7 @@
-import {
-  ErrorHandler,
-  Injector,
-  ApplicationRef,
-  Injectable,
-} from '@angular/core';
+import { ErrorHandler, Injector, ApplicationRef, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debug } from './utils/logger';
 import { NotifyService } from './services';
-import newGithubIssueUrl from 'new-github-issue-url';
 import { UnknownError } from './interfaces/shared';
 import { truncateText } from './utils';
 import { getIssueUrl } from './utils/issue';

@@ -1,7 +1,7 @@
 // https://raw.githubusercontent.com/ozum/vuepress-bar/master/lib/index.js
 import sortBy from 'lodash.sortby';
 import { fileURLToPath } from 'url';
-import glob from 'glob';
+import { sync } from 'glob';
 import markdownIt from 'markdown-it';
 import meta from 'markdown-it-meta';
 import title from 'markdown-it-title';
@@ -20,15 +20,14 @@ interface MarkdownItMeta {
   // add other properties if needed
 }
 
-const isDirectory = source => lstatSync(source).isDirectory();
-const getDirectories = source =>
+const isDirectory = (source) => lstatSync(source).isDirectory();
+const getDirectories = (source) =>
   readdirSync(source).filter(
-    name => !ignoreList.includes(name) && isDirectory(join(source, name))
+    (name) => !ignoreList.includes(name) && isDirectory(join(source, name))
   );
-const hasIndex = source =>
+const hasIndex = (source) =>
   readdirSync(source).findIndex(
-    name =>
-      name.toLowerCase() === 'index.md' && !isDirectory(join(source, name))
+    (name) => name.toLowerCase() === 'index.md' && !isDirectory(join(source, name))
   ) > -1;
 
 /**
@@ -37,7 +36,7 @@ const hasIndex = source =>
  * @param {Array} navArr
  */
 function transliteratePinyin(navArr: Array<any>) {
-  return navArr.map(nav => {
+  return navArr.map((nav) => {
     const result = { ...nav };
     if (nav.link) {
       result.link = slugify(nav.link, { ignore: ['/', '.'] });
@@ -57,7 +56,7 @@ function transliteratePinyinSiderbar(
 ): DefaultTheme.Sidebar {
   if (Array.isArray(sidebar)) {
     // array
-    return sidebar.map(item => {
+    return sidebar.map((item) => {
       if (item.items) {
         item.items = _transliteratePinyinSiderbar(item.items);
         return item;
@@ -65,9 +64,7 @@ function transliteratePinyinSiderbar(
 
       return {
         ...item,
-        link: item.link
-          ? slugify(item.link, { ignore: ['/', '.'] })
-          : item.link,
+        link: item.link ? slugify(item.link, { ignore: ['/', '.'] }) : item.link,
       };
     });
   } else {
@@ -89,7 +86,7 @@ function transliteratePinyinSiderbar(
 function _transliteratePinyinSiderbar(
   sidebar: DefaultTheme.SidebarItem[]
 ): DefaultTheme.SidebarItem[] {
-  return sidebar.map(item => {
+  return sidebar.map((item) => {
     if (item.items) {
       item.items = _transliteratePinyinSiderbar(item.items);
       return item;
@@ -116,10 +113,7 @@ function _transliteratePinyinSiderbar(
  */
 function getName(
   path: string,
-  {
-    navPrefix,
-    stripNumbers,
-  }: { navPrefix?: string; stripNumbers?: boolean } = {}
+  { navPrefix, stripNumbers }: { navPrefix?: string; stripNumbers?: boolean } = {}
 ): string {
   let name = path.split(sep).pop() ?? '';
   const argsIndex = name.lastIndexOf('--') ?? -1;
@@ -151,19 +145,13 @@ function getChildren(
   dir,
   filter,
   recursive = true,
-  {
-    navPrefix,
-    stripNumbers,
-  }: { navPrefix?: string; stripNumbers?: boolean } = {}
+  { navPrefix, stripNumbers }: { navPrefix?: string; stripNumbers?: boolean } = {}
 ): DefaultTheme.SidebarItem[] {
   // CREDITS: https://github.com/benjivm (from: https://github.com/vuejs/vuepress/issues/613#issuecomment-495751473)
   parent_path = normalize(parent_path);
-  parent_path = parent_path.endsWith(sep)
-    ? parent_path.slice(0, -1)
-    : parent_path; // Remove last / if exists.
+  parent_path = parent_path.endsWith(sep) ? parent_path.slice(0, -1) : parent_path; // Remove last / if exists.
   const pattern = recursive ? '/**/*.md' : '/*.md';
-  const files = glob
-    .sync(parent_path + (dir ? `/${dir}` : '') + pattern)
+  const files = sync(parent_path + (dir ? `/${dir}` : '') + pattern)
     .map((path): FileGlobResult | undefined => {
       // Instantiate MarkdownIt
       const md = new markdownIt();
@@ -195,14 +183,14 @@ function getChildren(
         title: (md as any).meta.title ?? env.title,
       };
     })
-    .filter(obj => obj !== undefined);
+    .filter((obj) => obj !== undefined);
 
   // Return the ordered list of files, sort by 'order' then 'path'
   return (
     sortBy(files, ['order', 'path'])
       // .map(file => file?.path)
       .filter((file): file is FileGlobResult => file !== undefined)
-      .map(file => {
+      .map((file) => {
         return {
           text: file?.title ?? getName(file?.path, { stripNumbers, navPrefix }),
           link: '/' + file?.path,
@@ -255,8 +243,8 @@ function side(
   );
   if (currentLevel <= maxLevel) {
     getDirectories(join(baseDir, relativeDir))
-      .filter(subDir => !subDir.startsWith(navPrefix))
-      .forEach(subDir => {
+      .filter((subDir) => !subDir.startsWith(navPrefix))
+      .forEach((subDir) => {
         const children = side(
           baseDir,
           {
@@ -274,13 +262,12 @@ function side(
 
         if (children.length > 0 || !skipEmptySidebar) {
           // Where to put '02-folder' in ['01-file', { text: 'Other Folder', items: ['03-folder/file'] }]
-          const sortedFolderPosition = fileLinks.findIndex(link => {
+          const sortedFolderPosition = fileLinks.findIndex((link) => {
             let linkLabel = link.link ?? '';
 
             if (link.items) {
               let childrenTitle = '';
-              if (typeof link.items[0] == 'string')
-                childrenTitle = link.items[0];
+              if (typeof link.items[0] == 'string') childrenTitle = link.items[0];
               else if (typeof link.items[0] == 'object')
                 childrenTitle = link.items[0].text ?? '';
               linkLabel = childrenTitle.split(sep)[0];
@@ -342,7 +329,7 @@ function parseSidebarParameters(dirname: string) {
   const args = dirname.substring(index + 2).split(',');
   const parameters: { collapsable?: boolean; sidebarDepth?: number } = {};
 
-  args.forEach(arg => {
+  args.forEach((arg) => {
     if (arg === 'nc') {
       parameters.collapsable = false;
     } else if (arg.match(/d\d+/)) {
@@ -375,11 +362,9 @@ function nav(
   }: { navPrefix: string; stripNumbers: boolean; skipEmptyNavbar: boolean },
   relativeDir: string = '/'
 ): NavItem[] | undefined {
-  return _nav(
-    rootDir,
-    { navPrefix, stripNumbers, skipEmptyNavbar },
-    relativeDir
-  ) as NavItem[] | undefined;
+  return _nav(rootDir, { navPrefix, stripNumbers, skipEmptyNavbar }, relativeDir) as
+    | NavItem[]
+    | undefined;
 }
 function _nav(
   rootDir: string,
@@ -393,7 +378,7 @@ function _nav(
 ): NavItem | NavItem[] | undefined {
   relativeDir = relativeDir.replace(/\\/g, '/');
   const baseDir = join(rootDir, relativeDir);
-  const childrenDirs = getDirectories(baseDir).filter(subDir =>
+  const childrenDirs = getDirectories(baseDir).filter((subDir) =>
     subDir.startsWith(navPrefix)
   );
   const options = { navPrefix, stripNumbers, skipEmptyNavbar };
@@ -415,7 +400,7 @@ function _nav(
     };
   } else if (childrenDirs.length > 0) {
     const items = childrenDirs
-      .map(subDir =>
+      .map((subDir) =>
         _nav(rootDir, options, join(relativeDir, subDir), currentNavLevel + 1)
       )
       .filter((item): item is NavItem => item !== undefined);
@@ -444,7 +429,7 @@ function multiSide(
 ): DefaultTheme.Sidebar {
   const sideBar = {};
 
-  nav.forEach(navItem => {
+  nav.forEach((navItem) => {
     if (navItem.link) {
       sideBar[navItem.link] = side(join(rootDir, navItem.link), options);
     } else {
@@ -457,7 +442,7 @@ function multiSide(
   });
 
   if (options.skipEmptySidebar) {
-    Object.keys(sideBar).forEach(key => {
+    Object.keys(sideBar).forEach((key) => {
       if (sideBar[key].length === 0) {
         delete sideBar[key];
       }

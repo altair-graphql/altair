@@ -2,7 +2,7 @@
   "name": "@altairgraphql/electron-interop",
   "version": "8.0.5",
   "dependencies": {
-    "altair-graphql-core": "^8.0.5"
+    "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
     "electron": "^27.1.0",
@@ -13,6 +13,6 @@
   "private": true,
   "scripts": {
     "build": "tsc --build",
-    "prepare": "yarn build"
+    "prepare": "pnpm build"
   }
 }

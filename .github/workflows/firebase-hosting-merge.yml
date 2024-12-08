@@ -20,8 +20,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn --network-timeout 1000000
-      - run: yarn build:ci
+      - run: pnpm install --network-timeout 1000000
+      - run: pnpm build:ci
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

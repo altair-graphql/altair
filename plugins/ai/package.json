@@ -7,11 +7,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "plugin:serve": "yarn build && npx http-server ./ -c-1 -p 8002 --cors"
+    "plugin:serve": "pnpm build && npx http-server ./ -c-1 -p 8002 --cors"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.5",
-    "altair-graphql-core": "^8.0.5",
+    "altair-graphql-core": "workspace:*",
     "classnames": "^2.5.1",
     "lucide-react": "^0.408.0",
     "react": "^18.3.1",

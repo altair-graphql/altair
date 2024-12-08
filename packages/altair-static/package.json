@@ -5,12 +5,14 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "devDependencies": {
-    "@altairgraphql/app": "^8.0.5",
+    "@altairgraphql/app": "workspace:*",
     "@types/jest": "^24.0.23",
-    "altair-graphql-core": "^8.0.5",
-    "dts-bundle-generator": "^6.11.0",
+    "@types/node": "^22.7.4",
+    "altair-graphql-core": "workspace:*",
+    "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.14.43",
     "jest": "29.4.1",
+    "ncp": "2.0.0",
     "ts-jest": "29.0.5",
     "typescript": "5.2.2"
   },
@@ -33,7 +35,7 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "compile": "node scripts/build.js",
-    "prepare": "yarn prepare-dist && yarn compile && yarn types",
+    "prepare": "pnpm prepare-dist && pnpm compile && pnpm types",
     "prepare-dist": "node scripts/prepare_dist.js",
     "test": "jest",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static --verbose"

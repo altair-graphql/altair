@@ -76,7 +76,7 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "prepare": "yarn build",
+    "prepare": "pnpm build",
     "test": "jest"
   },
   "types": "./build/index.d.ts"
