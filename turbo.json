@@ -3,6 +3,7 @@
   "tasks": {
     "build": {},
     "lint": {},
-    "prepare": {}
+    "prepare": {},
+    "test": {}
   }
 }

@@ -18,8 +18,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn --frozen-lockfile --network-timeout 1000000
-      - run: yarn build:ci
+      - run: pnpm --frozen-lockfile --network-timeout 1000000
+      - run: pnpm build:ci
       - name: Deploy to translate surge.sh
         uses: dswistowski/surge-sh-action@v1
         with:

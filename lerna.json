@@ -1,11 +1,8 @@
 {
-  "packages": [
-    "packages/*",
-    "plugins/*"
-  ],
+  "packages": ["packages/*", "plugins/*"],
   "version": "8.0.5",
   "registry": "https://registry.npmjs.org/",
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "stream": true,
   "useWorkspaces": true
 }

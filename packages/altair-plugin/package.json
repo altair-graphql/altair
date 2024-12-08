@@ -5,7 +5,7 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-graphql-core": "^8.0.5"
+    "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",

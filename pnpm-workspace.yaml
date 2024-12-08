@@ -1,0 +1,7 @@
+packages:
+  - 'apps/**'
+  - 'packages/**'
+  - 'libs/**'
+  - 'plugins/**'
+  # if required, exclude some directories
+  # - '!**/test/**'

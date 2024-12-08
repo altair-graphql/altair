@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev",
-    "build": "yarn --cwd ../../ typedoc && vitepress build",
+    "build": "pnpm --dir ../../ run typedoc && vitepress build",
     "preview": "vitepress preview",
     "prepare": "npm run build"
   },
@@ -13,7 +13,8 @@
     "@octokit/rest": "^20.0.2",
     "@types/lodash.escaperegexp": "^4.1.9",
     "@types/lodash.sortby": "^4.7.9",
-    "altair-graphql-core": "^8.0.5",
+    "altair-graphql-core": "workspace:*",
+    "glob": "^11.0.0",
     "inflection": "^3.0.0",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.sortby": "^4.7.0",
@@ -28,6 +29,12 @@
     "vue": "^3.4.15"
   },
   "dependencies": {
-    "medium-zoom": "^1.1.0"
+    "@docsearch/css": "^3.8.0",
+    "@vueuse/core": "^12.0.0",
+    "@vueuse/integrations": "^12.0.0",
+    "mark.js": "^8.11.1",
+    "marked": "^15.0.3",
+    "medium-zoom": "^1.1.0",
+    "minisearch": "^7.1.1"
   }
 }

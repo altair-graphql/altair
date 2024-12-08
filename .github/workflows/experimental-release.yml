@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn
+      - run: pnpm install
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
@@ -46,7 +46,7 @@ jobs:
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: 16
-  #     - run: yarn
+  #     - run: pnpm install
   #       env:
   #         GITHUB_TOKEN: ${{ github.token }}
   #     - name: Deploy to github pages 🚀
@@ -63,8 +63,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn
-      - run: yarn build-ext
+      - run: pnpm install
+      - run: pnpm build-ext
       - uses: trmcnvn/firefox-addon@v1
         continue-on-error: true
         with:
@@ -109,9 +109,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Build extensions
         run: |
-          yarn
-          yarn lerna bootstrap
-          yarn build-ext
+          pnpm install
+          pnpm lerna bootstrap
+          pnpm build-ext
       - name: Upload & release
         uses: mnao305/chrome-extension-upload@1.1.1
         with:

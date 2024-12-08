@@ -1,21 +1,34 @@
-.git
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/go/build-context-dockerignore/
 
-node_modules
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/.next
+**/.cache
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/charts
+**/docker-compose*
+**/compose*
+**/Dockerfile*
 **/node_modules
-packages/altair-app
-packages/altair-electron
-packages/altair-docs
-
-out/
-extension-builds/
-coverage
-
-dist
-build
-
-.turbo
-**/*.spec.ts
-**/*.test.ts
-**/*.e2e-spec.ts
-**/*.mock.ts
-**/test
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+**/build
+**/dist
+LICENSE
+README.md

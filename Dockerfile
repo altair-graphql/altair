@@ -1,63 +1,88 @@
-FROM node:20-alpine3.19 AS base
+# syntax=docker/dockerfile:1
+
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
+
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+
+ARG NODE_VERSION=22.9.0
+ARG PNPM_VERSION=latest
+
+################################################################################
+# Use node image for base image for all stages.
+FROM node:${NODE_VERSION}-alpine AS base
+
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed
 RUN apk update && apk add --no-cache libc6-compat python3 make g++ py3-pip && rm -rf /var/cache/apk/*
 RUN ln -sf python3 /usr/bin/python
 ENV TURBO_TELEMETRY_DISABLED=1
 
-# ===
+# Set working directory for all build stages.
+WORKDIR /usr/src/app
 
-FROM base AS builder
-# Set working directory
-WORKDIR /app
-RUN yarn global add turbo@^2
+# Install pnpm.
+RUN --mount=type=cache,target=/root/.npm \
+    npm install -g pnpm@${PNPM_VERSION}
+
+################################################################################
+# Create a stage for installing production dependecies.
+FROM base AS deps
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.local/share/pnpm/store to speed up subsequent builds.
+# Leverage bind mounts to package.json and pnpm-lock.yaml to avoid having to copy them
+# into this layer.
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+    --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --prod --frozen-lockfile --ignore-scripts
+
+################################################################################
+# Create a stage for building the application.
+FROM deps AS build
+
 COPY . .
-# copy packages that @altairgraphql/api depends on to out directory
-RUN turbo prune --scope=@altairgraphql/api --docker
 
-# ===
+# Download additional development dependencies before building, as some projects require
+# "devDependencies" to be installed to build. If you don't need this, remove this step.
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+    --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-WORKDIR /app
-# First install dependencies (as they change less often)
-COPY .gitignore .gitignore
-# FIXME: running yarn install with --ignore-scripts means that some packages may not get built correctly. Skipping these steps for now.
-# COPY --from=builder /app/out/json/ .
-# COPY --from=builder /app/out/yarn.lock ./yarn.lock
-# # install node_modules without running scripts (scripts depend on the source files)
-# RUN yarn install --ignore-scripts
-# Build the project and its dependencies
-COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
-COPY nx.json nx.json
-COPY tsconfig.json tsconfig.json
-COPY CHECKS CHECKS
-# build the project, running the prepare scripts
-# Somehow get an unknown error if I don't install nx first
-RUN yarn add nx -W
-# yarn install 2> >(grep -v warning 1>&2)
-RUN yarn
-RUN yarn turbo run build --filter=@altairgraphql/api...
+# Copy the rest of the source files into the image.
+# COPY . .
+# Run the build script.
+RUN pnpm run build
 
-# ===
+################################################################################
+# Create a new stage to run the application with minimal runtime dependencies
+# where the necessary files are copied from the build stage.
+FROM base AS final
 
-FROM base AS runner
-WORKDIR /app
+# Use production node environment by default.
+ENV NODE_ENV=production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-ARG PORT=3000
-ENV PORT=${PORT}
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-USER nodejs
-COPY --from=installer /app .
-# new relic env variables
+# Run the application as a non-root user.
+USER node
+
+# Copy package.json so that package manager commands can be used.
+COPY package.json .
+
+# Copy the production dependencies from the deps stage and also
+# the built application from the build stage into the image.
+# COPY --from=deps /usr/src/app/node_modules ./node_modules
+# COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/ .
+
 ENV NEW_RELIC_NO_CONFIG_FILE=true
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
 ENV NEW_RELIC_LOG=stdout
 
-# EXPOSE ${PORT}
 
-CMD ["yarn", "start:api:prod"]
+# Expose the port that the application listens on.
+EXPOSE 3000
+
+# Run the application.
+CMD pnpm run start:api:prod

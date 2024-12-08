@@ -33,11 +33,11 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: yarn --frozen-lockfile
+      - run: pnpm --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 15
           max_attempts: 3
-          command: yarn build:ci
+          command: pnpm build:ci
       - id: publish
-        run: yarn lerna publish from-git --force-publish=* --no-git-tag-version --no-push --no-verify-access --yes
+        run: pnpm lerna publish from-git --force-publish=* --no-git-tag-version --no-push --no-verify-access --yes

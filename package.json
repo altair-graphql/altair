@@ -62,42 +62,34 @@
   "private": true,
   "repository": "altair-graphql/altair.git",
   "resolutions": {
-    "**/oauth": "0.10.0",
     "y18n": "4.0.1"
   },
   "scripts": {
-    "build": "yarn build-api",
-    "build-api": "yarn --cwd packages/altair-api build",
-    "build-app": "nx build @altairgraphql/app",
-    "build-electron": "lerna bootstrap && nx build altair",
-    "build-ext": "yarn build-app && cwex build",
+    "build": "pnpm build-api",
+    "build-api": "pnpm --dir packages/altair-api build",
+    "build-app": "pnpm -F @altairgraphql/app build",
+    "build-electron": "lerna bootstrap && pnpm --dir packages/altair-electron build",
+    "build-ext": "pnpm build-app && cwex build",
     "build:ci": "lerna bootstrap -- --frozen-lockfile",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
-    "local-verify": "yarn build-app && lerna bootstrap",
+    "local-verify": "pnpm build-app && lerna bootstrap",
     "postinstall": "opencollective postinstall || true",
-    "prepare": "nx run-many --target=prepare --output-style=stream --nxBail=true",
-    "publish-packages": "lerna bootstrap && yarn lerna-publish",
+    "publish-packages": "lerna bootstrap && pnpm lerna-publish",
     "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",
-    "start:api:dev": "nx start:dev @altairgraphql/api",
-    "start:api:prod": "yarn --cwd packages/altair-db prisma migrate deploy && yarn --cwd packages/altair-db prisma db seed && yarn --cwd packages/altair-api start:prod",
-    "start:app": "nx start @altairgraphql/app",
-    "start:redirect": "nx dev @altairgraphql/login-redirect",
-    "start:sandbox": "nx dev @altairgraphql/iframe-sandbox",
-    "start:electron": "nx dev altair",
+    "start:api:dev": "pnpm --dir packages/altair-api start:dev",
+    "start:api:prod": "pnpm --dir packages/altair-db prisma migrate deploy && pnpm --dir packages/altair-db prisma db seed && pnpm --dir packages/altair-api start:prod",
+    "start:app": "pnpm -F @altairgraphql/app start",
+    "start:redirect": "pnpm -F @altairgraphql/login-redirect dev",
+    "start:sandbox": "pnpm -F @altairgraphql/iframe-sandbox dev",
+    "start:electron": "pnpm -F altair dev",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",
-    "test": "nx run-many --target=test",
+    "test": "pnpm -r test",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
-    "test:ci-test-only": "nx affected --target=test --parallel=3 --output-style=stream",
-    "test:ci:retries": "yarn test:ci || yarn test:ci || yarn test:ci"
+    "test:ci-test-only": "turbo run test --filter=[HEAD^1] --parallel",
+    "test:ci:retries": "pnpm test:ci || pnpm test:ci || pnpm test:ci",
+    "typedoc": "typedoc"
   },
-  "snyk": true,
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "libs/*",
-      "plugins/*"
-    ]
-  },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "pnpm@9.15.0",
+  "snyk": true
 }

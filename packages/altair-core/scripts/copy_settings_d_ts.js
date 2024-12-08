@@ -7,17 +7,17 @@ const copySettingsDTS = () => {
   const distSrc = path.resolve(__dirname, '../build');
 
   execSync(
-    'yarn typescript-json-schema --ignoreErrors src/types/state/settings.interfaces.ts SettingsState  --out build/settings.schema.json'
+    'pnpm typescript-json-schema --ignoreErrors src/types/state/settings.interfaces.ts SettingsState  --out build/settings.schema.json'
   );
   execSync(
-    'yarn ajv compile -s build/settings.schema.json -o build/validate-settings.js'
+    'pnpm ajv compile -s build/settings.schema.json -o build/validate-settings.js'
   );
 
   execSync(
-    'yarn typescript-json-schema --ignoreErrors src/types/state/settings.interfaces.ts PartialSettingsState  --out build/partial_settings.schema.json'
+    'pnpm typescript-json-schema --ignoreErrors src/types/state/settings.interfaces.ts PartialSettingsState  --out build/partial_settings.schema.json'
   );
   execSync(
-    'yarn ajv compile -s build/partial_settings.schema.json -o build/validate-partial-settings.js'
+    'pnpm ajv compile -s build/partial_settings.schema.json -o build/validate-partial-settings.js'
   );
 
   fs.copyFileSync(

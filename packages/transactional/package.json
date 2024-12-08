@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "email dev",
-    "prepare": "yarn build"
+    "prepare": "pnpm build"
   },
   "private": true
 }

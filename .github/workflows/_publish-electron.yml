@@ -68,12 +68,12 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         with:
           xcode-version: latest-stable
-      - run: yarn --frozen-lockfile --network-timeout 1000000
+      - run: pnpm --frozen-lockfile --network-timeout 1000000
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 20
           max_attempts: 3
-          command: yarn lerna bootstrap
+          command: pnpm lerna bootstrap
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
         if: startsWith(matrix.os, 'ubuntu')

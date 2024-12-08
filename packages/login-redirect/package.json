@@ -2,8 +2,8 @@
   "name": "@altairgraphql/login-redirect",
   "version": "8.0.5",
   "dependencies": {
-    "@altairgraphql/api-utils": "^8.0.5",
-    "altair-graphql-core": "^8.0.5"
+    "@altairgraphql/api-utils": "workspace:*",
+    "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
     "rimraf": "^5.0.5",
@@ -16,7 +16,7 @@
   "scripts": {
     "build": "rimraf dist && tsc && vite build",
     "dev": "vite --port 1234",
-    "prepare": "yarn build"
+    "prepare": "pnpm build"
   },
   "source": "src/index.html",
   "targets": {

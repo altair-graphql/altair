@@ -57,11 +57,11 @@ const copySandbox = () => {
 };
 
 const main = async () => {
-  execSync('yarn ng:build', {
+  execSync('pnpm ng:build', {
     cwd: path.resolve(__dirname, '../'),
     stdio: 'inherit',
   });
-  execSync('yarn sentry:sourcemaps:inject', {
+  execSync('pnpm sentry:sourcemaps:inject', {
     cwd: path.resolve(__dirname, '../'),
     stdio: 'inherit',
   });

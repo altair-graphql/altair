@@ -5,10 +5,11 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "altair-express-middleware": "^8.0.5"
+    "altair-express-middleware": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/node": "^22.7.4",
     "express": "^4.19.2",
     "typescript": "5.2.2"
   },

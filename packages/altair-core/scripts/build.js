@@ -52,8 +52,8 @@ const replaceProcessEnv = (pkgRoot) => {
 const main = async () => {
   const CONFIG_PKG_ROOT = path.resolve(__dirname, '../');
   // Build the package
-  execSync('yarn tsc -p tsconfig.json', { cwd: CONFIG_PKG_ROOT, stdio: 'inherit' });
-  execSync('yarn tsc -p tsconfig.cjs.json', {
+  execSync('pnpm tsc -p tsconfig.json', { cwd: CONFIG_PKG_ROOT, stdio: 'inherit' });
+  execSync('pnpm tsc -p tsconfig.cjs.json', {
     cwd: CONFIG_PKG_ROOT,
     stdio: 'inherit',
   });

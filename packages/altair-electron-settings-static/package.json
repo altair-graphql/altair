@@ -4,15 +4,17 @@
   "private": true,
   "main": "./build/index.js",
   "devDependencies": {
-    "@altairgraphql/electron-settings": "^8.0.5",
+    "@altairgraphql/electron-settings": "workspace:*",
+    "@types/node": "^22.7.4",
     "dts-bundle-generator": "^6.11.0",
     "esbuild": "^0.14.43",
+    "ncp": "2.0.0",
     "typescript": "5.2.2"
   },
   "license": "MIT",
   "scripts": {
     "compile": "node scripts/build.js",
-    "prepare": "yarn prepare-dist && yarn compile && yarn types",
+    "prepare": "pnpm prepare-dist && pnpm compile && pnpm types",
     "prepare-dist": "node scripts/prepare_dist.js",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
   },
