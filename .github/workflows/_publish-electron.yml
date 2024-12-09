@@ -71,8 +71,6 @@ jobs:
         with:
           xcode-version: latest-stable
       - run: pnpm i --frozen-lockfile
-      - name: Enable Corepack before setting up Node (temporary workaround for action-electron-builder which uses yarn and causes errors as it conflicts with pnpm https://github.com/yarnpkg/yarn/issues/9015)
-        run: corepack enable
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 20
@@ -94,12 +92,12 @@ jobs:
           # disable for macos not in master branch, because code signing is skipped in pull requests
         if: ${{ inputs.publish || !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') }}
         id: build-electron
-        uses: CryogenicPlanet/action-electron-builder@v2 # Using CryogenicPlanet until the main action adds skip_install
+        uses: paneron/action-electron-builder@v1.8.1
         with:
           github_token: ${{ secrets.github_token }}
           package_root: packages/altair-electron/
           skip_build: true
-          skip_install: true
+          skip_package_manager_install: true
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
           args: ${{ inputs.publish && '--publish always' || '--publish never' }}
