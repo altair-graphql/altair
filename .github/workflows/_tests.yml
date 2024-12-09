@@ -21,9 +21,10 @@ jobs:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
         uses: actions/setup-node@v1
         with:
@@ -63,7 +64,8 @@ jobs:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
         uses: actions/setup-node@v1
         with:
@@ -116,7 +118,8 @@ jobs:
     steps:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ inputs.node_version }}
