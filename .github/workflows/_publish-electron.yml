@@ -69,7 +69,7 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         with:
           xcode-version: latest-stable
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 20

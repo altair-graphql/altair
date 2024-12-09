@@ -34,7 +34,7 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 15
