@@ -102,6 +102,7 @@ jobs:
           mac_certs_password: ${{ secrets.mac_certs_password }}
           args: ${{ inputs.publish && '--publish always' || '--publish never' }}
           max_attempts: 3
+          package_manager: pnpm
         env:
           # macOS notarization API key
           # https://www.codiga.io/blog/notarize-sign-electron-app/
