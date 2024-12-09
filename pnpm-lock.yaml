@@ -1261,6 +1261,9 @@ importers:
         specifier: workspace:*
         version: link:../altair-core
     devDependencies:
+      '@types/node':
+        specifier: ^22.7.4
+        version: 22.10.1
       electron:
         specifier: ^27.1.0
         version: 27.1.0

@@ -5,6 +5,7 @@
     "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "electron": "^27.1.0",
     "typescript": "5.2.2"
   },
