@@ -70,7 +70,7 @@
     "build-app": "pnpm -F @altairgraphql/app build",
     "build-electron": "lerna bootstrap && pnpm --dir packages/altair-electron build",
     "build-ext": "pnpm build-app && cwex build",
-    "build:ci": "lerna bootstrap -- --frozen-lockfile",
+    "build:ci": "pnpm -r build",
     "lerna-publish": "lerna publish from-git --force-publish=* --yes",
     "local-verify": "pnpm build-app && lerna bootstrap",
     "postinstall": "opencollective postinstall || true",
