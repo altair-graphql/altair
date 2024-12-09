@@ -214,7 +214,7 @@ importers:
         version: 8.7.0(encoding@0.1.13)
       langchain:
         specifier: ^0.2.10
-        version: 0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
+        version: 0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
       nest-winston:
         specifier: ^1.9.7
         version: 1.9.7(@nestjs/common@10.3.10(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(winston@3.13.1)
@@ -358,6 +358,9 @@ importers:
         specifier: ^7.0.0
         version: 7.8.1
     devDependencies:
+      '@types/node':
+        specifier: ^22.7.4
+        version: 22.10.1
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -22552,13 +22555,13 @@ snapshots:
       - openai
       - peggy
 
-  '@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -22586,9 +22589,9 @@ snapshots:
     transitivePeerDependencies:
       - openai
 
-  '@langchain/openai@0.2.2(encoding@0.1.13)(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))':
+  '@langchain/openai@0.2.2(encoding@0.1.13)(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))':
     dependencies:
-      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.12
       openai: 4.71.1(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -22607,9 +22610,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -24149,7 +24152,7 @@ snapshots:
 
   '@playwright/test@1.31.2':
     dependencies:
-      '@types/node': 20.14.10
+      '@types/node': 22.10.1
       playwright-core: 1.31.2
     optionalDependencies:
       fsevents: 2.3.2
@@ -25966,7 +25969,7 @@ snapshots:
       '@vueuse/shared': 10.7.2(vue@3.4.15(typescript@5.3.3))
       vue-demi: 0.14.6(vue@3.4.15(typescript@5.3.3))
     optionalDependencies:
-      axios: 1.7.4(debug@4.3.4)
+      axios: 1.7.4
       focus-trap: 7.5.4
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -25978,7 +25981,7 @@ snapshots:
       '@vueuse/shared': 12.0.0(typescript@5.3.3)
       vue: 3.5.13(typescript@5.3.3)
     optionalDependencies:
-      axios: 1.7.4(debug@4.3.4)
+      axios: 1.7.4
       focus-trap: 7.5.4
     transitivePeerDependencies:
       - typescript
@@ -26954,9 +26957,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.7.4(debug@4.3.4):
+  axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.2)
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.7.4(debug@4.3.4):
+    dependencies:
+      follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -31596,6 +31607,10 @@ snapshots:
     optionalDependencies:
       debug: 4.3.2
 
+  follow-redirects@1.15.6(debug@4.3.4):
+    optionalDependencies:
+      debug: 4.3.4
+
   for-each@0.3.3:
     dependencies:
       is-callable: 1.2.7
@@ -32841,7 +32856,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4(debug@4.3.4))
+      retry-axios: 2.6.0(axios@1.7.4)
       tough-cookie: 4.1.3
     transitivePeerDependencies:
       - supports-color
@@ -34664,17 +34679,17 @@ snapshots:
 
   ky@0.33.3: {}
 
-  langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)):
+  langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)):
     dependencies:
-      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.2(encoding@0.1.13)(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.2(encoding@0.1.13)(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -34683,7 +34698,7 @@ snapshots:
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
     optionalDependencies:
-      axios: 1.7.4(debug@4.3.4)
+      axios: 1.7.4
       fast-xml-parser: 4.5.0
       html-to-text: 9.0.5
       ignore: 5.3.1
@@ -34710,14 +34725,14 @@ snapshots:
       zod-to-json-schema: 3.23.1(zod@3.23.8)
     optionalDependencies:
       '@langchain/anthropic': 0.3.7(@langchain/core@0.3.22(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(encoding@0.1.13)
-      axios: 1.7.4(debug@4.3.4)
+      axios: 1.7.4
     transitivePeerDependencies:
       - encoding
       - openai
 
   langchainhub@0.0.11: {}
 
-  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)):
+  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)))(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -34725,8 +34740,8 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
-      langchain: 0.2.10(axios@1.7.4(debug@4.3.4))(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
+      '@langchain/core': 0.2.16(langchain@0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))
+      langchain: 0.2.10(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.5.0)(html-to-text@9.0.5)(ignore@5.3.1)(jsdom@20.0.3(bufferutil@4.0.6)(utf-8-validate@5.0.9))(openai@4.71.1(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
       openai: 4.71.1(encoding@0.1.13)(zod@3.23.8)
 
   langsmith@0.2.11(openai@4.71.1(encoding@0.1.13)(zod@3.23.8)):
@@ -38949,9 +38964,9 @@ snapshots:
 
   ret@0.5.0: {}
 
-  retry-axios@2.6.0(axios@1.7.4(debug@4.3.4)):
+  retry-axios@2.6.0(axios@1.7.4):
     dependencies:
-      axios: 1.7.4(debug@4.3.4)
+      axios: 1.7.4
 
   retry@0.12.0: {}
 

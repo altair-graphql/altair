@@ -8,6 +8,7 @@
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "typescript": "5.2.2"
   },
   "license": "MIT",
