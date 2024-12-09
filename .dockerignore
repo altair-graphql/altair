@@ -32,3 +32,6 @@
 **/dist
 LICENSE
 README.md
+
+packages/altair-docs
+packages/altair-electron
