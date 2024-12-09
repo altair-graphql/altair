@@ -5,7 +5,7 @@
     "@altairgraphql/db": "workspace:*",
     "altair-graphql-core": "workspace:*",
     "ky": "^0.33.2",
-    "rxjs": "^7.0.0"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
