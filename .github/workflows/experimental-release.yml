@@ -22,9 +22,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
       - run: pnpm install
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -62,9 +63,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
       - run: pnpm install
       - run: pnpm build-ext
       - uses: trmcnvn/firefox-addon@v1
@@ -107,13 +109,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
       - name: Build extensions
         run: |
           pnpm install
-          pnpm lerna bootstrap
+          pnpm build:ci
           pnpm build-ext
       - name: Upload & release
         uses: mnao305/chrome-extension-upload@1.1.1
