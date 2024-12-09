@@ -40,21 +40,29 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 ################################################################################
 # Create a stage for building the application.
-FROM deps AS build
 
-COPY . .
+FROM base AS build
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run -r build
+# RUN pnpm deploy --filter=app1 --prod /prod/app1
+RUN pnpm deploy --filter=@altairgraphql/api /api-app
+# FROM deps AS build
 
-# Download additional development dependencies before building, as some projects require
-# "devDependencies" to be installed to build. If you don't need this, remove this step.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-    --mount=type=cache,target=/root/.local/share/pnpm/store \
-    pnpm install --frozen-lockfile
-
-# Copy the rest of the source files into the image.
 # COPY . .
-# Run the build script.
-RUN pnpm run build
+
+# # Download additional development dependencies before building, as some projects require
+# # "devDependencies" to be installed to build. If you don't need this, remove this step.
+# RUN --mount=type=bind,source=package.json,target=package.json \
+#     --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+#     --mount=type=cache,target=/root/.local/share/pnpm/store \
+#     pnpm install --frozen-lockfile
+
+# # Copy the rest of the source files into the image.
+# # COPY . .
+# # Run the build script.
+# RUN pnpm run build
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
@@ -67,14 +75,17 @@ ENV NODE_ENV=production
 # Run the application as a non-root user.
 USER node
 
+COPY --from=build /api-app /app
+WORKDIR /app
+
 # Copy package.json so that package manager commands can be used.
-COPY package.json .
+# COPY package.json .
 
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.
 # COPY --from=deps /usr/src/app/node_modules ./node_modules
 # COPY --from=build /usr/src/app/dist ./dist
-COPY --from=build /usr/src/app/ .
+# COPY --from=build /usr/src/app/ .
 
 ENV NEW_RELIC_NO_CONFIG_FILE=true
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
