@@ -24,7 +24,8 @@ jobs:
     outputs:
       success: ${{ steps.publish.outcome != 'failure' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ inputs.node_version }}
         uses: actions/setup-node@v1
         with:
