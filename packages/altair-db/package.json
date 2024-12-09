@@ -7,6 +7,7 @@
     "prisma": "^5.16.2"
   },
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "ts-node": "^10.0.0",
     "typescript": "5.2.2"
   },
