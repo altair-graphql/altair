@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: pnpm install --network-timeout 1000000
+      - run: pnpm install
       - run: pnpm build:ci
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
