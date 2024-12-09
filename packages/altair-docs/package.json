@@ -6,7 +6,7 @@
     "dev": "vitepress dev",
     "build": "pnpm --dir ../../ run typedoc && vitepress build",
     "preview": "vitepress preview",
-    "prepare": "npm run build"
+    "prepare": "pnpm build"
   },
   "private": true,
   "devDependencies": {

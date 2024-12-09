@@ -29,7 +29,7 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "declarations": "tsc --declaration",
-    "prepare": "npm run declarations",
+    "prepare": "pnpm declarations",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "types": "./build/index.d.ts"
