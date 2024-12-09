@@ -130,7 +130,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
       - name: Build apps (with retries)
         uses: nick-invision/retry@v2
         with:

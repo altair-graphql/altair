@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
       - run: pnpm build:ci
       - name: Deploy to translate surge.sh
         uses: dswistowski/surge-sh-action@v1

@@ -55,7 +55,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ inputs.node_version }}
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
