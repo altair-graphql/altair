@@ -71,6 +71,8 @@ jobs:
         with:
           xcode-version: latest-stable
       - run: pnpm i --frozen-lockfile
+      - name: Enable Corepack before setting up Node (temporary workaround for action-electron-builder which uses yarn and causes errors as it conflicts with pnpm https://github.com/yarnpkg/yarn/issues/9015)
+        run: corepack enable
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 20
