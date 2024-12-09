@@ -37,7 +37,7 @@
   "scripts": {
     "declarations": "tsc --declaration",
     "example": "nodemon example/index.ts",
-    "prepare": "npm run declarations",
+    "prepare": "pnpm declarations",
     "prepare-dist": "node scripts/prepare_dist.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },

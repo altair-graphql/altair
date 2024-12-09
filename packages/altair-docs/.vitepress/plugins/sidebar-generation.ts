@@ -263,7 +263,7 @@ function side(
         if (children.length > 0 || !skipEmptySidebar) {
           // Where to put '02-folder' in ['01-file', { text: 'Other Folder', items: ['03-folder/file'] }]
           const sortedFolderPosition = fileLinks.findIndex((link) => {
-            let linkLabel = link.link ?? '';
+            let linkLabel = link?.link ?? '';
 
             if (link.items) {
               let childrenTitle = '';
@@ -299,7 +299,7 @@ function side(
   // Remove index.md from first position and add it to first group.
   if (
     addReadMeToFirstGroup &&
-    fileLinks[0].link === '' &&
+    fileLinks[0]?.link === '' &&
     typeof fileLinks[1] === 'object'
   ) {
     fileLinks[1].link = '';
