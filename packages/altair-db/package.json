@@ -18,8 +18,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "pnpm prisma:generate && tsc --build",
-    "prepare": "pnpm build",
+    "build": "tsc --build",
+    "prepare": "pnpm prisma:generate && pnpm build",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:push": "prisma db push",
