@@ -121,12 +121,13 @@ jobs:
           echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
       - name: chocolatey pack
         if: startsWith(matrix.os, 'windows')
-        uses: crazy-max/ghaction-chocolatey@v1.6.0
+        continue-on-error: true
+        uses: crazy-max/ghaction-chocolatey@v3
         with:
           args: pack chocolatey\altair-graphql.nuspec
       # - name: chocolatey install (test choco packaging)
       #   if: startsWith(matrix.os, 'windows')
-      #   uses: crazy-max/ghaction-chocolatey@v1.6.0
+      #   uses: crazy-max/ghaction-chocolatey@v3
       #   with:
       #     args: install altair-graphql --version="${{ steps.getversion.outputs.version }}" --source="altair-graphql.${{ steps.getversion.outputs.version }}.nupkg"
       # FIXME: chocolatey push is failing in the CI with the "request too large" error.
@@ -135,7 +136,7 @@ jobs:
       - name: chocolatey push
         if: startsWith(matrix.os, 'windows') && ${{ inputs.publish_chocolatey }} && ${{ inputs.publish }}
         continue-on-error: true
-        uses: crazy-max/ghaction-chocolatey@v1.6.0
+        uses: crazy-max/ghaction-chocolatey@v3
         with:
           args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
 
