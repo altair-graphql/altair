@@ -123,7 +123,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"],
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "packageManager": "pnpm",
     "analytics": false
   }
 }
