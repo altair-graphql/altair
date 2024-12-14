@@ -35,7 +35,7 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "example": "ts-node example/mercurius.ts",
-    "prepare": "tsc",
+    "bootstrap": "tsc",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "types": "dist/index.d.ts"

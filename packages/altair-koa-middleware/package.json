@@ -46,7 +46,7 @@
   "scripts": {
     "declarations": "tsc --declaration",
     "example": "nodemon example/index.ts",
-    "prepare": "pnpm declarations",
+    "bootstrap": "pnpm declarations",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "types": "./build/src/index.d.ts"

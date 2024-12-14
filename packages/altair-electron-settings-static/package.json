@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "compile": "node scripts/build.js",
-    "prepare": "pnpm prepare-dist && pnpm compile && pnpm types",
+    "bootstrap": "pnpm prepare-dist && pnpm compile && pnpm types",
     "prepare-dist": "node scripts/prepare_dist.js",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
   },
