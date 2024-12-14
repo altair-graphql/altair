@@ -34,7 +34,7 @@ import {
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import validateAppSettings from 'altair-graphql-core/build/validate-settings';
-import { log } from '../utils/log';
+import { error, log } from '../utils/log';
 import { ElectronApp } from './index';
 import {
   getAltairSettingsFromFile,
@@ -233,7 +233,7 @@ export class WindowManager {
         if (validateAppSettings(data)) {
           return updateAltairSettingsOnFile(data);
         }
-        console.error('Invalid settings data, not saving to file', data);
+        error('Invalid settings data, not saving to file', data);
       }
     );
   }
@@ -295,11 +295,11 @@ export class WindowManager {
         if (u.pathname.includes('/iframe-sandbox')) {
           return callback({ responseHeaders: details.responseHeaders });
         }
-      } catch {}
-      if (
-        details.resourceType === 'mainFrame' ||
-        details.resourceType === 'subFrame'
-      ) {
+      } catch {
+        // Do nothing
+      }
+
+      if (['mainFrame', 'subFrame'].includes(details.resourceType)) {
         // Set the CSP
         const scriptSrc = [
           `'self'`,
@@ -354,6 +354,10 @@ export class WindowManager {
       this.instance.focus();
       checkMultipleDataVersions(this.instance);
     });
+
+    this.instance.webContents.on('render-process-gone', (e, details) => {
+      error('render process gone', details);
+    });
   }
 
   private registerProtocol() {
@@ -370,7 +374,7 @@ export class WindowManager {
         new url.URL(request.url).pathname
       );
       const indexPath = path.join(requestDirectory, 'index.html');
-      console.log('index path', indexPath);
+      log('index path', indexPath);
 
       const { mimeType, data } = await this.getFileContentData(
         originalFilePath,

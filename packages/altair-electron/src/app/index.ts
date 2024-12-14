@@ -10,7 +10,7 @@ import {
   ALTAIR_CUSTOM_PROTOCOL,
   IPC_EVENT_NAMES,
 } from '@altairgraphql/electron-interop';
-import { log } from '../utils/log';
+import { error, log } from '../utils/log';
 import { findCustomProtocolUrlInArgv } from '../utils';
 
 export class ElectronApp {
@@ -99,7 +99,7 @@ export class ElectronApp {
         log('Error creating window', err);
         dialog.showErrorBox(
           'Error creating window. Do you know what the issue is? Feel free to create a github issue',
-          err as any
+          err as string
         );
         throw err;
       }
@@ -204,6 +204,14 @@ export class ElectronApp {
         }
         return { action: 'deny' };
       });
+    });
+
+    app.on('render-process-gone', (event, webContents, details) => {
+      error('Render process gone', details);
+    });
+
+    app.on('child-process-gone', (event, details) => {
+      error('Child process gone', details);
     });
   }
 
