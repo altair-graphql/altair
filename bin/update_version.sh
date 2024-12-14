@@ -44,7 +44,6 @@ sed -i '' "s|$PS1_OLD_BASE|$PS1_NEW_BASE|g" ./chocolatey/tools/chocolateyInstall
 # Update version in manifest.json
 sed -i '' "s|$OLD_BASE|$NEW_BASE|g" ./plugins/ai/manifest.json
 
-if (pnpm lerna --version); then
-  # Set the lerna packages versions as well
-  pnpm lerna version $NEW_VERSION --force-publish=* --no-git-tag-version --no-push --yes;
-fi
+# Update version in package.json files
+pnpm version $NEW_VERSION
+pnpm -r exec -- pnpm version $NEW_VERSION
