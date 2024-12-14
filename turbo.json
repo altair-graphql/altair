@@ -3,7 +3,9 @@
   "tasks": {
     "build": {},
     "lint": {},
-    "bootstrap": {},
+    "bootstrap": {
+      "dependsOn": ["^bootstrap"]
+    },
     "test": {}
   }
 }
