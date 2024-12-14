@@ -60,6 +60,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
+      - run: pnpm bootstrap
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       # TODO: Make this reusable
       - run: |

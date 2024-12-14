@@ -69,7 +69,7 @@
     "build-electron": "pnpm build:ci && pnpm --dir packages/altair-electron build",
     "build-ext": "pnpm build-app && cwex build",
     "bootstrap": "turbo run bootstrap",
-    "build:ci": "pnpm -r prepare",
+    "build:ci": "pnpm bootstrap",
     "ci:publish": "pnpm publish -r",
     "local-verify": "pnpm build-app && pnpm build:ci",
     "postinstall": "opencollective postinstall || syncpack fix-mismatches",
