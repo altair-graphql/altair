@@ -419,8 +419,8 @@ importers:
         specifier: 6.5.0
         version: 6.5.0
       '@codemirror/lint':
-        specifier: 6.5.0
-        version: 6.5.0
+        specifier: 6.8.4
+        version: 6.8.4
       '@codemirror/search':
         specifier: 6.5.0
         version: 6.5.0
@@ -513,13 +513,13 @@ importers:
         version: 3.0.3(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))(graphql@15.5.1)
       cm6-graphql:
         specifier: 0.0.14
-        version: 0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1)
+        version: 0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.8.4)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1)
       codemirror-graphql:
         specifier: 1.0.2
         version: 1.0.2(@swc/core@1.6.13(@swc/helpers@0.5.5))(@types/node@12.20.55)(bufferutil@4.0.6)(codemirror@5.65.18)(encoding@0.1.13)(graphql@15.5.1)(typescript@5.2.2)(utf-8-validate@5.0.9)
       codemirror-json-schema:
         specifier: ^0.6.0
-        version: 0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13)
+        version: 0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.8.4)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13)
       comlink:
         specifier: 4.3.0
         version: 4.3.0
@@ -2780,8 +2780,8 @@ packages:
   '@codemirror/language@6.5.0':
     resolution: {integrity: sha512-dI+dV/u2klIt0Y9kE3TH9vuBidAB3xuuDPofwzvnW8ZKqJnKTbT3EjyV7DeKcmrRgXMhlPTL7AdH1V5KOCYuHQ==}
 
-  '@codemirror/lint@6.5.0':
-    resolution: {integrity: sha512-+5YyicIaaAZKU8K43IQi8TBy6mF6giGeWAH7N96Z5LC30Wm5JMjqxOYIE9mxwMG1NbhT2mA3l9hA4uuKUM3E5g==}
+  '@codemirror/lint@6.8.4':
+    resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
 
   '@codemirror/search@6.5.0':
     resolution: {integrity: sha512-64/M40YeJPToKvGO6p3fijo2vwUEj4nACEAXElCaYQ50HrXSvRaK+NHEhSh73WFBGdvIdhrV+lL9PdJy2RfCYA==}
@@ -2789,8 +2789,14 @@ packages:
   '@codemirror/state@6.4.1':
     resolution: {integrity: sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==}
 
+  '@codemirror/state@6.5.0':
+    resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
+
   '@codemirror/view@6.18.0':
     resolution: {integrity: sha512-T6q1yYAoU+gSWfJFR4ryvDQcyOqS+Mw5RCvh26y0KiNksOOLYhNvdB3BTyLz8vy4fKaYlzbAOyBU7OQPUGHzjQ==}
+
+  '@codemirror/view@6.35.3':
+    resolution: {integrity: sha512-ScY7L8+EGdPl4QtoBiOzE4FELp7JmNUsBvgBcCakXWM2uiv/K89VAzU3BMDscf0DsACLvTKePbd5+cFDTcei6g==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -4426,6 +4432,9 @@ packages:
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
+
+  '@marijn/find-cluster-break@1.0.2':
+    resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
 
   '@mdn/browser-compat-data@4.1.12':
     resolution: {integrity: sha512-y3Ntio6hb5+m6asxcA3nnIN6URjAFMji2EZZVYGd2Ag5On4mmvPhMnXdiIScCMXgHjFX+5qXuKaojLLhJHZPAg==}
@@ -20253,7 +20262,7 @@ snapshots:
     dependencies:
       '@codemirror/autocomplete': 6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)
       '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
+      '@codemirror/lint': 6.8.4
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.18.0
       '@lezer/common': 1.2.1
@@ -20273,10 +20282,10 @@ snapshots:
       '@lezer/lr': 1.2.1
       style-mod: 4.1.2
 
-  '@codemirror/lint@6.5.0':
+  '@codemirror/lint@6.8.4':
     dependencies:
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.35.3
       crelt: 1.0.5
 
   '@codemirror/search@6.5.0':
@@ -20287,9 +20296,19 @@ snapshots:
 
   '@codemirror/state@6.4.1': {}
 
+  '@codemirror/state@6.5.0':
+    dependencies:
+      '@marijn/find-cluster-break': 1.0.2
+
   '@codemirror/view@6.18.0':
     dependencies:
       '@codemirror/state': 6.4.1
+      style-mod: 4.1.2
+      w3c-keyname: 2.2.6
+
+  '@codemirror/view@6.35.3':
+    dependencies:
+      '@codemirror/state': 6.5.0
       style-mod: 4.1.2
       w3c-keyname: 2.2.6
 
@@ -21884,6 +21903,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@marijn/find-cluster-break@1.0.2': {}
 
   '@mdn/browser-compat-data@4.1.12': {}
 
@@ -26793,11 +26814,11 @@ snapshots:
 
   clone@2.1.2: {}
 
-  cm6-graphql@0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1):
+  cm6-graphql@0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.8.4)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1):
     dependencies:
       '@codemirror/autocomplete': 6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)
       '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
+      '@codemirror/lint': 6.8.4
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.18.0
       '@lezer/highlight': 1.0.0
@@ -26823,11 +26844,11 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  codemirror-json-schema@0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13):
+  codemirror-json-schema@0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.8.4)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13):
     dependencies:
       '@changesets/changelog-github': 0.4.8(encoding@0.1.13)
       '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
+      '@codemirror/lint': 6.8.4
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.18.0
       '@lezer/common': 1.2.1
@@ -26846,7 +26867,7 @@ snapshots:
   codemirror-json5@1.0.3:
     dependencies:
       '@codemirror/language': 6.5.0
-      '@codemirror/state': 6.4.1
+      '@codemirror/state': 6.5.0
       '@codemirror/view': 6.18.0
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.0.0
@@ -27803,11 +27824,6 @@ snapshots:
   debug@3.1.0:
     dependencies:
       ms: 2.0.0
-
-  debug@3.2.7:
-    dependencies:
-      ms: 2.1.3
-    optional: true
 
   debug@3.2.7(supports-color@5.5.0):
     dependencies:
@@ -34632,7 +34648,7 @@ snapshots:
 
   needle@3.2.0:
     dependencies:
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       iconv-lite: 0.6.3
       sax: 1.2.4
     transitivePeerDependencies:
@@ -38280,6 +38296,18 @@ snapshots:
 
   term-size@2.1.1: {}
 
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.1
+      terser: 5.31.2
+      webpack: 5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
+    optionalDependencies:
+      '@swc/core': 1.6.13(@swc/helpers@0.5.5)
+      esbuild: 0.14.51
+
   terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -38291,18 +38319,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
-
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      jest-worker: 27.5.1
-      schema-utils: 3.3.0
-      serialize-javascript: 6.0.1
-      terser: 5.31.2
-      webpack: 5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
-    optionalDependencies:
-      '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.19.5
 
   terser@5.24.0:
     dependencies:
@@ -39768,7 +39784,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
