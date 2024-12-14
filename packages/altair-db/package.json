@@ -4,7 +4,7 @@
   "dependencies": {
     "@prisma/client": "^5.16.2",
     "dotenv": "^16.4.5",
-    "prisma": "^5.16.2"
+    "prisma": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
