@@ -14,6 +14,6 @@
   "private": true,
   "scripts": {
     "build": "tsc --build",
-    "prepare": "pnpm build"
+    "bootstrap": "pnpm build"
   }
 }

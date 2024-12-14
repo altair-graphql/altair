@@ -68,6 +68,7 @@
     "build-app": "pnpm -F @altairgraphql/app build",
     "build-electron": "pnpm build:ci && pnpm --dir packages/altair-electron build",
     "build-ext": "pnpm build-app && cwex build",
+    "bootstrap": "turbo run bootstrap",
     "build:ci": "pnpm -r prepare",
     "ci:publish": "pnpm publish -r",
     "local-verify": "pnpm build-app && pnpm build:ci",

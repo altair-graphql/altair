@@ -74,7 +74,7 @@
     "build": "pnpm compile && electron-builder",
     "compile": "tsc && pnpm sentry:sourcemaps:inject",
     "dev": "pnpm compile && electron ./dist/",
-    "prepare": "pnpm compile",
+    "bootstrap": "pnpm compile",
     "test": "pnpm test:unit",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:e2e:old": "jest -c jest.config.e2e.js --runInBand",

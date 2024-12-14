@@ -16,7 +16,7 @@
   "scripts": {
     "build": "rimraf dist && tsc && vite build",
     "dev": "vite --port 1234",
-    "prepare": "pnpm build"
+    "bootstrap": "pnpm build"
   },
   "source": "src/index.html",
   "targets": {

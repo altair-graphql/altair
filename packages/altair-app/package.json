@@ -189,7 +189,7 @@
     "lint": "ng lint",
     "new:component": "ng g component modules/altair/components/",
     "ng": "ng",
-    "prepare": "pnpm build",
+    "bootstrap": "pnpm build",
     "start": "ng serve",
     "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist",
     "test": "jest && ng lint",

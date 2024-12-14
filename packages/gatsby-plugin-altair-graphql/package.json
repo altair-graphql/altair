@@ -30,7 +30,7 @@
   "repository": "altair-graphql/altair.git",
   "scripts": {
     "compile": "tsc --declaration",
-    "prepare": "pnpm compile",
+    "bootstrap": "pnpm compile",
     "test": "echo \"Error: no test specified\" && exit 0"
   }
 }
