@@ -1289,8 +1289,8 @@ importers:
         specifier: ^7.50.0
         version: 7.50.0(react@18.3.1)
       react-icons:
-        specifier: ^5.0.1
-        version: 5.0.1(react@18.3.1)
+        specifier: ^5.4.0
+        version: 5.4.0(react@18.3.1)
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
@@ -15592,8 +15592,8 @@ packages:
     peerDependencies:
       react: '*'
 
-  react-icons@5.0.1:
-    resolution: {integrity: sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==}
+  react-icons@5.4.0:
+    resolution: {integrity: sha512-7eltJxgVt7X64oHh6wSWNwwbKTCtMfK35hcjvJS0yxEAhPM8oUKdS3+kqaW1vicIltw+kR2unHaa12S9pPALoQ==}
     peerDependencies:
       react: '*'
 
@@ -27804,11 +27804,6 @@ snapshots:
     dependencies:
       ms: 2.0.0
 
-  debug@3.2.7:
-    dependencies:
-      ms: 2.1.3
-    optional: true
-
   debug@3.2.7(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
@@ -34632,7 +34627,7 @@ snapshots:
 
   needle@3.2.0:
     dependencies:
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       iconv-lite: 0.6.3
       sax: 1.2.4
     transitivePeerDependencies:
@@ -36460,7 +36455,7 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  react-icons@5.0.1(react@18.3.1):
+  react-icons@5.4.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
@@ -38280,6 +38275,18 @@ snapshots:
 
   term-size@2.1.1: {}
 
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.1
+      terser: 5.31.2
+      webpack: 5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
+    optionalDependencies:
+      '@swc/core': 1.6.13(@swc/helpers@0.5.5)
+      esbuild: 0.14.51
+
   terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -38291,18 +38298,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
-
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      jest-worker: 27.5.1
-      schema-utils: 3.3.0
-      serialize-javascript: 6.0.1
-      terser: 5.31.2
-      webpack: 5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
-    optionalDependencies:
-      '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.19.5
 
   terser@5.24.0:
     dependencies:
@@ -39768,7 +39763,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.89.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.19.5))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
