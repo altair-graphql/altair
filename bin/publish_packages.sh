@@ -10,5 +10,4 @@ LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 
 # Checkout latest tag
 # git checkout $LATEST_TAG
-pnpm lerna bootstrap
-pnpm lerna publish from-git --force-publish=* --no-git-tag-version --no-push --yes
+pnpm publish-packages

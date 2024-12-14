@@ -42,4 +42,4 @@ jobs:
           max_attempts: 3
           command: pnpm build:ci
       - id: publish
-        run: pnpm lerna publish from-git --force-publish=* --no-git-tag-version --no-push --no-verify-access --yes
+        run: pnpm publish -r
