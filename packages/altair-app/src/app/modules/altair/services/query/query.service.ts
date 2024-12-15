@@ -318,11 +318,7 @@ export class QueryService {
 
     if (isSubscription) {
       if (!window.query.subscriptionUseDefaultRequestHandler) {
-        return (
-          window.query.subscriptionRequestHandlerId ??
-          window.query.subscriptionProviderId ??
-          WEBSOCKET_HANDLER_ID
-        );
+        return window.query.subscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID;
       }
     }
 

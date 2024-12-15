@@ -18,6 +18,7 @@ app.use(
         headerValue: 'my-secret-token',
       },
     },
+    initialSubscriptionRequestHandlerId: 'graphql-sse',
   })
 );
 

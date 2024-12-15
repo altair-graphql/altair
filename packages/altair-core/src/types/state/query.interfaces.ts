@@ -57,11 +57,6 @@ export interface QueryState {
   editorAlertMessage: string;
   editorAlertSuccess: boolean;
   subscriptionConnectionParams: string;
-
-  /**
-   * @deprecated Use {@link subscriptionRequestHandlerId} instead. Will be removed in future versions.
-   */
-  subscriptionProviderId?: string;
   subscriptionRequestHandlerId?: RequestHandlerIds;
   isSubscribed: boolean;
   autoscrollResponseList: boolean;

@@ -292,32 +292,5 @@ describe('QueryService', () => {
       );
       expect(requestHandler).toBeInstanceOf(ActionCableRequestHandler);
     });
-
-    it('should fallback to return handler specified in subscriptionProviderId for subscription if subscriptionRequestHandlerId is not set', async () => {
-      const requestHandler = await service.getRequestHandler(
-        {
-          query: {
-            url: 'http://localhost:3000/graphql',
-            query: 'subscription { hello }',
-            variables: '{ "name": "world" }',
-            subscriptionConnectionParams: '{ "name": "world" }',
-            subscriptionProviderId: GRAPHQL_SSE_HANDLER_ID,
-            requestHandlerId: HTTP_HANDLER_ID, // This should be ignored since it's a subscription
-          },
-          variables: {
-            variables: '{ "name": "world" }',
-          },
-          headers: [
-            {
-              key: 'Content-Type',
-              value: 'application/json',
-              enabled: true,
-            },
-          ],
-        } as unknown as PerWindowState,
-        true
-      );
-      expect(requestHandler).toBeInstanceOf(SSERequestHandler);
-    });
   });
 });
