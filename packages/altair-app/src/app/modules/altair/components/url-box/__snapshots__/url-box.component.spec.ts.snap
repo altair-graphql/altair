@@ -276,11 +276,11 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         nztrigger="click"
         track-id="send_request"
       >
+        
+        
         <span>
           
         </span>
-        
-        
         
         
         
