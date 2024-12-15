@@ -316,10 +316,8 @@ export class QueryService {
   private getRequestHandlerId(window: PerWindowState, isSubscription: boolean) {
     const defaultRequestHandlerId = window.query.requestHandlerId ?? HTTP_HANDLER_ID;
 
-    if (isSubscription) {
-      if (!window.query.subscriptionUseDefaultRequestHandler) {
-        return window.query.subscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID;
-      }
+    if (isSubscription && !window.query.subscriptionUseDefaultRequestHandler) {
+      return window.query.subscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID;
     }
 
     return defaultRequestHandlerId;
