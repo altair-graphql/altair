@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgPipesModule } from 'ngx-pipes';
 import { MarkdownModule } from 'ngx-markdown';
 import { ResizableModule } from 'angular-resizable-element';
+import { AngularSplitModule } from 'angular-split';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -72,6 +73,7 @@ const AntdComponentModules = [
     MarkdownModule.forRoot(),
     ResizableModule,
     IconsModule,
+    AngularSplitModule,
     // ToastrModule.forRoot({
     //   newestOnTop: false,
     //   closeButton: true,
@@ -102,6 +104,7 @@ const AntdComponentModules = [
     MarkdownModule,
     ResizableModule,
     IconsModule,
+    AngularSplitModule,
     // HotToastModule,
     ...AntdComponentModules,
   ],

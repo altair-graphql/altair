@@ -19,7 +19,6 @@ import { HistoryDialogComponent } from './history-dialog/history-dialog.componen
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 import { ImportCurlDialogComponent } from './import-curl-dialog/import-curl-dialog.component';
 import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog/add-collection-query-dialog.component';
-import { FlexResizerComponent } from './flex-resizer/flex-resizer.component';
 import { VariablesEditorComponent } from './variables-editor/variables-editor.component';
 import { VariableFileItemComponent } from './variable-file-item/variable-file-item.component';
 import { QueryCollectionsComponent } from './query-collections/query-collections.component';
@@ -68,7 +67,6 @@ const COMPONENTS = [
   SettingsDialogComponent,
   ImportCurlDialogComponent,
   AddCollectionQueryDialogComponent,
-  FlexResizerComponent,
   VariablesEditorComponent,
   VariableFileItemComponent,
   QueryCollectionsComponent,

@@ -53,6 +53,5 @@ exports[`QueryEditorComponent should render correctly 1`] = `
     </nz-tab>
     
   </nz-tabset>
-  <app-flex-resizer />
 </app-query-editor>
 `;

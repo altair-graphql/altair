@@ -22,7 +22,7 @@
       [ngClass]="{ 'show-variables': showVariableDialog }"
       mwlResizable
       [ngStyle]="{
-        minHeight: showVariableDialog ? variableEditorHeight : undefined
+        minHeight: showVariableDialog ? variableEditorHeight : undefined,
       }"
       [enableGhostResize]="true"
       [validateResize]="validate"
@@ -86,13 +86,13 @@
                     fileVariableDataChange.emit({
                       index: index,
                       fileData: $event.files,
-                      fromCache: $event.fromCache
+                      fromCache: $event.fromCache,
                     })
                   "
                   (fileVariableIsMultipleChange)="
                     fileVariableIsMultipleChange.emit({
                       index: index,
-                      isMultiple: $event
+                      isMultiple: $event,
                     })
                   "
                   (deleteFileVariableChange)="
@@ -135,7 +135,7 @@
       <span
         [ngClass]="{
           'ant-tabs--status-enabled':
-            authorizationState && isAuthorizationEnabled(authorizationState)
+            authorizationState && isAuthorizationEnabled(authorizationState),
         }"
       >
         {{ 'AUTHORIZATION_TAB' | translate }}
@@ -149,7 +149,3 @@
     />
   </nz-tab>
 </nz-tabset>
-<app-flex-resizer
-  [resizeDirection]="'right'"
-  (resizeChange)="onResize($event)"
-></app-flex-resizer>

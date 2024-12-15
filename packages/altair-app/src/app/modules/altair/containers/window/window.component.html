@@ -22,81 +22,89 @@
   ></app-url-box>
   <div class="main-content-area">
     <div class="main-content-row" data-resize-container>
-      <app-query-editor
-        #queryEditor
-        (queryChange)="updateQuery($event)"
-        (sendRequest)="sendRequest($event)"
-        (variablesChange)="updateVariables($event)"
-        (toggleVariableDialog)="toggleVariableDialog($event)"
-        (addFileVariableChange)="addFileVariable($event)"
-        (fileVariableNameChange)="updateFileVariableName($event)"
-        (fileVariableIsMultipleChange)="updateFileVariableIsMultiple($event)"
-        (fileVariableDataChange)="updateFileVariableData($event)"
-        (deleteFileVariableChange)="deleteFileVariable($event)"
-        (queryEditorStateChange)="setQueryEditorState($event)"
-        (showTokenInDocsChange)="onShowTokenInDocs($event)"
-        (preRequestScriptChange)="updatePreRequestScript($event)"
-        (preRequestEnabledChange)="updatePreRequestEnabled($event)"
-        (postRequestScriptChange)="updatePostRequestScript($event)"
-        (postRequestEnabledChange)="updatePostRequestEnabled($event)"
-        (authTypeChange)="updateAuthType($event)"
-        (authDataChange)="updateAuthData($event)"
-        [windowId]="windowId"
-        [activeWindowId]="activeWindowId$ | async"
-        [query]="query"
-        [gqlSchema]="gqlSchema"
-        [tabSize]="tabSize$ | async"
-        [disableLineNumbers]="disableLineNumbers$ | async"
-        [variables]="variables$ | async"
-        [showVariableDialog]="showVariableDialog"
-        [addQueryDepthLimit]="addQueryDepthLimit$ | async"
-        [variableToType]="variableToType$ | async"
-        [preRequest]="preRequest$ | async"
-        [postRequest]="postRequest$ | async"
-        [shortcutMapping]="editorShortcutMapping$ | async"
-        [enableExperimental]="enableExperimental$ | async"
-        [betaDisableNewEditor]="betaDisableNewEditor$ | async"
-        [authorizationState]="authorizationState$ | async"
-      ></app-query-editor>
-      <app-query-result
-        [queryResponses]="queryResponses$ | async"
-        [responseTime]="responseTime$ | async"
-        [responseStatus]="responseStatus$ | async"
-        [responseStatusText]="responseStatusText$ | async"
-        [responseHeaders]="responseHeaders$ | async"
-        [requestScriptLogs]="requestScriptLogs$ | async"
-        [isSubscribed]="isSubscribed$ | async"
-        [isRunning]="(layout$ | async)?.isLoading"
-        [subscriptionUrl]="subscriptionUrl"
-        [tabSize]="tabSize$ | async"
-        [autoscrollResponseList]="autoscrollResponseList$ | async"
-        [windowId]="windowId"
-        [activeWindowId]="activeWindowId$ | async"
-        [uiActions]="resultPaneUiActions$ | async"
-        [bottomPanels]="resultPaneBottomPanels$ | async"
-        (clearResultChange)="clearResult()"
-        (downloadResultChange)="downloadResult($event)"
-        (cancelRequestChange)="cancelRequest()"
-        (autoscrollResponseListChange)="toggleAutoscrollSubscriptionResponses()"
-        (uiActionExecuteChange)="onExecuteUiAction($event)"
-        (bottomPanelActiveToggle)="togglePanelActive($event)"
-      ></app-query-result>
-      <app-doc-viewer
-        [docView]="docView$ | async"
-        [gqlSchema]="gqlSchema"
-        [allowIntrospection]="allowIntrospection$ | async"
-        [ngClass]="{ 'hide-doc': (showDocs$ | async) !== true }"
-        [isLoading]="docsIsLoading$ | async"
-        [addQueryDepthLimit]="addQueryDepthLimit$ | async"
-        [hideDeprecatedDocItems]="hideDeprecatedDocItems$ | async"
-        [tabSize]="tabSize$ | async"
-        [lastUpdatedAt]="schemaLastUpdatedAt$ | async"
-        (setDocViewChange)="setDocView($event)"
-        (toggleDocsChange)="toggleDocs()"
-        (addQueryToEditorChange)="addQueryToEditor($event)"
-        (exportSDLChange)="exportSDL()"
-        (loadSchemaChange)="loadSchemaFromSDL()"
-      ></app-doc-viewer>
+      <as-split [gutterSize]="5" [useTransition]="true">
+        <as-split-area>
+          <app-query-editor
+            #queryEditor
+            (queryChange)="updateQuery($event)"
+            (sendRequest)="sendRequest($event)"
+            (variablesChange)="updateVariables($event)"
+            (toggleVariableDialog)="toggleVariableDialog($event)"
+            (addFileVariableChange)="addFileVariable($event)"
+            (fileVariableNameChange)="updateFileVariableName($event)"
+            (fileVariableIsMultipleChange)="updateFileVariableIsMultiple($event)"
+            (fileVariableDataChange)="updateFileVariableData($event)"
+            (deleteFileVariableChange)="deleteFileVariable($event)"
+            (queryEditorStateChange)="setQueryEditorState($event)"
+            (showTokenInDocsChange)="onShowTokenInDocs($event)"
+            (preRequestScriptChange)="updatePreRequestScript($event)"
+            (preRequestEnabledChange)="updatePreRequestEnabled($event)"
+            (postRequestScriptChange)="updatePostRequestScript($event)"
+            (postRequestEnabledChange)="updatePostRequestEnabled($event)"
+            (authTypeChange)="updateAuthType($event)"
+            (authDataChange)="updateAuthData($event)"
+            [windowId]="windowId"
+            [activeWindowId]="activeWindowId$ | async"
+            [query]="query"
+            [gqlSchema]="gqlSchema"
+            [tabSize]="tabSize$ | async"
+            [disableLineNumbers]="disableLineNumbers$ | async"
+            [variables]="variables$ | async"
+            [showVariableDialog]="showVariableDialog"
+            [addQueryDepthLimit]="addQueryDepthLimit$ | async"
+            [variableToType]="variableToType$ | async"
+            [preRequest]="preRequest$ | async"
+            [postRequest]="postRequest$ | async"
+            [shortcutMapping]="editorShortcutMapping$ | async"
+            [enableExperimental]="enableExperimental$ | async"
+            [betaDisableNewEditor]="betaDisableNewEditor$ | async"
+            [authorizationState]="authorizationState$ | async"
+          />
+        </as-split-area>
+        <as-split-area>
+          <app-query-result
+            [queryResponses]="queryResponses$ | async"
+            [responseTime]="responseTime$ | async"
+            [responseStatus]="responseStatus$ | async"
+            [responseStatusText]="responseStatusText$ | async"
+            [responseHeaders]="responseHeaders$ | async"
+            [requestScriptLogs]="requestScriptLogs$ | async"
+            [isSubscribed]="isSubscribed$ | async"
+            [isRunning]="(layout$ | async)?.isLoading"
+            [subscriptionUrl]="subscriptionUrl"
+            [tabSize]="tabSize$ | async"
+            [autoscrollResponseList]="autoscrollResponseList$ | async"
+            [windowId]="windowId"
+            [activeWindowId]="activeWindowId$ | async"
+            [uiActions]="resultPaneUiActions$ | async"
+            [bottomPanels]="resultPaneBottomPanels$ | async"
+            (clearResultChange)="clearResult()"
+            (downloadResultChange)="downloadResult($event)"
+            (cancelRequestChange)="cancelRequest()"
+            (autoscrollResponseListChange)="toggleAutoscrollSubscriptionResponses()"
+            (uiActionExecuteChange)="onExecuteUiAction($event)"
+            (bottomPanelActiveToggle)="togglePanelActive($event)"
+          />
+        </as-split-area>
+        <as-split-area [visible]="showDocs$ | async">
+          <app-doc-viewer
+            [docView]="docView$ | async"
+            [gqlSchema]="gqlSchema"
+            [allowIntrospection]="allowIntrospection$ | async"
+            [ngClass]="{ 'hide-doc': (showDocs$ | async) !== true }"
+            [isLoading]="docsIsLoading$ | async"
+            [addQueryDepthLimit]="addQueryDepthLimit$ | async"
+            [hideDeprecatedDocItems]="hideDeprecatedDocItems$ | async"
+            [tabSize]="tabSize$ | async"
+            [lastUpdatedAt]="schemaLastUpdatedAt$ | async"
+            (setDocViewChange)="setDocView($event)"
+            (toggleDocsChange)="toggleDocs()"
+            (addQueryToEditorChange)="addQueryToEditor($event)"
+            (exportSDLChange)="exportSDL()"
+            (loadSchemaChange)="loadSchemaFromSDL()"
+          />
+        </as-split-area>
+      </as-split>
     </div>
   </div>
   <div class="dialogs">
@@ -126,7 +134,7 @@
             <div
               class="set-header-input-container"
               [ngClass]="{
-                'set-header-input-container--disabled': !header.enabled
+                'set-header-input-container--disabled': !header.enabled,
               }"
             >
               <label

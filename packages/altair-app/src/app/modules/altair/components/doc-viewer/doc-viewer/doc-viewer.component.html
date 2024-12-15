@@ -124,7 +124,10 @@
               }
             }
             @case ('field') {
-              @if (!(hideDeprecatedDocItems && getField(docView)?.isDeprecated) && docView.view === 'field') {
+              @if (
+                !(hideDeprecatedDocItems && getField(docView)?.isDeprecated) &&
+                docView.view === 'field'
+              ) {
                 <app-doc-viewer-field
                   [data]="getField(docView)"
                   [gqlSchema]="gqlSchema"
@@ -161,4 +164,3 @@
     {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
   </div>
 }
-<app-flex-resizer (resizeChange)="onResize($event)"></app-flex-resizer>
