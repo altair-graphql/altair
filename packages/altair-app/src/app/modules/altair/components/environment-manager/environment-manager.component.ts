@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import {
+  BaseEnvironmentState,
   EnvironmentsState,
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
@@ -43,7 +44,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
   selectedEnvironmentId = 'base';
-  selectedEnvironment?: EnvironmentState;
+  selectedEnvironment?: EnvironmentState | BaseEnvironmentState;
   editorContent = '{}';
   editorTitle = '';
 
@@ -117,8 +118,22 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
     if (this.selectedEnvironment) {
       this.editorContent = this.selectedEnvironment.variablesJson;
-      this.editorTitle = this.selectedEnvironment.title;
+      if ('title' in this.selectedEnvironment) {
+        this.editorTitle = this.selectedEnvironment.title;
+      }
     }
+  }
+
+  getExportedEnvironment(
+    environment?: BaseEnvironmentState | EnvironmentState
+  ): EnvironmentState | undefined {
+    if (!environment) {
+      return;
+    }
+    return {
+      title: 'Environment',
+      ...environment,
+    };
   }
 
   setFocusOnEnvironmentTitle() {

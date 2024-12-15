@@ -1,5 +1,10 @@
 import { IDictionary } from '../shared';
 
+export interface InitialBaseEnvironmentState {
+  id?: string;
+  title?: string;
+  variables?: IDictionary;
+}
 export interface InitialEnvironmentState {
   id?: string;
   title?: string;
@@ -8,10 +13,15 @@ export interface InitialEnvironmentState {
 
 export interface IInitialEnvironments {
   activeSubEnvironment?: string;
-  base?: InitialEnvironmentState;
+  base?: InitialBaseEnvironmentState;
   subEnvironments?: InitialEnvironmentState[];
 }
 
+export interface BaseEnvironmentState {
+  // Adding undefined for backward compatibility
+  id?: string;
+  variablesJson: string;
+}
 export interface EnvironmentState {
   // Adding undefined for backward compatibility
   id?: string;
@@ -24,13 +34,13 @@ export interface ExportEnvironmentState extends InitialEnvironmentState {
 }
 
 export interface EnvironmentsState {
-  base: EnvironmentState;
+  base: BaseEnvironmentState;
   subEnvironments: EnvironmentState[];
   // Adding undefined for backward compatibility
   activeSubEnvironment?: string;
 }
 
-export interface IEnvironment extends IDictionary<any> {
+export interface IEnvironment extends IDictionary {
   headers?: IDictionary<string>;
   accentColor?: string;
 }
