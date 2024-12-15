@@ -31,14 +31,16 @@ describe('SettingsDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [SettingsDialogComponent],
-    teardown: { destroyAfterEach: false },
-    imports: [NoopAnimationsModule,
+      declarations: [SettingsDialogComponent],
+      teardown: { destroyAfterEach: false },
+      imports: [
+        NoopAnimationsModule,
         FormsModule,
         SharedModule,
         TranslateModule.forRoot(),
-        SchemaFormModule],
-    providers: [
+        SchemaFormModule,
+      ],
+      providers: [
         MockProviders(NotifyService),
         KeybinderService,
         MockProviders(WindowService),
@@ -47,21 +49,21 @@ describe('SettingsDialogComponent', () => {
         StorageService,
         GqlService,
         {
-            provide: Store,
-            useValue: {
-                subscribe: () => { },
-                select: () => [],
-                map: () => observableEmpty(),
-                dispatch: () => { },
-            },
+          provide: Store,
+          useValue: {
+            subscribe: () => {},
+            select: () => [],
+            map: () => observableEmpty(),
+            dispatch: () => {},
+          },
         },
         {
-            provide: AltairConfig,
-            useValue: new AltairConfig(),
+          provide: AltairConfig,
+          useValue: new AltairConfig(),
         },
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
