@@ -8,7 +8,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store, createSelector, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
 
@@ -326,6 +326,28 @@ export class WindowComponent implements OnInit {
               new schemaActions.SetSchemaAction(this.windowId, schema)
             );
           }
+        }
+      });
+
+    // Reload the schema when the environment changes
+    this.store
+      .select(
+        createSelector(
+          fromRoot.getActiveSubEnvironmentState,
+          (state) => state.settings['schema.reload.onEnvChange'],
+          (activeEnvironment, reloadOnChange) => {
+            if (reloadOnChange) {
+              return activeEnvironment;
+            }
+
+            return null;
+          }
+        )
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe((dt) => {
+        if (dt !== null) {
+          this.reloadDocs();
         }
       });
 
