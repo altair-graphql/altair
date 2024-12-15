@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { PreRequestService } from './pre-request.service';
 import { CookieService } from 'ngx-cookie-service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { anyFn, mock, mockStoreFactory } from '../../../../../testing';
@@ -16,27 +16,27 @@ const mockNotifyService = mock({
 describe('PreRequestService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    teardown: { destroyAfterEach: false },
+    imports: [],
+    providers: [
         CookieService,
         PreRequestService,
         DbService,
         {
-          provide: NotifyService,
-          useFactory: () => mockNotifyService,
+            provide: NotifyService,
+            useFactory: () => mockNotifyService,
         },
         {
-          provide: Store,
-          useFactory: () =>
-            mockStoreFactory({
-              settings: {
-                'beta.disable.newScript': true,
-              },
+            provide: Store,
+            useFactory: () => mockStoreFactory({
+                settings: {
+                    'beta.disable.newScript': true,
+                },
             }),
         },
-      ],
-      teardown: { destroyAfterEach: false },
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
   );
 
   it('should be created', inject(

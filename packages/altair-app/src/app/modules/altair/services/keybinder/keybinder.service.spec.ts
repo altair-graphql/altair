@@ -8,14 +8,15 @@ import { DbService } from '../db.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
 import { NotifyService } from '../notify/notify.service';
 import { GqlService } from '../gql/gql.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MockProvider } from 'ng-mocks';
 
 describe('KeybinderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    teardown: { destroyAfterEach: false },
+    imports: [],
+    providers: [
         KeybinderService,
         MockProvider(WindowService),
         DbService,
@@ -23,17 +24,17 @@ describe('KeybinderService', () => {
         MockProvider(NotifyService),
         GqlService,
         {
-          provide: Store,
-          useValue: {
-            subscribe: () => {},
-            select: () => [],
-            map: () => observableEmpty(),
-            dispatch: () => {},
-          },
+            provide: Store,
+            useValue: {
+                subscribe: () => { },
+                select: () => [],
+                map: () => observableEmpty(),
+                dispatch: () => { },
+            },
         },
-      ],
-      teardown: { destroyAfterEach: false },
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
   });
 
   it('should be created', inject(
