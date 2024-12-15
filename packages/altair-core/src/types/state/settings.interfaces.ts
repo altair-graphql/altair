@@ -87,6 +87,11 @@ export interface SettingsState {
   'schema.reloadOnStart'?: boolean;
 
   /**
+   * Reload schema when switching environments
+   */
+  'schema.reload.onEnvChange'?: boolean;
+
+  /**
    * Disable update notification
    */
   'alert.disableUpdateNotification'?: boolean;
