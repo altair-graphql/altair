@@ -6,7 +6,13 @@ import {
 } from 'rxjs';
 
 import { map, catchError, switchMap, toArray } from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpResponse, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpHeaders,
+  HttpClient,
+  HttpResponse,
+  HttpParams,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import {

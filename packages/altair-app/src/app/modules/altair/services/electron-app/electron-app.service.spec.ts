@@ -12,34 +12,34 @@ import { mock } from '../../../../../testing';
 describe('ElectronAppService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    teardown: { destroyAfterEach: false },
-    imports: [],
-    providers: [
+      teardown: { destroyAfterEach: false },
+      imports: [],
+      providers: [
         ElectronAppService,
         MockProvider(WindowService),
         DbService,
         MockProvider(NotifyService),
         {
-            provide: StorageService,
-            useValue: mock<StorageService>({
-                changes() {
-                    return EMPTY as any;
-                },
-            }),
+          provide: StorageService,
+          useValue: mock<StorageService>({
+            changes() {
+              return EMPTY as any;
+            },
+          }),
         },
         GqlService,
         {
-            provide: Store,
-            useValue: {
-                subscribe: () => { },
-                select: () => [],
-                map: () => EMPTY,
-                dispatch: () => { },
-            },
+          provide: Store,
+          useValue: {
+            subscribe: () => {},
+            select: () => [],
+            map: () => EMPTY,
+            dispatch: () => {},
+          },
         },
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-});
+      ],
+    });
   });
 
   it('should be created', inject(

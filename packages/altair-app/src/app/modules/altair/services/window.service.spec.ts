@@ -18,9 +18,9 @@ import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.
 describe('WindowService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    teardown: { destroyAfterEach: false },
-    imports: [],
-    providers: [
+      teardown: { destroyAfterEach: false },
+      imports: [],
+      providers: [
         WindowService,
         GqlService,
         MockProvider(QueryCollectionService),
@@ -29,8 +29,8 @@ describe('WindowService', () => {
         services.DbService,
         provideStore(getReducer(), {}),
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-});
+      ],
+    });
   });
 
   it('should ...', inject([WindowService], (service: WindowService) => {
