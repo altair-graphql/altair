@@ -10,9 +10,10 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  HttpClientModule,
   HttpClient,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -118,16 +119,19 @@ const providers = [
     multi: true,
     useFactory: reducerBootstrapFactory,
   },
+  provideHttpClient(withInterceptorsFromDi()),
 ];
 
 @NgModule({
   declarations: [AltairComponent, WindowComponent],
+  bootstrap: [AltairComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [AltairComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     SharedModule.forRoot(),
     ComponentModule,
     DocViewerModule,
@@ -173,10 +177,7 @@ const providers = [
       resetTimeoutOnDuplicate: true,
     }),
   ],
-  providers: providers,
-  bootstrap: [AltairComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [AltairComponent],
+  providers,
 })
 export class AltairModule {
   constructor(

@@ -7,7 +7,7 @@ import { Store, provideStore } from '@ngrx/store';
 import * as services from '../services';
 import { WindowService } from './window.service';
 import { GqlService } from './gql/gql.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotifyService } from './notify/notify.service';
 import { MockProvider } from 'ng-mocks';
 import { QueryCollectionService } from './query-collection/query-collection.service';
@@ -18,8 +18,9 @@ import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.
 describe('WindowService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    teardown: { destroyAfterEach: false },
+    imports: [],
+    providers: [
         WindowService,
         GqlService,
         MockProvider(QueryCollectionService),
@@ -27,10 +28,9 @@ describe('WindowService', () => {
         MockProvider(services.ElectronAppService),
         services.DbService,
         provideStore(getReducer(), {}),
-        // provideMockStore<RootState>({}),
-      ],
-      teardown: { destroyAfterEach: false },
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
   });
 
   it('should ...', inject([WindowService], (service: WindowService) => {

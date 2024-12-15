@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PluginManagerComponent } from './plugin-manager.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { PluginRegistryService } from '../../services';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { of } from 'rxjs';
 
 let mockPluginRegistryService: PluginRegistryService;
@@ -18,16 +18,17 @@ describe('PluginManagerComponent', () => {
         getRemotePluginList: () => of({}),
       } as PluginRegistryService;
       TestBed.configureTestingModule({
-        providers: [
-          {
+    declarations: [PluginManagerComponent],
+    teardown: { destroyAfterEach: false },
+    imports: [SharedModule],
+    providers: [
+        {
             provide: PluginRegistryService,
             useFactory: () => mockPluginRegistryService,
-          },
-        ],
-        imports: [HttpClientModule, SharedModule],
-        declarations: [PluginManagerComponent],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+}).compileComponents();
     })
   );
 

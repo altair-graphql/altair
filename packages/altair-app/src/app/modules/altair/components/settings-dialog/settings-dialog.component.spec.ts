@@ -21,7 +21,7 @@ import {
 } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { SchemaFormModule } from '../schema-form/schema-form.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { MockProviders } from 'ng-mocks';
 
@@ -31,16 +31,14 @@ describe('SettingsDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SettingsDialogComponent],
-      imports: [
-        HttpClientModule,
-        NoopAnimationsModule,
+    declarations: [SettingsDialogComponent],
+    teardown: { destroyAfterEach: false },
+    imports: [NoopAnimationsModule,
         FormsModule,
         SharedModule,
         TranslateModule.forRoot(),
-        SchemaFormModule,
-      ],
-      providers: [
+        SchemaFormModule],
+    providers: [
         MockProviders(NotifyService),
         KeybinderService,
         MockProviders(WindowService),
@@ -49,21 +47,21 @@ describe('SettingsDialogComponent', () => {
         StorageService,
         GqlService,
         {
-          provide: Store,
-          useValue: {
-            subscribe: () => {},
-            select: () => [],
-            map: () => observableEmpty(),
-            dispatch: () => {},
-          },
+            provide: Store,
+            useValue: {
+                subscribe: () => { },
+                select: () => [],
+                map: () => observableEmpty(),
+                dispatch: () => { },
+            },
         },
         {
-          provide: AltairConfig,
-          useValue: new AltairConfig(),
+            provide: AltairConfig,
+            useValue: new AltairConfig(),
         },
-      ],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {
