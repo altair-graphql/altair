@@ -43,6 +43,12 @@ describe('WindowComponent', () => {
         activeCollection: undefined,
         list: [],
       },
+      environments: {
+        base: {
+          variablesJson: '{}',
+        },
+        subEnvironments: [],
+      },
     });
     const providers = [
       {

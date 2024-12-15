@@ -28,7 +28,7 @@
                 (click)="selectEnvironment('base')"
                 [ngClass]="{
                   'environment-manager__list-item--selected':
-                    selectedEnvironmentId === 'base'
+                    selectedEnvironmentId === 'base',
                 }"
               >
                 {{ 'BASE_ENVIRONMENT_TEXT' | translate }}
@@ -56,7 +56,7 @@
                       (dblclick)="setFocusOnEnvironmentTitle()"
                       [ngClass]="{
                         'environment-manager__list-item--selected':
-                          selectedEnvironmentId === item.id
+                          selectedEnvironmentId === item.id,
                       }"
                     >
                       <app-icon name="more-vertical"></app-icon>
@@ -101,7 +101,11 @@
                 <div class="environment-manager__editor-meta-actions">
                   <button
                     class="btn btn--small"
-                    (click)="exportEnvironmentChange.emit(selectedEnvironment)"
+                    (click)="
+                      exportEnvironmentChange.emit(
+                        getExportedEnvironment(selectedEnvironment)
+                      )
+                    "
                   >
                     <app-icon name="file-down"></app-icon>
                     {{ 'EXPORT_TEXT' | translate }}

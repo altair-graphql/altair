@@ -2,11 +2,23 @@ import { v4 as uuid } from 'uuid';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
   EnvironmentsState,
+  BaseEnvironmentState,
   EnvironmentState,
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import * as environmentsAction from './environments.action';
 import { AllActions } from '../action';
 
+export const getInitialBaseEnvironmentState = (): BaseEnvironmentState => {
+  const {
+    initialData: { environments },
+  } = getAltairConfig();
+
+  return {
+    variablesJson: JSON.stringify(
+      (environments.base && environments.base.variables) || {}
+    ),
+  };
+};
 export const getInitialEnvironmentState = (): EnvironmentState => {
   const {
     initialData: { environments },
@@ -39,11 +51,11 @@ const getInitialActiveSubEnvironment = (): string | undefined => {
     initialData: { environments },
   } = getAltairConfig();
   return environments.activeSubEnvironment;
-}
+};
 
 export const getInitialState = (): EnvironmentsState => {
   return {
-    base: getInitialEnvironmentState(),
+    base: getInitialBaseEnvironmentState(),
     subEnvironments: getInitialSubEnvironmentState(),
     activeSubEnvironment: getInitialActiveSubEnvironment(),
   };
@@ -65,11 +77,7 @@ export function environmentsReducer(
             title:
               action.payload.title ??
               `Environment ${state.subEnvironments.length + 1}`,
-            variablesJson: JSON.stringify(
-              action.payload.variables ?? {},
-              null,
-              2
-            ),
+            variablesJson: JSON.stringify(action.payload.variables ?? {}, null, 2),
           },
         ],
       };
