@@ -37,6 +37,7 @@ exports[`AccountDialogComponent should create 1`] = `
               <app-icon
                 name="info"
               >
+                
                 <i-lucide
                   class="app-icon"
                 >
@@ -68,7 +69,6 @@ exports[`AccountDialogComponent should create 1`] = `
                     />
                   </svg>
                 </i-lucide>
-                
                 
               </app-icon>
             </a>
