@@ -48,7 +48,7 @@ export const getInitialState = (): QueryState => {
     subscriptionConnectionParams: initialData.initialSubscriptionsPayload
       ? JSON.stringify(initialData.initialSubscriptionsPayload)
       : '{}',
-    subscriptionProviderId:
+    subscriptionRequestHandlerId:
       initialData.initialSubscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID,
     isSubscribed: false,
     autoscrollResponseList: false,

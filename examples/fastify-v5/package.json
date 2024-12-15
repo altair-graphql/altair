@@ -14,5 +14,6 @@
   "scripts": {
     "start": "ts-node index.ts"
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@1.22.17"
 }
