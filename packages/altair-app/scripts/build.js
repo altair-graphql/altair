@@ -56,7 +56,7 @@ const copySandbox = () => {
   });
 };
 
-const main = async () => {
+const main = () => {
   execSync('pnpm ng:build', {
     cwd: path.resolve(__dirname, '../'),
     stdio: 'inherit',
