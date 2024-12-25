@@ -25,6 +25,7 @@
     "prisma:push": "prisma db push",
     "prisma:seed": "prisma db seed",
     "prisma:studio": "prisma studio",
+    "prod:prestart": "prisma migrate deploy && prisma db seed",
     "postinstall": "pnpm prisma:generate"
   }
 }

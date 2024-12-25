@@ -87,6 +87,7 @@
     "start:debug": "nest start --debug --watch -e 'node -r newrelic'",
     "start:dev": "rimraf dist && nest start --watch",
     "start:prod": "node dist/main",
+    "start:prod:in-docker": "pnpm --dir ./node_modules/@altairgraphql/db prod:prestart && node dist/main",
     "migrate:e2e": "dotenv -e .env.e2e -- pnpm dlx prisma migrate deploy --schema ../altair-db/prisma/schema.prisma",
     "test": "jest",
     "test:cov": "jest --coverage",

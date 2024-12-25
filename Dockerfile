@@ -95,4 +95,4 @@ ENV NEW_RELIC_LOG=stdout
 EXPOSE 3000
 
 # Run the application.
-CMD ["pnpm", "run", "start:api:prod"]
+CMD ["pnpm", "run", "start:prod:in-docker"]
