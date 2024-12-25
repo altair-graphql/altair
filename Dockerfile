@@ -44,7 +44,7 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run -r build
+RUN pnpm turbo run build --filter=@altairgraphql/api...
 # RUN pnpm deploy --filter=app1 --prod /prod/app1
 RUN pnpm deploy --filter=@altairgraphql/api /api-app
 # FROM deps AS build
