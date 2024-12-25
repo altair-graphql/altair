@@ -14,7 +14,7 @@
   "license": "MIT",
   "main": "build/index.js",
   "prisma": {
-    "seed": "ts-node src/seed.ts"
+    "seed": "node build/seed.js"
   },
   "private": true,
   "scripts": {
