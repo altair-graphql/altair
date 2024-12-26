@@ -92,7 +92,9 @@ ENV NEW_RELIC_LOG=stdout
 
 
 # Expose the port that the application listens on.
-EXPOSE 3000
+# EXPOSE 3000
+ARG PORT=3000
+ENV PORT=${PORT}
 
 # Run the application.
 CMD ["pnpm", "run", "start:prod:in-docker"]
