@@ -26,6 +26,7 @@ mac:
   hardenedRuntime: true
   entitlements: resources/entitlements.mac.plist
   entitlementsInherit: resources/entitlements.mac.plist
+  strictVerify: false
   # gatekeeperAssess: false
 dmg:
   icon: resources/icon.png
