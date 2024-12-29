@@ -15,7 +15,7 @@ on:
     inputs:
       node_version:
         description: 'Node.js version to use'
-        required: true
+        default: '22'
         type: string
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
           node-version: ${{ inputs.node_version }}
           cache: 'pnpm'
       - name: Authenticate with Registry
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+        run: echo -e "\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: pnpm i --frozen-lockfile
