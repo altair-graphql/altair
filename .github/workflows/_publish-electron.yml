@@ -5,7 +5,7 @@ on:
     inputs:
       node_version:
         description: 'Node.js version to use'
-        required: true
+        default: '22'
         type: string
       build:
         description: 'Whether to build'
@@ -31,7 +31,7 @@ on:
     inputs:
       node_version:
         description: 'Node.js version to use'
-        required: true
+        default: '22'
         type: string
       build:
         description: 'Whether to build'

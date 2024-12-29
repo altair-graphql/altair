@@ -5,13 +5,13 @@ on:
     inputs:
       node_version:
         description: 'Node.js version to use'
-        required: true
+        default: '22'
         type: string
   workflow_dispatch:
     inputs:
       node_version:
         description: 'Node.js version to use'
-        required: true
+        default: '22'
         type: string
 
 jobs:
