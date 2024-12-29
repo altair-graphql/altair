@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/emails",
-  "version": "8.0.5",
+  "version": "8.1.0",
   "main": "dist/index.js",
   "license": "MIT",
   "dependencies": {
