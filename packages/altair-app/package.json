@@ -185,7 +185,7 @@
   "scripts": {
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "analyze:prod": "ng build --aot --stats-json && npx webpack-bundle-analyzer dist/stats.json",
-    "ng:build": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --aot --stats-json --output-hashing=none",
+    "ng:build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pnpm ng build --aot --stats-json --output-hashing=none",
     "build": "node scripts/build.js",
     "lint": "ng lint",
     "new:component": "ng g component modules/altair/components/",
