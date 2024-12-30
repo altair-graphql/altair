@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/node": "^22.7.4",
     "ts-node": "^10.0.0",
-    "typescript": "5.2.2"
+    "typescript": "catalog:"
   },
   "license": "MIT",
   "main": "build/index.js",

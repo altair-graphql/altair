@@ -10,7 +10,7 @@
   "devDependencies": {
     "@types/node": "^14.14.41",
     "ts-node": "^8.5.4",
-    "typescript": "5.2.2"
+    "typescript": "catalog:"
   },
   "engines": {
     "node": ">= 12"

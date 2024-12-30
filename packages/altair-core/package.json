@@ -55,7 +55,7 @@
     "shx": "^0.3.4",
     "ts-jest": "^29.1.2",
     "ts-node": "9.1.1",
-    "typescript": "5.2.2",
+    "typescript": "catalog:",
     "typescript-json-schema": "0.50.1",
     "undici": "^6.19.1"
   },
