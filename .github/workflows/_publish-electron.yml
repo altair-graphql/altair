@@ -70,6 +70,12 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         with:
           xcode-version: latest-stable
+      - run: pnpm i --frozen-lockfile
+      - uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 3
+          command: pnpm build:ci
       # Update .npmrc file to support electron builder
       # https://www.electron.build/#note-for-pnpm
       # - run: echo -e "\nnode-linker = hoisted" >> .npmrc
@@ -81,12 +87,8 @@ jobs:
           reset: false
           entries: |- # Entries to add
             node-linker = hoisted
+      # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
-      - uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 20
-          max_attempts: 3
-          command: pnpm build:ci
       # Create deploy ready source files for electron
       - run: pnpm deploy --filter=altair out/elx-files
       - name: Install Snapcraft
