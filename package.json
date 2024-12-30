@@ -1,5 +1,5 @@
 {
-  "name": "altair-repo",
+  "name": "@altairgraphql/root",
   "description": "The best graphQL client you will ever need",
   "version": "8.1.1",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
