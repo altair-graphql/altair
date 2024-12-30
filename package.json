@@ -38,7 +38,7 @@
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^4.0.3",
     "typedoc-vitepress-theme": "^1.0.0",
-    "typescript": "5.2.2",
+    "typescript": "catalog:",
     "web-ext": "^6.5.0",
     "wrangler": "^2.0.27"
   },

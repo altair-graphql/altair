@@ -21,7 +21,7 @@
     "supertest": "^7.0.0",
     "ts-jest": "29.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "5.2.2"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@koa/router": ">= 11"

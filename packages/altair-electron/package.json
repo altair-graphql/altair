@@ -57,7 +57,7 @@
     "playwright": "^1.18.1",
     "spectron": "^15.0.0",
     "ts-jest": "29.0.5",
-    "typescript": "5.2.2",
+    "typescript": "catalog:",
     "webdriverio": "^8.18.2"
   },
   "funding": {

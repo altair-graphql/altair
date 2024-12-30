@@ -170,7 +170,7 @@
     "ts-jest": "29.0.5",
     "ts-mocks": "2.6.1",
     "ts-node": "9.1.1",
-    "typescript": "5.5.4"
+    "typescript": "catalog:"
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",
