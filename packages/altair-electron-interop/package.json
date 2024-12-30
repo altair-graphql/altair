@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
-    "electron": "^33.2.1",
+    "electron": "catalog:",
     "typescript": "catalog:"
   },
   "license": "MIT",
