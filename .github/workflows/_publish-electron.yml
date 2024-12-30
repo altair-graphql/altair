@@ -72,9 +72,9 @@ jobs:
           xcode-version: latest-stable
       # Update .npmrc file to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - run: echo -e "\nnode-linker = hoisted" >> .npmrc
-        # TODO: Include windows too, testing for now
-        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+      # - run: echo -e "\nnode-linker = hoisted" >> .npmrc
+      #   # TODO: Include windows too, testing for now
+      #   if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
       - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
