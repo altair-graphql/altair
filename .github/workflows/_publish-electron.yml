@@ -70,12 +70,17 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         with:
           xcode-version: latest-stable
+      # Update .npmrc file to support electron builder
+      # https://www.electron.build/#note-for-pnpm
+      - run: echo -e "\nnode-linker = hoisted" >> .npmrc
       - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
           timeout_minutes: 20
           max_attempts: 3
           command: pnpm build:ci
+      # Create deploy ready source files for electron
+      - run: pnpm deploy --filter=altair out/elx-files
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
         if: startsWith(matrix.os, 'ubuntu')
@@ -95,7 +100,7 @@ jobs:
         uses: paneron/action-electron-builder@v1.8.1
         with:
           github_token: ${{ secrets.github_token }}
-          package_root: packages/altair-electron/
+          package_root: out/elx-files/
           skip_build: true
           skip_package_manager_install: true
           mac_certs: ${{ secrets.mac_certs }}
@@ -162,7 +167,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ inputs.publish && 'production' || '' }}
-          sourcemaps: packages/altair-electron/dist/
+          sourcemaps: out/elx-files/dist/
           version: ${{ inputs.publish && steps.getversion.outputs.version || '' }}
           url_prefix: 'app:///dist'
 
@@ -171,4 +176,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: electron-builds-${{ matrix.os }}
-          path: packages/altair-electron/out/**
+          path: out/elx-files/out/**

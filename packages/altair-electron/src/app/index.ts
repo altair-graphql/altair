@@ -65,7 +65,7 @@ export class ElectronApp {
         /**
          * @type Electron.Config
          */
-        const proxyConfig: Electron.Config = {
+        const proxyConfig: Electron.ProxyConfig = {
           mode: 'direct',
         };
 
