@@ -1,10 +1,11 @@
-import { createSchema, createYoga } from "graphql-yoga";
-import express, { Request, RequestHandler } from "express";
-import { createServer } from "http";
-import { resolvers, typeDefs } from "./schema";
-import { useDeferStream } from "@graphql-yoga/plugin-defer-stream";
-import { useServer } from "graphql-ws/lib/use/ws";
-import { WebSocketServer } from "ws";
+import { createSchema, createYoga } from 'graphql-yoga';
+import express from 'express';
+import { createServer } from 'http';
+import { resolvers, typeDefs } from './schema';
+import { useDeferStream } from '@graphql-yoga/plugin-defer-stream';
+import { useGraphQLSSE } from '@graphql-yoga/plugin-graphql-sse';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import { WebSocketServer } from 'ws';
 
 export const yogaMain = async () => {
   const schema = createSchema({
@@ -15,9 +16,9 @@ export const yogaMain = async () => {
   const yoga = createYoga({
     schema,
     batching: true,
-    logging: "debug",
+    logging: 'debug',
     multipart: true,
-    plugins: [useDeferStream()],
+    plugins: [useDeferStream(), useGraphQLSSE()],
   });
 
   const app = express();
@@ -25,7 +26,7 @@ export const yogaMain = async () => {
   app.use(async (req, res, next) => {
     console.log(req.headers);
     console.log(req.cookies);
-    res.set("x-auth", "text/plain");
+    res.set('x-auth', 'text/plain');
     // await delay(5000);
     return next();
   });
@@ -73,6 +74,6 @@ export const yogaMain = async () => {
   );
 
   server.listen(5400, () => {
-    console.log("Server is running on http://localhost:5400");
+    console.log('Server is running on http://localhost:5400');
   });
 };
