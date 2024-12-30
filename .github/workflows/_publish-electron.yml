@@ -75,6 +75,12 @@ jobs:
       # - run: echo -e "\nnode-linker = hoisted" >> .npmrc
       #   # TODO: Include windows too, testing for now
       #   if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+      - uses: nodef/npm-config.action@v1.0.0
+        with:
+          path: .npmrc # Path to the .npmrc file
+          reset: false
+          entries: |- # Entries to add
+            node-linker = hoisted
       - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
