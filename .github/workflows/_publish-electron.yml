@@ -142,7 +142,8 @@ jobs:
       # chocolatey
       - name: Read VERSION file
         id: getversion
-        run: echo "::set-output name=version::$(cat VERSION)"
+        run: |
+          echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
       - name: Add mask
         run: |
           echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
