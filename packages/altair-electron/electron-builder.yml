@@ -1,6 +1,6 @@
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
-electronVersion: 26.2.2
+electronVersion: 33.2.1
 directories:
   buildResources: resources
   output: out
@@ -24,6 +24,7 @@ mac:
         - arm64
   icon: resources/mac_icon.icns
   hardenedRuntime: true
+  darkModeSupport: true
   entitlements: resources/entitlements.mac.plist
   entitlementsInherit: resources/entitlements.mac.plist
   strictVerify: false
@@ -33,10 +34,16 @@ dmg:
 linux:
   artifactName: ${name}_${version}_${arch}_linux.${ext}
   icon: resources/icons
+  category: Development
+  maintainer: info@altairgraphql.dev
   target:
-    - AppImage
+    - target: AppImage
+      arch:
+        - x64
+        - arm64
     - deb
     - snap
+    - flatpak
 appImage:
   category: Development
 snap:
@@ -50,6 +57,10 @@ snap:
       bind: $SNAP/usr/share/libdrm
 win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
+flatpak:
+  artifactName: ${name}_${version}_${arch}_flatpak.${ext}
+  runtimeVersion: '24.08'
+  baseVersion: '24.08'
 electronCompile: false
 protocols:
   name: Altair GraphQL Client

@@ -99,6 +99,9 @@ jobs:
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+      - name: Install flatpak and flatpak-builder
+        run: sudo apt-get install -y flatpak flatpak-builder
+        if: startsWith(matrix.os, 'ubuntu')
       - name:
           Build/release Electron app
           # disable for macos not in master branch, because code signing is skipped in pull requests
