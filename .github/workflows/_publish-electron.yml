@@ -107,7 +107,7 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
       - name: Install flathub repo
         run: |
-          sudo flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak update --appstream
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak update --appstream
           sudo flatpak install org.freedesktop.Sdk/x86_64/23.08 -y
           sudo flatpak install org.freedesktop.Platform/x86_64/23.08 -y
           sudo flatpak install org.electronjs.Electron2.BaseApp/x86_64/23.08 -y
