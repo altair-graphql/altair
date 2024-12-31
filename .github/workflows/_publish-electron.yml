@@ -88,20 +88,28 @@ jobs:
       - run: pnpm i --frozen-lockfile
       # Create deploy ready source files for electron
       - run: pnpm deploy --filter=altair out/elx-files
+
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
         if: startsWith(matrix.os, 'ubuntu')
         env:
           SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_TOKEN }}
+
       - name: Prepare for app notarization
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.apple_api_key }}' > ~/private_keys/AuthKey_${{ secrets.apple_api_key_id }}.p8
+
       - name: Install flatpak and flatpak-builder
         run: sudo apt-get install -y flatpak flatpak-builder
         if: startsWith(matrix.os, 'ubuntu')
+      - name: Install flathub repo
+        run: |
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak update --appstream
+        if: matrix.os == 'ubuntu-latest'
+
       - name:
           Build/release Electron app
           # disable for macos not in master branch, because code signing is skipped in pull requests
