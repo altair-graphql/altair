@@ -59,8 +59,6 @@ win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
 flatpak:
   artifactName: ${name}_${version}_${arch}_flatpak.${ext}
-  runtimeVersion: '24.08'
-  baseVersion: '24.08'
 electronCompile: false
 protocols:
   name: Altair GraphQL Client
