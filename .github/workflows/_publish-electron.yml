@@ -106,6 +106,8 @@ jobs:
         run: sudo apt-get install -y flatpak flatpak-builder elfutils
         if: startsWith(matrix.os, 'ubuntu')
       - name: Install flathub repo
+        # Need to install flatpak dependencies manually
+        # https://github.com/electron/forge/issues/2662#issuecomment-1003900006
         run: |
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak update --appstream
           sudo flatpak install org.freedesktop.Sdk/x86_64/23.08 -y
@@ -142,6 +144,10 @@ jobs:
       # chocolatey
       - name: Read VERSION file
         id: getversion
+        run: |
+          echo "::set-output name=version::$(cat VERSION)"
+      - name: Read VERSION file
+        id: getversionv2
         run: |
           echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
       - name: Add mask
