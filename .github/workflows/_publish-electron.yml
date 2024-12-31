@@ -126,6 +126,7 @@ jobs:
           APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+          DEBUG: '@malept/flatpak-bundler'
 
       # chocolatey
       - name: Read VERSION file
