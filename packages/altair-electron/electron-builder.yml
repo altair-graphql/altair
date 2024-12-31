@@ -61,6 +61,7 @@ flatpak:
   artifactName: ${name}_${version}_${arch}_flatpak.${ext}
   runtime: org.freedesktop.Platform
   runtimeVersion: '23.08'
+  baseVersion: '23.08'
 electronCompile: false
 protocols:
   name: Altair GraphQL Client
