@@ -138,13 +138,14 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
       if (tr.isUserEvent('input.paste')) {
         // For paste events, replace newlines with spaces
-        const changes = [
+        const changes: ChangeSpec = [
           {
             from: 0,
-            insert: tr.newDoc.toString().replace(/\n/g, ' '),
+            to: tr.newDoc.length,
+            insert: tr.newDoc.sliceString(0, undefined, ' '),
           },
         ];
-        return [{ changes }];
+        return [tr, { changes, sequential: true }];
       }
 
       // Block multi-line input from other sources
@@ -382,6 +383,6 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     return ranges;
   }
 
-  private onTouchedCallback: (_: unknown) => void = () => {};
-  private onChangeCallback: (_: unknown) => void = () => {};
+  private onTouchedCallback: (_: unknown) => void = () => undefined;
+  private onChangeCallback: (_: unknown) => void = () => undefined;
 }

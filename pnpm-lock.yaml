@@ -416,32 +416,32 @@ importers:
         specifier: 3.5.6
         version: 3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
       '@codemirror/autocomplete':
-        specifier: 6.2.0
-        version: 6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)
+        specifier: ^6.18.4
+        version: 6.18.4
       '@codemirror/commands':
-        specifier: 6.3.3
-        version: 6.3.3
+        specifier: ^6.7.1
+        version: 6.7.1
       '@codemirror/lang-javascript':
-        specifier: 6.1.0
-        version: 6.1.0
+        specifier: ^6.2.2
+        version: 6.2.2
       '@codemirror/lang-json':
-        specifier: 6.0.1
+        specifier: ^6.0.1
         version: 6.0.1
       '@codemirror/language':
-        specifier: 6.5.0
-        version: 6.5.0
+        specifier: ^6.10.8
+        version: 6.10.8
       '@codemirror/lint':
-        specifier: 6.5.0
-        version: 6.5.0
+        specifier: ^6.8.4
+        version: 6.8.4
       '@codemirror/search':
-        specifier: 6.5.0
-        version: 6.5.0
+        specifier: ^6.5.8
+        version: 6.5.8
       '@codemirror/state':
-        specifier: ^6.4.1
-        version: 6.4.1
+        specifier: ^6.5.0
+        version: 6.5.0
       '@codemirror/view':
-        specifier: 6.18.0
-        version: 6.18.0
+        specifier: ^6.36.1
+        version: 6.36.1
       '@emotion/css':
         specifier: ^11.11.2
         version: 11.11.2
@@ -528,13 +528,13 @@ importers:
         version: 3.0.3(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))(graphql@15.5.1)
       cm6-graphql:
         specifier: 0.0.14
-        version: 0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1)
+        version: 0.0.14(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(@lezer/highlight@1.0.0)(graphql@15.5.1)
       codemirror-graphql:
         specifier: 1.0.2
         version: 1.0.2(@swc/core@1.6.13(@swc/helpers@0.5.5))(@types/node@12.20.55)(bufferutil@4.0.6)(codemirror@5.65.18)(encoding@0.1.13)(graphql@15.5.1)(typescript@5.5.4)(utf-8-validate@5.0.9)
       codemirror-json-schema:
         specifier: ^0.6.0
-        version: 0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13)
+        version: 0.6.1(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(@lezer/common@1.2.1)(encoding@0.1.13)
       comlink:
         specifier: 4.3.0
         version: 4.3.0
@@ -2860,37 +2860,32 @@ packages:
   '@cloudflare/kv-asset-handler@0.2.0':
     resolution: {integrity: sha512-MVbXLbTcAotOPUj0pAMhVtJ+3/kFkwJqc5qNOleOZTv6QkZZABDMS21dSrSlVswEHwrpWC03e4fWytjqKvuE2A==}
 
-  '@codemirror/autocomplete@6.2.0':
-    resolution: {integrity: sha512-yNCm2CEE4kE4L2Sf7WeyCej1Q3951ccaCWfomrlBkoERKCss+TzuEeqGe5VnAJTEybLy1yzf1BdMUY/988bfpg==}
-    peerDependencies:
-      '@codemirror/language': ^6.0.0
-      '@codemirror/state': ^6.0.0
-      '@codemirror/view': ^6.0.0
-      '@lezer/common': ^1.0.0
+  '@codemirror/autocomplete@6.18.4':
+    resolution: {integrity: sha512-sFAphGQIqyQZfP2ZBsSHV7xQvo9Py0rV0dW7W3IMRdS+zDuNb2l3no78CvUaWKGfzFjI4FTrLdUSj86IGb2hRA==}
 
-  '@codemirror/commands@6.3.3':
-    resolution: {integrity: sha512-dO4hcF0fGT9tu1Pj1D2PvGvxjeGkbC6RGcZw6Qs74TH+Ed1gw98jmUgd2axWvIZEqTeTuFrg1lEB1KV6cK9h1A==}
+  '@codemirror/commands@6.7.1':
+    resolution: {integrity: sha512-llTrboQYw5H4THfhN4U3qCnSZ1SOJ60ohhz+SzU0ADGtwlc533DtklQP0vSFaQuCPDn3BPpOd1GbbnUtwNjsrw==}
 
-  '@codemirror/lang-javascript@6.1.0':
-    resolution: {integrity: sha512-wAWEY1Wdis2cKDy9A5q/rUmzLHFbZgoupJBcGaeMMsDPi68Rm90NsmzAEODE5kW8mYdRKFhQ157WJghOZ3yYdg==}
+  '@codemirror/lang-javascript@6.2.2':
+    resolution: {integrity: sha512-VGQfY+FCc285AhWuwjYxQyUQcYurWlxdKYT4bqwr3Twnd5wP5WSeu52t4tvvuWmljT4EmgEgZCqSieokhtY8hg==}
 
   '@codemirror/lang-json@6.0.1':
     resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
 
-  '@codemirror/language@6.5.0':
-    resolution: {integrity: sha512-dI+dV/u2klIt0Y9kE3TH9vuBidAB3xuuDPofwzvnW8ZKqJnKTbT3EjyV7DeKcmrRgXMhlPTL7AdH1V5KOCYuHQ==}
+  '@codemirror/language@6.10.8':
+    resolution: {integrity: sha512-wcP8XPPhDH2vTqf181U8MbZnW+tDyPYy0UzVOa+oHORjyT+mhhom9vBd7dApJwoDz9Nb/a8kHjJIsuA/t8vNFw==}
 
-  '@codemirror/lint@6.5.0':
-    resolution: {integrity: sha512-+5YyicIaaAZKU8K43IQi8TBy6mF6giGeWAH7N96Z5LC30Wm5JMjqxOYIE9mxwMG1NbhT2mA3l9hA4uuKUM3E5g==}
+  '@codemirror/lint@6.8.4':
+    resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
 
-  '@codemirror/search@6.5.0':
-    resolution: {integrity: sha512-64/M40YeJPToKvGO6p3fijo2vwUEj4nACEAXElCaYQ50HrXSvRaK+NHEhSh73WFBGdvIdhrV+lL9PdJy2RfCYA==}
+  '@codemirror/search@6.5.8':
+    resolution: {integrity: sha512-PoWtZvo7c1XFeZWmmyaOp2G0XVbOnm+fJzvghqGAktBW3cufwJUWvSCcNG0ppXiBEM05mZu6RhMtXPv2hpllig==}
 
-  '@codemirror/state@6.4.1':
-    resolution: {integrity: sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==}
+  '@codemirror/state@6.5.0':
+    resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
 
-  '@codemirror/view@6.18.0':
-    resolution: {integrity: sha512-T6q1yYAoU+gSWfJFR4ryvDQcyOqS+Mw5RCvh26y0KiNksOOLYhNvdB3BTyLz8vy4fKaYlzbAOyBU7OQPUGHzjQ==}
+  '@codemirror/view@6.36.1':
+    resolution: {integrity: sha512-miD1nyT4m4uopZaDdO2uXU/LLHliKNYL9kB1C1wJHrunHLm/rpkb5QVSokqgw9hFqEZakrdlb/VGWX8aYZTslQ==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -4453,9 +4448,6 @@ packages:
   '@lezer/lr@1.2.0':
     resolution: {integrity: sha512-TgEpfm9br2SX8JwtwKT8HsQZKuFkLRg6g+IRxObk9nVKQLKnkP3oMh+QGcTBL9GQsfQ2ADtKPbj2iGSMf3ytiA==}
 
-  '@lezer/lr@1.2.1':
-    resolution: {integrity: sha512-RpHRs+Q+5tPsXtobSfSeRFRAnTRD0e4bApDvo74O+JiaWq9812x5S8WgftNX67owdaTQXCB5E8XZGALo4Wt77A==}
-
   '@listr2/prompt-adapter-inquirer@2.0.15':
     resolution: {integrity: sha512-MZrGem/Ujjd4cPTLYDfCZK2iKKeiO/8OX13S6jqxldLs0Prf2aGqVlJ77nMBqMv7fzqgXEgjrNHLXcKR8l9lOg==}
     engines: {node: '>=18.0.0'}
@@ -4521,6 +4513,9 @@ packages:
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
+
+  '@marijn/find-cluster-break@1.0.2':
+    resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
 
   '@mdn/browser-compat-data@4.1.12':
     resolution: {integrity: sha512-y3Ntio6hb5+m6asxcA3nnIN6URjAFMji2EZZVYGd2Ag5On4mmvPhMnXdiIScCMXgHjFX+5qXuKaojLLhJHZPAg==}
@@ -20856,61 +20851,63 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
-  '@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)':
+  '@codemirror/autocomplete@6.18.4':
     dependencies:
-      '@codemirror/language': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
 
-  '@codemirror/commands@6.3.3':
+  '@codemirror/commands@6.7.1':
     dependencies:
-      '@codemirror/language': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
 
-  '@codemirror/lang-javascript@6.1.0':
+  '@codemirror/lang-javascript@6.2.2':
     dependencies:
-      '@codemirror/autocomplete': 6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)
-      '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
       '@lezer/javascript': 1.0.2
 
   '@codemirror/lang-json@6.0.1':
     dependencies:
-      '@codemirror/language': 6.5.0
+      '@codemirror/language': 6.10.8
       '@lezer/json': 1.0.0
 
-  '@codemirror/language@6.5.0':
+  '@codemirror/language@6.10.8':
     dependencies:
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.0.0
-      '@lezer/lr': 1.2.1
+      '@lezer/lr': 1.2.0
       style-mod: 4.1.2
 
-  '@codemirror/lint@6.5.0':
+  '@codemirror/lint@6.8.4':
     dependencies:
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       crelt: 1.0.5
 
-  '@codemirror/search@6.5.0':
+  '@codemirror/search@6.5.8':
     dependencies:
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       crelt: 1.0.5
 
-  '@codemirror/state@6.4.1': {}
-
-  '@codemirror/view@6.18.0':
+  '@codemirror/state@6.5.0':
     dependencies:
-      '@codemirror/state': 6.4.1
+      '@marijn/find-cluster-break': 1.0.2
+
+  '@codemirror/view@6.36.1':
+    dependencies:
+      '@codemirror/state': 6.5.0
       style-mod: 4.1.2
       w3c-keyname: 2.2.6
 
@@ -22535,18 +22532,14 @@ snapshots:
   '@lezer/javascript@1.0.2':
     dependencies:
       '@lezer/highlight': 1.0.0
-      '@lezer/lr': 1.2.1
+      '@lezer/lr': 1.2.0
 
   '@lezer/json@1.0.0':
     dependencies:
       '@lezer/highlight': 1.0.0
-      '@lezer/lr': 1.2.1
+      '@lezer/lr': 1.2.0
 
   '@lezer/lr@1.2.0':
-    dependencies:
-      '@lezer/common': 1.2.1
-
-  '@lezer/lr@1.2.1':
     dependencies:
       '@lezer/common': 1.2.1
 
@@ -22624,6 +22617,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@marijn/find-cluster-break@1.0.2': {}
 
   '@mdn/browser-compat-data@4.1.12': {}
 
@@ -27537,13 +27532,13 @@ snapshots:
 
   clone@2.1.2: {}
 
-  cm6-graphql@0.0.14(@codemirror/autocomplete@6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1))(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/highlight@1.0.0)(graphql@15.5.1):
+  cm6-graphql@0.0.14(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(@lezer/highlight@1.0.0)(graphql@15.5.1):
     dependencies:
-      '@codemirror/autocomplete': 6.2.0(@codemirror/language@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)
-      '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/autocomplete': 6.18.4
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/highlight': 1.0.0
       graphql: 15.5.1
       graphql-language-service: 5.2.0(graphql@15.5.1)
@@ -27567,13 +27562,13 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  codemirror-json-schema@0.6.1(@codemirror/language@6.5.0)(@codemirror/lint@6.5.0)(@codemirror/state@6.4.1)(@codemirror/view@6.18.0)(@lezer/common@1.2.1)(encoding@0.1.13):
+  codemirror-json-schema@0.6.1(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(@lezer/common@1.2.1)(encoding@0.1.13):
     dependencies:
       '@changesets/changelog-github': 0.4.8(encoding@0.1.13)
-      '@codemirror/language': 6.5.0
-      '@codemirror/lint': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/lint': 6.8.4
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
       '@sagold/json-pointer': 5.1.2
       '@types/json-schema': 7.0.12
@@ -27589,9 +27584,9 @@ snapshots:
 
   codemirror-json5@1.0.3:
     dependencies:
-      '@codemirror/language': 6.5.0
-      '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.18.0
+      '@codemirror/language': 6.10.8
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.36.1
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.0.0
       json5: 2.2.3
@@ -33984,7 +33979,7 @@ snapshots:
 
   lezer-json5@2.0.2:
     dependencies:
-      '@lezer/lr': 1.2.1
+      '@lezer/lr': 1.2.0
     optional: true
 
   libphonenumber-js@1.10.19: {}
