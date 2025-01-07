@@ -24,7 +24,7 @@
   "EXPORT_TEXT": "导出",
   "SEND_BATCHED_REQUEST": "发送批量请求",
   "REQUEST_EXTENSIONS_TEXT": "请求扩展",
-  "REQUEST_EXTENSIONS_SUBTEXT": "Update your request extensions (in JSON format)",
+  "REQUEST_EXTENSIONS_SUBTEXT": "",
   "DOCS_GO_BACK_TEXT": "返回",
   "DOCS_EXPORT_SDL": "导出 SDL文件",
   "DOCS_LOAD_SCHEMA": "加载Schema",
