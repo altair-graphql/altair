@@ -9,7 +9,7 @@ import {
   RenderOptions,
   getDistDirectory,
   renderAltair,
-  renderInitialOptions,
+  renderInitSnippet,
 } from 'altair-static';
 
 import { checkMultipleDataVersions } from '../utils/check-multi-data-versions';
@@ -304,7 +304,7 @@ export class WindowManager {
         const scriptSrc = [
           `'self'`,
           `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
-          `'${createSha256CspHash(renderInitialOptions(this.getRenderOptions()))}'`,
+          `'${createSha256CspHash(renderInitSnippet(this.getRenderOptions()))}'`,
           `https://cdn.jsdelivr.net`,
           `https://apis.google.com`,
           `localhost:*`,
