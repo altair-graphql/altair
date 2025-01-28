@@ -1,4 +1,3 @@
-import { ManifestV3Export } from '@crxjs/vite-plugin';
 import { Plugin } from 'vite';
 
 export const generateManifest = (manifest: chrome.runtime.ManifestV3): Plugin => {
@@ -9,7 +8,7 @@ export const generateManifest = (manifest: chrome.runtime.ManifestV3): Plugin =>
       this.emitFile({
         type: 'asset',
         fileName: 'manifest.json',
-        source: JSON.stringify(manifest),
+        source: JSON.stringify(manifest, null, 2),
       });
     },
   };

@@ -1039,9 +1039,9 @@ importers:
         specifier: ^18.0.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@crxjs/vite-plugin':
-        specifier: ^1.0.14
-        version: 1.0.14(vite@2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0))
+      '@types/adm-zip':
+        specifier: ^0.5.7
+        version: 0.5.7
       '@types/chrome':
         specifier: ^0.0.209
         version: 0.0.209
@@ -1054,6 +1054,12 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^1.3.0
         version: 1.3.2
+      adm-zip:
+        specifier: ^0.5.16
+        version: 0.5.16
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.1
       recursive-copy:
         specifier: ^2.0.14
         version: 2.0.14
@@ -1066,9 +1072,6 @@ importers:
       vite:
         specifier: ^2.9.15
         version: 2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0)
-      vite-plugin-static-copy:
-        specifier: ^2.2.0
-        version: 2.2.0(vite@2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0))
       web-ext:
         specifier: ^8.3.0
         version: 8.3.0(body-parser@1.20.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
@@ -2993,12 +2996,6 @@ packages:
   '@contrast/fn-inspect@4.2.0':
     resolution: {integrity: sha512-pdPYE7gP+8t1lrL2yJnqpE2N5uYoolrVKHxfWxhAhmbLuDmxgIBqvPM7+qnPIIZyRgL7ljbuYo/yRXgcd9HZYQ==}
     engines: {node: '>=16.9.1'}
-
-  '@crxjs/vite-plugin@1.0.14':
-    resolution: {integrity: sha512-emOueVCqFRFmpcfT80Xsm4mfuFw9VSp5GY4eh5qeLDeiP81g0hddlobVQCo0pE2ZvNnWbyhLrXEYAaMAXjNL6A==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      vite: ^2.9.0
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -6183,6 +6180,9 @@ packages:
   '@types/actioncable@5.2.7':
     resolution: {integrity: sha512-HVpCvvE4Att0vSfCVNHf3gmCoqQPlySWIhH4THkG4r0hc0IcvRa0gIVyd9ekswMf3WiBsDc52OKnduIZQ7qcRw==}
 
+  '@types/adm-zip@0.5.7':
+    resolution: {integrity: sha512-DNEs/QvmyRLurdQPChqq0Md4zGvPwHerAJYWk9l2jCbD1VPpnzRJorOdiq4zsw09NFbYnhfsoEhWtxIzXpn2yw==}
+
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
 
@@ -7165,9 +7165,6 @@ packages:
   '@webcomponents/custom-elements@1.4.1':
     resolution: {integrity: sha512-vNCS1+3sxJOpoIsBjUQiXjGLngakEAGOD5Ale+6ikg6OZG5qI5O39frm3raPhud/IwnF4vec5ags05YBsgzcuA==}
 
-  '@webcomponents/custom-elements@1.6.0':
-    resolution: {integrity: sha512-CqTpxOlUCPWRNUPZDxT5v2NnHXA4oox612iUGnmTUGQFhZ1Gkj8kirtl/2wcF6MqX7+PqqicZzOCBKKfIn0dww==}
-
   '@whatwg-node/fetch@0.2.8':
     resolution: {integrity: sha512-KyUD1Vx9TpdTTlM01aXOx1NED93C33cOT/5RyCqVL6H/srGTU1hlLacOLgmYSLNzkEVerVfhb7Bd6IxiI7JziA==}
 
@@ -7322,6 +7319,10 @@ packages:
   adm-zip@0.4.16:
     resolution: {integrity: sha512-TFi4HBKSGfIKsK5YCkKaaFG2m4PEDyViZmEwof3MTIgzimHLto6muaHVpbrljdIvIrFZzEq/p4nafOeLcYegrg==}
     engines: {node: '>=0.3.0'}
+
+  adm-zip@0.5.16:
+    resolution: {integrity: sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==}
+    engines: {node: '>=12.0'}
 
   adm-zip@0.5.9:
     resolution: {integrity: sha512-s+3fXLkeeLjZ2kLjCBwQufpI5fuN+kIGBxu6530nVQZGVol0d7Y/M88/xw9HGGUcJjKf8LutN3VPRUBq6N7Ajg==}
@@ -8918,10 +8919,6 @@ packages:
     resolution: {integrity: sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==}
     engines: {node: '>=0.8'}
 
-  connect-injector@0.4.4:
-    resolution: {integrity: sha512-hdBG8nXop42y2gWCqOV8y1O3uVk4cIU+SoxLCPyCUKRImyPiScoNiSulpHjoktRU1BdI0UzoUdxUa87thrcmHw==}
-    engines: {node: '>= 0.8.0'}
-
   consola@2.15.3:
     resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
 
@@ -10228,9 +10225,6 @@ packages:
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
-
-  es-module-lexer@0.10.5:
-    resolution: {integrity: sha512-+7IwY/kiGAacQfY+YBhKMvEmyAJnw5grTUgjG85Pe7vcUI/6b7pZjZG8nQ7+48YhzEAEqrEgD2dCz/JIK+AYvw==}
 
   es-module-lexer@1.4.1:
     resolution: {integrity: sha512-cXLGjP0c4T3flZJKQSuziYoq7MlT+rnvfZjfp7h+I7K9BNX54kP9nyWvdbwjQ4u1iWbOL4u96fgeZLToQlZC7w==}
@@ -14043,10 +14037,6 @@ packages:
   magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
 
-  magic-string@0.26.7:
-    resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
-    engines: {node: '>=12'}
-
   magic-string@0.30.11:
     resolution: {integrity: sha512-+Wri9p0QHMy+545hKww7YAu5NyzF8iomPL/RQazugQ9+Ez4Ic3mERMd8ZTX5rfK944j+560ZJi8iAwgak1Ac7A==}
 
@@ -16930,11 +16920,6 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
 
-  rollup@2.79.2:
-    resolution: {integrity: sha512-fS6iqSPZDs3dr/y7Od6y5nha8dW1YnbgtsyotCVvoFGKbERG++CVRFv1meyGDE1SNItQA8BrnCw7ScdAhRJ3XQ==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-
   rollup@4.14.2:
     resolution: {integrity: sha512-WkeoTWvuBoFjFAhsEOHKRoZ3r9GfTyhh7Vff1zwebEFLEFjT1lG3784xEgKiTa7E+e70vsC81roVL2MP4tgEEQ==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -17598,10 +17583,6 @@ packages:
 
   stream-browserify@3.0.0:
     resolution: {integrity: sha512-H73RAHsVBapbim0tU2JwwOiXUj+fikfiaoYAKHF3VJfA0pe2BCzkhAHBlLG6REzE+2WNZcxOXjK7lkso+9euLA==}
-
-  stream-buffers@0.2.6:
-    resolution: {integrity: sha512-ZRpmWyuCdg0TtNKk8bEqvm13oQvXMmzXDsfD4cBgcx5LouborvU5pm3JMkdTP3HcszyUI08AM1dHMXA5r2g6Sg==}
-    engines: {node: '>= 0.3.0'}
 
   stream-buffers@2.2.0:
     resolution: {integrity: sha512-uyQK/mx5QjHun80FLJTfaWE7JtwfRMKBLkMne6udYOmvH0CawotVa7TfgYHzAnpphn4+TweIx1QKMnRIbipmUg==}
@@ -18553,9 +18534,6 @@ packages:
   ua-parser-js@0.7.36:
     resolution: {integrity: sha512-CPPLoCts2p7D8VbybttE3P2ylv0OBZEAy7a12DsulIEcAiMtWJy+PBgMXgWDI80D5UwqE8oQPHYnk13tm38M2Q==}
 
-  uberproto@1.2.0:
-    resolution: {integrity: sha512-pGtPAQmLwh+R9w81WVHzui1FfedpQWQpiaIIfPCwhtsBez4q6DYbJFfyXPVHPUTNFnedAvNEnkoFiLuhXIR94w==}
-
   uc.micro@2.0.0:
     resolution: {integrity: sha512-DffL94LsNOccVn4hyfRe5rdKa273swqeA5DJpMOeFmEn1wCDc7nAbbB0gXlgBCL7TNzeTv6G7XVWzan7iJtfig==}
 
@@ -18898,12 +18876,6 @@ packages:
 
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
-
-  vite-plugin-static-copy@2.2.0:
-    resolution: {integrity: sha512-ytMrKdR9iWEYHbUxs6x53m+MRl4SJsOSoMu1U1+Pfg0DjPeMlsRVx3RR5jvoonineDquIue83Oq69JvNsFSU5w==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    peerDependencies:
-      vite: ^5.0.0 || ^6.0.0
 
   vite@2.9.18:
     resolution: {integrity: sha512-sAOqI5wNM9QvSEE70W3UGMdT8cyEn0+PmJMTFvTB8wB0YbYUWw3gUbY62AOyrXosGieF2htmeLATvNxpv/zNyQ==}
@@ -21497,28 +21469,6 @@ snapshots:
       nan: 2.20.0
       node-gyp-build: 4.8.1
     optional: true
-
-  '@crxjs/vite-plugin@1.0.14(vite@2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0))':
-    dependencies:
-      '@rollup/pluginutils': 4.2.1
-      '@webcomponents/custom-elements': 1.6.0
-      acorn-walk: 8.3.1
-      cheerio: 1.0.0-rc.10
-      connect-injector: 0.4.4
-      debug: 4.4.0
-      es-module-lexer: 0.10.5
-      fast-glob: 3.3.2
-      fs-extra: 10.1.0
-      jsesc: 3.0.2
-      magic-string: 0.26.7
-      picocolors: 1.1.1
-      react-refresh: 0.13.0
-      rollup: 2.79.2
-      vite: 2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0)
-    optionalDependencies:
-      '@vitejs/plugin-react': 1.3.2
-    transitivePeerDependencies:
-      - supports-color
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -24817,6 +24767,10 @@ snapshots:
 
   '@types/actioncable@5.2.7': {}
 
+  '@types/adm-zip@0.5.7':
+    dependencies:
+      '@types/node': 22.10.2
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.26.1
@@ -26076,8 +26030,6 @@ snapshots:
 
   '@webcomponents/custom-elements@1.4.1': {}
 
-  '@webcomponents/custom-elements@1.6.0': {}
-
   '@whatwg-node/fetch@0.2.8(encoding@0.1.13)':
     dependencies:
       '@peculiar/webcrypto': 1.4.0
@@ -26292,6 +26244,8 @@ snapshots:
       regex-parser: 2.2.11
 
   adm-zip@0.4.16: {}
+
+  adm-zip@0.5.16: {}
 
   adm-zip@0.5.9: {}
 
@@ -28454,15 +28408,6 @@ snapshots:
 
   connect-history-api-fallback@2.0.0: {}
 
-  connect-injector@0.4.4:
-    dependencies:
-      debug: 2.6.9
-      q: 1.5.1
-      stream-buffers: 0.2.6
-      uberproto: 1.2.0
-    transitivePeerDependencies:
-      - supports-color
-
   consola@2.15.3: {}
 
   console-control-strings@1.1.0: {}
@@ -30015,8 +29960,6 @@ snapshots:
 
   es-errors@1.3.0: {}
 
-  es-module-lexer@0.10.5: {}
-
   es-module-lexer@1.4.1: {}
 
   es-shim-unscopables@1.0.0:
@@ -31451,7 +31394,7 @@ snapshots:
 
   firefox-profile@4.7.0:
     dependencies:
-      adm-zip: 0.5.9
+      adm-zip: 0.5.16
       fs-extra: 11.2.0
       ini: 4.1.3
       minimist: 1.2.8
@@ -35107,10 +35050,6 @@ snapshots:
       sourcemap-codec: 1.4.8
 
   magic-string@0.25.9:
-    dependencies:
-      sourcemap-codec: 1.4.8
-
-  magic-string@0.26.7:
     dependencies:
       sourcemap-codec: 1.4.8
 
@@ -38865,10 +38804,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  rollup@2.79.2:
-    optionalDependencies:
-      fsevents: 2.3.3
-
   rollup@4.14.2:
     dependencies:
       '@types/estree': 1.0.5
@@ -39705,8 +39640,6 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  stream-buffers@0.2.6: {}
-
   stream-buffers@2.2.0: {}
 
   stream-combiner@0.0.4:
@@ -40197,7 +40130,7 @@ snapshots:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
 
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
@@ -40207,7 +40140,7 @@ snapshots:
       webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.14.51
+      esbuild: 0.23.0
 
   terser@5.31.6:
     dependencies:
@@ -40911,8 +40844,6 @@ snapshots:
 
   ua-parser-js@0.7.36: {}
 
-  uberproto@1.2.0: {}
-
   uc.micro@2.0.0: {}
 
   uid2@0.0.4: {}
@@ -41307,14 +41238,6 @@ snapshots:
       '@types/unist': 3.0.2
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
-
-  vite-plugin-static-copy@2.2.0(vite@2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0)):
-    dependencies:
-      chokidar: 3.6.0
-      fast-glob: 3.3.2
-      fs-extra: 11.2.0
-      picocolors: 1.1.1
-      vite: 2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0)
 
   vite@2.9.18(less@4.2.0)(sass@1.77.6)(stylus@0.55.0):
     dependencies:
@@ -41830,7 +41753,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
