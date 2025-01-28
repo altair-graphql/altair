@@ -70,9 +70,7 @@ const getObjectPropertyForOption = (
  * @deprecated Use renderInitSnippet instead
  */
 export const renderInitialOptions = (options: RenderOptions = {}) => {
-  return `
-        AltairGraphQL.init(${getRenderedAltairOpts(options)});
-    `;
+  return renderInitSnippet(options);
 };
 
 /**
