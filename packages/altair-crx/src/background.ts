@@ -1,5 +1,3 @@
-// const MAX_EXT_LOAD_COUNT = 30;
-
 let curTab: { id?: number; url?: string } = {
   id: undefined,
   url: undefined,
@@ -54,44 +52,14 @@ function openChangeLog() {
   );
 }
 
-// function handleDonation() {
-//   if (!chrome.runtime.getBrowserInfo) {
-//     // FIXME: A chrome extension
-//     chrome.storage.sync.get(
-//       {
-//         userDonated: false,
-//         extLoadCount: 0,
-//       },
-//       function (items) {
-//         if (!items.userDonated) {
-//           console.log('extension loaded count: ', items.extLoadCount);
-//           if (items.extLoadCount > MAX_EXT_LOAD_COUNT) {
-//             // show donation page
-//             chrome.tabs.create({ url: 'donate.html' }, function (tab) {
-//               console.log('New tab launched with donation.');
-//             });
-//             chrome.storage.sync.set({
-//               extLoadCount: 0,
-//             });
-//           } else {
-//             chrome.storage.sync.set({
-//               extLoadCount: items.extLoadCount + 1,
-//             });
-//           }
-//         }
-//       }
-//     );
-//   }
-// }
-
 // Open the extension tab when the extension icon is clicked
 chrome.action.onClicked.addListener(function (tab) {
-  if (!curTab || !curTab.id) {
+  if (!curTab?.id) {
     createNewTab();
   } else {
     chrome.tabs.get(curTab.id, function (tab) {
       console.log(chrome.runtime.id, tab.url);
-      if (tab && tab.url && tab.url.includes(getExtensionId() ?? '')) {
+      if (tab.url?.includes(getExtensionId() ?? '')) {
         if (curTab.id) {
           focusTab(curTab.id);
         }
