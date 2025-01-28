@@ -73,15 +73,15 @@ jobs:
         continue-on-error: true
         with:
           uuid: '{c336a627-bbea-4dbb-aa77-83899b52149a}'
-          xpi: extension-builds/mozilla-build/build.zip
-          manifest: extension-builds/mozilla-files/manifest.json
+          xpi: packages/altair-crx/altair.zip
+          manifest: packages/altair-crx/dist/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
       - uses: wdzeng/edge-addon@v1
         continue-on-error: true
         with:
           product-id: f725e625-c035-444d-b373-fba0e41855c1
-          zip-path: extension-builds/chrome-build/build.zip
+          zip-path: packages/altair-crx/altair.zip
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
           client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
@@ -89,7 +89,7 @@ jobs:
         continue-on-error: true
         with:
           extension-id: flnheeellpciglgpaodhkhmapeljopja
-          zip-path: extension-builds/chrome-build/build.zip
+          zip-path: packages/altair-crx/altair.zip
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
@@ -99,7 +99,7 @@ jobs:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          zip: extension-builds/chrome-build/build.zip
+          zip: packages/altair-crx/altair.zip
           extension: flnheeellpciglgpaodhkhmapeljopja
   chrome-extension-upload:
     name: Publish webextension
@@ -121,7 +121,7 @@ jobs:
       - name: Upload & release
         uses: mnao305/chrome-extension-upload@1.1.1
         with:
-          file-path: extension-builds/chrome-build/build.zip
+          file-path: packages/altair-crx/altair.zip
           extension-id: flnheeellpciglgpaodhkhmapeljopja
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}

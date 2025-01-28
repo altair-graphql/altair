@@ -68,7 +68,7 @@
     "build-api": "pnpm --dir packages/altair-api build",
     "build-app": "pnpm -F @altairgraphql/app build",
     "build-electron": "pnpm build:ci && pnpm --dir packages/altair-electron build",
-    "build-ext": "pnpm build-app && cwex build",
+    "build-ext": "pnpm --dir packages/altair-crx build",
     "bootstrap": "turbo run bootstrap",
     "build:ci": "pnpm bootstrap",
     "ci:publish": "pnpm publish -r",

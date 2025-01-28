@@ -1,4 +1,3 @@
-import { defineManifest } from '@crxjs/vite-plugin';
 import packageJson from './package.json';
 const { version } = packageJson;
 
@@ -36,7 +35,7 @@ export const manifest: chrome.runtime.ManifestV3 = {
     type: 'module',
   } as chrome.runtime.ManifestV3['background'],
   options_ui: {
-    page: 'options.html',
+    page: 'src/options.html',
     open_in_tab: false,
   },
   offline_enabled: true,
