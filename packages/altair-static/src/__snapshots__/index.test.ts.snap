@@ -138,7 +138,7 @@ initialVariables: \`{ variable: 1 }\`,
 "
 `;
 
-exports[`renderInitialSnippet should return expected string 1`] = `
+exports[`renderInitSnippet should return expected string 1`] = `
 "
         AltairGraphQL.init({
 initialQuery: \`query {
@@ -152,7 +152,7 @@ persistedSettings: {"theme":"light"},
     "
 `;
 
-exports[`renderInitialSnippet should return expected string with $$ 1`] = `
+exports[`renderInitSnippet should return expected string with $$ 1`] = `
 "
         AltairGraphQL.init({
 initialQuery: \`{
