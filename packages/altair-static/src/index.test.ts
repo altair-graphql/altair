@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { renderAltair, renderInitialOptions } from './index';
+import { renderAltair, renderInitSnippet } from './index';
 import * as getAltairHtml from './get-altair-html';
 
 const translateRenderedStrToObj = (result: string) => {
@@ -13,9 +13,9 @@ const translateRenderedStrToObj = (result: string) => {
   return resultObj;
 };
 
-describe('renderInitialOptions', () => {
+describe('renderInitSnippet', () => {
   it('should return expected string', () => {
-    const result = renderInitialOptions({
+    const result = renderInitSnippet({
       baseURL: '/',
       initialQuery: `query {
         Hello
@@ -51,7 +51,7 @@ describe('renderInitialOptions', () => {
     expect(result).toMatchSnapshot();
   });
   it('should return expected string with $$', () => {
-    const result = renderInitialOptions({
+    const result = renderInitSnippet({
       baseURL: '/',
       initialQuery: `{
         MyDomains (
@@ -107,7 +107,7 @@ describe('renderInitialOptions', () => {
     expect(result).toMatchSnapshot();
   });
   it('should render boolean values correctly', () => {
-    const result = renderInitialOptions({
+    const result = renderInitSnippet({
       preserveState: false,
     });
 
