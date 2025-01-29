@@ -168,7 +168,7 @@ jobs:
       # It is unclear to me what the payload size limit is for the choco push command (the best info I could find about this is: https://github.com/chocolatey-community/chocolatey-packages/issues/1179).
       # If this is really a problem, someone needs to figure out a proper solution for this (most likely changing it to a non-embedded package, or some other solution I'm not aware of).
       - name: chocolatey push
-        if: startsWith(matrix.os, 'windows') && ${{ inputs.publish_chocolatey }} && ${{ inputs.publish }}
+        if: ${{ startsWith(matrix.os, 'windows') && inputs.publish_chocolatey && inputs.publish }}
         continue-on-error: true
         uses: crazy-max/ghaction-chocolatey@v3
         with:
