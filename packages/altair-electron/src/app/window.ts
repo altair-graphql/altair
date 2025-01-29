@@ -317,7 +317,7 @@ export class WindowManager {
             // TODO: Figure out why an error from this breaks devtools
             'Content-Security-Policy': [
               `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
-              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitialOptions())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
+              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitSnippet())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
             ],
           },
         });

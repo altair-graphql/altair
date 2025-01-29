@@ -89,7 +89,7 @@ export const renderInitSnippet = (options: RenderOptions = {}) => {
  */
 export const renderAltair = (options: RenderOptions = {}) => {
   const altairHtml = getAltairHtml();
-  const initialOptions = renderInitialOptions(options);
+  const initialOptions = renderInitSnippet(options);
   const baseURL = options.baseURL || './';
   if (options.serveInitialOptionsInSeperateRequest) {
     const scriptName =

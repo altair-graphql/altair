@@ -4,7 +4,7 @@ import * as express from 'express';
 import {
   getDistDirectory,
   renderAltair,
-  renderInitialOptions,
+  renderInitSnippet,
   RenderOptions,
 } from 'altair-static';
 
@@ -24,7 +24,7 @@ export const altairExpress = (opts: RenderOptions): express.Express => {
   });
   app.get('/initial_options.js', (req, res) => {
     res.set('Content-Type', 'text/javascript');
-    return res.send(renderInitialOptions(opts));
+    return res.send(renderInitSnippet(opts));
   });
   app.use(express.static(getDistDirectory()));
 
