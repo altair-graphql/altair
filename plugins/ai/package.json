@@ -1,6 +1,6 @@
 {
   "name": "altair-graphql-plugin-ai",
-  "version": "8.1.3",
+  "version": "8.1.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
