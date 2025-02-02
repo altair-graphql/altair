@@ -9,7 +9,7 @@
     "@altairgraphql/emails": "workspace:*",
     "@langchain/anthropic": "^0.3.7",
     "@langchain/community": "^0.3.12",
-    "@langchain/core": "^0.3.22",
+    "@langchain/core": "^0.3.37",
     "@langchain/openai": "^0.3.12",
     "@nestjs/common": "^10.3.10",
     "@nestjs/config": "^3.2.3",
