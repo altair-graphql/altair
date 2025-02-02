@@ -26,7 +26,7 @@
     "recursive-copy": "^2.0.14",
     "rimraf": "^5.0.5",
     "typescript": "^4.6.3",
-    "vite": "^2.9.15",
+    "vite": "^4.5.6",
     "web-ext": "^8.3.0"
   }
 }
