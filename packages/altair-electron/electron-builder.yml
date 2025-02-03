@@ -43,7 +43,7 @@ linux:
         - arm64
     - deb
     - snap
-    - flatpak
+    # - flatpak
 appImage:
   category: Development
 snap:
