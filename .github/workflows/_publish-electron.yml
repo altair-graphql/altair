@@ -105,7 +105,9 @@ jobs:
       - name: Install flatpak and flatpak-builder
         run: sudo apt-get install -y flatpak flatpak-builder elfutils
         if: startsWith(matrix.os, 'ubuntu')
+        continue-on-error: true
       - name: Install flathub repo
+        continue-on-error: true
         # Need to install flatpak dependencies manually
         # https://github.com/electron/forge/issues/2662#issuecomment-1003900006
         run: |
