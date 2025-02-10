@@ -10,7 +10,7 @@
     "@types/node": "^22.7.4",
     "altair-graphql-core": "workspace:*",
     "dts-bundle-generator": "^9.5.1",
-    "esbuild": "^0.14.43",
+    "esbuild": "^0.25.0",
     "jest": "29.4.1",
     "ncp": "2.0.0",
     "ts-jest": "29.0.5",

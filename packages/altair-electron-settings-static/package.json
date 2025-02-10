@@ -7,7 +7,7 @@
     "@altairgraphql/electron-settings": "workspace:*",
     "@types/node": "^22.7.4",
     "dts-bundle-generator": "^6.11.0",
-    "esbuild": "^0.14.43",
+    "esbuild": "^0.25.0",
     "ncp": "2.0.0",
     "typescript": "catalog:"
   },
