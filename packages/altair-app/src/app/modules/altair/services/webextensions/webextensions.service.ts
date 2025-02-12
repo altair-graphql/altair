@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { WebExtensionMessage } from 'altair-graphql-core/build/types/messaging';
 import { WindowService } from '../window.service';
 import { debug } from '../../utils/logger';
-import { isExtension } from '../../utils';
+import { isExtension, sendMessage } from 'altair-graphql-core/build/crx';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class WebExtensionsService {
             return;
           }
           case 'ping': {
-            browser.runtime.sendMessage({ type: 'pong' });
+            sendMessage({ type: 'pong' });
             return;
           }
           default: {
@@ -38,7 +38,6 @@ export class WebExtensionsService {
       }
     );
 
-    const readyMessage: WebExtensionMessage = { type: 'ready' };
-    browser.runtime.sendMessage(readyMessage);
+    sendMessage({ type: 'ready' });
   }
 }

@@ -9,7 +9,7 @@
     "module": "ES2020",
     "moduleResolution": "node",
     "lib": ["dom", "esnext"],
-    "types": ["node"],
+    // "types": ["node", "chrome"],
     "noImplicitAny": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

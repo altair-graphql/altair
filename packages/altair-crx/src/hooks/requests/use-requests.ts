@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { isExtension } from 'altair-graphql-core/build/crx';
 import { mockRequests } from './mock-requests';
 import { getRequest } from '../../helpers/request';
 import { GraphQLRequest } from '../../types';
-import { isExtension } from '../../helpers/messaging';
 
 const useCurrentTab = () => {
   const [tabId, setTabId] = useState<number | undefined>(undefined);
   const browser = window.chrome || window.browser;
 
-  if (!isExtension()) {
+  if (!isExtension) {
     return;
   }
   browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -29,7 +29,7 @@ const useTabStatus = () => {
   );
   const browser = window.chrome || window.browser;
 
-  if (!isExtension()) {
+  if (!isExtension) {
     return tabStatus;
   }
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -55,7 +55,7 @@ export const useGraphQLRequests = () => {
     }
   }, [tabStatus]);
 
-  if (!isExtension()) {
+  if (!isExtension) {
     return {
       requests: mockRequests,
     };
