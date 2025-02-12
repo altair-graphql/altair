@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "node bin/prebuild.js",
     "build": "rimraf dist && pnpm prebuild && tsc && vite build && node bin/postbuild.js",
+    "test": "vitest",
     "run:f": "web-ext run -s dist --browser-console",
     "lint:f": "web-ext lint -s dist",
     "build:f": "web-ext build -s dist --verbose"
