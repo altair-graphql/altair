@@ -72,7 +72,6 @@ interface TableListProps {
   requests: GraphQLRequest[];
 }
 export const TableList: React.FC<TableListProps> = ({ requests }) => {
-  // const [data] = React.useState(() => [...requests]);
   const [selectedRequest, selectRequest] = useState<GraphQLRequest>();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
