@@ -1,0 +1,7 @@
+.request-content-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* justify-content: flex-end; */
+  padding: 0 0 10px;
+}

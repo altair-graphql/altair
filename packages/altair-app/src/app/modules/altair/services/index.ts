@@ -20,3 +20,4 @@ export { SharingService } from './sharing/sharing.service';
 export { FilesService } from './files/files.service';
 export { RequestHandlerRegistryService } from './request/request-handler-registry.service';
 export { BannerService } from './banner/banner.service';
+export { WebExtensionsService } from './webextensions/webextensions.service';

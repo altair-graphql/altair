@@ -1,0 +1,11 @@
+.table-details {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 75%;
+  background-color: var(--background);
+  border-left: 1px solid var(--separator);
+  overflow-y: auto;
+  z-index: 1;
+}

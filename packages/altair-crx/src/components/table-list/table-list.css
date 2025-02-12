@@ -1,0 +1,274 @@
+.table-list {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11px;
+  user-select: none;
+}
+
+/* Header styles */
+.table-list thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--background);
+  z-index: 1;
+}
+
+.table-list th {
+  padding: 4px 6px;
+  text-align: left;
+  font-weight: normal;
+  color: var(--text);
+  background-color: var(--background);
+  border-bottom: 1px solid var(--separator);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+
+  /* position: sticky;
+  top: 0; */
+}
+
+.table-list th:hover {
+  background-color: var(--hover);
+}
+
+.table-list-column {
+}
+
+/* Column resizer */
+.column-resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+}
+
+.column-resizer:hover {
+  background-color: var(--accent);
+}
+
+/* Row styles */
+.table-list tr {
+  height: 21px;
+}
+
+.table-list td {
+  padding: 1px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--separator);
+  color: var(--text-primary);
+}
+
+.table-list tbody tr:hover {
+  background-color: var(--hover);
+}
+
+/* Selected row */
+.table-list tr.selected {
+  background-color: var(--accent);
+  color: white;
+}
+
+.table-list tr.selected td {
+  color: white;
+}
+
+/* Status code colors */
+.status-2xx {
+  color: #1a8038;
+}
+.status-3xx {
+  color: #8e24aa;
+}
+.status-4xx {
+  color: #e65100;
+}
+.status-5xx {
+  color: #c41e3a;
+}
+
+/* Size column alignment */
+.size-column {
+  text-align: right;
+}
+
+/* Time column with waterfall */
+.time-column {
+  position: relative;
+}
+
+.waterfall-bar {
+  position: absolute;
+  height: 14px;
+  top: 3px;
+  background: rgba(112, 168, 237, 0.3);
+  border-left: 1px solid rgba(112, 168, 237, 0.5);
+}
+
+/* Method column styles */
+.method-column {
+  color: var(--text);
+  font-weight: bold;
+}
+
+.method-get {
+  color: #1a73e8;
+}
+.method-post {
+  color: #388e3c;
+}
+.method-put {
+  color: #9c27b0;
+}
+.method-delete {
+  color: #e53935;
+}
+
+.query-type-query {
+  color: #82b1ff;
+  text-transform: uppercase;
+  font-size: smaller;
+  font-weight: 700;
+}
+.query-type-mutation {
+  color: #66bb6a;
+  text-transform: uppercase;
+  font-size: smaller;
+  font-weight: 700;
+}
+
+/* Default column widths */
+/* .name-column {
+  width: 250px;
+}
+.method-column {
+  width: 65px;
+}
+.status-column {
+  width: 60px;
+}
+.type-column {
+  width: 100px;
+}
+.size-column {
+  width: 70px;
+}
+.time-column {
+  width: 60px;
+}
+.waterfall-column {
+  width: 250px;
+} */
+
+/* Group rows */
+.group-row {
+  background-color: var(--hover);
+}
+
+.group-row td {
+  font-weight: bold;
+}
+
+.group-toggle {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  text-align: center;
+  line-height: 16px;
+}
+
+/* Filter input */
+.table-filter {
+  padding: 4px 6px;
+  margin: 4px;
+  width: 200px;
+  background-color: var(--background);
+  border: 1px solid var(--separator);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.table-filter:focus {
+  border-color: var(--focus-ring);
+  outline: none;
+}
+
+/* ---------------- */
+
+table,
+.divTable {
+  /* border: 1px solid lightgray; */
+  width: fit-content;
+}
+
+.tr {
+  display: flex;
+}
+
+tr,
+.tr {
+  width: fit-content;
+  /* height: 30px; */
+}
+
+th,
+.th,
+td,
+.td {
+  /* box-shadow: inset 0 0 0 1px lightgray; */
+  /* padding: 0.25rem; */
+}
+
+th,
+.th {
+  /* padding: 2px 4px; */
+  position: relative;
+  font-weight: bold;
+  text-align: center;
+  /* height: 30px; */
+}
+
+td,
+.td {
+  height: 30px;
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--separator);
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.resizer.ltr {
+  right: 0;
+}
+
+.resizer.rtl {
+  left: 0;
+}
+
+.resizer.isResizing {
+  background: var(--accent);
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .resizer {
+    opacity: 0;
+  }
+
+  *:hover > .resizer {
+    opacity: 1;
+  }
+}

@@ -290,7 +290,10 @@ export class WindowService {
         }
         if (data.headers.length) {
           this.store.dispatch(
-            new headerActions.SetHeadersAction({ headers: data.headers }, windowId)
+            new headerActions.SetHeadersAction(
+              { headers: data.headers.map((h) => ({ ...h, enabled: true })) },
+              windowId
+            )
           );
         }
         if (data.variables) {

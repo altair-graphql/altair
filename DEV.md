@@ -148,3 +148,9 @@ psql --file=data.sql --dbname=altairgraphql-db --port=5432 --host=localhost --us
 ### Slow running development application
 
 If the local development application feels extremely slow, check if you have the [Angular DevTools extension](https://chromewebstore.google.com/detail/angular-devtools/ienfalfjdbdpebioblfackkekamfmbnh) installed on your browser and disable it. It slows down the application significantly.
+
+## Importing request data in chrome extension
+
+Setup a web extension service, which sets up a listener for messages from the devtools panel. To import request data from the devtools panel, we open the Altair app, then send a message to the Altair app which is part of the extension (so can be considered an extension page) using the `chrome.runtime.sendMessage` method. The extension page processes the message and imports the request data into the Altair app.
+
+To make sure the Altair app is loaded and ready to receive the message, we send a ping message to the Altair app, and wait for the pong message before sending the actual message. We also wait for the ready message from the Altair app in case it is not loaded yet to have received the ping message.

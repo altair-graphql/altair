@@ -95,6 +95,7 @@ const providers = [
   services.SharingService,
   services.FilesService,
   services.RequestHandlerRegistryService,
+  services.WebExtensionsService,
   // Setting the reducer provider in main.ts now (for proper config initialization)
   // reducerProvider,
   CookieService,
