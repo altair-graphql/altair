@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WebExtensionMessage } from 'altair-graphql-core/build/types/messaging';
 import { WindowService } from '../window.service';
 import { debug } from '../../utils/logger';
+import { isExtension } from '../../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class WebExtensionsService {
   connect() {
     const browser = window.browser || window.chrome;
 
-    if (!browser) {
+    if (!isExtension) {
       return;
     }
 
