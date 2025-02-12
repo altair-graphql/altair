@@ -15,7 +15,12 @@ export const useGraphQLRequests = () => {
     if (!data) {
       return;
     }
-    setRequests((prevRequests) => [...prevRequests, data]);
+    setRequests((prevRequests) => [
+      ...prevRequests.filter((r) => {
+        return r.id !== data.id;
+      }),
+      data,
+    ]);
   });
 
   // TODO: Add cleanup logic
