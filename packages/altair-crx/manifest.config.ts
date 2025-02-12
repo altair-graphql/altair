@@ -38,6 +38,7 @@ export const manifest: chrome.runtime.ManifestV3 = {
     page: 'src/options.html',
     open_in_tab: false,
   },
+  devtools_page: 'src/devtools/devtools.html',
   offline_enabled: true,
   content_security_policy: {
     // We can probably slim down this CSP further

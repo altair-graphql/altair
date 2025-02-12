@@ -1,0 +1,17 @@
+.btn {
+  border-radius: 20px;
+  padding: 5px 12px;
+  border: 1px solid var(--separator);
+  background-color: var(--background);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: var(--hover);
+  }
+}

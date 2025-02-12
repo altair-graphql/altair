@@ -45,6 +45,7 @@ import {
   NotifyService,
   BannerService,
   DbService,
+  WebExtensionsService,
 } from '../../services';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -140,6 +141,7 @@ export class AltairComponent {
     private notifyService: NotifyService,
     private bannerService: BannerService,
     private dbService: DbService,
+    private webExtensionsService: WebExtensionsService,
     private altairConfig: AltairConfig
   ) {
     this.isWebApp = altairConfig.isWebApp;
@@ -297,6 +299,7 @@ export class AltairComponent {
         this.translate.use(language);
       });
 
+    this.webExtensionsService.connect();
     this.electronApp.connect({
       importFileContent: (content) => {
         return this.windowService.importStringData(content).catch((err) => {

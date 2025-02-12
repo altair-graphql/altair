@@ -11,9 +11,20 @@
     "build:f": "web-ext build -s dist --verbose"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.6",
+    "altair-graphql-core": "workspace:*",
     "altair-static": "workspace:*",
+    "clsx": "^2.1.1",
+    "copy-to-clipboard": "^3.3.3",
+    "graphql": "15.5.1",
+    "prettier": "^3.5.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-base16-styling": "^0.10.0",
+    "react-dom": "^18.0.0",
+    "react-json-tree": "^0.19.0",
+    "react-json-view-lite": "^2.3.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",
@@ -27,6 +38,7 @@
     "rimraf": "^5.0.5",
     "typescript": "^4.6.3",
     "vite": "^2.9.15",
+    "vitest": "^3.0.5",
     "web-ext": "^8.3.0"
   }
 }

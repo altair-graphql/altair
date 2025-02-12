@@ -13,6 +13,8 @@ export default defineConfig({
       input: {
         background: resolve(__dirname, 'src/background.ts'),
         options: resolve(__dirname, 'src/options.html'),
+        devtools: resolve(__dirname, 'src/devtools/devtools.html'),
+        monitor_panel: resolve(__dirname, 'src/monitor/monitor_panel.html'),
       },
       output: {
         entryFileNames: `assets/[name].js`,

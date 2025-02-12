@@ -1,36 +1,4 @@
-let curTab: { id?: number; url?: string } = {
-  id: undefined,
-  url: undefined,
-};
-
-export const getExtensionId = () => {
-  const matches = chrome.runtime.getURL('x').match(/.*\/\/(.*)\/x$/);
-  if (matches) {
-    // https://stackoverflow.com/a/47060021/3929126
-    // Mozilla uses an internal UUID on every installation to prevent fingerprinting
-    return matches[1];
-  }
-  return chrome.runtime.id;
-};
-
-// Create a new tab for the extension
-export function createNewTab() {
-  chrome.tabs.create({ url: 'altair-app/index.html' }, function (tab) {
-    curTab = {
-      id: tab.id,
-      url: tab.url,
-    };
-
-    // Handle donation logic
-    // handleDonation();
-  });
-}
-
-// Focus on the open extension tab
-function focusTab(tabId: number) {
-  const updateProperties = { active: true };
-  chrome.tabs.update(tabId, updateProperties, function (tab) {});
-}
+import { getTabId, openAltairApp, removeTabId } from './helpers/tabs';
 
 function openChangeLog() {
   chrome.storage.sync.get(
@@ -54,26 +22,14 @@ function openChangeLog() {
 
 // Open the extension tab when the extension icon is clicked
 chrome.action.onClicked.addListener(function (tab) {
-  if (!curTab?.id) {
-    createNewTab();
-  } else {
-    chrome.tabs.get(curTab.id, function (tab) {
-      console.log(chrome.runtime.id, tab.url);
-      if (tab.url?.includes(getExtensionId() ?? '')) {
-        if (curTab.id) {
-          focusTab(curTab.id);
-        }
-      } else {
-        createNewTab();
-      }
-    });
-  }
+  openAltairApp();
 });
 
 // When a tab is closed, check if it is the extension tab that was closed, and unset curTabId
-chrome.tabs.onRemoved.addListener(function (tabId) {
-  if (tabId === curTab.id) {
-    curTab = {};
+chrome.tabs.onRemoved.addListener(async function (tabId) {
+  const curTabId = await getTabId();
+  if (tabId === curTabId) {
+    await removeTabId();
   }
 });
 

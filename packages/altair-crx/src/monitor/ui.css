@@ -1,0 +1,202 @@
+/* TODO: Customize accent color based on Altair's theme */
+/* Theme variables */
+:root {
+  /* Initialize with light theme values */
+  --background: #ffffff;
+  --text: #5f6368;
+  --text-primary: #202124;
+  --accent: #1a73e8;
+  --separator: #dadce0;
+  --focus-ring: #1a73e8;
+  --hover: rgba(0, 0, 0, 0.05);
+  --monospace-font: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+}
+
+/* Dark theme colors using prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-background, #202124);
+    --text: #80868b;
+    --text-primary: #ffffff;
+    --accent: #1a73e8;
+    --separator: #3c4043;
+    --focus-ring: #0e639c;
+    --hover: rgba(255, 255, 255, 0.1);
+  }
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+/* Base styles using CSS variables */
+.devtools-wrapper {
+  display: flex;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  height: 100%;
+  overflow: hidden;
+}
+
+.devtools-header {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--separator);
+  background-color: var(--background);
+}
+
+.devtools-tabs {
+  display: flex;
+  height: 28px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.devtools-tab {
+  padding: 4px 8px;
+  margin: 0 1px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: none;
+  font-size: 11px;
+  line-height: 20px;
+}
+
+.devtools-tab:hover {
+  background-color: var(--hover);
+}
+
+.devtools-tab.selected {
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--accent);
+}
+
+.devtools-tab-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.devtools-tab-content-inner {
+  height: 100%;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  padding-left: 16px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.tree-item:hover {
+  background-color: var(--hover);
+}
+
+.devtools-sidebar {
+  width: 250px;
+  border-right: 1px solid var(--separator);
+  background-color: var(--background);
+  overflow-y: auto;
+}
+
+.devtools-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.devtools-input {
+  background-color: var(--background);
+  border: 1px solid var(--separator);
+  color: var(--text-primary);
+  padding: 3px 6px;
+  font-size: 12px;
+  outline: none;
+}
+
+.devtools-input:focus {
+  border-color: var(--focus-ring);
+}
+
+.devtools-monospace {
+  font-family: var(--monospace-font);
+  font-size: 11px;
+}
+
+.devtools-button {
+  background-color: var(--background);
+  border: 1px solid var(--separator);
+  color: var(--text-primary);
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.devtools-button:hover {
+  background-color: var(--hover);
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 8px;
+  padding: 4px;
+}
+
+.property-name {
+  color: var(--text);
+  font-weight: bold;
+}
+
+.property-value {
+  color: var(--text-primary);
+}
+
+.devtools-search {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  margin-right: 4px;
+}
+
+.separator-bottom {
+  border-bottom: 2px solid var(--separator);
+}
+
+.p-3 {
+  padding: 0.75rem /* 12px */;
+}
+.px-3 {
+  padding-left: 0.75rem /* 12px */;
+  padding-right: 0.75rem /* 12px */;
+}
+.py-3 {
+  padding-top: 0.75rem /* 12px */;
+  padding-bottom: 0.75rem /* 12px */;
+}
+
+.font-bold {
+  font-weight: 700;
+}
