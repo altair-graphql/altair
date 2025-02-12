@@ -1,6 +1,7 @@
 import FileSaver from 'file-saver';
 import JSONBigint from 'json-bigint';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
+import { isExtension, isFirefoxExtension } from 'altair-graphql-core/build/crx';
 import { debug } from './logger';
 import { IDictionary } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
@@ -118,9 +119,6 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
     return Promise.all([]);
   }
 };
-
-export const isExtension = !!window.chrome?.runtime?.id;
-export const isFirefoxExtension = location.protocol === 'moz-extension:';
 
 export const detectEnvironment = () => {
   if (isElectron) {
