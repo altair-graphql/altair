@@ -7,7 +7,7 @@ import {
 import { debug } from '../../utils/logger';
 import { environment } from 'environments/environment';
 import { EvaluatorWorkerClient } from './evaluator-worker-client';
-import { isExtension } from '../../utils';
+import { isExtension } from 'altair-graphql-core/build/crx';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 
 export class EvaluatorFrameClient extends ScriptEvaluatorClient {

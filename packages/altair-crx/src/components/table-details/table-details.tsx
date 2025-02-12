@@ -65,6 +65,11 @@ export const TableDetails: React.FC<TableDetailsProps> = ({ request, onClose }) 
           cursor: 'pointer',
         }}
         onClick={() => onClose()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            onClose();
+          }
+        }}
       >
         &#x2715;
       </span>

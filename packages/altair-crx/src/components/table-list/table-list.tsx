@@ -117,6 +117,11 @@ export const TableList: React.FC<TableListProps> = ({ requests }) => {
                   {header.isPlaceholder ? null : (
                     <div
                       onClick={header.column.getToggleSortingHandler()}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          header.column.toggleSorting();
+                        }
+                      }}
                       title={
                         header.column.getCanSort()
                           ? header.column.getNextSortingOrder() === 'asc'

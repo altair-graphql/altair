@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
-import { isExtension } from '../../utils';
+import { isExtension } from 'altair-graphql-core/build/crx';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { IDictionary } from '../../interfaces/shared';
