@@ -1,22 +1,11 @@
 import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { WebExtensionMessage } from 'altair-graphql-core/build/types/messaging';
+import { isExtension, sendMessage } from 'altair-graphql-core/build/crx';
 import { openAltairApp } from './tabs';
 
-export const isExtension = () => {
-  return !!(window.chrome || window.browser)?.runtime?.id;
-};
-export const sendMessage = (message: WebExtensionMessage) => {
-  const browser = window.chrome || window.browser;
-  if (!isExtension()) {
-    console.log('Not running in an extension');
-    console.log('Message:', message);
-    return;
-  }
-  browser.runtime.sendMessage(message);
-};
 export const openInAltair = (data: ExportWindowState) => {
   const browser = window.chrome || window.browser;
-  if (!isExtension()) {
+  if (!isExtension) {
     console.log('Not running in an extension');
     console.log('Data:', data);
     return;
