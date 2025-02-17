@@ -36,7 +36,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
-    "resend": "^4.0.0",
+    "resend": "^4.1.2",
     "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
     "stripe": "^16.2.0",
