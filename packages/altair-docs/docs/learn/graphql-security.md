@@ -45,7 +45,7 @@ Limiting query depth and complexity prevents attackers from crafting deeply nest
 
 Verifying user identity and ensuring users only access data they’re permitted to is crucial. Unlike REST APIs, GraphQL often uses a single endpoint, making granular authorization even more important.
 
-- **Implement JWTs or OAuth:** Use standard authentication protocols (e.g., JWTs) to secure access. In Altair, you can add your JWT token or get it using authorization flows like OAuth in the [authorization](/dics/features/auth) section.
+- **Implement JWTs or OAuth:** Use standard authentication protocols (e.g., JWTs) to secure access. In Altair, you can add your JWT token or get it using authorization flows like OAuth in the [authorization](/docs/features/auth) section.
 - **Field-Level authorization:** Use middleware such as [`graphql-shield`](https://www.npmjs.com/package/graphql-shield) or custom GraphQL directives (e.g. create a `@requiresAuth` directive)to declaratively enforce authorization rules on individual fields or mutations.
 - **Centralize authorization logic:** Where possible, perform authorization checks in a central business logic layer to avoid inconsistencies.
 
