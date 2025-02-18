@@ -5,10 +5,13 @@ import { renderWelcomeEmail } from '@altairgraphql/emails';
 import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
+import { Agent, getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class EmailService {
   private resend: Resend;
+  private agent = getAgent();
+
   constructor(
     private configService: ConfigService<Config>,
     private readonly userService: UserService
@@ -52,12 +55,8 @@ export class EmailService {
 
   async sendWelcomeEmail(userId: string) {
     const user = await this.userService.mustGetUser(userId);
-    const { data, error } = await this.resend.emails.send({
-      from:
-        this.configService.get('email.defaultFrom', { infer: true }) ??
-        'info@mail.altairgraphql.dev',
+    const { data, error } = await this.sendEmail({
       to: user.email,
-      replyTo: this.configService.get('email.replyTo', { infer: true }),
       subject: 'Welcome to Altair GraphQL Cloud',
       html: await renderWelcomeEmail({ username: this.getFirstName(user) }),
     });
@@ -70,12 +69,9 @@ export class EmailService {
 
   async sendGoodbyeEmail(userId: string) {
     const user = await this.userService.mustGetUser(userId);
-    const { data, error } = await this.resend.emails.send({
-      from:
-        this.configService.get('email.defaultFrom', { infer: true }) ??
-        'info@mail.altairgraphql.dev',
+
+    const { data, error } = await this.sendEmail({
       to: user.email,
-      replyTo: this.configService.get('email.replyTo', { infer: true }),
       subject: 'Sorry to see you go 👋🏾',
       html: `Hey ${this.getFirstName(user)},
       <br><br>
@@ -97,6 +93,32 @@ export class EmailService {
       console.error('Error sending goodbye email', error);
     }
 
+    return { data, error };
+  }
+
+  private async sendEmail({
+    to,
+    subject,
+    html,
+  }: {
+    to: string;
+    subject: string;
+    html: string;
+  }) {
+    const { data, error } = await this.resend.emails.send({
+      from:
+        this.configService.get('email.defaultFrom', { infer: true }) ??
+        'info@mail.altairgraphql.dev',
+      to,
+      replyTo: this.configService.get('email.replyTo', { infer: true }),
+      subject,
+      html,
+    });
+    if (error) {
+      this.agent?.incrementMetric('email.send.error');
+    }
+
+    this.agent?.incrementMetric('email.send.success');
     return { data, error };
   }
 

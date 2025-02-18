@@ -4,9 +4,11 @@ import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
 import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class TeamMembershipsService {
+  private readonly agent = getAgent();
   constructor(
     private prisma: PrismaService,
     private userService: UserService
@@ -64,17 +66,23 @@ export class TeamMembershipsService {
 
     await this.updateSubscriptionQuantity(userId);
 
+    this.agent?.incrementMetric('team.membership.added');
+
     return res;
   }
 
   async findAllByTeamOwner(userId: string) {
-    return this.prisma.teamMembership.findMany({
+    const res = await this.prisma.teamMembership.findMany({
       where: {
         team: {
           ownerId: userId,
         },
       },
     });
+
+    this.agent?.recordMetric('team.membership.count_by_owner', res.length);
+
+    return res;
   }
 
   async findAll(userId: string, teamId: string) {
@@ -98,7 +106,7 @@ export class TeamMembershipsService {
       );
     }
 
-    return this.prisma.teamMembership.findMany({
+    const res = await this.prisma.teamMembership.findMany({
       where: {
         teamId,
       },
@@ -112,6 +120,10 @@ export class TeamMembershipsService {
         },
       },
     });
+
+    this.agent?.recordMetric('team.membership.count', res.length);
+
+    return res;
   }
 
   findOne(userId: string, id: string) {

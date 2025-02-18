@@ -12,10 +12,12 @@ import { StripeService } from 'src/stripe/stripe.service';
 import { ProviderInfo } from '../models/provider-info.dto';
 import { SignupInput } from '../models/signup.input';
 import { UpdateUserInput } from '../models/update-user.input';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
+  private readonly agent = getAgent();
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService
@@ -301,12 +303,16 @@ export class UserService {
   }
 
   async getProUsers() {
-    return this.prisma.user.findMany({
+    const proUsers = await this.prisma.user.findMany({
       where: {
         UserPlan: {
           planRole: PRO_PLAN_ID,
         },
       },
     });
+
+    this.agent?.recordMetric('users.pro.count', proUsers.length);
+
+    return proUsers;
   }
 }
