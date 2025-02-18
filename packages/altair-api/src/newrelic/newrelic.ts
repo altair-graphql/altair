@@ -15,14 +15,13 @@ export interface Agent {
 }
 
 const prodAgent: Agent = {
-  startWebTransaction: newrelic.startWebTransaction,
-  getTransaction: newrelic.getTransaction,
-  recordMetric: newrelic.recordMetric,
-  incrementMetric: newrelic.incrementMetric,
+  startWebTransaction: (...args: unknown[]) => newrelic.startWebTransaction(...args),
+  getTransaction: (...args: unknown[]) => newrelic.getTransaction(...args),
+  recordMetric: (...args: unknown[]) => newrelic.recordMetric(...args),
+  incrementMetric: (...args: unknown[]) => newrelic.incrementMetric(...args),
 };
 
 export const getAgent = (): Agent | undefined => {
-  // return;
   if (process.env.NEW_RELIC_APP_NAME) {
     return prodAgent;
   }

@@ -10,6 +10,7 @@ import { Observable, tap } from 'rxjs';
 
 const tagsToString = (tags: Record<string, unknown>) => {
   return Object.entries(tags)
+    .filter(([, value]) => value !== undefined)
     .map(([key, value]) => `${key}=${value}`)
     .join(' ');
 };
