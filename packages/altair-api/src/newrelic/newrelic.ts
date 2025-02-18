@@ -21,7 +21,8 @@ const prodAgent: Agent = {
   incrementMetric: newrelic.incrementMetric,
 };
 
-export const getAgent = () => {
+export const getAgent = (): Agent | undefined => {
+  // return;
   if (process.env.NEW_RELIC_APP_NAME) {
     return prodAgent;
   }
