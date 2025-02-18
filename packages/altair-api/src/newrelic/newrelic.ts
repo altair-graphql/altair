@@ -17,8 +17,10 @@ export interface Agent {
 const prodAgent: Agent = {
   startWebTransaction: (...args: unknown[]) => newrelic.startWebTransaction(...args),
   getTransaction: (...args: unknown[]) => newrelic.getTransaction(...args),
-  recordMetric: (...args: unknown[]) => newrelic.recordMetric(...args),
-  incrementMetric: (...args: unknown[]) => newrelic.incrementMetric(...args),
+  recordMetric: (name: string, ...rest: unknown[]) =>
+    newrelic.recordMetric(`Custom/${name.split('.').join('/')}`, ...rest),
+  incrementMetric: (name: string, ...rest: unknown[]) =>
+    newrelic.incrementMetric(`Custom/${name.split('.').join('/')}`, ...rest),
 };
 
 export const getAgent = (): Agent | undefined => {
