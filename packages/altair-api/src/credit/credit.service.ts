@@ -8,11 +8,14 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { getAgent } from 'src/newrelic/newrelic';
 import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class CreditService {
   private readonly logger = new Logger(CreditService.name);
+  private readonly agent = getAgent();
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -42,8 +45,13 @@ export class CreditService {
       where: { userId },
     });
     if (!creditBalance) {
+      this.agent?.incrementMetric('credit.balance.not_found');
       throw new BadRequestException('User has no credits');
     }
+    this.agent?.recordMetric(
+      'credit.balance.total',
+      creditBalance.fixedCredits + creditBalance.monthlyCredits
+    );
     return {
       fixed: creditBalance.fixedCredits,
       monthly: creditBalance.monthlyCredits,
@@ -122,6 +130,8 @@ export class CreditService {
         },
       });
     });
+
+    this.agent?.recordMetric('credit.monthly.refill_count', proUsers.length);
 
     await Promise.all(creditBalanceRecords);
   }

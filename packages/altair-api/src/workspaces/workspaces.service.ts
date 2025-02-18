@@ -7,20 +7,26 @@ import {
   workspaceWhereOwner,
   workspaceWhereOwnerOrMember,
 } from 'src/common/where-clauses';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class WorkspacesService {
+  private readonly agent = getAgent();
   constructor(private readonly prisma: PrismaService) {}
   create(userId: string, createWorkspaceDto: CreateWorkspaceDto) {
     return 'This action adds a new workspace';
   }
 
-  findAll(userId: string): Promise<ReturnedWorkspace[]> {
-    return this.prisma.workspace.findMany({
+  async findAll(userId: string): Promise<ReturnedWorkspace[]> {
+    const res = await this.prisma.workspace.findMany({
       where: {
         ...workspaceWhereOwnerOrMember(userId),
       },
     });
+
+    this.agent?.recordMetric('workspace.list.count', res.length);
+
+    return res;
   }
 
   findOne(userId: string, id: string): Promise<ReturnedWorkspace | null> {

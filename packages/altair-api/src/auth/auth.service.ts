@@ -12,9 +12,11 @@ import { SecurityConfig } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
 import { PasswordService } from './password/password.service';
 import { IToken } from '@altairgraphql/api-utils';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class AuthService {
+  private readonly agent = getAgent();
   constructor(
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
@@ -99,6 +101,8 @@ export class AuthService {
   }
 
   getLoginResponse(user: User) {
+    this.agent?.incrementMetric('auth.login.success');
+
     return {
       id: user.id,
       email: user.email,
@@ -121,6 +125,7 @@ export class AuthService {
    */
   getShortLivedEventsToken(userId: string): string {
     const securityConfig = this.configService.get<SecurityConfig>('security');
+    this.agent?.incrementMetric('auth.events_token.generate');
     return this.jwtService.sign(
       { userId },
       {

@@ -5,9 +5,11 @@ import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class TeamsService {
+  private readonly agent = getAgent();
   constructor(
     private prisma: PrismaService,
     private userService: UserService
@@ -29,7 +31,7 @@ export class TeamsService {
       );
     }
 
-    return this.prisma.team.create({
+    const res = await this.prisma.team.create({
       data: {
         ...createTeamDto,
         ownerId: userId,
@@ -41,10 +43,14 @@ export class TeamsService {
         },
       },
     });
+
+    this.agent?.incrementMetric('team.created');
+
+    return res;
   }
 
-  findAll(userId: string) {
-    return this.prisma.team.findMany({
+  async findAll(userId: string) {
+    const res = await this.prisma.team.findMany({
       where: {
         ...this.ownerOrMemberWhere(userId),
       },
@@ -57,6 +63,10 @@ export class TeamsService {
         },
       },
     });
+
+    this.agent?.recordMetric('team.list.count', res.length);
+
+    return res;
   }
 
   findOne(userId: string, id: string) {

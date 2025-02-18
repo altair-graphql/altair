@@ -12,9 +12,11 @@ import {
   collectionWhereOwner,
   collectionWhereOwnerOrMember,
 } from 'src/common/where-clauses';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class QueryCollectionsService {
+  private readonly agent = getAgent();
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -101,11 +103,13 @@ export class QueryCollectionsService {
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
 
+    this.agent?.incrementMetric('query_collection.create');
+
     return res;
   }
 
-  findAll(userId: string) {
-    return this.prisma.queryCollection.findMany({
+  async findAll(userId: string) {
+    const res = await this.prisma.queryCollection.findMany({
       where: {
         ...collectionWhereOwnerOrMember(userId),
       },
@@ -113,6 +117,10 @@ export class QueryCollectionsService {
         queries: true,
       },
     });
+
+    this.agent?.recordMetric('query_collection.list.count', res.length);
+
+    return res;
   }
 
   findOne(userId: string, id: string) {
@@ -169,13 +177,17 @@ export class QueryCollectionsService {
   }
 
   async count(userId: string, ownOnly = true) {
-    return this.prisma.queryCollection.count({
+    const cnt = await this.prisma.queryCollection.count({
       where: {
         ...(ownOnly
           ? collectionWhereOwner(userId)
           : collectionWhereOwnerOrMember(userId)),
       },
     });
+
+    this.agent?.recordMetric('query_collection.list.count', cnt);
+
+    return cnt;
   }
 
   private async getWorkspaceOwnerId(workspaceId: string) {

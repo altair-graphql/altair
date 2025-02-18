@@ -12,11 +12,13 @@ import {
   queryItemWhereOwnerOrMember,
   collectionWhereOwnerOrMember,
 } from 'src/common/where-clauses';
+import { getAgent } from 'src/newrelic/newrelic';
 
 const DEFAULT_QUERY_REVISION_LIMIT = 10;
 
 @Injectable()
 export class QueriesService {
+  private readonly agent = getAgent();
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -85,6 +87,8 @@ export class QueriesService {
 
     this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
 
+    this.agent?.incrementMetric('query.create');
+
     return res;
   }
 
@@ -140,15 +144,21 @@ export class QueriesService {
 
     this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
 
+    this.agent?.incrementMetric('query.create');
+
     return res;
   }
 
-  findAll(userId: string) {
-    return this.prisma.queryItem.findMany({
+  async findAll(userId: string) {
+    const res = await this.prisma.queryItem.findMany({
       where: {
         ...queryItemWhereOwnerOrMember(userId),
       },
     });
+
+    this.agent?.recordMetric('query.list.count', res.length);
+
+    return res;
   }
 
   async findOne(userId: string, id: string) {
@@ -205,17 +215,21 @@ export class QueriesService {
   }
 
   async count(userId: string, ownOnly = true) {
-    return this.prisma.queryItem.count({
+    const cnt = await this.prisma.queryItem.count({
       where: {
         ...(ownOnly
           ? queryItemWhereOwner(userId)
           : queryItemWhereOwnerOrMember(userId)),
       },
     });
+
+    this.agent?.recordMetric('query.list.count', cnt);
+
+    return cnt;
   }
 
-  listRevisions(userId: string, queryId: string) {
-    return this.prisma.queryItemRevision.findMany({
+  async listRevisions(userId: string, queryId: string) {
+    const res = await this.prisma.queryItemRevision.findMany({
       where: {
         queryItem: {
           id: queryId,
@@ -232,6 +246,10 @@ export class QueriesService {
         },
       },
     });
+
+    this.agent?.recordMetric('query.revision.list.count', res.length);
+
+    return res;
   }
 
   async restoreRevision(userId: string, revisionId: string) {
@@ -357,6 +375,8 @@ export class QueriesService {
         },
       });
     }
+
+    this.agent?.incrementMetric('query.revision.create');
 
     return res;
   }
