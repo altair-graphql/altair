@@ -63,6 +63,7 @@ To install Altair GraphQL Cloud on your server using the pre-built Docker image,
          - POSTGRES_PASSWORD=altair
          - DATABASE_URL=postgres://altair:altair@postgres:5432/altair
          - STRIPE_SECRET_KEY=your_stripe_secret_key
+         - STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
        depends_on:
          - postgres
        restart: always
@@ -78,7 +79,7 @@ To install Altair GraphQL Cloud on your server using the pre-built Docker image,
        restart: always
    ```
 
-3. Replace the placeholders (`your_access_secret`, `your_events_access_secret`, `your_refresh_secret`, `your_google_oauth_client_id`, `your_google_oauth_client_secret`, and `your_stripe_secret_key`) with your own values. You can generate these secrets using a tool like [1Password](https://1password.com/password-generator/).
+3. Replace the placeholders (`your_access_secret`, `your_events_access_secret`, `your_refresh_secret`, `your_google_oauth_client_id`, `your_google_oauth_client_secret`, `your_stripe_secret_key` and `your_stripe_webhook_secret`) with your own values. You can generate these secrets using a tool like [1Password](https://1password.com/password-generator/).
 4. Run the following command to start Altair GraphQL Cloud:
 
    ```bash
@@ -103,7 +104,7 @@ To build the Docker image from the source code, follow these steps:
 
 ## Digitalocean
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master&refcode=345176f96acb)
 
 ## Vercel
 

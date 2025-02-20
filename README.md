@@ -59,7 +59,7 @@ Become a [Gold sponsor](https://opencollective.com/altair/contribute/gold-sponso
 ### Other Sponsors
 
 <p>
-  <a href="https://www.digitalocean.com/">
+  <a href="https://www.digitalocean.com/?refcode=345176f96acb&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
     <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" width="201px">
   </a>
 </p>
@@ -96,7 +96,7 @@ The docker image can be built from the [Dockerfile](./Dockerfile) at the root of
 
 #### Digitalocean
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master&refcode=345176f96acb)
 
 #### Vercel
 
