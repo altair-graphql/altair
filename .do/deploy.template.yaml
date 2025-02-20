@@ -6,28 +6,28 @@ spec:
         branch: master
         repo_clone_url: https://github.com/altair-graphql/altair.git
       envs:
-      - key: JWT_ACCESS_SECRET
-        scope: RUN_TIME
-      - key: EVENTS_JWT_ACCESS_SECRET
-        scope: RUN_TIME
-      - key: JWT_REFRESH_SECRET
-        scope: RUN_TIME
-      - key: GOOGLE_OAUTH_CLIENT_ID
-        scope: RUN_TIME
-      - key: GOOGLE_OAUTH_CLIENT_SECRET
-        scope: RUN_TIME
-      - key: POSTGRES_DB
-        scope: RUN_TIME
-      - key: POSTGRES_USER
-        scope: RUN_TIME
-      - key: POSTGRES_PASSWORD
-        scope: RUN_TIME
-      - key: DATABASE_URL
-        scope: RUN_TIME
-        value: ${postgresdb.DATABASE_URL}
-      - key: STRIPE_SECRET_KEY
-        scope: RUN_TIME
-      - key: STRIPE_WEBHOOK_SECRET
-        scope: RUN_TIME
-    databases:
+        - key: JWT_ACCESS_SECRET
+          scope: RUN_TIME
+        - key: EVENTS_JWT_ACCESS_SECRET
+          scope: RUN_TIME
+        - key: JWT_REFRESH_SECRET
+          scope: RUN_TIME
+        - key: GOOGLE_OAUTH_CLIENT_ID
+          scope: RUN_TIME
+        - key: GOOGLE_OAUTH_CLIENT_SECRET
+          scope: RUN_TIME
+        - key: POSTGRES_DB
+          scope: RUN_TIME
+        - key: POSTGRES_USER
+          scope: RUN_TIME
+        - key: POSTGRES_PASSWORD
+          scope: RUN_TIME
+        - key: DATABASE_URL
+          scope: RUN_TIME
+          value: ${postgresdb.DATABASE_URL}
+        - key: STRIPE_SECRET_KEY
+          scope: RUN_TIME
+        - key: STRIPE_WEBHOOK_SECRET
+          scope: RUN_TIME
+  databases:
     - name: postgresdb
