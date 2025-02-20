@@ -157,6 +157,7 @@ export class QueryCollectionEffects {
         );
       }),
       tap(() => this.notifyService.success('Added query to collection.')),
+      // TODO: Reload only changed
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         return fromPromise(getErrorResponse(err)).pipe(

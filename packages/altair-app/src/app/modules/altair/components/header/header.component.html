@@ -1,7 +1,7 @@
 <div
   class="header__logo-wrapper"
-  [ngClass]="{ 'header__logo-wrapper--experimental': settings?.enableExperimental}"
-  >
+  [ngClass]="{ 'header__logo-wrapper--experimental': settings?.enableExperimental }"
+>
   <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
 
@@ -11,6 +11,7 @@
   [activeWindowId]="activeWindowId"
   [closedWindows]="closedWindows"
   [isElectron]="isElectron"
+  [collections]="collections"
   [enableScrollbar]="settings?.enableTablistScrollbar"
   (newWindowChange)="newWindowChange.emit($event)"
   (activeWindowChange)="activeWindowChange.emit($event)"
@@ -31,7 +32,7 @@
         nzTooltipPlacement="bottom"
         class="header__menu-item"
         [ngClass]="{ 'header__menu-item--active': panel.isActive }"
-        >
+      >
         <app-icon name="cpu"></app-icon>
         <nz-modal
           [nzVisible]="panel.isActive"
@@ -40,7 +41,7 @@
           [nzContent]="modalContent"
           [nzFooter]="null"
           (nzOnCancel)="togglePanelActiveChange.emit(panel)"
-          >
+        >
           <ng-template #modalTitle>
             <div class="app-dialog-header">
               <div class="app-dialog-title">{{ panel.title }}</div>
@@ -58,7 +59,7 @@
       nzTrigger="click"
       [nzDropdownMenu]="environmentsMenu"
       class="header__menu-item"
-      >
+    >
       @if (activeEnvironment) {
         <span>
           <app-icon name="eye"></app-icon>
@@ -76,20 +77,18 @@
       <ul nz-menu class="environments-dropdown__list">
         @if (environments?.subEnvironments?.length) {
           @for (
-            environment of environments?.subEnvironments; track trackById($index,
-            environment)) {
+            environment of environments?.subEnvironments;
+            track trackById($index, environment)
+          ) {
             <li
               nz-menu-item
               (click)="selectActiveEnvironmentChange.emit(environment.id)"
               [ngClass]="{ active: environment.id === activeEnvironment?.id }"
-              >
+            >
               {{ environment.title }}
             </li>
           }
-          <li
-            nz-menu-item
-            (click)="selectActiveEnvironmentChange.emit(undefined)"
-            >
+          <li nz-menu-item (click)="selectActiveEnvironmentChange.emit(undefined)">
             {{ 'NO_ENVIRONMENT_TEXT' | translate }}
           </li>
           <li nz-menu-divider></li>
@@ -104,7 +103,7 @@
       nzTrigger="click"
       [nzDropdownMenu]="settingsMenu"
       class="header__menu-item"
-      >
+    >
       <app-icon name="settings"></app-icon>
     </li>
     <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
@@ -121,7 +120,7 @@
         <li
           nz-menu-item
           (click)="openLink($event, 'https://github.com/altair-graphql/altair')"
-          >
+        >
           {{ 'STAR_ON_GITHUB_TEXT' | translate }}
         </li>
         <li
@@ -132,7 +131,7 @@
               'https://github.com/altair-graphql/altair/issues/new?template=Bug_report.md'
             )
           "
-          >
+        >
           {{ 'REPORT_BUG_TEXT' | translate }}
         </li>
         <li nz-menu-item (click)="exportBackupDataChange.emit()">

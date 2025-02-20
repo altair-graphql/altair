@@ -31,6 +31,7 @@
       [activeEnvironment]="activeEnvironment$ | async"
       [environments]="environments$ | async"
       [settings]="settings$ | async"
+      [collections]="sortedCollections$ | async"
       (newWindowChange)="newWindow()"
       (activeWindowChange)="setActiveWindow($event)"
       (removeWindowChange)="removeWindow($event)"
@@ -258,7 +259,7 @@
                     attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
                     track-id="show_collections"
                     [ngClass]="{
-                      'side-menu-item--active': (account$ | async)?.loggedIn
+                      'side-menu-item--active': (account$ | async)?.loggedIn,
                     }"
                   >
                     <div class="side-menu-item-icon">

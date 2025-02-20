@@ -1,11 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostBinding,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
@@ -15,6 +9,8 @@ import {
 } from 'ng-zorro-antd/dropdown';
 
 import { debug } from '../../utils/logger';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { windowHasUnsavedChanges } from '../../store';
 
 @Component({
   selector: 'app-window-switcher',
@@ -25,6 +21,7 @@ export class WindowSwitcherComponent {
   @Input() windows: WindowState = {};
   @Input() windowIds: string[] = [];
   @Input() closedWindows: PerWindowState[] = [];
+  @Input() collections: IQueryCollection[] = [];
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Input() enableScrollbar = false;
@@ -110,5 +107,35 @@ export class WindowSwitcherComponent {
 
   log(str: string) {
     debug.log(str);
+  }
+
+  isWindowInCollection(windowId: string) {
+    const windowIdInCollection =
+      this.windows[windowId]?.layout?.windowIdInCollection;
+    const collectionId = this.windows[windowId]?.layout?.collectionId;
+    if (!windowIdInCollection || !collectionId) {
+      return false;
+    }
+
+    const collection = this.collections.find(
+      (collection) => collection.id === collectionId
+    );
+
+    if (!collection) {
+      return false;
+    }
+
+    return !!collection.queries.find((query) => query.id === windowIdInCollection);
+  }
+
+  windowHasUnsavedChanges(windowId: string) {
+    const window = this.windows[windowId];
+    if (!window) {
+      return false;
+    }
+    if (!this.isWindowInCollection(windowId)) {
+      return false;
+    }
+    return windowHasUnsavedChanges(window, this.collections);
   }
 }
