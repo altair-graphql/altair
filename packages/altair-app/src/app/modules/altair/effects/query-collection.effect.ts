@@ -1,4 +1,4 @@
-import { EMPTY, Observable, of, zip, forkJoin, from, pipe } from 'rxjs';
+import { EMPTY, Observable, of, zip, forkJoin, from } from 'rxjs';
 
 import {
   map,
@@ -6,21 +6,16 @@ import {
   switchMap,
   tap,
   catchError,
-  filter,
   repeat,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 
-import * as fromRoot from '../store';
-
 import * as collectionActions from '../store/collection/collection.action';
 import * as accountActions from '../store/account/account.action';
-import * as dialogsActions from '../store/dialogs/dialogs.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
 import * as windowsActions from '../store/windows/windows.action';
-import * as localActions from '../store/local/local.action';
 import * as layoutActions from '../store/layout/layout.action';
 import {
   QueryCollectionService,
@@ -28,7 +23,7 @@ import {
   NotifyService,
   ApiService,
 } from '../services';
-import { downloadJson, fromPromise, openFile, openFiles } from '../utils';
+import { downloadJson, fromPromise, openFiles } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { IQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { UnknownError } from '../interfaces/shared';
@@ -157,7 +152,6 @@ export class QueryCollectionEffects {
         );
       }),
       tap(() => this.notifyService.success('Added query to collection.')),
-      // TODO: Reload only changed
       map(() => new collectionActions.LoadCollectionsAction()),
       catchError((err: UnknownError) => {
         return fromPromise(getErrorResponse(err)).pipe(
@@ -438,7 +432,7 @@ export class QueryCollectionEffects {
       switchMap(() => {
         return this.apiService.listenForCollectionChanges();
       }),
-      map((x) => {
+      map(() => {
         return new collectionActions.LoadCollectionsAction();
       }),
       catchError((error) => {
