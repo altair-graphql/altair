@@ -36,7 +36,7 @@ import { asyncStorageSync } from './async-storage-sync';
 import { localStorageSyncConfig } from './local-storage-sync-config';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AllActions } from './action';
-import { selectWindowState } from './windows/selectors';
+import { selectWindowState, windowHasUnsavedChanges } from './windows/selectors';
 import { getQueryState } from './query/selectors';
 import { selectCollections } from './collection/selectors';
 import { str } from '../utils';
@@ -136,20 +136,7 @@ export const selectHasUnsavedChanges = (windowId: string) => {
     selectWindowState(windowId),
     selectCollections,
     (windowState, collections) => {
-      if (!windowState || !collections) {
-        return false;
-      }
-      const collection = collections.find(
-        (c) => str(c.id) === str(windowState.layout.collectionId)
-      );
-      const queryInCollection = collection?.queries.find(
-        (q) => str(q.id) === str(windowState.layout.windowIdInCollection ?? '')
-      );
-
-      return (
-        queryInCollection?.query !== windowState.query.query ||
-        queryInCollection?.variables !== windowState.variables.variables
-      );
+      return windowHasUnsavedChanges(windowState, collections);
     }
   );
 };

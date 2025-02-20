@@ -300,9 +300,6 @@ export class WindowService {
           this.store.dispatch(
             new variableActions.UpdateVariablesAction(data.variables, windowId)
           );
-          this.store.dispatch(
-            new dialogsActions.ToggleVariableDialogAction(windowId)
-          );
         }
         if (data.subscriptionUrl) {
           this.store.dispatch(
@@ -526,43 +523,6 @@ export class WindowService {
    * Carry out any necessary house cleaning tasks.
    */
   setupWindow(windowId: string) {
-    // Validate that query is ACTUALLY in an existing collection
-    this.getWindowState(windowId)
-      .pipe(
-        switchMap((data) => {
-          if (data?.layout.collectionId && data?.layout.windowIdInCollection) {
-            return from(
-              this.collectionService.getCollectionByID(data.layout.collectionId)
-            ).pipe(
-              catchError(() => {
-                // continue to evaluation logic in map() below if collection is not found
-                // (EMPTY would stop the observable chain)
-                return of(undefined);
-              }),
-              map((collection) => {
-                if (collection) {
-                  const query = collection.queries.find(
-                    (q) => q.id === data.layout.windowIdInCollection
-                  );
-                  return !!query;
-                }
-
-                return false;
-              })
-            );
-          }
-
-          return EMPTY;
-        })
-      )
-      .subscribe((isValidCollectionQuery) => {
-        if (!isValidCollectionQuery) {
-          this.store.dispatch(
-            new layoutActions.SetWindowIdInCollectionAction(windowId, {})
-          );
-        }
-      });
-
     this.store.dispatch(new streamActions.StopStreamClientAction(windowId));
     this.store.dispatch(new streamActions.StartStreamClientAction(windowId));
 

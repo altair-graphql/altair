@@ -14,6 +14,7 @@ import { WindowService } from '../services/window.service';
 import { downloadJson, openFile } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../utils/logger';
+import { windowHasUnsavedChanges } from '../store';
 
 @Injectable()
 export class WindowsEffects {
@@ -202,7 +203,7 @@ export class WindowsEffects {
               (q) => q.id === window.layout.windowIdInCollection
             );
 
-            if (payload) {
+            if (payload && !windowHasUnsavedChanges(window, data.collection.list)) {
               this.windowService
                 .updateWindowState(window.windowId, payload)
                 .catch((err) => {

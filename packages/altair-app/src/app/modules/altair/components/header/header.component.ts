@@ -8,6 +8,7 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { externalLink } from '../../utils';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent {
   @Input() activeWindowId = '';
   @Input() isElectron = false;
   @Input() headerPanels: AltairPanel[] = [];
+  @Input() collections: IQueryCollection[] = [];
   @Input() activeEnvironment?: EnvironmentState;
   @Input() environments?: EnvironmentsState;
   @Input() settings?: SettingsState;

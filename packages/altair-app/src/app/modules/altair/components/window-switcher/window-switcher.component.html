@@ -15,7 +15,7 @@
       (dblclick)="editWindowNameInput(windowId, wTitle)"
       (contextmenu)="contextMenu($event, tabContextMenu)"
     >
-      @if (windows[windowId]?.layout?.windowIdInCollection) {
+      @if (isWindowInCollection(windowId)) {
         <app-icon
           name="folder"
           nz-tooltip
@@ -27,7 +27,7 @@
         #wTitle
         class="window-switcher__input"
         [ngClass]="{
-          'window-switcher__input--editing': windowId === windowIdEditing
+          'window-switcher__input--editing': windowId === windowIdEditing,
         }"
         [attr.contenteditable]="windowId === windowIdEditing"
         (blur)="saveWindowName(windowId, wTitle.innerText)"
@@ -35,6 +35,12 @@
       >
         {{ windows[windowId]?.layout?.title || '' }}
       </div>
+      <span
+        class="window-switcher__unsaved-indicator"
+        *ngIf="windowHasUnsavedChanges(windowId)"
+      >
+        *
+      </span>
       @if (windowIds.length > 1) {
         <div
           track-id="close_window_tab"
