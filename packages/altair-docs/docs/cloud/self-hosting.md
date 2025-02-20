@@ -92,12 +92,26 @@ To install Altair GraphQL Cloud on your server using the pre-built Docker image,
 
 To build the Docker image from the source code, follow these steps:
 
-1. Clone the [Altair GraphQL repository](https://github.com/altair-graphql/altair)
-2. Build the Docker image using the provided [Dockerfile](https://github.com/altair-graphql/altair/blob/master/Dockerfile)
-3. Run the Docker image on your server using Docker Compose or Docker CLI:
+1. Clone the [Altair GraphQL repository](https://github.com/altair-graphql/altair) if you haven't already:
 
    ```bash
-   docker run -p 3000:3000 altair-graphql/altair
+   git clone https://github.com/altair-graphql/altair.git
+   cd altair
+   ```
+
+2. Build the Docker image using the provided [Dockerfile](https://github.com/altair-graphql/altair/blob/master/Dockerfile):
+
+   ```bash
+   docker build -t altair-graphql/altair .
+   ```
+
+3. Run the container with the necessary environment variables. Refer to the [.env.example](https://github.com/altair-graphql/altair/blob/master/packages/altair-api/.env.example) file for a list of required environment variables:
+
+   ```bash
+   docker run -d -p 3000:3000 \
+   -e ENV_VAR1=value1 \
+   -e ENV_VAR2=value2 \
+   altair-graphql/altair
    ```
 
 4. Access Altair GraphQL Cloud in your web browser
