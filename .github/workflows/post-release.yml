@@ -2,7 +2,7 @@ name: post-release-workflow
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 env:
   NODE_VERSION: 22
