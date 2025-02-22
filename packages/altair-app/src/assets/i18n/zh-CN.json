@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "添加",
   "SCHEMA_FORM_LIST_REMOVE": "移除",
-  "PLUGINS_TEXT": "可用插件",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "浏览可用插件",
   "PLUGIN_UNIQUE_NAME_TEXT": "唯一插件名称",
   "PLUGIN_ADD_BUTTON": "添加到Altair",
