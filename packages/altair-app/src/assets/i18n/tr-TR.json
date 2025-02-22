@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Ekle",
   "SCHEMA_FORM_LIST_REMOVE": "Kaldır",
-  "PLUGINS_TEXT": "Kullanılabilir Eklentiler",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Mevcut eklentilere göz atın",
   "PLUGIN_UNIQUE_NAME_TEXT": "Benzersiz Eklenti Adı",
   "PLUGIN_ADD_BUTTON": "Altair'e ekle",
