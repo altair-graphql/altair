@@ -12,7 +12,6 @@ import {
   createV1Plugin,
   PluginManifest,
   PluginSource,
-  RemotePluginListResponse,
 } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
 import {
@@ -38,13 +37,17 @@ import {
 } from 'altair-graphql-core/build/utils/inject';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { compare } from 'compare-versions';
+import { APSPluginListResponse } from 'altair-graphql-core/build/plugin/server/types';
+import { fromPromise } from '../../utils';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
 const PLUGIN_APPROVED_MAP_STORAGE_KEY = '__user_plugin_approved_map';
 
 type UserPluginApprovedMap = Record<string, Record<string, string[]>>;
-
+const urlConfig = getAltairConfig().getUrlConfig(
+  environment.production ? 'production' : 'development'
+);
 interface PluginInfo extends Record<string, string> {
   name: string;
   version: string;
@@ -113,9 +116,9 @@ export class PluginRegistryService {
   }
 
   getRemotePluginList() {
-    return this.http.get<RemotePluginListResponse>(
-      'https://altair-plugin-server.sirmuel.workers.dev/list?v=2'
-    );
+    // 'https://altair-plugin-server.sirmuel.workers.dev/list?v=2'
+    const url = new URL('/data/v1/plugins.json', urlConfig.docs).href;
+    return this.http.get<APSPluginListResponse>(url);
   }
 
   fetchPlugin(name: string, opts: PluginInfo) {

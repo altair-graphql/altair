@@ -3,7 +3,7 @@ import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
-import { RemotePluginListItem } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/types';
 
 @Component({
   selector: 'app-plugin-manager',
@@ -17,8 +17,8 @@ export class PluginManagerComponent {
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
 
-  remotePlugins$: Observable<RemotePluginListItem[]>;
-  selectedPluginItem?: RemotePluginListItem;
+  remotePlugins$: Observable<APSPluginDefinition[]>;
+  selectedPluginItem?: APSPluginDefinition;
 
   shouldRestart = false;
 
@@ -29,7 +29,7 @@ export class PluginManagerComponent {
       }),
       map((data) => {
         if (data) {
-          return data.items;
+          return data.plugins;
         }
 
         return [];
@@ -37,16 +37,16 @@ export class PluginManagerComponent {
     );
   }
 
-  onSelectPlugin(pluginItem: RemotePluginListItem) {
+  onSelectPlugin(pluginItem: APSPluginDefinition) {
     this.selectedPluginItem = pluginItem;
   }
 
-  isPluginInstalled(pluginName: string) {
+  isPluginInstalled(pluginId: string) {
     if (this.settings?.['plugin.list']) {
       return this.settings['plugin.list'].some((item) => {
         const pluginInfo = this.pluginRegistry.getPluginInfoFromString(item);
         if (pluginInfo) {
-          return pluginInfo.name === pluginName;
+          return pluginInfo.name === pluginId;
         }
         return false;
       });
@@ -54,12 +54,12 @@ export class PluginManagerComponent {
     return false;
   }
 
-  async onAddPlugin(pluginName: string) {
-    await this.pluginRegistry.addPluginToSettings(pluginName);
+  async onAddPlugin(pluginId: string) {
+    await this.pluginRegistry.addPluginToSettings(pluginId);
     this.shouldRestart = true;
   }
-  async onRemovePlugin(pluginName: string) {
-    await this.pluginRegistry.removePluginFromSettings(pluginName);
+  async onRemovePlugin(pluginId: string) {
+    await this.pluginRegistry.removePluginFromSettings(pluginId);
     this.shouldRestart = true;
   }
 
@@ -68,7 +68,7 @@ export class PluginManagerComponent {
     location.reload();
   }
 
-  trackByName<T extends { name: string | null }>(index: number, item: T) {
-    return item.name;
+  trackById<T extends { id: string | null }>(index: number, item: T) {
+    return item.id;
   }
 }
