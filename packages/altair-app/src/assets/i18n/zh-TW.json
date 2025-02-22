@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Add",
   "SCHEMA_FORM_LIST_REMOVE": "Remove",
-  "PLUGINS_TEXT": "可用的外掛",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Browse through available plugins",
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",
