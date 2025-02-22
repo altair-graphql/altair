@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/api",
   "description": "",
-  "version": "8.1.5",
+  "version": "8.1.6",
   "author": "",
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:*",

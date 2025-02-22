@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/root",
   "description": "The best graphQL client you will ever need",
-  "version": "8.1.5",
+  "version": "8.1.6",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -68,7 +68,7 @@
     "build-api": "pnpm --dir packages/altair-api build",
     "build-app": "pnpm -F @altairgraphql/app build",
     "build-electron": "pnpm build:ci && pnpm --dir packages/altair-electron build",
-    "build-ext": "pnpm --dir packages/altair-crx build",
+    "build-ext": "pnpm bootstrap && pnpm --dir packages/altair-crx build",
     "bootstrap": "turbo run bootstrap",
     "build:ci": "pnpm bootstrap",
     "ci:publish": "pnpm publish -r",
