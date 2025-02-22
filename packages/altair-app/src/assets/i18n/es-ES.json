@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Añadir",
   "SCHEMA_FORM_LIST_REMOVE": "Eliminar",
-  "PLUGINS_TEXT": "Plugins disponibles",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Navegar a través de plugins disponibles",
   "PLUGIN_UNIQUE_NAME_TEXT": "Nombre único del plugin",
   "PLUGIN_ADD_BUTTON": "Añadir a Altair",
