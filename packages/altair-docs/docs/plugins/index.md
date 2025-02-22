@@ -2,7 +2,7 @@
 title: Introduction
 has_children: true
 permalink: /docs/plugins
-order: 3
+order: 1
 ---
 
 # Plugins

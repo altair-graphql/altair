@@ -1,8 +1,9 @@
 ---
 parent: Plugins
+order: 2
 ---
 
-# Popular Altair GraphQL plugins
+# Popular plugins
 
 You can find published Altair GraphQL plugins by [searching npm](https://www.npmjs.com/search?q=altair-graphql-plugin-) for the "altair-graphql-plugin-" prefix. You can learn how to [use the plugins](/docs/plugins/using-plugins) in Altair.
 

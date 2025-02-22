@@ -1,8 +1,9 @@
 ---
 parent: Plugins
+order: 7
 ---
 
-# Writing A Plugin
+# Writing a plugin
 
 A plugin allows extending the functionality of Altair to be able to do more. A typical plugin that can be created for Altair involves the following:
 
@@ -10,33 +11,6 @@ A plugin allows extending the functionality of Altair to be able to do more. A t
 - All plugin names must begin with `altair-graphql-plugin-`. For example, `altair-graphql-plugin-graphql-explorer` is the name of the [GraphQL explorer plugin](https://www.npmjs.com/package/altair-graphql-plugin-graphql-explorer)
 - All plugins must have a `manifest.json` file, which is what Altair would read, and what would define your plugin structure
 - The plugin manifest.json file should conform with either [PluginManifest](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest) for v1 and v2 plugins or [PluginV3Manifest](/api/core/plugin/v3/manifest/interfaces/PluginV3Manifest) for v3 plugins
-
-An example plugin v2 manifest can be found [here](https://github.com/imolorhe/altair-graphql-plugin-birdseye/blob/master/manifest.json).
-
-## V2 Plugins (deprecated)
-
-V2 plugins are the older plugin format for Altair. They are not recommended for new plugins, but they are still supported in newer versions of Altair. The main difference between v2 and v3 plugins is that v2 plugins run in the same context as the main Altair application, while v3 plugins run in a sandboxed iframe. This means the v2 plugins have direct access to the main Altair application and its resources (e.g. cookies, local storage, etc), which can be a security risk.
-
-![v2 plugin architecture](/assets/img/docs/plugin-v2-architecture.png)
-
-The manifest.json file for a v2 plugin is defined by the [PluginManifest](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest) interface.
-
-The typical v2 plugin is a JavaScript class that implements an `initialize(ctx)` and an optional `destroy()` [method](/api/core/plugin/base/classes/PluginBase#methods) and is added to the `window.AltairGraphQL.plugins` object.
-
-```ts
-class AltairPluginName {
-  initialize(ctx: PluginContext) {}
-
-  async destroy() {}
-}
-
-// Add the class to the Altair plugins object
-window.AltairGraphQL.plugins.AltairPluginName = AltairPluginName;
-```
-
-You need the [`plugin_class`](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest#plugin-class) in the manifest.json file. In this case, it would be `AltairPluginName`.
-
-The `initialize(ctx)` method receives a [PluginContext](/api/core/plugin/context/context.interface/interfaces/PluginContext) parameter, which provides a way for the plugin to interact with Altair.
 
 ## V3 Plugins
 
@@ -88,6 +62,31 @@ To use the panel, add it to the plugin class as shown above. Panels must be refe
 #### Developing V3 Plugins Locally
 
 Ensure you have at least version 7.1.0 of Altair installed. In the `plugin.list` in the settings pane, specify your local plugin following this pattern `url:altair-graphql-plugin-some-plugin@0.0.1::[url]->[http://localhost:8080]`. In this example, you are working on a plugin called `altair-graphql-plugin-some-plugin`, hosted on `http://localhost:8080/` (version is optional).
+
+## V2 Plugins (deprecated)
+
+V2 plugins are the older plugin format for Altair. They are not recommended for new plugins, but they are still supported in newer versions of Altair. The main difference between v2 and v3 plugins is that v2 plugins run in the same context as the main Altair application, while v3 plugins run in a sandboxed iframe. This means the v2 plugins have direct access to the main Altair application and its resources (e.g. cookies, local storage, etc), which can be a security risk.
+
+![v2 plugin architecture](/assets/img/docs/plugin-v2-architecture.png)
+
+The manifest.json file for a v2 plugin is defined by the [PluginManifest](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest) interface.
+
+The typical v2 plugin is a JavaScript class that implements an `initialize(ctx)` and an optional `destroy()` [method](/api/core/plugin/base/classes/PluginBase#methods) and is added to the `window.AltairGraphQL.plugins` object.
+
+```ts
+class AltairPluginName {
+  initialize(ctx: PluginContext) {}
+
+  async destroy() {}
+}
+
+// Add the class to the Altair plugins object
+window.AltairGraphQL.plugins.AltairPluginName = AltairPluginName;
+```
+
+You need the [`plugin_class`](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest#plugin-class) in the manifest.json file. In this case, it would be `AltairPluginName`.
+
+The `initialize(ctx)` method receives a [PluginContext](/api/core/plugin/context/context.interface/interfaces/PluginContext) parameter, which provides a way for the plugin to interact with Altair.
 
 ### Supporting both v2 and v3 plugin formats
 
