@@ -1,5 +1,6 @@
 ---
 parent: Plugins
+order: 3
 ---
 
 # Using Altair GraphQL plugins
