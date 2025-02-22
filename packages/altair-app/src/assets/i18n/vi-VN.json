@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Thêm",
   "SCHEMA_FORM_LIST_REMOVE": "Xóa",
-  "PLUGINS_TEXT": "Plugin có thể dùng",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Duyệt qua các plugin có sẵn",
   "PLUGIN_UNIQUE_NAME_TEXT": "Tên Plugin duy nhất",
   "PLUGIN_ADD_BUTTON": "Thêm vào Altair",
