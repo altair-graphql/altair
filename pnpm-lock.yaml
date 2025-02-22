@@ -1041,6 +1041,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.20.6
         version: 8.20.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/react-syntax-highlighter':
+        specifier: ^15.5.13
+        version: 15.5.13
       altair-graphql-core:
         specifier: workspace:*
         version: link:../altair-core
@@ -40610,7 +40613,7 @@ snapshots:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
 
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
@@ -40620,7 +40623,7 @@ snapshots:
       webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.23.0
+      esbuild: 0.14.51
 
   terser@5.31.6:
     dependencies:
@@ -42300,7 +42303,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
