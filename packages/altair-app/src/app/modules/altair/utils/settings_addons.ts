@@ -1,6 +1,6 @@
 import { jsonc } from '../utils';
 import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
-import settingsValidator from 'altair-graphql-core/build/validate-settings';
+import settingsValidator from 'altair-graphql-core/build/typegen/validate-settings';
 
 export interface SchemaFormProperty extends JSONSchema6 {
   key: string;

@@ -74,6 +74,7 @@ import {
   XCircle,
   XSquare,
   Zap,
+  Blocks,
 } from 'lucide-angular';
 
 // https://lucide.dev/
@@ -84,6 +85,7 @@ export const icons = {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ArrowLeft,
+  Blocks,
   Book,
   Box,
   Braces,

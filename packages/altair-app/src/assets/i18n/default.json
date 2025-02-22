@@ -210,7 +210,7 @@
   "SCHEMA_FORM_LIST_ADD": "Add",
   "SCHEMA_FORM_LIST_REMOVE": "Remove",
 
-  "PLUGINS_TEXT": "Available Plugins",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Browse through available plugins",
   "PLUGIN_UNIQUE_NAME_TEXT": "Unique Plugin Name",
   "PLUGIN_ADD_BUTTON": "Add to Altair",

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../altair-core/build/typegen/plugins_yaml_manifest.schema.json
+plugins:
+  altair-graphql-plugin-graphql-explorer:
+    id: altair-graphql-plugin-graphql-explorer
+    name: GraphiQL Explorer
+    description: GraphiQL Explorer plugin for Altair GraphQL
+    author: Altair GraphQL <info@altairgraphql.dev>
+    repository: https://github.com/XKojiMedia/altair-graphql-plugin-graphql-explorer
+  altair-graphql-plugin-ai:
+    id: altair-graphql-plugin-ai
+    name: Altair AI
+    description: Altair AI plugin for Altair GraphQL
+    author: Altair GraphQL <info@altairgraphql.dev>
+    repository: https://github.com/altair-graphql/altair/tree/master/plugins/ai

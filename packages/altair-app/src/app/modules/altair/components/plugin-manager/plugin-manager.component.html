@@ -1,6 +1,7 @@
 <nz-modal
   [nzVisible]="showPluginManager"
   (nzVisibleChange)="toggleDialogChange.next($event)"
+  [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -19,58 +20,66 @@
       <div class="app-dialog-section">
         <div class="plugin-manager-wrapper">
           <div class="plugin-manager__list">
-            @for (item of remotePlugins$ | async; track trackByName($index, item)) {
+            @for (item of remotePlugins$ | async; track trackById($index, item)) {
               <div
                 class="plugin-manager__list-item"
                 [ngClass]="{
                   'plugin-manager__list-item--selected':
-                    selectedPluginItem && selectedPluginItem.name === item.name
+                    selectedPluginItem && selectedPluginItem.id === item.id,
                 }"
                 (click)="onSelectPlugin(item)"
               >
                 <div class="plugin-manager__list-item-name">
-                  {{ item?.manifest?.display_name || item.name }}
-                  <div class="plugin-manager__list-item-version">
+                  {{ item.name }}
+                  <!-- <div class="plugin-manager__list-item-version">
                     {{ item?.manifest?.version || item.version }}
-                  </div>
+                  </div> -->
                 </div>
                 <div class="plugin-manager__list-item-description">
-                  {{ item?.manifest?.description || item.description }}
+                  {{ item.description }}
                 </div>
               </div>
             }
+            <a
+              class="plugin-manager__list-item"
+              href="https://www.npmjs.com/search?q=%22altair-graphql-plugin-%22"
+              target="_blank"
+            >
+              Find more plugins on npm <app-icon name="external-link"></app-icon>
+            </a>
           </div>
           <div class="plugin-manager__item-details">
             @if (selectedPluginItem) {
               <div class="plugin-manager__item-details-name">
-                {{
-                  selectedPluginItem.manifest.display_name || selectedPluginItem.name
-                }}
+                {{ selectedPluginItem.id }}
                 <div
                   class="plugin-manager__item-details-unique-name"
                   [attr.title]="'PLUGIN_UNIQUE_NAME_TEXT' | translate"
                 >
-                  {{ selectedPluginItem.name }}
+                  {{ selectedPluginItem.id }}
                 </div>
               </div>
               <div class="plugin-manager__item-details-actions">
-                @if (!isPluginInstalled(selectedPluginItem.name)) {
-                  <button class="btn" (click)="onAddPlugin(selectedPluginItem.name)">
+                @if (!isPluginInstalled(selectedPluginItem.id)) {
+                  <button
+                    class="btn btn--small"
+                    (click)="onAddPlugin(selectedPluginItem.id)"
+                  >
                     <app-icon name="plus-circle"></app-icon>
                     {{ 'PLUGIN_ADD_BUTTON' | translate }}
                   </button>
                 }
-                @if (isPluginInstalled(selectedPluginItem.name)) {
+                @if (isPluginInstalled(selectedPluginItem.id)) {
                   <button
-                    class="btn btn--destructive"
-                    (click)="onRemovePlugin(selectedPluginItem.name)"
+                    class="btn btn--small btn--light btn--destructive"
+                    (click)="onRemovePlugin(selectedPluginItem.id)"
                   >
                     <app-icon name="x-circle"></app-icon>
                     {{ 'PLUGIN_REMOVE_BUTTON' | translate }}
                   </button>
                 }
                 @if (shouldRestart) {
-                  <button class="btn" (click)="onRestartApp()">
+                  <button class="btn btn--small" (click)="onRestartApp()">
                     {{ 'RESTART_TEXT' | translate }}
                   </button>
                 }
@@ -78,8 +87,12 @@
               <div
                 markdown
                 class="plugin-manager__item-details-summary"
-                [data]="selectedPluginItem.summary || ''"
+                [data]="selectedPluginItem.description"
               ></div>
+            } @else {
+              <div class="plugin-manager__item-details-empty">
+                Select a plugin to view details
+              </div>
             }
           </div>
         </div>

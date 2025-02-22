@@ -240,6 +240,19 @@
 
               <div class="side-menu__main-bottom">
                 <a
+                  *ngIf="(settings$ | async)?.enableExperimental"
+                  class="side-menu-item"
+                  (click)="togglePluginManager(true)"
+                  attr.aria-label="{{ 'PLUGINS_TEXT' | translate }}"
+                >
+                  <div class="side-menu-item-icon">
+                    <app-icon name="blocks"></app-icon>
+                  </div>
+                  <div class="side-menu-item-label">
+                    {{ 'PLUGINS_TEXT' | translate }}
+                  </div>
+                </a>
+                <a
                   class="side-menu-item"
                   (click)="toggleCollections()"
                   attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}"

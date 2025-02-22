@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 import { getConfig } from './plugins/sidebar-generation';
 import coreApiSidebar from '../api/core/typedoc-sidebar.json';
+import { dynamicFiles } from './plugins/dynamic-files';
 
 const { sidebar: retrievedSidebar } = getConfig({
   filter: (meta) => meta.sidebar !== false,
@@ -134,5 +135,8 @@ export default defineConfig({
   },
   sitemap: {
     hostname: 'https://altairgraphql.dev',
+  },
+  vite: {
+    plugins: [dynamicFiles()],
   },
 });
