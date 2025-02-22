@@ -2,7 +2,7 @@ name: release-extra-experimental
 
 on:
   workflow_run:
-    workflows: [Release]
+    workflows: [release-workflow]
     types:
       - completed
   workflow_dispatch:

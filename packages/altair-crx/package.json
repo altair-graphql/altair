@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.6",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "altair-graphql-core": "workspace:*",
     "altair-static": "workspace:*",
     "clsx": "^2.1.1",
