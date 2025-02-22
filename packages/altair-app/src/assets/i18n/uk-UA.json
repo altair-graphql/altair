@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Додати",
   "SCHEMA_FORM_LIST_REMOVE": "Видалити",
-  "PLUGINS_TEXT": "Доступні додатки",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Переглянути доступні додатки",
   "PLUGIN_UNIQUE_NAME_TEXT": "Унікальна назва додатку",
   "PLUGIN_ADD_BUTTON": "Додати до Altair",
