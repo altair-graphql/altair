@@ -20,6 +20,10 @@ V3 plugins are the latest plugin format for Altair. The main benefit of v3 plugi
 
 The manifest.json file for a v3 plugin is defined by the [PluginV3Manifest](/api/core/plugin/v3/manifest/interfaces/PluginV3Manifest) interface.
 
+::: tip
+To get started quickly with writing a plugin, you can use the [Altair AI plugin](https://github.com/altair-graphql/altair/tree/master/plugins/ai) as a template to scaffold your plugin.
+:::
+
 V3 plugins are comprised of a simple HTML page (for the iframe sandboxing) that embeds the javascript containing the business logic. The plugin logic should be a JavaScript class that extends the [PluginV3](/api/core/plugin/v3/plugin/classes/PluginV3) abstract class, implementing the `initialize()` and `destroy()` methods. An instance of the class should be created.
 
 ```ts

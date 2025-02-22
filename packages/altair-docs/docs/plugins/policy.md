@@ -4,7 +4,7 @@ order: 9
 
 # Plugin policy
 
-Altair GraphQL allows for the extension of its functionality through plugins while ensuring the security and privacy of its users. This document outlines the policies that govern the plugins that are published to the Altair plugin registry to ensure that the plugins are safe, secure, and adhere to the best practices for plugin development. By submitting a plugin to the Altair plugin registry, **you agree to abide by these policies**.
+Altair GraphQL allows for the extension of its functionality through plugins while ensuring the security and privacy of its users. This document outlines the policies that govern the plugins that are published to the Altair plugin registry to ensure that the plugins are safe, secure, and adhere to the best practices for plugin development. By [submitting](/docs/plugins/submitting-plugin) a plugin to the Altair plugin registry, **you agree to abide by these policies**.
 
 ::: warning
 The Altair GraphQL team reserves the right to remove any plugin that violates these policies or poses a risk to users.
