@@ -182,7 +182,7 @@
   "AUTHORIZATION_PROVIDER_OAUTH2": "OAuth 2.0",
   "SCHEMA_FORM_LIST_ADD": "Добавить",
   "SCHEMA_FORM_LIST_REMOVE": "Удалить",
-  "PLUGINS_TEXT": "Доступные плагины",
+  "PLUGINS_TEXT": "Plugins",
   "PLUGINS_SUB_TEXT": "Просмотр через доступные плагины",
   "PLUGIN_UNIQUE_NAME_TEXT": "Уникальное имя плагина",
   "PLUGIN_ADD_BUTTON": "Добавить в Альтаир",
