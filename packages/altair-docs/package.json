@@ -3,7 +3,7 @@
   "version": "8.1.5",
   "license": "MIT",
   "scripts": {
-    "dev": "vitepress dev",
+    "dev": "vitepress dev --port 6025",
     "build": "pnpm --dir ../../ run typedoc && vitepress build",
     "preview": "vitepress preview",
     "bootstrap": "pnpm build"
@@ -35,6 +35,7 @@
     "mark.js": "^8.11.1",
     "marked": "^15.0.3",
     "medium-zoom": "^1.1.0",
-    "minisearch": "^7.1.1"
+    "minisearch": "^7.1.1",
+    "yaml": "^2.7.0"
   }
 }

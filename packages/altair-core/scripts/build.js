@@ -57,7 +57,7 @@ const main = async () => {
     cwd: CONFIG_PKG_ROOT,
     stdio: 'inherit',
   });
-  copySettingsDTS();
+  await copySettingsDTS();
   replaceProcessEnv(CONFIG_PKG_ROOT);
 };
 main();

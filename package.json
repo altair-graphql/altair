@@ -82,6 +82,7 @@
     "start:app": "pnpm -F @altairgraphql/app start",
     "start:redirect": "pnpm -F @altairgraphql/login-redirect dev",
     "start:sandbox": "pnpm -F @altairgraphql/iframe-sandbox dev",
+    "start:docs": "pnpm -F @altair/docs dev",
     "start:electron": "pnpm -F altair dev",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",
     "test": "pnpm -r test",

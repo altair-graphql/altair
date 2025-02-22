@@ -1,18 +1,25 @@
 .plugin-manager-wrapper {
   display: flex;
+  gap: 4px;
 }
 
 .plugin-manager__list {
-  width: 30%;
+  width: 40%;
+  min-width: 200px;
+  border-right: 1px solid var(--theme-border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
 }
 
 .plugin-manager__list-item {
   padding: 10px;
   border-radius: 4px;
-  margin-bottom: 10px;
   transition: all 0.3s ease;
   border: 1px solid transparent;
   cursor: pointer;
+  color: var(--theme-font-color);
 
   &:hover {
     background: var(--theme-off-bg-color);
@@ -53,4 +60,19 @@
   display: inline-block;
   font-size: fontsize(12);
   background: var(--theme-off-bg-color);
+}
+
+.plugin-manager__item-details-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.plugin-manager__item-details-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: fontsize(14);
+  color: var(--theme-off-font-color);
 }

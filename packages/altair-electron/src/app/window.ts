@@ -33,7 +33,7 @@ import {
   SETTINGS_STORE_EVENTS,
 } from '@altairgraphql/electron-interop';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
-import validateAppSettings from 'altair-graphql-core/build/validate-settings';
+import validateAppSettings from 'altair-graphql-core/build/typegen/validate-settings';
 import { error, log } from '../utils/log';
 import { ElectronApp } from './index';
 import {
