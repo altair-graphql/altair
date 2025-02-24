@@ -17,7 +17,7 @@ hero:
       text: Get Started →
       link: /docs/
 heroSublimeAction:
-  text: Discover Altair GraphQL Cloud ✨
+  text: Discover Altair GraphQL Cloud
   link: /cloud
 
 # heroImage: ./assets/img/app-shot.png
