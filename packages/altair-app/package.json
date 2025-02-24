@@ -57,7 +57,7 @@
     "aws-appsync-subscription-link": "3.0.3",
     "cm6-graphql": "0.0.14",
     "codemirror-graphql": "1.0.2",
-    "codemirror-json-schema": "^0.6.0",
+    "codemirror-json-schema": "^0.8.0",
     "comlink": "4.3.0",
     "compare-versions": "^6.1.1",
     "cookie-parser": "1.4.5",
