@@ -161,7 +161,7 @@
     "jest-preset-angular": "^14.4.2",
     "karma-cli": "^2.0.0",
     "ncp": "2.0.0",
-    "ng-mocks": "^14.12.1",
+    "ng-mocks": "^14.13.2",
     "ngrx-store-freeze": "0.2.4",
     "protractor": "7.0.0",
     "react": "17.0.1",
