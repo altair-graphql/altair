@@ -45,7 +45,7 @@
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "catalog:",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^25.1.8",
     "electron-builder-notarize": "^1.2.0",
     "electron-chromedriver": "^14.0.0",
     "electron-reloader": "^1.2.1",
