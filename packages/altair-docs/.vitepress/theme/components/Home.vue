@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress';
 import { useData } from '../composables/data';
-import Contributions from './Contributions.vue'
-import Downloads from './Downloads.vue'
-import HomeCarbonAds from './HomeCarbonAds.vue'
+import Contributions from './Contributions.vue';
+import Downloads from './Downloads.vue';
+import HomeCarbonAds from './HomeCarbonAds.vue';
 import VPButton from './VPButton.vue';
 import VPLink from './VPLink.vue';
 
-const { theme, frontmatter: fm } = useData()
-
+const { theme, frontmatter: fm } = useData();
 </script>
 
 <template>
@@ -16,7 +15,6 @@ const { theme, frontmatter: fm } = useData()
     <header class="hero" v-if="fm.hero">
       <div class="custom-wrapper">
         <div class="column">
-
           <div class="hero-content">
             <h1 v-if="fm.hero.text" id="main-title" class="main-title">
               {{ fm.hero.text }}
@@ -27,8 +25,15 @@ const { theme, frontmatter: fm } = useData()
             </p>
 
             <p v-if="fm.hero.actions?.length" class="hero-actions">
-              <VPButton v-for="action in fm.hero.actions" :key="action.link" tag="a" size="big" :theme="action.theme"
-                :text="action.text" :href="action.link" />
+              <VPButton
+                v-for="action in fm.hero.actions"
+                :key="action.link"
+                tag="a"
+                size="big"
+                :theme="action.theme"
+                :text="action.text"
+                :href="action.link"
+              />
             </p>
             <div v-if="fm.heroSublimeAction" class="hero-sublime-actions">
               <VPLink :href="fm.heroSublimeAction.link" class="hero-sublime-action">
@@ -37,7 +42,11 @@ const { theme, frontmatter: fm } = useData()
             </div>
           </div>
           <div class="image-wrapper">
-            <img v-if="fm.hero.image" :src="withBase(fm.hero.image.src)" :alt="fm.hero.image.alt ?? 'hero'">
+            <img
+              v-if="fm.hero.image"
+              :src="withBase(fm.hero.image.src)"
+              :alt="fm.hero.image.alt ?? 'hero'"
+            />
           </div>
         </div>
       </div>
@@ -52,15 +61,27 @@ const { theme, frontmatter: fm } = useData()
       <div class="custom-wrapper">
         <div class="column">
           <div class="features-wrapper">
-            <div v-for="(feature, index) in fm.features" :key="index" class="feature">
+            <div
+              v-for="(feature, index) in fm.features"
+              :key="index"
+              class="feature"
+            >
               <h2>{{ feature.title }}</h2>
               <p>{{ feature.details }}</p>
             </div>
           </div>
 
-          <div v-if="fm.featuresFooterText && fm.featuresFooterLink" class="features-actions">
-            <VPButton tag="a" size="medium" :theme="'alt'" :text="fm.featuresFooterText"
-              :href="fm.featuresFooterLink" />
+          <div
+            v-if="fm.featuresFooterText && fm.featuresFooterLink"
+            class="features-actions"
+          >
+            <VPButton
+              tag="a"
+              size="medium"
+              :theme="'alt'"
+              :text="fm.featuresFooterText"
+              :href="fm.featuresFooterLink"
+            />
           </div>
         </div>
       </div>
@@ -76,7 +97,8 @@ const { theme, frontmatter: fm } = useData()
     <div class="footer">
       <HomeCarbonAds v-if="theme.carbonAds" :carbon-ads="theme.carbonAds" />
       <p class="made-by">
-        Made by <a href="https://twitter.com/imolorhe" target="_blank">Samuel</a> with ❤️🇳🇬
+        Made by
+        <a href="https://twitter.com/imolorhe" target="_blank">Samuel</a> with ❤️🇳🇬
       </p>
     </div>
   </main>
@@ -124,13 +146,13 @@ const { theme, frontmatter: fm } = useData()
 
 .retro-grid {
   --perspective: 200px;
-  --retro-grid-angle: 50deg;
+  --retro-grid-angle: 30deg;
   --fade-start: 35%;
   --fade-end: 90%;
   --grid-color: var(--vp-c-divider);
   --grid-height: 60px;
   --grid-width: calc(var(--grid-height) * 3);
-  --duration: 0.5s;
+  --duration: 1s;
 
   position: absolute;
   inset: 0px;
@@ -144,16 +166,21 @@ const { theme, frontmatter: fm } = useData()
     height: 200%;
     transform: rotateX(var(--retro-grid-angle));
 
-
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       inset: 0px;
-      -webkit-mask-image: linear-gradient(#0000 var(--fade-start), #000 var(--fade-end));
+      -webkit-mask-image: linear-gradient(
+        #0000 var(--fade-start),
+        #000 var(--fade-end)
+      );
       mask-image: linear-gradient(#0000 var(--fade-start), #000 var(--fade-end));
 
-      background-image:
-        linear-gradient(to right, var(--grid-color) 1px, transparent 0),
+      background-image: linear-gradient(
+          to right,
+          var(--grid-color) 1px,
+          transparent 0
+        ),
         linear-gradient(to bottom, var(--grid-color) 1px, transparent 0);
       background-size: var(--grid-width) var(--grid-height);
       background-repeat: repeat;
@@ -209,7 +236,7 @@ const { theme, frontmatter: fm } = useData()
 }
 
 .home .features-section {
-  background-image: url("/assets/img/hero_bg.png");
+  background-image: url('/assets/img/hero_bg.png');
   background-position: center;
   background-color: #7ebc59;
 }
