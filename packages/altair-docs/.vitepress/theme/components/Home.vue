@@ -40,7 +40,7 @@ const { theme, frontmatter: fm } = useData();
             </div>
           </div>
           <div class="image-wrapper">
-            <img v-if="fm.hero.image" :src="withBase(fm.hero.image.src)" :alt="fm.hero.image.alt ?? 'hero'">
+            <img v-if="fm.hero.image" :src="withBase(fm.hero.image.src)" :alt="fm.hero.image.alt ?? 'hero'" />
           </div>
         </div>
       </div>
