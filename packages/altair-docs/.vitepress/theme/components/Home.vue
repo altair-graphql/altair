@@ -27,20 +27,34 @@ const { theme, frontmatter: fm } = useData();
             </p>
 
             <p v-if="fm.hero.actions?.length" class="hero-actions">
-              <VPButton v-for="action in fm.hero.actions" :key="action.link" tag="a" size="big" :theme="action.theme"
-                :text="action.text" :href="action.link" />
+              <VPButton
+                v-for="action in fm.hero.actions"
+                :key="action.link"
+                tag="a"
+                size="big"
+                :theme="action.theme"
+                :text="action.text"
+                :href="action.link"
+              />
             </p>
             <div v-if="fm.heroSublimeAction" class="hero-sublime-actions">
               <VPLink :href="fm.heroSublimeAction.link">
-                <AnimatedGradientText><span>✨</span>
-                  <span class="gradient-background gradient-text">{{ fm.heroSublimeAction.text }}</span>
-                  <VPIconChevronRight />
+                <AnimatedGradientText
+                  ><span>✨</span>
+                  <span class="gradient-background gradient-text">{{
+                    fm.heroSublimeAction.text
+                  }}</span>
+                  <!-- <VPIconChevronRight /> -->
                 </AnimatedGradientText>
               </VPLink>
             </div>
           </div>
           <div class="image-wrapper">
-            <img v-if="fm.hero.image" :src="withBase(fm.hero.image.src)" :alt="fm.hero.image.alt ?? 'hero'" />
+            <img
+              v-if="fm.hero.image"
+              :src="withBase(fm.hero.image.src)"
+              :alt="fm.hero.image.alt ?? 'hero'"
+            />
           </div>
         </div>
       </div>
@@ -55,15 +69,27 @@ const { theme, frontmatter: fm } = useData();
       <div class="custom-wrapper">
         <div class="column">
           <div class="features-wrapper">
-            <div v-for="(feature, index) in fm.features" :key="index" class="feature">
+            <div
+              v-for="(feature, index) in fm.features"
+              :key="index"
+              class="feature"
+            >
               <h2>{{ feature.title }}</h2>
               <p>{{ feature.details }}</p>
             </div>
           </div>
 
-          <div v-if="fm.featuresFooterText && fm.featuresFooterLink" class="features-actions">
-            <VPButton tag="a" size="medium" :theme="'alt'" :text="fm.featuresFooterText"
-              :href="fm.featuresFooterLink" />
+          <div
+            v-if="fm.featuresFooterText && fm.featuresFooterLink"
+            class="features-actions"
+          >
+            <VPButton
+              tag="a"
+              size="medium"
+              :theme="'alt'"
+              :text="fm.featuresFooterText"
+              :href="fm.featuresFooterLink"
+            />
           </div>
         </div>
       </div>
@@ -152,13 +178,17 @@ const { theme, frontmatter: fm } = useData();
       position: absolute;
       content: '';
       inset: 0px;
-      -webkit-mask-image: linear-gradient(#0000 var(--fade-start),
-          #000 var(--fade-end));
+      -webkit-mask-image: linear-gradient(
+        #0000 var(--fade-start),
+        #000 var(--fade-end)
+      );
       mask-image: linear-gradient(#0000 var(--fade-start), #000 var(--fade-end));
 
-      background-image: linear-gradient(to right,
+      background-image: linear-gradient(
+          to right,
           var(--grid-color) 1px,
-          transparent 0),
+          transparent 0
+        ),
         linear-gradient(to bottom, var(--grid-color) 1px, transparent 0);
       background-size: var(--grid-width) var(--grid-height);
       background-repeat: repeat;
@@ -194,7 +224,7 @@ const { theme, frontmatter: fm } = useData();
 
 .home .hero-sublime-actions {
   font-size: 14px;
-  margin-top: 2rem;
+  margin-top: 1.6rem;
 }
 
 .hero-sublime-action {
