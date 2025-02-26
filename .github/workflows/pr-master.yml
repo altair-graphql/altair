@@ -42,7 +42,8 @@ jobs:
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_push-docker.yml
     with:
-      push: false
+      push: ${{ github.ref == 'refs/heads/master' }}
+      version: ${{ github.sha }}
     secrets: inherit
 
   electron:
