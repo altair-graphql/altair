@@ -7,6 +7,11 @@ on:
         description: 'Whether to push the Docker image'
         required: true
         type: boolean
+      release:
+        description: 'Whether to push as latest release'
+        required: false
+        default: false
+        type: boolean
       version:
         description: 'Version to use'
         required: false
@@ -18,6 +23,11 @@ on:
         description: 'Whether to push the Docker image'
         required: true
         type: boolean
+      release:
+        description: 'Whether to push as latest release'
+        required: false
+        default: false
+        type: boolean
       version:
         description: 'Version to use'
         required: false
@@ -25,6 +35,14 @@ on:
         type: string
 
 jobs:
+  docker-vars:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ inputs.version || format('{0}-{1}', github.sha, env.COMMIT_TIMESTAMP) }}
+    steps:
+      - name: Get Git commit timestamps
+        run: echo "COMMIT_TIMESTAMP=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
+      - run: echo "Exposing env vars"
   docker:
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +82,7 @@ jobs:
           load: true
           push: ${{ inputs.push }}
           tags: |
-            ${{ inputs.push && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}
+            ${{ inputs.push && inputs.release && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}
             ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}', secrets.DOCKERHUB_USERNAME, inputs.version) || '' }}
-            ${{ inputs.push && format('ghcr.io/{0}/altairgraphqlapi:latest', github.repository_owner) || '' }}
+            ${{ inputs.push && inputs.release && format('ghcr.io/{0}/altairgraphqlapi:latest', github.repository_owner) || '' }}
             ${{ inputs.push && inputs.version && format('ghcr.io/{0}/altairgraphqlapi:{1}', github.repository_owner, inputs.version) || '' }}

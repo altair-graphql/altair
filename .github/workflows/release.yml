@@ -42,6 +42,7 @@ jobs:
     uses: ./.github/workflows/_push-docker.yml
     with:
       push: true
+      release: true
       version: ${{ needs.prepare-release.outputs.release-tag }}
     secrets: inherit
 
