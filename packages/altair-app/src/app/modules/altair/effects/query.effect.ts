@@ -531,7 +531,7 @@ export class QueryEffects {
       return this.actions$.pipe(
         ofType(gqlSchemaActions.LOAD_SDL_SCHEMA),
         mergeMap((data: gqlSchemaActions.LoadSDLSchemaAction) => {
-          openFile({ accept: '.gql' }).then((sdlData: string) => {
+          openFile({ accept: ['.gql', '.graphql'] }).then((sdlData: string) => {
             try {
               const schema = this.gqlService.sdlToSchema(sdlData);
               if (schema) {
