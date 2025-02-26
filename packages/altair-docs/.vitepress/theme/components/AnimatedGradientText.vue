@@ -77,9 +77,9 @@
 .gradient-background {
   background: linear-gradient(
     to right,
-    rgba(var(--brand-rgb), 0.8),
-    rgba(45, 158, 224, 0.8),
-    rgba(var(--brand-rgb), 0.8)
+    rgba(var(--brand-rgb), 0.9),
+    rgba(var(--brand-rgb), 0.4),
+    /* rgba(45, 158, 224, 0.8), */ rgba(var(--brand-rgb), 0.9)
   );
   background-size: var(--bg-size) 100%;
   animation: gradient 8s linear infinite;
@@ -88,9 +88,9 @@
 .dark .gradient-background {
   background-image: linear-gradient(
     to right,
-    rgba(var(--brand-rgb), 0.6),
-    rgba(45, 158, 224, 0.6),
-    rgba(var(--brand-rgb), 0.6)
+    rgba(var(--brand-rgb), 0.8),
+    rgba(var(--brand-rgb), 0.4),
+    /* rgba(45, 158, 224, 0.6), */ rgba(var(--brand-rgb), 0.8)
   );
 }
 
