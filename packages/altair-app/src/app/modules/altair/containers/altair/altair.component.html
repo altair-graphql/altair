@@ -3,6 +3,7 @@
   [appTheme]="theme$ | async"
   [appDarkTheme]="themeDark$ | async"
   [appAccentColor]="accentColor$ | async"
+  [cspNonce]="cspNonce"
   appFileDrop
   (fileDroppedChange)="fileDropped($event)"
 >

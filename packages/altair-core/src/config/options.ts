@@ -145,4 +145,9 @@ export interface AltairConfigOptions extends AltairWindowOptions {
    * Disable the account and remote syncing functionality
    */
   disableAccount?: boolean;
+
+  /**
+   * CSP nonce value to be used in Altair
+   */
+  cspNonce?: string;
 }

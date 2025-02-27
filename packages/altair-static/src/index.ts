@@ -43,6 +43,7 @@ const optionsProperties: AltairConfigOptionsObject = {
   persistedSettings: undefined,
   initialName: undefined,
   initialAuthorization: undefined,
+  cspNonce: undefined,
 };
 const allowedProperties = Object.keys(
   optionsProperties

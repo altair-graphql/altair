@@ -57,6 +57,7 @@ export class AltairConfig {
   themes = ['light', 'dark', 'dracula', 'system'];
   isTranslateMode = isTranslateMode;
   isWebApp = (window as TODO).__ALTAIR_WEB_APP__;
+  cspNonce = '';
   initialData = {
     url: '',
     subscriptionsEndpoint: '',
@@ -106,7 +107,9 @@ export class AltairConfig {
     initialWindows = [],
     disableAccount = false,
     initialAuthorization,
+    cspNonce = 'change-me',
   }: AltairConfigOptions = {}) {
+    this.cspNonce = cspNonce;
     this.initialData.url =
       (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? endpointURL ?? '';
     this.initialData.subscriptionsEndpoint =
