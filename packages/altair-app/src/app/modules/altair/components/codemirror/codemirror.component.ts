@@ -50,6 +50,7 @@ import {
 import { tags as t } from '@lezer/highlight';
 import { InternalEditorError } from '../../utils/errors';
 import { debug } from '../../utils/logger';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Component({
   selector: 'app-codemirror',
@@ -85,7 +86,10 @@ export class CodemirrorComponent
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
-  constructor(private zone: NgZone) {}
+  constructor(
+    private zone: NgZone,
+    private altairConfig: AltairConfig
+  ) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
@@ -407,6 +411,7 @@ export class CodemirrorComponent
       this.wrapLines ? EditorView.lineWrapping : [], // TODO: Create own compartment
       drawSelection(),
       EditorState.allowMultipleSelections.of(true),
+      EditorView.cspNonce.of(this.altairConfig.cspNonce),
       bracketMatching(),
       closeBrackets(),
       history(),
