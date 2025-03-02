@@ -23,7 +23,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const tags: Record<string, unknown> = {
-      url: request.originalUrl.replace(/\?.*$/, ''),
+      url: request.originalUrl.split('?').at(0),
       method: request.method,
       ip: request.ip,
       user: request.user?.id,

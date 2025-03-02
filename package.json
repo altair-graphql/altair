@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/root",
   "description": "The best graphQL client you will ever need",
-  "version": "8.2.0",
+  "version": "8.1.6",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -29,7 +29,6 @@
     "process": "^0.11.10",
     "punycode": "^1.4.1",
     "querystring-es3": "^0.2.1",
-    "snyk": "^1.1234.0",
     "start-server-and-test": "1.11.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.1.0",
@@ -60,9 +59,6 @@
   "license": "MIT",
   "private": true,
   "repository": "altair-graphql/altair.git",
-  "resolutions": {
-    "y18n": "4.0.1"
-  },
   "scripts": {
     "build": "pnpm build-api",
     "build-api": "pnpm --dir packages/altair-api build",
@@ -75,7 +71,6 @@
     "local-verify": "pnpm build-app && pnpm build:ci",
     "postinstall": "opencollective postinstall || syncpack fix-mismatches",
     "publish-packages": "pnpm build:ci && pnpm ci:publish",
-    "snyk-protect": "snyk protect",
     "start-test-server": "./bin/start_ci_test_server.sh",
     "start:api:dev": "pnpm --dir packages/altair-api start:dev",
     "start:api:prod": "pnpm --dir packages/altair-db prisma migrate deploy && pnpm --dir packages/altair-db prisma db seed && pnpm --dir packages/altair-api start:prod",
@@ -91,6 +86,5 @@
     "test:ci:retries": "pnpm test:ci || pnpm test:ci || pnpm test:ci",
     "typedoc": "typedoc"
   },
-  "packageManager": "pnpm@9.15.0",
-  "snyk": true
+  "packageManager": "pnpm@9.15.0"
 }
