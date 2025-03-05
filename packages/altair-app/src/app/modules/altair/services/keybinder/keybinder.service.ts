@@ -51,7 +51,8 @@ export class KeybinderService {
         this.store.dispatch(
           new dialogsActions.ToggleVariableDialogAction(this.activeWindowId)
         ),
-      'Toggle Variable Pane'
+      'Toggle Variable Pane',
+      true
     );
 
     this.bindShortcut(
@@ -60,16 +61,15 @@ export class KeybinderService {
         this.store.dispatch(
           new dialogsActions.ToggleHeaderDialogAction(this.activeWindowId)
         ),
-      'Toggle Header Pane'
+      'Toggle Header Pane',
+      true
     );
 
     this.bindShortcut(
       ['Ctrl+Shift+R'],
       () =>
         this.store.dispatch(
-          new queryActions.SendIntrospectionQueryRequestAction(
-            this.activeWindowId
-          )
+          new queryActions.SendIntrospectionQueryRequestAction(this.activeWindowId)
         ),
       'Reload Docs'
     );
@@ -87,9 +87,7 @@ export class KeybinderService {
       ['Ctrl+Shift+P'],
       () => {
         if (
-          document.activeElement?.closest(
-            VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME
-          )
+          document.activeElement?.closest(VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME)
         ) {
           this.store.dispatch(
             new variablesActions.PrettifyVariablesAction(this.activeWindowId)
@@ -156,7 +154,8 @@ export class KeybinderService {
   bindShortcut(
     keys: string[],
     callback: (...args: unknown[]) => unknown,
-    description = 'TODO - Add description'
+    description: string,
+    allowInPopups = false
   ) {
     this.shortcuts.push({
       keys,
@@ -166,6 +165,9 @@ export class KeybinderService {
     return (mousetrap as any).bindGlobal(
       keys.map((key) => key.toLowerCase()),
       () => {
+        if (!allowInPopups && this.isInPopup()) {
+          return;
+        }
         this.zone.run(callback);
         return false;
       }
@@ -208,5 +210,10 @@ export class KeybinderService {
     }
 
     return categories;
+  }
+
+  private isInPopup() {
+    const activeElement = document.activeElement as HTMLElement | null;
+    return !!activeElement?.closest('nz-modal-container');
   }
 }
