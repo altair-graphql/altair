@@ -16,7 +16,10 @@
   </ng-template>
 
   <ng-template #modalContent>
-    <ng-content></ng-content>
+    <form (ngSubmit)="onSubmit($event)">
+      <ng-content></ng-content>
+      <button type="submit" style="display: none"></button>
+    </form>
   </ng-template>
 
   <ng-template #modalFooter>
