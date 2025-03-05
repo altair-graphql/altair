@@ -9,6 +9,7 @@ export function mockUser(): User {
     firstName: 'John',
     lastName: 'Doe',
     picture: 'asdf',
+    isNewUser: false,
   } as User;
 }
 
