@@ -5,11 +5,16 @@ export function mockUser(): User {
   return {
     id: 'f7102dc9-4c0c-42b4-9a17-e2bd4af94d5a',
     stripeCustomerId: 'f7102dc9-4c0c-42b4-9a17-e2bd4af94d5a',
+    resendContactId: 'f7102dc9-4c0c-42b4-9a17-e2bd4af94d5a',
     email: 'john.doe@email.com',
     firstName: 'John',
     lastName: 'Doe',
     picture: 'asdf',
     isNewUser: false,
+    emailVerified: new Date(),
+    password: 'password',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   } as User;
 }
 

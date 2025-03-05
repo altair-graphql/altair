@@ -14,6 +14,7 @@ import { PasswordService } from './password/password.service';
 import { IToken } from '@altairgraphql/api-utils';
 import { getAgent } from 'src/newrelic/newrelic';
 
+const NEW_USER_TIME = 1000 * 60 * 10; // 10 minutes
 @Injectable()
 export class AuthService {
   private readonly agent = getAgent();
@@ -109,7 +110,7 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       picture: user.picture,
-      isNewUser: Date.now() - user.createdAt.getTime() < 1000 * 60 * 10, // 10 minutes
+      isNewUser: Date.now() - user.createdAt.getTime() < NEW_USER_TIME,
       tokens: this.generateTokens({ userId: user.id }),
     };
   }
