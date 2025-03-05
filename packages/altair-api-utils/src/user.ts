@@ -12,6 +12,7 @@ export interface IUserProfile {
   firstName: string;
   lastName?: string;
   picture?: string;
+  isNewUser?: boolean;
   tokens: IToken;
 }
 

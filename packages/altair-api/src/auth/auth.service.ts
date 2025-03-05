@@ -109,6 +109,7 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       picture: user.picture,
+      isNewUser: Date.now() - user.createdAt.getTime() < 1000 * 60 * 10, // 10 minutes
       tokens: this.generateTokens({ userId: user.id }),
     };
   }

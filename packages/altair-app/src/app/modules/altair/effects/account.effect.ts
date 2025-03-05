@@ -3,7 +3,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { environment } from 'environments/environment';
-import { EMPTY, forkJoin, from, zip } from 'rxjs';
+import { EMPTY, forkJoin, from, of, zip } from 'rxjs';
 import {
   catchError,
   map,
@@ -57,6 +57,7 @@ export class AccountEffects {
               firstName: user?.firstName ?? user?.email ?? '',
               lastName: '',
               picture: user.picture ?? '',
+              isNewUser: user.isNewUser,
             })
           );
 
@@ -98,10 +99,11 @@ export class AccountEffects {
           );
           this.store.dispatch(
             new accountActions.AccountIsLoggedInAction({
-              email: user.email || '',
-              firstName: user.firstName || user.email || '',
+              email: user.email ?? '',
+              firstName: user.firstName ?? user.email ?? '',
               lastName: '',
-              picture: user.picture || '',
+              picture: user.picture ?? '',
+              isNewUser: user.isNewUser,
             })
           );
           this.store.dispatch(
@@ -224,24 +226,31 @@ export class AccountEffects {
     () => {
       return this.actions$.pipe(
         ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
-        switchMap((action) =>
+        switchMap((action: accountActions.AccountIsLoggedInAction) =>
           forkJoin([
             fromPromise(this.accountService.getStats()),
             fromPromise(this.accountService.getPlan()),
             fromPromise(this.accountService.getPlanInfos()),
             fromPromise(this.accountService.getAvailableCredits()),
+            of(action.payload),
           ])
         ),
-        map(([stats, plan, planInfos, availableCredits]) => {
+        map(([stats, plan, planInfos, availableCredits, user]) => {
           // check query parameter and show the update plan dialog if necessary
-          const selectedPlan = consumeQueryParam('plan_select');
-          if (plan.canUpgradePro && selectedPlan === 'pro') {
-            this.store.dispatch(
-              new windowsMetaActions.ShowUpgradeDialogAction({ value: true })
-            );
-            this.accountService.getUpgradeProUrl().then(({ url }) => {
-              externalLink(url);
-            });
+          if (plan.canUpgradePro) {
+            const selectedPlan = consumeQueryParam('plan_select');
+            if (selectedPlan === 'pro') {
+              this.store.dispatch(
+                new windowsMetaActions.ShowUpgradeDialogAction({ value: true })
+              );
+              this.accountService.getUpgradeProUrl().then(({ url }) => {
+                externalLink(url);
+              });
+            } else if (user.isNewUser) {
+              this.store.dispatch(
+                new windowsMetaActions.ShowUpgradeDialogAction({ value: true })
+              );
+            }
           }
 
           this.store.dispatch(

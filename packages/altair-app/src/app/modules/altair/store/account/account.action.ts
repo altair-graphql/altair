@@ -30,6 +30,7 @@ export class AccountIsLoggedInAction implements NGRXAction {
       firstName: string;
       lastName: string;
       picture: string;
+      isNewUser?: boolean;
     }
   ) {}
 }
