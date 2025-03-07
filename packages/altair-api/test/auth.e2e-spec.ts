@@ -31,7 +31,7 @@ describe('AuthController', () => {
   });
 
   it('/auth/me (GET) should return 200 with user profile when authenticated', () => {
-    mockUserFn.mockReturnValue({ id: testUser.id });
+    mockUserFn.mockReturnValue(testUser);
     return request(app.getHttpServer())
       .get('/auth/me')
       .expect(200)
