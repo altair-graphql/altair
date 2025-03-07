@@ -31,6 +31,10 @@ export const testUser = {
   picture: 'https://example.com/picture.png',
   firstName: 'Test',
   lastName: 'User',
+  emailVerified: new Date(),
+  password: 'password',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   Workspace: {
     create: {
       name: 'Test Workspace',
@@ -44,6 +48,10 @@ export const testUser2 = {
   picture: 'https://example.com/picture2.png',
   firstName: 'Test2',
   lastName: 'User2',
+  emailVerified: new Date(),
+  password: 'password',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   Workspace: {
     create: {
       name: 'Test 2 Workspace',
@@ -57,6 +65,10 @@ export const testUser3 = {
   picture: 'https://example.com/picture3.png',
   firstName: 'Test3',
   lastName: 'User3',
+  emailVerified: new Date(),
+  password: 'password',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   Workspace: {
     create: {
       name: 'Test 3 Workspace',
@@ -70,6 +82,10 @@ export const testUser4 = {
   picture: 'https://example.com/picture4.png',
   firstName: 'Test4',
   lastName: 'User4',
+  emailVerified: new Date(),
+  password: 'password',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   Workspace: {
     create: {
       name: 'Test 4 Workspace',
