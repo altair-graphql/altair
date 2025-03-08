@@ -1,14 +1,7 @@
 import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import {
-  createTheme,
-  hexToRgbStr,
-  ICustomTheme,
-  ITheme,
-  getCSS,
-} from 'altair-graphql-core/build/theme';
+import { ICustomTheme, getCSS } from 'altair-graphql-core/build/theme';
 
-import { css } from '@emotion/css';
-import { ThemeRegistryService } from '../../services';
+import createEmotion, { Emotion } from '@emotion/css/create-instance';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 @Directive({
@@ -18,7 +11,9 @@ export class ThemeDirective implements OnInit, OnChanges {
   @Input() appTheme: ICustomTheme = {};
   @Input() appDarkTheme: ICustomTheme = {};
   @Input() appAccentColor = '';
+  @Input() cspNonce = '';
 
+  private emotionInstance?: Emotion;
   private className = '';
 
   constructor(private nzConfigService: NzConfigService) {}
@@ -46,7 +41,9 @@ export class ThemeDirective implements OnInit, OnChanges {
     appDarkTheme?: ICustomTheme,
     accentColor?: string
   ) {
-    return css(getCSS(appTheme, appDarkTheme, accentColor));
+    return this.getEmotionInstance().css(
+      getCSS(appTheme, appDarkTheme, accentColor)
+    );
   }
 
   applyTheme(theme: ICustomTheme, darkTheme?: ICustomTheme, accentColor?: string) {
@@ -70,5 +67,15 @@ export class ThemeDirective implements OnInit, OnChanges {
 
     this.className = this.getDynamicClassName(appTheme, appDarkTheme, accentColor);
     document.documentElement.classList.add(this.className);
+  }
+
+  private getEmotionInstance() {
+    if (!this.emotionInstance) {
+      this.emotionInstance = createEmotion({
+        key: 'altair-theme',
+        nonce: this.cspNonce,
+      });
+    }
+    return this.emotionInstance;
   }
 }
