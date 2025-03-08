@@ -21,9 +21,11 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/common/config';
 import dedent from 'dedent';
+import { getAgent } from 'src/newrelic/newrelic';
 
 @Injectable()
 export class AiService {
+  private readonly agent = getAgent();
   constructor(
     private readonly creditService: CreditService,
     private readonly prisma: PrismaService,
@@ -40,6 +42,8 @@ export class AiService {
         isActive: false,
       },
     });
+
+    this.agent?.incrementMetric('ai.session.create');
 
     return this.prisma.aiChatSession.create({
       data: {
@@ -68,8 +72,8 @@ export class AiService {
     });
   }
 
-  getSessions(userId: string) {
-    return this.prisma.aiChatSession.findMany({
+  async getSessions(userId: string) {
+    const res = await this.prisma.aiChatSession.findMany({
       where: {
         userId,
       },
@@ -77,10 +81,14 @@ export class AiService {
         updatedAt: 'desc',
       },
     });
+
+    this.agent?.recordMetric('ai.session.count', res.length);
+
+    return res;
   }
 
-  getSessionMessages(userId: string, sessionId: string, limit = Infinity) {
-    return this.prisma.aiChatMessage.findMany({
+  async getSessionMessages(userId: string, sessionId: string, limit = Infinity) {
+    const res = await this.prisma.aiChatMessage.findMany({
       where: {
         sessionId,
         AiChatSession: {
@@ -96,6 +104,10 @@ export class AiService {
           }
         : {}),
     });
+
+    this.agent?.recordMetric('ai.session.message.count', res.length);
+
+    return res;
   }
 
   async getOrCreateActiveSession(userId: string) {
@@ -117,6 +129,10 @@ export class AiService {
     messageId: string;
     rating: number;
   }) {
+    rating > 0
+      ? this.agent?.incrementMetric('ai.message.rate.good')
+      : this.agent?.incrementMetric('ai.message.rate.bad');
+
     return this.prisma.aiChatMessage.update({
       where: {
         id: messageId,
@@ -207,6 +223,9 @@ export class AiService {
         updatedAt: new Date(),
       },
     });
+
+    this.agent?.incrementMetric('ai.session.message.send');
+
     // Return AI response
     return {
       response: response.content,
