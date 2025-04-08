@@ -32,9 +32,10 @@ The connection parameters are in JSON format as following
       "aws_project_region": "<AWS_REGION>", //AWS Region abbreviation
       "aws_appsync_graphqlEndpoint": "https://******", //The value you can copy from AWS AppSync Endpoint, please use the HTTPS value
       "aws_appsync_region": "<AWS_REGION>", //AWS Region abbreviation
-      "aws_appsync_authenticationType": "<AWS_APPYSYNC_Authentication_TYPE>", //API_KEY, OPENID_CONNECT or AMAZON_COGNITO_USER_POOLS (IAM is not supported)
+      "aws_appsync_authenticationType": "<AWS_APPYSYNC_Authentication_TYPE>", //API_KEY, OPENID_CONNECT, AMAZON_COGNITO_USER_POOLS or AWS_LAMBDA (IAM is not supported)
       "aws_appsync_apiKey": "*******", //API Key, required if authentication type = API_KEY,
       "aws_appsync_jwtToken": "******", //JWT Token, required if authentication type = OPENID_CONNECT or AMAZON_COGNITO_USER_POOLS
+      "aws_appsync_token": "******" //Token passed to Lambda authorizer, required if authentication type = AWS_LAMBDA
     }
 
 ![Specifying connection parameters](https://user-images.githubusercontent.com/15103463/99538456-49d97080-29ad-11eb-9002-e744eec42780.png)
