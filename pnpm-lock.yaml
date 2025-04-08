@@ -516,7 +516,7 @@ importers:
         version: 1.5.17(graphql@15.5.1)
       aws-appsync-auth-link:
         specifier: 3.0.2
-        version: 3.0.2(graphql-ws@5.9.1(graphql@15.5.1))(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+        version: 3.0.2(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
       aws-appsync-subscription-link:
         specifier: 3.0.3
         version: 3.0.3(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))(graphql@15.5.1)
@@ -891,11 +891,11 @@ importers:
         specifier: 1.5.17
         version: 1.5.17(graphql@15.5.1)
       aws-appsync-auth-link:
-        specifier: 3.0.4
-        version: 3.0.4(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+        specifier: 3.0.7
+        version: 3.0.7(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
       aws-appsync-subscription-link:
-        specifier: 3.0.6
-        version: 3.0.6(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))(graphql@15.5.1)
+        specifier: 3.1.3
+        version: 3.1.3(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
       color-name:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2170,21 +2170,6 @@ packages:
       react: ^16.8.0 || ^17.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
-      react:
-        optional: true
-      subscriptions-transport-ws:
-        optional: true
-
-  '@apollo/client@3.6.9':
-    resolution: {integrity: sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==}
-    peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-      graphql-ws: ^5.5.5
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      subscriptions-transport-ws: ^0.9.0 || ^0.11.0
-    peerDependenciesMeta:
-      graphql-ws:
-        optional: true
       react:
         optional: true
       subscriptions-transport-ws:
@@ -7926,11 +7911,6 @@ packages:
   aws-appsync-auth-link@3.0.2:
     resolution: {integrity: sha512-4IByaUJM4NrYaZE0n9D9phRgDdyai2uasNQSfvv6eND6eJua0I8kAJOFCU8w4mlj8yqkfrR9zxbJg24rJZZkKA==}
 
-  aws-appsync-auth-link@3.0.4:
-    resolution: {integrity: sha512-5zuD5JUaHdHTEOerMY4GFS9RyGquTNq3oIDAh8Ld+U74Qeo9UODT1QEfSSf6M9c+etDIghDcgQKxRQmkJwUEzA==}
-    peerDependencies:
-      '@apollo/client': 3.x
-
   aws-appsync-auth-link@3.0.7:
     resolution: {integrity: sha512-Jsa53opryGFIOHGok74ICfboxhDN64o11Z+aXoCrAnE0TwzJMMK1F20ha6sYzUuozY9pGYeE+EQ3OVn6waYMog==}
     peerDependencies:
@@ -7941,13 +7921,13 @@ packages:
     peerDependencies:
       '@apollo/client': 3.x
 
-  aws-appsync-subscription-link@3.0.6:
-    resolution: {integrity: sha512-8iXJt+b6q7r8GCN75JVwYMN8H0+3hrUHQ/sgdikmb/pE+lBjqFOyFg2Pfu8OYqsyxwVKkxywHRKYeV1+61opXw==}
+  aws-appsync-subscription-link@3.1.3:
+    resolution: {integrity: sha512-Q1ASwgRbg7XXYel6pxPBKtJin+rd/Yb60Swm5edzZN6lsE0ve8jlb7X9lNE3dKoEzZg/BHi6pO5A3AMRfmXevw==}
     peerDependencies:
       '@apollo/client': 3.x
 
-  aws-sdk@2.1189.0:
-    resolution: {integrity: sha512-EqluXSo8XAR086nF9UAtPYwUm82ZIRqg8OmHBRQyftcrD1Z0pqMmiuvacXoEAJ/4UU8KKafbpYarxx8rH/pZjQ==}
+  aws-sdk@2.1692.0:
+    resolution: {integrity: sha512-x511uiJ/57FIsbgUe5csJ13k3uzu25uWQE+XqfBis/sB0SFoiElJWXRkgEAUh0U6n40eT3ay5Ue4oPkRMu1LYw==}
     engines: {node: '>= 10.0.0'}
 
   aws-sign2@0.7.0:
@@ -16443,10 +16423,6 @@ packages:
   punycode@1.4.1:
     resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
 
-  punycode@2.1.1:
-    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
-    engines: {node: '>=6'}
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -18422,10 +18398,6 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  ts-invariant@0.10.3:
-    resolution: {integrity: sha512-uivwYcQaxAucv1CzRp2n/QdYPo4ILf9VXgH19zEIjFx2EJufV16P0JtJVpYHy89DItG6Kwj2oIUjrcK5au+4tQ==}
-    engines: {node: '>=8'}
-
   ts-invariant@0.4.4:
     resolution: {integrity: sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==}
 
@@ -19656,9 +19628,6 @@ packages:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
 
-  xml2js@0.4.19:
-    resolution: {integrity: sha512-esZnJZJOiJR9wWKMyuvSE1y6Dq5LCuJanqhxslH2bxM6duahNZ+HMpCLhBQGZkbX6xRf8x1Y2eJlgt2q3qo49Q==}
-
   xml2js@0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
     engines: {node: '>=4.0.0'}
@@ -19674,10 +19643,6 @@ packages:
   xmlbuilder@15.1.1:
     resolution: {integrity: sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==}
     engines: {node: '>=8.0'}
-
-  xmlbuilder@9.0.7:
-    resolution: {integrity: sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==}
-    engines: {node: '>=4.0'}
 
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
@@ -20010,9 +19975,9 @@ snapshots:
       typescript: 5.5.4
       vite: 5.4.6(@types/node@12.20.55)(less@4.2.0)(sass@1.77.6)(stylus@0.55.0)(terser@5.31.6)
       watchpack: 2.4.1
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
       webpack-dev-middleware: 7.4.2(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
-      webpack-dev-server: 5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51))
+      webpack-dev-server: 5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       webpack-merge: 6.0.1
       webpack-subresource-integrity: 5.1.0(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
     optionalDependencies:
@@ -20045,8 +20010,8 @@ snapshots:
     dependencies:
       '@angular-devkit/architect': 0.1802.12(chokidar@3.6.0)
       rxjs: 7.8.1
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
-      webpack-dev-server: 5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51))
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
+      webpack-dev-server: 5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
     transitivePeerDependencies:
       - chokidar
 
@@ -20444,26 +20409,6 @@ snapshots:
       tslib: 2.6.3
       zen-observable-ts: 1.2.5
     optionalDependencies:
-      react: 17.0.1
-      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
-
-  '@apollo/client@3.6.9(graphql-ws@5.9.1(graphql@15.5.1))(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
-    dependencies:
-      '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
-      '@wry/context': 0.6.1
-      '@wry/equality': 0.5.2
-      '@wry/trie': 0.3.1
-      graphql: 15.5.1
-      graphql-tag: 2.12.6(graphql@15.5.1)
-      hoist-non-react-statics: 3.3.2
-      optimism: 0.16.1
-      prop-types: 15.8.1
-      symbol-observable: 4.0.0
-      ts-invariant: 0.10.3
-      tslib: 2.6.3
-      zen-observable-ts: 1.2.5
-    optionalDependencies:
-      graphql-ws: 5.9.1(graphql@15.5.1)
       react: 17.0.1
       subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
 
@@ -23851,7 +23796,7 @@ snapshots:
     dependencies:
       '@angular/compiler-cli': 18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
       typescript: 5.5.4
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   '@ngui/auto-complete@3.0.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(tslib@2.0.0)':
     dependencies:
@@ -27146,24 +27091,15 @@ snapshots:
       '@fastify/error': 4.0.0
       fastq: 1.17.1
 
-  aws-appsync-auth-link@3.0.2(graphql-ws@5.9.1(graphql@15.5.1))(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)):
+  aws-appsync-auth-link@3.0.2(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)):
     dependencies:
-      '@apollo/client': 3.6.9(graphql-ws@5.9.1(graphql@15.5.1))(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
-      aws-sdk: 2.1189.0
+      '@apollo/client': 3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      aws-sdk: 2.1692.0
       debug: 2.6.9
     transitivePeerDependencies:
       - graphql
-      - graphql-ws
       - react
       - subscriptions-transport-ws
-      - supports-color
-
-  aws-appsync-auth-link@3.0.4(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
-    dependencies:
-      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
-      aws-sdk: 2.1189.0
-      debug: 2.6.9
-    transitivePeerDependencies:
       - supports-color
 
   aws-appsync-auth-link@3.0.7(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
@@ -27197,18 +27133,17 @@ snapshots:
       - graphql
       - supports-color
 
-  aws-appsync-subscription-link@3.0.6(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))(graphql@15.5.1):
+  aws-appsync-subscription-link@3.1.3(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
     dependencies:
       '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
-      apollo-utilities: 1.3.4(graphql@15.5.1)
       aws-appsync-auth-link: 3.0.7(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
       debug: 2.6.9
       url: 0.11.0
+      zen-observable-ts: 1.2.5
     transitivePeerDependencies:
-      - graphql
       - supports-color
 
-  aws-sdk@2.1189.0:
+  aws-sdk@2.1692.0:
     dependencies:
       buffer: 4.9.2
       events: 1.1.1
@@ -27217,9 +27152,9 @@ snapshots:
       querystring: 0.2.0
       sax: 1.2.1
       url: 0.10.3
-      util: 0.12.5
+      util: 0.12.4
       uuid: 8.0.0
-      xml2js: 0.4.19
+      xml2js: 0.6.2
 
   aws-sign2@0.7.0: {}
 
@@ -27371,7 +27306,7 @@ snapshots:
       '@babel/core': 7.25.2
       find-cache-dir: 4.0.0
       schema-utils: 4.0.0
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   babel-messages@6.23.0:
     dependencies:
@@ -28863,7 +28798,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   core-js-compat@3.39.0:
     dependencies:
@@ -29099,7 +29034,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.6.3
     optionalDependencies:
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   css-prefers-color-scheme@3.1.1:
     dependencies:
@@ -35094,7 +35029,7 @@ snapshots:
     dependencies:
       less: 4.2.0
     optionalDependencies:
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   less@4.2.0:
     dependencies:
@@ -35130,7 +35065,7 @@ snapshots:
     dependencies:
       webpack-sources: 3.2.3
     optionalDependencies:
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   lie@3.3.0:
     dependencies:
@@ -36334,7 +36269,7 @@ snapshots:
     dependencies:
       schema-utils: 4.0.0
       tapable: 2.2.1
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   mini-svg-data-uri@1.4.4: {}
 
@@ -38046,7 +37981,7 @@ snapshots:
       postcss: 8.4.41
       semver: 7.6.3
     optionalDependencies:
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     transitivePeerDependencies:
       - typescript
 
@@ -38467,8 +38402,6 @@ snapshots:
   punycode@1.3.2: {}
 
   punycode@1.4.1: {}
-
-  punycode@2.1.1: {}
 
   punycode@2.3.1: {}
 
@@ -39441,7 +39374,7 @@ snapshots:
       neo-async: 2.6.2
     optionalDependencies:
       sass: 1.77.6
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   sass@1.69.5:
     dependencies:
@@ -39928,7 +39861,7 @@ snapshots:
     dependencies:
       iconv-lite: 0.6.3
       source-map-js: 1.2.1
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   source-map-resolve@0.5.3:
     dependencies:
@@ -40607,17 +40540,17 @@ snapshots:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
 
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
       terser: 5.31.6
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.23.0
+      esbuild: 0.14.51
 
   terser@5.31.6:
     dependencies:
@@ -40784,12 +40717,12 @@ snapshots:
   tough-cookie@2.5.0:
     dependencies:
       psl: 1.9.0
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   tough-cookie@4.1.3:
     dependencies:
       psl: 1.9.0
-      punycode: 2.1.1
+      punycode: 2.3.1
       universalify: 0.2.0
       url-parse: 1.5.10
 
@@ -40804,11 +40737,11 @@ snapshots:
 
   tr46@2.1.0:
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   tr46@3.0.0:
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   transliteration@2.3.5:
     dependencies:
@@ -40845,10 +40778,6 @@ snapshots:
       typescript: 5.5.4
 
   ts-interface-checker@0.1.13: {}
-
-  ts-invariant@0.10.3:
-    dependencies:
-      tslib: 2.6.3
 
   ts-invariant@0.4.4:
     dependencies:
@@ -41583,7 +41512,7 @@ snapshots:
 
   uri-js@4.2.2:
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   urix@0.1.0: {}
 
@@ -42178,17 +42107,6 @@ snapshots:
 
   webidl-conversions@7.0.0: {}
 
-  webpack-dev-middleware@7.4.2(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)):
-    dependencies:
-      colorette: 2.0.19
-      memfs: 4.15.0
-      mime-types: 2.1.35
-      on-finished: 2.4.1
-      range-parser: 1.2.1
-      schema-utils: 4.0.0
-    optionalDependencies:
-      webpack: 5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
-
   webpack-dev-middleware@7.4.2(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       colorette: 2.0.19
@@ -42198,9 +42116,9 @@ snapshots:
       range-parser: 1.2.1
       schema-utils: 4.0.0
     optionalDependencies:
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
-  webpack-dev-server@5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)):
+  webpack-dev-server@5.0.4(bufferutil@4.0.6)(utf-8-validate@5.0.9)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       '@types/bonjour': 3.5.13
       '@types/connect-history-api-fallback': 1.5.4
@@ -42230,10 +42148,10 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.4.2(webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51))
+      webpack-dev-middleware: 7.4.2(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       ws: 8.18.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)
     optionalDependencies:
-      webpack: 5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -42253,7 +42171,7 @@ snapshots:
   webpack-subresource-integrity@5.1.0(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       typed-assert: 1.0.9
-      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)
+      webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
 
   webpack@5.92.1(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51):
     dependencies:
@@ -42286,7 +42204,7 @@ snapshots:
       - esbuild
       - uglify-js
 
-  webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0):
+  webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51):
     dependencies:
       '@types/estree': 1.0.5
       '@webassemblyjs/ast': 1.12.1
@@ -42308,7 +42226,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
@@ -42550,11 +42468,6 @@ snapshots:
 
   xml-name-validator@4.0.0: {}
 
-  xml2js@0.4.19:
-    dependencies:
-      sax: 1.2.4
-      xmlbuilder: 9.0.7
-
   xml2js@0.4.23:
     dependencies:
       sax: 1.2.4
@@ -42568,8 +42481,6 @@ snapshots:
   xmlbuilder@11.0.1: {}
 
   xmlbuilder@15.1.1: {}
-
-  xmlbuilder@9.0.7: {}
 
   xmlchars@2.2.0: {}
 

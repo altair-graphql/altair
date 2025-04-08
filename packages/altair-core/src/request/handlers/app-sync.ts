@@ -5,7 +5,7 @@ import {
   GraphQLResponseData,
 } from '../types';
 import { parse } from 'graphql';
-import { AUTH_TYPE, createAuthLink } from 'aws-appsync-auth-link';
+import { AuthOptions, createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { simpleResponseObserver } from '../utils';
@@ -19,8 +19,9 @@ export class AppSyncRequestHandler implements GraphQLRequestHandler {
     "aws_appsync_graphqlEndpoint": "https://....appsync-api.us-west-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-west-2",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "..."
-    "aws_appsync_jwtToken" "..."
+    "aws_appsync_apiKey": "...",
+    "aws_appsync_jwtToken" "...",
+    "aws_appsync_token" "..."
   }
    */
   handle(request: GraphQLRequestOptions): Observable<GraphQLResponseData> {
@@ -34,10 +35,11 @@ export class AppSyncRequestHandler implements GraphQLRequestHandler {
           ? request.additionalParams.aws_appsync_region
           : '';
       const auth = {
-        type: (typeof request.additionalParams?.aws_appsync_authenticationType ===
-        'string'
-          ? request.additionalParams.aws_appsync_authenticationType
-          : '') as any,
+        type:
+          typeof request.additionalParams?.aws_appsync_authenticationType ===
+          'string'
+            ? request.additionalParams.aws_appsync_authenticationType
+            : '',
         apiKey:
           typeof request.additionalParams?.aws_appsync_apiKey === 'string'
             ? request.additionalParams.aws_appsync_apiKey
@@ -46,7 +48,11 @@ export class AppSyncRequestHandler implements GraphQLRequestHandler {
           typeof request.additionalParams?.aws_appsync_jwtToken === 'string'
             ? request.additionalParams.aws_appsync_jwtToken
             : '',
-      };
+        token:
+          typeof request.additionalParams?.aws_appsync_token === 'string'
+            ? request.additionalParams.aws_appsync_token
+            : '',
+      } as AuthOptions;
 
       const link = ApolloLink.from([
         createAuthLink({ url, region, auth }),
