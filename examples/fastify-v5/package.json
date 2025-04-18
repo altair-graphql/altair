@@ -9,7 +9,7 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "fastify": "^5.0.0"
+    "fastify": "^5.3.1"
   },
   "scripts": {
     "start": "ts-node index.ts"
