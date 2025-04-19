@@ -56,7 +56,7 @@ export abstract class AltairV3Panel {
   }
 
   private injectCSS(css: string) {
-    let el = document.createElement('style');
+    const el = document.createElement('style');
     el.innerText = css.replace(/[\n\r]/g, '');
     document.head.appendChild(el);
     return el;

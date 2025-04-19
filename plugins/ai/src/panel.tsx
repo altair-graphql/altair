@@ -77,10 +77,12 @@ const Panel = ({ context }: PanelProps) => {
       let graphqlQuery = '';
       let graphqlVariables = '';
       let sdl = '';
+      let response = '';
       if (windowState) {
         graphqlQuery = windowState.query;
         graphqlVariables = windowState.variables;
         sdl = windowState.sdl;
+        response = windowState.queryResults.join('\n');
       }
 
       // build message input
@@ -89,6 +91,7 @@ const Panel = ({ context }: PanelProps) => {
         graphqlQuery,
         graphqlVariables,
         sdl,
+        graphqlResponse: response,
       };
       return context.sendMessageToAiSession(activeSession.id, input);
     },

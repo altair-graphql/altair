@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { PluginV3Context } from './context';
 import {
   PLUGIN_CREATE_ACTION_EVENT,
@@ -13,6 +12,7 @@ import { PluginWindowState } from '../context/context.interface';
 
 export class PluginFrameEngine {
   private readyPromise: Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private eventListeners: Record<string, Function[]> = {};
   private ctx?: PluginV3Context;
 
