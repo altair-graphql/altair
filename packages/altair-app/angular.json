@@ -69,7 +69,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "altair:build:development"
+            "buildTarget": "altair:build:development",
+            "headers": {
+              "Content-Security-Policy": "style-src 'self' 'nonce-change-me' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='"
+            }
           },
           "configurations": {
             "production": {
@@ -123,9 +126,7 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["@angular-eslint/schematics"],
     "packageManager": "pnpm",
     "analytics": false
   }
