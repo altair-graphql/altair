@@ -17,9 +17,9 @@ export interface ISendMessageDto {
   sdl?: string;
   graphqlQuery?: string;
   graphqlVariables?: string;
+  graphqlResponse?: string;
 }
 
 export interface IRateMessageDto {
   rating: number;
 }
-

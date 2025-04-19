@@ -9,7 +9,6 @@ import { SendMessageDto } from './dto/send-message.dto';
 import { AiChatMessage, AiChatRating, AiChatRole } from '@altairgraphql/db';
 import { PrismaService } from 'nestjs-prisma';
 import { ChatOpenAI } from '@langchain/openai';
-import { ChatOllama } from '@langchain/community/chat_models/ollama';
 import { FakeListChatModel } from '@langchain/core/utils/testing';
 import {
   maxGraphqlQueryChars,
@@ -22,6 +21,9 @@ import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/common/config';
 import dedent from 'dedent';
 import { getAgent } from 'src/newrelic/newrelic';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { ChatOllama } from '@langchain/ollama';
+import { getPrompt } from './prompt';
 
 @Injectable()
 export class AiService {
@@ -271,7 +273,12 @@ export class AiService {
       new SystemMessage({
         content: [
           {
-            text: systemMessageParts.join('\n\n'),
+            text: getPrompt(
+              messageInput.sdl ?? '',
+              messageInput.graphqlQuery ?? '',
+              messageInput.graphqlVariables ?? '',
+              messageInput.graphqlResponse ?? ''
+            ),
             type: 'text',
             cache_control: { type: 'ephemeral' },
           },
@@ -330,6 +337,13 @@ export class AiService {
             'Sure! Here are the fields available in the `Product` type and their corresponding types:\n\n```graphql\ntype Product {\n  id: ID!\n  name: String!\n  price: Float!\n  availabilityStatus: String!\n}\n```\n\n### Fields\n\n- **`id: ID!`**\n  - **Type:** `ID`\n  - **Non-nullable:** Yes\n  - **Description:** A unique identifier for the product.\n\n- **`name: String!`**\n  - **Type:** `String`\n  - **Non-nullable:** Yes\n  - **Description:** The name of the product.\n\n- **`price: Float!`**\n  - **Type:** `Float`\n  - **Non-nullable:** Yes\n  - **Description:** The price of the product.\n\n- **`availabilityStatus: String!`**\n  - **Type:** `String`\n  - **Non-nullable:** Yes\n  - **Description:** The availability status of the product (e.g., "In Stock", "Out of Stock").\n\nThese fields define the structure of product objects in the GraphQL schema, specifying the information available for each product.',
             'Certainly! Here is a GraphQL query to fetch a list of posts along with their titles and authors:\n\n```graphql\nquery {\n  posts {\n    id\n    title\n    author {\n      id\n      name\n    }\n  }\n}```\n\nMake sure your GraphQL server schema includes a `posts` query that returns a list of post objects, each containing `id`, `title`, and `author` fields.',
           ],
+        });
+      }
+      case 'google': {
+        return new ChatGoogleGenerativeAI({
+          apiKey: this.configService.get('ai.google.apiKey', { infer: true }),
+          model: this.configService.get('ai.google.model', { infer: true }) ?? '',
+          maxOutputTokens: responseMaxTokens,
         });
       }
       case 'anthropic':

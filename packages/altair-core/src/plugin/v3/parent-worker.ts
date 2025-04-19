@@ -108,6 +108,7 @@ export class PluginParentWorker extends EvaluatorWorker {
         return;
       }
       if (e.data.frameId !== this.opts.id) {
+        // eslint-disable-next-line no-console
         console.error('Invalid frameId in data', e.data.frameId, this.opts.id);
         return;
       }

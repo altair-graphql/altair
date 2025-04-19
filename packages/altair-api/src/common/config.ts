@@ -1,4 +1,4 @@
-export type AiModelProvider = 'anthropic' | 'openai' | 'ollama' | 'fake';
+export type AiModelProvider = 'anthropic' | 'openai' | 'google' | 'ollama' | 'fake';
 
 const config = {
   nest: {
@@ -36,6 +36,11 @@ const config = {
       apiKey: process.env.ANTHROPIC_API_KEY,
       // https://docs.anthropic.com/en/docs/about-claude/models#model-names
       model: process.env.ANTHROPIC_MODEL_NAME ?? 'claude-3-haiku-20240307',
+    },
+    google: {
+      apiKey: process.env.GOOGLE_GEN_API_KEY,
+      // https://ai.google.dev/gemini-api/docs/models
+      model: process.env.GOOGLE_GEN_MODEL_NAME ?? 'gemini-2.5-flash-preview-04-17',
     },
   },
   email: {

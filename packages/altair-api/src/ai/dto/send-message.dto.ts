@@ -32,4 +32,10 @@ export class SendMessageDto implements ISendMessageDto {
   @IsOptional()
   @MaxLength(maxGraphqlVariablesChars)
   graphqlVariables?: string;
+
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  @MaxLength(maxMessageChars)
+  graphqlResponse?: string;
 }
