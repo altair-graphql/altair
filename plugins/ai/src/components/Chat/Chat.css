@@ -1,5 +1,9 @@
 @import url('https://cdn.jsdelivr.net/npm/altair-static@latest/build/dist/styles.css');
 
+html {
+  border-right: 1px solid rgba(var(--rgb-theme-font), 0.1);
+}
+
 .ai-chat-wrapper {
   display: flex;
   flex-direction: column;
