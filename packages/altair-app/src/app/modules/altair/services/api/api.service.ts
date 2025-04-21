@@ -154,6 +154,7 @@ export class ApiService {
 
       return serverCollectionToLocalCollection(res);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
       return;
     }
