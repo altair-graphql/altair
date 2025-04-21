@@ -57,7 +57,6 @@ p {
   background-color: var(--vp-code-copy-code-bg);
   color: var(--vp-code-copy-code-active-text);
   border: 1px solid var(--vp-code-copy-code-border-color);
-  color: white;
   padding: 5px 10px;
   border-radius: 5px;
   transition: all 0.3s ease;
