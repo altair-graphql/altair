@@ -15,6 +15,8 @@ import { downloadJson, openFile } from '../utils';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../utils/logger';
 import { windowHasUnsavedChanges } from '../store';
+import { APP_INIT_ACTION } from '../store/action';
+import { SharingService } from '../services';
 
 @Injectable()
 export class WindowsEffects {
@@ -218,9 +220,24 @@ export class WindowsEffects {
     { dispatch: false }
   );
 
+  checkShareUrls$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(APP_INIT_ACTION),
+        switchMap(() => {
+          // check for shared links
+          this.sharingService.checkForShareUrl();
+          return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private windowService: WindowService
+    private readonly actions$: Actions,
+    private readonly store: Store<RootState>,
+    private readonly windowService: WindowService,
+    private readonly sharingService: SharingService
   ) {}
 }

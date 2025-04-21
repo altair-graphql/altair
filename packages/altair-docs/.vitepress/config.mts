@@ -2,6 +2,8 @@ import { defineConfig } from 'vitepress';
 import { getConfig } from './plugins/sidebar-generation';
 import coreApiSidebar from '../api/core/typedoc-sidebar.json';
 import { dynamicFiles } from './plugins/dynamic-files';
+import { toString } from 'hast-util-to-string';
+import { openInAltairShikiPlugin } from './plugins/open-in-altair-shiki';
 
 const { sidebar: retrievedSidebar } = getConfig({
   filter: (meta) => meta.sidebar !== false,
@@ -138,5 +140,8 @@ export default defineConfig({
   },
   vite: {
     plugins: [dynamicFiles()],
+  },
+  markdown: {
+    codeTransformers: [openInAltairShikiPlugin()],
   },
 });

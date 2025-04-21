@@ -45,3 +45,24 @@ p {
 .medium-zoom-image--opened {
   z-index: 31;
 }
+
+.open-in-altair-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--vp-font-family-base);
+  z-index: var(--vp-z-index-local-nav);
+  background-color: var(--vp-code-copy-code-bg);
+  color: var(--vp-code-copy-code-active-text);
+  border: 1px solid var(--vp-code-copy-code-border-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.open-in-altair-btn:hover {
+  background-color: var(--vp-code-copy-code-hover-bg);
+  border: 1px solid var(--vp-code-copy-code-hover-border-color);
+}
