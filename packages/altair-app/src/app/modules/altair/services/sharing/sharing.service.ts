@@ -7,9 +7,22 @@ import { AccountService } from '../account/account.service';
 import { copyToClipboard } from '../../utils';
 import { consumeQueryParam } from '../../utils/url';
 
-interface ShareDetails {
+// ?q=<queryId>
+interface SharedRemoteQuery {
+  type: 'remote-query';
   queryId: string;
 }
+
+// ?query=<query>&variables=<variables>&endpoint=<endpoint>
+interface SharedWindowData {
+  type: 'window-data';
+  endpoint: string | undefined;
+  query: string;
+  variables: string | undefined;
+}
+
+type SharedUrlInfo = SharedRemoteQuery | SharedWindowData;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,12 +43,8 @@ export class SharingService {
     if (!shareDetails) {
       return;
     }
-    this.accountService.observeUser().subscribe((user) => {
-      if (!user) {
-        return;
-      }
-      this.handleShareDetails(shareDetails);
-    });
+
+    this.handleShareDetails(shareDetails);
   }
 
   copyQueryShareUrl(queryId: string) {
@@ -43,30 +52,61 @@ export class SharingService {
     this.notifyService.info(`Copied share url to clipboard`);
   }
 
-  private getShareDetailsFromUrl(url: string) {
+  private getShareDetailsFromUrl(url: string): SharedUrlInfo | undefined {
     const queryId = consumeQueryParam('q', url);
-    if (!queryId) {
-      // no shared link
-      return;
+    if (queryId) {
+      // shared remote query
+      return { type: 'remote-query', queryId };
+    }
+    const query = consumeQueryParam('query', url);
+    if (query) {
+      // shared window data
+      return {
+        type: 'window-data',
+        query,
+        variables: consumeQueryParam('variables', url),
+        endpoint: consumeQueryParam('endpoint', url),
+      };
     }
 
-    return { queryId };
+    return;
   }
 
-  private async handleShareDetails(shareDetails: ShareDetails) {
+  private async handleShareDetails(shareDetails: SharedUrlInfo) {
     try {
-      const res = await this.apiService.getQuery(shareDetails.queryId);
-      if (!res) {
-        throw new Error('Query not found');
+      switch (shareDetails.type) {
+        case 'window-data': {
+          const { query, variables, endpoint } = shareDetails;
+          return this.windowService.importWindowData({
+            version: 1,
+            type: 'window',
+            query,
+            variables: variables ?? '{}',
+            apiUrl: endpoint ?? '',
+            windowName: 'From url',
+            headers: [],
+            subscriptionUrl: '',
+          });
+        }
+        case 'remote-query': {
+          const user = await this.accountService.getUser();
+          if (!user) {
+            return;
+          }
+          const res = await this.apiService.getQuery(shareDetails.queryId);
+          if (!res) {
+            throw new Error('Query not found');
+          }
+          return this.windowService.loadQueryFromCollection(
+            res.query,
+            res.collectionId,
+            res.query.id ?? shareDetails.queryId
+          );
+        }
       }
-      await this.windowService.loadQueryFromCollection(
-        res.query,
-        res.collectionId,
-        res.query.id ?? shareDetails.queryId
-      );
     } catch (err) {
       debug.error(err);
-      this.notifyService.error(`Error loading shared query`);
+      this.notifyService.error(`Error loading shared details`);
     }
   }
 }

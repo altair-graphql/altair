@@ -1191,6 +1191,9 @@ importers:
       glob:
         specifier: ^11.0.0
         version: 11.0.0
+      hast-util-to-string:
+        specifier: ^3.0.1
+        version: 3.0.1
       inflection:
         specifier: ^3.0.0
         version: 3.0.0
@@ -1215,6 +1218,9 @@ importers:
       parent-module:
         specifier: ^3.1.0
         version: 3.1.0
+      shikiji:
+        specifier: ^0.10.2
+        version: 0.10.2
       transliteration:
         specifier: ^2.3.5
         version: 2.3.5
@@ -12200,6 +12206,9 @@ packages:
   hast-util-to-parse5@7.1.0:
     resolution: {integrity: sha512-YNRgAJkH2Jky5ySkIqFXTQiaqcAtJyVE+D5lkN6CdtOqrnkLfGYYrEcKuHOJZlp+MwjSwuD3fZuawI+sic/RBw==}
 
+  hast-util-to-string@3.0.1:
+    resolution: {integrity: sha512-XelQVTDWvqcl3axRfI0xSeoVKzyIFPwsAGSLIsKdJKQMXDYJS4WYrBNF/8J7RdhIcFI2BOHgAifggsvsxp/3+A==}
+
   hast-util-whitespace@2.0.1:
     resolution: {integrity: sha512-nAxA0v8+vXSBDt3AnRUNjyRIQ0rD+ntpbAp4LnPkumc5M9yUbSMa4XDU9Q6etY4f1Wp4bNgvc1yjiZtsTTrSng==}
 
@@ -17353,6 +17362,10 @@ packages:
   shiki@0.14.7:
     resolution: {integrity: sha512-dNPAPrxSc87ua2sKJ3H5dQ/6ZaY8RNnaAqK+t0eG7p0Soi2ydiqbGOTaZCqaYvA/uZYfS1LJnemt3Q+mSfcPCg==}
 
+  shikiji-core@0.10.2:
+    resolution: {integrity: sha512-9Of8HMlF96usXJHmCL3Gd0Fcf0EcyJUF9m8EoAKKd98mHXi0La2AZl1h6PegSFGtiYcBDK/fLuKbDa1l16r1fA==}
+    deprecated: Shikiji is merged back to Shiki v1.0, please migrate over to get the latest updates
+
   shikiji-core@0.9.19:
     resolution: {integrity: sha512-AFJu/vcNT21t0e6YrfadZ+9q86gvPum6iywRyt1OtIPjPFe25RQnYJyxHQPMLKCCWA992TPxmEmbNcOZCAJclw==}
     deprecated: Shikiji is merged back to Shiki v1.0, please migrate over to get the latest updates
@@ -17360,9 +17373,13 @@ packages:
   shikiji-transformers@0.9.19:
     resolution: {integrity: sha512-lGLI7Z8frQrIBbhZ74/eiJtxMoCQRbpaHEB+gcfvdIy+ZFaAtXncJGnc52932/UET+Y4GyKtwwC/vjWUCp+c/Q==}
 
+  shikiji@0.10.2:
+    resolution: {integrity: sha512-wtZg3T0vtYV2PnqusWQs3mDaJBdCPWxFDrBM/SE5LfrX92gjUvfEMlc+vJnoKY6Z/S44OWaCRzNIsdBRWcTAiw==}
+    deprecated: Deprecated, use shiki instead
+
   shikiji@0.9.19:
     resolution: {integrity: sha512-Kw2NHWktdcdypCj1GkKpXH4o6Vxz8B8TykPlPuLHOGSV8VkhoCLcFOH4k19K4LXAQYRQmxg+0X/eM+m2sLhAkg==}
-    deprecated: Shikiji is merged back to Shiki v1.0, please migrate over to get the latest updates
+    deprecated: Deprecated, use shiki instead
 
   shx@0.3.4:
     resolution: {integrity: sha512-N6A9MLVqjxZYcVn8hLmtneQWIJtp8IKzMP4eMnx+nqkvXoqinUPCbUFLp2UcWTEIUONhlk0ewxr/jaVGlc+J+g==}
@@ -32740,6 +32757,10 @@ snapshots:
       web-namespaces: 2.0.1
       zwitch: 2.0.4
 
+  hast-util-to-string@3.0.1:
+    dependencies:
+      '@types/hast': 3.0.3
+
   hast-util-whitespace@2.0.1: {}
 
   hast-util-whitespace@3.0.0:
@@ -39615,11 +39636,17 @@ snapshots:
       vscode-oniguruma: 1.7.0
       vscode-textmate: 8.0.0
 
+  shikiji-core@0.10.2: {}
+
   shikiji-core@0.9.19: {}
 
   shikiji-transformers@0.9.19:
     dependencies:
       shikiji: 0.9.19
+
+  shikiji@0.10.2:
+    dependencies:
+      shikiji-core: 0.10.2
 
   shikiji@0.9.19:
     dependencies:
@@ -40527,7 +40554,7 @@ snapshots:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
       esbuild: 0.14.51
 
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
@@ -40537,7 +40564,7 @@ snapshots:
       webpack: 5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)
     optionalDependencies:
       '@swc/core': 1.6.13(@swc/helpers@0.5.5)
-      esbuild: 0.14.51
+      esbuild: 0.23.0
 
   terser@5.31.6:
     dependencies:
@@ -42224,7 +42251,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.14.51)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0)(webpack@5.94.0(@swc/core@1.6.13(@swc/helpers@0.5.5))(esbuild@0.23.0))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:

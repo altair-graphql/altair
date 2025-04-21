@@ -281,20 +281,6 @@ export class AccountEffects {
     { dispatch: false }
   );
 
-  onAccountCheckedInit$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(accountActions.ACCOUNT_IS_LOGGED_IN),
-        switchMap((action) => {
-          // check for shared links
-          this.sharingService.checkForShareUrl();
-          return EMPTY;
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,
