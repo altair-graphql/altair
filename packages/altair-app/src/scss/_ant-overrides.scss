@@ -40,8 +40,29 @@
 .ant-modal-confirm-body .ant-modal-confirm-content {
   color: var(--theme-font-color);
 }
+.ant-btn {
+  // background: var(--theme-off-bg-color);
+  // color: var(--theme-font-color);
+  // border-color: var(--theme-border-color);
+  border-radius: 4px;
+  // font-size: fontsize(12);
+  // padding: 0.5rem 1rem;
+}
 .ant-btn-primary {
   background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--theme-font-color);
+}
+.ant-btn-primary:focus,
+.ant-btn-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--theme-font-color);
+}
+.ant-btn:focus,
+.ant-btn:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .anticon {

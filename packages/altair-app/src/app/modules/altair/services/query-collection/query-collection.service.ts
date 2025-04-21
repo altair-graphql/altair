@@ -117,11 +117,19 @@ export class QueryCollectionService {
     }
 
     collection.queries = collection.queries.map((query) => {
-      return { ...query, id: uuid(), created_at: now, updated_at: now };
+      return {
+        ...query,
+        storageType: 'local',
+        id: uuid(),
+        created_at: now,
+        updated_at: now,
+      };
     });
 
     return this.storage.queryCollections.add({
       ...collection,
+      storageType: 'local',
+      workspaceId: WORKSPACES.LOCAL,
       id: collectionId ?? uuid(),
       parentPath,
       created_at: now,
@@ -694,7 +702,7 @@ export class QueryCollectionService {
   }
 
   async getCollectionTreeByCollectionId(collectionId: CollectionID) {
-    const collection = await this.getLocalCollectionByID(collectionId);
+    const collection = await this.getCollectionByID(collectionId);
     if (!collection) {
       throw new Error('Collection not found!');
     }

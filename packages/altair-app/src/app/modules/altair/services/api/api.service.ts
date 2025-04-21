@@ -146,12 +146,17 @@ export class ApiService {
   async getCollection(
     collectionServerId: string
   ): Promise<IQueryCollection | undefined> {
-    const res = await apiClient.getCollection(collectionServerId);
-    if (!res) {
+    try {
+      const res = await apiClient.getCollection(collectionServerId);
+      if (!res) {
+        return;
+      }
+
+      return serverCollectionToLocalCollection(res);
+    } catch (e) {
+      console.error(e);
       return;
     }
-
-    return serverCollectionToLocalCollection(res);
   }
 
   async getCollections(): Promise<IQueryCollection[]> {
