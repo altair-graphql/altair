@@ -121,6 +121,8 @@ export class AltairComponent {
 
   appVersion = environment.version;
 
+  cspNonce = '';
+
   sidebarPanels$: Observable<AltairPanel[]>;
   headerPanels$: Observable<AltairPanel[]>;
 
@@ -146,6 +148,7 @@ export class AltairComponent {
   ) {
     this.isWebApp = altairConfig.isWebApp;
     this.authEnabled = !altairConfig.initialData.disableAccount;
+    this.cspNonce = altairConfig.cspNonce;
     this.settings$ = this.store
       .pipe(select('settings'))
       .pipe(distinctUntilChanged());
