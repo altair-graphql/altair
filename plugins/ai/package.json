@@ -10,7 +10,7 @@
     "plugin:serve": "pnpm build && npx http-server ./ -c-1 -p 8002 --cors"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.66.9",
+    "@tanstack/react-query": "^5.75.2",
     "altair-graphql-core": "workspace:*",
     "classnames": "^2.5.1",
     "lucide-react": "^0.408.0",
