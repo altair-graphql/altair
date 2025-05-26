@@ -1449,10 +1449,15 @@ export class QueryEffects {
           }
 
           const matchesPromise = res.data.history.list.map(async (item) => {
-            return (
-              (await this.gqlService.compress(item.query)) ===
-              (await this.gqlService.compress(res.action.payload.query))
-            );
+            try {
+              return (
+                (await this.gqlService.compress(item.query)) ===
+                (await this.gqlService.compress(res.action.payload.query))
+              );
+            } catch (error) {
+              debug.warn('Error while compressing query for history match', error);
+              return false;
+            }
           });
 
           return from(Promise.all(matchesPromise)).pipe(

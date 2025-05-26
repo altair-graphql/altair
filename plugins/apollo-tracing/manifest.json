@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "altair-graphql-plugin-apollo-tracing",
+  "display_name": "Altair Apollo Tracing",
+  "version": "8.2.2",
+  "description": "Altair Apollo Tracing plugin",
+  "entry": {
+    "type": "js",
+    "scripts": ["dist/plugin.js"],
+    "styles": ["dist/plugin.css"]
+  },
+  "author_email": "info@altairgraphql.dev",
+  "author": "Altair GraphQL Client",
+  "minimum_altair_version": "7.2.4"
+}
