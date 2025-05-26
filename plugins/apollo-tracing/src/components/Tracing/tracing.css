@@ -1,0 +1,70 @@
+@import url('https://cdn.jsdelivr.net/npm/altair-static@latest/build/dist/styles.css');
+
+#altair-plugin-panel {
+  height: 100%;
+}
+.tracing-wrapper {
+  padding-top: 6px;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: var(--theme-font-color, white);
+  overflow: auto;
+  position: relative;
+  height: 100%;
+}
+
+.tracing-rows {
+  /* padding-left: 100px; */
+  padding: 10px 0 10px 120px;
+  /* padding-bottom: 100px; */
+  /* padding-top: 16px; */
+  position: absolute;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  /* width: calc(100% + 120px);
+    height: calc(100% + 116px); */
+  width: 100%;
+  height: 100%;
+}
+
+.not-supported {
+  font-size: 14px;
+  color: var(--cerise-color, rgba(241, 143, 1, 1));
+}
+
+.tracing-row {
+  position: relative;
+  font-size: 12px;
+  display: table;
+  padding-right: 25px;
+  color: var(--theme-font-color, white);
+}
+
+.tracing-row__name-wrapper {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+  display: inline-flex;
+  align-items: center;
+  text-align: right;
+}
+
+.tracing-row__name {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.tracing-row__bar {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  height: 1.5px;
+  bottom: 4px;
+  background: var(--primary-color, white);
+}
+
+.tracing-row__duration {
+  font-size: 10px;
+  color: var(--theme-off-font-color, gray);
+}

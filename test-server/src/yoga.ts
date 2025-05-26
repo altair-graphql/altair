@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { resolvers, typeDefs } from './schema';
 import { useDeferStream } from '@graphql-yoga/plugin-defer-stream';
 import { useGraphQLSSE } from '@graphql-yoga/plugin-graphql-sse';
+import { useApolloTracing } from '@envelop/apollo-tracing';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { WebSocketServer } from 'ws';
 
@@ -18,7 +19,7 @@ export const yogaMain = async () => {
     batching: true,
     logging: 'debug',
     multipart: true,
-    plugins: [useDeferStream(), useGraphQLSSE()],
+    plugins: [useDeferStream(), useGraphQLSSE(), useApolloTracing()],
   });
 
   const app = express();
