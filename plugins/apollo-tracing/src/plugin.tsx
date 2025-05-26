@@ -13,12 +13,6 @@ class ApolloTracingPlugin extends PluginV3 {
   }
 
   async initialize(ctx: PluginV3Context) {
-    console.log('PLUGIN initialize', ctx);
-    console.log('PLUGIN isElectron', await ctx.getCurrentWindowState());
-    ctx.on('query.change', (x) => {
-      console.log('PLUGIN query.change', x);
-    });
-
     await ctx.createPanel('tracing', {
       location: AltairPanelLocation.RESULT_PANE_BOTTOM,
       title: 'Tracing',
