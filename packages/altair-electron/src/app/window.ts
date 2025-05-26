@@ -41,6 +41,8 @@ import {
   getPersisedSettingsFromFile,
   updateAltairSettingsOnFile,
 } from '../settings/main/store';
+import { cspAsString } from '../utils/csp';
+import { SENTRY_CSP_REPORT_URI } from '../constants';
 
 export class WindowManager {
   private instance?: BrowserWindow;
@@ -306,19 +308,37 @@ export class WindowManager {
           `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
           `'${createSha256CspHash(renderInitSnippet(this.getRenderOptions()))}'`,
           `https://cdn.jsdelivr.net`,
-          `https://apis.google.com`,
           `localhost:*`,
           `file:`,
         ];
 
+        const additionalHeaders = {
+          // TODO: Figure out why an error from this breaks devtools
+          'Content-Security-Policy': [
+            cspAsString({
+              'script-src': scriptSrc,
+              'object-src': ["'self'"],
+              'report-uri': [SENTRY_CSP_REPORT_URI],
+              'report-to': ['csp-endpoint'],
+            }),
+          ],
+          'Report-To': JSON.stringify({
+            group: 'csp-endpoint',
+            max_age: 10886400, // 3 months
+            endpoints: [
+              {
+                url: SENTRY_CSP_REPORT_URI,
+              },
+            ],
+            include_subdomains: true,
+          }),
+          'Reporting-Endpoints': `csp-endpoint="${SENTRY_CSP_REPORT_URI}"`,
+        };
+
         return callback({
           responseHeaders: {
-            ...details.responseHeaders, // Setting CSP
-            // TODO: Figure out why an error from this breaks devtools
-            'Content-Security-Policy': [
-              `script-src ${scriptSrc.join(' ')}; object-src 'self';`,
-              // `script-src 'self' 'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc=' '${createSha256CspHash(renderInitSnippet())}' https://cdn.jsdelivr.net localhost:*; object-src 'self';`
-            ],
+            ...details.responseHeaders,
+            ...additionalHeaders, // Additional headers
           },
         });
       }

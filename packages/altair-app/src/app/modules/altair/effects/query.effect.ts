@@ -206,19 +206,14 @@ export class QueryEffects {
                 );
               }
 
-              // Store the current query into the history if it does not already exist in the history
-              if (
-                !response.data.history.list.filter(
-                  (item) => item.query && item.query.trim() === query.trim()
-                ).length
-              ) {
-                this.store.dispatch(
-                  new historyActions.AddHistoryAction(response.windowId, {
-                    query,
-                    limit: response.state.settings.historyDepth,
-                  })
-                );
-              }
+              // Try to store the current query into the history if it does not already exist in the history
+              this.store.dispatch(
+                new historyActions.TryAddHistoryAction({
+                  windowId: response.windowId,
+                  query,
+                  limit: response.state.settings.historyDepth,
+                })
+              );
 
               // perform some cleanup of previous state
               this.store.dispatch(
@@ -1428,6 +1423,51 @@ export class QueryEffects {
         switchMap(() => {
           this.store.dispatch(new collectionActions.LoadCollectionsAction());
           return EMPTY;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  tryAddHistory$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(historyActions.TRY_ADD_HISTORY),
+        withLatestFrom(
+          this.store,
+          (action: historyActions.TryAddHistoryAction, state: RootState) => {
+            return {
+              data: state.windows[action.payload.windowId],
+              windowId: action.payload.windowId,
+              action,
+            };
+          }
+        ),
+        switchMap((res) => {
+          if (!res.data) {
+            return EMPTY;
+          }
+
+          const matchesPromise = res.data.history.list.map(async (item) => {
+            return (
+              (await this.gqlService.compress(item.query)) ===
+              (await this.gqlService.compress(res.action.payload.query))
+            );
+          });
+
+          return from(Promise.all(matchesPromise)).pipe(
+            map((matches) => {
+              if (!matches.includes(true)) {
+                // If the query is not in history, add it
+                this.store.dispatch(
+                  new historyActions.AddHistoryAction(res.windowId, {
+                    query: res.action.payload.query,
+                    limit: res.action.payload.limit,
+                  })
+                );
+              }
+            })
+          );
         })
       );
     },
