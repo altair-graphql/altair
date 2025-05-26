@@ -1,4 +1,5 @@
-const FACTOR = 1000 * 1000; // Convert nanoseconds to microseconds
+const MIN_BAR_WIDTH = 3;
+const FACTOR = 1000 * 1000; // Convert nanoseconds to pixel scale (1 pixel = 1 ms)
 
 function printDuration(nanoSeconds: number): string {
   const microSeconds = Math.round(nanoSeconds / 1000);
@@ -17,7 +18,7 @@ export interface TracingRowProps {
 
 function TracingRow(props: TracingRowProps) {
   const offsetLeft = props.startOffset / FACTOR;
-  const barWidth = Math.max(props.duration / FACTOR, 3); // Ensure minimum width of 3px
+  const barWidth = Math.max(props.duration / FACTOR, MIN_BAR_WIDTH);
   return (
     <div
       className="tracing-row"
@@ -37,10 +38,7 @@ function TracingRow(props: TracingRowProps) {
           ))}
         </span>
       </span>
-      <span
-        className="tracing-row__bar"
-        style={{ width: `${Math.max(barWidth, 3)}px` }}
-      ></span>
+      <span className="tracing-row__bar" style={{ width: `${barWidth}px` }}></span>
       <span className="tracing-row__duration">{printDuration(props.duration)}</span>
     </div>
   );
