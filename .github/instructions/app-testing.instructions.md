@@ -106,6 +106,36 @@ For testing Angular components, follow these additional guidelines:
    expect(component.state).toBe('consistent');
    ```
 
+5. **Test Isolation**: Ensure test independence by avoiding fragile emission index tracking:
+
+   **❌ FRAGILE - Don't do this:**
+
+   ```typescript
+   it('should handle multiple scenarios', () => {
+     component.method1(); // Emits event at index 0
+     component.method2(); // Emits event at index 1
+     expect(wrapper.emitted('event')[1][0]).toBe(expected); // Brittle!
+   });
+   ```
+
+   **✅ ROBUST - Do this instead:**
+
+   ```typescript
+   describe('event scenarios', () => {
+     it('should handle scenario 1', () => {
+       component.method1();
+       expect(wrapper.emitted('event')[0][0]).toBe(expected1);
+     });
+
+     it('should handle scenario 2', () => {
+       component.method2();
+       expect(wrapper.emitted('event')[0][0]).toBe(expected2);
+     });
+   });
+   ```
+
+   Each `it` block gets a fresh component instance via `beforeEach`, eliminating test interdependencies.
+
 #### Example Test File References
 
 - `packages/altair-app/src/app/modules/altair/components/query-collection-item/query-collection-item.component.spec.ts`
