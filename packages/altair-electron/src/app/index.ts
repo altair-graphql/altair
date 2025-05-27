@@ -201,9 +201,7 @@ export class ElectronApp {
               action: 'allow',
               overrideBrowserWindowOptions: {
                 webPreferences: {
-                  session: session.fromPartition('persist:popup', {
-                    cache: false,
-                  }),
+                  partition: 'popup',
                 },
               },
             };
