@@ -196,7 +196,17 @@ export class ElectronApp {
 
           // Allow popups to be opened in the app
           if (details.features.includes('popup')) {
-            return { action: 'allow' };
+            // session cache should be cleared for popup windows
+            return {
+              action: 'allow',
+              overrideBrowserWindowOptions: {
+                webPreferences: {
+                  session: session.fromPartition('persist:popup', {
+                    cache: false,
+                  }),
+                },
+              },
+            };
           }
           shell.openExternal(url.href);
         } catch (err) {
