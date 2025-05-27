@@ -59,14 +59,14 @@ describe('PluginRegistryService', () => {
   });
 
   describe('.getPluginInfoFromString()', () => {
-    it('return null for empty string', () => {
+    it('return undefined for empty string', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
       expect(service.getPluginInfoFromString('')).toBeUndefined();
     });
 
-    it('should throw error if plugin name does not follow specification', () => {
+    it('return undefined if plugin name does not follow specification', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
-      expect(() => service.getPluginInfoFromString('plugin-name')).toThrow();
+      expect(service.getPluginInfoFromString('plugin-name')).toBeUndefined();
     });
 
     it('return version as latest, if version is not specified', () => {
@@ -83,9 +83,7 @@ describe('PluginRegistryService', () => {
     it('return pluginSource as npm, if pluginSource is not specified', () => {
       const service: PluginRegistryService = TestBed.get(PluginRegistryService);
       expect(
-        service.getPluginInfoFromString(
-          'altair-graphql-plugin-plugin-name@0.0.1'
-        )
+        service.getPluginInfoFromString('altair-graphql-plugin-plugin-name@0.0.1')
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',

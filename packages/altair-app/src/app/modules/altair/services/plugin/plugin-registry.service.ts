@@ -157,7 +157,8 @@ export class PluginRegistryService {
       ] = matches;
       if (pluginName && pluginVersion) {
         if (!pluginName.startsWith(PLUGIN_NAME_PREFIX)) {
-          throw new Error(`Plugin name must start with ${PLUGIN_NAME_PREFIX}`);
+          debug.error(`Plugin name must start with ${PLUGIN_NAME_PREFIX}`);
+          return;
         }
         return {
           name: pluginName,
