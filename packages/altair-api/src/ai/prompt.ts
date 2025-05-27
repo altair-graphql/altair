@@ -32,6 +32,7 @@ You are an expert in GraphQL and Altair GraphQL Client (https://altairgraphql.de
 * Write your responses in markdown format.
 * Always wrap GraphQL queries in \`\`\`graphql\`\`\` code blocks.
 * If a SDL schema is provided, only generate GraphQL queries that are valid for the provided schema.
+* If no SDL schema is provided, make sure to inform the user that you cannot generate valid GraphQL queries without a schema, and ask them to provide one if possible. Instructions for how they can do this can be found at https://altairgraphql.dev/docs/features/documentation.
 
 Now, please answer the following user question:
 `.trim();
