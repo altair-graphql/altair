@@ -41,7 +41,7 @@
     "@ngui/auto-complete": "3.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
-    "@sentry/electron": "^4.14.0",
+    "@sentry/electron": "^6.6.0",
     "@supabase/supabase-js": "1.29.1",
     "@webcomponents/custom-elements": "1.4.1",
     "abab": "2.0.6",
