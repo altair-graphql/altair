@@ -180,7 +180,22 @@
     </div>
   </nz-tab>
 </nz-tabset>
-<div class="query-result__bottom-pane">
+<div
+  class="query-result__bottom-pane"
+  mwlResizable
+  [ngStyle]="{
+    minHeight: hasActiveBottomPanel() ? bottomPaneHeight : undefined,
+  }"
+  [enableGhostResize]="true"
+  [validateResize]="validate"
+  (resizeEnd)="onResizeEnd($event)"
+>
+  <div
+    class="query-result__bottom-pane__resizer"
+    mwlResizeHandle
+    [resizeEdges]="{ top: true }"
+    [ngClass]="{ hide: !hasActiveBottomPanel() }"
+  ></div>
   <nav class="query-result__bottom-pane__title-wrapper">
     @for (panel of bottomPanels; track trackById($index, panel)) {
       <div

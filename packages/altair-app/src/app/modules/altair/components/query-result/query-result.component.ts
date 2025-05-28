@@ -22,6 +22,7 @@ import { json } from '@codemirror/lang-json';
 import { indentUnit } from '@codemirror/language';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-query-result',
@@ -68,6 +69,8 @@ export class QueryResultComponent implements AfterViewInit {
     EditorState.tabSize.of(this.tabSize),
   ];
 
+  bottomPaneHeight = '50%';
+
   ngAfterViewInit(): void {
     this.queryResultItems?.changes.subscribe(() => this.onItemElementsChanged());
   }
@@ -94,5 +97,31 @@ export class QueryResultComponent implements AfterViewInit {
         });
       }
     }, 50);
+  }
+
+  hasActiveBottomPanel(): boolean {
+    return this.bottomPanels.some((panel) => panel.isActive);
+  }
+
+  // using arrow function, as it seems the this context in angular-resize-element is changed
+  validate = (event: ResizeEvent): boolean => {
+    const MIN_DIMENSIONS_PX = 50;
+    if (!this.hasActiveBottomPanel()) {
+      // If no bottom panels are active, don't allow resizing
+      return false;
+    }
+
+    if (event.rectangle.height && event.rectangle.height < MIN_DIMENSIONS_PX) {
+      return false;
+    }
+    return true;
+  };
+
+  onResizeEnd(event: ResizeEvent): void {
+    const height = event.rectangle.height;
+
+    if (height) {
+      this.bottomPaneHeight = `${height}px`;
+    }
   }
 }

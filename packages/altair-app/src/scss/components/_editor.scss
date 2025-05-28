@@ -156,6 +156,7 @@ app-query-result {
 }
 
 .query-result__bottom-pane {
+  position: relative;
   padding: 5px;
   max-height: 60%;
   display: flex;
@@ -198,7 +199,8 @@ app-query-result {
     max-height: none;
   }
 }
-.variable-editor-resizer {
+.variable-editor-resizer,
+.query-result__bottom-pane__resizer {
   --resizer-width: 6px;
   display: flex;
   align-items: center;

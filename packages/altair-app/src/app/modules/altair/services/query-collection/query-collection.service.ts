@@ -625,7 +625,7 @@ export class QueryCollectionService {
   }
 
   getParentCollectionId(collection: IQueryCollection) {
-    const id = collection.parentPath?.split(COLLECTION_PATH_SEPARATOR).pop();
+    const id = collection.parentPath?.split(COLLECTION_PATH_SEPARATOR)?.pop();
     return id ? id : undefined;
   }
 
