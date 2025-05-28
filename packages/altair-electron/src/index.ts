@@ -1,5 +1,5 @@
 import unhandled from 'electron-unhandled';
-import * as Sentry from '@sentry/electron';
+import * as Sentry from '@sentry/electron/main';
 import { ElectronApp } from './app';
 import { app } from 'electron';
 import { configureAppOnStartup } from './utils/startup';
