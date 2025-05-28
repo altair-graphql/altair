@@ -16,10 +16,10 @@ interface TracingData {
   };
   execution?: {
     resolvers: {
-      path: string[];
-      parentType: string;
-      fieldName: string;
-      returnType: string;
+      path: (string | number)[];
+      parentType: string | null;
+      fieldName: string | null;
+      returnType: string | null;
       startOffset: number;
       duration: number;
     }[];

@@ -485,8 +485,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(@ngx-translate/core@15.0.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(rxjs@7.8.1)
       '@sentry/electron':
-        specifier: ^4.14.0
-        version: 4.14.0
+        specifier: ^6.6.0
+        version: 6.6.0
       '@supabase/supabase-js':
         specifier: 1.29.1
         version: 1.29.1(encoding@0.1.13)
@@ -1806,6 +1806,9 @@ importers:
       react-syntax-highlighter:
         specifier: ^15.5.0
         version: 15.5.0(react@18.3.1)
+      react-tooltip:
+        specifier: ^5.28.1
+        version: 5.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: ^18.3.3
@@ -6254,16 +6257,8 @@ packages:
     resolution: {integrity: sha512-2A32FFwrlZtdpBruvpcLEfucu6BpyqOk3F4Bo5smM/5q7u0pa7q5d9FSY5l3nwKEAFAoLGv3hcCb+8wxMm50xA==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/tracing@7.74.0':
-    resolution: {integrity: sha512-JK6IRGgdtZjswGfaGIHNWIThffhOHzVIIaGmglui+VFIzOsOqePjoxaDV0MEvzafxXZD7eWqGE5RGuZ0n6HFVg==}
-    engines: {node: '>=8'}
-
   '@sentry-internal/tracing@7.80.0':
     resolution: {integrity: sha512-P1Ab9gamHLsbH9D82i1HY8xfq9dP8runvc4g50AAd6OXRKaJ45f2KGRZUmnMEVqBQ7YoPYp2LFMkrhNYbcZEoQ==}
-    engines: {node: '>=8'}
-
-  '@sentry/browser@7.74.0':
-    resolution: {integrity: sha512-Njr8216Z1dFUcl6NqBOk20dssK9SjoVddY74Xq+Q4p3NfXBG3lkMcACXor7SFoJRZXq8CZWGS13Cc5KwViRw4g==}
     engines: {node: '>=8'}
 
   '@sentry/browser@9.18.0':
@@ -6280,10 +6275,6 @@ packages:
     engines: {node: '>= 10'}
     hasBin: true
 
-  '@sentry/core@7.74.0':
-    resolution: {integrity: sha512-83NRuqn7nDZkSVBN5yJQqcpXDG4yMYiB7TkYUKrGTzBpRy6KUOrkCdybuKk0oraTIGiGSe5WEwCFySiNgR9FzA==}
-    engines: {node: '>=8'}
-
   '@sentry/core@7.80.0':
     resolution: {integrity: sha512-nJiiymdTSEyI035/rdD3VOq6FlOZ2wWLR5bit9LK8a3rzHU3UXkwScvEo6zYgs0Xp1sC0yu1S9+0BEiYkmi29A==}
     engines: {node: '>=8'}
@@ -6292,15 +6283,8 @@ packages:
     resolution: {integrity: sha512-kRVH8BqMiaU2FTHYa68zNlAloS43jl4XtIEHkLKVH/7gUtwRmM4Gqj8P7RTrZdO1Lo7ksYnGj+AG05Z09CRbOw==}
     engines: {node: '>=18'}
 
-  '@sentry/electron@4.14.0':
-    resolution: {integrity: sha512-5laPImINGd86osNUu9UyGWB9dfK9O6hmydSTFWsHWHgFsd/2YKtOgjdXgMu+znyU+sy+lU9z+wwEq/h4yivPZQ==}
-
   '@sentry/electron@6.6.0':
     resolution: {integrity: sha512-zqFjBTZN3T1CcJLzde/cw0EMZ6jUnKa8XoLC9wvTlm54vImggeQ/e+vracawgDqyWg8kBmvsfBBsQZH1f0cDuA==}
-
-  '@sentry/node@7.74.0':
-    resolution: {integrity: sha512-uBmW2/z0cz/WFIG74ZF7lSipO0XNzMf9yrdqnZXnGDYsUZE4I4QiqDN0hNi6fkTgf9MYRC8uFem2OkAvyPJ74Q==}
-    engines: {node: '>=8'}
 
   '@sentry/node@7.80.0':
     resolution: {integrity: sha512-J35fqe8J5ac/17ZXT0ML3opYGTOclqYNE9Sybs1y9n6BqacHyzH8By72YrdI03F7JJDHwrcGw+/H8hGpkCwi0Q==}
@@ -6321,20 +6305,8 @@ packages:
       '@opentelemetry/sdk-trace-base': ^1.30.1 || ^2.0.0
       '@opentelemetry/semantic-conventions': ^1.30.0
 
-  '@sentry/replay@7.74.0':
-    resolution: {integrity: sha512-GoYa3cHTTFVI/J1cnZ0i4X128mf/JljaswO3PWNTe2k3lSHq/LM5aV0keClRvwM0W8hlix8oOTT06nnenOUmmw==}
-    engines: {node: '>=12'}
-
-  '@sentry/types@7.74.0':
-    resolution: {integrity: sha512-rI5eIRbUycWjn6s6o3yAjjWtIvYSxZDdnKv5je2EZINfLKcMPj1dkl6wQd2F4y7gLfD/N6Y0wZYIXC3DUdJQQg==}
-    engines: {node: '>=8'}
-
   '@sentry/types@7.80.0':
     resolution: {integrity: sha512-4bpMO+2jWiWLDa8zbTASWWNLWe6yhjfPsa7/6VH5y9x1NGtL8oRbqUsTgsvjF3nmeHEMkHQsC8NHPaQ/ibFmZQ==}
-    engines: {node: '>=8'}
-
-  '@sentry/utils@7.74.0':
-    resolution: {integrity: sha512-k3np8nuTPtx5KDODPtULfFln4UXdE56MZCcF19Jv6Ljxf+YN/Ady1+0Oi3e0XoSvFpWNyWnglauT7M65qCE6kg==}
     engines: {node: '>=8'}
 
   '@sentry/utils@7.80.0':
@@ -10144,10 +10116,6 @@ packages:
 
   deepmerge@4.2.2:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
-    engines: {node: '>=0.10.0'}
-
-  deepmerge@4.3.0:
-    resolution: {integrity: sha512-z2wJZXrmeHdvYJp/Ux55wIjqo81G5Bp4c+oELTW+7ar6SogWHajt5a9gO3s3IDaGSAXjDk0vlQKN3rms8ab3og==}
     engines: {node: '>=0.10.0'}
 
   deepmerge@4.3.1:
@@ -14361,9 +14329,6 @@ packages:
   lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
 
-  lru_map@0.3.3:
-    resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
-
   lucide-angular@0.298.0:
     resolution: {integrity: sha512-duZzjsIUXcmSlLpln4gaPbkVyaOvtYPteT35HeMXM51+PD6n5J+OpAO8OL3N9AzIo0F1teyhiZxjRIavuFNN0A==}
     peerDependencies:
@@ -16894,6 +16859,12 @@ packages:
     resolution: {integrity: sha512-+zq2myprEnQmH5yw6Gqc8lD55QHnpKaU8TOcFeC/Lg/MQSs8UknEA0JC4nTZGFAXC2J2Hyj/ijJ7NlabyPi2gg==}
     peerDependencies:
       react: '>= 0.14.0'
+
+  react-tooltip@5.28.1:
+    resolution: {integrity: sha512-ZA4oHwoIIK09TS7PvSLFcRlje1wGZaxw6xHvfrzn6T82UcMEfEmHVCad16Gnr4NDNDh93HyN037VK4HDi5odfQ==}
+    peerDependencies:
+      react: '>=16.14.0'
+      react-dom: '>=16.14.0'
 
   react@17.0.1:
     resolution: {integrity: sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==}
@@ -24395,7 +24366,7 @@ snapshots:
 
   '@opentelemetry/api-logs@0.39.1':
     dependencies:
-      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/api': 1.9.0
 
   '@opentelemetry/api-logs@0.57.2':
     dependencies:
@@ -25252,27 +25223,11 @@ snapshots:
       '@sentry-internal/browser-utils': 9.18.0
       '@sentry/core': 9.18.0
 
-  '@sentry-internal/tracing@7.74.0':
-    dependencies:
-      '@sentry/core': 7.74.0
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-      tslib: 2.6.3
-
   '@sentry-internal/tracing@7.80.0':
     dependencies:
       '@sentry/core': 7.80.0
       '@sentry/types': 7.80.0
       '@sentry/utils': 7.80.0
-
-  '@sentry/browser@7.74.0':
-    dependencies:
-      '@sentry-internal/tracing': 7.74.0
-      '@sentry/core': 7.74.0
-      '@sentry/replay': 7.74.0
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-      tslib: 2.6.3
 
   '@sentry/browser@9.18.0':
     dependencies:
@@ -25305,12 +25260,6 @@ snapshots:
       - encoding
       - supports-color
 
-  '@sentry/core@7.74.0':
-    dependencies:
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-      tslib: 2.6.3
-
   '@sentry/core@7.80.0':
     dependencies:
       '@sentry/types': 7.80.0
@@ -25318,38 +25267,12 @@ snapshots:
 
   '@sentry/core@9.18.0': {}
 
-  '@sentry/electron@4.14.0':
-    dependencies:
-      '@sentry/browser': 7.74.0
-      '@sentry/core': 7.74.0
-      '@sentry/node': 7.74.0
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-      deepmerge: 4.3.0
-      lru_map: 0.3.3
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-
   '@sentry/electron@6.6.0':
     dependencies:
       '@sentry/browser': 9.18.0
       '@sentry/core': 9.18.0
       '@sentry/node': 9.18.0
       deepmerge: 4.3.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@sentry/node@7.74.0':
-    dependencies:
-      '@sentry-internal/tracing': 7.74.0
-      '@sentry/core': 7.74.0
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-      cookie: 0.5.0
-      https-proxy-agent: 5.0.1
-      lru_map: 0.3.3
-      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -25412,20 +25335,7 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.34.0
       '@sentry/core': 9.18.0
 
-  '@sentry/replay@7.74.0':
-    dependencies:
-      '@sentry/core': 7.74.0
-      '@sentry/types': 7.74.0
-      '@sentry/utils': 7.74.0
-
-  '@sentry/types@7.74.0': {}
-
   '@sentry/types@7.80.0': {}
-
-  '@sentry/utils@7.74.0':
-    dependencies:
-      '@sentry/types': 7.74.0
-      tslib: 2.6.3
 
   '@sentry/utils@7.80.0':
     dependencies:
@@ -27170,6 +27080,10 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
       acorn: 8.12.1
+
+  acorn-jsx@5.3.2(acorn@8.14.0):
+    dependencies:
+      acorn: 8.14.0
 
   acorn-walk@8.3.1: {}
 
@@ -30376,8 +30290,6 @@ snapshots:
 
   deepmerge@4.2.2: {}
 
-  deepmerge@4.3.0: {}
-
   deepmerge@4.3.1: {}
 
   default-browser-id@3.0.0:
@@ -32582,7 +32494,7 @@ snapshots:
       chalk: 4.1.2
       chokidar: 3.6.0
       cosmiconfig: 8.3.6(typescript@5.3.3)
-      deepmerge: 4.3.1
+      deepmerge: 4.2.2
       fs-extra: 10.1.0
       memfs: 3.6.0
       minimatch: 3.1.2
@@ -36102,8 +36014,6 @@ snapshots:
     dependencies:
       es5-ext: 0.10.62
 
-  lru_map@0.3.3: {}
-
   lucide-angular@0.298.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10)):
     dependencies:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -36696,8 +36606,8 @@ snapshots:
 
   micromark-extension-mdxjs@1.0.1:
     dependencies:
-      acorn: 8.12.1
-      acorn-jsx: 5.3.2(acorn@8.12.1)
+      acorn: 8.14.0
+      acorn-jsx: 5.3.2(acorn@8.14.0)
       micromark-extension-mdx-expression: 1.0.8
       micromark-extension-mdx-jsx: 1.0.5
       micromark-extension-mdx-md: 1.0.1
@@ -39441,6 +39351,13 @@ snapshots:
       prismjs: 1.29.0
       react: 18.3.1
       refractor: 3.6.0
+
+  react-tooltip@5.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@floating-ui/dom': 1.6.1
+      classnames: 2.5.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react@17.0.1:
     dependencies:

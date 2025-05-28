@@ -1,7 +1,7 @@
 import { take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { init } from '@sentry/electron';
+import { init } from '@sentry/electron/renderer';
 
 import { NotifyService } from '../notify/notify.service';
 

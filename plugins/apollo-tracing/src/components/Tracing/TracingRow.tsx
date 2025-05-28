@@ -1,3 +1,5 @@
+import { Tooltip } from 'react-tooltip';
+
 const MIN_BAR_WIDTH = 3;
 const FACTOR = 1000 * 1000; // Convert nanoseconds to pixel scale (1 pixel = 1 ms)
 
@@ -11,7 +13,7 @@ function printDuration(nanoSeconds: number): string {
 }
 
 export interface TracingRowProps {
-  path: string[];
+  path: (string | number)[];
   startOffset: number;
   duration: number;
 }
@@ -27,7 +29,13 @@ function TracingRow(props: TracingRowProps) {
       }}
     >
       <span className="tracing-row__name-wrapper">
-        <span className="tracing-row__name">
+        <Tooltip id="tracing-row-name" />
+        <span
+          className="tracing-row__name"
+          title={props.path.join('.')}
+          data-tooltip-id="tracing-row-name"
+          data-tooltip-content={props.path.join('.')}
+        >
           {props.path.slice(-2).map((p, idx) => (
             <span
               key={p}

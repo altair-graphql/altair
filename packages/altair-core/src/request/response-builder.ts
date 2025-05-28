@@ -93,7 +93,7 @@ export const buildResponse = (
 
 const buildResponse__concatenate = (responses: QueryResponse[]): QueryResponse[] => {
   const content = responses.map((r) => r.content).join('');
-  const parsedContent = parseJson(content, {defaultValue: null});
+  const parsedContent = parseJson(content, { defaultValue: null });
   return [
     {
       content: parsedContent ? JSON.stringify(parsedContent, null, 2) : content,
@@ -148,7 +148,7 @@ const patchResponse = (
   nextData: SubsequentExecutionResult
 ): ExecutionResult => {
   const result = { ...obj };
-  let errors = result.errors ? result.errors : [];
+  const errors = result.errors ? result.errors : [];
 
   const extensions = {
     ...result.extensions,
