@@ -105,9 +105,7 @@ describe('QueriesController', () => {
     const testQuery = await createQuery(app, testCollection.id);
 
     mockUserFn.mockReturnValue({ id: testUser2.id });
-    return request(app.getHttpServer())
-      .get(`/queries/${testQuery.id}`)
-      .expect(404);
+    return request(app.getHttpServer()).get(`/queries/${testQuery.id}`).expect(404);
   });
 
   it('/queries/:id (PATCH) should return 401 when not authenticated', () => {
@@ -144,6 +142,17 @@ describe('QueriesController', () => {
         subscriptionUrl: 'ws://localhost:3000/graphql',
         type: 'window',
         windowName: 'test',
+        authorizationType: 'none',
+        authorizationData: {},
+        preRequestScript: undefined,
+        preRequestScriptEnabled: false,
+        postRequestScript: undefined,
+        postRequestScriptEnabled: false,
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionConnectionParams: undefined,
+        subscriptionUseDefaultRequestHandler: true,
       },
       collectionId: testCollection.id,
     };
@@ -171,6 +180,17 @@ describe('QueriesController', () => {
         subscriptionUrl: 'ws://localhost:3000/graphql',
         type: 'window',
         windowName: 'test',
+        authorizationType: 'none',
+        authorizationData: {},
+        preRequestScript: undefined,
+        preRequestScriptEnabled: false,
+        postRequestScript: undefined,
+        postRequestScriptEnabled: false,
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionConnectionParams: undefined,
+        subscriptionUseDefaultRequestHandler: true,
       },
       collectionId: testCollection.id,
     };

@@ -86,6 +86,17 @@ describe('QueryCollectionsController', () => {
           query: 'query { test }',
           variables: '{}',
           headers: [],
+          authorizationType: 'none',
+          authorizationData: {},
+          preRequestScript: undefined,
+          preRequestScriptEnabled: false,
+          postRequestScript: undefined,
+          postRequestScriptEnabled: false,
+          requestHandlerId: undefined,
+          requestHandlerAdditionalParams: undefined,
+          subscriptionRequestHandlerId: undefined,
+          subscriptionConnectionParams: undefined,
+          subscriptionUseDefaultRequestHandler: true,
         },
       },
     ]);
@@ -137,9 +148,7 @@ describe('QueryCollectionsController', () => {
 
   it('/query-collections/:id (PATCH) should return 404 when query collection does not exist', () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
-    return request(app.getHttpServer())
-      .patch('/query-collections/1')
-      .expect(404);
+    return request(app.getHttpServer()).patch('/query-collections/1').expect(404);
   });
 
   it('/query-collections/:id (PATCH) should return 400 when body is invalid', async () => {
@@ -187,9 +196,7 @@ describe('QueryCollectionsController', () => {
 
   it('/query-collections/:id (DELETE) should return 404 when query collection does not exist', () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
-    return request(app.getHttpServer())
-      .delete('/query-collections/1')
-      .expect(404);
+    return request(app.getHttpServer()).delete('/query-collections/1').expect(404);
   });
 
   it('/query-collections/:id (DELETE) should return 200 with query collection when authenticated and query collection exists', async () => {
