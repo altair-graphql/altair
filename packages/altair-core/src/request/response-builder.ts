@@ -4,7 +4,7 @@ import { MultiResponseStrategy } from './types';
 import { setByDotNotation } from '../utils/dot-notation';
 import { QueryResponse } from '../types/state/query.interfaces';
 type ErrorLike = Partial<GraphQLError> | Error;
-type Extensions = Record<string, any>;
+type Extensions = Record<string, unknown>;
 type Path = (string | number)[];
 
 // Snapshot: https://github.com/graphql/graphql-spec/blob/c630301560d9819d33255d3ba00f548e8abbcdc6/spec/Section%207%20--%20Response.md#incremental
@@ -27,7 +27,7 @@ interface IncrementalDeferResult {
 type IncrementalResult = IncrementalStreamResult | IncrementalDeferResult;
 
 interface InitialExecutionResult {
-  data?: null | Record<string, any>;
+  data?: null | Record<string, unknown>;
   errors?: ErrorLike[];
   extensions?: Extensions;
   hasNext?: boolean;
