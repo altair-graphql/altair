@@ -1,4 +1,4 @@
-import { EMPTY, firstValueFrom, from, of } from 'rxjs';
+import { EMPTY, firstValueFrom, from, Observable, of } from 'rxjs';
 
 import { tap, map, switchMap, take, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -132,6 +132,10 @@ export class WindowService {
           windowName: `${clonedWindow.layout.title} (Copy)`,
           preRequestScript: clonedWindow.preRequest.script,
           preRequestScriptEnabled: clonedWindow.preRequest.enabled,
+          postRequestScript: clonedWindow.postRequest.script,
+          postRequestScriptEnabled: clonedWindow.postRequest.enabled,
+          authorizationType: clonedWindow.authorization.type,
+          authorizationData: clonedWindow.authorization.data,
           gqlSchema: clonedWindow.schema.schema,
         };
 
@@ -140,9 +144,9 @@ export class WindowService {
     );
   }
 
-  getWindowExportData(windowId: string) {
+  getWindowExportData$(windowId: string): Observable<ExportWindowState | undefined> {
     return this.getWindowState(windowId).pipe(
-      map((window) => {
+      map((window): ExportWindowState | undefined => {
         if (!window) {
           return;
         }
@@ -165,6 +169,15 @@ export class WindowService {
           preRequestScriptEnabled: clonedWindow.preRequest.enabled,
           postRequestScript: clonedWindow.postRequest.script,
           postRequestScriptEnabled: clonedWindow.postRequest.enabled,
+          authorizationType: clonedWindow.authorization.type,
+          authorizationData: clonedWindow.authorization.data,
+          requestHandlerId: clonedWindow.query.requestHandlerId,
+          requestHandlerAdditionalParams:
+            clonedWindow.query.requestHandlerAdditionalParams,
+          subscriptionRequestHandlerId:
+            clonedWindow.query.subscriptionRequestHandlerId,
+          subscriptionUseDefaultRequestHandler:
+            clonedWindow.query.subscriptionUseDefaultRequestHandler,
         };
       })
     );
@@ -212,6 +225,14 @@ export class WindowService {
         windowName: `cURL-${Date.now()}`,
         preRequestScript: '',
         preRequestScriptEnabled: false,
+        postRequestScript: '',
+        postRequestScriptEnabled: false,
+        authorizationType: '',
+        authorizationData: {},
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionUseDefaultRequestHandler: undefined,
       };
 
       return this.importWindowData(windowData);
@@ -398,6 +419,30 @@ export class WindowService {
     );
   }
 
+  getEmptyWindowState(): ExportWindowState {
+    return {
+      version: 1,
+      type: 'window',
+      apiUrl: '',
+      headers: [],
+      preRequestScript: '',
+      preRequestScriptEnabled: false,
+      query: '',
+      subscriptionUrl: '',
+      subscriptionConnectionParams: '',
+      variables: '{}',
+      windowName: '',
+      postRequestScript: '',
+      postRequestScriptEnabled: false,
+      authorizationType: '',
+      authorizationData: {},
+      requestHandlerId: undefined,
+      requestHandlerAdditionalParams: undefined,
+      subscriptionRequestHandlerId: undefined,
+      subscriptionUseDefaultRequestHandler: undefined,
+    };
+  }
+
   async updateWindowState(windowId: string, data: ExportWindowState) {
     return firstValueFrom(this.updateWindowState$(windowId, data));
   }
@@ -420,6 +465,14 @@ export class WindowService {
       subscriptionConnectionParams: '',
       variables: '{}',
       windowName: '',
+      postRequestScript: '',
+      postRequestScriptEnabled: false,
+      authorizationType: '',
+      authorizationData: {},
+      requestHandlerId: undefined,
+      requestHandlerAdditionalParams: undefined,
+      subscriptionRequestHandlerId: undefined,
+      subscriptionUseDefaultRequestHandler: undefined,
     };
 
     try {

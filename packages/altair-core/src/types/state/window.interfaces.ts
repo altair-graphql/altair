@@ -18,18 +18,18 @@ export interface ExportWindowState {
   headers: Array<{ key: string; value: string }>;
   variables: string;
   subscriptionUrl: string;
-  subscriptionConnectionParams?: string;
-  requestHandlerId?: RequestHandlerIds;
-  requestHandlerAdditionalParams?: string;
-  subscriptionUseDefaultRequestHandler?: boolean;
-  subscriptionRequestHandlerId?: RequestHandlerIds;
-  preRequestScript?: string;
-  preRequestScriptEnabled?: boolean;
-  postRequestScript?: string;
-  postRequestScriptEnabled?: boolean;
+  subscriptionConnectionParams: string | undefined;
+  requestHandlerId: RequestHandlerIds | undefined;
+  requestHandlerAdditionalParams: string | undefined;
+  subscriptionUseDefaultRequestHandler: boolean | undefined;
+  subscriptionRequestHandlerId: RequestHandlerIds | undefined;
+  preRequestScript: string | undefined;
+  preRequestScriptEnabled: boolean | undefined;
+  postRequestScript: string | undefined;
+  postRequestScriptEnabled: boolean | undefined;
 
-  authorizationType?: string;
-  authorizationData?: any;
+  authorizationType: string | undefined;
+  authorizationData: unknown | undefined;
 
   /**
    * ID of the collection this query belongs to

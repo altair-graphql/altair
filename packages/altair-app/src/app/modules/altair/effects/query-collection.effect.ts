@@ -52,7 +52,7 @@ export class QueryCollectionEffects {
           }
         ),
         switchMap((res) =>
-          zip(of(res), this.windowService.getWindowExportData(res.windowId))
+          zip(of(res), this.windowService.getWindowExportData$(res.windowId))
         ),
         switchMap(([res, exportData]) => {
           // Create collection
@@ -133,7 +133,7 @@ export class QueryCollectionEffects {
         }
       ),
       switchMap((res) =>
-        forkJoin([of(res), this.windowService.getWindowExportData(res.windowId)])
+        forkJoin([of(res), this.windowService.getWindowExportData$(res.windowId)])
       ),
       switchMap(([res, exportData]) => {
         const query = exportData;
@@ -189,7 +189,7 @@ export class QueryCollectionEffects {
         }
       ),
       switchMap((res) =>
-        forkJoin([of(res), this.windowService.getWindowExportData(res.windowId)])
+        forkJoin([of(res), this.windowService.getWindowExportData$(res.windowId)])
       ),
       switchMap(([res, exportData]) => {
         const query = exportData;

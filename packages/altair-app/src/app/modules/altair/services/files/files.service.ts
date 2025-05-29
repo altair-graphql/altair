@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WindowService } from '../window.service';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
-import { ExportWindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 import { getFileStr } from '../../utils';
 import { NotifyService } from '../notify/notify.service';
 import { GqlService } from '../gql/gql.service';
@@ -71,26 +70,11 @@ export class FilesService {
   }
 
   private async trySdlImport(dataStr: string): Promise<boolean> {
-    const emptyWindowData: ExportWindowState = {
-      version: 1,
-      type: 'window',
-      apiUrl: '',
-      headers: [],
-      preRequestScript: '',
-      preRequestScriptEnabled: false,
-      query: '',
-      subscriptionUrl: '',
-      subscriptionConnectionParams: '',
-      variables: '{}',
-      windowName: '',
-    };
     try {
       const schema = this.gqlService.sdlToSchema(dataStr);
       // Import only schema
       await this.windowService.importWindowData({
-        ...emptyWindowData,
-        version: 1,
-        type: 'window',
+        ...this.windowService.getEmptyWindowState(),
         gqlSchema: schema,
       });
       this.notifyService.success(
@@ -103,26 +87,11 @@ export class FilesService {
   }
 
   private async tryQueryImport(dataStr: string): Promise<boolean> {
-    const emptyWindowData: ExportWindowState = {
-      version: 1,
-      type: 'window',
-      apiUrl: '',
-      headers: [],
-      preRequestScript: '',
-      preRequestScriptEnabled: false,
-      query: '',
-      subscriptionUrl: '',
-      subscriptionConnectionParams: '',
-      variables: '{}',
-      windowName: '',
-    };
     const operations = this.gqlService.getOperations(dataStr);
     if (operations && operations.length) {
       // Import only query
       await this.windowService.importWindowData({
-        ...emptyWindowData,
-        version: 1,
-        type: 'window',
+        ...this.windowService.getEmptyWindowState(),
         query: dataStr,
       });
       return true;
