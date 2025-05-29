@@ -6,9 +6,9 @@
     "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.10",
     "typescript": "catalog:",
-    "vite": "^5.2.0"
+    "vite": "^5.4.19"
   },
   "license": "MIT",
   "main": "index.js",
