@@ -186,6 +186,17 @@ export const createQuery = async (app: INestApplication, collectionId: string) =
       type: 'window',
       version: 1,
       windowName: 'Test window',
+      authorizationType: 'none',
+      authorizationData: {},
+      preRequestScript: undefined,
+      preRequestScriptEnabled: false,
+      postRequestScript: undefined,
+      postRequestScriptEnabled: false,
+      requestHandlerId: undefined,
+      requestHandlerAdditionalParams: undefined,
+      subscriptionRequestHandlerId: undefined,
+      subscriptionConnectionParams: undefined,
+      subscriptionUseDefaultRequestHandler: true,
     },
   };
   const res = await request(app.getHttpServer())

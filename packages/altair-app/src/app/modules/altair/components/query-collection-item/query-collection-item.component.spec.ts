@@ -27,6 +27,17 @@ describe('QueryCollectionItemComponent', () => {
         subscriptionUrl: '',
         variables: '',
         version: 1,
+        authorizationType: 'none',
+        authorizationData: {},
+        preRequestScript: undefined,
+        preRequestScriptEnabled: false,
+        postRequestScript: undefined,
+        postRequestScriptEnabled: false,
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionConnectionParams: undefined,
+        subscriptionUseDefaultRequestHandler: true,
       },
       {
         id: 'query2',
@@ -39,6 +50,17 @@ describe('QueryCollectionItemComponent', () => {
         subscriptionUrl: '',
         variables: '',
         version: 1,
+        authorizationType: 'none',
+        authorizationData: {},
+        preRequestScript: undefined,
+        preRequestScriptEnabled: false,
+        postRequestScript: undefined,
+        postRequestScriptEnabled: false,
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionConnectionParams: undefined,
+        subscriptionUseDefaultRequestHandler: true,
       },
       {
         id: 'query3',
@@ -51,6 +73,17 @@ describe('QueryCollectionItemComponent', () => {
         subscriptionUrl: '',
         variables: '',
         version: 1,
+        authorizationType: 'none',
+        authorizationData: {},
+        preRequestScript: undefined,
+        preRequestScriptEnabled: false,
+        postRequestScript: undefined,
+        postRequestScriptEnabled: false,
+        requestHandlerId: undefined,
+        requestHandlerAdditionalParams: undefined,
+        subscriptionRequestHandlerId: undefined,
+        subscriptionConnectionParams: undefined,
+        subscriptionUseDefaultRequestHandler: true,
       },
     ],
   };
@@ -113,9 +146,7 @@ describe('QueryCollectionItemComponent', () => {
   });
 
   it('should emit "editCollectionChange" when edit collection is clicked', () => {
-    const editCollectionButton = wrapper.find(
-      '[data-test-id="edit-collection"]'
-    );
+    const editCollectionButton = wrapper.find('[data-test-id="edit-collection"]');
     editCollectionButton.emit('click');
 
     expect(wrapper.emitted('editCollectionChange')).toBeTruthy();
