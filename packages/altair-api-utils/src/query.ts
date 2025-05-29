@@ -4,7 +4,10 @@ import { CreateDTO } from 'altair-graphql-core/build/types/shared';
 export type IQueryContentDto = Omit<
   CreateDTO<IRemoteQuery>,
   'gqlSchema' | 'collectionId'
->;
+> & {
+  // redefine the authorizationData type to be more flexible, to support prisma's JSON type
+  authorizationData?: any;
+};
 export interface ICreateQueryCollectionDto {
   name: string;
   queries?: Omit<ICreateQueryDto, 'collectionId'>[];

@@ -405,7 +405,7 @@ export class AltairComponent {
                 subscriptionConnectionParams:
                   windowOption.initialSubscriptionsPayload
                     ? JSON.stringify(windowOption.initialSubscriptionsPayload)
-                    : '',
+                    : undefined,
                 subscriptionRequestHandlerId:
                   windowOption.initialSubscriptionRequestHandlerId,
                 requestHandlerId: windowOption.initialRequestHandlerId,
@@ -414,7 +414,7 @@ export class AltairComponent {
                     ? JSON.stringify(
                         windowOption.initialRequestHandlerAdditionalParams
                       )
-                    : '',
+                    : undefined,
                 subscriptionUseDefaultRequestHandler:
                   !windowOption.initialSubscriptionRequestHandlerId,
                 authorizationType: windowOption.initialAuthorization?.type,

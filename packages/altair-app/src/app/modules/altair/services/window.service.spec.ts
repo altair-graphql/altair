@@ -86,6 +86,17 @@ describe('WindowService', () => {
           headers: [],
           subscriptionUrl: 'ws://localhost:3000',
           variables: '{}',
+          requestHandlerId: undefined,
+          requestHandlerAdditionalParams: undefined,
+          subscriptionRequestHandlerId: undefined,
+          subscriptionConnectionParams: undefined,
+          subscriptionUseDefaultRequestHandler: false,
+          preRequestScript: '',
+          preRequestScriptEnabled: false,
+          postRequestScript: '',
+          postRequestScriptEnabled: false,
+          authorizationType: undefined,
+          authorizationData: undefined,
         };
         await service.importWindowData(windowData);
 
@@ -132,6 +143,17 @@ describe('WindowService', () => {
           headers: [],
           subscriptionUrl: 'ws://localhost:3000',
           variables: '{}',
+          requestHandlerId: undefined,
+          requestHandlerAdditionalParams: undefined,
+          subscriptionRequestHandlerId: undefined,
+          subscriptionConnectionParams: undefined,
+          subscriptionUseDefaultRequestHandler: false,
+          preRequestScript: '',
+          preRequestScriptEnabled: false,
+          postRequestScript: '',
+          postRequestScriptEnabled: false,
+          authorizationType: undefined,
+          authorizationData: undefined,
         };
         await service.importWindowData(windowData);
 
@@ -183,6 +205,17 @@ describe('WindowService', () => {
           headers: [],
           subscriptionUrl: 'ws://localhost:3000',
           variables: '{}',
+          requestHandlerId: undefined,
+          requestHandlerAdditionalParams: undefined,
+          subscriptionRequestHandlerId: undefined,
+          subscriptionConnectionParams: undefined,
+          subscriptionUseDefaultRequestHandler: false,
+          preRequestScript: '',
+          preRequestScriptEnabled: false,
+          postRequestScript: '',
+          postRequestScriptEnabled: false,
+          authorizationType: undefined,
+          authorizationData: undefined,
         };
         await service.importWindowData(windowData);
 
@@ -197,6 +230,17 @@ describe('WindowService', () => {
           headers: [{ key: 'x1', value: 'y1' }],
           subscriptionUrl: 'ws://localhost:3001',
           variables: '{"x": "y"}',
+          requestHandlerId: 'http',
+          requestHandlerAdditionalParams: '{}',
+          subscriptionRequestHandlerId: 'websocket',
+          subscriptionConnectionParams: '{}',
+          subscriptionUseDefaultRequestHandler: false,
+          preRequestScript: '',
+          preRequestScriptEnabled: false,
+          postRequestScript: '',
+          postRequestScriptEnabled: false,
+          authorizationType: undefined,
+          authorizationData: undefined,
         });
 
         const newWindows = await firstValueFrom(store.select('windows'));

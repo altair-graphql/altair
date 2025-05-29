@@ -37,5 +37,6 @@ module.exports = {
     'valid-jsdoc': 'off',
     'no-console': 'error',
     'new-cap': 'off',
+    camelcase: 'off',
   },
 };
