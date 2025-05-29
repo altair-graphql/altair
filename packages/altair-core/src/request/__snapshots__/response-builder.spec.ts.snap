@@ -138,6 +138,7 @@ exports[`response-builder auto strategy should concatenate the responses when th
 [
   {
     "content": "This is not a JSON object{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}",
+    "json": false,
     "timestamp": 1718252802585,
   },
 ]
@@ -156,6 +157,7 @@ exports[`response-builder auto strategy should patch the responses when patchabl
     }
   }
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -173,6 +175,7 @@ exports[`response-builder auto strategy should patch the responses when the firs
     "fastField": "This field resolves fast! ⚡️"
   }
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -182,6 +185,7 @@ exports[`response-builder concatenate strategy should concatenate the responses 
 [
   {
     "content": "{"data":{"hello":"Hello world","alphabet":[],"fastField":"This field resolves fast! ⚡️"},"hasNext":true}{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}{"incremental":[{"items":["b"],"path":["alphabet",1]}],"hasNext":true}{"incremental":[{"items":["c"],"path":["alphabet",2]}],"hasNext":true}{"incremental":[{"items":["d"],"path":["alphabet",3]}],"hasNext":true}{"incremental":[{"items":["e"],"path":["alphabet",4]}],"hasNext":true}{"incremental":[{"data":{"slowField":"This field resolves slowly after 5000ms ⏳"},"path":[]}],"hasNext":true}{"incremental":[{"items":["f"],"path":["alphabet",5]}],"hasNext":true}{"incremental":[{"items":["g"],"path":["alphabet",6]}],"hasNext":true}{"incremental":[{"items":["h"],"path":["alphabet",7]}],"hasNext":true}{"incremental":[{"items":["i"],"path":["alphabet",8]}],"hasNext":true}{"incremental":[{"items":["j"],"path":["alphabet",9]}],"hasNext":true}{"incremental":[{"items":["k"],"path":["alphabet",10]}],"hasNext":true}{"incremental":[{"items":["l"],"path":["alphabet",11]}],"hasNext":true}{"incremental":[{"items":["m"],"path":["alphabet",12]}],"hasNext":true}{"incremental":[{"items":["n"],"path":["alphabet",13]}],"hasNext":true}{"incremental":[{"items":["o"],"path":["alphabet",14]}],"hasNext":true}{"incremental":[{"items":["p"],"path":["alphabet",15]}],"hasNext":true}{"incremental":[{"items":["q"],"path":["alphabet",16]}],"hasNext":true}{"incremental":[{"items":["r"],"path":["alphabet",17]}],"hasNext":true}{"incremental":[{"items":["s"],"path":["alphabet",18]}],"hasNext":true}{"incremental":[{"items":["t"],"path":["alphabet",19]}],"hasNext":true}{"incremental":[{"items":["u"],"path":["alphabet",20]}],"hasNext":true}{"incremental":[{"items":["v"],"path":["alphabet",21]}],"hasNext":true}{"incremental":[{"items":["w"],"path":["alphabet",22]}],"hasNext":true}{"incremental":[{"items":["x"],"path":["alphabet",23]}],"hasNext":true}{"incremental":[{"items":["y"],"path":["alphabet",24]}],"hasNext":true}{"incremental":[{"items":["z"],"path":["alphabet",25]}],"hasNext":true}{"hasNext":false}",
+    "json": false,
     "timestamp": 1718252802585,
   },
 ]
@@ -193,6 +197,7 @@ exports[`response-builder concatenate strategy should concatenate the responses 
     "content": "{
   "hello": "world"
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -225,6 +230,7 @@ exports[`response-builder patch strategy should gather all errors from all respo
     }
   ]
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -243,6 +249,7 @@ exports[`response-builder patch strategy should handle incremental payloads in t
     }
   }
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -261,6 +268,7 @@ exports[`response-builder patch strategy should patch responses with extensions 
     "fastField": "This field resolves fast! ⚡️"
   }
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]
@@ -304,6 +312,7 @@ exports[`response-builder patch strategy should patch the responses 1`] = `
     "slowField": "This field resolves slowly after 5000ms ⏳"
   }
 }",
+    "json": true,
     "timestamp": 1718252802585,
   },
 ]

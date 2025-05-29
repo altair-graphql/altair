@@ -181,6 +181,7 @@ describe('response-builder', () => {
         {
           content: '',
           timestamp: 0,
+          json: false,
         },
       ]);
     });
@@ -357,6 +358,7 @@ describe('response-builder', () => {
         {
           content: '',
           timestamp: 0,
+          json: false,
         },
       ]);
     });
