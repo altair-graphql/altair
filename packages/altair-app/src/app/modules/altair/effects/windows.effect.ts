@@ -132,7 +132,7 @@ export class WindowsEffects {
         switchMap((data) => {
           return zip(
             of(data),
-            this.windowService.getWindowExportData(data.windowId)
+            this.windowService.getWindowExportData$(data.windowId)
           );
         }),
         switchMap(([data, exportData]) => {

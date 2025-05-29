@@ -408,6 +408,17 @@ export class AltairComponent {
                     : '',
                 subscriptionRequestHandlerId:
                   windowOption.initialSubscriptionRequestHandlerId,
+                requestHandlerId: windowOption.initialRequestHandlerId,
+                requestHandlerAdditionalParams:
+                  windowOption.initialRequestHandlerAdditionalParams
+                    ? JSON.stringify(
+                        windowOption.initialRequestHandlerAdditionalParams
+                      )
+                    : '',
+                subscriptionUseDefaultRequestHandler:
+                  !windowOption.initialSubscriptionRequestHandlerId,
+                authorizationType: windowOption.initialAuthorization?.type,
+                authorizationData: windowOption.initialAuthorization?.data,
               },
               {
                 fixedTitle: true,

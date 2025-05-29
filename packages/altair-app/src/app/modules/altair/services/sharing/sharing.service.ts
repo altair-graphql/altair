@@ -78,14 +78,11 @@ export class SharingService {
         case 'window-data': {
           const { query, variables, endpoint } = shareDetails;
           return this.windowService.importWindowData({
-            version: 1,
-            type: 'window',
+            ...this.windowService.getEmptyWindowState(),
             query,
             variables: variables ?? '{}',
             apiUrl: endpoint ?? '',
             windowName: 'From url',
-            headers: [],
-            subscriptionUrl: '',
           });
         }
         case 'remote-query': {
