@@ -118,6 +118,17 @@ export const TableDetails: React.FC<TableDetailsProps> = ({ request, onClose }) 
                                   .filter(([k, v]) => !isForbiddenHeader(k))
                                   .map(([key, value]) => ({ key, value })),
                                 subscriptionUrl: '',
+                                subscriptionRequestHandlerId: undefined,
+                                subscriptionConnectionParams: undefined,
+                                subscriptionUseDefaultRequestHandler: true,
+                                requestHandlerId: undefined,
+                                requestHandlerAdditionalParams: undefined,
+                                preRequestScript: undefined,
+                                preRequestScriptEnabled: false,
+                                postRequestScript: undefined,
+                                postRequestScriptEnabled: false,
+                                authorizationType: undefined,
+                                authorizationData: undefined,
                               });
                             }}
                           />
