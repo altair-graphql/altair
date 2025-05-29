@@ -12,3 +12,9 @@ plugins:
     description: Altair AI plugin for Altair GraphQL
     author: Altair GraphQL <info@altairgraphql.dev>
     repository: https://github.com/altair-graphql/altair/tree/master/plugins/ai
+  altair-graphql-plugin-apollo-tracing:
+    id: altair-graphql-plugin-apollo-tracing
+    name: Apollo Tracing
+    description: Apollo Tracing plugin for Altair GraphQL
+    author: Altair GraphQL <info@altairgraphql.dev>
+    repository: https://github.com/altair-graphql/altair/tree/master/plugins/apollo-tracing
