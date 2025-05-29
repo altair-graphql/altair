@@ -5,9 +5,9 @@
   "main": "./build/index.js",
   "devDependencies": {
     "@altairgraphql/electron-settings": "workspace:*",
-    "@types/node": "^22.7.4",
-    "dts-bundle-generator": "^6.11.0",
-    "esbuild": "^0.14.43",
+    "@types/node": "^22.15.24",
+    "dts-bundle-generator": "^6.13.0",
+    "esbuild": "^0.14.54",
     "ncp": "2.0.0",
     "typescript": "catalog:"
   },

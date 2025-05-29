@@ -2,13 +2,13 @@
   "name": "@altairgraphql/db",
   "version": "8.2.4",
   "dependencies": {
-    "@prisma/client": "^5.16.2",
-    "dotenv": "^16.4.5",
-    "prisma": "^5.16.2"
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.5.0",
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
-    "@types/node": "^22.7.4",
-    "ts-node": "^10.0.0",
+    "@types/node": "^22.15.24",
+    "ts-node": "^10.9.2",
     "typescript": "catalog:"
   },
   "license": "MIT",

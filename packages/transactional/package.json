@@ -10,8 +10,8 @@
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
     "@types/prismjs": "^1.26.5",
-    "@types/react": "^18.3.12",
-    "react-email": "^3.0.1",
+    "@types/react": "^18.3.23",
+    "react-email": "^3.0.7",
     "typescript": "catalog:"
   },
   "scripts": {

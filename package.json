@@ -84,7 +84,8 @@
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
     "test:ci-test-only": "turbo run test --filter=[HEAD^1] --parallel",
     "test:ci:retries": "pnpm test:ci || pnpm test:ci || pnpm test:ci",
-    "typedoc": "typedoc"
+    "typedoc": "typedoc",
+    "upgrade:dependencies": "pnpm -r up"
   },
   "packageManager": "pnpm@9.15.0"
 }

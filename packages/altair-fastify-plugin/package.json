@@ -5,14 +5,14 @@
   "author": "PabloSz <pablosaez1995@gmail.com>",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
-    "@fastify/static": "^8.0.1",
+    "@fastify/static": "^8.2.0",
     "altair-static": "workspace:*",
     "fastify-plugin": "^5.0.1"
   },
   "devDependencies": {
-    "fastify": "^5.0.0",
-    "mercurius": "^11.5.0",
-    "ts-node": "^9.0.0",
+    "fastify": "^5.3.3",
+    "mercurius": "^16.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "catalog:"
   },
   "files": [
@@ -30,7 +30,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "peerDependencies": {
-    "fastify": "^5.0.0"
+    "fastify": "^5.3.3"
   },
   "repository": "altair-graphql/altair.git",
   "scripts": {
