@@ -23,6 +23,7 @@ import { indentUnit } from '@codemirror/language';
 import { AltairUiAction } from 'altair-graphql-core/build/plugin/ui-action';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { ResizeEvent } from 'angular-resizable-element';
+import { parseJson } from '../../utils';
 
 @Component({
   selector: 'app-query-result',
@@ -45,6 +46,7 @@ export class QueryResultComponent implements AfterViewInit {
   @Input() activeWindowId = '';
   @Input() uiActions: AltairUiAction[] = [];
   @Input() bottomPanels: AltairPanel[] = [];
+  @Input() hideExtensions = false;
 
   @Output() downloadResultChange = new EventEmitter<string>();
   @Output() clearResultChange = new EventEmitter();
@@ -82,6 +84,24 @@ export class QueryResultComponent implements AfterViewInit {
   trackById(index: number, item: TrackByIdItem) {
     return item.id;
   }
+
+  getItemContent(item: QueryResponse): string {
+    if (item.json) {
+      // attempt to parse the response body as JSON
+      const parsedContent = item.content
+        ? parseJson(item.content, item.content)
+        : undefined;
+
+      if (parsedContent?.extensions && this.hideExtensions) {
+        // If extensions are present and hideExtensions is true, remove them
+        Reflect.deleteProperty(parsedContent, 'extensions');
+      }
+
+      return JSON.stringify(parsedContent, null, this.tabSize);
+    }
+    return item.content;
+  }
+
   private onItemElementsChanged(): void {
     this.scrollToBottom();
   }

@@ -12,6 +12,7 @@ export interface QueryEditorState {
 export interface QueryResponse {
   content: string;
   timestamp: number;
+  json?: boolean;
 }
 
 export interface LogLine {
