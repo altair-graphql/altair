@@ -98,6 +98,7 @@ const buildResponse__concatenate = (responses: QueryResponse[]): QueryResponse[]
     {
       content: parsedContent ? JSON.stringify(parsedContent, null, 2) : content,
       timestamp: responses.at(-1)?.timestamp ?? 0,
+      json: !!parsedContent, // if parsedContent is not null, then it's JSON
     },
   ];
 };
@@ -139,6 +140,7 @@ const buildResponse__patch = (responses: QueryResponse[]): QueryResponse[] => {
     {
       content: JSON.stringify(obj, null, 2),
       timestamp: responses.at(0)?.timestamp ?? 0,
+      json: true, // always JSON for patched responses
     },
   ];
 };

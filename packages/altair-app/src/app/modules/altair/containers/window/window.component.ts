@@ -70,6 +70,7 @@ import {
   RequestHandlerIds,
   WEBSOCKET_HANDLER_ID,
 } from 'altair-graphql-core/build/request/types';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -111,6 +112,7 @@ export class WindowComponent implements OnInit {
   enableExperimental$: Observable<boolean | undefined>;
   betaDisableNewEditor$: Observable<boolean | undefined>;
   autoscrollResponseList$: Observable<boolean>;
+  settings$: Observable<SettingsState>;
 
   collections$: Observable<IQueryCollection[]>;
 
@@ -224,6 +226,8 @@ export class WindowComponent implements OnInit {
     this.autoscrollResponseList$ = this.getWindowState().pipe(
       select(fromRoot.getAutoscrollResponseList)
     );
+    this.settings$ = this.store.select('settings');
+
     this.selectedOperation$ = this.getWindowState().pipe(
       select(fromRoot.getSelectedOperation)
     );

@@ -303,12 +303,6 @@ export class QueryEffects {
                       ? parseJson(responseBody, responseBody)
                       : undefined;
 
-                    if (
-                      parsedResponseBody?.extensions &&
-                      response.state.settings['response.hideExtensions']
-                    ) {
-                      Reflect.deleteProperty(parsedResponseBody, 'extensions');
-                    }
                     const responseContent =
                       typeof parsedResponseBody === 'string'
                         ? parsedResponseBody
@@ -317,6 +311,7 @@ export class QueryEffects {
                     responses.push({
                       content: responseContent,
                       timestamp: result?.data.requestEndTime ?? Date.now(),
+                      json: !!parsedResponseBody,
                     });
 
                     const builtResponse = buildResponse(

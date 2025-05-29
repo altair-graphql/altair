@@ -95,7 +95,7 @@
           @for (item of queryResponses; track $index) {
             <div class="query-result__list-item" #queryResultItem>
               <app-codemirror
-                [ngModel]="item.content"
+                [ngModel]="getItemContent(item)"
                 [fullHeight]="true"
                 [extensions]="editorExtensions"
               ></app-codemirror>
@@ -106,7 +106,7 @@
                 <button
                   track-id="download_result"
                   class="btn btn--small"
-                  (click)="downloadResultChange.emit(item.content)"
+                  (click)="downloadResultChange.emit(getItemContent(item))"
                 >
                   <app-icon name="download"></app-icon>
                   {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
