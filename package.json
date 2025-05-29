@@ -34,7 +34,7 @@
     "stream-http": "^3.2.0",
     "syncpack": "^9.8.6",
     "turbo": "^2.5.3",
-    "typedoc": "^0.25.13",
+    "typedoc": "^0.28.5",
     "typedoc-plugin-markdown": "^4.6.3",
     "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "catalog:",
