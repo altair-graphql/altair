@@ -4,6 +4,8 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import {
   IQuery,
@@ -20,10 +22,11 @@ import { memoize } from '../../utils/memoize';
   styleUrls: ['./query-collection-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueryCollectionItemComponent {
+export class QueryCollectionItemComponent implements OnChanges {
   @Input() collectionTree?: IQueryCollectionTree;
   @Input() loggedIn = false;
   @Input() queriesSortBy: SortByOptions = 'newest';
+  @Input() expanded = true;
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{
@@ -47,6 +50,12 @@ export class QueryCollectionItemComponent {
   showContent = true;
 
   constructor(private modal: NzModalService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['expanded'] && changes['expanded'].currentValue !== undefined) {
+      this.showContent = changes['expanded'].currentValue;
+    }
+  }
 
   getQueryCount(collection: IQueryCollectionTree) {
     return collection.queries && collection.queries.length;

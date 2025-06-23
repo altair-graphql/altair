@@ -33,28 +33,29 @@
           </button>
         }
         <div class="query-collections__actions--right">
-          <button
-            nz-dropdown
-            nzTrigger="click"
-            [nzDropdownMenu]="docViewerMenu"
-            type="button"
-            class="btn btn--small"
-          >
-            @switch (sortBy) {
-              @case ('a-z') {
-                {{ 'SORT_BY_A_Z' | translate }}
-              }
-              @case ('z-a') {
-                {{ 'SORT_BY_Z_A' | translate }}
-              }
-              @case ('newest') {
-                {{ 'SORT_BY_NEWEST' | translate }}
-              }
-              @case ('oldest') {
-                {{ 'SORT_BY_OLDEST' | translate }}
-              }
-            }
-          </button>
+          <div class="collections-actions-row">
+            <input
+              type="text"
+              class="input input--small"
+              placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
+              [value]="searchTerm$ | async"
+              (input)="setSearchTerm($any($event.target).value)"
+            />
+            <button
+              nz-dropdown
+              nzTrigger="click"
+              [nzDropdownMenu]="docViewerMenu"
+              type="button"
+              class="btn btn--small"
+            >
+              <span [ngSwitch]="sortBy">
+                <span *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</span>
+                <span *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</span>
+                <span *ngSwitchCase="'newest'">{{ 'SORT_BY_NEWEST' | translate }}</span>
+                <span *ngSwitchCase="'oldest'">{{ 'SORT_BY_OLDEST' | translate }}</span>
+              </span>
+            </button>
+          </div>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="sortCollectionsChange.emit('a-z')">
@@ -120,6 +121,7 @@
             [collectionTree]="collectionTree"
             [loggedIn]="loggedIn"
             [queriesSortBy]="queriesSortBy"
+            [expanded]="expandedMap[collectionTree.id] || false"
             (selectQueryChange)="selectQueryChange.emit($event)"
             (deleteQueryChange)="deleteQueryChange.emit($event)"
             (deleteCollectionChange)="deleteCollectionChange.emit($event)"
