@@ -65,38 +65,44 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
 
   expandedMap: { [id: string]: boolean } = {};
 
+  // Recursively filter collections and their subcollections for matching queries
+  private filterCollectionTree(collection: any, searchTerm: string): any | null {
+    const lower = searchTerm.toLowerCase();
+    const filteredQueries = collection.queries?.filter((q: any) => q.windowName?.toLowerCase().includes(lower)) || [];
+    const subcollections = (collection.collections || [])
+      .map((sub: any) => this.filterCollectionTree(sub, searchTerm))
+      .filter(Boolean);
+    if (filteredQueries.length > 0 || subcollections.length > 0) {
+      return {
+        ...collection,
+        queries: filteredQueries,
+        collections: subcollections,
+      };
+    }
+    return null;
+  }
+
   filteredCollectionTrees$ = combineLatest([
     this.collections$,
     this.workspaceId$,
     this.searchTerm$,
   ]).pipe(
     map(([collections, workspaceId, searchTerm]) => {
-      let filtered = collections;
+      let trees = this.collectionService.getCollectionTrees(collections);
       if (searchTerm) {
-        const lower = searchTerm.toLowerCase();
-        filtered = filtered
-          .map(c => ({
-            ...c,
-            queries: c.queries?.filter(q => q.windowName?.toLowerCase().includes(lower)) || []
-          }))
-          .filter(c => c.queries && c.queries.length > 0);
-        this.expandedMap = Object.fromEntries(filtered.map(c => [c.id, true]));
+        trees = trees
+          .map(tree => this.filterCollectionTree(tree, searchTerm))
+          .filter((tree): tree is any => !!tree);
+        this.expandedMap = Object.fromEntries(trees.map(c => [c.id, true]));
       } else {
         this.expandedMap = {};
       }
-      const trees = this.collectionService.getCollectionTrees(filtered);
-      // All
-      if (!workspaceId) {
-        return trees;
-      }
-
+      // workspace filtering (if needed)
+      if (!workspaceId) return trees;
       if (workspaceId === WORKSPACES.LOCAL) {
-        return trees.filter((t) =>
-          ['local', undefined].includes(t.storageType)
-        );
+        return trees.filter(t => ['local', undefined].includes(t.storageType));
       }
-
-      return trees.filter((t) => t.workspaceId === workspaceId);
+      return trees.filter(t => t.workspaceId === workspaceId);
     })
   );
 
