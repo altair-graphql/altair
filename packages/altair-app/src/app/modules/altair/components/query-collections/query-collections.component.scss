@@ -1,0 +1,10 @@
+.collections-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input.input--small {
+  width: 81px;
+  min-width: 0;
+}

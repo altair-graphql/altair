@@ -61,12 +61,30 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   workspaces$ = new BehaviorSubject<WorkspaceOption[]>([]);
   workspaceId$ = new BehaviorSubject('');
 
+  searchTerm$ = new BehaviorSubject<string>('');
+
+  expandedMap: { [id: string]: boolean } = {};
+
   filteredCollectionTrees$ = combineLatest([
     this.collections$,
     this.workspaceId$,
+    this.searchTerm$,
   ]).pipe(
-    map(([collections, workspaceId]) => {
-      const trees = this.collectionService.getCollectionTrees(collections);
+    map(([collections, workspaceId, searchTerm]) => {
+      let filtered = collections;
+      if (searchTerm) {
+        const lower = searchTerm.toLowerCase();
+        filtered = filtered
+          .map(c => ({
+            ...c,
+            queries: c.queries?.filter(q => q.windowName?.toLowerCase().includes(lower)) || []
+          }))
+          .filter(c => c.queries && c.queries.length > 0);
+        this.expandedMap = Object.fromEntries(filtered.map(c => [c.id, true]));
+      } else {
+        this.expandedMap = {};
+      }
+      const trees = this.collectionService.getCollectionTrees(filtered);
       // All
       if (!workspaceId) {
         return trees;
@@ -102,5 +120,9 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
 
   trackById<T extends { id: string }>(index: number, collection: T) {
     return collection.id;
+  }
+
+  setSearchTerm(term: string) {
+    this.searchTerm$.next(term);
   }
 }
