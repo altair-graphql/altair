@@ -52,7 +52,7 @@ export class QueryCollectionItemComponent implements OnChanges {
   constructor(private modal: NzModalService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['expanded'] && changes['expanded'].currentValue !== undefined) {
+    if (changes.expanded?.currentValue !== undefined) {
       this.showContent = changes['expanded'].currentValue;
     }
   }
