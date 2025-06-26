@@ -39,7 +39,8 @@
               class="input input--small"
               placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
               [value]="searchTerm$ | async"
-              (input)="setSearchTerm($any($event.target).value)"
+              #searchInput
+              (input)="onSearchInput(searchInput.value)"
             />
             <button
               nz-dropdown
