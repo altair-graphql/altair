@@ -49,12 +49,20 @@
               type="button"
               class="btn btn--small"
             >
-              <span [ngSwitch]="sortBy">
-                <span *ngSwitchCase="'a-z'">{{ 'SORT_BY_A_Z' | translate }}</span>
-                <span *ngSwitchCase="'z-a'">{{ 'SORT_BY_Z_A' | translate }}</span>
-                <span *ngSwitchCase="'newest'">{{ 'SORT_BY_NEWEST' | translate }}</span>
-                <span *ngSwitchCase="'oldest'">{{ 'SORT_BY_OLDEST' | translate }}</span>
-              </span>
+              @switch (sortBy) {
+                @case ('a-z') {
+                  {{ 'SORT_BY_A_Z' | translate }}
+                }
+                @case ('z-a') {
+                  {{ 'SORT_BY_Z_A' | translate }}
+                }
+                @case ('newest') {
+                  {{ 'SORT_BY_NEWEST' | translate }}
+                }
+                @case ('oldest') {
+                  {{ 'SORT_BY_OLDEST' | translate }}
+                }
+              }
             </button>
           </div>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
