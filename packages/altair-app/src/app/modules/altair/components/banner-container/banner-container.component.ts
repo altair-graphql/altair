@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Banner, BannerService } from '../../services/banner/banner.service';
+import { Store } from '@ngrx/store';
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 @Component({
   selector: 'app-banner-container',
@@ -10,8 +12,24 @@ import { Banner, BannerService } from '../../services/banner/banner.service';
 export class BannerContainerComponent {
   banners$: Observable<Banner[]>;
 
-  constructor(private bannerService: BannerService) {
-    this.banners$ = this.bannerService.getBanners();
+  constructor(
+    private readonly bannerService: BannerService,
+    private readonly store: Store<RootState>
+  ) {
+    const bannersDisabled = this.store.select(
+      (state) => state.settings['banners.disable']
+    );
+    this.banners$ = combineLatest([
+      this.bannerService.getBanners(),
+      bannersDisabled,
+    ]).pipe(
+      map(([banners, disabled]) => {
+        if (disabled) {
+          return [];
+        }
+        return banners;
+      })
+    );
   }
 
   onDismiss(id: string) {
