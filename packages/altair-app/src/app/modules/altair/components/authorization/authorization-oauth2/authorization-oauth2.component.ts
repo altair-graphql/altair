@@ -19,7 +19,6 @@ import {
 } from 'altair-graphql-core/build/oauth2';
 import { EnvironmentService, NotifyService } from 'app/modules/altair/services';
 import { environment } from 'environments/environment';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-authorization-oauth2',
