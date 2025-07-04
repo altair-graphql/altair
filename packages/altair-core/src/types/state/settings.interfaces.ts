@@ -102,6 +102,11 @@ export interface SettingsState {
   'alert.disableWarnings'?: boolean;
 
   /**
+   * Disable banners
+   */
+  'banners.disable'?: boolean;
+
+  /**
    * Number of items allowed in history pane
    */
   historyDepth?: number;
