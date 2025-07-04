@@ -17,7 +17,7 @@ import {
   RequestFormat,
   secureRandomString,
 } from 'altair-graphql-core/build/oauth2';
-import { NotifyService } from 'app/modules/altair/services';
+import { EnvironmentService, NotifyService } from 'app/modules/altair/services';
 import { environment } from 'environments/environment';
 import { map } from 'rxjs';
 
@@ -55,7 +55,8 @@ export class AuthorizationOauth2Component implements OnInit {
 
   constructor(
     private readonly formBuilder: NonNullableFormBuilder,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private readonly environmentService: EnvironmentService
   ) {}
 
   ngOnInit(): void {
@@ -90,14 +91,22 @@ export class AuthorizationOauth2Component implements OnInit {
 
     return {
       type,
-      clientId: clientId ?? '',
-      clientSecret: clientSecret ?? '',
-      redirectUri: redirectUri ?? oauthWindowUrl,
-      authorizationEndpoint: authorizationEndpoint ?? '',
-      tokenEndpoint: tokenEndpoint ?? '',
-      scopes: scopes?.split(' ') ?? [],
-      codeVerifier: codeVerifier ? codeVerifier : secureRandomString(64),
-      state: state ? state : btoa(redirectUri ?? oauthWindowUrl),
+      clientId: this.environmentService.hydrate(clientId ?? ''),
+      clientSecret: this.environmentService.hydrate(clientSecret ?? ''),
+      redirectUri: this.environmentService.hydrate(redirectUri ?? oauthWindowUrl),
+      authorizationEndpoint: this.environmentService.hydrate(
+        authorizationEndpoint ?? ''
+      ),
+      tokenEndpoint: this.environmentService.hydrate(tokenEndpoint ?? ''),
+      scopes:
+        scopes?.split(' ').map((scope) => this.environmentService.hydrate(scope)) ??
+        [],
+      codeVerifier: this.environmentService.hydrate(
+        codeVerifier ? codeVerifier : secureRandomString(64)
+      ),
+      state: this.environmentService.hydrate(
+        state ? state : btoa(redirectUri ?? oauthWindowUrl)
+      ),
       authFormat,
       requestFormat,
     };
