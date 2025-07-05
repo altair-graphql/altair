@@ -32,19 +32,28 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         <div
           class="query-collections__actions--right"
         >
-          <button
-            class="btn btn--small"
-            nz-dropdown=""
-            nztrigger="click"
-            type="button"
+          <div
+            class="collections-actions-row"
           >
-            
-            
+            <input
+              class="input input--small"
+              placeholder=""
+              type="text"
+            />
+            <button
+              class="btn btn--small"
+              nz-dropdown=""
+              nztrigger="click"
+              type="button"
+            >
               
+              
+                
+              
+              
+            </button>
             
-            
-          </button>
-          
+          </div>
           <nz-dropdown-menu>
             <ul
               nz-menu=""

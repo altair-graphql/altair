@@ -11,17 +11,17 @@ import {
   IQueryCollection,
   IQueryCollectionTree,
   SortByOptions,
+  IQuery,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { map, switchMap, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { QueryCollectionService } from '../../services';
 import { WorkspaceOption } from '../../store';
 
 @Component({
   selector: 'app-query-collections',
   templateUrl: './query-collections.component.html',
-  styleUrls: ['./query-collections.component.scss'],
 })
 export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;
@@ -61,25 +61,60 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   workspaces$ = new BehaviorSubject<WorkspaceOption[]>([]);
   workspaceId$ = new BehaviorSubject('');
 
+  searchTerm$ = new BehaviorSubject<string>('');
+  searchInput$ = new Subject<string>();
+
+  expandedMap: { [id: string]: boolean } = {};
+
+  // Recursively filter collections and their subcollections for matching queries
+  private filterCollectionTree(collection: IQueryCollectionTree, searchTerm: string): (IQueryCollectionTree & { matchesSearch?: boolean }) | null {
+    const lower = searchTerm.toLowerCase();
+    const filteredQueries = collection.queries?.filter((q: IQuery) => q.windowName?.toLowerCase().includes(lower)) || [];
+    const subcollections = (collection.collections || [])
+      .map((sub: IQueryCollectionTree) => this.filterCollectionTree(sub, searchTerm))
+      .filter((c): c is IQueryCollectionTree & { matchesSearch?: boolean } => !!c);
+    const matchesSearch = filteredQueries.length > 0;
+    if (matchesSearch || subcollections.length > 0) {
+      return {
+        ...collection,
+        queries: filteredQueries,
+        collections: subcollections,
+        matchesSearch,
+      };
+    }
+    return null;
+  }
+
   filteredCollectionTrees$ = combineLatest([
     this.collections$,
     this.workspaceId$,
+    this.searchTerm$.pipe(debounceTime(300), distinctUntilChanged()),
   ]).pipe(
-    map(([collections, workspaceId]) => {
-      const trees = this.collectionService.getCollectionTrees(collections);
-      // All
-      if (!workspaceId) {
-        return trees;
+    map(([collections, workspaceId, searchTerm]) => {
+      let trees = this.collectionService.getCollectionTrees(collections);
+      let expandedMap: { [id: string]: boolean } = {};
+
+      if (searchTerm) {
+        trees = trees
+          .map((tree) => this.filterCollectionTree(tree, searchTerm))
+          .filter((tree): tree is IQueryCollectionTree => !!tree);
+        expandedMap = Object.fromEntries(trees.map((c) => [c.id, true]));
       }
 
-      if (workspaceId === WORKSPACES.LOCAL) {
-        return trees.filter((t) =>
-          ['local', undefined].includes(t.storageType)
-        );
+      // workspace filtering (if needed)
+      if (workspaceId) {
+        if (workspaceId === WORKSPACES.LOCAL) {
+          trees = trees.filter((t) => ['local', undefined].includes(t.storageType));
+        } else {
+          trees = trees.filter((t) => t.workspaceId === workspaceId);
+        }
       }
-
-      return trees.filter((t) => t.workspaceId === workspaceId);
-    })
+      return { trees, expandedMap };
+    }),
+    tap(({ expandedMap }) => {
+      this.expandedMap = expandedMap;
+    }),
+    map(({ trees }) => trees)
   );
 
   collectionTrees: IQueryCollectionTree[] = [];
@@ -88,6 +123,9 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.loadCollectionsChange.emit();
+    this.searchInput$
+      .pipe(debounceTime(300))
+      .subscribe(value => this.setSearchTerm(value));
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.collections?.currentValue) {
@@ -102,5 +140,13 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
 
   trackById<T extends { id: string }>(index: number, collection: T) {
     return collection.id;
+  }
+
+  onSearchInput(value: string) {
+    this.searchInput$.next(value);
+  }
+
+  setSearchTerm(term: string) {
+    this.searchTerm$.next(term);
   }
 }

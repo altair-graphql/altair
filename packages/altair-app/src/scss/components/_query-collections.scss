@@ -160,3 +160,14 @@ app-query-collections {
   // transform: translateX(-50%);
   transition: all 0.3s ease;
 }
+
+.collections-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input.input--small {
+  width: 81px;
+  min-width: 0;
+}
