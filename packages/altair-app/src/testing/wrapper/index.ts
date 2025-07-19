@@ -1,12 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, EventEmitter, Type } from '@angular/core';
-import {
-  setProps,
-  setValue,
-  BaseTestHostComponent,
-  flushPromises,
-} from '../utils';
+import { setProps, setValue, BaseTestHostComponent, flushPromises } from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
 type FilteredKeys<T, U> = {
@@ -94,15 +89,17 @@ export class NgxTestWrapper<C> {
         .map((prop) => {
           return {
             event: prop,
-            calls: (this._testHostFixture.componentInstance.mock[prop] || {})
-              .calls,
+            calls: (this._testHostFixture.componentInstance.mock[prop] || {}).calls,
           };
         })
         .filter((_) => _.calls && _.calls.length)
-        .reduce((acc, cur) => {
-          acc[cur.event] = cur.calls!;
-          return acc;
-        }, {} as IDictionary<any[]>);
+        .reduce(
+          (acc, cur) => {
+            acc[cur.event] = cur.calls!;
+            return acc;
+          },
+          {} as IDictionary<any[]>
+        );
 
       if (event) {
         return emitted[event as any];
@@ -122,22 +119,14 @@ export class NgxTestWrapper<C> {
           // This is to properly trigger the full input lifecycle of the component.
           // Setting the input directly on the component instance would not do that.
           // TODO: Only set inputs where valueObj property is defined?
-          this._testHostFixture.componentInstance.inputs[prop] = (
-            valueObj as any
-          )[prop];
+          this._testHostFixture.componentInstance.inputs[prop] = (valueObj as any)[
+            prop
+          ];
         }
       });
-      return setProps(
-        this._testHostFixture,
-        this._mainComponentDebugEl,
-        valueObj
-      );
+      return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
     }
-    return setProps(
-      this._testHostFixture,
-      this._mainComponentDebugEl,
-      valueObj
-    );
+    return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
   }
 
   setValue(value = '') {
@@ -170,6 +159,9 @@ export class NgxTestWrapper<C> {
     this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();
     await flushPromises();
+
+    // Ensure that the fixture is stable after all changes
+    this._testHostFixture.detectChanges();
   }
 
   private assertExists() {
