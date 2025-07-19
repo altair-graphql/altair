@@ -170,6 +170,9 @@ export class NgxTestWrapper<C> {
     this._testHostFixture.detectChanges();
     await this._testHostFixture.whenStable();
     await flushPromises();
+
+    // Ensure that the fixture is stable after all changes
+    this._testHostFixture.detectChanges();
   }
 
   private assertExists() {
