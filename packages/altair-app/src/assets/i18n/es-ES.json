@@ -146,6 +146,7 @@
   "COLLECTION_SYNC_TEXT": "Actualizar",
   "COLLECTIONS_WORKSPACES_SELECT_ALL": "Todos los workspaces",
   "COLLECTIONS_WORKSPACES_FILTER": "Filtrar workspaces",
+  "SEARCH_COLLECTIONS_PLACEHOLDER": "Search",
   "QUERY_REVISIONS_TEXT": "Solicitud Historia",
   "QUERY_REVISIONS_SUB_TEXT": "Puede ver y restaurar versiones anteriores de esta solicitud",
   "EDIT_COLLECTION_TITLE_TEXT": "Editar Colección",
