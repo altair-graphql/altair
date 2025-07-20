@@ -146,6 +146,7 @@
   "COLLECTION_SYNC_TEXT": "Оновити",
   "COLLECTIONS_WORKSPACES_SELECT_ALL": "Усі робочі місця",
   "COLLECTIONS_WORKSPACES_FILTER": "Фільтрувати робочі простори",
+  "SEARCH_COLLECTIONS_PLACEHOLDER": "Search",
   "QUERY_REVISIONS_TEXT": "Ревізії запиту",
   "QUERY_REVISIONS_SUB_TEXT": "Ви можете переглянути та відновити попередні версії цього запиту",
   "EDIT_COLLECTION_TITLE_TEXT": "Змінити колекцію",
