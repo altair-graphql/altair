@@ -146,6 +146,7 @@
   "COLLECTION_SYNC_TEXT": "Обновить",
   "COLLECTIONS_WORKSPACES_SELECT_ALL": "Все проекты",
   "COLLECTIONS_WORKSPACES_FILTER": "Фильтр проектов",
+  "SEARCH_COLLECTIONS_PLACEHOLDER": "Search",
   "QUERY_REVISIONS_TEXT": "История Запросов",
   "QUERY_REVISIONS_SUB_TEXT": "Вы можете найти и восстановить предыдущие версии запроса",
   "EDIT_COLLECTION_TITLE_TEXT": "Редактировать коллекцию",
