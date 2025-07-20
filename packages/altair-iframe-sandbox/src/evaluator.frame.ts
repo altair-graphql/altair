@@ -19,10 +19,15 @@ export class EvaluatorFrameWorker extends ScriptEvaluatorWorker {
   }
 
   onMessage(handler: (e: ScriptWorkerMessageData) => void): void {
+    console.log(`Setting up message listener for origin: ${this.origin}`);
     window.addEventListener('message', (e) => {
       if (e.origin !== this.origin) {
+        console.warn(
+          `Message received from an unknown origin: ${e.origin}. Expected: ${this.origin}`
+        );
         return;
       }
+      console.log('Message received in EvaluatorFrameWorker:', e.data);
       handler(e.data);
     });
   }
