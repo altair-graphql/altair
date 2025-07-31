@@ -8,8 +8,8 @@
     "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^14.14.41",
-    "ts-node": "^8.5.4",
+    "@types/node": "^14.18.63",
+    "ts-node": "^8.10.2",
     "typescript": "catalog:"
   },
   "engines": {
