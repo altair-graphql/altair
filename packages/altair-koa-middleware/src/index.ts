@@ -1,6 +1,6 @@
 'use strict';
 
-import * as send from 'koa-send';
+import { send } from '@koa/send';
 import * as KoaRouter from '@koa/router';
 import { getDistDirectory, renderAltair, RenderOptions } from 'altair-static';
 
