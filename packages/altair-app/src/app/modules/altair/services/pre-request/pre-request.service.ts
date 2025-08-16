@@ -19,6 +19,7 @@ import { DbService } from '../db.service';
 import { ScriptEvaluatorClientEngine } from 'altair-graphql-core/build/script/evaluator-client-engine';
 import { getGlobalContext } from 'altair-graphql-core/build/script/context';
 import { EvaluatorClientFactory } from './evaluator-client.factory';
+import { firstValueFrom } from 'rxjs';
 
 const storageNamespace = 'request-script';
 
@@ -133,7 +134,7 @@ export class PreRequestService {
         request: async (arg1, arg2, arg3) => {
           // https://angular.io/api/common/http/HttpClient#request
           try {
-            return this.http.request(arg1, arg2, arg3).toPromise();
+            return firstValueFrom(this.http.request(arg1, arg2, arg3));
           } catch (err) {
             return null;
           }
