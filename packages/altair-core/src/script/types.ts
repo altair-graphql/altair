@@ -24,11 +24,15 @@ export enum RequestType {
 }
 
 export interface ScriptContextHelpers {
-  getEnvironment: (key: string) => any;
-  setEnvironment: (key: string, value: any) => void;
+  getEnvironment: (key: string) => unknown;
+  setEnvironment: (key: string, value: unknown, activeEnvironment?: boolean) => void;
   getCookie: (key: string) => string;
   setCookie: (key: string, value: string) => void;
-  request: (arg1: any, arg2: any, arg3: any) => Promise<ArrayBuffer | null>;
+  request: (
+    arg1: unknown,
+    arg2: unknown,
+    arg3: unknown
+  ) => Promise<ArrayBuffer | null>;
 }
 
 export interface ScriptContextStorage {
@@ -62,7 +66,7 @@ export interface GlobalHelperContext {
   data: ScriptContextData;
   helpers: ScriptContextHelpers;
   storage: ScriptContextStorage;
-  importModule: (moduleName: string) => any;
+  importModule: (moduleName: string) => unknown;
   log: (d: unknown) => void;
   response?: ScriptContextResponse;
 }
@@ -90,13 +94,13 @@ export interface GlobalContextBuilderHandlers {
 }
 
 export interface ModuleImportsMap {
-  [name: string]: { exec: () => Promise<any> };
+  [name: string]: { exec: () => Promise<unknown> };
 }
 
 export interface ScriptEventHandlers {
   alert: (msg: string) => Promise<void>;
   log: (d: unknown) => Promise<void>;
-  request: (arg1: any, arg2: any, arg3: any) => Promise<any>;
+  request: (arg1: unknown, arg2: unknown, arg3: unknown) => Promise<unknown>;
   setCookie: (key: string, value: string, options?: CookieOptions) => Promise<void>;
   getStorageItem: (key: string) => Promise<unknown>;
   setStorageItem: (key: string, value: unknown) => Promise<void>;
