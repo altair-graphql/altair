@@ -28,11 +28,7 @@ export interface ScriptContextHelpers {
   setEnvironment: (key: string, value: unknown, activeEnvironment?: boolean) => void;
   getCookie: (key: string) => string;
   setCookie: (key: string, value: string) => void;
-  request: (
-    arg1: unknown,
-    arg2: unknown,
-    arg3: unknown
-  ) => Promise<ArrayBuffer | null>;
+  request: (arg1: string, arg2: string, arg3: any) => Promise<ArrayBuffer | null>;
 }
 
 export interface ScriptContextStorage {
@@ -100,7 +96,7 @@ export interface ModuleImportsMap {
 export interface ScriptEventHandlers {
   alert: (msg: string) => Promise<void>;
   log: (d: unknown) => Promise<void>;
-  request: (arg1: unknown, arg2: unknown, arg3: unknown) => Promise<any>;
+  request: (arg1: string, arg2: string, arg3: any) => Promise<any>;
   setCookie: (key: string, value: string, options?: CookieOptions) => Promise<void>;
   getStorageItem: (key: string) => Promise<unknown>;
   setStorageItem: (key: string, value: unknown) => Promise<void>;
