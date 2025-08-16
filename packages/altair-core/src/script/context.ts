@@ -7,6 +7,7 @@ import {
   ScriptContextData,
   ScriptContextResponse,
 } from './types';
+import { get, set } from 'object-path';
 
 export const ModuleImports: ModuleImportsMap = {
   atob: {
@@ -57,18 +58,20 @@ export const getGlobalContext = (
     data,
     helpers: {
       getEnvironment: (key: string) => {
-        return data.environment[key];
+        // Support nested environment variable access using dot notation (e.g., 'user.name')
+        return get(data.environment, key);
       },
       /**
-       * @param key environment key
+       * @param key environment key (supports nested paths using dot notation, e.g., 'user.name')
        * @param val value to set
        * @param activeEnvironment if the value should be replaced in the currently active environment after execution
        */
       setEnvironment: (key: string, val: unknown, activeEnvironment = false) => {
-        data.environment[key] = val;
+        // Support nested environment variable setting using dot notation (e.g., 'user.name')
+        set(data.environment, key, val);
         if (activeEnvironment) {
           data.__toSetActiveEnvironment = data.__toSetActiveEnvironment ?? {};
-          data.__toSetActiveEnvironment[key] = val;
+          set(data.__toSetActiveEnvironment, key, val);
         }
       },
       getCookie: (key: string) => {

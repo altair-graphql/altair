@@ -218,6 +218,81 @@ describe('EnvironmentService', () => {
       });
       expect(hydratedContent).toBe(`current URL is {{baseUrl}}!`);
     });
+
+    it('should hydrate content with deeply nested environment variables', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate(
+        'User: {{user.profile.name}}, Email: {{user.profile.contact.email}}',
+        {
+          activeEnvironment: {
+            user: {
+              profile: {
+                name: 'John Doe',
+                contact: {
+                  email: 'john@example.com',
+                },
+              },
+            },
+          },
+        }
+      );
+      expect(hydratedContent).toBe('User: John Doe, Email: john@example.com');
+    });
+
+    it('should handle non-existent nested paths gracefully', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate(
+        'API: {{api.config.url}}, Token: {{auth.token}}',
+        {
+          activeEnvironment: {
+            api: {
+              version: 'v1',
+            },
+          },
+        }
+      );
+      expect(hydratedContent).toBe('API: , Token: ');
+    });
+
+    it('should hydrate mixed top-level and nested variables', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate(
+        'Base: {{baseUrl}}, User: {{user.name}}, Theme: {{user.settings.theme}}',
+        {
+          activeEnvironment: {
+            baseUrl: 'https://api.example.com',
+            user: {
+              name: 'Alice',
+              settings: {
+                theme: 'dark',
+              },
+            },
+          },
+        }
+      );
+      expect(hydratedContent).toBe(
+        'Base: https://api.example.com, User: Alice, Theme: dark'
+      );
+    });
+
+    it('should handle numeric and boolean values in nested variables', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const hydratedContent = service.hydrate(
+        'Port: {{server.port}}, SSL: {{server.ssl}}, Timeout: {{config.timeout}}',
+        {
+          activeEnvironment: {
+            server: {
+              port: 8080,
+              ssl: true,
+            },
+            config: {
+              timeout: 30,
+            },
+          },
+        }
+      );
+      expect(hydratedContent).toBe('Port: 8080, SSL: true, Timeout: 30');
+    });
   });
 
   describe('.hydrateHeaders()', () => {
