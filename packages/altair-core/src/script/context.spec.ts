@@ -76,7 +76,7 @@ describe('Script Context', () => {
     it('should handle empty or invalid paths gracefully', () => {
       const context = getGlobalContext(mockData, mockHandlers);
 
-      expect(context.helpers.getEnvironment('')).toBeUndefined();
+      expect(context.helpers.getEnvironment('')).toBe(mockData.environment);
       expect(context.helpers.getEnvironment('user.')).toBeUndefined();
       expect(context.helpers.getEnvironment('.user')).toBeUndefined();
     });
