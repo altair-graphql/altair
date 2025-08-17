@@ -1,3 +1,4 @@
+import { isExtension } from '../crx';
 import {
   HTTP_HANDLER_ID,
   RequestHandlerIds,
@@ -145,6 +146,16 @@ export class AltairConfig {
   }
 
   private getPossibleLocalSandBoxUrl() {
+    if (isExtension) {
+      // we only support mv3 extensions now
+      // and mv3 extensions doesn't allow using iframe
+      // sandbox with allow-same-origin so we have to open up
+      // the postMessage without origin verification
+      // This doesn't sit well with me, so for now we don't
+      // support local sandbox for extensions.
+      // We can revisit this later if needed.
+      return;
+    }
     // check document base url
     if (
       document.baseURI &&

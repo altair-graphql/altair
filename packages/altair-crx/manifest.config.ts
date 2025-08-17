@@ -42,12 +42,12 @@ export const manifest: chrome.runtime.ManifestV3 = {
   offline_enabled: true,
   content_security_policy: {
     // We can probably slim down this CSP further
-    sandbox:
-      "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-btk6arYQcHAX3O853bPKjrJz/yX/iuv4n0kXWYdJlEE=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' 'unsafe-eval' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com http://localhost:* https://localhost:* http://localhost:8002 http://localhost:8080; object-src 'self'; child-src 'self';",
+    // sandbox:
+    //   "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'sha256-765ndVO8s0mJNdlCDVQJVuWyBpugFWusu1COU8BNbI8=' 'sha256-btk6arYQcHAX3O853bPKjrJz/yX/iuv4n0kXWYdJlEE=' 'sha256-kFTKSG2YSVB69S6DWzferO6LmwbqfHmYBTqvVbPEp4I=' 'unsafe-eval' https://cdn.jsdelivr.net https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com http://localhost:* https://localhost:* http://localhost:8002 http://localhost:8080; object-src 'self'; child-src 'self';",
   },
-  sandbox: {
-    pages: ['altair-app/iframe-sandbox/index.html'],
-  },
+  // sandbox: {
+  //   pages: ['altair-app/iframe-sandbox/index.html'],
+  // },
   web_accessible_resources: [
     {
       resources: ['*.css', '*.woff', '*.woff2'],
