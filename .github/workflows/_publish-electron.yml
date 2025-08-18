@@ -93,7 +93,7 @@ jobs:
         uses: samuelmeuli/action-snapcraft@v2
         if: startsWith(matrix.os, 'ubuntu')
         env:
-          SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_TOKEN }}
+          SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
 
       - name: Prepare for app notarization
         if: startsWith(matrix.os, 'macos')
@@ -140,7 +140,7 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
           DEBUG: '@malept/flatpak-bundler'
 
       # chocolatey
