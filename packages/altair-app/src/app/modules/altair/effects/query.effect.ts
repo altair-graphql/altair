@@ -359,7 +359,12 @@ export class QueryEffects {
                     return result;
                   }),
                   takeUntil(
-                    this.actions$.pipe(ofType(queryActions.CANCEL_QUERY_REQUEST))
+                    this.actions$.pipe(
+                      ofType(queryActions.CANCEL_QUERY_REQUEST),
+                      filter((action: queryActions.CancelQueryRequestAction) => 
+                        action.windowId === response.windowId
+                      )
+                    )
                   ),
                   catchError((error) => {
                     let output =
