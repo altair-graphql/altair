@@ -25,7 +25,7 @@ import {
   QueryService,
   ApiService,
 } from '../services';
-import { QueryRequestValidationResult } from '../services/query/query.service';
+import { QueryRequestValidationResult, QueryExecutionPreparationResult } from '../services/query/query.service';
 
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
@@ -132,10 +132,6 @@ export class QueryEffects {
           }).pipe(
             mergeMap(({ response, transformedData, handler }) => {
               const preRequestScriptLogs = transformedData?.requestScriptLogs;
-              const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
-                response.data.query.query ?? '',
-                response.data
-              );
               const {
                 url,
                 variables,
@@ -169,15 +165,19 @@ export class QueryEffects {
                 );
                 return EMPTY;
               }
-              const {
-                selectedOperation,
-                operations,
-                error: selectedOperationError,
-              } = this.gqlService.calculateSelectedOperation(response.data, query);
-              if (selectedOperationError) {
-                this.notifyService.error(selectedOperationError);
+              
+              // Prepare query execution
+              const preparationResult = this.queryService.prepareQueryExecution(
+                response.data,
+                query
+              );
+              if (!preparationResult.shouldContinue) {
                 return EMPTY;
               }
+
+              const { selectedOperation, operations, isSubscriptionQuery, subscriptionUrlMissing } = preparationResult;
+
+              // Dispatch selected operation actions
               this.store.dispatch(
                 new queryActions.SetSelectedOperationAction(response.windowId, {
                   selectedOperation: selectedOperation ?? '',
@@ -214,7 +214,7 @@ export class QueryEffects {
               if (isSubscriptionQuery) {
                 debug.log('Your query is a SUBSCRIPTION!!!');
                 // If the subscription URL is not set, show the dialog for the user to set it
-                if (!response.data.query.subscriptionUrl) {
+                if (subscriptionUrlMissing) {
                   this.store.dispatch(
                     new dialogsActions.ToggleRequestHandlerDialogAction(
                       response.windowId,

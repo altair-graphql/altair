@@ -31,6 +31,17 @@ export interface QueryRequestValidationResult {
   errorMessage?: string;
 }
 
+/**
+ * Result of preparing query execution
+ */
+export interface QueryExecutionPreparationResult {
+  selectedOperation?: string;
+  operations?: any[];
+  shouldContinue: boolean;
+  isSubscriptionQuery: boolean;
+  subscriptionUrlMissing?: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -398,5 +409,46 @@ export class QueryService {
     }
 
     return { isValid: true };
+  }
+
+  /**
+   * Prepares query execution by calculating selected operation and handling subscription checks
+   * @param windowState The window state
+   * @param query The query string
+   */
+  prepareQueryExecution(
+    windowState: PerWindowState,
+    query: string
+  ): QueryExecutionPreparationResult {
+    // Calculate selected operation
+    const {
+      selectedOperation,
+      operations,
+      error: selectedOperationError,
+    } = this.gqlService.calculateSelectedOperation(windowState, query);
+    
+    if (selectedOperationError) {
+      this.notifyService.error(selectedOperationError);
+      return {
+        shouldContinue: false,
+        isSubscriptionQuery: false,
+      };
+    }
+
+    const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
+      query,
+      windowState
+    );
+
+    // Check if subscription URL is missing for subscription queries
+    const subscriptionUrlMissing = isSubscriptionQuery && !windowState.query.subscriptionUrl;
+
+    return {
+      selectedOperation: selectedOperation ?? '',
+      operations,
+      shouldContinue: true,
+      isSubscriptionQuery,
+      subscriptionUrlMissing,
+    };
   }
 }

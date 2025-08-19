@@ -40,6 +40,8 @@ describe('QueryService', () => {
         MockProvider(QueryCollectionService),
         MockProvider(GqlService, {
           hasInvalidFileVariable: jest.fn().mockReturnValue(false),
+          calculateSelectedOperation: jest.fn(),
+          isSubscriptionQuery: jest.fn(),
         }),
         MockProvider(RequestHandlerRegistryService),
         {
@@ -356,6 +358,105 @@ describe('QueryService', () => {
       expect(result).toEqual({
         isValid: false,
         errorMessage: expect.stringContaining('invalid file variables'),
+      });
+    });
+  });
+
+  describe('prepareQueryExecution', () => {
+    it('should return successful preparation result with valid query', () => {
+      const mockGqlService = TestBed.inject(GqlService);
+      jest.spyOn(mockGqlService, 'calculateSelectedOperation').mockReturnValue({
+        selectedOperation: 'MyQuery',
+        operations: [{ name: 'MyQuery', type: 'query' }],
+        error: null,
+      });
+      jest.spyOn(mockGqlService, 'isSubscriptionQuery').mockReturnValue(false);
+
+      const result = service.prepareQueryExecution(
+        {
+          query: { subscriptionUrl: 'ws://localhost:3000' },
+        } as PerWindowState,
+        'query MyQuery { hello }'
+      );
+
+      expect(result).toEqual({
+        selectedOperation: 'MyQuery',
+        operations: [{ name: 'MyQuery', type: 'query' }],
+        shouldContinue: true,
+        isSubscriptionQuery: false,
+        subscriptionUrlMissing: false,
+      });
+    });
+
+    it('should return failure result when calculateSelectedOperation returns error', () => {
+      const mockGqlService = TestBed.inject(GqlService);
+      const mockNotifyService = TestBed.inject(NotifyService);
+      jest.spyOn(mockGqlService, 'calculateSelectedOperation').mockReturnValue({
+        selectedOperation: null,
+        operations: null,
+        error: 'Invalid operation',
+      });
+      jest.spyOn(mockNotifyService, 'error');
+
+      const result = service.prepareQueryExecution(
+        {} as PerWindowState,
+        'invalid query'
+      );
+
+      expect(result).toEqual({
+        shouldContinue: false,
+        isSubscriptionQuery: false,
+      });
+      expect(mockNotifyService.error).toHaveBeenCalledWith('Invalid operation');
+    });
+
+    it('should detect subscription query and missing subscription URL', () => {
+      const mockGqlService = TestBed.inject(GqlService);
+      jest.spyOn(mockGqlService, 'calculateSelectedOperation').mockReturnValue({
+        selectedOperation: 'MySubscription',
+        operations: [{ name: 'MySubscription', type: 'subscription' }],
+        error: null,
+      });
+      jest.spyOn(mockGqlService, 'isSubscriptionQuery').mockReturnValue(true);
+
+      const result = service.prepareQueryExecution(
+        {
+          query: { subscriptionUrl: '' }, // missing URL
+        } as PerWindowState,
+        'subscription MySubscription { messageAdded }'
+      );
+
+      expect(result).toEqual({
+        selectedOperation: 'MySubscription',
+        operations: [{ name: 'MySubscription', type: 'subscription' }],
+        shouldContinue: true,
+        isSubscriptionQuery: true,
+        subscriptionUrlMissing: true,
+      });
+    });
+
+    it('should detect subscription query with valid subscription URL', () => {
+      const mockGqlService = TestBed.inject(GqlService);
+      jest.spyOn(mockGqlService, 'calculateSelectedOperation').mockReturnValue({
+        selectedOperation: 'MySubscription',
+        operations: [{ name: 'MySubscription', type: 'subscription' }],
+        error: null,
+      });
+      jest.spyOn(mockGqlService, 'isSubscriptionQuery').mockReturnValue(true);
+
+      const result = service.prepareQueryExecution(
+        {
+          query: { subscriptionUrl: 'ws://localhost:3000' },
+        } as PerWindowState,
+        'subscription MySubscription { messageAdded }'
+      );
+
+      expect(result).toEqual({
+        selectedOperation: 'MySubscription',
+        operations: [{ name: 'MySubscription', type: 'subscription' }],
+        shouldContinue: true,
+        isSubscriptionQuery: true,
+        subscriptionUrlMissing: false,
       });
     });
   });
