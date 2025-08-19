@@ -25,7 +25,7 @@ import {
   QueryService,
   ApiService,
 } from '../services';
-import { QueryRequestValidationResult, QueryExecutionPreparationResult } from '../services/query/query.service';
+import { QueryRequestValidationResult, QueryExecutionPreparationResult, QueryRequestData } from '../services/query/query.service';
 
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
@@ -115,37 +115,28 @@ export class QueryEffects {
           this.store.dispatch(
             new layoutActions.StartLoadingAction(response.windowId)
           );
-          return forkJoin({
-            response: of(response),
-            transformedData: from(
-              this.queryService.getPrerequestTransformedData(response.windowId)
-            ),
-            handler: from(
-              this.queryService.getRequestHandler(
-                response.data,
-                this.gqlService.isSubscriptionQuery(
-                  response.data.query.query ?? '',
-                  response.data
-                )
-              )
-            ),
-          }).pipe(
-            mergeMap(({ response, transformedData, handler }) => {
-              const preRequestScriptLogs = transformedData?.requestScriptLogs;
-              const {
-                url,
-                variables,
-                headers,
-                extensions,
-                query,
-                subscriptionUrl,
-                subscriptionConnectionParams,
-                requestHandlerAdditionalParams,
-              } = this.queryService.hydrateAllHydratables(
-                response.data,
-                transformedData
-              );
+          
+          // Prepare query execution
+          const preparationResult = this.queryService.prepareQueryExecution(
+            response.data,
+            response.data?.query.query ?? ''
+          );
+          if (!preparationResult.shouldContinue) {
+            return EMPTY;
+          }
 
+          return from(
+            this.queryService.prepareQueryRequestData(
+              response.windowId,
+              response.data,
+              preparationResult.isSubscriptionQuery
+            )
+          ).pipe(
+            mergeMap((requestData) => {
+
+            mergeMap((requestData) => {
+              const { url, variables, query, handler, preRequestScriptLogs } = requestData;
+              
               // Validate the query request
               const validationResult = this.queryService.validateQueryRequest(
                 url,
@@ -166,16 +157,16 @@ export class QueryEffects {
                 return EMPTY;
               }
               
-              // Prepare query execution
-              const preparationResult = this.queryService.prepareQueryExecution(
+              // Re-prepare execution since we now have hydrated query
+              const finalPreparationResult = this.queryService.prepareQueryExecution(
                 response.data,
                 query
               );
-              if (!preparationResult.shouldContinue) {
+              if (!finalPreparationResult.shouldContinue) {
                 return EMPTY;
               }
 
-              const { selectedOperation, operations, isSubscriptionQuery, subscriptionUrlMissing } = preparationResult;
+              const { selectedOperation, operations, isSubscriptionQuery, subscriptionUrlMissing } = finalPreparationResult;
 
               // Dispatch selected operation actions
               this.store.dispatch(
@@ -238,11 +229,11 @@ export class QueryEffects {
               debug.log('Sending..');
               return this.gqlService
                 .sendRequestV2({
-                  url: isSubscriptionQuery ? subscriptionUrl ?? url : url,
-                  query,
-                  variables,
-                  extensions,
-                  headers,
+                  url: isSubscriptionQuery ? requestData.subscriptionUrl ?? requestData.url : requestData.url,
+                  query: requestData.query,
+                  variables: requestData.variables,
+                  extensions: requestData.extensions,
+                  headers: requestData.headers,
                   method: response.data.query.httpVerb,
                   selectedOperation,
                   files: response.data.variables.files,
@@ -251,10 +242,10 @@ export class QueryEffects {
                   batchedRequest:
                     response.data.query.selectedOperation ===
                     BATCHED_REQUESTS_OPERATION,
-                  handler,
+                  handler: requestData.handler,
                   additionalParams: isSubscriptionQuery
-                    ? subscriptionConnectionParams
-                    : requestHandlerAdditionalParams,
+                    ? requestData.subscriptionConnectionParams
+                    : requestData.requestHandlerAdditionalParams,
                 })
                 .pipe(
                   switchMap((res) => {

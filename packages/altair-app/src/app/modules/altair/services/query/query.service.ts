@@ -42,6 +42,22 @@ export interface QueryExecutionPreparationResult {
   subscriptionUrlMissing?: boolean;
 }
 
+/**
+ * Data needed for sending a query request
+ */
+export interface QueryRequestData {
+  url: string;
+  variables: string;
+  headers: any[];
+  extensions: string;
+  query: string;
+  subscriptionUrl: string;
+  subscriptionConnectionParams: any;
+  requestHandlerAdditionalParams: any;
+  preRequestScriptLogs?: any[];
+  handler: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -449,6 +465,29 @@ export class QueryService {
       shouldContinue: true,
       isSubscriptionQuery,
       subscriptionUrlMissing,
+    };
+  }
+
+  /**
+   * Prepares all data needed for sending a query request
+   * @param windowId The window ID
+   * @param windowState The window state  
+   * @param isSubscriptionQuery Whether this is a subscription query
+   */
+  async prepareQueryRequestData(
+    windowId: string,
+    windowState: PerWindowState,
+    isSubscriptionQuery: boolean
+  ): Promise<QueryRequestData> {
+    const transformedData = await this.getPrerequestTransformedData(windowId);
+    const handler = await this.getRequestHandler(windowState, isSubscriptionQuery);
+    
+    const hydratedData = this.hydrateAllHydratables(windowState, transformedData);
+
+    return {
+      ...hydratedData,
+      preRequestScriptLogs: transformedData?.requestScriptLogs,
+      handler,
     };
   }
 }

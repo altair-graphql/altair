@@ -460,4 +460,62 @@ describe('QueryService', () => {
       });
     });
   });
+
+  describe('prepareQueryRequestData', () => {
+    it('should prepare all data needed for sending a request', async () => {
+      const mockWindowState = {
+        query: { 
+          url: 'http://localhost:3000/graphql',
+          query: 'query { hello }',
+          requestExtensions: '',
+          subscriptionUrl: 'ws://localhost:3000',
+          subscriptionConnectionParams: '',
+          requestHandlerAdditionalParams: '',
+        },
+        variables: { variables: '{"name": "world"}' },
+        headers: [{ key: 'Authorization', value: 'Bearer token', enabled: true }],
+      } as PerWindowState;
+
+      jest.spyOn(service, 'getPrerequestTransformedData').mockResolvedValue({
+        requestScriptLogs: ['log1', 'log2'],
+        additionalHeaders: [],
+      });
+      jest.spyOn(service, 'getRequestHandler').mockResolvedValue({ 
+        id: 'http-handler' 
+      });
+      jest.spyOn(service, 'hydrateAllHydratables').mockReturnValue({
+        url: 'HYDRATED[http://localhost:3000/graphql]',
+        query: 'HYDRATED[query { hello }]',
+        variables: 'HYDRATED[{"name": "world"}]',
+        headers: [{ key: 'Authorization', value: 'Bearer token', enabled: true }],
+        extensions: 'HYDRATED[]',
+        subscriptionUrl: 'HYDRATED[ws://localhost:3000]',
+        subscriptionConnectionParams: 'HYDRATED[]',
+        requestHandlerAdditionalParams: 'HYDRATED[]',
+      });
+
+      const result = await service.prepareQueryRequestData(
+        'window1',
+        mockWindowState,
+        false
+      );
+
+      expect(result).toEqual({
+        url: 'HYDRATED[http://localhost:3000/graphql]',
+        query: 'HYDRATED[query { hello }]',
+        variables: 'HYDRATED[{"name": "world"}]',
+        headers: [{ key: 'Authorization', value: 'Bearer token', enabled: true }],
+        extensions: 'HYDRATED[]',
+        subscriptionUrl: 'HYDRATED[ws://localhost:3000]',
+        subscriptionConnectionParams: 'HYDRATED[]',
+        requestHandlerAdditionalParams: 'HYDRATED[]',
+        preRequestScriptLogs: ['log1', 'log2'],
+        handler: { id: 'http-handler' },
+      });
+
+      expect(service.getPrerequestTransformedData).toHaveBeenCalledWith('window1');
+      expect(service.getRequestHandler).toHaveBeenCalledWith(mockWindowState, false);
+      expect(service.hydrateAllHydratables).toHaveBeenCalled();
+    });
+  });
 });

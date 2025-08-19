@@ -84,4 +84,72 @@ describe('query effects', () => {
       });
     });
   });
+
+  describe('.sendQueryRequest', () => {
+    it('should use QueryService validation and preparation methods', (done) => {
+      const mockQueryService = {
+        ...mockQueryService,
+        validateQueryRequest: jest.fn().mockReturnValue({ isValid: true }),
+        prepareQueryExecution: jest.fn().mockReturnValue({
+          shouldContinue: false,
+          isSubscriptionQuery: false,
+        }),
+        prepareQueryRequestData: jest.fn().mockResolvedValue({
+          url: 'http://test.com',
+          variables: '{}',
+          query: 'query { test }',
+          headers: [],
+          extensions: '',
+          subscriptionUrl: '',
+          subscriptionConnectionParams: '',
+          requestHandlerAdditionalParams: '',
+          preRequestScriptLogs: [],
+          handler: {},
+        }),
+      };
+
+      actions$ = of({
+        type: 'SEND_QUERY_REQUEST',
+        windowId: 'window1',
+      } as any);
+
+      mockStore = mockStoreFactory<RootState>({
+        windows: {
+          window1: {
+            query: {
+              query: 'query { test }',
+            },
+            variables: {
+              files: [],
+            },
+          },
+        },
+      } as any);
+
+      const effects = new QueryEffects(
+        actions$,
+        mockGqlService,
+        mockNotifyService,
+        mockDbService,
+        mockDonationService,
+        mockElectronAppService,
+        mockEnvironmentService,
+        mockQueryService,
+        mockApiService,
+        mockStore
+      );
+
+      // Since this is a side effect, we just need to verify it doesn't throw
+      // The actual request logic is tested in integration tests
+      effects.sendQueryRequest$.subscribe({
+        complete: () => {
+          // Verify the service methods were called
+          expect(mockQueryService.prepareQueryExecution).toHaveBeenCalled();
+          expect(mockQueryService.prepareQueryRequestData).toHaveBeenCalled();
+          done();
+        },
+        error: done,
+      });
+    });
+  });
 });
