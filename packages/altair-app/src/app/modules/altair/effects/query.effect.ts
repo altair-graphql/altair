@@ -25,6 +25,7 @@ import {
   QueryService,
   ApiService,
 } from '../services';
+import { QueryRequestValidationResult, QueryExecutionPreparationResult, QueryRequestData } from '../services/query/query.service';
 
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
@@ -42,7 +43,6 @@ import {
   downloadData,
   copyToClipboard,
   openFile,
-  isValidUrl,
   parseJson,
 } from '../utils';
 import { debug } from '../utils/logger';
@@ -115,84 +115,60 @@ export class QueryEffects {
           this.store.dispatch(
             new layoutActions.StartLoadingAction(response.windowId)
           );
-          return forkJoin({
-            response: of(response),
-            transformedData: from(
-              this.queryService.getPrerequestTransformedData(response.windowId)
-            ),
-            handler: from(
-              this.queryService.getRequestHandler(
-                response.data,
-                this.gqlService.isSubscriptionQuery(
-                  response.data.query.query ?? '',
-                  response.data
-                )
-              )
-            ),
-          }).pipe(
-            mergeMap(({ response, transformedData, handler }) => {
-              const preRequestScriptLogs = transformedData?.requestScriptLogs;
-              const isSubscriptionQuery = this.gqlService.isSubscriptionQuery(
-                response.data.query.query ?? '',
-                response.data
-              );
-              const {
+          
+          // Prepare query execution
+          const preparationResult = this.queryService.prepareQueryExecution(
+            response.data,
+            response.data?.query.query ?? ''
+          );
+          if (!preparationResult.shouldContinue) {
+            return EMPTY;
+          }
+
+          return from(
+            this.queryService.prepareQueryRequestData(
+              response.windowId,
+              response.data,
+              preparationResult.isSubscriptionQuery
+            )
+          ).pipe(
+            mergeMap((requestData) => {
+
+            mergeMap((requestData) => {
+              const { url, variables, query, handler, preRequestScriptLogs } = requestData;
+              
+              // Validate the query request
+              const validationResult = this.queryService.validateQueryRequest(
                 url,
                 variables,
-                headers,
-                extensions,
-                query,
-                subscriptionUrl,
-                subscriptionConnectionParams,
-                requestHandlerAdditionalParams,
-              } = this.queryService.hydrateAllHydratables(
-                response.data,
-                transformedData
+                response.data.variables.files
               );
-
-              // If the URL is not set or is invalid, just return
-              if (!url || !isValidUrl(url)) {
-                this.notifyService.error('The URL is invalid!');
-                this.store.dispatch(
-                  new layoutActions.StopLoadingAction(response.windowId)
-                );
-                return EMPTY;
-              }
-              if (!parseJson(variables, null)) {
+              if (!validationResult.isValid) {
                 this.notifyService.error(
-                  'The variables is not a valid JSON string!'
-                );
-                this.store.dispatch(
-                  new layoutActions.StopLoadingAction(response.windowId)
-                );
-                return EMPTY;
-              }
-
-              if (
-                this.gqlService.hasInvalidFileVariable(response.data.variables.files)
-              ) {
-                this.notifyService.error(
-                  `
-                    You have some invalid file variables.<br><br>
-                    You need to provide a file and file name, when uploading files.
-                    Check your files in the variables section.
-                  `,
+                  validationResult.errorMessage || 'Invalid request',
                   'Altair',
-                  {
+                  validationResult.errorMessage?.includes('file variables') ? {
                     disableTimeOut: true,
-                  }
+                  } : undefined
+                );
+                this.store.dispatch(
+                  new layoutActions.StopLoadingAction(response.windowId)
                 );
                 return EMPTY;
               }
-              const {
-                selectedOperation,
-                operations,
-                error: selectedOperationError,
-              } = this.gqlService.calculateSelectedOperation(response.data, query);
-              if (selectedOperationError) {
-                this.notifyService.error(selectedOperationError);
+              
+              // Re-prepare execution since we now have hydrated query
+              const finalPreparationResult = this.queryService.prepareQueryExecution(
+                response.data,
+                query
+              );
+              if (!finalPreparationResult.shouldContinue) {
                 return EMPTY;
               }
+
+              const { selectedOperation, operations, isSubscriptionQuery, subscriptionUrlMissing } = finalPreparationResult;
+
+              // Dispatch selected operation actions
               this.store.dispatch(
                 new queryActions.SetSelectedOperationAction(response.windowId, {
                   selectedOperation: selectedOperation ?? '',
@@ -229,7 +205,7 @@ export class QueryEffects {
               if (isSubscriptionQuery) {
                 debug.log('Your query is a SUBSCRIPTION!!!');
                 // If the subscription URL is not set, show the dialog for the user to set it
-                if (!response.data.query.subscriptionUrl) {
+                if (subscriptionUrlMissing) {
                   this.store.dispatch(
                     new dialogsActions.ToggleRequestHandlerDialogAction(
                       response.windowId,
@@ -253,11 +229,11 @@ export class QueryEffects {
               debug.log('Sending..');
               return this.gqlService
                 .sendRequestV2({
-                  url: isSubscriptionQuery ? subscriptionUrl ?? url : url,
-                  query,
-                  variables,
-                  extensions,
-                  headers,
+                  url: isSubscriptionQuery ? requestData.subscriptionUrl ?? requestData.url : requestData.url,
+                  query: requestData.query,
+                  variables: requestData.variables,
+                  extensions: requestData.extensions,
+                  headers: requestData.headers,
                   method: response.data.query.httpVerb,
                   selectedOperation,
                   files: response.data.variables.files,
@@ -266,10 +242,10 @@ export class QueryEffects {
                   batchedRequest:
                     response.data.query.selectedOperation ===
                     BATCHED_REQUESTS_OPERATION,
-                  handler,
+                  handler: requestData.handler,
                   additionalParams: isSubscriptionQuery
-                    ? subscriptionConnectionParams
-                    : requestHandlerAdditionalParams,
+                    ? requestData.subscriptionConnectionParams
+                    : requestData.requestHandlerAdditionalParams,
                 })
                 .pipe(
                   switchMap((res) => {
