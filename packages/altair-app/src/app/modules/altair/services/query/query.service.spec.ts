@@ -6,6 +6,7 @@ import { EnvironmentService } from '../environment/environment.service';
 import { NotifyService } from '../notify/notify.service';
 import { PreRequestService } from '../pre-request/pre-request.service';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
+import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
 
 import { QueryService } from './query.service';
 import { GqlService } from '../gql/gql.service';
@@ -37,7 +38,10 @@ describe('QueryService', () => {
         }),
         MockProvider(PreRequestService),
         MockProvider(QueryCollectionService),
-        MockProvider(GqlService),
+        MockProvider(GqlService, {
+          hasInvalidFileVariable: jest.fn().mockReturnValue(false),
+        }),
+        MockProvider(RequestHandlerRegistryService),
         {
           provide: Store,
           useFactory: () => mockStoreFactory(),
@@ -291,6 +295,68 @@ describe('QueryService', () => {
         true
       );
       expect(requestHandler).toBeInstanceOf(ActionCableRequestHandler);
+    });
+  });
+
+  describe('validateQueryRequest', () => {
+    it('should return valid result for valid URL, variables, and files', () => {
+      const result = service.validateQueryRequest(
+        'http://localhost:3000/graphql',
+        '{"name": "world"}',
+        []
+      );
+      expect(result).toEqual({ isValid: true });
+    });
+
+    it('should return invalid result for empty URL', () => {
+      const result = service.validateQueryRequest(
+        '',
+        '{"name": "world"}',
+        []
+      );
+      expect(result).toEqual({
+        isValid: false,
+        errorMessage: 'The URL is invalid!',
+      });
+    });
+
+    it('should return invalid result for invalid URL', () => {
+      const result = service.validateQueryRequest(
+        'not-a-url',
+        '{"name": "world"}',
+        []
+      );
+      expect(result).toEqual({
+        isValid: false,
+        errorMessage: 'The URL is invalid!',
+      });
+    });
+
+    it('should return invalid result for invalid JSON variables', () => {
+      const result = service.validateQueryRequest(
+        'http://localhost:3000/graphql',
+        '{"name": world}', // invalid JSON
+        []
+      );
+      expect(result).toEqual({
+        isValid: false,
+        errorMessage: 'The variables is not a valid JSON string!',
+      });
+    });
+
+    it('should return invalid result for invalid file variables', () => {
+      const mockGqlService = TestBed.inject(GqlService);
+      jest.spyOn(mockGqlService, 'hasInvalidFileVariable').mockReturnValue(true);
+
+      const result = service.validateQueryRequest(
+        'http://localhost:3000/graphql',
+        '{"name": "world"}',
+        [{ file: null, name: 'test' }] // invalid file
+      );
+      expect(result).toEqual({
+        isValid: false,
+        errorMessage: expect.stringContaining('invalid file variables'),
+      });
     });
   });
 });

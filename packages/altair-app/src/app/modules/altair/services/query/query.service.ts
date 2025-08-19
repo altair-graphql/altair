@@ -21,6 +21,15 @@ import {
   WEBSOCKET_HANDLER_ID,
 } from 'altair-graphql-core/build/request/types';
 import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
+import { isValidUrl, parseJson } from '../../utils';
+
+/**
+ * Validation result for query requests
+ */
+export interface QueryRequestValidationResult {
+  isValid: boolean;
+  errorMessage?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -347,5 +356,47 @@ export class QueryService {
     }
 
     return [];
+  }
+
+  /**
+   * Validates a query request before sending
+   * @param url The query URL
+   * @param variables The query variables
+   * @param files The file variables
+   */
+  validateQueryRequest(
+    url: string,
+    variables: string,
+    files: any[]
+  ): QueryRequestValidationResult {
+    // If the URL is not set or is invalid, return error
+    if (!url || !isValidUrl(url)) {
+      return {
+        isValid: false,
+        errorMessage: 'The URL is invalid!',
+      };
+    }
+
+    // Validate JSON variables
+    if (!parseJson(variables, null)) {
+      return {
+        isValid: false,
+        errorMessage: 'The variables is not a valid JSON string!',
+      };
+    }
+
+    // Validate file variables
+    if (this.gqlService.hasInvalidFileVariable(files)) {
+      return {
+        isValid: false,
+        errorMessage: `
+          You have some invalid file variables.<br><br>
+          You need to provide a file and file name, when uploading files.
+          Check your files in the variables section.
+        `,
+      };
+    }
+
+    return { isValid: true };
   }
 }

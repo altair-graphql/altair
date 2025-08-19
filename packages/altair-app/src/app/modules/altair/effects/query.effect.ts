@@ -25,6 +25,7 @@ import {
   QueryService,
   ApiService,
 } from '../services';
+import { QueryRequestValidationResult } from '../services/query/query.service';
 
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
@@ -42,7 +43,6 @@ import {
   downloadData,
   copyToClipboard,
   openFile,
-  isValidUrl,
   parseJson,
 } from '../utils';
 import { debug } from '../utils/logger';
@@ -150,37 +150,22 @@ export class QueryEffects {
                 transformedData
               );
 
-              // If the URL is not set or is invalid, just return
-              if (!url || !isValidUrl(url)) {
-                this.notifyService.error('The URL is invalid!');
-                this.store.dispatch(
-                  new layoutActions.StopLoadingAction(response.windowId)
-                );
-                return EMPTY;
-              }
-              if (!parseJson(variables, null)) {
+              // Validate the query request
+              const validationResult = this.queryService.validateQueryRequest(
+                url,
+                variables,
+                response.data.variables.files
+              );
+              if (!validationResult.isValid) {
                 this.notifyService.error(
-                  'The variables is not a valid JSON string!'
-                );
-                this.store.dispatch(
-                  new layoutActions.StopLoadingAction(response.windowId)
-                );
-                return EMPTY;
-              }
-
-              if (
-                this.gqlService.hasInvalidFileVariable(response.data.variables.files)
-              ) {
-                this.notifyService.error(
-                  `
-                    You have some invalid file variables.<br><br>
-                    You need to provide a file and file name, when uploading files.
-                    Check your files in the variables section.
-                  `,
+                  validationResult.errorMessage || 'Invalid request',
                   'Altair',
-                  {
+                  validationResult.errorMessage?.includes('file variables') ? {
                     disableTimeOut: true,
-                  }
+                  } : undefined
+                );
+                this.store.dispatch(
+                  new layoutActions.StopLoadingAction(response.windowId)
                 );
                 return EMPTY;
               }
