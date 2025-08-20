@@ -39,9 +39,9 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     handler: (type: T, e: ScriptEventData<T>) => void
   ): void {
     const listener = (e: MessageEvent<ScriptEventData<T>>) => {
-      if (e.origin !== new URL(this.sandboxUrl).origin) {
-        return;
-      }
+      // if (e.origin !== new URL(this.sandboxUrl).origin) {
+      //   return;
+      // }
       const event = e.data;
 
       // Handle script events
@@ -57,7 +57,8 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
   }
   send(type: string, payload: any): void {
     this.iframe.addEventListener('load', () => {
-      this.iframe.contentWindow?.postMessage({ type, payload }, this.sandboxUrl);
+      console.log('Sending message to iframe', type, payload, this.sandboxUrl);
+      this.iframe.contentWindow?.postMessage({ type, payload }, '*');
     });
   }
   onError(handler: (err: any) => void): void {

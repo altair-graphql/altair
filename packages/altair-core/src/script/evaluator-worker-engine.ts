@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { ScriptEvaluatorClientEngine } from './evaluator-client-engine';
-import { SCRIPT_INIT_EXECUTE } from './events';
+import { SCRIPT_INIT_EXECUTE, SCRIPT_READY } from './events';
 import {
   AllScriptEventHandlers,
   ScriptContextData,
@@ -22,7 +22,10 @@ export class ScriptEvaluatorWorkerEngine {
   constructor(private worker: ScriptEvaluatorWorker) {}
 
   start() {
+    console.log('ScriptEvaluatorWorkerEngine started');
+    // this.worker.send(SCRIPT_READY, {});
     this.worker.onMessage(async (e) => {
+      console.log('ScriptEvaluatorWorkerEngine received message', e);
       switch (e.type) {
         case SCRIPT_INIT_EXECUTE:
           try {
