@@ -7,6 +7,7 @@ import {
   APP_INITIALIZER,
   ApplicationInitStatus,
   ModuleWithProviders,
+  CSP_NONCE,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -59,6 +60,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { AccountEffects } from './effects/account.effect';
 import { WorkspaceEffects } from './effects/workspace.effect';
 import { ElectronEffects } from './effects/electron.effect';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 registerLocaleData(en);
 
@@ -202,6 +204,11 @@ export class AltairModule {
         {
           provide: reducerToken,
           useValue: getReducer(),
+        },
+        {
+          provide: CSP_NONCE,
+          useFactory: (altairConfig: AltairConfig) => altairConfig.cspNonce,
+          deps: [AltairConfig],
         },
       ],
     };
