@@ -141,7 +141,7 @@ const getSyncOperations = (
     });
   });
 
-  Object.keys(normalizedNewState).map((key) => {
+  for (const key of Object.keys(normalizedNewState)) {
     // Add operation only if value is changed
     if (normalizedNewState[key] !== normalizedOldState[key]) {
       const valueToStore = prepareValueToStore(key, normalizedNewState[key]);
@@ -155,7 +155,7 @@ const getSyncOperations = (
         value: serializeValue(valueToStore),
       });
     }
-  });
+  }
 
   return ops;
 };
