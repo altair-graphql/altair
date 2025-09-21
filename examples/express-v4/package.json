@@ -6,15 +6,17 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "5.2.2"
   },
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "helmet": "^8.1.0"
   },
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node-dev index.ts"
   },
   "packageManager": "yarn@1.22.17"
 }

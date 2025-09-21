@@ -93,21 +93,33 @@ export const renderAltair = (options: RenderOptions = {}) => {
   const initialOptions = renderInitSnippet(options);
   const baseURL = options.baseURL || './';
   if (options.serveInitialOptionsInSeperateRequest) {
-    const scriptName =
-      typeof options.serveInitialOptionsInSeperateRequest === 'string'
-        ? options.serveInitialOptionsInSeperateRequest
-        : 'initial_options.js';
-    return altairHtml
-      .replace(/<base.*>/, `<base href="${baseURL}">`)
-      .replace(
-        '</body>',
-        () => `<script src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
-      );
-  } else {
-    return altairHtml
-      .replace(/<base.*>/, `<base href="${baseURL}">`)
-      .replace('</body>', () => `<script>${initialOptions}</script></body>`);
+    if (!options.cspNonce) {
+      // When using cspNonce, the initial options must be inlined to avoid CSP issues
+      // because loading a the script in a separate request will likely cause a new CSP nonce to be generated
+      // which will not match the original nonce used in the main HTML file
+      // and thus the script will be blocked by the browser.
+      const scriptName =
+        typeof options.serveInitialOptionsInSeperateRequest === 'string'
+          ? options.serveInitialOptionsInSeperateRequest
+          : 'initial_options.js';
+      return altairHtml
+        .replace(/<base.*>/, `<base href="${baseURL}">`)
+        .replace('<style>', `<style nonce="${options.cspNonce}">`)
+        .replace(
+          '</body>',
+          () =>
+            `<script nonce="${options.cspNonce}" src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
+        );
+    }
   }
+
+  return altairHtml
+    .replace(/<base.*>/, `<base href="${baseURL}">`)
+    .replace('<style>', `<style nonce="${options.cspNonce}">`)
+    .replace(
+      '</body>',
+      () => `<script nonce="${options.cspNonce}">${initialOptions}</script></body>`
+    );
 };
 
 const getRenderedAltairOpts = (renderOptions: RenderOptions) => {

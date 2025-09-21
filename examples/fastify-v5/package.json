@@ -6,13 +6,15 @@
   "devDependencies": {
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "5.2.2"
   },
   "dependencies": {
+    "@fastify/helmet": "^13.0.1",
     "fastify": "^5.0.0"
   },
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node-dev index.ts"
   },
   "private": true,
   "packageManager": "yarn@1.22.17"

@@ -69,10 +69,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "altair:build:development",
-            "headers": {
-              "Content-Security-Policy": "style-src 'self' 'nonce-change-me' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='"
-            }
+            "buildTarget": "altair:build:development"
           },
           "configurations": {
             "production": {
