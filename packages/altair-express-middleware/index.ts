@@ -8,7 +8,16 @@ import {
   RenderOptions,
 } from 'altair-static';
 
-export const altairExpress = (opts: RenderOptions): express.Express => {
+export type ExpressRenderOptions = RenderOptions & {
+  /**
+   * Generates a Content Security Policy (CSP) nonce for the request.
+   * @param req The Express request object.
+   * @param res The Express response object.
+   * @returns The generated CSP nonce.
+   */
+  cspNonceGenerator?: (req: express.Request, res: express.Response) => string;
+};
+export const altairExpress = (opts: ExpressRenderOptions): express.Express => {
   const app = express();
   // Disable strict routing since we *need* to make sure the route does not end with a trailing slash
   app.disable('strict routing');
@@ -20,11 +29,11 @@ export const altairExpress = (opts: RenderOptions): express.Express => {
       const query = req.originalUrl.slice(path.length);
       return res.redirect(301, path + '/' + query);
     }
-    return res.send(renderAltair(opts));
+    return res.send(renderAltair(getRequestRenderOptions(req, res, opts)));
   });
   app.get('/initial_options.js', (req, res) => {
     res.set('Content-Type', 'text/javascript');
-    return res.send(renderInitSnippet(opts));
+    return res.send(renderInitSnippet(getRequestRenderOptions(req, res, opts)));
   });
   app.use(express.static(getDistDirectory()));
 
@@ -37,3 +46,18 @@ export const altairExpress = (opts: RenderOptions): express.Express => {
 
   return app;
 };
+
+function getRequestRenderOptions(
+  req: express.Request,
+  res: express.Response,
+  opts: ExpressRenderOptions
+): RenderOptions {
+  let cspNonce = opts.cspNonce;
+  if (!cspNonce && opts.cspNonceGenerator) {
+    cspNonce = opts.cspNonceGenerator(req, res);
+  }
+  return {
+    ...opts,
+    cspNonce,
+  };
+}

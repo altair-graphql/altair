@@ -15,6 +15,7 @@
     "@types/prettier": "^3.0.0",
     "chalk": "^4.1.0",
     "compare-versions": "^6.1.1",
+    "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
     "cwex": "^1.0.4",
     "dotenv-cli": "^7.2.1",

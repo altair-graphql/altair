@@ -3,6 +3,7 @@
 exports[`config creates config object with expected properties 1`] = `
 AltairConfig {
   "add_query_depth_limit": 3,
+  "cspNonce": "",
   "defaultTheme": "system",
   "default_language": "en-US",
   "disableLineNumbers": false,

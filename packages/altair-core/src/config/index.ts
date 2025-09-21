@@ -107,7 +107,7 @@ export class AltairConfig {
     initialWindows = [],
     disableAccount = false,
     initialAuthorization,
-    cspNonce = 'change-me',
+    cspNonce = '',
   }: AltairConfigOptions = {}) {
     this.cspNonce = cspNonce;
     this.initialData.url =
