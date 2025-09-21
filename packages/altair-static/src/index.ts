@@ -104,21 +104,22 @@ export const renderAltair = (options: RenderOptions = {}) => {
           : 'initial_options.js';
       return altairHtml
         .replace(/<base.*>/, `<base href="${baseURL}">`)
-        .replace('<style>', `<style nonce="${options.cspNonce}">`)
+        .replace('<style>', `<style nonce="${options.cspNonce ?? ''}">`)
         .replace(
           '</body>',
           () =>
-            `<script nonce="${options.cspNonce}" src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
+            `<script nonce="${options.cspNonce ?? ''}" src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
         );
     }
   }
 
   return altairHtml
     .replace(/<base.*>/, `<base href="${baseURL}">`)
-    .replace('<style>', `<style nonce="${options.cspNonce}">`)
+    .replace('<style>', `<style nonce="${options.cspNonce ?? ''}">`)
     .replace(
       '</body>',
-      () => `<script nonce="${options.cspNonce}">${initialOptions}</script></body>`
+      () =>
+        `<script nonce="${options.cspNonce ?? ''}">${initialOptions}</script></body>`
     );
 };
 
