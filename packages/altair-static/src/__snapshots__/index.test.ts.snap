@@ -14,7 +14,7 @@ exports[`renderAltair should return expected string 1`] = `
 
   <body>
     <app-root>
-      <style>
+      <style nonce="">
         .loading-screen {
           /*Prevents the loading screen from showing until CSS is downloaded*/
           display: none;
@@ -51,7 +51,7 @@ exports[`renderAltair should return expected string 1`] = `
       type="text/javascript"
       src="[% MAIN_SCRIPT %]"
     ></script>
-  <script>
+  <script nonce="">
         AltairGraphQL.init({
 initialQuery: \`query {
         Hello
@@ -78,7 +78,7 @@ exports[`renderAltair should return expected string with $$ 1`] = `
 
   <body>
     <app-root>
-      <style>
+      <style nonce="">
         .loading-screen {
           /*Prevents the loading screen from showing until CSS is downloaded*/
           display: none;
@@ -115,7 +115,7 @@ exports[`renderAltair should return expected string with $$ 1`] = `
       type="text/javascript"
       src="[% MAIN_SCRIPT %]"
     ></script>
-  <script>
+  <script nonce="">
         AltairGraphQL.init({
 initialQuery: \`{
           MyDomains (
