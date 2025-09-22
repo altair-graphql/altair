@@ -1,25 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CodemirrorComponent } from './codemirror.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MockModule } from 'ng-mocks';
+import { SharedModule } from '../../modules/shared/shared.module';
+import { mount } from '../../../../../testing/utils';
+import { NgxTestWrapper } from '../../../../../testing/wrapper';
+import { AltairConfig } from 'altair-graphql-core/build/config';
 
 describe('CodemirrorComponent', () => {
-  let component: CodemirrorComponent;
-  let fixture: ComponentFixture<CodemirrorComponent>;
+  let wrapper: NgxTestWrapper<CodemirrorComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CodemirrorComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CodemirrorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    wrapper = await mount({
+      component: CodemirrorComponent,
+      imports: [MockModule(SharedModule), AltairConfig],
+      schemas: [NO_ERRORS_SCHEMA],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
   });
 });
