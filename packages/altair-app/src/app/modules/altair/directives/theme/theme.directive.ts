@@ -73,7 +73,7 @@ export class ThemeDirective implements OnInit, OnChanges {
     if (!this.emotionInstance) {
       this.emotionInstance = createEmotion({
         key: 'altair-theme',
-        nonce: this.cspNonce,
+        nonce: this.cspNonce || undefined,
       });
     }
     return this.emotionInstance;
