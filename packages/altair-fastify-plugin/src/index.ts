@@ -3,6 +3,7 @@ import {
   renderAltair,
   RenderOptions,
   renderInitSnippet,
+  isSandboxFrame,
 } from 'altair-static';
 import fp from 'fastify-plugin';
 import fastifyStatic from '@fastify/static';
@@ -33,6 +34,12 @@ const fastifyAltairPluginFn = async (
   fastify.register(fastifyStatic, {
     root: getDistDirectory(),
     prefix: renderOptions.baseURL ?? '/altair/',
+    setHeaders: (res, path) => {
+      if (isSandboxFrame(path)) {
+        // Disable CSP for the sandbox iframe
+        res.setHeader('Content-Security-Policy', '');
+      }
+    },
   });
 
   fastify.get(path, (req, res) => {

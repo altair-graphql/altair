@@ -1,0 +1,24 @@
+{
+  "name": "koa-v3-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/koa": "^3.0.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/node": "^24.5.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "5.2.2"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@koa/router": "^14.0.0",
+    "helmet": "^8.1.0",
+    "koa": "^3.0.1",
+    "koa-helmet": "^8.0.1"
+  },
+  "scripts": {
+    "start": "ts-node-dev index.ts"
+  },
+  "packageManager": "yarn@1.22.17"
+}
