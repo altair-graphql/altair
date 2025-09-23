@@ -9,7 +9,7 @@ const port = 3005;
 const router = new KoaRouter();
 
 app.use(async (ctx, next) => {
-  ctx.state.cspNonce = randomBytes(32).toString('hex');
+  ctx.state.cspNonce = randomBytes(16).toString('base64');
   await next();
 });
 app.use(async (ctx, next) => {
