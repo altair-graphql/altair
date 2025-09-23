@@ -74,12 +74,14 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
 
 export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
   async create() {
-    // If the current window is the same origin as the baseURI (except for mv3 extension), then use the worker client
+    // Only use the worker client if:
+    // - not in an mv3 extension (as they don't support unsafe-eval even in web workers)
+    // - the current window is the same origin as the baseURI
+    // - eval is allowed (not in a CSP restricted environment)
     if (
-      document.baseURI &&
-      new URL(document.baseURI).origin === window.origin &&
-      // don't use worker client for manifest v3 extensions, as they don't support unsafe-eval even in web workers
-      !(isExtension && chrome.runtime.getManifest().manifest_version === 3)
+      !this.isManifestV3Extension() &&
+      this.isSameOriginBaseURI() &&
+      this.isEvalAllowed()
     ) {
       return new EvaluatorWorkerClient();
     }
@@ -89,5 +91,22 @@ export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
         environment.production ? 'production' : 'development'
       )
     );
+  }
+
+  private isManifestV3Extension() {
+    return isExtension && chrome.runtime.getManifest().manifest_version === 3;
+  }
+
+  private isSameOriginBaseURI() {
+    return document.baseURI && new URL(document.baseURI).origin === window.origin;
+  }
+
+  private isEvalAllowed() {
+    try {
+      eval('1');
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

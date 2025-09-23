@@ -133,6 +133,10 @@ const getRenderedAltairOpts = (renderOptions: RenderOptions) => {
   return ['{', ...optProps, '}'].join('\n');
 };
 
+export const isSandboxFrame = (path: string) => {
+  return path.split('/').includes('iframe-sandbox');
+};
+
 export { getDistDirectory } from './get-dist';
 export { getAltairHtml };
 

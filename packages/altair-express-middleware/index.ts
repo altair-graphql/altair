@@ -6,6 +6,7 @@ import {
   renderAltair,
   renderInitSnippet,
   RenderOptions,
+  isSandboxFrame,
 } from 'altair-static';
 
 export type ExpressRenderOptions = RenderOptions & {
@@ -35,7 +36,16 @@ export const altairExpress = (opts: ExpressRenderOptions): express.Express => {
     res.set('Content-Type', 'text/javascript');
     return res.send(renderInitSnippet(getRequestRenderOptions(req, res, opts)));
   });
-  app.use(express.static(getDistDirectory()));
+  app.use(
+    express.static(getDistDirectory(), {
+      setHeaders: (res, path) => {
+        if (isSandboxFrame(path)) {
+          // Disable CSP for the sandbox iframe
+          res.setHeader('Content-Security-Policy', '');
+        }
+      },
+    })
+  );
 
   /**
    * Catch-all route
