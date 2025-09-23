@@ -7,7 +7,7 @@ app.disable('x-powered-by');
 const port = 3002;
 
 app.use((req, res, next) => {
-  res.locals.cspNonce = crypto.randomBytes(32).toString('hex');
+  res.locals.cspNonce = crypto.randomBytes(16).toString('base64');
   next();
 });
 app.use(
@@ -53,5 +53,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`listening on port ${port}`);
 });

@@ -11,7 +11,7 @@ const app = Fastify();
 
 // Add a simple handler to all requests
 app.addHook('onRequest', async (request, reply) => {
-  (reply.raw as any).scriptNonce = randomBytes(16).toString('hex');
+  (reply.raw as any).scriptNonce = randomBytes(16).toString('base64');
   // console.log(`[${new Date().toISOString()}] ${request.method} ${request.url}`);
 });
 
@@ -53,5 +53,6 @@ app.register(AltairFastify, {
 
 // Altair available at localhost:3000/altair
 app.listen({ port: 3000 }, () => {
+  // eslint-disable-next-line no-console
   console.log('Server listening at http://localhost:3000');
 });
