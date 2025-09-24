@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/crx",
   "private": true,
-  "version": "8.2.7",
+  "version": "8.2.8",
   "type": "module",
   "scripts": {
     "prebuild": "node bin/prebuild.js",

@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/iframe-sandbox",
   "private": true,
-  "version": "8.2.7",
+  "version": "8.2.8",
   "type": "module",
   "main": "dist/index.html",
   "scripts": {
