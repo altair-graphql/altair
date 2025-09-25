@@ -4,10 +4,10 @@
   "version": "8.2.8",
   "identifier": "dev.altairgraphql.altair-tauri",
   "build": {
-    "beforeDevCommand": "echo 'Using pre-built web assets from altair-static'",
-    "beforeBuildCommand": "echo 'Using pre-built web assets from altair-static'",
-    "frontendDist": "../altair-static/dist",
-    "devUrl": "http://localhost:1420"
+    "beforeDevCommand": "pnpm -F @altairgraphql/app start",
+    "beforeBuildCommand": "pnpm -F @altairgraphql/app build",
+    "frontendDist": "../altair-app/dist",
+    "devUrl": "http://localhost:4200"
   },
   "app": {
     "windows": [
