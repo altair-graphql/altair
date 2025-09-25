@@ -28,6 +28,70 @@
         </div>
         <div class="app-dialog-section">
           <nz-tabset [nzAnimated]="false" nzSize="small" [nzTabBarGutter]="16">
+            <nz-tab [nzTitle]="'HEADERS_TEXT' | translate">
+              <div class="headers-section">
+                <div class="headers-section__header">
+                  <span>{{ 'COLLECTION_HEADERS_DESCRIPTION' | translate }}</span>
+                  <button 
+                    class="btn btn--sm btn--primary" 
+                    type="button"
+                    (click)="addHeader()"
+                  >
+                    {{ 'ADD_HEADER_BUTTON' | translate }}
+                  </button>
+                </div>
+                @for (
+                  header of headers;
+                  track trackByIndex(i, header);
+                  let i = $index
+                ) {
+                  <div 
+                    class="set-header-input-container"
+                    [ngClass]="{
+                      'set-header-input-container--disabled': !header.enabled,
+                    }"
+                  >
+                    <label class="checkbox-label">
+                      <input 
+                        type="checkbox" 
+                        [checked]="header.enabled"
+                        (change)="updateHeaderEnabled(i, $any($event.target).checked)"
+                      >
+                      <span class="checkbox-indicator"></span>
+                    </label>
+                    <div class="header-input">
+                      <input 
+                        type="text"
+                        class="input"
+                        [value]="header.key"
+                        (input)="updateHeaderKey(i, $any($event.target).value)"
+                        placeholder="{{ 'HEADER_KEY_PLACEHOLDER' | translate }}"
+                      />
+                    </div>
+                    <div class="header-input">
+                      <input 
+                        type="text"
+                        class="input"
+                        [value]="header.value"
+                        (input)="updateHeaderValue(i, $any($event.target).value)"
+                        placeholder="{{ 'HEADER_VALUE_PLACEHOLDER' | translate }}"
+                      />
+                    </div>
+                    <button class="header-input-remove-button" (click)="removeHeader(i)">
+                      &times;
+                    </button>
+                  </div>
+                }
+                @if (headers.length === 0) {
+                  <div class="no-headers-message">
+                    {{ 'NO_COLLECTION_HEADERS_MESSAGE' | translate }}
+                  </div>
+                }
+                <div class="headers__notice">
+                  {{ 'COLLECTION_HEADERS_NOTICE' | translate }}
+                </div>
+              </div>
+            </nz-tab>
             <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
               <app-pre-request-editor
                 [preRequest]="preRequest"
