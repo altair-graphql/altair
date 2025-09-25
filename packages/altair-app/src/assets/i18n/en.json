@@ -44,6 +44,12 @@
   "HEADERS_TEXT": "Headers",
   "SET_HEADERS_DIALOG_SUBTEXT": "Add, edit and remove headers in your request",
   "ADD_HEADER_TEXT": "Add header",
+  "HEADER_KEY_PLACEHOLDER": "Header key",
+  "HEADER_VALUE_PLACEHOLDER": "Header value",
+  "ADD_HEADER_BUTTON": "Add Header",
+  "COLLECTION_HEADERS_DESCRIPTION": "Headers that will be shared by all queries in this collection",
+  "NO_COLLECTION_HEADERS_MESSAGE": "No headers defined yet. Click 'Add Header' to add one.",
+  "COLLECTION_HEADERS_NOTICE": "Collection headers will be applied to all queries in this collection. Query-specific headers take precedence over collection headers."
 
   "SUBSCRIPTION_URL_TEXT": "Subscription URL",
   "SET_SUBSCRIPTION_URL_TEXT": "Enter the subscription URL for your server below",

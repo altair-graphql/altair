@@ -10,6 +10,7 @@ import {
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 
 @Component({
   selector: 'app-edit-collection-dialog',
@@ -29,6 +30,7 @@ export class EditCollectionDialogComponent implements OnChanges {
   title = '';
   preRequest: PrerequestState = { script: '', enabled: false };
   postRequest: PostrequestState = { script: '', enabled: false };
+  headers: HeaderState = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.collection?.currentValue) {
@@ -40,6 +42,7 @@ export class EditCollectionDialogComponent implements OnChanges {
         script: '',
         enabled: false,
       };
+      this.headers = collection.headers || [];
     }
   }
 
@@ -52,8 +55,39 @@ export class EditCollectionDialogComponent implements OnChanges {
       title: this.title,
       preRequest: this.preRequest,
       postRequest: this.postRequest,
+      headers: this.headers,
     };
     this.toggleDialogChange.next(false);
     this.updateCollectionChange.next({ collection: collection });
+  }
+
+  addHeader() {
+    this.headers = [...this.headers, { key: '', value: '', enabled: true }];
+  }
+
+  removeHeader(index: number) {
+    this.headers = this.headers.filter((_, i) => i !== index);
+  }
+
+  updateHeaderKey(index: number, key: string) {
+    this.headers = this.headers.map((header, i) => 
+      i === index ? { ...header, key } : header
+    );
+  }
+
+  updateHeaderValue(index: number, value: string) {
+    this.headers = this.headers.map((header, i) => 
+      i === index ? { ...header, value } : header
+    );
+  }
+
+  updateHeaderEnabled(index: number, enabled: boolean) {
+    this.headers = this.headers.map((header, i) => 
+      i === index ? { ...header, enabled } : header
+    );
+  }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
 }
