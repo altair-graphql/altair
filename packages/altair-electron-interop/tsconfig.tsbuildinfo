@@ -1,0 +1,1 @@
+{"root":["./src/api.ts","./src/constants.ts","./src/index.ts","./src/preload.ts","./src/settings.ts","./src/type.d.ts","./src/renderer/electron-local-storage.ts","./src/renderer/index.ts"],"errors":true,"version":"5.9.2"}
