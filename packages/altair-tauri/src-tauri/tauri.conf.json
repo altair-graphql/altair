@@ -1,0 +1,93 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "productName": "Altair GraphQL Client",
+  "version": "8.2.8",
+  "identifier": "dev.altairgraphql.altair-tauri",
+  "build": {
+    "beforeDevCommand": "echo 'Using pre-built web assets from altair-static'",
+    "beforeBuildCommand": "echo 'Using pre-built web assets from altair-static'",
+    "frontendDist": "../altair-static/dist",
+    "devUrl": "http://localhost:1420"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Altair GraphQL Client",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "transparent": false,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "macOSPrivateApi": true
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "identifier": "dev.altairgraphql.altair-tauri",
+    "copyright": "© 2024 Samuel Imolorhe",
+    "category": "Developer Tool",
+    "shortDescription": "A beautiful feature-rich GraphQL Client IDE",
+    "longDescription": "Altair GraphQL Client helps you debug GraphQL queries and implementations - taking care of the hard part so you can focus on actually getting things done.",
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "10.13"
+    },
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
+  },
+  "plugins": {
+    "dialog": {},
+    "fs": {
+      "scope": [
+        "$APPDATA",
+        "$APPDATA/altair",
+        "$HOME/.altair",
+        "$DOCUMENT/*"
+      ]
+    },
+    "notification": {},
+    "os": {},
+    "process": {},
+    "shell": {
+      "scope": [
+        {
+          "name": "open-url",
+          "cmd": "open",
+          "args": ["$URL"]
+        }
+      ]
+    },
+    "store": {
+      "default": "altair-store.json"
+    },
+    "updater": {
+      "endpoints": [
+        "https://api.github.com/repos/altair-graphql/altair/releases/latest"
+      ]
+    },
+    "window-state": {}
+  }
+}

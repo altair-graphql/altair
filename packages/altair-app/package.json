@@ -7,6 +7,7 @@
     "@altairgraphql/api-utils": "workspace:*",
     "@altairgraphql/db": "workspace:*",
     "@altairgraphql/electron-interop": "workspace:*",
+    "@altairgraphql/tauri-interop": "workspace:*",
     "@angular/animations": "18.2.13",
     "@angular/cdk": "15.2.9",
     "@angular/cli": "18.2.12",
