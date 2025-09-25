@@ -19,6 +19,7 @@ export const IPC_EVENT_NAMES = {
   RENDERER_UPDATE_APP: 'from-renderer:update-app',
   RENDERER_RESTART_APP: 'from-renderer:restart-app',
   RENDERER_SET_HEADERS_SYNC: 'from-renderer:set-headers-sync',
+  RENDERER_DOCS_STATE_CHANGED: 'from-renderer:docs-state-changed',
   RENDERER_GET_AUTOBACKUP_DATA: 'from-renderer:get-auto-backup',
   RENDERER_SAVE_AUTOBACKUP_DATA: 'from-renderer:save-auto-backup',
   RENDERER_GET_AUTH_TOKEN: 'from-renderer:get-auth-token',

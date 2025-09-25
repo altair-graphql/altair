@@ -4,6 +4,10 @@ import { ActionManager } from './actions';
 const { TouchBarButton, TouchBarSpacer } = TouchBar;
 
 export class TouchbarManager {
+  private docsButton: Electron.TouchBarButton;
+  private touchBar: Electron.TouchBar;
+  private docsVisible = false;
+
   constructor(private actionManager: ActionManager) {}
 
   createTouchBar() {
@@ -18,7 +22,7 @@ export class TouchbarManager {
       click: () => this.actionManager.reloadDocs(),
     });
 
-    const showDocsButton = new TouchBarButton({
+    this.docsButton = new TouchBarButton({
       label: 'Show Docs',
       click: () => this.actionManager.showDocs(),
     });
@@ -27,16 +31,25 @@ export class TouchbarManager {
       size: 'flexible',
     });
 
-    const touchBar = new TouchBar({
+    this.touchBar = new TouchBar({
       items: [
         // spin,
         sendRequestButton,
         spacer,
         reloadDocsButton,
-        showDocsButton,
+        this.docsButton,
       ],
     });
 
-    return touchBar;
+    return this.touchBar;
+  }
+
+  updateDocsButtonState(docsVisible: boolean) {
+    if (!this.docsButton) {
+      return;
+    }
+
+    this.docsVisible = docsVisible;
+    this.docsButton.label = docsVisible ? 'Hide Docs' : 'Show Docs';
   }
 }

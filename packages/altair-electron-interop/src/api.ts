@@ -142,6 +142,12 @@ export const electronApi = {
         settings
       );
     },
+    setDocsStateChanged(docsVisible: boolean) {
+      return ipcRenderer.send(
+        IPC_EVENT_NAMES.RENDERER_DOCS_STATE_CHANGED,
+        docsVisible
+      );
+    },
   },
 };
 

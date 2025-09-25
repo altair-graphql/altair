@@ -193,6 +193,12 @@ export class WindowManager {
       setAutobackup(data);
     });
 
+    ipcMain.on(IPC_EVENT_NAMES.RENDERER_DOCS_STATE_CHANGED, (e, docsVisible: boolean) => {
+      if (this.touchbarManager) {
+        this.touchbarManager.updateDocsButtonState(docsVisible);
+      }
+    });
+
     handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async (e) => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
         throw new Error('untrusted source trying to get auth token');
