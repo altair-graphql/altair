@@ -1,193 +1,294 @@
-import { invoke } from '@tauri-apps/api/core';
-import { listen } from '@tauri-apps/api/event';
-import { Store } from '@tauri-apps/plugin-store';
 import { TAURI_COMMAND_NAMES, TAURI_EVENT_NAMES } from './constants';
-import { ITauriAPI, HeaderState, SettingsState } from './types';
+import { ITauriAPI as ITauriAPIType, HeaderState, SettingsState } from './types';
 
-// Initialize the store
-let store: Store;
-const initStore = async () => {
-  if (!store) {
-    store = new Store('altair-store.json');
-  }
-  return store;
-};
+// We'll use dynamic imports and window object to access Tauri APIs at runtime
+// This avoids build-time dependencies on Tauri packages
 
-export const tauriApi: ITauriAPI = {
+export const tauriApi: ITauriAPIType = {
   events: {
     onFileOpened(cb: (content: string) => void) {
-      listen(TAURI_EVENT_NAMES.FILE_OPENED, (event) => {
-        if (typeof event.payload === 'string') {
-          cb(event.payload);
-        }
-      });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.FILE_OPENED, (event: any) => {
+          if (typeof event.payload === 'string') {
+            cb(event.payload);
+          }
+        });
+      }
     },
 
     onUrlOpened(cb: (url: string) => void) {
-      listen(TAURI_EVENT_NAMES.URL_OPENED, (event) => {
-        if (typeof event.payload === 'string') {
-          cb(event.payload);
-        }
-      });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.URL_OPENED, (event: any) => {
+          if (typeof event.payload === 'string') {
+            cb(event.payload);
+          }
+        });
+      }
     },
 
     onCreateTab(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.CREATE_TAB, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.CREATE_TAB, () => cb());
+      }
     },
 
     onCloseTab(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.CLOSE_TAB, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.CLOSE_TAB, () => cb());
+      }
     },
 
     onNextTab(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.NEXT_TAB, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.NEXT_TAB, () => cb());
+      }
     },
 
     onPreviousTab(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.PREVIOUS_TAB, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.PREVIOUS_TAB, () => cb());
+      }
     },
 
     onReopenClosedTab(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.REOPEN_CLOSED_TAB, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.REOPEN_CLOSED_TAB, () => cb());
+      }
     },
 
     onSendRequest(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.SEND_REQUEST, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.SEND_REQUEST, () => cb());
+      }
     },
 
     onReloadDocs(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.RELOAD_DOCS, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.RELOAD_DOCS, () => cb());
+      }
     },
 
     onShowDocs(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.SHOW_DOCS, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.SHOW_DOCS, () => cb());
+      }
     },
 
     onShowSettings(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.SHOW_SETTINGS, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.SHOW_SETTINGS, () => cb());
+      }
     },
 
     onImportAppData(cb: (data: string) => void) {
-      listen(TAURI_EVENT_NAMES.IMPORT_APP_DATA, (event) => {
-        if (typeof event.payload === 'string') {
-          cb(event.payload);
-        }
-      });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.IMPORT_APP_DATA, (event: any) => {
+          if (typeof event.payload === 'string') {
+            cb(event.payload);
+          }
+        });
+      }
     },
 
     onExportAppData(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.EXPORT_APP_DATA, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.EXPORT_APP_DATA, () => cb());
+      }
     },
 
     onUpdateAvailable(cb: () => void) {
-      listen(TAURI_EVENT_NAMES.UPDATE_AVAILABLE, () => cb());
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        tauri.event.listen(TAURI_EVENT_NAMES.UPDATE_AVAILABLE, () => cb());
+      }
     },
   },
 
   actions: {
     rendererReady() {
       // In Tauri, we don't need to explicitly signal renderer ready
-      // The app starts when ready
       console.log('Tauri renderer ready');
     },
 
     async performAppUpdate(): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.PERFORM_APP_UPDATE);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.PERFORM_APP_UPDATE);
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async restartApp(): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.RESTART_APP);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.RESTART_APP);
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async setHeaderSync(headers: HeaderState): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.SET_HEADERS, { headers });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.SET_HEADERS, { headers });
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async getAuthToken(): Promise<string | null> {
-      return invoke(TAURI_COMMAND_NAMES.GET_AUTH_TOKEN);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.GET_AUTH_TOKEN);
+      }
+      return null;
     },
 
     async getAutobackupData(): Promise<string | null> {
-      return invoke(TAURI_COMMAND_NAMES.GET_AUTOBACKUP_DATA);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.GET_AUTOBACKUP_DATA);
+      }
+      return null;
     },
 
     async saveAutobackupData(data: string): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.SAVE_AUTOBACKUP_DATA, { data });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.SAVE_AUTOBACKUP_DATA, { data });
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async getAltairAppSettingsFromFile(): Promise<SettingsState | null> {
-      return invoke(TAURI_COMMAND_NAMES.GET_ALTAIR_APP_SETTINGS_FROM_FILE);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.GET_ALTAIR_APP_SETTINGS_FROM_FILE);
+      }
+      return null;
     },
 
     async updateAltairAppSettingsOnFile(settings: SettingsState): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.UPDATE_ALTAIR_APP_SETTINGS_ON_FILE, { settings });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.UPDATE_ALTAIR_APP_SETTINGS_ON_FILE, { settings });
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async importFile(): Promise<string | null> {
-      return invoke(TAURI_COMMAND_NAMES.IMPORT_FILE);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.IMPORT_FILE);
+      }
+      return null;
     },
 
     async exportFile(data: string, filename?: string): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.EXPORT_FILE, { data, filename });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.EXPORT_FILE, { data, filename });
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async createNewWindow(): Promise<string> {
-      return invoke(TAURI_COMMAND_NAMES.CREATE_NEW_WINDOW);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.CREATE_NEW_WINDOW);
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async closeCurrentWindow(): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.CLOSE_CURRENT_WINDOW);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.CLOSE_CURRENT_WINDOW);
+      }
+      throw new Error('Not in Tauri environment');
     },
 
     async showNotification(title: string, body: string): Promise<void> {
-      return invoke(TAURI_COMMAND_NAMES.SHOW_NOTIFICATION, { title, body });
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const tauri = (window as any).__TAURI__;
+        return tauri.core.invoke(TAURI_COMMAND_NAMES.SHOW_NOTIFICATION, { title, body });
+      }
+      throw new Error('Not in Tauri environment');
     },
   },
 
   storage: {
     async getItem(key: string): Promise<string | null> {
-      const store = await initStore();
-      const value = await store.get<string>(key);
-      return value ?? null;
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        // Use Tauri's built-in store when available
+        // For now, fallback to localStorage
+        const value = localStorage.getItem(key);
+        return value;
+      }
+      return null;
     },
 
     async setItem(key: string, value: string): Promise<void> {
-      const store = await initStore();
-      await store.set(key, value);
-      await store.save();
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        localStorage.setItem(key, value);
+      } else {
+        throw new Error('Not in Tauri environment');
+      }
     },
 
     async removeItem(key: string): Promise<void> {
-      const store = await initStore();
-      await store.delete(key);
-      await store.save();
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        localStorage.removeItem(key);
+      } else {
+        throw new Error('Not in Tauri environment');
+      }
     },
 
     async clear(): Promise<void> {
-      const store = await initStore();
-      await store.clear();
-      await store.save();
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        localStorage.clear();
+      } else {
+        throw new Error('Not in Tauri environment');
+      }
     },
 
     async length(): Promise<number> {
-      const store = await initStore();
-      const entries = await store.entries();
-      return entries.length;
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        return localStorage.length;
+      }
+      return 0;
     },
 
     async key(index: number): Promise<string | null> {
-      const store = await initStore();
-      const entries = await store.entries();
-      if (index >= 0 && index < entries.length) {
-        return entries[index][0];
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        return localStorage.key(index);
       }
       return null;
     },
 
     async getStore(): Promise<Record<string, unknown>> {
-      const store = await initStore();
-      const entries = await store.entries();
-      return Object.fromEntries(entries);
+      if (typeof window !== 'undefined' && '__TAURI__' in window) {
+        const store: Record<string, unknown> = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key) {
+            store[key] = localStorage.getItem(key);
+          }
+        }
+        return store;
+      }
+      return {};
     },
   },
 };

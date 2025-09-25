@@ -7,9 +7,6 @@
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "license": "MIT",
   "repository": "altair-graphql/altair.git",
-  "dependencies": {
-    "@tauri-apps/api": "^2"
-  },
   "devDependencies": {
     "typescript": "catalog:"
   },

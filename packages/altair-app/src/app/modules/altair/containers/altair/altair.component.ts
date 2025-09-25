@@ -35,6 +35,7 @@ import {
   WindowService,
   DonationService,
   ElectronAppService,
+  DesktopAppService,
   KeybinderService,
   PluginRegistryService,
   QueryCollectionService,
@@ -132,6 +133,7 @@ export class AltairComponent {
     private translate: TranslateService,
     private donationService: DonationService,
     private electronApp: ElectronAppService,
+    private desktopApp: DesktopAppService,
     private keybinder: KeybinderService,
     private pluginRegistry: PluginRegistryService,
     private pluginEvent: PluginEventService,
@@ -303,7 +305,7 @@ export class AltairComponent {
       });
 
     this.webExtensionsService.connect();
-    this.electronApp.connect({
+    this.desktopApp.connect({
       importFileContent: (content) => {
         return this.windowService.importStringData(content).catch((err) => {
           debug.error(err);
