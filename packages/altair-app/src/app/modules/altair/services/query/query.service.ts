@@ -44,6 +44,27 @@ export class QueryService {
     return this.getWindowState$(windowId).pipe(take(1)).toPromise();
   }
 
+  private getCollectionForWindow(window: PerWindowState) {
+    if (!window.layout.collectionId) {
+      return undefined;
+    }
+
+    // Get current state synchronously
+    let collection;
+    this.store
+      .pipe(
+        select((state: RootState) => 
+          state.collection.list.find(col => col.id === window.layout.collectionId)
+        ),
+        take(1)
+      )
+      .subscribe((col) => {
+        collection = col;
+      });
+
+    return collection;
+  }
+
   /**
    * Gets pre-request transformed data when given script is executed
    * @param windowId
@@ -240,6 +261,8 @@ export class QueryService {
     window: PerWindowState,
     transformResult?: ScriptTranformResult
   ) {
+    const collection = this.getCollectionForWindow(window);
+
     let url = this.environmentService.hydrate(window.query.url);
     let subscriptionUrl = this.environmentService.hydrate(
       window.query.subscriptionUrl
@@ -259,7 +282,9 @@ export class QueryService {
       ...window.headers,
       ...(transformResult?.additionalHeaders ?? []),
     ];
-    let headers = this.environmentService.hydrateHeaders(combinedHeaders);
+    let headers = this.environmentService.hydrateHeaders(combinedHeaders, {
+      collection,
+    });
 
     if (transformResult?.environment) {
       const activeEnvironment = transformResult.environment;
@@ -298,6 +323,7 @@ export class QueryService {
       );
       headers = this.environmentService.hydrateHeaders(combinedHeaders, {
         activeEnvironment,
+        collection,
       });
     }
 
