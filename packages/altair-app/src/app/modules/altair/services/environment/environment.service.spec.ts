@@ -403,5 +403,174 @@ describe('EnvironmentService', () => {
         },
       ]);
     });
+
+    it('should merge collection headers with window headers', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const collection = {
+        id: 'test-collection',
+        title: 'Test Collection',
+        queries: [],
+        headers: [
+          {
+            key: 'x-collection-header',
+            value: 'collection-value',
+            enabled: true,
+          },
+          {
+            key: 'x-shared-header',
+            value: 'collection-shared',
+            enabled: true,
+          },
+        ],
+      };
+      
+      const windowHeaders = [
+        {
+          key: 'x-window-header',
+          value: 'window-value',
+          enabled: true,
+        },
+        {
+          key: 'x-shared-header',
+          value: 'window-shared',
+          enabled: true,
+        },
+      ];
+
+      const hydratedContent = service.hydrateHeaders(windowHeaders, {
+        collection,
+      });
+
+      expect(hydratedContent).toEqual([
+        {
+          key: 'x-collection-header',
+          value: 'collection-value',
+          enabled: true,
+        },
+        {
+          key: 'x-shared-header',
+          value: 'collection-shared',
+          enabled: true,
+        },
+        {
+          key: 'x-window-header',
+          value: 'window-value',
+          enabled: true,
+        },
+        {
+          key: 'x-shared-header',
+          value: 'window-shared',
+          enabled: true,
+        },
+      ]);
+    });
+
+    it('should merge environment, collection, and window headers in correct order', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const collection = {
+        id: 'test-collection',
+        title: 'Test Collection',
+        queries: [],
+        headers: [
+          {
+            key: 'x-collection-only',
+            value: 'collection-value',
+            enabled: true,
+          },
+          {
+            key: 'x-priority-test',
+            value: 'collection-priority',
+            enabled: true,
+          },
+        ],
+      };
+      
+      const windowHeaders = [
+        {
+          key: 'x-window-only',
+          value: 'window-value',
+          enabled: true,
+        },
+        {
+          key: 'x-priority-test',
+          value: 'window-priority',
+          enabled: true,
+        },
+      ];
+
+      const hydratedContent = service.hydrateHeaders(windowHeaders, {
+        collection,
+        activeEnvironment: {
+          headers: {
+            'x-environment-only': 'env-value',
+            'x-priority-test': 'env-priority',
+          },
+        },
+      });
+
+      expect(hydratedContent).toEqual([
+        {
+          key: 'x-environment-only',
+          value: 'env-value',
+          enabled: true,
+        },
+        {
+          key: 'x-priority-test',
+          value: 'env-priority',
+          enabled: true,
+        },
+        {
+          key: 'x-collection-only',
+          value: 'collection-value',
+          enabled: true,
+        },
+        {
+          key: 'x-priority-test',
+          value: 'collection-priority',
+          enabled: true,
+        },
+        {
+          key: 'x-window-only',
+          value: 'window-value',
+          enabled: true,
+        },
+        {
+          key: 'x-priority-test',
+          value: 'window-priority',
+          enabled: true,
+        },
+      ]);
+    });
+
+    it('should hydrate collection headers with environment variables', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+      const collection = {
+        id: 'test-collection',
+        title: 'Test Collection',
+        queries: [],
+        headers: [
+          {
+            key: 'x-dynamic-header',
+            value: '{{dynamicValue}}',
+            enabled: true,
+          },
+        ],
+      };
+
+      const hydratedContent = service.hydrateHeaders([], {
+        collection,
+        activeEnvironment: {
+          dynamicValue: 'interpolated-value',
+        },
+      });
+
+      expect(hydratedContent).toEqual([
+        {
+          key: 'x-dynamic-header',
+          value: 'interpolated-value',
+          enabled: true,
+        },
+      ]);
+    });
   });
 });

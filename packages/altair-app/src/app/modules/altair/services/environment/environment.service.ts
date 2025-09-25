@@ -16,6 +16,7 @@ import {
 } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { merge } from 'lodash-es';
 import { downloadJson } from '../../utils';
 import { NotifyService } from '../notify/notify.service';
@@ -28,6 +29,7 @@ export const VARIABLE_REGEX = /(^{{\s*[\w.]+\s*}})|((?!\\)(.){{\s*[\w.]+\s*}})/g
 
 interface HydrateEnvironmentOptions {
   activeEnvironment?: IEnvironment;
+  collection?: IQueryCollection;
 }
 
 @Injectable({
@@ -129,7 +131,12 @@ export class EnvironmentService {
       : this.getActiveEnvironment();
 
     const environmentHeadersMap = activeEnvironment.headers;
+    const collection = options.collection;
 
+    // Merge headers in priority order: environment → collection → window
+    const mergedHeaders: HeaderState = [];
+
+    // 1. Add environment headers first (lowest priority)
     if (environmentHeadersMap) {
       const environmentHeaders = Object.keys(environmentHeadersMap).map((key) => {
         return {
@@ -138,11 +145,25 @@ export class EnvironmentService {
           enabled: true,
         };
       });
-
-      return [...environmentHeaders, ...hydratedHeaders];
+      mergedHeaders.push(...environmentHeaders);
     }
 
-    return hydratedHeaders;
+    // 2. Add collection headers (middle priority)
+    if (collection?.headers) {
+      const collectionHeaders = collection.headers.map((header) => {
+        return {
+          key: this.hydrate(header.key, options),
+          value: this.hydrate(header.value, options),
+          enabled: header.enabled,
+        };
+      });
+      mergedHeaders.push(...collectionHeaders);
+    }
+
+    // 3. Add window headers (highest priority)
+    mergedHeaders.push(...hydratedHeaders);
+
+    return mergedHeaders;
   }
 
   importEnvironmentData(data: ExportEnvironmentState) {

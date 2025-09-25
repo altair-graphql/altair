@@ -2,6 +2,7 @@ import { BaseDocument, BaseOwnableDocument } from '../shared';
 import { PostrequestState } from './postrequest.interfaces';
 import { PrerequestState } from './prerequest.interfaces';
 import { ExportWindowState } from './window.interfaces';
+import { HeaderState } from './header.interfaces';
 
 export type SortByOptions = 'a-z' | 'z-a' | 'newest' | 'oldest' | 'none';
 
@@ -32,6 +33,11 @@ export interface IQueryCollection extends BaseDocument {
 
   preRequest?: PrerequestState;
   postRequest?: PostrequestState;
+
+  /**
+   * Headers to be inherited by all queries in this collection
+   */
+  headers?: HeaderState;
 
   /**
    * path of the collection in the collection tree
