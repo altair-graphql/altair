@@ -10,6 +10,7 @@ import { commentRegex } from './comment-regex';
 import { from } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { electronApiKey } from '@altairgraphql/electron-interop/build/constants';
+import { tauriApiKey } from '@altairgraphql/tauri-interop/build/constants';
 import { SupportedFileExtensions } from '../services/files/types';
 
 interface DownloadDataOptions {
@@ -121,6 +122,10 @@ export const openFiles = async (opts: FileDialogOptions = {}) => {
 };
 
 export const detectEnvironment = () => {
+  if (isTauriApp()) {
+    return 'tauri';
+  }
+
   if (isElectron) {
     return 'electron';
   }
@@ -319,6 +324,16 @@ export const isElectronApp = () => {
 
   if (!(window as any)[electronApiKey]) {
     debug.error(`Is in electron app but ${electronApiKey} is undefined!`);
+    return false;
+  }
+
+  return true;
+};
+
+export const isTauriApp = () => {
+  const isTauri = typeof window !== 'undefined' && '__TAURI__' in window;
+
+  if (!isTauri) {
     return false;
   }
 

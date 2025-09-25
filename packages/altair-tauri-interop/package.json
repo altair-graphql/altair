@@ -1,0 +1,20 @@
+{
+  "name": "@altairgraphql/tauri-interop",
+  "version": "8.2.8",
+  "description": "Tauri interop layer for Altair",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
+  "license": "MIT",
+  "repository": "altair-graphql/altair.git",
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "scripts": {
+    "build": "tsc",
+    "bootstrap": "pnpm build"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+}

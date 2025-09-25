@@ -1,0 +1,44 @@
+{
+  "name": "altair-tauri",
+  "description": "Tauri wrapper for Altair",
+  "version": "8.2.8",
+  "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
+  "bugs": "https://github.com/altair-graphql/altair/issues",
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair",
+    "logo": "https://opencollective.com/altair/logo.txt"
+  },
+  "dependencies": {
+    "@altairgraphql/tauri-interop": "workspace:*",
+    "altair-static": "workspace:*"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "^2",
+    "@tauri-apps/plugin-fs": "^2",
+    "@tauri-apps/plugin-notification": "^2",
+    "@tauri-apps/plugin-os": "^2",
+    "@tauri-apps/plugin-process": "^2",
+    "@tauri-apps/plugin-shell": "^2",
+    "@tauri-apps/plugin-store": "^2",
+    "@tauri-apps/plugin-updater": "^2",
+    "@tauri-apps/plugin-window-state": "^2",
+    "typescript": "catalog:"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/altair"
+  },
+  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
+  "license": "MIT",
+  "private": true,
+  "productName": "Altair GraphQL Client",
+  "repository": "altair-graphql/altair.git",
+  "scripts": {
+    "build": "cargo tauri build",
+    "dev": "cargo tauri dev",
+    "bootstrap": "echo 'No build step needed for Tauri package'",
+    "tauri": "cargo tauri"
+  }
+}

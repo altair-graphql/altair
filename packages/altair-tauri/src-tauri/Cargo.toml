@@ -1,0 +1,35 @@
+[package]
+name = "altair-tauri"
+version = "8.2.8"
+description = "Tauri wrapper for Altair"
+authors = ["Samuel Imolorhe <altair@sirmuel.design>"]
+repository = "https://github.com/altair-graphql/altair"
+license = "MIT"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri = { version = "2", features = [
+    "devtools",
+    "protocol-asset",
+    "window-all",
+    "macos-proxy",
+    "unstable"
+] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-os = "2"
+tauri-plugin-process = "2"
+tauri-plugin-shell = "2"
+tauri-plugin-store = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-window-state = "2"
+tokio = { version = "1", features = ["full"] }
+uuid = { version = "1.0", features = ["v4"] }

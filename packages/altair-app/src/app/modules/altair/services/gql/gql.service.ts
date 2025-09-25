@@ -55,6 +55,7 @@ import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.i
 import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
+import { DesktopAppService } from '../desktop-app/desktop-app.service';
 import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
@@ -118,7 +119,8 @@ export class GqlService {
   constructor(
     private http: HttpClient,
     private notifyService: NotifyService,
-    private electronAppService: ElectronAppService
+    private electronAppService: ElectronAppService,
+    private desktopAppService: DesktopAppService
   ) {
     // Set the default headers on initialization
     this.setHeaders();
@@ -173,8 +175,8 @@ export class GqlService {
     }
 
     if (headers?.length) {
-      // For electron app, send the instruction to set headers
-      this.electronAppService.setHeaders(headers);
+      // For desktop app (Electron/Tauri), send the instruction to set headers
+      this.desktopAppService.setHeaders(headers);
 
       headers.forEach((header) => {
         if (
@@ -870,8 +872,8 @@ export class GqlService {
         const { resolvedFiles } = this.normalizeFiles(files);
 
         if (headers?.length) {
-          // For electron app, send the instruction to set headers
-          this.electronAppService.setHeaders(headers);
+          // For desktop app (Electron/Tauri), send the instruction to set headers
+          this.desktopAppService.setHeaders(headers);
 
           // Filter out headers that are not allowed
           headers = headers.filter((header) => {
