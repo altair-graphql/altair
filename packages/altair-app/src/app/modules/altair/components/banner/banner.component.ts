@@ -1,10 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Banner } from '../../services/banner/banner.service';
 
 @Component({
   selector: 'app-banner',
   templateUrl: './banner.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
   @Input() banner?: Banner;

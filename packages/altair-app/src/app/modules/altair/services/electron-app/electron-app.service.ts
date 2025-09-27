@@ -17,7 +17,7 @@ import {
 } from '../../store/async-storage-sync';
 import { StorageService } from '../storage/storage.service';
 import { downloadData, isElectronApp } from '../../utils';
-import { getShowDocs } from '../../store/docs/selectors';
+import { selectShowDocs } from '../../store/docs/selectors';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
@@ -89,7 +89,7 @@ export class ElectronAppService {
           interopState.windows[windowId] = {
             windowId,
             headers: window.headers,
-            showDocs: getShowDocs(window),
+            showDocs: selectShowDocs(window),
           };
         });
         return interopState;

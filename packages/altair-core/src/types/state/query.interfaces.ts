@@ -16,6 +16,7 @@ export interface QueryResponse {
 }
 
 export interface LogLine {
+  id: string;
   time: number;
   text: string;
   source: string;

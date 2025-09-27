@@ -3,10 +3,9 @@ import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { str } from '../../utils';
 
-export const getActiveWindowState = (state: RootState) => {
+export const selectActiveWindowState = (state: RootState) => {
   return state.windows[state.windowsMeta.activeWindowId];
 };
-
 export const selectWindowState = (windowId: string) => (state: RootState) => {
   return state.windows[windowId];
 };

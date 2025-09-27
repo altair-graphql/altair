@@ -8,6 +8,7 @@ import {
   ElementRef,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
@@ -17,6 +18,7 @@ import { truncateText } from '../../utils';
   selector: 'app-variable-file-item',
   templateUrl: './variable-file-item.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
   @Input() fileVariable?: FileVariable;

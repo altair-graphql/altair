@@ -1,9 +1,16 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'app-import-curl-dialog',
   templateUrl: './import-curl-dialog.component.html',
   styleUrls: ['./import-curl-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportCurlDialogComponent {
   @Input() showImportCurlDialog = false;
@@ -11,8 +18,6 @@ export class ImportCurlDialogComponent {
   @Output() importCurlChange = new EventEmitter<string>();
 
   textAreaInput = '';
-
-  constructor() {}
 
   importInput() {
     this.toggleDialogChange.next(false);

@@ -2,7 +2,7 @@ import { Action, ActionReducer, INIT } from '@ngrx/store';
 
 import * as windowsActions from './windows.action';
 import { IDictionary } from '../../interfaces/shared';
-import { AllActions, InitWindowAction, INIT_WINDOW } from '../action';
+import { AllActions, InitWindowAction } from '../action';
 import { normalize } from '../compatibility-normalizer';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
@@ -39,7 +39,6 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
 
         newWindow.layout.title = title;
         newWindow.layout.hasDynamicTitle = !fixedTitle;
-        // _state
         newWindow.windowId = windowId;
         if (url) {
           newWindow.query.url = url;

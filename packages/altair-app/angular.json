@@ -115,7 +115,8 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "scss",
+      "style": "none",
+      "changeDetection": "OnPush",
       "inlineStyle": true
     },
     "@schematics/angular:directive": {

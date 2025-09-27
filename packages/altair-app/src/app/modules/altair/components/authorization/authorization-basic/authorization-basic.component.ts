@@ -1,10 +1,17 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-authorization-basic',
   templateUrl: './authorization-basic.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationBasicComponent implements OnInit {
   basicForm = this.formBuilder.group({

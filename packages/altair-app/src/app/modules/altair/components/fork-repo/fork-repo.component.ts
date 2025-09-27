@@ -7,8 +7,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForkRepoComponent {
-  constructor() {}
-
   externalLink(e: Event, url: string) {
     e.preventDefault();
 

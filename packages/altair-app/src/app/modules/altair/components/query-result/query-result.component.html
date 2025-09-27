@@ -133,7 +133,7 @@
     >
       <div class="request-script-logs">
         <div class="request-script-logs__list">
-          @for (item of requestScriptLogs; track item) {
+          @for (item of requestScriptLogs; track item.time) {
             <div class="request-script-logs__line">
               <div class="request-script-logs__line-time">
                 {{ item.time | date: 'mediumTime' }}

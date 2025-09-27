@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
 import {
@@ -12,6 +18,7 @@ import { RequestHandlerInfo } from 'altair-graphql-core/build/types/state/query.
   selector: 'app-request-handler-dialog',
   templateUrl: './request-handler-dialog.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestHandlerDialogComponent {
   @Input() requestHandlerId: RequestHandlerIds = HTTP_HANDLER_ID;

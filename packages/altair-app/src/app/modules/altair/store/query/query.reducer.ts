@@ -116,11 +116,16 @@ export function queryReducer(
       return { ...state, queryEditorState: action.payload };
     case query.SET_REQUEST_SCRIPT_LOGS:
       return { ...state, requestScriptLogs: action.payload };
-    case query.APPEND_REQUEST_SCRIPT_LOGS:
+    case query.APPEND_REQUEST_SCRIPT_LOGS: {
+      const existingLogIds = state.requestScriptLogs?.map((l) => l.id) ?? [];
       return {
         ...state,
-        requestScriptLogs: [...(state.requestScriptLogs ?? []), ...action.payload],
+        requestScriptLogs: [
+          ...(state.requestScriptLogs ?? []),
+          ...action.payload.filter((l) => l.id && !existingLogIds.includes(l.id)),
+        ],
       };
+    }
     case query.SET_REQUEST_EXTENSIONS_DATA:
       return { ...state, requestExtensions: action.payload.data };
     case query.SET_REQUEST_HANDLER_INFO:

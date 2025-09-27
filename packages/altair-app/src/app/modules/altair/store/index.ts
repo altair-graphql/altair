@@ -40,6 +40,7 @@ import { selectWindowState, windowHasUnsavedChanges } from './windows/selectors'
 import { getQueryState } from './query/selectors';
 import { selectCollections } from './collection/selectors';
 import { str } from '../utils';
+import { getInitWindowState } from './windows/windows.reducer';
 
 export const getPerWindowReducer = () => {
   const perWindowReducers = {
@@ -139,4 +140,8 @@ export const selectHasUnsavedChanges = (windowId: string) => {
       return windowHasUnsavedChanges(windowState, collections);
     }
   );
+};
+
+export const getInitialPerWindowState = () => {
+  return getInitWindowState(combineReducers(getPerWindowReducer()));
 };

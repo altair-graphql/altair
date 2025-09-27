@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
@@ -24,6 +30,7 @@ import { environment } from 'environments/environment';
   selector: 'app-authorization-oauth2',
   templateUrl: './authorization-oauth2.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationOauth2Component implements OnInit {
   urlConfig = getAltairConfig().getUrlConfig(

@@ -1,7 +1,6 @@
 import {
   catchError,
   distinctUntilChanged,
-  filter,
   map,
   switchMap,
   take,
@@ -126,6 +125,8 @@ export class WindowComponent implements OnInit {
 
   showRequestExtensionsDialog$: Observable<boolean>;
 
+  windowState$: Observable<PerWindowState>;
+
   // Using getter/setter for the windowId to update the windowId$ subject.
   // We need the windowId$ subject to update the getWindowState observable
   // whenever the windowId changes, in order to get the right window state.
@@ -186,58 +187,63 @@ export class WindowComponent implements OnInit {
       select((state) => state.windowsMeta.activeWindowId)
     );
 
-    this.query$ = this.getWindowState().pipe(select(fromRoot.getQueryState));
-    this.queryResponses$ = this.getWindowState().pipe(
+    this.windowState$ = this.store.pipe(
+      withLatestFrom(this.windowId$),
+      distinctUntilChanged(),
+      map(([state, windowId]) => {
+        return (
+          fromRoot.selectWindowState(windowId)(state) ??
+          fromRoot.getInitialPerWindowState()
+        );
+      })
+    );
+
+    this.query$ = this.windowState$.pipe(select(fromRoot.getQueryState));
+    this.queryResponses$ = this.windowState$.pipe(
       select(fromRoot.getQueryResponses),
       distinctUntilChanged()
     );
-    this.showDocs$ = this.getWindowState().pipe(select(fromRoot.getShowDocs));
-    this.docView$ = this.getWindowState().pipe(select(fromRoot.getDocView));
-    this.docsIsLoading$ = this.getWindowState().pipe(
-      select(fromRoot.getDocsLoading)
-    );
-    this.headers$ = this.getWindowState().pipe(select(fromRoot.getHeaders));
-    this.variables$ = this.getWindowState().pipe(select(fromRoot.getVariables));
-    this.introspection$ = this.getWindowState().pipe(
-      select(fromRoot.getIntrospection)
-    );
-    this.allowIntrospection$ = this.getWindowState().pipe(
+    this.showDocs$ = this.windowState$.pipe(select(fromRoot.selectShowDocs));
+    this.docView$ = this.windowState$.pipe(select(fromRoot.selectDocView));
+    this.docsIsLoading$ = this.windowState$.pipe(select(fromRoot.selectDocsLoading));
+    this.headers$ = this.windowState$.pipe(select(fromRoot.getHeaders));
+    this.variables$ = this.windowState$.pipe(select(fromRoot.getVariables));
+    this.introspection$ = this.windowState$.pipe(select(fromRoot.getIntrospection));
+    this.allowIntrospection$ = this.windowState$.pipe(
       select(fromRoot.allowIntrospection)
     );
-    this.schemaLastUpdatedAt$ = this.getWindowState().pipe(
+    this.schemaLastUpdatedAt$ = this.windowState$.pipe(
       select(fromRoot.getSchemaLastUpdatedAt)
     );
-    this.responseStatus$ = this.getWindowState().pipe(
+    this.responseStatus$ = this.windowState$.pipe(
       select(fromRoot.getResponseStatus)
     );
-    this.responseTime$ = this.getWindowState().pipe(
-      select(fromRoot.getResponseTime)
-    );
-    this.responseStatusText$ = this.getWindowState().pipe(
+    this.responseTime$ = this.windowState$.pipe(select(fromRoot.getResponseTime));
+    this.responseStatusText$ = this.windowState$.pipe(
       select(fromRoot.getResponseStatusText)
     );
-    this.responseHeaders$ = this.getWindowState().pipe(
+    this.responseHeaders$ = this.windowState$.pipe(
       select(fromRoot.getResponseHeaders)
     );
-    this.isSubscribed$ = this.getWindowState().pipe(select(fromRoot.isSubscribed));
-    this.requestScriptLogs$ = this.getWindowState().pipe(
+    this.isSubscribed$ = this.windowState$.pipe(select(fromRoot.isSubscribed));
+    this.requestScriptLogs$ = this.windowState$.pipe(
       select(fromRoot.getRequestScriptLogs)
     );
-    this.autoscrollResponseList$ = this.getWindowState().pipe(
+    this.autoscrollResponseList$ = this.windowState$.pipe(
       select(fromRoot.getAutoscrollResponseList)
     );
     this.settings$ = this.store.select('settings');
 
-    this.selectedOperation$ = this.getWindowState().pipe(
+    this.selectedOperation$ = this.windowState$.pipe(
       select(fromRoot.getSelectedOperation)
     );
-    this.queryOperations$ = this.getWindowState().pipe(
+    this.queryOperations$ = this.windowState$.pipe(
       select(fromRoot.getQueryOperations)
     );
-    this.streamState$ = this.getWindowState().pipe(
+    this.streamState$ = this.windowState$.pipe(
       select(fromRoot.getStreamStateString)
     );
-    this.currentCollection$ = this.getWindowState().pipe(
+    this.currentCollection$ = this.windowState$.pipe(
       switchMap((data) => {
         if (data?.layout?.collectionId) {
           return this.collections$.pipe(
@@ -252,9 +258,9 @@ export class WindowComponent implements OnInit {
         return EMPTY;
       })
     );
-    this.preRequest$ = this.getWindowState().pipe(select(fromRoot.getPreRequest));
-    this.postRequest$ = this.getWindowState().pipe(select(fromRoot.getPostRequest));
-    this.layout$ = this.getWindowState().pipe(select(fromRoot.getLayout));
+    this.preRequest$ = this.windowState$.pipe(select(fromRoot.getPreRequest));
+    this.postRequest$ = this.windowState$.pipe(select(fromRoot.getPostRequest));
+    this.layout$ = this.windowState$.pipe(select(fromRoot.getLayout));
 
     this.resultPaneUiActions$ = this.store.select(fromRoot.getResultPaneUiActions);
     this.resultPaneBottomPanels$ = this.store.select(
@@ -265,13 +271,13 @@ export class WindowComponent implements OnInit {
       (state) => state.settings['editor.shortcuts'] ?? {}
     );
 
-    this.authorizationState$ = this.getWindowState().pipe(
+    this.authorizationState$ = this.windowState$.pipe(
       select(fromRoot.getAuthorizationState)
     );
 
     this.variableToType$ = combineLatest([
       this.query$.pipe(select((q) => q.query ?? '')),
-      this.getWindowState().pipe(select(fromRoot.getSchema)),
+      this.windowState$.pipe(select(fromRoot.getSchema)),
     ]).pipe(
       map(([query, schema]) => {
         return collectVariables(schema, this.gql.parseQuery(query));
@@ -286,7 +292,7 @@ export class WindowComponent implements OnInit {
       })
     );
 
-    this.showRequestExtensionsDialog$ = this.getWindowState().pipe(
+    this.showRequestExtensionsDialog$ = this.windowState$.pipe(
       select(fromRoot.getShowRequestExtensionsDialog)
     );
   }
@@ -731,16 +737,6 @@ export class WindowComponent implements OnInit {
 
   trackByIndex(index: number, s: unknown) {
     return index;
-  }
-
-  getWindowState() {
-    return this.store.pipe(
-      withLatestFrom(this.windowId$),
-      switchMap(([state, windowId]) => {
-        return select(fromRoot.selectWindowState(windowId))(of(state));
-      }),
-      filter((res): res is PerWindowState => !!res)
-    );
   }
 
   trackById(index: number, item: TrackByIdItem) {

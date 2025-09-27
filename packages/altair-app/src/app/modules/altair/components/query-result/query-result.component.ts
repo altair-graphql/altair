@@ -8,6 +8,7 @@ import {
   ViewChildren,
   QueryList,
   AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -29,6 +30,7 @@ import { parseJson } from '../../utils';
   selector: 'app-query-result',
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryResultComponent implements AfterViewInit {
   @Input() responseTime = 0;

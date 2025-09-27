@@ -41,7 +41,6 @@ import { LocalEffects } from './effects/local.effect';
 import { DirectivesModule } from './directives';
 import { ComponentModule } from './components/components.module';
 import { DocViewerModule } from './components/doc-viewer/doc-viewer.module';
-import { SmartInputModule } from './components/smart-input/smart-input.module';
 import { SchemaFormModule } from './components/schema-form/schema-form.module';
 
 import { AltairComponent } from './containers/altair/altair.component';
@@ -61,6 +60,7 @@ import { AccountEffects } from './effects/account.effect';
 import { WorkspaceEffects } from './effects/workspace.effect';
 import { ElectronEffects } from './effects/electron.effect';
 import { AltairConfig } from 'altair-graphql-core/build/config';
+import { environment } from 'environments/environment';
 
 registerLocaleData(en);
 
@@ -139,7 +139,6 @@ const providers = [
     ComponentModule,
     DocViewerModule,
     SchemaFormModule,
-    SmartInputModule,
     DirectivesModule,
     StoreModule.forRoot(reducerToken, {
       metaReducers,
@@ -160,9 +159,9 @@ const providers = [
       WorkspaceEffects,
       ElectronEffects,
     ]),
-    // StoreDevtoolsModule.instrument({
-    //   logOnly: environment.production,
-    // }),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production,
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

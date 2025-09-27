@@ -5,12 +5,14 @@ import {
   EventEmitter,
   ViewChild,
   OnChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({
   selector: 'app-set-variable-dialog',
   templateUrl: './set-variable-dialog.component.html',
   styleUrls: ['./set-variable-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetVariableDialogComponent {
   @Input() showVariableDialog = false;

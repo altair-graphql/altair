@@ -46,8 +46,6 @@ import {
 } from 'altair-graphql-core/build/types/state/authorization.interface';
 import { isAuthorizationEnabled } from '../../store';
 
-const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_@(]$/;
-
 @Component({
   selector: 'app-query-editor',
   templateUrl: './query-editor.component.html',
@@ -108,6 +106,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   variableEditorHeight = '50%';
 
+  // TODO: Antipattern, move to state
   isAuthorizationEnabled = isAuthorizationEnabled;
 
   cm6ActionToFn: Record<string, Command> = {
@@ -191,7 +190,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
     if (changes?.query?.currentValue) {
       // Set current tab to Query if query is updated
-      this.selectedIndex = 0;
+      if (this.selectedIndex !== 0) {
+        this.selectedIndex = 0;
+      }
     }
 
     if (changes?.shortcutMapping?.currentValue) {
