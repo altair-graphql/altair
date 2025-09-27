@@ -1,9 +1,16 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogComponent {
   @Input() showDialog = false;
@@ -14,7 +21,6 @@ export class DialogComponent {
   @Input() width = 520;
   @Output() toggleDialog = new EventEmitter();
   @Output() saveChange = new EventEmitter();
-  constructor() {}
 
   onClickSave(e: Event) {
     this.toggleDialog.emit(!this.showDialog);

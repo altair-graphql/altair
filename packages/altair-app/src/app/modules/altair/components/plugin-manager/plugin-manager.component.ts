@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -9,6 +15,7 @@ import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/typ
   selector: 'app-plugin-manager',
   templateUrl: './plugin-manager.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PluginManagerComponent {
   @Input() showPluginManager = false;

@@ -1,9 +1,16 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 
 @Component({
   selector: 'app-history-dialog',
   templateUrl: './history-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryDialogComponent {
   @Input() historyList: History[] = [];
@@ -11,8 +18,6 @@ export class HistoryDialogComponent {
   @Output() toggleDialogChange = new EventEmitter();
   @Output() restoreHistoryChange = new EventEmitter();
   @Output() clearHistoryChange = new EventEmitter();
-
-  constructor() {}
 
   restoreHistory(index: number) {
     this.restoreHistoryChange.emit(index);

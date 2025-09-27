@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
@@ -7,6 +13,7 @@ import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 @Component({
   selector: 'app-url-box',
   templateUrl: './url-box.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UrlBoxComponent {
   @Input() apiUrl = '';

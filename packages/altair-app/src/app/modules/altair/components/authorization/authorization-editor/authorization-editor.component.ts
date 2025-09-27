@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import {
   AUTHORIZATION_TYPES,
@@ -14,6 +21,7 @@ import { AUTHORIZATION_MAPPING } from '../authorizations';
   selector: 'app-authorization-editor',
   templateUrl: './authorization-editor.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationEditorComponent implements OnInit {
   typeForm = this.formBuilder.group<{

@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
 import { DocumentIndexEntry } from '../models';
 
@@ -41,14 +41,13 @@ import { DocumentIndexEntry } from '../models';
       ]),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerSearchResultsComponent {
   @Input() results: DocumentIndexEntry[] = [];
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
-
-  constructor() {}
 
   /**
    * Go to an item based on the category

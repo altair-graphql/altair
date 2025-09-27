@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ApiKeyAuthorizationProviderInput } from 'altair-graphql-core/build/authorization/providers/api-key';
 
@@ -6,6 +12,7 @@ import { ApiKeyAuthorizationProviderInput } from 'altair-graphql-core/build/auth
   selector: 'app-authorization-apikey',
   templateUrl: './authorization-apikey.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationApikeyComponent implements OnInit {
   apiKeyForm = this.formBuilder.group<ApiKeyAuthorizationProviderInput['data']>({

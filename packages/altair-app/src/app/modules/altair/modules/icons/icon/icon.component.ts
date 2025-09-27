@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, SecurityContext } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  SecurityContext,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { IconName } from '../icons';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -6,6 +12,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   selector: 'app-icon',
   templateUrl: './icon.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent implements OnInit {
   @Input() name: IconName = 'box';

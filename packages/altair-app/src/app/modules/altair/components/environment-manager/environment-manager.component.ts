@@ -8,6 +8,7 @@ import {
   ElementRef,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {
@@ -25,6 +26,7 @@ import { NotifyService } from '../../services';
   selector: 'app-environment-manager',
   templateUrl: './environment-manager.component.html',
   styleUrls: ['./environment-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Input() environments?: EnvironmentsState;

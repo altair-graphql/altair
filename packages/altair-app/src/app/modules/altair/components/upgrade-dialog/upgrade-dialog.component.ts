@@ -1,5 +1,6 @@
 import { IPlan, IPlanInfo } from '@altairgraphql/api-utils';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -14,6 +15,7 @@ import { externalLink } from '../../utils';
   selector: 'app-upgrade-dialog',
   templateUrl: './upgrade-dialog.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpgradeDialogComponent implements OnChanges {
   @Input() showDialog = true;

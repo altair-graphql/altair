@@ -1,16 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { getRequestScriptExtensions } from '../../utils/editor/extensions';
-import { PreRequestService } from '../../services';
 import { getGlobalContext } from 'altair-graphql-core/build/script/context';
-
-const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_]$/;
 
 @Component({
   selector: 'app-pre-request-editor',
   templateUrl: './pre-request-editor.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreRequestEditorComponent {
   @Input() preRequest: PrerequestState = {
@@ -39,6 +43,4 @@ export class PreRequestEditorComponent {
       }
     )
   );
-
-  constructor(private preRequestService: PreRequestService) {}
 }

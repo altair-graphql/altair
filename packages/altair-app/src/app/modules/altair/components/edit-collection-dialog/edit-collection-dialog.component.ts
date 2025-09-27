@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
@@ -14,6 +15,7 @@ import { PrerequestState } from 'altair-graphql-core/build/types/state/prereques
   selector: 'app-edit-collection-dialog',
   templateUrl: './edit-collection-dialog.component.html',
   styleUrls: ['./edit-collection-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCollectionDialogComponent implements OnChanges {
   @Input() showEditCollectionDialog = true;

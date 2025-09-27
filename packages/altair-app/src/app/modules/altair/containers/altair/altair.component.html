@@ -383,6 +383,7 @@
           </div>
           @for (windowId of windowIds; track windowId) {
             <app-window
+              *appCachedIf="windowId === activeWindowId"
               [windowId]="windowId"
               [class.hide]="windowId !== activeWindowId"
             ></app-window>

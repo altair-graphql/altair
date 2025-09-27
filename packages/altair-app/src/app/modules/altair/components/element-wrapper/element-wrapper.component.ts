@@ -7,12 +7,14 @@ import {
   ElementRef,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({
   selector: 'app-element-wrapper',
   templateUrl: './element-wrapper.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   @Input() element?: HTMLElement;
@@ -20,8 +22,6 @@ export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   @Input() activeWindowId = '';
 
   @ViewChild('elRef', { static: true }) elRef?: ElementRef<HTMLDivElement>;
-
-  constructor() {}
 
   ngAfterViewInit(): void {
     this.handleRender();

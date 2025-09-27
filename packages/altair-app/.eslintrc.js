@@ -13,10 +13,14 @@ module.exports = {
         'plugin:@angular-eslint/recommended',
         'plugin:@angular-eslint/template/process-inline-templates',
         'plugin:@typescript-eslint/recommended',
+        // 'plugin:@ngrx/all',
         'prettier',
         'altair',
       ],
-      plugins: ['prettier'],
+      plugins: [
+        'prettier',
+        // '@ngrx'
+      ],
       rules: {
         '@angular-eslint/component-selector': [
           'error',
@@ -41,6 +45,8 @@ module.exports = {
         '@typescript-eslint/no-empty-function': 'warn',
         '@typescript-eslint/no-var-requires': 'warn',
         '@typescript-eslint/no-this-alias': 'off',
+        // '@ngrx/no-typed-global-store': 'off',
+        // '@ngrx/prefer-action-creator-in-dispatch': 'warn',
       },
     },
     {

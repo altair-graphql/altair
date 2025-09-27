@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import {
   EnvironmentsState,
@@ -14,6 +20,7 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
   selector: 'app-header',
   templateUrl: './header.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   @Input() windows: WindowState = {};

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { environment } from 'environments/environment';
@@ -9,6 +16,7 @@ import { externalLink } from '../../utils';
   selector: 'app-account-dialog',
   templateUrl: './account-dialog.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountDialogComponent {
   @Input() showDialog = true;

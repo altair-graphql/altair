@@ -6,7 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Toast } from 'ngx-toastr';
 
 @Component({
@@ -18,13 +18,11 @@ import { Toast } from 'ngx-toastr';
       state('inactive', style({ opacity: 0 })),
       state('active', style({ opacity: 1 })),
       state('removed', style({ opacity: 0 })),
-      transition(
-        'inactive => active',
-        animate('{{ easeTime }}ms {{ easing }}')
-      ),
+      transition('inactive => active', animate('{{ easeTime }}ms {{ easing }}')),
       transition('active => removed', animate('{{ easeTime }}ms {{ easing }}')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmToastComponent extends Toast {
   action(event: Event) {

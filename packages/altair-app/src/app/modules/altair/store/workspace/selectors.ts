@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { capitalize } from '../../utils';
-import { getTeams } from '../account/selectors';
+import { selectTeams } from '../account/selectors';
 
 export interface WorkspaceOption {
   id: string;
@@ -17,7 +17,7 @@ export const selectWorkspaceList = createSelector(
 );
 export const getWorkspaces = createSelector(
   selectWorkspaceList,
-  getTeams,
+  selectTeams,
   (workspaces, teams): WorkspaceOption[] => {
     const defaultWorkspacesOptions = [
       {

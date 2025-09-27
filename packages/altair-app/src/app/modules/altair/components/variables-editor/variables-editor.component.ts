@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { IDictionary } from '../../interfaces/shared';
@@ -23,6 +24,7 @@ export const VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME = 'app-variables-editor';
   selector: VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME,
   templateUrl: './variables-editor.component.html',
   styleUrls: ['./variables-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() variables = '';

@@ -1,10 +1,17 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-authorization-bearer',
   templateUrl: './authorization-bearer.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationBearerComponent implements OnInit {
   bearerForm = this.formBuilder.group({

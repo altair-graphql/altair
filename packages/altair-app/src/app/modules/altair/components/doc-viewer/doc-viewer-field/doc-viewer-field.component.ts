@@ -33,8 +33,6 @@ export class DocViewerFieldComponent {
   @Output() addToEditorChange = new EventEmitter();
   @Output() sortFieldsByChange = new EventEmitter();
 
-  constructor() {}
-
   cleanName(name: string) {
     return name.replace(/[[\]!]/g, '');
   }

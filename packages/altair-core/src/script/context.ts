@@ -8,6 +8,7 @@ import {
   ScriptContextResponse,
 } from './types';
 import { get, set } from 'object-path';
+import { v4 as uuid } from 'uuid';
 
 export const ModuleImports: ModuleImportsMap = {
   atob: {
@@ -97,6 +98,7 @@ export const getGlobalContext = (
     log: (d) => {
       data.requestScriptLogs = data.requestScriptLogs ?? [];
       data.requestScriptLogs.push({
+        id: uuid(),
         time: Date.now(),
         text: JSON.stringify(d, null, 2),
         source: 'Request script',

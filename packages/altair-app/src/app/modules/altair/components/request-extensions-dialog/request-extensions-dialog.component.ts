@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
 
@@ -6,6 +12,7 @@ import { Extension } from '@codemirror/state';
   selector: 'app-request-extensions-dialog',
   templateUrl: './request-extensions-dialog.component.html',
   styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestExtensionsDialogComponent {
   @Input() data = '';

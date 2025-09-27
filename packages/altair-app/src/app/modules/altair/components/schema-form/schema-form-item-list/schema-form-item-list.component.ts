@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import {
   getSchemaFormProperty,
@@ -10,6 +16,7 @@ import { JSONSchema6 } from 'json-schema';
   selector: 'app-schema-form-item-list',
   templateUrl: './schema-form-item-list.component.html',
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchemaFormItemListComponent {
   @Input() item?: SchemaFormProperty;
