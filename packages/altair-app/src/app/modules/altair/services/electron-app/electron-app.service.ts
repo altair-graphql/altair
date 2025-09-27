@@ -74,7 +74,7 @@ export class ElectronAppService {
         this.api?.actions.updateInteropActiveWindowIdState(activeWindowId);
       });
 
-    // TODO: Consider splitting up to only send diffs instead of whole state
+    // TODO: Consider splitting up to only send diffs instead of whole state. Maybe use an effects class to listen to specific changes and send only those.
     this.store
       .select((state): InteropAppState => {
         const interopState: InteropAppState = {
