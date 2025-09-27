@@ -1,18 +1,7 @@
-import {
-  throwError as observableThrowError,
-  Observable,
-  of,
-  throwError,
-} from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { map, catchError, switchMap, toArray } from 'rxjs/operators';
-import {
-  HttpHeaders,
-  HttpClient,
-  HttpResponse,
-  HttpParams,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import {
@@ -39,8 +28,8 @@ import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchem
 import { debug } from '../../utils/logger';
 
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';
-import { isElectronApp, parseJson, setByDotNotation } from '../../utils';
-import { IDictionary, Omit } from '../../interfaces/shared';
+import { isElectronApp, parseJson } from '../../utils';
+import { Omit } from '../../interfaces/shared';
 import {
   refactorFieldsWithFragmentSpread,
   generateTypeUsageEntries,
@@ -54,7 +43,6 @@ import { FileVariable } from 'altair-graphql-core/build/types/state/variable.int
 import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
-import { ElectronAppService } from '../electron-app/electron-app.service';
 import {
   ALTAIR_WINDOW_ID_HEADER,
   ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
@@ -103,13 +91,6 @@ interface IntrospectionRequestOptions
   specifiedByUrl?: boolean;
 }
 
-interface GraphQLRequestData {
-  query: string;
-  variables: Record<string, unknown>;
-  operationName?: SelectedOperation;
-  extensions?: Record<string, unknown>;
-}
-
 @Injectable()
 export class GqlService {
   defaultHeaders = {
@@ -122,89 +103,8 @@ export class GqlService {
 
   constructor(
     private http: HttpClient,
-    private notifyService: NotifyService,
-    private electronAppService: ElectronAppService
-  ) {
-    // Set the default headers on initialization
-    this.setHeaders();
-  }
-
-  // TODO: Delete this method
-  /**
-   * @deprecated use {@link sendRequestV2} instead
-   */
-  sendRequest(opts: SendRequestOptions): Observable<SendRequestResponse> {
-    // Only need resolvedFiles to know if valid files exist at this point
-    const { resolvedFiles } = this.normalizeFiles(opts.files);
-
-    // Skip json default headers for files
-    this.setHeaders(opts.headers, {
-      skipDefaults: this.isGETRequest(opts.method) || !!resolvedFiles.length,
-    });
-
-    const requestStartTime = new Date().getTime();
-    return this._send(opts).pipe(
-      map((response) => {
-        const requestEndTime = new Date().getTime();
-        const requestElapsedTime = requestEndTime - requestStartTime;
-
-        return {
-          ok: response.ok,
-          body: response.body,
-          status: response.status,
-          statusText: response.statusText,
-          url: response.url ?? '',
-          requestStartTime,
-          requestEndTime,
-          responseTime: requestElapsedTime,
-          headers: response.headers
-            .keys()
-            .reduce(
-              (acc, key) => ({ ...acc, [key]: response.headers.get(key) }),
-              {}
-            ),
-        };
-      })
-    );
-  }
-
-  private isGETRequest(method: string) {
-    return method.toLowerCase() === 'get';
-  }
-
-  setHeaders(headers: HeaderState = [], opts = { skipDefaults: false }) {
-    let newHeaders = new HttpHeaders();
-    if (!opts.skipDefaults) {
-      newHeaders = new HttpHeaders(this.defaultHeaders);
-    }
-
-    if (headers?.length) {
-      headers.forEach((header) => {
-        if (
-          !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
-          header.enabled &&
-          header.key &&
-          header.value
-        ) {
-          newHeaders = newHeaders.set(header.key, header.value);
-        }
-      });
-    }
-
-    this.headers = newHeaders;
-    return this;
-  }
-
-  getParamsFromData(data: IDictionary) {
-    return Object.keys(data).reduce((params, key) => {
-      let value = data[key];
-      if (value) {
-        value = typeof value === 'object' ? JSON.stringify(value) : value;
-        params = params.set(key, value);
-      }
-      return params;
-    }, new HttpParams());
-  }
+    private notifyService: NotifyService
+  ) {}
 
   getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     return this._getIntrospectionRequest(opts).pipe(
@@ -700,158 +600,6 @@ export class GqlService {
     });
 
     return { resolvedFiles, erroneousFiles };
-  }
-
-  /**
-   * Send request and return the response object
-   * @param query
-   * @param vars
-   */
-  private _send({
-    url,
-    method,
-    query,
-    variables,
-    extensions,
-    selectedOperation,
-    files,
-    withCredentials,
-    batchedRequest,
-  }: SendRequestOptions) {
-    const data: GraphQLRequestData = {
-      query,
-      variables: {},
-      operationName: null as SelectedOperation,
-    };
-    let body: FormData | string | undefined;
-    let params: HttpParams | undefined;
-    const headers = this.headers;
-
-    if (selectedOperation) {
-      data.operationName = selectedOperation;
-    }
-
-    // If there is a variables option, add it to the data
-    if (variables) {
-      try {
-        data.variables = JSON.parse(variables);
-      } catch (err) {
-        // Notify the user about badly written variables.
-        debug.error(err);
-        return observableThrowError(err);
-      }
-    }
-
-    // if there is an extensions option, add it to the data
-    if (extensions) {
-      try {
-        data.extensions = JSON.parse(extensions);
-      } catch (err) {
-        // Notify the user about badly written extensions.
-        debug.error(err);
-        this.notifyService.error('Your request extensions is not valid JSON');
-        return observableThrowError(err);
-      }
-    }
-
-    if (!this.isGETRequest(method)) {
-      const { resolvedFiles } = this.normalizeFiles(files);
-      if (resolvedFiles && resolvedFiles.length) {
-        // https://github.com/jaydenseric/graphql-multipart-request-spec#multipart-form-field-structure
-        const fileMap: IDictionary<string[]> = {};
-        data.variables = data.variables || {};
-        resolvedFiles.forEach((file, i) => {
-          setByDotNotation(data.variables, file.name, null);
-          fileMap[i] = [`variables.${file.name}`];
-        });
-        const formData = new FormData();
-        formData.append('operations', JSON.stringify(data));
-        formData.append('map', JSON.stringify(fileMap));
-        resolvedFiles.forEach((file, i) => {
-          formData.append(`${i}`, file.data || '');
-        });
-
-        body = formData;
-      } else {
-        // Handle batched requests
-        if (batchedRequest) {
-          const operations = this.getOperations(data.query);
-          if (operations.length > 1) {
-            const operationQueries = operations.map((operation) => {
-              const operationName = operation.name?.value;
-              const operationQuery = print(operation);
-              const operationVariables = data.variables;
-              const operationExtensions = data.extensions;
-
-              return {
-                operationName,
-                query: operationQuery,
-                variables: operationVariables,
-                extensions: operationExtensions,
-              };
-            });
-
-            body = JSON.stringify(operationQueries);
-          }
-        }
-        body ??= JSON.stringify(data);
-      }
-    } else {
-      params = this.getParamsFromData(data);
-    }
-    if (!url) {
-      throw new Error('You need to have a URL for the request!');
-    }
-    return this.http
-      .request(method, url, {
-        // GET method uses params, while the other methods use body
-        ...(!this.isGETRequest(method) && { body }),
-        params,
-        headers,
-        observe: 'response',
-        withCredentials,
-        // returning text instead of transforming to JSON automatically.
-        // Will instead transform to JSON manually to support bigint
-        responseType: 'text',
-      })
-      .pipe(
-        map((res) => {
-          if (res.body) {
-            return res.clone({ body: parseJson(res.body, res.body) });
-          }
-
-          return res;
-        }),
-        catchError((err: HttpErrorResponse) => {
-          debug.error(err);
-          if (err.error instanceof ErrorEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
-            debug.error('An error occurred:', err.error.message);
-          } else if (err.error instanceof ProgressEvent) {
-            debug.error('Progress event error', err.error);
-          } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong,
-            debug.error(err.error);
-            debug.error(
-              `Backend returned code ${err.status}, ` + `body was: ${err.error}`
-            );
-
-            const body = err.error || err.message;
-
-            return of(
-              new HttpResponse({
-                body: parseJson(body, body),
-                headers: err.headers,
-                status: err.status,
-                statusText: err.statusText,
-                url: err.url || undefined,
-              })
-            );
-          }
-          return observableThrowError(err);
-        })
-      );
   }
 
   sendRequestV2({

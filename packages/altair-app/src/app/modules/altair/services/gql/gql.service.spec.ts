@@ -131,98 +131,6 @@ describe('GqlService', () => {
     ));
   });
 
-  describe('.sendRequest()', () => {
-    it('should call HttpClient with expected parameters', inject(
-      [GqlService],
-      (service: GqlService) => {
-        service.sendRequest({
-          url: 'http://test.com',
-          method: 'post',
-          query: '{}',
-          extensions: '{}',
-          additionalParams: '',
-        });
-        expect(mockHttpClient.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
-        expect(httpClientArgs[0]).toBe('post');
-        expect(httpClientArgs[1]).toBe('http://test.com');
-        const httpConfigArg = httpClientArgs[2];
-        expect(JSON.parse(httpConfigArg.body)).toEqual({
-          query: '{}',
-          variables: {},
-          extensions: {},
-          operationName: null,
-        });
-        expect(httpConfigArg.headers.get('Content-Type')).toBe('application/json');
-      }
-    ));
-
-    it('should call HttpClient with correct content type when file is included', inject(
-      [GqlService],
-      (service: GqlService) => {
-        service.sendRequest({
-          url: 'http://test.com',
-          method: 'post',
-          query: '{}',
-          files: [
-            {
-              name: 'file1',
-              data: new File([], 'file1'),
-            },
-            {
-              name: 'file2',
-              data: new File([], 'file2'),
-            },
-          ],
-          additionalParams: '',
-        });
-        expect(mockHttpClient.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
-        expect(httpClientArgs[0]).toBe('post');
-        expect(httpClientArgs[1]).toBe('http://test.com');
-        const httpConfigArg = httpClientArgs[2];
-        expect(httpConfigArg.body).toEqual(expect.any(FormData));
-        expect(httpConfigArg.headers.get('Content-Type')).toBeFalsy();
-        expect(JSON.parse(httpConfigArg.body.get('operations'))).toEqual({
-          query: '{}',
-          variables: {
-            file1: null,
-            file2: null,
-          },
-          operationName: null,
-        });
-      }
-    ));
-
-    it('should call HttpClient with default json content type if file passed to it is not valid', inject(
-      [GqlService],
-      (service: GqlService) => {
-        service.sendRequest({
-          url: 'http://test.com',
-          method: 'post',
-          query: '{}',
-          files: [
-            {
-              name: 'file1',
-            },
-          ],
-          additionalParams: '',
-        });
-        expect(mockHttpClient.request).toHaveBeenCalled();
-        const httpClientArgs = (mockHttpClient.request as any).mock.calls[0];
-        expect(httpClientArgs[0]).toBe('post');
-        expect(httpClientArgs[1]).toBe('http://test.com');
-        const httpConfigArg = httpClientArgs[2];
-        expect(httpConfigArg.headers.get('Content-Type')).toBe('application/json');
-        expect(JSON.parse(httpConfigArg.body)).toEqual({
-          query: '{}',
-          variables: {},
-          operationName: null,
-        });
-      }
-    ));
-  });
-
   describe('.getIntrospectionRequest()', () => {
     it('should return introspection data', inject(
       [GqlService],
@@ -269,6 +177,7 @@ describe('GqlService', () => {
             method: 'GET',
             additionalParams: '',
             handler: mockRequestHandler,
+            windowId: 'window-id',
           })
           .pipe(take(1))
           .toPromise();
@@ -332,6 +241,7 @@ describe('GqlService', () => {
             method: 'GET',
             additionalParams: '',
             handler: mockRequestHandler,
+            windowId: 'window-id',
           })
           .pipe(take(1))
           .toPromise();
@@ -383,6 +293,7 @@ describe('GqlService', () => {
             .getIntrospectionRequest({
               url: 'http://test.com',
               method: 'GET',
+              windowId: 'window-id',
             })
             .pipe(take(1))
             .toPromise();
@@ -391,72 +302,6 @@ describe('GqlService', () => {
         } catch (err) {
           expect(true).toBe(true);
         }
-      }
-    ));
-  });
-
-  describe('.setHeaders()', () => {
-    it('should set headers with default headers', inject(
-      [GqlService],
-      async (service: GqlService) => {
-        service.setHeaders();
-
-        const headers = service.headers;
-
-        expect(headers.get('Content-Type')).toBe('application/json');
-        expect(headers.get('Accept')).toBe('application/json');
-      }
-    ));
-
-    it('should set only enabled headers with default headers', inject(
-      [GqlService],
-      async (service: GqlService) => {
-        service.setHeaders([
-          { key: 'x-header-1', value: 'Header 1', enabled: true },
-          { key: 'x-header-2', value: 'Header 2', enabled: false },
-          { key: 'x-header-3', value: 'Header 3', enabled: true },
-        ]);
-
-        const headers = service.headers;
-
-        expect(headers.get('Content-Type')).toBe('application/json');
-        expect(headers.get('Accept')).toBe('application/json');
-        expect(headers.get('x-header-1')).toBe('Header 1');
-        expect(headers.get('x-header-2')).toBe(null);
-        expect(headers.get('x-header-3')).toBe('Header 3');
-      }
-    ));
-
-    it('should NOT set forbidden headers', inject(
-      [GqlService],
-      async (service: GqlService) => {
-        service.setHeaders([
-          { key: 'Origin', value: 'http://mysite.com', enabled: true },
-        ]);
-
-        const headers = service.headers;
-
-        expect(headers.get('Origin')).toBe(null);
-      }
-    ));
-
-    it('should NOT merge default headers is skipDefault is true', inject(
-      [GqlService],
-      async (service: GqlService) => {
-        service.setHeaders(
-          [
-            { key: 'x-header-1', value: 'Header 1', enabled: true },
-            { key: 'x-header-3', value: 'Header 3', enabled: true },
-          ],
-          { skipDefaults: true }
-        );
-
-        const headers = service.headers;
-
-        expect(headers.get('Content-Type')).toBe(null);
-        expect(headers.get('Accept')).toBe(null);
-        expect(headers.get('x-header-1')).toBe('Header 1');
-        expect(headers.get('x-header-3')).toBe('Header 3');
       }
     ));
   });
