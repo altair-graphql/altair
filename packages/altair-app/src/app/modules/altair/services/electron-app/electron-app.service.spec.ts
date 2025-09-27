@@ -1,13 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ElectronAppService } from './electron-app.service';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { WindowService, DbService, NotifyService, StorageService } from '..';
 import { EMPTY } from 'rxjs';
 import { GqlService } from '../gql/gql.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MockProvider } from 'ng-mocks';
-import { mock } from '../../../../../testing';
+import { mock, mockStoreFactory } from '../../../../../testing';
 
 describe('ElectronAppService', () => {
   beforeEach(() => {
@@ -30,12 +30,7 @@ describe('ElectronAppService', () => {
         GqlService,
         {
           provide: Store,
-          useValue: {
-            subscribe: () => {},
-            select: () => [],
-            map: () => EMPTY,
-            dispatch: () => {},
-          },
+          useValue: mockStoreFactory(),
         },
         provideHttpClient(withInterceptorsFromDi()),
       ],
