@@ -2,6 +2,7 @@ import {
   Directive,
   EmbeddedViewRef,
   Input,
+  OnDestroy,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -9,7 +10,7 @@ import {
 @Directive({
   selector: '[appCachedIf]',
 })
-export class CachedIfDirective {
+export class CachedIfDirective implements OnDestroy {
   private hasView = false;
   private cachedViewRef?: EmbeddedViewRef<unknown>;
 
@@ -39,5 +40,11 @@ export class CachedIfDirective {
       }
     }
     this.hasView = val;
+  }
+  ngOnDestroy(): void {
+    if (this.cachedViewRef) {
+      this.cachedViewRef.destroy();
+      this.cachedViewRef = undefined;
+    }
   }
 }

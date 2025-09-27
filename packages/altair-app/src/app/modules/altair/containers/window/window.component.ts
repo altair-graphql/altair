@@ -2,6 +2,7 @@ import {
   catchError,
   distinctUntilChanged,
   map,
+  shareReplay,
   switchMap,
   take,
   withLatestFrom,
@@ -187,15 +188,16 @@ export class WindowComponent implements OnInit {
       select((state) => state.windowsMeta.activeWindowId)
     );
 
-    this.windowState$ = this.store.pipe(
-      withLatestFrom(this.windowId$),
+    this.windowState$ = this.windowId$.pipe(
       distinctUntilChanged(),
-      map(([state, windowId]) => {
-        return (
-          fromRoot.selectWindowState(windowId)(state) ??
-          fromRoot.getInitialPerWindowState()
-        );
-      })
+      switchMap((windowId) =>
+        this.store.pipe(
+          select(fromRoot.selectWindowState(windowId)),
+          distinctUntilChanged(),
+          map((state) => state ?? fromRoot.getInitialPerWindowState())
+        )
+      ),
+      shareReplay(1)
     );
 
     this.query$ = this.windowState$.pipe(select(fromRoot.getQueryState));

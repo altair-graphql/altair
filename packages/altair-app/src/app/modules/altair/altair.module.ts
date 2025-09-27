@@ -159,9 +159,7 @@ const providers = [
       WorkspaceEffects,
       ElectronEffects,
     ]),
-    StoreDevtoolsModule.instrument({
-      logOnly: environment.production,
-    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
