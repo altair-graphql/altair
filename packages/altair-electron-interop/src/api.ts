@@ -1,8 +1,8 @@
-import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { ipcRenderer } from 'electron';
 import { IPC_EVENT_NAMES, STORE_EVENTS } from './constants';
 import { SETTINGS_STORE_EVENTS } from './settings';
+import { InteropAppState } from './types';
 
 const decodeError = (errObj: {
   name: string;
@@ -117,12 +117,6 @@ export const electronApi = {
     restartApp() {
       return ipcRenderer.send(IPC_EVENT_NAMES.RENDERER_RESTART_APP);
     },
-    setHeaderSync(headers: HeaderState) {
-      return ipcRenderer.sendSync(
-        IPC_EVENT_NAMES.RENDERER_SET_HEADERS_SYNC,
-        headers
-      );
-    },
     getAuthToken() {
       return invokeWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN);
     },
@@ -131,6 +125,31 @@ export const electronApi = {
     },
     saveAutobackupData(data: string) {
       return ipcRenderer.send(IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA, data);
+    },
+    updateInteropState(state: InteropAppState) {
+      return ipcRenderer.send(IPC_EVENT_NAMES.RENDERER_SET_INTEROP_APP_STATE, state);
+    },
+    updateInteropWindowState(
+      windowId: string,
+      state: Partial<InteropAppState['windows'][string]>
+    ) {
+      return ipcRenderer.send(
+        IPC_EVENT_NAMES.RENDERER_SET_INTEROP_WINDOW_STATE,
+        windowId,
+        state
+      );
+    },
+    updateInteropActiveWindowIdState(windowId: string) {
+      return ipcRenderer.send(
+        IPC_EVENT_NAMES.RENDERER_SET_INTEROP_ACTIVE_WINDOW_ID_STATE,
+        windowId
+      );
+    },
+    removeInteropWindowState(windowId: string) {
+      return ipcRenderer.send(
+        IPC_EVENT_NAMES.RENDERER_REMOVE_INTEROP_WINDOW_STATE,
+        windowId
+      );
     },
 
     getAltairAppSettingsFromFile(): Promise<SettingsState | undefined> {

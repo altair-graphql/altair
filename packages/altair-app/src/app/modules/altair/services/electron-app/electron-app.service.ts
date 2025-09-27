@@ -1,4 +1,4 @@
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { init } from '@sentry/electron/renderer';
@@ -17,11 +17,14 @@ import {
 } from '../../store/async-storage-sync';
 import { StorageService } from '../storage/storage.service';
 import { downloadData, isElectronApp } from '../../utils';
+import { getShowDocs } from '../../store/docs/selectors';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { electronAPI } from '@altairgraphql/electron-interop/build/renderer';
+import {
+  electronAPI,
+  InteropAppState,
+} from '@altairgraphql/electron-interop/build/renderer';
 import { environment } from 'environments/environment';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
@@ -51,7 +54,6 @@ const BACKUP_INTERVAL_MINUTES = 60;
   providedIn: 'root',
 })
 export class ElectronAppService {
-  windowIds: string[] = [];
   activeWindowId = '';
 
   private api = electronAPI;
@@ -64,10 +66,38 @@ export class ElectronAppService {
     private storageService: StorageService,
     private zone: NgZone
   ) {
-    this.store.subscribe((data) => {
-      this.windowIds = Object.keys(data.windows);
-      this.activeWindowId = data.windowsMeta.activeWindowId;
-    });
+    this.store
+      .select((state) => state.windowsMeta.activeWindowId)
+      .pipe(distinctUntilChanged())
+      .subscribe((activeWindowId) => {
+        this.activeWindowId = activeWindowId;
+        this.api?.actions.updateInteropActiveWindowIdState(activeWindowId);
+      });
+
+    // TODO: Consider splitting up to only send diffs instead of whole state
+    this.store
+      .select((state): InteropAppState => {
+        const interopState: InteropAppState = {
+          windows: {},
+          activeWindowId: state.windowsMeta.activeWindowId,
+        };
+        Object.keys(state.windows).forEach((windowId) => {
+          const window = state.windows[windowId];
+          if (!window) {
+            return;
+          }
+          interopState.windows[windowId] = {
+            windowId,
+            headers: window.headers,
+            showDocs: getShowDocs(window),
+          };
+        });
+        return interopState;
+      })
+      .pipe(distinctUntilChanged())
+      .subscribe((interopAppState) => {
+        this.api?.actions.updateInteropState(interopAppState);
+      });
 
     // subscribe to storage changes
     this.storageService.changes().subscribe(async () => {
@@ -241,12 +271,6 @@ export class ElectronAppService {
         opts
       );
     });
-  }
-
-  setHeaders(headers: HeaderState) {
-    if (isElectronApp() && this.api) {
-      this.api.actions.setHeaderSync(headers);
-    }
   }
 
   isElectronApp() {

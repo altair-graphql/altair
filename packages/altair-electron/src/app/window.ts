@@ -31,8 +31,9 @@ import {
   ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
   ALTAIR_CUSTOM_PROTOCOL,
   SETTINGS_STORE_EVENTS,
+  InteropAppState,
+  ALTAIR_WINDOW_ID_HEADER,
 } from '@altairgraphql/electron-interop';
-import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import validateAppSettings from 'altair-graphql-core/build/typegen/validate-settings';
 import { error, log } from '../utils/log';
 import { ElectronApp } from './index';
@@ -43,19 +44,20 @@ import {
 } from '../settings/main/store';
 import { cspAsString } from '../utils/csp';
 import { SENTRY_CSP_REPORT_URI } from '../constants';
+import { InteropStateManager } from '../interop-state-manager';
 
 export class WindowManager {
   private instance?: BrowserWindow;
 
   mainWindowState?: windowStateKeeper.State;
 
-  requestHeaders: Record<string, string> = {};
-
   actionManager?: ActionManager;
 
   menuManager?: MenuManager;
 
   touchbarManager?: TouchbarManager;
+
+  interopStateManager?: InteropStateManager;
 
   private ipcEventsInitialized = false;
   private sessionEventsInitialized = false;
@@ -112,11 +114,16 @@ export class WindowManager {
     // and restore the maximized or full screen state
     this.mainWindowState.manage(this.instance);
 
+    this.interopStateManager = new InteropStateManager();
+
     // Populate the application menu
     this.actionManager = new ActionManager(this);
     this.menuManager = new MenuManager(this.actionManager);
     // Set the touchbar
-    this.touchbarManager = new TouchbarManager(this.actionManager);
+    this.touchbarManager = new TouchbarManager(
+      this.actionManager,
+      this.interopStateManager
+    );
     this.instance.setTouchBar(this.touchbarManager.createTouchBar());
 
     // and load the index.html of the app.
@@ -163,28 +170,6 @@ export class WindowManager {
       app.exit();
     });
 
-    // Get 'set headers' instruction from app
-    ipcMain.on(
-      IPC_EVENT_NAMES.RENDERER_SET_HEADERS_SYNC,
-      (e, headers: HeaderState) => {
-        this.requestHeaders = {};
-
-        headers.forEach((header) => {
-          const normalizedKey = header.key.toLowerCase();
-          if (
-            ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(normalizedKey) &&
-            header.key &&
-            header.value &&
-            header.enabled
-          ) {
-            this.requestHeaders[normalizedKey] = header.value;
-          }
-        });
-
-        e.returnValue = true;
-      }
-    );
-
     ipcMain.handle('reload-window', (e) => {
       e.sender.reload();
     });
@@ -192,6 +177,13 @@ export class WindowManager {
     ipcMain.on(IPC_EVENT_NAMES.RENDERER_SAVE_AUTOBACKUP_DATA, (e, data: string) => {
       setAutobackup(data);
     });
+
+    ipcMain.on(
+      IPC_EVENT_NAMES.RENDERER_SET_INTEROP_APP_STATE,
+      (e, interopAppState: InteropAppState) => {
+        this.interopStateManager?.setState(interopAppState);
+      }
+    );
 
     handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async (e) => {
       if (!e.sender || e.sender !== this.instance?.webContents) {
@@ -265,11 +257,27 @@ export class WindowManager {
       details.requestHeaders.Origin = 'electron://altair';
 
       // log(this.requestHeaders);
-      // log('sending headers', details.requestHeaders);
+      log('sending headers', details.requestHeaders);
       // Set the request headers
-      Object.entries(this.requestHeaders).forEach(([key, header]) => {
-        details.requestHeaders[key] = header;
+      const windowId =
+        details.requestHeaders[ALTAIR_WINDOW_ID_HEADER] ??
+        this.interopStateManager?.getState().activeWindowId ??
+        '';
+      const headers =
+        this.interopStateManager?.getWindowState(windowId)?.headers ?? [];
+      // Remove the altair window id header before sending the request
+      delete details.requestHeaders[ALTAIR_WINDOW_ID_HEADER];
+      headers.forEach((header) => {
+        if (
+          ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
+          header.enabled &&
+          header.key &&
+          header.value
+        ) {
+          details.requestHeaders[header.key] = header.value;
+        }
       });
+      log('Final request headers', details.requestHeaders);
       callback({
         cancel: false,
         requestHeaders: details.requestHeaders,

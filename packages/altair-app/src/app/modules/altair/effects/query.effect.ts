@@ -270,6 +270,7 @@ export class QueryEffects {
                   additionalParams: isSubscriptionQuery
                     ? subscriptionConnectionParams
                     : requestHandlerAdditionalParams,
+                  windowId: response.windowId,
                 })
                 .pipe(
                   switchMap((res) => {
@@ -361,8 +362,9 @@ export class QueryEffects {
                   takeUntil(
                     this.actions$.pipe(
                       ofType(queryActions.CANCEL_QUERY_REQUEST),
-                      filter((action: queryActions.CancelQueryRequestAction) => 
-                        action.windowId === response.windowId
+                      filter(
+                        (action: queryActions.CancelQueryRequestAction) =>
+                          action.windowId === response.windowId
                       )
                     )
                   ),
@@ -611,6 +613,7 @@ export class QueryEffects {
                     response.state.settings['request.withCredentials'],
                   handler,
                   additionalParams: requestHandlerAdditionalParams,
+                  windowId: response.windowId,
                   descriptions:
                     response.state.settings['introspection.options.description'],
                   specifiedByUrl:
