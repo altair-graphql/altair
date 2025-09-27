@@ -1,4 +1,4 @@
-import { take, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { take, distinctUntilChanged, map } from 'rxjs/operators';
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { init } from '@sentry/electron/renderer';
@@ -10,7 +10,7 @@ import * as docsActions from '../../store/docs/docs.action';
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 import * as windowsActions from '../../store/windows/windows.action';
 import { getShowDocs } from '../../store/docs/selectors';
-import { selectWindowState } from '../../store/windows/selectors';
+import { getActiveWindowState } from '../../store/windows/selectors';
 import { debug } from '../../utils/logger';
 import { ObjectLocalStorage } from '../../utils/object-local-storage';
 import {
@@ -85,21 +85,15 @@ export class ElectronAppService {
 
     // subscribe to docs state changes for the active window
     this.store
-      .select((state) => ({
-        activeWindowId: state.windowsMeta.activeWindowId,
-        windows: state.windows,
-      }))
+      .select(getActiveWindowState)
       .pipe(
-        map(({ activeWindowId, windows }) => {
-          const activeWindow = windows[activeWindowId];
+        map((activeWindow) => {
           return activeWindow ? getShowDocs(activeWindow) : false;
         }),
         distinctUntilChanged()
       )
       .subscribe((docsVisible) => {
-        if (isElectronApp() && this.api) {
-          this.api.actions.setDocsStateChanged(docsVisible);
-        }
+        this.api?.actions.setDocsStateChanged(docsVisible);
       });
   }
 
