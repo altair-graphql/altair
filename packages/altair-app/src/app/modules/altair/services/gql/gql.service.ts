@@ -607,7 +607,7 @@ export class GqlService {
     method,
     query,
     variables,
-    headers,
+    headers = [],
     extensions,
     selectedOperation,
     files,
@@ -634,18 +634,17 @@ export class GqlService {
               header.value
             );
           });
-
-          if (isElectronApp()) {
-            // Set window id header for electron app
-            headers = [
-              ...headers,
-              {
-                key: ALTAIR_WINDOW_ID_HEADER,
-                value: windowId,
-                enabled: true,
-              },
-            ];
-          }
+        }
+        if (isElectronApp()) {
+          // Set window id header for electron app
+          headers = [
+            ...headers,
+            {
+              key: ALTAIR_WINDOW_ID_HEADER,
+              value: windowId,
+              enabled: true,
+            },
+          ];
         }
 
         // valiate variables
