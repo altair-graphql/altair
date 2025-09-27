@@ -261,10 +261,10 @@ export class WindowManager {
       // Set the request headers
       const windowId =
         details.requestHeaders[ALTAIR_WINDOW_ID_HEADER] ??
-        this.interopStateManager?.getState().activeWindowId ??
-        '';
-      const headers =
-        this.interopStateManager?.getWindowState(windowId)?.headers ?? [];
+        this.interopStateManager?.getState().activeWindowId;
+      const headers = windowId
+        ? this.interopStateManager?.getWindowState(windowId)?.headers ?? []
+        : [];
       // Remove the altair window id header before sending the request
       delete details.requestHeaders[ALTAIR_WINDOW_ID_HEADER];
       headers.forEach((header) => {

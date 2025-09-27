@@ -42,12 +42,12 @@ export class InteropStateManager {
 
   asActiveWindowStateObservable(): Observable<InteropAppState['windows'][string]> {
     return this.asObservable().pipe(
-      distinctUntilChanged(),
       map((state) =>
         state.activeWindowId
           ? state.windows[state.activeWindowId] ?? this.defaultWindowState()
           : this.defaultWindowState()
-      )
+      ),
+      distinctUntilChanged()
     );
   }
 
@@ -55,8 +55,8 @@ export class InteropStateManager {
     windowId: string
   ): Observable<InteropAppState['windows'][string]> {
     return this.asObservable().pipe(
-      distinctUntilChanged(),
-      map((state) => state.windows[windowId] ?? this.defaultWindowState())
+      map((state) => state.windows[windowId] ?? this.defaultWindowState()),
+      distinctUntilChanged()
     );
   }
 
