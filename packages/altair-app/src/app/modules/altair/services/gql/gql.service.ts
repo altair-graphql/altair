@@ -39,7 +39,7 @@ import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchem
 import { debug } from '../../utils/logger';
 
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';
-import { parseJson, setByDotNotation } from '../../utils';
+import { isElectronApp, parseJson, setByDotNotation } from '../../utils';
 import { IDictionary, Omit } from '../../interfaces/shared';
 import {
   refactorFieldsWithFragmentSpread,
@@ -55,7 +55,10 @@ import { SelectedOperation } from 'altair-graphql-core/build/types/state/query.i
 import { prettify } from './prettifier';
 import { Position } from '../../utils/editor/helpers';
 import { ElectronAppService } from '../electron-app/electron-app.service';
-import { ELECTRON_ALLOWED_FORBIDDEN_HEADERS } from '@altairgraphql/electron-interop/build/constants';
+import {
+  ALTAIR_WINDOW_ID_HEADER,
+  ELECTRON_ALLOWED_FORBIDDEN_HEADERS,
+} from '@altairgraphql/electron-interop/build/constants';
 import { SendRequestResponse } from 'altair-graphql-core/build/script/types';
 import { HttpRequestHandler } from 'altair-graphql-core/build/request/handlers/http';
 import {
@@ -69,6 +72,7 @@ interface SendRequestOptions {
   url: string;
   query: string;
   method: string;
+  windowId: string;
   withCredentials?: boolean;
   variables?: string;
   extensions?: string;
@@ -91,6 +95,7 @@ interface IntrospectionRequestOptions
     SendRequestOptions,
     'query' | 'batchedRequest' | 'files' | 'selectedOperation'
   > {
+  windowId: string;
   inputValueDeprecation?: boolean;
   descriptions?: boolean;
   directiveIsRepeatable?: boolean;
@@ -124,6 +129,7 @@ export class GqlService {
     this.setHeaders();
   }
 
+  // TODO: Delete this method
   /**
    * @deprecated use {@link sendRequestV2} instead
    */
@@ -173,9 +179,6 @@ export class GqlService {
     }
 
     if (headers?.length) {
-      // For electron app, send the instruction to set headers
-      this.electronAppService.setHeaders(headers);
-
       headers.forEach((header) => {
         if (
           !ELECTRON_ALLOWED_FORBIDDEN_HEADERS.includes(header.key.toLowerCase()) &&
@@ -246,6 +249,7 @@ export class GqlService {
       selectedOperation: 'IntrospectionQuery',
       additionalParams: opts.additionalParams,
       handler: opts.handler,
+      windowId: opts.windowId,
     };
     return this.sendRequestV2(requestOpts).pipe(
       map((data) => {
@@ -862,6 +866,7 @@ export class GqlService {
     withCredentials,
     batchedRequest,
     additionalParams,
+    windowId,
     handler = new HttpRequestHandler(),
   }: SendRequestOptions): Observable<SendRequestResponse> {
     // wrapping the logic to properly handle any errors (both within and outside the observable)
@@ -870,9 +875,6 @@ export class GqlService {
         const { resolvedFiles } = this.normalizeFiles(files);
 
         if (headers?.length) {
-          // For electron app, send the instruction to set headers
-          this.electronAppService.setHeaders(headers);
-
           // Filter out headers that are not allowed
           headers = headers.filter((header) => {
             return (
@@ -884,6 +886,18 @@ export class GqlService {
               header.value
             );
           });
+
+          if (isElectronApp()) {
+            // Set window id header for electron app
+            headers = [
+              ...headers,
+              {
+                key: ALTAIR_WINDOW_ID_HEADER,
+                value: windowId,
+                enabled: true,
+              },
+            ];
+          }
         }
 
         // valiate variables
