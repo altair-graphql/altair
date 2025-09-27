@@ -188,11 +188,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
     }
 
-    if (changes?.query?.currentValue) {
+    if (changes?.query?.currentValue && this.selectedIndex !== 0) {
       // Set current tab to Query if query is updated
-      if (this.selectedIndex !== 0) {
-        this.selectedIndex = 0;
-      }
+      this.selectedIndex = 0;
     }
 
     if (changes?.shortcutMapping?.currentValue) {

@@ -181,3 +181,5 @@ https://www.kickstarter.com/projects/curtisclow/the-wild-cosmos-1-3-a-sci-fi-fan
 - Call service directly instead of using effects?
 - Use memoized `createSelector` functions for selectors
 - Debug with redux devtools to see what actions are being dispatched and how long they take
+- Add better trackBy functions for `*ngFor` directives
+- memoize expensive functions

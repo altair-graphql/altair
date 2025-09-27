@@ -346,10 +346,8 @@ export class QueryEffects {
                       new queryActions.AppendRequestScriptLogsAction(
                         response.windowId,
                         [
-                          ...new Set([
-                            ...(preRequestScriptLogs || []),
-                            ...(result?.transformedData?.requestScriptLogs || []),
-                          ]),
+                          ...(preRequestScriptLogs || []),
+                          ...(result?.transformedData?.requestScriptLogs || []),
                         ]
                       )
                     );
