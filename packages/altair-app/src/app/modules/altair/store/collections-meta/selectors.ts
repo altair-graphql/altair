@@ -20,63 +20,31 @@ export const selectSortedCollections = createSelector(
     switch (sortBy) {
       case 'a-z':
         return collections.sort((a, b) => {
-          const aTitle = a.title.toLowerCase() || a.updated_at;
-          const bTitle = b.title.toLowerCase() || b.updated_at;
+          const aTitle = a.title?.toLowerCase() || '';
+          const bTitle = b.title?.toLowerCase() || '';
 
-          if (aTitle && bTitle) {
-            if (aTitle > bTitle) {
-              return 1;
-            }
-            if (aTitle < bTitle) {
-              return -1;
-            }
-          }
-          return 0;
+          return aTitle.localeCompare(bTitle);
         });
       case 'z-a':
         return collections.sort((a, b) => {
-          const aTitle = a.title.toLowerCase() || a.updated_at;
-          const bTitle = b.title.toLowerCase() || b.updated_at;
+          const aTitle = a.title?.toLowerCase() || '';
+          const bTitle = b.title?.toLowerCase() || '';
 
-          if (aTitle && bTitle) {
-            if (aTitle > bTitle) {
-              return -1;
-            }
-            if (aTitle < bTitle) {
-              return 1;
-            }
-          }
-          return 0;
+          return bTitle.localeCompare(aTitle);
         });
       case 'newest':
         return collections.sort((a, b) => {
-          const aTimeStamp = a.updated_at;
-          const bTimeStamp = b.updated_at;
+          const aTimeStamp = a.updated_at || 0;
+          const bTimeStamp = b.updated_at || 0;
 
-          if (aTimeStamp && bTimeStamp) {
-            if (aTimeStamp > bTimeStamp) {
-              return -1;
-            }
-            if (aTimeStamp < bTimeStamp) {
-              return 1;
-            }
-          }
-          return 0;
+          return bTimeStamp - aTimeStamp; // Newest first (descending)
         });
       case 'oldest':
         return collections.sort((a, b) => {
-          const aTimeStamp = a.updated_at;
-          const bTimeStamp = b.updated_at;
+          const aTimeStamp = a.updated_at || 0;
+          const bTimeStamp = b.updated_at || 0;
 
-          if (aTimeStamp && bTimeStamp) {
-            if (aTimeStamp > bTimeStamp) {
-              return 1;
-            }
-            if (aTimeStamp < bTimeStamp) {
-              return -1;
-            }
-          }
-          return 0;
+          return aTimeStamp - bTimeStamp; // Oldest first (ascending)
         });
       default:
         return collections;

@@ -130,13 +130,19 @@ describe('Collection Sorting End-to-End Behavior', () => {
         id: '1',
         title: '',
         queries: [],
-        updated_at: 1000,
+        updated_at: 2000,
       },
       {
         id: '2',
         title: 'Beta Collection',
         queries: [],
-        updated_at: 2000,
+        updated_at: 1000,
+      },
+      {
+        id: '3',
+        title: undefined as any, // Test undefined title
+        queries: [],
+        updated_at: 3000,
       },
     ];
 
@@ -152,9 +158,53 @@ describe('Collection Sorting End-to-End Behavior', () => {
 
     const sortedCollections = selectSortedCollections(state);
     
-    // Should handle empty title gracefully (falls back to updated_at)
-    expect(sortedCollections).toHaveLength(2);
-    expect(sortedCollections[0].title).toBe(''); // Empty title collection comes first
-    expect(sortedCollections[1].title).toBe('Beta Collection');
+    // Should handle empty/undefined titles gracefully using localeCompare
+    expect(sortedCollections).toHaveLength(3);
+    // Empty string and undefined should come before "Beta Collection"
+    expect(sortedCollections[0].title).toBe(''); // Empty string
+    expect(sortedCollections[1].title).toBeUndefined(); // undefined
+    expect(sortedCollections[2].title).toBe('Beta Collection');
+  });
+
+  it('should handle edge cases like missing updated_at timestamps', () => {
+    const collectionsWithoutTimestamps: IQueryCollection[] = [
+      {
+        id: '1',
+        title: 'Alpha Collection',
+        queries: [],
+        updated_at: undefined as any,
+      },
+      {
+        id: '2',
+        title: 'Beta Collection',
+        queries: [],
+        updated_at: 1000,
+      },
+      {
+        id: '3',
+        title: 'Gamma Collection',
+        queries: [],
+        // updated_at completely missing
+      } as any,
+    ];
+
+    const state: RootState = {
+      collection: {
+        list: collectionsWithoutTimestamps,
+      },
+      collectionsMeta: {
+        collectionsSortBy: 'newest' as any,
+        queriesSortBy: 'newest' as any,
+      },
+    } as RootState;
+
+    const sortedCollections = selectSortedCollections(state);
+    
+    // Should handle missing timestamps gracefully by treating them as 0
+    expect(sortedCollections).toHaveLength(3);
+    expect(sortedCollections[0].title).toBe('Beta Collection'); // updated_at: 1000
+    // Collections with undefined/missing updated_at (treated as 0) should come last
+    expect(['Alpha Collection', 'Gamma Collection']).toContain(sortedCollections[1].title);
+    expect(['Alpha Collection', 'Gamma Collection']).toContain(sortedCollections[2].title);
   });
 });

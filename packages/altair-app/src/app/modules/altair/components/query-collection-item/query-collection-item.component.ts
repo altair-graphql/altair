@@ -136,55 +136,31 @@ export class QueryCollectionItemComponent implements OnChanges {
     switch (sortBy) {
       case 'a-z':
         return queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase() || a.updated_at || '';
-          const bName = b.windowName.toLowerCase() || b.updated_at || '';
+          const aName = a.windowName?.toLowerCase() || '';
+          const bName = b.windowName?.toLowerCase() || '';
 
-          if (aName > bName) {
-            return 1;
-          }
-          if (aName < bName) {
-            return -1;
-          }
-          return 0;
+          return aName.localeCompare(bName);
         });
       case 'z-a':
         return queries.sort((a, b) => {
-          const aName = a.windowName.toLowerCase() || a.updated_at || '';
-          const bName = b.windowName.toLowerCase() || b.updated_at || '';
+          const aName = a.windowName?.toLowerCase() || '';
+          const bName = b.windowName?.toLowerCase() || '';
 
-          if (aName > bName) {
-            return -1;
-          }
-          if (aName < bName) {
-            return 1;
-          }
-          return 0;
-        });
-      case 'oldest':
-        return queries.sort((a, b) => {
-          const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
-          const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
-
-          if (aTimeStamp > bTimeStamp) {
-            return -1;
-          }
-          if (aTimeStamp < bTimeStamp) {
-            return 1;
-          }
-          return 0;
+          return bName.localeCompare(aName);
         });
       case 'newest':
         return queries.sort((a, b) => {
-          const aTimeStamp = a.updated_at || a.windowName.toLowerCase();
-          const bTimeStamp = b.updated_at || b.windowName.toLowerCase();
+          const aTimeStamp = a.updated_at || 0;
+          const bTimeStamp = b.updated_at || 0;
 
-          if (aTimeStamp > bTimeStamp) {
-            return 1;
-          }
-          if (aTimeStamp < bTimeStamp) {
-            return -1;
-          }
-          return 0;
+          return bTimeStamp - aTimeStamp; // Newest first (descending)
+        });
+      case 'oldest':
+        return queries.sort((a, b) => {
+          const aTimeStamp = a.updated_at || 0;
+          const bTimeStamp = b.updated_at || 0;
+
+          return aTimeStamp - bTimeStamp; // Oldest first (ascending)
         });
       default:
         return queries;
