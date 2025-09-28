@@ -8,10 +8,6 @@ export const selectCollectionsSortBy = createSelector(
   selectCollectionsMetaState,
   (collectionsMetaState) => collectionsMetaState.collectionsSortBy
 );
-export const selectQueriesSortBy = createSelector(
-  selectCollectionsMetaState,
-  (collectionsMetaState) => collectionsMetaState.queriesSortBy
-);
 export const selectSortedCollections = createSelector(
   selectCollections,
   selectCollectionsSortBy,
@@ -20,31 +16,63 @@ export const selectSortedCollections = createSelector(
     switch (sortBy) {
       case 'a-z':
         return collections.sort((a, b) => {
-          const aTitle = a.title?.toLowerCase() || '';
-          const bTitle = b.title?.toLowerCase() || '';
+          const aTitle = a.title.toLowerCase() || a.updated_at;
+          const bTitle = b.title.toLowerCase() || b.updated_at;
 
-          return aTitle.localeCompare(bTitle);
+          if (aTitle && bTitle) {
+            if (aTitle > bTitle) {
+              return 1;
+            }
+            if (aTitle < bTitle) {
+              return -1;
+            }
+          }
+          return 0;
         });
       case 'z-a':
         return collections.sort((a, b) => {
-          const aTitle = a.title?.toLowerCase() || '';
-          const bTitle = b.title?.toLowerCase() || '';
+          const aTitle = a.title.toLowerCase() || a.updated_at;
+          const bTitle = b.title.toLowerCase() || b.updated_at;
 
-          return bTitle.localeCompare(aTitle);
+          if (aTitle && bTitle) {
+            if (aTitle > bTitle) {
+              return -1;
+            }
+            if (aTitle < bTitle) {
+              return 1;
+            }
+          }
+          return 0;
         });
       case 'newest':
         return collections.sort((a, b) => {
-          const aTimeStamp = a.updated_at || 0;
-          const bTimeStamp = b.updated_at || 0;
+          const aTimeStamp = a.updated_at;
+          const bTimeStamp = b.updated_at;
 
-          return bTimeStamp - aTimeStamp; // Newest first (descending)
+          if (aTimeStamp && bTimeStamp) {
+            if (aTimeStamp > bTimeStamp) {
+              return -1;
+            }
+            if (aTimeStamp < bTimeStamp) {
+              return 1;
+            }
+          }
+          return 0;
         });
       case 'oldest':
         return collections.sort((a, b) => {
-          const aTimeStamp = a.updated_at || 0;
-          const bTimeStamp = b.updated_at || 0;
+          const aTimeStamp = a.updated_at;
+          const bTimeStamp = b.updated_at;
 
-          return aTimeStamp - bTimeStamp; // Oldest first (ascending)
+          if (aTimeStamp && bTimeStamp) {
+            if (aTimeStamp > bTimeStamp) {
+              return 1;
+            }
+            if (aTimeStamp < bTimeStamp) {
+              return -1;
+            }
+          }
+          return 0;
         });
       default:
         return collections;
