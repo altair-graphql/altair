@@ -1,0 +1,71 @@
+<div class="headers-editor">
+  <div class="headers-editor__list">
+    @for (header of headers; track $index; let i = $index) {
+      <div
+        class="headers-editor__list-item"
+        [ngClass]="{
+          'headers-editor__list-item--disabled': !header.enabled,
+        }"
+      >
+        <label
+          nz-checkbox
+          [ngModel]="header.enabled"
+          (ngModelChange)="headerEnabledChange.emit({ index: i, enabled: $event })"
+        ></label>
+        <div class="set-header-input-column">
+          <app-x-input
+            class="input"
+            placeholder="Header key"
+            [ngModel]="header.key"
+            (ngModelChange)="headerKeyChange.emit({ index: i, key: $event })"
+            (submitChange)="doneChange.emit()"
+          ></app-x-input>
+        </div>
+        <div class="set-header-input-column">
+          <app-x-input
+            class="input"
+            placeholder="Header value"
+            [ngModel]="header.value"
+            (ngModelChange)="headerValueChange.emit({ index: i, value: $event })"
+            (submitChange)="doneChange.emit()"
+          ></app-x-input>
+        </div>
+        <button
+          class="header-input-remove-button"
+          (click)="removeHeaderChange.emit(i)"
+        >
+          &times;
+        </button>
+      </div>
+    }
+    <button
+      class="btn btn--full-width"
+      type="button"
+      (click)="addHeaderChange.emit()"
+    >
+      {{ 'ADD_HEADER_TEXT' | translate }}
+    </button>
+  </div>
+  <div class="headers-editor__notices">
+    @if (!isElectron) {
+      <div class="headers__notice">
+        {{ 'HEADERS_FORBIDDEN_NOTICE' | translate }}
+        <a
+          href="https://altairgraphql.dev/docs/learn/web-limitations"
+          target="_blank"
+          rel="noopener"
+          >Learn more</a
+        >
+      </div>
+    }
+    <div class="headers__notice">
+      {{ 'HEADERS_GLOBAL_HEADERS_NOTICE' | translate }}
+      <a
+        href="https://altairgraphql.dev/docs/features/environment-variables#special-environment-variables"
+        target="_blank"
+        rel="noopener"
+        >Learn more</a
+      >
+    </div>
+  </div>
+</div>

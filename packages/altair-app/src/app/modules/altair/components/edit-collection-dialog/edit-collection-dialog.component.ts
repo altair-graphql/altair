@@ -31,6 +31,7 @@ export class EditCollectionDialogComponent implements OnChanges {
   preRequest: PrerequestState = { script: '', enabled: false };
   postRequest: PostrequestState = { script: '', enabled: false };
   headers: HeaderState = [];
+  variables = '{}';
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.collection?.currentValue) {
@@ -43,6 +44,7 @@ export class EditCollectionDialogComponent implements OnChanges {
         enabled: false,
       };
       this.headers = collection.headers || [];
+      this.variables = collection.variables || '{}';
     }
   }
 
@@ -56,6 +58,7 @@ export class EditCollectionDialogComponent implements OnChanges {
       preRequest: this.preRequest,
       postRequest: this.postRequest,
       headers: this.headers,
+      variables: this.variables,
     };
     this.toggleDialogChange.next(false);
     this.updateCollectionChange.next({ collection: collection });
@@ -69,20 +72,20 @@ export class EditCollectionDialogComponent implements OnChanges {
     this.headers = this.headers.filter((_, i) => i !== index);
   }
 
-  updateHeaderKey(index: number, key: string) {
-    this.headers = this.headers.map((header, i) => 
+  updateHeaderKey(key: string, index: number) {
+    this.headers = this.headers.map((header, i) =>
       i === index ? { ...header, key } : header
     );
   }
 
-  updateHeaderValue(index: number, value: string) {
-    this.headers = this.headers.map((header, i) => 
+  updateHeaderValue(value: string, index: number) {
+    this.headers = this.headers.map((header, i) =>
       i === index ? { ...header, value } : header
     );
   }
 
-  updateHeaderEnabled(index: number, enabled: boolean) {
-    this.headers = this.headers.map((header, i) => 
+  updateHeaderEnabled(enabled: boolean, index: number) {
+    this.headers = this.headers.map((header, i) =>
       i === index ? { ...header, enabled } : header
     );
   }

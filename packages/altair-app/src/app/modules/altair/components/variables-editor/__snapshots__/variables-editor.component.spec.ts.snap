@@ -3,7 +3,7 @@
 exports[`VariablesEditorComponent should render correctly 1`] = `
 <app-variables-editor>
   <app-codemirror
-    class="set-variable-textarea mousetrap"
+    class="mousetrap"
   />
   
 </app-variables-editor>

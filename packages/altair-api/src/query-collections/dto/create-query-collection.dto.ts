@@ -60,4 +60,14 @@ export class CreateQueryCollectionDto implements ICreateQueryCollectionDto {
   @IsOptional()
   @ApiProperty()
   postRequestScriptEnabled?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @ApiProperty()
+  headers?: { key: string; value: string; enabled: boolean }[];
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  variables?: string;
 }

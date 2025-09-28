@@ -1,5 +1,6 @@
 import { IRemoteQuery } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
+import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 
 export type IQueryContentDto = Omit<
   CreateDTO<IRemoteQuery>,
@@ -18,6 +19,8 @@ export interface ICreateQueryCollectionDto {
   preRequestScriptEnabled?: boolean;
   postRequestScript?: string;
   postRequestScriptEnabled?: boolean;
+  headers?: HeaderState;
+  variables?: string;
 }
 
 export type IUpdateQueryCollectionDto = Partial<ICreateQueryCollectionDto>;

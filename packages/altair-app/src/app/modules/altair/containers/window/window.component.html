@@ -126,74 +126,19 @@
       </ng-template>
 
       <ng-template #modalContent>
-        <div class="app-dialog-body">
-          @for (
-            header of headers$ | async;
-            track trackByIndex(i, header);
-            let i = $index
-          ) {
-            <div
-              class="set-header-input-container"
-              [ngClass]="{
-                'set-header-input-container--disabled': !header.enabled,
-              }"
-            >
-              <label
-                nz-checkbox
-                [ngModel]="header.enabled"
-                (ngModelChange)="headerEnabledChange($event, i)"
-              ></label>
-              <div class="set-header-input-column">
-                <app-x-input
-                  class="input"
-                  placeholder="Header key"
-                  [ngModel]="header.key"
-                  (ngModelChange)="headerKeyChange($event, i)"
-                  (submitChange)="toggleHeader()"
-                ></app-x-input>
-              </div>
-              <div class="set-header-input-column">
-                <app-x-input
-                  class="input"
-                  placeholder="Header value"
-                  [ngModel]="header.value"
-                  (ngModelChange)="headerValueChange($event, i)"
-                  (submitChange)="toggleHeader()"
-                ></app-x-input>
-              </div>
-              <button class="header-input-remove-button" (click)="removeHeader(i)">
-                &times;
-              </button>
-            </div>
-          }
-          @if (!isElectron) {
-            <div class="headers__notice">
-              {{ 'HEADERS_FORBIDDEN_NOTICE' | translate }}
-              <a
-                href="https://altairgraphql.dev/docs/learn/web-limitations"
-                target="_blank"
-                rel="noopener"
-                >Learn more</a
-              >
-            </div>
-          }
-          <div class="headers__notice">
-            {{ 'HEADERS_GLOBAL_HEADERS_NOTICE' | translate }}
-            <a
-              href="https://altairgraphql.dev/docs/features/environment-variables#special-environment-variables"
-              target="_blank"
-              rel="noopener"
-              >Learn more</a
-            >
-          </div>
-        </div>
+        <app-headers-editor
+          [headers]="headers$ | async"
+          (headerEnabledChange)="headerEnabledChange($event.enabled, $event.index)"
+          (headerKeyChange)="headerKeyChange($event.key, $event.index)"
+          (headerValueChange)="headerValueChange($event.value, $event.index)"
+          (addHeaderChange)="addHeader()"
+          (removeHeaderChange)="removeHeader($event)"
+          (doneChange)="toggleHeader()"
+        />
       </ng-template>
 
       <ng-template #modalFooter>
         <div class="app-dialog-footer">
-          <button track-id="add_header" class="btn left" (click)="addHeader()">
-            {{ 'ADD_HEADER_TEXT' | translate }}
-          </button>
           <button class="btn btn--primary right" (click)="toggleHeader()">
             {{ 'DONE_BUTTON' | translate }}
           </button>

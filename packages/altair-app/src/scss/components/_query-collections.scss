@@ -161,10 +161,8 @@ app-query-collections {
   transition: all 0.3s ease;
 }
 
-.collections-actions-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.query-collections__search-wrapper {
+  padding: 0 10px;
 }
 
 .input.input--small {

@@ -15,7 +15,7 @@ import {
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, switchMap, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { QueryCollectionService } from '../../services';
 import { WorkspaceOption } from '../../store';
 
@@ -66,10 +66,18 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
 
   expandedMap: { [id: string]: boolean } = {};
 
+  showSearch$ = new BehaviorSubject(false);
+
   // Recursively filter collections and their subcollections for matching queries
-  private filterCollectionTree(collection: IQueryCollectionTree, searchTerm: string): (IQueryCollectionTree & { matchesSearch?: boolean }) | null {
+  private filterCollectionTree(
+    collection: IQueryCollectionTree,
+    searchTerm: string
+  ): (IQueryCollectionTree & { matchesSearch?: boolean }) | null {
     const lower = searchTerm.toLowerCase();
-    const filteredQueries = collection.queries?.filter((q: IQuery) => q.windowName?.toLowerCase().includes(lower)) || [];
+    const filteredQueries =
+      collection.queries?.filter((q: IQuery) =>
+        q.windowName?.toLowerCase().includes(lower)
+      ) || [];
     const subcollections = (collection.collections || [])
       .map((sub: IQueryCollectionTree) => this.filterCollectionTree(sub, searchTerm))
       .filter((c): c is IQueryCollectionTree & { matchesSearch?: boolean } => !!c);
@@ -125,7 +133,7 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
     this.loadCollectionsChange.emit();
     this.searchInput$
       .pipe(debounceTime(300))
-      .subscribe(value => this.setSearchTerm(value));
+      .subscribe((value) => this.setSearchTerm(value));
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.collections?.currentValue) {
@@ -134,8 +142,7 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   }
 
   setCollectionTrees(collections: IQueryCollection[]) {
-    this.collectionTrees =
-      this.collectionService.getCollectionTrees(collections);
+    this.collectionTrees = this.collectionService.getCollectionTrees(collections);
   }
 
   trackById<T extends { id: string }>(index: number, collection: T) {

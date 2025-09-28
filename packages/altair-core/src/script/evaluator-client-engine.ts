@@ -6,7 +6,7 @@ import {
   ScriptEvaluatorClientFactory,
   ScriptEvent,
   ScriptEventHandlers,
-  ScriptTranformResult,
+  ScriptTransformResult,
 } from './types';
 
 const DEFAULT_TIMEOUT = 1000 * 60 * 5; // 5 minutes
@@ -29,10 +29,10 @@ export class ScriptEvaluatorClientEngine {
     script: string,
     data: ScriptContextData,
     userAvailableHandlers: ScriptEventHandlers
-  ): Promise<ScriptTranformResult> {
+  ): Promise<ScriptTransformResult> {
     try {
       const engine = await this.getClient();
-      const result = await new Promise<ScriptTranformResult>((resolve, reject) => {
+      const result = await new Promise<ScriptTransformResult>((resolve, reject) => {
         // Handle timeout
         const handle = setTimeout(() => {
           this.killClient();
@@ -46,7 +46,6 @@ export class ScriptEvaluatorClientEngine {
             resolve({
               environment: data.environment,
               requestScriptLogs: data.requestScriptLogs || [],
-              additionalHeaders: [],
             });
           },
           scriptError: (err: Error) => {
@@ -68,7 +67,7 @@ export class ScriptEvaluatorClientEngine {
               } catch (err) {
                 engine.sendError(key, {
                   id,
-                  error: `${(err as any).message ?? err}`,
+                  error: `${(err as unknown as Error).message ?? err}`,
                 });
               }
             })();

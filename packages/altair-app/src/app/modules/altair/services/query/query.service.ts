@@ -13,7 +13,7 @@ import { PreRequestService } from '../pre-request/pre-request.service';
 import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
 import {
   RequestType,
-  ScriptTranformResult,
+  FullTransformResult,
   SendRequestResponse,
 } from 'altair-graphql-core/build/script/types';
 import {
@@ -21,6 +21,8 @@ import {
   WEBSOCKET_HANDLER_ID,
 } from 'altair-graphql-core/build/request/types';
 import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
+import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { parseJson } from '../../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -44,25 +46,13 @@ export class QueryService {
     return this.getWindowState$(windowId).pipe(take(1)).toPromise();
   }
 
-  private getCollectionForWindow(window: PerWindowState) {
-    if (!window.layout.collectionId) {
-      return undefined;
-    }
-
-    // Get current state synchronously
-    let collection;
-    this.store
-      .pipe(
-        select((state: RootState) => 
-          state.collection.list.find(col => col.id === window.layout.collectionId)
-        ),
-        take(1)
-      )
-      .subscribe((col) => {
-        collection = col;
-      });
-
-    return collection;
+  private getDefaultTransformResult(): FullTransformResult {
+    return {
+      headers: [],
+      variables: '',
+      requestScriptLogs: [],
+      environment: {},
+    };
   }
 
   /**
@@ -71,10 +61,10 @@ export class QueryService {
    * @param script
    * @param preTransformedData
    */
-  async getPrerequestScriptTransformedDataForScript(
+  async getPrerequestScriptResultForScript(
     windowId: string,
     script: string,
-    preTransformedData?: ScriptTranformResult
+    preTransformedData: FullTransformResult
   ) {
     const state = await this.getWindowState(windowId);
     if (!state) {
@@ -117,31 +107,70 @@ export class QueryService {
     }
   }
 
+  private getCombinedHeaders(
+    window: PerWindowState,
+    collections: IQueryCollection[]
+  ) {
+    const combinedHeaders = collections.map((c) => c.headers || []).flat();
+    return [...window.headers, ...combinedHeaders];
+  }
+
+  private getCombinedVariables(
+    window: PerWindowState,
+    collections: IQueryCollection[]
+  ) {
+    // validate and merge variables
+    const combinedCollectionVariables = collections
+      .map((c) => c.variables)
+      .filter((v) => v?.trim()) // ignore empty variables
+      .map((v) => parseJson(v ?? '', null))
+      .filter(Boolean) // ignore invalid json
+      .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+
+    const windowVariables = parseJson(window.variables.variables ?? '', null);
+    return JSON.stringify(
+      { ...combinedCollectionVariables, ...windowVariables },
+      null,
+      2
+    );
+  }
+
   async getPrerequestTransformedData(windowId: string) {
     const state = await this.getWindowState(windowId);
-    let preTransformedData: ScriptTranformResult | undefined;
+    let preTransformedData = this.getDefaultTransformResult();
 
-    if (state?.preRequest.enabled) {
-      const collections = await this.getWindowParentCollections(state);
-      const collectionsWithEnabledPrerequests = collections.filter(
-        (collection) => collection.preRequest?.enabled
+    if (!state) {
+      // no state, no transformations
+      return preTransformedData;
+    }
+    const collections = await this.getWindowParentCollections(state);
+
+    // Headers
+    preTransformedData.headers = this.getCombinedHeaders(state, collections);
+
+    // variables
+    preTransformedData.variables = this.getCombinedVariables(state, collections);
+
+    // pre-request scripts
+    const collectionsWithEnabledPrerequests = collections.filter(
+      (collection) => collection.preRequest?.enabled
+    );
+    for (const collection of collectionsWithEnabledPrerequests) {
+      preTransformedData = await this.getPrerequestScriptResultForScript(
+        windowId,
+        collection.preRequest?.script ?? '',
+        preTransformedData
       );
-
-      for (const collection of collectionsWithEnabledPrerequests) {
-        preTransformedData = await this.getPrerequestScriptTransformedDataForScript(
-          windowId,
-          collection.preRequest?.script ?? '',
-          preTransformedData
-        );
-      }
-
-      preTransformedData = await this.getPrerequestScriptTransformedDataForScript(
+    }
+    if (state?.preRequest.enabled) {
+      preTransformedData = await this.getPrerequestScriptResultForScript(
         windowId,
         state.preRequest.script,
         preTransformedData
       );
     }
 
+    // authorization
     if (
       state?.authorization &&
       fromRoot.isAuthorizationEnabled(state.authorization)
@@ -163,12 +192,8 @@ export class QueryService {
           ([key, value]) => ({ key, value, enabled: true })
         );
 
-        preTransformedData = preTransformedData ?? {
-          additionalHeaders: [],
-          requestScriptLogs: [],
-        };
-        preTransformedData.additionalHeaders = [
-          ...(preTransformedData?.additionalHeaders ?? []),
+        preTransformedData.headers = [
+          ...(preTransformedData?.headers ?? []),
           ...authHeaders,
         ];
       }
@@ -182,8 +207,8 @@ export class QueryService {
     script: string,
     requestType: RequestType,
     data: SendRequestResponse,
-    preTransformedData?: ScriptTranformResult
-  ): Promise<ScriptTranformResult | undefined> {
+    preTransformedData: FullTransformResult
+  ): Promise<FullTransformResult> {
     const state = await this.getWindowState(windowId);
     if (!state) {
       return preTransformedData;
@@ -226,18 +251,18 @@ export class QueryService {
     windowId: string,
     requestType: RequestType,
     data: SendRequestResponse,
-    preTransformedData?: ScriptTranformResult
+    preTransformedData = this.getDefaultTransformResult()
   ) {
     const state = await this.getWindowState(windowId);
-    if (!state || !state.postRequest.enabled) {
+    if (!state) {
       return preTransformedData;
     }
 
     const collections = await this.getWindowParentCollections(state);
+
     const collectionsWithEnabledPostrequests = collections.filter(
       (collection) => collection.postRequest?.enabled
     );
-
     for (const collection of collectionsWithEnabledPostrequests) {
       preTransformedData = await this.getPostRequestTransformedDataForScript(
         windowId,
@@ -248,21 +273,22 @@ export class QueryService {
       );
     }
 
-    return this.getPostRequestTransformedDataForScript(
-      windowId,
-      state.postRequest.script,
-      requestType,
-      data,
-      preTransformedData
-    );
+    if (state?.postRequest.enabled) {
+      preTransformedData = await this.getPostRequestTransformedDataForScript(
+        windowId,
+        state.postRequest.script,
+        requestType,
+        data,
+        preTransformedData
+      );
+    }
+    return preTransformedData;
   }
 
   hydrateAllHydratables(
     window: PerWindowState,
-    transformResult?: ScriptTranformResult
+    transformResult?: FullTransformResult
   ) {
-    const collection = this.getCollectionForWindow(window);
-
     let url = this.environmentService.hydrate(window.query.url);
     let subscriptionUrl = this.environmentService.hydrate(
       window.query.subscriptionUrl
@@ -278,13 +304,11 @@ export class QueryService {
     let requestHandlerAdditionalParams = this.environmentService.hydrate(
       window.query.requestHandlerAdditionalParams ?? ''
     );
-    const combinedHeaders = [
-      ...window.headers,
-      ...(transformResult?.additionalHeaders ?? []),
-    ];
-    let headers = this.environmentService.hydrateHeaders(combinedHeaders, {
-      collection,
-    });
+    // Use transformed headers (combines window and collection headers) if available, otherwise use window headers
+    const combinedHeaders = transformResult
+      ? transformResult.headers
+      : window.headers;
+    let headers = this.environmentService.hydrateHeaders(combinedHeaders);
 
     if (transformResult?.environment) {
       const activeEnvironment = transformResult.environment;
@@ -300,7 +324,11 @@ export class QueryService {
       query = this.environmentService.hydrate(window.query.query ?? '', {
         activeEnvironment,
       });
-      variables = this.environmentService.hydrate(window.variables.variables, {
+      // if variables were transformed, use those, otherwise use window variables
+      const combinedVariables = transformResult.variables
+        ? transformResult.variables
+        : window.variables.variables;
+      variables = this.environmentService.hydrate(combinedVariables, {
         activeEnvironment,
       });
       extensions = this.environmentService.hydrate(
@@ -323,7 +351,6 @@ export class QueryService {
       );
       headers = this.environmentService.hydrateHeaders(combinedHeaders, {
         activeEnvironment,
-        collection,
       });
     }
 

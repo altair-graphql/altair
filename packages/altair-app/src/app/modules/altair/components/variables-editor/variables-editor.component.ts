@@ -13,11 +13,9 @@ import {
 import { IDictionary } from '../../interfaces/shared';
 import { gqlVariables } from './extensions';
 import { CodemirrorComponent } from '../codemirror/codemirror.component';
-import { TODO } from 'altair-graphql-core/build/types/shared';
 import { updateSchema } from 'codemirror-json-schema';
 import { vttToJsonSchema } from './utils';
 
-const AUTOCOMPLETE_CHARS = /^[a-zA-Z0-9_"']$/;
 export const VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME = 'app-variables-editor';
 
 @Component({
@@ -33,7 +31,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() showVariableDialog = false;
   @Input() enableExperimental = false;
 
-  @Output() variablesChange = new EventEmitter();
+  @Output() variablesChange = new EventEmitter<string>();
 
   @ViewChild('editor') editor: CodemirrorComponent | undefined;
 

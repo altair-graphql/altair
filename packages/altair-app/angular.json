@@ -117,7 +117,8 @@
       "prefix": "app",
       "style": "none",
       "changeDetection": "OnPush",
-      "inlineStyle": true
+      "inlineStyle": true,
+      "standalone": false
     },
     "@schematics/angular:directive": {
       "prefix": "app"
