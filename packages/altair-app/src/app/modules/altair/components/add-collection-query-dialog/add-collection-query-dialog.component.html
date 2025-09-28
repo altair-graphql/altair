@@ -27,7 +27,7 @@
           name="collection"
           nzPlaceHolder="Choose"
         >
-          @for (collection of collections; track trackById($index, collection)) {
+          @for (collection of collections; track collection.id) {
             <nz-option
               [nzValue]="collection.id"
               [nzLabel]="collection.title"
@@ -80,7 +80,7 @@
               name="workspace"
               nzPlaceHolder="Choose"
             >
-              @for (workspace of workspaces; track trackById($index, workspace)) {
+              @for (workspace of workspaces; track workspace.id) {
                 <nz-option
                   [nzValue]="workspace.id"
                   [nzLabel]="workspace.label"

@@ -36,7 +36,7 @@
       <div class="doc-viewer-section-title">
         {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
       </div>
-      @for (arg of data.args; track argTrackBy($index, arg)) {
+      @for (arg of data.args; track arg.name) {
         <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
             <span class="no-link-link" (click)="goToType(arg.type.inspect())">

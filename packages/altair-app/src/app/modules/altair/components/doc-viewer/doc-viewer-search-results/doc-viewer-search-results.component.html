@@ -8,7 +8,7 @@
       class="doc-viewer-search-result-item"
       (click)="goToItem(result)"
       [@showResultItem]
-      >
+    >
       @switch (result.cat) {
         @case ('type') {
           <span class="doc-viewer-search-result-cat cat-type">{{
@@ -17,15 +17,14 @@
         }
         @case ('field') {
           @if (result.isQuery) {
-            <span
-              class="doc-viewer-search-result-cat cat-query"
-              >{{ getProperName(result.type || '') }}</span>
+            <span class="doc-viewer-search-result-cat cat-query">{{
+              getProperName(result.type || '')
+            }}</span>
           }
           @if (!result.isQuery) {
-            <span
-              class="doc-viewer-search-result-cat cat-field"
-              >{{ 'DOCS_FIELD_TEXT' | translate }}</span
-              >
+            <span class="doc-viewer-search-result-cat cat-field">{{
+              'DOCS_FIELD_TEXT' | translate
+            }}</span>
           }
         }
       }
@@ -35,38 +34,37 @@
             class="doc-viewer-search-result-parent-type"
             (click)="goToItem(result)"
             >{{ result.type }}.</span
+          >
+        }
+        <span
+          [ngClass]="{
+            'doc-viewer-search-result-highlight': result.highlight !== 'argument',
+          }"
+          >{{ result.name }}</span
+        >
+        @if (result.args && result.args.length) {
+          (
+          @for (arg of result.args; track arg.name; let last = $last) {
+            <span
+              [ngClass]="{
+                'doc-viewer-search-result-highlight':
+                  result.highlight === 'argument',
+              }"
             >
-            }<span
-    [ngClass]="{
-      'doc-viewer-search-result-highlight': result.highlight !== 'argument'
-    }"
-            >{{ result.name }}</span
-            >
-            @if (result.args && result.args.length) {
-              (
-              @for (
-                arg of result.args; track resultArgTrackBy($index,
-                arg); let last = $last) {
-                <span
-      [ngClass]="{
-        'doc-viewer-search-result-highlight':
-          result.highlight === 'argument'
-      }"
-                  >
-                  <span>{{ arg.name }}</span
-                    >@if (!last) {
-                    <span>,</span>
-                  }
-                </span>
+              <span>{{ arg.name }}</span>
+              @if (!last) {
+                <span>,</span>
               }
-              )
-            }
-          </div>
-          <div
-            class="doc-viewer-search-result-description"
-            markdown
-            [data]="result.description"
-          ></div>
-        </div>
-      }
+            </span>
+          }
+          )
+        }
+      </div>
+      <div
+        class="doc-viewer-search-result-description"
+        markdown
+        [data]="result.description"
+      ></div>
     </div>
+  }
+</div>
