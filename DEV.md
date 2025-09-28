@@ -183,3 +183,4 @@ https://www.kickstarter.com/projects/curtisclow/the-wild-cosmos-1-3-a-sci-fi-fan
 - Debug with redux devtools to see what actions are being dispatched and how long they take
 - Add better trackBy functions for `*ngFor` directives
 - memoize expensive functions
+- Use observable to manage complex logic instead of calling functions in template

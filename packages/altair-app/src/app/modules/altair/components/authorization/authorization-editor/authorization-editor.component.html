@@ -4,7 +4,7 @@
       <nz-form-label>{{ 'AUTHORIZATION_TYPE_TEXT' | translate }}</nz-form-label>
       <nz-form-control [nzSm]="8" nzErrorTip="The input is not a valid type!">
         <nz-select formControlName="type">
-          @for (item of AUTH_TYPES; track $index) {
+          @for (item of AUTH_TYPES; track item) {
             <nz-option
               [nzValue]="item"
               [nzLabel]="AUTH_MAPPING[item].copy | translate"

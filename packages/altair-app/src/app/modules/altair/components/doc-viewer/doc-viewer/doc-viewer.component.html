@@ -79,7 +79,7 @@
         [nzDefaultActiveFirstOption]="false"
         (selectionChange)="searchDocs(autocompleteInput.value)"
       >
-        @for (option of autocompleteOptions; track option) {
+        @for (option of autocompleteOptions; track $index) {
           <nz-auto-option [nzValue]="option" [nzLabel]="option.search">
             <div class="doc-viewer-autocomplete-item">
               {{ option.search }}
@@ -99,7 +99,7 @@
         <div>
           @switch (docView.view) {
             @case ('root') {
-              @for (item of rootTypes; track rootTypeTrackBy($index, item)) {
+              @for (item of rootTypes; track item.name) {
                 <div class="doc-viewer-item">
                   @if (item) {
                     <span class="no-link-link" (click)="goToType(item.name)">{{
