@@ -1,5 +1,4 @@
-import type { HttpResponse } from '@angular/common/http';
-import { IDictionary } from '../types/shared';
+import { IDictionary, TODO } from '../types/shared';
 import { IEnvironment } from '../types/state/environments.interfaces';
 import { HeaderState } from '../types/state/header.interfaces';
 import { LogLine } from '../types/state/query.interfaces';
@@ -28,7 +27,7 @@ export interface ScriptContextHelpers {
   setEnvironment: (key: string, value: unknown, activeEnvironment?: boolean) => void;
   getCookie: (key: string) => string;
   setCookie: (key: string, value: string) => void;
-  request: (arg1: string, arg2: string, arg3: any) => Promise<ArrayBuffer | null>;
+  request: (arg1: string, arg2: string, arg3: TODO) => Promise<ArrayBuffer | null>;
 }
 
 export interface ScriptContextStorage {
@@ -67,10 +66,13 @@ export interface GlobalHelperContext {
   response?: ScriptContextResponse;
 }
 
-export interface ScriptTranformResult {
+export interface ScriptTransformResult {
   requestScriptLogs: LogLine[];
-  additionalHeaders: HeaderState;
   environment?: IEnvironment;
+}
+export interface FullTransformResult extends ScriptTransformResult {
+  headers: HeaderState;
+  variables: string;
 }
 
 export type SameSite = 'Lax' | 'None' | 'Strict';
@@ -96,7 +98,7 @@ export interface ModuleImportsMap {
 export interface ScriptEventHandlers {
   alert: (msg: string) => Promise<void>;
   log: (d: unknown) => Promise<void>;
-  request: (arg1: string, arg2: string, arg3: any) => Promise<any>;
+  request: (arg1: string, arg2: string, arg3: TODO) => Promise<TODO>;
   setCookie: (key: string, value: string, options?: CookieOptions) => Promise<void>;
   getStorageItem: (key: string) => Promise<unknown>;
   setStorageItem: (key: string, value: unknown) => Promise<void>;
@@ -122,7 +124,7 @@ export interface ScriptEventDataPayload<T extends ScriptEvent> {
 }
 export interface ScriptEventResponsePayload {
   id: string;
-  response: any; // TODO: Define the response type from the AllScriptEventHandlers
+  response: TODO; // TODO: Define the response type from the AllScriptEventHandlers
 }
 export interface ScriptEventErrorPayload {
   id: string;
@@ -134,7 +136,7 @@ export type ScriptEventData<T extends ScriptEvent> = T extends ScriptEvent
 
 export interface ScriptWorkerMessageData {
   type: string;
-  payload: any;
+  payload: TODO;
 }
 
 export interface ScriptEvaluatorClientFactory {
@@ -145,8 +147,8 @@ export abstract class ScriptEvaluatorClient {
     type: T,
     handler: (type: T, e: ScriptEventData<T>) => void
   ): void;
-  abstract send(type: string, payload: any): void;
-  abstract onError(handler: (err: any) => void): void;
+  abstract send(type: string, payload: TODO): void;
+  abstract onError(handler: (err: TODO) => void): void;
   abstract destroy(): void;
 
   sendResponse<T extends ScriptEvent>(type: T, payload: ScriptEventResponsePayload) {
@@ -160,6 +162,6 @@ export abstract class ScriptEvaluatorClient {
 
 export abstract class ScriptEvaluatorWorker {
   abstract onMessage(handler: (e: ScriptWorkerMessageData) => void): void;
-  abstract send(type: string, payload: any): void;
-  abstract onError(handler: (err: any) => void): void;
+  abstract send(type: string, payload: TODO): void;
+  abstract onError(handler: (err: TODO) => void): void;
 }

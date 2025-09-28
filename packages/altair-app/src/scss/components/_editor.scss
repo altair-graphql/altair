@@ -183,7 +183,15 @@ app-query-result {
 .query-result__bottom-pane__panel {
   height: 100%;
 }
-
+app-variables-editor {
+  height: 100%;
+}
+.variables-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
 .variables-editor-container {
   position: relative;
   display: flex;
@@ -247,12 +255,6 @@ app-query-result {
   display: flex;
   flex-direction: column;
   overflow: auto;
-}
-
-.set-variable-textarea {
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
 .variables-add-files-button {

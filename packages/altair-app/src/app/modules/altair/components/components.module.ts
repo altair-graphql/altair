@@ -52,6 +52,7 @@ import { RequestHandlerDialogComponent } from './request-handler-dialog/request-
 import { TipsComponent } from './tips/tips.component';
 import { BannerComponent } from './banner/banner.component';
 import { BannerContainerComponent } from './banner-container/banner-container.component';
+import { HeadersEditorComponent } from './headers-editor/headers-editor.component';
 
 // const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
@@ -91,6 +92,7 @@ const COMPONENTS = [
   UpgradeDialogComponent,
   RequestExtensionsDialogComponent,
   RequestHandlerDialogComponent,
+  HeadersEditorComponent,
   TipsComponent,
   AuthorizationEditorComponent,
   AuthorizationApikeyComponent,

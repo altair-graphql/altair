@@ -32,39 +32,40 @@
             <app-icon name="refresh-ccw"></app-icon>
           </button>
         }
+
+        <button
+          type="button"
+          class="btn btn--small"
+          data-test-id="search-collection"
+          nz-tooltip
+          [nzTooltipTitle]="'SEARCH_COLLECTIONS_PLACEHOLDER' | translate"
+          (click)="showSearch$.next(!showSearch$.getValue())"
+        >
+          <app-icon name="search"></app-icon>
+        </button>
         <div class="query-collections__actions--right">
-          <div class="collections-actions-row">
-            <input
-              type="text"
-              class="input input--small"
-              placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
-              [value]="searchTerm$ | async"
-              #searchInput
-              (input)="onSearchInput(searchInput.value)"
-            />
-            <button
-              nz-dropdown
-              nzTrigger="click"
-              [nzDropdownMenu]="docViewerMenu"
-              type="button"
-              class="btn btn--small"
-            >
-              @switch (sortBy) {
-                @case ('a-z') {
-                  {{ 'SORT_BY_A_Z' | translate }}
-                }
-                @case ('z-a') {
-                  {{ 'SORT_BY_Z_A' | translate }}
-                }
-                @case ('newest') {
-                  {{ 'SORT_BY_NEWEST' | translate }}
-                }
-                @case ('oldest') {
-                  {{ 'SORT_BY_OLDEST' | translate }}
-                }
+          <button
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="docViewerMenu"
+            type="button"
+            class="btn btn--small"
+          >
+            @switch (sortBy) {
+              @case ('a-z') {
+                {{ 'SORT_BY_A_Z' | translate }}
               }
-            </button>
-          </div>
+              @case ('z-a') {
+                {{ 'SORT_BY_Z_A' | translate }}
+              }
+              @case ('newest') {
+                {{ 'SORT_BY_NEWEST' | translate }}
+              }
+              @case ('oldest') {
+                {{ 'SORT_BY_OLDEST' | translate }}
+              }
+            }
+          </button>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="sortCollectionsChange.emit('a-z')">
@@ -83,6 +84,19 @@
           </nz-dropdown-menu>
         </div>
       </div>
+
+      @if (showSearch$ | async) {
+        <div class="query-collections__search-wrapper">
+          <input
+            type="text"
+            class="input"
+            placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
+            [value]="searchTerm$ | async"
+            #searchInput
+            (input)="onSearchInput(searchInput.value)"
+          />
+        </div>
+      }
       <div class="query-collections__workspace-select-wrapper">
         <nz-form-label>{{
           'COLLECTIONS_WORKSPACES_FILTER' | translate

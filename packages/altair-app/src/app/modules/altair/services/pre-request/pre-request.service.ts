@@ -12,7 +12,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import {
   CookieOptions,
   ScriptContextData,
-  ScriptTranformResult,
+  ScriptTransformResult,
 } from 'altair-graphql-core/build/script/types';
 import { RequestScriptError } from './errors';
 import { DbService } from '../db.service';
@@ -38,7 +38,7 @@ export class PreRequestService {
   async executeScript(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptTranformResult> {
+  ): Promise<ScriptTransformResult> {
     const disableNewScriptLogic = await this.store
       .select((state) => state.settings['beta.disable.newScript'])
       .pipe(take(1))
@@ -53,7 +53,7 @@ export class PreRequestService {
   async executeScriptNew(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptTranformResult> {
+  ): Promise<ScriptTransformResult> {
     const self = this;
 
     // Use an allow list of cookies (configured in settings)
@@ -115,7 +115,7 @@ export class PreRequestService {
   async executeScriptOld(
     script: string,
     data: ScriptContextData
-  ): Promise<ScriptTranformResult> {
+  ): Promise<ScriptTransformResult> {
     const Sval: typeof import('sval').default = ((await import('sval')) as any)
       .default;
 
@@ -168,7 +168,6 @@ export class PreRequestService {
     return {
       environment: clonedMutableData.environment,
       requestScriptLogs: clonedMutableData.requestScriptLogs ?? [],
-      additionalHeaders: [],
     };
   }
   private getStorageItem(key: string) {

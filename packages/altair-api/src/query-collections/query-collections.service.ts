@@ -99,6 +99,8 @@ export class QueryCollectionsService {
         preRequestScriptEnabled: createQueryCollectionDto.preRequestScriptEnabled,
         postRequestScript: createQueryCollectionDto.postRequestScript,
         postRequestScriptEnabled: createQueryCollectionDto.postRequestScriptEnabled,
+        headers: createQueryCollectionDto.headers,
+        variables: createQueryCollectionDto.variables,
       },
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
@@ -140,6 +142,7 @@ export class QueryCollectionsService {
     id: string,
     updateQueryCollectionDto: UpdateQueryCollectionDto
   ) {
+    console.log('..');
     const res = await this.prisma.queryCollection.updateMany({
       where: {
         id,
@@ -152,6 +155,8 @@ export class QueryCollectionsService {
         preRequestScriptEnabled: updateQueryCollectionDto.preRequestScriptEnabled,
         postRequestScript: updateQueryCollectionDto.postRequestScript,
         postRequestScriptEnabled: updateQueryCollectionDto.postRequestScriptEnabled,
+        headers: updateQueryCollectionDto.headers,
+        variables: updateQueryCollectionDto.variables,
       },
     });
     if (res.count) {
