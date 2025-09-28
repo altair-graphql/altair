@@ -8,6 +8,10 @@ export const selectCollectionsSortBy = createSelector(
   selectCollectionsMetaState,
   (collectionsMetaState) => collectionsMetaState.collectionsSortBy
 );
+export const selectQueriesSortBy = createSelector(
+  selectCollectionsMetaState,
+  (collectionsMetaState) => collectionsMetaState.queriesSortBy
+);
 export const selectSortedCollections = createSelector(
   selectCollections,
   selectCollectionsSortBy,
