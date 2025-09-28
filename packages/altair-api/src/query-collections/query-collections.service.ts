@@ -142,7 +142,6 @@ export class QueryCollectionsService {
     id: string,
     updateQueryCollectionDto: UpdateQueryCollectionDto
   ) {
-    console.log('..');
     const res = await this.prisma.queryCollection.updateMany({
       where: {
         id,

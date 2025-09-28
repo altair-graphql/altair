@@ -89,8 +89,4 @@ export class EditCollectionDialogComponent implements OnChanges {
       i === index ? { ...header, enabled } : header
     );
   }
-
-  trackByIndex(index: number, item: any): number {
-    return index;
-  }
 }
