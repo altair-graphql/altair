@@ -35,6 +35,9 @@ Comprehensive guide for migrating between Altair versions, handling breaking cha
 ### [Troubleshooting Guide](/docs/tips/troubleshooting)
 Solutions to common problems, error messages, and issues you might encounter while using Altair.
 
+### [Advanced Usage Patterns](/docs/tips/advanced-usage-patterns)
+Discover powerful techniques and advanced patterns for sophisticated Altair workflows.
+
 ### [Testing Strategies](/docs/tips/testing-strategies)
 Comprehensive guide for using Altair in your testing workflows, from development to production.
 
