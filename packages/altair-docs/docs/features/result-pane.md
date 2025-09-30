@@ -140,8 +140,6 @@ Status: 200 OK | Time: 245ms | Size: 1.2KB
 - **Time**: Total response time including network latency
 - **Size**: Response payload size
 
-For detailed information, see [Response Stats documentation](/docs/features/response-stats).
-
 ### Response Headers
 
 View HTTP response headers by clicking the headers tab:
@@ -159,25 +157,21 @@ x-request-id: req_abc123
 ### Copying Data
 
 **Copy Specific Values**:
-- Click on any JSON value to copy it
-- Right-click for copy options (value, key, path)
-- Use keyboard shortcuts for quick copying
+- Select text in the response to copy it
+- Use standard copy keyboard shortcuts (Ctrl/Cmd+C)
 
 **Copy Entire Response**:
-- Right-click in result pane → "Copy Response"
-- Or use the copy button in the result pane toolbar
+- Select all text in the result pane (Ctrl/Cmd+A)
+- Copy with Ctrl/Cmd+C
+- Or download the response (see Downloading section below)
 
 ### Searching Response Data
 
-Use the search functionality to find specific data:
+Use browser's find functionality to search response data:
 
-1. Click the search icon in the result pane
+1. Use Ctrl/Cmd+F to open find in the result pane
 2. Enter your search term
-3. Navigate through results with up/down arrows
-4. Search supports:
-   - Field names
-   - Values (strings, numbers)
-   - Case-sensitive/insensitive options
+3. Navigate through results with Enter or find navigation buttons
 
 ### Navigating Large Responses
 

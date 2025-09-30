@@ -62,8 +62,8 @@ If you have a local GraphQL server:
 
 One of Altair's most powerful features is schema exploration:
 
-1. **Load the schema**: Click the "Reload Schema" button
-2. **Browse documentation**: Click the "Docs" button to explore types, queries, and mutations
+1. **Load the schema**: Click the reload docs button in the action bar (or use `Ctrl+Shift+R`)
+2. **Browse documentation**: Click the docs button to toggle the documentation pane (or use `Ctrl+Shift+D`)
 3. **Use autocomplete**: Start typing in the query editor - Altair will suggest fields and arguments
 
 ## Step 4: Essential Features to Try

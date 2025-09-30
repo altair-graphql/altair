@@ -59,9 +59,6 @@ Discover the most useful and popular plugins in the Altair ecosystem.
 ### [Writing Your Own Plugin](/docs/plugins/writing-plugin)
 Learn the basics of creating custom plugins for Altair.
 
-### [Plugin Development Tutorial](/docs/plugins/plugin-development-tutorial)
-Complete step-by-step tutorial for developing advanced Altair plugins with examples and best practices.
-
 ### [Submitting Your Plugin](/docs/plugins/submitting-plugin)
 Guidelines for sharing your plugin with the Altair community.
 

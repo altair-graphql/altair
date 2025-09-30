@@ -31,8 +31,8 @@ Having issues with Altair? This comprehensive troubleshooting guide covers the m
 
 4. **SSL/TLS Issues**
    - **Problem**: Certificate errors with HTTPS endpoints
-   - **Desktop App**: Go to Settings → General → Disable SSL
-   - **Note**: Only use this for development environments
+   - **Desktop App**: For development, you may need to configure your system to trust self-signed certificates
+   - **Note**: Only bypass certificate validation for development environments, never in production
 
 ### "Unauthorized" or 401 Errors
 
@@ -95,7 +95,8 @@ Having issues with Altair? This comprehensive troubleshooting guide covers the m
 
 2. **Network Timeouts**
    - Large schemas may timeout during introspection
-   - Increase timeout in Settings → Request → Request timeout
+   - Consider breaking down large schemas or optimizing server-side introspection
+   - Check server logs for performance issues
 
 ## Query Execution Issues
 
