@@ -11,6 +11,9 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
+import { Extension } from '@codemirror/state';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { linter } from '@codemirror/lint';
 
 @Component({
   selector: 'app-edit-collection-dialog',
@@ -31,7 +34,9 @@ export class EditCollectionDialogComponent implements OnChanges {
   preRequest: PrerequestState = { script: '', enabled: false };
   postRequest: PostrequestState = { script: '', enabled: false };
   headers: HeaderState = [];
-  variables = '{}';
+  environmentVariablesStr = '{}';
+
+  editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.collection?.currentValue) {
@@ -44,7 +49,9 @@ export class EditCollectionDialogComponent implements OnChanges {
         enabled: false,
       };
       this.headers = collection.headers || [];
-      this.variables = collection.variables || '{}';
+      this.environmentVariablesStr = collection.environmentVariables
+        ? JSON.stringify(collection.environmentVariables, null, 2)
+        : '{}';
     }
   }
 
@@ -58,7 +65,7 @@ export class EditCollectionDialogComponent implements OnChanges {
       preRequest: this.preRequest,
       postRequest: this.postRequest,
       headers: this.headers,
-      variables: this.variables,
+      environmentVariables: JSON.parse(this.environmentVariablesStr),
     };
     this.toggleDialogChange.next(false);
     this.updateCollectionChange.next({ collection: collection });
@@ -88,5 +95,9 @@ export class EditCollectionDialogComponent implements OnChanges {
     this.headers = this.headers.map((header, i) =>
       i === index ? { ...header, enabled } : header
     );
+  }
+
+  onEnvironmentVariablesChange(value: string) {
+    this.environmentVariablesStr = value;
   }
 }

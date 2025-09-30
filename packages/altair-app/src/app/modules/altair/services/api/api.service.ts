@@ -42,9 +42,14 @@ const serverCollectionToLocalCollection = (
       script: collection.postRequestScript ?? '',
       enabled: collection.postRequestScriptEnabled,
     },
-    headers:
-      (collection.headers as unknown as Array<{ key: string; value: string }>) ?? [],
-    variables: collection.variables ?? '',
+    headers: Array.isArray(collection.headers)
+      ? (collection.headers as Array<{ key: string; value: string }>)
+      : [],
+    environmentVariables:
+      collection.environmentVariables &&
+      typeof collection.environmentVariables === 'object'
+        ? (collection.environmentVariables as Record<string, string>)
+        : {},
   };
 };
 @Injectable({
@@ -140,7 +145,7 @@ export class ApiService {
       postRequestScript: collection.postRequest?.script,
       postRequestScriptEnabled: collection.postRequest?.enabled,
       headers: collection.headers,
-      variables: collection.variables,
+      environmentVariables: collection.environmentVariables,
     });
   }
 

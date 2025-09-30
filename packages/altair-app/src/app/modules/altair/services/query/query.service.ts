@@ -49,7 +49,6 @@ export class QueryService {
   private getDefaultTransformResult(): FullTransformResult {
     return {
       headers: [],
-      variables: '',
       requestScriptLogs: [],
       environment: {},
     };
@@ -115,24 +114,16 @@ export class QueryService {
     return [...window.headers, ...combinedHeaders];
   }
 
-  private getCombinedVariables(
-    window: PerWindowState,
+  private getCombinedCollectionEnvironmentVariables(
     collections: IQueryCollection[]
   ) {
-    // validate and merge variables
+    // validate and merge environment variables
     const combinedCollectionVariables = collections
-      .map((c) => c.variables)
-      .filter((v) => v?.trim()) // ignore empty variables
-      .map((v) => parseJson(v ?? '', null))
+      .map((c) => c.environmentVariables)
       .filter(Boolean) // ignore invalid json
       .reduce((acc, curr) => ({ ...acc, ...curr }), {});
 
-    const windowVariables = parseJson(window.variables.variables ?? '', null);
-    return JSON.stringify(
-      { ...combinedCollectionVariables, ...windowVariables },
-      null,
-      2
-    );
+    return combinedCollectionVariables;
   }
 
   async getPrerequestTransformedData(windowId: string) {
@@ -148,8 +139,9 @@ export class QueryService {
     // Headers
     preTransformedData.headers = this.getCombinedHeaders(state, collections);
 
-    // variables
-    preTransformedData.variables = this.getCombinedVariables(state, collections);
+    // environment variables
+    preTransformedData.environment =
+      this.getCombinedCollectionEnvironmentVariables(collections);
 
     // pre-request scripts
     const collectionsWithEnabledPrerequests = collections.filter(
@@ -289,70 +281,50 @@ export class QueryService {
     window: PerWindowState,
     transformResult?: FullTransformResult
   ) {
-    let url = this.environmentService.hydrate(window.query.url);
-    let subscriptionUrl = this.environmentService.hydrate(
-      window.query.subscriptionUrl
+    const activeEnvironment = transformResult?.environment;
+    const url = this.environmentService.hydrate(window.query.url, {
+      activeEnvironment,
+    });
+    const subscriptionUrl = this.environmentService.hydrate(
+      window.query.subscriptionUrl,
+      {
+        activeEnvironment,
+      }
     );
-    let query = this.environmentService.hydrate((window.query.query ?? '').trim());
-    let variables = this.environmentService.hydrate(window.variables.variables);
-    let extensions = this.environmentService.hydrate(
-      window.query.requestExtensions ?? ''
+    const query = this.environmentService.hydrate(
+      (window.query.query ?? '').trim(),
+      {
+        activeEnvironment,
+      }
     );
-    let subscriptionConnectionParams = this.environmentService.hydrate(
-      window.query.subscriptionConnectionParams
+    const variables = this.environmentService.hydrate(window.variables.variables, {
+      activeEnvironment,
+    });
+    const extensions = this.environmentService.hydrate(
+      window.query.requestExtensions ?? '',
+      {
+        activeEnvironment,
+      }
     );
-    let requestHandlerAdditionalParams = this.environmentService.hydrate(
-      window.query.requestHandlerAdditionalParams ?? ''
+    const subscriptionConnectionParams = this.environmentService.hydrate(
+      window.query.subscriptionConnectionParams,
+      {
+        activeEnvironment,
+      }
+    );
+    const requestHandlerAdditionalParams = this.environmentService.hydrate(
+      window.query.requestHandlerAdditionalParams ?? '',
+      {
+        activeEnvironment,
+      }
     );
     // Use transformed headers (combines window and collection headers) if available, otherwise use window headers
     const combinedHeaders = transformResult
       ? transformResult.headers
       : window.headers;
-    let headers = this.environmentService.hydrateHeaders(combinedHeaders);
-
-    if (transformResult?.environment) {
-      const activeEnvironment = transformResult.environment;
-      url = this.environmentService.hydrate(window.query.url, {
-        activeEnvironment,
-      });
-      subscriptionUrl = this.environmentService.hydrate(
-        window.query.subscriptionUrl,
-        {
-          activeEnvironment,
-        }
-      );
-      query = this.environmentService.hydrate(window.query.query ?? '', {
-        activeEnvironment,
-      });
-      // if variables were transformed, use those, otherwise use window variables
-      const combinedVariables = transformResult.variables
-        ? transformResult.variables
-        : window.variables.variables;
-      variables = this.environmentService.hydrate(combinedVariables, {
-        activeEnvironment,
-      });
-      extensions = this.environmentService.hydrate(
-        window.query.requestExtensions ?? '',
-        {
-          activeEnvironment,
-        }
-      );
-      subscriptionConnectionParams = this.environmentService.hydrate(
-        window.query.subscriptionConnectionParams,
-        {
-          activeEnvironment,
-        }
-      );
-      requestHandlerAdditionalParams = this.environmentService.hydrate(
-        window.query.requestHandlerAdditionalParams ?? '',
-        {
-          activeEnvironment,
-        }
-      );
-      headers = this.environmentService.hydrateHeaders(combinedHeaders, {
-        activeEnvironment,
-      });
-    }
+    const headers = this.environmentService.hydrateHeaders(combinedHeaders, {
+      activeEnvironment,
+    });
 
     return {
       url,

@@ -22,7 +22,7 @@ import { Toast } from 'ngx-toastr';
       transition('active => removed', animate('{{ easeTime }}ms {{ easing }}')),
     ]),
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmToastComponent extends Toast {
   action(event: Event) {

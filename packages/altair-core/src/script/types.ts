@@ -72,7 +72,6 @@ export interface ScriptTransformResult {
 }
 export interface FullTransformResult extends ScriptTransformResult {
   headers: HeaderState;
-  variables: string;
 }
 
 export type SameSite = 'Lax' | 'None' | 'Strict';

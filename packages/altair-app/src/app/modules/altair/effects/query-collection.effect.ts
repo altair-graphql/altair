@@ -296,7 +296,43 @@ export class QueryCollectionEffects {
   updateCollection$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(collectionActions.UPDATE_COLLECTION),
-      switchMap((action: collectionActions.UpdateCollectionAction) => {
+      withLatestFrom(
+        this.store,
+        (action: collectionActions.UpdateCollectionAction, state) => {
+          return {
+            state,
+            action,
+          };
+        }
+      ),
+      switchMap(({ action, state }) => {
+        const openCollectionWindows = Object.values(state.windows).filter(
+          (w) => w.layout.collectionId === action.payload.collectionId
+        );
+        if (openCollectionWindows.length) {
+          return from(
+            this.notifyService.confirm(
+              'Do you want to save all changes to open queries in the collection?'
+            )
+          ).pipe(
+            map((res) => {
+              if (res) {
+                // User confirmed, save all open queries in the collection before proceeding
+                openCollectionWindows.forEach((w) => {
+                  this.store.dispatch(
+                    new collectionActions.UpdateQueryInCollectionAction({
+                      windowId: w.windowId,
+                    })
+                  );
+                });
+              }
+              return action;
+            })
+          );
+        }
+        return of(action);
+      }),
+      switchMap((action) => {
         return this.collectionService.updateCollection(
           action.payload.collectionId,
           action.payload.collection

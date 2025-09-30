@@ -210,6 +210,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
           this.unsubscribe = self.store
             .select((state) => state.environments)
             .subscribe(() => {
+              // TODO: Use combined environment for the window instead of just the active environment, to show variables from collections in the UI
               self.activeEnvironment =
                 self.environmentService.getActiveEnvironment();
               self.updateEnvVarHighlights(view, self.activeEnvironment);
