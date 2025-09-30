@@ -40,9 +40,9 @@ export interface IQueryCollection extends BaseDocument {
   headers?: HeaderState;
 
   /**
-   * Variables to be inherited by all queries in this collection
+   * Environment variables to be inherited by all queries in this collection
    */
-  variables?: string;
+  environmentVariables?: Record<string, unknown>;
 
   /**
    * path of the collection in the collection tree

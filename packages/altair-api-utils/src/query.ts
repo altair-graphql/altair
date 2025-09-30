@@ -20,7 +20,7 @@ export interface ICreateQueryCollectionDto {
   postRequestScript?: string;
   postRequestScriptEnabled?: boolean;
   headers?: HeaderState;
-  variables?: string;
+  environmentVariables?: Record<string, unknown>;
 }
 
 export type IUpdateQueryCollectionDto = Partial<ICreateQueryCollectionDto>;

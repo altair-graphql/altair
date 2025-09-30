@@ -48,8 +48,8 @@ model QueryCollection {
   preRequestScriptEnabled  Boolean           @default(true)
   postRequestScript        String?
   postRequestScriptEnabled Boolean           @default(true)
-  variables                String?           @default("{}") /// stored as JSON string
-  headers                  Json?             @default("[]") /// stored as JSON string array of { key: string, value: string, enabled: boolean }
+  environmentVariables     Json?             @default("{}") /// stored as JSON
+  headers                  Json?             @default("[]") /// stored as JSON array of { key: string, value: string, enabled: boolean }
   /// relations
   workspaceId              String
   workspace                Workspace         @relation(fields: [workspaceId], references: [id])

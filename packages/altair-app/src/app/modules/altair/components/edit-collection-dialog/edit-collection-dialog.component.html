@@ -42,11 +42,16 @@
                 (postRequestEnabledChange)="postRequest.enabled = $event"
               ></app-post-request-editor>
             </nz-tab>
-            <nz-tab [nzTitle]="'VARIABLES_TEXT' | translate">
-              <app-variables-editor
-                [variables]="variables"
-                (variablesChange)="variables = $event"
-              ></app-variables-editor>
+            <nz-tab [nzTitle]="'ENVIRONMENTS_MANAGER_TEXT' | translate">
+              <app-codemirror
+                #editor
+                class="environments-editor-textarea"
+                [extensions]="editorExtensions"
+                [fullHeight]="true"
+                [redrawLayout]="showEditCollectionDialog"
+                [(ngModel)]="environmentVariablesStr"
+                (ngModelChange)="onEnvironmentVariablesChange($event)"
+              ></app-codemirror>
             </nz-tab>
             <nz-tab [nzTitle]="'HEADERS_TEXT' | translate">
               <app-headers-editor

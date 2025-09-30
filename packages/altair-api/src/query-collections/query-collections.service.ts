@@ -100,7 +100,8 @@ export class QueryCollectionsService {
         postRequestScript: createQueryCollectionDto.postRequestScript,
         postRequestScriptEnabled: createQueryCollectionDto.postRequestScriptEnabled,
         headers: createQueryCollectionDto.headers,
-        variables: createQueryCollectionDto.variables,
+        environmentVariables:
+          createQueryCollectionDto.environmentVariables as object,
       },
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
@@ -155,7 +156,8 @@ export class QueryCollectionsService {
         postRequestScript: updateQueryCollectionDto.postRequestScript,
         postRequestScriptEnabled: updateQueryCollectionDto.postRequestScriptEnabled,
         headers: updateQueryCollectionDto.headers,
-        variables: updateQueryCollectionDto.variables,
+        environmentVariables:
+          updateQueryCollectionDto.environmentVariables as object,
       },
     });
     if (res.count) {
