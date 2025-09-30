@@ -24,14 +24,16 @@ pnpm add altair-static
 
 ### API Route Setup
 
-Create an API route to serve Altair in your Next.js app:
+Create an API route to serve Altair in your Next.js app. You'll need to serve both the HTML and the static assets.
+
+#### Pages Router
 
 ```typescript
-// pages/api/altair.ts (Pages Router)
-// or app/api/altair/route.ts (App Router)
-
-import { renderAltair } from 'altair-static';
+// pages/api/altair.ts
+import { renderAltair, getDistDirectory } from 'altair-static';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import path from 'path';
+import fs from 'fs';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // Only allow in development environment
@@ -40,16 +42,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const altairHtml = renderAltair({
+    baseURL: '/api/altair-assets/',
     endpointURL: '/api/graphql',
     subscriptionsEndpoint: 'ws://localhost:3000/api/graphql',  
     initialQuery: `{
       # Welcome to Altair GraphQL Client for Next.js!
       # Start by writing your first query here
     }`,
-    settings: {
-      'theme': 'dark',
-      'theme.fontsize': 14,
-    },
   });
 
   res.setHeader('Content-Type', 'text/html');
@@ -57,7 +56,35 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 ```
 
-### App Router Version
+```typescript
+// pages/api/altair-assets/[...path].ts
+import { getDistDirectory } from 'altair-static';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import path from 'path';
+import fs from 'fs';
+import mime from 'mime-types';
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (process.env.NODE_ENV !== 'development') {
+    return res.status(404).end();
+  }
+
+  const { path: assetPath } = req.query;
+  const filePath = path.join(getDistDirectory(), ...(assetPath as string[]));
+
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).end();
+  }
+
+  const contentType = mime.lookup(filePath) || 'application/octet-stream';
+  const fileContent = fs.readFileSync(filePath);
+
+  res.setHeader('Content-Type', contentType);
+  res.status(200).send(fileContent);
+}
+```
+
+#### App Router Version
 
 For Next.js 13+ with App Router:
 
@@ -73,6 +100,7 @@ export async function GET(request: NextRequest) {
   }
 
   const altairHtml = renderAltair({
+    baseURL: '/api/altair-assets/',
     endpointURL: '/api/graphql',
     subscriptionsEndpoint: process.env.NODE_ENV === 'development' 
       ? 'ws://localhost:3000/api/graphql'
@@ -81,14 +109,44 @@ export async function GET(request: NextRequest) {
       # Next.js GraphQL Development Interface
       # Replace this with your queries
     }`,
-    settings: {
-      'request.withCredentials': true,
-    },
   });
 
   return new Response(altairHtml, {
     headers: {
       'Content-Type': 'text/html',
+    },
+  });
+}
+```
+
+```typescript
+// app/api/altair-assets/[...path]/route.ts
+import { getDistDirectory } from 'altair-static';
+import { NextRequest } from 'next/server';
+import path from 'path';
+import fs from 'fs';
+import mime from 'mime-types';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
+  if (process.env.NODE_ENV !== 'development') {
+    return new Response('Not Found', { status: 404 });
+  }
+
+  const filePath = path.join(getDistDirectory(), ...params.path);
+
+  if (!fs.existsSync(filePath)) {
+    return new Response('Not Found', { status: 404 });
+  }
+
+  const contentType = mime.lookup(filePath) || 'application/octet-stream';
+  const fileContent = fs.readFileSync(filePath);
+
+  return new Response(fileContent, {
+    headers: {
+      'Content-Type': contentType,
     },
   });
 }
@@ -106,33 +164,22 @@ export const getAltairConfig = () => {
       # GraphQL Playground for ${process.env.NODE_ENV}
       # Endpoint: ${process.env.NEXT_PUBLIC_GRAPHQL_URL || '/api/graphql'}
     }`,
-    settings: {
-      'theme': 'dark',
-      'request.withCredentials': true,
-      'schema.reloadOnStart': true,
-    },
   };
 
   if (process.env.NODE_ENV === 'development') {
     return {
       ...baseConfig,
+      baseURL: '/api/altair-assets/',
       endpointURL: '/api/graphql',
       subscriptionsEndpoint: 'ws://localhost:3000/api/graphql',
-      settings: {
-        ...baseConfig.settings,
-        'request.timeout': 30000, // Longer timeout for dev
-      },
     };
   }
 
   return {
     ...baseConfig,
+    baseURL: '/api/altair-assets/',
     endpointURL: process.env.NEXT_PUBLIC_GRAPHQL_URL || '/api/graphql',
     subscriptionsEndpoint: process.env.NEXT_PUBLIC_GRAPHQL_WS_URL,
-    settings: {
-      ...baseConfig.settings,
-      'request.timeout': 10000,
-    },
   };
 };
 
@@ -169,6 +216,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const session = await getServerSession(req, res, authOptions);
   
   const altairHtml = renderAltair({
+    baseURL: '/api/altair-assets/',
     endpointURL: '/api/graphql',
     initialQuery: `{
       # Authenticated GraphQL Playground
@@ -177,10 +225,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     initialHeaders: session ? {
       'Authorization': `Bearer ${session.accessToken}`,
     } : {},
-    settings: {
-      'theme': 'dark',
-      'request.withCredentials': true,
-    },
   });
 
   res.setHeader('Content-Type', 'text/html');
@@ -289,14 +333,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const altairHtml = renderAltair({
+    baseURL: '/api/altair-assets/',
     endpointURL: '/api/graphql',
     initialQuery: `{
       # Next.js Development GraphQL Interface
       # This page is only available in development mode
     }`,
-    settings: {
-      'theme': 'dark',
-    },
   });
 
   return {
@@ -355,106 +397,6 @@ export const resolvers: { Query: Query } = {
 };
 ```
 
-## Production Considerations
-
-### Security Setup
-
-```typescript
-// pages/api/altair.ts
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Multiple layers of protection
-  
-  // 1. Environment check
-  if (process.env.NODE_ENV !== 'development') {
-    return res.status(404).end();
-  }
-  
-  // 2. IP whitelist (optional)
-  const allowedIPs = ['127.0.0.1', '::1']; // localhost only
-  const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  
-  if (!allowedIPs.includes(clientIP as string)) {
-    return res.status(403).end();
-  }
-  
-  // 3. Basic auth (optional)
-  const auth = req.headers.authorization;
-  if (!auth || auth !== `Basic ${Buffer.from('dev:password').toString('base64')}`) {
-    res.setHeader('WWW-Authenticate', 'Basic realm="Altair"');
-    return res.status(401).end();
-  }
-
-  // Render Altair
-  const altairHtml = renderAltair({
-    endpointURL: '/api/graphql',
-  });
-
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).send(altairHtml);
-}
-```
-
-### Environment Variables
-
-```bash
-# .env.local
-NODE_ENV=development
-NEXT_PUBLIC_GRAPHQL_URL=/api/graphql
-NEXT_PUBLIC_GRAPHQL_WS_URL=ws://localhost:3000/api/graphql
-
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/myapp
-
-# Authentication
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-here
-```
-
-## Best Practices
-
-### Development Setup
-- Only enable Altair in development environments
-- Use environment variables for configuration
-- Implement proper authentication if needed
-- Set up IP whitelisting for additional security
-
-### Performance
-- Use code splitting to avoid including Altair in production bundles
-- Configure appropriate timeouts for development vs production
-- Enable caching for schema introspection where appropriate
-
-### Team Collaboration
-- Share Altair configurations through version control
-- Document common queries and mutations
-- Use consistent naming conventions for operations
-- Set up automated schema validation
-
-### Error Handling
-
-```typescript
-// pages/api/altair.ts
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    if (process.env.NODE_ENV !== 'development') {
-      return res.status(404).json({ error: 'Not found' });
-    }
-
-    const altairHtml = renderAltair({
-      endpointURL: '/api/graphql',
-    });
-
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).send(altairHtml);
-  } catch (error) {
-    console.error('Error rendering Altair:', error);
-    res.status(500).json({ 
-      error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
-  }
-}
-```
-
 ## Common Issues and Solutions
 
 ### CORS Issues
@@ -475,6 +417,7 @@ export default createYoga({
 ```typescript
 // For WebSocket subscriptions in development
 const altairHtml = renderAltair({
+  baseURL: '/api/altair-assets/',
   endpointURL: '/api/graphql',
   subscriptionsEndpoint: 'ws://localhost:3000/api/graphql',
   subscriptionsProtocol: 'graphql-ws', // or 'graphql-transport-ws'

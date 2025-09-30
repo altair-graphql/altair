@@ -12,9 +12,9 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 **A:** Each platform has different capabilities:
 
-- **Desktop App** (Recommended): Full features, best performance, no CORS limitations
-- **Browser Extension**: Convenient in-browser access, good for quick testing
-- **Web App**: Quick access without installation, but has limitations (CORS restrictions, limited file upload support)
+- **Desktop App** (Recommended): Full features, best performance, no CORS limitations. [Download here](https://altairgraphql.dev/#download)
+- **Browser Extension**: Convenient in-browser access, good for quick testing. Available for [Chrome](https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/altair-graphql-client/)
+- **Web App**: Quick access without installation, but has [limitations](/docs/learn/web-limitations) (CORS restrictions, limited file upload support). Try it at [web.altairgraphql.dev](https://web.altairgraphql.dev/)
 
 ### Q: Which version should I use?
 
@@ -32,7 +32,7 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 ### Q: How do I authenticate with my GraphQL API?
 
-**A:** The most common authentication methods:
+**A:** The most common authentication methods (see [Headers](/docs/features/headers) and [Authorization](/docs/features/auth) for more details):
 
 1. **Bearer Token**: Add header `Authorization` with value `Bearer YOUR_TOKEN_HERE`
 2. **API Key**: Add header `X-API-Key` with your API key value
@@ -41,12 +41,28 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 ### Q: How do I handle token refresh automatically?
 
-**A:** Use Altair's environment variables to store tokens:
+**A:** Use [pre-request scripts](/docs/features/prerequest-scripts) to automatically fetch refreshed tokens:
 
-1. Store your auth token in an environment variable (e.g., `AUTH_TOKEN`)
-2. Reference it in headers: `{{AUTH_TOKEN}}`
-3. Update the variable when tokens expire
-4. Use different environments for different API instances
+```javascript
+// Pre-request script example
+const refreshToken = altair.helpers.getEnvironment('refresh_token');
+
+if (refreshToken) {
+  // Make a request to refresh the token
+  const response = await fetch('https://your-auth-server.com/refresh', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh_token: refreshToken })
+  });
+  
+  const data = await response.json();
+  
+  // Store the new access token
+  altair.helpers.setEnvironment('access_token', data.access_token);
+}
+```
+
+Learn more about [pre-request scripts](/docs/features/prerequest-scripts) and [environment variables](/docs/features/environment-variables).
 
 ### Q: Is it safe to store API keys in Altair?
 
@@ -60,7 +76,7 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 ### Q: How do I save and organize my queries?
 
-**A:** Use Collections:
+**A:** Use [Collections](/docs/features/collections):
 1. Write your query
 2. Click "Add to collection"
 3. Choose existing collection or create new one
@@ -69,7 +85,7 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 ### Q: Can I use variables in my queries?
 
-**A:** Yes! GraphQL variables make queries dynamic:
+**A:** Yes! GraphQL variables make queries dynamic. Learn more about [variables](/docs/features/variables).
 
 1. **In your query**:
 ```graphql
@@ -84,7 +100,7 @@ query GetUser($userId: ID!, $includeProfile: Boolean = false) {
 }
 ```
 
-2. **In the Variables tab**:
+2. **In the Variables pane** (click Variables button or use `Ctrl/Cmd+Shift+V`):
 ```json
 {
   "userId": "123",
@@ -92,29 +108,31 @@ query GetUser($userId: ID!, $includeProfile: Boolean = false) {
 }
 ```
 
+You can also use [environment variables](/docs/features/environment-variables) in the variables pane, though it's not recommended for complex scenarios.
+
 ### Q: How do I work with multiple environments (dev, staging, prod)?
 
-**A:** Set up environment variables:
-1. Go to Settings → Environment Variables
-2. Create different environments:
+**A:** Set up [environment variables](/docs/features/environment-variables):
+1. Go to Settings → Environments
+2. Create different environments (use snake_case naming):
 ```json
 {
   "development": {
-    "API_URL": "https://dev-api.example.com/graphql",
-    "AUTH_TOKEN": "dev_token_here"
+    "api_url": "https://dev-api.example.com/graphql",
+    "auth_token": "dev_token_here"
   },
   "production": {
-    "API_URL": "https://api.example.com/graphql",
-    "AUTH_TOKEN": "prod_token_here"
+    "api_url": "https://api.example.com/graphql",
+    "auth_token": "prod_token_here"
   }
 }
 ```
-3. Use variables in queries: `{{API_URL}}`, `{{AUTH_TOKEN}}`
+3. Use variables in queries: `{{api_url}}`, `{{auth_token}}`
 4. Switch environments from the dropdown
 
 ### Q: How do I upload files through GraphQL?
 
-**A:** Use the file upload feature:
+**A:** Use the [file upload feature](/docs/features/file-upload):
 1. Your API must support the [GraphQL multipart request spec](https://github.com/jaydenseric/graphql-multipart-request-spec)
 2. In your mutation, use a variable for the file:
 ```graphql

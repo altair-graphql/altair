@@ -90,28 +90,28 @@ query GetUser($id: ID!) {
 
 ### Multi-Environment Setup
 
-**Recommended Environment Structure**:
+**Recommended Environment Structure** (use snake_case for environment variables):
 ```json
 {
   "local": {
-    "API_URL": "http://localhost:4000/graphql",
-    "AUTH_TOKEN": "dev_token_123",
-    "DEBUG": "true"
+    "api_url": "http://localhost:4000/graphql",
+    "auth_token": "dev_token_123",
+    "debug": "true"
   },
   "development": {
-    "API_URL": "https://dev-api.example.com/graphql",
-    "AUTH_TOKEN": "{{DEV_AUTH_TOKEN}}",
-    "DEBUG": "true"
+    "api_url": "https://dev-api.example.com/graphql",
+    "auth_token": "{{dev_auth_token}}",
+    "debug": "true"
   },
   "staging": {
-    "API_URL": "https://staging-api.example.com/graphql",
-    "AUTH_TOKEN": "{{STAGING_AUTH_TOKEN}}",
-    "DEBUG": "false"
+    "api_url": "https://staging-api.example.com/graphql",
+    "auth_token": "{{staging_auth_token}}",
+    "debug": "false"
   },
   "production": {
-    "API_URL": "https://api.example.com/graphql",
-    "AUTH_TOKEN": "{{PROD_AUTH_TOKEN}}",
-    "DEBUG": "false"
+    "api_url": "https://api.example.com/graphql",
+    "auth_token": "{{prod_auth_token}}",
+    "debug": "false"
   }
 }
 ```

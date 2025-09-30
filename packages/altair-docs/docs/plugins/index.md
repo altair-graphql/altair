@@ -67,27 +67,7 @@ Rules and guidelines for plugin development and distribution.
 
 ## For Plugin Developers
 
-### Development Resources
-- **Plugin SDK**: Use the official `altair-graphql-plugin-sdk` package
-- **TypeScript Support**: Full TypeScript definitions available
-- **Testing Tools**: Built-in testing utilities for plugin development
-- **Documentation**: Comprehensive API documentation and examples
-
-### Plugin Capabilities
-Plugins can extend Altair in many ways:
-- **UI Extensions**: Add custom panels, dialogs, and interface elements
-- **Query Processing**: Modify queries before sending or responses after receiving
-- **Data Export**: Create custom export formats and destinations
-- **Integration**: Connect with external tools and services
-- **Authentication**: Implement custom authentication flows
-- **Visualization**: Create custom data visualization components
-
-### Publishing Guidelines
-- Follow semantic versioning
-- Include comprehensive documentation
-- Test across different Altair platforms
-- Follow security best practices
-- Provide clear installation instructions
+See the [Writing a Plugin](/docs/plugins/writing-plugin) guide for information on creating custom plugins for Altair.
 
 ## Community
 
