@@ -21,22 +21,27 @@ Altair supports comprehensive keyboard navigation:
 ### Query Editor Shortcuts
 
 - **Ctrl/Cmd + Enter**: Execute query
-- **Ctrl/Cmd + /**: Toggle line comment
-- **Ctrl/Cmd + Shift + /**: Toggle block comment
-- **Ctrl/Cmd + F**: Find in editor
-- **Ctrl/Cmd + H**: Find and replace
-- **Ctrl/Cmd + G**: Go to line
-- **Ctrl/Cmd + Shift + F**: Format query
+- **Ctrl/Cmd + /**: Toggle comment
+- **Ctrl/Cmd + Shift + P**: Prettify/Format query
+- **Ctrl/Cmd + F** or **Alt + F**: Find in editor
+- **Ctrl/Cmd + D**: Jump to documentation
 - **Tab**: Increase indentation
 - **Shift + Tab**: Decrease indentation
 
 ### Window Management
 
-- **Ctrl/Cmd + T**: New query window
-- **Ctrl/Cmd + W**: Close current window
-- **Ctrl/Cmd + Shift + T**: Reopen closed window
-- **Ctrl/Cmd + 1-9**: Switch to window by number
-- **Ctrl/Cmd + Tab**: Cycle through windows
+- **Ctrl + T**: New query window
+- **Ctrl + W**: Close current window
+- **Ctrl + Shift + T**: Reopen closed window
+
+### Additional Shortcuts
+
+- **Ctrl + Shift + V**: Toggle Variables pane
+- **Ctrl + Shift + H**: Toggle Headers pane
+- **Ctrl + Shift + D**: Toggle Documentation pane
+- **Ctrl + Shift + R**: Reload schema/docs
+- **Cmd + S**: Save query to collection (macOS)
+- **Ctrl + Shift + Enter**: Fill all fields at cursor
 
 ## Screen Reader Support
 

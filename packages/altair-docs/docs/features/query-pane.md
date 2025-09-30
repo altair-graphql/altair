@@ -170,22 +170,22 @@ subscription Listen { ... }
 ### Keyboard Shortcuts
 
 - **Execute Query**: `Ctrl/Cmd + Enter`
-- **Format Query**: `Shift + Ctrl/Cmd + F`
+- **Prettify Query**: `Ctrl + Shift + P`
 - **Comment/Uncomment**: `Ctrl/Cmd + /`
-- **Find**: `Ctrl/Cmd + F`
-- **Replace**: `Ctrl/Cmd + H`
-- **Auto-complete**: `Ctrl/Cmd + Space`
-- **Go to Line**: `Ctrl/Cmd + G`
+- **Find**: `Ctrl/Cmd + F` or `Alt + F`
+- **Jump to Docs**: `Ctrl + D`
+- **Fill All Fields**: `Ctrl + Shift + Enter`
 
-### Editor Commands
+### Additional Shortcuts
 
-Access additional commands via the command palette (`Ctrl/Cmd + Shift + P`):
-
-- **Prettify**: Format your query with proper indentation
-- **Minify**: Remove unnecessary whitespace
-- **Copy as cURL**: Convert query to cURL command
-- **Merge Fragments**: Inline fragment definitions
-- **Extract Fragment**: Create reusable fragments from selections
+- **Toggle Variables**: `Ctrl + Shift + V`
+- **Toggle Headers**: `Ctrl + Shift + H`
+- **Toggle Docs**: `Ctrl + Shift + D`
+- **Reload Schema**: `Ctrl + Shift + R`
+- **Save Query**: `Cmd + S` (macOS)
+- **New Window**: `Ctrl + T`
+- **Close Window**: `Ctrl + W`
+- **Reopen Window**: `Ctrl + Shift + T`
 
 ## Working with Variables
 

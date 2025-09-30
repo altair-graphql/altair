@@ -51,9 +51,12 @@ How to handle and update deprecated queries in your collections.
 
 ### Keyboard Shortcuts
 - `Ctrl/Cmd + Enter`: Send request
-- `Ctrl/Cmd + Shift + P`: Open command palette
+- `Ctrl + Shift + P`: Prettify query
 - `Ctrl/Cmd + /`: Toggle comments
-- `Shift + Ctrl/Cmd + F`: Format query
+- `Ctrl + Shift + V`: Toggle variables pane
+- `Ctrl + Shift + H`: Toggle headers pane
+- `Ctrl + Shift + D`: Toggle docs pane
+- `Ctrl + D`: Jump to documentation
 
 ### Pro Tips
 - Use environment variables to switch between different API endpoints

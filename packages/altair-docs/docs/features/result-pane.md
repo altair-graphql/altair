@@ -275,10 +275,7 @@ This error tells you:
 Save response data to your local machine:
 
 1. Click the download button in result pane toolbar
-2. Choose format:
-   - **JSON**: Complete response with formatting
-   - **CSV**: Tabular data (for array responses)
-   - **Raw**: Unformatted response text
+2. The response will be downloaded as a JSON file
 
 ### Clear Response
 

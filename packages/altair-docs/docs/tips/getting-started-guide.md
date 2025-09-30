@@ -142,9 +142,11 @@ Personalize your workspace:
 Speed up your workflow:
 
 - `Ctrl/Cmd + Enter`: Send request
-- `Ctrl/Cmd + Shift + P`: Command palette
+- `Ctrl + Shift + P`: Prettify query
 - `Ctrl/Cmd + /`: Toggle comments
-- `Shift + Ctrl/Cmd + F`: Format query
+- `Ctrl + D`: Jump to docs
+- `Ctrl + Shift + V`: Toggle variables
+- `Ctrl + Shift + H`: Toggle headers
 
 ## Common First-Time Issues
 
