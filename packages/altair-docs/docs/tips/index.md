@@ -19,9 +19,6 @@ Step-by-step guide for new users to get up and running with Altair quickly and e
 ### [Best Practices](/docs/tips/best-practices)
 Proven best practices for organizing queries, managing environments, authentication strategies, and team collaboration.
 
-### [Performance Optimization](/docs/tips/performance-optimization)
-Learn how to optimize both your GraphQL queries and Altair usage for maximum performance and efficiency.
-
 ## Development Workflows
 
 ### [Developer Workflows](/docs/tips/developer-workflows)
@@ -34,12 +31,6 @@ Comprehensive guide for migrating between Altair versions, handling breaking cha
 
 ### [Troubleshooting Guide](/docs/tips/troubleshooting)
 Solutions to common problems, error messages, and issues you might encounter while using Altair.
-
-### [Advanced Usage Patterns](/docs/tips/advanced-usage-patterns)
-Discover powerful techniques and advanced patterns for sophisticated Altair workflows.
-
-### [Testing Strategies](/docs/tips/testing-strategies)
-Comprehensive guide for using Altair in your testing workflows, from development to production.
 
 ### [Frequently Asked Questions (FAQ)](/docs/tips/faq)
 Quick answers to the most commonly asked questions about Altair GraphQL Client.

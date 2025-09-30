@@ -141,78 +141,26 @@ query GetUser($id: ID!) {
 ### Token Management
 
 **Automated Token Refresh**:
-Use pre-request scripts to handle token refresh:
+- Store tokens in environment variables
+- Use Altair's environment system to manage different tokens for different stages
+- Check token expiry before sending requests
+- Store refresh tokens securely
 
-```javascript
-// Pre-request script for automatic token refresh
-const currentTime = Math.floor(Date.now() / 1000);
-const tokenExpiry = altair.helpers.getEnvironment('TOKEN_EXPIRY');
-
-if (!tokenExpiry || currentTime >= tokenExpiry) {
-  // Token expired, refresh it
-  const refreshToken = altair.helpers.getEnvironment('REFRESH_TOKEN');
-  
-  if (refreshToken) {
-    const refreshResponse = await altair.helpers.request({
-      url: altair.helpers.getEnvironment('API_URL'),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query: `
-          mutation RefreshToken($token: String!) {
-            refreshToken(token: $token) {
-              accessToken
-              expiresIn
-            }
-          }
-        `,
-        variables: { token: refreshToken }
-      })
-    });
-    
-    const data = JSON.parse(refreshResponse.body);
-    if (data.data?.refreshToken) {
-      const newToken = data.data.refreshToken.accessToken;
-      const expiresIn = data.data.refreshToken.expiresIn;
-      
-      altair.helpers.setEnvironment('AUTH_TOKEN', newToken);
-      altair.helpers.setEnvironment('TOKEN_EXPIRY', currentTime + expiresIn);
-      altair.helpers.setHeader('Authorization', `Bearer ${newToken}`);
-    }
-  }
-} else {
-  // Token still valid, use existing token
-  const token = altair.helpers.getEnvironment('AUTH_TOKEN');
-  altair.helpers.setHeader('Authorization', `Bearer ${token}`);
-}
-```
+**Best practices for token storage**:
+- Never commit tokens to version control
+- Use environment-specific tokens
+- Rotate tokens regularly
+- Use short-lived access tokens with refresh tokens
 
 ### Environment-Specific Authentication
 
 **Different Auth Methods per Environment**:
-```javascript
-// Pre-request script
-const environment = altair.helpers.getEnvironment('ENVIRONMENT_NAME');
+- Local: Simple API keys for development
+- Development: JWT tokens with longer expiry
+- Staging: Production-like OAuth setup
+- Production: Full OAuth flow with short-lived tokens
 
-switch (environment) {
-  case 'local':
-    // Use simple API key for local development
-    altair.helpers.setHeader('X-API-Key', altair.helpers.getEnvironment('LOCAL_API_KEY'));
-    break;
-    
-  case 'development':
-    // Use JWT for development
-    altair.helpers.setHeader('Authorization', `Bearer ${altair.helpers.getEnvironment('DEV_JWT_TOKEN')}`);
-    break;
-    
-  case 'production':
-    // Use OAuth with refresh logic for production
-    await handleOAuthAuthentication();
-    break;
-}
-```
+Configure headers in Altair's header pane per environment for secure authentication.
 
 ## Testing and Debugging
 

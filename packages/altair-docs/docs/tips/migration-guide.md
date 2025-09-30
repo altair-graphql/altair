@@ -328,56 +328,26 @@ query GetUserV2 {
 
 **1. Parallel Testing Strategy**
 
-Use pre-request scripts to test both versions:
+Test both versions manually:
 
-```javascript
-// Pre-request script for parallel API testing
-const testBothVersions = async () => {
-  const queryV1 = altair.helpers.getCurrentQuery();
-  const variables = altair.helpers.getCurrentVariables();
-  
-  // Test V1 API
-  try {
-    const v1Response = await altair.helpers.request({
-      url: 'https://api.example.com/graphql/v1',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${altair.helpers.getEnvironment('AUTH_TOKEN')}`
-      },
-      body: JSON.stringify({
-        query: queryV1,
-        variables: variables
-      })
-    });
-    
-    console.log('V1 Response:', JSON.parse(v1Response.body));
-  } catch (error) {
-    console.error('V1 Error:', error);
-  }
-  
-  // Test V2 API (modified query)
-  try {
-    const queryV2 = convertV1QueryToV2(queryV1);
-    const v2Response = await altair.helpers.request({
-      url: 'https://api.example.com/graphql/v2',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${altair.helpers.getEnvironment('AUTH_TOKEN')}`
-      },
-      body: JSON.stringify({
-        query: queryV2,
-        variables: variables
-      })
-    });
-    
-    console.log('V2 Response:', JSON.parse(v2Response.body));
-  } catch (error) {
-    console.error('V2 Error:', error);
-  }
-};
+1. **Set up two separate environments** in Altair:
+   - V1_API: pointing to `https://api.example.com/graphql/v1`
+   - V2_API: pointing to `https://api.example.com/graphql/v2`
 
+2. **Run the same queries** against both versions
+
+3. **Compare responses** to identify differences
+
+4. **Document breaking changes** you discover
+
+5. **Create migration checklist** based on differences found
+
+This manual testing approach helps identify:
+- Schema differences
+- Response format changes
+- Deprecated fields
+- New required fields
+- Performance differences
 function convertV1QueryToV2(query) {
   // Simple conversion logic - adapt for your API
   return query

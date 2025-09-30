@@ -41,20 +41,12 @@ Find quick answers to the most commonly asked questions about Altair GraphQL Cli
 
 ### Q: How do I handle token refresh automatically?
 
-**A:** Use pre-request scripts to automate token refresh:
+**A:** Use Altair's environment variables to store tokens:
 
-```javascript
-// Pre-request script example
-const token = altair.helpers.getEnvironment('AUTH_TOKEN');
-const tokenExpiry = altair.helpers.getEnvironment('TOKEN_EXPIRY');
-
-if (!token || Date.now() > tokenExpiry) {
-  // Refresh token logic here
-  const newToken = await refreshAuthToken();
-  altair.helpers.setEnvironment('AUTH_TOKEN', newToken);
-  altair.helpers.setHeader('Authorization', `Bearer ${newToken}`);
-}
-```
+1. Store your auth token in an environment variable (e.g., `AUTH_TOKEN`)
+2. Reference it in headers: `{{AUTH_TOKEN}}`
+3. Update the variable when tokens expire
+4. Use different environments for different API instances
 
 ### Q: Is it safe to store API keys in Altair?
 
@@ -188,21 +180,22 @@ mutation UploadFile($file: Upload!) {
 
 **Pre-request script** (runs before sending query):
 ```javascript
-// Set dynamic headers
-altair.helpers.setHeader('X-Request-ID', Date.now().toString());
-
-// Modify environment variables
+// Set environment variables dynamically
 altair.helpers.setEnvironment('LAST_REQUEST_TIME', Date.now());
+
+// Get environment variables
+const apiUrl = altair.helpers.getEnvironment('API_URL');
 ```
 
 **Post-request script** (runs after receiving response):
 ```javascript
-// Log response time
-console.log('Response time:', altair.data.response.responseTime);
+// Access response data
+console.log('Response time:', altair.response.responseTime);
+console.log('Status code:', altair.response.statusCode);
 
-// Process response data
-if (altair.data.response.body.errors) {
-  console.error('Query errors:', altair.data.response.body.errors);
+// Process response
+if (altair.response.body.errors) {
+  console.error('Query errors:', altair.response.body.errors);
 }
 ```
 

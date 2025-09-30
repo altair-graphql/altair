@@ -371,68 +371,37 @@ query ReproduceError {
 }
 ```
 
-**Step 2: Error Analysis with Scripts**
+**Step 2: Error Analysis**
 
-```javascript
-// Post-request script for error analysis
-if (altair.data.response.body.errors) {
-  const errors = altair.data.response.body.errors;
-  
-  errors.forEach((error, index) => {
-    console.group(`Error ${index + 1}:`);
-    console.log('Message:', error.message);
-    console.log('Path:', error.path);
-    console.log('Extensions:', error.extensions);
-    
-    if (error.extensions?.code) {
-      console.log('Error Code:', error.extensions.code);
-    }
-    
-    if (error.extensions?.exception) {
-      console.log('Stack Trace:', error.extensions.exception.stacktrace);
-    }
-    
-    console.groupEnd();
-  });
-}
-```
+Review error details in the response pane:
+- Error messages and descriptions
+- Error paths showing where issues occurred
+- Error extensions with additional context
+- Stack traces (if available)
 
 **Step 3: Environment-Specific Testing**
 
-```javascript
-// Pre-request script for environment-specific debugging
-const env = altair.helpers.getEnvironment('ENVIRONMENT_NAME');
-const isProduction = env === 'production';
+Use Altair's environment feature to test against different API instances:
+- Local development endpoints
+- Staging/QA environments
+- Production (with caution)
 
-if (isProduction) {
-  // Add production-specific headers
-  altair.helpers.setHeader('X-Debug-Mode', 'false');
-} else {
-  // Enable debug mode for non-production
-  altair.helpers.setHeader('X-Debug-Mode', 'true');
-  altair.helpers.setHeader('X-Trace-ID', `trace_${Date.now()}`);
-}
-```
+Switch between environments to verify behavior across different stages of deployment.
 
 ### 2. Performance Debugging
 
 **Query Performance Analysis**:
 
-```javascript
-// Pre-request script
-const queryStart = performance.now();
-altair.helpers.setEnvironment('QUERY_START', queryStart);
+Monitor query performance using the response stats shown in Altair:
+- Response time displayed at bottom of result pane
+- Compare response times across different queries
+- Identify slow queries that need optimization
 
-// Post-request script
-const queryEnd = performance.now();
-const queryStart = altair.helpers.getEnvironment('QUERY_START');
-const duration = queryEnd - queryStart;
-
-console.log(`Query execution time: ${duration.toFixed(2)}ms`);
-
-// Performance categorization
-if (duration < 100) {
-  console.log('✅ Fast query');
+**Performance categorization**:
+- Fast queries: < 100ms
+- Acceptable: 100-500ms  
+- Slow: > 500ms
+- Needs optimization: > 1000ms
 } else if (duration < 500) {
   console.log('⚠️ Moderate query');
 } else {
