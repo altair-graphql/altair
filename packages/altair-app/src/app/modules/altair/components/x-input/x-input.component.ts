@@ -36,7 +36,9 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Subscription } from 'rxjs';
 import { EnvironmentService } from '../../services/environment/environment.service';
-import { IEnvironment } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { EnvironmentVariables } from 'altair-graphql-core/build/types/state/environments.interfaces';
+import { selectActiveEnvironmentsList } from '../../store';
+import { environmentsToEnvironmentVariables } from '../../store/environments/utils';
 
 const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 
@@ -57,6 +59,7 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   @Input() placeholder = '';
   @Input() readonly = false;
+  @Input() windowId = '';
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 
@@ -64,7 +67,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   ready = false;
   private innerValue = '';
-  private activeEnvironment: IEnvironment = {};
+  private environmentVariables: EnvironmentVariables = {};
 
   highlightEnvVariable = StateEffect.define<{
     from: number;
@@ -177,11 +180,12 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
             return {
               from: word.from,
-              options: Object.keys(this.activeEnvironment).map((variable) => {
+              options: Object.keys(this.environmentVariables).map((variable) => {
+                const v = this.environmentVariables[variable];
                 return {
                   label: `{{${variable}}}`,
                   type: 'variable',
-                  info: `Value: ${this.activeEnvironment[variable]}`,
+                  info: `Value: ${v?.value} · (from "${v?.sourceName}")`,
                 };
               }),
             };
@@ -198,7 +202,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     const self = this;
     const highlightListener = EditorView.updateListener.of((vu: ViewUpdate) => {
       if (vu.docChanged) {
-        self.updateEnvVarHighlights(vu.view, this.activeEnvironment);
+        self.updateEnvVarHighlights(vu.view, this.environmentVariables);
       }
     });
 
@@ -207,13 +211,12 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         unsubscribe: Subscription;
 
         constructor(view: EditorView) {
+          self.store.select(selectActiveEnvironmentsList(self.windowId));
           this.unsubscribe = self.store
-            .select((state) => state.environments)
-            .subscribe(() => {
-              // TODO: Use combined environment for the window instead of just the active environment, to show variables from collections in the UI
-              self.activeEnvironment =
-                self.environmentService.getActiveEnvironment();
-              self.updateEnvVarHighlights(view, self.activeEnvironment);
+            .select(selectActiveEnvironmentsList(self.windowId))
+            .subscribe((list) => {
+              self.environmentVariables = environmentsToEnvironmentVariables(list);
+              self.updateEnvVarHighlights(view, self.environmentVariables);
             });
         }
 
@@ -258,7 +261,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     });
   }
 
-  updateEnvVarHighlights(view: EditorView, activeEnvironment: IEnvironment) {
+  updateEnvVarHighlights(view: EditorView, envVariables: EnvironmentVariables) {
     const value = view.state.doc.toString();
     const effects: StateEffect<unknown>[] = this.getRanges(value)
       .filter((r) => r.from !== r.to)
@@ -267,7 +270,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
           from,
           to,
           value,
-          found: value in activeEnvironment,
+          found: value in envVariables,
         });
       });
 
@@ -304,7 +307,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         return null;
       }
 
-      if (!(foundVariableName in self.activeEnvironment)) {
+      if (!(foundVariableName in self.environmentVariables)) {
         return null;
       }
 
@@ -316,7 +319,9 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
           const dom = document.createElement('div');
           dom.className = 'cm-tooltip-variable-value';
 
-          const tooltipValue = `${self.activeEnvironment[foundVariableName]}`;
+          const variable = self.environmentVariables[foundVariableName];
+
+          const tooltipValue = `${variable?.value} · (from "${variable?.sourceName}")`;
 
           dom.textContent = tooltipValue;
 

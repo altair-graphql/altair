@@ -26,6 +26,7 @@ export class UrlBoxComponent {
   @Input() streamState = '';
   @Input() currentCollection?: IQueryCollection;
   @Input() hasUnsavedChanges = false;
+  @Input() windowId = '';
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();

@@ -248,7 +248,7 @@ export class AltairComponent {
     this.activeEnvironment$ = this.store.select(
       fromRoot.getActiveSubEnvironmentState
     );
-    this.accentColor$ = this.store.select(fromRoot.getEnvironmentAccentColor);
+    this.accentColor$ = this.store.select(fromRoot.selectEnvironmentAccentColor);
     this.sidebarPanels$ = this.store.select(fromRoot.getSidebarPanels);
     this.headerPanels$ = this.store.select(fromRoot.getHeaderPanels);
 

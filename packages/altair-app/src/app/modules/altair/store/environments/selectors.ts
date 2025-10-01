@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { getInitialState } from './environments.reducer';
-import { getActiveEnvironment } from '../../services/environment/helpers';
+import { getActiveEnvironment, getActiveEnvironmentsList } from './utils';
+import { selectWindowParentCollections } from '../collection/selectors';
 
 export const getEnvironments = (state: RootState) =>
   state ? state.environments : { ...getInitialState() };
@@ -17,11 +18,22 @@ export const getActiveSubEnvironmentState = createSelector(
     }
   }
 );
-export const selectActiveEnvironment = createSelector(getEnvironments, (state) =>
-  getActiveEnvironment(state)
-);
 
-export const getEnvironmentAccentColor = createSelector(
-  selectActiveEnvironment,
+export const selectActiveEnvironmentsList = (windowId: string) =>
+  createSelector(
+    getEnvironments,
+    selectWindowParentCollections(windowId),
+    (state, windowCollections) => getActiveEnvironmentsList(state, windowCollections)
+  );
+
+export const selectActiveEnvironment = (windowId: string) =>
+  createSelector(
+    getEnvironments,
+    selectWindowParentCollections(windowId),
+    (state, windowCollections) => getActiveEnvironment(state, windowCollections)
+  );
+
+export const selectEnvironmentAccentColor = createSelector(
+  selectActiveEnvironment(''),
   (state) => state.accentColor
 );

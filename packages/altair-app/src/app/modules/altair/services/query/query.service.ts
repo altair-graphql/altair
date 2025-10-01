@@ -22,7 +22,6 @@ import {
 } from 'altair-graphql-core/build/request/types';
 import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { parseJson } from '../../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -114,18 +113,6 @@ export class QueryService {
     return [...window.headers, ...combinedHeaders];
   }
 
-  private getCombinedCollectionEnvironmentVariables(
-    collections: IQueryCollection[]
-  ) {
-    // validate and merge environment variables
-    const combinedCollectionVariables = collections
-      .map((c) => c.environmentVariables)
-      .filter(Boolean) // ignore invalid json
-      .reduce((acc, curr) => ({ ...acc, ...curr }), {});
-
-    return combinedCollectionVariables;
-  }
-
   async getPrerequestTransformedData(windowId: string) {
     const state = await this.getWindowState(windowId);
     let preTransformedData = this.getDefaultTransformResult();
@@ -141,7 +128,7 @@ export class QueryService {
 
     // environment variables
     preTransformedData.environment =
-      this.getCombinedCollectionEnvironmentVariables(collections);
+      this.environmentService.getActiveEnvironment(collections);
 
     // pre-request scripts
     const collectionsWithEnabledPrerequests = collections.filter(

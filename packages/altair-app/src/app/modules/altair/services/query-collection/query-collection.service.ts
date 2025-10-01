@@ -636,6 +636,7 @@ export class QueryCollectionService {
     }
   }
 
+  // TODO: Refactor to use functions from store/collection/utils.ts, instead of duplicating them here
   async getAllParentCollections(collection: IQueryCollection) {
     const collections: IQueryCollection[] = [];
     let curCollection = collection;
