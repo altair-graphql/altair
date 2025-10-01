@@ -47,7 +47,7 @@ export const getActiveEnvironmentsList = (
     },
     {
       environment: subEnvironment,
-      sourceType: ENVIRONMENT_VARIABLE_SOURCE_TYPE.ENVIRONMENT,
+      sourceType: ENVIRONMENT_VARIABLE_SOURCE_TYPE.SUB_ENVIRONMENT,
       sourceName: 'Environment',
     },
     ...(windowCollections
