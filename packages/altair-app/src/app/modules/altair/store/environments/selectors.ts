@@ -26,7 +26,7 @@ export const selectActiveEnvironmentsList = (windowId: string) =>
     (state, windowCollections) => getActiveEnvironmentsList(state, windowCollections)
   );
 
-export const selectActiveEnvironment = (windowId: string) =>
+export const selectActiveEnvironment = (windowId?: string) =>
   createSelector(
     getEnvironments,
     selectWindowParentCollections(windowId),
@@ -34,6 +34,6 @@ export const selectActiveEnvironment = (windowId: string) =>
   );
 
 export const selectEnvironmentAccentColor = createSelector(
-  selectActiveEnvironment(''),
+  selectActiveEnvironment(),
   (state) => state.accentColor
 );

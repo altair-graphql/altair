@@ -28,9 +28,44 @@ Given the environment payload above, you can use the `env` variable by using <co
 
 Now you can easily test your GraphQL implementations across all your environments by just changing the environment you’re currently working with (instead of having to go to all the tabs to change the URLs and tokens 🤢).
 
-While you can create an environment, there is also the **Global environment** which doesn't need to be selected to be active. If an environment is selected, the environment is merged (shallow merge) with whatever is set in the Global environment. If no environment is selected, only the environment variables in the Global environment can be used.
+## Global environment
 
-### Where environment variables can be used
+While you can create an environment, there is also the **Global environment** which doesn't need to be selected to be active. If an environment is selected, the environment is merged with whatever is set in the Global environment. If no environment is selected, only the environment variables in the Global environment can be used.
+
+## Collection-specific environments
+
+You can also create environments that are specific to a collection. These environments would only be active when you are working in a tab that belongs to that collection. If you have multiple collections with environments, the environments would be merged in the following order (with the later ones taking precedence):
+
+## Environment Hierarchy
+
+When you use an environment variable like <code v-pre>{{apiUrl}}</code>, Altair resolves it using the following priority order (later sources override earlier ones):
+
+1. **Global environment** - Base variables available everywhere (lowest priority)
+2. **Selected environment** - Variables from the currently active environment
+3. **Collection environment** - Variables from the collection the window belongs to (highest priority)
+
+**Example:**
+
+Let's say you have:
+
+- Global environment: `{ "apiUrl": "https://api.example.com", "timeout": 5000 }`
+- Staging environment: `{ "apiUrl": "https://staging.example.com" }`
+- Collection environment: `{ "apiKey": "collection-specific-key", "timeout": 10000 }`
+
+When you use these variables in a window that belongs to the collection with the Staging environment selected:
+
+- <code v-pre>{{apiUrl}}</code> resolves to `https://staging.example.com` (from Staging environment)
+- <code v-pre>{{apiKey}}</code> resolves to `collection-specific-key` (from Collection)
+- <code v-pre>{{timeout}}</code> resolves to `10000` (from Collection, overriding Global)
+
+This hierarchical approach allows you to:
+
+- Set common base variables in the Global environment
+- Override them per environment for different stages of development
+- Add collection-specific variables that only apply to queries in that collection
+- Keep related queries organized with their own specific configurations
+
+## Where environment variables can be used
 
 You can use environment variables basically everywhere in a window, but specifically in the following places:
 
@@ -41,11 +76,11 @@ You can use environment variables basically everywhere in a window, but specific
 - **Subscription URL** - Similar to the URL case, you can use environment variables here to set the base URL of the GraphQL server, or any other customization.
 - **Subscription connection parameters** - Similar to the variables section, this is also in the JSON format but you can use the environment variables here as well.
 
-### Escaping environment variable syntax
+## Escaping environment variable syntax
 
 Environment variables are enabled pretty much everywhere in an Altair window. However you might have a use case where you actually want to use the double curly braces as-is without replacing it with an environment variable, or empty string. Altair allows you to escape the environment variable hydration by prefixing the opening curly brace with a backward slash `\`. So for example in the case of <code v-pre>Bearer {{meta.env}}</code>, you can pass that as-is in the request by replacing it with <code v-pre>Bearer \{{meta.env}}</code>. Altair would see that you are escaping the environment variable hydration and transform that to <code v-pre>Bearer {{meta.env}}</code> for you in the actual request.
 
-### Special environment variables
+## Special environment variables
 
 **headers** - If you specify a `headers` payload in any of the environments (including Global environment), the headers you specify there would be set for all requests sent from all the tabs.
 
@@ -59,7 +94,7 @@ Environment variables are enabled pretty much everywhere in an Altair window. Ho
 
 For example given the environment above, every request sent in Altair would have the `X-Api-Token` header set to `12345`.
 
-**accentColor** - If you specify an `accentColor` in any of the environments (including Global environment), the color you specify there would be used as the accent color for the interface.
+**accentColor** - If you specify an `accentColor` in any of the environments (including Global and collection environments), the color you specify there would be used as the accent color for the interface. If you specify the accent color in a collection environment, it would be used when you are working in a tab that belongs to that collection.
 
 ```json
 {
