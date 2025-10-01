@@ -6,7 +6,7 @@ import {
   getCollections,
   getWindowParentCollections,
 } from './utils';
-import { selectWindowState } from '../windows/selectors';
+import { selectActiveWindowState, selectWindowState } from '../windows/selectors';
 
 export const selectCollectionState = (state: RootState) => state.collection;
 export const selectCollections = createSelector(
@@ -27,13 +27,15 @@ export const selectAllParentCollections = (collectionId: string) =>
     return [];
   });
 
-export const selectWindowParentCollections = (windowId: string) =>
+export const selectWindowParentCollections = (windowId?: string) =>
   createSelector(
-    selectWindowState(windowId),
+    selectWindowState(windowId ?? ''),
+    selectActiveWindowState,
     selectCollections,
-    (window, collections) => {
-      if (window) {
-        return getWindowParentCollections(window, collections);
+    (window, activeWindow, collections) => {
+      const w = window ?? activeWindow;
+      if (w) {
+        return getWindowParentCollections(w, collections);
       }
       return [];
     }
