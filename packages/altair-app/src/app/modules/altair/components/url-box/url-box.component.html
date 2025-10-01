@@ -52,6 +52,7 @@
       class="url-box__input"
       track-id="set_url"
       placeholder="Enter URL"
+      [windowId]="windowId"
       [(ngModel)]="apiUrl"
       (blurChange)="setApiUrl()"
       (submitChange)="setApiUrl()"

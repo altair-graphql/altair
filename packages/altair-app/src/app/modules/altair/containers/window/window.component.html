@@ -10,6 +10,7 @@
     [streamState]="streamState$ | async"
     [currentCollection]="currentCollection$ | async"
     [hasUnsavedChanges]="hasUnsavedChanges$ | async"
+    [windowId]="windowId"
     (urlChange)="setApiUrl($event)"
     (httpVerbChange)="setApiMethod($event)"
     (sendRequest)="sendRequest()"
