@@ -6,6 +6,8 @@ applyTo: '**/*.{test,spec}.{ts,js}'
 
 These instructions provide comprehensive testing guidelines for all packages in the Altair monorepo.
 
+> **Note:** For Angular app-specific testing guidelines, see [app-testing.instructions.md](./app-testing.instructions.md) which covers the custom testing framework in `packages/altair-app/src/testing`.
+
 ## General Testing Principles
 
 ### Test Structure
