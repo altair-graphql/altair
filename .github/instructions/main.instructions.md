@@ -121,4 +121,18 @@ Always check the root `package.json` and individual `packages/<name>/package.jso
 - **Development Setup Details:** [.github/development.md](../development.md) - Detailed instructions on setting up the development environment.
 - **Code of Conduct:** [.github/CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) - Community standards.
 
-This document should provide a solid foundation for working on Altair. As you work on specific tasks, you will dive deeper into the relevant packages.
+## Additional Specialized Instructions
+
+For more detailed, technology-specific guidelines, refer to these instruction files:
+
+- **[Angular Components](./angular-components.instructions.md)** - Component development patterns and best practices
+- **[Angular Services](./angular-services.instructions.md)** - Service patterns, state management, and dependency injection
+- **[NestJS API](./nestjs-api.instructions.md)** - Backend API development with NestJS and Prisma
+- **[TypeScript](./typescript.instructions.md)** - TypeScript conventions, type definitions, and async patterns
+- **[JavaScript](./javascript.instructions.md)** - JavaScript/Node.js patterns for build scripts and configuration
+- **[Configuration Files](./config-files.instructions.md)** - Managing package.json, tsconfig, and other config files
+- **[Testing](./testing.instructions.md)** - General testing guidelines across all packages
+- **[App Testing](./app-testing.instructions.md)** - Specific testing patterns for the Angular app
+- **[Documentation](./documentation.instructions.md)** - Documentation standards and writing guidelines
+
+This document should provide a solid foundation for working on Altair. As you work on specific tasks, you will dive deeper into the relevant packages and consult the specialized instructions above.
