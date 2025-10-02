@@ -117,7 +117,7 @@ it('should handle API errors gracefully', async () => {
 - Test component lifecycle methods appropriately
 
 ```typescript
-import { mount } from 'src/testing';
+import { mount } from '../testing';
 import { ExampleComponent } from './example.component';
 
 describe('ExampleComponent', () => {

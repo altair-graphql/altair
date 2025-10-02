@@ -130,7 +130,6 @@ For more detailed, technology-specific guidelines, refer to these instruction fi
 - **[NestJS API](./nestjs-api.instructions.md)** - Backend API development with NestJS and Prisma
 - **[TypeScript](./typescript.instructions.md)** - TypeScript conventions, type definitions, and async patterns
 - **[JavaScript](./javascript.instructions.md)** - JavaScript/Node.js patterns for build scripts and configuration
-- **[Configuration Files](./config-files.instructions.md)** - Managing package.json, tsconfig, and other config files
 - **[Testing](./testing.instructions.md)** - General testing guidelines across all packages
 - **[App Testing](./app-testing.instructions.md)** - Specific testing patterns for the Angular app
 - **[Documentation](./documentation.instructions.md)** - Documentation standards and writing guidelines
