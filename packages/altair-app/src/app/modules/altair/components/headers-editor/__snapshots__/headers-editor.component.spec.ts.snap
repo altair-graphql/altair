@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeadersEditorComponent should render correctly 1`] = `
+<app-headers-editor>
+  <div
+    class="headers-editor"
+  >
+    <div
+      class="headers-editor__list"
+    >
+      
+      <button
+        class="btn btn--full-width"
+        type="button"
+      >
+          
+      </button>
+    </div>
+    <div
+      class="headers-editor__notices"
+    >
+      <div
+        class="headers__notice"
+      >
+          
+        <a
+          href="https://altairgraphql.dev/docs/learn/web-limitations"
+          rel="noopener"
+          target="_blank"
+        >
+          Learn more
+        </a>
+      </div>
+      
+      <div
+        class="headers__notice"
+      >
+          
+        <a
+          href="https://altairgraphql.dev/docs/features/environment-variables#special-environment-variables"
+          rel="noopener"
+          target="_blank"
+        >
+          Learn more
+        </a>
+      </div>
+    </div>
+  </div>
+</app-headers-editor>
+`;

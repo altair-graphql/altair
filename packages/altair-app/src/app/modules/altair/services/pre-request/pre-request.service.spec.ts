@@ -64,7 +64,6 @@ describe('PreRequestService', () => {
       expect(result).toEqual({
         environment: {},
         requestScriptLogs: [],
-        additionalHeaders: [],
       });
     }
   ));
@@ -90,7 +89,6 @@ describe('PreRequestService', () => {
           first: true,
         },
         requestScriptLogs: [],
-        additionalHeaders: [],
       });
     }
   ));
@@ -120,7 +118,6 @@ describe('PreRequestService', () => {
             encoded: 'Zmlyc3Q=',
           },
           requestScriptLogs: [],
-          additionalHeaders: [],
         });
       }
     ));
@@ -149,7 +146,6 @@ describe('PreRequestService', () => {
             decoded: 'first',
           },
           requestScriptLogs: [],
-          additionalHeaders: [],
         });
       }
     ));
@@ -178,7 +174,6 @@ describe('PreRequestService', () => {
             sha: 'a7937b64b8caa58f03721bb6bacf5c78cb235febe0e70b1b84cd99541461a08e',
           },
           requestScriptLogs: [],
-          additionalHeaders: [],
         });
       }
     ));

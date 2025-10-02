@@ -47,9 +47,9 @@ export class QueryService {
 
   private getDefaultTransformResult(): FullTransformResult {
     return {
-      headers: [],
+      combinedHeaders: [],
       requestScriptLogs: [],
-      environment: {},
+      environment: this.environmentService.getActiveEnvironment(),
     };
   }
 
@@ -110,7 +110,7 @@ export class QueryService {
     collections: IQueryCollection[]
   ) {
     const combinedHeaders = collections.map((c) => c.headers || []).flat();
-    return [...window.headers, ...combinedHeaders];
+    return [...combinedHeaders, ...window.headers];
   }
 
   async getPrerequestTransformedData(windowId: string) {
@@ -124,7 +124,7 @@ export class QueryService {
     const collections = await this.getWindowParentCollections(state);
 
     // Headers
-    preTransformedData.headers = this.getCombinedHeaders(state, collections);
+    preTransformedData.combinedHeaders = this.getCombinedHeaders(state, collections);
 
     // environment variables
     preTransformedData.environment =
@@ -171,8 +171,8 @@ export class QueryService {
           ([key, value]) => ({ key, value, enabled: true })
         );
 
-        preTransformedData.headers = [
-          ...(preTransformedData?.headers ?? []),
+        preTransformedData.combinedHeaders = [
+          ...(preTransformedData?.combinedHeaders ?? []),
           ...authHeaders,
         ];
       }
@@ -266,9 +266,9 @@ export class QueryService {
 
   hydrateAllHydratables(
     window: PerWindowState,
-    transformResult?: FullTransformResult
+    transformResult: FullTransformResult
   ) {
-    const activeEnvironment = transformResult?.environment;
+    const activeEnvironment = transformResult.environment;
     const url = this.environmentService.hydrate(window.query.url, {
       activeEnvironment,
     });
@@ -305,13 +305,13 @@ export class QueryService {
         activeEnvironment,
       }
     );
-    // Use transformed headers (combines window and collection headers) if available, otherwise use window headers
-    const combinedHeaders = transformResult
-      ? transformResult.headers
-      : window.headers;
-    const headers = this.environmentService.hydrateHeaders(combinedHeaders, {
-      activeEnvironment,
-    });
+    // Use transformed combined headers (combines window and collection headers)
+    const headers = this.environmentService.hydrateHeaders(
+      transformResult.combinedHeaders,
+      {
+        activeEnvironment,
+      }
+    );
 
     return {
       url,

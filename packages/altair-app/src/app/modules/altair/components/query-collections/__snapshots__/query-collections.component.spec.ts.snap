@@ -29,31 +29,33 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         </button>
         
         
+        <button
+          class="btn btn--small"
+          data-test-id="search-collection"
+          nz-tooltip=""
+          type="button"
+        >
+          <app-icon
+            name="search"
+          />
+        </button>
+        
         <div
           class="query-collections__actions--right"
         >
-          <div
-            class="collections-actions-row"
+          <button
+            class="btn btn--small"
+            nz-dropdown=""
+            nztrigger="click"
+            type="button"
           >
-            <input
-              class="input input--small"
-              placeholder=""
-              type="text"
-            />
-            <button
-              class="btn btn--small"
-              nz-dropdown=""
-              nztrigger="click"
-              type="button"
-            >
-              
-              
-                
-              
-              
-            </button>
             
-          </div>
+            
+              
+            
+            
+          </button>
+          
           <nz-dropdown-menu>
             <ul
               nz-menu=""
@@ -87,6 +89,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
           </nz-dropdown-menu>
         </div>
       </div>
+      
       <div
         class="query-collections__workspace-select-wrapper"
       >
