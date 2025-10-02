@@ -29,7 +29,6 @@ function processQuery<T>(query: string, variables?: Record<string, unknown>): Pr
 ```
 
 ### Imports and Exports
-- Use barrel exports (index.ts files) for clean module interfaces
 - Group imports: external libraries, then internal modules
 - Use absolute imports from package roots when possible
 - Prefer named exports over default exports for better IDE support
@@ -48,7 +47,6 @@ import { formatQuery } from '../utils/query-formatter';
 - Use custom error classes that extend Error
 - Implement proper error boundaries and handling
 - Log errors with sufficient context for debugging
-- Use Result/Either patterns for operations that can fail
 
 ```typescript
 class ValidationError extends Error {
@@ -56,13 +54,6 @@ class ValidationError extends Error {
     super(message);
     this.name = 'ValidationError';
   }
-}
-
-function validateQuery(query: string): Result<string, ValidationError> {
-  if (!query.trim()) {
-    return { success: false, error: new ValidationError('Query cannot be empty') };
-  }
-  return { success: true, data: query };
 }
 ```
 

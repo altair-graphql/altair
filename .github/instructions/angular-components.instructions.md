@@ -21,7 +21,7 @@ These instructions guide the development of Angular components in the Altair Gra
 
 ### State Management
 - Use reactive programming patterns with RxJS observables
-- Subscribe to store state using the SubscriptionHandler pattern for automatic cleanup
+- Properly manage subscriptions and clean them up in ngOnDestroy
 - Emit events using Angular's EventEmitter for parent-child communication
 - Use Input() and Output() decorators for component API
 
@@ -37,25 +37,21 @@ export class ExampleComponent implements OnInit, OnDestroy {
   @Input() inputProperty: string = '';
   @Output() someEvent = new EventEmitter<SomeType>();
   
-  private subscriptionHandler = new SubscriptionHandler();
+  private subscription: Subscription;
   
   constructor(
     private store: Store<RootState>,
-    private cdr: ChangeDetectorRef,
     private someService: SomeService
   ) {}
   
   ngOnInit() {
-    this.subscriptionHandler.add(
-      this.store.select(selectSomeState).subscribe(state => {
-        // Handle state changes
-        this.cdr.markForCheck();
-      })
-    );
+    this.subscription = this.store.select(selectSomeState).subscribe(state => {
+      // Handle state changes
+    });
   }
   
   ngOnDestroy() {
-    this.subscriptionHandler.unsubscribe();
+    this.subscription?.unsubscribe();
   }
   
   onSomeAction() {
