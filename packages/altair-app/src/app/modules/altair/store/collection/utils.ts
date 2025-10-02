@@ -36,7 +36,7 @@ export const getAllParentCollections = (
   for (;;) {
     const parentCollection = getParentCollection(collections, curCollection);
     if (!parentCollection) {
-      return result;
+      return result.reverse();
     }
 
     result.push(parentCollection);
@@ -51,7 +51,7 @@ export const getWindowParentCollections = (
   if (window?.layout.windowIdInCollection && window?.layout.collectionId) {
     const collection = getCollection(collections, window.layout.collectionId);
     if (collection) {
-      return [collection, ...getAllParentCollections(collections, collection)];
+      return [...getAllParentCollections(collections, collection), collection];
     }
   }
   return [];

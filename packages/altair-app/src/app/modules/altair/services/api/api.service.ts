@@ -24,7 +24,7 @@ const serverQueryToLocalQuery = (query: QueryItem): IQuery => {
     storageType: 'api',
   };
 };
-const serverCollectionToLocalCollection = (
+export const serverCollectionToLocalCollection = (
   collection: FullQueryCollection
 ): IQueryCollection => {
   return {

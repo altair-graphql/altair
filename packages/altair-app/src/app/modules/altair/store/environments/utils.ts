@@ -26,7 +26,7 @@ export const getActiveEnvironmentsList = (
   windowCollections: IQueryCollection[] = []
 ): EnvironmentWithMetadata[] => {
   const baseEnvironment = parseJson(environmentsState.base.variablesJson, {});
-  let subEnvironment = {};
+  let subEnvironment: IEnvironment | undefined;
 
   if (environmentsState.activeSubEnvironment) {
     const activeSubEnvironment = environmentsState.activeSubEnvironment;
@@ -45,11 +45,15 @@ export const getActiveEnvironmentsList = (
       sourceType: ENVIRONMENT_VARIABLE_SOURCE_TYPE.BASE_ENVIRONMENT,
       sourceName: 'Global Environment',
     },
-    {
-      environment: subEnvironment,
-      sourceType: ENVIRONMENT_VARIABLE_SOURCE_TYPE.SUB_ENVIRONMENT,
-      sourceName: 'Environment',
-    },
+    ...(subEnvironment
+      ? [
+          {
+            environment: subEnvironment,
+            sourceType: ENVIRONMENT_VARIABLE_SOURCE_TYPE.SUB_ENVIRONMENT,
+            sourceName: 'Environment',
+          },
+        ]
+      : []),
     ...(windowCollections
       .map((collection) => {
         if (!collection.environmentVariables) {
