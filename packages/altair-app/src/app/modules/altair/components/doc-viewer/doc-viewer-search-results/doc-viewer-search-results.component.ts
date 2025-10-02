@@ -41,7 +41,8 @@ import { DocumentIndexEntry } from '../models';
       ]),
     ]),
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // components with animations don't work well with OnPush change detection
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerSearchResultsComponent {
   @Input() results: DocumentIndexEntry[] = [];

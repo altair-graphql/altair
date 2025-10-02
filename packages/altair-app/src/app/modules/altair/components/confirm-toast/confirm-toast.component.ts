@@ -22,6 +22,7 @@ import { Toast } from 'ngx-toastr';
       transition('active => removed', animate('{{ easeTime }}ms {{ easing }}')),
     ]),
   ],
+  // components with animations don't work well with OnPush change detection
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmToastComponent extends Toast {

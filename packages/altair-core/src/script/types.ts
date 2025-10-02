@@ -71,7 +71,7 @@ export interface ScriptTransformResult {
   environment?: IEnvironment;
 }
 export interface FullTransformResult extends ScriptTransformResult {
-  headers: HeaderState;
+  combinedHeaders: HeaderState;
 }
 
 export type SameSite = 'Lax' | 'None' | 'Strict';

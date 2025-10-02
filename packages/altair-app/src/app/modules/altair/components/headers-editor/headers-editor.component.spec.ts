@@ -1,23 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HeadersEditorComponent } from './headers-editor.component';
+import { mount, NgxTestWrapper } from '../../../../../testing';
+import { MockModule } from 'ng-mocks';
+import { SharedModule } from '../../modules/shared/shared.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HeadersEditorComponent', () => {
-  let component: HeadersEditorComponent;
-  let fixture: ComponentFixture<HeadersEditorComponent>;
+  let wrapper: NgxTestWrapper<HeadersEditorComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [HeadersEditorComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(HeadersEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    wrapper = await mount({
+      component: HeadersEditorComponent,
+      imports: [MockModule(SharedModule)],
+      schemas: [NO_ERRORS_SCHEMA],
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.componentInstance).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(wrapper.element).toMatchSnapshot();
   });
 });

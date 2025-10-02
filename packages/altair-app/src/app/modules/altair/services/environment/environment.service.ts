@@ -53,8 +53,14 @@ export class EnvironmentService {
     return getActiveEnvironment(this.environmentsState, windowCollections);
   }
 
-  mergeWithActiveEnvironment(environment: IEnvironment) {
-    return this.mergeEnvironments(this.getActiveEnvironment(), environment);
+  mergeWithActiveEnvironment(
+    environment: IEnvironment,
+    windowCollections?: IQueryCollection[]
+  ) {
+    return this.mergeEnvironments(
+      this.getActiveEnvironment(windowCollections),
+      environment
+    );
   }
 
   mergeEnvironments(env1: IEnvironment, env2: IEnvironment) {

@@ -15,7 +15,6 @@ import { WebsocketRequestHandler } from 'altair-graphql-core/build/request/handl
 import {
   ACTION_CABLE_HANDLER_ID,
   GRAPHQL_SSE_HANDLER_ID,
-  HTTP_HANDLER_ID,
 } from 'altair-graphql-core/build/request/types';
 import { SSERequestHandler } from 'altair-graphql-core/build/request/handlers/sse';
 import { ActionCableRequestHandler } from 'altair-graphql-core/build/request/handlers/action-cable';
@@ -54,24 +53,37 @@ describe('QueryService', () => {
 
   describe('hydrateAllHydratables', () => {
     it('should hydrate all hydratables', () => {
-      const hydratedContent = service.hydrateAllHydratables({
-        query: {
-          url: 'http://localhost:3000/graphql',
-          query: 'query { hello }',
-          variables: '{ "name": "world" }',
-          subscriptionConnectionParams: '{ "name": "world" }',
-        },
-        variables: {
-          variables: '{ "name": "world" }',
-        },
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/json',
-            enabled: true,
+      const hydratedContent = service.hydrateAllHydratables(
+        {
+          query: {
+            url: 'http://localhost:3000/graphql',
+            query: 'query { hello }',
+            variables: '{ "name": "world" }',
+            subscriptionConnectionParams: '{ "name": "world" }',
           },
-        ],
-      } as unknown as PerWindowState);
+          variables: {
+            variables: '{ "name": "world" }',
+          },
+          headers: [
+            {
+              key: 'Content-Type',
+              value: 'application/json',
+              enabled: true,
+            },
+          ],
+        } as unknown as PerWindowState,
+        {
+          combinedHeaders: [
+            {
+              key: 'Content-Type',
+              value: 'application/json',
+              enabled: true,
+            },
+          ],
+          requestScriptLogs: [],
+          environment: {},
+        }
+      );
       expect(hydratedContent).toEqual({
         extensions: 'HYDRATED[[]]',
         headers: [
@@ -110,7 +122,13 @@ describe('QueryService', () => {
           ],
         } as unknown as PerWindowState,
         {
-          additionalHeaders: [],
+          combinedHeaders: [
+            {
+              key: 'Content-Type',
+              value: 'application/json',
+              enabled: true,
+            },
+          ],
           requestScriptLogs: [],
           environment: {
             x: 1,
@@ -134,7 +152,7 @@ describe('QueryService', () => {
         variables: 'HYDRATED[[{ "name": "world" }]]',
       });
     });
-    it('should hydrate with additional headers', () => {
+    it('should hydrate with combined headers', () => {
       const hydratedContent = service.hydrateAllHydratables(
         {
           query: {
@@ -155,7 +173,7 @@ describe('QueryService', () => {
           ],
         } as unknown as PerWindowState,
         {
-          additionalHeaders: [
+          combinedHeaders: [
             {
               key: 'Authorization',
               value: 'Bearer token',
@@ -169,11 +187,7 @@ describe('QueryService', () => {
       expect(hydratedContent).toEqual({
         extensions: 'HYDRATED[[]]',
         headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/json',
-            enabled: true,
-          },
+          // combined headers is expected to be the final combined headers, so ignore the window headers
           {
             key: 'Authorization',
             value: 'Bearer token',
