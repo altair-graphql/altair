@@ -138,4 +138,12 @@ export class WindowSwitcherComponent {
     }
     return windowHasUnsavedChanges(window, this.collections);
   }
+
+  isWindowLoading(windowId: string) {
+    const window = this.windows[windowId];
+    if (!window) {
+      return false;
+    }
+    return window.layout?.isLoading ?? false;
+  }
 }

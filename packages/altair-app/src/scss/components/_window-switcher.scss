@@ -107,3 +107,32 @@ app-window-switcher {
     color: var(--red-color);
   }
 }
+
+.window-switcher__loading-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 16px;
+
+  .dot-flashing {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .dot-flashing::before,
+  .dot-flashing::after {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .dot-flashing::before {
+    left: -9px;
+  }
+
+  .dot-flashing::after {
+    left: 9px;
+  }
+}
