@@ -1,0 +1,53 @@
+<li
+  class="window-switcher__item"
+  [ngClass]="{
+    'window-switcher__item--active': (window$ | async)?.windowId === activeWindowId,
+  }"
+  (click)="onClickWindow()"
+  (dblclick)="onDoubleClick()"
+>
+  @switch (iconState$ | async) {
+    @case ('is-editing') {
+      <app-icon name="pencil"></app-icon>
+    }
+    @case ('in-collection') {
+      <app-icon
+        name="folder"
+        nz-tooltip
+        [nzTooltipTitle]="'COLLECTION_OPEN_QUERY_TOOLTIP' | translate"
+        nzTooltipPlacement="bottom"
+      ></app-icon>
+    }
+    @case ('is-loading') {
+      <app-icon name="loader" class="anim anim-rotate"></app-icon>
+    }
+    @default {
+      <app-icon name="file" class="window-switcher__subdued"></app-icon>
+    }
+  }
+  <!-- TODO: Switch out for input element when editing -->
+  <div
+    #wTitle
+    class="window-switcher__input"
+    [ngClass]="{
+      'window-switcher__input--editing': isEditing$ | async,
+    }"
+    [attr.contenteditable]="isEditing$ | async"
+    (blur)="saveWindowNameChange.emit(wTitle.innerText)"
+    (keydown.enter)="saveWindowNameChange.emit(wTitle.innerText)"
+  >
+    {{ (window$ | async)?.layout?.title || '' }}
+  </div>
+  <span class="window-switcher__unsaved-indicator" *ngIf="isWindowUnsaved$ | async">
+    *
+  </span>
+  @if (isClosable) {
+    <div
+      track-id="close_window_tab"
+      class="window-switcher__close"
+      (click)="closeWindowChange.emit()"
+    >
+      &#x00D7;
+    </div>
+  }
+</li>

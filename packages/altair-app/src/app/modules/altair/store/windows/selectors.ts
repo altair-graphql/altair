@@ -2,6 +2,7 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { str } from '../../utils';
+import { getWindowCollection } from '../collection/utils';
 
 export const selectActiveWindowState = (state: RootState) => {
   return state.windows[state.windowsMeta.activeWindowId];
@@ -14,12 +15,13 @@ export const windowHasUnsavedChanges = (
   windowState?: PerWindowState,
   collections?: IQueryCollection[]
 ) => {
-  if (!windowState || !collections) {
+  if (!windowState || !collections?.length) {
     return false;
   }
-  const collection = collections.find(
-    (c) => str(c.id) === str(windowState.layout.collectionId)
-  );
+  const collection = getWindowCollection(windowState, collections);
+  if (!collection) {
+    return false;
+  }
   const queryInCollection = collection?.queries.find(
     (q) => str(q.id) === str(windowState.layout.windowIdInCollection ?? '')
   );

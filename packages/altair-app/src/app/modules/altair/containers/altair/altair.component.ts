@@ -536,6 +536,10 @@ export class AltairComponent {
     );
   }
 
+  setWindowIds(ids: string[]) {
+    this.store.dispatch(new windowsMetaActions.SetWindowIdsAction({ ids }));
+  }
+
   reopenClosedWindow() {
     this.store.dispatch(new windowsActions.ReopenClosedWindowAction());
   }

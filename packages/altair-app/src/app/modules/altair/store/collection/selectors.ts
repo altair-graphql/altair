@@ -4,6 +4,7 @@ import {
   getAllParentCollections,
   getCollection,
   getCollections,
+  getWindowCollection,
   getWindowParentCollections,
 } from './utils';
 import { selectActiveWindowState, selectWindowState } from '../windows/selectors';
@@ -26,6 +27,19 @@ export const selectAllParentCollections = (collectionId: string) =>
     }
     return [];
   });
+
+export const selectWindowCollection = (windowId?: string) =>
+  createSelector(
+    selectWindowState(windowId ?? ''),
+    selectActiveWindowState,
+    selectCollections,
+    (window, activeWindow, collections) => {
+      const w = window ?? activeWindow;
+      if (w) {
+        return getWindowCollection(w, collections);
+      }
+    }
+  );
 
 export const selectWindowParentCollections = (windowId?: string) =>
   createSelector(
