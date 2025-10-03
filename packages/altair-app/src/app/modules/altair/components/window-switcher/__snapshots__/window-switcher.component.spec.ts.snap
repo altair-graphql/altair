@@ -4,19 +4,19 @@ exports[`WindowSwitcherComponent should render correctly 1`] = `
 <app-window-switcher
   class="window-switcher__no-scrollbar"
 >
-  <ul
+  <div
     cdkdroplist=""
     cdkdroplistorientation="horizontal"
     class="window-switcher__list window-switcher__no-scrollbar"
   >
     
-    <li
+    <div
       class="window-switcher__item"
     >
         
-    </li>
+    </div>
     
-  </ul>
+  </div>
   
 </app-window-switcher>
 `;

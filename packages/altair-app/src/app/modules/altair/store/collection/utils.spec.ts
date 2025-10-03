@@ -8,6 +8,7 @@ import {
 } from './utils';
 import {
   CollectionState,
+  IQuery,
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -262,18 +263,30 @@ describe('Collection Utils', () => {
       {
         id: 'root-col',
         title: 'Root Collection',
-        queries: [],
+        queries: [
+          {
+            id: 'query-1',
+          } as IQuery,
+        ],
       },
       {
         id: 'parent-col',
         title: 'Parent Collection',
-        queries: [],
+        queries: [
+          {
+            id: 'query-1',
+          } as IQuery,
+        ],
         parentPath: '/root-col',
       },
       {
         id: 'child-col',
         title: 'Child Collection',
-        queries: [],
+        queries: [
+          {
+            id: 'query-1',
+          } as IQuery,
+        ],
         parentPath: '/root-col/parent-col',
       },
     ];
