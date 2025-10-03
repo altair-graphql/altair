@@ -1,0 +1,78 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Altair GraphQL Client Tauri (alpha)",
+  "version": "0.1.0",
+  "identifier": "com.xkoji.altair-tauri",
+  "build": {
+    "frontendDist": "../../altair-app/dist",
+    "devUrl": "http://localhost:4200",
+    "beforeDevCommand": "nc -z localhost 4200 2>/dev/null || pnpm start:app",
+    "beforeBuildCommand": "pnpm build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Altair GraphQL Client Tauri (alpha)",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "transparent": false,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false
+      }
+    ],
+    "security": {
+      "csp": null,
+      "pattern": {
+        "use": "isolation",
+        "options": {
+          "dir": "../../altair-tauri-isolation/dist"
+        }
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "copyright": "© 2024 Samuel Imolorhe",
+    "category": "Developer Tool",
+    "shortDescription": "A beautiful feature-rich GraphQL Client IDE",
+    "longDescription": "Altair GraphQL Client helps you debug GraphQL queries and implementations - taking care of the hard part so you can focus on actually getting things done."
+  },
+  "plugins": {
+    "dialog": {},
+    "fs": {
+      "scope": ["$APPDATA", "$APPDATA/altair", "$HOME/.altair", "$DOCUMENT/*"]
+    },
+    "notification": {},
+    "os": {},
+    "process": {},
+    "shell": {
+      "scope": [
+        {
+          "name": "open-url",
+          "cmd": "open",
+          "args": ["$URL"]
+        }
+      ]
+    },
+    "store": {
+      "default": "altair-store.json"
+    },
+    "updater": {
+      "endpoints": [
+        "https://api.github.com/repos/altair-graphql/altair/releases/latest"
+      ]
+    },
+    "window-state": {}
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@altairgraphql/tauri",
+  "private": true,
+  "version": "8.2.8",
+  "main": "dist/index.js",
+  "scripts": {
+    "web:dev": "tsc --watch",
+    "web:build": "tsc",
+    "bootstrap": "pnpm web:build",
+    "build": "tauri build",
+    "dev": "tauri dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-global-shortcut": "~2"
+  },
+  "license": "MIT"
+}

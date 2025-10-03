@@ -39,7 +39,7 @@
     "jszip": "^3.10.1",
     "recursive-copy": "^2.0.14",
     "rimraf": "^5.0.5",
-    "typescript": "^4.6.3",
+    "typescript": "catalog:",
     "vite": "^2.9.15",
     "vitest": "^3.0.5",
     "web-ext": "^8.3.0"
