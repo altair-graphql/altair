@@ -1,6 +1,6 @@
 use std::{env, vec};
 
-use tauri::{command, AppHandle};
+use tauri::{command, AppHandle, Manager};
 use tauri::menu::{AboutMetadataBuilder, MenuBuilder, PredefinedMenuItem, SubmenuBuilder, Menu};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -8,7 +8,11 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         // TODO: Make this work for snaps: https://v2.tauri.app/plugin/single-instance/#snap
-        .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {}))
+        .plugin(tauri_plugin_single_instance::init(|app, _, _| {
+          let _ = app.get_webview_window("main")
+                       .expect("no main window")
+                       .set_focus();
+        }))
         .invoke_handler(tauri::generate_handler![my_custom_command])
         .setup(|app| {
             if cfg!(debug_assertions) {
