@@ -6,8 +6,8 @@
   "build": {
     "frontendDist": "../../altair-app/dist",
     "devUrl": "http://localhost:4200",
-    "beforeDevCommand": "nc -z localhost 4200 2>/dev/null || pnpm start:app",
-    "beforeBuildCommand": "pnpm build"
+    "beforeDevCommand": "nc -z localhost 4200 2>/dev/null || pnpm -F @altairgraphql/app start",
+    "beforeBuildCommand": "pnpm bootstrap"
   },
   "app": {
     "windows": [
