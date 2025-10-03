@@ -51,8 +51,6 @@ on:
 
 jobs:
   tauri:
-    # TODO: Still experimental
-    continue-on-error: true
     permissions:
       contents: write
     strategy:
@@ -104,6 +102,8 @@ jobs:
           command: pnpm build:ci
 
       - uses: tauri-apps/tauri-action@v0
+        # TODO: Still experimental
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
