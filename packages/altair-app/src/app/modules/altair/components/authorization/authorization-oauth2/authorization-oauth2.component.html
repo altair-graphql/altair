@@ -61,7 +61,7 @@
         nzRequired
         nzFor="redirectUri"
         nzTooltipTitle="The callback (redirect) URL"
-        >Callback URL (readonly)</nz-form-label
+        >Callback URL</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
@@ -72,9 +72,8 @@
           nz-input
           formControlName="redirectUri"
           id="redirectUri"
-          class="input input--transparent"
+          class="input"
           autocomplete="off"
-          [readonly]="true"
         />
       </nz-form-control>
     </nz-form-item>
