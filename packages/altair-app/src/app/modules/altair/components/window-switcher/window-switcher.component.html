@@ -23,6 +23,16 @@
           nzTooltipPlacement="bottom"
         ></app-icon>
       }
+      @if (isWindowLoading(windowId)) {
+        <span
+          class="window-switcher__loading-indicator"
+          nz-tooltip
+          nzTooltipTitle="Request in progress"
+          nzTooltipPlacement="bottom"
+        >
+          <span class="dot-flashing"></span>
+        </span>
+      }
       <div
         #wTitle
         class="window-switcher__input"
