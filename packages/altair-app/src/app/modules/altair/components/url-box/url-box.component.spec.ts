@@ -44,6 +44,9 @@ describe('UrlBoxComponent', () => {
   });
 
   describe('sanitizeUrl', () => {
+    it('should return empty string if url is empty', () => {
+      expect(wrapper.componentInstance.sanitizeUrl('')).toBe('');
+    });
     it('should add http protocol if missing', () => {
       expect(wrapper.componentInstance.sanitizeUrl('localhost:3000')).toBe(
         'http://localhost:3000'
@@ -51,15 +54,15 @@ describe('UrlBoxComponent', () => {
     });
 
     it('should not add http protocol if already present', () => {
-      expect(
-        wrapper.componentInstance.sanitizeUrl('http://localhost:3000')
-      ).toBe('http://localhost:3000');
+      expect(wrapper.componentInstance.sanitizeUrl('http://localhost:3000')).toBe(
+        'http://localhost:3000'
+      );
     });
 
     it('should not add http protocol if url contains https', () => {
-      expect(
-        wrapper.componentInstance.sanitizeUrl('https://localhost:3000')
-      ).toBe('https://localhost:3000');
+      expect(wrapper.componentInstance.sanitizeUrl('https://localhost:3000')).toBe(
+        'https://localhost:3000'
+      );
     });
 
     it('should not add protocol if url contains variable', () => {
