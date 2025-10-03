@@ -17,24 +17,7 @@ pub fn run() {
                 )?;
             }
             build_menu(app);
-
-            // let menu = MenuBuilder::new(app)
-            //     .text("open", "Open")
-            //     .text("close", "Close")
-            //     .check("check_item", "Check Item")
-            //     .separator()
-            //     .text("disabled_item", "Disabled Item")
-            //     .text("status", "Status: Processing...")
-            //     .build()?;
-
-            // app.set_menu(menu.clone())?;
-
-            // Update individual menu item text
-            // menu
-            //     .get("status")
-            //     .unwrap()
-            //     .as_menuitem_unchecked()
-            //     .set_text("Status: Ready")?;
+            
             Ok(())
         })
         .run(tauri::generate_context!())
