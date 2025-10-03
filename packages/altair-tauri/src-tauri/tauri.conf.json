@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Altair GraphQL Client Tauri (alpha)",
-  "version": "0.1.0",
+  "version": "8.2.8",
   "identifier": "com.xkoji.altair-tauri",
   "build": {
     "frontendDist": "../../altair-app/dist",

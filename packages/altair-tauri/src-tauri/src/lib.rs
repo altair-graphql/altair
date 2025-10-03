@@ -1,5 +1,7 @@
+use std::{env, vec};
+
 use tauri::{command, AppHandle};
-use tauri::menu::{AboutMetadata, AboutMetadataBuilder, MenuBuilder, PredefinedMenuItem, SubmenuBuilder, Menu};
+use tauri::menu::{AboutMetadataBuilder, MenuBuilder, PredefinedMenuItem, SubmenuBuilder, Menu};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -39,13 +41,13 @@ fn build_menu(app: &tauri::App) {
     let about_submenu = SubmenuBuilder::new(app, "About")
         .about(AboutMetadataBuilder::new()
             .version(env!("CARGO_PKG_VERSION").into())
-            .authors(vec!["Leko".to_string()].into())
+            .authors(vec![app.package_info().authors.to_string()].into())
             .website("https://altair.sirmuel.design".to_string().into())
             .license("MIT".to_string().into())
             .build().into())
         .services()
         .hide()
-        .build().unwrap();
+        .build().expect("Failed to build about submenu");
     let edit_submenu = SubmenuBuilder::new(app, "Edit")
         .copy()
         .separator()
@@ -55,11 +57,11 @@ fn build_menu(app: &tauri::App) {
         .paste()
         .select_all()
         .item(&PredefinedMenuItem::copy(app, Some("Custom Copy")).unwrap())
-        .build().unwrap();
+        .build().expect("Failed to build edit submenu");
 
     let menu = MenuBuilder::new(app)
         .items(&[&about_submenu, &edit_submenu])
-        .build().unwrap();
+        .build().expect("Failed to build menu");
 
     app.set_menu(menu);
 }

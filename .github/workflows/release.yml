@@ -5,7 +5,7 @@ name: release-workflow
 on:
   push:
     tags:
-      - '**'
+      - "**"
   workflow_dispatch:
 
 env:
@@ -49,6 +49,13 @@ jobs:
   electron:
     needs: vars
     uses: ./.github/workflows/_publish-electron.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+    secrets: inherit
+
+  tauri:
+    needs: vars
+    uses: ./.github/workflows/_publish-tauri.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit

@@ -53,3 +53,11 @@ jobs:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: false
     secrets: inherit
+
+  tauri:
+    needs: vars
+    uses: ./.github/workflows/_publish-tauri.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      publish: false
+    secrets: inherit
