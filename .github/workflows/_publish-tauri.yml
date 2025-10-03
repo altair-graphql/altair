@@ -113,6 +113,7 @@ jobs:
           releaseDraft: true
           prerelease: false
           projectPath: packages/altair-tauri
+          tauriScript: pnpm
           args: ${{ matrix.args }}
       - name: Read VERSION file
         id: getversion
