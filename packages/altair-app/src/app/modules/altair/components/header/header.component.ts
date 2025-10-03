@@ -41,10 +41,7 @@ export class HeaderComponent {
     windowId: string;
     windowName: string;
   }>();
-  @Output() repositionWindowChange = new EventEmitter<{
-    currentPosition: number;
-    newPosition: number;
-  }>();
+  @Output() reorderWindowsChange = new EventEmitter<string[]>();
   @Output() reopenClosedWindowChange = new EventEmitter();
   @Output() togglePanelActiveChange = new EventEmitter<AltairPanel>();
   @Output() selectActiveEnvironmentChange = new EventEmitter<string | undefined>();

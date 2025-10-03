@@ -44,15 +44,31 @@ export const getAllParentCollections = (
   }
 };
 
-export const getWindowParentCollections = (
+export const getWindowCollection = (
   window: PerWindowState,
   collections: IQueryCollection[]
 ) => {
   if (window?.layout.windowIdInCollection && window?.layout.collectionId) {
     const collection = getCollection(collections, window.layout.collectionId);
-    if (collection) {
-      return [...getAllParentCollections(collections, collection), collection];
+    const isValid = !!collection?.queries.find(
+      (query) => query.id === window.layout.windowIdInCollection
+    );
+    if (isValid) {
+      return collection;
     }
+  }
+};
+
+export const getWindowParentCollections = (
+  window: PerWindowState,
+  collections: IQueryCollection[]
+) => {
+  const windowCollection = getWindowCollection(window, collections);
+  if (windowCollection) {
+    return [
+      ...getAllParentCollections(collections, windowCollection),
+      windowCollection,
+    ];
   }
   return [];
 };

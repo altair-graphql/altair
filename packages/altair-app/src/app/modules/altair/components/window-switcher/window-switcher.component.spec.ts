@@ -41,35 +41,4 @@ describe('WindowSwitcherComponent', () => {
   it('should render correctly', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
-
-  describe('isWindowLoading', () => {
-    it('should return false if window does not exist', () => {
-      expect(wrapper.componentInstance.isWindowLoading('non-existent-id')).toBe(false);
-    });
-
-    it('should return false if window layout is undefined', () => {
-      wrapper.componentInstance.windows = {
-        'window-1': {} as any,
-      };
-      expect(wrapper.componentInstance.isWindowLoading('window-1')).toBe(false);
-    });
-
-    it('should return false if window is not loading', () => {
-      wrapper.componentInstance.windows = {
-        'window-1': {
-          layout: { isLoading: false },
-        } as any,
-      };
-      expect(wrapper.componentInstance.isWindowLoading('window-1')).toBe(false);
-    });
-
-    it('should return true if window is loading', () => {
-      wrapper.componentInstance.windows = {
-        'window-1': {
-          layout: { isLoading: true },
-        } as any,
-      };
-      expect(wrapper.componentInstance.isWindowLoading('window-1')).toBe(true);
-    });
-  });
 });

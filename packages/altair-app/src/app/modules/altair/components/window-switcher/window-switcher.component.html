@@ -1,4 +1,4 @@
-<ul
+<div
   cdkDropList
   cdkDropListOrientation="horizontal"
   class="window-switcher__list"
@@ -7,134 +7,93 @@
   (cdkDropListDropped)="onDropEnd($event)"
 >
   @for (windowId of windowIds; track windowId; let index = $index) {
-    <li
+    <app-window-switcher-item
       cdkDrag
-      class="window-switcher__item"
-      [ngClass]="{ 'window-switcher__item--active': windowId === activeWindowId }"
-      (click)="onClickWindow(windowId)"
-      (dblclick)="editWindowNameInput(windowId, wTitle)"
+      [window]="windows[windowId]"
+      [activeWindowId]="activeWindowId"
+      [isEditing]="windowId === windowIdEditing"
+      [isClosable]="windowIds.length > 1"
+      [collections]="collections"
+      (clickWindowChange)="onClickWindow($event)"
+      (editWindowNameInput)="editWindowNameInput($event)"
+      (saveWindowNameChange)="saveWindowName(windowId, $event)"
+      (closeWindowChange)="closeWindow(windowId)"
       (contextmenu)="contextMenu($event, tabContextMenu)"
-    >
-      @if (isWindowInCollection(windowId)) {
-        <app-icon
-          name="folder"
-          nz-tooltip
-          [nzTooltipTitle]="'COLLECTION_OPEN_QUERY_TOOLTIP' | translate"
-          nzTooltipPlacement="bottom"
-        ></app-icon>
-      }
-      @if (isWindowLoading(windowId)) {
-        <span
-          class="window-switcher__loading-indicator"
-          nz-tooltip
-          nzTooltipTitle="Request in progress"
-          nzTooltipPlacement="bottom"
-        >
-          <span class="dot-flashing"></span>
-        </span>
-      }
-      <div
-        #wTitle
-        class="window-switcher__input"
-        [ngClass]="{
-          'window-switcher__input--editing': windowId === windowIdEditing,
-        }"
-        [attr.contenteditable]="windowId === windowIdEditing"
-        (blur)="saveWindowName(windowId, wTitle.innerText)"
-        (keydown.enter)="saveWindowName(windowId, wTitle.innerText)"
-      >
-        {{ windows[windowId]?.layout?.title || '' }}
-      </div>
-      <span
-        class="window-switcher__unsaved-indicator"
-        *ngIf="windowHasUnsavedChanges(windowId)"
-      >
-        *
-      </span>
-      @if (windowIds.length > 1) {
-        <div
-          track-id="close_window_tab"
-          class="window-switcher__close"
-          (click)="closeWindow(windowId)"
-        >
-          &#x00D7;
-        </div>
-      }
-      <nz-dropdown-menu #tabContextMenu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item (click)="editWindowNameInput(windowId, wTitle)">
+    ></app-window-switcher-item>
+    <nz-dropdown-menu #tabContextMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item (click)="editWindowNameInput(windowId)">
+          <div class="menu-item">
+            <span class="menu-icon">
+              <app-icon name="edit"></app-icon>
+            </span>
+            <span class="menu-text">
+              {{ 'EDIT_WINDOW_TEXT' | translate }}
+            </span>
+          </div>
+        </li>
+        <li nz-menu-item (click)="duplicateWindow(windowId)">
+          <div class="menu-item">
+            <span class="menu-icon">
+              <app-icon name="copy"></app-icon>
+            </span>
+            <span class="menu-text">
+              {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
+            </span>
+          </div>
+        </li>
+        <!-- divider -->
+        <li nz-menu-divider></li>
+        @if (windowIds.length > 1) {
+          <li nz-menu-item (click)="closeWindow(windowId)">
             <div class="menu-item">
               <span class="menu-icon">
-                <app-icon name="edit"></app-icon>
+                <app-icon name="x-square"></app-icon>
               </span>
               <span class="menu-text">
-                {{ 'EDIT_WINDOW_TEXT' | translate }}
+                {{ 'CLOSE_WINDOW_TEXT' | translate }}
               </span>
             </div>
           </li>
-          <li nz-menu-item (click)="duplicateWindow(windowId)">
+        }
+        <li nz-menu-item (click)="closeWindowsToTheRight(index)">
+          <div class="menu-item">
+            <span class="menu-icon">
+              <app-icon name="circle"></app-icon>
+            </span>
+            <span class="menu-text">
+              {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
+            </span>
+          </div>
+        </li>
+        <li nz-menu-item (click)="closeOtherWindows(windowId)">
+          <div class="menu-item">
+            <span class="menu-icon">
+              <app-icon name="circle"></app-icon>
+            </span>
+            <span class="menu-text">
+              {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
+            </span>
+          </div>
+        </li>
+        @if (closedWindows.length) {
+          <li nz-menu-item (click)="reopenClosedTab()">
             <div class="menu-item">
               <span class="menu-icon">
-                <app-icon name="copy"></app-icon>
+                <app-icon name="plus-square"></app-icon>
               </span>
               <span class="menu-text">
-                {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
+                {{ 'REOPEN_CLOSED_WINDOW_TEXT' | translate }}
               </span>
             </div>
           </li>
-          <!-- divider -->
-          <li nz-menu-divider></li>
-          @if (windowIds.length > 1) {
-            <li nz-menu-item (click)="closeWindow(windowId)">
-              <div class="menu-item">
-                <span class="menu-icon">
-                  <app-icon name="x-square"></app-icon>
-                </span>
-                <span class="menu-text">
-                  {{ 'CLOSE_WINDOW_TEXT' | translate }}
-                </span>
-              </div>
-            </li>
-          }
-          <li nz-menu-item (click)="closeWindowsToTheRight(index)">
-            <div class="menu-item">
-              <span class="menu-icon">
-                <app-icon name="circle"></app-icon>
-              </span>
-              <span class="menu-text">
-                {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
-              </span>
-            </div>
-          </li>
-          <li nz-menu-item (click)="closeOtherWindows(windowId)">
-            <div class="menu-item">
-              <span class="menu-icon">
-                <app-icon name="circle"></app-icon>
-              </span>
-              <span class="menu-text">
-                {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
-              </span>
-            </div>
-          </li>
-          @if (closedWindows.length) {
-            <li nz-menu-item (click)="reopenClosedTab()">
-              <div class="menu-item">
-                <span class="menu-icon">
-                  <app-icon name="plus-square"></app-icon>
-                </span>
-                <span class="menu-text">
-                  {{ 'REOPEN_CLOSED_WINDOW_TEXT' | translate }}
-                </span>
-              </div>
-            </li>
-          }
-        </ul>
-      </nz-dropdown-menu>
-    </li>
+        }
+      </ul>
+    </nz-dropdown-menu>
   }
   @if (windowIds.length < maxWindowCount) {
     <li class="window-switcher__item" (click)="newWindowChange.next($event)">
       {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
     </li>
   }
-</ul>
+</div>
