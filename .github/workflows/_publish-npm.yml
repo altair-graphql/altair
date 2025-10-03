@@ -4,22 +4,24 @@ on:
   workflow_call:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
     outputs:
       reusable_output:
-        description: 'Successful publish from the workflow'
+        description: "Successful publish from the workflow"
         value: ${{ jobs.npm-publish.outputs.success }}
   workflow_dispatch:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
 
 jobs:
   npm-publish:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     outputs:
       success: ${{ steps.publish.outcome != 'failure' }}
@@ -30,7 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: Authenticate with Registry
         run: echo -e "\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
         env:
@@ -42,4 +44,4 @@ jobs:
           max_attempts: 3
           command: pnpm build:ci
       - id: publish
-        run: pnpm publish -r --no-git-checks
+        run: pnpm publish -r --no-git-checks --provenance
