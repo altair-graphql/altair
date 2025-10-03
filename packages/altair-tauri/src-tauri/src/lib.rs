@@ -1,0 +1,82 @@
+use tauri::{command, AppHandle};
+use tauri::menu::{AboutMetadata, AboutMetadataBuilder, MenuBuilder, PredefinedMenuItem, SubmenuBuilder, Menu};
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    tauri::Builder::default()
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
+        // TODO: Make this work for snaps: https://v2.tauri.app/plugin/single-instance/#snap
+        .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {}))
+        .invoke_handler(tauri::generate_handler![my_custom_command])
+        .setup(|app| {
+            if cfg!(debug_assertions) {
+                app.handle().plugin(
+                    tauri_plugin_log::Builder::default()
+                        .level(log::LevelFilter::Info)
+                        .build(),
+                )?;
+            }
+            build_menu(app);
+
+            // let menu = MenuBuilder::new(app)
+            //     .text("open", "Open")
+            //     .text("close", "Close")
+            //     .check("check_item", "Check Item")
+            //     .separator()
+            //     .text("disabled_item", "Disabled Item")
+            //     .text("status", "Status: Processing...")
+            //     .build()?;
+
+            // app.set_menu(menu.clone())?;
+
+            // Update individual menu item text
+            // menu
+            //     .get("status")
+            //     .unwrap()
+            //     .as_menuitem_unchecked()
+            //     .set_text("Status: Ready")?;
+            Ok(())
+        })
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}
+
+#[command]
+fn my_custom_command() {
+    println!("I was invoked from JavaScript!");
+}
+
+#[command]
+async fn restart_app(app_handle: AppHandle) -> Result<(), String> {
+    app_handle.restart();
+    Ok(())
+}
+
+fn build_menu(app: &tauri::App) {
+    let about_submenu = SubmenuBuilder::new(app, "About")
+        .about(AboutMetadataBuilder::new()
+            .version(env!("CARGO_PKG_VERSION").into())
+            .authors(vec!["Leko".to_string()].into())
+            .website("https://altair.sirmuel.design".to_string().into())
+            .license("MIT".to_string().into())
+            .build().into())
+        .services()
+        .hide()
+        .build().unwrap();
+    let edit_submenu = SubmenuBuilder::new(app, "Edit")
+        .copy()
+        .separator()
+        .undo()
+        .redo()
+        .cut()
+        .paste()
+        .select_all()
+        .item(&PredefinedMenuItem::copy(app, Some("Custom Copy")).unwrap())
+        .build().unwrap();
+
+    let menu = MenuBuilder::new(app)
+        .items(&[&about_submenu, &edit_submenu])
+        .build().unwrap();
+
+    app.set_menu(menu);
+}

@@ -55,6 +55,9 @@ export class UrlBoxComponent {
     // trim the url and remove any spaces
     // add http protocol if missing
     url = url.trim();
+    if (!url) {
+      return url;
+    }
     const hasProtocol = /^[a-zA-Z]+:\/\//.test(url);
     const hasVariable = /{{.*}}/.test(url);
     if (!(hasProtocol || hasVariable)) {

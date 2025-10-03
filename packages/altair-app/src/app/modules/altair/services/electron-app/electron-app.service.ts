@@ -18,6 +18,7 @@ import {
 import { StorageService } from '../storage/storage.service';
 import { downloadData, isElectronApp } from '../../utils';
 import { selectShowDocs } from '../../store/docs/selectors';
+import { isTauri } from '@altairgraphql/tauri';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';

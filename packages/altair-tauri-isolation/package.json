@@ -1,0 +1,17 @@
+{
+  "name": "altair-tauri-isolation",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "bootstrap": "pnpm build",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "^7.1.7"
+  }
+}
