@@ -272,6 +272,11 @@ app-doc-viewer {
     background: rgba(var(--rgb-orange), 0.05);
     color: var(--orange-color);
   }
+
+  &.cat-directive {
+    background: rgba(var(--rgb-purple), 0.05);
+    color: var(--purple-color);
+  }
 }
 
 .doc-viewer-search-result-highlight {

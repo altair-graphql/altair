@@ -99,29 +99,33 @@
         <div>
           @switch (docView.view) {
             @case ('root') {
-              <div class="doc-viewer-section-title">
-                {{ 'DOCS_ROOT_TYPES_TEXT' | translate }}
-              </div>
-              @for (item of rootTypes; track item.name) {
-                <div class="doc-viewer-item">
-                  @if (item) {
-                    <span class="no-link-link" (click)="goToType(item.name)">{{
-                      item.name
-                    }}</span>
-                  }
-                </div>
-              }
-              @if (directives.length) {
+              <div class="mb-40">
                 <div class="doc-viewer-section-title">
-                  {{ 'DOCS_DIRECTIVES_TEXT' | translate }}
+                  {{ 'DOCS_ROOT_TYPES_TEXT' | translate }}
                 </div>
-                @for (item of directives; track directiveTrackBy($index, item)) {
+                @for (item of rootTypes; track item.name) {
                   <div class="doc-viewer-item">
-                    <span class="no-link-link" (click)="goToDirective(item.name)">
-                      @{{ item.name }}
-                    </span>
+                    @if (item) {
+                      <span class="no-link-link" (click)="goToType(item.name)">{{
+                        item.name
+                      }}</span>
+                    }
                   </div>
                 }
+              </div>
+              @if (directives.length) {
+                <div class="mb-40">
+                  <div class="doc-viewer-section-title">
+                    {{ 'DOCS_DIRECTIVES_TEXT' | translate }}
+                  </div>
+                  @for (item of directives; track directiveTrackBy($index, item)) {
+                    <div class="doc-viewer-item">
+                      <span class="no-link-link" (click)="goToDirective(item.name)">
+                        {{ '@' }}{{ item.name }}
+                      </span>
+                    </div>
+                  }
+                </div>
               }
             }
             @case ('type') {
@@ -170,6 +174,7 @@
                 [results]="searchResult"
                 (goToFieldChange)="goToField($event.name, $event.parentType)"
                 (goToTypeChange)="goToType($event.name)"
+                (goToDirectiveChange)="goToDirective($event.name)"
               ></app-doc-viewer-search-results>
             }
           }

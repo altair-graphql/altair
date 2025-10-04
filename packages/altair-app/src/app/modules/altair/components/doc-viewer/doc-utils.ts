@@ -1,9 +1,18 @@
 import Fuse from 'fuse.js';
 import { GraphQLSchema } from 'graphql/type/schema';
-import { DocumentIndexEntry, DocumentIndexFieldEntry } from './models';
+import {
+  DocumentIndexEntry,
+  DocumentIndexFieldEntry,
+  DocumentIndexDirectiveEntry,
+} from './models';
 import { buildSchema } from 'graphql/utilities';
 import getRootTypes from '../../utils/get-root-types';
-import { GraphQLObjectType, GraphQLFieldMap, GraphQLType } from 'graphql';
+import {
+  GraphQLObjectType,
+  GraphQLFieldMap,
+  GraphQLType,
+  GraphQLDirective,
+} from 'graphql';
 import { generateQuery } from '../../services/gql/generateQuery';
 
 export class DocUtils {
@@ -56,8 +65,55 @@ export class DocUtils {
       }
     });
 
+    // Get directives into index as well
+    const directives = this.schema.getDirectives();
+    searchIndex = [...searchIndex, ...this.getDirectivesIndices(directives)];
+
     this.searchIndex = searchIndex;
     return searchIndex;
+  }
+
+  /**
+   * Gets the indices for directives
+   */
+  getDirectivesIndices(
+    directives: readonly GraphQLDirective[]
+  ): DocumentIndexEntry[] {
+    let index: DocumentIndexEntry[] = [];
+
+    directives.forEach((directive) => {
+      // For each directive, create an entry in the index
+      const directiveIndex: DocumentIndexDirectiveEntry = {
+        search: directive.name,
+        name: '@' + directive.name,
+        description: directive.description || '',
+        cat: 'directive',
+        highlight: 'directive',
+        locations: directive.locations,
+        args: directive.args?.map((arg) => ({
+          name: arg.name,
+          description: arg.description ?? '',
+        })),
+      };
+      index = [...index, directiveIndex];
+
+      // For each argument of the directive, create an entry in the index for the directive,
+      // searchable by the argument name
+      if (directive.args && directive.args.length) {
+        directive.args.forEach((arg) => {
+          index = [
+            ...index,
+            {
+              ...directiveIndex,
+              search: arg.name,
+              highlight: 'argument',
+            },
+          ];
+        });
+      }
+    });
+
+    return index;
   }
 
   /**
@@ -71,7 +127,7 @@ export class DocUtils {
   ): DocumentIndexEntry[] {
     let index: DocumentIndexEntry[] = [];
 
-    Object.entries(fields).forEach(([fieldKey, field]) => {
+    Object.entries(fields).forEach(([, field]) => {
       // For each field, create an entry in the index
       const fieldIndex: DocumentIndexFieldEntry = {
         search: field.name,

@@ -18,7 +18,12 @@ export interface SearchDocView {
   view: 'search';
 }
 
-export type DocView = TypeDocView | FieldDocView | DirectiveDocView | RootDocView | SearchDocView;
+export type DocView =
+  | TypeDocView
+  | FieldDocView
+  | DirectiveDocView
+  | RootDocView
+  | SearchDocView;
 
 export interface DocsState {
   showDocs: boolean;
