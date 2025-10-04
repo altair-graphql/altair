@@ -1,0 +1,77 @@
+@if (data) {
+  <div class="doc-viewer-section">
+    <!--Directive name and description-->
+    <div class="doc-viewer-item doc-viewer-item-field">
+      <div class="doc-viewer-item-query-inner">
+        <span class="doc-viewer-item-directive-name">@{{ data.name }}</span>
+      </div>
+      @if (data.description) {
+        <div
+          class="doc-viewer-item-query-description"
+          markdown
+          [data]="data.description || ''"
+        ></div>
+      }
+    </div>
+  </div>
+  <!--Directive locations-->
+  @if (data.locations && data.locations.length) {
+    <div class="doc-viewer-section doc-viewer-locations">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_LOCATIONS_TEXT' | translate }}
+      </div>
+      <div class="doc-viewer-item doc-viewer-item-query">
+        <div class="doc-viewer-item-query-inner">
+          <span class="doc-viewer-item-locations">{{ getLocations(data) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+  <!--Directive arguments-->
+  @if (data.args && data.args.length) {
+    <div class="doc-viewer-section doc-viewer-arguments">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
+      </div>
+      @for (arg of data.args; track argTrackBy($index, arg)) {
+        <div class="doc-viewer-item doc-viewer-item-query">
+          <div class="doc-viewer-item-query-inner">
+            <span class="no-link-link" (click)="goToType(arg.type.inspect())">
+              {{ arg.name }}
+              @if (getDefaultValue(arg)) {
+                <span class="doc-viewer-item-value"
+                  >= {{ getDefaultValue(arg) }}</span
+                >
+              }
+            </span>
+            <span
+              class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
+              (click)="goToType(arg.type.inspect())"
+            >
+              {{ arg.type.inspect() }}
+            </span>
+          </div>
+          @if (arg.description) {
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="arg.description || ''"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+  }
+  <!--Repeatable indicator-->
+  @if (data.isRepeatable) {
+    <div class="doc-viewer-section doc-viewer-repeatable">
+      <div class="doc-viewer-item doc-viewer-item-query">
+        <div class="doc-viewer-item-query-inner">
+          <span class="doc-viewer-item-repeatable-text">
+            {{ 'DOCS_REPEATABLE_TEXT' | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+  }
+}

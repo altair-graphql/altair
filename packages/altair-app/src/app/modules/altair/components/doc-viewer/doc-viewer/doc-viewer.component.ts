@@ -13,7 +13,7 @@ import {
 import { debug } from '../../../utils/logger';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
 import { DocumentIndexEntry } from '../models';
 import { fadeInOutAnimationTrigger } from '../../../animations';
 import { GqlService } from '../../../services';
@@ -52,6 +52,7 @@ export class DocViewerComponent implements OnChanges {
   @ViewChild('docViewer') docViewerRef?: ElementRef;
 
   rootTypes: GraphQLObjectType[] = [];
+  directives: readonly GraphQLDirective[] = [];
   index: DocumentIndexEntry[] = [];
 
   searchInputPlaceholder = 'Search docs...';
@@ -87,6 +88,7 @@ export class DocViewerComponent implements OnChanges {
   async updateDocs(schema: GraphQLSchema) {
     debug.log(schema);
     this.rootTypes = getRootTypes(schema);
+    this.directives = schema.getDirectives();
 
     try {
       const docUtilWorker = await this.getDocUtilsWorker();
@@ -190,6 +192,15 @@ export class DocViewerComponent implements OnChanges {
     });
   }
 
+  /**
+   * Updates the doc view for a particular directive
+   * @param name name of directive
+   */
+  goToDirective(name: string) {
+    this.updateDocHistory();
+    this.setDocView({ view: 'directive', name: name.replace(/[[\]!@]/g, '') });
+  }
+
   async addToEditor(name: string, parentType: string) {
     if (!this.hasSearchIndex) {
       debug.log('No search index, so cannot add to editor');
@@ -248,5 +259,15 @@ export class DocViewerComponent implements OnChanges {
 
   rootTypeTrackBy(index: number, type: GraphQLObjectType) {
     return type.name;
+  }
+
+  directiveTrackBy(index: number, directive: GraphQLDirective) {
+    return directive.name;
+  }
+
+  getDirective(docView: DocView) {
+    if (docView.view === 'directive') {
+      return this.directives.find(d => d.name === docView.name);
+    }
   }
 }
