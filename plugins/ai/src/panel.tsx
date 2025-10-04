@@ -14,7 +14,7 @@ import {
   maxGraphqlQueryChars,
   maxGraphqlVariablesChars,
   maxSdlChars,
-} from 'altair-graphql-core/build/cjs/ai/constants';
+} from 'altair-graphql-core/build/ai/constants';
 import { IMessage, ISendMessageDto } from 'altair-graphql-core/build/ai/types';
 
 const queryClient = new QueryClient({
