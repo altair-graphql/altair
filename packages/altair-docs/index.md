@@ -50,6 +50,22 @@ features:
     details: extend the core functionality provided with plugins that can do much more
 featuresFooterText: View all features
 featuresFooterLink: /docs/features/
+recommendedBy:
+  title: Recommended By
+  subtitle: Trusted by developers and teams worldwide
+  list:
+    - name: GitHub
+      logo: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg
+      url: https://github.com
+    - name: GraphQL
+      logo: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg
+      url: https://graphql.org
+    - name: Apollo
+      logo: https://seeklogo.com/images/A/apollo-logo-DC7DD3C444-seeklogo.com.png
+      url: https://www.apollographql.com
+    - name: Hasura
+      logo: https://hasura.io/brand-assets/hasura-logo-primary-dark.svg
+      url: https://hasura.io
 contributions:
   opencollective:
     url: https://opencollective.com/altair
