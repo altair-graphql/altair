@@ -4,10 +4,8 @@ import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { debug } from '../../utils/logger';
 import { EnvironmentService } from '../environment/environment.service';
-import { GqlService } from '../gql/gql.service';
 import { NotifyService } from '../notify/notify.service';
 import { take } from 'rxjs/operators';
-import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { PreRequestService } from '../pre-request/pre-request.service';
 import { AUTHORIZATION_MAPPING } from '../../components/authorization/authorizations';
@@ -22,6 +20,7 @@ import {
 } from 'altair-graphql-core/build/request/types';
 import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +30,6 @@ export class QueryService {
     private notifyService: NotifyService,
     private environmentService: EnvironmentService,
     private preRequestService: PreRequestService,
-    private gqlService: GqlService,
-    private collectionService: QueryCollectionService,
     private requestHandlerRegistryService: RequestHandlerRegistryService,
     private store: Store<RootState>
   ) {}
@@ -121,7 +118,7 @@ export class QueryService {
       // no state, no transformations
       return preTransformedData;
     }
-    const collections = await this.getWindowParentCollections(state);
+    const collections = await this.getWindowParentCollections(state.windowId);
 
     // Headers
     preTransformedData.combinedHeaders = this.getCombinedHeaders(state, collections);
@@ -237,7 +234,7 @@ export class QueryService {
       return preTransformedData;
     }
 
-    const collections = await this.getWindowParentCollections(state);
+    const collections = await this.getWindowParentCollections(state.windowId);
 
     const collectionsWithEnabledPostrequests = collections.filter(
       (collection) => collection.postRequest?.enabled
@@ -342,22 +339,11 @@ export class QueryService {
     return data.getHandler();
   }
 
-  private async getWindowParentCollections(window: PerWindowState) {
-    if (window.layout.windowIdInCollection && window.layout.collectionId) {
-      const collection = await this.collectionService.getCollectionByID(
-        window.layout.collectionId
-      );
+  private getWindowParentCollections$(windowId: string) {
+    return this.store.pipe(select(fromRoot.selectWindowParentCollections(windowId)));
+  }
 
-      if (collection) {
-        const collections = [
-          collection,
-          ...(await this.collectionService.getAllParentCollections(collection)),
-        ];
-
-        return collections;
-      }
-    }
-
-    return [];
+  private async getWindowParentCollections(windowId: string) {
+    return firstValueFrom(this.getWindowParentCollections$(windowId));
   }
 }
