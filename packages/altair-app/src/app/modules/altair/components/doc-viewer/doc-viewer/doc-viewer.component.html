@@ -99,6 +99,9 @@
         <div>
           @switch (docView.view) {
             @case ('root') {
+              <div class="doc-viewer-section-title">
+                {{ 'DOCS_ROOT_TYPES_TEXT' | translate }}
+              </div>
               @for (item of rootTypes; track item.name) {
                 <div class="doc-viewer-item">
                   @if (item) {
@@ -107,6 +110,18 @@
                     }}</span>
                   }
                 </div>
+              }
+              @if (directives.length) {
+                <div class="doc-viewer-section-title">
+                  {{ 'DOCS_DIRECTIVES_TEXT' | translate }}
+                </div>
+                @for (item of directives; track directiveTrackBy($index, item)) {
+                  <div class="doc-viewer-item">
+                    <span class="no-link-link" (click)="goToDirective(item.name)">
+                      @{{ item.name }}
+                    </span>
+                  </div>
+                }
               }
             }
             @case ('type') {
@@ -139,6 +154,15 @@
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
                   (sortFieldsByChange)="setSortFieldsByOption($event)"
                 ></app-doc-viewer-field>
+              }
+            }
+            @case ('directive') {
+              @if (docView.view === 'directive' && getDirective(docView)) {
+                <app-doc-viewer-directive
+                  [data]="getDirective(docView)"
+                  [gqlSchema]="gqlSchema"
+                  (goToTypeChange)="goToType($event.name)"
+                ></app-doc-viewer-directive>
               }
             }
             @case ('search') {

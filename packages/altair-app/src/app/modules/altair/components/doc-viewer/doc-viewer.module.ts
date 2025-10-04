@@ -8,6 +8,7 @@ import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import { DocViewerFieldComponent } from './doc-viewer-field/doc-viewer-field.component';
 import { DocViewerTypeComponent } from './doc-viewer-type/doc-viewer-type.component';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results/doc-viewer-search-results.component';
+import { DocViewerDirectiveComponent } from './doc-viewer-directive/doc-viewer-directive.component';
 import { ComponentModule } from '../components.module';
 import { PipesModule } from '../../pipes';
 import { DocViewerDeprecatedComponent } from './doc-viewer-deprecated/doc-viewer-deprecated.component';
@@ -25,6 +26,7 @@ import { DocViewerDeprecatedComponent } from './doc-viewer-deprecated/doc-viewer
     DocViewerFieldComponent,
     DocViewerTypeComponent,
     DocViewerSearchResultsComponent,
+    DocViewerDirectiveComponent,
     DocViewerDeprecatedComponent,
   ],
   exports: [
@@ -32,6 +34,7 @@ import { DocViewerDeprecatedComponent } from './doc-viewer-deprecated/doc-viewer
     DocViewerFieldComponent,
     DocViewerTypeComponent,
     DocViewerSearchResultsComponent,
+    DocViewerDirectiveComponent,
   ],
 })
 export class DocViewerModule {}
