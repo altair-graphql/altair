@@ -844,8 +844,8 @@ export class AltairComponent {
     this.store.dispatch(new accountActions.LoadTeamsAction());
   }
 
-  accountLogin() {
-    this.store.dispatch(new accountActions.LoginAccountAction());
+  accountLogin(provider?: 'google' | 'github') {
+    this.store.dispatch(new accountActions.LoginAccountAction({ provider }));
   }
 
   logout() {

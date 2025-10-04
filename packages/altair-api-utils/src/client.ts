@@ -126,10 +126,11 @@ export class APIClient {
     return String.fromCharCode(...array);
   }
 
-  private getPopupUrl(nonce: string) {
+  private getPopupUrl(nonce: string, provider: 'google' | 'github' = 'google') {
     const url = new URL(this.urlConfig.loginClient);
     url.searchParams.append('nonce', nonce);
     url.searchParams.append('sc', location.origin);
+    url.searchParams.append('provider', provider);
 
     return url.href;
   }
@@ -154,15 +155,15 @@ export class APIClient {
     return user;
   }
 
-  async signinWithPopup() {
-    const token = await timeout(this.signinWithPopupGetToken(), SignInTimeout);
+  async signinWithPopup(provider: 'google' | 'github' = 'google') {
+    const token = await timeout(this.signinWithPopupGetToken(provider), SignInTimeout);
 
     return this.signInWithCustomToken(token);
   }
 
-  private async signinWithPopupGetToken() {
+  private async signinWithPopupGetToken(provider: 'google' | 'github' = 'google') {
     const nonce = this.nonce();
-    const popup = window.open(this.getPopupUrl(nonce), '_blank');
+    const popup = window.open(this.getPopupUrl(nonce, provider), '_blank');
     if (!popup) {
       throw new Error('Could not create signin popup!');
     }

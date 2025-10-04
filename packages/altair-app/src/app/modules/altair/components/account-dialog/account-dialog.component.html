@@ -23,8 +23,11 @@
               >Learn more <app-icon name="info"
             /></a>
           </p>
-          <button class="btn btn--primary" (click)="submitLogin()">
+          <button class="btn btn--primary" (click)="submitLogin('google')">
             {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+          </button>
+          <button class="btn btn--primary" (click)="submitLogin('github')" style="margin-top: 10px;">
+            Sign in with GitHub
           </button>
         </div>
       </div>
