@@ -445,7 +445,7 @@
             [showDialog]="(windowsMeta$ | async)?.showAccountDialog"
             [account]="account$ | async"
             (toggleDialogChange)="setShowAccountDialog($event)"
-            (handleLoginChange)="accountLogin()"
+            (handleLoginChange)="accountLogin($event)"
             (logoutChange)="logout()"
           ></app-account-dialog>
           <app-teams-dialog

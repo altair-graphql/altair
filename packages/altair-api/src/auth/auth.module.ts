@@ -8,6 +8,7 @@ import { PasswordService } from './password/password.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { GitHubStrategy } from './strategies/github.strategy';
 import { EventsJwtStrategy } from './strategies/events-jwt.strategy';
 import { StripeService } from 'src/stripe/stripe.service';
 import { UserService } from './user/user.service';
@@ -37,6 +38,7 @@ import { QueryCollectionsService } from 'src/query-collections/query-collections
     JwtStrategy,
     EventsJwtStrategy,
     GoogleStrategy,
+    GitHubStrategy,
     PasswordService,
     StripeService,
     UserService,
