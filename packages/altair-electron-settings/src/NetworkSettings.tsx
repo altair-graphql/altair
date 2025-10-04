@@ -88,6 +88,43 @@ export function NetworkSettings() {
             </div>
           )}
           <div className="flex items-center gap-2">
+            <Radio
+              id="proxy-unixsocket"
+              value="proxy_unix_socket"
+              {...register('proxy_setting')}
+            />
+            <Label htmlFor="proxy-unixsocket">
+              Use Unix domain socket proxy
+            </Label>
+          </div>
+          {watch('proxy_setting') === 'proxy_unix_socket' && (
+            <div className="ml-8 nested flex flex-col gap-2">
+              <TextInput
+                type="text"
+                placeholder="Socket path (e.g., /var/run/proxy.sock)"
+                {...register('proxy_unix_socket_path')}
+              />
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Radio
+                    id="socket-type-http"
+                    value="http"
+                    {...register('proxy_unix_socket_type')}
+                  />
+                  <Label htmlFor="socket-type-http">HTTP</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Radio
+                    id="socket-type-socks5"
+                    value="socks5"
+                    {...register('proxy_unix_socket_type')}
+                  />
+                  <Label htmlFor="socket-type-socks5">SOCKS5</Label>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="flex items-center gap-2">
             <Button type="submit">Save and restart</Button>
           </div>
         </fieldset>

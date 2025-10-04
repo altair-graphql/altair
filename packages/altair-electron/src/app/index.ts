@@ -87,6 +87,17 @@ export class ElectronApp {
             proxyConfig.mode = 'fixed_servers';
             proxyConfig.proxyRules = `${settings.proxy_host}:${settings.proxy_port}`;
             break;
+          case 'proxy_unix_socket':
+            proxyConfig.mode = 'fixed_servers';
+            if (settings.proxy_unix_socket_path) {
+              const socketType = settings.proxy_unix_socket_type || 'http';
+              if (socketType === 'socks5') {
+                proxyConfig.proxyRules = `socks5://unix:${settings.proxy_unix_socket_path}`;
+              } else {
+                proxyConfig.proxyRules = `unix:${settings.proxy_unix_socket_path}`;
+              }
+            }
+            break;
           default:
         }
         await session.defaultSession.setProxy(proxyConfig);

@@ -117,6 +117,51 @@
                       </div>
                     </div>
                   </div>
+                  <div class="radio">
+                    <label>
+                      <input
+                        class="js-input"
+                        type="radio"
+                        name="proxy_setting"
+                        value="proxy_unix_socket"
+                      />
+                      Use Unix domain socket proxy
+                    </label>
+                    <div class="nested">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="js-input form-control"
+                          placeholder="Socket path (e.g., /var/run/proxy.sock)"
+                          name="proxy_unix_socket_path"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <div class="radio">
+                          <label>
+                            <input
+                              class="js-input"
+                              type="radio"
+                              name="proxy_unix_socket_type"
+                              value="http"
+                            />
+                            HTTP
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input
+                              class="js-input"
+                              type="radio"
+                              name="proxy_unix_socket_type"
+                              value="socks5"
+                            />
+                            SOCKS5
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-actions">
