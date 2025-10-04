@@ -35,8 +35,6 @@ describe('QueryService', () => {
           },
         }),
         MockProvider(PreRequestService),
-        MockProvider(QueryCollectionService),
-        MockProvider(GqlService),
         {
           provide: Store,
           useFactory: () => mockStoreFactory(),
