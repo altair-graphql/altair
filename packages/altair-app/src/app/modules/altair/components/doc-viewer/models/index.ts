@@ -1,5 +1,3 @@
-import { GraphQLArgument } from 'graphql';
-
 interface BaseDocumentIndexEntry {
   search: string;
   name: string;
@@ -21,6 +19,12 @@ export interface DocumentIndexTypeEntry extends BaseDocumentIndexEntry {
   isRoot?: boolean;
 }
 
+export interface DocumentIndexDirectiveEntry extends BaseDocumentIndexEntry {
+  cat: 'directive';
+  locations?: string[];
+}
+
 export type DocumentIndexEntry =
   | DocumentIndexFieldEntry
-  | DocumentIndexTypeEntry;
+  | DocumentIndexTypeEntry
+  | DocumentIndexDirectiveEntry;

@@ -49,6 +49,7 @@ export class DocViewerSearchResultsComponent {
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
+  @Output() goToDirectiveChange = new EventEmitter();
 
   /**
    * Go to an item based on the category
@@ -63,6 +64,10 @@ export class DocViewerSearchResultsComponent {
         break;
       case 'type':
         this.goToType(item.name);
+        break;
+      case 'directive':
+        this.goToDirective(item.name);
+        break;
     }
   }
 
@@ -72,6 +77,10 @@ export class DocViewerSearchResultsComponent {
 
   goToType(name: string) {
     this.goToTypeChange.next({ name });
+  }
+
+  goToDirective(name: string) {
+    this.goToDirectiveChange.next({ name });
   }
 
   /**

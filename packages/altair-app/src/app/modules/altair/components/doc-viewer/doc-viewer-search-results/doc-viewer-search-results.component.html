@@ -27,6 +27,11 @@
             }}</span>
           }
         }
+        @case ('directive') {
+          <span class="doc-viewer-search-result-cat cat-directive">{{
+            'DOCS_DIRECTIVE_TEXT' | translate
+          }}</span>
+        }
       }
       <div class="doc-viewer-search-result-item-inner">
         @if (!result.isQuery && result.type) {
