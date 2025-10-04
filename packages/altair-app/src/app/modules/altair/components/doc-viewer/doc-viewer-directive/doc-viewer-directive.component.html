@@ -1,4 +1,4 @@
-@if (data) {
+@if (data$ | async; as data) {
   <div class="doc-viewer-section">
     <!--Directive name and description-->
     <div class="doc-viewer-item doc-viewer-item-field">
@@ -15,7 +15,7 @@
     </div>
   </div>
   <!--Directive locations-->
-  @if (data.locations && data.locations.length) {
+  @if (data.locations?.length) {
     <div class="doc-viewer-section doc-viewer-locations">
       <div class="doc-viewer-section-title">
         {{ 'DOCS_LOCATIONS_TEXT' | translate }}
@@ -28,12 +28,12 @@
     </div>
   }
   <!--Directive arguments-->
-  @if (data.args && data.args.length) {
+  @if (data.args?.length) {
     <div class="doc-viewer-section doc-viewer-arguments">
       <div class="doc-viewer-section-title">
         {{ 'DOCS_ARGUMENTS_TEXT' | translate }}
       </div>
-      @for (arg of data.args; track argTrackBy($index, arg)) {
+      @for (arg of data.args; track arg.name) {
         <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
             <span class="no-link-link" (click)="goToType(arg.type.inspect())">
