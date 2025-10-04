@@ -99,6 +99,7 @@ model User {
 
 enum IdentityProvider {
   GOOGLE
+  GITHUB
 }
 
 model UserCredential {

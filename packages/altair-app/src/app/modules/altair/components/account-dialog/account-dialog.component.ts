@@ -22,11 +22,11 @@ export class AccountDialogComponent {
   @Input() showDialog = true;
   @Input() account: AccountState | undefined;
   @Output() toggleDialogChange = new EventEmitter<boolean>();
-  @Output() handleLoginChange = new EventEmitter();
+  @Output() handleLoginChange = new EventEmitter<'google' | 'github'>();
   @Output() logoutChange = new EventEmitter();
 
-  submitLogin() {
-    this.handleLoginChange.emit();
+  submitLogin(provider: 'google' | 'github' = 'google') {
+    this.handleLoginChange.emit(provider);
   }
   async openBillingPage(e: MouseEvent) {
     const { url } = await apiClient.getBillingUrl();

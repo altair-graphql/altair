@@ -15,6 +15,8 @@ export const ACCOUNT_CHECKED_INIT = 'ACCOUNT_CHECKED_INIT';
 
 export class LoginAccountAction implements NGRXAction {
   readonly type = LOGIN_ACCOUNT;
+
+  constructor(public payload?: { provider?: 'google' | 'github' }) {}
 }
 
 export class AccountCheckedInitAction implements NGRXAction {

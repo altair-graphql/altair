@@ -12,20 +12,20 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 export class AccountService {
   constructor(private electronApp: ElectronAppService) {}
 
-  private async signin() {
+  private async signin(provider: 'google' | 'github' = 'google') {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
       return apiClient.signInWithCustomToken(authToken);
     }
 
-    return apiClient.signinWithPopup();
+    return apiClient.signinWithPopup(provider);
   }
-  async accountLogin() {
-    return this.signin();
+  async accountLogin(provider: 'google' | 'github' = 'google') {
+    return this.signin(provider);
   }
 
-  accountLogin$() {
-    return from(this.accountLogin());
+  accountLogin$(provider: 'google' | 'github' = 'google') {
+    return from(this.accountLogin(provider));
   }
 
   observeUser() {
