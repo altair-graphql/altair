@@ -340,10 +340,23 @@ export class AiService {
         });
       }
       case 'google': {
+        const cfGatewayAccountId = this.configService.get('ai.aiGateway.accountId', {
+          infer: true,
+        });
+        const cfGatewayName = this.configService.get('ai.aiGateway.name', {
+          infer: true,
+        });
+        const baseUrl =
+          cfGatewayAccountId && cfGatewayName
+            ? `https://gateway.ai.cloudflare.com/v1/${cfGatewayAccountId}/${cfGatewayName}/google-ai-studio`
+            : undefined;
         return new ChatGoogleGenerativeAI({
           apiKey: this.configService.get('ai.google.apiKey', { infer: true }),
-          model: this.configService.get('ai.google.model', { infer: true }) ?? '',
+          model:
+            this.configService.get('ai.google.model', { infer: true }) ??
+            'gemini-2.5-flash',
           maxOutputTokens: responseMaxTokens,
+          baseUrl,
         });
       }
       case 'anthropic':

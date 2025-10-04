@@ -22,6 +22,10 @@ const config = {
   },
   ai: {
     modelProvider: process.env.AI_MODEL_PROVIDER as AiModelProvider | undefined,
+    aiGateway: {
+      accountId: process.env.CF_AI_GATEWAY_ACCOUNT_ID,
+      name: process.env.CF_AI_GATEWAY_NAME,
+    },
     openai: {
       apiKey: process.env.OPENAI_API_KEY,
       // https://platform.openai.com/docs/models/overview
