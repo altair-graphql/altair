@@ -9,6 +9,12 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
+import {
+  maxMessageChars,
+  maxGraphqlQueryChars,
+  maxGraphqlVariablesChars,
+  maxSdlChars,
+} from 'altair-graphql-core/build/cjs/ai/constants';
 import { IMessage, ISendMessageDto } from 'altair-graphql-core/build/ai/types';
 
 const queryClient = new QueryClient({
@@ -87,10 +93,10 @@ const Panel = ({ context }: PanelProps) => {
 
       // build message input
       const input: ISendMessageDto = {
-        message,
-        graphqlQuery,
-        graphqlVariables,
-        sdl,
+        message: message.slice(0, maxMessageChars),
+        graphqlQuery: graphqlQuery.slice(0, maxGraphqlQueryChars),
+        graphqlVariables: graphqlVariables.slice(0, maxGraphqlVariablesChars),
+        sdl: sdl.slice(0, maxSdlChars),
         graphqlResponse: response,
       };
       return context.sendMessageToAiSession(activeSession.id, input);
