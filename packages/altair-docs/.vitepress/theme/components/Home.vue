@@ -4,6 +4,7 @@ import { useData } from '../composables/data';
 import Contributions from './Contributions.vue';
 import Downloads from './Downloads.vue';
 import HomeCarbonAds from './HomeCarbonAds.vue';
+import RecommendedBy from './RecommendedBy.vue';
 import VPButton from './VPButton.vue';
 import VPLink from './VPLink.vue';
 import AnimatedGradientText from './AnimatedGradientText.vue';
@@ -96,6 +97,8 @@ const { theme, frontmatter: fm } = useData();
     </div>
 
     <Content class="theme-default-content custom" />
+
+    <RecommendedBy v-if="fm.recommendedBy" :data="fm.recommendedBy" />
 
     <Contributions :data="fm.contributions" />
 
