@@ -334,7 +334,6 @@ export class QueryService {
   async getRequestHandler(window: PerWindowState, isSubscription: boolean) {
     const requestHandlerId = this.getRequestHandlerId(window, isSubscription);
 
-    debug.log('Request handler id', requestHandlerId);
     const data = this.requestHandlerRegistryService.getHandlerData(requestHandlerId);
     return data.getHandler();
   }
