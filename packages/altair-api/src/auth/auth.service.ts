@@ -52,6 +52,14 @@ export class AuthService {
     return this.getLoginResponse(user);
   }
 
+  githubLogin(user?: User) {
+    if (!user) {
+      throw new BadRequestException('No user from github');
+    }
+
+    return this.getLoginResponse(user);
+  }
+
   getUserCredential(providerUserId: string, provider: IdentityProvider) {
     return this.prisma.userCredential.findFirst({
       where: {

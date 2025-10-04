@@ -64,9 +64,14 @@ const getRedirectResult = () => {
   };
 };
 
-const signInWithRedirect = (apiBaseUrl: string) => {
+const getProvider = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('provider') || 'google';
+};
+
+const signInWithRedirect = (apiBaseUrl: string, provider: string) => {
   const state = location.href;
-  const loginUrl = new URL('/auth/google/login', apiBaseUrl);
+  const loginUrl = new URL(`/auth/${provider}/login`, apiBaseUrl);
   loginUrl.searchParams.append('state', state);
 
   return location.replace(loginUrl.href);
@@ -86,7 +91,8 @@ export const initLoginRedirect = async () => {
 
     sessionStorage.setItem(OAUTH_NONCE_KEY, nonce);
 
-    return signInWithRedirect(urlConfig.api);
+    const provider = getProvider();
+    return signInWithRedirect(urlConfig.api, provider);
   }
 
   await sendToken(result.accessToken);
