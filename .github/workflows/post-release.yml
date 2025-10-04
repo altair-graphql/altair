@@ -20,6 +20,7 @@ jobs:
     uses: ./.github/workflows/_deploy-sites.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
+      delay_seconds: 60
       deploy_docs: true
       deploy_redirect: false
       deploy_sandbox: false

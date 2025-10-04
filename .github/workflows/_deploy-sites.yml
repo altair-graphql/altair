@@ -4,42 +4,52 @@ on:
   workflow_call:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
+      delay_seconds:
+        description: "Delay in seconds before starting the deployment"
+        required: false
+        default: 0
+        type: number
       deploy_docs:
-        description: 'Whether to deploy docs'
+        description: "Whether to deploy docs"
         required: false
         default: true
         type: boolean
       deploy_redirect:
-        description: 'Whether to deploy redirect'
+        description: "Whether to deploy redirect"
         required: false
         default: true
         type: boolean
       deploy_sandbox:
-        description: 'Whether to deploy sandbox'
+        description: "Whether to deploy sandbox"
         required: false
         default: true
         type: boolean
   workflow_dispatch:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
+      delay_seconds:
+        description: "Delay in seconds before starting the deployment"
+        required: false
+        default: 0
+        type: number
       deploy_docs:
-        description: 'Whether to deploy docs'
+        description: "Whether to deploy docs"
         required: false
         default: true
         type: boolean
       deploy_redirect:
-        description: 'Whether to deploy redirect'
+        description: "Whether to deploy redirect"
         required: false
         default: true
         type: boolean
       deploy_sandbox:
-        description: 'Whether to deploy sandbox'
+        description: "Whether to deploy sandbox"
         required: false
         default: true
         type: boolean
@@ -55,15 +65,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm i --frozen-lockfile
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
+          NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
       - run: pnpm bootstrap
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          NODE_OPTIONS: '--max_old_space_size=4096' # Getting Javascript heap out of memory error. Increasing heap size
+          NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
+      - run: |
+          if [ ${{ inputs.delay_seconds }} -gt 0 ]; then
+            echo "Delaying for ${{ inputs.delay_seconds }} seconds as requested..."
+            sleep ${{ inputs.delay_seconds }}
+          fi
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       # TODO: Make this reusable
       - name: Deploy docs
