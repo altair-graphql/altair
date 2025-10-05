@@ -3,6 +3,7 @@ packages:
   - 'packages/**'
   - 'libs/**'
   - 'plugins/**'
+  - 'scripts/**'
   # if required, exclude some directories
   # - '!**/test/**'
 

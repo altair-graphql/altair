@@ -1,9 +1,16 @@
 export interface SettingStore {
   settings: {
-    proxy_setting: 'none' | 'autodetect' | 'system' | 'pac' | 'proxy_server';
+    proxy_setting:
+      | 'none'
+      | 'autodetect'
+      | 'system'
+      | 'pac'
+      | 'proxy_server'
+      | 'uds_proxy';
     pac_address?: string;
     proxy_host?: string;
     proxy_port?: string;
+    socket_path?: string;
   };
   disable_hardware_acceleration: boolean;
 }

@@ -1,4 +1,9 @@
-import { Sidebar } from 'flowbite-react';
+import {
+  Sidebar,
+  SidebarItems,
+  SidebarItemGroup,
+  SidebarItem,
+} from 'flowbite-react';
 import { HiWifi } from 'react-icons/hi';
 import { NetworkSettings } from './NetworkSettings';
 
@@ -9,11 +14,11 @@ function App() {
         aria-label="Default sidebar example"
         className="fixed top-0 left-0 z-40 h-screen"
       >
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Sidebar.Item icon={HiWifi}>Network</Sidebar.Item>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
+        <SidebarItems>
+          <SidebarItemGroup>
+            <SidebarItem icon={HiWifi}>Network</SidebarItem>
+          </SidebarItemGroup>
+        </SidebarItems>
       </Sidebar>
       <NetworkSettings />
     </div>
