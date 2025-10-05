@@ -1,4 +1,4 @@
-import { app, protocol, session, shell, dialog } from 'electron';
+import { app, protocol, shell, dialog } from 'electron';
 import { readFile } from 'fs';
 import path from 'path';
 import isDev from 'electron-is-dev';
@@ -12,6 +12,7 @@ import {
 } from '@altairgraphql/electron-interop';
 import { error, log } from '../utils/log';
 import { findCustomProtocolUrlInArgv } from '../utils';
+import { setupProxy } from '../proxy';
 
 export class ElectronApp {
   store: InMemoryStore;
@@ -60,39 +61,8 @@ export class ElectronApp {
     // Some APIs can only be used after this event occurs.
     app.whenReady().then(async () => {
       const settings = store.get('settings');
-      log(settings);
-      if (settings) {
-        /**
-         * @type Electron.Config
-         */
-        const proxyConfig: Electron.ProxyConfig = {
-          mode: 'direct',
-        };
+      await setupProxy(settings);
 
-        switch (settings.proxy_setting) {
-          case 'none':
-            proxyConfig.mode = 'direct';
-            break;
-          case 'autodetect':
-            proxyConfig.mode = 'auto_detect';
-            break;
-          case 'system':
-            proxyConfig.mode = 'system';
-            break;
-          case 'pac':
-            proxyConfig.mode = 'pac_script';
-            proxyConfig.pacScript = settings.pac_address;
-            break;
-          case 'proxy_server':
-            proxyConfig.mode = 'fixed_servers';
-            proxyConfig.proxyRules = `${settings.proxy_host}:${settings.proxy_port}`;
-            break;
-          default:
-        }
-        await session.defaultSession.setProxy(proxyConfig);
-        const proxy = await session.defaultSession.resolveProxy('http://localhost');
-        log(proxy, proxyConfig);
-      }
       try {
         await this.windowManager.createWindow();
       } catch (err) {

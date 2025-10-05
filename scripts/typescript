@@ -1,0 +1,158 @@
+Script started on Sat Oct  4 16:32:49 2025
+[1m[7m%[27m[1m[0m                                                                                                               ]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mmaster[34m) [33m✗[00m [K[?1h=[?2004h[4mp[24m[24m[1m[31mp[1m[31mn[0m[39m[1m[31mp[1m[31mn[1m[31mp[0m[39m[0m[32mp[0m[32mn[0m[32mp[32mm[39m s [4m.[24m[4m.[4m/[24m[4m/[4mh[24m[4mh[4mt[24m[4mt[4mt[24m[4mt[4mp[24m[4mp[4m-to-uds.ts[24m[1m [0m[0m [?1l>[?2004l
+]2;pnpm s ./http-to-uds.ts]1;pnpm]2;pnpm s ./http-to-uds.ts]1;pnpm[1G[0K⠙[1G[0K⠹[1G[0K⠸[1G[0K⠼[1G[0K⠴[1G[0K⠦[1G[0K⠧[1G[0K⠇[1G[0K⠏[1G[0K⠋[1G[0K⠙[1G[0K⠹[1G[0K[34mminipass[39m
+minimal implementation of a PassThrough stream
+Version [34m7.1.2[39m published [34m2024-05-24[39m by [34misaacs[39m
+Maintainers: isaacs
+Keywords: passthrough stream
+[34mhttps://npm.im/minipass[39m
+
+[1G[0K⠹[1G[0K[34mhttp-proxy-agent[39m
+An HTTP(s) proxy `http.Agent` implementation for HTTP
+Version [34m7.0.2[39m published [34m2024-02-15[39m by [34mtootallnate[39m
+Maintainers: tootallnate
+Keywords: http proxy endpoint agent
+[34mhttps://npm.im/http-proxy-agent[39m
+
+[1G[0K⠹[1G[0K[34muri-js[39m
+An RFC 3986/3987 compliant, scheme extendable URI/IRI parsing/validating/resolving library for JavaScript.
+Version [34m4.4.1[39m published [34m2021-01-10[39m by [34mgarycourt[39m
+Maintainers: garycourt
+Keywords: URI IRI IDN URN UUID HTTP HTTPS WS WSS MAILTO RFC3986 RFC3987 RFC5891 RFC2616 RFC2818 RFC2141 RFC4122 RFC4291 RFC5952 RFC6068 RFC6455 RFC6874
+[34mhttps://npm.im/uri-js[39m
+
+[1G[0K⠹[1G[0K[34mhttp-proxy-middleware[39m
+The one-liner node.js proxy middleware for connect, express, next.js and more
+Version [34m3.0.5[39m published [34m2025-04-10[39m by [34mchimurai[39m
+Maintainers: chimurai
+Keywords: reverse proxy middleware http https connect express fastify polka next.js browser-sync gulp grunt-contrib-connect websocket ws cors
+[34mhttps://npm.im/http-proxy-middleware[39m
+
+[1G[0K⠹[1G[0K[34mhttp-parser-js[39m
+A pure JS HTTP parser for node.
+Version [34m0.5.10[39m published [34m2025-04-08[39m by [34mjimbly[39m
+Maintainers: creationix jimbly
+Keywords: http
+[34mhttps://npm.im/http-parser-js[39m
+
+[1G[0K⠹[1G[0K[34magent-base[39m
+Turn a function into an `http.Agent` instance
+Version [34m7.1.4[39m published [34m2025-07-07[39m by [34mtootallnate[39m
+Maintainers: tootallnate
+Keywords: http agent base barebones https
+[34mhttps://npm.im/agent-base[39m
+
+[1G[0K⠹[1G[0K[34mhttp-deceiver[39m
+Deceive HTTP parser
+Version [34m1.2.7[39m published [34m2016-05-17[39m by [34mindutny[39m
+Maintainers: daviddias indutny
+Keywords: http net deceive
+[34mhttps://npm.im/http-deceiver[39m
+
+[1G[0K⠹[1G[0K[34m@smithy/node-http-handler[39m
+Provides a way to make requests
+Version [34m4.3.0[39m published [34m2025-09-30[39m by [34msmithy-team[39m
+Maintainers: trivikr-aws smithy-team aws-sdk-bot
+[34mhttps://npm.im/@smithy/node-http-handler[39m
+
+[1G[0K⠹[1G[0K[34mpac-proxy-agent[39m
+A PAC file proxy `http.Agent` implementation for HTTP
+Version [34m7.2.0[39m published [34m2025-02-18[39m by [34mtootallnate[39m
+Maintainers: tootallnate
+Keywords: pac proxy agent http https socks request access
+[34mhttps://npm.im/pac-proxy-agent[39m
+
+[1G[0K⠹[1G[0K[34mstream-http[39m
+Streaming http in the browser
+Version [34m3.2.0[39m published [34m2021-04-14[39m by [34mjhiesey[39m
+Maintainers: feross jhiesey
+Keywords: http stream streaming xhr http-browserify
+[34mhttps://npm.im/stream-http[39m
+
+[1G[0K⠹[1G[0K[34mhttps-proxy-agent[39m
+An HTTP(s) proxy `http.Agent` implementation for HTTPS
+Version [34m7.0.6[39m published [34m2024-12-07[39m by [34mtootallnate[39m
+Maintainers: tootallnate
+Keywords: https proxy endpoint agent
+[34mhttps://npm.im/https-proxy-agent[39m
+
+[1G[0K⠹[1G[0K[34m@azure/core-http-compat[39m
+Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.
+Version [34m2.3.1[39m published [34m2025-09-11[39m by [34mmicrosoft1es[39m
+Maintainers: azure-sdk microsoft1es
+Keywords: azure cloud
+[34mhttps://npm.im/@azure/core-http-compat[39m
+
+[1G[0K⠹[1G[0K[34mws[39m
+Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js
+Version [34m8.18.3[39m published [34m2025-06-28[39m by [34mlpinca[39m
+Maintainers: einaros v1 lpinca 3rdeden
+Keywords: HyBi Push RFC-6455 WebSocket WebSockets real-time
+[34mhttps://npm.im/ws[39m
+
+[1G[0K⠹[1G[0K[34mrequires-port[39m
+Check if a protocol requires a certain port number to be added to an URL.
+Version [34m1.0.0[39m published [34m2015-10-30[39m by [34m3rdeden[39m
+Maintainers: v1 3rdeden
+Keywords: port require http https ws wss gopher file ftp requires requried portnumber url parsing validation cows
+[34mhttps://npm.im/requires-port[39m
+
+[1G[0K⠹[1G[0K[34mwait-on[39m
+wait-on is a cross platform command line utility and Node.js API which will wait for files, ports, sockets, and http(s) resources to become available
+Version [34m9.0.1[39m published [34m2025-09-20[39m by [34mjeffbski[39m
+Maintainers: jeffbski
+Keywords: wait delay cli files tcp ports sockets http exist ready available portable cross-platform unix linux windows win32 osx
+[34mhttps://npm.im/wait-on[39m
+
+[1G[0K⠹[1G[0K[34mproxy-agent[39m
+Maps proxy protocols to `http.Agent` implementations
+Version [34m6.5.0[39m published [34m2024-12-07[39m by [34mtootallnate[39m
+Maintainers: tootallnate
+Keywords: http https socks agent mapping proxy
+[34mhttps://npm.im/proxy-agent[39m
+
+[1G[0K⠹[1G[0K[34mcssom[39m
+CSS Object Model implementation and CSS parser
+Version [34m0.5.0[39m published [34m2021-06-20[39m by [34mnv[39m
+Maintainers: nv domenic
+Keywords: CSS CSSOM parser styleSheet
+[34mhttps://npm.im/cssom[39m
+
+[1G[0K⠹[1G[0K[34m@opentelemetry/instrumentation-http[39m
+OpenTelemetry instrumentation for `node:http` and `node:https` http client and server modules
+Version [34m0.205.0[39m published [34m2025-09-10[39m by [34mdyladan[39m
+Maintainers: dyladan pichlermarc
+Keywords: opentelemetry http nodejs tracing profiling instrumentation
+[34mhttps://npm.im/@opentelemetry/instrumentation-http[39m
+
+[1G[0K⠹[1G[0K[34mminipass-fetch[39m
+An implementation of window.fetch in Node.js using Minipass streams
+Version [34m4.0.1[39m published [34m2025-02-26[39m by [34mnpm-cli-ops[39m
+Maintainers: gar saquibkhan npm-cli-ops reggi hashtagchris owlstronaut
+Keywords: fetch minipass node-fetch window.fetch
+[34mhttps://npm.im/minipass-fetch[39m
+
+[1G[0K⠹[1G[0K[34mnormalize-url[39m
+Normalize a URL
+Version [34m8.1.0[39m published [34m2025-09-10[39m by [34msindresorhus[39m
+Maintainers: sindresorhus
+Keywords: normalize url uri address string normalization normalisation query querystring simplify strip trim canonical
+[34mhttps://npm.im/normalize-url[39m
+
+[1G[0K⠹[1G[0K[1m[7m%[27m[1m[0m                                                                                                               ]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mmaster[34m) [33m✗[00m [K[?1h=[?2004h[32mpnpm[39m s [4m./http-to-uds.ts[24mc[24m [4m.[4m/[4mh[4mt[4mt[4mp[4m-[4mt[4mo[4m-[4mu[4md[4ms[4m.[4mt[4ms[24m[17D[?1l>[?2004l
+]2;pnpm sc ./http-to-uds.ts]1;pnpm]2;pnpm sc ./http-to-uds.ts]1;pnpm
+> scripts@1.0.0 sc /Users/samuel/work/altair/scripts
+> ts-node-dev "./http-to-uds.ts"
+
+[[36mINFO[0m] [30;1m16:34:27[0m ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.9.3)
+Bridge running tcp://127.0.0.1:8080 → /tmp/http-proxy.sock
+[31mError: connect ECONNREFUSED /tmp/http-proxy.sock
+    at PipeConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)[39m
+[[31;1mERROR[0m] [30;1m16:34:58[0m Error: connect ECONNREFUSED /tmp/http-proxy.sock
+^C[1m[7m%[27m[1m[0m                                                                                                               ]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts]2;samuel@Samuels-MBP: ~/work/altair/scripts]1;..ltair/scripts[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mmaster[34m) [33m✗[00m [K[?1h=[?2004h[32mpnpm[39m sc [4m./http-to-uds.ts[24m[?1l>[?2004l
+]2;pnpm sc ./http-to-uds.ts]1;pnpm]2;pnpm sc ./http-to-uds.ts]1;pnpm
+> scripts@1.0.0 sc /Users/samuel/work/altair/scripts
+> ts-node-dev "./http-to-uds.ts"
+
+[[36mINFO[0m] [30;1m16:35:56[0m ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.9.3)
+Bridge running tcp://127.0.0.1:8080 → /tmp/http-proxy.sock
