@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-interface RecommendedByItem {
+interface MentionedInItem {
   name: string;
   logo: string;
   url: string;
@@ -11,21 +11,21 @@ interface Props {
   data: {
     title?: string;
     subtitle?: string;
-    list: RecommendedByItem[];
+    list: MentionedInItem[];
   };
 }
 
 const props = defineProps<Props>();
-const title = computed(() => props.data.title || 'Recommended By');
+const title = computed(() => props.data.title || 'Mentioned In');
 const subtitle = computed(() => props.data.subtitle || '');
 </script>
 
 <template>
-  <div v-if="props.data.list && props.data.list.length" class="recommended-by">
+  <div v-if="props.data.list && props.data.list.length" class="mentioned-in">
     <h3 class="section-title">{{ title }}</h3>
     <p v-if="subtitle" class="section-subtitle">{{ subtitle }}</p>
     
-    <div class="recommended-by-grid">
+    <div class="mentioned-in-grid">
       <a
         v-for="item in props.data.list"
         :key="item.name"
@@ -33,12 +33,12 @@ const subtitle = computed(() => props.data.subtitle || '');
         :title="item.name"
         target="_blank"
         rel="noopener noreferrer"
-        class="recommended-by-item"
+        class="mentioned-in-item"
       >
         <img
           :src="item.logo"
           :alt="item.name"
-          class="recommended-by-logo"
+          class="mentioned-in-logo"
         />
       </a>
     </div>
@@ -46,7 +46,7 @@ const subtitle = computed(() => props.data.subtitle || '');
 </template>
 
 <style scoped>
-.recommended-by {
+.mentioned-in {
   text-align: center;
   padding: 50px 20px;
   background: var(--vp-c-bg);
@@ -65,7 +65,7 @@ const subtitle = computed(() => props.data.subtitle || '');
   font-size: 16px;
 }
 
-.recommended-by-grid {
+.mentioned-in-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
@@ -75,7 +75,7 @@ const subtitle = computed(() => props.data.subtitle || '');
   justify-items: center;
 }
 
-.recommended-by-item {
+.mentioned-in-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,12 +86,12 @@ const subtitle = computed(() => props.data.subtitle || '');
   height: 100%;
 }
 
-.recommended-by-item:hover {
+.mentioned-in-item:hover {
   transform: scale(1.05);
   opacity: 1;
 }
 
-.recommended-by-logo {
+.mentioned-in-logo {
   max-width: 180px;
   max-height: 80px;
   width: auto;
@@ -100,18 +100,18 @@ const subtitle = computed(() => props.data.subtitle || '');
   transition: filter 0.3s ease;
 }
 
-.recommended-by-item:hover .recommended-by-logo {
+.mentioned-in-item:hover .mentioned-in-logo {
   filter: grayscale(0%);
 }
 
 @media (min-width: 640px) {
-  .recommended-by-grid {
+  .mentioned-in-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 960px) {
-  .recommended-by-grid {
+  .mentioned-in-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
   }

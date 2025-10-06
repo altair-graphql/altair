@@ -50,9 +50,9 @@ features:
     details: extend the core functionality provided with plugins that can do much more
 featuresFooterText: View all features
 featuresFooterLink: /docs/features/
-recommendedBy:
-  title: Recommended By
-  subtitle: Trusted by developers and teams worldwide
+mentionedIn:
+  title: Mentioned In
+  subtitle: Featured by developers and teams worldwide
   list:
     - name: GitHub
       logo: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg
