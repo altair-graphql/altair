@@ -201,6 +201,7 @@
   "REGISTER_TAB": "Register",
   "LOGOUT_TEXT": "Uitloggen",
   "SIGNIN_WITH_GOOGLE": "Aanmelden met Google",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "Synced to the cloud",
   "TEAMS_TEXT": "Teams",
   "BILLING_TEXT": "Facturatie",
