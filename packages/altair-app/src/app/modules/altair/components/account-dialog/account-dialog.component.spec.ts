@@ -30,7 +30,7 @@ describe('AccountDialogComponent', () => {
   });
 
   it('should emit "handleLoginChange" when login is clicked', () => {
-    const login = wrapper.find('.btn--primary');
+    const login = wrapper.find('.btn');
 
     login.emit('click');
 
