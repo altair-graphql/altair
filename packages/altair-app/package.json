@@ -16,7 +16,7 @@
     "@angular/forms": "18.2.13",
     "@angular/platform-browser": "18.2.13",
     "@angular/platform-browser-dynamic": "18.2.13",
-    "@angular/platform-server": "18.2.13",
+    "@angular/platform-server": "20.3.3",
     "@angular/router": "18.2.13",
     "@apollo/client": "3.5.6",
     "@codemirror/autocomplete": "^6.18.4",
