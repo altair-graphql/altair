@@ -5,6 +5,7 @@ import { EMPTY, from } from 'rxjs';
 import { isElectronApp } from '../../utils';
 import { apiClient } from '../api/api.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
+import { IdentityProvider } from '@altairgraphql/db';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 export class AccountService {
   constructor(private electronApp: ElectronAppService) {}
 
-  private async signin(provider: 'google' | 'github' = 'google') {
+  private async signin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     if (isElectronApp()) {
       const authToken = await this.electronApp.getAuthToken();
       return apiClient.signInWithCustomToken(authToken);
@@ -20,11 +21,11 @@ export class AccountService {
 
     return apiClient.signinWithPopup(provider);
   }
-  async accountLogin(provider: 'google' | 'github' = 'google') {
+  async accountLogin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     return this.signin(provider);
   }
 
-  accountLogin$(provider: 'google' | 'github' = 'google') {
+  accountLogin$(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     return from(this.accountLogin(provider));
   }
 

@@ -79,7 +79,7 @@ import {
 } from 'altair-graphql-core/build/types/state/workspace.interface';
 import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
-import { QueryItemRevision } from '@altairgraphql/db';
+import { QueryItemRevision, IdentityProvider } from '@altairgraphql/db';
 import { consumeQueryParam } from '../../utils/url';
 
 @UntilDestroy({ checkProperties: true })
@@ -844,7 +844,7 @@ export class AltairComponent {
     this.store.dispatch(new accountActions.LoadTeamsAction());
   }
 
-  accountLogin(provider?: 'google' | 'github') {
+  accountLogin(provider?: IdentityProvider) {
     this.store.dispatch(new accountActions.LoginAccountAction({ provider }));
   }
 
