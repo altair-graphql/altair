@@ -201,6 +201,7 @@
   "REGISTER_TAB": "S'inscrire",
   "LOGOUT_TEXT": "Se déconnecter",
   "SIGNIN_WITH_GOOGLE": "Se connecter avec Google",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "Synchronisé au cloud",
   "TEAMS_TEXT": "Équipes",
   "BILLING_TEXT": "Facturation",
