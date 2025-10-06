@@ -201,6 +201,7 @@
   "REGISTER_TAB": "회원가입",
   "LOGOUT_TEXT": "로그아웃",
   "SIGNIN_WITH_GOOGLE": "Google로 로그인",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "클라우드와 동기화됨",
   "TEAMS_TEXT": "Teams",
   "BILLING_TEXT": "Billing",
