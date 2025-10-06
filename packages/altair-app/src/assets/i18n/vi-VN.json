@@ -201,6 +201,7 @@
   "REGISTER_TAB": "Đăng ký",
   "LOGOUT_TEXT": "Đăng xuất",
   "SIGNIN_WITH_GOOGLE": "Đăng nhập với Google",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "Đồng bộ lên Cloud",
   "TEAMS_TEXT": "Teams",
   "BILLING_TEXT": "Billing",
