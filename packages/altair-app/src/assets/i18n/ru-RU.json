@@ -201,6 +201,7 @@
   "REGISTER_TAB": "Регистрация",
   "LOGOUT_TEXT": "Выйти",
   "SIGNIN_WITH_GOOGLE": "Войти через Google",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "Синхронизировано с облаком",
   "TEAMS_TEXT": "Команды",
   "BILLING_TEXT": "Биллинг",
