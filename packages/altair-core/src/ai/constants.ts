@@ -17,4 +17,4 @@ export const maxGraphqlQueryChars = maxGraphqlQueryTokens * avgCharsPerToken;
 export const maxGraphqlVariablesTokens = 150;
 export const maxGraphqlVariablesChars = maxGraphqlVariablesTokens * avgCharsPerToken;
 
-export const responseMaxTokens = 1000;
+export const responseMaxTokens = 2500;
