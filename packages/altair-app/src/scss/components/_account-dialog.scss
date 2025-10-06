@@ -34,3 +34,8 @@
   font-weight: 600;
   font-size: fontsize(14);
 }
+
+.account-dialog__signin-actions {
+  display: flex;
+  gap: 10px;
+}

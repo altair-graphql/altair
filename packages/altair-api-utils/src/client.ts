@@ -18,8 +18,9 @@ import {
   QueryItemRevision,
   AiChatSession,
   AiChatMessage,
+  IdentityProvider,
 } from '@altairgraphql/db';
-import { AltairConfig } from 'altair-graphql-core/build/config';
+import { AltairConfig, getAltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
 import { ICreateTeamDto, ICreateTeamMembershipDto, IUpdateTeamDto } from './team';
 import { firstValueFrom, from, Observable, Subject } from 'rxjs';
@@ -27,7 +28,6 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { ReturnedWorkspace } from './workspace';
 import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
 import { UrlConfig } from 'altair-graphql-core/build/config/urls';
-import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { IRateMessageDto, ISendMessageDto } from './ai';
 import { IAvailableCredits } from 'altair-graphql-core/build/types/state/account.interfaces';
 export type FullQueryCollection = QueryCollection & {
@@ -126,7 +126,10 @@ export class APIClient {
     return String.fromCharCode(...array);
   }
 
-  private getPopupUrl(nonce: string, provider: 'google' | 'github' = 'google') {
+  private getPopupUrl(
+    nonce: string,
+    provider: IdentityProvider = IdentityProvider.GOOGLE
+  ) {
     const url = new URL(this.urlConfig.loginClient);
     url.searchParams.append('nonce', nonce);
     url.searchParams.append('sc', location.origin);
@@ -155,13 +158,18 @@ export class APIClient {
     return user;
   }
 
-  async signinWithPopup(provider: 'google' | 'github' = 'google') {
-    const token = await timeout(this.signinWithPopupGetToken(provider), SignInTimeout);
+  async signinWithPopup(provider: IdentityProvider = IdentityProvider.GOOGLE) {
+    const token = await timeout(
+      this.signinWithPopupGetToken(provider),
+      SignInTimeout
+    );
 
     return this.signInWithCustomToken(token);
   }
 
-  private async signinWithPopupGetToken(provider: 'google' | 'github' = 'google') {
+  private async signinWithPopupGetToken(
+    provider: IdentityProvider = IdentityProvider.GOOGLE
+  ) {
     const nonce = this.nonce();
     const popup = window.open(this.getPopupUrl(nonce, provider), '_blank');
     if (!popup) {

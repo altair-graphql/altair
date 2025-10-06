@@ -11,6 +11,7 @@ import { AccountState } from 'altair-graphql-core/build/types/state/account.inte
 import { environment } from 'environments/environment';
 import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
+import { IdentityProvider } from '@altairgraphql/db';
 
 @Component({
   selector: 'app-account-dialog',
@@ -22,10 +23,10 @@ export class AccountDialogComponent {
   @Input() showDialog = true;
   @Input() account: AccountState | undefined;
   @Output() toggleDialogChange = new EventEmitter<boolean>();
-  @Output() handleLoginChange = new EventEmitter<'google' | 'github'>();
+  @Output() handleLoginChange = new EventEmitter<IdentityProvider>();
   @Output() logoutChange = new EventEmitter();
 
-  submitLogin(provider: 'google' | 'github' = 'google') {
+  submitLogin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     this.handleLoginChange.emit(provider);
   }
   async openBillingPage(e: MouseEvent) {

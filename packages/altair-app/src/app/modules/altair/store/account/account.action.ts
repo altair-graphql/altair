@@ -3,6 +3,7 @@ import {
   AccountState,
   Team,
 } from 'altair-graphql-core/build/types/state/account.interfaces';
+import { IdentityProvider } from '@altairgraphql/db';
 
 export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 export const ACCOUNT_IS_LOGGED_IN = 'ACCOUNT_IS_LOGGED_IN';
@@ -16,7 +17,7 @@ export const ACCOUNT_CHECKED_INIT = 'ACCOUNT_CHECKED_INIT';
 export class LoginAccountAction implements NGRXAction {
   readonly type = LOGIN_ACCOUNT;
 
-  constructor(public payload?: { provider?: 'google' | 'github' }) {}
+  constructor(public payload?: { provider?: IdentityProvider }) {}
 }
 
 export class AccountCheckedInitAction implements NGRXAction {

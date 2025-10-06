@@ -23,12 +23,16 @@
               >Learn more <app-icon name="info"
             /></a>
           </p>
-          <button class="btn btn--primary" (click)="submitLogin('google')">
-            {{ 'SIGNIN_WITH_GOOGLE' | translate }}
-          </button>
-          <button class="btn btn--primary" (click)="submitLogin('github')" style="margin-top: 10px;">
-            Sign in with GitHub
-          </button>
+          <div class="account-dialog__signin-actions">
+            <button class="btn btn--bordered" (click)="submitLogin('GOOGLE')">
+              <!-- <app-icon name="google"></app-icon> -->
+              {{ 'SIGNIN_WITH_GOOGLE' | translate }}
+            </button>
+            <button class="btn btn--bordered" (click)="submitLogin('GITHUB')">
+              <app-icon name="github"></app-icon>
+              {{ 'SIGNIN_WITH_GITHUB' | translate }}
+            </button>
+          </div>
         </div>
       </div>
     }
