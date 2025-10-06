@@ -201,6 +201,7 @@
   "REGISTER_TAB": "注册",
   "LOGOUT_TEXT": "注销",
   "SIGNIN_WITH_GOOGLE": "使用 Google 账号登录",
+  "SIGNIN_WITH_GITHUB": "Signin with GitHub",
   "CLOUD_SYNC_TEXT": "同步到云端",
   "TEAMS_TEXT": "团队",
   "BILLING_TEXT": "Billing",
