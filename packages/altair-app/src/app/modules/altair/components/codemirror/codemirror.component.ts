@@ -2,13 +2,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  DoCheck,
   ElementRef,
   EventEmitter,
   forwardRef,
   HostBinding,
   Input,
-  KeyValueDiffers,
   NgZone,
   OnChanges,
   OnDestroy,
@@ -23,7 +21,6 @@ import {
   EditorView,
   keymap,
   lineNumbers,
-  tooltips,
   ViewUpdate,
 } from '@codemirror/view';
 import {
@@ -48,7 +45,6 @@ import {
 } from '@codemirror/language';
 
 import { tags as t } from '@lezer/highlight';
-import { InternalEditorError } from '../../utils/errors';
 import { debug } from '../../utils/logger';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 

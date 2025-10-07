@@ -24,7 +24,7 @@ const copySandbox = () => {
   // copy iframe-sandbox dist files into dist/iframe-sandbox directory
   const altairSandboxDistFile = require.resolve('@altairgraphql/iframe-sandbox');
   const distSrc = path.join(altairSandboxDistFile, '..'); // From the altair-sandbox dist folder
-  const distDestination = path.join(__dirname, '../dist/iframe-sandbox'); // To altair-app dist/iframe-sandbox folder
+  const distDestination = path.join(__dirname, '../dist/browser/iframe-sandbox'); // To altair-app dist/browser/iframe-sandbox folder
   deleteFolderRecursive(distDestination);
   fs.mkdirSync(distDestination, { recursive: true });
 

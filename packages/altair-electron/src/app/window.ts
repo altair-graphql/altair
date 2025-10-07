@@ -302,6 +302,7 @@ export class WindowManager {
           return callback({ responseHeaders: details.responseHeaders });
         }
 
+        // Allow iframe-sandbox to load without CSP
         if (u.pathname.includes('/iframe-sandbox')) {
           return callback({ responseHeaders: details.responseHeaders });
         }
@@ -311,10 +312,13 @@ export class WindowManager {
 
       if (['mainFrame', 'subFrame'].includes(details.resourceType)) {
         // Set the CSP
+        const initialSnippet = renderInitSnippet(this.getRenderOptions());
+        console.log('Initial snippet for CSP hash:');
+        console.log(initialSnippet);
         const scriptSrc = [
           `'self'`,
           `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
-          `'${createSha256CspHash(renderInitSnippet(this.getRenderOptions()))}'`,
+          `'${createSha256CspHash(initialSnippet)}'`,
           `https://cdn.jsdelivr.net`,
           `localhost:*`,
           `file:`,
