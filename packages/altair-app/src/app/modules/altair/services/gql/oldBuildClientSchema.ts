@@ -11,10 +11,7 @@ import keyMap from 'graphql/jsutils/keyMap';
 import keyValMap from 'graphql/jsutils/keyValMap';
 import { valueFromAST } from 'graphql/utilities/valueFromAST';
 import { parseValue } from 'graphql/language/parser';
-import {
-  GraphQLSchema,
-  GraphQLSchemaValidationOptions,
-} from 'graphql/type/schema';
+import { GraphQLSchema, GraphQLSchemaValidationOptions } from 'graphql/type/schema';
 
 import { DirectiveLocation } from 'graphql/language/directiveLocation';
 
@@ -149,9 +146,7 @@ export function buildClientSchema(
     return type;
   }
 
-  function getOutputType(
-    typeRef: IntrospectionOutputTypeRef
-  ): GraphQLOutputType {
+  function getOutputType(typeRef: IntrospectionOutputTypeRef): GraphQLOutputType {
     const type = <GraphQLOutputType>getType(typeRef);
     invariant(
       isOutputType(type),
@@ -167,9 +162,7 @@ export function buildClientSchema(
     return assertObjectType(type);
   }
 
-  function getInterfaceType(
-    typeRef: IntrospectionTypeRef
-  ): GraphQLInterfaceType {
+  function getInterfaceType(typeRef: IntrospectionTypeRef): GraphQLInterfaceType {
     const type = getType(typeRef);
     return assertInterfaceType(type);
   }
@@ -253,9 +246,7 @@ export function buildClientSchema(
     });
   }
 
-  function buildEnumDef(
-    enumIntrospection: IntrospectionEnumType
-  ): GraphQLEnumType {
+  function buildEnumDef(enumIntrospection: IntrospectionEnumType): GraphQLEnumType {
     if (!enumIntrospection.enumValues) {
       throw new Error(
         'Introspection result missing enumValues: ' +
@@ -299,8 +290,7 @@ export function buildClientSchema(
   ) {
     if (!typeIntrospection.fields) {
       throw new Error(
-        'Introspection result missing fields: ' +
-          JSON.stringify(typeIntrospection)
+        'Introspection result missing fields: ' + JSON.stringify(typeIntrospection)
       );
     }
     return keyValMap(
@@ -360,10 +350,7 @@ export function buildClientSchema(
     const locations = directiveIntrospection.locations
       ? directiveIntrospection.locations.slice()
       : ([] as any[]).concat(
-          !(
-            'onField' in directiveIntrospection &&
-            directiveIntrospection.onField
-          )
+          !('onField' in directiveIntrospection && directiveIntrospection.onField)
             ? []
             : [DirectiveLocation.FIELD],
           !(

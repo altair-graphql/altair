@@ -6,10 +6,10 @@ import * as settingsActions from '../../store/settings/settings.action';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-beta-indicator',
-    templateUrl: './beta-indicator.component.html',
-    styles: [],
-    standalone: false
+  selector: 'app-beta-indicator',
+  templateUrl: './beta-indicator.component.html',
+  styles: [],
+  standalone: false,
 })
 export class BetaIndicatorComponent {
   @Input() title = '';

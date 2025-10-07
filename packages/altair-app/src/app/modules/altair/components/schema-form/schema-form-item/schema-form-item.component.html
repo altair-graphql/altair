@@ -50,7 +50,7 @@
                   name="item.key"
                   nzPlaceHolder="Choose"
                   (ngModelChange)="onInput($event, item)"
-                  >
+                >
                   @for (option of getSelectOptions(item); track option) {
                     <nz-option
                       [nzValue]="option.value"

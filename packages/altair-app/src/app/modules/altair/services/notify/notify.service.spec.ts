@@ -47,13 +47,9 @@ describe('NotifyService', () => {
       (service: NotifyService) => {
         service.success('message', 'title', { data: {} });
 
-        expect(mockToastService.success).toHaveBeenCalledWith(
-          'message',
-          'title',
-          {
-            data: {},
-          } as any
-        );
+        expect(mockToastService.success).toHaveBeenCalledWith('message', 'title', {
+          data: {},
+        } as any);
       }
     ));
   });
@@ -70,13 +66,9 @@ describe('NotifyService', () => {
         mockStore.select = (predicate: any) => of(predicate(state));
         service.warning('message', 'title', { data: {} });
 
-        expect(mockToastService.warning).toHaveBeenCalledWith(
-          'message',
-          'title',
-          {
-            data: {},
-          } as any
-        );
+        expect(mockToastService.warning).toHaveBeenCalledWith('message', 'title', {
+          data: {},
+        } as any);
       }
     ));
 
@@ -115,13 +107,9 @@ describe('NotifyService', () => {
       (service: NotifyService) => {
         service.error('message', 'title', { data: {} });
 
-        expect(mockToastService.error).toHaveBeenCalledWith(
-          'message',
-          'title',
-          {
-            data: {},
-          } as any
-        );
+        expect(mockToastService.error).toHaveBeenCalledWith('message', 'title', {
+          data: {},
+        } as any);
       }
     ));
   });

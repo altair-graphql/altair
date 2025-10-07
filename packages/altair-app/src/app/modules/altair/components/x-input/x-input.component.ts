@@ -43,19 +43,19 @@ import { environmentsToEnvironmentVariables } from '../../store/environments/uti
 const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 
 @Component({
-    selector: 'app-x-input',
-    templateUrl: './x-input.component.html',
-    styles: [],
-    providers: [
-        // Fixes 'no value accessor for form control with unspecified name attribute' error
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => XInputComponent),
-            multi: true,
-        },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-x-input',
+  templateUrl: './x-input.component.html',
+  styles: [],
+  providers: [
+    // Fixes 'no value accessor for form control with unspecified name attribute' error
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => XInputComponent),
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   @Input() placeholder = '';

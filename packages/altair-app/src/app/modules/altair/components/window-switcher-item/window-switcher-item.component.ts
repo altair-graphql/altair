@@ -21,11 +21,11 @@ const ICON_STATE = {
 } as const;
 
 @Component({
-    selector: 'app-window-switcher-item',
-    templateUrl: './window-switcher-item.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-window-switcher-item',
+  templateUrl: './window-switcher-item.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class WindowSwitcherItemComponent {
   @Input() set window(value: PerWindowState | undefined) {

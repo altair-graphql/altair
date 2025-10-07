@@ -5,7 +5,7 @@
         class="query-collections__item-details"
         data-test-id="collection-collapse"
         (click)="toggleContent()"
-        >
+      >
         <div class="query-collections__item-title">
           @if (showContent) {
             <span class="query-title-icon"
@@ -25,11 +25,11 @@
         </div>
         <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
       </div>
-      @if (loggedIn && (collectionTree.storageType === 'api')) {
+      @if (loggedIn && collectionTree.storageType === 'api') {
         <span
           class="query-collections__item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
-          >
+        >
           <app-icon name="cloud"></app-icon>
         </span>
       }
@@ -41,7 +41,7 @@
             [nzDropdownMenu]="collectionItemMenu"
             type="button"
             class="query-collections__item-icon__button"
-            >
+          >
             <app-icon name="more-horizontal"></app-icon>
           </button>
         </span>
@@ -52,7 +52,7 @@
                 nz-menu-item
                 data-test-id="sync-collection"
                 (click)="syncCollection()"
-                >
+              >
                 {{ 'COLLECTIONS_MENU_SYNC' | translate }}
               </li>
             }
@@ -60,21 +60,21 @@
               nz-menu-item
               data-test-id="edit-collection"
               (click)="editCollection()"
-              >
+            >
               {{ 'COLLECTIONS_MENU_EDIT' | translate }}
             </li>
             <li
               nz-menu-item
               data-test-id="delete-collection"
               (click)="deleteCollection()"
-              >
+            >
               {{ 'COLLECTIONS_MENU_DELETE' | translate }}
             </li>
             <li
               nz-menu-item
               data-test-id="export-collection"
               (click)="exportCollection()"
-              >
+            >
               {{ 'COLLECTIONS_MENU_EXPORT' | translate }}
             </li>
             <li nz-submenu [nzTitle]="'SORT_BY' | translate">
@@ -83,28 +83,28 @@
                   nz-menu-item
                   data-test-id="sort-queries-a-z"
                   (click)="setQueriesSortBy('a-z')"
-                  >
+                >
                   {{ 'SORT_BY_A_Z' | translate }}
                 </li>
                 <li
                   nz-menu-item
                   data-test-id="sort-queries-z-a"
                   (click)="setQueriesSortBy('z-a')"
-                  >
+                >
                   {{ 'SORT_BY_Z_A' | translate }}
                 </li>
                 <li
                   nz-menu-item
                   data-test-id="sort-queries-newest"
                   (click)="setQueriesSortBy('newest')"
-                  >
+                >
                   {{ 'SORT_BY_NEWEST' | translate }}
                 </li>
                 <li
                   nz-menu-item
                   data-test-id="sort-queries-oldest"
                   (click)="setQueriesSortBy('oldest')"
-                  >
+                >
                   {{ 'SORT_BY_OLDEST' | translate }}
                 </li>
               </ul>
@@ -116,11 +116,12 @@
     <div
       class="query-collections__item-content-wrapper"
       [ngClass]="{ 'query-collections__item-content--hidden': !showContent }"
-      >
+    >
       <div class="query-collections__item-nested">
         @for (
-          subcollectionTree of collectionTree.collections; track trackById($index,
-          subcollectionTree)) {
+          subcollectionTree of collectionTree.collections;
+          track trackById($index, subcollectionTree)
+        ) {
           <app-query-collection-item
             [collectionTree]="subcollectionTree"
             [loggedIn]="loggedIn"
@@ -134,25 +135,22 @@
       </div>
       <div class="query-collections__item-queries">
         @for (
-          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy); track trackById($index,
-          query)) {
-          <div
-            class="query-collections__item-queries-item"
-            >
+          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy);
+          track trackById($index, query)
+        ) {
+          <div class="query-collections__item-queries-item">
             <span
               class="query-collections__item-queries-item-title"
               data-test-id="query-item-title"
-          (click)="
-            selectQueryChange.next({
-              query: query,
-              collectionId: collectionTree.id,
-              windowIdInCollection: query.id
-            })
-          "
-              >
-              <span class="query-title-icon"
-                ><app-icon name="file"></app-icon
-              ></span>
+              (click)="
+                selectQueryChange.next({
+                  query: query,
+                  collectionId: collectionTree.id,
+                  windowIdInCollection: query.id,
+                })
+              "
+            >
+              <span class="query-title-icon"><app-icon name="file"></app-icon></span>
               {{ query.windowName }}
               @if (!query.id) {
                 <span
@@ -160,7 +158,7 @@
                   nz-tooltip
                   [nzTooltipTitle]="deprecatedCollectionQuery"
                   nzTooltipPlacement="bottom"
-                  >
+                >
                   <app-icon name="alert-triangle"></app-icon>
                 </span>
               }
@@ -171,58 +169,57 @@
                   href="https://altairgraphql.dev/docs/tips/deprecated-collection-queries"
                   rel="noopener"
                   >{{ 'LEARN_MORE_TEXT' | translate }}</a
-                  >
-                </ng-template>
+                >
+              </ng-template>
+            </span>
+            @if (loggedIn && query.storageType === 'api') {
+              <span
+                class="query-collections__item-queries-item-synced-icon"
+                [title]="'CLOUD_SYNC_TEXT' | translate"
+              >
+                <app-icon name="cloud"></app-icon>
               </span>
-              @if (loggedIn && (query.storageType === 'api')) {
-                <span
-                  class="query-collections__item-queries-item-synced-icon"
-                  [title]="'CLOUD_SYNC_TEXT' | translate"
-                  >
-                  <app-icon name="cloud"></app-icon>
-                </span>
-              }
-              <span class="query-collections__item-queries-item-right">
-                <span class="query-collections__item-queries-item-icon">
-                  <button
-                    type="button"
-                    nz-dropdown
-                    nzTrigger="click"
-                    [nzDropdownMenu]="collectionQueryItemMenu"
-                    class="query-collections__item-icon__button"
-                    >
-                    <app-icon name="more-horizontal"></app-icon>
-                  </button>
-                </span>
-                <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
-                  <ul nz-menu>
-                    @if (loggedIn && (query.storageType === 'api')) {
-                      <li
-                        nz-menu-item
-                        (click)="copyQueryShareLinkChange.emit(query.id)"
-                      >
-                        {{ 'COLLECTIONS_QUERY_MENU_COPY_SHARE_URL' | translate }}
-                    </li>
-                      <li
-                        nz-menu-item
-                        (click)="showQueryRevisionsDialog(query)"
-                      >
-                        {{ 'COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG' | translate }}
-                    </li>
-                    }
+            }
+            <span class="query-collections__item-queries-item-right">
+              <span class="query-collections__item-queries-item-icon">
+                <button
+                  type="button"
+                  nz-dropdown
+                  nzTrigger="click"
+                  [nzDropdownMenu]="collectionQueryItemMenu"
+                  class="query-collections__item-icon__button"
+                >
+                  <app-icon name="more-horizontal"></app-icon>
+                </button>
+              </span>
+              <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
+                <ul nz-menu>
+                  @if (loggedIn && query.storageType === 'api') {
                     <li
                       nz-menu-item
-                      data-test-id="delete-query"
-                      (click)="deleteQuery(query)"
-                      >
-                      {{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}
+                      (click)="copyQueryShareLinkChange.emit(query.id)"
+                    >
+                      {{ 'COLLECTIONS_QUERY_MENU_COPY_SHARE_URL' | translate }}
                     </li>
-                  </ul>
-                </nz-dropdown-menu>
-              </span>
-            </div>
-          }
-        </div>
+                    <li nz-menu-item (click)="showQueryRevisionsDialog(query)">
+                      {{
+                        'COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG' | translate
+                      }}
+                    </li>
+                  }
+                  <li
+                    nz-menu-item
+                    data-test-id="delete-query"
+                    (click)="deleteQuery(query)"
+                  >
+                    {{ 'COLLECTIONS_QUERY_MENU_DELETE' | translate }}
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </span>
+          </div>
+        }
       </div>
     </div>
-  }
+  </div>
+}

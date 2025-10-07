@@ -8,11 +8,11 @@ import {
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
-    selector: 'app-authorization-basic',
-    templateUrl: './authorization-basic.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-authorization-basic',
+  templateUrl: './authorization-basic.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AuthorizationBasicComponent implements OnInit {
   basicForm = this.formBuilder.group({

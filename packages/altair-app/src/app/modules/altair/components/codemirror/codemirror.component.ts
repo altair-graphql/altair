@@ -53,17 +53,17 @@ import { debug } from '../../utils/logger';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
 @Component({
-    selector: 'app-codemirror',
-    templateUrl: './codemirror.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => CodemirrorComponent),
-            multi: true,
-        },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-codemirror',
+  templateUrl: './codemirror.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CodemirrorComponent),
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CodemirrorComponent
   implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy

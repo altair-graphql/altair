@@ -7,15 +7,13 @@ describe('DocViewerSearchResultsComponent', () => {
   let component: DocViewerSearchResultsComponent;
   let fixture: ComponentFixture<DocViewerSearchResultsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [DocViewerSearchResultsComponent],
-        imports: [TranslateModule.forRoot()],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DocViewerSearchResultsComponent],
+      imports: [TranslateModule.forRoot()],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerSearchResultsComponent);

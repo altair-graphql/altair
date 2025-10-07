@@ -11,10 +11,10 @@ import { OperationDefinitionNode } from 'graphql';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 
 @Component({
-    selector: 'app-url-box',
-    templateUrl: './url-box.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-url-box',
+  templateUrl: './url-box.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UrlBoxComponent {
   @Input() apiUrl = '';

@@ -12,11 +12,11 @@ import { SettingsState } from 'altair-graphql-core/build/types/state/settings.in
 import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/types';
 
 @Component({
-    selector: 'app-plugin-manager',
-    templateUrl: './plugin-manager.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-plugin-manager',
+  templateUrl: './plugin-manager.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PluginManagerComponent {
   @Input() showPluginManager = false;

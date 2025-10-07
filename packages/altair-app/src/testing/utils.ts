@@ -68,8 +68,7 @@ export function setValue<C>(
 
 function getComponentMeta(compType: any, propsData: IDictionary) {
   const rc = new ReflectionCapabilities();
-  const props =
-    compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
+  const props = compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
   const inputs: string[] = [];
   const availableInputs: string[] = [];
   const outputs: string[] = [];
@@ -109,11 +108,9 @@ type FilteredNonFunctionKeys<T> = {
 }[keyof T];
 interface TestMountOptions<C = any> extends TestModuleMetadata {
   component: Ctor<C>;
-  propsData?: Partial<
-    {
-      [K in FilteredNonFunctionKeys<C>]-?: C[K];
-    }
-  >;
+  propsData?: Partial<{
+    [K in FilteredNonFunctionKeys<C>]-?: C[K];
+  }>;
 }
 export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
@@ -136,8 +133,8 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
 
   @Component({
     template: template,
-    standalone: false
-})
+    standalone: false,
+  })
   class TestHostComponent extends BaseTestHostComponent {
     mock = {};
     inputs: IDictionary;
@@ -184,11 +181,10 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   try {
     testHostFixture.detectChanges();
   } catch (error) {
-    (
-      error as Error
-    ).message = `There was an error while creating the test component.\n${
-      (error as Error).message
-    }`;
+    (error as Error).message =
+      `There was an error while creating the test component.\n${
+        (error as Error).message
+      }`;
     throw error;
   }
 
@@ -200,9 +196,7 @@ export function buildTestHostComponentTemplate(
   inputs: string[],
   outputs: string[]
 ) {
-  const inputTmpl = inputs
-    .map((input) => `[${input}]="inputs.${input}"`)
-    .join('\n');
+  const inputTmpl = inputs.map((input) => `[${input}]="inputs.${input}"`).join('\n');
   const outputTmpl = outputs
     .map((output) => `(${output})="${output}($event)"`)
     .join('\n');

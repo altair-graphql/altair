@@ -8,9 +8,8 @@ describe('WindowSwitcherItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WindowSwitcherItemComponent]
-    })
-    .compileComponents();
+      declarations: [WindowSwitcherItemComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WindowSwitcherItemComponent);
     component = fixture.componentInstance;

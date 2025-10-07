@@ -26,10 +26,10 @@ import { debounce } from 'lodash-es';
 
 @UntilDestroy()
 @Component({
-    selector: 'app-doc-viewer',
-    templateUrl: './doc-viewer.component.html',
-    animations: [fadeInOutAnimationTrigger],
-    standalone: false
+  selector: 'app-doc-viewer',
+  templateUrl: './doc-viewer.component.html',
+  animations: [fadeInOutAnimationTrigger],
+  standalone: false,
 })
 export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema?: GraphQLSchema;
@@ -268,7 +268,7 @@ export class DocViewerComponent implements OnChanges {
 
   getDirective(docView: DocView) {
     if (docView.view === 'directive') {
-      return this.directives.find(d => d.name === docView.name);
+      return this.directives.find((d) => d.name === docView.name);
     }
   }
 }

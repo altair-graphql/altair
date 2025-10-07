@@ -106,14 +106,7 @@ export const fillAllFields = (
           (tokenState.wasSelectionSet ||
             node.loc.startToken.line - 1 === cursor.line)
         ) {
-          debug.log(
-            node,
-            typeInfo,
-            typeInfo.getType(),
-            cursor,
-            token,
-            maxDepth
-          );
+          debug.log(node, typeInfo, typeInfo.getType(), cursor, token, maxDepth);
           const { selectionSet } = buildSelectionSet(fieldType, { maxDepth });
           const indent = getIndentation(query, node.loc.start);
           if (selectionSet) {

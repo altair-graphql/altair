@@ -69,9 +69,7 @@ class PluginEventGroup {
 
     return {
       unsubscribe: () => {
-        this.subscriptions = this.subscriptions.filter(
-          (_) => _ !== subscription
-        );
+        this.subscriptions = this.subscriptions.filter((_) => _ !== subscription);
         if (!subscription.closed) {
           return subscription.unsubscribe();
         }

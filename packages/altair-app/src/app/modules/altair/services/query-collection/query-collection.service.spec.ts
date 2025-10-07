@@ -269,8 +269,7 @@ describe('QueryCollectionService', () => {
           ],
         };
 
-        const exportData =
-          service.getExportCollectionDataFromCollectionTree(data);
+        const exportData = service.getExportCollectionDataFromCollectionTree(data);
         const remapped = service.remapCollectionIDsToCollectionList(exportData);
         const tree = service.getCollectionTrees(remapped);
 

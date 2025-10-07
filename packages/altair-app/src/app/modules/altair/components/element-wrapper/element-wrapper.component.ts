@@ -11,11 +11,11 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'app-element-wrapper',
-    templateUrl: './element-wrapper.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-element-wrapper',
+  templateUrl: './element-wrapper.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   @Input() element?: HTMLElement;

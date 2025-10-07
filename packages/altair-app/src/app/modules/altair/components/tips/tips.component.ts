@@ -20,11 +20,11 @@ const WPM = 15;
 const DEFAULT_TIP_INTERVAL = 60000;
 
 @Component({
-    selector: 'app-tips',
-    templateUrl: './tips.component.html',
-    styles: ``,
-    animations: [fadeInOutAnimationTrigger],
-    standalone: false
+  selector: 'app-tips',
+  templateUrl: './tips.component.html',
+  styles: ``,
+  animations: [fadeInOutAnimationTrigger],
+  standalone: false,
 })
 export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() activeWindowId = '';

@@ -1,6 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, ApplicationInitStatus, ModuleWithProviders, CSP_NONCE, inject, provideAppInitializer } from '@angular/core';
+import {
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ErrorHandler,
+  ApplicationInitStatus,
+  ModuleWithProviders,
+  CSP_NONCE,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   HttpClient,
@@ -109,9 +118,9 @@ const providers = [
     // useFactory: () => new AppOverlayContainer()
   },
   provideAppInitializer(() => {
-        const initializerFn = (reducerBootstrapFactory)(inject(ReducerBootstrapper));
-        return initializerFn();
-      }),
+    const initializerFn = reducerBootstrapFactory(inject(ReducerBootstrapper));
+    return initializerFn();
+  }),
   provideHttpClient(withInterceptorsFromDi()),
 ];
 

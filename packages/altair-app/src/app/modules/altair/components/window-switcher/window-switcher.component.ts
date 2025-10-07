@@ -12,10 +12,10 @@ import { debug } from '../../utils/logger';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
-    selector: 'app-window-switcher',
-    templateUrl: './window-switcher.component.html',
-    styleUrls: ['./window-switcher.component.scss'],
-    standalone: false
+  selector: 'app-window-switcher',
+  templateUrl: './window-switcher.component.html',
+  styleUrls: ['./window-switcher.component.scss'],
+  standalone: false,
 })
 export class WindowSwitcherComponent {
   @Input() windows: WindowState = {};

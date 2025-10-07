@@ -9,11 +9,11 @@ import { NonNullableFormBuilder } from '@angular/forms';
 import { ApiKeyAuthorizationProviderInput } from 'altair-graphql-core/build/authorization/providers/api-key';
 
 @Component({
-    selector: 'app-authorization-apikey',
-    templateUrl: './authorization-apikey.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-authorization-apikey',
+  templateUrl: './authorization-apikey.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AuthorizationApikeyComponent implements OnInit {
   apiKeyForm = this.formBuilder.group<ApiKeyAuthorizationProviderInput['data']>({

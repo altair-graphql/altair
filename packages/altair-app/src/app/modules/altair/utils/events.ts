@@ -5,10 +5,7 @@
  * @param fn
  * @example on('click', '.el', fn);
  */
-export const on = <
-  T extends Element,
-  E extends keyof HTMLElementEventMap = 'click'
->(
+export const on = <T extends Element, E extends keyof HTMLElementEventMap = 'click'>(
   eventName: E,
   elSelector: string,
   fn: (this: T, e: HTMLElementEventMap[E]) => void

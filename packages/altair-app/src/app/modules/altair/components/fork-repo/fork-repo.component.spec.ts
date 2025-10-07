@@ -6,14 +6,12 @@ describe('ForkRepoComponent', () => {
   let component: ForkRepoComponent;
   let fixture: ComponentFixture<ForkRepoComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ForkRepoComponent],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ForkRepoComponent],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForkRepoComponent);

@@ -2,19 +2,19 @@
   class="variables-file-item"
   [ngClass]="{
     'variables-file-item--invalid': invalidFileData,
-    'variables-file-item--warning': showWarning
+    'variables-file-item--warning': showWarning,
   }"
-  >
+>
   <div class="variables-file-item-name-input-wrapper">
     <span
       class="variables-file-item-switch"
       [ngClass]="{
-        'variables-file-item-switch--enabled': fileVariable?.isMultiple
+        'variables-file-item-switch--enabled': fileVariable?.isMultiple,
       }"
       nz-tooltip
       [nzTooltipTitle]="'VARIABLE_TOGGLE_FILE_MODE' | translate"
       (click)="fileVariableIsMultipleChange.emit(!fileVariable?.isMultiple)"
-      >
+    >
       @if (!fileVariable?.isMultiple) {
         <span>1</span>
       }
@@ -29,7 +29,7 @@
       placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
       [ngModel]="fileVariable?.name"
       (ngModelChange)="fileVariableNameChange.emit($event)"
-      />
+    />
   </div>
   <div class="variables-file-item-input-wrapper">
     <input
@@ -38,18 +38,15 @@
       class="variables-file-item-input"
       [attr.multiple]="fileVariable?.isMultiple ? '' : null"
       (change)="onSelectFiles()"
-      />
+    />
     <span
       class="variables-file-item-selected-total"
       nz-tooltip
       [nzTooltipTitle]="filesText"
-      >
+    >
       {{ validFileData.length }} file(s)
     </span>
-    <button
-      class="app-button variables-file-item-button"
-      (click)="fileEl.click()"
-      >
+    <button class="app-button variables-file-item-button" (click)="fileEl.click()">
       <app-icon name="paperclip"></app-icon>
       {{ 'FILES_SELECT_FILES' | translate }}
     </button>
@@ -57,7 +54,7 @@
   <div
     class="variables-file-item-input-delete"
     (click)="deleteFileVariableChange.emit()"
-    >
+  >
     &#x00D7;
   </div>
 </div>

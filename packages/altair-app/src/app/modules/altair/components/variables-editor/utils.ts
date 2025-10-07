@@ -23,14 +23,13 @@ const MAX_DEPTH = 4;
 
 export type VariableToType = Record<string, GraphQLInputType>;
 
-const specifiedScalarTypeToJSONSchemaType: Record<string, JSONSchema7TypeName> =
-  {
-    String: 'string',
-    Int: 'integer',
-    Float: 'number',
-    Boolean: 'boolean',
-    ID: 'string',
-  };
+const specifiedScalarTypeToJSONSchemaType: Record<string, JSONSchema7TypeName> = {
+  String: 'string',
+  Int: 'integer',
+  Float: 'number',
+  Boolean: 'boolean',
+  ID: 'string',
+};
 const wrapWithAnyOfNull = (def: JSONSchema7, wrap?: boolean) => {
   if (!wrap) {
     return def;
@@ -70,8 +69,7 @@ export const graphqlInputTypeToJsonSchemaType = (
     if (isSpecifiedScalarType(type)) {
       return wrapWithAnyOfNull(
         {
-          type:
-            specifiedScalarTypeToJSONSchemaType[type.toString()] ?? 'string',
+          type: specifiedScalarTypeToJSONSchemaType[type.toString()] ?? 'string',
           description: type.description ?? undefined,
           default: defaultValue,
         },
@@ -135,9 +133,12 @@ export const vttToJsonSchema = (vtt?: VariableToType): JSONSchema7 => {
   }
   return {
     type: 'object',
-    properties: Object.entries(vtt).reduce((acc, [key, type]) => {
-      acc[key] = graphqlInputTypeToJsonSchemaType(type);
-      return acc;
-    }, {} as Record<string, JSONSchema7Definition>),
+    properties: Object.entries(vtt).reduce(
+      (acc, [key, type]) => {
+        acc[key] = graphqlInputTypeToJsonSchemaType(type);
+        return acc;
+      },
+      {} as Record<string, JSONSchema7Definition>
+    ),
   };
 };

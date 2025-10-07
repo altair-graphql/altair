@@ -84,9 +84,9 @@ import { consumeQueryParam } from '../../utils/url';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'app-altair',
-    templateUrl: './altair.component.html',
-    standalone: false
+  selector: 'app-altair',
+  templateUrl: './altair.component.html',
+  standalone: false,
 })
 export class AltairComponent {
   windowIds$: Observable<any[]>;

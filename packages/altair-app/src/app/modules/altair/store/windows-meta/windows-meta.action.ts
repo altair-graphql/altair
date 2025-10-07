@@ -42,9 +42,7 @@ export class SetWindowIdsAction implements NGRXAction {
 export class RepositionWindowAction implements NGRXAction {
   readonly type = REPOSITION_WINDOW;
 
-  constructor(
-    public payload: { currentPosition: number; newPosition: number }
-  ) {}
+  constructor(public payload: { currentPosition: number; newPosition: number }) {}
 }
 
 export class ShowImportCurlDialogAction implements NGRXAction {

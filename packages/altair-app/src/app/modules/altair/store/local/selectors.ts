@@ -18,8 +18,6 @@ export const getUiActions = createSelector(
   getLocalState,
   (local) => local.uiActions
 );
-export const getResultPaneUiActions = createSelector(
-  getUiActions,
-  (uiActions) =>
-    uiActions.filter((_) => _.location === AltairUiActionLocation.RESULT_PANE)
+export const getResultPaneUiActions = createSelector(getUiActions, (uiActions) =>
+  uiActions.filter((_) => _.location === AltairUiActionLocation.RESULT_PANE)
 );

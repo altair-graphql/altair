@@ -17,11 +17,11 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { memoize } from '../../utils/memoize';
 
 @Component({
-    selector: 'app-query-collection-item',
-    templateUrl: './query-collection-item.component.html',
-    styleUrls: ['./query-collection-item.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-query-collection-item',
+  templateUrl: './query-collection-item.component.html',
+  styleUrls: ['./query-collection-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QueryCollectionItemComponent implements OnChanges {
   @Input() collectionTree?: IQueryCollectionTree;
@@ -50,7 +50,7 @@ export class QueryCollectionItemComponent implements OnChanges {
 
   showContent = true;
 
-   constructor(private modal: NzModalService) {}
+  constructor(private modal: NzModalService) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes.expanded?.currentValue !== undefined) {
       this.showContent = changes.expanded.currentValue;

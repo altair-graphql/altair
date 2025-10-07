@@ -1,10 +1,6 @@
 .upgrade-pro-title {
   color: var(--primary-color);
-  background: linear-gradient(
-    45deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bold;

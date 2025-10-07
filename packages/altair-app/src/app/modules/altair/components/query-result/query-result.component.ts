@@ -27,11 +27,11 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { parseJson } from '../../utils';
 
 @Component({
-    selector: 'app-query-result',
-    templateUrl: './query-result.component.html',
-    styleUrls: ['./query-result.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-query-result',
+  templateUrl: './query-result.component.html',
+  styleUrls: ['./query-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QueryResultComponent implements AfterViewInit {
   @Input() responseTime = 0;

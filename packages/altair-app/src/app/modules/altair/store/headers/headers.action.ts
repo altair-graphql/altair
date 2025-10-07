@@ -17,7 +17,10 @@ export class AddHeaderAction implements NGRXAction {
 export class RemoveHeaderAction implements NGRXAction {
   readonly type = REMOVE_HEADER;
 
-  constructor(public payload: number, public windowId: string) {}
+  constructor(
+    public payload: number,
+    public windowId: string
+  ) {}
 }
 
 export class EditHeaderKeyAction implements NGRXAction {

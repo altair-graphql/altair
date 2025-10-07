@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'sort',
-    standalone: false
+  name: 'sort',
+  standalone: false,
 })
 export class SortPipe implements PipeTransform {
   transform(list: Record<string, string>[], key?: string) {

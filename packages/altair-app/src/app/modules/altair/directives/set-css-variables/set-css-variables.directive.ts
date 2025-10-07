@@ -8,8 +8,8 @@ import {
 import { IDictionary } from '../../interfaces/shared';
 
 @Directive({
-    selector: '[appSetCssVariables]',
-    standalone: false
+  selector: '[appSetCssVariables]',
+  standalone: false,
 })
 export class SetCssVariablesDirective implements OnChanges {
   @Input() appSetCssVariables: IDictionary = {};

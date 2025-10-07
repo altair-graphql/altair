@@ -13,12 +13,12 @@ import {
 import { HighlightSection } from '../fancy-input/fancy-input.component';
 
 @Component({
-    selector: 'app-fancy-input-marker',
-    templateUrl: './fancy-input-marker.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
-    standalone: false
+  selector: 'app-fancy-input-marker',
+  templateUrl: './fancy-input-marker.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false,
+  standalone: false,
 })
 export class FancyInputMarkerComponent implements OnChanges {
   @Input() section: HighlightSection = { content: '' };

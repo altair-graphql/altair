@@ -38,9 +38,7 @@ export const getGlobalScopeAutocompletion = (
     ) {
       const object = nodeBefore.parent.getChild('Expression');
       if (object?.name === 'VariableName') {
-        const from = /\./.test(nodeBefore.name)
-          ? nodeBefore.to
-          : nodeBefore.from;
+        const from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from;
         const variableName = context.state.sliceDoc(object.from, object.to);
         if (typeof globalObj[variableName] === 'object') {
           return completeProperties(from, globalObj[variableName]);

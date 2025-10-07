@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-    selector: '[appCachedIf]',
-    standalone: false
+  selector: '[appCachedIf]',
+  standalone: false,
 })
 export class CachedIfDirective implements OnDestroy {
   private hasView = false;

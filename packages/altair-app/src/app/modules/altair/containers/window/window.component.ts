@@ -74,10 +74,10 @@ import { SettingsState } from 'altair-graphql-core/build/types/state/settings.in
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'app-window',
-    templateUrl: './window.component.html',
-    animations: [fadeInOutAnimationTrigger],
-    standalone: false
+  selector: 'app-window',
+  templateUrl: './window.component.html',
+  animations: [fadeInOutAnimationTrigger],
+  standalone: false,
 })
 export class WindowComponent implements OnInit {
   query$: Observable<QueryState>;

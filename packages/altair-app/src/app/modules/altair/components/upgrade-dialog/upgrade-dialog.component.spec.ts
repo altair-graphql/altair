@@ -8,9 +8,8 @@ describe('UpgradeDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpgradeDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [UpgradeDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UpgradeDialogComponent);
     component = fixture.componentInstance;

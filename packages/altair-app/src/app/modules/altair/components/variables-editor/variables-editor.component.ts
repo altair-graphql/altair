@@ -19,11 +19,11 @@ import { vttToJsonSchema } from './utils';
 export const VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME = 'app-variables-editor';
 
 @Component({
-    selector: VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME,
-    templateUrl: './variables-editor.component.html',
-    styleUrls: ['./variables-editor.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME,
+  templateUrl: './variables-editor.component.html',
+  styleUrls: ['./variables-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   @Input() variables = '';

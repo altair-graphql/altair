@@ -33,18 +33,18 @@ type Range = [number, number];
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-    selector: 'app-fancy-input',
-    templateUrl: './fancy-input.component.html',
-    styleUrls: ['./fancy-input.component.scss'],
-    preserveWhitespaces: false,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FancyInputComponent),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: 'app-fancy-input',
+  templateUrl: './fancy-input.component.html',
+  styleUrls: ['./fancy-input.component.scss'],
+  preserveWhitespaces: false,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FancyInputComponent),
+      multi: true,
+    },
+  ],
+  standalone: false,
 })
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
   // get accessor

@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 
 @Component({
-    selector: 'app-banner-container',
-    templateUrl: './banner-container.component.html',
-    styles: ``,
-    standalone: false
+  selector: 'app-banner-container',
+  templateUrl: './banner-container.component.html',
+  styles: ``,
+  standalone: false,
 })
 export class BannerContainerComponent {
   banners$: Observable<Banner[]>;

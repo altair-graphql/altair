@@ -19,7 +19,7 @@ export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
       key4: string | number | symbol,
       key5: string | number | symbol,
       key6: string | number | symbol,
-      ...paths: string[]
+      ...paths: string[],
     ]
   ) => Store.prototype.select.apply(store, args);
   return store as Store<T>;

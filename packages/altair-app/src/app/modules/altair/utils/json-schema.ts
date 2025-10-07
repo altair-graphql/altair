@@ -36,10 +36,7 @@ export const getSchema = (
   return curSchema;
 };
 
-const dereferenceSchema = (
-  property: JSONSchema7Definition,
-  schema: JSONSchema7
-) => {
+const dereferenceSchema = (property: JSONSchema7Definition, schema: JSONSchema7) => {
   if (typeof property === 'object' && property.$ref) {
     const refPath = property.$ref.split('/');
     const refSchema = getReference(schema, refPath);

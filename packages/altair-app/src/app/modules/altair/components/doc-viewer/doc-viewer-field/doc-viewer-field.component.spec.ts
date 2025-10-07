@@ -9,15 +9,13 @@ describe('DocViewerFieldComponent', () => {
   let component: DocViewerFieldComponent;
   let fixture: ComponentFixture<DocViewerFieldComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [DocViewerFieldComponent, DocViewerTypeComponent],
-        imports: [TranslateModule.forRoot(), SharedModule],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DocViewerFieldComponent, DocViewerTypeComponent],
+      imports: [TranslateModule.forRoot(), SharedModule],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerFieldComponent);

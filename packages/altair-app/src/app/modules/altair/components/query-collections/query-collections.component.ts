@@ -20,9 +20,9 @@ import { QueryCollectionService } from '../../services';
 import { WorkspaceOption } from '../../store';
 
 @Component({
-    selector: 'app-query-collections',
-    templateUrl: './query-collections.component.html',
-    standalone: false
+  selector: 'app-query-collections',
+  templateUrl: './query-collections.component.html',
+  standalone: false,
 })
 export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() showCollections = true;

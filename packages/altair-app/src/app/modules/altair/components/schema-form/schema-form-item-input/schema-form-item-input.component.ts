@@ -3,10 +3,10 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 import { ThemeRegistryService } from '../../../services';
 
 @Component({
-    selector: 'app-schema-form-item-input',
-    templateUrl: './schema-form-item-input.component.html',
-    styles: [],
-    standalone: false
+  selector: 'app-schema-form-item-input',
+  templateUrl: './schema-form-item-input.component.html',
+  styles: [],
+  standalone: false,
 })
 export class SchemaFormItemInputComponent {
   @Input() item?: SchemaFormProperty;

@@ -153,10 +153,7 @@ describe('async-storage-sync', () => {
         },
         schema: { schema: {} },
       };
-      const res = prepareValueToStore(
-        'namespace::windows::some-window-id',
-        window
-      );
+      const res = prepareValueToStore('namespace::windows::some-window-id', window);
       expect(res).toEqual({
         layout: {
           title: 'Test',
@@ -229,10 +226,7 @@ describe('async-storage-sync', () => {
           },
         },
       };
-      const res = _normalizeToResolvedKeyPartsValuePairs(
-        'win.$$.b'.split('.'),
-        obj
-      );
+      const res = _normalizeToResolvedKeyPartsValuePairs('win.$$.b'.split('.'), obj);
       expect(res).toEqual([
         {
           keyParts: ['win', 'doms', 'b'],

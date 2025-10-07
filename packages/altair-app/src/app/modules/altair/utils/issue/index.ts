@@ -38,10 +38,7 @@ export const getIssueUrl = (error: UnknownError) => {
     title: issueTitle,
     template: 'bug_report.yaml',
     bodyFields: {
-      'current-behavior': issueErrorTemplate(
-        errorMessage,
-        getErrorStack(error)
-      ),
+      'current-behavior': issueErrorTemplate(errorMessage, getErrorStack(error)),
       'expected-behavior': 'No errors should occur',
       environment: `- OS: \n- Browser: \n- Platform: \n- Version: ${environment.version}`,
     },
