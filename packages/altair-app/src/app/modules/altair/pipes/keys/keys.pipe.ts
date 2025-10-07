@@ -4,6 +4,7 @@ import { mapToKeyValueList } from '../../utils';
 
 @Pipe({
   name: 'keys',
+  standalone: false,
 })
 export class KeysPipe implements PipeTransform {
   transform(value: IDictionary<string>) {

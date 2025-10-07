@@ -19,9 +19,10 @@ import { capitalize } from '../../utils';
 import { WorkspaceOption } from '../../store';
 
 @Component({
-  selector: 'app-add-collection-query-dialog',
-  templateUrl: './add-collection-query-dialog.component.html',
-  styles: [],
+    selector: 'app-add-collection-query-dialog',
+    templateUrl: './add-collection-query-dialog.component.html',
+    styles: [],
+    standalone: false
 })
 export class AddCollectionQueryDialogComponent implements OnChanges {
   @Input() showDialog = false;

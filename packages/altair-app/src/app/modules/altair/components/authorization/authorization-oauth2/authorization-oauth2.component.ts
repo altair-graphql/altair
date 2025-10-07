@@ -27,10 +27,11 @@ import { EnvironmentService, NotifyService } from 'app/modules/altair/services';
 import { environment } from 'environments/environment';
 
 @Component({
-  selector: 'app-authorization-oauth2',
-  templateUrl: './authorization-oauth2.component.html',
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-authorization-oauth2',
+    templateUrl: './authorization-oauth2.component.html',
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AuthorizationOauth2Component implements OnInit {
   urlConfig = getAltairConfig().getUrlConfig(

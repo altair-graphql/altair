@@ -16,10 +16,11 @@ import {
 } from 'graphql';
 
 @Component({
-  selector: 'app-doc-viewer-field',
-  templateUrl: './doc-viewer-field.component.html',
-  styleUrls: ['./doc-viewer-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-doc-viewer-field',
+    templateUrl: './doc-viewer-field.component.html',
+    styleUrls: ['./doc-viewer-field.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DocViewerFieldComponent {
   @Input() data?: GraphQLField<any, any>;

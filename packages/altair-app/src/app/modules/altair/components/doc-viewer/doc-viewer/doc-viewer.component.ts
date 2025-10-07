@@ -26,9 +26,10 @@ import { debounce } from 'lodash-es';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-doc-viewer',
-  templateUrl: './doc-viewer.component.html',
-  animations: [fadeInOutAnimationTrigger],
+    selector: 'app-doc-viewer',
+    templateUrl: './doc-viewer.component.html',
+    animations: [fadeInOutAnimationTrigger],
+    standalone: false
 })
 export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema?: GraphQLSchema;

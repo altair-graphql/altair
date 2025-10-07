@@ -17,10 +17,11 @@ import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
-  selector: 'app-schema-form',
-  templateUrl: './schema-form.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-schema-form',
+    templateUrl: './schema-form.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SchemaFormComponent implements OnInit, OnChanges {
   @Input() schema = {};

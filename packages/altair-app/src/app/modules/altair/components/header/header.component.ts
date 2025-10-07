@@ -17,10 +17,11 @@ import { externalLink } from '../../utils';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HeaderComponent {
   @Input() windows: WindowState = {};

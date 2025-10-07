@@ -15,10 +15,11 @@ import { StorageService } from '../../services';
 import { truncateText } from '../../utils';
 
 @Component({
-  selector: 'app-variable-file-item',
-  templateUrl: './variable-file-item.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-variable-file-item',
+    templateUrl: './variable-file-item.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
   @Input() fileVariable?: FileVariable;
