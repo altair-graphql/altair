@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import * as mousetrap from 'mousetrap';
-import 'mousetrap-global-bind';
+import hotkeys from 'hotkeys-js';
 import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
 
@@ -162,16 +161,13 @@ export class KeybinderService {
       description,
     });
 
-    return (mousetrap as any).bindGlobal(
-      keys.map((key) => key.toLowerCase()),
-      () => {
-        if (!allowInPopups && this.isInPopup()) {
-          return;
-        }
-        this.zone.run(callback);
-        return false;
+    return hotkeys(keys.map((key) => key.toLowerCase()).join(','), () => {
+      if (!allowInPopups && this.isInPopup()) {
+        return;
       }
-    );
+      this.zone.run(callback);
+      return false;
+    });
   }
 
   getShortcuts() {

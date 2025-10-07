@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -30,23 +30,10 @@
         </div>
       </div>
     </app-root>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% RUNTIME_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% POLYFILLS_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% MAIN_SCRIPT %]"
-    ></script>
+
+    <!-- [PRELOAD_MODULES] -->
+
+    <script type="module" src="[% POLYFILLS_SCRIPT %]"></script>
+    <script type="module" src="[% MAIN_SCRIPT %]"></script>
   </body>
 </html>
