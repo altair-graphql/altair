@@ -119,7 +119,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
     .replace(
       '</body>',
       () =>
-        `<script nonce="${options.cspNonce ?? ''}">${initialOptions}</script></body>`
+        `<script type="module" nonce="${options.cspNonce ?? ''}">${initialOptions}</script></body>`
     );
 };
 
