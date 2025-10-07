@@ -9,10 +9,11 @@ import { IconName } from '../icons';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-icon',
-  templateUrl: './icon.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-icon',
+    templateUrl: './icon.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IconComponent implements OnInit {
   @Input() name: IconName = 'box';

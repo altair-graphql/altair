@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'collectionTransform',
+    name: 'collectionTransform',
+    standalone: false
 })
 export class CollectionTransformPipe implements PipeTransform {
   transform<I = unknown, A extends unknown[] = unknown[], R = unknown>(

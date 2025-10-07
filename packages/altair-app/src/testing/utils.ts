@@ -134,7 +134,10 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
     props.outputs
   );
 
-  @Component({ template: template })
+  @Component({
+    template: template,
+    standalone: false
+})
   class TestHostComponent extends BaseTestHostComponent {
     mock = {};
     inputs: IDictionary;

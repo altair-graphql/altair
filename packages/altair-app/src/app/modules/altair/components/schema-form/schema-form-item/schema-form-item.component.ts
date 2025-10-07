@@ -10,10 +10,11 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
 @Component({
-  selector: 'app-schema-form-item',
-  templateUrl: './schema-form-item.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-schema-form-item',
+    templateUrl: './schema-form-item.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SchemaFormItemComponent {
   @Input() item?: SchemaFormProperty;

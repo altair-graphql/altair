@@ -24,10 +24,11 @@ import {
 } from 'graphql';
 
 @Component({
-  selector: 'app-doc-viewer-type',
-  templateUrl: './doc-viewer-type.component.html',
-  styleUrls: ['./doc-viewer-type.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-doc-viewer-type',
+    templateUrl: './doc-viewer-type.component.html',
+    styleUrls: ['./doc-viewer-type.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DocViewerTypeComponent {
   @Input() data?: GraphQLNamedType | null;
