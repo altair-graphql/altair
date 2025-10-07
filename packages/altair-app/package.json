@@ -175,7 +175,7 @@
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",
-  "main": "dist/main.js",
+  "main": "dist/browser/main.js",
   "private": true,
   "scripts": {
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/stats.json",

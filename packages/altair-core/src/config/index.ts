@@ -148,7 +148,7 @@ export class AltairConfig {
     this.initialData.initialAuthorization = initialAuthorization;
   }
 
-  private getPossibleLocalSandBoxUrl() {
+  private getPossibleLocalSandBoxRoot() {
     if (isExtension) {
       // we only support mv3 extensions now
       // and mv3 extensions doesn't allow using iframe
@@ -166,12 +166,12 @@ export class AltairConfig {
     ) {
       // add iframe-sandbox path to base url
       if (document.baseURI.endsWith('/')) {
-        return new URL(document.baseURI + 'iframe-sandbox/index.html');
+        return new URL(document.baseURI + 'iframe-sandbox');
       } else {
         // remove the last part of the url
         return new URL(
           document.baseURI.slice(0, document.baseURI.lastIndexOf('/') + 1) +
-            'iframe-sandbox/index.html'
+            'iframe-sandbox'
         );
       }
     }
@@ -179,9 +179,11 @@ export class AltairConfig {
 
   private async getLocalSandBoxUrl() {
     if (typeof this.localSandboxUrl === 'undefined') {
-      this.localSandboxUrl = this.getPossibleLocalSandBoxUrl()?.href ?? '';
-      if (this.localSandboxUrl) {
-        const res = await fetch(this.localSandboxUrl);
+      const localSandboxRoot = this.getPossibleLocalSandBoxRoot()?.href ?? '';
+      if (localSandboxRoot) {
+        this.localSandboxUrl = localSandboxRoot + '/index.html';
+        const localSandboxTestUrl = localSandboxRoot + '/sandbox.png';
+        const res = await fetch(localSandboxTestUrl);
         if (res.ok) {
           this.useLocalSandboxUrl = true;
         }

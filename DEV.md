@@ -36,16 +36,18 @@ https://firebase.google.com/docs/auth/admin/create-custom-tokens#service_account
 
 ### Something weird is broken, with no obvious way to fix
 
-Delete all node_modules (`rm -rf node_modules && rm -rf packages/\*/node_modules`)
-Remove all caches
-Run `pnpm i` to install all dependencies again.
-Run bootstrap script with --force flag (`pnpm bootstrap --force`) to ignore any turbo cache
-
 ```bash
+# Delete all node_modules
 rm -rf node_modules && rm -rf packages/*/node_modules
+
+# Remove all caches
 rm -rf .turbo && rm -rf packages/*/.turbo
 rm -rf .nx/ .turbo/ .parcel-cache/ packages/altair-app/.angular
+
+# Install all dependencies again
 pnpm i
+
+# Force bootstrap packages to ignore any turbo cache
 pnpm bootstrap --force
 ```
 
